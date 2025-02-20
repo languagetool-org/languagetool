@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UnitConversionRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: UnitConversionRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UnitConversionRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import org.languagetool.Tag;
+&nbsp;import org.languagetool.rules.AbstractUnitConversionRule;
+&nbsp;
+&nbsp;import java.math.RoundingMode;
+&nbsp;import java.text.NumberFormat;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import static tech.units.indriya.unit.Units.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.3
+&nbsp; */
+&nbsp;public class UnitConversionRule extends AbstractUnitConversionRule {
+&nbsp;
+&nbsp;  protected NumberFormat format;
+&nbsp;
+&nbsp;  public UnitConversionRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    setTags(Arrays.asList(Tag.picky));</b>
+<b class="nc">&nbsp;    format = NumberFormat.getNumberInstance(Locale.ENGLISH);</b>
+<b class="nc">&nbsp;    format.setMaximumFractionDigits(2);</b>
+<b class="nc">&nbsp;    format.setRoundingMode(RoundingMode.HALF_UP);</b>
+<b class="nc">&nbsp;    addUnit(&quot;miles per hour&quot;, MILE.divide(HOUR), &quot;miles per hour&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;kilograms?&quot;, KILOGRAM, &quot;kilogram&quot;, 1e0, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;grams?&quot;, KILOGRAM, &quot;gram&quot;, 1e-3, true);</b>
+<b class="nc">&nbsp;    addUnit(&quot;tons?&quot;, KILOGRAM, &quot;ton&quot;, 1e3, true);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;pounds?&quot;, POUND, &quot;pounds&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;ounces?&quot;, OUNCE, &quot;ounces&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;feet&quot;, FEET, &quot;feet&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;miles?&quot;, MILE, &quot;miles&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;yards?&quot;, YARD, &quot;yards&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;inch(es)?&quot;, INCH, &quot;inches&quot;, 1, false);</b>
+&nbsp;
+<b class="nc">&nbsp;    addUnit(&quot;(?:degrees?)? Fahrenheit&quot;, FAHRENHEIT, &quot;degree Fahrenheit&quot;, 1, false);</b>
+<b class="nc">&nbsp;    addUnit(&quot;(?:degrees?)? Celsius&quot;, CELSIUS, &quot;degree Celsius&quot;, 1, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;METRIC_UNITS_EN_GENERAL&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Suggests or checks conversion of units to their metric equivalents.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected NumberFormat getNumberFormat() {
+<b class="nc">&nbsp;    return format;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

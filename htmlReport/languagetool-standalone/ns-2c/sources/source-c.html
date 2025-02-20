@@ -1,0 +1,1980 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CaseRuleAntiPatterns</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: CaseRuleAntiPatterns (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CaseRuleAntiPatterns</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    99.9%
+  </span>
+  <span class="absValue">
+    (1293/1294)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Antipatterns for {@link CaseRule}.
+&nbsp; */
+<b class="nc">&nbsp;class CaseRuleAntiPatterns {</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final PatternToken SENT_START = new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_START_TAGNAME).build();</b>
+&nbsp;
+&nbsp;  // also see case_rule_exceptions.txt:
+<b class="fc">&nbsp;  static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = Arrays.asList(</b>
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;von&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Gleich&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Gleich&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;[iI]n&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;-&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[Aa]us.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;[1-9]{2,4}&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÜÄÖ][a-züäö].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;In&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÜÄÖ][a-züäö].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;China&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;National&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Petroleum&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Republik&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;der&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Sieben&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Vereinigten&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Provinzen|Niederlande&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Rat&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;für&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Europäische&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Hilfswerk&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Museum&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;der&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Bayerischen&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Geschichte&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Planten&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;un&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Blomens?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;sprechen&quot;).matchInflectedForms().build(),</b>
+<b class="fc">&nbsp;      csRegex(LanguageNames.getAsRegex())</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;(inter)?national|regional&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(   // &quot;die Spiegelblank GmbH&quot;</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;die|der&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Autohaus Dornig GmbH</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;EIG:.+|SUB:.+&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;&amp;|and&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADJ:.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;Deutschen?|Österreichischen?|Schweizerischen?&quot;),  // TODO: extend</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;.*gesellschaft&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;im|ins|ans?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Gestern|Vorgestern&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;im|ins|ans?|das&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Gestern|Vorgestern&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Gestern|Vorgestern&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;[Ii]m|[Dd]as|[Dd]em|[Ii]ns&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Hier|Vorher&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Jetzt|Nachher&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;[Ii]m|[Dd]as|[Dd]em|[Ii]ns&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Jetzt|Nachher&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Hier|Vorher&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;im|ins&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Hier|Jetzt&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;[Dd]ieses|das|k?ein&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ.*NEU.*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Rein&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Raus&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Private[snm]|Familiäre[snm]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Berufliche[snm]|Geschäftliche[snm]&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Hin&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Her&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;k?ein&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Richtig|Falsch&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Richtig|Falsch&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Tax&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[au]nd|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Legal&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Er sagte, Geradliniges und Krummliniges sei unvergleichbar.
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+es&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+es&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // … in Ägyptisch, Berberisch und Semitisch erfolgte zuletzt.
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+isch&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+isch&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // … in Ägyptisch, Berberisch und Semitisch erfolgte zuletzt.
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+em&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+em&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Er arbeitet im Bereich Präsidiales.
+<b class="fc">&nbsp;      csRegex(&quot;Bereich|Departement|Stabsstellen?|Dienststellen?|AG|Arbeitsgruppe|Edition&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+es&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Berufliche[snm]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Private[snm]&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;des&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Weiteren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Mo.–So.</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\.|Mo|Di|Mi|Do|Fr|Sa&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;-|–&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;So&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Tom ist ein engagierter, gutaussehender Vierzigjähriger, der...&quot;
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ:|PA[12]).*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ:|PA[12]).*&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÖÄÜ].+jährige[mnr]?&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(?!SUB).*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Um das herauszubekommen...&quot;
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.+zu.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Rock&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[&#39;’]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;n&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[&#39;’]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Roll&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;Vitamin-[A-Z][0-9]?-reich(e|e[nms])?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Auflistung
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÖÄÜ][a-zöäüß]+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÖÄÜ][a-zöäüß]+&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;,|etc&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;erste[nr]?&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Hilfe&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Names
+<b class="fc">&nbsp;      regex(&quot;Alfred|Emanuel|Günter|Immanuel|Johannes|Karl|Ludvig|Anton|Peter|Robert|Rolf&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Nobel&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // https://github.com/languagetool-org/languagetool/issues/1663
+<b class="fc">&nbsp;      token(&quot;Großes&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;leisten|erreichen|schaffen&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // https://github.com/languagetool-org/languagetool/issues/1515
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[:;]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;)&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // https://github.com/languagetool-org/languagetool/issues/1515
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[;:]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;-&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;)&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[A-Z]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;)&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Commas used as lower quotes
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ignore uppercase word at beginning after a character that is not a letter or number (needed to ignore emojies or bullet points at the beginning of a sentence)
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;^[^A-Za-z0-9ÄÖÜäöüàÀß]{1,2}$&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÖÜÄ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;*&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // two single quotes (’’) that create one double quote (needs different rule)</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;’&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;’&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // wrong quote used as opening quote, leave to UNPAIRED_BRACKETS etc.</b>
+<b class="fc">&nbsp;      token(&quot;“&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÖÜÄ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // =&gt; Hallo test</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;=|-&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;&gt;&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // GitHub / Markdown check lists
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\*|\\-&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;[&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // GitHub / Markdown check lists
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\*|\\-&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;[&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;x&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // non-alphanumeric character
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;^[^a-zA-ZäöüÄÖÜ\\d\\s:]+$&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;Roten?&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Bete&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // see https://www.duden.de/suchen/dudenonline/u-f%C3%B6rmig
+<b class="fc">&nbsp;      regex(&quot;[A-Z]-förmig(e[mnrs]?)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Geboten&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;vor|den&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Gefahren&quot;)</b>
+&nbsp;    ),
+&nbsp;    // names with english adjectives
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light|Ministerial|National&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;UNKNOWN&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;International&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Managements?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;National&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Boards?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;[kK]nock&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[oO]ut&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF:.+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;KON:NEB|PKT&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // wenn sie das beantworten
+<b class="fc">&nbsp;      regex(&quot;wenn|falls|sobald&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRO.*|EIG.*&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF:.+&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;dann|,|und|oder|\\.|\\!|\\:&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // wenn sie mir das beantworten
+<b class="fc">&nbsp;      regex(&quot;wenn|falls|sobald&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRO.*|EIG.*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;mir|uns|ih[rm]&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF:.+&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;dann|,|und|oder|\\.|\\!|\\:&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Ich hatte das vergessen oder nicht ganz verstanden.
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADV.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF:.+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;KON:NEB|PKT&quot;)</b>
+&nbsp;    ),
+&nbsp;    // names with english adjectives
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      pos(&quot;UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend|Human|Light|Ministerial&quot;)</b>
+&nbsp;    ),
+&nbsp;    // names with english adjectives
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Smart&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*&quot;)</b>
+&nbsp;    ),
+&nbsp;    // names with english adjectives
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;National&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Sales|University&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
+&nbsp;      // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+<b class="fc">&nbsp;      regex(&quot;Goldenen?&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Hochzeit(en)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+<b class="fc">&nbsp;      regex(&quot;Graue[nr]?&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Stars?|Eminenz&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+<b class="fc">&nbsp;      regex(&quot;Große[nr]?&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Strafkammer|Latinums?|Rats?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+<b class="fc">&nbsp;      csToken(&quot;Guten&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Tag&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+<b class="fc">&nbsp;      regex(&quot;Höheren?&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Schule|Mathematik&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+<b class="fc">&nbsp;      regex(&quot;Künstliche[nr]?&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Intelligenz&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
+<b class="fc">&nbsp;      regex(&quot;Neue[ns]?&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Jahr(s|es)?|Linken?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Neues&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;\\?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Zahl&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;UNKNOWN&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;... und Expert*innnen ...&quot;
+<b class="fc">&nbsp;      regex(&quot;[A-Z].+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;innen&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Names: &quot;Jeremy Schulte&quot;, &quot;Alexa Jung&quot;, &quot;Fiete Lang&quot;, &quot;Dorian Klug&quot; ...
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;EIG:.+|UNKNOWN&quot;).csTokenRegex(&quot;[A-ZÄÖÜ].+&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Schön|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Kluge|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark|Fahle|Fromm(er)?|Reichert|Wiest|Klug|Greiser|Nasser&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;.*ADJ.*|UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[\\.?!)]&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[md]eine?|du&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;.*ADJ.*|UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[\\.?!]&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(&quot;.*ADJ.*|UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Konstanten?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PA2:.+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:AUX:.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Er fragte,ob das gelingen wird.
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:.+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:AUX:.+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PKT|KON:NEB&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Er fragte, ob das gelingen oder scheitern wird.
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:.+&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().pos(&quot;KON:NEB&quot;).setSkip(5).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:(AUX|MOD):.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PKT|KON:NEB&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // um ihren eigenen Glauben an das Gute, Wahre und Schöne zu stärken.
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÖÜ][a-zäöü]+&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;und|oder&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;... weshalb ihr das wissen wollt.&quot;
+<b class="fc">&nbsp;      pos(&quot;VER:INF:NON&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;VER:MOD:2:PLU:PRÄ&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      pos(&quot;UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Nicht geimpft werden dürfen Immunsupprimierte, Personen mit Fieber 38 °C oder Menschen, die allergisch sind.
+<b class="fc">&nbsp;      pos(&quot;UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;... wie ich das prüfen sollte.&quot;
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:MOD:.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;        // &quot;... wie ich das prüfen würde.&quot;
+<b class="fc">&nbsp;        posRegex(&quot;VER:INF.+&quot;),</b>
+<b class="fc">&nbsp;        posRegex(&quot;VER:AUX:.:(SIN|PLU)(:KJ2)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;     // &quot;... etwas Interessantes und Spannendes suchte&quot;
+<b class="fc">&nbsp;     regex(&quot;etwas|nichts|viel|wenig|allerlei|was&quot;),</b>
+<b class="fc">&nbsp;     regex(&quot;[A-ZÄÖÜ].*es&quot;),</b>
+<b class="fc">&nbsp;     regex(&quot;und|oder|,&quot;),</b>
+<b class="fc">&nbsp;     regex(&quot;[A-ZÄÖÜ].*es&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;     // &quot;... bringt Interessierte und Experten zusammen&quot;
+<b class="fc">&nbsp;     posRegex(&quot;VER:.*[1-3]:.*&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;SUB:AKK:.+:ADJ&quot;),</b>
+<b class="fc">&nbsp;     regex(&quot;und|oder|,&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;SUB:AKK:.+:(NEU|FEM|MAS)|ART:.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Das südöstlich von Berlin gelegene&quot;
+<b class="fc">&nbsp;      regex(&quot;(süd|nord|ost|west).*lich&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;von&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Entscheiden 42,5 Millionen Stimmberechtigte über...&quot;
+<b class="fc">&nbsp;      regex(&quot;Million(en)?&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*:ADJ&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Vor Betreten des&quot; / &quot;Trotz Verboten seiner Eltern&quot;
+<b class="fc">&nbsp;      posRegex(&quot;PRP:.+|ADV:MOD&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;VER:PA2:NON&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ART|PRO):(IND|DE[FM]|POS):GEN:.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Er liebt UV-bestrahltes, Na-haltiges und Makeup-freies Obst.&quot;
+&nbsp;      // &quot;Er vertraut auf CO2-arme Wasserkraft&quot;
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÖÜ0-9]+[a-zäöüß0-9]-[a-zäöüß]+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;     // &quot;Das Aus für Italien kam unerwartet.&quot; / &quot;Müller drängt auf Aus bei Pflichtmitgliedschaft&quot;
+<b class="fc">&nbsp;     regex(&quot;auf|das|vor|a[mn]|vorzeitige[mns]?|frühe[mns]?|späte[mns]?&quot;),</b>
+<b class="fc">&nbsp;     csToken(&quot;Aus&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;^PRP:.+|VER:[1-3]:.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Das ist das Aus des Airbus A380.
+<b class="fc">&nbsp;      regex(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Aus&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;des|eines&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;EIG:.+|SUB:.*|UNKNOWN&quot;)</b>
+&nbsp;    ),
+&nbsp;    /*Arrays.asList(
+&nbsp;      // &quot;...,die ins Nichts griff.&quot;
+&nbsp;      new PatternTokenBuilder().csTokenRegex(&quot;ins|ans|vors|durchs|hinters&quot;).setSkip(1).build(),
+&nbsp;      posRegex(&quot;^PRP:.+|VER:[1-3]:.+&quot;)
+&nbsp;    ),*/
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;     // &quot;Bündnis 90/Die Grünen&quot;
+<b class="fc">&nbsp;     csToken(&quot;90&quot;),</b>
+<b class="fc">&nbsp;     csToken(&quot;/&quot;),</b>
+<b class="fc">&nbsp;     csToken(&quot;Die&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;     // https://de.wikipedia.org/wiki/Neue_Mittelschule
+<b class="fc">&nbsp;     regex(&quot;Neue[nrs]?&quot;),</b>
+<b class="fc">&nbsp;     new PatternTokenBuilder().tokenRegex(&quot;Mitte(lschule)?|Rathaus|Testament|Welt|Markt|Rundschau&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // &quot;Das schließen Forscher aus ...&quot;</b>
+<b class="fc">&nbsp;     token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;VER:INF:(SFT|NON)&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;SUB:NOM:PLU:.+|ADV:MOD&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das schaffen moderne E-Autos locker</b>
+<b class="fc">&nbsp;     token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;VER:INF:(SFT|NON)&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;ADJ:.+&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;SUB:NOM:PLU:.+|ADV:MOD&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das schaffen moderne und effiziente E-Autos locker</b>
+<b class="fc">&nbsp;     token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;VER:INF:(SFT|NON)&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;ADJ:.+&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;KON:.+&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;ADJ:.+&quot;),</b>
+<b class="fc">&nbsp;     posRegex(&quot;SUB:NOM:PLU:.+|ADV:MOD&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // &quot;Tausende Gläubige kamen, um ihn zu sehen.&quot;</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;[tT]ausende?&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:NOM:.+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(JLanguageTool.SENTENCE_END_TAGNAME+&quot;|VER:[1-3]:.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // &quot;Man kann das generalisieren&quot;</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:MOD.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF:(SFT|NON)&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // &quot;Vielleicht kann er das generalisieren&quot;</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:MOD.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRO:.+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF:(SFT|NON)&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // &quot;Er befürchtete Schlimmeres.&quot;</b>
+<b class="fc">&nbsp;      regex(&quot;Schlimm(er)?es&quot;),</b>
+<b class="fc">&nbsp;      pos(JLanguageTool.SENTENCE_END_TAGNAME)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;Angehörige[nr]?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // aus Alt wird neu</b>
+<b class="fc">&nbsp;      csToken(&quot;Alt&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;mach|w[iu]rde?&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Neu&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // see GermanTagger.getSubstantivatedForms</b>
+<b class="fc">&nbsp;      pos(&quot;SUB:NOM:SIN:MAS:ADJ&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRP:.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Einen Tag nach Bekanntwerden des Skandals</b>
+<b class="fc">&nbsp;      pos(&quot;ZUS&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Bekanntwerden&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das ist also ihr Zuhause.</b>
+<b class="fc">&nbsp;      posRegex(&quot;.+:(POS|GEN):.+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Zuhause&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Ein anderes Zuhause habe ich nicht.</b>
+<b class="fc">&nbsp;      regex(&quot;altes|anderes|k?ein|neues&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Zuhause&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Weil er das kommen sah, traf er Vorkehrungen.</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;kommen&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;sehen&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;auf&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;die&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Schnelle&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // denn es fehlt bis heute am Nötigsten</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;fehlen&quot;).matchInflectedForms().setSkip(3).build(),</b>
+<b class="fc">&nbsp;      csToken(&quot;am&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Nötigsten&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;am&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Nötigsten&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;fehlen&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;im|ins&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Aus&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;im&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Ganzen&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Die Top Fünf (https://www.korrekturen.de/forum.pl/md/read/id/73791/sbj/top-top-fuenf-fuenf/)</b>
+<b class="fc">&nbsp;      csToken(&quot;Top&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;ZAL&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Die Top Ten (https://www.korrekturen.de/forum.pl/md/read/id/73791/sbj/top-top-fuenf-fuenf/)</b>
+<b class="fc">&nbsp;      csToken(&quot;Top&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Ten&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Dutch name (e.g. &quot;Bert van den Brink&quot;)</b>
+<b class="fc">&nbsp;      csToken(&quot;Van&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Den&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;Lasse&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;EIG:.*|UNKNOWN&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Spanish name (e.g. &quot;Las Condes&quot;)</b>
+<b class="fc">&nbsp;      csToken(&quot;Las&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().pos(&quot;UNKNOWN&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;Just&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;in&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Time&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Hey Süßer,</b>
+<b class="fc">&nbsp;      regex(&quot;Hey|Hi|Hallo|Na|Moin|Servus&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Süßer?|Hübscher?|Liebster?|Liebes&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;PKT&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Guten Morgen Liebste,</b>
+<b class="fc">&nbsp;      csRegex(&quot;Guten?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Morgen|Abend|Mittag|Nacht&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Süßer?|Hübscher?|Liebster?|Liebes&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;PKT&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Hey Matt (name),</b>
+<b class="fc">&nbsp;      regex(&quot;Hey|Hi|Hallo|Na|Moin|Servus&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Matt|Will|Per&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Hey mein Süßer,</b>
+<b class="fc">&nbsp;      regex(&quot;Hey|Hi|Hallo|Na|Moin|Servus&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;du|meine?&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Süßer?|Hübscher?&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;PKT&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Grüße aus Höchst, Ich wohne in Wohlen</b>
+<b class="fc">&nbsp;      regex(&quot;aus|in&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;Höchst|Wohlen&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Am So. (Sonntag)</b>
+<b class="fc">&nbsp;      regex(&quot;,|;|/|-|am|bis|vor|\\(&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;So&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // a.) Im Mittelpunkt ...
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[a-z]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;)&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ---&gt; Der USB  ...
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[-]{1,}&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;&gt;&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // # Was macht eigentlich Karl
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[#]{1,}&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ## Was macht eigentlich Karl
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ### Was macht eigentlich Karl
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // = Schrittweise Erklärung ()
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // == Schrittweise Erklärung
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // === Schrittweise Erklärung
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ==== Schrittweise Erklärung
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ===== Schrittweise Erklärung
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // § 1 Allgemeine Bedingungen
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;§&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // §1 Allgemeine Bedingungen
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;§\\d+&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // 3a) Deine Idee ...
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[a-z0-9]{1,3}&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;)&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // @Peter Hast du morgen Zeit?
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;@.+&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // @b_fischer Der Bonussemester-Antrag oder der Widerspruch?
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;@.+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;_&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[a-z].*&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // M3.2 Deine Idee ...
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[A-Z]\\d+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;Gefahren&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;lauern&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].+&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;\\*|:&quot;).setIsWhiteSpaceBefore(false).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;innen|en?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Am So 14:00 (should be &quot;So.&quot; but that&#39;s a different error)</b>
+<b class="fc">&nbsp;      csRegex(&quot;am|jeden&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;So&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // &quot;Sa. oder So.&quot;</b>
+<b class="fc">&nbsp;      csRegex(&quot;M[io]|D[io]||Fr|Sa&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;&amp;|und|oder|-|,&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;So&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // &quot;Sa. oder So.&quot;</b>
+<b class="fc">&nbsp;      csRegex(&quot;M[io]|D[io]||Fr|Sa&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;So&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // &quot;Sa, So&quot;</b>
+<b class="fc">&nbsp;      csToken(&quot;Sa&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;&amp;|und|oder|-|,&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;So&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Es hatte 10,5 Ah</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Ah&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Via Camparlungo (Straßennamen in der italienischen Schweiz)</b>
+<b class="fc">&nbsp;      csToken(&quot;Via&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().pos(&quot;UNKNOWN&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Geoghegan Hart</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().pos(&quot;UNKNOWN&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build(),</b>
+<b class="fc">&nbsp;      csToken(&quot;Hart&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Namen mit &quot;Matt&quot; (e.g. Matt Gaetz, Will Smith)</b>
+<b class="fc">&nbsp;      csRegex(&quot;Matt|Will|Dick&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;EIG:.+|UNKNOWN&quot;).csTokenRegex(&quot;[A-Z].+&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Klicke auf Home &gt; Mehr &gt; Team</b>
+<b class="fc">&nbsp;      csToken(&quot;&gt;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;&gt;&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // :D Auf dieses Frl. der apfel fällt ja doch nicht weit vom stamm!
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[:;]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[DPO]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // :-D Auf dieses Frl. der apfel fällt ja doch nicht weit vom stamm!
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[:;]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;-&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[DPO]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Straßenname: &quot;Am Hohen Hain 6&quot;
+<b class="fc">&nbsp;      csRegex(&quot;[IA]m&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+n&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(EIG|SUB|UNKNOWN).*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d{1,3}[a-hA-H]?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Straßenname: &quot;Am hohen Hain 6&quot;
+<b class="fc">&nbsp;      csToken(&quot;Am&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.+&quot;).csTokenRegex(&quot;[a-zäöü].+n&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d{1,3}[a-hA-H]?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Straßenname: &quot;Im hohen Hain 6e&quot;
+<b class="fc">&nbsp;      csToken(&quot;Im&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADJ:.+&quot;).csTokenRegex(&quot;[a-zäöü].+n&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d{1,3}[a-hA-H]|\\d&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Straßenname: &quot;Am Wasserturm 6&quot;
+<b class="fc">&nbsp;      csToken(&quot;Am&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(EIG|SUB|UNKNOWN).*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+[a-hA-H]?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Straßenname: &quot;Am Wasserturm 6&quot;
+<b class="fc">&nbsp;      csRegex(&quot;[IA]m&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-Z].*(pfad|weg|kamp|platz|tor|gasse|feld|berg|park)&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+[a-hA-H]?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Straßenname: &quot;Neue Kantstraße 6&quot;
+<b class="fc">&nbsp;      csRegex(&quot;Neuen?|Gro(ß|ss)e[rn]?|Alte[rn]?|Obere[rn]?|Untere[rn]?|Kleine[rn]?|Breite[rn]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-Z].+stra(ss|ß)e|.*[kK]amps?|.*[Tt]ors?|.*[Hh]ofs?|.*[Gg]asse|.*[Gg]rabens?|.*[Ff]elds?|.*[Pp]latz(es)?|.*[Bb]ergs?|.*[Pp]arks?|.*[Ww]egs?|.*[Aa]llee|.*[wW]eide?|.*[mM]auer|.*[rR]eihe&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d{1,3}[a-hA-H]?|in&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Straßenname: &quot;Neue Kantstr. 6&quot;
+<b class="fc">&nbsp;      csRegex(&quot;Neuen?|Gro(ß|ss)en?|Alten?|Oberen?|Unteren?|Breiten?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-Z].+str&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d{1,3}[a-hA-H]?|in&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      SENT_START,
+&nbsp;      // Listenpunkt https://github.com/languagetool-org/languagetool/issues/1515
+<b class="fc">&nbsp;      regex(&quot;\\*|-|/|_|%|o&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Trennzeichen https://github.com/languagetool-org/languagetool/issues/1515
+<b class="fc">&nbsp;      regex(&quot;▶︎|▶|▶️|►|⇒|→|•|★|⧪|⮞|✔︎|✓|✔️|✅|0️⃣|1️⃣|2️⃣|3️⃣|4️⃣|5️⃣|6️⃣|7️⃣|8️⃣|9️⃣|❤️|➡️|➔|⇨|☛|◼|▲|◆|▪|■|☞|❤|♥︎|✒︎|☑️|✗|✘|✖|➢|↑|=|&gt;|\\}|❏|›|❖|·|▲|◄|⬢|\\||!|‼️|⚠️|√&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Pfeil &quot;=&gt;&quot;
+<b class="fc">&nbsp;      regex(&quot;[=\\-–]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;&gt;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Zwei Kommas, die wie Anführungszeichen verwendet werden: &quot;,,&quot;
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;,&quot;).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;,&quot;).setIsWhiteSpaceBefore(false).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csTokenRegex(&quot;[A-ZÄÜÖ].*&quot;).setIsWhiteSpaceBefore(false).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Markup: &quot;[H3] Die Headline&quot;
+<b class="fc">&nbsp;      regex(&quot;[a-z0-9\\-äöüß]+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Schritt|Punkt|Absatz&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Markup: &quot;H3 Die Headline&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;H[1-6]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;B.4 Neue Herstellervorgaben&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[a-z]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;1-) Ich bin ein Listenpunkt&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\d+-&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[\\)\\]\\}]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;1, Ich bin ebenfalls ein Listenpunkt&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[a-z0-9]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;T = Das Ziel&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[A-Z0-9]+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;=&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;(2c) Der Betrieb ist untersagt&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[\\[\\(\\{]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[a-z0-9]{1,5}&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[\\]\\)\\}]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;(2c) Der Betrieb ist untersagt&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[\\[\\(\\{]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[a-z0-9]{1,5}&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[a-z0-9]{1,5}&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[\\]\\)\\}]&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Sie/Er hat recht.&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;/&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Sie/Er/Es hat recht.&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;/&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;/&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Er trank ein paar Halbe.&quot;
+<b class="fc">&nbsp;      regex(&quot;paar|einige|zwei|drei|vier|\\d+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Halbe&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Wir machen das Sa So Mo&quot; (fehlender Punkt)
+<b class="fc">&nbsp;      csToken(&quot;Sa&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;So&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Wir machen das Sa oder So&quot; (fehlender Punkt)
+<b class="fc">&nbsp;      csToken(&quot;Sa&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;&amp;|und|oder|-&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;So&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Vielleicht reden wir später mit ein paar Einheimischen.
+<b class="fc">&nbsp;      token(&quot;ein&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;paar&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;.*SUB.*&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csTokenRegex(&quot;[a-zäöüß.,!?:;\\-–].*&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;Neues&quot;).setSkip(1).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;wagen&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Wir wagen Neues.</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;wagen&quot;).matchInflectedForms().build(),</b>
+<b class="fc">&nbsp;      token(&quot;Neues&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das birgt zugleich Gefahren</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;birgen&quot;).matchInflectedForms().setSkip(5).build(),</b>
+<b class="fc">&nbsp;      token(&quot;Gefahren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Du Ärmster!
+<b class="fc">&nbsp;      token(&quot;du&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Ärmster?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[^A-ZÖÄÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;        // &quot;... und das Zwischenmenschliche Hand in Hand.&quot;
+<b class="fc">&nbsp;        posRegex(&quot;ART:.*|PRO:POS:.*&quot;),</b>
+<b class="fc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SUB:.*:ADJ&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build(),</b>
+<b class="fc">&nbsp;        csToken(&quot;Hand&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;in&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;Hand&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;        // &quot;Der Platz auf dem die Ahnungslosen Kopf and Kopf stehen.&quot;&quot;
+<b class="fc">&nbsp;        posRegex(&quot;ART:.*|PRO:POS:.*&quot;),</b>
+<b class="fc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SUB:.*:ADJ&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build(),</b>
+<b class="fc">&nbsp;        csToken(&quot;Kopf&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;an&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;Kopf&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;        // &quot;Der Platz auf dem die Ahnungslosen Schulter and Schulter stehen.&quot;&quot;
+<b class="fc">&nbsp;        posRegex(&quot;ART:.*|PRO:POS:.*&quot;),</b>
+<b class="fc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SUB:.*:ADJ&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build(),</b>
+<b class="fc">&nbsp;        csToken(&quot;Schulter&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;an&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;Schulter&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;        // &quot;Der Platz auf dem die Ahnungslosen Stück für Stück ...&quot;&quot;
+<b class="fc">&nbsp;        posRegex(&quot;ART:.*|PRO:POS:.*&quot;),</b>
+<b class="fc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SUB:.*:ADJ&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build(),</b>
+<b class="fc">&nbsp;        csToken(&quot;Stück&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;für&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;Stück&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;        // &quot;Der Platz auf dem die Ahnungslosen Schritt für Schritt ...&quot;&quot;
+<b class="fc">&nbsp;        posRegex(&quot;ART:.*|PRO:POS:.*&quot;),</b>
+<b class="fc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SUB:.*:ADJ&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build(),</b>
+<b class="fc">&nbsp;        csToken(&quot;Schritt&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;für&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;Schritt&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;        // &quot;Der Platz auf dem die Ahnungslosen Arm in Arm ...&quot;&quot;
+<b class="fc">&nbsp;        posRegex(&quot;ART:.*|PRO:POS:.*&quot;),</b>
+<b class="fc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SUB:.*:ADJ&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build(),</b>
+<b class="fc">&nbsp;        csToken(&quot;Arm&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;in&quot;),</b>
+<b class="fc">&nbsp;        csToken(&quot;Arm&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ``Ich bin ein Anführungszeich
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;`&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;`&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;4b Ein Listenpunkt&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\d{1,2}[a-z]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;3.) Ein Listenpunkt&quot;
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\d{1,3}[a-z]?&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[\\]\\)\\}]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÜÖ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Es besteht aus Schülern, Arbeitstätigen und Studenten.&quot;
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.+:(MAS|FEM|NEU)&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Das denken zwar viele, ist aber total falsch.
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csToken(&quot;Das&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;denken&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADV:.+&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;viele|manche|die|[dms]eine|ihre|eure|diese|jene|wenige&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Ich habe eine Menge Schlechtes über dich gehört
+<b class="fc">&nbsp;      csToken(&quot;Menge&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Gutes|Schlechtes|Tolles|Böses|Schlimmes&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöüß].*|\\.|\\,|\\!|:|;&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Während 208 der Befragten Frau Baerbock bevorzugten, ...
+<b class="fc">&nbsp;      csRegex(&quot;\\d+%?|%|Prozent|meisten|wenige|einige|viele|Gro(ß|ss)teil&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;der&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Befragten|Teilnehmenden&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB:.*&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Dabei trauten die Befragten Frau Baerbock mehr zu.
+<b class="fc">&nbsp;      csToken(&quot;die&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB:NOM:PLU.*:ADJ&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB:.*:SIN&quot;).csTokenRegex(&quot;[A-ZÖÜÄ].+&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Sie starrt ständig ins Nichts. 
+<b class="fc">&nbsp;      csRegex(&quot;vorm|ins|im&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Nichts&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // zahlreiche Kulturschaffende, jungen Wilden
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöü].+en?&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB:NOM:PLU.*&quot;).csTokenRegex(&quot;[A-ZÄÖÜ].+&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;,|und|oder|aber|\\.|!|\\?|…&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ignore uppercase words after invisible commas at sent start
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ignore uppercase words after invisible commas at sent start
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ignore uppercase words after invisible commas at sent start
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ignore uppercase words after invisible commas at sent start
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\u2063&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // emoji question/exclamation mark
+<b class="fc">&nbsp;      regex(&quot;.*(\\u2753|\\u2757)&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      regex(&quot;[\\\\/`´*„\&quot;&#39;]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;[\\\\/`´*„\&quot;&#39;]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;nur&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Positives|Schlechtes|Gutes|Böses|Negatives|Folgendes|Neues|Altes|Schlimmes|Letzteres|Ersteres|Blödes|Schreckliches|Wesentliches|Falsches|Richtiges|Hässliches&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöü…\\.!\\?…].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;im&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Wesentlichen|Vorab|Geringsten&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;ans&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Wesentliche&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;im&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Allgemeinen&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöü…\\.!\\?…].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;im&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Allgemeinen&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*FEM.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;im&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Allgemeinen&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;im&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Stillen|Dunkeln|Dunklen|Trocke?nen|Hellen|Trüben|Kalten|Warmen|Geringsten|Entferntesten|Verborgenen&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöü…\\.!\\?…\\)\\(;].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;[\\ud83c\\udc00-\\ud83c\\udfff]+|[\\ud83d\\udc00-\\ud83d\\udfff]+|[\\u2600-\\u27ff]+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Es gibt S-Bahn-ähnliche(, günstige) Verkehrsmittel
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ]-[A-ZÄÖÜ].*-.*&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;PKT|KON:NEB|ADJ.*&quot;).min(0).max(2).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das ist das Debakel und Aus für Podolski</b>
+<b class="fc">&nbsp;      csToken(&quot;Aus&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;für&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Frohes Neues!</b>
+<b class="fc">&nbsp;      csRegex(&quot;[Ff]rohes|[Gg]esundes&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Neues&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Wir sollten das mal labeln</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;mal&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöüß].+n&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;[^a-zäöüß\\-0-9]+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;[&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;…&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      regex(&quot;[^a-zäöüß\\-0-9]+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;[&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Kund:in</b>
+<b class="fc">&nbsp;      csToken(&quot;Kund&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[:_*\\/]&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;(in|innen|en?).*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Wie ein verstoßener Größenwahnsinniger.</b>
+<b class="fc">&nbsp;      posRegex(&quot;ART:.*|PRO:POS:.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PA[12].*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*ADJ&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Vorab das Wichtigste - ...</b>
+<b class="fc">&nbsp;      posRegex(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NEU:ADJ&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöüß\\-,\\.\\!\\?…;:–\\)\\(]+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Wichtiges/Lehrreiches/Großes/...</b>
+<b class="fc">&nbsp;      token(&quot;/&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;/&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Alles_Zutreffendes.csv</b>
+<b class="fc">&nbsp;      token(&quot;_&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Etwas anderes Lebendiges</b>
+<b class="fc">&nbsp;      csRegex(&quot;anderes&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+es&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöü…\\.!:;,\\?…\\)].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Ich habe noch Dringendes mitzuteilen</b>
+<b class="fc">&nbsp;      csRegex(&quot;Dringende[ms]|Bare[ms]|Vertraute[ms]|Positive[sm]|Negative[sm]|Gelernte[ms]|Neue[ms]|Alte[ms]|Bessere[ms]|Störende[ms]|Schlechteres|Schlechte[ms]|Schöne[ms]|Schönere[ms]|Schlimmere[ms]|Zutreffendes|Unzutreffende[ms]|Gesehene[ms]|Ungesehene[ms]|Abgerissene[ms]|Versoffenes|Empfehlenswerte[ms]|Entnommene[ms]|Sü(ß|ss)e[ms]|Saure[ms]|Wesentliche[ms]|Gegenteilige[ms]|Wegweisende[ms]|Hochprozentige[ms]|Erlernte[ms]|Vergangene[ms]|Unglaubliche[ms]|Schlimme[ms]|Eingemachte[ms]|Rare[ms]|Brauchbare[ms]|Unbrauchbare[ms]|Gesehene[ms]|Erlebte[ms]|Private[ms]|Berufliche[ms]|Ungeheuerliche[ms]|Vegane[ms]|Vegetarische[ms]|Eingemachte[ms]|Erwünschte[ms]|Äu(ß|ss)erste[ms]|Äu(ß|ss)ere[ms]|Inhaltliche[ms]|Vernichtende[ms]|Salzige[ms]|Sü(ß|ss)e[ms]|Selbstgemachte[ms]|Inhaltliche[ms]|Au(ß|ss)erordentliche[ms]|Säuerliche[ms]|Göttliche[ms]||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandene[ms]|Relevante[ms]|Geübte[ms]|Unmögliche[ms]|Mögliche[ms]|Näheres|Wissenswerte[ms]|Fundamentale[ms]|Interessante[ms]|Uninteressante[ms]|Entsetzliche[ms]|Hartnäckige[ms]|Ersparte[ms]|Halbgare[ms]|Universale[ms]|Finanzielle[ms]|Überraschendes|Grundlegendes|Gesunde[ms]|Ungesunde[ms]|Tagesaktuelle[ms]|Aktuelle[ms]|Geschehene[ms]|Ungeschehene[ms]|Böse[ms]|Gesagte[ms]|Aufregende[sm]|Ausgestelltes|Verschiedenes|Verborgenes|Soziale[ms]|Erfundenes|Gro(ß|ss)es|Neueres|Au(ß|ss)ergewöhnliche[ms]|Zukunftsfähige[sm]|Administrative[ms]|Beunruhigendes|Naturverträgliches|Nachhaltiges|Verderbliche[ms]|Sinnstiftendes|Unüberlegtes|Alltägliche[sm]|Geartetes?|Allgemeines?|Übernatürliches?|Juristisches?|Rechtliches?|Vielfältiges?|Kommunales|Wundervolles?|Abgelaufenes|Erstere[ms]|Zweitere[ms]|Letztere[ms]|Unvermeidliches?|Fressbares?|Essbares?|Erbrochene[sm]|Politische[sm]|Regionale[sm]|Recherchiertes|Höheres|Kleineres|Deftiges|Liebes|Grünes|Diverses|Machbare[ms]|Nachweisbare[ms]|Zerstörtes|Öffentliches|Produktives|Entbehrliches|Notwendiges|Sinnvolle[ms]|Bewährte[ms]|Nötiges|Erfreuliches|Frustrierendes|Vorübergehendes|Untaugliches|Rohes|Nettes|Blödes|Unerwartetes|Lesenswerte[ms]|Geplantes|Ungeplantes|Redaktionelles|Spezielle[ms]|Spezifische[ms]|Staatstragendes|Organisatorisches|Übersehenes|Altbewährte[ms]|Erstaunliches|Verdächtiges|Au(ß|ss)ergewöhnliches|Ungewöhnliches|Unerreichbare[ms]|Bezahltes|Unbezahltes|Beschämendes|Grundsätzliche[sm]|Freiheitliches|Übrige[ms]|Ähnliche[ms]|Letztgenannte[ms]|Echtes|Unechtes|Gro(ß|ss)artige[ms]|Esoterisches|Qualifizierte[ms]|Unqualifizierte[ms]|Grö(ß|ss)eres|Postmodernes|Unklares|Bezahlbares|Unbezahlbares|Gemischte[ms]|Gebündelte[ms]|Lebendige[ms]|Angenommenes|Zeitgenössisches|Geistliches|Elementare[ms]|Bitteres|Äu(ß|ss)erliches|Spannendes|Kurioses|Digitale[ms]|Hervorgebrachte[ms]|Gewirktes|Altbekannte[ms]|Gehackte[sm]|Gewordenes|Erkennbares|Verstörende[sm]|Versaute[ms]|Nachdenkliches|Bestehendes|Beobachtetes|Originelle[ms]|Derartige[sm]|Schriftliches|Mündliches|Verblühte[ms]|Faszinierende[ms]|Christliches|Gute[ms]|Böse[ms]||Folgende[ms]|Letztere[ms]|Erstere[ms]|Schreckliche[ms]|Falsche[sm]|Richtige[ms]|Hässliche[sm]|Auswärtige[ms]|Nervige[ms]|Ätzende[ms]|Kleine[ms]|Gro(ß|ss)e[ms]|Riskante[ms]|Li?ebenswerte[ms]|Materielle[ms]|Geglaubte[sm]|Ausgedachte[sm]|Unsagbare[sm]?|Unverwechselbare[sm]?|[A-Z].{1,20}rechtliche[ms]?|Umfassendere[ms]|[A-ZÄÖÜ].{1,20}(liche|bare|werte)[ms]|Signifikante[ms]|Bestialische[ms]|Delikate[sm]|Nennenswerte[ms]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;(?!(und|oder))[a-zäöü…\\.!,\\?…\\)“„\&quot;»«–\\-:;\\[\\]].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Er sucht Neues und macht …
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Dieses|Alles|Eines|Jenes|[DMSK]eines|Anderes|Eures|Unse?res|Sonstiges|Einiges|Manches|Welches|Vieles|Solches|Studies|Eyes))[A-ZÄÖÜ].+es&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;(?!([a-zäöüA-ZÄÖÜ].+es)).+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Diesem|Allem|Einem|Jenem|[DMSK]einem|Anderem|Eurem|Unse?rem|Sonstigem|Einigem|Manchem|Welchem|Vielem|Solchem))[A-ZÄÖÜ].+em&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Diesem|Allem|Einem|Jenem|[DMSK]einem|Anderem|Eurem|Unse?rem|Sonstigem|Einigem|Manchem|Welchem|Vielem|Solchem))[A-ZÄÖÜ].+em&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöü…\\.!,\\?…\\)“„\&quot;»«–\\-:;].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Already caught by SEIT_LAENGEREN
+<b class="fc">&nbsp;      token(&quot;seit&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Längeren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;von&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Nichts&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Nichts&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Vors&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Immer mehr Ältere erkranken daran</b>
+<b class="fc">&nbsp;      csRegex(&quot;Ältere[rn]?|Jüngere[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Referierende[rn]?|Schlafenden?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Verdammten?|Alleinstehende[rn]?|Ungeübte[rn]?|Au(ß|ss)erirdische[rn]?|Berittene[rn]?|Heranwachsende[rn]?|Ganze[sn]?|Gefangene[rn]?|Steuerpflichtige[rn]?|Geschädigte[rn]?|Heimatvertriebenen?|Schwerverletzte[rn]?|Werbenden?|Au(ß|ss)enstehenden?|Forschenden?|Prominenten?|Pflegenden?|Beklagten?|Geistlichen?|Pflegebedürftigen?|(Teil|Voll)zeitbeschäftigten?|Fortgeschrittenen?|Promovierenden?|Schreibenden?|Ungeimpfte[nr]?|Geimpfte[nr]?|Tatverdächtige[nr]?|Pubertären?|Flüchtende[nr]?|Vortragende[nr]?|Besuchenden?|Vortragenden?|Verantwortliche[rn]?|Geflohene[rn]?|Sterbende[nr]?|Werbende[nr]?|Vortragende[nr]?|Alliierte[nr]?|Bedürftige[rn]?|Praktizierenden?|Geisteskranke[nr]?|Religiöse[rn]?|Kleinsten?|Dauerarbeitslose[rn]|Angesteckten?|Ortskundigen?|Steuerpflichtige[rn]?|Vorbehandelnden?|Gefährdeten?|Eingemachte|Geübten?|Schwimmenden?|Tauchenden?|Anständigen?|Liebenden?|Volljährigen?|Minderjährigen?|Zeichnungsberechtigte[rn]?|Zeichnungsbefugte[rn]?|Altbekannte[nmr]?|Hartnäckigen?|Unerfahrenen?|Arbeitenden?|Vortragende[nr]?|Dummen?|Fragenden?|Antwortenden?|Kriegs[gb]eschädigten?|Begünstigten?|Verfolgten?|Verwitweten?|Geschiedenen?|Asexuellen?|Liebsten?|(Rechts|Links)extremen?|(Aus|Ein)geschlossenen?|Betuchten?|Anteilnehmende[rn]?|Anbietenden?|Hochbetagten?|Seelenverwandte[nr]?|Gleichgestellten?|Gottlosen?|Inhaftierten?|Protestierenden?|Wohnungssuchenden?|Lesenden?|Schreibenden?|Beitragenden?|Superreichen?|Au(ß|ss)enstehenden?|Juryvorsitzende[rn]?|Introvertierten?|Extrovertierten?|.+begeisterten?|(Schwer|Seh)behinderten?|Unbekannten?|Anwesenden?|Personalverantwortlichen?|[NF]rühgeborenen?|Hörgeschädigten?|Gehorsamen?|Ungehorsamen?|Suchtkranken?|Bildbetrachtenden?|Uniformierten?|Bediensteten?|Gesetzlosen?|Vermummten?|(Schwer|Leicht)verletzten?|Untoten?|Hübschen?|Reisende[rn]?|Abtrünnigen?|Liebende[nr]?|Befehlenden?|Pubertierende[rn]?|Lebenden?|Geistliche[rn]?|Klassenbeste[rn]?|Totgesagte[rn]?|Zivildienstleistende[rn]?|Nutzenden?|Kunstinteressierte[rn]?|Nachtaktive[nr]?|Bewerbenden?|Geliebter?|Unsterblichen?|Sterblichen?|Evangelikalen?|Gewaltbereiten?|Dozierenden?|Autofahenden?|Impfgeschädigten?|[A-ZÄÖÜ].+stämmigen?|Auszubildende[rn]?|Unnahbaren?|Arbeitgebenden?|Nutzungsberechtigte[nr]?|Interviewte[rn]?|Bewohnenden?|Zugewanderte[rn]?|Eingeweihte[rn]?|Heimatvertriebene[nr]?|Asylberechtigte[rn]?|Erwachte[rn]?|Kulturschaffende[rn]?|Gebärenden?|Beschenkte[rn]?|Ungelernten?|Verbrauchende[rn]?|Schwule[rn]?|Partywütige[rn]?|(Homo|Hetero|Metro|Trans)sexuelle[rn]?|Geduldige[rn]?|Ungeduldige[rn]?|Schneebegeisterte[rn]?|Befindlichen?|Gebietsansässigen?|Erneuerbaren?|Militärinternierte[rn]?|Steuerpflichtige[nr]?|Ungläubige[rn]?|Geduldigen?|Ungeduldigen?|Unerreichbaren?|Schuldige[rn]?|Alleinschuldige[rn]?|Getreuen?|Mitschuldige[rn]?|Auswärtige[rn]?|[A-ZÄÖÜ].+schaffende[rn]|Übergewichtige[rn]?|Schichtarbeitende[rn]?|Unbefugte[rn]?|Nominierte[rn]?|Erholungsuchende[rn]?|Getriebene[rn]?|Vertriebene[rn]?|Unverwechselbaren?|Anständigen?|Zeitreisende[rn]?|Gefallene[rn]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;(?!(und|oder))[a-zäöü…\\.!:;,\\?…\\)\\*\\(“„\&quot;»«–\\-\\[\\]].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // wie oben, nur können die Adjektive auch als Verben gebraucht werden
+<b class="fc">&nbsp;      csRegex(&quot;[a-zäöü…\\.,:;0-9\\/$%].*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Vertraute[nr]?|Verwirrte[rn]?|Befragte[rn]?|Beschuldigte[rn]?|Interviewten?|Engagierten?|Beteiligte[nr]?|Verurteilte[rn]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;(?!(und|oder))[a-zäöü…\\.!:;,\\?…\\)\\*\\(“„\&quot;»«–\\-].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Im Folgenden Kunde genannt</b>
+<b class="fc">&nbsp;      token(&quot;im&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Folgenden|Nachfolgenden&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // § 12 Die Pflichtversicherung</b>
+<b class="fc">&nbsp;      csToken(&quot;§&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+[a-z]{0,2}&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // § 12.1 Die Pflichtversicherung</b>
+<b class="fc">&nbsp;      csToken(&quot;§&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Etwas anderes Lebendiges</b>
+<b class="fc">&nbsp;      csToken(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Angeboten|Gefahren|Kosten&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Die Gemeinde Nahe in Schleswig-Holstein</b>
+<b class="fc">&nbsp;      csRegex(&quot;Gemeinden?&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Nahe&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;Für&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Wider&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Ein Haus // Eine Villa</b>
+<b class="fc">&nbsp;      token(&quot;/&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;/&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Ein Haus // Eine Villa</b>
+<b class="fc">&nbsp;      token(&quot;&lt;&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;&lt;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;(&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[!?]&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;)&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Ein Haus // Eine Villa</b>
+<b class="fc">&nbsp;      token(&quot;&gt;&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;&gt;&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // [Weiterlesen]</b>
+<b class="fc">&nbsp;      token(&quot;[&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Beim Hoch- und Runtertragen</b>
+<b class="fc">&nbsp;      regex(&quot;beim|zum|im|am&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+-&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;|/&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+n&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Ein Highlight für Klein und Groß!</b>
+<b class="fc">&nbsp;      regex(&quot;für&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Klein&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;|/&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Groß&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;/&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Ein Highlight für Groß und Klein!</b>
+<b class="fc">&nbsp;      regex(&quot;für&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Groß&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;|/&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Klein&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das sagen meine Kunden:</b>
+<b class="fc">&nbsp;      posRegex(&quot;SENT_START|PKT&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;sagen|beweisen|zeigen|schaffen|machen|halten|verstehen|versuchen&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;ADV.*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[dms]eine?|eure|die|unse?re|mehrere|einige|viele|manche|sonstige|diese|solche|andere|alle|wenige|jene|nicht|koennt?en|zwar|wird&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das verstehen Deutsche eben nicht</b>
+<b class="fc">&nbsp;      posRegex(&quot;SENT_START|PKT&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;sagen|beweisen|zeigen|schaffen|machen|halten|verstehen|versuchen&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.+ADJ&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;sieben&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das belegen mehrere Studien</b>
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;belegen&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // (Gelächter) Das sind die …</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csRegex(&quot;\\(|\\{&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\)|\\}&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // ,Es sind die kleinen Dinge´</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // ,Es sind die kleinen Dinge´</b>
+<b class="fc">&nbsp;      token(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // LaTeX</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      token(&quot;\\&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;(no)?indent|item&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // [Gelächter] Das sind die …</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csToken(&quot;[&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // 22:30 Das sind die …</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // 12:00 - 12:30 Gemeinsames Mittagessen </b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[\\-–]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // (22:30) Das sind die …</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csRegex(&quot;\\(|\\[&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\)|\\]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Teil 1: Die Götter</b>
+&nbsp;      SENT_START,
+<b class="fc">&nbsp;      csToken(&quot;Teil&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;\\d+|I{1,3}|V|IV|VI{1,3}|IX|XI{1,3}&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // ... ist das neue Normal.</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;neue&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Normal&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // siehe hierzu: Argentinisches Antarktisterritorium</b>
+<b class="fc">&nbsp;      csToken(&quot;siehe&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;hierzu&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // ... des vierten Offiziellen …</b>
+<b class="fc">&nbsp;      csRegex(&quot;de[mrs]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;vierten?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Offiziellen?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Auf \foo{Weiter} klicken</b>
+<b class="fc">&nbsp;      csRegex(&quot;[\\{\\[#]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Hallo, Kleines, wie geht es dir?</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;[A-ZÄÖÜ].+es?&quot;).build(),</b>
+<b class="fc">&nbsp;      token(&quot;,&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Es gibt mehr Neues</b>
+<b class="fc">&nbsp;      csRegex(&quot;mehr|weniger|viel|nur&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Eines|Keines|Sonstiges|Anderes|Einiges))[A-ZÄÖÜ].+es&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Bei der Fülle an Vorgaben kann das schnell vergessen werden.
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;halt|schnell|gar|sicher|bitte|gleich&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Dass du dir das gönnen tust
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;tun&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Über das Gesagte Gedanken machen
+&nbsp;      // Und das Vergangene Revue passieren lassen
+<b class="fc">&nbsp;      csRegex(&quot;das|dieses|[dmsk]ein&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*NEU.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Die|Diese|Alle|Eine|Jene|[DMSK]eine|Andere|Eure|Unse?re|Sonstige|Einige|Manche|Ohne|Welche|Viele|Solche))[A-ZÄÖÜ].+e&quot;).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*PLU.*(FEM|NEU|MAS|NOG)|SUB.*NOM.*SIN.*FEM&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Während der Befragte Geschichten erzählte
+<b class="fc">&nbsp;      csRegex(&quot;der|dieser|[msdk]ein|euer|unser|ihr&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Die|Diese|Alle|Eine|Jene|[DMSK]eine|Andere|Eure|Unse?re|Sonstige|Einige|Manche|Ohne|Welche|Viele|Solche))[A-ZÄÖÜ].+e&quot;).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*PLU.*(FEM|NEU|MAS|NOG)&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Während des Hochwassers den Eingeschlossenen Wasser und Nahrung bringen
+<b class="fc">&nbsp;      csRegex(&quot;den|diesen|[msdk]einen|unse?ren|euren|ihren&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Den|Diesen|Allen|Einen|Jenen|[DMSK]einen|Anderen|Euren|Unse?ren|Sonstigen|Einigen|Manchen|Welchen|Vielen|Solchen))[A-ZÄÖÜ].+en&quot;).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NOM.*SIN.*(FEM|NEU)&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // sind dem Zahlungspflichtigen Kosten entstanden
+<b class="fc">&nbsp;      csRegex(&quot;dem|diesem|[msdk]einem|unse?rem|eurem|ihrem&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Den|Diesen|Allen|Einen|Jenen|[DMSK]einen|Anderen|Euren|Unse?ren|Sonstigen|Einigen|Manchen|Welchen|Vielen|Solchen))[A-ZÄÖÜ].+en&quot;).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegexWithStringException(&quot;SUB.*PLU.*(FEM|NEU|MAS|NOG)&quot;, &quot;Band|Kapitel|Maß|.*[Vv]erbrechen|Orchester|Gestalten|Gebirge|.*[vV]orkommen|.*[Vv]erfahren|.*[gG]utachten|Schreiben|Bayern|Theater|Verlangen|.*[sS]chlüssel|.*[mM]eister|.*[vV]erhalten|.*[Aa]benteuer|.*[wW]asser|Leben|Bauen|.*[gG]ewerbe|.*[Zz]immer|.*[Ee]ssen|.*[rR]asen|.*[hH]ebel|.*[oO]pfer|.*[cC]hirurgen|.*[Pp]räsidenten|.*[kK]reuzer|.*[wW]appen|Morgen&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Dann hätten die Aufständischen Oberhand gewonnen
+<b class="fc">&nbsp;      csRegex(&quot;die|diese|alle|solche|einige|sonstige|viele|[msdk]eine|unse?re|eure|ihre&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Den|Diesen|Allen|Einen|Jenen|[DMSK]einen|Anderen|Euren|Unse?ren|Sonstigen|Einigen|Manchen|Welchen|Vielen|Solchen))[A-ZÄÖÜ].+en&quot;).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*FEM&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Während ein Befragter Geschichten erzählte
+&nbsp;      // für welche ein Befragter Geld ausgegeben hat
+<b class="fc">&nbsp;      csRegex(&quot;[msdk]?ein&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Der|Dieser|Aller|Einer|Jener|[DMSK]einer|Anderer|Eurer|Unse?rer|Sonstiger|Einiger|Mancher|Welcher|Vieler|Solcher))[A-ZÄÖÜ].+er&quot;).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegexWithStringException(&quot;SUB.*PLU.*(FEM|NEU|MAS|NOG)|SUB.*SIN.*(NEU|FEM)&quot;, &quot;Tag|Kalkül&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Während die Besagte Geld verdiente
+&nbsp;      // Während die Besagte Geschichten erzählte
+<b class="fc">&nbsp;      csRegex(&quot;die|diese|[msdk]eine&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Die|Diese|Alle|Eine|Jene|[DMSK]eine|Andere|Eure|Unse?re|Sonstige|Einige|Manche|Ohne|Welche|Viele|Solche))[A-ZÄÖÜ].+e&quot;).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NOM.*SIN.*(MAS|NEU)|SUB.*NOM.*PLU.*(FEM|NEU|MAS|NOG)&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Mit Gesagtem Geschichten schreiben
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Diesem|Allem|Einem|Jenem|[DMSK]einem|Anderem|Eurem|Unse?rem|Sonstigem|Einigem|Manchem|Welchem|Vielem|Solchem))[A-ZÄÖÜ].+em&quot;).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*SIN.*FEM|SUB.*PLU.*(FEM|NEU|MAS|NOG)&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Während Besagtes Probleme verursacht
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Dieses|Alles|Eines|Jenes|[DMSK]eines|Anderes|Eures|Unse?res|Sonstiges|Einiges|Manches|Welches|Vieles|Solches))[A-ZÄÖÜ].+es&quot;).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegexWithStringException(&quot;SUB.*SIN.*(FEM|MAS)|SUB.*PLU.*(FEM|NEU|MAS|NOG)&quot;, &quot;Band|Kapitel|Maß|.*[Vv]erbrechen|Orchester|Gestalten|Gebirge|.*[vV]orkommen|.*[Vv]erfahren|.*[gG]utachten|Schreiben|Bayern|Theater|Verlangen|.*[sS]chlüssel|.*[mM]eister|.*[vV]erhalten|.*[Aa]benteuer|.*[wW]asser|Leben|Bauen|.*[gG]ewerbe|.*[Zz]immer|.*[Ee]ssen|.*[rR]asen|.*[hH]ebel|.*[oO]pfer|.*[cC]hirurgen|.*[Pp]räsidenten|.*[kK]reuzer|.*[wW]appen|Morgen&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Hashtags
+<b class="fc">&nbsp;      token(&quot;#&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;[A-Z].*&quot;).setIsWhiteSpaceBefore(false).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Jetzt, wo Protestierende und Politiker sich streiten
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*NEU.*|UNKNOWN&quot;).csTokenRegex(&quot;(?!(Die|Diese|Alle|Eine|Jene|[DMSK]eine|Andere|Eure|Unse?re|Sonstige|Einige|Manche|Ohne|Welche|Viele|Solche))[A-ZÄÖÜ].+e&quot;).build(),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NOM.*PLU.*(MAS|FEM|NEU|NOG)&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Hier ist Text. (Und dann schreibe ich etwas in Klammern.) Nach der Klammer möchte LT klein weiterschreiben.
+<b class="fc">&nbsp;      csToken(&quot;.&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;)&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Wenn Sie Strg+Umschalt+I drücken
+<b class="fc">&nbsp;      csRegex(&quot;Strg|STRG|Alt|ALT&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;|oder|\\+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Umschalt&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Wenn Sie Strg+Umschalt+I drücken
+<b class="fc">&nbsp;      csToken(&quot;Umschalt&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|&amp;|oder|\\+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;[Ii]m&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Inneren|Äu(ss|ß)eren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // denke aber, dass die das machen werden.
+<b class="fc">&nbsp;      csRegex(&quot;ob|dass|weswegen|damit|sofern|wie|wann|wo|wozu|warum&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;wir|[Ss]ie|ich|er|die|der|es|du|ihr&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(&quot;KON.*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;wir|[Ss]ie|ich|er|die|der|es|du|ihr&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;ob|dass|weswegen|damit|sofern|wie|wann|wo|wozu|warum&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;EIG.*|UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(&quot;KON.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;EIG.*|UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Filme drehen muss mir Spaß machen, und das machen Organisation, Finanzierung, Logistik nicht, deswegen sind meine Filme nicht aufwändig.
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      //  Ich würde ihn dann im Februar mal nach Potsdam schicken, damit die beiden das planen/entwickeln können.
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;und|oder|&amp;|beziehungsweise|/|\\+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*|UNKNOWN&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:(MOD|AUX).*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...
+<b class="fc">&nbsp;      csToken(&quot;:&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[\&quot;”„»«]&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;gibt ja auch viele Nutzer, die sich das wünschen&quot;
+<b class="fc">&nbsp;      csRegex(&quot;die|welche&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;sich&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:INF.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Bolivarische[mnrs]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Republik(en)?|Verfassung(en)?|Revolution(en)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Harmonisierte[mnr]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Verbraucherpreisindex(e[sn]?)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;Gro(ss|ß)e[n]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Koalition(en?)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csToken(&quot;Oval&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Offices?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Er studierte an der Hebräischen Universität Jerusalem.&quot;
+<b class="fc">&nbsp;      csRegex(&quot;Hebräischen?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Universität|Bibel&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Es wurde 1784 in das Allgemeine Krankenspital umgewandelt.&quot;
+<b class="fc">&nbsp;      csRegex(&quot;Allgemeine[ns]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Kranken(spitale?s?|haus(es)?)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Die bei der Katholischen Spitalstiftung angesiedelte Vermittlungsstelle informiert über Hilfsangebote.&quot;
+<b class="fc">&nbsp;      csRegex(&quot;Katholischen?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Spitalstiftung?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      csRegex(&quot;[A-ZÄÖÜ].+stereotypen?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Allerdings gibt es im Französischen und im Spanischen Ausnahmen.
+<b class="fc">&nbsp;      csToken(&quot;im&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;(Afrikanisch|Alt(arabisch|chinesisch|griechisch|persisch)|Amerikanisch|Arabisch|Chinesisch|Dänisch|Deutsch|Plattdeutsch|Englisch|Finnisch|Französisch|Frühneuhochdeutsch|Germanisch|Griechisch|Hocharabisch|Hochchinesisch|Hochdeutsch|Holländisch|Italienisch|Japanisch|Jiddisch|Jugoslawisch|Koreanisch|Kroatisch|Lateinisch|Luxemburgisch|Mittelhochdeutsch|Neuhochdeutsch|Niederländisch|Norwegisch|Persisch|Polnisch|Portugiesisch|Russisch|Schwedisch|Schweizerisch|Semitisch|Serbisch|Serbokroatisch|Slawisch|Spanisch|Tschechisch|Türkisch|Ukrainisch|Ungarisch|Wei[sß]russisch|Hebräisch|Katalanisch)en&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Aljos Farjon unterscheidet folgende Arten: die Europäische Eibe, Pazifische Eibe, Kanadische Eibe und Chinesische Eibe.
+<b class="fc">&nbsp;      csRegex(&quot;Pazifischen?|Chinesischen?|Europäischen?|Kanadischen?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Eiben?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // unter dem Motto Music Released
+<b class="fc">&nbsp;      csToken(&quot;Music&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Released&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // für sein Werk Die Nächte des großen Jägers
+<b class="fc">&nbsp;      csRegex(&quot;sein(e[nrs]?)?|ihr(e[nrs]?)?|das|des|die|den|der&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;.*werks?|.*werke[sn]?|.*films?|.*filme[sn]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Der|Die|Das&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // beim Internationalen Bund
+<b class="fc">&nbsp;      csRegex(&quot;Internationale[nr]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Bund(e?s)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Leistungen nach dem Zweiten Sozialgesetzbuch
+<b class="fc">&nbsp;      csRegex(&quot;Zweite[sn]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Sozialgesetzbuch(e?s)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Ein Blauer Riese ist ein Riesenstern.
+<b class="fc">&nbsp;      csRegex(&quot;Blaue[rn]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Riese(ns?)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // ..., die als blaue Überriesen bezeichnet werden.
+<b class="fc">&nbsp;      csRegex(&quot;Blaue[rn]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Überriese(ns?)?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Der Olympische Fechtclub Bonn wurde 1949 gegründet.
+<b class="fc">&nbsp;      csRegex(&quot;Olympische[nr]?&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Fechtclubs?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Die Organisation für Islamische Zusammenarbeit
+<b class="fc">&nbsp;      csToken(&quot;Organisation&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;für&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Islamische&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Zusammenarbeit&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Die Internationale Organisation für Migration
+<b class="fc">&nbsp;      csRegex(&quot;Internationalen?&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Organisation&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;für&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Migration&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Die Flämische Region ist eine der drei Regionen des Königreichs Belgien.
+<b class="fc">&nbsp;      csRegex(&quot;Flämischen?&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Region&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Die Raumstation Mir war zu ihrer Zeit das größte künstliche Objekt im Erdorbit.
+<b class="fc">&nbsp;      csToken(&quot;Raumstation&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Mir&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Die Stadt ist Sitz des Kirchenbezirks Freudenstadt der Evangelischen Landeskirche in Württemberg.
+<b class="fc">&nbsp;      csRegex(&quot;Evangelischen?&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Landeskirche&quot;)</b>
+&nbsp;    )
+&nbsp;    );
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

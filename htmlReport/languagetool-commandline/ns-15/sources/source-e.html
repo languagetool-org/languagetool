@@ -1,0 +1,399 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LanguageManagerDialog</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: LanguageManagerDialog (org.languagetool.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LanguageManagerDialog</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/85)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LanguageManagerDialog$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LanguageManagerDialog$XMLFileFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/93)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.gui;
+&nbsp;
+&nbsp;import java.awt.Container;
+&nbsp;import java.awt.Frame;
+&nbsp;import java.awt.GridBagConstraints;
+&nbsp;import java.awt.GridBagLayout;
+&nbsp;import java.awt.Insets;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;import java.awt.event.KeyEvent;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import javax.swing.JButton;
+&nbsp;import javax.swing.JComponent;
+&nbsp;import javax.swing.JDialog;
+&nbsp;import javax.swing.JList;
+&nbsp;import javax.swing.JOptionPane;
+&nbsp;import javax.swing.JPanel;
+&nbsp;import javax.swing.JRootPane;
+&nbsp;import javax.swing.JScrollPane;
+&nbsp;import javax.swing.KeyStroke;
+&nbsp;import javax.swing.filechooser.FileFilter;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.language.LanguageBuilder;
+&nbsp;
+&nbsp;/**
+&nbsp; * Dialog for managing externally loaded rules.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class LanguageManagerDialog implements ActionListener {
+&nbsp;
+<b class="nc">&nbsp;  private final List&lt;File&gt; ruleFiles = new ArrayList&lt;&gt;();</b>
+&nbsp;  private final Frame owner;
+&nbsp;  private final ResourceBundle messages;
+&nbsp;
+&nbsp;  private JDialog dialog;
+&nbsp;  private JList&lt;File&gt; list;
+&nbsp;  private JButton addButton;
+&nbsp;  private JButton removeButton;
+&nbsp;  private JButton closeButton;
+&nbsp;
+<b class="nc">&nbsp;  public LanguageManagerDialog(Frame owner, List&lt;Language&gt; languages) {</b>
+<b class="nc">&nbsp;    this.owner = owner;</b>
+<b class="nc">&nbsp;    for (Language lang : languages) {</b>
+<b class="nc">&nbsp;      for (String ruleFile : lang.getRuleFileNames()) {</b>
+<b class="nc">&nbsp;        ruleFiles.add(new File(ruleFile));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    messages = JLanguageTool.getMessageBundle();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public void show() {
+<b class="nc">&nbsp;    dialog = new JDialog(owner, true);</b>
+<b class="nc">&nbsp;    dialog.setTitle(messages.getString(&quot;guiLanguageManagerDialog&quot;));</b>
+&nbsp;    
+&nbsp;    // close dialog when user presses Escape key:
+&nbsp;    // TODO: taken from ConfigurationDialog, avoid duplication:
+<b class="nc">&nbsp;    KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);</b>
+<b class="nc">&nbsp;    ActionListener actionListener = new ActionListener() {</b>
+&nbsp;      @Override
+&nbsp;      @SuppressWarnings(&quot;unused&quot;)
+&nbsp;      public void actionPerformed(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        dialog.setVisible(false); </b>
+&nbsp;      }
+&nbsp;    };
+<b class="nc">&nbsp;    JRootPane rootPane = dialog.getRootPane();</b>
+<b class="nc">&nbsp;    rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);</b>
+&nbsp;
+<b class="nc">&nbsp;    Container contentPane = dialog.getContentPane();</b>
+<b class="nc">&nbsp;    contentPane.setLayout(new GridBagLayout());</b>
+&nbsp;
+<b class="nc">&nbsp;    list = new JList&lt;&gt;(ruleFiles.toArray(new File[0]));</b>
+<b class="nc">&nbsp;    GridBagConstraints cons = new GridBagConstraints();</b>
+<b class="nc">&nbsp;    cons.insets = new Insets(4, 4, 4, 4);</b>
+<b class="nc">&nbsp;    cons.gridx = 0;</b>
+<b class="nc">&nbsp;    cons.gridy = 0;</b>
+<b class="nc">&nbsp;    cons.fill = GridBagConstraints.BOTH;</b>
+<b class="nc">&nbsp;    cons.weightx = 2.0f;</b>
+<b class="nc">&nbsp;    cons.weighty = 2.0f;</b>
+<b class="nc">&nbsp;    contentPane.add(new JScrollPane(list), cons);</b>
+&nbsp;    
+<b class="nc">&nbsp;    cons = new GridBagConstraints();</b>
+<b class="nc">&nbsp;    cons.insets = new Insets(4, 4, 4, 4);</b>
+<b class="nc">&nbsp;    cons.fill = GridBagConstraints.HORIZONTAL;</b>
+&nbsp;    
+<b class="nc">&nbsp;    JPanel buttonPanel = new JPanel();</b>
+<b class="nc">&nbsp;    buttonPanel.setLayout(new GridBagLayout());</b>
+<b class="nc">&nbsp;    addButton = new JButton(messages.getString(&quot;guiAddButton&quot;));</b>
+<b class="nc">&nbsp;    addButton.addActionListener(this);</b>
+<b class="nc">&nbsp;    cons.gridx = 1;</b>
+<b class="nc">&nbsp;    cons.gridy = 0;</b>
+<b class="nc">&nbsp;    buttonPanel.add(addButton, cons);</b>
+&nbsp;
+<b class="nc">&nbsp;    removeButton = new JButton(messages.getString(&quot;guiRemoveButton&quot;));</b>
+<b class="nc">&nbsp;    removeButton.addActionListener(this);</b>
+<b class="nc">&nbsp;    cons.gridx = 1;</b>
+<b class="nc">&nbsp;    cons.gridy = 1;</b>
+<b class="nc">&nbsp;    buttonPanel.add(removeButton, cons);</b>
+&nbsp;
+<b class="nc">&nbsp;    closeButton = new JButton(messages.getString(&quot;guiCloseButton&quot;));</b>
+<b class="nc">&nbsp;    closeButton.addActionListener(this);</b>
+<b class="nc">&nbsp;    cons.gridx = 1;</b>
+<b class="nc">&nbsp;    cons.gridy = 2;</b>
+<b class="nc">&nbsp;    buttonPanel.add(closeButton, cons);</b>
+&nbsp;
+<b class="nc">&nbsp;    cons.gridx = 1;</b>
+<b class="nc">&nbsp;    cons.gridy = 0;</b>
+<b class="nc">&nbsp;    cons = new GridBagConstraints();</b>
+<b class="nc">&nbsp;    cons.anchor = GridBagConstraints.NORTH;</b>
+<b class="nc">&nbsp;    contentPane.add(buttonPanel, cons);</b>
+&nbsp;    
+<b class="nc">&nbsp;    dialog.pack();</b>
+<b class="nc">&nbsp;    dialog.setSize(300, 200);</b>
+<b class="nc">&nbsp;    dialog.setLocationByPlatform(true);</b>
+<b class="nc">&nbsp;    dialog.setVisible(true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;    if (e.getSource() == addButton) {</b>
+&nbsp;      Configuration config;
+&nbsp;      try {
+<b class="nc">&nbsp;        config = new Configuration(null);</b>
+&nbsp;      } catch (IOException e1) {
+<b class="nc">&nbsp;        throw new RuntimeException(e1);</b>
+&nbsp;      }
+&nbsp;      File initialDir;
+&nbsp;      File ruleFile;
+<b class="nc">&nbsp;      if (config.getExternalRuleDirectory() != null) {</b>
+<b class="nc">&nbsp;        initialDir = new File(config.getExternalRuleDirectory());</b>
+<b class="nc">&nbsp;        if (initialDir.isDirectory()) {</b>
+<b class="nc">&nbsp;          ruleFile = Tools.openFileDialog(owner, new XMLFileFilter(), initialDir);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          ruleFile = Tools.openFileDialog(owner, new XMLFileFilter());</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;          ruleFile = Tools.openFileDialog(owner, new XMLFileFilter());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (ruleFile == null) {</b>
+&nbsp;        return; // dialog was canceled
+&nbsp;      }
+<b class="nc">&nbsp;      config.setExternalRuleDirectory(ruleFile.getParent());</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        config.saveConfiguration(null);</b>
+&nbsp;      } catch (IOException e1) {
+<b class="nc">&nbsp;        throw new RuntimeException(e1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!ruleFiles.contains(ruleFile)) {</b>
+<b class="nc">&nbsp;        ruleFiles.add(ruleFile);</b>
+<b class="nc">&nbsp;        list.setListData(ruleFiles.toArray(new File[0]));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        JOptionPane jop = new JOptionPane();</b>
+<b class="nc">&nbsp;        JOptionPane.showMessageDialog(jop, messages.getString(&quot;guiDuplicate&quot;),</b>
+<b class="nc">&nbsp;                messages.getString(&quot;guiWarning&quot;), JOptionPane.WARNING_MESSAGE);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (e.getSource() == removeButton) {</b>
+<b class="nc">&nbsp;      if (list.getSelectedIndex() != -1) {</b>
+<b class="nc">&nbsp;        ruleFiles.remove(list.getSelectedIndex());</b>
+<b class="nc">&nbsp;        list.setListData(ruleFiles.toArray(new File[0]));</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (e.getSource() == closeButton) {</b>
+<b class="nc">&nbsp;      dialog.setVisible(false);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Don&#39;t know how to handle &quot; + e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Return all external Languages.
+&nbsp;   */
+&nbsp;  List&lt;Language&gt; getLanguages() throws IllegalAccessException, InstantiationException {
+<b class="nc">&nbsp;    List&lt;Language&gt; languages = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (File ruleFile : ruleFiles) {</b>
+<b class="nc">&nbsp;      if (ruleFile != null) {</b>
+<b class="nc">&nbsp;        Language newLanguage = LanguageBuilder.makeAdditionalLanguage(ruleFile);</b>
+<b class="nc">&nbsp;        languages.add(newLanguage);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return languages;</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  static class XMLFileFilter extends FileFilter {</b>
+&nbsp;    @Override
+&nbsp;    public boolean accept(File f) {
+<b class="nc">&nbsp;      if (f.getName().startsWith(&quot;rules&quot;) &amp;&amp; f.getName().toLowerCase().endsWith(&quot;.xml&quot;) </b>
+<b class="nc">&nbsp;              || f.isDirectory()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;      return &quot;rules*.xml&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

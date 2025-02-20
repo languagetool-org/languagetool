@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PipelineSettings</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: PipelineSettings (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PipelineSettings</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/33)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2020 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.builder.EqualsBuilder;
+&nbsp;import org.apache.commons.lang3.builder.HashCodeBuilder;
+&nbsp;import org.apache.commons.lang3.builder.ToStringBuilder;
+&nbsp;import org.languagetool.GlobalConfig;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;
+&nbsp;public class PipelineSettings {
+&nbsp;  final Language lang;
+&nbsp;  final Language motherTongue;
+&nbsp;  final TextChecker.QueryParams query;
+&nbsp;  final UserConfig userConfig;
+&nbsp;  final GlobalConfig globalConfig;
+&nbsp;
+&nbsp;  PipelineSettings(Language lang, UserConfig userConfig) {
+<b class="nc">&nbsp;    this(lang, null, new TextChecker.QueryParams(), new GlobalConfig(), userConfig);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig) {</b>
+<b class="nc">&nbsp;    this.lang = lang;</b>
+<b class="nc">&nbsp;    this.motherTongue = motherTongue;</b>
+<b class="nc">&nbsp;    this.query = params;</b>
+<b class="nc">&nbsp;    this.userConfig = userConfig;</b>
+<b class="nc">&nbsp;    this.globalConfig = globalConfig;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="nc">&nbsp;    return new HashCodeBuilder(17, 31)</b>
+<b class="nc">&nbsp;      .append(lang)</b>
+<b class="nc">&nbsp;      .append(motherTongue)</b>
+<b class="nc">&nbsp;      .append(query)</b>
+<b class="nc">&nbsp;      .append(globalConfig)</b>
+<b class="nc">&nbsp;      .append(userConfig)</b>
+<b class="nc">&nbsp;      .toHashCode();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object obj) {
+<b class="nc">&nbsp;    if (obj == this) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (obj == null || getClass() != obj.getClass()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    PipelineSettings other = (PipelineSettings) obj;</b>
+<b class="nc">&nbsp;    return new EqualsBuilder()</b>
+<b class="nc">&nbsp;      .append(lang, other.lang)</b>
+<b class="nc">&nbsp;      .append(motherTongue, other.motherTongue)</b>
+<b class="nc">&nbsp;      .append(query, other.query)</b>
+<b class="nc">&nbsp;      .append(globalConfig, other.globalConfig)</b>
+<b class="nc">&nbsp;      .append(userConfig, other.userConfig)</b>
+<b class="nc">&nbsp;      .isEquals();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return new ToStringBuilder(this)</b>
+<b class="nc">&nbsp;      .append(&quot;lang&quot;, lang)</b>
+<b class="nc">&nbsp;      .append(&quot;motherTongue&quot;, motherTongue)</b>
+<b class="nc">&nbsp;      .append(&quot;query&quot;, query)</b>
+<b class="nc">&nbsp;      .append(&quot;globalConfig&quot;, globalConfig)</b>
+<b class="nc">&nbsp;      .append(&quot;user&quot;, userConfig)</b>
+<b class="nc">&nbsp;      .build();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

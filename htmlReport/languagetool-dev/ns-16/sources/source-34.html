@@ -1,0 +1,524 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Spanish</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: Spanish (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Spanish</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    10%
+  </span>
+  <span class="absValue">
+    (3/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    1.6%
+  </span>
+  <span class="absValue">
+    (1/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40.5%
+  </span>
+  <span class="absValue">
+    (64/158)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.es.*;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.es.SpanishSynthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.es.SpanishHybridDisambiguator;
+&nbsp;import org.languagetool.tagging.es.SpanishTagger;
+&nbsp;import org.languagetool.tokenizers.SRXSentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;import org.languagetool.tokenizers.es.SpanishWordTokenizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public class Spanish extends LanguageWithModel {
+&nbsp;  private static final String LANGUAGE_SHORT_CODE = &quot;es-ES&quot;;
+&nbsp;
+&nbsp;  private static volatile Throwable instantiationTrace;
+&nbsp;
+<b class="fc">&nbsp;  public Spanish() {</b>
+<b class="fc">&nbsp;    Throwable trace = instantiationTrace;</b>
+<b class="pc">&nbsp;    if (trace != null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Language was already instantiated, see the cause stacktrace below.&quot;, trace);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    instantiationTrace = new Throwable();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+&nbsp;   */
+<b class="fc">&nbsp;  protected Spanish(boolean fakeValue) {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;Spanish&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="nc">&nbsp;    return &quot;es&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="nc">&nbsp;    return new String[]{</b>
+&nbsp;            &quot;ES&quot;, &quot;&quot;, &quot;MX&quot;, &quot;GT&quot;, &quot;CR&quot;, &quot;PA&quot;, &quot;DO&quot;,
+&nbsp;            &quot;VE&quot;, &quot;PE&quot;, &quot;AR&quot;, &quot;EC&quot;, &quot;CL&quot;, &quot;UY&quot;, &quot;PY&quot;,
+&nbsp;            &quot;BO&quot;, &quot;SV&quot;, &quot;HN&quot;, &quot;NI&quot;, &quot;PR&quot;, &quot;US&quot;, &quot;CU&quot;
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Language getDefaultLanguageVariant() {
+<b class="nc">&nbsp;    return Languages.getLanguageForShortCode(&quot;es&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return SpanishTagger.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new SpanishHybridDisambiguator(getDefaultLanguageVariant());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;    return new SpanishWordTokenizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;    return SpanishSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;    return new SRXSentenceTokenizer(this);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[] {</b>
+&nbsp;            new Contributor(&quot;Jaume Ortolà&quot;)
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return new MorfologikSpanishSpellerRule(messages, this, null, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;            new CommaWhitespaceRule(messages,
+<b class="nc">&nbsp;                Example.wrong(&quot;En su opinión&lt;marker&gt; ,&lt;/marker&gt; no era verdad.&quot;),</b>
+<b class="nc">&nbsp;                Example.fixed(&quot;En su opinión&lt;marker&gt;,&lt;/marker&gt; no era verdad.&quot;)),</b>
+&nbsp;            new DoublePunctuationRule(messages),
+&nbsp;            new SpanishUnpairedBracketsRule(messages),
+&nbsp;            new QuestionMarkRule(messages),
+&nbsp;            new MorfologikSpanishSpellerRule(messages, this, userConfig, altLanguages),
+&nbsp;            new UppercaseSentenceStartRule(messages, this, 
+<b class="nc">&nbsp;                Example.wrong(&quot;Venta al público. &lt;marker&gt;ha&lt;/marker&gt; subido mucho.&quot;),</b>
+<b class="nc">&nbsp;                Example.fixed(&quot;Venta al público. &lt;marker&gt;Ha&lt;/marker&gt; subido mucho.&quot;)),</b>
+&nbsp;            new SpanishWordRepeatRule(messages, this),
+&nbsp;            new MultipleWhitespaceRule(messages, this),
+&nbsp;            new SpanishWikipediaRule(messages),
+&nbsp;            new SpanishWrongWordInContextRule(messages, this),
+&nbsp;            new LongSentenceRule(messages, userConfig, 60),
+&nbsp;            new LongParagraphRule(messages, this, userConfig),
+&nbsp;            new SimpleReplaceRule(messages, this),
+&nbsp;            new SimpleReplaceVerbsRule(messages, this),
+&nbsp;            new SpanishWordRepeatBeginningRule(messages, this),
+&nbsp;            new CompoundRule(messages, this, userConfig),
+&nbsp;            new SpanishRepeatedWordsRule(messages)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.1 */
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+<b class="nc">&nbsp;    return Collections.singletonList(</b>
+&nbsp;      new SpanishConfusionProbabilityRule(messages, languageModel, this)
+&nbsp;    );
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  public String getOpeningDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;«&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public String getClosingDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;»&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningSingleQuote() {
+<b class="nc">&nbsp;    return &quot;‘&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingSingleQuote() {
+<b class="nc">&nbsp;    return &quot;’&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public boolean isAdvancedTypographyEnabled() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;    return LanguageMaintainedState.ActivelyMaintained;</b>
+&nbsp;  }
+&nbsp;  
+<b class="fc">&nbsp;  private final static Map&lt;String, Integer&gt; id2prio = new HashMap&lt;&gt;();</b>
+&nbsp;  static {  
+<b class="fc">&nbsp;    id2prio.put(&quot;ES_SIMPLE_REPLACE_MULTIWORDS&quot;, 50);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;LOS_MAPUCHE&quot;, 50);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;TE_TILDE&quot;, 50);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;DE_TILDE&quot;, 50); // greater than CONTRACCIONES</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;PLURAL_SEPARADO&quot;, 50);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;PERSONAJES_FAMOSOS&quot;, 50);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;NO_SEPARADO&quot;, 40);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;PARTICIPIO_MS&quot;, 40);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;VERBO_MODAL_INFINITIVO&quot;, 40); // greater than DIACRITICS</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;EL_NO_TILDE&quot;, 40); // greater than SE_CREO</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SE_CREO&quot;, 35); // greater than DIACRITICS --&gt; or less than DIACRITICS_VERB_N_ADJ ????</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;POR_CIERTO&quot;, 30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;DEGREE_CHAR&quot;, 30); // greater than SPACE_UNITIES</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;LO_LOS&quot;, 30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;ETCETERA&quot;, 30); // greater than other typography rules</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;P_EJ&quot;, 30); // greater than other typography rules</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SE_CREO2&quot;, 25); </b>
+&nbsp;    //id2prio.put(&quot;ESPACIO_DESPUES_DE_PUNTO&quot;, 25); // greater than other typography rules
+<b class="fc">&nbsp;    id2prio.put(&quot;AGREEMENT_ADJ_NOUN_AREA&quot;, 30); // greater than AGREEMENT_DET_NOUN</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;PRONOMBRE_SIN_VERBO&quot;, 25); // inside CONFUSIONS, but less than other rules ?</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;AGREEMENT_DET_ABREV&quot;, 25); // greater than AGREEMENT_DET_NOUN</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;MUCHO_NF&quot;, 25); // greater than AGREEMENT_DET_NOUN</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;AGREEMENT_DET_NOUN_EXCEPTIONS&quot;, 25); // greater than AGREEMENT_DET_NOUN</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;TYPOGRAPHY&quot;, 20); // greater than AGREEMENT_DET_NOUN</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;PRIMER_PRIMERA&quot;, 20); // greater than AGREEMENT_DET_ADJ</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;AGREEMENT_DET_NOUN&quot;, 15);</b>
+&nbsp;    //id2prio.put(&quot;PRONOMBRE_SIN_VERBO&quot;, 20);
+<b class="fc">&nbsp;    id2prio.put(&quot;AGREEMENT_DET_ADJ&quot;, 10);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;CONFUSION_ES_SE&quot;, 20); //lower than diacrtics rules</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;HALLA_HAYA&quot;, 10);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;VALLA_VAYA&quot;, 10);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SI_AFIRMACION&quot;, 10); // less than DIACRITICS</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;TE_TILDE2&quot;, 10); // less than PRONOMBRE_SIN_VERBO</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SEPARADO&quot;, 1);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;ES_SPLIT_WORDS&quot;, -10);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;U_NO&quot;, -10);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;EL_TILDE&quot;, -10);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SINGLE_CHARACTER&quot;, -15); // less than ES_SPLIT_WORDS</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;TOO_LONG_PARAGRAPH&quot;, -15);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;PREP_VERB&quot;, -20);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SUBJUNTIVO_FUTURO&quot;, -30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SUBJUNTIVO_PASADO&quot;, -30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SUBJUNTIVO_PASADO2&quot;, -30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;AGREEMENT_ADJ_NOUN&quot;, -30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;AGREEMENT_PARTICIPLE_NOUN&quot;, -30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;AGREEMENT_POSTPONED_ADJ&quot;, -30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;MULTI_ADJ&quot;, -30);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SUBJUNTIVO_INCORRECTO&quot;, -40);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;COMMA_SINO&quot;, -40);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;COMMA_SINO2&quot;, -40);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;VOSEO&quot;, -40);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;REPETITIONS_STYLE&quot;, -50);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;MORFOLOGIK_RULE_ES&quot;, -100);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;PHRASE_REPETITION&quot;, -150);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;SPANISH_WORD_REPEAT_RULE&quot;, -150);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;UPPERCASE_SENTENCE_START&quot;, -200);</b>
+<b class="fc">&nbsp;    id2prio.put(&quot;ES_QUESTION_MARK&quot;, -250);	  </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;String, Integer&gt; getPriorityMap() {
+<b class="nc">&nbsp;    return id2prio;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="nc">&nbsp;    if (id.equals(&quot;CONFUSIONS2&quot;)) {</b>
+<b class="nc">&nbsp;      return 50; // greater than CONFUSIONS</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.equals(&quot;RARE_WORDS&quot;)) {</b>
+<b class="nc">&nbsp;      return 50;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.equals(&quot;MISSPELLING&quot;)) {</b>
+<b class="nc">&nbsp;      return 40;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.equals(&quot;CONFUSIONS&quot;)) {</b>
+<b class="nc">&nbsp;      return 40;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.equals(&quot;INCORRECT_EXPRESSIONS&quot;)) {</b>
+<b class="nc">&nbsp;      return 40;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.equals(&quot;DIACRITICS&quot;)) {</b>
+<b class="nc">&nbsp;      return 30;</b>
+&nbsp;    } 
+<b class="nc">&nbsp;    if (id.startsWith(&quot;ES_SIMPLE_REPLACE_SIMPLE&quot;)) {</b>
+<b class="nc">&nbsp;      return 30;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;ES_COMPOUNDS&quot;)) {</b>
+<b class="nc">&nbsp;      return 50;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Integer prio = id2prio.get(id);</b>
+<b class="nc">&nbsp;    if (prio != null) {</b>
+<b class="nc">&nbsp;      return prio;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_ES_HYDRA_LEO&quot;)) { // prefer more specific rules (also speller)</b>
+<b class="nc">&nbsp;      return -101;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_ES_GGEC&quot;)) { // prefer more specific rules (also speller)</b>
+<b class="nc">&nbsp;      if (id.equals(&quot;AI_ES_GGEC_REPLACEMENT_OTHER&quot;)) {</b>
+<b class="nc">&nbsp;        return -300;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;      //return -102;
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;ES_MULTITOKEN_SPELLING&quot;)) {</b>
+<b class="nc">&nbsp;      return -95;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //STYLE is -50
+<b class="nc">&nbsp;    return super.getPriorityForId(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean hasMinMatchesRules() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;  
+<b class="fc">&nbsp;  private static final Pattern ES_CONTRACTIONS = Pattern.compile(&quot;\\b([Aa]|[Dd]e) e(l)\\b&quot;);</b>
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String adaptSuggestion(String replacement) {
+<b class="nc">&nbsp;    Matcher m = ES_CONTRACTIONS.matcher(replacement);</b>
+<b class="nc">&nbsp;    String newReplacement = m.replaceAll(&quot;$1$2&quot;);</b>
+<b class="nc">&nbsp;    return newReplacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; prepareLineForSpeller(String line) {
+<b class="nc">&nbsp;    String[] parts = line.split(&quot;#&quot;);</b>
+<b class="nc">&nbsp;    if (parts.length == 0) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] formTag = parts[0].split(&quot;[\t;]&quot;);</b>
+<b class="nc">&nbsp;    if (formTag.length &gt; 1) {</b>
+<b class="nc">&nbsp;      String tag = formTag[1].trim();</b>
+<b class="nc">&nbsp;      if (tag.startsWith(&quot;N&quot;) || tag.equals(&quot;_Latin_&quot;) || tag.equals(&quot;LOC_ADV&quot;)) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(formTag[0].trim());</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return Collections.singletonList(&quot;&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.singletonList(line);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MultitokenSpeller getMultitokenSpeller() {
+<b class="nc">&nbsp;    return SpanishMultitokenSpeller.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;  private final List&lt;String&gt; suggestionsToAvoid = Arrays.asList(&quot;aquél&quot;, &quot;aquélla&quot;, &quot;aquéllas&quot;, &quot;aquéllos&quot;, &quot;ésa&quot;, &quot;ésas&quot;,</b>
+&nbsp;    &quot;ése&quot;, &quot;ésos&quot;, &quot;ésta&quot;, &quot;éstas&quot;, &quot;éste&quot;, &quot;éstos&quot;, &quot;sólo&quot;);
+<b class="fc">&nbsp;  private final Pattern voseoPostagPatern = Pattern.compile(&quot;V....V.*&quot;);</b>
+&nbsp;  @Override
+&nbsp;  public List&lt;RuleMatch&gt; filterRuleMatches(List&lt;RuleMatch&gt; ruleMatches, AnnotatedText text, Set&lt;String&gt; enabledRules) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RuleMatch ruleMatch : ruleMatches) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; suggestions = ruleMatch.getSuggestedReplacements();</b>
+<b class="nc">&nbsp;      if (suggestions.size()==1 &amp;&amp; ruleMatch.getRule().getId().startsWith(&quot;AI_ES_GGEC&quot;)) {</b>
+<b class="nc">&nbsp;        String suggestion = suggestions.get(0);</b>
+&nbsp;        // ignore adding punctuation at the sentence end
+<b class="nc">&nbsp;        if (ruleMatch.getRule().getId().equals(&quot;AI_ES_GGEC_MISSING_PUNCTUATION&quot;) &amp;&amp; suggestion.endsWith(&quot;.&quot;)) {</b>
+<b class="nc">&nbsp;          if (ruleMatch.getSentence().getText().replaceAll(&quot;\\s+$&quot;, &quot;&quot;).endsWith(suggestion.substring(0,suggestion.length()-1))) {</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // avoid obsolete diacritics
+<b class="nc">&nbsp;        if (suggestionsToAvoid.contains(suggestion.toLowerCase())) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        // avoid lowercase at the sentence start
+<b class="nc">&nbsp;        if (ruleMatch.getSentence().getText().trim().startsWith(StringTools.uppercaseFirstChar(suggestion))) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        // avoid voseo forms in suggestions
+&nbsp;        List&lt;AnalyzedTokenReadings&gt; atr;
+&nbsp;        try {
+<b class="nc">&nbsp;          atr = this.getTagger().tag(Collections.singletonList(suggestion));</b>
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (atr != null &amp;&amp; atr.size()&gt;0) {</b>
+<b class="nc">&nbsp;          if (atr.get(0).matchesPosTagRegex(voseoPostagPatern)) {</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        ruleMatch.setOriginalErrorStr();</b>
+&nbsp;        // the suggestion only changes the casing
+<b class="nc">&nbsp;        if (suggestion.equalsIgnoreCase(ruleMatch.getOriginalErrorStr())) {</b>
+<b class="nc">&nbsp;          ruleMatch.setMessage(&quot;Mayúsculas y minúsculas recomendadas.&quot;);</b>
+<b class="nc">&nbsp;          ruleMatch.setShortMessage(&quot;Mayúsculas y minúsculas&quot;);</b>
+<b class="nc">&nbsp;          ruleMatch.getRule().setLocQualityIssueType(ITSIssueType.Typographical);</b>
+<b class="nc">&nbsp;          ruleMatch.getRule().setCategory(Categories.CASING.getCategory(ResourceBundleTools.getMessageBundle(this)));</b>
+<b class="nc">&nbsp;          ruleMatch.setSpecificRuleId(ruleMatch.getRule().getId().replace(&quot;ORTHOGRAPHY&quot;, &quot;CASING&quot;));</b>
+&nbsp;          //ruleMatch.getRule().setTags(Arrays.asList(Tag.picky));
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      results.add(ruleMatch);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull Spanish getInstance() {
+<b class="nc">&nbsp;    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));</b>
+<b class="nc">&nbsp;    if (language instanceof Spanish spanish) {</b>
+<b class="nc">&nbsp;      return spanish;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Spanish language expected, got &quot; + language);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

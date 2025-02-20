@@ -1,0 +1,308 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikUkrainianSpellerRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikUkrainianSpellerRule (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikUkrainianSpellerRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
+&nbsp;
+&nbsp;  private static final String ABBREVIATION_CHAR = &quot;.&quot;;
+&nbsp;  private static final String RESOURCE_FILENAME = &quot;/uk/hunspell/uk_UA.dict&quot;;
+<b class="nc">&nbsp;  private static final Pattern UKRAINIAN_LETTERS = Pattern.compile(&quot;.*[а-яіїєґА-ЯІЇЄҐ].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DO_NOT_SUGGEST_SPACED_PATTERN = Pattern.compile(</b>
+&nbsp;        &quot;(авіа|авто|анти|аудіо|відео|водо|гідро|екстра|квазі|кіно|лже|мета|моно|мото|псевдо|пост|радіо|стерео|супер|ультра|фото) .*&quot;);
+&nbsp;//  private static final Pattern INFIX_PATTERN = Pattern.compile(&quot;-[а-яіїєґ]{1,5}-&quot;);
+<b class="nc">&nbsp;  private static final Pattern PATTERN = Pattern.compile(&quot;[А-ЯІЇЄҐ]&quot;);</b>
+&nbsp;  private static final Map&lt;String, String&gt; dashPrefixes2019;
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    dashPrefixes2019 = ExtraDictionaryLoader.loadMap(&quot;/uk/dash_prefixes.txt&quot;);</b>
+<b class="nc">&nbsp;    dashPrefixes2019.entrySet().removeIf(entry -&gt; entry.getValue().matches(&quot;:(ua_1992|bad|alt|slang)&quot;) || ! entry.getKey().matches(&quot;[а-яіїєґ]{3,}&quot;) );</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MorfologikUkrainianSpellerRule(ResourceBundle messages,
+&nbsp;                                        Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    super(messages, language, userConfig, altLanguages);</b>
+&nbsp;//    setCheckCompound(true);
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getFileName() {
+<b class="nc">&nbsp;    return RESOURCE_FILENAME;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;MORFOLOGIK_RULE_UK_UA&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected List&lt;RuleMatch&gt; getRuleMatches(String word, int startPos, AnalyzedSentence sentence,
+&nbsp;      List&lt;RuleMatch&gt; ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);</b>
+&nbsp;
+&nbsp;    // disambig may remove v_kly leaving token with no good tags
+<b class="nc">&nbsp;    if( ruleMatches.isEmpty() &amp;&amp; ! hasGoodTag(tokens[idx]) ) {</b>
+<b class="nc">&nbsp;      ruleMatches.add(new RuleMatch(this, sentence, startPos, startPos+word.length(), startPos, startPos+word.length(), </b>
+&nbsp;          &quot;Потенційна орфографічна помилка&quot;, &quot;Орфографічна помилка&quot;, false, &quot;&quot;));
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatches;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
+<b class="nc">&nbsp;    if( word.endsWith(&quot;-&quot;) ) {</b>
+<b class="nc">&nbsp;      return !word.startsWith(&quot;-&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // we&#39;re tokenizing them separately now
+&nbsp;//    if( word.endsWith(&quot;²&quot;) || word.endsWith(&quot;³&quot;) ) {
+&nbsp;//      word = word.substring(0, word.length() - 1); 
+&nbsp;//    }
+&nbsp;
+&nbsp;    // in some places disambiguator may leave tokens with ignored characters
+&nbsp;    // so we have to ignore them here
+&nbsp;    // we fixed &quot;filter&quot; action but if this problem still happens we can uncomment code below
+&nbsp;//    Matcher matcher = language.getIgnoredCharactersRegex().matcher(word);
+&nbsp;//    if( matcher.find() ) {
+&nbsp;//      word = matcher.replaceAll(&quot;&quot;);
+&nbsp;//    }
+&nbsp;    
+<b class="nc">&nbsp;    return super.isMisspelled(speller, word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getAdditionalSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word) {
+<b class="nc">&nbsp;    boolean isCapitalized = StringTools.isCapitalizedWord(word);</b>
+<b class="nc">&nbsp;    if( isCapitalized ) {</b>
+<b class="nc">&nbsp;      word = word.toLowerCase();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for(String key: dashPrefixes2019.keySet()) {</b>
+<b class="nc">&nbsp;      if( word.startsWith(key) </b>
+<b class="nc">&nbsp;          &amp;&amp; word.length() &gt; key.length() + 2 </b>
+<b class="nc">&nbsp;          &amp;&amp; word.charAt(key.length()) != &#39;-&#39; ) {</b>
+<b class="nc">&nbsp;        String second = word.substring(key.length());</b>
+<b class="nc">&nbsp;        suggestions.add(new SuggestedReplacement(key + &quot;-&quot; + second));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
+<b class="nc">&nbsp;    String word = tokens[idx].getToken();</b>
+&nbsp;
+&nbsp;    // don&#39;t check words that don&#39;t have Ukrainian letters
+<b class="nc">&nbsp;    if( ! UKRAINIAN_LETTERS.matcher(word).matches() )</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;
+<b class="nc">&nbsp;    if( super.ignoreToken(tokens, idx) )</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;
+<b class="nc">&nbsp;    if( idx &lt; tokens.length - 1 &amp;&amp; tokens[idx+1].getToken().equals(ABBREVIATION_CHAR) ) {</b>
+<b class="nc">&nbsp;      if( super.ignoreWord(word + ABBREVIATION_CHAR) ) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if(PATTERN.matcher(word).matches()) {  //TODO: only do this for initials when last name is followed</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+&nbsp;//    if( word.contains(&quot;-&quot;) || word.contains(&quot;\u2011&quot;) || word.endsWith(&quot;.&quot;) 
+&nbsp;//            || word.equalsIgnoreCase(&quot;раза&quot;) ) {
+<b class="nc">&nbsp;      return hasGoodTag(tokens[idx]); // &amp;&amp; ! PosTagHelper.hasPosTagPart(tokens[idx], &quot;:bad&quot;);</b>
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    return false;
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean hasGoodTag(AnalyzedTokenReadings tokens) {
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : tokens) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag != null </b>
+<b class="nc">&nbsp;            &amp;&amp; ! posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) </b>
+<b class="nc">&nbsp;            &amp;&amp; ! posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) ) </b>
+&nbsp;//            &amp;&amp; (! posTag.contains(IPOSTag.bad.getText()) || posTag.contains(&quot;:latin&quot;))  
+&nbsp;//            &amp;&amp; ! (posTag.contains(&quot;:inanim&quot;) &amp;&amp; posTag.contains(&quot;:v_kly&quot;)) )
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; filterSuggestions(List&lt;SuggestedReplacement&gt; suggestions) {
+<b class="nc">&nbsp;    suggestions = super.filterSuggestions(suggestions);</b>
+&nbsp;    // do not suggest &quot;кіно прокат, вело- прогулянка...&quot;:
+<b class="nc">&nbsp;    suggestions.removeIf(item -&gt; item.getReplacement().contains(&quot; &quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;        DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item.getReplacement()).matches() ||</b>
+<b class="nc">&nbsp;        item.getReplacement().contains(&quot;- &quot;));</b>
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // workaround to allow other rules generate spelling suggestions without invoking match()
+&nbsp;  MorfologikMultiSpeller getSpeller1() {
+<b class="nc">&nbsp;    if( speller1 == null ) {</b>
+&nbsp;      try {
+&nbsp;        // we can&#39;t call initSpellers() as it&#39;s private so we&#39;re calling method we can
+<b class="nc">&nbsp;        isMisspelled(&quot;1&quot;);</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return speller1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isLatinScript() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

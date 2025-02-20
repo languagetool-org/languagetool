@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikTagger (org.languagetool.tagging)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37.5%
+  </span>
+  <span class="absValue">
+    (3/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (12/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68%
+  </span>
+  <span class="absValue">
+    (17/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging;
+&nbsp;
+&nbsp;import morfologik.stemming.Dictionary;
+&nbsp;import morfologik.stemming.*;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tags a word using a Morfologik binary dictionary.
+&nbsp; * @since 2.8
+&nbsp; */
+&nbsp;public class MorfologikTagger implements WordTagger {
+&nbsp;
+&nbsp;  private final URL dictUrl;
+&nbsp;
+&nbsp;  private Dictionary dictionary;
+&nbsp;
+&nbsp;  private boolean internTags;
+&nbsp;
+&nbsp;  public MorfologikTagger(String dictPath) {
+<b class="nc">&nbsp;    this(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Objects.requireNonNull(dictPath)));</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  MorfologikTagger(URL dictUrl) {</b>
+<b class="nc">&nbsp;    this.dictUrl = Objects.requireNonNull(dictUrl);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Constructs a MorfologikTagger with the given morfologik dictionary.
+&nbsp;   * @since 3.4
+&nbsp;   */
+&nbsp;  public MorfologikTagger(Dictionary dictionary) {
+<b class="nc">&nbsp;    this(dictionary, false);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public MorfologikTagger(Dictionary dictionary, boolean internTags) {</b>
+<b class="fc">&nbsp;    this.dictUrl = null;</b>
+<b class="fc">&nbsp;    this.dictionary = dictionary;</b>
+<b class="fc">&nbsp;    this.internTags = internTags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private synchronized Dictionary getDictionary() throws IOException {
+<b class="pc">&nbsp;    if (dictionary == null) {</b>
+<b class="nc">&nbsp;      dictionary = Dictionary.read(dictUrl);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return dictionary;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean getInternTags() {
+<b class="nc">&nbsp;    return internTags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setInternTags(boolean enabled) {
+<b class="nc">&nbsp;    internTags = enabled;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;TaggedWord&gt; tag(String word) {
+<b class="fc">&nbsp;    List&lt;TaggedWord&gt; result = new ArrayList&lt;&gt;();</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      IStemmer dictLookup = new DictionaryLookup(getDictionary());</b>
+<b class="fc">&nbsp;      List&lt;WordData&gt; lookup = dictLookup.lookup(word);</b>
+<b class="fc">&nbsp;      for (WordData wordData : lookup) {</b>
+<b class="pc">&nbsp;        String tag = wordData.getTag() == null ? null : wordData.getTag().toString();</b>
+&nbsp;        // Remove frequency data from tags (if exists)
+&nbsp;        // The frequency data is in the last byte (without a separator)
+<b class="pc">&nbsp;        if (dictionary.metadata.isFrequencyIncluded() &amp;&amp; tag != null &amp;&amp; tag.length() &gt; 1) {</b>
+<b class="fc">&nbsp;          tag = tag.substring(0, tag.length() - 1);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        String stem = wordData.getStem() == null ? null : wordData.getStem().toString();</b>
+<b class="pc">&nbsp;        TaggedWord taggedWord = new TaggedWord(stem, (internTags &amp;&amp; tag != null) ? tag.intern() : tag);</b>
+<b class="fc">&nbsp;        result.add(taggedWord);</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not tag word &#39;&quot; + word + &quot;&#39;&quot;, e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

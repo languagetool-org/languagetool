@@ -1,0 +1,255 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishWordRepeatBeginningRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishWordRepeatBeginningRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishWordRepeatBeginningRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.WordRepeatBeginningRule;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Adds a list English adverbs to {@link WordRepeatBeginningRule}.
+&nbsp; *
+&nbsp; * @author Markus Brenneis
+&nbsp; */
+&nbsp;public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
+&nbsp;  
+&nbsp;  public EnglishWordRepeatBeginningRule(ResourceBundle messages, Language language) {
+<b class="nc">&nbsp;    super(messages, language);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Moreover, the street is almost entirely residential. &lt;marker&gt;Moreover&lt;/marker&gt;, it was named after a poet.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Moreover, the street is almost entirely residential. &lt;marker&gt;It&lt;/marker&gt; was named after a poet.&quot;));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;ENGLISH_WORD_REPEAT_BEGINNING_RULE&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  //==================== ADVERBS ======================
+&nbsp;  
+&nbsp;	// adverbs used to add to what the previous sentence mentioned
+<b class="nc">&nbsp;	private static final Set&lt;String&gt; ADD_ADVERBS = new HashSet&lt;&gt;();</b>
+&nbsp;
+&nbsp;	// adverbs used to express contrast to what the previous sentence mentioned
+<b class="nc">&nbsp;	private static final Set&lt;String&gt; CONTRAST_ADVERBS = new HashSet&lt;&gt;();</b>
+&nbsp;
+&nbsp;	// adverbs used to express emphasis to what the previous sentence mentioned
+<b class="nc">&nbsp;	private static final Set&lt;String&gt; EMPHASIS_ADVERBS = new HashSet&lt;&gt;();</b>
+&nbsp;
+&nbsp;	// adverbs used to explain what the previous sentence mentioned
+<b class="nc">&nbsp;	private static final Set&lt;String&gt; EXPLAIN_ADVERBS = new HashSet&lt;&gt;();</b>
+&nbsp;	
+&nbsp;	//==================== EXPRESSIONS ======================
+&nbsp;	// the expressions will be used only as additional suggestions
+&nbsp;	
+&nbsp;	// linking expressions that can be used instead of the ADD_ADVERBS
+<b class="nc">&nbsp;	private static final List&lt;String&gt; ADD_EXPRESSIONS = Arrays.asList(&quot;In addition&quot;, &quot;As well as&quot;);</b>
+&nbsp;	
+&nbsp;	// linking expressions that can be used instead of the CONTRAST_ADVERBS
+<b class="nc">&nbsp;	private static final List&lt;String&gt; CONTRAST_EXPRESSIONS = Arrays.asList(&quot;Even so&quot;, &quot;On the other hand&quot;);</b>
+&nbsp;	
+&nbsp;	static {
+&nbsp;		// based on https://www.pinterest.com/pin/229542912245527548/
+<b class="nc">&nbsp;		ADD_ADVERBS.add(&quot;Additionally&quot;);</b>
+<b class="nc">&nbsp;		ADD_ADVERBS.add(&quot;Besides&quot;);</b>
+<b class="nc">&nbsp;		ADD_ADVERBS.add(&quot;Furthermore&quot;);</b>
+<b class="nc">&nbsp;		ADD_ADVERBS.add(&quot;Moreover&quot;);</b>
+<b class="nc">&nbsp;		ADD_ADVERBS.add(&quot;Also&quot;);</b>
+<b class="nc">&nbsp;		CONTRAST_ADVERBS.add(&quot;Nevertheless&quot;);</b>
+<b class="nc">&nbsp;		CONTRAST_ADVERBS.add(&quot;Nonetheless&quot;);</b>
+<b class="nc">&nbsp;		CONTRAST_ADVERBS.add(&quot;Alternatively&quot;);</b>
+<b class="nc">&nbsp;		EMPHASIS_ADVERBS.add(&quot;Undoubtedly&quot;);</b>
+<b class="nc">&nbsp;		EMPHASIS_ADVERBS.add(&quot;Indeed&quot;);</b>
+<b class="nc">&nbsp;		EMPHASIS_ADVERBS.add(&quot;Obviously&quot;);</b>
+<b class="nc">&nbsp;		EMPHASIS_ADVERBS.add(&quot;Clearly&quot;);</b>
+<b class="nc">&nbsp;		EMPHASIS_ADVERBS.add(&quot;Importantly&quot;);</b>
+<b class="nc">&nbsp;		EMPHASIS_ADVERBS.add(&quot;Absolutely&quot;);</b>
+<b class="nc">&nbsp;		EMPHASIS_ADVERBS.add(&quot;Definitely&quot;);</b>
+<b class="nc">&nbsp;		EXPLAIN_ADVERBS.add(&quot;Particularly&quot;);</b>
+<b class="nc">&nbsp;		EXPLAIN_ADVERBS.add(&quot;Especially&quot;);</b>
+<b class="nc">&nbsp;		EXPLAIN_ADVERBS.add(&quot;Specifically&quot;);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public boolean isException(String token) {
+<b class="nc">&nbsp;		return super.isException(token) || token.equals(&quot;The&quot;) || token.equals(&quot;A&quot;) || token.equals(&quot;An&quot;);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	protected boolean isAdverb(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;		String tok = token.getToken();</b>
+<b class="nc">&nbsp;		return ADD_ADVERBS.contains(tok) || CONTRAST_ADVERBS.contains(tok) || EMPHASIS_ADVERBS.contains(tok)</b>
+<b class="nc">&nbsp;				|| EXPLAIN_ADVERBS.contains(tok);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	protected List&lt;String&gt; getSuggestions(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;		String tok = token.getToken();</b>
+&nbsp;		// the repeated word is a personal pronoun
+<b class="nc">&nbsp;		if (token.hasPosTag(&quot;PRP&quot;)) {</b>
+<b class="nc">&nbsp;			String adaptedToken = tok.equals(&quot;I&quot;) ? tok : tok.toLowerCase();</b>
+<b class="nc">&nbsp;			return Arrays.asList(&quot;Furthermore, &quot; + adaptedToken, &quot;Likewise, &quot; + adaptedToken,</b>
+&nbsp;					&quot;Not only that, but &quot; + adaptedToken);
+<b class="nc">&nbsp;		} else if (ADD_ADVERBS.contains(tok)) {</b>
+<b class="nc">&nbsp;			List&lt;String&gt; addSuggestions = getDifferentAdverbsOfSameCategory(tok, ADD_ADVERBS);</b>
+<b class="nc">&nbsp;			addSuggestions.addAll(ADD_EXPRESSIONS);</b>
+<b class="nc">&nbsp;			return addSuggestions;</b>
+<b class="nc">&nbsp;		} else if (CONTRAST_ADVERBS.contains(tok)) {</b>
+<b class="nc">&nbsp;			List&lt;String&gt; contrastSuggestions = getDifferentAdverbsOfSameCategory(tok, CONTRAST_ADVERBS);</b>
+<b class="nc">&nbsp;			contrastSuggestions.addAll(CONTRAST_EXPRESSIONS);</b>
+<b class="nc">&nbsp;			return contrastSuggestions;</b>
+<b class="nc">&nbsp;		} else if (EMPHASIS_ADVERBS.contains(tok)) {</b>
+<b class="nc">&nbsp;			return getDifferentAdverbsOfSameCategory(tok, EMPHASIS_ADVERBS);</b>
+<b class="nc">&nbsp;		} else if (EXPLAIN_ADVERBS.contains(tok)) {</b>
+<b class="nc">&nbsp;			return getDifferentAdverbsOfSameCategory(tok, EXPLAIN_ADVERBS);</b>
+&nbsp;		}
+<b class="nc">&nbsp;		return Collections.emptyList();</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	/**
+&nbsp;	 * Gives suggestions to replace the given adverb.
+&nbsp;	 * 
+&nbsp;	 * @param adverb            to get suggestions for
+&nbsp;	 * @param adverbsOfCategory the adverbs of the same category as adverb (adverb
+&nbsp;	 *                          is &lt;b&gt;required&lt;/b&gt; to be contained in the Set)
+&nbsp;	 * @return a List of suggested adverbs to replace the given adverb
+&nbsp;	 */
+&nbsp;	private List&lt;String&gt; getDifferentAdverbsOfSameCategory(String adverb, Set&lt;String&gt; adverbsOfCategory) {
+<b class="nc">&nbsp;		return adverbsOfCategory.stream().filter(adv -&gt; !adv.equals(adverb)).collect(Collectors.toList());</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

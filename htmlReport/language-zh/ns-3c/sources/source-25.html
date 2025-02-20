@@ -1,0 +1,303 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Substrings</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: Substrings (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Substrings</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.7%
+  </span>
+  <span class="absValue">
+    (8/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58%
+  </span>
+  <span class="absValue">
+    (51/88)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73%
+  </span>
+  <span class="absValue">
+    (54/74)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Peter Gromov
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;/**
+&nbsp; * A list of strings that are expected to occur in a larger string in the given order,
+&nbsp; * with optional requirements for them to start/end the text.
+&nbsp; * This class is used to avoid more expensive regular expression matching where possible.
+&nbsp; */
+&nbsp;class Substrings {
+&nbsp;  final String[] substrings;
+&nbsp;  private final int minLength;
+&nbsp;
+&nbsp;  /** Whether the first of {@link #substrings} must occur at the matched fragment start */
+&nbsp;  final boolean mustStart;
+&nbsp;
+&nbsp;  /** Whether the last of {@link #substrings} must occur at the matched fragment end */
+&nbsp;  final boolean mustEnd;
+&nbsp;
+&nbsp;  Substrings(boolean mustStart, boolean mustEnd, String[] substrings) {
+<b class="fc">&nbsp;    this(mustStart, mustEnd, substrings, Arrays.stream(substrings).mapToInt(String::length).sum());</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  private Substrings(boolean mustStart, boolean mustEnd, String[] substrings, int minLength) {</b>
+<b class="fc">&nbsp;    this.substrings = substrings;</b>
+<b class="fc">&nbsp;    this.mustStart = mustStart;</b>
+<b class="fc">&nbsp;    this.mustEnd = mustEnd;</b>
+<b class="fc">&nbsp;    this.minLength = minLength;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return a version of this {@code Substrings} object
+&nbsp;   * whose {@link #matches} could completely replace the given regexp,
+&nbsp;   * or {@code null} if that&#39;s not feasible.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  Substrings checkCanReplaceRegex(String regexp) {
+<b class="fc">&nbsp;    if (mustStart || mustEnd) {</b>
+<b class="fc">&nbsp;      String prefix = mustStart ? substrings[0] : &quot;&quot;;</b>
+<b class="fc">&nbsp;      String suffix = mustEnd ? substrings[substrings.length - 1] : &quot;&quot;;</b>
+<b class="pc">&nbsp;      if (regexp.startsWith(prefix) &amp;&amp;</b>
+<b class="pc">&nbsp;          regexp.endsWith(suffix) &amp;&amp;</b>
+<b class="fc">&nbsp;          regexp.length() == prefix.length() + suffix.length() + 2 &amp;&amp;</b>
+<b class="pc">&nbsp;          regexp.charAt(prefix.length()) == &#39;.&#39;) {</b>
+<b class="pc">&nbsp;        switch (regexp.charAt(prefix.length() + 1)) {</b>
+<b class="fc">&nbsp;          case &#39;*&#39;: return this;</b>
+<b class="nc">&nbsp;          case &#39;+&#39;: return new Substrings(mustStart, mustEnd, substrings, minLength + 1);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (regexp.equals((mustStart ? &quot;&quot; : &quot;.*&quot;) + String.join(&quot;.*&quot;, substrings) + (mustEnd ? &quot;&quot; : &quot;.*&quot;))) {</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return (mustStart ? &quot;[&quot; : &quot;(&quot;) + String.join(&quot;, &quot;, substrings) + (mustEnd ? &quot;]&quot; : &quot;)&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  Substrings concat(Substrings another) {
+&nbsp;    String[] substrings;
+<b class="fc">&nbsp;    if (another.substrings.length == 0) {</b>
+<b class="fc">&nbsp;      substrings = this.substrings;</b>
+<b class="fc">&nbsp;    } else if (this.substrings.length == 0) {</b>
+<b class="fc">&nbsp;      substrings = another.substrings;</b>
+<b class="pc">&nbsp;    } else if (mustEnd &amp;&amp; another.mustStart) {</b>
+<b class="nc">&nbsp;      substrings = new String[this.substrings.length + another.substrings.length - 1];</b>
+<b class="nc">&nbsp;      System.arraycopy(this.substrings, 0, substrings, 0, this.substrings.length - 1);</b>
+<b class="nc">&nbsp;      substrings[this.substrings.length - 1] = this.substrings[this.substrings.length - 1] + another.substrings[0];</b>
+<b class="nc">&nbsp;      System.arraycopy(another.substrings, 0, substrings, this.substrings.length, another.substrings.length - 1);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      substrings = new String[this.substrings.length + another.substrings.length];</b>
+<b class="fc">&nbsp;      System.arraycopy(this.substrings, 0, substrings, 0, this.substrings.length);</b>
+<b class="fc">&nbsp;      System.arraycopy(another.substrings, 0, substrings, this.substrings.length, another.substrings.length);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return new Substrings(mustStart, another.mustEnd, substrings);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Check whether {@code text} contains all required substrings and returns the index of the first of them,
+&nbsp;   * or -1 if the text doesn&#39;t contain these substrings.
+&nbsp;   */
+&nbsp;  int find(String text, boolean caseSensitive) {
+<b class="nc">&nbsp;    if (text.length() &lt; minLength) {</b>
+<b class="nc">&nbsp;      return -1;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    int start = indexOf(text, substrings[0], caseSensitive, 0);</b>
+<b class="nc">&nbsp;    if (start &lt; 0) {</b>
+<b class="nc">&nbsp;      return -1;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (substrings.length &gt; 1 &amp;&amp; !containsSubstrings(text, caseSensitive, start + substrings[0].length(), 1)) {</b>
+<b class="nc">&nbsp;      return -1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return start;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return whether the given text contains all the required substrings
+&nbsp;   */
+&nbsp;  boolean matches(String text, boolean caseSensitive) {
+<b class="fc">&nbsp;    if (text.length() &lt; minLength) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (mustStart &amp;&amp; !text.regionMatches(!caseSensitive, 0, substrings[0], 0, substrings[0].length())) {</b>
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (mustEnd) {</b>
+<b class="fc">&nbsp;      String last = substrings[substrings.length - 1];</b>
+<b class="fc">&nbsp;      if (!text.regionMatches(!caseSensitive, text.length() - last.length(), last, 0, last.length())) {</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    if (substrings.length == 1 &amp;&amp; (mustStart || mustEnd)) {</b>
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    return containsSubstrings(text, caseSensitive, mustStart ? substrings[0].length() : 0, mustStart ? 1 : 0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean containsSubstrings(String text, boolean caseSensitive, int textPos, int firstSubstringIndex) {
+<b class="fc">&nbsp;    for (int i = firstSubstringIndex; i &lt; substrings.length; i++) {</b>
+<b class="fc">&nbsp;      textPos = indexOf(text, substrings[i], caseSensitive, textPos);</b>
+<b class="fc">&nbsp;      if (textPos &lt; 0) {</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      textPos += substrings[i].length();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static int indexOf(String text, String substring, boolean caseSensitive, int from) {
+<b class="pc">&nbsp;    return caseSensitive ? text.indexOf(substring, from) : indexOfIgnoreCase(text, substring, from);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // a bit more optimized than Apache StringUtil.indexOfIgnoreCase
+&nbsp;  private static int indexOfIgnoreCase(String text, String substring, int from) {
+<b class="fc">&nbsp;    char first = substring.charAt(0);</b>
+<b class="fc">&nbsp;    char up = Character.toUpperCase(first);</b>
+<b class="fc">&nbsp;    char low = Character.toLowerCase(first);</b>
+<b class="pc">&nbsp;    boolean cased = up != first || low != first;</b>
+&nbsp;    while (true) {
+<b class="pc">&nbsp;      from = cased ? findNext(text, from, up, low) : text.indexOf(first, from);</b>
+<b class="fc">&nbsp;      if (from &lt; 0) {</b>
+<b class="fc">&nbsp;        return -1;</b>
+&nbsp;      }
+&nbsp;
+<b class="pc">&nbsp;      if (text.regionMatches(true, from, substring, 0, substring.length())) {</b>
+<b class="fc">&nbsp;        return from;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      from++;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static int findNext(String text, int from, char up, char low) {
+<b class="nc">&nbsp;    for (int i = from; i &lt; text.length(); i++) {</b>
+<b class="nc">&nbsp;      char c = text.charAt(i);</b>
+<b class="nc">&nbsp;      if (c == up || c == low || Character.toUpperCase(c) == up || Character.toLowerCase(c) == low) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,248 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ExtendedUserInfo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: ExtendedUserInfo (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ExtendedUserInfo</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Fabian Richter
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.builder.ToStringBuilder;
+&nbsp;
+&nbsp;import java.sql.Date;
+&nbsp;import java.sql.Timestamp;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;/**
+&nbsp;  Used via Jackson-databind + myBatis -&amp;gt; return info from DB via JSON in /users/me route
+&nbsp; @see ApiV2
+&nbsp; */
+&nbsp;public class ExtendedUserInfo {
+&nbsp;  public Long id;
+&nbsp;
+&nbsp;  public String addon_token;
+&nbsp;  public String api_key;
+&nbsp;  public String email;
+&nbsp;  public String name;
+&nbsp;  public Date premium_from;
+&nbsp;  public Date premium_to;
+&nbsp;  public Timestamp cancel_date;
+&nbsp;  public Long subscription_months;
+&nbsp;  public String geo_ip_country;
+&nbsp;  public Long managed_accounts;
+&nbsp;  public UUID groupId;
+&nbsp;  public String groupRole;
+&nbsp;
+&nbsp;
+&nbsp;  // for jackson-databind deserialization
+<b class="nc">&nbsp;  public ExtendedUserInfo() {}</b>
+&nbsp;
+&nbsp;  // for myBatis deserialization
+&nbsp;  public ExtendedUserInfo(String addon_token, String api_key, String email, String name, Date premium_from, Date premium_to, Timestamp cancel_date, Long subscription_months, String geo_ip_country,
+<b class="nc">&nbsp;   Long managed_accounts, UUID groupId, String groupRole) {</b>
+&nbsp;
+<b class="nc">&nbsp;    this.addon_token = addon_token;</b>
+<b class="nc">&nbsp;    this.api_key = api_key;</b>
+<b class="nc">&nbsp;    this.email = email;</b>
+<b class="nc">&nbsp;    this.name = name;</b>
+<b class="nc">&nbsp;    this.premium_from = premium_from;</b>
+<b class="nc">&nbsp;    this.premium_to = premium_to;</b>
+<b class="nc">&nbsp;    this.cancel_date = cancel_date;</b>
+<b class="nc">&nbsp;    this.subscription_months = subscription_months;</b>
+<b class="nc">&nbsp;    this.geo_ip_country = geo_ip_country;</b>
+<b class="nc">&nbsp;    this.managed_accounts = managed_accounts;</b>
+<b class="nc">&nbsp;    this.groupId = groupId;</b>
+<b class="nc">&nbsp;    this.groupRole = groupRole;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return new ToStringBuilder(this)</b>
+<b class="nc">&nbsp;      .append(&quot;id&quot;, id)</b>
+<b class="nc">&nbsp;      .append(&quot;addon_token&quot;, addon_token)</b>
+<b class="nc">&nbsp;      .append(&quot;api_key&quot;, api_key)</b>
+<b class="nc">&nbsp;      .append(&quot;email&quot;, email)</b>
+<b class="nc">&nbsp;      .append(&quot;name&quot;, name)</b>
+<b class="nc">&nbsp;      .append(&quot;premium_from&quot;, premium_from)</b>
+<b class="nc">&nbsp;      .append(&quot;premium_to&quot;, premium_to)</b>
+<b class="nc">&nbsp;      .append(&quot;cancel_date&quot;, cancel_date)</b>
+<b class="nc">&nbsp;      .append(&quot;subscription_months&quot;, subscription_months)</b>
+<b class="nc">&nbsp;      .append(&quot;geo_ip_country&quot;, geo_ip_country)</b>
+<b class="nc">&nbsp;      .append(&quot;managed_accounts&quot;, managed_accounts)</b>
+<b class="nc">&nbsp;      .append(&quot;groupId&quot;, groupId)</b>
+<b class="nc">&nbsp;      .append(&quot;groupRole&quot;, groupRole)</b>
+<b class="nc">&nbsp;      .toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  // getters for tests (i.e. org.hamcrest.Matchers.hasProperty)
+&nbsp;
+&nbsp;  public Long getId() {
+<b class="nc">&nbsp;    return id;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getAddon_token() {
+<b class="nc">&nbsp;    return addon_token;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getApi_key() {
+<b class="nc">&nbsp;    return api_key;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getEmail() {
+<b class="nc">&nbsp;    return email;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return name;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Date getPremium_from() {
+<b class="nc">&nbsp;    return premium_from;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Date getPremium_to() {
+<b class="nc">&nbsp;    return premium_to;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Timestamp getCancel_date() {
+<b class="nc">&nbsp;    return cancel_date;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Long getSubscription_months() {
+<b class="nc">&nbsp;    return subscription_months;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getGeo_ip_country() {
+<b class="nc">&nbsp;    return geo_ip_country;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Long getManaged_accounts() {
+<b class="nc">&nbsp;    return managed_accounts;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UUID getGroupId() {
+<b class="nc">&nbsp;    return groupId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getGroupRole() {
+<b class="nc">&nbsp;    return groupRole;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Fuzzer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: Fuzzer (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Fuzzer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;/**
+&nbsp; * A very simple fuzzer to see if certain random input causes long processing times.
+&nbsp; */
+<b class="nc">&nbsp;public class Fuzzer {</b>
+&nbsp;
+<b class="nc">&nbsp;  private final static String[] charList = &quot;0,.-&quot;.split(&quot;&quot;);</b>
+&nbsp;
+&nbsp;  private void run() throws IOException {
+<b class="nc">&nbsp;    Random rnd = new Random(231);</b>
+<b class="nc">&nbsp;    for (Language language : Languages.get()) {</b>
+<b class="nc">&nbsp;      JLanguageTool lt = new JLanguageTool(language);</b>
+<b class="nc">&nbsp;      String text = fuzz(rnd, 1000);</b>
+<b class="nc">&nbsp;      long t1 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;      System.out.println(language.getShortCode() + &quot; with text length of &quot; + text.length() + &quot;...&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;&gt;&gt; &quot; + text);</b>
+<b class="nc">&nbsp;      lt.check(text);</b>
+<b class="nc">&nbsp;      long t2 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;      System.out.println(language.getShortCode() + &quot;: &quot; + (t2-t1) + &quot;ms&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  String fuzz(Random rnd, int length) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; charList.length; i++) {</b>
+<b class="nc">&nbsp;      int randomPos = rnd.nextInt(charList.length);</b>
+<b class="nc">&nbsp;      int repeat = rnd.nextInt(length);</b>
+<b class="nc">&nbsp;      String s = StringUtils.repeat(charList[randomPos], repeat);</b>
+<b class="nc">&nbsp;      sb.append(s);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    new Fuzzer().run();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

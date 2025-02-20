@@ -1,0 +1,300 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Galician</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: Galician (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Galician</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.gl.*;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.hunspell.HunspellRule;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.gl.GalicianSynthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.gl.GalicianHybridDisambiguator;
+&nbsp;import org.languagetool.tagging.gl.GalicianTagger;
+&nbsp;import org.languagetool.tokenizers.*;
+&nbsp;import org.languagetool.tokenizers.gl.GalicianWordTokenizer;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="nc">&nbsp;public class Galician extends Language {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;    return new SRXSentenceTokenizer(this);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;Galician&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="nc">&nbsp;    return &quot;gl&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="nc">&nbsp;    return new String[]{&quot;ES&quot;};</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return new GalicianTagger();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;    return new GalicianWordTokenizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;    return GalicianSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new GalicianHybridDisambiguator();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;    return LanguageMaintainedState.LookingForNewMaintainer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[] {</b>
+&nbsp;            new Contributor(&quot;Susana Sotelo Docío&quot;),
+&nbsp;            new Contributor(&quot;Tiago F. Santos (4.0-4.7)&quot;, &quot;https://github.com/TiagoSantos81&quot;)
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;            new CommaWhitespaceRule(messages,
+<b class="nc">&nbsp;                Example.wrong(&quot;Tomamos café&lt;marker&gt; ,&lt;/marker&gt; queixo, bolachas e uvas.&quot;),</b>
+<b class="nc">&nbsp;                Example.fixed(&quot;Tomamos café&lt;marker&gt;,&lt;/marker&gt; queixo, bolachas e uvas.&quot;)),</b>
+&nbsp;            new DoublePunctuationRule(messages),
+&nbsp;            new GenericUnpairedBracketsRule(messages,
+<b class="nc">&nbsp;                    Arrays.asList(&quot;[&quot;, &quot;(&quot;, &quot;{&quot;, &quot;“&quot;, &quot;«&quot;, &quot;»&quot;, &quot;‘&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;),</b>
+<b class="nc">&nbsp;                    Arrays.asList(&quot;]&quot;, &quot;)&quot;, &quot;}&quot;, &quot;”&quot;, &quot;»&quot;, &quot;«&quot;, &quot;’&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;)),</b>
+&nbsp;            new HunspellRule(messages, this, userConfig, altLanguages),
+&nbsp;            new UppercaseSentenceStartRule(messages, this,
+<b class="nc">&nbsp;                Example.wrong(&quot;Esta casa é vella. &lt;marker&gt;foi&lt;/marker&gt; construida en 1950.&quot;),</b>
+<b class="nc">&nbsp;                Example.fixed(&quot;Esta casa é vella. &lt;marker&gt;Foi&lt;/marker&gt; construida en 1950.&quot;)),</b>
+&nbsp;            new MultipleWhitespaceRule(messages, this),
+&nbsp;            new LongSentenceRule(messages, userConfig, 50),
+&nbsp;            new LongParagraphRule(messages, this, userConfig),
+&nbsp;            new SentenceWhitespaceRule(messages),
+&nbsp;            new WhiteSpaceBeforeParagraphEnd(messages, this),
+&nbsp;            new WhiteSpaceAtBeginOfParagraph(messages),
+&nbsp;            new EmptyLineRule(messages, this),
+&nbsp;            new ParagraphRepeatBeginningRule(messages, this),
+&nbsp;            new PunctuationMarkAtParagraphEnd(messages, this),
+&nbsp;            // Specific to Galician:
+&nbsp;            new SimpleReplaceRule(messages, this),
+&nbsp;            new CastWordsRule(messages, this),
+&nbsp;            new GalicianRedundancyRule(messages),
+&nbsp;            new GalicianWordinessRule(messages),
+&nbsp;            new GalicianBarbarismsRule(messages),
+&nbsp;            new GalicianWikipediaRule(messages)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return new HunspellRule(messages, this, null, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="nc">&nbsp;    switch (id) {</b>
+&nbsp;      // case &quot;FRAGMENT_TWO_ARTICLES&quot;:     return 50;
+<b class="nc">&nbsp;      case &quot;DEGREE_MINUTES_SECONDS&quot;:    return 30;</b>
+&nbsp;      // case &quot;INTERJECTIONS_PUNTUATION&quot;:  return 20;
+&nbsp;      // case &quot;CONFUSION_POR&quot;:             return 10;
+&nbsp;      // case &quot;HOMOPHONE_AS_CARD&quot;:         return  5;
+&nbsp;      // case &quot;TODOS_FOLLOWED_BY_NOUN_PLURAL&quot;:    return  3;
+&nbsp;      // case &quot;TODOS_FOLLOWED_BY_NOUN_SINGULAR&quot;:  return  2;
+<b class="nc">&nbsp;      case &quot;UNPAIRED_BRACKETS&quot;:         return -5;</b>
+&nbsp;      // case &quot;PROFANITY&quot;:                 return -6;
+<b class="nc">&nbsp;      case &quot;GL_BARBARISM_REPLACE&quot;:      return -10;</b>
+<b class="nc">&nbsp;      case &quot;GL_SIMPLE_REPLACE&quot;:         return -11;</b>
+<b class="nc">&nbsp;      case &quot;GL_REDUNDANCY_REPLACE&quot;:     return -12;</b>
+<b class="nc">&nbsp;      case &quot;GL_WORDINESS_REPLACE&quot;:      return -13;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_PARAGRAPH&quot;:        return -15;</b>
+&nbsp;      // case &quot;GL_CLICHE_REPLACE&quot;:         return -17;
+&nbsp;      // case &quot;CHILDISH_LANGUAGE&quot;:         return -25;
+&nbsp;      // case &quot;ARCHAISMS&quot;:                 return -26;
+&nbsp;      // case &quot;INFORMALITIES&quot;:             return -27;
+&nbsp;      // case &quot;PUFFERY&quot;:                   return -30;
+&nbsp;      // case &quot;BIASED_OPINION_WORDS&quot;:      return -31;
+&nbsp;      // case &quot;WEAK_WORDS&quot;:                return -32;
+&nbsp;      // case &quot;PT_AGREEMENT_REPLACE&quot;:      return -35;
+<b class="nc">&nbsp;      case &quot;GL_WIKIPEDIA_COMMON_ERRORS&quot;:return -45;</b>
+<b class="nc">&nbsp;      case &quot;HUNSPELL_RULE&quot;:             return -50;</b>
+&nbsp;      // case &quot;NO_VERB&quot;:                   return -52;
+&nbsp;      // case &quot;CRASE_CONFUSION&quot;:           return -55;
+&nbsp;      // case &quot;FINAL_STOPS&quot;:               return -75;
+&nbsp;      // case &quot;T-V_DISTINCTION&quot;:           return -100;
+&nbsp;      // case &quot;T-V_DISTINCTION_ALL&quot;:       return -101;
+<b class="nc">&nbsp;      case &quot;REPEATED_WORDS&quot;:            return -210;</b>
+<b class="nc">&nbsp;      case &quot;REPEATED_WORDS_3X&quot;:         return -211;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_SENTENCE_20&quot;:      return -997;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_SENTENCE_25&quot;:      return -998;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_SENTENCE_30&quot;:      return -999;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_SENTENCE_35&quot;:      return -1000;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_SENTENCE_40&quot;:      return -1001;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_SENTENCE_45&quot;:      return -1002;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_SENTENCE_50&quot;:      return -1003;</b>
+<b class="nc">&nbsp;      case &quot;TOO_LONG_SENTENCE_60&quot;:      return -1004;</b>
+&nbsp;      // case &quot;CACOPHONY&quot;:                 return -2000;
+&nbsp;    }
+<b class="nc">&nbsp;    return super.getPriorityForId(id);</b>
+&nbsp;    
+&nbsp;    
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

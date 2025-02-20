@@ -1,0 +1,223 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ExportGermanNouns</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: ExportGermanNouns (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ExportGermanNouns</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import com.google.common.base.Charsets;
+&nbsp;import morfologik.fsa.FSA;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.ByteBuffer;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.FileSystems;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Export German nouns, to be used by jWordSplitter.  
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class ExportGermanNouns {
+&nbsp;
+&nbsp;  private static final String DICT_FILENAME = &quot;/de/german.dict&quot;;
+&nbsp;  private static final String ADDED_DICT_FILENAME = &quot;languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/added.txt&quot;;
+&nbsp;  
+<b class="nc">&nbsp;  private ExportGermanNouns() {</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private List&lt;String&gt; getSortedWords() throws IOException {
+<b class="nc">&nbsp;    Set&lt;String&gt; words1 = getBinaryDictWords();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; words2 = getAddedDictWords();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; sortedWords = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    sortedWords.addAll(words1);</b>
+<b class="nc">&nbsp;    sortedWords.addAll(words2);</b>
+<b class="nc">&nbsp;    Collections.sort(sortedWords);</b>
+<b class="nc">&nbsp;    return sortedWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Set&lt;String&gt; getBinaryDictWords() throws IOException {
+<b class="nc">&nbsp;    FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; set = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (ByteBuffer buffer : fsa) {</b>
+<b class="nc">&nbsp;      byte[] sequence = new byte[buffer.remaining()];</b>
+<b class="nc">&nbsp;      buffer.get(sequence);</b>
+<b class="nc">&nbsp;      String output = new String(sequence, StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;      if (isRelevantNoun(output)) {</b>
+<b class="nc">&nbsp;        String[] parts = output.split(&quot;_&quot;);</b>
+<b class="nc">&nbsp;        String term = parts[0].toLowerCase();</b>
+<b class="nc">&nbsp;        set.add(term);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return set;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Set&lt;String&gt; getAddedDictWords() throws IOException {
+<b class="nc">&nbsp;    Set&lt;String&gt; set = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(FileSystems.getDefault().getPath(ADDED_DICT_FILENAME), Charsets.UTF_8);</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      if (isRelevantNoun(line)) {</b>
+<b class="nc">&nbsp;        final String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;        final String term = parts[0].toLowerCase();</b>
+<b class="nc">&nbsp;        set.add(term);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return set;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isRelevantNoun(String output) {
+<b class="nc">&nbsp;    boolean isNoun = output.contains(&quot;SUB:&quot;) || (output.contains(&quot;EIG:&quot;) &amp;&amp; output.contains(&quot;COU&quot;));</b>
+<b class="nc">&nbsp;    return isNoun &amp;&amp; !output.contains(&quot;:ADJ&quot;) &amp;&amp; !StringTools.isAllUppercase(output);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    ExportGermanNouns prg = new ExportGermanNouns();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; words = prg.getSortedWords();</b>
+<b class="nc">&nbsp;    System.out.println(&quot;# DO NOT MODIFY - automatically exported&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;# Exporting class: &quot; + ExportGermanNouns.class.getName());</b>
+<b class="nc">&nbsp;    System.out.println(&quot;# Export date: &quot; + new Date());</b>
+<b class="nc">&nbsp;    System.out.println(&quot;# LanguageTool: &quot; + JLanguageTool.VERSION + &quot; (&quot; + JLanguageTool.BUILD_DATE + &quot;)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;# Potential German compound parts.&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;# Data from Morphy (https://danielnaber.de/download/wklassen.pdf)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;# with extensions by LanguageTool (https://languagetool.org)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;# License: Creative Commons Attribution-Share Alike 4.0, http://creativecommons.org/licenses/by-sa/4.0/&quot;);</b>
+<b class="nc">&nbsp;    for (String word : words) {</b>
+<b class="nc">&nbsp;      System.out.println(word);</b>
+&nbsp;    }
+&nbsp;    //System.err.println(&quot;Done. Printed &quot; + words.size() + &quot; words.&quot;);
+&nbsp;  }
+&nbsp;    
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,743 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanChunker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.chunking</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanChunker (org.languagetool.chunking)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanChunker</td>
+<td class="coverageStat">
+  <span class="percent">
+    85%
+  </span>
+  <span class="absValue">
+    (17/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78.3%
+  </span>
+  <span class="absValue">
+    (47/60)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.7%
+  </span>
+  <span class="absValue">
+    (172/194)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GermanChunker$AffectedSpans</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GermanChunker$PhraseType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GermanChunker$RegularExpressionWithPhraseType</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GermanChunker$Span</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    81.5%
+  </span>
+  <span class="absValue">
+    (22/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.2%
+  </span>
+  <span class="absValue">
+    (47/66)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.4%
+  </span>
+  <span class="absValue">
+    (187/214)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.chunking;
+&nbsp;
+&nbsp;import edu.washington.cs.knowitall.regex.Match;
+&nbsp;import edu.washington.cs.knowitall.regex.RegularExpression;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.patterns.StringMatcher;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.chunking.GermanChunker.PhraseType.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule-based German chunker for noun phrases. Please note that this chunker
+&nbsp; * has not been evaluated as a stand-alone chunker, it has only been used and tested
+&nbsp; * in the context of LanguageTool&#39;s error detection rules.
+&nbsp; * @since 2.9
+&nbsp; */
+&nbsp;public class GermanChunker implements Chunker {
+&nbsp;
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; FILTER_TAGS = new HashSet&lt;&gt;(Arrays.asList(&quot;PP&quot;, &quot;NPP&quot;, &quot;NPS&quot;));</b>
+<b class="fc">&nbsp;  private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern simpleFormRegexp = Pattern.compile(</b>
+&nbsp;    &quot;(^| )&lt;([a-zäöüß|()\\[\\]?,]+)&gt;\\+?( |$)&quot;,
+&nbsp;    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+<b class="fc">&nbsp;  private static final Map&lt;String,String&gt; SYNTAX_EXPANSION = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  static {
+<b class="fc">&nbsp;    SYNTAX_EXPANSION.put(&quot;&lt;NP&gt;&quot;, &quot;&lt;chunk=B-NP&gt; &lt;chunk=I-NP&gt;*&quot;);</b>
+<b class="fc">&nbsp;    SYNTAX_EXPANSION.put(&quot;&amp;prozent;&quot;, &quot;Prozent|Kilo|Kilogramm|Gramm|Euro|Pfund&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  enum PhraseType {</b>
+<b class="fc">&nbsp;    NP,   // &quot;noun phrase&quot;, will be assigned as B-NP for the first token and I-NP for following tokens (like OpenNLP)</b>
+<b class="fc">&nbsp;    NPS,  // &quot;noun phrase singular&quot;</b>
+<b class="fc">&nbsp;    NPP,  // &quot;noun phrase plural&quot;</b>
+<b class="fc">&nbsp;    PP    // &quot;prepositional phrase&quot; and similar</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @deprecated for internal use only */
+&nbsp;  public static void setDebug(boolean debugMode) {
+<b class="nc">&nbsp;    debug = debugMode;</b>
+&nbsp;  }
+&nbsp;  /** @deprecated for internal use only */
+&nbsp;  public static boolean isDebug() {
+<b class="nc">&nbsp;    return debug;</b>
+&nbsp;  }
+<b class="fc">&nbsp;  private static boolean debug = false;</b>
+&nbsp;
+&nbsp;  /*
+&nbsp;   * REGEXES1 and REGEXES2 are OpenRegex (https:*github.com/knowitall/openregex) expressions.
+&nbsp;   * REGEXES1 roughly emulates the behavior of the OpenNLP chunker by tagging the first
+&nbsp;   * token of a noun phrase with B-NP and the remaining ones with I-NP.
+&nbsp;   * REGEXES2 builds on those annotations to find complex noun phrases.
+&nbsp;   *
+&nbsp;   * Syntax:
+&nbsp;   *    &lt;string|regex|regexCS|chunk|pos|posregex|posre=value&gt;
+&nbsp;   *       string: matches the token itself
+&nbsp;   *       regex: matches the token against a regular expression
+&nbsp;   *       regexCS: is like regex but case-sensitive
+&nbsp;   *       chunk: matches the token&#39;s chunk
+&nbsp;   *       pos: matches the token&#39;s POS tags
+&nbsp;   *       posregex: matches the token&#39;s POS tags against a regular expression
+&nbsp;   *       posre: is a synonym for posregex
+&nbsp;   *    &lt;foo&gt; is a short form of &lt;string=foo&gt;
+&nbsp;   *    &lt;pos=X&gt; will match tokens with POS tags that contain X as a substring
+&nbsp;   *
+&nbsp;   * Example to combine two conditions via logical AND:
+&nbsp;   *    &lt;pos=ADJ &amp; chunk=B-NP&gt;
+&nbsp;   * Example: Quote a regular expression so OpenRegex doesn&#39;t get confused:
+&nbsp;   *    &lt;posre=&#39;.*(NOM|AKK).*&#39;&gt;
+&nbsp;   *
+&nbsp;   * See SYNTAX_EXPANSION for strings that get expanded before interpreted by OpenRegex.
+&nbsp;   * The chunks are added to the existing chunks, unless the last argument of build() is
+&nbsp;   * true, in which case existing chunks get overwritten.
+&nbsp;   */
+&nbsp;
+<b class="fc">&nbsp;  private static final String[][] undOderBzw = new String[][]{{&quot;und&quot;, &quot;oder&quot;, &quot;bzw&quot;}};</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;RegularExpressionWithPhraseType&gt; REGEXES1 = Arrays.asList(</b>
+&nbsp;      // &quot;das Auto&quot;, &quot;das schöne Auto&quot;, &quot;das sehr schöne Auto&quot;, &quot;die Pariser Innenstadt&quot;:
+<b class="fc">&nbsp;      build(&quot;(&lt;posre=^ART.*&gt;|&lt;pos=PRO&gt;)? &lt;pos=ADV&gt;* &lt;pos=PA2&gt;* &lt;pos=ADJ&gt;* &lt;pos=SUB&gt;+&quot;, NP),</b>
+&nbsp;      // &quot;Mythen und Sagen&quot;:
+<b class="fc">&nbsp;      buildExpanded(&quot;&lt;pos=SUB&gt; (&lt;und|oder&gt;|(&lt;bzw&gt; &lt;.&gt;)) &lt;pos=SUB&gt;&quot;, NP, false, undOderBzw),</b>
+&nbsp;      // &quot;ältesten und bekanntesten Maßnahmen&quot;:
+<b class="fc">&nbsp;      buildExpanded(&quot;&lt;pos=ADJ&gt; (&lt;und|oder&gt;|(&lt;bzw&gt; &lt;.&gt;)) &lt;pos=PA2&gt; &lt;pos=SUB&gt;&quot;, NP, false, undOderBzw),</b>
+&nbsp;      // &quot;räumliche und zeitliche Abstände&quot;:
+<b class="fc">&nbsp;      buildExpanded(&quot;&lt;pos=ADJ&gt; (&lt;und|oder&gt;|(&lt;bzw&gt; &lt;.&gt;)) &lt;pos=ADJ&gt; &lt;pos=SUB&gt;&quot;, NP, false, undOderBzw),</b>
+&nbsp;
+&nbsp;      // &quot;eine leckere Lasagne&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;posre=^ART.*&gt; &lt;pos=ADV&gt;* &lt;pos=ADJ&gt;* &lt;regexCS=[A-ZÖÄÜ][a-zöäü]+&gt;&quot;, NP),  // Lexikon kennt nicht alle Nomen, also so...</b>
+&nbsp;
+&nbsp;      //build(&quot;&lt;posre=^ART.*&gt;? &lt;pos=PRO&gt;? &lt;pos=ZAL&gt; &lt;pos=SUB&gt;&quot;),  // &quot;zwei Wochen&quot;
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRO&gt;? &lt;pos=ZAL&gt; &lt;pos=SUB&gt;&quot;, NP),  // &quot;zwei Wochen&quot;, &quot;[eines] ihrer drei Autos&quot;</b>
+&nbsp;
+<b class="fc">&nbsp;      build(&quot;&lt;Herr|Herrn|Frau&gt; &lt;pos=EIG&gt;+&quot;, NP),</b>
+<b class="fc">&nbsp;      build(&quot;&lt;Herr|Herrn|Frau&gt; &lt;regexCS=[A-ZÖÄÜ][a-zöäü-]+&gt;+&quot;, NP),  // für seltene Nachnamen, die nicht im Lexikon sind</b>
+&nbsp;
+<b class="fc">&nbsp;      build(&quot;&lt;der&gt;&quot;, NP)  // simulate OpenNLP?!</b>
+&nbsp;  );
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;RegularExpressionWithPhraseType&gt; REGEXES2 = Arrays.asList(</b>
+&nbsp;      // ===== plural and singular noun phrases, based on OpenNLP chunker output ===============
+&nbsp;      // &quot;In christlichen, islamischen und jüdischen Traditionen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=ADJ&gt; &lt;,&gt; &lt;chunk=B-NP&gt; &lt;chunk=I-NP&gt;* &lt;und|sowie&gt; &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;ein Hund und eine Katze&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP &amp; !regex=jede[rs]?&gt; &lt;chunk=I-NP&gt;* &lt;und|sowie&gt; &lt;pos=ADV&gt;? &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;größte und erfolgreichste Erfindung&quot; (fixes mistagging introduced above):
+<b class="fc">&nbsp;      build(&quot;&lt;pos=ADJ&gt; &lt;und|sowie&gt; &lt;chunk=B-NP &amp; !pos=PLU&gt; &lt;chunk=I-NP&gt;*&quot;, NPS, true),</b>
+&nbsp;      // &quot;deren Bestimmung und Funktion&quot; (fixes mistagging introduced above):
+<b class="fc">&nbsp;      build(&quot;&lt;deren&gt; &lt;chunk=B-NP &amp; !pos=PLU&gt; &lt;und|sowie&gt; &lt;chunk=B-NP&gt;*&quot;, NPS, true),</b>
+&nbsp;      // &quot;Julia und Karsten&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=EIG&gt; &lt;und&gt; &lt;pos=EIG&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;die älteste und bekannteste Maßnahme&quot; - OpenNLP won&#39;t detect that as one NP:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=ART&gt; &lt;pos=ADJ&gt; &lt;und|sowie&gt; (&lt;pos=ADJ&gt;|&lt;pos=PA2&gt;) &lt;chunk=I-NP &amp; !pos=PLU&gt;+&quot;, NPS, true),</b>
+&nbsp;      // &quot;eine Masseeinheit und keine Gewichtseinheit&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP &amp; !pos=PLU&gt; &lt;chunk=I-NP&gt;* &lt;und|sowie&gt; &lt;keine&gt; &lt;chunk=I-NP&gt;+&quot;, NPS, true),</b>
+&nbsp;      // &quot;Der See und das anliegende Marschland&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;NP&gt; &lt;und|sowie&gt; &lt;pos=ART&gt; &lt;pos=PA1&gt; &lt;pos=SUB&gt;&quot;, NPP, true),</b>
+&nbsp;
+&nbsp;      // &quot;eins ihrer drei Autos&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;eins|eines&gt; &lt;chunk=B-NP&gt; &lt;chunk=I-NP&gt;+&quot;, NPS),</b>
+&nbsp;
+&nbsp;      // &quot;er und seine Schwester&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;ich|du|er|sie|es|wir|ihr|sie&gt; &lt;und|oder|sowie&gt; &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;sowohl sein Vater als auch seine Mutter&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;sowohl&gt; &lt;NP&gt; &lt;als&gt; &lt;auch&gt; &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;sowohl Tom als auch Maria&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;sowohl&gt; &lt;pos=EIG&gt; &lt;als&gt; &lt;auch&gt; &lt;pos=EIG&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;sowohl er als auch seine Schwester&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;sowohl&gt; &lt;ich|du|er|sie|es|wir|ihr|sie&gt; &lt;als&gt; &lt;auch&gt; &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;Rekonstruktionen oder der Wiederaufbau&quot;, aber nicht &quot;Isolation und ihre Überwindung&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=SUB&gt; &lt;und|oder|sowie&gt; &lt;chunk=B-NP &amp; !ihre&gt; &lt;chunk=I-NP&gt;*&quot;, NPP),</b>
+&nbsp;      // &quot;Weder Gerechtigkeit noch Freiheit&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;weder&gt; &lt;pos=SUB&gt; &lt;noch&gt; &lt;pos=SUB&gt;&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // &quot;drei Katzen&quot; - needed as ZAL cannot be unified, as it has no features:
+<b class="fc">&nbsp;      build(&quot;&lt;zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf&gt; &lt;chunk=I-NP&gt;&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // &quot;der von der Regierung geprüfte Hund ist grün&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP&gt; &lt;pos=PRP&gt; &lt;NP&gt; &lt;chunk=B-NP &amp; pos=SIN&gt; &lt;chunk=I-NP&gt;*&quot;, NPS),</b>
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP&gt; &lt;pos=PRP&gt; &lt;NP&gt; &lt;chunk=B-NP &amp; pos=PLU&gt; &lt;chunk=I-NP&gt;*&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // &quot;der von der Regierung geprüfte Hund&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP&gt; &lt;pos=PRP&gt; &lt;NP&gt; &lt;pos=PA2&gt; &lt;chunk=B-NP &amp; !pos=PLU&gt; &lt;chunk=I-NP&gt;*&quot;, NPS),</b>
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP&gt; &lt;pos=PRP&gt; &lt;NP&gt; &lt;pos=PA2&gt; &lt;chunk=B-NP &amp; !pos=SIN&gt; &lt;chunk=I-NP&gt;*&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // &quot;Herr und Frau Schröder&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;Herr|Frau&gt; &lt;und&gt; &lt;Herr|Frau&gt; &lt;pos=EIG&gt;*&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // &quot;ein Hund&quot;, aber nicht: &quot;[kaum mehr als] vier Prozent&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP &amp; !pos=ZAL &amp; !pos=PLU &amp; !chunk=NPP &amp; !einige &amp; !(regex=&amp;prozent;)&gt; &lt;chunk=I-NP &amp; !pos=PLU &amp; !und&gt;*&quot;, NPS),  //&quot;!und&quot;: OpenNLP packt &quot;Bob und Tom&quot; in eine NP</b>
+&nbsp;      // &quot;die Hunde&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP &amp; !pos=SIN &amp; !chunk=NPS &amp; !Ellen&gt; &lt;chunk=I-NP &amp; !pos=SIN&gt;*&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // &quot;die hohe Zahl dieser relativ kleinen Verwaltungseinheiten&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPS&gt; &lt;pos=PRO&gt; &lt;pos=ADJ&gt; &lt;pos=ADJ&gt; &lt;NP&gt;&quot;, NPS),</b>
+&nbsp;
+&nbsp;      // &quot;eine der am meisten verbreiteten Krankheiten&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;regex=eine[rs]?&gt; &lt;der&gt; &lt;am&gt; &lt;pos=ADJ&gt; &lt;pos=PA2&gt; &lt;NP&gt;&quot;, NPS),</b>
+&nbsp;      // &quot;einer der beiden Höfe&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;regex=eine[rs]?&gt; &lt;der&gt; &lt;beiden&gt; &lt;pos=ADJ&gt;* &lt;pos=SUB&gt;&quot;, NPS),</b>
+&nbsp;      // &quot;Einer seiner bedeutendsten Kämpfe&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;regex=eine[rs]?&gt; &lt;seiner|ihrer&gt; &lt;pos=PA1&gt; &lt;pos=SUB&gt;&quot;, NPS),</b>
+&nbsp;
+&nbsp;      // &quot;xy Prozent&quot; - beide Varianten okay (zumindest umgangssprachlich):
+&nbsp;      // siehe https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html#grammarAnchor-Mengenangabe-49575
+<b class="fc">&nbsp;      build(&quot;&lt;regex=[\\d,.]+&gt; &lt;&amp;prozent;&gt;&quot;, NPS),</b>
+<b class="fc">&nbsp;      build(&quot;&lt;regex=[\\d,.]+&gt; &lt;&amp;prozent;&gt;&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // &quot;[alle Arbeitsplätze so umzugestalten,] dass sie wie ein Spiel&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;dass&gt; &lt;sie&gt; &lt;wie&gt; &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;[so dass Knochenbrüche und] Platzwunden die Regel [sind]&quot;
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PLU&gt; &lt;die&gt; &lt;Regel&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;Veranstaltung, die immer wieder ein kultureller Höhepunkt&quot;, aber nicht &quot;... in der Geschichte des Museums, die Sammlung ist seit 2011 zugänglich.&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP &amp; pos=SIN&gt; &lt;chunk=I-NP &amp; pos=SIN&gt;* &lt;,&gt; &lt;die&gt; &lt;pos=ADV&gt;+ &lt;chunk=NPS&gt;+&quot;, NPS),</b>
+&nbsp;      // &quot;Die Nauheimer Musiktage, die immer wieder ein kultureller Höhepunkt sind&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=B-NP &amp; pos=PLU&gt; &lt;chunk=I-NP &amp; pos=PLU&gt;* &lt;,&gt; &lt;die&gt; &lt;pos=ADV&gt;+ &lt;chunk=NPS&gt;+&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // ===== genitive phrases and similar ====================================================
+&nbsp;      
+&nbsp;      // &quot;Das letzte der teilnehmenden Länder&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;der|die|das&gt; &lt;pos=ADJ&gt; &lt;der&gt; &lt;pos=PA1&gt; &lt;pos=SUB&gt;&quot;, NPS),</b>
+&nbsp;      // &quot;Ursachen der vorliegenden Durchblutungsstörung&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=SUB &amp; pos=PLU&gt; &lt;der&gt; &lt;pos=PA1&gt; &lt;pos=SUB&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;die ältere der beiden Töchter&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;der|die|das&gt; &lt;pos=ADJ&gt; &lt;der&gt; &lt;pos=PRO&gt;? &lt;pos=SUB&gt;&quot;, NPS),</b>
+&nbsp;      // &quot;Synthese organischer Verbindungen&quot;, &quot;die Anordnung der vier Achsen&quot;, aber nicht &quot;Einige der Inhaltsstoffe&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPS &amp; !einige&gt; &lt;chunk=NPP &amp; (pos=GEN |pos=ZAL)&gt;+&quot;, NPS, true),</b>
+&nbsp;      // &quot;die Kenntnisse der Sprache&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPP&gt; &lt;chunk=NPS &amp; pos=GEN&gt;+&quot;, NPP, true),</b>
+&nbsp;      // &quot;die Pyramide des Friedens und der Eintracht&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPS&gt;+ &lt;und&gt; &lt;chunk=NP[SP] &amp; (pos=GEN | pos=ADV)&gt;+&quot;, NPS, true),</b>
+&nbsp;      // &quot;Teil der dort ausgestellten Bestände&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPS&gt;+ &lt;der&gt; &lt;pos=ADV&gt; &lt;pos=PA2&gt; &lt;chunk=I-NP&gt;&quot;, NPS, true),</b>
+&nbsp;      // &quot;Autor der ersten beiden Bücher&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPS&gt;+ &lt;der&gt; (&lt;pos=ADJ&gt;|&lt;pos=ZAL&gt;) &lt;NP&gt;&quot;, NPS, true),</b>
+&nbsp;      // &quot;Autor der beiden Bücher&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPS&gt;+ &lt;der&gt; &lt;NP&gt;&quot;, NPS, true),</b>
+&nbsp;      // &quot;Teil der umfangreichen dort ausgestellten Bestände&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPS&gt;+ &lt;der&gt; &lt;pos=ADJ&gt; &lt;pos=ADV&gt; &lt;pos=PA2&gt; &lt;NP&gt;&quot;, NPS, true),</b>
+&nbsp;      // &quot;die Krankheit unserer heutigen Städte und Siedlungen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPS&gt;+ &lt;pos=PRO:POS&gt; &lt;pos=ADJ&gt; &lt;NP&gt;&quot;, NPS, true),</b>
+&nbsp;      // &quot;der letzte der vier großen Flüsse&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;der|das&gt; &lt;pos=ADJ&gt; &lt;der&gt; &lt;pos=ZAL&gt; &lt;NP&gt;&quot;, NPS, true),</b>
+&nbsp;      // &quot;Elemente eines axiomatischen Systems&quot;:  -- führt zu Fehlalarm anderswo
+&nbsp;      //build(&quot;&lt;chunk=B-NP &amp; pos=PLU&gt; &lt;chunk=I-NP&gt;* &lt;chunk=B-NP &amp; pos=GEN&gt; &lt;chunk=I-NP&gt;*&quot;, NPP),
+&nbsp;
+&nbsp;      // &quot;eine Menge englischer Wörter [sind aus dem Lateinischen abgeleitet]&quot;:
+&nbsp;      // NPP stimmt aber nicht für Mathematik, dort NPS: &quot;Eine Menge ist ein Konzept der Mathematik.&quot;
+<b class="fc">&nbsp;      build(&quot;&lt;eine&gt; &lt;menge&gt; &lt;NP&gt;+&quot;, NPP, true),</b>
+&nbsp;      // &quot;dass [sie und sein Sohn ein Paar] sind&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;er|sie|es&gt; &lt;und&gt; &lt;NP&gt; &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;
+&nbsp;      // ===== prepositional phrases ===========================================================
+&nbsp;
+&nbsp;      // &quot;laut den meisten Quellen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;laut&gt; &lt;regex=.*&gt;{0,3} &lt;Quellen&gt;&quot;, PP, true),</b>
+&nbsp;      // &quot;bei den sehr niedrigen Oberflächentemperaturen&quot; (OpenNLP doesn&#39;t find this)
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=ART:&gt; &lt;pos=ADV&gt;* &lt;pos=ADJ&gt; &lt;NP&gt;&quot;, PP, true),</b>
+&nbsp;      // &quot;in den alten Religionen, Mythen und Sagen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;chunk=NPP&gt;+ &lt;,&gt; &lt;NP&gt;&quot;, PP, true),</b>
+&nbsp;      // &quot;für die Stadtteile und selbständigen Ortsteile&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;chunk=NPP&gt;+&quot;, PP, true),</b>
+&nbsp;      // &quot;Das Bündnis zwischen der Sowjetunion und Kuba&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;der&gt; &lt;chunk=NPP&gt;+&quot;, PP),</b>
+&nbsp;      // &quot;in chemischen Komplexverbindungen&quot;, &quot;für die Fische&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;einschließlich der biologischen und sozialen Grundlagen&quot;:
+&nbsp;      // with OpenNLP: build(&quot;&lt;pos=PRP&gt; &lt;NP&gt; &lt;pos=ADJ&gt; (&lt;und&gt;|&lt;oder&gt;|&lt;bzw.&gt;) &lt;pos=ADJ&gt; &lt;NP&gt;&quot;, PP),
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;NP&gt; &lt;pos=ADJ&gt; &lt;und|oder|bzw.&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;für Ärzte und Ärztinnen festgestellte Risikoprofil&quot;, &quot;der als Befestigung gedachte östliche Teil der Burg&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; (&lt;NP&gt;)+&quot;, PP),</b>
+&nbsp;      // &quot;in den darauf folgenden Wochen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;chunk=B-NP&gt; &lt;pos=ADV&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;in nur zwei Wochen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=ADV&gt; &lt;pos=ZAL&gt; &lt;chunk=B-NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;in deren deutschen Installationen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=PRO&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;nach sachlichen und militärischen Kriterien&quot; - we need to help OpenNLP a bit with this one:
+&nbsp;      // with OpenNLP: build(&quot;&lt;pos=PRP&gt; &lt;pos=ADJ&gt; (&lt;und|oder|sowie&gt;) &lt;pos=ADJ&gt; &lt;chunk=B-NP&gt;&quot;, PP),
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=ADJ&gt; &lt;und|oder|sowie&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;mit über 1000 Handschriften&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=ADV&gt; &lt;regex=\\d+&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;über laufende Sanierungsmaßnahmen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=PA1&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;Aufgrund stark schwankender Absatzmärkte war die GEFA-Flug...&quot;
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=ADJ&gt; &lt;pos=PA1&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;durch Einsatz größerer Maschinen und bessere Kapazitätsplanung&quot;:
+&nbsp;      // with OpenNLP: build(&quot;&lt;pos=PRP&gt; &lt;NP&gt; &lt;pos=ADJ&gt; &lt;NP&gt; (&lt;und|oder&gt;) &lt;NP&gt;&quot;, PP),
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;NP&gt; &lt;NP&gt; &lt;und|oder&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;bei sehr guten Beobachtungsbedingungen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=ADV&gt; &lt;pos=ADJ&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;      // &quot;[Von ursprünglich drei Almhütten] ist noch eine erhalten&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;pos=PRP&gt; &lt;pos=ADJ:PRD:GRU&gt; &lt;pos=ZAL&gt; &lt;NP&gt;&quot;, PP),</b>
+&nbsp;
+&nbsp;      // &quot;die darauffolgenden Jahre&quot; -&gt; eigentlich &quot;in den darauffolgenden Jahren&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;die&gt; &lt;pos=ADJ&gt; &lt;Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Jahre|Jahrzehnte|Jahrhunderte&gt; (&lt;NP&gt;)?&quot;, PP),</b>
+&nbsp;      // &quot;die letzten zwei Monate&quot; -&gt; eigentlich &quot;in den letzten zwei Monaten&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;die&gt; &lt;pos=ADJ&gt; &lt;pos=ZAL&gt; &lt;Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Jahre|Jahrzehnte|Jahrhunderte&gt; (&lt;NP&gt;)?&quot;, PP),</b>
+&nbsp;      // &quot;letztes Jahr&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;regex=(vor)?letzte[sn]?&gt; &lt;Woche|Monat|Jahr|Jahrzehnt|Jahrhundert&gt;&quot;, PP),</b>
+&nbsp;      // &quot;Für in Österreich lebende Afrikaner und Afrikanerinnen&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;für&gt; &lt;in&gt; &lt;pos=EIG&gt; &lt;pos=PA1&gt; &lt;pos=SUB&gt; &lt;und&gt; &lt;pos=SUB&gt;&quot;, PP, true),</b>
+&nbsp;
+&nbsp;      // &quot;die Beziehungen zwischen Kanada und dem Iran&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;chunk=NPP&gt; &lt;zwischen&gt; &lt;pos=EIG&gt; &lt;und|sowie&gt; &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;, die die hauptsächliche Beute der Eisbären&quot;, &quot;, welche der Urstoff aller Körper&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;,&gt; &lt;die|welche&gt; &lt;NP&gt; &lt;chunk=NPS &amp; pos=GEN&gt;+&quot;, NPP),</b>
+&nbsp;      // &quot;Kommentare, Korrekturen, Kritik&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;NP&gt; &lt;,&gt; &lt;NP&gt; &lt;,&gt; &lt;NP&gt;&quot;, NPP),</b>
+&nbsp;      // &quot;Details, Dialoge, wie auch die Typologie der Charaktere&quot;:
+<b class="fc">&nbsp;      build(&quot;&lt;NP&gt; &lt;,&gt; &lt;NP&gt; &lt;,&gt; &lt;wie&gt; &lt;auch&gt; &lt;chunk=NPS&gt;+&quot;, NPP)</b>
+&nbsp;  );
+&nbsp;
+&nbsp;  private static RegularExpressionWithPhraseType build(String expr, PhraseType phraseType) {
+<b class="fc">&nbsp;    return build(expr, phraseType, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static RegularExpressionWithPhraseType build(String expr, PhraseType phraseType, boolean overwrite) {
+<b class="fc">&nbsp;    String expandedExpr = expr;</b>
+<b class="fc">&nbsp;    for (Map.Entry&lt;String, String&gt; entry : SYNTAX_EXPANSION.entrySet()) {</b>
+<b class="fc">&nbsp;      expandedExpr = expandedExpr.replace(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return buildExpanded(expandedExpr, phraseType, overwrite, calcFormHints(expandedExpr));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static RegularExpressionWithPhraseType buildExpanded(String expandedExpr, PhraseType phraseType, boolean overwrite, String[][] formHints) {
+<b class="fc">&nbsp;    RegularExpression&lt;ChunkTaggedToken&gt; expression = RegularExpression.compile(expandedExpr, FACTORY);</b>
+<b class="fc">&nbsp;    return new RegularExpressionWithPhraseType(expression, phraseType, overwrite, formHints);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String[][] calcFormHints(String expandedExpr) {
+<b class="fc">&nbsp;    List&lt;String[]&gt; formHints = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    Matcher matcher = simpleFormRegexp.matcher(expandedExpr);</b>
+<b class="fc">&nbsp;    while (matcher.find()) {</b>
+<b class="fc">&nbsp;      Set&lt;String&gt; possibleValues = StringMatcher.create(matcher.group(2), true, false).getPossibleValues();</b>
+<b class="pc">&nbsp;      if (possibleValues != null) {</b>
+<b class="fc">&nbsp;        formHints.add(possibleValues.toArray(new String[0]));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return formHints.toArray(new String[0][]);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public GermanChunker() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void addChunkTags(List&lt;AnalyzedTokenReadings&gt; tokenReadings) {
+<b class="fc">&nbsp;    Set&lt;String&gt; allForms = allForms(tokenReadings);</b>
+<b class="fc">&nbsp;    List&lt;ChunkTaggedToken&gt; chunkTaggedTokens = getBasicChunks(tokenReadings, allForms);</b>
+<b class="fc">&nbsp;    for (RegularExpressionWithPhraseType regex : REGEXES2) {</b>
+<b class="fc">&nbsp;      apply(regex, chunkTaggedTokens, allForms);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    assignChunksToReadings(chunkTaggedTokens);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;ChunkTaggedToken&gt; getBasicChunks(List&lt;AnalyzedTokenReadings&gt; tokenReadings) {
+<b class="fc">&nbsp;    return getBasicChunks(tokenReadings, allForms(tokenReadings));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;ChunkTaggedToken&gt; getBasicChunks(List&lt;AnalyzedTokenReadings&gt; tokenReadings, Set&lt;String&gt; allForms) {
+<b class="fc">&nbsp;    List&lt;ChunkTaggedToken&gt; chunkTaggedTokens = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings tokenReading : tokenReadings) {</b>
+<b class="fc">&nbsp;      if (!tokenReading.isWhitespace()) {</b>
+<b class="fc">&nbsp;        List&lt;ChunkTag&gt; chunkTags = Collections.singletonList(new ChunkTag(&quot;O&quot;));</b>
+<b class="fc">&nbsp;        ChunkTaggedToken chunkTaggedToken = new ChunkTaggedToken(tokenReading.getToken(), chunkTags, tokenReading);</b>
+<b class="fc">&nbsp;        chunkTaggedTokens.add(chunkTaggedToken);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (debug) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;=============== CHUNKER INPUT ===============&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(getDebugString(chunkTaggedTokens));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    for (RegularExpressionWithPhraseType regex : REGEXES1) {</b>
+<b class="fc">&nbsp;      apply(regex, chunkTaggedTokens, allForms);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return chunkTaggedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void apply(RegularExpressionWithPhraseType regex, List&lt;ChunkTaggedToken&gt; tokens, Set&lt;String&gt; allForms) {
+<b class="fc">&nbsp;    if (!hasAllFormHints(regex, allForms)) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    String prevDebug = getDebugString(tokens);</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      AffectedSpans affectedSpans = doApplyRegex(regex, tokens);</b>
+<b class="fc">&nbsp;      String debug = getDebugString(tokens);</b>
+<b class="pc">&nbsp;      if (!debug.equals(prevDebug)) {</b>
+<b class="nc">&nbsp;        printDebugInfo(regex, affectedSpans, debug);</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not apply chunk regexp &#39;&quot; + regex + &quot;&#39; to tokens: &quot; + tokens, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean hasAllFormHints(RegularExpressionWithPhraseType regex, Set&lt;String&gt; allForms) {
+<b class="fc">&nbsp;    for (String[] hints : regex.formHints) {</b>
+<b class="fc">&nbsp;      if (!hasForm(allForms, hints)) {</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean hasForm(Set&lt;String&gt; allForms, String[] hints) {
+<b class="fc">&nbsp;    for (String hint : hints) {</b>
+<b class="fc">&nbsp;      if (allForms.contains(hint)) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Set&lt;String&gt; allForms(List&lt;AnalyzedTokenReadings&gt; tokens) {
+<b class="fc">&nbsp;    TreeSet&lt;String&gt; result = new TreeSet&lt;&gt;(String.CASE_INSENSITIVE_ORDER);</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings token : tokens) {</b>
+<b class="fc">&nbsp;      result.add(token.getToken());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void assignChunksToReadings(List&lt;ChunkTaggedToken&gt; chunkTaggedTokens) {
+<b class="fc">&nbsp;    for (ChunkTaggedToken taggedToken : chunkTaggedTokens) {</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings readings = taggedToken.getReadings();</b>
+<b class="pc">&nbsp;      if (readings != null) {</b>
+<b class="fc">&nbsp;        readings.setChunkTags(taggedToken.getChunkTags());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private AffectedSpans doApplyRegex(RegularExpressionWithPhraseType regex, List&lt;ChunkTaggedToken&gt; tokens) {
+<b class="fc">&nbsp;    List&lt;Match&lt;ChunkTaggedToken&gt;&gt; matches = regex.expression.findAll(tokens);</b>
+<b class="fc">&nbsp;    List&lt;Span&gt; affectedSpans = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (Match&lt;ChunkTaggedToken&gt; match : matches) {</b>
+<b class="fc">&nbsp;      affectedSpans.add(new Span(match.startIndex(), match.endIndex()));</b>
+<b class="fc">&nbsp;      for (int i = match.startIndex(); i &lt; match.endIndex(); i++) {</b>
+<b class="fc">&nbsp;        ChunkTaggedToken token = tokens.get(i);</b>
+<b class="fc">&nbsp;        List&lt;ChunkTag&gt; newChunkTags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        newChunkTags.addAll(token.getChunkTags());</b>
+<b class="fc">&nbsp;        if (regex.overwrite) {</b>
+<b class="fc">&nbsp;          List&lt;ChunkTag&gt; filtered = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;          for (ChunkTag newChunkTag : newChunkTags) {</b>
+<b class="fc">&nbsp;            if (!FILTER_TAGS.contains(newChunkTag.getChunkTag())) {</b>
+<b class="fc">&nbsp;              filtered.add(newChunkTag);</b>
+&nbsp;            }
+&nbsp;          }
+<b class="fc">&nbsp;          newChunkTags = filtered;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ChunkTag newTag = getChunkTag(regex, match, i);</b>
+<b class="fc">&nbsp;        if (!newChunkTags.contains(newTag)) {</b>
+<b class="fc">&nbsp;          newChunkTags.add(newTag);</b>
+<b class="fc">&nbsp;          newChunkTags.remove(new ChunkTag(&quot;O&quot;));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        tokens.set(i, new ChunkTaggedToken(token.getToken(), newChunkTags, token.getReadings()));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return new AffectedSpans(affectedSpans);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private ChunkTag getChunkTag(RegularExpressionWithPhraseType regex, Match&lt;ChunkTaggedToken&gt; match, int i) {
+&nbsp;    ChunkTag newTag;
+<b class="fc">&nbsp;    if (regex.phraseType == NP) {</b>
+&nbsp;      // we assign the same tags as the OpenNLP chunker
+<b class="fc">&nbsp;      if (i == match.startIndex()) {</b>
+<b class="fc">&nbsp;        newTag = new ChunkTag(&quot;B-NP&quot;);</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        newTag = new ChunkTag(&quot;I-NP&quot;);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      newTag = new ChunkTag(regex.phraseType.name());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return newTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printDebugInfo(RegularExpressionWithPhraseType regex, AffectedSpans affectedSpans, String debug) {
+<b class="nc">&nbsp;    System.out.println(&quot;=== Applied &quot; + regex + &quot; ===&quot;);</b>
+<b class="nc">&nbsp;    if (regex.overwrite) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Note: overwrite mode, replacing old &quot; + FILTER_TAGS + &quot; tags&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] debugLines = debug.split(&quot;\n&quot;);</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (String debugLine : debugLines) {</b>
+<b class="nc">&nbsp;      if (affectedSpans.isAffected(i)) {</b>
+<b class="nc">&nbsp;        System.out.println(debugLine.replaceFirst(&quot;^  &quot;, &quot; *&quot;));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        System.out.println(debugLine);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getDebugString(List&lt;ChunkTaggedToken&gt; tokens) {
+<b class="pc">&nbsp;    if (!debug) {</b>
+<b class="fc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (ChunkTaggedToken token : tokens) {</b>
+<b class="nc">&nbsp;      String tokenReadingStr = token.getReadings().toString().replaceFirst(Pattern.quote(token.getToken()) + &quot;\\[&quot;, &quot;[&quot;);</b>
+<b class="nc">&nbsp;      sb.append(&quot;  &quot;).append(token).append(&quot; -- &quot;).append(tokenReadingStr).append(&#39;\n&#39;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class Span {
+&nbsp;    final int startIndex;
+&nbsp;    final int endIndex;
+<b class="fc">&nbsp;    Span(int startIndex, int endIndex) {</b>
+<b class="fc">&nbsp;      this.startIndex = startIndex;</b>
+<b class="fc">&nbsp;      this.endIndex = endIndex;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class AffectedSpans {
+&nbsp;    final List&lt;Span&gt; spans;
+<b class="fc">&nbsp;    AffectedSpans(List&lt;Span&gt; spans) {</b>
+<b class="fc">&nbsp;      this.spans = spans;</b>
+&nbsp;    }
+&nbsp;    boolean isAffected(int pos) {
+<b class="nc">&nbsp;      for (Span span : spans) {</b>
+<b class="nc">&nbsp;        if (pos &gt;= span.startIndex &amp;&amp; pos &lt; span.endIndex) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class RegularExpressionWithPhraseType {
+&nbsp;    final RegularExpression&lt;ChunkTaggedToken&gt; expression;
+&nbsp;    final PhraseType phraseType;
+&nbsp;    final boolean overwrite;
+&nbsp;    final String[][] formHints;
+<b class="fc">&nbsp;    RegularExpressionWithPhraseType(RegularExpression&lt;ChunkTaggedToken&gt; expression, PhraseType phraseType, boolean overwrite, String[][] formHints) {</b>
+<b class="fc">&nbsp;      this.expression = expression;</b>
+<b class="fc">&nbsp;      this.phraseType = phraseType;</b>
+<b class="fc">&nbsp;      this.overwrite = overwrite;</b>
+<b class="fc">&nbsp;      this.formHints = formHints;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return phraseType + &quot; &lt;= &quot; + expression + &quot; (overwrite: &quot; + overwrite + &quot;)&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

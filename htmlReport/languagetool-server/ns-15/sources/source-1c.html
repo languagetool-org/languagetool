@@ -1,0 +1,395 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UndoRedoSupport</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: UndoRedoSupport (org.languagetool.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UndoRedoSupport</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UndoRedoSupport$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">UndoRedoSupport$RedoAction</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">UndoRedoSupport$UndoAction</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/69)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.gui;
+&nbsp;
+&nbsp;import java.awt.Image;
+&nbsp;import java.awt.Toolkit;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.KeyEvent;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import javax.swing.AbstractAction;
+&nbsp;import javax.swing.Action;
+&nbsp;import javax.swing.ImageIcon;
+&nbsp;import javax.swing.InputMap;
+&nbsp;import javax.swing.KeyStroke;
+&nbsp;import javax.swing.event.UndoableEditEvent;
+&nbsp;import javax.swing.event.UndoableEditListener;
+&nbsp;import javax.swing.text.JTextComponent;
+&nbsp;import javax.swing.undo.CannotRedoException;
+&nbsp;import javax.swing.undo.CannotUndoException;
+&nbsp;import javax.swing.undo.CompoundEdit;
+&nbsp;import javax.swing.undo.UndoManager;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provides Undo/Redo support and actions for JTextComponent
+&nbsp; *
+&nbsp; * @author Panagiotis Minos
+&nbsp; */
+&nbsp;class UndoRedoSupport {
+&nbsp;
+&nbsp;  final UndoAction undoAction;
+&nbsp;  final RedoAction redoAction;
+&nbsp;  
+&nbsp;  private final UndoManager undoManager;
+&nbsp;  private final ResourceBundle messages;
+&nbsp;  
+<b class="nc">&nbsp;  private boolean compoundMode = false;</b>
+<b class="nc">&nbsp;  private CompoundEdit ce = null;</b>
+&nbsp;
+<b class="nc">&nbsp;  UndoRedoSupport(JTextComponent textComponent, ResourceBundle messages) {</b>
+<b class="nc">&nbsp;    this.messages = messages;</b>
+<b class="nc">&nbsp;    undoManager = new UndoManager();</b>
+<b class="nc">&nbsp;    undoAction = new UndoAction();</b>
+<b class="nc">&nbsp;    redoAction = new RedoAction();</b>
+<b class="nc">&nbsp;    textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {</b>
+&nbsp;      @Override
+&nbsp;      public void undoableEditHappened(UndoableEditEvent e) {
+<b class="nc">&nbsp;        if(compoundMode) {</b>
+<b class="nc">&nbsp;          ce.addEdit(e.getEdit());</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          undoManager.addEdit(e.getEdit());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        undoAction.updateUndoState();</b>
+<b class="nc">&nbsp;        redoAction.updateRedoState();</b>
+&nbsp;      }
+&nbsp;    });
+<b class="nc">&nbsp;    InputMap inputMap = textComponent.getInputMap();</b>
+<b class="nc">&nbsp;    KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_Z,</b>
+<b class="nc">&nbsp;            Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());</b>
+<b class="nc">&nbsp;    inputMap.put(key, &quot;undo&quot;);</b>
+<b class="nc">&nbsp;    textComponent.getActionMap().put(&quot;undo&quot;, undoAction);</b>
+<b class="nc">&nbsp;    key = KeyStroke.getKeyStroke(KeyEvent.VK_Z,</b>
+<b class="nc">&nbsp;            Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | java.awt.event.InputEvent.SHIFT_DOWN_MASK);</b>
+<b class="nc">&nbsp;    inputMap.put(key, &quot;redo&quot;);</b>
+<b class="nc">&nbsp;    textComponent.getActionMap().put(&quot;redo&quot;, redoAction);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Notify manager to start merging undoable edits.
+&nbsp;   * 
+&nbsp;   * Calling startCompoundEdit when already in compound mode is an error
+&nbsp;   * and will throw a RuntimeException.
+&nbsp;   *
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  void startCompoundEdit()
+&nbsp;  {
+<b class="nc">&nbsp;      if(compoundMode) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;already in compound mode&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ce = new CompoundEdit();</b>
+<b class="nc">&nbsp;      compoundMode = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Notify manager to stop merging undoable edits.
+&nbsp;   * 
+&nbsp;   * Calling endCompoundEdit when not in compound mode is an error
+&nbsp;   * and will throw a RuntimeException.
+&nbsp;   *
+&nbsp;   * @since 2.7
+&nbsp;   */  
+&nbsp;  void endCompoundEdit()
+&nbsp;  {
+<b class="nc">&nbsp;      if(!compoundMode) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;not in compound mode&quot;);</b>
+&nbsp;      }      
+<b class="nc">&nbsp;      ce.end();</b>
+<b class="nc">&nbsp;      undoManager.addEdit(ce);</b>
+<b class="nc">&nbsp;      ce = null;</b>
+<b class="nc">&nbsp;      compoundMode = false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  class UndoAction extends AbstractAction {
+&nbsp;
+<b class="nc">&nbsp;    private UndoAction() {</b>
+<b class="nc">&nbsp;      super(messages.getString(&quot;guiUndo&quot;));</b>
+&nbsp;      Image img;
+<b class="nc">&nbsp;      img = Toolkit.getDefaultToolkit().getImage(</b>
+<b class="nc">&nbsp;              JLanguageTool.getDataBroker().getFromResourceDirAsUrl(&quot;sc_undo.png&quot;));</b>
+<b class="nc">&nbsp;      putValue(Action.SMALL_ICON, new ImageIcon(img));</b>
+<b class="nc">&nbsp;      img = Toolkit.getDefaultToolkit().getImage(</b>
+<b class="nc">&nbsp;              JLanguageTool.getDataBroker().getFromResourceDirAsUrl(&quot;lc_undo.png&quot;));</b>
+<b class="nc">&nbsp;      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));</b>
+<b class="nc">&nbsp;      KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_Z,</b>
+<b class="nc">&nbsp;              Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());</b>
+<b class="nc">&nbsp;      putValue(Action.ACCELERATOR_KEY, key);</b>
+<b class="nc">&nbsp;      putValue(Action.MNEMONIC_KEY, KeyEvent.VK_U);</b>
+<b class="nc">&nbsp;      setEnabled(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void actionPerformed(ActionEvent e) {
+&nbsp;      try {
+<b class="nc">&nbsp;        undoManager.undo();</b>
+&nbsp;      } catch (CannotUndoException ex) {
+&nbsp;        // ignore
+&nbsp;      }
+<b class="nc">&nbsp;      updateUndoState();</b>
+<b class="nc">&nbsp;      redoAction.updateRedoState();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updateUndoState() {
+<b class="nc">&nbsp;      if (undoManager.canUndo()) {</b>
+<b class="nc">&nbsp;        setEnabled(true);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        setEnabled(false);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  class RedoAction extends AbstractAction {
+&nbsp;
+<b class="nc">&nbsp;    private RedoAction() {</b>
+<b class="nc">&nbsp;      super(messages.getString(&quot;guiRedo&quot;));</b>
+&nbsp;      Image img;
+<b class="nc">&nbsp;      img = Toolkit.getDefaultToolkit().getImage(</b>
+<b class="nc">&nbsp;              JLanguageTool.getDataBroker().getFromResourceDirAsUrl(&quot;sc_redo.png&quot;));</b>
+<b class="nc">&nbsp;      putValue(Action.SMALL_ICON, new ImageIcon(img));</b>
+<b class="nc">&nbsp;      img = Toolkit.getDefaultToolkit().getImage(</b>
+<b class="nc">&nbsp;              JLanguageTool.getDataBroker().getFromResourceDirAsUrl(&quot;lc_redo.png&quot;));</b>
+<b class="nc">&nbsp;      putValue(Action.LARGE_ICON_KEY, new ImageIcon(img));</b>
+<b class="nc">&nbsp;      KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_Z,</b>
+<b class="nc">&nbsp;              Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | java.awt.event.InputEvent.SHIFT_DOWN_MASK);</b>
+<b class="nc">&nbsp;      putValue(Action.ACCELERATOR_KEY, key);</b>
+<b class="nc">&nbsp;      putValue(Action.MNEMONIC_KEY, KeyEvent.VK_R);</b>
+<b class="nc">&nbsp;      setEnabled(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void actionPerformed(ActionEvent e) {
+&nbsp;      try {
+<b class="nc">&nbsp;        undoManager.redo();</b>
+&nbsp;      } catch (CannotRedoException ex) {
+&nbsp;        // ignore
+&nbsp;      }
+<b class="nc">&nbsp;      updateRedoState();</b>
+<b class="nc">&nbsp;      undoAction.updateUndoState();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updateRedoState() {
+<b class="nc">&nbsp;      setEnabled(undoManager.canRedo());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

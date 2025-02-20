@@ -1,0 +1,292 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicInflectedOneWordReplaceRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ar</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicInflectedOneWordReplaceRule (org.languagetool.rules.ar)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicInflectedOneWordReplaceRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/55)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ar;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.Arabic;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.synthesis.ar.ArabicSynthesizer;
+&nbsp;import org.languagetool.tagging.ar.ArabicTagger;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 6.2
+&nbsp; */
+&nbsp;public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule2 {
+&nbsp;
+&nbsp;  public static final String AR_INFLECTED_ONE_WORD_REPLACE = &quot;AR_INFLECTED_ONE_WORD&quot;;
+&nbsp;
+&nbsp;  private static final String FILE_NAME = &quot;/ar/inflected_one_word.txt&quot;;
+<b class="nc">&nbsp;  private static final Locale AR_LOCALE = new Locale(&quot;ar&quot;);</b>
+&nbsp;
+&nbsp;  private final ArabicTagger tagger;
+&nbsp;  private final ArabicSynthesizer synthesizer;
+&nbsp;  private final List&lt;Map&lt;String, SuggestionWithMessage&gt;&gt; wrongWords;
+&nbsp;
+&nbsp;  public ArabicInflectedOneWordReplaceRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    super(messages, new Arabic());</b>
+<b class="nc">&nbsp;    tagger = new ArabicTagger();</b>
+<b class="nc">&nbsp;    tagger.enableNewStylePronounTag();</b>
+<b class="nc">&nbsp;    synthesizer = new ArabicSynthesizer(new Arabic());</b>
+&nbsp;
+<b class="nc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Inconsistency);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;أجريت &lt;marker&gt;أبحاثا&lt;/marker&gt; في المخبر&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;أجريت &lt;marker&gt;بحوثا&lt;/marker&gt; في المخبر.&quot;));</b>
+&nbsp;
+&nbsp;    // get wrong words from resource file
+<b class="nc">&nbsp;    wrongWords = getWrongWords();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return AR_INFLECTED_ONE_WORD_REPLACE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final List&lt;String&gt; getFileNames() {
+<b class="nc">&nbsp;    return Collections.singletonList(FILE_NAME);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;قاعدة تطابق الكلمات التي يجب تجنبها وتقترح تصويبا لها&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShort() {
+<b class="nc">&nbsp;    return &quot;خطأ، يفضل أن  يقال:&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMessage() {
+<b class="nc">&nbsp;    return &quot; لا تقل &#39;$match&#39; بل قل: $suggestions&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getSuggestionsSeparator() {
+<b class="nc">&nbsp;    return &quot; أو &quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Locale getLocale() {
+<b class="nc">&nbsp;    return AR_LOCALE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (wrongWords.size() == 0) {</b>
+<b class="nc">&nbsp;      return toRuleMatchArray(ruleMatches);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings token : tokens) {  // ignoring token 0, i.e., SENT_START</b>
+&nbsp;      // browse each word with
+<b class="nc">&nbsp;      for (AnalyzedToken wordTok : token.getReadings()) {</b>
+&nbsp;        // test if the first token is a to replace word
+<b class="nc">&nbsp;        boolean isCandidateWord = isCandidateWord(wordTok);</b>
+<b class="nc">&nbsp;        if (isCandidateWord) {</b>
+&nbsp;          // get suggestions
+<b class="nc">&nbsp;          List&lt;String&gt; propositions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          String sugMsg = &quot;&quot;;</b>
+<b class="nc">&nbsp;          SuggestionWithMessage propositionsWithMessage = getSuggestedWords(wordTok);</b>
+<b class="nc">&nbsp;          if (propositionsWithMessage != null) {</b>
+<b class="nc">&nbsp;            propositions = Arrays.asList(propositionsWithMessage.getSuggestion().split(&quot;\\|&quot;));</b>
+<b class="nc">&nbsp;            sugMsg = propositionsWithMessage.getMessage();</b>
+<b class="nc">&nbsp;            sugMsg = sugMsg != null ? sugMsg : &quot;&quot;;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          // generate suggestion according to suggested word
+<b class="nc">&nbsp;          StringBuilder replacement = new StringBuilder(&quot;&quot;);</b>
+<b class="nc">&nbsp;          for (String proposition : propositions) {</b>
+<b class="nc">&nbsp;            List&lt;String&gt; inflectedWordList = inflectSuggestedWords(proposition, wordTok);</b>
+<b class="nc">&nbsp;            for (String w : inflectedWordList) {</b>
+<b class="nc">&nbsp;              replacement.append(&quot;&lt;suggestion&gt;&quot; + w + &quot;&lt;/suggestion&gt;&amp;nbsp;&quot;);</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          String msg = &quot;&#39; الكلمة خاطئة &quot; + token.getToken() + &quot; &#39; ،&quot; + sugMsg + &quot;. استعمل  &quot; + replacement;</b>
+<b class="nc">&nbsp;          RuleMatch match = new RuleMatch(</b>
+<b class="nc">&nbsp;            this, sentence, token.getStartPos(), token.getEndPos(),</b>
+<b class="nc">&nbsp;            token.getStartPos(), token.getEndPos(), msg, &quot;خطأ في استعمال كلمة:&quot; + sugMsg);</b>
+<b class="nc">&nbsp;          ruleMatches.add(match);</b>
+&nbsp;        }
+&nbsp;      } // end wordTok
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* return True if the word is a candidate to be replaced in text rule file */
+&nbsp;  private boolean isCandidateWord(AnalyzedToken mytoken) {
+<b class="nc">&nbsp;    if (getSuggestedWords(mytoken) != null) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /* if the word is in text rules file, return the suggested word*/
+&nbsp;  private SuggestionWithMessage getSuggestedWords(AnalyzedToken mytoken) {
+&nbsp;    // keep the suitable postags
+<b class="nc">&nbsp;    AnalyzedToken wordTok = mytoken;</b>
+<b class="nc">&nbsp;    String wordLemma = wordTok.getLemma();</b>
+<b class="nc">&nbsp;    String wordPostag = wordTok.getPOSTag();</b>
+&nbsp;
+&nbsp;    // if postag is attached
+&nbsp;    // test if word is in the word list
+<b class="nc">&nbsp;    if (wordPostag != null) {</b>
+&nbsp;      // lookup in WrongWords
+<b class="nc">&nbsp;      SuggestionWithMessage wordLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(wordLemma);</b>
+&nbsp;
+&nbsp;      // The lemma is found in the dictionary file
+<b class="nc">&nbsp;      if (wordLemmaMatch != null) {</b>
+<b class="nc">&nbsp;        return wordLemmaMatch;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /* generate a new form according to a specific postag,*/
+&nbsp;  private List&lt;String&gt; inflectSuggestedWords(String targetLemma, AnalyzedToken sourcetoken) {
+<b class="nc">&nbsp;    return synthesizer.inflectLemmaLike(targetLemma, sourcetoken);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

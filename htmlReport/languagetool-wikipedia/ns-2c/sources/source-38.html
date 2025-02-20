@@ -1,0 +1,674 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProhibitedCompoundRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: ProhibitedCompoundRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProhibitedCompoundRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/96)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/140)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ProhibitedCompoundRule$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ProhibitedCompoundRule$Pair</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ProhibitedCompoundRule$WeightedRuleMatch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/100)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/157)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import com.google.common.cache.CacheLoader;
+&nbsp;import com.google.common.cache.LoadingCache;
+&nbsp;import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;import org.languagetool.language.GermanyGerman;
+&nbsp;import org.languagetool.languagemodel.BaseLanguageModel;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.tools.StringTools.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Find compounds that might be morphologically correct but are still probably wrong, like &#39;Lehrzeile&#39;.
+&nbsp; * @since 4.1
+&nbsp; */
+&nbsp;public class ProhibitedCompoundRule extends Rule {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   * @deprecated each pair has its own id since LT 5.1
+&nbsp;   */
+&nbsp;  public static final String RULE_ID = &quot;DE_PROHIBITED_COMPOUNDS&quot;;
+&nbsp;  // have objects static for better performance (rule gets initialized for every check)
+<b class="nc">&nbsp;  private static final List&lt;Pair&gt; lowercasePairs = Arrays.asList(</b>
+&nbsp;          // NOTES:
+&nbsp;          // * words here must be all-lowercase
+&nbsp;          // * no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+&nbsp;          // * please test using ProhibitedCompoundRuleTest.testListOfWords() before pushing a change with a new pair
+&nbsp;          new Pair(&quot;knoten&quot;, &quot;Verschlingung von Fäden&quot;, &quot;konten&quot;, &quot;Plural von &#39;Konto&#39;&quot;),
+&nbsp;          new Pair(&quot;schaf&quot;, &quot;Tier&quot;, &quot;schaft&quot;, &quot;&#39;-schaft&#39; (Element zur Wortbildung, z. B. &#39;Freundschaft&#39;)&quot;),
+&nbsp;          new Pair(&quot;schafen&quot;, &quot;Dativ Plural von &#39;Schaf&#39;&quot;, &quot;schaften&quot;, &quot;&#39;-schaften&#39; (Element zur Wortbildung, z. B. &#39;Freundschaften&#39;)&quot;),
+&nbsp;          new Pair(&quot;alpen&quot;, &quot;Hochgebirge in Mittel- und Südeuropa&quot;, &quot;alben&quot;, &quot;Plural von &#39;Album&#39;&quot;),
+&nbsp;          new Pair(&quot;pillen&quot;, &quot;Tabletten&quot;, &quot;pullen&quot;, &quot;Plural von &#39;Pulle&#39; (Flasche)&quot;),
+&nbsp;          new Pair(&quot;tauben&quot;, &quot;Vogelart&quot;, &quot;trauben&quot;, &quot;Obstsorte&quot;),
+&nbsp;          new Pair(&quot;panel&quot;, &quot;ausgewählte Personengruppe&quot;, &quot;paneel&quot;, &quot;Platte für Wand- und Deckenverkleidungen&quot;),
+&nbsp;          new Pair(&quot;nabe&quot;, &quot;Mittelteil eines Rades&quot;, &quot;narbe&quot;, &quot;verheilende Wunde&quot;),
+&nbsp;          new Pair(&quot;first&quot;, &quot;höchste Kante an einem geneigten Dach&quot;, &quot;frist&quot;, &quot;spätester Zeitpunkt&quot;),
+&nbsp;          //new Pair(&quot;kisten&quot;, &quot;Behälter&quot;, &quot;kosten&quot;, &quot;Ausgaben&quot;),
+&nbsp;          new Pair(&quot;koma&quot;, &quot;Zustand tiefer Bewusstlosigkeit&quot;, &quot;komma&quot;, &quot;Satzzeichen&quot;),
+&nbsp;          new Pair(&quot;korn&quot;, &quot;Getreide sowie dessen Frucht&quot;, &quot;kron&quot;, &quot;Vorsilbe z.B. in &#39;Kronkorken&#39;&quot;),
+&nbsp;          new Pair(&quot;bauten&quot;, &quot;Form von &#39;Bau&#39; (Bauwerk, Haus, ...)&quot;, &quot;beuten&quot;, &quot;Form von &#39;Beute&#39;&quot;),
+&nbsp;          new Pair(&quot;file&quot;, &quot;engl. &#39;Datei&#39;&quot;, &quot;filet&quot;, &quot;ein Stück Fleisch oder Fisch&quot;),
+&nbsp;          new Pair(&quot;zecke&quot;, &quot;blutsaugender Parasit&quot;, &quot;zwecke&quot;, &quot;Dativ von &#39;Zweck&#39; (Ziel)&quot;),
+&nbsp;          new Pair(&quot;frucht&quot;, &quot;Teil einer Pflanze; Obst&quot;, &quot;furcht&quot;, &quot;Angst&quot;),
+&nbsp;          new Pair(&quot;rate&quot;, &quot;Verhältnis zwischen zwei Größen&quot;, &quot;ratte&quot;, &quot;Nagetier&quot;),
+&nbsp;          new Pair(&quot;posten&quot;, &quot;Arbeitsplatz, Wachposten&quot;, &quot;posen&quot;, &quot;Pose: betonte Körperhaltung&quot;),
+&nbsp;          new Pair(&quot;himmel&quot;, &quot;Bereich über der Erde&quot;, &quot;hummel&quot;, &quot;Insekt&quot;),
+&nbsp;          new Pair(&quot;server&quot;, &quot;Computer&quot;, &quot;servier&quot;, &quot;zu &#39;servieren&#39;&quot;),
+&nbsp;          new Pair(&quot;ziege&quot;, &quot;Tier&quot;, &quot;ziegel&quot;, &quot;Ziegelstein&quot;),
+&nbsp;          new Pair(&quot;robe&quot;, &quot;Kleidungsstück&quot;, &quot;probe&quot;, &quot;Test, Kontrolle&quot;),
+&nbsp;          new Pair(&quot;mode&quot;, &quot;Kleidung&quot;, &quot;monde&quot;, &quot;Begleiter eines Planeten&quot;),
+&nbsp;          new Pair(&quot;eigen&quot;, &quot;&#39;selbst&#39;, z.B. &#39;Eigenzitat&#39;&quot;, &quot;eingen&quot;, &quot;Möglicher Tippfehler&quot;),
+&nbsp;          new Pair(&quot;stümpfe&quot;, &quot;Rest eines Körpergliedes&quot;, &quot;strümpfe&quot;, &quot;Bekleidungsstück für den Fuß&quot;),
+&nbsp;          new Pair(&quot;gelände&quot;, &quot;Gebiet&quot;, &quot;geländer&quot;, &quot;Konstruktion zum Festhalten entlang von Treppen&quot;),
+&nbsp;          new Pair(&quot;tropen&quot;, &quot;feuchtwarme Gebiete am Äquator&quot;, &quot;tropfen&quot;, &quot;kleine Menge Flüssigkeit&quot;),
+&nbsp;          new Pair(&quot;enge&quot;, &quot;Mangel an Platz&quot;, &quot;menge&quot;, &quot;Anzahl an Einheiten&quot;),
+&nbsp;          new Pair(&quot;ritt&quot;, &quot;Reiten&quot;, &quot;tritt&quot;, &quot;Aufsetzen eines Fußes&quot;),
+&nbsp;          new Pair(&quot;beine&quot;, &quot;Körperteil&quot;, &quot;biene&quot;, &quot;Insekt&quot;),
+&nbsp;          new Pair(&quot;rebe&quot;, &quot;Weinrebe&quot;, &quot;reibe&quot;, &quot;Küchenreibe&quot;),
+&nbsp;          //new Pair(&quot;lande&quot;, null, &quot;landes&quot;, null),
+&nbsp;          new Pair(&quot;ass&quot;, &quot;Spielkarte&quot;, &quot;pass&quot;, &quot;Reisepass; Übergang durch ein Gebirge&quot;),
+&nbsp;          new Pair(&quot;türmer&quot;, &quot;Turmwächter&quot;, &quot;türme&quot;, &quot;Plural von &#39;Turm&#39; (Bauwerk)&quot;),
+&nbsp;          new Pair(&quot;soge&quot;, &quot;ziehende Strömungen&quot;, &quot;sorge&quot;, &quot;bedrückendes Gefühl&quot;),
+&nbsp;          new Pair(&quot;panne&quot;, &quot;technischer Defekt&quot;, &quot;spanne&quot;, &quot;Zeitraum&quot;),
+&nbsp;          new Pair(&quot;elfer&quot;, &quot;Elfmeter&quot;, &quot;helfer&quot;, &quot;Person, die hilft&quot;),
+&nbsp;          //new Pair(&quot;bau&quot;, &quot;Bauwerk, Baustelle&quot;, &quot;baum&quot;, &quot;Pflanze&quot;),
+&nbsp;          new Pair(&quot;gase&quot;, &quot;Plural von &#39;Gas&#39; (Aggregatzustand)&quot;, &quot;gasse&quot;, &quot;kleine Straße&quot;),
+&nbsp;          new Pair(&quot;ekel&quot;, &quot;Abscheu&quot;, &quot;enkel&quot;, &quot;Kind eines eigenen Kindes&quot;),
+&nbsp;          new Pair(&quot;reis&quot;, &quot;Nahrungsmittel&quot;, &quot;reise&quot;, &quot;Ausflug/Fahrt&quot;),
+&nbsp;          //new Pair(&quot;speichel&quot;, &quot;Körperflüssigkeit&quot;, &quot;speicher&quot;, &quot;Lager, Depot, Ablage&quot;),
+&nbsp;          new Pair(&quot;hüte&quot;, &quot;Kopfbedeckungen&quot;, &quot;häute&quot;, &quot;Plural von &#39;Haut&#39;&quot;),
+&nbsp;          //new Pair(&quot;bach&quot;, &quot;kleiner Fluss&quot;, &quot;bauch&quot;, &quot;Teil des menschlichen Körpers&quot;),
+&nbsp;          new Pair(&quot;werbereich&quot;, null, &quot;erbereich&quot;, null),
+&nbsp;          new Pair(&quot;lage&quot;, &quot;Position&quot;, &quot;alge&quot;, &quot;im Wasser lebende Organismen&quot;),
+&nbsp;          new Pair(&quot;sphäre&quot;, &quot;Kugel&quot;, &quot;spähreh&quot;, null),
+&nbsp;          new Pair(&quot;schenke&quot;, &quot;Gastwirtschaft (auch: Schänke)&quot;, &quot;schenkel&quot;, &quot;Ober- und Unterschenkel&quot;),
+&nbsp;          //new Pair(&quot;rune&quot;, &quot;Schriftzeichen der Germanen&quot;, &quot;runde&quot;, &quot;Rundstrecke&quot;),
+&nbsp;          new Pair(&quot;mai&quot;, &quot;Monat nach April&quot;, &quot;mail&quot;, &quot;E-Mail&quot;),
+&nbsp;          new Pair(&quot;pump&quot;, &quot;&#39;auf Pump&#39;: umgangssprachlich für &#39;auf Kredit&#39;&quot;, &quot;pumpe&quot;, &quot;Gerät zur Beförderung von Flüssigkeiten&quot;),
+&nbsp;          new Pair(&quot;mitte&quot;, &quot;zentral&quot;, &quot;mittel&quot;, &quot;Methode, um etwas zu erreichen&quot;),
+&nbsp;          new Pair(&quot;fein&quot;, &quot;feinkörnig, genau, gut&quot;, &quot;feind&quot;, &quot;Gegner&quot;),
+&nbsp;          new Pair(&quot;traum&quot;, &quot;Erleben während des Schlafes&quot;, &quot;trauma&quot;, &quot;Verletzung&quot;),
+&nbsp;          new Pair(&quot;name&quot;, &quot;Bezeichnung (z.B. &#39;Vorname&#39;)&quot;, &quot;nahme&quot;, &quot;zu &#39;nehmen&#39; (z.B. &#39;Teilnahme&#39;)&quot;),
+&nbsp;          new Pair(&quot;bart&quot;, &quot;Haarbewuchs im Gesicht&quot;, &quot;dart&quot;, &quot;Wurfpfeil&quot;),
+&nbsp;          new Pair(&quot;hart&quot;, &quot;fest&quot;, &quot;dart&quot;, &quot;Wurfpfeil&quot;),
+&nbsp;          new Pair(&quot;speiche&quot;, &quot;Verbindung zwischen Nabe und Felge beim Rad&quot;, &quot;speicher&quot;, &quot;Lagerraum&quot;),
+&nbsp;          //new Pair(&quot;speichen&quot;, &quot;Verbindung zwischen Nabe und Felge beim Rad&quot;, &quot;speicher&quot;, &quot;Lagerraum&quot;),
+&nbsp;          new Pair(&quot;kart&quot;, &quot;Gokart (Fahrzeug)&quot;, &quot;karte&quot;, &quot;Fahrkarte, Postkarte, Landkarte, ...&quot;),
+&nbsp;          new Pair(&quot;karts&quot;, &quot;Kart = Gokart (Fahrzeug)&quot;, &quot;karte&quot;, &quot;Fahrkarte, Postkarte, Landkarte, ...&quot;),
+&nbsp;          //new Pair(&quot;kurz&quot;, &quot;Gegenteil von &#39;lang&#39;&quot;, &quot;kur&quot;, &quot;medizinische Vorsorge und Rehabilitation&quot;),
+&nbsp;          new Pair(&quot;kiefer&quot;, &quot;knöcherner Teil des Schädels&quot;, &quot;kiefern&quot;, &quot;Kieferngewächse (Baum)&quot;),
+&nbsp;          new Pair(&quot;gel&quot;, &quot;dickflüssige Masse&quot;, &quot;geld&quot;, &quot;Zahlungsmittel&quot;),
+&nbsp;          //new Pair(&quot;flucht&quot;, &quot;Entkommen, Fliehen&quot;, &quot;frucht&quot;, &quot;Ummantelung des Samens einer Pflanze&quot;),
+&nbsp;          new Pair(&quot;kamp&quot;, &quot;Flurname für ein Stück Land&quot;, &quot;kampf&quot;, &quot;Auseinandersetzung&quot;),
+&nbsp;          //new Pair(&quot;obst&quot;, &quot;Frucht&quot;, &quot;ost&quot;, &quot;Himmelsrichtung&quot;),
+&nbsp;          //new Pair(&quot;beeren&quot;, &quot;Früchte&quot;, &quot;bären&quot;, &quot;Raubtiere&quot;),
+&nbsp;          //new Pair(&quot;laus&quot;, &quot;Insekt&quot;, &quot;lauf&quot;, &quot;Bewegungsart&quot;),
+&nbsp;          new Pair(&quot;läuse&quot;, &quot;Insekt&quot;, &quot;läufe&quot;, &quot;Bewegungsart&quot;),
+&nbsp;          new Pair(&quot;läusen&quot;, &quot;Insekt&quot;, &quot;läufen&quot;, &quot;Bewegungsart&quot;),
+&nbsp;          new Pair(&quot;ruck&quot;, &quot;plötzliche Bewegung&quot;, &quot;druck&quot;, &quot;Belastung&quot;),
+&nbsp;          new Pair(&quot;brüste&quot;, &quot;Plural von Brust&quot;, &quot;bürste&quot;, &quot;Gerät mit Borsten, z.B. zum Reinigen&quot;),
+&nbsp;          new Pair(&quot;attraktion&quot;, &quot;Sehenswürdigkeit&quot;, &quot;akttaktion&quot;, &quot;vermutlicher Tippfehler&quot;),
+&nbsp;          //new Pair(&quot;nah&quot;, &quot;zu &#39;nah&#39; (wenig entfernt)&quot;, &quot;näh&quot;, &quot;zu &#39;nähen&#39; (mit einem Faden verbinden)&quot;),
+&nbsp;          new Pair(&quot;turn&quot;, &quot;zu &#39;turnen&#39;&quot;, &quot;turm&quot;, &quot;hohes Bauwerk&quot;),
+&nbsp;          new Pair(&quot;mit&quot;, &quot;Präposition&quot;, &quot;miet&quot;, &quot;zu &#39;Miete&#39; (Überlassung gegen Bezahlung)&quot;),
+&nbsp;          new Pair(&quot;bart&quot;, &quot;Behaarung im Gesicht&quot;, &quot;brat&quot;, &quot;zu &#39;braten&#39;, z.B. &#39;Bratkartoffel&#39;&quot;),
+&nbsp;          new Pair(&quot;uhr&quot;, &quot;Instrument zur Zeitmessung&quot;, &quot;ur&quot;, &quot;ursprünglich&quot;),
+&nbsp;          new Pair(&quot;abschluss&quot;, &quot;Ende&quot;, &quot;abschuss&quot;, &quot;Vorgang des Abschießens, z.B. mit einer Waffe&quot;),
+&nbsp;          new Pair(&quot;brache&quot;, &quot;verlassenes Grundstück&quot;, &quot;branche&quot;, &quot;Wirtschaftszweig&quot;),
+&nbsp;          new Pair(&quot;wieder&quot;, &quot;erneut, wiederholt, nochmal (Wiederholung, Wiedervorlage, ...)&quot;, &quot;wider&quot;, &quot;gegen, entgegen (Widerwille, Widerstand, Widerspruch, ...)&quot;),
+&nbsp;          new Pair(&quot;leer&quot;, &quot;ohne Inhalt&quot;, &quot;lehr&quot;, &quot;bezogen auf Ausbildung und Wissen&quot;),
+&nbsp;          new Pair(&quot;gewerbe&quot;, &quot;wirtschaftliche Tätigkeit&quot;, &quot;gewebe&quot;, &quot;gewebter Stoff; Verbund ähnlicher Zellen&quot;),
+&nbsp;          //new Pair(&quot;schuh&quot;, &quot;Fußbekleidung&quot;, &quot;schul&quot;, &quot;auf die Schule bezogen&quot;),  // tends to have false alarms
+&nbsp;          new Pair(&quot;klima&quot;, &quot;langfristige Wetterzustände&quot;, &quot;lima&quot;, &quot;Hauptstadt von Peru&quot;),
+&nbsp;          new Pair(&quot;modell&quot;, &quot;vereinfachtes Abbild der Wirklichkeit&quot;, &quot;model&quot;, &quot;Fotomodell&quot;),
+&nbsp;          //new Pair(&quot;treppen&quot;, &quot;Folge von Stufen (Mehrzahl)&quot;, &quot;truppen&quot;, &quot;Armee oder Teil einer Armee (Mehrzahl)&quot;),
+&nbsp;          new Pair(&quot;häufigkeit&quot;, &quot;Anzahl von Ereignissen&quot;, &quot;häutigkeit&quot;, &quot;z.B. in Dunkelhäutigkeit&quot;),
+&nbsp;          new Pair(&quot;hin&quot;, &quot;in Richtung&quot;, &quot;hirn&quot;, &quot;Gehirn, Denkapparat&quot;),
+&nbsp;          new Pair(&quot;verklärung&quot;, &quot;Beschönigung, Darstellung in einem besseren Licht&quot;, &quot;erklärung&quot;, &quot;Darstellung, Erläuterung&quot;),
+&nbsp;          //new Pair(&quot;spitze&quot;, &quot;spitzes Ende eines Gegenstandes&quot;, &quot;spritze&quot;, &quot;medizinisches Instrument zur Injektion&quot;),
+&nbsp;          new Pair(&quot;punk&quot;, &quot;Jugendkultur&quot;, &quot;punkt&quot;, &quot;Satzzeichen&quot;),
+&nbsp;          //new Pair(&quot;reis&quot;, &quot;Nahrungsmittel&quot;, &quot;eis&quot;, &quot;gefrorenes Wasser&quot;),
+&nbsp;          //new Pair(&quot;balkan&quot;, &quot;Region in Südosteuropa&quot;, &quot;balkon&quot;, &quot;Plattform, die aus einem Gebäude herausragt&quot;),
+&nbsp;          new Pair(&quot;haft&quot;, &quot;Freiheitsentzug&quot;, &quot;schaft&quot;, &quot;-schaft (Element zur Wortbildung)&quot;),
+&nbsp;          new Pair(&quot;stande&quot;, &quot;zu &#39;Stand&#39;&quot;, &quot;stange&quot;, &quot;länglicher Gegenstand&quot;)
+&nbsp;  );
+<b class="nc">&nbsp;  private static final Pattern HERRN_FRAU = Pattern.compile(&quot;Herrn?|Frau|Dr|Prof|Mag|Hr|Fr|Mr|Mrs|Ms|Fräulein&quot;);</b>
+<b class="nc">&nbsp;  private static final List&lt;String&gt; ignoreWords = Arrays.asList(&quot;Die&quot;, &quot;De&quot;);</b>
+<b class="nc">&nbsp;  private static final List&lt;String&gt; blacklistRegex = Arrays.asList(</b>
+&nbsp;    &quot;Lande(basis|basen|region|gebiets?|gebieten?|regionen|betriebs?|betrieben?|offizieren?|bereichs?|bereichen?|einrichtung|einrichtungen|massen?|plans?|versuchs?|versuchen?)&quot;,  // vs. Landes
+&nbsp;    &quot;Model(vertrags?|verträgen?|erfahrung|erfahrungen|szene|welt)&quot;,
+&nbsp;    &quot;(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?&quot;,
+&nbsp;    &quot;preis&quot;,  // Getränkepreis etc.
+&nbsp;    &quot;reisähnlich(e|e[nmrs])?&quot;,
+&nbsp;    &quot;neugestartet(e|e[nmrs])?&quot;,
+&nbsp;    &quot;reisender&quot;,  // Ägyptenreisender etc.
+&nbsp;    &quot;[a-zöäüß]+sender&quot;,  // wg. sende/sender, z.B. bremsender, abzulassender
+&nbsp;    &quot;gra(ph|f)ische?&quot;,  // kosmografisch etc.
+&nbsp;    &quot;gra(ph|f)ische[rsnm]&quot;,  // kosmografischen etc.
+&nbsp;    &quot;gra(ph|f)s?$&quot;,  // Elektrokardiograph
+&nbsp;    &quot;gra(ph|f)en&quot;,  // Elektrokardiographen
+&nbsp;    &quot;gra(ph|f)in&quot;,  // Demographin/Demografin
+&nbsp;    &quot;gra(ph|f)ik&quot;,  // Kunstgrafik
+&nbsp;    &quot;gra(ph|f)ie&quot;,  // Geographie
+&nbsp;    &quot;Gra(ph|f)its?&quot;,   // Grafit/Graphit
+&nbsp;    &quot;.+gra(ph|f)its?&quot;   // ...grafit/graphit
+&nbsp;  );
+&nbsp;  private static LinguServices linguServices;
+&nbsp;
+<b class="nc">&nbsp;  private static final LoadingCache&lt;String, Set&lt;String&gt;&gt; cache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;    .expireAfterAccess(30, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;    .build(new CacheLoader&lt;String, Set&lt;String&gt;&gt;() {</b>
+&nbsp;      @NotNull
+&nbsp;      @Override
+&nbsp;      public Set&lt;String&gt; load(@NotNull String path) {
+<b class="nc">&nbsp;        HashSet&lt;String&gt; words = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;        List&lt;String&gt; lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);</b>
+<b class="nc">&nbsp;        for (String line : lines) {</b>
+<b class="nc">&nbsp;          if (!line.startsWith(&quot;#&quot;)) {</b>
+<b class="nc">&nbsp;            words.add(line.replaceFirst(&quot;#.*&quot;, &quot;&quot;).trim());</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return words;</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;
+&nbsp;  // have per-class static list of these and reference that in instance
+&nbsp;  // -&gt; avoid loading word list for every instance, but allow variations in subclasses
+&nbsp;  protected AhoCorasickDoubleArrayTrie&lt;String&gt; ahoCorasickDoubleArrayTrie;
+&nbsp;  protected Map&lt;String, List&lt;Pair&gt;&gt; pairMap;
+&nbsp;
+&nbsp;  private static final AhoCorasickDoubleArrayTrie&lt;String&gt; prohibitedCompoundRuleSearcher;
+&nbsp;  private static final Map&lt;String, List&lt;Pair&gt;&gt; prohibitedCompoundRulePairMap;
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    List&lt;Pair&gt; pairs = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Map&lt;String, List&lt;Pair&gt;&gt; pairMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    addUpperCaseVariants(pairs);</b>
+<b class="nc">&nbsp;    addItemsFromConfusionSets(pairs, &quot;/de/confusion_sets.txt&quot;, true);</b>
+<b class="nc">&nbsp;    prohibitedCompoundRuleSearcher = setupAhoCorasickSearch(pairs, pairMap);</b>
+<b class="nc">&nbsp;    prohibitedCompoundRulePairMap = pairMap;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void addAllCaseVariants(List&lt;Pair&gt; candidatePairs, Pair lcPair) {
+<b class="nc">&nbsp;    candidatePairs.add(new Pair(lcPair.part1, lcPair.part1Desc, lcPair.part2, lcPair.part2Desc));</b>
+<b class="nc">&nbsp;    String ucPart1 = uppercaseFirstChar(lcPair.part1);</b>
+<b class="nc">&nbsp;    String ucPart2 = uppercaseFirstChar(lcPair.part2);</b>
+<b class="nc">&nbsp;    if (!lcPair.part1.equals(ucPart1) || !lcPair.part2.equals(ucPart2)) {</b>
+<b class="nc">&nbsp;      candidatePairs.add(new Pair(ucPart1, lcPair.part1Desc, ucPart2, lcPair.part2Desc));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void addUpperCaseVariants(List&lt;Pair&gt; pairs) {
+<b class="nc">&nbsp;    for (Pair lcPair : lowercasePairs) {</b>
+<b class="nc">&nbsp;      if (startsWithUppercase(lcPair.part1)) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;Use all-lowercase word in &quot; + ProhibitedCompoundRule.class + &quot;: &quot; + lcPair.part1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (startsWithUppercase(lcPair.part2)) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;Use all-lowercase word in &quot; + ProhibitedCompoundRule.class + &quot;: &quot; + lcPair.part2);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      addAllCaseVariants(pairs, lcPair);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static void addItemsFromConfusionSets(List&lt;Pair&gt; pairs, String confusionSetsFile, boolean isUpperCase) {
+&nbsp;    try {
+<b class="nc">&nbsp;      ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();</b>
+<b class="nc">&nbsp;      try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {</b>
+<b class="nc">&nbsp;        ConfusionSetLoader loader = new ConfusionSetLoader(GermanyGerman.getInstance());</b>
+<b class="nc">&nbsp;        Map&lt;String, List&lt;ConfusionPair&gt;&gt; confusionPairs = loader.loadConfusionPairs(confusionSetStream);</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;String, List&lt;ConfusionPair&gt;&gt; entry : confusionPairs.entrySet()) {</b>
+<b class="nc">&nbsp;          for (ConfusionPair pair : entry.getValue()) {</b>
+<b class="nc">&nbsp;            boolean allUpper = pair.getTerms().stream().allMatch(k -&gt; startsWithUppercase(k.getString()) &amp;&amp; !ignoreWords.contains(k.getString()));</b>
+<b class="nc">&nbsp;            if (allUpper || !isUpperCase) {</b>
+<b class="nc">&nbsp;              List&lt;ConfusionString&gt; cSet = pair.getTerms();</b>
+<b class="nc">&nbsp;              if (cSet.size() != 2) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(&quot;Got confusion set with != 2 items: &quot; + cSet);</b>
+&nbsp;              }
+<b class="nc">&nbsp;              Iterator&lt;ConfusionString&gt; it = cSet.iterator();</b>
+<b class="nc">&nbsp;              ConfusionString part1 = it.next();</b>
+<b class="nc">&nbsp;              ConfusionString part2 = it.next();</b>
+<b class="nc">&nbsp;              pairs.add(new Pair(part1.getString(), part1.getDescription(), part2.getString(), part2.getDescription()));</b>
+<b class="nc">&nbsp;              if (isUpperCase) {</b>
+<b class="nc">&nbsp;                pairs.add(new Pair(lowercaseFirstChar(part1.getString()), part1.getDescription(), lowercaseFirstChar(part2.getString()), part2.getDescription()));</b>
+&nbsp;              } else {
+<b class="nc">&nbsp;                pairs.add(new Pair(uppercaseFirstChar(part1.getString()), part1.getDescription(), uppercaseFirstChar(part2.getString()), part2.getDescription()));</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static AhoCorasickDoubleArrayTrie&lt;String&gt; setupAhoCorasickSearch(List&lt;Pair&gt; pairs, Map&lt;String, List&lt;Pair&gt;&gt; pairMap) {
+<b class="nc">&nbsp;    TreeMap&lt;String, String&gt; map = new TreeMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Pair pair : pairs) {</b>
+<b class="nc">&nbsp;      map.put(pair.part1, pair.part1);</b>
+<b class="nc">&nbsp;      map.put(pair.part2, pair.part2);</b>
+<b class="nc">&nbsp;      pairMap.putIfAbsent(pair.part1, new LinkedList&lt;&gt;());</b>
+<b class="nc">&nbsp;      pairMap.putIfAbsent(pair.part2, new LinkedList&lt;&gt;());</b>
+<b class="nc">&nbsp;      pairMap.get(pair.part1).add(pair);</b>
+<b class="nc">&nbsp;      pairMap.get(pair.part2).add(pair);</b>
+&nbsp;    }
+&nbsp;    // Build an AhoCorasickDoubleArrayTrie
+<b class="nc">&nbsp;    AhoCorasickDoubleArrayTrie&lt;String&gt; ahoCorasickDoubleArrayTrie = new AhoCorasickDoubleArrayTrie&lt;&gt;();</b>
+<b class="nc">&nbsp;    ahoCorasickDoubleArrayTrie.build(map);</b>
+<b class="nc">&nbsp;    return ahoCorasickDoubleArrayTrie;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final BaseLanguageModel lm;
+&nbsp;  private final Language language;
+<b class="nc">&nbsp;  private Pair confusionPair = null; // specify single pair for evaluation</b>
+&nbsp;
+&nbsp;  public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm, UserConfig userConfig, Language language) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.TYPOS.getCategory(messages));</b>
+<b class="nc">&nbsp;    this.ahoCorasickDoubleArrayTrie = prohibitedCompoundRuleSearcher;</b>
+<b class="nc">&nbsp;    this.pairMap = prohibitedCompoundRulePairMap;</b>
+<b class="nc">&nbsp;    this.language = language;</b>
+<b class="nc">&nbsp;    linguServices = userConfig != null ? userConfig.getLinguServices() : null;</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Da steht eine &lt;marker&gt;Lehrzeile&lt;/marker&gt; zu viel.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Da steht eine &lt;marker&gt;Leerzeile&lt;/marker&gt; zu viel.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return RULE_ID;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Markiert wahrscheinlich falsche Komposita wie &#39;Lehrzeile&#39;, wenn &#39;Leerzeile&#39; häufiger vorkommt.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings prevReadings = null;</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {</b>
+<b class="nc">&nbsp;      String tmpWord = readings.getToken();</b>
+<b class="nc">&nbsp;      if (prevReadings != null &amp;&amp; prevReadings.hasAnyPartialPosTag(&quot;EIG:&quot;) &amp;&amp; startsWithUppercase(tmpWord) &amp;&amp;</b>
+<b class="nc">&nbsp;        (readings.hasAnyPartialPosTag(&quot;EIG:&quot;) || readings.isPosTagUnknown())) {</b>
+&nbsp;        // assume name, e.g. &quot;Bianca Baalhorn&quot; (avoid: Baalhorn =&gt; Ballhorn)
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (prevReadings != null &amp;&amp; HERRN_FRAU.matcher(prevReadings.getToken()).matches()) {</b>
+&nbsp;        // assume name, e.g. &quot;Herr Eiswert&quot; (avoid: Eiswert -&gt; Eiswelt)
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;String&gt; wordsParts = new ArrayList&lt;&gt;(Arrays.asList(tmpWord.split(&quot;-&quot;)));</b>
+<b class="nc">&nbsp;      int partsStartPos = 0;</b>
+<b class="nc">&nbsp;      for (String wordPart : wordsParts) {</b>
+<b class="nc">&nbsp;        partsStartPos = getMatches(sentence, ruleMatches, readings, partsStartPos, wordPart, 0);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String noHyphens = removeHyphensAndAdaptCase(tmpWord);</b>
+<b class="nc">&nbsp;      if (noHyphens != null) {</b>
+<b class="nc">&nbsp;        getMatches(sentence, ruleMatches, readings, 0, noHyphens, tmpWord.length()-noHyphens.length());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      prevReadings = readings;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isMisspelled(String word) {
+<b class="nc">&nbsp;    if (linguServices == null) {</b>
+<b class="nc">&nbsp;      return GermanyGerman.getInstance().getDefaultSpellingRule().isMisspelled(word);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return !linguServices.isCorrectSpell(word, GermanyGerman.getInstance());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getMatches(AnalyzedSentence sentence, List&lt;RuleMatch&gt; ruleMatches, AnalyzedTokenReadings readings, int partsStartPos, String wordPart, int toPosCorrection) {
+&nbsp;    /* optimizations:
+&nbsp;     only nouns can be compounds
+&nbsp;     all parts are at least 3 characters long -&gt; words must have at least 6 characters
+&nbsp;    */
+<b class="nc">&nbsp;    if ((readings.isTagged() &amp;&amp; !readings.hasPartialPosTag(&quot;SUB&quot;)) &amp;&amp; !readings.hasPosTagStartingWith(&quot;EIG:&quot;) || wordPart.length() &lt;= 6) {  // EIG: e.g. &quot;Obstdeutschland&quot; -&gt; &quot;Ostdeutschland&quot;</b>
+<b class="nc">&nbsp;      partsStartPos += wordPart.length() + 1;</b>
+<b class="nc">&nbsp;      return partsStartPos;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;Pair&gt; candidatePairs = new ArrayList&lt;&gt;();</b>
+&nbsp;    // ignore other pair when confusionPair is set (-&gt; running for evaluation)
+&nbsp;
+<b class="nc">&nbsp;    if (confusionPair == null) {</b>
+<b class="nc">&nbsp;      List&lt;AhoCorasickDoubleArrayTrie.Hit&lt;String&gt;&gt; wordList = ahoCorasickDoubleArrayTrie.parseText(wordPart);</b>
+&nbsp;      // might get duplicates, but since we only ever allow one match per word it doesn&#39;t matter
+<b class="nc">&nbsp;      for (AhoCorasickDoubleArrayTrie.Hit&lt;String&gt; hit : wordList) {</b>
+<b class="nc">&nbsp;        List&lt;Pair&gt; pair = pairMap.get(hit.value);</b>
+<b class="nc">&nbsp;        if (pair != null) {</b>
+<b class="nc">&nbsp;          candidatePairs.addAll(pair);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      addAllCaseVariants(candidatePairs, confusionPair);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;WeightedRuleMatch&gt; weightedMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Pair pair : candidatePairs) {</b>
+<b class="nc">&nbsp;      String variant = null;</b>
+<b class="nc">&nbsp;      if (wordPart.contains(pair.part1)) {</b>
+<b class="nc">&nbsp;        variant = wordPart.replaceFirst(pair.part1, pair.part2);</b>
+<b class="nc">&nbsp;      } else if (wordPart.contains(pair.part2)) {</b>
+<b class="nc">&nbsp;        variant = wordPart.replaceFirst(pair.part2, pair.part1);</b>
+&nbsp;      }
+&nbsp;      //System.out.println(word + &quot; &lt;&gt; &quot; + variant);
+<b class="nc">&nbsp;      if (variant == null) {</b>
+<b class="nc">&nbsp;        partsStartPos += wordPart.length() + 1;</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      long wordCount = lm.getCount(wordPart);</b>
+<b class="nc">&nbsp;      long variantCount = lm.getCount(variant);</b>
+&nbsp;      //float factor = variantCount / (float)Math.max(wordCount, 1);
+&nbsp;      //System.out.println(&quot;word: &quot; + wordPart + &quot; (&quot; + wordCount + &quot;), variant: &quot; + variant + &quot; (&quot; + variantCount + &quot;), factor: &quot; + factor + &quot;, pair: &quot; + pair);
+&nbsp;
+<b class="nc">&nbsp;      Set&lt;String&gt; blacklist = cache.getUnchecked(&quot;/de/compound_exceptions.txt&quot;);</b>
+<b class="nc">&nbsp;      if (variantCount &gt; getThreshold() &amp;&amp; wordCount == 0 &amp;&amp; !blacklist.contains(wordPart) &amp;&amp; !isMisspelled(variant) &amp;&amp;</b>
+<b class="nc">&nbsp;          blacklistRegex.stream().noneMatch(k -&gt; wordPart.matches(&quot;.*&quot; + k + &quot;.*&quot;))) {</b>
+&nbsp;        String msg;
+<b class="nc">&nbsp;        if (pair.part1Desc != null &amp;&amp; pair.part2Desc != null) {</b>
+<b class="nc">&nbsp;          msg = &quot;Möglicher Tippfehler. &quot; + uppercaseFirstChar(pair.part1) + &quot;: &quot; + pair.part1Desc + &quot;, &quot; + uppercaseFirstChar(pair.part2) + &quot;: &quot; + pair.part2Desc;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          msg = &quot;Möglicher Tippfehler: &quot; + pair.part1 + &quot;/&quot; + pair.part2;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        int fromPos = readings.getStartPos() + partsStartPos;</b>
+<b class="nc">&nbsp;        int toPos = fromPos + wordPart.length() + toPosCorrection;</b>
+<b class="nc">&nbsp;        String id = toId(getId() + &quot;_&quot; + pair.part1 + &quot;_&quot; + pair.part2, language);</b>
+<b class="nc">&nbsp;        String desc = &quot;Markiert wahrscheinlich falsche Komposita mit Teilwort &#39;&quot; +</b>
+<b class="nc">&nbsp;          uppercaseFirstChar(pair.part1) + &quot;&#39; statt &#39;&quot; + uppercaseFirstChar(pair.part2) + &quot;&#39; und umgekehrt&quot;;</b>
+<b class="nc">&nbsp;        SpecificIdRule idRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());</b>
+<b class="nc">&nbsp;        RuleMatch match = new RuleMatch(idRule, sentence, fromPos, toPos, msg);</b>
+<b class="nc">&nbsp;        match.setSuggestedReplacement(variant);</b>
+<b class="nc">&nbsp;        weightedMatches.add(new WeightedRuleMatch(variantCount, match));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (weightedMatches.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      Collections.sort(weightedMatches);  // sort by most popular alternative</b>
+<b class="nc">&nbsp;      ruleMatches.add(weightedMatches.get(0).match);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    partsStartPos += wordPart.length() + 1;</b>
+<b class="nc">&nbsp;    return partsStartPos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getThreshold() {
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * ignore automatically loaded pairs and only match using given confusionPair
+&nbsp;   * used for evaluation by ProhibitedCompoundRuleEvaluator
+&nbsp;   * @param confusionPair pair to evaluate, parts are assumed to be lowercase / null to reset
+&nbsp;   */
+&nbsp;  public void setConfusionPair(Pair confusionPair) {
+<b class="nc">&nbsp;    this.confusionPair = confusionPair;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  String removeHyphensAndAdaptCase(String word) {
+<b class="nc">&nbsp;    String[] parts = word.split(&quot;-&quot;);</b>
+<b class="nc">&nbsp;    if (parts.length &gt; 1) {</b>
+<b class="nc">&nbsp;      StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      for (String part : parts) {</b>
+<b class="nc">&nbsp;        if (part.length() &lt;= 1) {</b>
+&nbsp;          // don&#39;t: S-Bahn -&gt; Sbahn
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        sb.append(i == 0 ? part : lowercaseFirstChar(part));</b>
+<b class="nc">&nbsp;        i++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return sb.toString();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class WeightedRuleMatch implements Comparable&lt;WeightedRuleMatch&gt; {
+&nbsp;    long weight;
+&nbsp;    RuleMatch match;
+<b class="nc">&nbsp;    WeightedRuleMatch(long weight, RuleMatch match) {</b>
+<b class="nc">&nbsp;      this.weight = weight;</b>
+<b class="nc">&nbsp;      this.match = match;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public int compareTo(@NotNull WeightedRuleMatch other) {
+<b class="nc">&nbsp;      return Long.compare(other.weight, weight);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static class Pair {
+&nbsp;    private final String part1;
+&nbsp;    private final String part1Desc;
+&nbsp;    private final String part2;
+&nbsp;    private final String part2Desc;
+<b class="nc">&nbsp;    public Pair(String part1, String part1Desc, String part2, String part2Desc) {</b>
+<b class="nc">&nbsp;      this.part1 = part1;</b>
+<b class="nc">&nbsp;      this.part1Desc = part1Desc;</b>
+<b class="nc">&nbsp;      this.part2 = part2;</b>
+<b class="nc">&nbsp;      this.part2Desc = part2Desc;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return part1 + &quot;/&quot; + part2;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

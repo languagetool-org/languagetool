@@ -1,0 +1,328 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LetterEndingForNumericHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: LetterEndingForNumericHelper (org.languagetool.tagging.uk)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LetterEndingForNumericHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/90)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LetterEndingForNumericHelper$RegexToCaseList</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/101)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.tagging.uk;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helps to tag numeric adjectives with letter ending
+&nbsp; */
+<b class="nc">&nbsp;class LetterEndingForNumericHelper {</b>
+&nbsp;  private static final Map&lt;String, List&lt;LetterEndingForNumericHelper.RegexToCaseList&gt;&gt; NUMR_ADJ_ENDING_MAP;
+&nbsp;  private static final Map&lt;String, List&lt;LetterEndingForNumericHelper.RegexToCaseList&gt;&gt; NUMR_NOUN_ENDING_MAP;
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    Map&lt;String, List&lt;RegexToCaseList&gt;&gt; map2 = new HashMap&lt;&gt;();</b>
+&nbsp;    // TODO: many of those depend on the last digit we can do better with regex
+<b class="nc">&nbsp;    map2.put(&quot;й&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_naz&quot;, &quot;:m:v_zna:rinanim&quot;, &quot;:f:v_dav&quot;, &quot;:f:v_mis&quot;))); // 1-й</b>
+<b class="nc">&nbsp;    map2.put(&quot;ий&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_naz&quot;, &quot;:m:v_zna:rinanim&quot;))); // 2-ий</b>
+<b class="nc">&nbsp;    map2.put(&quot;ій&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*([^3]|13)&quot;, &quot;:f:v_dav&quot;, &quot;:f:v_mis&quot;), // 5-ій </b>
+<b class="nc">&nbsp;                                 RegexToCaseList.always(&quot;:m:v_naz&quot;, &quot;:m:v_zna:rinanim&quot;, &quot;:f:v_dav&quot;, &quot;:f:v_mis&quot;))); // 3-ій</b>
+<b class="nc">&nbsp;    map2.put(&quot;го&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_rod&quot;, &quot;:m:v_zna:ranim&quot;, &quot;:n:v_rod&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;му&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*(?!&lt;1)7&quot;, &quot;:m:v_dav&quot;, &quot;:m:v_mis&quot;, &quot;:n:v_dav&quot;, &quot;:n:v_mis&quot;, &quot;:f:v_zna&quot;), // 7-му</b>
+<b class="nc">&nbsp;                                 RegexToCaseList.regex(&quot;.*(?!&lt;1)8&quot;, &quot;:f:v_zna&quot;, &quot;:m:v_dav&quot;, &quot;:m:v_mis&quot;, &quot;:n:v_dav&quot;, &quot;:n:v_mis&quot;), // 8-му</b>
+<b class="nc">&nbsp;                                 RegexToCaseList.always(&quot;:m:v_dav&quot;, &quot;:m:v_mis&quot;, &quot;:n:v_dav&quot;, &quot;:n:v_mis&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;ма&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*(?!&lt;1)[78]&quot;, &quot;:f:v_naz&quot;)));</b>
+&nbsp;//                                RegexToCaseList.always(&quot;:p:v_oru:bad&quot;))); // 3-ма - помилка
+<b class="nc">&nbsp;    map2.put(&quot;м&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_oru&quot;, &quot;:n:v_oru&quot;, &quot;:p:v_dav&quot;))); // theoretically can also be -ім v_mis but rare</b>
+<b class="nc">&nbsp;    map2.put(&quot;им&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_oru&quot;, &quot;:n:v_oru&quot;, &quot;:p:v_dav&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;ім&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*(?!&lt;1)3&quot;, &quot;:m:v_oru&quot;, &quot;:m:v_mis&quot;, &quot;:n:v_oru&quot;, &quot;:n:v_mis&quot;),</b>
+<b class="nc">&nbsp;                                 RegexToCaseList.always(&quot;:m:v_mis&quot;, &quot;:n:v_oru&quot;, &quot;:n:v_mis&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;а&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_naz&quot;))); // 1-а (також часто номер будинку)</b>
+<b class="nc">&nbsp;    map2.put(&quot;ва&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_naz&quot;))); // 40-ва</b>
+<b class="nc">&nbsp;    map2.put(&quot;ша&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_naz&quot;))); // 1-ша</b>
+<b class="nc">&nbsp;    map2.put(&quot;га&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_naz&quot;))); // 2-га</b>
+<b class="nc">&nbsp;    map2.put(&quot;тя&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_naz&quot;))); // 3-тя</b>
+<b class="nc">&nbsp;    map2.put(&quot;я&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*(?!&lt;1)3&quot;, &quot;:f:v_naz&quot;))); // 3-я</b>
+<b class="nc">&nbsp;    map2.put(&quot;та&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_naz&quot;))); // 4-та</b>
+<b class="nc">&nbsp;    map2.put(&quot;ї&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_rod&quot;))); // 4-ї</b>
+<b class="nc">&nbsp;    map2.put(&quot;ої&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_rod&quot;))); // 4-ої</b>
+<b class="nc">&nbsp;    map2.put(&quot;у&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_zna&quot;))); // 1-у</b>
+<b class="nc">&nbsp;    map2.put(&quot;шу&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_zna&quot;))); // 1-шу</b>
+<b class="nc">&nbsp;    map2.put(&quot;гу&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_zna&quot;))); // 2-гу</b>
+<b class="nc">&nbsp;    map2.put(&quot;ту&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_zna&quot;))); // 4-ту</b>
+<b class="nc">&nbsp;    map2.put(&quot;тю&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_zna&quot;))); // 3-тю</b>
+<b class="nc">&nbsp;    map2.put(&quot;ою&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_oru&quot;))); // 4-ою</b>
+<b class="nc">&nbsp;    map2.put(&quot;ю&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*([^3]|13)&quot;, &quot;:f:v_oru&quot;), // 4-ю</b>
+<b class="nc">&nbsp;                                RegexToCaseList.always(&quot;:f:v_zna&quot;, &quot;:f:v_oru&quot;))); // 3-ю</b>
+<b class="nc">&nbsp;    map2.put(&quot;е&quot;, Arrays.asList(RegexToCaseList.always(&quot;:n:v_naz&quot;, &quot;:n:v_zna&quot;))); // 1-е</b>
+<b class="nc">&nbsp;    map2.put(&quot;є&quot;, Arrays.asList(RegexToCaseList.always(&quot;:n:v_naz&quot;, &quot;:n:v_zna&quot;))); // 3-є</b>
+<b class="nc">&nbsp;    map2.put(&quot;ше&quot;, Arrays.asList(RegexToCaseList.always(&quot;:n:v_naz&quot;, &quot;:n:v_zna&quot;))); // 1-ше</b>
+<b class="nc">&nbsp;    map2.put(&quot;ге&quot;, Arrays.asList(RegexToCaseList.always(&quot;:n:v_naz&quot;, &quot;:n:v_zna&quot;))); // 2-ге</b>
+<b class="nc">&nbsp;    map2.put(&quot;тє&quot;, Arrays.asList(RegexToCaseList.always(&quot;:n:v_naz&quot;, &quot;:n:v_zna&quot;))); // 3-тє</b>
+<b class="nc">&nbsp;    map2.put(&quot;те&quot;, Arrays.asList(RegexToCaseList.always(&quot;:n:v_naz&quot;, &quot;:n:v_zna&quot;))); // 4-те</b>
+<b class="nc">&nbsp;    map2.put(&quot;ме&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*(?!&lt;1)[78]&quot;, &quot;:n:v_naz&quot;, &quot;:n:v_zna&quot;))); // 7-те</b>
+<b class="nc">&nbsp;    map2.put(&quot;і&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_naz&quot;, &quot;:p:v_zna:rinanim&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;ті&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_naz&quot;, &quot;:p:v_zna:rinanim&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;ні&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_naz&quot;, &quot;:p:v_zna:rinanim&quot;))); // 2000-ні</b>
+<b class="nc">&nbsp;    map2.put(&quot;ми&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_oru&quot;))); // 33-ми калібрами</b>
+<b class="nc">&nbsp;    map2.put(&quot;х&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_rod&quot;, &quot;:p:v_zna:ranim&quot;, &quot;:p:v_mis&quot;))); // 5-х</b>
+<b class="nc">&nbsp;    map2.put(&quot;их&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_rod&quot;, &quot;:p:v_zna:ranim&quot;, &quot;:p:v_mis&quot;))); // 5-их</b>
+<b class="nc">&nbsp;    map2.put(&quot;ві&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*40&quot;, &quot;:p:v_naz&quot;, &quot;:p:v_zna:rinanim&quot;), // 40-ві</b>
+<b class="nc">&nbsp;                                 RegexToCaseList.regex(&quot;.*%&quot;, &quot;:p:v_naz&quot;, &quot;:p:v_zna:rinanim&quot;))); // 40%-ві</b>
+&nbsp;    //TODO: вживають іменником: у 7-ми томах
+&nbsp;//    map2.put(&quot;ми&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_oru&quot;))); // 8-ми
+&nbsp;
+&nbsp;    // bad
+<b class="nc">&nbsp;    map2.put(&quot;тій&quot;, Arrays.asList(</b>
+<b class="nc">&nbsp;        RegexToCaseList.regex(&quot;.*([^3]|13)&quot;, &quot;:f:v_dav:bad&quot;, &quot;:f:v_mis:bad&quot;), // 5-тій</b>
+<b class="nc">&nbsp;        RegexToCaseList.always(&quot;:m:v_naz:bad&quot;, &quot;:m:v_zna:rinanim:bad&quot;, &quot;:f:v_dav:bad&quot;, &quot;:f:v_mis:bad&quot;))); // 3-ій</b>
+<b class="nc">&nbsp;    map2.put(&quot;мій&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_dav:bad&quot;, &quot;:f:v_mis:bad&quot;))); // 8-мій</b>
+<b class="nc">&nbsp;    map2.put(&quot;мою&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_oru:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тою&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_oru:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тої&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_rod:bad&quot;))); // 4-тої</b>
+<b class="nc">&nbsp;    map2.put(&quot;того&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_rod:bad&quot;, &quot;:n:v_rod:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тього&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_rod:bad&quot;, &quot;:n:v_rod:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тому&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_dav:bad&quot;, &quot;:m:v_mis:bad&quot;, &quot;:n:v_rod:bad&quot;, &quot;:n:v_mis:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тьому&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_dav:bad&quot;, &quot;:m:v_mis:bad&quot;, &quot;:n:v_rod:bad&quot;, &quot;:n:v_mis:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тими&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_oru:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тім&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_mis:bad&quot;, &quot;:n:v_mis:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;мої&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_rod:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тий&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_naz:bad&quot;, &quot;:m:v_zna:rinanim:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;мий&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_naz:bad&quot;, &quot;:m:v_zna:rinanim:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тих&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_rod:bad&quot;, &quot;:p:v_mis:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;ого&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_rod:bad&quot;, &quot;:m:v_zna:ranim:bad&quot;, &quot;:n:v_rod:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;ому&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_dav:bad&quot;, &quot;:m:v_mis:bad&quot;, &quot;:n:v_dav:bad&quot;, &quot;:n:v_mis:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;тим&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_oru:bad&quot;, &quot;:n:v_oru:bad&quot;, &quot;:p:v_dav:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;ома&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_naz:bad&quot;, &quot;:p:v_oru:bad&quot;))); // 7-ома, 12-ома</b>
+<b class="nc">&nbsp;    map2.put(&quot;ший&quot;, Arrays.asList(RegexToCaseList.always(&quot;:m:v_naz:bad&quot;, &quot;:m:v_zna:rinanim:bad&quot;)));</b>
+<b class="nc">&nbsp;    map2.put(&quot;гій&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_mis:bad&quot;, &quot;:f:v_dav:bad&quot;)));</b>
+&nbsp;
+<b class="nc">&nbsp;    NUMR_ADJ_ENDING_MAP = Collections.unmodifiableMap(map2);</b>
+&nbsp;    
+&nbsp;    
+<b class="nc">&nbsp;    Map&lt;String, List&lt;RegexToCaseList&gt;&gt; map3 = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    map3.put(&quot;ти&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*([0569]|1[0-9])&quot;, &quot;:p:v_rod:bad&quot;, &quot;:p:v_dav:bad&quot;, &quot;:p:v_mis:bad&quot;))); // 20-ти</b>
+<b class="nc">&nbsp;    map3.put(&quot;ці&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*([03456789]|1[0-9])&quot;, &quot;:f:v_dav:bad&quot;, &quot;:f:v_mis:bad&quot;))); // 20-ці</b>
+<b class="nc">&nbsp;    map3.put(&quot;ма&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*([023456789]|1[0-9])&quot;, &quot;:p:v_oru:bad&quot;))); // 20-ма</b>
+<b class="nc">&nbsp;    map3.put(&quot;ми&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_rod:bad&quot;, &quot;:p:v_mis:bad&quot;))); // 148-ми</b>
+<b class="nc">&nbsp;    map3.put(&quot;ох&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_rod:bad&quot;, &quot;:p:v_zna:ranim:bad&quot;))); // 4-ох</b>
+<b class="nc">&nbsp;    map3.put(&quot;ві&quot;, Arrays.asList(RegexToCaseList.regex(&quot;.*(?!&lt;1)2&quot;, &quot;:p:v_naz:bad&quot;, &quot;:p:v_zna:rinanim:bad&quot;))); // 42-ві</b>
+<b class="nc">&nbsp;    map3.put(&quot;ть&quot;, Arrays.asList(RegexToCaseList.always(&quot;:p:v_naz:bad&quot;, &quot;:p:v_zna:rinanim:bad&quot;))); // 75-ть</b>
+<b class="nc">&nbsp;    map3.put(&quot;ка&quot;, Arrays.asList(RegexToCaseList.always(&quot;:f:v_naz:bad&quot;))); // 40-ка</b>
+&nbsp;    
+<b class="nc">&nbsp;    NUMR_NOUN_ENDING_MAP = Collections.unmodifiableMap(map3);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static class RegexToCaseList {
+&nbsp;    private final Pattern pattern;
+&nbsp;    private final String[] cases;
+&nbsp;  
+<b class="nc">&nbsp;    public RegexToCaseList(String regex, String... cases) {</b>
+<b class="nc">&nbsp;      this.pattern = regex != null ? Pattern.compile(regex) : null;</b>
+<b class="nc">&nbsp;      this.cases = cases;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // 2nd constructor with just String... is ambiguous
+&nbsp;    private static RegexToCaseList always(String... cases) {
+<b class="nc">&nbsp;      return new RegexToCaseList(null, cases);</b>
+&nbsp;    }
+&nbsp;    private static RegexToCaseList regex(String regex, String... cases) {
+<b class="nc">&nbsp;      return new RegexToCaseList(regex, cases);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    private static String[] getCaseTags(String leftWord, List&lt;RegexToCaseList&gt; caseLists) {
+<b class="nc">&nbsp;      for (RegexToCaseList regexToCaseList : caseLists) {</b>
+<b class="nc">&nbsp;        if( regexToCaseList.pattern == null </b>
+<b class="nc">&nbsp;            || regexToCaseList.pattern.matcher(leftWord).matches() )</b>
+<b class="nc">&nbsp;          return regexToCaseList.cases;</b>
+&nbsp;      }
+&nbsp;//      System.err.println(&quot;Not found cases for &quot; + leftWord + &quot;, &quot; + caseLists);
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return String.format(&quot;%s: %s&quot;, pattern, Arrays.asList(cases));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isPossibleAdjAdjEnding(String leftWord, String rightWord) {
+<b class="nc">&nbsp;    return NUMR_ADJ_ENDING_MAP.containsKey(rightWord);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static String[] findTagsAdj(String leftWord, String rightWord) {
+<b class="nc">&nbsp;    if( NUMR_ADJ_ENDING_MAP.containsKey(rightWord) ) {</b>
+<b class="nc">&nbsp;      String[] tags = RegexToCaseList.getCaseTags(leftWord, NUMR_ADJ_ENDING_MAP.get(rightWord));</b>
+&nbsp;//      if( tags == null ) {
+&nbsp;//        System.err.println(&quot;Not found cases for &quot; + leftWord + &quot;, &quot; + rightWord);
+&nbsp;//      }
+<b class="nc">&nbsp;      return tags;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String[] findTagsNoun(String leftWord, String rightWord) {
+<b class="nc">&nbsp;    if( NUMR_NOUN_ENDING_MAP.containsKey(rightWord) ) {</b>
+<b class="nc">&nbsp;      String[] tags = RegexToCaseList.getCaseTags(leftWord, NUMR_NOUN_ENDING_MAP.get(rightWord));</b>
+&nbsp;//      if( tags == null ) {
+&nbsp;//        System.err.println(&quot;Not found cases for &quot; + leftWord + &quot;, &quot; + rightWord);
+&nbsp;//      }
+<b class="nc">&nbsp;      return tags;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,917 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > English</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: English (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">English</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/33)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/110)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/470)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">English$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/110)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/476)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import com.google.common.cache.CacheLoader;
+&nbsp;import com.google.common.cache.LoadingCache;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.chunking.Chunker;
+&nbsp;import org.languagetool.chunking.EnglishChunker;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.en.*;
+&nbsp;import org.languagetool.rules.en.LongSentenceRule;
+&nbsp;import org.languagetool.rules.patterns.PatternRuleLoader;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.en.EnglishSynthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.en.EnglishHybridDisambiguator;
+&nbsp;import org.languagetool.tagging.en.EnglishTagger;
+&nbsp;import org.languagetool.tokenizers.SRXSentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;import org.languagetool.tokenizers.en.EnglishWordTokenizer;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.function.Function;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.Arrays.asList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
+&nbsp; * etc. if you need spell checking.
+&nbsp; * Make sure to call {@link #close()} after using this (currently only relevant if you make
+&nbsp; * use of {@link EnglishConfusionProbabilityRule}).
+&nbsp; */
+&nbsp;public class English extends LanguageWithModel {
+&nbsp;
+<b class="nc">&nbsp;  protected static final LoadingCache&lt;String, List&lt;Rule&gt;&gt; cache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;      .expireAfterWrite(30, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;      .build(new CacheLoader&lt;String, List&lt;Rule&gt;&gt;() {</b>
+&nbsp;        @Override
+&nbsp;        public List&lt;Rule&gt; load(@NotNull String path) throws IOException {
+<b class="nc">&nbsp;          List&lt;Rule&gt; rules = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          PatternRuleLoader loader = new PatternRuleLoader();</b>
+<b class="nc">&nbsp;          try (InputStream is = JLanguageTool.getDataBroker().getAsStream(path)) {</b>
+<b class="nc">&nbsp;            rules.addAll(loader.getRules(is, path, null));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return rules;</b>
+&nbsp;        }
+&nbsp;      });
+<b class="nc">&nbsp;  private static final Pattern FALSE_FRIENDS_PATTERN = Pattern.compile(&quot;EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*&quot;);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @deprecated use {@link AmericanEnglish} or {@link BritishEnglish} etc. instead -
+&nbsp;   *  they have rules for spell checking, this class doesn&#39;t (deprecated since 3.2)
+&nbsp;   */
+&nbsp;  @Deprecated
+<b class="nc">&nbsp;  public English() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Language getDefaultLanguageVariant() {
+<b class="nc">&nbsp;    return AmericanEnglish.getInstance();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;    return new SRXSentenceTokenizer(this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;English&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="nc">&nbsp;    return &quot;en&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="nc">&nbsp;    return new String[]{};</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return EnglishTagger.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Chunker createDefaultChunker() {
+<b class="nc">&nbsp;    return new EnglishChunker();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;    return EnglishSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new EnglishHybridDisambiguator(getDefaultLanguageVariant());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;    return new EnglishWordTokenizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[] { new Contributor(&quot;Mike Unwalla&quot;), Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;    return LanguageMaintainedState.ActivelyMaintained;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    List&lt;Rule&gt; allRules = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (motherTongue != null) {</b>
+<b class="nc">&nbsp;      if (&quot;de&quot;.equals(motherTongue.getShortCode())) {</b>
+<b class="nc">&nbsp;        allRules.addAll(cache.getUnchecked(&quot;/org/languagetool/rules/en/grammar-l2-de.xml&quot;));</b>
+<b class="nc">&nbsp;      } else if (&quot;fr&quot;.equals(motherTongue.getShortCode())) {</b>
+<b class="nc">&nbsp;        allRules.addAll(cache.getUnchecked(&quot;/org/languagetool/rules/en/grammar-l2-fr.xml&quot;));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    allRules.addAll(asList(</b>
+&nbsp;        new CommaWhitespaceRule(messages,
+<b class="nc">&nbsp;                Example.wrong(&quot;We had coffee&lt;marker&gt; ,&lt;/marker&gt; cheese and crackers and grapes.&quot;),</b>
+<b class="nc">&nbsp;                Example.fixed(&quot;We had coffee&lt;marker&gt;,&lt;/marker&gt; cheese and crackers and grapes.&quot;)),</b>
+<b class="nc">&nbsp;        new DoublePunctuationRule(messages, Tools.getUrl(&quot;https://languagetool.org/insights/post/punctuation-guide/#what-are-periods&quot;)),</b>
+&nbsp;        new UppercaseSentenceStartRule(messages, this,
+<b class="nc">&nbsp;                Example.wrong(&quot;This house is old. &lt;marker&gt;it&lt;/marker&gt; was built in 1950.&quot;),</b>
+<b class="nc">&nbsp;                Example.fixed(&quot;This house is old. &lt;marker&gt;It&lt;/marker&gt; was built in 1950.&quot;),</b>
+<b class="nc">&nbsp;                Tools.getUrl(&quot;https://languagetool.org/insights/post/spelling-capital-letters/&quot;)),</b>
+&nbsp;        new MultipleWhitespaceRule(messages, this),
+&nbsp;        new SentenceWhitespaceRule(messages),
+&nbsp;        new WhiteSpaceBeforeParagraphEnd(messages, this),
+&nbsp;        new WhiteSpaceAtBeginOfParagraph(messages),
+&nbsp;        new EmptyLineRule(messages, this),
+&nbsp;        new LongSentenceRule(messages, userConfig, 40),
+&nbsp;        new LongParagraphRule(messages, this, userConfig),
+&nbsp;        //new OpenNMTRule(),     // commented out because of #903
+&nbsp;        new ParagraphRepeatBeginningRule(messages, this),
+&nbsp;        new PunctuationMarkAtParagraphEnd(messages, this),
+&nbsp;        new PunctuationMarkAtParagraphEnd2(messages, this),
+&nbsp;        // specific to English:
+&nbsp;        new ConsistentApostrophesRule(messages),
+&nbsp;        new EnglishSpecificCaseRule(messages),
+&nbsp;        new EnglishUnpairedBracketsRule(messages, this),
+&nbsp;        new EnglishUnpairedQuotesRule(messages, this),
+&nbsp;        new EnglishWordRepeatRule(messages, this),
+&nbsp;        new AvsAnRule(messages),
+&nbsp;        new EnglishWordRepeatBeginningRule(messages, this),
+&nbsp;        new CompoundRule(messages, this, userConfig),
+&nbsp;        new ContractionSpellingRule(messages, this),
+&nbsp;        new EnglishWrongWordInContextRule(messages, this),
+&nbsp;        new EnglishDashRule(messages),
+&nbsp;        new WordCoherencyRule(messages),
+&nbsp;        new EnglishDiacriticsRule(messages),
+&nbsp;        new EnglishPlainEnglishRule(messages),
+&nbsp;        new EnglishRedundancyRule(messages),
+&nbsp;        new SimpleReplaceRule(messages, this),
+&nbsp;        new SimpleReplaceProfanityRule(messages, this),
+&nbsp;        new ReadabilityRule(messages, this, userConfig, false),
+&nbsp;        new ReadabilityRule(messages, this, userConfig, true), 
+&nbsp;        new EnglishRepeatedWordsRule(messages),
+&nbsp;        new StyleTooOftenUsedVerbRule(messages, this, userConfig),
+&nbsp;        new StyleTooOftenUsedNounRule(messages, this, userConfig),
+&nbsp;        new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig)
+&nbsp;    ));
+<b class="nc">&nbsp;    return allRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+<b class="nc">&nbsp;    return asList(</b>
+&nbsp;        new UpperCaseNgramRule(messages, languageModel, this, userConfig),
+&nbsp;        new EnglishConfusionProbabilityRule(messages, languageModel, this),
+&nbsp;        new EnglishNgramProbabilityRule(messages, languageModel, this)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    if (lm != null &amp;&amp; motherTongue != null) {</b>
+<b class="nc">&nbsp;      if (&quot;fr&quot;.equals(motherTongue.getShortCode())) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this));</b>
+<b class="nc">&nbsp;      } else if (&quot;de&quot;.equals(motherTongue.getShortCode())) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this));</b>
+<b class="nc">&nbsp;      } else if (&quot;es&quot;.equals(motherTongue.getShortCode())) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this));</b>
+<b class="nc">&nbsp;      } else if (&quot;nl&quot;.equals(motherTongue.getShortCode())) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean hasNGramFalseFriendRule(Language motherTongue) {
+<b class="nc">&nbsp;    return motherTongue != null &amp;&amp; (</b>
+&nbsp;      // Note: extend EnglishForL2SpeakersFalseFriendRuleTest.testMessageDetailData()
+&nbsp;      // if you add a language here
+<b class="nc">&nbsp;      &quot;de&quot;.equals(motherTongue.getShortCode()) ||</b>
+<b class="nc">&nbsp;      &quot;fr&quot;.equals(motherTongue.getShortCode()) ||</b>
+<b class="nc">&nbsp;      &quot;es&quot;.equals(motherTongue.getShortCode()) ||</b>
+<b class="nc">&nbsp;      &quot;nl&quot;.equals(motherTongue.getShortCode()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;“&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;”&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningSingleQuote() {
+<b class="nc">&nbsp;    return &quot;‘&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingSingleQuote() {
+<b class="nc">&nbsp;    return &quot;’&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public boolean isAdvancedTypographyEnabled() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected int getDefaultRulePriorityForStyle() {
+<b class="nc">&nbsp;    return -50;</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  private final static Map&lt;String, Integer&gt; id2prio = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    id2prio.put(&quot;I_E&quot;, 10);  // needs higher prio than EN_COMPOUNDS (&quot;i.e learning&quot;)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CHILDISH_LANGUAGE&quot;, 8);   // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;RUDE_SARCASTIC&quot;, 6);   // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FOR_NOUN_SAKE&quot;, 6);   // prefer over PROFANITY (e.g. &quot;for fuck sake&quot;)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;YEAR_OLD_HYPHEN&quot;, 6);   // higher prio than MISSING_HYPHEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MISSING_HYPHEN&quot;, 5);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WRONG_APOSTROPHE&quot;, 5);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;YOU_GOOD&quot;, 3);   // prefer over AI_HYDRA_LEO_CP (YOU_YOURE etc.) // prefer over PRP_PAST_PART</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DOS_AND_DONTS&quot;, 3);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IF_YOU_FURTHER_QUESTIONS&quot;, 3);   // higher prio than agreement rules and AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ABBREVIATION_PUNCTUATION&quot;, 2);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;READ_ONLY_ACCESS_HYPHEN&quot;, 2);   // higher priority than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MAKE_OR_BREAK_HYPHEN&quot;, 2);   // higher priority than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;LINKED_IN&quot;, 2);   // higher prio than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;T_HE&quot;, 1);   // higher prio than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;I_A_M&quot;, 1);   // higher prio than EN_A_VS_AN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ACCESS_EXCESS&quot;, 1);   // higher prio than A_UNCOUNTABLE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_ABLE_TO&quot;, 1);   // higher prio than AI_HYDRA_LEO_CP_YOU.*</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WEE_WE&quot;, 1);   // higher prio than INTERJECTIONS_PUNCTUATION</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CAN_MISSPELLING&quot;, 1);   // higher prio than COM_COME</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FOR_THE_MOST_PART2&quot;, 1);   // higher prio than FOR_THE_MOST_PART</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FACE_TO_FACE_HYPHEN&quot;, 1);   // higher prio than THIS_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;RUN_ON&quot;, 1);   // higher prio than TOO_LONG_SENTENCE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ON_THE_LOOK_OUT&quot;, 1);   // higher prio than VERB_NOUN_CONFUSION</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;APOSTROPHE_IN_DAYS&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SAFE_GUARD_COMPOUND&quot;, 1);   // higher prio than some agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EVEN_HANDED_HYPHEN&quot;, 1);   // higher prio than some agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GET_TOGETHER_HYPHEN&quot;, 1);   // higher prio than some agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GOT_HERE&quot;, 1);   // higher prio than GET_VBN and HEAR_HERE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PICTURE_PERFECT_HYPHEN&quot;, 1);   // higher prio than some agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEEM_SEEN&quot;, 1);   // higher prio than some agreement rules (e.g. PRP_HAVE_VB)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SAVE_SAFE&quot;, 1);   // higher prio than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FEDEX&quot;, 2);   // higher prio than many verb rules (e.g. MD_BASEFORM)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DROP_DEAD_HYPHEN&quot;, 1);   // higher prio than agreement rules (e.g. I_AM_VB)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HEAR_HERE&quot;, 1);   // higher prio than agreement rules (e.g. I_AM_VB)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THE_FRENCH&quot;, 1);   // higher prio than agreement rules (e.g. I_AM_VB)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_HEADS_UP&quot;, 1);   // higher prio than some plural agreement rules (e.g. THERE_S_MANY)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UNITES_UNITED&quot;, 1);   // higher prio than IS_VBZ</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THIS_MISSING_VERB&quot;, 1);   // higher priority than A_MY</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;YOURE&quot;, 1);   // prefer over EN_CONTRACTION_SPELLING</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;LIFE_COMPOUNDS&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DRIVE_THROUGH_HYPHEN&quot;, 1);   // higher prio than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CAUSE_COURSE&quot;, 1);   // higher prio than CAUSE_BECAUSE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THANK_YOUR&quot;, 1);   // higher prio than POSSESSIVE_DETERMINER_SENT_END</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AN_AND&quot;, 1);   // higher prio than A_MY and DT_PRP</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HER_S&quot;, 1);   // higher prio than THEIR_S</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ONE_TO_MANY_HYPHEN&quot;, 1);   // higher prio than TO_TOO</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COVID_19&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;RATHER_NOT_VB&quot;, 1);   // higher prio than NOT_TO_DOES_NOT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PIECE_COMPOUNDS&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;OTHER_WISE_COMPOUND&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ON_EXCEL&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ALL_NN&quot;, 1);   // higher prio than MASS_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SHOW_COMPOUNDS&quot;, 1);   // higher prio than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_AREA&quot;, 1);   // higher prio than you/your confusion rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IF_VB_PCT&quot;, 1);   // higher prio than IF_VB</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CAUSE_BECAUSE&quot;, 1);   // higher prio than MISSING_TO_BETWEEN_BE_AND_VB</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MAY_MANY&quot;, 1);   // higher prio than MAY_MANY_MY</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BOUT_TO&quot;, 1);   // higher prio than PRP_VB</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HAVE_HAVE&quot;, 1);   // higher prio than HE_D_VBD</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;LUV&quot;, 1);   // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DAT&quot;, 1);   // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MAC_OS&quot;, 1);   // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BESTEST&quot;, 1);   // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;OFF_OF&quot;, 1);   // higher prio than ADJECTIVE_ADVERB</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SHELL_COMPOUNDS&quot;, 1);   // higher prio than HELL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HANDS_ON_HYPHEN&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PROFITS_WARNINGS&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;QUIET_QUITE&quot;, 1);   // higher prio than A_QUITE_WHILE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_OK&quot;, 1);   // prefer over A_AN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;I_A&quot;, 1);   // higher prio than I_IF</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_NO_VB&quot;, 1);   // higher prio than I_IF</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GAVE_HAVE&quot;, 1);   // higher prio than MD_BASEFORM</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THERE_FORE&quot;, 1);   // higher prio than FORE_FOR</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FOLLOW_UP&quot;, 1);   // higher prio than MANY_NN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IT_SOMETHING&quot;, 1);   // higher prio than IF_YOU_ANY and IT_THE_PRP</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NO_KNOW&quot;, 1);   // higher prio than DOUBLE_NEGATIVE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WILL_BASED_ON&quot;, 1);   // higher prio than MD_BASEFORM / PRP_PAST_PART</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DON_T_AREN_T&quot;, 1);   // higher prio than DID_BASEFORM</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WILL_BECOMING&quot;, 1);   // higher prio than MD_BASEFORM</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WOULD_NEVER_VBN&quot;, 1);   // higher prio than MD_BASEFORM</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MONEY_BACK_HYPHEN&quot;, 1);   // higher prio than A_UNCOUNTABLE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WORLDS_BEST&quot;, 1);   // higher prio than THE_SUPERLATIVE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;STEP_COMPOUNDS&quot;, 1);   // higher prio than STARS_AND_STEPS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WON_T_TO&quot;, 1);   // higher prio than DON_T_AREN_T</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WAN_T&quot;, 1);   // higher prio than DON_T_AREN_T</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THE_US&quot;, 1);   // higher prio than DT_PRP</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THE_IT&quot;, 1);   // higher prio than DT_PRP</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THANK_YOU_MUCH&quot;, 1);   // higher prio than other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TO_DO_HYPHEN&quot;, 1);   // higher prio than other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_NUMBER_NNS&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_HUNDREDS&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NOW_A_DAYS&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COUPLE_OF_TIMES&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_WINDOWS&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_SCISSOR&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_SNICKERS&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_NNS_BEST_NN&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BACHELORS&quot;, 1);   // higher prio than A_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WERE_WEAR&quot;, 1);   // higher prio than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NEITHER_NOR&quot;, 1);   // higher prio than COMMA_COMPOUND_SENTENCE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FOR_AWHILE&quot;, 1);   // higher prio than COMMA_COMPOUND_SENTENCE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_BUT&quot;, 1);   // higher prio than COMMA_COMPOUND_SENTENCE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BORN_IN&quot;, 1);   // higher prio than PRP_PAST_PART</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DO_TO&quot;, 1);   // higher prio than HAVE_PART_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CURIOS_CURIOUS&quot;, 1);   // higher prio than A_NNS and POSSESSIVE_APOSTROPHE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;INCORRECT_POSSESSIVE_APOSTROPHE&quot;, 1);  // higher prio than THIS_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THIS_YEARS_POSSESSIVE_APOSTROPHE&quot;, 1);  // higher prio than THIS_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SPURIOUS_APOSTROPHE&quot;, 1);   // higher prio than THIS_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_NOT_BE_JJ&quot;, 1);   // higher prio than BEEN_PART_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IN_THIS_REGARDS&quot;, 1);   // higher prio than THIS_NNS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IT_SEAMS&quot;, 1);   // higher prio than THIS_NNS_VB</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NO_WHERE&quot;, 1);   // higher prio than NOW</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;APOSTROPHE_VS_QUOTE&quot;, 1);   // higher prio than EN_QUOTES</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ALL_OF_SUDDEN&quot;, 1);   // higher prio than ALL_MOST_SOME_OF_NOUN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COMMA_PERIOD&quot;, 1);   // higher prio than COMMA_PARENTHESIS_WHITESPACE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COMMA_CLOSING_PARENTHESIS&quot;, 1);   // higher prio than COMMA_PARENTHESIS_WHITESPACE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ELLIPSIS&quot;, 1);   // higher prio than COMMA_PARENTHESIS_WHITESPACE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HERE_HEAR&quot;, 1);   // higher prio than ENGLISH_WORD_REPEAT_RULE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MISSING_POSS_APOS&quot;, 1);   // higher prio than SINGULAR_NOUN_VERB_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DO_HE_VERB&quot;, 1);   // prefer over HE_VERB_AGR</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;LIGATURES&quot;, 1);   // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;APPSTORE&quot;, 1);   // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;INCORRECT_CONTRACTIONS&quot;, 1);   // prefer over EN_CONTRACTION_SPELLING</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DONT_T&quot;, 1);   // prefer over EN_CONTRACTION_SPELLING</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WHATS_APP&quot;, 1);   // prefer over EN_CONTRACTION_SPELLING</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NON_STANDARD_COMMA&quot;, 1);   // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NON_ENGLISH_CHARACTER_IN_A_WORD&quot;, 1);  // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WONT_CONTRACTION&quot;, 1);   // prefer over WONT_WANT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THAN_THANK&quot;, 1);   // prefer over THAN_THEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SPURIOUS_APOSTROPHE&quot;, 1);   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IT_IF&quot;, 1);   // needs higher prio than PRP_COMMA and IF_YOU_ANY</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FINE_TUNE_COMPOUNDS&quot;, 1);   // prefer over less specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WHAT_IS_YOU&quot;, 1);   // prefer over HOW_DO_I_VB, NON3PRS_VERB</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SUPPOSE_TO&quot;, 1);   // prefer over HOW_DO_I_VB and I_AM_VB and ARE_WE_HAVE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CONFUSION_GONG_GOING&quot;, 1);   // prefer over I_AM_VB</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEEN_SEEM&quot;, 1);   // prefer over PRP_PAST_PART</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PROFANITY&quot;, 1);   // prefer over spell checker (less prio than EN_COMPOUNDS)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PROFANITY_XML&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GOOD_FLUCK&quot;, 2);   // prefer over PROFANITY</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PROFANITY_TYPOS&quot;, 2);   // prefer over PROFANITY</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THE_THEM&quot;, 1);   // prefer over TO_TWO</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THERE_THEIR&quot;, 1);   // prefer over GO_TO_HOME</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TO_WORRIED_ABOUT&quot;, 1);   // higher prio than TO_TOO</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IT_IS_DEPENDING_ON&quot;, 1);   // prefer over PROGRESSIVE_VERBS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TO_NIGHT_TO_DAY&quot;, 1);   // prefer over TOO_JJ_TO</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IRREGARDLESS&quot;, 1);   // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_APOSTROPHE_VB&quot;, 1);   // prefer over typography rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ULTRA_HYPHEN&quot;, 1);   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THINK_BELIEVE_THAT&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HAS_TO_APPROVED_BY&quot;, 1);   // prefer over TO_NON_BASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_VBD&quot;, -1);  // prefer LOWERCASE_MONTHS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_PRP&quot;, -1);  // prefer other rules that give a suggestion</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IS_LIKELY_TO_BE&quot;, -1);  // give IS_RB_BE precedence (more suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WANNA&quot;, 1);   // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;LOOK_FORWARD_TO&quot;, 1);   // prefer over LOOK_FORWARD_NOT_FOLLOWED_BY_TO</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;LOOK_SLIKE&quot;, 1);   // higher prio than prem:SINGULAR_NOUN_VERB_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A3FT&quot;, 1);   // higher prio than NUMBERS_IN_WORDS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HYPHEN_TO_EN&quot;, 1);   // higher prio than DASH_RULE (due to one picky subrule)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EVERY_NOW_AND_THEN&quot;, 0);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EN_DIACRITICS_REPLACE_ORTHOGRAPHY&quot;, -1);   // prefer over spell checker, less prio than ATTACHE_ATTACH</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MISSING_COMMA_BETWEEN_DAY_AND_YEAR&quot;, -1);   // less priority than DATE_WEEKDAY</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FASTLY&quot;, -1);   // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WHO_NOUN&quot;, -1);   // prefer SPECIFIC_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ANYWAYS&quot;, -1);   // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MISSING_GENITIVE&quot;, -1);  // prefer over spell checker (like EN_SPECIFIC_CASE)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EN_UNPAIRED_BRACKETS&quot;, -1);  // less priority than rules that suggest the correct brackets</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WAKED_UP&quot;, -1);  // less priority than other grammar rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NEEDS_FIXED&quot;, -1);  // less priority than MISSING_TO_BEFORE_A_VERB</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENT_START_NNP_COMMA&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENT_START_NN_DT&quot;, -1);  // prefer MISSING_PREPOSITION</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DT_PDT&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_VB_AND_NOTVB&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BLACK_SEA&quot;, -1);  // less priority than SEA_COMPOUNDS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_TO&quot;, -1);  // less priority than other rules that offer suggestions</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MANY_NN&quot;, -1);  // less priority than PUSH_UP_HYPHEN, SOME_FACULTY</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WE_BE&quot;, -1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_LOT_OF_NN&quot;, -1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;REPETITIONS_STYLE&quot;, -51);  // repetition style rules, usually with prefix REP_</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ORDER_OF_WORDS_WITH_NOT&quot;, -1);  // less prio than punctuation rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ADVERB_WORD_ORDER_10_TEMP&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ADVERB_WORD_ORDER&quot;, -1);  // less prio than PRP_PAST_PART //</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HAVE_VB_DT&quot;, -1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_PRP&quot;, -1);  // prefer ME_BE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IT_IS_2&quot;, -1);  // needs higher prio than BEEN_PART_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_RB_NN&quot;, -1);  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DT_RB_IN&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERB_NOUN_CONFUSION&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NOUN_VERB_CONFUSION&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PLURAL_VERB_AFTER_THIS&quot;, -1);  // prefer other more specific rules (e.g. COMMA_TAG_QUESTION)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_RB_BE&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IT_ITS&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ENGLISH_WORD_REPEAT_RULE&quot;, -1);  // prefer other more specific rules (e.g. IT_IT)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DT_JJ_NO_NOUN&quot;, -1);  // prefer other more specific rules (e.g. THIRD_PARTY)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AGREEMENT_SENT_START&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PREPOSITION_VERB&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EN_A_VS_AN&quot;, -1);  // prefer other more specific rules (with suggestions, e.g. AN_ALSO)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CD_NN&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CD_NNU&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ATD_VERBS_TO_COLLOCATION&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ORDINAL_NUMBER_MISSING_ORDINAL_INDICATOR&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ADVERB_OR_HYPHENATED_ADJECTIVE&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GOING_TO_VBD&quot;, -1);  // prefer other more specific rules (with suggestions, e.g. GOING_TO_JJ)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MISSING_PREPOSITION&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CHARACTER_APOSTROPHE_WORD&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SINGLE_CHARACTER&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_TO_VBG&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NON3PRS_VERB&quot;, -1);  // prefer other more specific rules (with suggestions, e.g. DONS_T)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DT_NN_VBG&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NNS_THAT_ARE_JJ&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DID_FOUND_AMBIGUOUS&quot;, -1);  // prefer other more specific rules (e.g. TWO_CONNECTED_MODAL_VERBS)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_I_BE_GERUND&quot;, -1);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VBZ_VBD&quot;, -1);  // prefer other more specific rules (e.g. IS_WAS)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SUPERLATIVE_THAN&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UNLIKELY_OPENING_PUNCTUATION&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_DT_JJ&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;I_IF&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NOUNPHRASE_VB_RB_DT&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENT_START_NN_NN_VB&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VB_A_JJ_NNS&quot;, -1);  // prefer other more specific rules (e.g. A_NNS)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DUPLICATION_OF_IS_VBZ&quot;, -1);  // prefer other more specific rules (e.g. A_NNS)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;METRIC_UNITS_EN_IMPERIAL&quot;, -1);  // prefer MILE_HYPHEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IF_THEN_COMMA&quot;, -1);  // prefer CONFUSION_OF_THEN_THAN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COMMA_COMPOUND_SENTENCE&quot;, -1);  // prefer other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COMMA_COMPOUND_SENTENCE_2&quot;, -1);  // prefer other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_VBG_BE&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_VB_VB&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FOR_ANY_CLARIFICATIONS&quot;, -1);  // prefer SENT_START_ALL_CAPITALS and ALL_UPPERCASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PLEASE_LET_ME_KNOW&quot;, -1);  // prefer SENT_START_ALL_CAPITALS and ALL_UPPERCASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UNNECESSARY_CAPITALIZATION&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CONFUSION_OF_A_JJ_NNP_NNS_PRP&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PLURALITY_CONFUSION_OF_NNS_OF_NN&quot;, -1); // prefer several compound rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NP_TO_IS&quot;, -1);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;REPEATED_VERBS&quot;, -1);  // prefer other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NNP_COMMA_QUESTION&quot;, -2);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THE_CC&quot;, -2);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_VBG&quot;, -2);  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CANT_JJ&quot;, -2);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WOULD_A&quot;, -2);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;I_AM_VB&quot;, -2);  // prefer other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VBP_VBP&quot;, -2);  // prefer more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GONNA_TEMP&quot;, -3);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;A_INFINITIVE&quot;, -3);  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;INDIAN_ENGLISH&quot;, -3);  // prefer grammar rules, but higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DO_PRP_NOTVB&quot;, -3);  // prefer other more specific rules (e.g. HOW_DO_I_VB)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GONNA&quot;, -4);  // prefer over spelling rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WHATCHA&quot;, -4);  // prefer over spelling rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DONTCHA&quot;, -4);  // prefer over spelling rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GOTCHA&quot;, -4);  // prefer over spelling rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;OUTTA&quot;, -4);  // prefer over spelling rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;Y_ALL&quot;, -4);  // prefer over spelling rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GIMME&quot;, -4);  // prefer over spelling rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;LEMME&quot;, -4);  // prefer over spelling rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ID_CASING&quot;, -4);  // prefer over spelling rules but not over ID_IS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MORFOLOGIK_RULE_EN_US&quot;, -10);  // more specific rules (e.g. L2 rules) have priority</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MORFOLOGIK_RULE_EN_GB&quot;, -10);  // more specific rules (e.g. L2 rules) have priority</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MORFOLOGIK_RULE_EN_CA&quot;, -10);  // more specific rules (e.g. L2 rules) have priority</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MORFOLOGIK_RULE_EN_ZA&quot;, -10);  // more specific rules (e.g. L2 rules) have priority</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MORFOLOGIK_RULE_EN_NZ&quot;, -10);  // more specific rules (e.g. L2 rules) have priority</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MORFOLOGIK_RULE_EN_AU&quot;, -10);  // more specific rules (e.g. L2 rules) have priority</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UPPERCASE_SENTENCE_START&quot;, -11);  // speller needs higher priority</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_PRP_QUESTION_MARK&quot;, -11);  // speller needs higher priority</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_RB_NO_VB&quot;, -12);  // prefer other more specific rules (with suggestions)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_JJ&quot;, -12);  // prefer other rules (e.g. NOUN_VERB_CONFUSION)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HE_VERB_AGR&quot;, -12);  // prefer other more specific rules (e.g. AI models, PRP_VBG)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_BASEFORM&quot;, -12);  // prefer other more specific rules (e.g. AI models)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IT_VBZ&quot;, -12);  // prefer other more specific rules (e.g. AI models)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_THE&quot;, -12);  // prefer other rules (e.g. AI models, I_A, PRP_JJ, IF_YOU_ANY, I_AN)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_JJ&quot;, -12);  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SINGULAR_NOUN_VERB_AGREEMENT&quot;, -12);  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SINGULAR_AGREEMENT_SENT_START&quot;, -12);    // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VB_TO_NN_DT&quot;, -12);  // prefer AI and other more specific rules (e.g. NOUN_VERB_CONFUSION)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SUBJECTVERBAGREEMENT_2&quot;, -12);    // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THE_SENT_END&quot;, -12);    // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DT_NN_ARE_AME&quot;, -12);    // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COLLECTIVE_NOUN_VERB_AGREEMENT_VBP&quot;, -12);    // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SUBJECT_VERB_AGREEMENT&quot;, -12);    // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERB_APOSTROPHE_S&quot;, -12);    // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WHERE_MD_VB&quot;, -12);    // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENT_START_PRPS_JJ_NN_VBP&quot;, -12);  // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TO_AFTER_MODAL_VERBS&quot;, -12);  // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SINGULAR_NOUN_ADV_AGREEMENT&quot;, -12);  // prefer AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_VBP_IN&quot;, -12);  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_VBG_NN&quot;, -12);  // prefer other more specific rules and speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THE_NNS_NN_IS&quot;, -12);  // prefer HYDRA_LEO</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IF_DT_NN_VBZ&quot;, -12);  // prefer HYDRA_LEO and lector</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_MD_NN&quot;, -12);  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HAVE_PART_AGREEMENT&quot;, -13);  // prefer HYDRA_LEO and lector</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BEEN_PART_AGREEMENT&quot;, -13);  // prefer HYDRA_LEO and lector</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_WITH_WRONG_VERB_FORM&quot;, -14);  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TWO_CONNECTED_MODAL_VERBS&quot;, -15);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_NO_ADVERB_VERB&quot;, -15);  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MISSING_TO_BETWEEN_BE_AND_VB&quot;, -15); // prefer AI and comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IN_DT_IN&quot;, -15); // prefer AI and comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MISSING_SUBJECT&quot;, -15);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HAVE_TO_NOTVB&quot;, -15); // prefer AI and comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PLEASE_DO_NOT_THE_CAT&quot;, -15); // prefer AI and comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VB_TO_JJ&quot;, -15); // prefer AI and comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;CC_PRP_ARTICLE&quot;, -15);  // prefer other more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_MD&quot;, -20);  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;POSSESSIVE_APOSTROPHE&quot;, -10);  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WANT_TO_NN&quot;, -25);  // prefer more specific rules that give a suggestion</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;QUESTION_WITHOUT_VERB&quot;, -25);  // prefer more specific rules that give a suggestion</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_VB&quot;, -25);  // prefer other rules (with suggestions, e.g. confusion rules)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_VB_NN&quot;, -25);  // prefer other more specific rules (e.g. HYDRA_LEO)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_NN&quot;, -26);  // prefer other more specific rules (e.g. PRP_VB_NN, BEEN_PART_AGREEMENT, HYDRA_LEO)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE_VB_OR_NN&quot;, -26);  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DO_DT_NN_BE&quot;, -26);  // prefer other more specific rules (e.g. PRP_VB_NN, BE_MD, BEEN_PART_AGREEMENT, HYDRA_LEO)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRONOUN_NOUN&quot;, -26);  // prefer other rules (with suggestions, e.g. confusion rules)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ETC_PERIOD&quot;, -49);  // prefer over QB rules that are now style</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COULD_YOU_NOT_NEEDED&quot;, -49);  // prefer over TAKE_A_LOOK</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENTENCE_FRAGMENT&quot;, -50);  // prefer other more important sentence start corrections.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENTENCE_FRAGMENT&quot;, -51);  // prefer other more important sentence start corrections.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEEMS_TO_BE&quot;, -51);  // prefer SEEM_APPEAR</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MD_NN&quot;, -60);  // prefer PRP_MD_NN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;I_THINK_FEEL&quot;, -60);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KNOW_AWARE_REDO&quot;, -60);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EN_REDUNDANCY_REPLACE&quot;, -510);  // style rules should always have the lowest priority.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EN_PLAIN_ENGLISH_REPLACE&quot;, -511);  // style rules should always have the lowest priority.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;REP_PASSIVE_VOICE&quot;, -599);  // higher prio than PASSIVE_VOICE for testing purposes, but lower than other style rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FOUR_NN&quot;, -599);  // higher prio than THREE_NN for testing purposes, but lower than other style rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;THREE_NN&quot;, -600);  // style rules should always have the lowest priority.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENT_START_NUM&quot;, -600);  // style rules should always have the lowest priority.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PASSIVE_VOICE&quot;, -600);  // style rules should always have the lowest priority.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EG_NO_COMMA&quot;, -600);  // style rules should always have the lowest priority.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IE_NO_COMMA&quot;, -600);  // style rules should always have the lowest priority.</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;REASON_WHY&quot;, -600);  // style rules should always have the lowest priority.</b>
+<b class="nc">&nbsp;    id2prio.put(LongSentenceRule.RULE_ID, -997);</b>
+<b class="nc">&nbsp;    id2prio.put(LongParagraphRule.RULE_ID, -998);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ALL_UPPERCASE&quot;, -1000);  // do not hide spelling and grammar issues, when text is all upper case	  </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;String, Integer&gt; getPriorityMap() {
+<b class="nc">&nbsp;    return id2prio;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="nc">&nbsp;    Integer prio = id2prio.get(id);</b>
+<b class="nc">&nbsp;    if (prio != null) {</b>
+<b class="nc">&nbsp;      return prio;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;EN_COMPOUNDS_&quot;)) {</b>
+<b class="nc">&nbsp;      return 2;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.equals(&quot;PRP_VBZ&quot;)) {</b>
+<b class="nc">&nbsp;      return -2; // prefer other more specific rules (with suggestions)</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CONFUSION_RULE_&quot;)) {</b>
+<b class="nc">&nbsp;      return -20;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.equals(&quot;EN_UPPER_CASE_NGRAM&quot;)) {</b>
+<b class="nc">&nbsp;      return -12; // prefer other more specific rules (e.g. AI models)</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_SPELLING_RULE&quot;)) {</b>
+<b class="nc">&nbsp;      return -9; // higher than MORFOLOGIK_*, for testing</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;EN_MULTITOKEN_SPELLING_&quot;)) {</b>
+<b class="nc">&nbsp;      return -9; // higher than MORFOLOGIK_*</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;EN_GB_SIMPLE_REPLACE&quot;)) {</b>
+<b class="nc">&nbsp;      return -5; // higher than MORFOLOGIK_*</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;EN_US_SIMPLE_REPLACE&quot;)) {</b>
+<b class="nc">&nbsp;      return -5; // higher than MORFOLOGIK_*</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.equals(&quot;QB_EN_OXFORD&quot;)) {</b>
+<b class="nc">&nbsp;      return -51; // MISSING_COMMA_AFTER_YEAR</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;EN_SIMPLE_REPLACE&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;      (id.endsWith(&quot;GRAMME&quot;) || id.endsWith(&quot;GRAMMES&quot;))) {</b>
+<b class="nc">&nbsp;      return -49; // Higher prio than Oxford rule</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_HYDRA_LEO&quot;)) { // prefer more specific rules (also speller)</b>
+<b class="nc">&nbsp;      if (id.equals(&quot;AI_HYDRA_LEO_MISSING_COMMA&quot;)) {</b>
+<b class="nc">&nbsp;        return -51; // prefer comma style rules.</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_HYDRA_LEO_CP_YOU_YOUARE&quot;)) {</b>
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_HYDRA_LEO_CP&quot;)) {</b>
+<b class="nc">&nbsp;        return 2;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_HYDRA_LEO_MISSING_TO&quot;)) {</b>
+<b class="nc">&nbsp;        return -14; // prefer lector, HAVE_PART_AGREEMENT and BEEN_PART_AGREEMENT</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return -11;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_EN_LECTOR&quot;)) { // prefer more specific rules (also speller)</b>
+<b class="nc">&nbsp;      return -11;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (FALSE_FRIENDS_PATTERN.matcher(id).matches()) {</b>
+<b class="nc">&nbsp;      return -21;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return super.getPriorityForId(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Function&lt;Rule, Rule&gt; getRemoteEnhancedRules(ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages, boolean inputLogging) throws IOException {
+<b class="nc">&nbsp;    Function&lt;Rule, Rule&gt; fallback = super.getRemoteEnhancedRules(messageBundle, configs, userConfig, motherTongue, altLanguages, inputLogging);</b>
+<b class="nc">&nbsp;    RemoteRuleConfig bert = RemoteRuleConfig.getRelevantConfig(BERTSuggestionRanking.RULE_ID, configs);</b>
+&nbsp;
+<b class="nc">&nbsp;    return original -&gt; {</b>
+<b class="nc">&nbsp;      if (original.isDictionaryBasedSpellingRule() &amp;&amp; original.getId().startsWith(&quot;MORFOLOGIK_RULE_EN&quot;)) {</b>
+<b class="nc">&nbsp;        if (bert != null) {</b>
+<b class="nc">&nbsp;          return new BERTSuggestionRanking(this, original, bert, inputLogging);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return fallback.apply(original);</b>
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean hasMinMatchesRules() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;      return new MorfologikAmericanSpellerRule(messages, this, null, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public List&lt;RuleMatch&gt; filterRuleMatches(List&lt;RuleMatch&gt; ruleMatches, AnnotatedText text, Set&lt;String&gt; enabledRules) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; newRuleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RuleMatch rm : ruleMatches) {</b>
+<b class="nc">&nbsp;      String errorStr = rm.getOriginalErrorStr();</b>
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; suggestedReplacements = rm.getSuggestedReplacementObjects();</b>
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; newReplacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {</b>
+<b class="nc">&nbsp;        String newReplStr = suggestedReplacement.getReplacement();</b>
+<b class="nc">&nbsp;        if (errorStr.length() &gt; 2) {</b>
+&nbsp;          // add a whitespace when the error is in a contraction and the suggestion is not
+<b class="nc">&nbsp;          if (errorStr.startsWith(&quot;&#39;&quot;) &amp;&amp; !newReplStr.startsWith(&quot;&#39;&quot;) &amp;&amp; !newReplStr.startsWith(&quot;’&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; !newReplStr.startsWith(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;            newReplStr = &quot; &quot; + newReplStr;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (errorStr.startsWith(&quot;n&#39;t&quot;) &amp;&amp; !newReplStr.startsWith(&quot;n&#39;t&quot;) &amp;&amp; !newReplStr.startsWith(&quot;n’t&quot;)) {</b>
+<b class="nc">&nbsp;            newReplStr = &quot; &quot; + newReplStr;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);</b>
+<b class="nc">&nbsp;        newSuggestedReplacement.setReplacement(newReplStr);</b>
+<b class="nc">&nbsp;        if (!newReplacements.contains(newSuggestedReplacement)) {</b>
+<b class="nc">&nbsp;          newReplacements.add(newSuggestedReplacement);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      RuleMatch newMatch = new RuleMatch(rm, newReplacements);</b>
+<b class="nc">&nbsp;      if (newMatch.getSpecificRuleId().startsWith(&quot;EN_SIMPLE_REPLACE&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;        (newMatch.getSpecificRuleId().endsWith(&quot;GRAMME&quot;) || newMatch.getSpecificRuleId().endsWith(&quot;GRAMMES&quot;))) {</b>
+<b class="nc">&nbsp;        newMatch.getRule().setLocQualityIssueType(ITSIssueType.LocaleViolation);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      newRuleMatches.add(newMatch);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newRuleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; prepareLineForSpeller(String line) {
+<b class="nc">&nbsp;    String[] parts = line.split(&quot;#&quot;);</b>
+<b class="nc">&nbsp;    if (parts.length == 0) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (line.contains(&quot;+&quot;)) {</b>
+&nbsp;      // while the morfologik separator is &quot;+&quot;, multiwords with &#39;+&#39; can cause undesired results.
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] formTag = parts[0].split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;    String form = formTag[0].trim();</b>
+<b class="nc">&nbsp;    if (formTag.length &gt; 1) {</b>
+<b class="nc">&nbsp;      String tag = formTag[1].trim();</b>
+<b class="nc">&nbsp;      if (tag.startsWith(&quot;NN&quot;) || tag.startsWith(&quot;JJ&quot;)) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(form);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return Collections.singletonList(&quot;&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.singletonList(line);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MultitokenSpeller getMultitokenSpeller() {
+<b class="nc">&nbsp;    return EnglishMultitokenSpeller.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

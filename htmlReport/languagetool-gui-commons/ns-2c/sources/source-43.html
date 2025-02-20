@@ -1,0 +1,302 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > StyleRepeatedVeryShortSentences</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: StyleRepeatedVeryShortSentences (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StyleRepeatedVeryShortSentences</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/68)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/81)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.Category;
+&nbsp;import org.languagetool.rules.CategoryId;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.RuleOption;
+&nbsp;import org.languagetool.rules.TextLevelRule;
+&nbsp;import org.languagetool.rules.Category.Location;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule checks the use of very short sentences repeatedly.
+&nbsp; * This rule detects no grammar error but a stylistic problem (default off)
+&nbsp; * @author Fred Kruse
+&nbsp; * @since 5.2
+&nbsp; */
+&nbsp;public class StyleRepeatedVeryShortSentences extends TextLevelRule {
+&nbsp;  
+&nbsp;  private final static int MIN_REPEATED = 3;
+&nbsp;  private final static int MIN_WORDS = 4;
+&nbsp;  private final static boolean EXCLUDE_DIRECT_SPEECH = true;
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern OPENING_QUOTES = Pattern.compile(&quot;[\&quot;“„»«]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ENDING_QUOTES = Pattern.compile(&quot;[\&quot;“”»«]&quot;);</b>
+&nbsp;
+&nbsp;  private final Language lang;
+<b class="nc">&nbsp;  private int minWords = MIN_WORDS;</b>
+<b class="nc">&nbsp;  private int minRepeated = MIN_REPEATED;</b>
+<b class="nc">&nbsp;  private boolean excludeDirectSpeech = EXCLUDE_DIRECT_SPEECH;</b>
+&nbsp;
+&nbsp;  public StyleRepeatedVeryShortSentences(ResourceBundle messages, Language lang, UserConfig userConfig) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    super.setCategory(new Category(new CategoryId(&quot;CREATIVE_WRITING&quot;), </b>
+<b class="nc">&nbsp;        messages.getString(&quot;category_creative_writing&quot;), Location.INTERNAL, false));</b>
+<b class="nc">&nbsp;    this.lang = lang;</b>
+<b class="nc">&nbsp;    setDefaultOff();</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Style);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Das Auto kam &lt;marker&gt;näher.&lt;/marker&gt; Der Hund &lt;marker&gt;schlief.&lt;/marker&gt; Die Reifen &lt;marker&gt;quietschten.&lt;/marker&gt;&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Das Auto kam näher. Tief und fest schlief der Hund. Die Reifen quietschten.&quot;));</b>
+<b class="nc">&nbsp;    if (userConfig != null) {</b>
+<b class="nc">&nbsp;      Object[] cf = userConfig.getConfigValueByID(getId());</b>
+<b class="nc">&nbsp;      if (cf != null) {</b>
+<b class="nc">&nbsp;        if (cf.length &gt; 0 &amp;&amp; cf[0] != null &amp;&amp; cf[0] instanceof Integer) {</b>
+<b class="nc">&nbsp;          minRepeated = (int) cf[0];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (cf.length &gt; 1 &amp;&amp; cf[1] != null &amp;&amp; cf[1] instanceof Integer) {</b>
+<b class="nc">&nbsp;          minWords = (int) cf[1];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (cf.length &gt; 2 &amp;&amp; cf[2] != null &amp;&amp; cf[2] instanceof Boolean) {</b>
+<b class="nc">&nbsp;          excludeDirectSpeech = (boolean) cf[2];</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(List&lt;AnalyzedSentence&gt; sentences) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (sentences.size() &lt; minRepeated) {</b>
+<b class="nc">&nbsp;      return toRuleMatchArray(ruleMatches);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    int nRepeated = 0;</b>
+<b class="nc">&nbsp;    List&lt;Integer&gt; startPos = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;Integer&gt; endPos = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedSentence&gt; repeatedSentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = null;</b>
+<b class="nc">&nbsp;    int n = -1;</b>
+<b class="nc">&nbsp;    int nPara  = -1;</b>
+<b class="nc">&nbsp;    boolean beginnsWithDirectSpeech = false;</b>
+<b class="nc">&nbsp;    boolean endsWithDirectSpeech = false;</b>
+<b class="nc">&nbsp;    for (AnalyzedSentence sentence : sentences) {</b>
+<b class="nc">&nbsp;      n++;</b>
+<b class="nc">&nbsp;      nPara++;</b>
+<b class="nc">&nbsp;      tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;      if (excludeDirectSpeech) {</b>
+<b class="nc">&nbsp;        if (endsWithDirectSpeech) {</b>
+<b class="nc">&nbsp;          beginnsWithDirectSpeech = true;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          beginnsWithDirectSpeech = false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;          if (!beginnsWithDirectSpeech &amp;&amp; OPENING_QUOTES.matcher(tokens[i].getToken()).matches() </b>
+<b class="nc">&nbsp;              &amp;&amp; i &lt; tokens.length - 1 &amp;&amp; !tokens[i + 1].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;            beginnsWithDirectSpeech = true;</b>
+<b class="nc">&nbsp;            endsWithDirectSpeech = true;</b>
+<b class="nc">&nbsp;          } else if (beginnsWithDirectSpeech &amp;&amp; ENDING_QUOTES.matcher(tokens[i].getToken()).matches() </b>
+<b class="nc">&nbsp;              &amp;&amp; i &gt; 1 &amp;&amp; !tokens[i].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;            endsWithDirectSpeech = false;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      boolean paragraphEnd = Tools.isParagraphEnd(sentences, n, lang);</b>
+<b class="nc">&nbsp;      if (!beginnsWithDirectSpeech &amp;&amp; (!paragraphEnd || nPara &gt; 0) &amp;&amp; tokens.length &gt; 3 &amp;&amp; tokens.length &lt;= minWords + 2) {</b>
+&nbsp;            // 3 -&gt; skip one word sentences
+&nbsp;            // max tokens: minWords + SENT_START + punctuation mark
+<b class="nc">&nbsp;        repeatedSentences.add(sentence);</b>
+<b class="nc">&nbsp;        startPos.add(tokens[tokens.length - 2].getStartPos() + pos);</b>
+<b class="nc">&nbsp;        endPos.add(tokens[tokens.length - 1].getEndPos() + pos);</b>
+<b class="nc">&nbsp;        nRepeated++;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (nRepeated &gt;= minRepeated) {</b>
+<b class="nc">&nbsp;          for (int i = 0; i &lt; repeatedSentences.size(); i++) {</b>
+<b class="nc">&nbsp;            RuleMatch ruleMatch = new RuleMatch(this, repeatedSentences.get(i), startPos.get(i), endPos.get(i), getDescription());</b>
+<b class="nc">&nbsp;            ruleMatches.add(ruleMatch);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        repeatedSentences.clear();</b>
+<b class="nc">&nbsp;        startPos.clear();</b>
+<b class="nc">&nbsp;        endPos.clear();</b>
+<b class="nc">&nbsp;        nRepeated = 0;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      pos += sentence.getCorrectedTextLength();</b>
+<b class="nc">&nbsp;      if (paragraphEnd) {</b>
+<b class="nc">&nbsp;        nPara = -1;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (nRepeated &gt;= minRepeated) {</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; repeatedSentences.size(); i++) {</b>
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(this, repeatedSentences.get(i), startPos.get(i), endPos.get(i), getDescription());</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatch);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int minToCheckParagraph() {
+<b class="nc">&nbsp;    return minRepeated;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;STYLE_REPEATED_SHORT_SENTENCES&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Stakkato-Sätze&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   *  give the user the possibility to configure the function
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public RuleOption[] getRuleOptions() {
+<b class="nc">&nbsp;    RuleOption[] ruleOptions = {</b>
+<b class="nc">&nbsp;        new RuleOption(MIN_REPEATED, &quot;Anzahl von kurzen Sätzen hintereinander&quot;, 0, 10),</b>
+<b class="nc">&nbsp;        new RuleOption(MIN_WORDS, &quot;Maximale Länge eines kurzen Satzes&quot;, 0, 10),</b>
+<b class="nc">&nbsp;        new RuleOption(EXCLUDE_DIRECT_SPEECH, &quot;Direkte Rede und Zitate ausschließen&quot;)</b>
+&nbsp;    };
+<b class="nc">&nbsp;    return ruleOptions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

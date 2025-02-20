@@ -1,0 +1,387 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SuggestionsOrdererFeatureExtractor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.suggestions</a>
+</div>
+
+<h1>Coverage Summary for Class: SuggestionsOrdererFeatureExtractor (org.languagetool.rules.spelling.suggestions)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SuggestionsOrdererFeatureExtractor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/39)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SuggestionsOrdererFeatureExtractor$Feature</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.spelling.suggestions;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.builder.ToStringBuilder;
+&nbsp;import org.apache.commons.lang3.tuple.Pair;
+&nbsp;import org.apache.commons.text.similarity.JaroWinklerDistance;
+&nbsp;import org.apache.commons.text.similarity.SimilarityScore;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.languagemodel.BaseLanguageModel;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.ngrams.LanguageModelUtils;
+&nbsp;import org.languagetool.rules.spelling.morfologik.suggestions_ordering.DetailedDamerauLevenstheinDistance;
+&nbsp;import org.languagetool.rules.spelling.symspell.implementation.EditDistance;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Computes features that can be stored for training a model to rank suggestions,
+&nbsp; * or when using the same model for prediction
+&nbsp; * Used directly by SuggestionChangesTest for the former,
+&nbsp; * and as a superclass for the latter
+&nbsp; */
+&nbsp;public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(SuggestionsOrdererFeatureExtractor.class);</b>
+&nbsp;
+&nbsp;  protected final Language language;
+&nbsp;  protected final LanguageModel languageModel;
+&nbsp;
+<b class="nc">&nbsp;  protected int topN = -1;</b>
+&nbsp;  protected String score;
+&nbsp;  protected double mistakeProb;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  public SuggestionsOrdererFeatureExtractor(Language lang, LanguageModel languageModel) {</b>
+<b class="nc">&nbsp;    language = lang;</b>
+<b class="nc">&nbsp;    this.languageModel = languageModel;</b>
+<b class="nc">&nbsp;    initParameters();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void initParameters() {
+<b class="nc">&nbsp;    SuggestionChangesExperiment experiment = SuggestionsChanges.getInstance().getCurrentExperiment();</b>
+<b class="nc">&nbsp;    topN = (Integer) experiment.parameters.getOrDefault(&quot;topN&quot;, -1);</b>
+<b class="nc">&nbsp;    score = (String) experiment.parameters.get(&quot;score&quot;);</b>
+<b class="nc">&nbsp;    mistakeProb = (double) experiment.parameters.getOrDefault(&quot;levenstheinProb&quot;, 1.0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isMlAvailable() {
+<b class="nc">&nbsp;    return languageModel != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;SuggestedReplacement&gt; orderSuggestions(List&lt;String&gt; suggestions, String word, AnalyzedSentence sentence, int startPos) {
+<b class="nc">&nbsp;    return computeFeatures(suggestions, word, sentence, startPos).getLeft();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * compute features for training or prediction of a ranking model for suggestions
+&nbsp;   * @param suggestions
+&nbsp;   * @param word
+&nbsp;   * @param sentence
+&nbsp;   * @param startPos
+&nbsp;   * @return correction candidates, features for the match in general, features specific to candidates
+&nbsp;   */
+&nbsp;  public Pair&lt;List&lt;SuggestedReplacement&gt;, SortedMap&lt;String, Float&gt;&gt; computeFeatures(List&lt;String&gt; suggestions, String word, AnalyzedSentence sentence, int startPos) {
+<b class="nc">&nbsp;    if (suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return Pair.of(Collections.emptyList(), Collections.emptySortedMap());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (topN &lt;= 0) {</b>
+<b class="nc">&nbsp;      topN = suggestions.size();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; topSuggestions = suggestions.subList(0, Math.min(suggestions.size(), topN));</b>
+&nbsp;    //EditDistance&lt;Integer&gt; levenshteinDistance = new LevenshteinDistance(4);
+<b class="nc">&nbsp;    EditDistance levenstheinDistance = new EditDistance(word, EditDistance.DistanceAlgorithm.Damerau);</b>
+<b class="nc">&nbsp;    SimilarityScore&lt;Double&gt; jaroWrinklerDistance = new JaroWinklerDistance();</b>
+<b class="nc">&nbsp;    List&lt;Feature&gt; features = new ArrayList&lt;&gt;(topSuggestions.size());</b>
+&nbsp;
+<b class="nc">&nbsp;    for (String candidate : topSuggestions) {</b>
+<b class="nc">&nbsp;      double prob1 = languageModel.getPseudoProbability(Collections.singletonList(candidate)).getProb();</b>
+<b class="nc">&nbsp;      double prob3 = LanguageModelUtils.get3gramProbabilityFor(language, languageModel, startPos, sentence, candidate);</b>
+&nbsp;      //double prob4 = LanguageModelUtils.get4gramProbabilityFor(language, languageModel, startPos, sentence, candidate);
+<b class="nc">&nbsp;      long wordCount = ((BaseLanguageModel) languageModel).getCount(candidate);</b>
+<b class="nc">&nbsp;      int levenstheinDist = levenstheinDistance.compare(candidate, 3);</b>
+<b class="nc">&nbsp;      double jaroWrinklerDist = jaroWrinklerDistance.apply(word, candidate);</b>
+<b class="nc">&nbsp;      DetailedDamerauLevenstheinDistance.Distance detailedDistance = DetailedDamerauLevenstheinDistance.compare(word, candidate);</b>
+&nbsp;
+<b class="nc">&nbsp;      features.add(new Feature(prob1, prob3, wordCount, levenstheinDist, detailedDistance, jaroWrinklerDist, candidate));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!&quot;noop&quot;.equals(score)) {</b>
+<b class="nc">&nbsp;      features.sort(Feature::compareTo);</b>
+&nbsp;    }
+&nbsp;    //logger.trace(&quot;Features for &#39;%s&#39; in &#39;%s&#39;: %n&quot;, word, sentence.getText());
+&nbsp;    //features.stream().map(Feature::toString).forEach(logger::trace);
+<b class="nc">&nbsp;    List&lt;String&gt; words = features.stream().map(Feature::getWord).collect(Collectors.toList());</b>
+&nbsp;
+&nbsp;    // compute general features, not tied to candidates
+<b class="nc">&nbsp;    SortedMap&lt;String, Float&gt; matchData = new TreeMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    matchData.put(&quot;candidateCount&quot;, (float) words.size());</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; suggestionsData = features.stream().map(f -&gt; {</b>
+<b class="nc">&nbsp;      SuggestedReplacement s = new SuggestedReplacement(f.getWord());</b>
+<b class="nc">&nbsp;      s.setFeatures(f.getData());</b>
+<b class="nc">&nbsp;      return s;</b>
+<b class="nc">&nbsp;    }).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    return Pair.of(suggestionsData, matchData);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  class Feature implements Comparable&lt;Feature&gt;{
+&nbsp;    private final double prob1gram;
+&nbsp;    private final double prob3gram;
+&nbsp;    //private final double prob4gram;
+&nbsp;    private final long wordCount;
+&nbsp;    private final int levenshteinDistance;
+&nbsp;    private final DetailedDamerauLevenstheinDistance.Distance detailedDistance;
+&nbsp;    private final double jaroWrinklerDistance;
+&nbsp;    private final String word;
+&nbsp;
+&nbsp;    Feature(double prob1, double prob3, long wordCount, int levenshteinDistance,
+<b class="nc">&nbsp;            DetailedDamerauLevenstheinDistance.Distance detailedDistance, double jaroWrinklerDistance, String word) {</b>
+<b class="nc">&nbsp;      this.prob1gram = prob1;</b>
+<b class="nc">&nbsp;      this.prob3gram = prob3;</b>
+<b class="nc">&nbsp;      this.wordCount = wordCount;</b>
+<b class="nc">&nbsp;      this.levenshteinDistance = levenshteinDistance;</b>
+<b class="nc">&nbsp;      this.detailedDistance = detailedDistance;</b>
+<b class="nc">&nbsp;      this.jaroWrinklerDistance = jaroWrinklerDistance;</b>
+<b class="nc">&nbsp;      this.word = word;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getWord() {
+<b class="nc">&nbsp;      return word;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private int factorial(int n) {
+<b class="nc">&nbsp;      int factor = n;</b>
+<b class="nc">&nbsp;      int result = 1;</b>
+<b class="nc">&nbsp;      while (factor &gt; 1) {</b>
+<b class="nc">&nbsp;        result *= factor--;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private int binomialCoefficient(int n, int k) {
+<b class="nc">&nbsp;      return factorial(n) / (factorial(k) * factorial(n - k));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private double binomialProbability(double p, int n, int k) {
+<b class="nc">&nbsp;      return binomialCoefficient(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private double getMeanProbability() {
+&nbsp;      // TODO: test weighing unigrams less
+&nbsp;      // TODO: test 4grams again
+<b class="nc">&nbsp;      double ngramProb = Math.log(prob1gram) + Math.log(prob3gram);// + Math.log(prob4gram);</b>
+<b class="nc">&nbsp;      if (&quot;ngrams+levensthein&quot;.equals(score)) {</b>
+<b class="nc">&nbsp;        double misspellingProb = Math.pow(mistakeProb, levenshteinDistance);</b>
+<b class="nc">&nbsp;        return ngramProb + Math.log(misspellingProb);</b>
+<b class="nc">&nbsp;      } else if (&quot;ngrams&quot;.equals(score)) {</b>
+<b class="nc">&nbsp;        return ngramProb;</b>
+<b class="nc">&nbsp;      } else if (&quot;ngrams+binomialLevensthein&quot;.equals(score)) {</b>
+<b class="nc">&nbsp;        double misspellingProb = binomialProbability(mistakeProb, word.length(), levenshteinDistance);</b>
+<b class="nc">&nbsp;        return ngramProb + Math.log(misspellingProb);</b>
+<b class="nc">&nbsp;      } else if (&quot;noop&quot;.equals(score)) {</b>
+<b class="nc">&nbsp;        return 0;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Unknown scoring method: &quot; + score);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int compareTo(@NotNull Feature o) {
+&nbsp;      // sort descending
+<b class="nc">&nbsp;      return Double.compare(o.getMeanProbability(), this.getMeanProbability());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return new ToStringBuilder(this)</b>
+<b class="nc">&nbsp;        .append(&quot;word&quot;, word)</b>
+<b class="nc">&nbsp;        .append(&quot;data&quot;, getData())</b>
+<b class="nc">&nbsp;        .build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public SortedMap&lt;String, Float&gt; getData() {
+<b class="nc">&nbsp;      SortedMap&lt;String, Float&gt; data = new TreeMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      data.put(&quot;prob1gram&quot;, (float) prob1gram);</b>
+<b class="nc">&nbsp;      data.put(&quot;prob3gram&quot;, (float) prob3gram);</b>
+<b class="nc">&nbsp;      data.put(&quot;wordCount&quot;, (float) wordCount);</b>
+<b class="nc">&nbsp;      data.put(&quot;levensthein&quot;, (float) levenshteinDistance);</b>
+<b class="nc">&nbsp;      data.put(&quot;jaroWrinkler&quot;, (float) jaroWrinklerDistance);</b>
+<b class="nc">&nbsp;      data.put(&quot;inserts&quot;, (float) detailedDistance.inserts);</b>
+<b class="nc">&nbsp;      data.put(&quot;deletes&quot;, (float) detailedDistance.deletes);</b>
+<b class="nc">&nbsp;      data.put(&quot;replaces&quot;, (float) detailedDistance.replaces);</b>
+<b class="nc">&nbsp;      data.put(&quot;transposes&quot;, (float) detailedDistance.transposes);</b>
+<b class="nc">&nbsp;      data.put(&quot;wordLength&quot;, (float) word.length());</b>
+&nbsp;      // TODO: new features: at sentence start / end;
+<b class="nc">&nbsp;      return data;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,388 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ConvertToGenderAndNumberFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: ConvertToGenderAndNumberFilter (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConvertToGenderAndNumberFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/118)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/162)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2024 Jaume Ortolà
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.rules.ca.ApostophationHelper.getPrepositionAndDeterminer;
+&nbsp;
+<b class="nc">&nbsp;public class ConvertToGenderAndNumberFilter extends RuleFilter {</b>
+&nbsp;
+<b class="nc">&nbsp;  private Pattern splitGenderNumber = Pattern.compile(&quot;(N.|A..|V.P..|D..|PX.)(.)(.)(.*)&quot;);</b>
+<b class="nc">&nbsp;  private Pattern splitGenderNumberNoNoun = Pattern.compile(&quot;(A..|V.P..|D..|PX.)(.)(.)(.*)&quot;);</b>
+<b class="nc">&nbsp;  private Pattern splitGenderNumberAdjective = Pattern.compile(&quot;(A..|V.P..|PX.)(.)(.)(.*)&quot;);</b>
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    Synthesizer synth = getSynthesizerFromRuleMatch(match);</b>
+<b class="nc">&nbsp;    int posWord = 0;</b>
+<b class="nc">&nbsp;    while (posWord &lt; tokens.length</b>
+<b class="nc">&nbsp;      &amp;&amp; (tokens[posWord].getStartPos() &lt; match.getFromPos() || tokens[posWord].isSentenceStart())) {</b>
+<b class="nc">&nbsp;      posWord++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String desiredGenderStr = getOptional(&quot;gender&quot;, arguments, &quot;&quot;);</b>
+<b class="nc">&nbsp;    String desiredNumberStr = getOptional(&quot;number&quot;, arguments, &quot;&quot;);</b>
+<b class="nc">&nbsp;    String lemmaSelect = getRequired(&quot;lemmaSelect&quot;, arguments);</b>
+<b class="nc">&nbsp;    boolean keepOriginal = getOptional(&quot;keepOriginal&quot;, arguments, &quot;false&quot;).equalsIgnoreCase(&quot;true&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    AnalyzedToken atrNoun = tokens[posWord].readingWithTagRegex(lemmaSelect);</b>
+<b class="nc">&nbsp;    String[] splitPostag = splitGenderAndNumber(atrNoun);</b>
+<b class="nc">&nbsp;    if (desiredGenderStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      desiredGenderStr = splitPostag[2];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (desiredNumberStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      desiredNumberStr = splitPostag[3];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int startPos = posWord;</b>
+<b class="nc">&nbsp;    int endPos = posWord;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (char genderCh : desiredGenderStr.toCharArray()) {</b>
+<b class="nc">&nbsp;      for (char numberCh : desiredNumberStr.toCharArray()) {</b>
+<b class="nc">&nbsp;        String desiredGender = String.valueOf(genderCh);</b>
+<b class="nc">&nbsp;        String desiredNumber = String.valueOf(numberCh);</b>
+<b class="nc">&nbsp;        StringBuilder suggestionBuilder = new StringBuilder();</b>
+<b class="nc">&nbsp;        boolean ignoreThisSuggestion = false;</b>
+<b class="nc">&nbsp;        if (!keepOriginal) {</b>
+<b class="nc">&nbsp;          String s = synthesizeWithGenderAndNumber(atrNoun, splitPostag, desiredGender, desiredNumber, synth);</b>
+<b class="nc">&nbsp;          if (s.isEmpty()) {</b>
+<b class="nc">&nbsp;            ignoreThisSuggestion=true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          suggestionBuilder.append(s);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          suggestionBuilder.append(atrNoun.getToken());</b>
+&nbsp;        }
+&nbsp;        //backwards
+<b class="nc">&nbsp;        boolean stop = false;</b>
+<b class="nc">&nbsp;        int i = posWord;</b>
+<b class="nc">&nbsp;        String prepositionToAdd = &quot;&quot;;</b>
+<b class="nc">&nbsp;        boolean addDeterminer = false;</b>
+<b class="nc">&nbsp;        StringBuilder conditionalAddedString = new StringBuilder();</b>
+<b class="nc">&nbsp;        String addTot = &quot;&quot;;</b>
+<b class="nc">&nbsp;        while (!stop &amp;&amp; i &gt; 1) {</b>
+<b class="nc">&nbsp;          i--;</b>
+<b class="nc">&nbsp;          AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumberNoNoun); //getReadingWithPriority(tokens[i]);</b>
+<b class="nc">&nbsp;          if (tokens[i].hasPosTag(&quot;_perfet&quot;) || tokens[i].hasPosTag(&quot;_GV_&quot;) || tokens[i].getChunkTags().contains(new ChunkTag(&quot;GV&quot;))) {</b>
+<b class="nc">&nbsp;            atr = null;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (atr != null) {</b>
+<b class="nc">&nbsp;            if (atr.getPOSTag().startsWith(&quot;DA&quot;)) {</b>
+<b class="nc">&nbsp;              addDeterminer = true;</b>
+<b class="nc">&nbsp;              startPos = i;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              if (!addDeterminer) {</b>
+<b class="nc">&nbsp;                String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);</b>
+<b class="nc">&nbsp;                if (s.isEmpty()) {</b>
+<b class="nc">&nbsp;                  ignoreThisSuggestion=true;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (s.equals(&quot;bo&quot;)) {</b>
+<b class="nc">&nbsp;                  s = &quot;bon&quot;;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                suggestionBuilder.insert(0, conditionalAddedString);</b>
+<b class="nc">&nbsp;                conditionalAddedString.setLength(0);</b>
+<b class="nc">&nbsp;                if (tokens[i+1].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;                  suggestionBuilder.insert(0, &quot; &quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                suggestionBuilder.insert(0, s);</b>
+<b class="nc">&nbsp;                startPos = i;</b>
+<b class="nc">&nbsp;                if (atr.getPOSTag().startsWith(&quot;D&quot;) &amp;&amp; !atr.getPOSTag().startsWith(&quot;DN&quot;)) {</b>
+<b class="nc">&nbsp;                  stop = true;</b>
+&nbsp;                }
+&nbsp;              } else {
+<b class="nc">&nbsp;                if (atr.getLemma().equals(&quot;tot&quot;)) {</b>
+<b class="nc">&nbsp;                  String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);</b>
+<b class="nc">&nbsp;                  if (!s.isEmpty()) {</b>
+<b class="nc">&nbsp;                    addTot = s + &quot; &quot;;</b>
+<b class="nc">&nbsp;                    startPos = i;</b>
+&nbsp;                  }
+&nbsp;                }
+<b class="nc">&nbsp;                stop = true;</b>
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;          } else if (tokens[i].hasPosTag(&quot;SPS00&quot;) || tokens[i].hasPosTag(&quot;LOC_PREP&quot;)) {</b>
+<b class="nc">&nbsp;            if (addDeterminer) {</b>
+<b class="nc">&nbsp;              String preposition = tokens[i].getToken().toLowerCase();</b>
+<b class="nc">&nbsp;              if (preposition.equals(&quot;pe&quot;)) {</b>
+<b class="nc">&nbsp;                preposition = &quot;per&quot;;</b>
+&nbsp;              }
+<b class="nc">&nbsp;              if (preposition.equals(&quot;d&#39;&quot;)) {</b>
+<b class="nc">&nbsp;                preposition = &quot;de&quot;;</b>
+&nbsp;              }
+<b class="nc">&nbsp;              if (preposition.equals(&quot;a&quot;) || preposition.equals(&quot;de&quot;) || preposition.equals(&quot;per&quot;)) {</b>
+<b class="nc">&nbsp;                prepositionToAdd = preposition;</b>
+<b class="nc">&nbsp;                startPos = i;</b>
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;            stop = true;</b>
+<b class="nc">&nbsp;          } else if (tokens[i].hasPosTag(&quot;_PUNCT_CONT&quot;) || tokens[i].hasPosTag(&quot;CC&quot;)) {</b>
+<b class="nc">&nbsp;            if (posWord - i == 1) {</b>
+<b class="nc">&nbsp;              stop = true;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              conditionalAddedString.insert(0, tokens[i].getToken() + &quot; &quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;          } else if (tokens[i].hasPosTag(&quot;RG&quot;)) {</b>
+<b class="nc">&nbsp;            conditionalAddedString.insert(0, tokens[i].getToken() + &quot; &quot;);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            stop = true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // forwards
+<b class="nc">&nbsp;        stop = false;</b>
+<b class="nc">&nbsp;        i = posWord;</b>
+<b class="nc">&nbsp;        conditionalAddedString.setLength(0);</b>
+<b class="nc">&nbsp;        boolean isThereConjunction = false;</b>
+<b class="nc">&nbsp;        while (!stop &amp;&amp; i &lt; tokens.length - 1) {</b>
+<b class="nc">&nbsp;          i++;</b>
+<b class="nc">&nbsp;          AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumberAdjective);</b>
+<b class="nc">&nbsp;          if (isThereConjunction &amp;&amp; tokens[i].hasPosTagStartingWith(&quot;NC&quot;)) {</b>
+<b class="nc">&nbsp;            atr = null;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (atr != null) {</b>
+<b class="nc">&nbsp;            String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);</b>
+<b class="nc">&nbsp;            if (s.isEmpty()) {</b>
+<b class="nc">&nbsp;              ignoreThisSuggestion=true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            suggestionBuilder.append(conditionalAddedString);</b>
+<b class="nc">&nbsp;            conditionalAddedString.setLength(0);</b>
+<b class="nc">&nbsp;            suggestionBuilder.append(&quot; &quot; + s);</b>
+<b class="nc">&nbsp;            endPos = i;</b>
+<b class="nc">&nbsp;          } else if (tokens[i].hasPosTag(&quot;RG&quot;)) {</b>
+<b class="nc">&nbsp;            conditionalAddedString.append(&quot; &quot; + tokens[i].getToken());</b>
+<b class="nc">&nbsp;          } else if (tokens[i].hasPosTag(&quot;CC&quot;)) {</b>
+<b class="nc">&nbsp;            isThereConjunction = true;</b>
+<b class="nc">&nbsp;            conditionalAddedString.append(&quot; &quot; + tokens[i].getToken());</b>
+<b class="nc">&nbsp;          }else if (tokens[i].hasPosTag(&quot;_PUNCT_CONT&quot;)) {</b>
+<b class="nc">&nbsp;            conditionalAddedString.append(tokens[i].getToken());</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            stop = true;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (addDeterminer) {</b>
+<b class="nc">&nbsp;          suggestionBuilder.insert(0, getPrepositionAndDeterminer(suggestionBuilder.toString(), desiredGender + desiredNumber, prepositionToAdd));</b>
+<b class="nc">&nbsp;        } else if (!prepositionToAdd.isEmpty()) {</b>
+<b class="nc">&nbsp;          suggestionBuilder.insert(0, prepositionToAdd + &quot; &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        suggestionBuilder.insert(0, addTot);</b>
+<b class="nc">&nbsp;        String suggestion = StringTools.preserveCase(suggestionBuilder.toString(), tokens[startPos].getToken());</b>
+<b class="nc">&nbsp;        if (endPos == posWord &amp;&amp; startPos == posWord &amp;&amp; tokens[posWord].getToken().equals(suggestion)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        //TODO: una d&#39;aquests vessants; una dels vessants
+<b class="nc">&nbsp;        if (!ignoreThisSuggestion) {</b>
+<b class="nc">&nbsp;          suggestions.add(suggestion);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[startPos].getStartPos(),</b>
+<b class="nc">&nbsp;      tokens[endPos].getEndPos(), match.getMessage(), match.getShortMessage());</b>
+<b class="nc">&nbsp;    String originalStr = match.getSentence().getText().substring(tokens[startPos].getStartPos(), tokens[endPos].getEndPos());</b>
+<b class="nc">&nbsp;    if (suggestions.contains(originalStr)) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;    ruleMatch.setSuggestedReplacements(suggestions);</b>
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String[] splitGenderAndNumber(AnalyzedToken atr) {
+<b class="nc">&nbsp;    String[] results = new String[4];</b>
+<b class="nc">&nbsp;    Matcher matcherSplit = splitGenderNumber.matcher(atr.getPOSTag());</b>
+<b class="nc">&nbsp;    if (matcherSplit.matches()) {</b>
+<b class="nc">&nbsp;      results[0] = matcherSplit.group(1);</b>
+<b class="nc">&nbsp;      results[1] = matcherSplit.group(4);</b>
+<b class="nc">&nbsp;      String gender = matcherSplit.group(2);</b>
+<b class="nc">&nbsp;      String number = matcherSplit.group(3);</b>
+<b class="nc">&nbsp;      if (results[0].startsWith(&quot;V&quot;)) {</b>
+<b class="nc">&nbsp;        results[2] = number;</b>
+<b class="nc">&nbsp;        results[3] = gender;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        results[2] = gender;</b>
+<b class="nc">&nbsp;        results[3] = number;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return results;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String synthesizeWithGenderAndNumber(AnalyzedToken atr, String[] splitPostag, String gender, String number,
+&nbsp;                                               Synthesizer synth) throws IOException {
+<b class="nc">&nbsp;    if (splitPostag[0].startsWith(&quot;V&quot;)) {</b>
+<b class="nc">&nbsp;      String keepGender = gender;</b>
+<b class="nc">&nbsp;      gender = number;</b>
+<b class="nc">&nbsp;      number = keepGender;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String addGender = &quot;C&quot;;</b>
+<b class="nc">&nbsp;    if (splitPostag[0].startsWith(&quot;DA&quot;)) {</b>
+<b class="nc">&nbsp;      addGender = &quot;&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] synhtesized = synth.synthesize(atr, splitPostag[0] + &quot;[&quot; + gender + addGender + &quot;]&quot; + &quot;[&quot; + number + &quot;N&quot; +</b>
+&nbsp;        &quot;]&quot; + splitPostag[1], true);
+<b class="nc">&nbsp;    if (synhtesized.length &gt; 0) {</b>
+<b class="nc">&nbsp;      return synhtesized[0];</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedToken getReadingWithPriority(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    AnalyzedToken atr = token.readingWithTagRegex(splitGenderNumberNoNoun);</b>
+<b class="nc">&nbsp;    if (atr != null) {</b>
+<b class="nc">&nbsp;      return atr;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    atr = token.readingWithTagRegex(splitGenderNumber);</b>
+<b class="nc">&nbsp;    return atr;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

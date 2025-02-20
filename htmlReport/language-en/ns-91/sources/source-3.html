@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SRXSentenceTokenizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers</a>
+</div>
+
+<h1>Coverage Summary for Class: SRXSentenceTokenizer (org.languagetool.tokenizers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SRXSentenceTokenizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2009 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tokenizers;
+&nbsp;
+&nbsp;import net.loomchild.segment.srx.SrxDocument;
+&nbsp;import org.languagetool.Language;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class to tokenize sentences using rules from an SRX file.
+&nbsp; * @author Marcin Miłkowski
+&nbsp; * @author Jarek Lipski
+&nbsp; */
+&nbsp;public class SRXSentenceTokenizer implements SentenceTokenizer {
+&nbsp;
+&nbsp;  private final SrxDocument srxDocument;
+&nbsp;  private final Language language;
+&nbsp;
+&nbsp;  private String parCode;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Build a sentence tokenizer based on the rules in the {@code segment.srx} file
+&nbsp;   * that comes with LanguageTool.
+&nbsp;   */
+&nbsp;  public SRXSentenceTokenizer(Language language) {
+<b class="fc">&nbsp;    this(language, &quot;/segment.srx&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param srxInClassPath the path to an SRX file in the classpath 
+&nbsp;   * @since 3.2
+&nbsp;   */
+<b class="fc">&nbsp;  public SRXSentenceTokenizer(Language language, String srxInClassPath) {</b>
+<b class="fc">&nbsp;    this.language = Objects.requireNonNull(language);</b>
+<b class="fc">&nbsp;    this.srxDocument = SrxTools.createSrxDocument(srxInClassPath);</b>
+<b class="fc">&nbsp;    setSingleLineBreaksMarksParagraph(false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final List&lt;String&gt; tokenize(String text) {
+<b class="fc">&nbsp;    return SrxTools.tokenize(text, srxDocument, language.getShortCode() + parCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final boolean singleLineBreaksMarksPara() {
+<b class="fc">&nbsp;    return &quot;_one&quot;.equals(parCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param lineBreakParagraphs if &lt;code&gt;true&lt;/code&gt;, single lines breaks are assumed to end a
+&nbsp;   *   paragraph; if &lt;code&gt;false&lt;/code&gt;, only two ore more consecutive line breaks end a paragraph
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public final void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs) {
+<b class="fc">&nbsp;    if (lineBreakParagraphs) {</b>
+<b class="fc">&nbsp;      parCode = &quot;_one&quot;;</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      parCode = &quot;_two&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

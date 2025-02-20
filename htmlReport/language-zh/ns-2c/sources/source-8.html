@@ -1,0 +1,581 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AgreementSuggestor2</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: AgreementSuggestor2 (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AgreementSuggestor2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/156)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/200)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AgreementSuggestor2$Suggestion</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/166)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/213)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.text.similarity.LevenshteinDistance;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.util.Collections.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Create suggestions for German noun phrases that lack agreement.
+&nbsp; */
+&nbsp;class AgreementSuggestor2 {
+&nbsp;
+&nbsp;  private final static String detTemplate = &quot;ART:IND/DEF:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU&quot;;
+<b class="nc">&nbsp;  private final static List&lt;String&gt; proPosTemplate = Arrays.asList(&quot;PRO:POS:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG&quot;,</b>
+&nbsp;    &quot;PRO:POS:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S&quot;);
+<b class="nc">&nbsp;  private final static List&lt;String&gt; proDemTemplates = Arrays.asList(</b>
+&nbsp;    &quot;PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG&quot;,
+&nbsp;    &quot;PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S&quot;);
+<b class="nc">&nbsp;  private final static List&lt;String&gt; proIndTemplates = Arrays.asList(</b>
+&nbsp;    &quot;PRO:IND:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG&quot;,
+&nbsp;    &quot;PRO:IND:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S&quot;
+&nbsp;  );
+&nbsp;  private final static String adjTemplate = &quot;ADJ:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF&quot;;
+&nbsp;  private final static String pa1Template = &quot;PA1:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF:VER&quot;;
+&nbsp;  private final static String pa2Template = &quot;PA2:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:GRU:IND/DEF:VER&quot;;
+<b class="nc">&nbsp;  private final static List&lt;String&gt; nounTemplates = Arrays.asList(</b>
+&nbsp;    &quot;SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU&quot;,
+&nbsp;    &quot;SUB:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:INF&quot;);   // INF is for cases like &quot;das Züchten&quot; etc.
+<b class="nc">&nbsp;  private final static List&lt;String&gt; number = Arrays.asList(&quot;SIN&quot;, &quot;PLU&quot;);</b>
+<b class="nc">&nbsp;  private final static List&lt;String&gt; gender = Arrays.asList(&quot;MAS&quot;, &quot;FEM&quot;, &quot;NEU&quot;, &quot;NOG&quot;);</b>
+<b class="nc">&nbsp;  private final static List&lt;String&gt; cases = Arrays.asList(&quot;NOM&quot;, &quot;AKK&quot;, &quot;DAT&quot;, &quot;GEN&quot;);</b>
+<b class="nc">&nbsp;  private final static List&lt;String&gt; nounCases = Arrays.asList(&quot;NOM&quot;, &quot;AKK&quot;, &quot;DAT&quot;, &quot;GEN&quot;);</b>
+<b class="nc">&nbsp;  private final static Set&lt;String&gt; skipSuggestions =</b>
+<b class="nc">&nbsp;    new HashSet&lt;&gt;(Arrays.asList(&quot;unsren&quot;, &quot;unsrem&quot;, &quot;unsres&quot;, &quot;unsre&quot;, &quot;unsern&quot;, &quot;unserm&quot;, &quot;unsrer&quot;));</b>
+&nbsp;
+&nbsp;  private final Synthesizer synthesizer;
+&nbsp;  private final AnalyzedTokenReadings determinerToken;
+&nbsp;  private final AnalyzedTokenReadings adjToken1;
+&nbsp;  private final AnalyzedTokenReadings adjToken2;
+&nbsp;  private final AnalyzedTokenReadings nounToken;
+&nbsp;  private final AgreementRule.ReplacementType replacementType;
+&nbsp;  private final String origPhrase;
+&nbsp;
+&nbsp;  private AnalyzedTokenReadings prepositionToken;
+&nbsp;  private String skippedStr;
+&nbsp;
+&nbsp;  AgreementSuggestor2(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings nounToken,
+&nbsp;                      AgreementRule.ReplacementType replacementType) {
+<b class="nc">&nbsp;    this(synthesizer, determinerToken, null, nounToken, replacementType);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.4 */
+&nbsp;  AgreementSuggestor2(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken, AnalyzedTokenReadings adjToken1, AnalyzedTokenReadings nounToken,
+&nbsp;                      AgreementRule.ReplacementType replacementType) {
+<b class="nc">&nbsp;    this(synthesizer, determinerToken, adjToken1, null, nounToken, replacementType);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.6 */
+&nbsp;  AgreementSuggestor2(Synthesizer synthesizer, AnalyzedTokenReadings determinerToken,
+&nbsp;                      AnalyzedTokenReadings adjToken1, AnalyzedTokenReadings adjToken2,
+<b class="nc">&nbsp;                      AnalyzedTokenReadings nounToken, AgreementRule.ReplacementType replacementType) {</b>
+<b class="nc">&nbsp;    this.synthesizer = synthesizer;</b>
+<b class="nc">&nbsp;    this.determinerToken = determinerToken;</b>
+<b class="nc">&nbsp;    this.adjToken1 = adjToken1;</b>
+<b class="nc">&nbsp;    this.adjToken2 = adjToken2;</b>
+<b class="nc">&nbsp;    this.nounToken = nounToken;</b>
+<b class="nc">&nbsp;    this.replacementType = replacementType;</b>
+<b class="nc">&nbsp;    this.origPhrase = getOrigPhrase();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setPreposition(AnalyzedTokenReadings prep) {
+<b class="nc">&nbsp;    this.prepositionToken = prep;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setSkipped(String skippedStr) {
+<b class="nc">&nbsp;    this.skippedStr = skippedStr;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;String&gt; getSuggestions() {
+<b class="nc">&nbsp;    return getSuggestions(false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param filter to filter only the best suggestions, as in: if there are suggestions that replace only
+&nbsp;   *               one word in the original phrase, don&#39;t return those that replace two words etc.
+&nbsp;   */
+&nbsp;  List&lt;String&gt; getSuggestions(boolean filter) {
+<b class="nc">&nbsp;    if (replacementType == AgreementRule.ReplacementType.Zur) {</b>
+<b class="nc">&nbsp;      prepositionToken = new AnalyzedTokenReadings(new AnalyzedToken(&quot;zu&quot;, &quot;&quot;, &quot;zu&quot;));</b>
+<b class="nc">&nbsp;    } else if (replacementType == AgreementRule.ReplacementType.Ins) {</b>
+<b class="nc">&nbsp;      prepositionToken = new AnalyzedTokenReadings(new AnalyzedToken(&quot;in&quot;, &quot;&quot;, &quot;zu&quot;));</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      List&lt;Suggestion&gt; suggestions = getSuggestionsInternal();</b>
+<b class="nc">&nbsp;      sort(suggestions);  // sort so that suggestions with fewer edits come first</b>
+<b class="nc">&nbsp;      addContraction(suggestions);</b>
+<b class="nc">&nbsp;      if (filter) {</b>
+<b class="nc">&nbsp;        List&lt;Suggestion&gt; filteredSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        int prevCorrections = suggestions.size() &gt; 0 ? suggestions.get(0).tokenLevelEdits : 0;</b>
+<b class="nc">&nbsp;        boolean hadRealSuggestions = false;</b>
+<b class="nc">&nbsp;        for (Suggestion suggestion : suggestions) {</b>
+<b class="nc">&nbsp;          if (hadRealSuggestions &amp;&amp; suggestion.tokenLevelEdits &gt; prevCorrections) {</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          hadRealSuggestions = suggestion.tokenLevelEdits &gt; 0;</b>
+<b class="nc">&nbsp;          filteredSuggestions.add(suggestion);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return filteredSuggestions.stream().map(k -&gt; k.phrase).collect(Collectors.toList());</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return suggestions.stream().map(k -&gt; k.phrase).collect(Collectors.toList());</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addContraction(List&lt;Suggestion&gt; suggestions) {
+<b class="nc">&nbsp;    if (replacementType == AgreementRule.ReplacementType.Zur) {</b>
+<b class="nc">&nbsp;      suggestions.forEach(k -&gt; {</b>
+<b class="nc">&nbsp;        if (k.phrase.startsWith(&quot;der&quot;)) {</b>
+<b class="nc">&nbsp;          k.phrase = StringUtils.replaceOnce(k.phrase,&quot;der&quot;, &quot;zur&quot;);</b>
+<b class="nc">&nbsp;        } else if (k.phrase.startsWith(&quot;den&quot;)) {</b>
+<b class="nc">&nbsp;          k.phrase = StringUtils.replaceOnce(k.phrase,&quot;den&quot;, &quot;zu&quot;);  // usually sounds more natural than &quot;zu den&quot;</b>
+<b class="nc">&nbsp;        } else if (k.phrase.startsWith(&quot;dem&quot;)) {</b>
+<b class="nc">&nbsp;          k.phrase = StringUtils.replaceOnce(k.phrase,&quot;dem&quot;, &quot;zum&quot;);</b>
+&nbsp;        }
+&nbsp;      });
+<b class="nc">&nbsp;    } else if (replacementType == AgreementRule.ReplacementType.Ins) {</b>
+<b class="nc">&nbsp;      Iterator&lt;Suggestion&gt; iterator = suggestions.iterator();</b>
+<b class="nc">&nbsp;      while (iterator.hasNext()) {</b>
+<b class="nc">&nbsp;        Suggestion s = iterator.next();</b>
+<b class="nc">&nbsp;        if (s.phrase.startsWith(&quot;das&quot;)) {</b>
+<b class="nc">&nbsp;          s.phrase = StringUtils.replaceOnce(s.phrase,&quot;das&quot;, &quot;ins&quot;);</b>
+<b class="nc">&nbsp;        } else if (s.phrase.startsWith(&quot;dem&quot;)) {</b>
+<b class="nc">&nbsp;          s.phrase = StringUtils.replaceOnce(s.phrase,&quot;dem&quot;, &quot;im&quot;);</b>
+<b class="nc">&nbsp;        } else if (s.phrase.startsWith(&quot;den&quot;)) {</b>
+<b class="nc">&nbsp;          s.phrase = StringUtils.replaceOnce(s.phrase,&quot;den&quot;, &quot;in den&quot;);</b>
+<b class="nc">&nbsp;        } else if (s.phrase.startsWith(&quot;die&quot;)) {</b>
+<b class="nc">&nbsp;          s.phrase = StringUtils.replaceOnce(s.phrase,&quot;die&quot;, &quot;in die&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          iterator.remove();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Suggestion&gt; getSuggestionsInternal() throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; nounCases = getNounCases();</b>
+<b class="nc">&nbsp;    List&lt;Suggestion&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String num : number) {</b>
+<b class="nc">&nbsp;      for (String gen : gender) {</b>
+<b class="nc">&nbsp;        for (String aCase : cases) {</b>
+<b class="nc">&nbsp;          if (!nounCases.contains(aCase)) {</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          for (AnalyzedToken detReading : determinerToken.getReadings()) {</b>
+<b class="nc">&nbsp;            if (gen.equals(&quot;NOG&quot;)) {  // needed to offer suggestions for e.g. &quot;meinem Eltern&quot; -&gt; &quot;meine Eltern, ...&quot;</b>
+<b class="nc">&nbsp;              String[] detSynthesized = getDetOrPronounSynth(num, &quot;MAS&quot;, aCase, detReading);</b>
+<b class="nc">&nbsp;              String[] adj1Synthesized = getAdjSynth(num, &quot;MAS&quot;, aCase, adjToken1, detReading);</b>
+<b class="nc">&nbsp;              String[] adj2Synthesized = getAdjSynth(num, &quot;MAS&quot;, aCase, adjToken2, detReading);</b>
+<b class="nc">&nbsp;              String[] nounSynthesized = getNounSynth(num, &quot;NOG&quot;, aCase);</b>
+<b class="nc">&nbsp;              combineSynth(result, detSynthesized, adj1Synthesized, adj2Synthesized, nounSynthesized);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              String[] detSynthesized = getDetOrPronounSynth(num, gen, aCase, detReading);</b>
+<b class="nc">&nbsp;              String[] adj1Synthesized = getAdjSynth(num, gen, aCase, adjToken1, detReading);</b>
+<b class="nc">&nbsp;              String[] adj2Synthesized = getAdjSynth(num, gen, aCase, adjToken2, detReading);</b>
+<b class="nc">&nbsp;              String[] nounSynthesized = getNounSynth(num, gen, aCase);</b>
+<b class="nc">&nbsp;              combineSynth(result, detSynthesized, adj1Synthesized, adj2Synthesized, nounSynthesized);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; getNounCases() {
+<b class="nc">&nbsp;    if (prepositionToken != null) {  // also &quot;bis zur&quot; = &quot;bis&quot; must not be considered preposition: &quot;zur&quot; = &quot;zu der&quot;</b>
+&nbsp;      // some prepositions require specific cases, so only generated those:
+<b class="nc">&nbsp;      List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      List&lt;PrepositionToCases.Case&gt; casesForToken = PrepositionToCases.getCasesFor(prepositionToken.getToken());</b>
+<b class="nc">&nbsp;      if (casesForToken.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        for (PrepositionToCases.Case aCase : casesForToken) {</b>
+<b class="nc">&nbsp;          String val = aCase.name().toLowerCase();</b>
+<b class="nc">&nbsp;          if (!result.contains(val)) {</b>
+<b class="nc">&nbsp;            result.add(val.toUpperCase());</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return AgreementSuggestor2.nounCases;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String[] getDetOrPronounSynth(String num, String gen, String aCase, AnalyzedToken detReading) throws IOException {
+<b class="nc">&nbsp;    String detPos = detReading.getPOSTag();</b>
+<b class="nc">&nbsp;    if (detPos == null) {</b>
+<b class="nc">&nbsp;      return new String[]{};</b>
+&nbsp;    }
+<b class="nc">&nbsp;    boolean isDef = detPos.contains(&quot;:DEF:&quot;);</b>
+&nbsp;    List&lt;String&gt; templates;
+<b class="nc">&nbsp;    if (detReading.getToken().matches(&quot;([Dd]as|[Dd]er|[Dd]ie|[Dd]em|[Dd]es)selben?&quot;)) {</b>
+<b class="nc">&nbsp;      templates = singletonList(&quot;PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU&quot;);</b>
+<b class="nc">&nbsp;    } else if (detReading.getToken().matches(&quot;[Ww]elche[nmsr]?&quot;)) {</b>
+<b class="nc">&nbsp;      templates = singletonList(&quot;PRO:RIN:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S&quot;);</b>
+<b class="nc">&nbsp;    } else if (detPos.contains(&quot;ART:&quot;)) {</b>
+<b class="nc">&nbsp;      templates = singletonList(detTemplate);</b>
+<b class="nc">&nbsp;    } else if (detPos.contains(&quot;PRO:POS:&quot;)) {</b>
+<b class="nc">&nbsp;      templates = proPosTemplate;</b>
+<b class="nc">&nbsp;    } else if (detPos.contains(&quot;PRO:DEM:&quot;)) {</b>
+<b class="nc">&nbsp;      templates = proDemTemplates;</b>
+<b class="nc">&nbsp;    } else if (detPos.contains(&quot;PRO:IND:&quot;)) {</b>
+<b class="nc">&nbsp;      templates = proIndTemplates;</b>
+<b class="nc">&nbsp;    } else if (detReading.getToken().equals(&quot;zur&quot;)) {</b>
+<b class="nc">&nbsp;      templates = singletonList(detTemplate);</b>
+<b class="nc">&nbsp;      detReading = new AnalyzedToken(&quot;der&quot;, &quot;&quot;, &quot;der&quot;);</b>
+<b class="nc">&nbsp;      isDef = true;</b>
+<b class="nc">&nbsp;    } else if (detReading.getToken().equals(&quot;ins&quot;)) {</b>
+<b class="nc">&nbsp;      templates = singletonList(detTemplate);</b>
+<b class="nc">&nbsp;      detReading = new AnalyzedToken(&quot;das&quot;, &quot;&quot;, &quot;der&quot;);</b>
+<b class="nc">&nbsp;      isDef = true;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return new String[]{};</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; synthesized = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String template : templates) {</b>
+<b class="nc">&nbsp;      template = StringUtils.replaceOnce(template, &quot;IND/DEF&quot;, isDef ? &quot;DEF&quot; : &quot;IND&quot;);</b>
+<b class="nc">&nbsp;      String pos = replaceVars(template, num, gen, aCase);</b>
+<b class="nc">&nbsp;      String[] tmp = synthesizer.synthesize(detReading, pos);</b>
+<b class="nc">&nbsp;      String origFirstChar = detReading.getToken().substring(0, 1);</b>
+<b class="nc">&nbsp;      synthesized.addAll(Arrays.stream(tmp)</b>
+<b class="nc">&nbsp;        .filter(k -&gt; k.toLowerCase().startsWith(origFirstChar.toLowerCase()))</b>
+<b class="nc">&nbsp;        .filter(k -&gt; !skipSuggestions.contains(k.toLowerCase()))</b>
+<b class="nc">&nbsp;        .map(k -&gt; Character.isUpperCase(origFirstChar.charAt(0)) ? StringTools.uppercaseFirstChar(k) : k)  // don&#39;t suggest &quot;dein&quot; for &quot;mein&quot; etc.</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList()));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return synthesized.toArray(new String[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String[] getAdjSynth(String num, String gen, String aCase, AnalyzedTokenReadings adjToken, AnalyzedToken detReading) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; adjSynthesized = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (adjToken != null) {</b>
+<b class="nc">&nbsp;      for (AnalyzedToken adjReading : adjToken.getReadings()) {</b>
+<b class="nc">&nbsp;        if (adjReading.getPOSTag() == null || detReading.getPOSTag() == null) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (adjReading.getToken().equals(&quot;meisten&quot;) &amp;&amp; num.equals(&quot;SIN&quot;)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (adjReading.getPOSTag().startsWith(&quot;ADV:&quot;)) {  // adverb, nothing to synthesize</b>
+<b class="nc">&nbsp;          adjSynthesized.add(adjReading.getToken());</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        boolean detIsDef = detReading.getPOSTag().contains(&quot;:DEF:&quot;) || detReading.getToken().equals(&quot;ins&quot;);</b>
+&nbsp;        String template;
+<b class="nc">&nbsp;        if (adjReading.getPOSTag().startsWith(&quot;PA1&quot;)) {</b>
+<b class="nc">&nbsp;          template = pa1Template;</b>
+<b class="nc">&nbsp;        } else if (adjReading.getPOSTag().startsWith(&quot;PA2&quot;)) {</b>
+<b class="nc">&nbsp;          template = pa2Template;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          template = adjTemplate;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (adjReading.getPOSTag().contains(&quot;:KOM:&quot;)) {</b>
+<b class="nc">&nbsp;          template = template.replace(&quot;:GRU:&quot;, &quot;:KOM:&quot;);</b>
+<b class="nc">&nbsp;        } else if (adjReading.getPOSTag().contains(&quot;:SUP:&quot;)) {</b>
+<b class="nc">&nbsp;          template = template.replace(&quot;:GRU:&quot;, &quot;:SUP:&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        template = StringUtils.replaceOnce(template, &quot;IND/DEF&quot;, detIsDef ? &quot;DEF&quot; : &quot;IND&quot;);</b>
+<b class="nc">&nbsp;        String adjPos = replaceVars(template, num, gen, aCase);</b>
+<b class="nc">&nbsp;        String[] synthesize = synthesizer.synthesize(adjReading, adjPos);</b>
+<b class="nc">&nbsp;        for (String synthNoun : synthesize) {</b>
+<b class="nc">&nbsp;          if (!adjSynthesized.contains(synthNoun)) {</b>
+<b class="nc">&nbsp;            adjSynthesized.add(synthNoun);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      adjSynthesized.add(&quot;&quot;);  // noun phrase without an adjective</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return adjSynthesized.toArray(new String[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String[] getNounSynth(String num, String gen, String aCase) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (AnalyzedToken nounReading : nounToken.getReadings()) {</b>
+<b class="nc">&nbsp;      for (String nounTemplate : nounTemplates) {</b>
+<b class="nc">&nbsp;        String nounPos = replaceVars(nounTemplate, num, gen, aCase);</b>
+<b class="nc">&nbsp;        String[] nounSynthesized = synthesizer.synthesize(nounReading, nounPos);</b>
+<b class="nc">&nbsp;        if (nounSynthesized.length == 0 &amp;&amp; nounReading.getToken().contains(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;          String firstPart = nounReading.getToken().substring(0, nounReading.getToken().lastIndexOf(&#39;-&#39;) + 1);</b>
+<b class="nc">&nbsp;          String lastTokenPart = nounToken.getToken().replaceFirst(&quot;.*-&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;          String lastLemmaPart = nounReading.getLemma() != null ? nounReading.getLemma().replaceFirst(&quot;.*-&quot;, &quot;&quot;) : null;</b>
+<b class="nc">&nbsp;          nounSynthesized = synthesizer.synthesize(new AnalyzedToken(lastTokenPart, &quot;fake_value&quot;, lastLemmaPart), nounPos);</b>
+<b class="nc">&nbsp;          for (String lastPartInflected : nounSynthesized) {</b>
+<b class="nc">&nbsp;            result.add(firstPart + lastPartInflected);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          result.addAll(Arrays.asList(nounSynthesized));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // remove forms like &quot;Blutfluß&quot; if there&#39;s also &quot;Blutfluss&quot; - must be old spelling then:
+<b class="nc">&nbsp;    Set&lt;String&gt; oldSpelling = result.stream().filter(k -&gt; k.contains(&quot;ss&quot;)).map(k -&gt; k.replace(&quot;ss&quot;, &quot;ß&quot;)).collect(Collectors.toSet());</b>
+<b class="nc">&nbsp;    return result.stream().filter(k -&gt; !oldSpelling.contains(k)).toArray(String[]::new);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void combineSynth(List&lt;Suggestion&gt; result, String[] detSynthesized, String[] adj1Synthesized, String[] adj2Synthesized, String[] nounSynthesized) {
+<b class="nc">&nbsp;    for (String detSynthesizedElem : detSynthesized) {</b>
+<b class="nc">&nbsp;      for (String adj1SynthesizedElem : adj1Synthesized) {</b>
+<b class="nc">&nbsp;        for (String adj2SynthesizedElem : adj2Synthesized) {</b>
+<b class="nc">&nbsp;          for (String nounSynthesizedElem : nounSynthesized) {</b>
+<b class="nc">&nbsp;            String elem = detSynthesizedElem;</b>
+<b class="nc">&nbsp;            if (skippedStr != null) {</b>
+<b class="nc">&nbsp;              elem += &quot; &quot; + skippedStr;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (!adj1SynthesizedElem.isEmpty()) {</b>
+<b class="nc">&nbsp;              elem += &quot; &quot; + adj1SynthesizedElem;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (!adj2SynthesizedElem.isEmpty()) {</b>
+<b class="nc">&nbsp;              elem += &quot; &quot; + adj2SynthesizedElem;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            elem += &quot; &quot; + nounSynthesizedElem;</b>
+<b class="nc">&nbsp;            int edits = (detSynthesizedElem.equals(determinerToken.getToken()) ? 0 : 1) +</b>
+<b class="nc">&nbsp;              (adjToken1 == null || adj1SynthesizedElem.equals(adjToken1.getToken()) ? 0 : 1) +</b>
+<b class="nc">&nbsp;              (adjToken2 == null || adj2SynthesizedElem.equals(adjToken2.getToken()) ? 0 : 1) +</b>
+<b class="nc">&nbsp;              (nounSynthesizedElem.equals(nounToken.getToken()) ? 0 : 1);</b>
+<b class="nc">&nbsp;            if (edits == 0) {</b>
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;            Integer charLevelEdits = LevenshteinDistance.getDefaultInstance().apply(elem, origPhrase);</b>
+<b class="nc">&nbsp;            Suggestion suggestion = new Suggestion(elem, edits, charLevelEdits);</b>
+<b class="nc">&nbsp;            if (!result.contains(suggestion)) {</b>
+<b class="nc">&nbsp;              result.add(suggestion);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private String getOrigPhrase() {
+<b class="nc">&nbsp;    String origElem = determinerToken.getToken();</b>
+<b class="nc">&nbsp;    if (adjToken1 != null) {</b>
+<b class="nc">&nbsp;      origElem += &quot; &quot; + adjToken1.getToken();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (adjToken2 != null) {</b>
+<b class="nc">&nbsp;      origElem += &quot; &quot; + adjToken2.getToken();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    origElem += &quot; &quot; + nounToken.getToken();</b>
+<b class="nc">&nbsp;    return origElem;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String replaceVars(String template, String num, String gen, String aCase) {
+<b class="nc">&nbsp;    template = StringUtils.replaceOnce(template, &quot;SIN/PLU&quot;, num);</b>
+<b class="nc">&nbsp;    template = StringUtils.replaceOnce(template, &quot;MAS/FEM/NEU&quot;, gen);</b>
+<b class="nc">&nbsp;    template = StringUtils.replaceOnce(template, &quot;NOM/AKK/DAT/GEN&quot;, aCase);</b>
+<b class="nc">&nbsp;    return template;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class Suggestion implements Comparable&lt;Suggestion&gt; {
+&nbsp;    String phrase;
+&nbsp;    int tokenLevelEdits;
+&nbsp;    int charLevelCorrections;
+<b class="nc">&nbsp;    Suggestion(String phrase, int tokenLevelEdits, int charLevelEdits) {</b>
+<b class="nc">&nbsp;      this.phrase = Objects.requireNonNull(phrase);</b>
+<b class="nc">&nbsp;      this.tokenLevelEdits = tokenLevelEdits;</b>
+<b class="nc">&nbsp;      this.charLevelCorrections = charLevelEdits;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public int compareTo(@NotNull Suggestion o) {
+<b class="nc">&nbsp;      if (tokenLevelEdits == o.tokenLevelEdits) {</b>
+<b class="nc">&nbsp;        return charLevelCorrections - o.charLevelCorrections;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return tokenLevelEdits - o.tokenLevelEdits;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;      if (this == o) return true;</b>
+<b class="nc">&nbsp;      if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;      Suggestion that = (Suggestion) o;</b>
+<b class="nc">&nbsp;      return tokenLevelEdits == that.tokenLevelEdits &amp;&amp; phrase.equals(that.phrase);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      return Objects.hash(phrase, tokenLevelEdits);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return phrase + &quot;/c=&quot; + tokenLevelEdits;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

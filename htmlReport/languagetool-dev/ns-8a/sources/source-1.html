@@ -1,0 +1,209 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RussianTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.ru</a>
+</div>
+
+<h1>Coverage Summary for Class: RussianTagger (org.languagetool.tagging.ru)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RussianTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.ru;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.tagging.BaseTagger;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Part-of-speech tagger.
+&nbsp; * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
+&nbsp; * See readme.txt for details, the POS tagset is described in tagset.txt
+&nbsp; */
+&nbsp;public class RussianTagger extends BaseTagger {
+&nbsp;
+<b class="nc">&nbsp;  public static final RussianTagger INSTANCE = new RussianTagger();</b>
+&nbsp;
+&nbsp;  public RussianTagger() {
+<b class="nc">&nbsp;    super(&quot;/ru/russian.dict&quot;, new Locale(&quot;ru&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;AnalyzedTokenReadings&gt; tag(List&lt;String&gt; sentenceTokens) throws IOException {
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; tokenReadings = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int pos = 0;</b>
+<b class="nc">&nbsp;    for (String word : sentenceTokens) {</b>
+<b class="nc">&nbsp;      boolean mayMissingYo = false;</b>
+<b class="nc">&nbsp;      if (word.length() &gt; 1) {</b>
+<b class="nc">&nbsp;        if (!(word.contains(&quot;ё&quot;)) &amp;&amp; !(word.contains(&quot;Ё&quot;)) &amp;&amp; (word.contains(&quot;е&quot;) || word.contains(&quot;Е&quot;)) &amp;&amp; !(word.contains(&quot;е́&quot;)) &amp;&amp; !(word.contains(&quot;о́&quot;)) &amp;&amp;</b>
+<b class="nc">&nbsp;          !(word.contains(&quot;а́&quot;)) &amp;&amp; !(word.contains(&quot;у́&quot;)) &amp;&amp; !(word.contains(&quot;и́&quot;)) &amp;&amp; !(word.contains(&quot;ю́&quot;)) &amp;&amp; !(word.contains(&quot;ы́&quot;)) &amp;&amp; !(word.contains(&quot;э́&quot;)) &amp;&amp;</b>
+<b class="nc">&nbsp;          !(word.contains(&quot;я́&quot;))) {</b>
+<b class="nc">&nbsp;          mayMissingYo = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        word = word.replace(&quot;о́&quot;, &quot;о&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;а́&quot;, &quot;а&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;е́&quot;, &quot;е&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;у́&quot;, &quot;у&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;и́&quot;, &quot;и&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;ы́&quot;, &quot;ы&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;э́&quot;, &quot;э&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;ю́&quot;, &quot;ю&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;я́&quot;, &quot;я&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;о̀&quot;, &quot;о&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;а̀&quot;, &quot;а&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;ѐ&quot;, &quot;е&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;у̀&quot;, &quot;у&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;ѝ&quot;, &quot;и&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;ы̀&quot;, &quot;ы&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;э̀&quot;, &quot;э&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;ю̀&quot;, &quot;ю&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;я̀&quot;, &quot;я&quot;);</b>
+<b class="nc">&nbsp;        word = word.replace(&quot;ʼ&quot;, &quot;ъ&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; l = getAnalyzedTokens(word);</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);</b>
+<b class="nc">&nbsp;      if (mayMissingYo) {</b>
+<b class="nc">&nbsp;        String wordLc = word.toLowerCase().replace(&quot;е&quot;, &quot;ё&quot;);</b>
+<b class="nc">&nbsp;        if (getWordTagger().tag(wordLc).isEmpty()) {</b>
+<b class="nc">&nbsp;          mayMissingYo = false;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (mayMissingYo) {</b>
+<b class="nc">&nbsp;        List&lt;ChunkTag&gt; listChunkTags = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        listChunkTags.add(new ChunkTag(&quot;MayMissingYO&quot;));</b>
+<b class="nc">&nbsp;        atr.setChunkTags(listChunkTags);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      tokenReadings.add(atr);</b>
+<b class="nc">&nbsp;      pos += word.length();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tokenReadings;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

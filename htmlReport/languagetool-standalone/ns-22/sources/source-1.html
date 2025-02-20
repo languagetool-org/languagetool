@@ -1,0 +1,918 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArtificialErrorEval</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.remote</a>
+</div>
+
+<h1>Coverage Summary for Class: ArtificialErrorEval (org.languagetool.remote)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArtificialErrorEval</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/246)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/475)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.remote;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.BufferedWriter;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.io.StringWriter;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.time.LocalDateTime;
+&nbsp;import java.time.format.DateTimeFormatter;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Takes correct sentences, introduces errors (e.g. confusion pairs), and
+&nbsp; * evaluates the LT rules.
+&nbsp; */
+<b class="nc">&nbsp;public class ArtificialErrorEval {</b>
+&nbsp;
+<b class="nc">&nbsp;  static String[] words = new String[2];</b>
+<b class="nc">&nbsp;  static String[] lemmas = new String[2];</b>
+<b class="nc">&nbsp;  static String[] fakeRuleIDs = new String[2];</b>
+&nbsp;  //TP: true positive with the expected suggestion
+&nbsp;  //TPns: true positive with no suggestion
+<b class="nc">&nbsp;  static List&lt;String&gt; classifyTypes = Arrays.asList(&quot;TP&quot;, &quot;FP&quot;, &quot;TN&quot;, &quot;FN&quot;, &quot;TPns&quot;, &quot;TPws&quot;);</b>
+<b class="nc">&nbsp;  static int[][] results = new int[2][6]; // word0/word1 ; TP/FP/TN/FN/TP with no suggestion/TP wrong suggestion</b>
+<b class="nc">&nbsp;  static int[] accumulateResults = new int[6]; // totalErrors/TP/FP/TN/FN</b>
+&nbsp;  static RemoteLanguageTool lt;
+&nbsp;  static JLanguageTool localLt;
+&nbsp;  static Synthesizer synth;
+<b class="nc">&nbsp;  static int maxInputSentences = 1000000; // decrease this number for testing</b>
+<b class="nc">&nbsp;  static boolean verboseOutput = false;</b>
+<b class="nc">&nbsp;  static boolean unidirectional = false;</b>
+<b class="nc">&nbsp;  static boolean wholeword = true;</b>
+<b class="nc">&nbsp;  static boolean isDoubleLetters = false;</b>
+<b class="nc">&nbsp;  static boolean isDiacritics = false;</b>
+<b class="nc">&nbsp;  static boolean inflected = false;</b>
+<b class="nc">&nbsp;  static boolean isParallelCorpus = false;</b>
+<b class="nc">&nbsp;  static int columnCorrect = 1;</b>
+<b class="nc">&nbsp;  static int columnIncorrect = 2;</b>
+<b class="nc">&nbsp;  static Pattern pWordboundaries = Pattern.compile(&quot;\\b.+\\b&quot;);</b>
+<b class="nc">&nbsp;  static int countLine = 0;</b>
+<b class="nc">&nbsp;  static int checkedSentences = 0;</b>
+<b class="nc">&nbsp;  static int maxCheckedSentences = 1000000; // decrease this number for testing</b>
+<b class="nc">&nbsp;  static List&lt;String&gt; onlyRules = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;  static List&lt;String&gt; disabledRules = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;  static List&lt;String&gt; enabledOnlyRules = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;  static String summaryOutputFilename = &quot;&quot;;</b>
+<b class="nc">&nbsp;  static String verboseOutputFilename = &quot;&quot;;</b>
+<b class="nc">&nbsp;  static String errorCategory = &quot;&quot;;</b>
+<b class="nc">&nbsp;  static String langCode = &quot;&quot;;</b>
+&nbsp;  static Language language;
+<b class="nc">&nbsp;  static String corpusFilePath = &quot;&quot;;</b>
+<b class="nc">&nbsp;  static String outputPathRoot = &quot;&quot;;</b>
+&nbsp;  static HashMap&lt;String, List&lt;RemoteRuleMatch&gt;&gt; cachedMatches; 
+<b class="nc">&nbsp;  static String remoteServer = &quot;http://localhost:8081&quot;;</b>
+<b class="nc">&nbsp;  static String userName = &quot;&quot;;</b>
+<b class="nc">&nbsp;  static String apiKey = &quot;&quot;;</b>
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    long start = System.currentTimeMillis();</b>
+&nbsp;    //use configuration file
+<b class="nc">&nbsp;    if (args.length==1) {</b>
+<b class="nc">&nbsp;      String configurationFilename = args[0];</b>
+<b class="nc">&nbsp;      Properties prop = new Properties();</b>
+<b class="nc">&nbsp;      FileInputStream fis = new FileInputStream(configurationFilename);</b>
+<b class="nc">&nbsp;      prop.load(new InputStreamReader(fis, Charset.forName(&quot;UTF-8&quot;)));</b>
+<b class="nc">&nbsp;      String maxInputSentencesStr = prop.getProperty(&quot;maxInputSentences&quot;);</b>
+<b class="nc">&nbsp;      String maxCheckedSentencesStr = prop.getProperty(&quot;maxCheckedSentences&quot;);</b>
+<b class="nc">&nbsp;      if (maxInputSentencesStr != null) {</b>
+<b class="nc">&nbsp;        maxInputSentences = Integer.parseInt(maxInputSentencesStr);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (maxCheckedSentencesStr != null) {</b>
+<b class="nc">&nbsp;        maxCheckedSentences = Integer.parseInt(maxCheckedSentencesStr) + 1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      boolean printSummaryDetails = Boolean.parseBoolean(prop.getProperty(&quot;printSummaryDetails&quot;, &quot;true&quot;));</b>
+<b class="nc">&nbsp;      boolean printHeader = Boolean.parseBoolean(prop.getProperty(&quot;printHeader&quot;, &quot;true&quot;));</b>
+<b class="nc">&nbsp;      remoteServer = prop.getProperty(&quot;remoteServer&quot;, &quot;http://localhost:8081&quot;);</b>
+<b class="nc">&nbsp;      String enabledOnlyRulesStr = prop.getProperty(&quot;enabledOnlyRules&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      if (!enabledOnlyRulesStr.isEmpty()) {</b>
+<b class="nc">&nbsp;        enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(&quot;,&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String disabledRulesStr = prop.getProperty(&quot;disabledRules&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      if (!disabledRulesStr.isEmpty()) {</b>
+<b class="nc">&nbsp;        disabledRules = Arrays.asList(disabledRulesStr.split(&quot;,&quot;));  </b>
+&nbsp;      }
+<b class="nc">&nbsp;      String onlyRulesStr = prop.getProperty(&quot;onlyRules&quot;, &quot;&quot;); </b>
+<b class="nc">&nbsp;      if (!onlyRulesStr.isEmpty()) {</b>
+<b class="nc">&nbsp;        onlyRules = Arrays.asList(onlyRulesStr.split(&quot;,&quot;));  </b>
+&nbsp;      }
+<b class="nc">&nbsp;      userName = prop.getProperty(&quot;userName&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      apiKey = prop.getProperty(&quot;apiKey&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      String inputFolder = prop.getProperty(&quot;inputFolder&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      String outputFolder = prop.getProperty(&quot;outputFolder&quot;, inputFolder).trim();</b>
+&nbsp;      // Only one file
+&nbsp;      //String analyzeOneFile = prop.getProperty(&quot;analyzeOneFile&quot;);
+<b class="nc">&nbsp;      String inputFilename = prop.getProperty(&quot;inputFile&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      if (!inputFilename.isEmpty()) {</b>
+<b class="nc">&nbsp;        runEvaluationOnFile(prop.getProperty(&quot;languageCode&quot;), inputFilename, outputFolder);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!inputFolder.isEmpty()) {</b>
+<b class="nc">&nbsp;        summaryOutputFilename = outputFolder + &quot;/&quot; + prop.getProperty(&quot;languageCode&quot;) + &quot;-summary.tsv&quot;;</b>
+<b class="nc">&nbsp;        appendToFile(summaryOutputFilename, &quot;Category\tRules\tSentences\tPrecision\tRecall\tTP\tFP\tTN\tFN\tTPns\tTPws&quot;);</b>
+<b class="nc">&nbsp;        File[] inputFiles = new File(inputFolder).listFiles(File::isFile);</b>
+<b class="nc">&nbsp;        for (File inputFile : inputFiles) {</b>
+<b class="nc">&nbsp;          runEvaluationOnFile(prop.getProperty(&quot;languageCode&quot;), inputFile.getAbsolutePath(), outputFolder);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      /* Obsolete...
+&nbsp;      else {
+&nbsp;        String inputFolder = prop.getProperty(&quot;inputFolder&quot;);
+&nbsp;        String outpuFolder = prop.getProperty(&quot;outputFolder&quot;);
+&nbsp;        runEvaluationOnFolders(inputFolder, outpuFolder, printSummaryDetails, printHeader);
+&nbsp;      }*/
+&nbsp;    }
+&nbsp;    // language code + input file
+<b class="nc">&nbsp;    else if (args.length == 2) { </b>
+<b class="nc">&nbsp;      runEvaluationOnFile(args[0], args[1], &quot;&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      writeHelp();</b>
+<b class="nc">&nbsp;      System.exit(1);  </b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(printTimeFromStart(start, &quot;Total time:&quot;));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static void runEvaluationOnFile(String languageCode, String inputFile, String outputFolder) throws IOException {
+<b class="nc">&nbsp;    langCode = languageCode;</b>
+<b class="nc">&nbsp;    corpusFilePath = inputFile;</b>
+<b class="nc">&nbsp;    verboseOutput = true;</b>
+<b class="nc">&nbsp;    language = Languages.getLanguageForShortCode(langCode);</b>
+<b class="nc">&nbsp;    localLt = new JLanguageTool(language);</b>
+<b class="nc">&nbsp;    synth = language.getSynthesizer();</b>
+<b class="nc">&nbsp;    lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));</b>
+<b class="nc">&nbsp;    File corpusFile = new File(corpusFilePath);</b>
+<b class="nc">&nbsp;    if (!corpusFile.exists() || corpusFile.isDirectory()) {</b>
+<b class="nc">&nbsp;      throw new IOException(&quot;File not found: &quot; + corpusFilePath);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String fileName = corpusFile.getName();</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Analyzing file: &quot; + fileName);</b>
+<b class="nc">&nbsp;    fileName = fileName.substring(0, fileName.lastIndexOf(&#39;.&#39;));</b>
+<b class="nc">&nbsp;    if (outputFolder.isEmpty()) {</b>
+<b class="nc">&nbsp;      verboseOutputFilename = corpusFile.getParentFile()+ &quot;/&quot;+ fileName + &quot;-results.txt&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      verboseOutputFilename = outputFolder + fileName + &quot;-results.txt&quot;;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // reset all global variables to default
+<b class="nc">&nbsp;    unidirectional = false;</b>
+<b class="nc">&nbsp;    wholeword = true;</b>
+<b class="nc">&nbsp;    isDoubleLetters = false;</b>
+<b class="nc">&nbsp;    isDiacritics = false;</b>
+<b class="nc">&nbsp;    inflected = false;</b>
+<b class="nc">&nbsp;    isParallelCorpus = false;</b>
+<b class="nc">&nbsp;    columnCorrect = 1;</b>
+<b class="nc">&nbsp;    columnIncorrect = 2;</b>
+<b class="nc">&nbsp;    if (fileName.startsWith(&quot;parallelcorpus&quot;) || fileName.startsWith(&quot;pc-&quot;)) {</b>
+<b class="nc">&nbsp;      isParallelCorpus = true;</b>
+<b class="nc">&nbsp;      unidirectional = true;</b>
+<b class="nc">&nbsp;      wholeword = false;</b>
+<b class="nc">&nbsp;      String parts[] = fileName.split(&quot;-&quot;);</b>
+<b class="nc">&nbsp;      if (parts.length &gt; 2) {</b>
+<b class="nc">&nbsp;        columnCorrect = Integer.parseInt(parts[1]);</b>
+<b class="nc">&nbsp;        columnIncorrect = Integer.parseInt(parts[2]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    else if (fileName.equals(&quot;diacritics&quot;)) {</b>
+<b class="nc">&nbsp;      isDiacritics = true;</b>
+<b class="nc">&nbsp;      unidirectional = true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    else if (fileName.equals(&quot;double_letters&quot;)) {</b>
+<b class="nc">&nbsp;      isDoubleLetters = true;</b>
+<b class="nc">&nbsp;      unidirectional = true;</b>
+&nbsp;    }
+&nbsp;    else {
+<b class="nc">&nbsp;      String[] parts = fileName.split(&quot;~&quot;);</b>
+<b class="nc">&nbsp;      words[0] = parts[0].replace(&quot;_&quot;, &quot; &quot;);</b>
+<b class="nc">&nbsp;      words[1] = parts[1].replace(&quot;_&quot;, &quot; &quot;);</b>
+<b class="nc">&nbsp;      if (parts.length &gt; 2) {</b>
+<b class="nc">&nbsp;        unidirectional = parts[2].equals(&quot;u&quot;);</b>
+<b class="nc">&nbsp;        if (parts[2].equals(&quot;u_notwholeword&quot;)) {</b>
+<b class="nc">&nbsp;          unidirectional = true;</b>
+<b class="nc">&nbsp;          wholeword = false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (parts[2].equals(&quot;notwholeword&quot;)) {</b>
+<b class="nc">&nbsp;          wholeword = false;</b>
+&nbsp;        }
+&nbsp;      }  
+&nbsp;    }
+&nbsp;     
+<b class="nc">&nbsp;    run(true);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static void runEvaluationOnFolders(String inputFolder, String outputFolder, 
+&nbsp;      boolean printSummaryDetails, boolean printHeader) throws IOException {
+&nbsp; 
+<b class="nc">&nbsp;    verboseOutput = true;</b>
+<b class="nc">&nbsp;    SimpleDateFormat formatter= new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</b>
+<b class="nc">&nbsp;    Date date = new Date(System.currentTimeMillis());</b>
+<b class="nc">&nbsp;    outputPathRoot = outputFolder+&quot;/&quot;+formatter.format(date);</b>
+<b class="nc">&nbsp;    Files.createDirectories(Paths.get(outputPathRoot));</b>
+&nbsp;    //TODO: remove existing folder 
+&nbsp;    
+<b class="nc">&nbsp;    lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));</b>
+<b class="nc">&nbsp;    File[] languageDirectories = new File(inputFolder).listFiles(File::isDirectory);</b>
+<b class="nc">&nbsp;    for (File languageDirectory : languageDirectories) {</b>
+<b class="nc">&nbsp;      langCode = languageDirectory.getName();</b>
+<b class="nc">&nbsp;      language = Languages.getLanguageForShortCode(langCode);</b>
+<b class="nc">&nbsp;      Files.createDirectories(Paths.get(outputPathRoot+&quot;/&quot;+langCode));</b>
+<b class="nc">&nbsp;      summaryOutputFilename = outputPathRoot+&quot;/&quot;+langCode+&quot;/&quot;+langCode+&quot;.tsv&quot;;</b>
+<b class="nc">&nbsp;      if (printHeader) {</b>
+<b class="nc">&nbsp;        appendToFile(summaryOutputFilename, &quot;Category\tRules\tSentences\tPrecision\tRecall\tTP\tFP\tTN\tFN\tTPns\tTPws&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      File[] categoryDirectories = languageDirectory.listFiles(File::isDirectory);</b>
+<b class="nc">&nbsp;      for (File categoryDirectory: categoryDirectories) {</b>
+<b class="nc">&nbsp;        Arrays.fill(accumulateResults, 0);</b>
+<b class="nc">&nbsp;        errorCategory = categoryDirectory.getName();</b>
+<b class="nc">&nbsp;        Files.createDirectories(Paths.get(outputPathRoot+&quot;/&quot;+langCode+&quot;/&quot;+errorCategory));</b>
+<b class="nc">&nbsp;        File[] corpusFiles = categoryDirectory.listFiles(File::isFile);</b>
+<b class="nc">&nbsp;        for (File myCorpusFile: corpusFiles) {</b>
+<b class="nc">&nbsp;          corpusFilePath = myCorpusFile.getAbsolutePath(); </b>
+<b class="nc">&nbsp;          String fileName = myCorpusFile.getName();</b>
+<b class="nc">&nbsp;          System.out.println(&quot;Analyzing file: &quot; + fileName);</b>
+<b class="nc">&nbsp;          fileName = fileName.substring(0, fileName.lastIndexOf(&#39;.&#39;));</b>
+&nbsp;          //reset all global Variables to default
+<b class="nc">&nbsp;          unidirectional = false;</b>
+<b class="nc">&nbsp;          wholeword = true;</b>
+<b class="nc">&nbsp;          isDoubleLetters = false;</b>
+<b class="nc">&nbsp;          isDiacritics = false;</b>
+<b class="nc">&nbsp;          inflected = false;</b>
+<b class="nc">&nbsp;          isParallelCorpus = false;</b>
+<b class="nc">&nbsp;          columnCorrect = 1;</b>
+<b class="nc">&nbsp;          columnIncorrect = 2;</b>
+<b class="nc">&nbsp;          if (fileName.startsWith(&quot;parallelcorpus&quot;) || fileName.startsWith(&quot;pc-&quot;)) {</b>
+<b class="nc">&nbsp;            isParallelCorpus = true;</b>
+<b class="nc">&nbsp;            unidirectional = true;</b>
+<b class="nc">&nbsp;            String parts[] = fileName.split(&quot;-&quot;);</b>
+<b class="nc">&nbsp;            if (parts.length &gt; 2) {</b>
+<b class="nc">&nbsp;              columnCorrect = Integer.parseInt(parts[1]);</b>
+<b class="nc">&nbsp;              columnIncorrect = Integer.parseInt(parts[2]);</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          else if (fileName.equals(&quot;diacritics&quot;)) {</b>
+<b class="nc">&nbsp;            isDiacritics = true;</b>
+<b class="nc">&nbsp;            unidirectional = true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          else if (fileName.equals(&quot;double_letters&quot;)) {</b>
+<b class="nc">&nbsp;            isDoubleLetters = true;</b>
+<b class="nc">&nbsp;            unidirectional = true;</b>
+&nbsp;          }
+&nbsp;          else {
+<b class="nc">&nbsp;            String[] parts = fileName.split(&quot;~&quot;);</b>
+<b class="nc">&nbsp;            words[0] = parts[0].replace(&quot;_&quot;, &quot; &quot;);</b>
+<b class="nc">&nbsp;            words[1] = parts[1].replace(&quot;_&quot;, &quot; &quot;);</b>
+<b class="nc">&nbsp;            if (parts.length &gt; 2) {</b>
+<b class="nc">&nbsp;              unidirectional = parts[2].equals(&quot;u&quot;);</b>
+<b class="nc">&nbsp;              if (parts[2].equals(&quot;u_notwholeword&quot;)) {</b>
+<b class="nc">&nbsp;                unidirectional = true;</b>
+<b class="nc">&nbsp;                wholeword = false;</b>
+&nbsp;              }
+<b class="nc">&nbsp;              if (parts[2].equals(&quot;notwholeword&quot;)) {</b>
+<b class="nc">&nbsp;                wholeword = false;</b>
+&nbsp;              }
+&nbsp;            }  
+&nbsp;          }
+<b class="nc">&nbsp;          verboseOutputFilename = outputPathRoot+&quot;/&quot;+langCode+&quot;/&quot;+errorCategory+&quot;/&quot;+myCorpusFile.getName();</b>
+<b class="nc">&nbsp;          run(printSummaryDetails);</b>
+&nbsp;        }
+&nbsp;        // total by category
+<b class="nc">&nbsp;        float precision = accumulateResults[1] / (float) (accumulateResults[1] + accumulateResults[2]);</b>
+<b class="nc">&nbsp;        float recall = accumulateResults[1] / (float) (accumulateResults[1] + accumulateResults[4]);</b>
+<b class="nc">&nbsp;        appendToFile (summaryOutputFilename, errorCategory + &quot;\t&quot; + &quot;TOTAL&quot; + &quot;\t&quot; </b>
+&nbsp;            + accumulateResults[0] + &quot;\t&quot; 
+<b class="nc">&nbsp;            + String.format(Locale.ROOT, &quot;%.4f&quot;, precision) + &quot;\t&quot; </b>
+<b class="nc">&nbsp;            + String.format(Locale.ROOT, &quot;%.4f&quot;, recall) + &quot;\t&quot;</b>
+&nbsp;            + accumulateResults[1] + &quot;\t&quot;
+&nbsp;            + accumulateResults[2] + &quot;\t&quot;
+&nbsp;            + accumulateResults[3] + &quot;\t&quot;
+&nbsp;            + accumulateResults[4] + &quot;\t&quot;
+&nbsp;            );
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;FINISHED!&quot;); </b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static void run(boolean printSummaryDetails) throws IOException {
+<b class="nc">&nbsp;    int ignoredLines = 0;</b>
+<b class="nc">&nbsp;    Arrays.fill(results[0], 0);</b>
+<b class="nc">&nbsp;    Arrays.fill(results[1], 0);</b>
+<b class="nc">&nbsp;    fakeRuleIDs[0] = &quot;rules_&quot; + words[0] + &quot;-&gt;&quot; + words[1]; // rules in one direction</b>
+<b class="nc">&nbsp;    fakeRuleIDs[1] = &quot;rules_&quot; + words[1] + &quot;-&gt;&quot; + words[0]; // rules in the other direction</b>
+&nbsp;    CheckConfiguration config;
+<b class="nc">&nbsp;    CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(langCode);</b>
+&nbsp;    //cfgBuilder.textSessionID(&quot;-2&quot;);
+<b class="nc">&nbsp;    if (enabledOnlyRules.isEmpty()) {</b>
+<b class="nc">&nbsp;      cfgBuilder.disabledRuleIds(&quot;WHITESPACE_RULE&quot;);</b>
+<b class="nc">&nbsp;      if (!disabledRules.isEmpty()) {</b>
+<b class="nc">&nbsp;        cfgBuilder.disabledRuleIds(disabledRules);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      cfgBuilder.enabledRuleIds(enabledOnlyRules).enabledOnly();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!userName.isEmpty() &amp;&amp; !apiKey.isEmpty()) {</b>
+<b class="nc">&nbsp;      cfgBuilder.username(userName).apiKey(apiKey).build();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    config = cfgBuilder.build();</b>
+<b class="nc">&nbsp;    long start = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(corpusFilePath));</b>
+<b class="nc">&nbsp;    if (!inflected &amp;&amp; !isDoubleLetters &amp;&amp; !isDiacritics &amp;&amp; !isParallelCorpus) {</b>
+&nbsp;      final Pattern p0;
+<b class="nc">&nbsp;      Matcher mWordBoundaries = pWordboundaries.matcher(words[0]);</b>
+<b class="nc">&nbsp;      if (mWordBoundaries.matches() &amp;&amp; wholeword) {</b>
+<b class="nc">&nbsp;        p0 = Pattern.compile(&quot;\\b&quot; + words[0] + &quot;\\b&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        p0 = Pattern.compile(words[0], Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;      }
+&nbsp;      final Pattern p1;
+<b class="nc">&nbsp;      mWordBoundaries = pWordboundaries.matcher(words[1]);</b>
+<b class="nc">&nbsp;      if (mWordBoundaries.matches() &amp;&amp; wholeword) {</b>
+<b class="nc">&nbsp;        p1 = Pattern.compile(&quot;\\b&quot; + words[1] + &quot;\\b&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        p1 = Pattern.compile(words[1], Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      countLine = 0;</b>
+<b class="nc">&nbsp;      checkedSentences = 0;</b>
+<b class="nc">&nbsp;      for (String line : lines) {</b>
+<b class="nc">&nbsp;        cachedMatches = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        countLine++;</b>
+<b class="nc">&nbsp;        if (countLine &gt; maxInputSentences || checkedSentences &gt; maxCheckedSentences) {</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        boolean foundSomething = false;</b>
+<b class="nc">&nbsp;        if (words[0].length() &gt; 0) {</b>
+<b class="nc">&nbsp;          Matcher m = p0.matcher(line);</b>
+<b class="nc">&nbsp;          while (m.find()) {</b>
+<b class="nc">&nbsp;            foundSomething = true;</b>
+<b class="nc">&nbsp;            analyzeSentence(line, 0, m.start(), config);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (words[1].length() &gt; 0) {</b>
+<b class="nc">&nbsp;          Matcher m = p1.matcher(line);</b>
+<b class="nc">&nbsp;          while (m.find()) {</b>
+<b class="nc">&nbsp;            foundSomething = true;</b>
+<b class="nc">&nbsp;            analyzeSentence(line, 1, m.start(), config);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (!foundSomething) {</b>
+&nbsp;          // printSentenceOutput(&quot;Ignored, no error&quot;, line, &quot;&quot;);
+&nbsp;        }
+&nbsp;      } 
+&nbsp;    } 
+<b class="nc">&nbsp;    if (isParallelCorpus) {</b>
+<b class="nc">&nbsp;      final Pattern p = Pattern.compile(&quot;(.*)__(.*)__(.*)&quot;);</b>
+<b class="nc">&nbsp;      countLine = 0;</b>
+<b class="nc">&nbsp;      checkedSentences = 0;</b>
+<b class="nc">&nbsp;      for (String line : lines) {</b>
+<b class="nc">&nbsp;        cachedMatches = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        countLine++;</b>
+<b class="nc">&nbsp;        if (countLine &gt; maxInputSentences || checkedSentences &gt; maxCheckedSentences) {</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        String[] parts = line.split(&quot;\t&quot;);</b>
+&nbsp;        // adjust the numbers 3 and 4 according to the source file
+<b class="nc">&nbsp;        if (parts.length &lt; columnCorrect &amp;&amp; parts.length &lt; columnIncorrect) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        String correctSource = parts[columnCorrect - 1];</b>
+<b class="nc">&nbsp;        String incorrectSource = parts[columnIncorrect - 1];</b>
+<b class="nc">&nbsp;        words[0] = null;</b>
+<b class="nc">&nbsp;        words[1] = null;</b>
+&nbsp;        /*String correctSentence = &quot;&quot;;
+&nbsp;        String incorrectSentence = &quot;&quot;;
+&nbsp;        /*Matcher mIncorrect = p.matcher(incorrectSource);
+&nbsp;        if (mIncorrect.matches()) {
+&nbsp;          words[0] = mIncorrect.group(2);
+&nbsp;        }
+&nbsp;        int posError = -1;
+&nbsp;        Matcher mCorrect = p.matcher(correctSource);
+&nbsp;        if (mCorrect.matches()) {
+&nbsp;          words[1] = mCorrect.group(2);
+&nbsp;          correctSentence = mCorrect.group(1) + mCorrect.group(2) + mCorrect.group(3);
+&nbsp;          posError = mCorrect.group(1).length();
+&nbsp;        }*/
+<b class="nc">&nbsp;        String correctSentence = correctSource.replace(&quot;__&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        String incorrectSentence = incorrectSource.replace(&quot;__&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        if (correctSentence.equals(incorrectSentence)) {</b>
+<b class="nc">&nbsp;          printSentenceOutput(&quot;IGNORED LINE: sentences are identical!&quot;, correctSource, 0, &quot;&quot;);</b>
+<b class="nc">&nbsp;          ignoredLines++;</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; diffs = StringTools.getDifference(correctSentence, incorrectSentence);</b>
+<b class="nc">&nbsp;        int posError = diffs.get(0).length();</b>
+<b class="nc">&nbsp;        words[1] = diffs.get(1);</b>
+<b class="nc">&nbsp;        words[0] = diffs.get(2);</b>
+<b class="nc">&nbsp;        if (words[1] != null) {</b>
+&nbsp;          // words[0] may be null!
+&nbsp;          // check FN
+<b class="nc">&nbsp;          analyzeSentence(correctSentence, 1, posError, config);</b>
+&nbsp;          // check FP in the correct sentence
+<b class="nc">&nbsp;          words[0] = words[1];</b>
+<b class="nc">&nbsp;          words[1] = null;</b>
+<b class="nc">&nbsp;          analyzeSentence(correctSentence, 0, posError, config);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (isDoubleLetters) {</b>
+&nbsp;      // introduce error: nn -&gt; n
+<b class="nc">&nbsp;      fakeRuleIDs[0] = &quot;rules_double_letters&quot;;</b>
+<b class="nc">&nbsp;      countLine = 0;</b>
+<b class="nc">&nbsp;      checkedSentences = 0;</b>
+<b class="nc">&nbsp;      final Pattern p1 = Pattern.compile(&quot;([a-zA-Z])\\1+&quot;);</b>
+<b class="nc">&nbsp;      for (String line : lines) {</b>
+<b class="nc">&nbsp;        cachedMatches = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        countLine++;</b>
+<b class="nc">&nbsp;        if (countLine &gt; maxInputSentences || checkedSentences &gt; maxCheckedSentences) {</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        Matcher m = p1.matcher(line);</b>
+<b class="nc">&nbsp;        while (m.find()) {</b>
+<b class="nc">&nbsp;          words[1] = m.group(0);</b>
+<b class="nc">&nbsp;          words[0] = words[1].substring(0, 1); </b>
+<b class="nc">&nbsp;          analyzeSentence(line, 1, m.start(), config);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (isDiacritics) {</b>
+&nbsp;      // check missing diacritics 
+<b class="nc">&nbsp;      countLine = 0;</b>
+<b class="nc">&nbsp;      checkedSentences = 0;</b>
+<b class="nc">&nbsp;      for (String line : lines) {</b>
+<b class="nc">&nbsp;        cachedMatches = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        countLine++;</b>
+<b class="nc">&nbsp;        if (countLine &gt; maxInputSentences || checkedSentences &gt; maxCheckedSentences) {</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; tokens = language.getWordTokenizer().tokenize(line);</b>
+<b class="nc">&nbsp;        int pos = 0;</b>
+<b class="nc">&nbsp;        for (String token: tokens) {</b>
+<b class="nc">&nbsp;          if (StringTools.hasDiacritics(token)) {</b>
+<b class="nc">&nbsp;            words[1] = token;</b>
+<b class="nc">&nbsp;            words[0] = StringTools.removeDiacritics(token);</b>
+<b class="nc">&nbsp;            analyzeSentence(line, 1, pos, config);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          pos += token.length();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (inflected) {</b>
+&nbsp;      // search lemma
+<b class="nc">&nbsp;      countLine = 0;</b>
+<b class="nc">&nbsp;      checkedSentences = 0;</b>
+<b class="nc">&nbsp;      for (String line : lines) {</b>
+<b class="nc">&nbsp;        cachedMatches = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        countLine++;</b>
+<b class="nc">&nbsp;        if (countLine &gt; maxInputSentences || checkedSentences &gt; maxCheckedSentences) {</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;AnalyzedSentence&gt; analyzedSentences = localLt.analyzeText(line);</b>
+<b class="nc">&nbsp;        boolean foundSomething = false;</b>
+<b class="nc">&nbsp;        for (AnalyzedSentence analyzedSentence: analyzedSentences) {</b>
+<b class="nc">&nbsp;          for (AnalyzedTokenReadings token : analyzedSentence.getTokensWithoutWhitespace()) {</b>
+<b class="nc">&nbsp;            if (lemmas[0].length() &gt; 0) {</b>
+<b class="nc">&nbsp;              if (token.hasLemma(lemmas[0])) {</b>
+<b class="nc">&nbsp;                words[0] = token.getToken();</b>
+<b class="nc">&nbsp;                AnalyzedToken atr1 = token.readingWithLemma(lemmas[0]);</b>
+<b class="nc">&nbsp;                AnalyzedToken atr2 = new AnalyzedToken(atr1.getToken(), atr1.getPOSTag(), lemmas[1]);</b>
+<b class="nc">&nbsp;                String[] syntheziedWords = synth.synthesize(atr2, atr2.getPOSTag());</b>
+<b class="nc">&nbsp;                words[1] = syntheziedWords[0];</b>
+<b class="nc">&nbsp;                foundSomething = true;</b>
+<b class="nc">&nbsp;                analyzeSentence(line, 0, token.getStartPos(), config);</b>
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;            if (lemmas[1].length() &gt; 0) {</b>
+<b class="nc">&nbsp;              if (token.hasLemma(lemmas[1])) {</b>
+<b class="nc">&nbsp;                words[1] = token.getToken();</b>
+<b class="nc">&nbsp;                AnalyzedToken atr1 = token.readingWithLemma(lemmas[1]);</b>
+<b class="nc">&nbsp;                AnalyzedToken atr2 = new AnalyzedToken(atr1.getToken(), atr1.getPOSTag(), lemmas[0]);</b>
+<b class="nc">&nbsp;                String[] syntheziedWords = synth.synthesize(atr2, atr2.getPOSTag());</b>
+<b class="nc">&nbsp;                words[0] = syntheziedWords[0];</b>
+<b class="nc">&nbsp;                foundSomething = true;</b>
+<b class="nc">&nbsp;                analyzeSentence(line, 1, token.getStartPos(), config);</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+&nbsp;    // print results
+<b class="nc">&nbsp;    int oneOrTwo = (unidirectional ? 1 : 2);</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; oneOrTwo; i++) {</b>
+<b class="nc">&nbsp;      float precision = results[i][classifyTypes.indexOf(&quot;TP&quot;)]</b>
+<b class="nc">&nbsp;          / (float) (results[i][classifyTypes.indexOf(&quot;TP&quot;)] + results[i][classifyTypes.indexOf(&quot;FP&quot;)]);</b>
+<b class="nc">&nbsp;      float recall = results[i][classifyTypes.indexOf(&quot;TP&quot;)]</b>
+<b class="nc">&nbsp;          / (float) (results[i][classifyTypes.indexOf(&quot;TP&quot;)] + results[i][classifyTypes.indexOf(&quot;FN&quot;)] </b>
+<b class="nc">&nbsp;              + results[i][classifyTypes.indexOf(&quot;TPns&quot;)] + results[i][classifyTypes.indexOf(&quot;TPws&quot;)]);</b>
+&nbsp;      // recall including empty suggestions
+<b class="nc">&nbsp;      float recall2 = (results[i][classifyTypes.indexOf(&quot;TP&quot;)] + results[i][classifyTypes.indexOf(&quot;TPns&quot;)])</b>
+<b class="nc">&nbsp;          / (float) (results[i][classifyTypes.indexOf(&quot;TP&quot;)] + results[i][classifyTypes.indexOf(&quot;FN&quot;)]</b>
+<b class="nc">&nbsp;              + results[i][classifyTypes.indexOf(&quot;TPns&quot;)] + results[i][classifyTypes.indexOf(&quot;TPws&quot;)]);</b>
+&nbsp;      //float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf(&quot;TPs&quot;)]
+&nbsp;      //    / results[i][classifyTypes.indexOf(&quot;TP&quot;)];
+<b class="nc">&nbsp;      int errorsTotal = results[i][classifyTypes.indexOf(&quot;TP&quot;)] + results[i][classifyTypes.indexOf(&quot;FP&quot;)]</b>
+<b class="nc">&nbsp;          + results[i][classifyTypes.indexOf(&quot;TN&quot;)] + results[i][classifyTypes.indexOf(&quot;FN&quot;)] + results[i][classifyTypes.indexOf(&quot;TPns&quot;)]</b>
+<b class="nc">&nbsp;          + results[i][classifyTypes.indexOf(&quot;TPws&quot;)];</b>
+<b class="nc">&nbsp;      StringWriter resultsString = new StringWriter();</b>
+&nbsp;
+<b class="nc">&nbsp;      resultsString.append(&quot;-------------------------------------\n&quot;);</b>
+<b class="nc">&nbsp;      resultsString.append(&quot;Results for &quot; + fakeRuleIDs[i] + &quot;\n&quot;);</b>
+&nbsp;      
+<b class="nc">&nbsp;      int nCorrectSentences =  results[i][1] + results[i][2] ; // FP + TN</b>
+<b class="nc">&nbsp;      int nIncorrectSentences =  results[i][0] + results[i][4] + results[i][5] + results[i][3]; // TP + TPns + TPws + FN  </b>
+&nbsp;      
+<b class="nc">&nbsp;      resultsString.append(&quot;Total sentences: &quot; + String.valueOf(errorsTotal) + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot;\nCorrect sentences&quot;, nCorrectSentences, nCorrectSentences + nIncorrectSentences));</b>
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot;FP&quot;, results[i][1], nCorrectSentences));</b>
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot;TN&quot;, results[i][2], nCorrectSentences));</b>
+&nbsp;      
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot;\nIncorrect sentences&quot;, nIncorrectSentences, nCorrectSentences + nIncorrectSentences));</b>
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot;TP (total)&quot;, results[i][4] + results[i][5] + results[i][0], nIncorrectSentences));</b>
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot; TP (expected suggestion)&quot;, results[i][0], nIncorrectSentences));</b>
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot; TPns (no suggestion)&quot;, results[i][4], nIncorrectSentences));</b>
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot; TPws (wrong suggestion)&quot;, results[i][5], nIncorrectSentences));</b>
+<b class="nc">&nbsp;      resultsString.append(formattedAbsoluteAndPercentage(&quot;FN&quot;, results[i][3], nIncorrectSentences));</b>
+&nbsp;
+<b class="nc">&nbsp;      resultsString.append(&quot;\nPrecision: &quot; + String.format(Locale.ROOT, &quot;%.4f&quot;, precision) + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;      resultsString.append(&quot;Recall: &quot; + String.format(Locale.ROOT, &quot;%.4f&quot;, recall) + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;      resultsString.append(&quot;Recall (including empty suggestions): &quot; + String.format(Locale.ROOT, &quot;%.4f&quot;, recall2) + &quot;\n&quot;);</b>
+&nbsp;      
+<b class="nc">&nbsp;      if (ignoredLines &gt; 0) {</b>
+<b class="nc">&nbsp;        resultsString.append(&quot;\nIgnored lines from source: &quot; + ignoredLines + &quot;\n&quot;);</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      resultsString.append(printTimeFromStart(start, &quot;&quot;));</b>
+<b class="nc">&nbsp;      resultsString.append(&quot;\n&quot; + printCurrentDateTime() + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;      appendToFile(verboseOutputFilename, resultsString.toString());</b>
+&nbsp;      
+<b class="nc">&nbsp;      if (printSummaryDetails) {</b>
+<b class="nc">&nbsp;          appendToFile(summaryOutputFilename, errorCategory + &quot;\t&quot; + fakeRuleIDs[i]</b>
+<b class="nc">&nbsp;                  + &quot;\t&quot; + errorsTotal + &quot;\t&quot; + String.format(Locale.ROOT, &quot;%.4f&quot;, precision) + &quot;\t&quot; + String.format(Locale.ROOT, &quot;%.4f&quot;, recall) + &quot;\t&quot;</b>
+<b class="nc">&nbsp;                  + results[i][classifyTypes.indexOf(&quot;TP&quot;)] + &quot;\t&quot;</b>
+<b class="nc">&nbsp;                  + results[i][classifyTypes.indexOf(&quot;FP&quot;)] + &quot;\t&quot;</b>
+<b class="nc">&nbsp;                  + results[i][classifyTypes.indexOf(&quot;TN&quot;)] + &quot;\t&quot;</b>
+<b class="nc">&nbsp;                  + results[i][classifyTypes.indexOf(&quot;FN&quot;)] + &quot;\t&quot;</b>
+<b class="nc">&nbsp;                  + results[i][classifyTypes.indexOf(&quot;TPns&quot;)] + &quot;\t&quot;</b>
+<b class="nc">&nbsp;                  + results[i][classifyTypes.indexOf(&quot;TPws&quot;)] + &quot;\t&quot;);</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      accumulateResults[0] += errorsTotal;</b>
+<b class="nc">&nbsp;      accumulateResults[1] += results[i][classifyTypes.indexOf(&quot;TP&quot;)];</b>
+<b class="nc">&nbsp;      accumulateResults[2] += results[i][classifyTypes.indexOf(&quot;FP&quot;)];</b>
+<b class="nc">&nbsp;      accumulateResults[3] += results[i][classifyTypes.indexOf(&quot;TN&quot;)];</b>
+<b class="nc">&nbsp;      accumulateResults[4] += results[i][classifyTypes.indexOf(&quot;FN&quot;)];</b>
+&nbsp;      
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(printTimeFromStart(start, &quot;&quot;));</b>
+<b class="nc">&nbsp;    System.out.println(&quot;-------------------------------------&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static String formattedAbsoluteAndPercentage (String tag, int i, int j) {
+<b class="nc">&nbsp;    float percentage = (float) i*100/j;</b>
+<b class="nc">&nbsp;    StringWriter r = new StringWriter();</b>
+<b class="nc">&nbsp;    r.append(tag+&quot;: &quot;);</b>
+<b class="nc">&nbsp;    r.append(Integer.toString(i));</b>
+<b class="nc">&nbsp;    r.append(&quot; (&quot;);</b>
+<b class="nc">&nbsp;    r.append(String.format(Locale.ROOT, &quot;%.2f&quot;, percentage));</b>
+<b class="nc">&nbsp;    r.append(&quot;%)\n&quot;);</b>
+<b class="nc">&nbsp;    return r.toString();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static String printTimeFromStart(long start, String tag) {
+<b class="nc">&nbsp;    if (tag.isEmpty()) {</b>
+<b class="nc">&nbsp;      tag = &quot;Time:&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    long totalSecs = (long) ((System.currentTimeMillis() - start) / 1000.0);</b>
+<b class="nc">&nbsp;    long hours = totalSecs / 3600;</b>
+<b class="nc">&nbsp;    int minutes = (int) ((totalSecs % 3600) / 60);</b>
+<b class="nc">&nbsp;    int seconds = (int) (totalSecs % 60);</b>
+<b class="nc">&nbsp;    return String.format(tag+&quot; %02d:%02d:%02d\n&quot;, hours, minutes, seconds);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static void appendToFile(String FilePath, String text) throws IOException {
+<b class="nc">&nbsp;    if (!FilePath.isEmpty()) { </b>
+<b class="nc">&nbsp;      try (BufferedWriter out = new BufferedWriter(new FileWriter(FilePath, true))) {</b>
+<b class="nc">&nbsp;        out.write(text + &quot;\n&quot;);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      System.out.println(text);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void analyzeSentence(String correctSentence, int j, int fromPos, CheckConfiguration config)
+&nbsp;      throws IOException {
+&nbsp;    // Correct sentence
+<b class="nc">&nbsp;    if (!unidirectional || j == 0) {</b>
+&nbsp;      List&lt;RemoteRuleMatch&gt; matchesCorrect;
+<b class="nc">&nbsp;      if (cachedMatches.containsKey(correctSentence)) {</b>
+<b class="nc">&nbsp;        matchesCorrect = cachedMatches.get(correctSentence);</b>
+&nbsp;      } else {
+&nbsp;        try {
+<b class="nc">&nbsp;          matchesCorrect = lt.check(correctSentence, config).getMatches();</b>
+&nbsp;        } catch (RuntimeException e) {
+<b class="nc">&nbsp;          e.printStackTrace();</b>
+<b class="nc">&nbsp;          wait(1000);</b>
+<b class="nc">&nbsp;          matchesCorrect = lt.check(correctSentence, config).getMatches();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        checkedSentences++;</b>
+<b class="nc">&nbsp;        cachedMatches.put(correctSentence, matchesCorrect);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String replaceWith = words[1 - j];</b>
+<b class="nc">&nbsp;      String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());</b>
+&nbsp;      //capitalization change only makes sense with full words
+<b class="nc">&nbsp;      if (wholeword &amp;&amp; StringTools.isCapitalizedWord(originalString) &amp;&amp; replaceWith != null) {</b>
+<b class="nc">&nbsp;        replaceWith = StringTools.uppercaseFirstChar(replaceWith);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;String&gt; ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, replaceWith);</b>
+<b class="nc">&nbsp;      if (ruleIDs.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        results[j][classifyTypes.indexOf(&quot;FP&quot;)]++;</b>
+<b class="nc">&nbsp;        printSentenceOutput(&quot;FP&quot;, correctSentence, j, String.join(&quot;,&quot;, ruleIDs));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        results[j][classifyTypes.indexOf(&quot;TN&quot;)]++;</b>
+&nbsp;        // Too verbose...
+&nbsp;        // printSentenceOutput(&quot;TN&quot;, correctSentence, fakeRuleIDs[j]);
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // Wrong sentence
+<b class="nc">&nbsp;    if ( (!unidirectional || j == 1) &amp;&amp; words[1 - j] != null) {</b>
+<b class="nc">&nbsp;      String replaceWith = words[1 - j];</b>
+<b class="nc">&nbsp;      String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());</b>
+&nbsp;      // capitalization change only makes sense with full words
+<b class="nc">&nbsp;      if (wholeword) {</b>
+<b class="nc">&nbsp;        replaceWith = StringTools.preserveCase(replaceWith, originalString);  </b>
+&nbsp;      }
+<b class="nc">&nbsp;      String wrongSentence = correctSentence.substring(0, fromPos) + replaceWith</b>
+<b class="nc">&nbsp;          + correctSentence.substring(fromPos + words[j].length(), correctSentence.length());</b>
+<b class="nc">&nbsp;      if (wrongSentence.equals(correctSentence)) {</b>
+&nbsp;        // Should not happen
+<b class="nc">&nbsp;        printSentenceOutput(&quot;Error: word cannot be replaced&quot;, correctSentence, j, &quot;&quot;);</b>
+&nbsp;        return;
+&nbsp;      }    
+&nbsp;      List&lt;RemoteRuleMatch&gt; matchesWrong;
+<b class="nc">&nbsp;      if (cachedMatches.containsKey(wrongSentence)) {</b>
+<b class="nc">&nbsp;        matchesWrong = cachedMatches.get(wrongSentence);</b>
+&nbsp;      } else {
+&nbsp;        try {
+<b class="nc">&nbsp;          matchesWrong = lt.check(wrongSentence, config).getMatches();</b>
+&nbsp;        } catch (RuntimeException e) {
+<b class="nc">&nbsp;          e.printStackTrace();</b>
+<b class="nc">&nbsp;          wait(1000);</b>
+<b class="nc">&nbsp;          matchesWrong = lt.check(wrongSentence, config).getMatches();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        checkedSentences++;</b>
+<b class="nc">&nbsp;        cachedMatches.put(wrongSentence, matchesWrong);</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      List&lt;String&gt; ruleIDs = ruleIDsAtPos(matchesWrong, fromPos, originalString);</b>
+<b class="nc">&nbsp;      if (ruleIDs.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        if (isExpectedSuggestionAtPos(matchesWrong, fromPos, originalString, wrongSentence, correctSentence)) {</b>
+<b class="nc">&nbsp;          results[1 - j][classifyTypes.indexOf(&quot;TP&quot;)]++;</b>
+<b class="nc">&nbsp;          printSentenceOutput(&quot;TP&quot;, wrongSentence, 1 - j, String.join(&quot;,&quot;, ruleIDs));</b>
+<b class="nc">&nbsp;        } else if (isEmptySuggestionAtPos(matchesWrong, fromPos, originalString, wrongSentence, correctSentence)) {</b>
+<b class="nc">&nbsp;          results[1 - j][classifyTypes.indexOf(&quot;TPns&quot;)]++;</b>
+<b class="nc">&nbsp;          printSentenceOutput(&quot;TPns&quot;, wrongSentence, 1 - j, String.join(&quot;,&quot;, ruleIDs));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          results[1 - j][classifyTypes.indexOf(&quot;TPws&quot;)]++;</b>
+<b class="nc">&nbsp;          printSentenceOutput(&quot;TPws&quot;, wrongSentence, 1 - j, String.join(&quot;,&quot;, ruleIDs));</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        results[1 - j][classifyTypes.indexOf(&quot;FN&quot;)]++;</b>
+<b class="nc">&nbsp;        printSentenceOutput(&quot;FN&quot;, wrongSentence, 1 - j, &quot;&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void printSentenceOutput(String classification, String sentence, int i, String ruleIds) throws IOException { 
+<b class="nc">&nbsp;    if (verboseOutput) {</b>
+<b class="nc">&nbsp;      String fakeRuleID = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (fakeRuleIDs[i].contains(&quot;null&quot;)) {</b>
+<b class="nc">&nbsp;        fakeRuleID = &quot;rules_&quot; + words[i] + &quot;-&gt;&quot; + words[1 - i]; </b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        fakeRuleID = fakeRuleIDs[i];</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (verboseOutputFilename.isEmpty()) {</b>
+<b class="nc">&nbsp;        System.out.println(countLine + &quot;. &quot; + classification + &quot;: &quot; + sentence + &quot; –– &quot; + fakeRuleID + &quot;:&quot; + ruleIds);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        try (BufferedWriter out = new BufferedWriter(new FileWriter(verboseOutputFilename, true))) {</b>
+<b class="nc">&nbsp;          out.write(countLine + &quot;\t&quot; + classification + &quot;\t&quot; + sentence + &quot;\t&quot; + fakeRuleID + &quot;:&quot; + ruleIds+&quot;\n&quot;);</b>
+&nbsp;        }  
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;String&gt; ruleIDsAtPos(List&lt;RemoteRuleMatch&gt; matchesCorrect, int pos, String expectedSuggestion) {
+<b class="nc">&nbsp;    List&lt;String&gt; ruleIDs = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RemoteRuleMatch match : matchesCorrect) {</b>
+<b class="nc">&nbsp;      if (match.getErrorOffset() &lt;= pos &amp;&amp; match.getErrorOffset() + match.getErrorLength() &gt;= pos) {</b>
+<b class="nc">&nbsp;        if (disabledRules.contains(match.getRuleId())) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (!onlyRules.isEmpty() &amp;&amp; !onlyRules.contains(match.getRuleId())) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        String subId = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          subId = match.getRuleSubId().get();</b>
+&nbsp;        } catch (NoSuchElementException e) {
+&nbsp;          //System.out.println(&quot;Exception, skipping &#39;&quot; + countLine + &quot;&#39;: &quot;);
+&nbsp;          //e.printStackTrace();
+&nbsp;        }
+<b class="nc">&nbsp;        if (subId != null) {</b>
+<b class="nc">&nbsp;          ruleIDs.add(match.getRuleId() + &quot;[&quot; + match.getRuleSubId().get() + &quot;]&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          ruleIDs.add(match.getRuleId());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleIDs;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isExpectedSuggestionAtPos(List&lt;RemoteRuleMatch&gt; matchesCorrect, int pos,
+&nbsp;      String expectedSuggestion, String wrongSentence, String correctSentence) {
+<b class="nc">&nbsp;    for (RemoteRuleMatch match : matchesCorrect) {</b>
+<b class="nc">&nbsp;      if (match.getErrorOffset() &lt;= pos &amp;&amp; match.getErrorOffset() + match.getErrorLength() &gt;= pos) {</b>
+<b class="nc">&nbsp;        for (String s : match.getReplacements().get()) {</b>
+&nbsp;          // check that the replacement rebuilds the original correct sentence
+<b class="nc">&nbsp;          String correctedSentence = wrongSentence.substring(0, match.getErrorOffset()) + s</b>
+<b class="nc">&nbsp;              + wrongSentence.substring(match.getErrorOffset() + match.getErrorLength(), wrongSentence.length());</b>
+<b class="nc">&nbsp;          if (correctedSentence.equals(correctSentence)) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static boolean isEmptySuggestionAtPos(List&lt;RemoteRuleMatch&gt; matchesCorrect, int pos,
+&nbsp;      String expectedSuggestion, String wrongSentence, String correctSentence) {
+<b class="nc">&nbsp;    for (RemoteRuleMatch match : matchesCorrect) {</b>
+<b class="nc">&nbsp;      if (match.getReplacements().get().size() == 0) {</b>
+<b class="nc">&nbsp;        if (match.getErrorOffset() &lt;= pos &amp;&amp; match.getErrorOffset() + match.getErrorLength() &gt;= pos) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static void writeHelp() {
+<b class="nc">&nbsp;    System.out.println(&quot;Usage 1: &quot; + ArtificialErrorEval.class.getSimpleName()</b>
+&nbsp;        + &quot; &lt;language code&gt; &lt;input file&gt;&quot;);
+<b class="nc">&nbsp;    System.out.println(&quot;Usage 2: &quot; + ArtificialErrorEval.class.getSimpleName()</b>
+&nbsp;        + &quot; &lt;configuration file&gt;&quot;);
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static void wait(int ms) {
+&nbsp;    try {
+<b class="nc">&nbsp;      Thread.sleep(ms);</b>
+&nbsp;    } catch (InterruptedException ex) {
+<b class="nc">&nbsp;      Thread.currentThread().interrupt();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String printCurrentDateTime() {
+<b class="nc">&nbsp;    DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;yyyy/MM/dd HH:mm:ss&quot;);</b>
+<b class="nc">&nbsp;    LocalDateTime now = LocalDateTime.now();</b>
+<b class="nc">&nbsp;    return dtf.format(now);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

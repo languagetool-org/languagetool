@@ -1,0 +1,323 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > InterrogativeVerbFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.fr</a>
+</div>
+
+<h1>Coverage Summary for Class: InterrogativeVerbFilter (org.languagetool.rules.fr)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InterrogativeVerbFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/98)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/98)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2020 Jaume Ortolà
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.fr;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.ResourceBundleTools;
+&nbsp;import org.languagetool.language.French;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.FrenchSynthesizer;
+&nbsp;import org.languagetool.tagging.fr.FrenchTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;/*
+&nbsp; * Get appropriate suggestions for French verbs in interrogative form (prérères-tu)
+&nbsp; * and imperative (dépêche-toi)
+&nbsp; */
+&nbsp;
+&nbsp;public class InterrogativeVerbFilter extends RuleFilter {
+&nbsp;
+&nbsp;  // private static final Pattern PronounSubject = Pattern.compile(&quot;R pers suj
+&nbsp;  // ([123] [sp])&quot;);
+&nbsp;
+&nbsp;  private final MorfologikFrenchSpellerRule morfologikRule;
+&nbsp;
+<b class="nc">&nbsp;  public InterrogativeVerbFilter() throws IOException {</b>
+<b class="nc">&nbsp;    ResourceBundle messages = ResourceBundleTools.getMessageBundle(French.getInstance());</b>
+<b class="nc">&nbsp;    morfologikRule = MorfologikFrenchSpellerRule.getRule(messages);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+&nbsp;    /*if (match.getSentence().getText().contains(&quot;Peut je&quot;)) {
+&nbsp;      int ii=0;
+&nbsp;      ii++;
+&nbsp;    }*/
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String pronounFrom = getRequired(&quot;PronounFrom&quot;, arguments);</b>
+<b class="nc">&nbsp;    String verbFrom = getRequired(&quot;VerbFrom&quot;, arguments);</b>
+<b class="nc">&nbsp;    String desiredPostag = null;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; extraSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (pronounFrom != null &amp;&amp; verbFrom != null) {</b>
+<b class="nc">&nbsp;      int posPronoun = Integer.parseInt(pronounFrom);</b>
+<b class="nc">&nbsp;      if (posPronoun &lt; 1 || posPronoun &gt; patternTokens.length) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;ConfusionCheckFilter: Index out of bounds in &quot; + match.getRule().getFullId()</b>
+&nbsp;            + &quot;, PronounFrom: &quot; + posPronoun);
+&nbsp;      }
+<b class="nc">&nbsp;      int posVerb = Integer.parseInt(verbFrom);</b>
+<b class="nc">&nbsp;      if (posVerb &lt; 1 || posVerb &gt; patternTokens.length) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(</b>
+<b class="nc">&nbsp;            &quot;ConfusionCheckFilter: Index out of bounds in &quot; + match.getRule().getFullId() + &quot;, VerbFrom: &quot; + posVerb);</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      //AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];
+<b class="nc">&nbsp;      AnalyzedTokenReadings atrPronoun = patternTokens[posPronoun - 1];</b>
+&nbsp;      
+&nbsp;      // vous
+<b class="nc">&nbsp;      if (atrPronoun.matchesPosTagRegex(&quot;R pers obj 2 p&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V.* (imp) [23] [sp]|V .*(ind|cond).* 2 p&quot;;</b>
+&nbsp;      }
+&nbsp;      // nous
+<b class="nc">&nbsp;      else if (atrPronoun.matchesPosTagRegex(&quot;R pers obj 1 p&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V.* (imp) .*|V .*(ind|cond).* 1 p&quot;;</b>
+&nbsp;      }
+&nbsp;      // moi, toi, le, la, lui, nous, vous, les, leur
+<b class="nc">&nbsp;      else if (atrPronoun.matchesPosTagRegex(&quot;R pers obj.*&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V.* (imp) .*&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if (atrPronoun.matchesPosTagRegex(&quot;.* 1 s&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V .*(ind|cond).* 1 s&quot;;</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];</b>
+<b class="nc">&nbsp;        AnalyzedToken reading = atrVerb.readingWithTagRegex(&quot;V .*&quot;);</b>
+<b class="nc">&nbsp;        if (reading!=null) {</b>
+<b class="nc">&nbsp;          String[] participles = FrenchSynthesizer.INSTANCE.synthesize(reading, &quot;V ppa [me] sp?&quot;, true);</b>
+<b class="nc">&nbsp;          if (participles.length &gt; 0) {</b>
+<b class="nc">&nbsp;            if (participles[0].endsWith(&quot;é&quot;)) {</b>
+<b class="nc">&nbsp;              extraSuggestions.add(participles[0]);</b>
+<b class="nc">&nbsp;              extraSuggestions.add(participles[0].substring(0, participles[0].length()-1)+ &quot;è&quot;);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;          //desiredPostag=&quot;V ind pres 1 s&quot;;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      else if (atrPronoun.matchesPosTagRegex(&quot;.* 2 s&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V .*(ind|cond).* 2 s&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if (atrPronoun.matchesPosTagRegex(&quot;.* 3( [mfe])? s&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V .*(ind|cond).* 3 s&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if (atrPronoun.matchesPosTagRegex(&quot;.* 1 p&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V .*(ind|cond).* 1 p&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if (atrPronoun.matchesPosTagRegex(&quot;.* 2 p&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V .*(ind|cond).* 2 p&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if (atrPronoun.matchesPosTagRegex(&quot;.* 3( [mf])? p&quot;)) {</b>
+<b class="nc">&nbsp;        desiredPostag = &quot;V .*(ind|cond).* 3 p&quot;;</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      // add: trompè-je and trompé-je for original sentence &quot;trompe-je&quot;
+<b class="nc">&nbsp;      if (extraSuggestions.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        for (String extraSuggestion : extraSuggestions) {</b>
+<b class="nc">&nbsp;          String separator = (atrPronoun.getToken().startsWith(&quot;-&quot;) ? &quot;&quot; : &quot;-&quot;);</b>
+<b class="nc">&nbsp;          String completeSuggestion = extraSuggestion + separator + atrPronoun.getToken();</b>
+<b class="nc">&nbsp;          if (!replacements.contains(completeSuggestion) </b>
+<b class="nc">&nbsp;              &amp;&amp; !completeSuggestion.endsWith(&quot;e-je&quot;)) { // exclude trompe-je</b>
+<b class="nc">&nbsp;            replacements.add(completeSuggestion);</b>
+&nbsp;          } 
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      else if (desiredPostag != null) {</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings[] auxPatternTokens = new AnalyzedTokenReadings[1];</b>
+<b class="nc">&nbsp;        if (patternTokens[posVerb - 1].isTagged()) {</b>
+<b class="nc">&nbsp;          auxPatternTokens[0] = new AnalyzedTokenReadings(</b>
+<b class="nc">&nbsp;              new AnalyzedToken(makeWrong(patternTokens[posVerb - 1].getToken()), null, null));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          auxPatternTokens[0] = patternTokens[posVerb - 1];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        AnalyzedSentence sentence = new AnalyzedSentence(auxPatternTokens);</b>
+<b class="nc">&nbsp;        RuleMatch[] matches = morfologikRule.match(sentence);</b>
+<b class="nc">&nbsp;        if (matches.length &gt; 0) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; suggestions = matches[0].getSuggestedReplacements();</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; analyzedSuggestions = FrenchTagger.INSTANCE.tag(suggestions);</b>
+<b class="nc">&nbsp;          for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {</b>
+<b class="nc">&nbsp;            if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {</b>
+<b class="nc">&nbsp;              String separator = (atrPronoun.getToken().startsWith(&quot;-&quot;) ? &quot;&quot; : &quot;-&quot;);</b>
+<b class="nc">&nbsp;              String completeSuggestion = analyzedSuggestion.getToken() + separator + atrPronoun.getToken();</b>
+<b class="nc">&nbsp;              if (completeSuggestion.equalsIgnoreCase(&quot;peux-je&quot;)) {</b>
+<b class="nc">&nbsp;                completeSuggestion = StringTools.preserveCase(&quot;puis-je&quot;, completeSuggestion);</b>
+&nbsp;              }
+<b class="nc">&nbsp;              if (completeSuggestion.endsWith(&quot;e-je&quot;)) {// exclude trompe-je -&gt; trompé-je, trompè-je</b>
+<b class="nc">&nbsp;                completeSuggestion = completeSuggestion.substring(0, completeSuggestion.length()-4) + &quot;é-je&quot;;</b>
+<b class="nc">&nbsp;                if (!replacements.contains(completeSuggestion)) {</b>
+<b class="nc">&nbsp;                  replacements.add(completeSuggestion);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                completeSuggestion = completeSuggestion.substring(0, completeSuggestion.length()-4) + &quot;è-je&quot;;</b>
+<b class="nc">&nbsp;                if (!replacements.contains(completeSuggestion)) {</b>
+<b class="nc">&nbsp;                  replacements.add(completeSuggestion);</b>
+&nbsp;                }
+&nbsp;              }
+<b class="nc">&nbsp;              else if (!replacements.contains(completeSuggestion)) {</b>
+<b class="nc">&nbsp;                replacements.add(completeSuggestion);</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;   
+<b class="nc">&nbsp;    String message = match.getMessage();</b>
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),</b>
+<b class="nc">&nbsp;        message, match.getShortMessage());</b>
+<b class="nc">&nbsp;    ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;    if (!replacements.isEmpty()) {</b>
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacements(replacements);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Invent a wrong word to find possible replacements. This is a hack to obtain
+&nbsp;   * suggestions from the speller when the original word is a correct word.
+&nbsp;   */
+&nbsp;  private String makeWrong(String s) {
+&nbsp;    /* this doesn&#39;t work for some cases: ex. tarta / trata */
+<b class="nc">&nbsp;    if (s.contains(&quot;a&quot;)) {return s.replace(&quot;a&quot;, &quot;ä&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;e&quot;)) {return s.replace(&quot;e&quot;, &quot;ë&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;i&quot;)) {return s.replace(&quot;i&quot;, &quot;í&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;o&quot;)) {return s.replace(&quot;o&quot;, &quot;ö&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;u&quot;)) {return s.replace(&quot;u&quot;, &quot;ü&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;é&quot;)) {return s.replace(&quot;é&quot;, &quot;ë&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;à&quot;)) {return s.replace(&quot;à&quot;, &quot;ä&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;è&quot;)) {return s.replace(&quot;è&quot;, &quot;ë&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;ù&quot;)) {return s.replace(&quot;ù&quot;, &quot;ü&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;â&quot;)) {return s.replace(&quot;â&quot;, &quot;ä&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;ê&quot;)) {return s.replace(&quot;ê&quot;, &quot;ë&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;î&quot;)) {return s.replace(&quot;î&quot;, &quot;ï&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;ô&quot;)) {return s.replace(&quot;ô&quot;, &quot;ö&quot;);}</b>
+<b class="nc">&nbsp;    if (s.contains(&quot;û&quot;)) {return s.replace(&quot;û&quot;, &quot;ü&quot;);}</b>
+<b class="nc">&nbsp;    return s + &quot;-&quot;;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

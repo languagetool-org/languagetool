@@ -1,0 +1,473 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DefaultResourceDataBroker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.broker</a>
+</div>
+
+<h1>Coverage Summary for Class: DefaultResourceDataBroker (org.languagetool.broker)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefaultResourceDataBroker</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (19/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63.6%
+  </span>
+  <span class="absValue">
+    (14/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.6%
+  </span>
+  <span class="absValue">
+    (50/54)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.broker;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.net.URL;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Responsible for getting any items from LanguageTool&#39;s resource
+&nbsp; * directories. This default data broker assumes that they are accessible
+&nbsp; * directly via class-path and the directory names are like specified in:
+&nbsp; *
+&nbsp; * &lt;ul&gt;
+&nbsp; * &lt;li&gt;{@link ResourceDataBroker#RESOURCE_DIR}&lt;/li&gt;
+&nbsp; * &lt;li&gt;{@link ResourceDataBroker#RULES_DIR}&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; * &lt;p&gt;
+&nbsp; *
+&nbsp; * If you&#39;d like to determine another resource directory location this default
+&nbsp; * data broker provides proper methods.
+&nbsp; * Assuming your {@code /rules} and {@code /resource} directories are accessible
+&nbsp; * via class-path with following path information:
+&nbsp; *
+&nbsp; * &lt;ul&gt;
+&nbsp; * &lt;li&gt;{@code /res/grammarchecker/rulesdirname}&lt;/li&gt;
+&nbsp; * &lt;li&gt;{@code /res/grammarchecker/resourcedirname}&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; *
+&nbsp; * In this case you have to use the constructor with the following arguments:
+&nbsp; *
+&nbsp; * &lt;ul&gt;
+&nbsp; * &lt;li&gt;{@code /res/grammarchecker/rulesdirname}&lt;/li&gt;
+&nbsp; * &lt;li&gt;{@code /res/grammarchecker/resourcedirname}&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; * &lt;p&gt;
+&nbsp; *
+&nbsp; * Make sure that you never obtain any LanguageTool resources by calling
+&nbsp; * {@code Object.class.getResource(String)} or {@code
+&nbsp; * Object.class.getResourceAsStream(String)} directly. If you would like to
+&nbsp; * obtain something from these directories do always use
+&nbsp; * {@link JLanguageTool#getDataBroker()} which provides proper methods for
+&nbsp; * reading the directories above.
+&nbsp; * &lt;p&gt;
+&nbsp; *
+&nbsp; * For example, if you want to get the {@link URL} of {@code
+&nbsp; * /rules/de/grammar.xml} just invoke
+&nbsp; * {@link ResourceDataBroker#getFromRulesDirAsUrl(String)} and pass {@code
+&nbsp; * /de/grammar.xml} as a string. Note: The {@code /rules} directory&#39;s name isn&#39;t
+&nbsp; * passed because its name might have changed. The same usage does apply for the
+&nbsp; * {@code /resource} directory.
+&nbsp; *
+&nbsp; * @see ResourceDataBroker
+&nbsp; * @author PAX
+&nbsp; * @since 1.0.1
+&nbsp; */
+&nbsp;public class DefaultResourceDataBroker implements ResourceDataBroker {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The directory&#39;s name of LanguageTool&#39;s resource directory. The
+&nbsp;   * default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
+&nbsp;   */
+&nbsp;  private final String resourceDir;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The directory&#39;s name of LanguageTool&#39;s rules directory. The
+&nbsp;   * default value equals {@link ResourceDataBroker#RULES_DIR}.
+&nbsp;   */
+&nbsp;  private final String rulesDir;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Instantiates this data broker with the default resource directory names
+&nbsp;   * as specified in:
+&nbsp;   *
+&nbsp;   * &lt;ul&gt;
+&nbsp;   * &lt;li&gt;{@link ResourceDataBroker#RESOURCE_DIR}&lt;/li&gt;
+&nbsp;   * &lt;li&gt;{@link ResourceDataBroker#RULES_DIR}&lt;/li&gt;
+&nbsp;   * &lt;/ul&gt;
+&nbsp;   */
+&nbsp;  public DefaultResourceDataBroker() {
+<b class="fc">&nbsp;    this(ResourceDataBroker.RESOURCE_DIR, ResourceDataBroker.RULES_DIR);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Instantiates this data broker with the passed resource directory names.
+&nbsp;   *
+&nbsp;   * @param resourceDir The directory&#39;s name of LanguageTool&#39;s resource
+&nbsp;   *  directory. The default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
+&nbsp;   * @param rulesDir The directory&#39;s name of LanguageTool&#39;s rules directory.
+&nbsp;   *  The default value equals {@link ResourceDataBroker#RULES_DIR}.
+&nbsp;   */
+<b class="fc">&nbsp;  public DefaultResourceDataBroker(String resourceDir, String rulesDir) {</b>
+<b class="pc">&nbsp;    this.resourceDir = (resourceDir == null) ? &quot;&quot; : resourceDir;</b>
+<b class="pc">&nbsp;    this.rulesDir = (rulesDir == null) ? &quot;&quot; : rulesDir;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * See:
+&nbsp;   * {@link ResourceDataBroker#getFromResourceDirAsStream(String)}
+&nbsp;   *
+&nbsp;   * @param path
+&nbsp;   *            The relative path to the item inside of the {@code /resource}
+&nbsp;   *            directory. Please start your path information with {@code /}
+&nbsp;   *            because it will be concatenated with the directory&#39;s name:
+&nbsp;   *            /resource&lt;b&gt;/yourpath&lt;/b&gt;.
+&nbsp;   * @return An {@link InputStream} object to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public InputStream getFromResourceDirAsStream(String path) {
+<b class="fc">&nbsp;    String completePath = getCompleteResourceUrl(path);</b>
+<b class="fc">&nbsp;    InputStream resourceAsStream = getAsStream(completePath);</b>
+<b class="fc">&nbsp;    assertNotNull(resourceAsStream, path, completePath);</b>
+<b class="fc">&nbsp;    return resourceAsStream;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * See:
+&nbsp;   * {@link ResourceDataBroker#getFromResourceDirAsStream(String)}
+&nbsp;   *
+&nbsp;   * @param path The relative path to the item inside of the {@code /resource}, e.g. {@code /xx/filename}
+&nbsp;   * @return An list of strings, one per line
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public List&lt;String&gt; getFromResourceDirAsLines(String path) {
+<b class="fc">&nbsp;    List&lt;String&gt; lines = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    try (InputStream stream = getFromResourceDirAsStream(path);</b>
+<b class="fc">&nbsp;         InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);</b>
+<b class="fc">&nbsp;         BufferedReader br = new BufferedReader(reader)</b>
+&nbsp;    ) {
+&nbsp;      String line;
+<b class="fc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="fc">&nbsp;        lines.add(line);</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return lines;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * {@inheritDoc}
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public InputStream getAsStream(String path) {
+<b class="fc">&nbsp;    return ResourceDataBroker.class.getResourceAsStream(path);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * {@inheritDoc}
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public URL getAsURL(String path) {
+<b class="fc">&nbsp;    return ResourceDataBroker.class.getResource(path);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * {@inheritDoc}
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public List&lt;URL&gt; getAsURLs(String path) {
+&nbsp;    try {
+<b class="fc">&nbsp;      return Collections.list(ResourceDataBroker.class.getClassLoader().getResources(path));</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * See:
+&nbsp;   * {@link ResourceDataBroker#getFromResourceDirAsUrl(String)}
+&nbsp;   * @param path The relative path to the item inside of the {@code /resource}
+&nbsp;   *            directory. Please start your path information with {@code /}
+&nbsp;   *            because it will be concatenated with the directory&#39;s name:
+&nbsp;   *            /resource&lt;b&gt;/yourpath&lt;/b&gt;.
+&nbsp;   * @return An {@link URL} object to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public URL getFromResourceDirAsUrl(String path) {
+<b class="fc">&nbsp;    String completePath = getCompleteResourceUrl(path);</b>
+<b class="fc">&nbsp;    URL resource = getAsURL(completePath);</b>
+<b class="fc">&nbsp;    assertNotNull(resource, path, completePath);</b>
+<b class="fc">&nbsp;    return resource;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * {@inheritDoc}
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public List&lt;URL&gt; getFromResourceDirAsUrls(String path) {
+<b class="fc">&nbsp;    String completePath = getCompleteResourceUrl(path);</b>
+&nbsp;    // remove leading slash character for successful result because we are searching resource from classloader
+<b class="fc">&nbsp;    List&lt;URL&gt; resources = getAsURLs(completePath.substring(1));</b>
+<b class="fc">&nbsp;    assertNotNull(resources, path, completePath);</b>
+<b class="fc">&nbsp;    return resources;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Concatenates the passed resource path with the currently set {@code
+&nbsp;   * resource} directory path.
+&nbsp;   * @param path The relative path to a resource item inside of the {@code resource} directory.
+&nbsp;   * @return The full relative path to the resource including the path to the
+&nbsp;   *         {@code resource} directory.
+&nbsp;   */
+&nbsp;  private String getCompleteResourceUrl(String path) {
+<b class="fc">&nbsp;    return appendPath(resourceDir, path);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * See:
+&nbsp;   * {@link ResourceDataBroker#getFromRulesDirAsStream(String)}
+&nbsp;   *
+&nbsp;   * @param path The relative path to the item inside of the {@code /rules}
+&nbsp;   *  directory. Please start your path information with {@code /} because it
+&nbsp;   *  will be concatenated with the directory&#39;s name: /rules&lt;b&gt;/yourpath&lt;/b&gt;.
+&nbsp;   * @return An {@link InputStream} object to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public InputStream getFromRulesDirAsStream(String path) {
+<b class="fc">&nbsp;    String completePath = getCompleteRulesUrl(path);</b>
+<b class="fc">&nbsp;    InputStream resourceAsStream = getAsStream(completePath);</b>
+<b class="fc">&nbsp;    assertNotNull(resourceAsStream, path, completePath);</b>
+<b class="fc">&nbsp;    return resourceAsStream;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * See: {@link ResourceDataBroker#getFromRulesDirAsUrl(String)}
+&nbsp;   * @param path The relative path to the item inside of the {@code /rules}
+&nbsp;   *  directory. Please start your path information with {@code /} because it
+&nbsp;   *  will be concatenated with the directory&#39;s name: /rules&lt;b&gt;/yourpath&lt;/b&gt;.
+&nbsp;   * @return An {@link URL} object to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public URL getFromRulesDirAsUrl(String path) {
+<b class="fc">&nbsp;    String completePath = getCompleteRulesUrl(path);</b>
+<b class="fc">&nbsp;    URL resource = getAsURL(completePath);</b>
+<b class="fc">&nbsp;    assertNotNull(resource, path, completePath);</b>
+<b class="fc">&nbsp;    return resource;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void assertNotNull(Object object, String path, String completePath) {
+<b class="fc">&nbsp;    if (object == null) {</b>
+<b class="fc">&nbsp;      throw new RuntimeException(&quot;Path &quot; + path + &quot; not found in class path at &quot; + completePath);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Concatenates the passed resource path with the currently set {@code
+&nbsp;   * rules} directory path.
+&nbsp;   * @param path The relative path to a resource item inside of the {@code rules} directory.
+&nbsp;   * @return The full relative path to the resource including the path to the {@code rules} directory.
+&nbsp;   */
+&nbsp;  private String getCompleteRulesUrl(String path) {
+<b class="fc">&nbsp;    return appendPath(rulesDir, path);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String appendPath(String baseDir, String path) {
+<b class="fc">&nbsp;    StringBuilder completePath = new StringBuilder(baseDir);</b>
+<b class="pc">&nbsp;    if (!this.rulesDir.endsWith(&quot;/&quot;) &amp;&amp; !path.startsWith(&quot;/&quot;)) {</b>
+<b class="fc">&nbsp;      completePath.append(&#39;/&#39;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (this.rulesDir.endsWith(&quot;/&quot;) &amp;&amp; path.startsWith(&quot;/&quot;) &amp;&amp; path.length() &gt; 1) {</b>
+<b class="nc">&nbsp;      completePath.append(path.substring(1));</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      completePath.append(path);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return completePath.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * See: {@link ResourceDataBroker#resourceExists(String)}
+&nbsp;   * 
+&nbsp;   * Checks if a resource in LanguageTool&#39;s {@code /resource} exists.
+&nbsp;   * @param path Path to an item from the {@code /resource} directory.
+&nbsp;   * @return {@code true} if the resource file exists.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public boolean resourceExists(String path) {
+<b class="fc">&nbsp;    String completePath = getCompleteResourceUrl(path);</b>
+<b class="fc">&nbsp;    return getAsURL(completePath) != null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * See: {@link ResourceDataBroker#ruleFileExists(String)}
+&nbsp;   * 
+&nbsp;   * Checks if a resource in LanguageTool&#39;s {@code /rules} exists.
+&nbsp;   * @param path Path to an item from the {@code /rules} directory.
+&nbsp;   * @return {@code true} if the resource file exists.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public boolean ruleFileExists(String path) {
+<b class="fc">&nbsp;    String completePath = getCompleteRulesUrl(path);</b>
+<b class="fc">&nbsp;    return getAsURL(completePath) != null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return The directory&#39;s name of LanguageTool&#39;s resource directory.
+&nbsp;   *         The default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String getResourceDir() {
+<b class="nc">&nbsp;    return resourceDir;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return The directory&#39;s name of the grammar checker&#39;s rules directory.
+&nbsp;   *         The default value equals {@link ResourceDataBroker#RULES_DIR}.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String getRulesDir() {
+<b class="fc">&nbsp;    return rulesDir;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * {@inheritDoc}
+&nbsp;   * @exception NullPointerException if &lt;code&gt;baseName&lt;/code&gt; or &lt;code&gt;locale&lt;/code&gt; is &lt;code&gt;null&lt;/code&gt;
+&nbsp;   * @exception MissingResourceException if no resource bundle for the specified base name can be found
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public ResourceBundle getResourceBundle(String baseName, Locale locale) {
+<b class="fc">&nbsp;    return ResourceBundle.getBundle(baseName, locale);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

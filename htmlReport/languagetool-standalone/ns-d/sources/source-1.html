@@ -1,0 +1,429 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CheckCallable</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.httpchecker</a>
+</div>
+
+<h1>Coverage Summary for Class: CheckCallable (org.languagetool.dev.httpchecker)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CheckCallable</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/86)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CheckCallable$ApiErrorException</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">CheckCallable$CheckResult</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">CheckCallable$FakeRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/94)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.httpchecker;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.core.JsonFactory;
+&nbsp;import com.fasterxml.jackson.databind.JsonNode;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import com.fasterxml.jackson.databind.node.ObjectNode;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.tools.RuleMatchesAsJsonSerializer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.net.HttpURLConnection;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLConnection;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.Callable;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.lang.Thread.currentThread;
+&nbsp;
+&nbsp;class CheckCallable implements Callable&lt;File&gt; {
+&nbsp;
+&nbsp;  static final String FAIL_MESSAGE = &quot;API request failed in a way so that re-try makes no sense: &quot;;
+&nbsp;
+&nbsp;  // This many sentences are aggregated into one request. Do NOT just increase, as the chance
+&nbsp;  // of results getting mixed up increases then (the batchSize determines the filename, which is then used
+&nbsp;  // as a title in MatchKey):
+&nbsp;  private final static int maxTries = 10;  // maximum tries for HTTP problems
+&nbsp;  private final static int retrySleepMillis = 1000;
+&nbsp;
+&nbsp;  private final int count;
+&nbsp;  private final String baseUrl;
+&nbsp;  private final String token;
+&nbsp;  private final List&lt;String&gt; texts;
+&nbsp;  private final String langCode;
+&nbsp;  @Nullable
+&nbsp;  private final String user;
+&nbsp;  @Nullable
+&nbsp;  private final String password;
+&nbsp;
+&nbsp;  private final String parameters;
+&nbsp;
+<b class="nc">&nbsp;  CheckCallable(int count, String baseUrl, String token, List&lt;String&gt; texts, String langCode, @Nullable String user, @Nullable String password, @Nullable String parameters) {</b>
+<b class="nc">&nbsp;    this.count = count;</b>
+<b class="nc">&nbsp;    this.baseUrl = Objects.requireNonNull(baseUrl);</b>
+<b class="nc">&nbsp;    this.token = token;</b>
+<b class="nc">&nbsp;    this.texts = Objects.requireNonNull(texts);</b>
+<b class="nc">&nbsp;    this.langCode = Objects.requireNonNull(langCode);</b>
+<b class="nc">&nbsp;    this.user = user;</b>
+<b class="nc">&nbsp;    this.password = password;</b>
+<b class="nc">&nbsp;    this.parameters = parameters;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public File call() throws Exception {
+<b class="nc">&nbsp;    String threadName = currentThread().getName();</b>
+<b class="nc">&nbsp;    ObjectMapper mapper = new ObjectMapper(new JsonFactory());</b>
+&nbsp;    // use a filename with a very low chance of being used by someone else (unless this very code runs in parallel):
+<b class="nc">&nbsp;    String baseUrlCode = String.valueOf(baseUrl.hashCode()).substring(0, 5);</b>
+<b class="nc">&nbsp;    String filename = HttpApiSentenceChecker.class.getSimpleName() + &quot;-result-&quot; + langCode + &quot;-&quot; + baseUrlCode + &quot;-&quot; + count + &quot;.json&quot;;</b>
+<b class="nc">&nbsp;    File outFile = new File(System.getProperty(&quot;java.io.tmpdir&quot;), filename);</b>
+<b class="nc">&nbsp;    int totalLen = texts.stream().mapToInt(String::length).sum();</b>
+<b class="nc">&nbsp;    printOut(threadName + &quot; - Going to post &quot; + texts.size() + &quot; texts with a total length of &quot; + totalLen + &quot; chars&quot;);</b>
+<b class="nc">&nbsp;    try (FileWriter fw = new FileWriter(outFile)) {</b>
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      for (String text : texts) {</b>
+<b class="nc">&nbsp;        URL url = Tools.getUrl(baseUrl + &quot;/v2/check&quot;);</b>
+<b class="nc">&nbsp;        String postData = &quot;language=&quot; + langCode +</b>
+<b class="nc">&nbsp;            &quot;&amp;text=&quot; + URLEncoder.encode(text, &quot;UTF-8&quot;);</b>
+<b class="nc">&nbsp;        postData += token != null ? &quot;&amp;token=&quot; + URLEncoder.encode(token, &quot;UTF-8&quot;): &quot;&quot;;</b>
+<b class="nc">&nbsp;        if (parameters != null) {</b>
+<b class="nc">&nbsp;          postData += &quot;&amp;&quot; + parameters;</b>
+&nbsp;        } else {
+&nbsp;          // default values
+<b class="nc">&nbsp;          postData += &quot;&amp;toneTags=&quot; + ToneTag.ALL_TONE_RULES.name() +</b>
+&nbsp;            &quot;&amp;level=picky&quot; +
+&nbsp;            &quot;&amp;enableTempOffRules=true&quot;;
+&nbsp;        }
+<b class="nc">&nbsp;        String tokenInfo = token != null ? &quot; with token&quot; : &quot; without token&quot;;</b>
+<b class="nc">&nbsp;        float progress = (float)i++ / texts.size() * 100.0f;</b>
+<b class="nc">&nbsp;        printOut(String.format(Locale.ENGLISH, threadName + &quot; - Posting text with &quot; + text.length() +</b>
+<b class="nc">&nbsp;          &quot; chars to &quot; + url +  tokenInfo + &quot;, %.1f%%&quot;, progress));</b>
+<b class="nc">&nbsp;        for (int retry = 1; true; retry++) {</b>
+<b class="nc">&nbsp;          String pseudoFileName = HttpApiSentenceChecker.class.getSimpleName() + &quot;-result-&quot; + text.hashCode();</b>
+&nbsp;          try {
+<b class="nc">&nbsp;            CheckResult result = checkByPost(url, postData);</b>
+&nbsp;            //printOut(threadName + &quot; - answered by &quot; + result.backendServer);
+<b class="nc">&nbsp;            JsonNode jsonNode = mapper.readTree(result.json);</b>
+&nbsp;            //if (result.json.contains(&quot;SET_RULE_ID_HERE&quot;)) {
+&nbsp;            //  System.out.println(&quot;-----------------------------&quot;);
+&nbsp;            //  System.out.println(text);
+&nbsp;            //}
+<b class="nc">&nbsp;            ((ObjectNode)jsonNode).put(&quot;title&quot;, pseudoFileName);  // needed for MatchKey to be specific enough</b>
+<b class="nc">&nbsp;            fw.write(jsonNode + &quot;\n&quot;);</b>
+&nbsp;            break;
+&nbsp;          } catch (ApiErrorException e) {
+&nbsp;            // Convert the error to a fake rule match so it will appear as part of the diff, instead
+&nbsp;            // of ending up in some log file:
+<b class="nc">&nbsp;            printErr(threadName + &quot; - POST to &quot; + url + &quot; failed with &quot; + e.getClass().getName() + &quot;: &quot; + e.getMessage() +</b>
+&nbsp;              &quot;, try &quot; + retry + &quot;, max tries &quot; + maxTries + &quot;, no retries useful for this type of error, storing error as pseudo match&quot;);
+<b class="nc">&nbsp;            writeFakeError(mapper, fw, text, pseudoFileName, e, 0);</b>
+&nbsp;            break;
+&nbsp;          } catch (Exception e) {
+<b class="nc">&nbsp;            if (retry &gt;= maxTries) {</b>
+<b class="nc">&nbsp;              printErr(threadName + &quot; - POST to &quot; + url + &quot; failed with &quot; + e.getClass().getName() + &quot;: &quot; + e.getMessage() +</b>
+&nbsp;                &quot;, try &quot; + retry + &quot;, max tries &quot; + maxTries + &quot;, no retries left, writing fake error&quot;);
+<b class="nc">&nbsp;              writeFakeError(mapper, fw, text, pseudoFileName, new ApiErrorException(e.getClass().getName() + &quot;: &quot; + e.getMessage()), retry);</b>
+&nbsp;              break;
+&nbsp;            } else {
+<b class="nc">&nbsp;              long sleepMillis = retrySleepMillis * retry;</b>
+<b class="nc">&nbsp;              printErr(threadName + &quot; - POST to &quot; + url + &quot; failed with &quot; + e.getClass().getName() + &quot;: &quot; + e.getMessage() +</b>
+&nbsp;                &quot;, try &quot; + retry + &quot;, max tries &quot; + maxTries + &quot;, sleeping &quot; + sleepMillis + &quot;ms before retry&quot;);
+<b class="nc">&nbsp;              Thread.sleep(sleepMillis);</b>
+&nbsp;              //e.printStackTrace();
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    printOut(threadName + &quot; - Done.&quot;);</b>
+<b class="nc">&nbsp;    printOut(threadName + &quot; - Output written to &quot; + outFile.getName());</b>
+<b class="nc">&nbsp;    return outFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printOut(String s) {
+<b class="nc">&nbsp;    SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(sdf.format(new Date()) + &quot; &quot; + s);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printErr(String s) {
+<b class="nc">&nbsp;    SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</b>
+<b class="nc">&nbsp;    System.err.println(sdf.format(new Date()) + &quot; &quot; + s);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private synchronized void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e, int retries) throws IOException {
+<b class="nc">&nbsp;    Language lang = Languages.getLanguageForShortCode(langCode);</b>
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(&quot;en&quot;));</b>
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(new FakeRule(), lt.getAnalyzedSentence(textToCheck), 0, 1, FAIL_MESSAGE + e.getMessage() + &quot; (retries: &quot; + retries + &quot;)&quot;);</b>
+<b class="nc">&nbsp;    DetectedLanguage detectedLang = new DetectedLanguage(lang, lang);</b>
+<b class="nc">&nbsp;    String json = new RuleMatchesAsJsonSerializer().ruleMatchesToJson(Collections.singletonList(ruleMatch), textToCheck, 100, detectedLang);</b>
+<b class="nc">&nbsp;    JsonNode jsonNode = mapper.readTree(json);</b>
+<b class="nc">&nbsp;    ((ObjectNode)jsonNode).put(&quot;title&quot;, pseudoFileName);  // needed for MatchKey to be specific enough</b>
+<b class="nc">&nbsp;    fw.write(jsonNode + &quot;\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private CheckResult checkByPost(URL url, String postData) throws IOException, ApiErrorException {
+<b class="nc">&nbsp;    String keepAlive = System.getProperty(&quot;http.keepAlive&quot;);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      System.setProperty(&quot;http.keepAlive&quot;, &quot;false&quot;);  // without this, there&#39;s an overhead of about 1 second - not sure why</b>
+<b class="nc">&nbsp;      URLConnection conn = url.openConnection();</b>
+<b class="nc">&nbsp;      conn.setConnectTimeout(20*1000);</b>
+<b class="nc">&nbsp;      conn.setReadTimeout(60*1000);</b>
+<b class="nc">&nbsp;      conn.setDoOutput(true);</b>
+<b class="nc">&nbsp;      if (user != null &amp;&amp; password != null) {</b>
+<b class="nc">&nbsp;        String authString = user + &quot;:&quot; + password;</b>
+<b class="nc">&nbsp;        String encoded = Base64.getEncoder().encodeToString(authString.getBytes());</b>
+<b class="nc">&nbsp;        conn.setRequestProperty(&quot;Authorization&quot;, &quot;Basic &quot; + encoded);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      try (OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream())) {</b>
+<b class="nc">&nbsp;        writer.write(postData);</b>
+<b class="nc">&nbsp;        writer.flush();</b>
+<b class="nc">&nbsp;        HttpURLConnection httpConn = (HttpURLConnection)conn;</b>
+&nbsp;        InputStream inputStream;
+<b class="nc">&nbsp;        if (httpConn.getResponseCode() &gt;= 400) {</b>
+<b class="nc">&nbsp;          inputStream = httpConn.getErrorStream();</b>
+<b class="nc">&nbsp;          String error = StringTools.streamToString(inputStream, &quot;UTF-8&quot;);</b>
+<b class="nc">&nbsp;          if (httpConn.getResponseCode() == 400) {</b>
+&nbsp;            // errors where repeating the request probably won&#39;t help
+<b class="nc">&nbsp;            throw new ApiErrorException(error);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            String backendServer = httpConn.getHeaderField(&quot;x-backend-server&quot;);</b>
+<b class="nc">&nbsp;            throw new IOException(&quot;Failed posting to &quot; + url + &quot;, server &quot; + backendServer + &quot; responded with code &quot; + httpConn.getResponseCode() + &quot; and error: &quot; + error + &quot; for postData: &quot; + postData);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          inputStream = httpConn.getInputStream();</b>
+<b class="nc">&nbsp;          String json = StringTools.streamToString(inputStream, &quot;UTF-8&quot;);</b>
+<b class="nc">&nbsp;          String backendServer = conn.getHeaderField(&quot;x-backend-server&quot;);</b>
+<b class="nc">&nbsp;          return new CheckResult(json, backendServer);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } finally {
+<b class="nc">&nbsp;      if (keepAlive != null) {</b>
+<b class="nc">&nbsp;        System.setProperty(&quot;http.keepAlive&quot;, keepAlive);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static class FakeRule extends Rule {</b>
+&nbsp;    @Override
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;      return &quot;FAKE_RULE&quot;;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;      return &quot;Pseudo rule to contain API error&quot;;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;      return new RuleMatch[0];</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class ApiErrorException extends Exception {
+&nbsp;    ApiErrorException(String message) {
+<b class="nc">&nbsp;      super(message);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class CheckResult {
+&nbsp;    String json;
+&nbsp;    String backendServer;
+<b class="nc">&nbsp;    private CheckResult(String json, String backendServer) {</b>
+<b class="nc">&nbsp;      this.json = json;</b>
+<b class="nc">&nbsp;      this.backendServer = backendServer;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

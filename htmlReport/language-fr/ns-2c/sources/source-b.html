@@ -1,0 +1,1411 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CaseRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: CaseRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CaseRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/528)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/322)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.VisibleForTesting;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.language.German;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.StringMatcher;
+&nbsp;import org.languagetool.tagging.de.GermanTagger;
+&nbsp;import org.languagetool.tagging.de.GermanToken.POSType;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.rules.de.CaseRuleAntiPatterns.ANTI_PATTERNS;
+&nbsp;
+&nbsp;/**
+&nbsp; * Check that adjectives and verbs are not written with an uppercase
+&nbsp; * first letter (except at the start of a sentence) and cases
+&nbsp; * like this: &lt;tt&gt;Das laufen f&amp;auml;llt mir leicht.&lt;/tt&gt; (&lt;tt&gt;laufen&lt;/tt&gt; needs
+&nbsp; * to be uppercased).
+&nbsp; *   
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class CaseRule extends Rule {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern NUMERALS_EN =</b>
+<b class="nc">&nbsp;          Pattern.compile(&quot;[a-z]|[0-9]+|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern TWO_UPPERCASE_CHARS = Pattern.compile(&quot;[A-ZÖÄÜ][A-ZÖÄÜ][a-zöäüß-]+&quot;);</b>
+&nbsp;
+&nbsp;  // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
+&nbsp;  // muss also groß geschrieben werden:
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; nounIndicators = new HashSet&lt;&gt;();</b>
+&nbsp;
+&nbsp;  private static final String UPPERCASE_MESSAGE = &quot;Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben.&quot;;
+&nbsp;  private static final String LOWERCASE_MESSAGE = &quot;Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.&quot;;
+&nbsp;  private static final String COLON_MESSAGE = &quot;Folgt dem Doppelpunkt weder ein Substantiv noch eine wörtliche Rede oder ein vollständiger Hauptsatz, schreibt man klein weiter.&quot;;
+<b class="nc">&nbsp;  private static final Pattern VERHALTEN = Pattern.compile(&quot;.+verhalten&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern IRGEND_ETC = Pattern.compile(&quot;irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VER_MOD_AUX = Pattern.compile(&quot;VER:(MOD|AUX):[1-3]:.*&quot;);</b>
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    nounIndicators.add(&quot;das&quot;);</b>
+<b class="nc">&nbsp;    nounIndicators.add(&quot;sein&quot;);</b>
+&nbsp;    //nounIndicators.add(&quot;ihr&quot;);    // would cause false alarm e.g. &quot;Auf ihr stehen die Ruinen...&quot;, &quot;Ich dachte, dass ihr kommen würdet.&quot;, &quot;Ich verdanke ihr meinen Erfolg.&quot;
+<b class="nc">&nbsp;    nounIndicators.add(&quot;mein&quot;);</b>
+<b class="nc">&nbsp;    nounIndicators.add(&quot;dein&quot;);</b>
+<b class="nc">&nbsp;    nounIndicators.add(&quot;euer&quot;);</b>
+<b class="nc">&nbsp;    nounIndicators.add(&quot;unser&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final String[] SENTENCE_START_EXCEPTIONS = {&quot;(&quot;, &quot;\&quot;&quot;, &quot;&#39;&quot;, &quot;‘&quot;, &quot;„&quot;, &quot;«&quot;, &quot;»&quot;, &quot;‚&quot;, &quot;.&quot;, &quot;!&quot;, &quot;?&quot;};</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final String[] UNDEFINED_QUANTIFIERS = {&quot;viel&quot;, &quot;nichts&quot;, &quot;nix&quot;, &quot;wenig&quot;, &quot;allerlei&quot;};</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final String[] INTERROGATIVE_PARTICLES = {&quot;was&quot;, &quot;wodurch&quot;, &quot;wofür&quot;, &quot;womit&quot;, &quot;woran&quot;, &quot;worauf&quot;, &quot;woraus&quot;, &quot;wovon&quot;, &quot;wie&quot;};</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final String[] POSSESSIVE_INDICATORS = {&quot;einer&quot;, &quot;eines&quot;, &quot;der&quot;, &quot;des&quot;, &quot;dieser&quot;, &quot;dieses&quot;};</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final String[] DAS_VERB_EXCEPTIONS = {&quot;nur&quot;, &quot;sogar&quot;, &quot;auch&quot;, &quot;die&quot;, &quot;alle&quot;, &quot;viele&quot;, &quot;zu&quot;};</b>
+&nbsp;
+&nbsp;  /*
+&nbsp;   * These are words that Morphy only knows as non-nouns (or not at all).
+&nbsp;   * The proper solution is to add all those to our Morphy data, but as a simple
+&nbsp;   * workaround to avoid false alarms, these words can be added here.
+&nbsp;   */
+<b class="nc">&nbsp;  private static final String[] exceptions = {</b>
+&nbsp;    &quot;Bedienstete&quot;,
+&nbsp;    &quot;Bediensteter&quot;,
+&nbsp;    &quot;Feierwütiger&quot;,
+&nbsp;    &quot;Feierwütige&quot;,
+&nbsp;    &quot;Feierwütigen&quot;,
+&nbsp;    &quot;Dritten&quot;,
+&nbsp;    &quot;Berufstätige&quot;,
+&nbsp;    &quot;Berufstätigen&quot;,
+&nbsp;    &quot;Erwerbstätige&quot;,
+&nbsp;    &quot;Erwerbstätigen&quot;,
+&nbsp;    &quot;Tatverdächtige&quot;,
+&nbsp;    &quot;Tatverdächtigen&quot;,
+&nbsp;    &quot;Konsumierende&quot;,
+&nbsp;    &quot;Konsumierenden&quot;,
+&nbsp;    &quot;Verliebter&quot;,
+&nbsp;    &quot;Verliebte&quot;,
+&nbsp;    &quot;Beängstigendes&quot;,
+&nbsp;    &quot;Oppositioneller&quot;,
+&nbsp;    &quot;Oppositionelle&quot;,
+&nbsp;    &quot;Verantwortlicher&quot;,
+&nbsp;    &quot;Verantwortliche&quot;,
+&nbsp;    &quot;Verantwortlichen&quot;,
+&nbsp;    &quot;Beschuldigte&quot;,
+&nbsp;    &quot;Beschuldigten&quot;,
+&nbsp;    &quot;Beklagte&quot;,
+&nbsp;    &quot;Beklagten&quot;,
+&nbsp;    &quot;Befragte&quot;,
+&nbsp;    &quot;Befragten&quot;,
+&nbsp;    &quot;Hingerichtete&quot;,
+&nbsp;    &quot;Lehrende&quot;,
+&nbsp;    &quot;Lehrender&quot;,
+&nbsp;    &quot;Vertrauter&quot;,
+&nbsp;    &quot;Out&quot;, // eng
+&nbsp;    &quot;Packet&quot;, // misspelling of &quot;Paket&quot; (caught by spell checker)
+&nbsp;    &quot;Adult&quot;, // eng
+&nbsp;    &quot;Apart&quot;, // eng
+&nbsp;    &quot;Universal&quot;, // eng
+&nbsp;    &quot;Multinational&quot;, // eng
+&nbsp;    &quot;Additional&quot;, // eng
+&nbsp;    &quot;Smart&quot;, // eng
+&nbsp;    &quot;Adverse&quot;, // eng
+&nbsp;    &quot;Different&quot;, // eng
+&nbsp;    &quot;Light&quot;, // eng
+&nbsp;    &quot;Legal&quot;, // eng
+&nbsp;    &quot;Computational&quot;, // eng
+&nbsp;    &quot;Holder&quot;, // eng
+&nbsp;    &quot;Just&quot;, // eng
+&nbsp;    &quot;Lost&quot;, // eng
+&nbsp;    &quot;Fundamental&quot;, // eng
+&nbsp;    &quot;Quick&quot;, // eng
+&nbsp;    &quot;Infernal&quot;, // eng
+&nbsp;    &quot;Fit&quot;, // eng
+&nbsp;    &quot;Fair&quot;, // eng
+&nbsp;    &quot;Viral&quot;, // eng
+&nbsp;    &quot;Tough&quot;, // eng
+&nbsp;    &quot;Indoor&quot;, // eng
+&nbsp;    &quot;Superb&quot;, // eng und Automodell
+&nbsp;    &quot;Resilient&quot;, // eng
+&nbsp;    &quot;Hexagonal&quot;, // eng
+&nbsp;    &quot;Responsive&quot;, // eng
+&nbsp;    &quot;Anno&quot;, // Name
+&nbsp;    &quot;Mo&quot;,
+&nbsp;    &quot;Di&quot;,
+&nbsp;    &quot;Mi&quot;,
+&nbsp;    &quot;Do&quot;,   // &quot;Di. und Do. um 18 Uhr&quot;
+&nbsp;    &quot;Fr&quot;,   // &quot;Fr. Dr. Müller&quot;
+&nbsp;    &quot;Sa&quot;,   // Sa. 12 - 16 Uhr
+&nbsp;    &quot;Gr&quot;,   // &quot;Gr. 12&quot; (Größe)
+&nbsp;    &quot;Mag&quot;,   // &quot;Mag. Helke Müller&quot;
+&nbsp;    &quot;Nov&quot;,
+&nbsp;    &quot;Diss&quot;,
+&nbsp;    &quot;Invalide&quot;,
+&nbsp;    &quot;Invalider&quot;,
+&nbsp;    &quot;Invaliden&quot;,
+&nbsp;    &quot;Schutzheilige&quot;,
+&nbsp;    &quot;Schutzheiliger&quot;,
+&nbsp;    &quot;Schutzheiligen&quot;,
+&nbsp;    &quot;Lila&quot;,
+&nbsp;    &quot;Langzeitarbeitslose&quot;,
+&nbsp;    &quot;Langzeitarbeitslosen&quot;,
+&nbsp;    &quot;Langzeitarbeitsloser&quot;,
+&nbsp;    &quot;Linksintellektuelle&quot;,
+&nbsp;    &quot;Linksintellektueller&quot;,
+&nbsp;    &quot;Linksintellektuellen&quot;,
+&nbsp;    &quot;Beschuldigte&quot;,
+&nbsp;    &quot;Beschuldigten&quot;,
+&nbsp;    &quot;Drogenabhängige&quot;,
+&nbsp;    &quot;Drogenabhängiger&quot;,
+&nbsp;    &quot;Drogenabhängiger&quot;,
+&nbsp;    &quot;Drogenabhängigen&quot;,
+&nbsp;    &quot;Asylsuchender&quot;,
+&nbsp;    &quot;Asylsuchende&quot;,
+&nbsp;    &quot;Asylsuchenden&quot;,
+&nbsp;    &quot;Landtagsabgeordnete&quot;,
+&nbsp;    &quot;Landtagsabgeordneter&quot;,
+&nbsp;    &quot;Landtagsabgeordneten&quot;,
+&nbsp;    &quot;Stadtverordnete&quot;,
+&nbsp;    &quot;Stadtverordneter&quot;,
+&nbsp;    &quot;Stadtverordneten&quot;,
+&nbsp;    &quot;Veränderliche&quot;,
+&nbsp;    &quot;Veränderlicher&quot;,
+&nbsp;    &quot;Veränderlichen&quot;,
+&nbsp;    &quot;Werbetreibende&quot;,
+&nbsp;    &quot;Werbetreibender&quot;,
+&nbsp;    &quot;Werbetreibenden&quot;,
+&nbsp;    &quot;Verletzter&quot;,
+&nbsp;    &quot;Verletzten&quot;,
+&nbsp;    &quot;Werktätige&quot;,
+&nbsp;    &quot;Werktätiger&quot;,
+&nbsp;    &quot;Werktätigen&quot;,
+&nbsp;    &quot;Getestete&quot;, // temporary fix
+&nbsp;    &quot;Getesteten&quot;, // temporary fix
+&nbsp;    &quot;Genesene&quot;, // temporary fix
+&nbsp;    &quot;Genesenen&quot;, // temporary fix
+&nbsp;    &quot;Geimpfte&quot;, // temporary fix
+&nbsp;    &quot;Geboosterte&quot;, // temporary fix
+&nbsp;    &quot;Ungeimpfte&quot;, // temporary fix
+&nbsp;    &quot;Geimpften&quot;, // temporary fix
+&nbsp;    &quot;Geboosterten&quot;, // temporary fix
+&nbsp;    &quot;Ungeimpften&quot;, // temporary fix
+&nbsp;    &quot;Geflüchtete&quot;, // temporary fix
+&nbsp;    &quot;Geflüchteten&quot;, // temporary fix
+&nbsp;    &quot;Projektbeteiligte&quot;, // temporary fix
+&nbsp;    &quot;Projektbeteiligten&quot;, // temporary fix
+&nbsp;    &quot;Heranwachsende&quot;, // temporary fix
+&nbsp;    &quot;Heranwachsenden&quot;, // temporary fix
+&nbsp;    &quot;Interessierte&quot;, // temporary fix
+&nbsp;    &quot;Interessierten&quot;, // temporary fix
+&nbsp;    &quot;Infizierte&quot;, // temporary fix
+&nbsp;    &quot;Infizierten&quot;, // temporary fix
+&nbsp;    &quot;Gehörlose&quot;, // temporary fix
+&nbsp;    &quot;Gehörlosen&quot;, // temporary fix
+&nbsp;    &quot;Drücke&quot;,
+&nbsp;    &quot;Klecks&quot;,
+&nbsp;    &quot;Quatsch&quot;,
+&nbsp;    &quot;Speis&quot;,
+&nbsp;    &quot;Flash&quot;,
+&nbsp;    &quot;Suhl&quot;,
+&nbsp;    &quot;Müh&quot;,
+&nbsp;    &quot;Bims&quot;,
+&nbsp;    &quot;Wisch&quot;,
+&nbsp;    &quot;Außenputz&quot;,
+&nbsp;    &quot;Rinderhack&quot;,
+&nbsp;    &quot;Hack&quot;,
+&nbsp;    &quot;Schlitz&quot;,
+&nbsp;    &quot;Frevler&quot;,
+&nbsp;    &quot;Zementputz&quot;,
+&nbsp;    &quot;Hurst&quot;,  // Name
+&nbsp;    &quot;Bombardier&quot;,  // Name
+&nbsp;    &quot;Kraus&quot;,  // Nachname
+&nbsp;    &quot;Strunz&quot;,  // Nachname
+&nbsp;    &quot;Bell&quot;,  // Nachname
+&nbsp;    &quot;Melk&quot;,  // Nachname
+&nbsp;    &quot;Klopp&quot;,  // Nachname
+&nbsp;    &quot;Walz&quot;,  // Nachname
+&nbsp;    &quot;Schiel&quot;,  // Nachname
+&nbsp;    &quot;Dusch&quot;,  // Nachname
+&nbsp;    &quot;Penn&quot;,  // Nachname
+&nbsp;    &quot;Dörr&quot;,  // Nachname
+&nbsp;    &quot;Kies&quot;,
+&nbsp;    &quot;Koks&quot;,
+&nbsp;    &quot;Dell&quot;,  // Name
+&nbsp;    &quot;Wall&quot;,
+&nbsp;    &quot;Beige&quot;,
+&nbsp;    &quot;Zoom&quot;,
+&nbsp;    &quot;Perl&quot;,
+&nbsp;    &quot;Parallele&quot;,
+&nbsp;    &quot;Parallelen&quot;,
+&nbsp;    &quot;Rutsch&quot;,
+&nbsp;    &quot;Spar&quot;,
+&nbsp;    &quot;Merz&quot;,
+&nbsp;    &quot;Gefahren&quot;,
+&nbsp;    &quot;Minderjährige&quot;,
+&nbsp;    &quot;Minderjähriger&quot;,
+&nbsp;    &quot;Minderjährigen&quot;,
+&nbsp;    &quot;Scheinselbstständige&quot;,
+&nbsp;    &quot;Bundestagsabgeordneter&quot;,
+&nbsp;    &quot;Bundestagsabgeordneten&quot;,
+&nbsp;    &quot;Bundestagsabgeordnete&quot;,
+&nbsp;    &quot;Reichstagsabgeordneter&quot;,
+&nbsp;    &quot;Reichstagsabgeordneten&quot;,
+&nbsp;    &quot;Reichstagsabgeordnete&quot;,
+&nbsp;    &quot;Medienschaffende&quot;,
+&nbsp;    &quot;Medienschaffenden&quot;,
+&nbsp;    &quot;Medienschaffender&quot;,
+&nbsp;    &quot;Lehrende&quot;,
+&nbsp;    &quot;Lehrenden&quot;,
+&nbsp;    &quot;Vertretene&quot;,
+&nbsp;    &quot;Vertretenen&quot;,
+&nbsp;    &quot;Vorstandsvorsitzender&quot;,
+&nbsp;    &quot;Vorstandsvorsitzenden&quot;,
+&nbsp;    &quot;Vorstandsvorsitzende&quot;,
+&nbsp;    &quot;Demonstrierende&quot;,
+&nbsp;    &quot;Demonstrierenden&quot;,
+&nbsp;    &quot;Marketingtreibende&quot;,
+&nbsp;    &quot;Marketingtreibender&quot;,
+&nbsp;    &quot;Marketingtreibenden&quot;,
+&nbsp;    &quot;Strafgefangenen&quot;,
+&nbsp;    &quot;Strafgefangener&quot;,
+&nbsp;    &quot;Strafgefangene&quot;,
+&nbsp;    &quot;Pädophile&quot;,
+&nbsp;    &quot;Pädophiler&quot;,
+&nbsp;    &quot;Pädophilen&quot;,
+&nbsp;    &quot;Lehrbeauftragte&quot;,
+&nbsp;    &quot;Lehrbeauftragter&quot;,
+&nbsp;    &quot;Lehrbeauftragten&quot;,
+&nbsp;    &quot;Erkrankte&quot;,
+&nbsp;    &quot;Erkrankter&quot;,
+&nbsp;    &quot;Erkrankten&quot;,
+&nbsp;    &quot;Eigner&quot;,
+&nbsp;    &quot;Polizeibeamten&quot;,
+&nbsp;    &quot;Polizeibeamter&quot;,
+&nbsp;    &quot;Polizeibeamte&quot;,
+&nbsp;    &quot;Kriegsversehrte&quot;,
+&nbsp;    &quot;Kriegsversehrter&quot;,
+&nbsp;    &quot;Kriegsversehrten&quot;,
+&nbsp;    &quot;Demenzkranke&quot;,
+&nbsp;    &quot;Demenzkranker&quot;,
+&nbsp;    &quot;Demenzkranken&quot;,
+&nbsp;    &quot;Parteivorsitzende&quot;,
+&nbsp;    &quot;Parteivorsitzender&quot;,
+&nbsp;    &quot;Parteivorsitzenden&quot;,
+&nbsp;    &quot;Kriegsgefangene&quot;,
+&nbsp;    &quot;Kriegsgefangener&quot;,
+&nbsp;    &quot;Kriegsgefangenen&quot;,
+&nbsp;    &quot;Ehrenvorsitzende&quot;,
+&nbsp;    &quot;Ehrenvorsitzender&quot;,
+&nbsp;    &quot;Ehrenvorsitzenden&quot;,
+&nbsp;    &quot;Oberkommandierende&quot;,
+&nbsp;    &quot;Oberkommandierender&quot;,
+&nbsp;    &quot;Oberkommandierenden&quot;,
+&nbsp;    &quot;Werbungtreibende&quot;,
+&nbsp;    &quot;Werbungtreibenden&quot;,
+&nbsp;    &quot;Mitangeklagte&quot;,
+&nbsp;    &quot;Schuhfilz&quot;,
+&nbsp;    &quot;Mix&quot;,
+&nbsp;    &quot;Rahm&quot;,
+&nbsp;    &quot;Flansch&quot;,
+&nbsp;    &quot;WhatsApp&quot;,
+&nbsp;    &quot;Verschleiß&quot;,
+&nbsp;    &quot;Schutzsuchende&quot;, // gendered form
+&nbsp;    &quot;Schutzsuchenden&quot;, // gendered form
+&nbsp;    &quot;Versicherte&quot;,
+&nbsp;    &quot;Versicherten&quot;, // gendered form
+&nbsp;    &quot;Cyberkriminelle&quot;,
+&nbsp;    &quot;Cyberkriminellen&quot;,
+&nbsp;    &quot;Kriminelle&quot;,
+&nbsp;    &quot;Kriminellen&quot;,
+&nbsp;    &quot;Auszubildenden&quot;,
+&nbsp;    &quot;Auszubildende&quot;,
+&nbsp;    &quot;Auszubildender&quot;,
+&nbsp;    &quot;Lernende&quot;, // gendered form
+&nbsp;    &quot;Lernender&quot;, // gendered form
+&nbsp;    &quot;Lernenden&quot;, // gendered form
+&nbsp;    &quot;Teilnehmende&quot;, // gendered form
+&nbsp;    &quot;Teilnehmenden&quot;, // gendered form
+&nbsp;    &quot;Radfahrende&quot;, // gendered form
+&nbsp;    &quot;Radfahrenden&quot;, // gendered form
+&nbsp;    &quot;Autofahrende&quot;, // gendered form
+&nbsp;    &quot;Autofahrenden&quot;, // gendered form
+&nbsp;    &quot;Auszubildene&quot;, // gendered form
+&nbsp;    &quot;Auszubildenen&quot;, // gendered form
+&nbsp;    &quot;Absolvierende&quot;, // gendered form
+&nbsp;    &quot;Absolvierenden&quot;, // gendered form
+&nbsp;    &quot;Einheimische&quot;,
+&nbsp;    &quot;Einheimischen&quot;,
+&nbsp;    &quot;Einheimischer&quot;,
+&nbsp;    &quot;Wehrbeauftragter&quot;,
+&nbsp;    &quot;Wehrbeauftragte&quot;,
+&nbsp;    &quot;Wehrbeauftragten&quot;,
+&nbsp;    &quot;Wehrbeauftragtem&quot;,
+&nbsp;    &quot;Prozessbevollmächtigter&quot;,
+&nbsp;    &quot;Prozessbevollmächtigte&quot;,
+&nbsp;    &quot;Prozessbevollmächtigten&quot;,
+&nbsp;    &quot;Prozessbevollmächtigtem&quot;,
+&nbsp;    &quot;Bundesbeamte&quot;,
+&nbsp;    &quot;Bundesbeamter&quot;,
+&nbsp;    &quot;Bundesbeamten&quot;,
+&nbsp;    &quot;Bundesbeamtem&quot;,
+&nbsp;    &quot;Datenschutzbeauftragter&quot;,
+&nbsp;    &quot;Datenschutzbeauftragte&quot;,
+&nbsp;    &quot;Datenschutzbeauftragten&quot;,
+&nbsp;    &quot;Datenschutzbeauftragtem&quot;,
+&nbsp;    &quot;Steuerbevollmächtigte&quot;,
+&nbsp;    &quot;Steuerbevollmächtigter&quot;,
+&nbsp;    &quot;Steuerbevollmächtigten&quot;,
+&nbsp;    &quot;Steuerbevollmächtigtem&quot;,
+&nbsp;    &quot;Suchtkranken&quot;,
+&nbsp;    &quot;Suchtkranke&quot;,
+&nbsp;    &quot;Suchtkranker&quot;,
+&nbsp;    &quot;Filmschaffende&quot;,
+&nbsp;    &quot;Filmschaffender&quot;,
+&nbsp;    &quot;Filmschaffenden&quot;,
+&nbsp;    &quot;Filmschaffendem&quot;,
+&nbsp;    &quot;Arbeitssuchende&quot;,
+&nbsp;    &quot;Arbeitssuchender&quot;,
+&nbsp;    &quot;Arbeitssuchenden&quot;,
+&nbsp;    &quot;Arbeitssuchendem&quot;,
+&nbsp;    &quot;Bausachverständige&quot;,
+&nbsp;    &quot;Bausachverständiger&quot;,
+&nbsp;    &quot;Bausachverständigen&quot;,
+&nbsp;    &quot;Bausachverständigem&quot;,
+&nbsp;    &quot;Heurige&quot;,
+&nbsp;    &quot;Ratsuchende&quot;,
+&nbsp;    &quot;Ratsuchender&quot;,
+&nbsp;    &quot;Ratsuchenden&quot;,
+&nbsp;    &quot;Verwundete&quot;,
+&nbsp;    &quot;Verwundeter&quot;,
+&nbsp;    &quot;Verwundeten&quot;,
+&nbsp;    &quot;Vollzugsbeamte&quot;,
+&nbsp;    &quot;Vollzugsbeamter&quot;,
+&nbsp;    &quot;Vollzugsbeamten&quot;,
+&nbsp;    &quot;Schutzbefohlene&quot;,
+&nbsp;    &quot;Schutzbefohlener&quot;,
+&nbsp;    &quot;Schutzbefohlenen&quot;,
+&nbsp;    &quot;Verfahrensbeteiligte&quot;,
+&nbsp;    &quot;Verfahrensbeteiligter&quot;,
+&nbsp;    &quot;Verfahrensbeteiligten&quot;,
+&nbsp;    &quot;Kolonialbeamte&quot;,
+&nbsp;    &quot;Kolonialbeamter&quot;,
+&nbsp;    &quot;Kolonialbeamten&quot;,
+&nbsp;    &quot;Verwaltungsbeamte&quot;,
+&nbsp;    &quot;Verwaltungsbeamter&quot;,
+&nbsp;    &quot;Verwaltungsbeamten&quot;,
+&nbsp;    &quot;Verdächtige&quot;,
+&nbsp;    &quot;Verdächtiger&quot;,
+&nbsp;    &quot;Verdächtigen&quot;,
+&nbsp;    &quot;Leichtverletzte&quot;,
+&nbsp;    &quot;Leichtverletzten&quot;,
+&nbsp;    &quot;Leichtverletzte&quot;,
+&nbsp;    &quot;Dozierende&quot;,
+&nbsp;    &quot;Dozierenden&quot;,
+&nbsp;    &quot;Studierende&quot;,
+&nbsp;    &quot;Studierender&quot;,
+&nbsp;    &quot;Studierenden&quot;,
+&nbsp;    &quot;Suchbegriffen&quot;,
+&nbsp;    &quot;Plattdeutsch&quot;,
+&nbsp;    &quot;Wallet&quot;,
+&nbsp;    &quot;Str&quot;,
+&nbsp;    &quot;Auszubildende&quot;,
+&nbsp;    &quot;Auszubildender&quot;,
+&nbsp;    &quot;Gelehrte&quot;,
+&nbsp;    &quot;Gelehrter&quot;,
+&nbsp;    &quot;Gelehrten&quot;,
+&nbsp;    &quot;Vorstehende&quot;,
+&nbsp;    &quot;Vorstehender&quot;,
+&nbsp;    &quot;Mitwirkende&quot;,
+&nbsp;    &quot;Mitwirkender&quot;,
+&nbsp;    &quot;Mitwirkenden&quot;,
+&nbsp;    &quot;Tabellenletzte&quot;,
+&nbsp;    &quot;Tabellenletzter&quot;,
+&nbsp;    &quot;Familienangehörige&quot;,
+&nbsp;    &quot;Familienangehöriger&quot;,
+&nbsp;    &quot;Zeitreisende&quot;,
+&nbsp;    &quot;Zeitreisender&quot;,
+&nbsp;    &quot;Zeitreisenden&quot;,
+&nbsp;    &quot;Erwerbstätige&quot;,
+&nbsp;    &quot;Erwerbstätigen&quot;,
+&nbsp;    &quot;Erwerbstätiger&quot;,
+&nbsp;    &quot;Selbstständige&quot;,
+&nbsp;    &quot;Selbstständigen&quot;,
+&nbsp;    &quot;Selbstständiger&quot;,
+&nbsp;    &quot;Selbständige&quot;,
+&nbsp;    &quot;Selbständigen&quot;,
+&nbsp;    &quot;Selbständiger&quot;,
+&nbsp;    &quot;Genaueres&quot;,
+&nbsp;    &quot;Äußersten&quot;,
+&nbsp;    &quot;Dienstreisender&quot;,
+&nbsp;    &quot;Verletzte&quot;,
+&nbsp;    &quot;Vermisste&quot;,
+&nbsp;    &quot;Äußeres&quot;,
+&nbsp;    &quot;Abseits&quot;,
+&nbsp;    &quot;Unschuldige&quot;,
+&nbsp;    &quot;Unschuldiger&quot;,
+&nbsp;    &quot;Unschuldigen&quot;,
+&nbsp;    &quot;Mitarbeitende&quot;,
+&nbsp;    &quot;Mitarbeitender&quot;,
+&nbsp;    &quot;Mitarbeitenden&quot;,
+&nbsp;    &quot;Beschäftigter&quot;,
+&nbsp;    &quot;Beschäftigte&quot;,
+&nbsp;    &quot;Beschäftigten&quot;,
+&nbsp;    &quot;Bekannter&quot;,
+&nbsp;    &quot;Bekannte&quot;,
+&nbsp;    &quot;Bevollmächtigte&quot;,
+&nbsp;    &quot;Bevollmächtigter&quot;,
+&nbsp;    &quot;Bevollmächtigten&quot;,
+&nbsp;    &quot;Brecht&quot;,
+&nbsp;    &quot;Tel&quot;,  // Tel. = Telefon
+&nbsp;    &quot;Unschuldiger&quot;,
+&nbsp;    &quot;Vorgesetzter&quot;,
+&nbsp;    &quot;Abs&quot;,   // Abs. = Abkürzung für Absatz, Absender, ...
+&nbsp;    &quot;Klappe&quot;,
+&nbsp;    &quot;Vorfahre&quot;,
+&nbsp;    &quot;Mittler&quot;,
+&nbsp;    &quot;Hr&quot;,   // Hr. = Abkürzung für Herr
+&nbsp;    &quot;Schwarz&quot;,
+&nbsp;    &quot;Genese&quot;,
+&nbsp;    &quot;Rosa&quot;,
+&nbsp;    &quot;Auftrieb&quot;,
+&nbsp;    &quot;Zuschnitt&quot;,
+&nbsp;    &quot;Geschossen&quot;,
+&nbsp;    &quot;Vortrieb&quot;,
+&nbsp;    &quot;Abtrieb&quot;,
+&nbsp;    &quot;Gesandter&quot;,
+&nbsp;    &quot;Durchfahrt&quot;,
+&nbsp;    &quot;Durchgriff&quot;,
+&nbsp;    &quot;Überfahrt&quot;,
+&nbsp;    &quot;Zeche&quot;,
+&nbsp;    &quot;Sparte&quot;,
+&nbsp;    &quot;Sparten&quot;,
+&nbsp;    &quot;Heiliger&quot;,
+&nbsp;    &quot;Reisender&quot;,
+&nbsp;    &quot;Pest&quot;,
+&nbsp;    &quot;Schwinge&quot;,
+&nbsp;    &quot;Verlies&quot;,
+&nbsp;    &quot;Nachfolge&quot;,
+&nbsp;    &quot;Stift&quot;,
+&nbsp;    &quot;Belange&quot;,
+&nbsp;    &quot;Geistlicher&quot;,
+&nbsp;    &quot;Google&quot;,
+&nbsp;    &quot;Hu&quot;, // name
+&nbsp;    &quot;Jenseits&quot;,
+&nbsp;    &quot;Abends&quot;,
+&nbsp;    &quot;Stimmberechtigte&quot;,
+&nbsp;    &quot;Stimmberechtigten&quot;,
+&nbsp;    &quot;Stimmberechtigter&quot;,
+&nbsp;    &quot;Alleinerziehende&quot;,
+&nbsp;    &quot;Alleinerziehenden&quot;,
+&nbsp;    &quot;Alleinerziehender&quot;,
+&nbsp;    &quot;Abgeordneter&quot;,
+&nbsp;    &quot;Abgeordnete&quot;,
+&nbsp;    &quot;Abgeordneten&quot;,
+&nbsp;    &quot;Angestellter&quot;,
+&nbsp;    &quot;Angestellte&quot;,
+&nbsp;    &quot;Angestellten&quot;,
+&nbsp;    &quot;Armeeangehörige&quot;,
+&nbsp;    &quot;Armeeangehörigen&quot;,
+&nbsp;    &quot;Armeeangehöriger&quot;,
+&nbsp;    &quot;Liberaler&quot;,
+&nbsp;    &quot;Abriss&quot;,
+&nbsp;    &quot;Ahne&quot;,
+&nbsp;    &quot;Ähnlichem&quot;,
+&nbsp;    &quot;Ähnliches&quot;,   // je nach Kontext groß (TODO), z.B. &quot;Er hat Ähnliches erlebt&quot; 
+&nbsp;    &quot;Allerlei&quot;,
+&nbsp;    &quot;Anklang&quot;,
+&nbsp;    &quot;Verlobter&quot;,
+&nbsp;    &quot;Anstrich&quot;,
+&nbsp;    &quot;Armes&quot;,
+&nbsp;    &quot;Ausdrücke&quot;,
+&nbsp;    &quot;Auswüchsen&quot;,
+&nbsp;    &quot;Bände&quot;,
+&nbsp;    &quot;Bänden&quot;,
+&nbsp;    &quot;Beauftragter&quot;,
+&nbsp;    &quot;Belange&quot;,
+&nbsp;    &quot;Biss&quot;,
+&nbsp;    &quot;De&quot;,    // &quot;De Morgan&quot; etc
+&nbsp;    &quot;Diesseits&quot;, // &quot;im Diesseits&quot;
+&nbsp;    &quot;Dr&quot;,
+&nbsp;    &quot;Durcheinander&quot;,
+&nbsp;    &quot;Eindrücke&quot;,
+&nbsp;    &quot;Erwachsener&quot;,
+&nbsp;    &quot;Familienangehörige&quot;, // &quot;Brüder und solche Familienangehörige, die...&quot;
+&nbsp;    &quot;Flöße&quot;,
+&nbsp;    &quot;Folgendes&quot;,   // je nach Kontext groß (TODO)...
+&nbsp;    &quot;Fort&quot;,
+&nbsp;    &quot;Fraß&quot;,
+&nbsp;    &quot;Fristende&quot;,
+&nbsp;    &quot;Frevel&quot;,
+&nbsp;    &quot;Genüge&quot;,
+&nbsp;    &quot;Gefallen&quot;, // Gefallen finden
+&nbsp;    &quot;Gläubige&quot;,
+&nbsp;    &quot;Gläubiger&quot;,
+&nbsp;    &quot;Gläubigen&quot;,
+&nbsp;    &quot;Hechte&quot;,
+&nbsp;    &quot;Herzöge&quot;,
+&nbsp;    &quot;Herzögen&quot;,
+&nbsp;    &quot;Hinfahrt&quot;,
+&nbsp;    &quot;Hilfsstoff&quot;,
+&nbsp;    &quot;Hilfsstoffe&quot;,
+&nbsp;    &quot;Hundert&quot;,   // groß und klein möglich 
+&nbsp;    &quot;Zehntausend&quot;,   // groß und klein möglich 
+&nbsp;    &quot;Hunderttausend&quot;,   // groß und klein möglich 
+&nbsp;    &quot;Hyperwallet&quot;, // Anglizismus
+&nbsp;    &quot;Ihnen&quot;,
+&nbsp;    &quot;Ihrerseits&quot;,
+&nbsp;    &quot;Ihr&quot;,
+&nbsp;    &quot;Ihre&quot;,
+&nbsp;    &quot;Ihrem&quot;,
+&nbsp;    &quot;Ihren&quot;,
+&nbsp;    &quot;Ihrer&quot;,
+&nbsp;    &quot;Ihres&quot;,
+&nbsp;    &quot;Infrarot&quot;,
+&nbsp;    &quot;Jenseits&quot;,
+&nbsp;    &quot;Jugendliche&quot;,
+&nbsp;    &quot;Jugendlichen&quot;,
+&nbsp;    &quot;Jugendlicher&quot;,
+&nbsp;    &quot;Jünger&quot;,
+&nbsp;    &quot;Kant&quot;, //Immanuel
+&nbsp;    &quot;Klaue&quot;,
+&nbsp;    &quot;Konditional&quot;,
+&nbsp;    &quot;Krähe&quot;,
+&nbsp;    &quot;Kurzem&quot;,
+&nbsp;    &quot;Landwirtschaft&quot;,
+&nbsp;    &quot;Langem&quot;,
+&nbsp;    &quot;Längerem&quot;,
+&nbsp;    &quot;Lausitz&quot;,
+&nbsp;    &quot;Le&quot;,    // &quot;Le Monde&quot; etc
+&nbsp;    &quot;Lehrlingsunterweisung&quot;,
+&nbsp;    // &quot;Leichter&quot;, // Leichter = ein Schiff in oben offener Bauweise ohne Eigenantrieb
+&nbsp;    &quot;Letzt&quot;,
+&nbsp;    &quot;Letzt&quot;,      // &quot;zu guter Letzt&quot;
+&nbsp;    &quot;Letztere&quot;,
+&nbsp;    &quot;Letzterer&quot;,
+&nbsp;    &quot;Letzteres&quot;,
+&nbsp;    &quot;Link&quot;,
+&nbsp;    &quot;Links&quot;,
+&nbsp;    &quot;Löhne&quot;,
+&nbsp;    &quot;Luden&quot;,
+&nbsp;    &quot;Milk&quot;, // Englisches Wort und eine Form von &quot;melken&quot;
+&nbsp;    &quot;Mitfahrt&quot;,
+&nbsp;    &quot;Mr&quot;,
+&nbsp;    &quot;Mrd&quot;,
+&nbsp;    &quot;Mrs&quot;,
+&nbsp;    &quot;Nachfrage&quot;,
+&nbsp;    &quot;Nachts&quot;,   // &quot;des Nachts&quot;, &quot;eines Nachts&quot;
+&nbsp;    &quot;Nachspann&quot;,
+&nbsp;    &quot;Nähte&quot;,
+&nbsp;    &quot;Nähten&quot;,
+&nbsp;    &quot;Narkoseverfahren&quot;,
+&nbsp;    &quot;Neuem&quot;,
+&nbsp;    &quot;Neugeborene&quot;,
+&nbsp;    &quot;Neugeborenen&quot;,
+&nbsp;    &quot;Neugeborenes&quot;,
+&nbsp;    &quot;Nr&quot;,
+&nbsp;    &quot;Nutze&quot;,   // zu Nutze
+&nbsp;    &quot;Obdachlose&quot;,
+&nbsp;    &quot;Obdachloser&quot;,
+&nbsp;    &quot;Obdachlosen&quot;,
+&nbsp;    &quot;Oder&quot;,   // der Fluss
+&nbsp;    &quot;Ohrfeige&quot;,
+&nbsp;    &quot;Patsche&quot;,
+&nbsp;    &quot;Pfiffe&quot;,
+&nbsp;    &quot;Pfiffen&quot;,
+&nbsp;    &quot;Press&quot;, // University Press
+&nbsp;    &quot;Prof&quot;,
+&nbsp;    &quot;Puste&quot;,
+&nbsp;    &quot;Sachverständiger&quot;,
+&nbsp;    &quot;Sankt&quot;,
+&nbsp;    &quot;Schaulustige&quot;,
+&nbsp;    &quot;Schaulustigen&quot;,
+&nbsp;    &quot;Schaulustiger&quot;,
+&nbsp;    &quot;Scheine&quot;,
+&nbsp;    &quot;Scheiße&quot;,
+&nbsp;    &quot;Schuft&quot;,
+&nbsp;    &quot;Schufte&quot;,
+&nbsp;    &quot;Schuld&quot;,
+&nbsp;    &quot;Schwangere&quot;,
+&nbsp;    &quot;Schwangeren&quot;,
+&nbsp;    &quot;Schwärme&quot;,
+&nbsp;    &quot;Schwarzes&quot;,    // Schwarzes Brett
+&nbsp;    &quot;Sie&quot;,
+&nbsp;    &quot;Skype&quot;,
+&nbsp;    &quot;Spitz&quot;,
+&nbsp;    &quot;Spott&quot;,
+&nbsp;    &quot;St&quot;,   // Paris St. Germain
+&nbsp;    &quot;Stereotyp&quot;,
+&nbsp;    &quot;Störe&quot;,
+&nbsp;    &quot;Tausend&quot;,   // je nach Kontext groß (TODO)
+&nbsp;    &quot;Tischende&quot;,
+&nbsp;    &quot;Toter&quot;,
+&nbsp;    &quot;Übrigen&quot;,   // je nach Kontext groß (TODO), z.B. &quot;im Übrigen&quot;
+&nbsp;    &quot;Unentschieden&quot;,
+&nbsp;    &quot;Unvorhergesehenes&quot;,   // je nach Kontext groß (TODO), z.B. &quot;etwas Unvorhergesehenes&quot;
+&nbsp;    &quot;Verantwortlicher&quot;,
+&nbsp;    &quot;Verlass&quot;,
+&nbsp;    &quot;Verwandter&quot;,
+&nbsp;    &quot;Verstorbenen&quot;,
+&nbsp;    &quot;Verstorbene&quot;,
+&nbsp;    &quot;Vielfache&quot;,
+&nbsp;    &quot;Vielfaches&quot;,
+&nbsp;    &quot;Vorsitzender&quot;,
+&nbsp;    &quot;Fraktionsvorsitzender&quot;,
+&nbsp;    &quot;Verletzte&quot;,
+&nbsp;    &quot;Verletzten&quot;,
+&nbsp;    &quot;Walt&quot;,
+&nbsp;    &quot;Weitem&quot;,
+&nbsp;    &quot;Weiteres&quot;,
+&nbsp;    &quot;Wohlen&quot;, // Stadt in der Schweiz
+&nbsp;    &quot;Wicht&quot;,
+&nbsp;    &quot;Wichtiges&quot;,
+&nbsp;    &quot;Wider&quot;,    // &quot;das Für und Wider&quot;
+&nbsp;    &quot;Wild&quot;,
+&nbsp;    &quot;Zeche&quot;,
+&nbsp;    &quot;Zusage&quot;,
+&nbsp;    &quot;Zwinge&quot;,
+&nbsp;    &quot;Zirkusrund&quot;,
+&nbsp;    &quot;Tertiär&quot;,  // geologischer Zeitabschnitt
+&nbsp;
+&nbsp;    &quot;Erster&quot;,   // &quot;er wurde Erster im Langlauf&quot;
+&nbsp;    &quot;Zweiter&quot;,
+&nbsp;    &quot;Dritter&quot;,
+&nbsp;    &quot;Vierter&quot;,
+&nbsp;    &quot;Fünfter&quot;,
+&nbsp;    &quot;Sechster&quot;,
+&nbsp;    &quot;Siebter&quot;,
+&nbsp;    &quot;Achter&quot;,
+&nbsp;    &quot;Neunter&quot;,
+&nbsp;    &quot;Erste&quot;,   // &quot;sie wurde Erste im Langlauf&quot;
+&nbsp;    &quot;Zweite&quot;,
+&nbsp;    &quot;Dritte&quot;,
+&nbsp;    &quot;Vierte&quot;,
+&nbsp;    &quot;Fünfte&quot;,
+&nbsp;    &quot;Sechste&quot;,
+&nbsp;    &quot;Siebte&quot;,
+&nbsp;    &quot;Achte&quot;,
+&nbsp;    &quot;Neunte&quot;,
+&nbsp;
+&nbsp;    // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
+&nbsp;    &quot;Dein&quot;,
+&nbsp;    &quot;Deine&quot;,
+&nbsp;    &quot;Deinem&quot;,
+&nbsp;    &quot;Deinen&quot;,
+&nbsp;    &quot;Deiner&quot;,
+&nbsp;    &quot;Deines&quot;,
+&nbsp;    &quot;Deinerseits&quot;,
+&nbsp;    &quot;Dich&quot;,
+&nbsp;    &quot;Dir&quot;,
+&nbsp;    &quot;Du&quot;,
+&nbsp;    &quot;Euch&quot;,
+&nbsp;    &quot;Euer&quot;,
+&nbsp;    &quot;Eure&quot;,
+&nbsp;    &quot;Euern&quot;,
+&nbsp;    &quot;Eurem&quot;,
+&nbsp;    &quot;Euren&quot;,
+&nbsp;    &quot;Eures&quot;,
+&nbsp;    &quot;Eueren&quot;,
+&nbsp;    &quot;Euerem&quot;,
+&nbsp;    &quot;Eueres&quot;,
+&nbsp;    &quot;Euerer&quot;,
+&nbsp;    &quot;Eurerseits&quot;,
+&nbsp;    &quot;Euerseits&quot;
+&nbsp;  };
+&nbsp;  
+<b class="nc">&nbsp;  private static final Set&lt;StringMatcher[]&gt; exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; substVerbenExceptions = new HashSet&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;hinziehen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;helfen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;lassen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;passieren&quot;);  // &quot;das Schlimmste, das passieren könnte&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;haben&quot;);  // &quot;Das haben schon viele versucht.&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;passiert&quot;);  // &quot;Das passiert...&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;beschränkt&quot;);  // &quot;Das beschränkt sich...&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;wiederholt&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;scheinen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;klar&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;heißen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;einen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;gehören&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;bedeutet&quot;);    // &quot;und das bedeutet...&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;ermöglicht&quot;);    // &quot;und das ermöglicht...&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;funktioniert&quot;);    // &quot;Das funktioniert...&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;sollen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;werden&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;dürfen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;müssen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;so&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;ist&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;können&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;mein&quot;); // &quot;etwas, das mein Interesse geweckt hat&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;sein&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;muss&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;muß&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;wollen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;habe&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;ein&quot;);   // nicht &quot;einen&quot; (Verb)</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;tun&quot;);   // &quot;...dann wird er das tun.&quot;</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;bestätigt&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;bestätigte&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;bestätigten&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;bekommen&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;sauer&quot;);</b>
+<b class="nc">&nbsp;    substVerbenExceptions.add(&quot;bedeuten&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;  private final German language;
+&nbsp;
+<b class="nc">&nbsp;  public CaseRule(ResourceBundle messages, German german) {</b>
+<b class="nc">&nbsp;    language = german;</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.CASING.getCategory(messages));</b>
+<b class="nc">&nbsp;    setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/de/beitrag/gross-klein-schreibung-rechtschreibung/#1-nomen-werden-gro%C3%9Falle-anderen-wortarten-kleingeschrieben&quot;));</b>
+<b class="nc">&nbsp;    antiPatterns = cacheAntiPatterns(german, ANTI_PATTERNS);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;&lt;marker&gt;Das laufen&lt;/marker&gt; fällt mir schwer.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;&lt;marker&gt;Das Laufen&lt;/marker&gt; fällt mir schwer.&quot;));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;DE_CASE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public URL getUrl() {
+<b class="nc">&nbsp;    return Tools.getUrl(&quot;https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Gross-klein/index.html&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Großschreibung von Nomen und substantivierten Verben&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+&nbsp;    
+<b class="nc">&nbsp;    boolean prevTokenIsDas = false;</b>
+<b class="nc">&nbsp;    boolean isPrecededByModalOrAuxiliary = false;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+&nbsp;      //Note: defaulting to the first analysis is only save if we only query for sentence start
+<b class="nc">&nbsp;      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();</b>
+<b class="nc">&nbsp;      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (i == 1) {   // don&#39;t care about first word, UppercaseSentenceStartRule does this already</b>
+<b class="nc">&nbsp;        prevTokenIsDas = nounIndicators.contains(tokens[1].getToken().toLowerCase());</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (i &gt; 0 &amp;&amp; (isSalutation(tokens[i-1].getToken()) || isCompany(tokens[i-1].getToken()))) {   // e.g. &quot;Frau Stieg&quot; could be a name, ignore</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+&nbsp;      // 1.1 Technische Dokumentation
+<b class="nc">&nbsp;      if (i &gt; 2 &amp;&amp; NUMERALS_EN.matcher(tokens[i-1].getToken()).matches() &amp;&amp; isDot(tokens[i-2].getToken()) &amp;&amp; NUMERALS_EN.matcher(tokens[i-3].getToken()).matches()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      AnalyzedTokenReadings analyzedToken = tokens[i];</b>
+<b class="nc">&nbsp;      String token = analyzedToken.getToken();</b>
+&nbsp;
+<b class="nc">&nbsp;      boolean isBaseform = analyzedToken.getReadingsLength() &gt;= 1 &amp;&amp; analyzedToken.hasLemma(token);</b>
+<b class="nc">&nbsp;      if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, POSType.VERB))</b>
+&nbsp;          &amp;&amp; isBaseform) {
+<b class="nc">&nbsp;        boolean nextTokenIsPersonalOrReflexivePronoun = false;</b>
+<b class="nc">&nbsp;        if (i &lt; tokens.length - 1) {</b>
+<b class="nc">&nbsp;          AnalyzedTokenReadings nextToken = tokens[i + 1];</b>
+&nbsp;          // avoid false alarm for &quot;Das haben wir getan.&quot; etc:
+<b class="nc">&nbsp;          nextTokenIsPersonalOrReflexivePronoun = nextToken.hasPartialPosTag(&quot;PRO:PER&quot;) || StringUtils.equalsAny(nextToken.getToken(), &quot;sich&quot;, &quot;Sie&quot;);</b>
+<b class="nc">&nbsp;          if (nextToken.hasPosTag(&quot;PKT&quot;)) {</b>
+&nbsp;            // avoid false alarm for &quot;So sollte das funktionieren.&quot; (might also remove true alarms...)
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          if (prevTokenIsDas</b>
+<b class="nc">&nbsp;              &amp;&amp; (StringUtils.equalsAny(nextToken.getToken(), DAS_VERB_EXCEPTIONS) ||</b>
+<b class="nc">&nbsp;                  isFollowedByRelativeOrSubordinateClause(i, tokens)) ||</b>
+<b class="nc">&nbsp;                  (i &gt; 1 &amp;&amp; hasPartialTag(tokens[i-2], &quot;VER:AUX&quot;, &quot;VER:MOD&quot;))) {</b>
+&nbsp;            // avoid false alarm for &quot;Er kann ihr das bieten, was sie verdient.&quot;
+&nbsp;            // avoid false alarm for &quot;Das wissen die meisten.&quot; / &quot;Um das sagen zu können, ...&quot;
+&nbsp;            // avoid false alarm for &quot;Du musst/solltest/könntest das wissen, damit du die Prüfung bestehst / weil wir das gestern besprochen haben.&quot;
+&nbsp;            // avoid false alarm for &quot;Wir werden das stoppen.&quot;
+&nbsp;            // avoid false alarm for &quot;Wahre Liebe muss das aushalten.&quot;
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (isPrevProbablyRelativePronoun(tokens, i) ||</b>
+<b class="nc">&nbsp;            (prevTokenIsDas &amp;&amp; getTokensWithPosTagStartingWithCount(tokens, &quot;VER&quot;) == 1)) {// ignore sentences containing a single verb, e.g., &quot;Das wissen viele nicht.&quot;</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun, sentence);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());</b>
+<b class="nc">&nbsp;      if (analyzedToken.matchesPosTagRegex(VER_MOD_AUX)) {</b>
+<b class="nc">&nbsp;        isPrecededByModalOrAuxiliary = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      AnalyzedTokenReadings lowercaseReadings = ((GermanTagger) language.getTagger()).lookup(token.toLowerCase());</b>
+<b class="nc">&nbsp;      if (hasNounReading(analyzedToken)) { // it&#39;s the spell checker&#39;s task to check that nouns are uppercase</b>
+<b class="nc">&nbsp;        if (!isPotentialUpperCaseError(i, tokens, lowercaseReadings, isPrecededByModalOrAuxiliary)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (analyzedToken.hasPosTagStartingWith(&quot;SUB:&quot;) &amp;&amp;</b>
+&nbsp;                 i &lt; tokens.length-1 &amp;&amp;
+<b class="nc">&nbsp;                 Character.isLowerCase(tokens[i+1].getToken().charAt(0)) &amp;&amp;</b>
+<b class="nc">&nbsp;                 tokens[i+1].matchesPosTagRegex(&quot;(VER:[123]:|PA2).+&quot;)) {</b>
+&nbsp;        // &quot;Viele Minderjährige sind&quot; but not &quot;Das wirklich Wichtige Verfahren ist&quot;
+&nbsp;        continue;  
+&nbsp;      }
+<b class="nc">&nbsp;      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null &amp;&amp; lowercaseReadings == null) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null &amp;&amp; lowercaseReadings != null</b>
+<b class="nc">&nbsp;          &amp;&amp; (lowercaseReadings.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.getToken().endsWith(&quot;innen&quot;))) {</b>
+&nbsp;        continue;  // unknown word, probably a name etc.
+&nbsp;      }
+<b class="nc">&nbsp;      potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token, lowercaseReadings, sentence);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getTokensWithPosTagStartingWithCount(AnalyzedTokenReadings[] tokens, String partialPosTag) {
+<b class="nc">&nbsp;    return Arrays.stream(tokens).filter(token -&gt; token.hasPosTagStartingWith(partialPosTag)).mapToInt(e -&gt; 1).sum();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isPotentialUpperCaseError(int pos, AnalyzedTokenReadings[] tokens,
+&nbsp;      AnalyzedTokenReadings lowercaseReadings, boolean isPrecededByModalOrAuxiliary) {
+<b class="nc">&nbsp;    if (pos &lt;= 1) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // &quot;Das ist zu Prüfen.&quot; but not &quot;Das geht zu Herzen.&quot;
+<b class="nc">&nbsp;    if (&quot;zu&quot;.equals(tokens[pos-1].getToken()) &amp;&amp;</b>
+<b class="nc">&nbsp;      !tokens[pos].matchesPosTagRegex(&quot;.*(NEU|MAS|FEM)$&quot;) &amp;&amp;</b>
+&nbsp;      lowercaseReadings != null &amp;&amp;
+<b class="nc">&nbsp;      lowercaseReadings.hasPosTagStartingWith(&quot;VER:INF&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (VERHALTEN.matcher(tokens[pos].getToken()).matches()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;    // find error in: &quot;Man müsse Überlegen, wie man das Problem löst.&quot;
+<b class="nc">&nbsp;    boolean isPotentialError = pos &lt; tokens.length - 3</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[pos+1].getToken().equals(&quot;,&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; StringUtils.equalsAny(tokens[pos+2].getToken(), INTERROGATIVE_PARTICLES)</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[pos-1].hasPosTagStartingWith(&quot;VER:MOD&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; !tokens[pos-1].hasLemma(&quot;mögen&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; !tokens[pos+3].getToken().equals(&quot;zum&quot;);</b>
+<b class="nc">&nbsp;    if (!isPotentialError &amp;&amp;</b>
+&nbsp;        lowercaseReadings != null
+<b class="nc">&nbsp;        &amp;&amp; tokens[pos].hasAnyPartialPosTag(&quot;SUB:NOM:SIN:NEU:INF&quot;, &quot;SUB:DAT:PLU:&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; (&quot;zu&quot;.equals(tokens[pos-1].getToken()) || hasPartialTag(tokens[pos-1], &quot;SUB&quot;, &quot;EIG&quot;, &quot;VER:AUX:3:&quot;, &quot;ADV:TMP&quot;, &quot;ABK&quot;))) {</b>
+&nbsp;      // find error in: &quot;Der Brief wird morgen Übergeben.&quot; / &quot;Die Ausgaben haben eine Mrd. Euro Überschritten.&quot;
+<b class="nc">&nbsp;      isPotentialError |= lowercaseReadings.hasPosTag(&quot;PA2:PRD:GRU:VER&quot;) &amp;&amp; !tokens[pos-1].hasPosTagStartingWith(&quot;VER:AUX:3&quot;) &amp;&amp; !lowercaseReadings.hasPosTag(&quot;VER:3:PLU:PRT:NON&quot;);</b>
+&nbsp;      // find error in: &quot;Er lässt das Arktisbohrverbot Überprüfen.&quot;
+&nbsp;      // find error in: &quot;Sie bat ihn, es zu Überprüfen.&quot;
+&nbsp;      // find error in: &quot;Das Geld wird Überwiesen.&quot;
+<b class="nc">&nbsp;      isPotentialError |= (pos &gt;= tokens.length - 2 || &quot;,&quot;.equals(tokens[pos+1].getToken()))</b>
+<b class="nc">&nbsp;        &amp;&amp; (&quot;zu&quot;.equals(tokens[pos-1].getToken()) || isPrecededByModalOrAuxiliary)</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[pos].getToken().startsWith(&quot;Über&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; lowercaseReadings.hasAnyPartialPosTag(&quot;VER:INF:&quot;, &quot;PA2:PRD:GRU:VER&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    return isPotentialError;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // e.g. &quot;Ein Kaninchen, das zaubern kann&quot; - avoid false alarm here
+&nbsp;  //                          ^^^^^^^
+&nbsp;  private boolean isPrevProbablyRelativePronoun(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    return i &gt;= 3 &amp;&amp;</b>
+<b class="nc">&nbsp;      tokens[i-1].getToken().equals(&quot;das&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;      tokens[i-2].getToken().equals(&quot;,&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;      tokens[i-3].matchesPosTagRegex(&quot;SUB:...:SIN:NEU&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isSalutation(String token) {
+<b class="nc">&nbsp;    return StringUtils.equalsAny(token, &quot;Herr&quot;, &quot;Hr&quot;, &quot;Herrn&quot;, &quot;Frau&quot;, &quot;Fr&quot;, &quot;Fräulein&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isCompany(String token) {
+<b class="nc">&nbsp;    return StringUtils.equalsAny(token, &quot;Firma&quot;, &quot;Familie&quot;, &quot;Unternehmen&quot;, &quot;Firmen&quot;, &quot;Bäckerei&quot;, &quot;Metzgerei&quot;, &quot;Fa&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isDot(String token) {
+<b class="nc">&nbsp;    return token.equals(&quot;.&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasNounReading(AnalyzedTokenReadings readings) {
+<b class="nc">&nbsp;    if (readings != null) {</b>
+&nbsp;      // Anmeldung bis Fr. 1.12. (Fr. as abbreviation of Freitag is has a noun reading!)
+<b class="nc">&nbsp;      if (readings.hasPosTagStartingWith(&quot;ABK&quot;) &amp;&amp; readings.hasPartialPosTag(&quot;SUB&quot;)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;      // &quot;Die Schöne Tür&quot;: &quot;Schöne&quot; also has a noun reading but like &quot;SUB:AKK:SIN:FEM:ADJ&quot;, ignore that:
+<b class="nc">&nbsp;      AnalyzedTokenReadings allReadings = lookup(readings.getToken().replace(&quot;\u00AD&quot;, &quot;&quot;));  // unification in disambiguation.xml removes reading, so look up again, removing soft hyphens</b>
+<b class="nc">&nbsp;      if (allReadings != null) {</b>
+<b class="nc">&nbsp;        for (AnalyzedToken reading : allReadings) {</b>
+<b class="nc">&nbsp;          String posTag = reading.getPOSTag();</b>
+<b class="nc">&nbsp;          if (posTag != null &amp;&amp; posTag.contains(&quot;SUB:&quot;) &amp;&amp; !posTag.contains(&quot;:ADJ&quot;)) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void potentiallyAddLowercaseMatch(List&lt;RuleMatch&gt; ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalOrReflexivePronoun, AnalyzedSentence sentence) {
+&nbsp;    // e.g. essen -&gt; Essen
+<b class="nc">&nbsp;    if (prevTokenIsDas &amp;&amp;</b>
+&nbsp;        !nextTokenIsPersonalOrReflexivePronoun &amp;&amp;
+<b class="nc">&nbsp;        Character.isLowerCase(token.charAt(0)) &amp;&amp;</b>
+<b class="nc">&nbsp;        !substVerbenExceptions.contains(token) &amp;&amp;</b>
+<b class="nc">&nbsp;        tokenReadings.hasPosTagStartingWith(&quot;VER:INF&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;        !tokenReadings.isIgnoredBySpeller() &amp;&amp;</b>
+<b class="nc">&nbsp;        !tokenReadings.isImmunized()) {</b>
+<b class="nc">&nbsp;      addRuleMatch(ruleMatches, sentence, LOWERCASE_MESSAGE, tokenReadings, StringTools.uppercaseFirstChar(tokenReadings.getToken()));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void potentiallyAddUppercaseMatch(List&lt;RuleMatch&gt; ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token, AnalyzedTokenReadings lowercaseReadings, AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    boolean isUpperFirst = Character.isUpperCase(token.charAt(0));</b>
+<b class="nc">&nbsp;    String lcWord = StringTools.lowercaseFirstChar(tokens[i].getToken());</b>
+<b class="nc">&nbsp;    if (isUpperFirst &amp;&amp;</b>
+<b class="nc">&nbsp;        token.length() &gt; 1 &amp;&amp;     // length limit = ignore abbreviations</b>
+<b class="nc">&nbsp;        !tokens[i].isIgnoredBySpeller() &amp;&amp;</b>
+<b class="nc">&nbsp;        !tokens[i].isImmunized() &amp;&amp;</b>
+<b class="nc">&nbsp;        !StringUtils.equalsAny(tokens[i - 1].getToken(), SENTENCE_START_EXCEPTIONS) &amp;&amp;</b>
+<b class="nc">&nbsp;        !StringUtils.equalsAny(token, exceptions) &amp;&amp;</b>
+<b class="nc">&nbsp;        !StringTools.isAllUppercase(token) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isLanguage(i, tokens, token) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isProbablyCity(i, tokens, token) &amp;&amp;</b>
+<b class="nc">&nbsp;        !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &amp;&amp;</b>
+<b class="nc">&nbsp;        !analyzedToken.isSentenceEnd() &amp;&amp;</b>
+<b class="nc">&nbsp;        !isEllipsis(i, tokens) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isNumbering(i, tokens) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isNominalization(i, tokens, token, lowercaseReadings) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isAdverbAndNominalization(i, tokens) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isSpecialCase(i, tokens) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isAdjectiveAsNoun(i, tokens, lowercaseReadings) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isSingularImperative(lowercaseReadings, tokens[i]) &amp;&amp;  // too many names like &quot;Kusch&quot;, &quot;Klemm&quot; etc.</b>
+<b class="nc">&nbsp;        !isExceptionPhrase(i, tokens) &amp;&amp;</b>
+<b class="nc">&nbsp;        !(i == 2 &amp;&amp; &quot;“&quot;.equals(tokens[i-1].getToken())) &amp;&amp;   // closing quote at sentence start (https://github.com/languagetool-org/languagetool/issues/2558)</b>
+<b class="nc">&nbsp;        !isCaseTypo(tokens[i].getToken()) &amp;&amp;</b>
+<b class="nc">&nbsp;        !followedByGenderGap(tokens, i) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isNounWithVerbReading(i, tokens) &amp;&amp;</b>
+<b class="nc">&nbsp;        !isInvisibleSeparator(i-1, tokens) &amp;&amp;</b>
+<b class="nc">&nbsp;        !language.getDefaultSpellingRule().isMisspelled(lcWord)) {</b>
+<b class="nc">&nbsp;      if (&quot;:&quot;.equals(tokens[i - 1].getToken())) {</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];</b>
+<b class="nc">&nbsp;        System.arraycopy(tokens, 0, subarray, 0, i);</b>
+<b class="nc">&nbsp;        if (isVerbFollowing(i, tokens, lowercaseReadings) || getTokensWithPosTagStartingWithCount(subarray, &quot;VER&quot;) == 0) {</b>
+&nbsp;          // no error
+&nbsp;        } else {
+<b class="nc">&nbsp;          addRuleMatch(ruleMatches, sentence, COLON_MESSAGE, tokens[i], lcWord);</b>
+&nbsp;        }
+&nbsp;        return;
+&nbsp;      }
+<b class="nc">&nbsp;      addRuleMatch(ruleMatches, sentence, UPPERCASE_MESSAGE, tokens[i], lcWord);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean followedByGenderGap(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    if (i + 2 &lt; tokens.length &amp;&amp; tokens[i+1].getToken().equals(&quot;:&quot;) &amp;&amp; tokens[i+2].getToken().matches(&quot;in|innen&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isCaseTypo(String token) {
+<b class="nc">&nbsp;    return TWO_UPPERCASE_CHARS.matcher(token).matches();   // e.g. &quot;WUrzeln&quot;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isSingularImperative(AnalyzedTokenReadings lowercaseReadings, AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return lowercaseReadings != null &amp;&amp; lowercaseReadings.hasPosTagStartingWith(&quot;VER:IMP:SIN&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;              !&quot;Ein&quot;.equals(token.getToken()) &amp;&amp; !&quot;Eine&quot;.equals(token.getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isNounWithVerbReading(int i, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    return tokens[i].hasPosTagStartingWith(&quot;SUB&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;    		tokens[i].hasPosTagStartingWith(&quot;VER:INF&quot;);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;  private boolean isInvisibleSeparator(int i, AnalyzedTokenReadings[] tokens) {  // u2063 is used internally by our browser add-on
+<b class="nc">&nbsp;    return i &gt;= 0 &amp;&amp; i &lt; tokens.length &amp;&amp; tokens[i].getToken().length() &gt; 0 &amp;&amp; tokens[i].getToken().charAt(0) == &#39;\u2063&#39;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;	private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];</b>
+<b class="nc">&nbsp;    System.arraycopy(tokens, i, subarray, 0, subarray.length);</b>
+<b class="nc">&nbsp;    if (lowercaseReadings != null) {</b>
+<b class="nc">&nbsp;      subarray[0] = lowercaseReadings;</b>
+&nbsp;    }
+&nbsp;    // capitalization after &quot;:&quot; requires an independent clause to follow
+&nbsp;    // if there is not a single verb, the tokens cannot be part of an independent clause
+<b class="nc">&nbsp;    return getTokensWithPosTagStartingWithCount(subarray, &quot;VER:&quot;) != 0;</b>
+&nbsp;}
+&nbsp;
+&nbsp;  private void addRuleMatch(List&lt;RuleMatch&gt; ruleMatches, AnalyzedSentence sentence, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);</b>
+<b class="nc">&nbsp;    ruleMatch.setSuggestedReplacement(fixedWord);</b>
+<b class="nc">&nbsp;    ruleMatches.add(ruleMatch);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // e.g. &quot;a) bla bla&quot;
+&nbsp;  private boolean isNumbering(int i, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    return i &gt;= 2</b>
+<b class="nc">&nbsp;            &amp;&amp; StringUtils.equalsAny(tokens[i-1].getToken(), &quot;)&quot;, &quot;]&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; NUMERALS_EN.matcher(tokens[i-2].getToken()).matches()</b>
+<b class="nc">&nbsp;            &amp;&amp; !(i &gt; 3 &amp;&amp; tokens[i-3].getToken().equals(&quot;(&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; tokens[i-4].hasPosTagStartingWith(&quot;SUB:&quot;)); // no numbering &quot;Der Vater (51) fuhr nach Rom.&quot;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    return StringUtils.equalsAny(tokens[i-1].getToken(), &quot;]&quot;, &quot;)&quot;) &amp;&amp; // sentence starts with […]</b>
+<b class="nc">&nbsp;           ((i == 4 &amp;&amp; tokens[i-2].getToken().equals(&quot;…&quot;)) || (i == 6 &amp;&amp; tokens[i-2].getToken().equals(&quot;.&quot;)));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens, String token, AnalyzedTokenReadings lowercaseReadings) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings nextReadings = i &lt; tokens.length-1 ? tokens[i+1] : null;</b>
+&nbsp;    // TODO: &quot;vor Schlimmerem&quot;, &quot;Er hatte Schlimmes zu befürchten&quot;
+&nbsp;    // TODO: wir finden den Fehler in &quot;Die moderne Wissenschaftlich&quot; nicht, weil nicht alle
+&nbsp;    // Substantivierungen in den Morphy-Daten stehen (z.B. &quot;Größte&quot; fehlt) und wir deshalb nur
+&nbsp;    // eine Abfrage machen, ob der erste Buchstabe groß ist.
+<b class="nc">&nbsp;    if (StringTools.startsWithUppercase(token) &amp;&amp; !isNumber(token) &amp;&amp; !(hasNounReading(nextReadings) ||</b>
+<b class="nc">&nbsp;        (nextReadings != null &amp;&amp; StringUtils.isNumeric(nextReadings.getToken()))) &amp;&amp; !token.matches(&quot;Alle[nm]&quot;)) {</b>
+<b class="nc">&nbsp;      if (lowercaseReadings != null &amp;&amp; lowercaseReadings.hasPosTag(&quot;PRP:LOK+TMP+CAU:DAT+AKK&quot;)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;      // Ignore &quot;das Dümmste, was je...&quot; but not &quot;das Dümmste Kind&quot;
+<b class="nc">&nbsp;      AnalyzedTokenReadings prevToken = i &gt; 0 ? tokens[i-1] : null;</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings prevPrevToken = i &gt;= 2 ? tokens[i-2] : null;</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings prevPrevPrevToken = i &gt;= 3 ? tokens[i-3] : null;</b>
+<b class="nc">&nbsp;      String prevTokenStr = prevToken != null ? prevToken.getToken() : &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (StringUtils.equalsAny(prevTokenStr, &quot;und&quot;, &quot;oder&quot;, &quot;beziehungsweise&quot;) &amp;&amp; prevPrevToken != null &amp;&amp;</b>
+<b class="nc">&nbsp;          (tokens[i].hasPartialPosTag(&quot;SUB&quot;) &amp;&amp; tokens[i].hasPartialPosTag(&quot;:ADJ&quot;)) || //&quot;das dabei Erlernte und Erlebte ist ...&quot; -&gt; &#39;Erlebte&#39; is correct here</b>
+<b class="nc">&nbsp;          (prevPrevToken.hasPartialPosTag(&quot;SUB&quot;) &amp;&amp; !hasNounReading(nextReadings) &amp;&amp; // &quot;die Ausgaben für Umweltschutz und Soziales&quot;</b>
+<b class="nc">&nbsp;              lowercaseReadings != null &amp;&amp; lowercaseReadings.hasPartialPosTag(&quot;ADJ&quot;) &amp;&amp; !prevTokenStr.equals(&quot;,&quot;))) {</b>
+<b class="nc">&nbsp;       return true;</b>
+&nbsp;     }
+<b class="nc">&nbsp;      if (lowercaseReadings != null &amp;&amp; lowercaseReadings.hasPosTag(&quot;PA1:PRD:GRU:VER&quot;)) {</b>
+&nbsp;        // &quot;aus sechs Überwiegend muslimischen Ländern&quot;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return ((prevToken != null &amp;&amp; IRGEND_ETC.matcher(prevTokenStr).matches() &amp;&amp; tokens[i].hasPartialPosTag(&quot;SUB&quot;))</b>
+<b class="nc">&nbsp;              || isNumber(prevTokenStr)) ||</b>
+<b class="nc">&nbsp;         (hasPartialTag(prevToken, &quot;ART&quot;, &quot;PRO:&quot;) &amp;&amp; !(((i &lt; 4 &amp;&amp; tokens.length &gt; 4) || prevToken.getReadings().size() == 1 || prevPrevToken.hasLemma(&quot;sein&quot;)) &amp;&amp; prevToken.hasPosTagStartingWith(&quot;PRO:PER:NOM:&quot;))  &amp;&amp; !prevToken.hasPartialPosTag(&quot;:STD&quot;)) ||  // &quot;die Verurteilten&quot;, &quot;etwas Verrücktes&quot;, &quot;ihr Bestes&quot;</b>
+<b class="nc">&nbsp;         (hasPartialTag(prevPrevPrevToken, &quot;ART&quot;) &amp;&amp; hasPartialTag(prevPrevToken, &quot;PRP&quot;) &amp;&amp; hasPartialTag(prevToken, &quot;SUB&quot;)) || // &quot;die zum Tode Verurteilten&quot;</b>
+<b class="nc">&nbsp;         (hasPartialTag(prevPrevToken, &quot;PRO:&quot;, &quot;PRP&quot;) &amp;&amp; hasPartialTag(prevToken, &quot;ADJ&quot;, &quot;ADV&quot;, &quot;PA2&quot;, &quot;PA1&quot;)) ||  // &quot;etwas schön Verrücktes&quot;, &quot;mit aufgewühltem Innerem&quot;</b>
+<b class="nc">&nbsp;         (hasPartialTag(prevPrevPrevToken, &quot;PRO:&quot;, &quot;PRP&quot;) &amp;&amp; hasPartialTag(prevPrevToken, &quot;ADJ&quot;, &quot;ADV&quot;) &amp;&amp; hasPartialTag(prevToken, &quot;ADJ&quot;, &quot;ADV&quot;, &quot;PA2&quot;)) || // &quot;etwas ganz schön Verrücktes&quot;</b>
+<b class="nc">&nbsp;         (tokens[i].hasPosTagStartingWith(&quot;SUB:&quot;) &amp;&amp; hasPartialTag(prevToken, &quot;GEN&quot;) &amp;&amp; !hasPartialTag(nextReadings, &quot;PKT&quot;)); // &quot;Parks Vertraute Choi Soon Sil ist zu drei Jahren Haft verurteilt worden.&quot;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isNumber(String token) {
+<b class="nc">&nbsp;    if (StringUtils.isNumeric(token)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    AnalyzedTokenReadings lookup = lookup(StringTools.lowercaseFirstChar(token));</b>
+<b class="nc">&nbsp;    return lookup != null &amp;&amp; lookup.hasPosTag(&quot;ZAL&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    String prevPrevToken = i &gt; 1 ? tokens[i-2].getToken() : &quot;&quot;;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings prevToken = i &gt; 0 ? tokens[i-1] : null;</b>
+<b class="nc">&nbsp;    String token = tokens[i].getToken();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings nextReadings = i &lt; tokens.length-1 ? tokens[i+1] : null;</b>
+&nbsp;    // ignore &quot;das wirklich Wichtige&quot;:
+<b class="nc">&nbsp;    return &quot;das&quot;.equalsIgnoreCase(prevPrevToken) &amp;&amp; hasPartialTag(prevToken, &quot;ADV&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; StringTools.startsWithUppercase(token) &amp;&amp; !hasNounReading(nextReadings);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasPartialTag(AnalyzedTokenReadings token, String... posTags) {
+<b class="nc">&nbsp;    if (token != null) {</b>
+<b class="nc">&nbsp;      for (String posTag : posTags) {</b>
+<b class="nc">&nbsp;        if (token.hasPartialPosTag(posTag)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isSpecialCase(int i, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    String prevToken = i &gt; 1 ? tokens[i-1].getToken() : &quot;&quot;;</b>
+<b class="nc">&nbsp;    String token = tokens[i].getToken();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings nextReadings = i &lt; tokens.length-1 ? tokens[i+1] : null;</b>
+&nbsp;    // ignore &quot;im Allgemeinen gilt&quot; but not &quot;im Allgemeinen Fall&quot;:
+<b class="nc">&nbsp;    return &quot;im&quot;.equalsIgnoreCase(prevToken) &amp;&amp; &quot;Allgemeinen&quot;.equals(token) &amp;&amp; !hasNounReading(nextReadings);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings prevToken = i &gt; 0 ? tokens[i-1] : null;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings nextReadings = i &lt; tokens.length-1 ? tokens[i+1] : null;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings prevLowercaseReadings = null;</b>
+&nbsp;
+<b class="nc">&nbsp;    if (i &gt; 1 &amp;&amp; StringUtils.equalsAny(tokens[i-2].getToken(), SENTENCE_START_EXCEPTIONS)) {</b>
+<b class="nc">&nbsp;      prevLowercaseReadings = lookup(prevToken.getToken().toLowerCase());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // ignore &quot;Der Versuch, Neues zu lernen / Gutes zu tun / Spannendes auszuprobieren&quot;
+<b class="nc">&nbsp;    boolean isPossiblyFollowedByInfinitive = nextReadings != null &amp;&amp; nextReadings.getToken().equals(&quot;zu&quot;);</b>
+<b class="nc">&nbsp;    boolean isFollowedByInfinitive = nextReadings != null &amp;&amp; !isPossiblyFollowedByInfinitive &amp;&amp; nextReadings.hasPartialPosTag(&quot;EIZ&quot;);</b>
+<b class="nc">&nbsp;    boolean isFollowedByPossessiveIndicator = nextReadings != null &amp;&amp; StringUtils.equalsAny(nextReadings.getToken(),POSSESSIVE_INDICATORS);</b>
+&nbsp;
+<b class="nc">&nbsp;    boolean isUndefQuantifier = prevToken != null &amp;&amp; StringUtils.equalsAny(prevToken.getToken().toLowerCase(), UNDEFINED_QUANTIFIERS);</b>
+<b class="nc">&nbsp;    boolean isPrevDeterminer = prevToken != null</b>
+<b class="nc">&nbsp;                               &amp;&amp; (hasPartialTag(prevToken, &quot;ART&quot;, &quot;PRP&quot;, &quot;ZAL&quot;) || hasPartialTag(prevLowercaseReadings, &quot;ART&quot;, &quot;PRP&quot;, &quot;ZAL&quot;))</b>
+<b class="nc">&nbsp;                               &amp;&amp; !prevToken.hasPartialPosTag(&quot;:STD&quot;);</b>
+<b class="nc">&nbsp;    boolean isPrecededByVerb = prevToken != null &amp;&amp; prevToken.matchesPosTagRegex(&quot;VER:(MOD:|AUX:)?[1-3]:.*&quot;) &amp;&amp; !prevToken.hasLemma(&quot;sein&quot;);</b>
+<b class="nc">&nbsp;    if (!isPrevDeterminer &amp;&amp; !isUndefQuantifier &amp;&amp; !(isPossiblyFollowedByInfinitive || isFollowedByInfinitive)</b>
+<b class="nc">&nbsp;        &amp;&amp; !(isPrecededByVerb &amp;&amp; lowercaseReadings != null &amp;&amp; hasPartialTag(lowercaseReadings, &quot;ADJ:&quot;, &quot;PA&quot;) &amp;&amp; nextReadings != null &amp;&amp;</b>
+<b class="nc">&nbsp;             !StringUtils.equalsAny(nextReadings.getToken(), &quot;und&quot;, &quot;oder&quot;, &quot;,&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; !(isFollowedByPossessiveIndicator &amp;&amp; hasPartialTag(lowercaseReadings, &quot;ADJ&quot;, &quot;VER&quot;)) // &quot;Wacht auf, Verdammte dieser Welt!&quot;</b>
+<b class="nc">&nbsp;        &amp;&amp; !(prevToken != null &amp;&amp; prevToken.hasPosTag(&quot;KON:UNT&quot;) &amp;&amp; !hasNounReading(nextReadings) &amp;&amp; nextReadings != null &amp;&amp; !nextReadings.hasPosTag(&quot;KON:NEB&quot;))) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings prevPrevToken = i &gt; 1 &amp;&amp; prevToken != null &amp;&amp; prevToken.hasPartialPosTag(&quot;ADJ&quot;) ? tokens[i-2] : null;</b>
+&nbsp;      // Another check to avoid false alarms for &quot;eine Gruppe Aufständischer starb&quot;
+<b class="nc">&nbsp;      if (!isPrecededByVerb &amp;&amp; lowercaseReadings != null &amp;&amp; prevToken != null) {</b>
+<b class="nc">&nbsp;        if (prevToken.hasPartialPosTag(&quot;SUB:&quot;) &amp;&amp; lowercaseReadings.matchesPosTagRegex(&quot;(ADJ|PA2):GEN:PLU:MAS:GRU:SOL.*&quot;)) {</b>
+<b class="nc">&nbsp;          return nextReadings != null &amp;&amp; !nextReadings.hasPartialPosTag(&quot;SUB:&quot;);</b>
+<b class="nc">&nbsp;        } else if (nextReadings != null &amp;&amp; nextReadings.getReadingsLength() == 1 &amp;&amp; prevToken.hasPosTagStartingWith(&quot;PRO:PER:NOM:&quot;) &amp;&amp; nextReadings.hasPosTag(&quot;ADJ:PRD:GRU&quot;)) {</b>
+&nbsp;          // avoid false alarm &quot;Weil er Unmündige sexuell missbraucht haben soll,...&quot;
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      // Another check to avoid false alarms for &quot;ein politischer Revolutionär&quot;
+<b class="nc">&nbsp;      if (!hasPartialTag(prevPrevToken, &quot;ART&quot;, &quot;PRP&quot;, &quot;ZAL&quot;)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // ignore &quot;die Ausgewählten&quot; but not &quot;die Ausgewählten Leute&quot;:
+<b class="nc">&nbsp;    for (AnalyzedToken reading : tokens[i].getReadings()) {</b>
+<b class="nc">&nbsp;      String posTag = reading.getPOSTag();</b>
+<b class="nc">&nbsp;      if ((posTag == null || posTag.contains(&quot;ADJ&quot;)) &amp;&amp; !hasNounReading(nextReadings) &amp;&amp; !StringUtils.isNumeric(nextReadings != null ? nextReadings.getToken() : &quot;&quot;)) {</b>
+<b class="nc">&nbsp;        if(posTag == null &amp;&amp; hasPartialTag(lowercaseReadings, &quot;PRP:LOK&quot;, &quot;PA2:PRD:GRU:VER&quot;, &quot;PA1:PRD:GRU:VER&quot;, &quot;ADJ:PRD:KOM&quot;, &quot;ADV:TMP&quot;)) {</b>
+&nbsp;          // skip to avoid a false true for, e.g. &quot;Die Zahl ging auf Über 1.000 zurück.&quot;/ &quot;Dies gilt schon lange als Überholt.&quot; / &quot;Bis Bald!&quot;
+&nbsp;          // but not for &quot;Er versuchte, Neues zu wagen.&quot;
+&nbsp;        } else {
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isLanguage(int i, AnalyzedTokenReadings[] tokens, String token) {
+<b class="nc">&nbsp;    boolean maybeLanguage = (token.endsWith(&quot;sch&quot;) &amp;&amp; LanguageNames.get().contains(token)) ||</b>
+<b class="nc">&nbsp;                            LanguageNames.get().contains(StringUtils.removeEnd(StringUtils.removeEnd(token, &quot;n&quot;), &quot;e&quot;));   // z.B. &quot;im Japanischen&quot; / z.B. &quot;ins Japanische übersetzt&quot;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings prevToken = i &gt; 0 ? tokens[i-1] : null;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings nextReadings = i &lt; tokens.length-1 ? tokens[i+1] : null;</b>
+<b class="nc">&nbsp;    return maybeLanguage &amp;&amp; (!hasNounReading(nextReadings) || (prevToken != null &amp;&amp; prevToken.getToken().equals(&quot;auf&quot;)));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isProbablyCity(int i, AnalyzedTokenReadings[] tokens, String token) {
+<b class="nc">&nbsp;    boolean hasCityPrefix = StringUtils.equalsAny(token, &quot;Klein&quot;, &quot;Groß&quot;, &quot;Neu&quot;);</b>
+<b class="nc">&nbsp;    if (hasCityPrefix) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings nextReadings = i &lt; tokens.length-1 ? tokens[i+1] : null;</b>
+<b class="nc">&nbsp;      return nextReadings != null &amp;&amp; (!nextReadings.isTagged() || nextReadings.hasPosTagStartingWith(&quot;EIG&quot;));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isFollowedByRelativeOrSubordinateClause(int i, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    if (i &lt; tokens.length - 4) {</b>
+<b class="nc">&nbsp;      return &quot;,&quot;.equals(tokens[i+1].getToken())</b>
+<b class="nc">&nbsp;             &amp;&amp; (StringUtils.equalsAny(tokens[i+2].getToken(),INTERROGATIVE_PARTICLES) || tokens[i+2].hasPosTag(&quot;KON:UNT&quot;));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
+<b class="nc">&nbsp;    for (StringMatcher[] patterns : exceptionPatterns) {</b>
+<b class="nc">&nbsp;      for (int j = 0; j &lt; patterns.length; j++) {</b>
+<b class="nc">&nbsp;        if (patterns[j].matches(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;          int startIndex = i-j;</b>
+<b class="nc">&nbsp;          if (compareLists(tokens, startIndex, startIndex+patterns.length-1, patterns)) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @VisibleForTesting
+&nbsp;  static boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, StringMatcher... patterns) {
+<b class="nc">&nbsp;    if (startIndex &lt; 0) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (int j = startIndex; j &lt;= endIndex; j++) {</b>
+<b class="nc">&nbsp;      if (i &gt;= patterns.length || j &gt;= tokens.length || !patterns[i].matches(tokens[j].getToken())) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedTokenReadings lookup(String word) {
+&nbsp;    try {
+<b class="nc">&nbsp;      return ((GermanTagger) language.getTagger()).lookup(word);</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not lookup &#39;&quot; + word + &quot;&#39;.&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

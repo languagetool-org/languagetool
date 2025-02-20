@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ITSIssueType</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: ITSIssueType (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ITSIssueType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.3%
+  </span>
+  <span class="absValue">
+    (12/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;/**
+&nbsp; * Some constants for Localization Quality Issue Type from the
+&nbsp; * Internationalization Tag Set (ITS) Version 2.0. Note that this class is
+&nbsp; * internal to LanguageTool, it is public only for technical reasons.
+&nbsp; * 
+&nbsp; * @see &lt;a href=&quot;http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues&quot;&gt;ITS 2.0&lt;/a&gt;
+&nbsp; * @since 2.5
+&nbsp; */
+<b class="fc">&nbsp;public enum ITSIssueType {</b>
+&nbsp;
+<b class="fc">&nbsp;  Terminology, Mistranslation, Omission, Untranslated, Addition, Duplication, Inconsistency, Grammar,</b>
+<b class="fc">&nbsp;  Legal, Register, LocaleSpecificContent(&quot;locale-specific-content&quot;), LocaleViolation(&quot;locale-violation&quot;),</b>
+<b class="fc">&nbsp;  Style, Characters, Misspelling, Typographical, Formatting, InconsistentEntities(&quot;inconsistent-entities&quot;),</b>
+<b class="fc">&nbsp;  Numbers, Markup, PatternProblem(&quot;pattern-problem&quot;), Whitespace, Internationalization, Length, </b>
+<b class="fc">&nbsp;  NonConformance(&quot;non-conformance&quot;), Uncategorized, Other;</b>
+&nbsp;
+&nbsp;  public static ITSIssueType getIssueType(String name) {
+<b class="pc">&nbsp;    for (ITSIssueType issueType : values()) {</b>
+<b class="fc">&nbsp;      if (issueType.toString().equals(name)) {</b>
+<b class="fc">&nbsp;        return issueType;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    throw new IllegalArgumentException(&quot;No IssueType found for name &#39;&quot; + name + &quot;&#39;. Valid values: &quot; + Arrays.toString(values()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final String name;
+&nbsp;
+&nbsp;  ITSIssueType() {
+&nbsp;    this.name = name();
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  ITSIssueType(String name) {</b>
+<b class="fc">&nbsp;    this.name = name;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Use this to get the name as it is used in the ITS 2.0 standard
+&nbsp;   * (namely lowercase and with hyphens, not camel case)
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="fc">&nbsp;    return name.toLowerCase(Locale.ENGLISH);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

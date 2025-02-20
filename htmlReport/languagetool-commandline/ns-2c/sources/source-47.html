@@ -1,0 +1,843 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SubjectVerbAgreementRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: SubjectVerbAgreementRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SubjectVerbAgreementRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    31.8%
+  </span>
+  <span class="absValue">
+    (7/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.8%
+  </span>
+  <span class="absValue">
+    (9/116)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.4%
+  </span>
+  <span class="absValue">
+    (346/436)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SubjectVerbAgreementRule$SingularPluralPair</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    34.8%
+  </span>
+  <span class="absValue">
+    (8/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.8%
+  </span>
+  <span class="absValue">
+    (9/116)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.5%
+  </span>
+  <span class="absValue">
+    (349/439)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.language.German;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.tagging.de.GermanTagger;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Check subject verb agreement for verb forms &quot;ist&quot;, &quot;sind&quot;, &quot;war&quot; and &quot;waren&quot;.
+&nbsp; * For example, it detects the errors in:
+&nbsp; * &lt;ul&gt;
+&nbsp; *   &lt;li&gt;Das Auto sind schnell.&lt;/li&gt;
+&nbsp; *   &lt;li&gt;Das Auto waren schnell.&lt;/li&gt;
+&nbsp; *   &lt;li&gt;Die Autos ist schnell.&lt;/li&gt;
+&nbsp; *   &lt;li&gt;Die Katze und der Hund ist schön.&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; * See &lt;a href=&quot;http://wiki.languagetool.org/german-agreement-check&quot;&gt;our wiki&lt;/a&gt;
+&nbsp; * for documentation of the steps this rule relies on.
+&nbsp; * @since 2.9
+&nbsp; */
+&nbsp;public class SubjectVerbAgreementRule extends Rule {
+&nbsp;
+<b class="fc">&nbsp;  private static final ChunkTag NPS = new ChunkTag(&quot;NPS&quot;); // noun phrase singular</b>
+<b class="fc">&nbsp;  private static final ChunkTag NPP = new ChunkTag(&quot;NPP&quot;); // noun phrase plural</b>
+<b class="fc">&nbsp;  private static final ChunkTag PP = new ChunkTag(&quot;PP&quot;);   // prepositional phrase etc.</b>
+<b class="fc">&nbsp;  private static final List&lt;String&gt; QUESTION_PRONOUNS = Arrays.asList(&quot;wie&quot;);</b>
+<b class="fc">&nbsp;  private static final List&lt;String&gt; CURRENCIES = Arrays.asList(&quot;Dollar&quot;, &quot;Euro&quot;, &quot;Yen&quot;);</b>
+&nbsp;  
+<b class="fc">&nbsp;  private static final List&lt;SingularPluralPair&gt; PAIRS = Arrays.asList(</b>
+&nbsp;    new SingularPluralPair(&quot;ist&quot;, &quot;sind&quot;),
+&nbsp;    new SingularPluralPair(&quot;war&quot;, &quot;waren&quot;)
+&nbsp;    //new SingularPluralPair(&quot;geht&quot;, &quot;gehen&quot;)  // false alarm: &quot;Wohin möchtest du nächsten Sonntag gehen?&quot;
+&nbsp;    // add more pairs here to activate more cases step by step
+&nbsp;  );
+<b class="fc">&nbsp;  private final Set&lt;String&gt; singular = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;  private final Set&lt;String&gt; plural = new HashSet&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = Arrays.asList(</b>
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Zwei Schülern war aufgefallen, dass man im Fernsehen...&quot;
+<b class="fc">&nbsp;      pos(&quot;ZAL&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:DAT:PLU:.*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;war|ist&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;NEG|PA2:.+&quot;).build()</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(  // &quot;Wie viel Prozent der Menschen sind total bescheuert?&quot;</b>
+<b class="fc">&nbsp;      token(&quot;Prozent&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;der&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*:PLU:.*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(  // &quot;Die meisten der Spieler sind nicht vermögend&quot;</b>
+<b class="fc">&nbsp;      token(&quot;meisten&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;der&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*:PLU:.*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(  // &quot;er bemerkte, dass Experimente nicht gerade sein Ding sind&quot;</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*:PLU:.*&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;nicht&quot;).setSkip(1).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRO:.*&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Ding&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(  // &quot;Wenn Sie kein Teil der Lösung sind, ...&quot;</b>
+<b class="fc">&nbsp;      token(&quot;Teil&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;der&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Lösung&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Auch Studien zu Zink sind vielversprechend.&quot;
+<b class="fc">&nbsp;      posRegex(&quot;SUB:NOM:PLU:.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?&quot;
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*:PLU:.*&quot;),</b>
+<b class="fc">&nbsp;      regex(&quot;keine|wenig|kaum|viel&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*:SIN:.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;sind&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Auch die Zehn Gebote sind Ausdruck davon.&quot;
+<b class="fc">&nbsp;      token(&quot;Zehn&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Gebote&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;sind&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;All diesen Stadtteilen ist die Nähe zum Hamburger Hafen...&quot;
+<b class="fc">&nbsp;      token(&quot;all&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;d(ies)?en&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;ist&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ART:.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Personen ist der Zugriff auf diese Daten verboten.&quot;
+<b class="fc">&nbsp;      pos(JLanguageTool.SENTENCE_START_TAGNAME),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;Solchen&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;ist&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ART:.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien.&quot; - Chunker zu fixen wäre die bessere Lösung...
+<b class="fc">&nbsp;      tokenRegex(&quot;Reste|Überreste&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;eines|des&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADV:.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Die eiförmigen und oben abgerundeten Blätter sind grün.&quot; - Chunker zu fixen wäre die bessere Lösung...
+<b class="fc">&nbsp;      posRegex(&quot;ADJ:.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und|sowie&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADV:.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PA2:.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper.
+<b class="fc">&nbsp;      tokenRegex(&quot;Gründer(in)?|Gesellschafter(in)?|Leiter(in)?|Geschäftsführer(in)?|Chef(in)?&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und|sowie|&amp;&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;Gründer(in)?|Gesellschafter(in)?|Leiter(in)?|Geschäftsführer(in)?|Chef(in)?&quot;).setSkip(4).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;gemeinsam&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      pos(JLanguageTool.SENTENCE_START_TAGNAME),</b>
+<b class="fc">&nbsp;      pos(&quot;ZAL&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:3:SIN:.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      pos(JLanguageTool.SENTENCE_START_TAGNAME),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;einige|viele|wenige|mehrere&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:3:SIN:.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      pos(JLanguageTool.SENTENCE_START_TAGNAME),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADV:MOD|ADJ:PRD:GRU&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;ZAL&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER:3:SIN:.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      pos(JLanguageTool.SENTENCE_START_TAGNAME),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().pos(&quot;PRP:CAU:GEN&quot;).setSkip(4).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;und&quot;).setSkip(4).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(JLanguageTool.SENTENCE_START_TAGNAME+&quot;|KON:UNT&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(EIG|SUB):.*&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;und&quot;).setSkip(3).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      pos(&quot;KON:UNT&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;sie&quot;).setSkip(3).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( //Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.</b>
+<b class="fc">&nbsp;      pos(JLanguageTool.SENTENCE_START_TAGNAME),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;PRP:.+&quot;).setSkip(4).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;d(as|er)|eine?&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:NOM:PLU:.+&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;vor&quot;),</b>
+<b class="fc">&nbsp;      csToken(&quot;Ort&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;zu&quot;),</b>
+<b class="fc">&nbsp;      csRegex(&quot;Fuß|Hause|Bein|Besuch&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( //Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret</b>
+<b class="fc">&nbsp;      pos(JLanguageTool.SENTENCE_START_TAGNAME),</b>
+<b class="fc">&nbsp;      pos(&quot;SUB:DAT:PLU:NOG&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;.+:NOM:.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das Gestell, sowie der komplette Tisch sind leicht zu montieren.</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.+&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().pos(&quot;PKT&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      token(&quot;sowie&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ART.*&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.+&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]).*NEU.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*NEU.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*NEU.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;der&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]).*MAS.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*MAS.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*MAS.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;die&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]).*FEM.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*FEM.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:.*FEM.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;(irgend)?einer?|meisten|viele|einige|Betreiber|(Mit)?Gründer|Inhaber&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;der|dieser&quot;).setSkip(4).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Dank unserer Kunden, Freunde, Partner und unserer Mitarbeiter ist Alpenwahnsinn zur Heimatadresse für schöne Trachtenmode geworden.</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;dank&quot;).setSkip(-1).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;EIG.*|SUB.*SIN.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Start und Ziel ist Innsbruck</b>
+<b class="fc">&nbsp;      token(&quot;Start&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Ziel&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Abschluss und Höhepunkt ist der Festumzug</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit.</b>
+<b class="fc">&nbsp;      token(&quot;Obst&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Gemüse&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;Sport&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;Spiel&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Das bedeutendste Bauwerk und Wahrzeichen der Stadt ist die …</b>
+<b class="fc">&nbsp;      token(&quot;das&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]).*NEU.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NEU.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NEU.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;der|dieser&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Die bedeutendsten Bauwerke und Wahrzeichen der Stadt ist die …</b>
+<b class="fc">&nbsp;      token(&quot;die&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]).*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;und&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;der|dieser&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Die neueste Auflage von Toms Kindheitserinnerungen ist schon wieder vergriffen.</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]|ART).*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRP.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;EIG.*GEN.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Die Aussichten für Japans Zukunft sind düster.</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]|ART).*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRP.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;EIG.*GEN.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Anfänger wie auch Fortgeschrittene sind herzlich willkommen!</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;wie&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;auch&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;.+&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|waren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Heute ist sie lieb.&quot;
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war|wäre?&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;EIG:NOM:SIN.*|PRO:PER:NOM:SIN.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADJ:PRD:GRU&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Heute bist du lieb.&quot;
+<b class="fc">&nbsp;      tokenRegex(&quot;bist|w[äa]rst&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;du&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADJ:PRD:GRU&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // &quot;Heute waren sie lieb.&quot;
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren|seid&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRO:PER:NOM:PLU.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ADJ:PRD:GRU&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Der Eifer der Männer und Frauen ist enorm.</b>
+<b class="fc">&nbsp;      pos(&quot;SUB:NOM:SIN:MAS&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ART:...:GEN:PLU:MAS&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:GEN:PLU:.+&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;KON:NEB&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:GEN:PLU:.+&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|w[äa]r&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;Laut&quot;).setSkip(4).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;und&quot;).setSkip(5).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;d(er|ie|as)&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:NOM:SIN:.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Für Tunesiens Tourismusindustrie mit seinen Stränden, Oasen und antiken Kulturschätzen ist das Attentat ein verheerender Rückschlag.</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ist|war&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;d(er|ie|as)&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:NOM:SIN:.+&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ART|PRO:POS).*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB:NOM:SIN:.+&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Die gute Nachricht vorweg: Die Mehrheit der Ehen sind tatsächlich ein Bund fürs Leben.</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;die&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;Mehrheit&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;der|dieser|aller|unse?rer|[dsm]einer|euer|eurer|ihrer&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NOM.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Man darf jedoch auch nicht glauben, weil die Brustvergrößerungscremes ein Allheilmittel sind, jedoch sind Sie optimal um Ihr Selbstvertrauen zu erhöhen</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;weil|da|denn|dass&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;die|diese|solche|alle|viele|beide|einige|[mkds]eine|eure|unse?re|ihre&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NOM.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;ein&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NOM.*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList( // Die Rechte der Kinder sind universell.</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;alle|die(se)?|einige|keine|viele|solche&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*NOM.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;der|unse?rer|euer|eurer|[dsm]einer|dieser|solcher|aller|einiger|vieler|ihrer|beider&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*GEN.*PLU.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Ich verspreche dir, dass wir ein tolles Team sind.
+<b class="fc">&nbsp;      tokenRegex(&quot;wir|sie|die|alle|diese|einige|manche|viele|sonstige&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ART.*|PRO:(POS|DEM|IND).*&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;(ADJ|PA[12]).*&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Ich verspreche dir, dass wir ein wirklich tolles Team sind.
+<b class="fc">&nbsp;      tokenRegex(&quot;wir|sie|die|alle|diese|einige|manche|viele|sonstige&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;ART.*|PRO:(POS|DEM|IND).*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]).*|ADV.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;(ADJ|PA[12]).*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;SUB.*SIN.*&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;VER.*PLU.*&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;sie&quot;).setSkip(-1).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;weder&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;er|es|sie&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;noch&quot;).setSkip(-1).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*PLU.*&quot;).setSkip(5).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+&nbsp;      // Halte ich für unwahrscheinlich, dass es Spannungsspitzen sind.
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*INF|SUB.*PLU.*&quot;).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;Teile&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;de[rs]|diese[sr]|[msd]?eine[rs]&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*|EIG.*|UNKNOWN&quot;).setSkip(-1).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren&quot;)</b>
+&nbsp;    ),
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;viele|alle&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().posRegex(&quot;SUB.*ADJ&quot;).tokenRegex(&quot;.+e&quot;).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;sind|w[äa]ren&quot;)</b>
+&nbsp;    )
+&nbsp;  );
+&nbsp;
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;  private final German language;
+&nbsp;
+<b class="fc">&nbsp;  public SubjectVerbAgreementRule(ResourceBundle messages, German language) {</b>
+<b class="fc">&nbsp;    this.language = language;</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.GRAMMAR.getCategory(messages));</b>
+<b class="fc">&nbsp;    for (SingularPluralPair pair : PAIRS) {</b>
+<b class="fc">&nbsp;      singular.add(pair.singular);</b>
+<b class="fc">&nbsp;      plural.add(pair.plural);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;Die Autos &lt;marker&gt;ist&lt;/marker&gt; schnell.&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;Die Autos &lt;marker&gt;sind&lt;/marker&gt; schnell.&quot;));</b>
+<b class="fc">&nbsp;    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return &quot;DE_SUBJECT_VERB_AGREEMENT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Kongruenz von Subjekt und Prädikat (unvollständig)&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="fc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public URL getUrl() {
+<b class="nc">&nbsp;    return Tools.getUrl(&quot;https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {   // start at 1 to skip SENT_START</b>
+<b class="pc">&nbsp;      if (tokens[i].isImmunized()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      String tokenStr = tokens[i].getToken();</b>
+&nbsp;      // Detect e.g. &quot;Der Hund und die Katze ist&quot;:
+<b class="fc">&nbsp;      RuleMatch singularMatch = getSingularMatchOrNull(tokens, i, tokens[i], tokenStr, sentence);</b>
+<b class="pc">&nbsp;      if (singularMatch != null) {</b>
+<b class="nc">&nbsp;        ruleMatches.add(singularMatch);</b>
+&nbsp;      }
+&nbsp;      // Detect e.g. &quot;Der Hund sind&quot;:
+<b class="fc">&nbsp;      RuleMatch pluralMatch = getPluralMatchOrNull(tokens, i, tokens[i], tokenStr, sentence);</b>
+<b class="pc">&nbsp;      if (pluralMatch != null) {</b>
+<b class="nc">&nbsp;        ruleMatches.add(pluralMatch);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private RuleMatch getSingularMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr, AnalyzedSentence sentence) throws IOException {
+<b class="pc">&nbsp;    if (singular.contains(tokenStr)) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings prevToken = tokens[i - 1];</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings nextToken = i + 1 &lt; tokens.length ? tokens[i + 1] : null;</b>
+<b class="nc">&nbsp;      List&lt;ChunkTag&gt; prevChunkTags = prevToken.getChunkTags();</b>
+<b class="nc">&nbsp;      boolean match = prevChunkTags.contains(NPP)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !prevChunkTags.contains(PP)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !prevToken.getToken().equals(&quot;Uhr&quot;)   // &#39;um 18 Uhr ist Feierabend&#39;</b>
+<b class="nc">&nbsp;                      &amp;&amp; !isCurrency(prevToken)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !(nextToken != null &amp;&amp; nextToken.getToken().equals(&quot;es&quot;))   // &#39;zehn Jahre ist es her&#39;</b>
+<b class="nc">&nbsp;                      &amp;&amp; prevChunkIsNominative(tokens, i-1)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !hasUnknownTokenToTheLeft(tokens, i)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !hasQuestionPronounToTheLeft(tokens, i-1)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !hasVerbToTheLeft(tokens, i-1)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !containsRegexToTheLeft(&quot;wer|(?i)alle[nr]?|(?i)jede[rs]?|(?i)manche[nrs]?&quot;, tokens, i-1)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !containsOnlyInfinitivesToTheLeft(tokens, i-1);</b>
+<b class="nc">&nbsp;      if (match) {</b>
+<b class="nc">&nbsp;        String message = &quot;Bitte prüfen, ob hier &lt;suggestion&gt;&quot; + getPluralFor(tokenStr) + &quot;&lt;/suggestion&gt; stehen sollte.&quot;;</b>
+<b class="nc">&nbsp;        return new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), message);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private RuleMatch getPluralMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr, AnalyzedSentence sentence) {
+<b class="pc">&nbsp;    if (plural.contains(tokenStr)) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings prevToken = tokens[i - 1];</b>
+<b class="nc">&nbsp;      List&lt;ChunkTag&gt; prevChunkTags = prevToken.getChunkTags();</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings nextToken = i + 1 &lt; tokens.length ? tokens[i + 1] : null;</b>
+<b class="nc">&nbsp;      boolean match = prevChunkTags.contains(NPS)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !(nextToken != null &amp;&amp; nextToken.getToken().equals(&quot;Sie&quot;))   // &#39;Eine Persönlichkeit sind Sie selbst.&#39;</b>
+<b class="nc">&nbsp;                      &amp;&amp; !prevChunkTags.contains(NPP)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !prevChunkTags.contains(PP)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !isCurrency(prevToken)</b>
+<b class="nc">&nbsp;                      &amp;&amp; prevChunkIsNominative(tokens, i-1)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !hasUnknownTokenToTheLeft(tokens, i)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !hasUnknownTokenToTheRight(tokens, i+1)</b>
+<b class="nc">&nbsp;                      &amp;&amp; !StringUtils.equalsAny(tokens[1].getToken(), &quot;Alle&quot;, &quot;Viele&quot;) // &quot;Viele Brunnen in Italiens Hauptstadt sind bereits abgeschaltet.&quot;</b>
+<b class="nc">&nbsp;                      &amp;&amp; !isFollowedByNominativePlural(tokens, i+1);  // z.B. &quot;Die Zielgruppe sind Männer.&quot; - beides Nominativ, aber &#39;Männer&#39; ist das Subjekt</b>
+<b class="nc">&nbsp;      if (match) {</b>
+<b class="nc">&nbsp;        String message = &quot;Bitte prüfen, ob hier &lt;suggestion&gt;&quot; + getSingularFor(tokenStr) + &quot;&lt;/suggestion&gt; stehen sollte.&quot;;</b>
+<b class="nc">&nbsp;        return new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), message);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isCurrency(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return CURRENCIES.contains(token.getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean prevChunkIsNominative(AnalyzedTokenReadings[] tokens, int startPos) {
+<b class="nc">&nbsp;    for (int i = startPos; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;      List&lt;ChunkTag&gt; chunkTags = tokens[i].getChunkTags();</b>
+<b class="nc">&nbsp;      if (chunkTags.contains(NPS) || chunkTags.contains(NPP)) {</b>
+<b class="nc">&nbsp;        if (tokens[i].hasPartialPosTag(&quot;NOM&quot;)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // needed to avoid false alarms, because we cannot unify noun phrases if we cannot analyse a noun
+&nbsp;  private boolean hasUnknownTokenToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) {
+<b class="nc">&nbsp;    return hasUnknownTokenAt(tokens, 0, startPos);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasUnknownTokenToTheRight(AnalyzedTokenReadings[] tokens, int startPos) {
+<b class="nc">&nbsp;    return hasUnknownTokenAt(tokens, startPos, tokens.length-1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasUnknownTokenAt(AnalyzedTokenReadings[] tokens, int startPos, int endPos) {
+<b class="nc">&nbsp;    for (int i = startPos; i &lt; endPos; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings token = tokens[i];</b>
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : token.getReadings()) {</b>
+<b class="nc">&nbsp;        if (analyzedToken.hasNoTag()) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasQuestionPronounToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) {
+<b class="nc">&nbsp;    for (int i = startPos; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;      if (QUESTION_PRONOUNS.contains(tokens[i].getToken().toLowerCase())) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasVerbToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) {
+<b class="nc">&nbsp;    for (int i = startPos; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;      if (tokens[i].matchesPosTagRegex(&quot;VER:[1-3]:.+&quot;)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean containsRegexToTheLeft(String regex, AnalyzedTokenReadings[] tokens, int startPos) {
+<b class="nc">&nbsp;    Pattern p = Pattern.compile(regex);</b>
+<b class="nc">&nbsp;    for (int i = startPos; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;      if (p.matcher(tokens[i].getToken()).matches()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // No false alarm on &quot;&quot;Das Kopieren und Einfügen ist sehr nützlich.&quot; etc.
+&nbsp;  private boolean containsOnlyInfinitivesToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) throws IOException {
+<b class="nc">&nbsp;    int infinitives = 0;</b>
+<b class="nc">&nbsp;    for (int i = startPos; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;      String token = tokens[i].getToken();</b>
+<b class="nc">&nbsp;      if (tokens[i].hasPartialPosTag(&quot;SUB:&quot;)) {</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings lookup = ((GermanTagger) language.getTagger()).lookup(token.toLowerCase());</b>
+<b class="nc">&nbsp;        if (lookup != null &amp;&amp; lookup.hasPosTagStartingWith(&quot;VER:INF&quot;)) {</b>
+<b class="nc">&nbsp;          infinitives++;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return infinitives &gt;= 2;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean isFollowedByNominativePlural(AnalyzedTokenReadings[] tokens, int startPos) {
+<b class="nc">&nbsp;    for (int i = startPos; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings token = tokens[i];</b>
+<b class="nc">&nbsp;      if (token.hasAnyPartialPosTag(&quot;SUB&quot;, &quot;PRO&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; (token.hasPartialPosTag(&quot;NOM:PLU&quot;) || token.getChunkTags().contains(NPP))) {  // NPP catches &#39;und&#39; phrases</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getSingularFor(String token) {
+<b class="nc">&nbsp;    for (SingularPluralPair pair : PAIRS) {</b>
+<b class="nc">&nbsp;      if (pair.plural.equals(token)) {</b>
+<b class="nc">&nbsp;        return pair.singular;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;No singular found for &#39;&quot; + token + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getPluralFor(String token) {
+<b class="nc">&nbsp;    for (SingularPluralPair pair : PAIRS) {</b>
+<b class="nc">&nbsp;      if (pair.singular.equals(token)) {</b>
+<b class="nc">&nbsp;        return pair.plural;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;No plural found for &#39;&quot; + token + &quot;&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class SingularPluralPair {
+&nbsp;    String singular;
+&nbsp;    String plural;
+<b class="fc">&nbsp;    SingularPluralPair(String singular, String plural) {</b>
+<b class="fc">&nbsp;      this.singular = singular;</b>
+<b class="fc">&nbsp;      this.plural = plural;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

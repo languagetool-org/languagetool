@@ -1,0 +1,388 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LightRuleMatchParser</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.diff</a>
+</div>
+
+<h1>Coverage Summary for Class: LightRuleMatchParser (org.languagetool.dev.diff)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LightRuleMatchParser</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/131)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LightRuleMatchParser$JsonParseResult</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/134)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.diff;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.JsonNode;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Parses the output of org.languagetool.commandline.Main. Parsing JSON would
+&nbsp; * be more robust, but this way we can use the same output both here and for humans to read.
+&nbsp; */
+<b class="nc">&nbsp;class LightRuleMatchParser {</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Pattern startPattern = Pattern.compile(&quot;^(?:\\d+\\.\\) )?Line (\\d+), column (\\d+), Rule ID: (.*) premium: (false|true)&quot;);</b>
+<b class="nc">&nbsp;  private final Pattern coverPattern = Pattern.compile(&quot;^([ ^]+)$&quot;);</b>
+&nbsp;
+&nbsp;  JsonParseResult parseOutput(File inputFile) throws IOException {
+<b class="nc">&nbsp;    if (inputFile.getName().endsWith(&quot;.json&quot;)) {</b>
+<b class="nc">&nbsp;      return parseAggregatedJson(inputFile);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return parseOutput(new FileReader(inputFile));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Parses LT JSON that has been appended into a large file (one JSON result per line).
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  private JsonParseResult parseAggregatedJson(File inputFile) {
+<b class="nc">&nbsp;    System.out.println(&quot;Parsing &quot; + inputFile + &quot;...&quot;);</b>
+<b class="nc">&nbsp;    ObjectMapper mapper = new ObjectMapper();</b>
+<b class="nc">&nbsp;    List&lt;LightRuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; buildDates = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    int lineCount = 1;</b>
+<b class="nc">&nbsp;    try (Scanner scanner = new Scanner(inputFile)) {</b>
+<b class="nc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="nc">&nbsp;        String line = scanner.nextLine();</b>
+<b class="nc">&nbsp;        JsonNode node = mapper.readTree(line);</b>
+<b class="nc">&nbsp;        JsonNode matches = node.get(&quot;matches&quot;);</b>
+<b class="nc">&nbsp;        JsonNode software = node.get(&quot;software&quot;);</b>
+<b class="nc">&nbsp;        String buildDate = software != null ? software.get(&quot;buildDate&quot;).asText() : &quot;unknown&quot;;</b>
+<b class="nc">&nbsp;        buildDates.add(buildDate);</b>
+<b class="nc">&nbsp;        for (JsonNode match : matches) {</b>
+<b class="nc">&nbsp;          ruleMatches.add(nodeToLightMatch(node.get(&quot;title&quot;).asText(), match));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        lineCount++;</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Failed to parse line &quot; + lineCount + &quot; of &quot; + inputFile, e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new JsonParseResult(ruleMatches, buildDates);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private LightRuleMatch nodeToLightMatch(String title, JsonNode match) {
+<b class="nc">&nbsp;    int offset = match.get(&quot;offset&quot;).asInt();</b>
+<b class="nc">&nbsp;    JsonNode rule = match.get(&quot;rule&quot;);</b>
+<b class="nc">&nbsp;    String ruleId = rule.get(&quot;id&quot;).asText();</b>
+<b class="nc">&nbsp;    String fullRuleId = rule.get(&quot;subId&quot;) != null ? ruleId + &quot;[&quot; + rule.get(&quot;subId&quot;).asText() + &quot;]&quot; : ruleId;</b>
+<b class="nc">&nbsp;    String message = match.get(&quot;message&quot;).asText();</b>
+<b class="nc">&nbsp;    String category = rule.get(&quot;category&quot;) != null ? rule.get(&quot;category&quot;).get(&quot;name&quot;).asText() : &quot;(unknown)&quot;;</b>
+&nbsp;    //TODO: Maybe just works for xml rules
+<b class="nc">&nbsp;    boolean isPremium = rule.get(&quot;isPremium&quot;) != null &amp;&amp; rule.get(&quot;isPremium&quot;).asBoolean(false);</b>
+<b class="nc">&nbsp;    int contextOffset = match.get(&quot;context&quot;).get(&quot;offset&quot;).asInt();</b>
+<b class="nc">&nbsp;    int contextLength = match.get(&quot;context&quot;).get(&quot;length&quot;).asInt();</b>
+<b class="nc">&nbsp;    String context = match.get(&quot;context&quot;).get(&quot;text&quot;).asText();</b>
+<b class="nc">&nbsp;    int maxEnd = Math.min(contextOffset + contextLength, context.length());</b>
+<b class="nc">&nbsp;    String coveredText = context.substring(contextOffset, contextOffset + contextLength);</b>
+<b class="nc">&nbsp;    context = getContextWithSpan(match.get(&quot;context&quot;).get(&quot;text&quot;).asText(), contextOffset, maxEnd);</b>
+<b class="nc">&nbsp;    if (match.get(&quot;sentence&quot;) != null) {</b>
+<b class="nc">&nbsp;      String sentence = match.get(&quot;sentence&quot;).asText();</b>
+<b class="nc">&nbsp;      if (StringUtils.countMatches(sentence, coveredText) == 1) {</b>
+<b class="nc">&nbsp;        int idx = sentence.indexOf(coveredText);</b>
+<b class="nc">&nbsp;        context = getContextWithSpan(sentence, idx, idx + coveredText.length());</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        String shortContext = match.get(&quot;context&quot;).get(&quot;text&quot;).asText();</b>
+<b class="nc">&nbsp;        int idxFix = 0;</b>
+<b class="nc">&nbsp;        if (shortContext.startsWith(&quot;...&quot;)) {</b>
+<b class="nc">&nbsp;          shortContext = shortContext.substring(3);</b>
+<b class="nc">&nbsp;          idxFix = 3;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (shortContext.endsWith(&quot;...&quot;)) {</b>
+<b class="nc">&nbsp;          shortContext = shortContext.substring(0, shortContext.length()-3);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String noLinebreakSentence = sentence.replace(&#39;\n&#39;, &#39; &#39;);</b>
+&nbsp;        // NOTE: this won&#39;t always work (i.e. find the shortContext), as shortContext
+&nbsp;        // might contain the start of the next sentence... the reason we want a sentence-based
+&nbsp;        // context at all is that the &quot;Maybe replaces&quot; and &quot;Maybe replaced by&quot; information will
+&nbsp;        // be incomplete for matches if some contexts are based on the full sentence
+&nbsp;        // and others are not.
+<b class="nc">&nbsp;        if (StringUtils.countMatches(noLinebreakSentence, shortContext) == 1) {</b>
+<b class="nc">&nbsp;          int idx = noLinebreakSentence.indexOf(shortContext);</b>
+<b class="nc">&nbsp;          idx = idx + contextOffset - idxFix;</b>
+<b class="nc">&nbsp;          context = getContextWithSpan(sentence, idx, idx + coveredText.length());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    JsonNode replacements = match.get(&quot;replacements&quot;);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; replacementList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (replacements != null) {</b>
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      for (JsonNode replacement : replacements) {</b>
+<b class="nc">&nbsp;        replacementList.add(replacement.get(&quot;value&quot;).asText());</b>
+<b class="nc">&nbsp;        i++;</b>
+<b class="nc">&nbsp;        if (i &gt;= 5) {</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    String ruleSource = rule.get(&quot;sourceFile&quot;) != null ? rule.get(&quot;sourceFile&quot;).asText() : null;</b>
+<b class="nc">&nbsp;    LightRuleMatch.Status status = LightRuleMatch.Status.on;</b>
+<b class="nc">&nbsp;    if (rule.get(&quot;tempOff&quot;) != null &amp;&amp; rule.get(&quot;tempOff&quot;).asBoolean()) {</b>
+<b class="nc">&nbsp;      status = LightRuleMatch.Status.temp_off;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    JsonNode jsonTags = rule.get(&quot;tags&quot;);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; tags = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (jsonTags != null) {</b>
+<b class="nc">&nbsp;      for (JsonNode tag : jsonTags) {</b>
+<b class="nc">&nbsp;        tags.add(tag.asText());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new LightRuleMatch(0, offset, fullRuleId, message, category, context, coveredText, replacementList, ruleSource, title, status, tags, isPremium);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  JsonParseResult parseOutput(Reader reader) {
+<b class="nc">&nbsp;    List&lt;LightRuleMatch&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int lineNum = -1;</b>
+<b class="nc">&nbsp;    int columnNum = -1;</b>
+<b class="nc">&nbsp;    String ruleId = null;</b>
+<b class="nc">&nbsp;    String message = null;</b>
+<b class="nc">&nbsp;    String context = null;</b>
+<b class="nc">&nbsp;    String suggestion = null;</b>
+<b class="nc">&nbsp;    String source = null;</b>
+<b class="nc">&nbsp;    String title = null;</b>
+<b class="nc">&nbsp;    boolean isPremium = false;</b>
+<b class="nc">&nbsp;    Scanner sc = new Scanner(reader);</b>
+<b class="nc">&nbsp;    while (sc.hasNextLine()) {</b>
+<b class="nc">&nbsp;      String line = sc.nextLine();</b>
+&nbsp;      //System.out.println(&quot;L:&quot; + line + &quot; [ctx=&quot; + context + &quot;]&quot;);
+<b class="nc">&nbsp;      Matcher startMatcher = startPattern.matcher(line);</b>
+<b class="nc">&nbsp;      Matcher coverMatcher = coverPattern.matcher(line);</b>
+<b class="nc">&nbsp;      if (line.startsWith(&quot;Message: &quot;)) {</b>
+<b class="nc">&nbsp;        message = line.substring(&quot;Message: &quot;.length());</b>
+<b class="nc">&nbsp;      } else if (line.startsWith(&quot;Suggestion: &quot;)) {</b>
+<b class="nc">&nbsp;        suggestion = line.substring(&quot;Suggestion: &quot;.length());</b>
+<b class="nc">&nbsp;      } else if (line.startsWith(&quot;Rule source: &quot;)) {</b>
+<b class="nc">&nbsp;        source = line.substring(&quot;Rule source: &quot;.length());</b>
+<b class="nc">&nbsp;      } else if (line.startsWith(&quot;Title: &quot;)) {</b>
+<b class="nc">&nbsp;        title = line.substring(&quot;Title: &quot;.length());</b>
+<b class="nc">&nbsp;      } else if (startMatcher.matches()) {</b>
+<b class="nc">&nbsp;        lineNum = Integer.parseInt(startMatcher.group(1));</b>
+<b class="nc">&nbsp;        columnNum = Integer.parseInt(startMatcher.group(2));</b>
+<b class="nc">&nbsp;        ruleId = startMatcher.group(3);</b>
+<b class="nc">&nbsp;        isPremium = Boolean.parseBoolean(startMatcher.group(4));</b>
+<b class="nc">&nbsp;      } else if ((suggestion != null || message != null) &amp;&amp; context == null) {</b>
+&nbsp;        // context comes directly after suggestion (if any)
+<b class="nc">&nbsp;        context = line;</b>
+<b class="nc">&nbsp;      } else if (coverMatcher.matches() &amp;&amp; line.contains(&quot;^&quot;)) {</b>
+<b class="nc">&nbsp;        String cover = coverMatcher.group(1);</b>
+<b class="nc">&nbsp;        int startMarkerPos = cover.indexOf(&#39;^&#39;);</b>
+<b class="nc">&nbsp;        int endMarkerPos = cover.lastIndexOf(&#39;^&#39;) + 1;</b>
+&nbsp;        String coveredText;
+<b class="nc">&nbsp;        String origContext = context;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          int maxEnd = Math.min(endMarkerPos, context.length());</b>
+<b class="nc">&nbsp;          coveredText = context.substring(startMarkerPos, maxEnd);</b>
+<b class="nc">&nbsp;          context = getContextWithSpan(context, startMarkerPos, maxEnd);</b>
+&nbsp;        } catch (StringIndexOutOfBoundsException e) {
+<b class="nc">&nbsp;          System.err.println(&quot;Cannot get context, setting to &#39;???&#39;:&quot;);</b>
+<b class="nc">&nbsp;          System.err.println(origContext);</b>
+<b class="nc">&nbsp;          System.err.println(cover);</b>
+&nbsp;          //e.printStackTrace();
+<b class="nc">&nbsp;          coveredText = &quot;???&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String cleanId = ruleId.replace(&quot;[off]&quot;, &quot;&quot;).replace(&quot;[temp_off]&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; tags = new ArrayList&lt;&gt;();  // not supported yet...</b>
+<b class="nc">&nbsp;        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, Arrays.asList(suggestion), context, coveredText, title, source, tags, isPremium));</b>
+<b class="nc">&nbsp;        lineNum = -1;</b>
+<b class="nc">&nbsp;        columnNum = -1;</b>
+<b class="nc">&nbsp;        ruleId = null;</b>
+<b class="nc">&nbsp;        message = null;</b>
+<b class="nc">&nbsp;        context = null;</b>
+<b class="nc">&nbsp;        suggestion = null;</b>
+<b class="nc">&nbsp;        source = null;</b>
+&nbsp;        // don&#39;t reset title, can appear more than once per sentence
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new JsonParseResult(result, Collections.singleton(&quot;unknown&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private String getContextWithSpan(String context, int startMarkerPos, int maxEnd) {
+<b class="nc">&nbsp;    context = context.substring(0, startMarkerPos) +</b>
+&nbsp;      &quot;&lt;span class=&#39;marker&#39;&gt;&quot; +
+<b class="nc">&nbsp;      context.substring(startMarkerPos, maxEnd) +</b>
+&nbsp;      &quot;&lt;/span&gt;&quot; +
+<b class="nc">&nbsp;      context.substring(maxEnd);</b>
+<b class="nc">&nbsp;    return context;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private LightRuleMatch makeMatch(int line, int column, String ruleId, String cleanId, String message, List&lt;String&gt; suggestions,
+&nbsp;                                   String context, String coveredText, String title, String source, List&lt;String&gt; tags , boolean isPremium) {
+<b class="nc">&nbsp;    LightRuleMatch.Status s = ruleId.contains(&quot;[temp_off]&quot;) ? LightRuleMatch.Status.temp_off : LightRuleMatch.Status.on;</b>
+<b class="nc">&nbsp;    return new LightRuleMatch(line, column, cleanId, message, &quot;&quot;, context, coveredText, suggestions, source, title, s, tags, isPremium);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class JsonParseResult {
+&nbsp;    List&lt;LightRuleMatch&gt; result;
+&nbsp;    Set&lt;String&gt; buildDates;
+<b class="nc">&nbsp;    JsonParseResult(List&lt;LightRuleMatch&gt; result, Set&lt;String&gt; buildDates) {</b>
+<b class="nc">&nbsp;      this.result = result;</b>
+<b class="nc">&nbsp;      this.buildDates = buildDates;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

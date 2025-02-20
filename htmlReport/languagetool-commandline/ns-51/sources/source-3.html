@@ -1,0 +1,250 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanSynthesizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.synthesis</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanSynthesizer (org.languagetool.synthesis)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanSynthesizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (4/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (6/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    28.6%
+  </span>
+  <span class="absValue">
+    (12/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.synthesis;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * German word form synthesizer. Also supports compounds.
+&nbsp; *
+&nbsp; * @since 2.4
+&nbsp; */
+&nbsp;public class GermanSynthesizer extends BaseSynthesizer {
+&nbsp;
+<b class="fc">&nbsp;  public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode(&quot;de-DE&quot;));</b>
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; REMOVE = new HashSet&lt;&gt;(Arrays.asList(&quot;unsren&quot;, &quot;unsrem&quot;, &quot;unsres&quot;, &quot;unsre&quot;, &quot;unsern&quot;, &quot;unserm&quot;, &quot;unsrer&quot;,</b>
+&nbsp;      // old spellings still in the synthesizer dict:
+&nbsp;      &quot;angepaßt&quot;, &quot;beschloß&quot;, &quot;biß&quot;, &quot;entschloß&quot;, &quot;ergoß&quot;, &quot;faßt&quot;, &quot;genoß&quot;, &quot;paßt&quot;, &quot;paßte&quot;, &quot;preßt&quot;, &quot;preßte&quot;, &quot;riß&quot;,
+&nbsp;      &quot;schloß&quot;, &quot;streßtest&quot;, &quot;vergißt&quot;, &quot;verlaß&quot;, &quot;verläßt&quot;, &quot;vermiß&quot;, &quot;vermißt&quot;,
+&nbsp;      &quot;wißt&quot;, &quot;wußtest&quot;, &quot;wüßtest&quot;));
+&nbsp;
+&nbsp;  /** @deprecated use {@link #INSTANCE} */
+&nbsp;  public GermanSynthesizer(Language lang) {
+<b class="fc">&nbsp;    this();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private GermanSynthesizer() {
+<b class="fc">&nbsp;    super(&quot;de/de.sor&quot;, &quot;/de/german_synth.dict&quot;, &quot;/de/german_tags.txt&quot;, &quot;de&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;String&gt; lookup(String lemma, String posTag) {
+<b class="fc">&nbsp;    List&lt;String&gt; lookup = super.lookup(lemma, posTag);</b>
+<b class="fc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (String s : lookup) {</b>
+&nbsp;      // don&#39;t inflect a lowercase lemma to an uppercase word and vice versa
+&nbsp;      // https://github.com/languagetool-org/languagetool/issues/4712
+<b class="fc">&nbsp;      boolean lcLemma = StringTools.startsWithLowercase(lemma);</b>
+<b class="fc">&nbsp;      boolean lcLookup = StringTools.startsWithLowercase(s);</b>
+<b class="pc">&nbsp;      if (lcLemma == lcLookup || lemma.equals(&quot;mein&quot;) || lemma.equals(&quot;ich&quot;) &amp;&amp; !REMOVE.contains(s)) {  // mein/ich wegen Ihr/Sie</b>
+<b class="fc">&nbsp;        results.add(s);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+<b class="nc">&nbsp;    String[] result = super.synthesize(token, posTag);</b>
+<b class="nc">&nbsp;    if (result.length == 0) {</b>
+<b class="nc">&nbsp;      return getCompoundForms(token, posTag, false);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return Arrays.stream(result).filter(k -&gt; !REMOVE.contains(k)).toArray(String[]::new);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+<b class="nc">&nbsp;    String[] result = super.synthesize(token, posTag, posTagRegExp);</b>
+<b class="nc">&nbsp;    if (result.length == 0) {</b>
+<b class="nc">&nbsp;      return getCompoundForms(token, posTag, posTagRegExp);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] array = Arrays.stream(result).filter(k -&gt; !REMOVE.contains(k)).toArray(String[]::new);</b>
+&nbsp;    /*
+&nbsp;    // log cases where &#39;ß&#39; is in a word and it&#39;s probably old spelling:
+&nbsp;    String other = null;
+&nbsp;    for (String s : array) {
+&nbsp;      if (s.contains(&quot;ß&quot;)) {
+&nbsp;        other = s.replaceAll(&quot;ß&quot;, &quot;ss&quot;);
+&nbsp;      }
+&nbsp;    }
+&nbsp;    if (other != null &amp;&amp; Arrays.asList(array).contains(other)) {
+&nbsp;      System.out.println(&quot;&gt;&gt;&quot;+ Arrays.toString(array));
+&nbsp;    }*/
+<b class="nc">&nbsp;    return array;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private String[] getCompoundForms(AnalyzedToken token, String posTag, boolean posTagRegExp) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; parts = GermanCompoundTokenizer.getStrictInstance().tokenize(token.getLemma());</b>
+<b class="nc">&nbsp;    if (parts.size() == 0) {</b>
+<b class="nc">&nbsp;      return parts.toArray(new String[0]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String maybeHyphen = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (parts.size() == 1 &amp;&amp; token.getLemma() != null) {</b>
+<b class="nc">&nbsp;      parts = Arrays.asList(token.getLemma().split(&quot;-&quot;));</b>
+<b class="nc">&nbsp;      if (parts.size() &gt; 1) {</b>
+<b class="nc">&nbsp;        maybeHyphen = &quot;-&quot;;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    String firstPart = String.join(maybeHyphen, parts.subList(0, parts.size() - 1));</b>
+<b class="nc">&nbsp;    String lastPart = StringTools.uppercaseFirstChar(parts.get(parts.size() - 1));</b>
+<b class="nc">&nbsp;    boolean uppercaseLastPart = !maybeHyphen.equals(&quot;&quot;) &amp;&amp; StringTools.startsWithUppercase(parts.get(parts.size() - 1));</b>
+<b class="nc">&nbsp;    AnalyzedToken lastPartToken = new AnalyzedToken(lastPart, posTag, lastPart);</b>
+&nbsp;    String[] lastPartForms;
+<b class="nc">&nbsp;    if (posTagRegExp) {</b>
+<b class="nc">&nbsp;      lastPartForms = super.synthesize(lastPartToken, posTag, true);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      lastPartForms = super.synthesize(lastPartToken, posTag);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Set&lt;String&gt; results = new LinkedHashSet&lt;&gt;();  // avoid dupes</b>
+<b class="nc">&nbsp;    for (String part : lastPartForms) {</b>
+<b class="nc">&nbsp;      if (uppercaseLastPart) {</b>
+<b class="nc">&nbsp;        results.add(firstPart + maybeHyphen + part);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        results.add(firstPart + maybeHyphen + StringTools.lowercaseFirstChar(part));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return results.toArray(new String[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

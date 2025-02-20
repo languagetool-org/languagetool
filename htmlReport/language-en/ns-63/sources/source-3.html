@@ -1,0 +1,262 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ManualTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging</a>
+</div>
+
+<h1>Coverage Summary for Class: ManualTagger (org.languagetool.tagging)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ManualTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78.6%
+  </span>
+  <span class="absValue">
+    (22/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.8%
+  </span>
+  <span class="absValue">
+    (46/53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging;
+&nbsp;
+&nbsp;import it.unimi.dsi.fastutil.objects.Object2IntMap;
+&nbsp;import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.synthesis.ManualSynthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static org.languagetool.tools.StringInterner.intern;
+&nbsp;
+&nbsp;/**
+&nbsp; * A tagger that reads the POS information from a plain (UTF-8) text file. This
+&nbsp; * makes it possible for the user to edit the text file to let the system know
+&nbsp; * about new words or missing readings in the *.dict file.
+&nbsp; *
+&nbsp; * &lt;p&gt;File Format: &lt;tt&gt;fullform baseform postags&lt;/tt&gt; (tab separated)
+&nbsp; *
+&nbsp; * @author Daniel Naber
+&nbsp; * @see ManualSynthesizer
+&nbsp; */
+&nbsp;public class ManualTagger implements WordTagger {
+&nbsp;  private final static String DEFAULT_SEPARATOR = &quot;\t&quot;;
+&nbsp;
+&nbsp;  private static final int OFFSET_SHIFT = 8;
+&nbsp;  private static final int MAX_LENGTH = (1 &lt;&lt; OFFSET_SHIFT) - 1;
+&nbsp;  private static final int MAX_OFFSET = (1 &lt;&lt; 32 - OFFSET_SHIFT) - 1;
+&nbsp;  private static final int ENTRY_SIZE = 2;
+&nbsp;  private final String[] data;
+&nbsp;
+&nbsp;  /** A map from inflected forms to encoded lemma+POS pair offsets in {@link #data} */
+&nbsp;  private final Object2IntMap&lt;String&gt; map;
+&nbsp;
+&nbsp;  public ManualTagger(InputStream inputStream) throws IOException {
+<b class="nc">&nbsp;    this(inputStream, false);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public ManualTagger(InputStream inputStream, boolean internTags) throws IOException {</b>
+<b class="fc">&nbsp;    Map&lt;String, List&lt;TaggedWord&gt;&gt; mapping = loadMapping(inputStream, internTags);</b>
+<b class="fc">&nbsp;    map = new Object2IntOpenHashMap&lt;&gt;(mapping.size());</b>
+<b class="fc">&nbsp;    int valueCount = mapping.values().stream().mapToInt(v -&gt; v.size()).sum();</b>
+<b class="fc">&nbsp;    int firstIndex = ENTRY_SIZE; // skip an entry, as 0 means an absent value in TObjectIntHashMap</b>
+<b class="fc">&nbsp;    data = new String[valueCount * ENTRY_SIZE + firstIndex];</b>
+<b class="pc">&nbsp;    if (valueCount &gt; MAX_OFFSET) {</b>
+<b class="nc">&nbsp;      throw new UnsupportedOperationException(&quot;Too many values (&quot; + valueCount + &quot;), the storage needs adjusting&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    int index = firstIndex;</b>
+<b class="fc">&nbsp;    for (Map.Entry&lt;String, List&lt;TaggedWord&gt;&gt; entry : mapping.entrySet()) {</b>
+<b class="fc">&nbsp;      List&lt;TaggedWord&gt; value = entry.getValue();</b>
+<b class="pc">&nbsp;      if (value.size() &gt; MAX_LENGTH) {</b>
+<b class="nc">&nbsp;        throw new UnsupportedOperationException(</b>
+<b class="nc">&nbsp;          &quot;Too many lemmas (&quot; + value.size() + &quot; &gt; &quot; + MAX_LENGTH + &quot; for &quot; + entry.getKey() + &quot;), the storage needs adjusting&quot;);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      map.put(entry.getKey(), ((index / ENTRY_SIZE) &lt;&lt; OFFSET_SHIFT) | value.size());</b>
+<b class="fc">&nbsp;      for (TaggedWord tw : value) {</b>
+<b class="fc">&nbsp;        data[index++] = intern(tw.getLemma());</b>
+<b class="fc">&nbsp;        data[index++] = intern(tw.getPosTag());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;String, List&lt;TaggedWord&gt;&gt; loadMapping(InputStream inputStream, boolean internTags) throws IOException {
+<b class="fc">&nbsp;    Map&lt;String, List&lt;TaggedWord&gt;&gt; map = new HashMap&lt;&gt;();</b>
+&nbsp;    try (
+<b class="fc">&nbsp;      InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);</b>
+<b class="fc">&nbsp;      BufferedReader br = new BufferedReader(reader)</b>
+&nbsp;    ) {
+&nbsp;      String line;
+<b class="fc">&nbsp;      int lineCount = 0;</b>
+<b class="fc">&nbsp;      String separator = DEFAULT_SEPARATOR;</b>
+<b class="fc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="fc">&nbsp;        line = line.trim();</b>
+<b class="fc">&nbsp;        lineCount++;</b>
+<b class="pc">&nbsp;        if (line.startsWith(&quot;#separatorRegExp=&quot;)) {</b>
+<b class="nc">&nbsp;          separator = line.replace(&quot;#separatorRegExp=&quot;, &quot;&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (StringTools.isEmpty(line) || line.charAt(0) == &#39;#&#39;) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="pc">&nbsp;        if (line.contains(&quot;\u00A0&quot;)) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Non-breaking space found in line #&quot; + lineCount + &quot;: &#39;&quot; + line + &quot;&#39;, please remove it&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        line = StringUtils.substringBefore(line, &quot;#&quot;).trim();</b>
+<b class="fc">&nbsp;        String[] parts = line.split(separator);</b>
+<b class="pc">&nbsp;        if (parts.length != 3) {</b>
+<b class="nc">&nbsp;          throw new IOException(&quot;Unknown line format in line &quot; + lineCount + &quot; when loading manual tagger dictionary, &quot; +</b>
+&nbsp;            &quot;expected three tab-separated fields: &#39;&quot; + line + &quot;&#39;&quot;);
+&nbsp;        }
+<b class="fc">&nbsp;        String form = parts[0];</b>
+&nbsp;
+<b class="fc">&nbsp;        String lemma = parts[1];</b>
+<b class="fc">&nbsp;        if (lemma.equals(form)) lemma = form;</b>
+<b class="fc">&nbsp;        lemma = intern(lemma);</b>
+&nbsp;
+<b class="fc">&nbsp;        String tag = parts[2].trim();</b>
+<b class="pc">&nbsp;        String internedTag = internTags ? tag.intern() : intern(tag);</b>
+<b class="fc">&nbsp;        map.computeIfAbsent(form, __ -&gt; new ArrayList&lt;&gt;()).add(new TaggedWord(lemma, internedTag));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return map;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Look up a word&#39;s baseform (lemma) and POS information.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public List&lt;TaggedWord&gt; tag(String word) {
+<b class="fc">&nbsp;    int value = map.getInt(word);</b>
+<b class="fc">&nbsp;    if (value == 0) {</b>
+<b class="fc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    int offset = (value &gt;&gt;&gt; OFFSET_SHIFT) * ENTRY_SIZE;</b>
+<b class="fc">&nbsp;    int length = value &amp; MAX_LENGTH;</b>
+<b class="fc">&nbsp;    List&lt;TaggedWord&gt; result = new ArrayList&lt;&gt;(length);</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; length; i++) {</b>
+<b class="fc">&nbsp;      result.add(new TaggedWord(data[offset + i * ENTRY_SIZE], data[offset + i * ENTRY_SIZE + 1]));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

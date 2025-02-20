@@ -1,0 +1,668 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractSimpleReplaceRule2</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractSimpleReplaceRule2 (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractSimpleReplaceRule2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/202)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/227)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AbstractSimpleReplaceRule2$CaseSensitivy</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/202)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/228)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+&nbsp;import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.net.URL;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static org.languagetool.JLanguageTool.getDataBroker;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches words which should not be used and suggests correct ones instead.
+&nbsp; * &lt;p&gt;Unlike AbstractSimpleReplaceRule, it supports phrases (Ex: &quot;aqua forte&quot; -&amp;gt; &quot;acvaforte&quot;).
+&nbsp; * Note: Merge this into {@link AbstractSimpleReplaceRule}
+&nbsp; *
+&nbsp; * @author Ionuț Păduraru
+&nbsp; */
+&nbsp;public abstract class AbstractSimpleReplaceRule2 extends Rule {
+&nbsp;
+&nbsp;  private volatile boolean initialized;
+&nbsp;  private Map&lt;String, Integer&gt; mStartSpace;
+&nbsp;  private Map&lt;String, Integer&gt; mStartNoSpace;
+&nbsp;  private Map&lt;String, SuggestionWithMessage&gt; mFullSpace;
+&nbsp;  private Map&lt;String, SuggestionWithMessage&gt; mFullNoSpace;
+&nbsp;
+&nbsp;  protected boolean isCheckingCase() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final static int MAX_TOKENS_IN_MULTIWORD = 20;
+&nbsp;
+&nbsp;  //only for CheckCaseRule
+<b class="nc">&nbsp;  private boolean ignoreShortUppercaseWords = true;</b>
+&nbsp;  //only for CheckCaseRule
+<b class="nc">&nbsp;  private int MAX_LENGTH_SHORT_WORDS = 4;</b>
+&nbsp;
+<b class="nc">&nbsp;  private boolean ruleHasSuggestions = true;</b>
+&nbsp;
+<b class="nc">&nbsp;  public enum CaseSensitivy {CS, CI, CSExceptAtSentenceStart}</b>
+&nbsp;
+&nbsp;  protected final Language language;
+&nbsp;
+<b class="nc">&nbsp;  protected boolean subRuleSpecificIds = false;</b>
+&nbsp;
+&nbsp;  public abstract List&lt;String&gt; getFileNames();
+&nbsp;
+&nbsp;  public List&lt;URL&gt; getFilePaths() {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public abstract String getId();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return A string where {@code $match} will be replaced with the matching word.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public abstract String getDescription();
+&nbsp;
+&nbsp;  public abstract String getShort();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return A string where {@code $match} will be replaced with the matching word
+&nbsp;   * and {@code $suggestions} will be replaced with the alternatives. This is the string
+&nbsp;   * shown to the user.
+&nbsp;   */
+&nbsp;  public abstract String getMessage();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are
+&nbsp;   * comma-separated.
+&nbsp;   */
+&nbsp;  public String getSuggestionsSeparator() {
+<b class="nc">&nbsp;    return &quot;, &quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * locale used on case-conversion
+&nbsp;   */
+&nbsp;  public abstract Locale getLocale();
+&nbsp;
+&nbsp;
+&nbsp;  public AbstractSimpleReplaceRule2(ResourceBundle messages, Language language) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    this.language = Objects.requireNonNull(language);</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * If this is set, each replacement pair will have its own rule ID, making rule deactivations more specific.
+&nbsp;   *
+&nbsp;   * @since 5.1
+&nbsp;   */
+&nbsp;  public void useSubRuleSpecificIds() {
+<b class="nc">&nbsp;    subRuleSpecificIds = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CaseSensitivy getCaseSensitivy() {
+<b class="nc">&nbsp;    return CaseSensitivy.CI;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used if each input form the replacement file has its specific id.
+&nbsp;   */
+&nbsp;  public String getDescription(String details) {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    lazyInit();</b>
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    int sentStart = 1;</b>
+<b class="nc">&nbsp;    while (sentStart &lt; tokens.length &amp;&amp; isPunctuationStart(tokens[sentStart].getToken())) {</b>
+<b class="nc">&nbsp;      sentStart++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int[] checkCaseCoveredUpto = new int[1];</b>
+<b class="nc">&nbsp;    checkCaseCoveredUpto[0] = 0;</b>
+<b class="nc">&nbsp;    for (int startIndex = sentStart; startIndex &lt; tokens.length; startIndex++) {</b>
+<b class="nc">&nbsp;      if (isTokenException(tokens[startIndex])) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String tok = tokens[startIndex].getToken();</b>
+<b class="nc">&nbsp;      if (tok.length() &lt; 1) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;      // If there is no whitespace to the next token, concatenate the next token
+<b class="nc">&nbsp;      int k = startIndex + 1;</b>
+<b class="nc">&nbsp;      while (k &lt; tokens.length &amp;&amp; !tokens[k].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;        tok = tok + tokens[k].getToken();</b>
+<b class="nc">&nbsp;        k++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (getCaseSensitivy() == CaseSensitivy.CI) {</b>
+<b class="nc">&nbsp;        tok = tok.toLowerCase();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (mStartSpace.containsKey(tok)) {</b>
+<b class="nc">&nbsp;        StringBuilder keyBuilder = new StringBuilder();</b>
+<b class="nc">&nbsp;        int maxTokenLen = mStartSpace.get(tok);</b>
+<b class="nc">&nbsp;        int endIndex = startIndex;</b>
+<b class="nc">&nbsp;        while (endIndex &lt; tokens.length &amp;&amp; endIndex - startIndex &lt; MAX_TOKENS_IN_MULTIWORD) {</b>
+<b class="nc">&nbsp;          if (endIndex &gt; startIndex &amp;&amp; tokens[endIndex].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;            keyBuilder.append(&quot; &quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          keyBuilder.append(tokens[endIndex].getToken());</b>
+<b class="nc">&nbsp;          String originalStr = keyBuilder.toString();</b>
+<b class="nc">&nbsp;          int numberOfSpaces = StringTools.numberOf(originalStr, &quot; &quot;);</b>
+<b class="nc">&nbsp;          if (numberOfSpaces + 1 &gt; maxTokenLen) {</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          if (numberOfSpaces &gt; 0) {</b>
+<b class="nc">&nbsp;            String keyStr = originalStr;</b>
+<b class="nc">&nbsp;            if (getCaseSensitivy() == CaseSensitivy.CI) {</b>
+<b class="nc">&nbsp;              keyStr = keyStr.toLowerCase();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            SuggestionWithMessage suggestionWithMessage = mFullSpace.get(keyStr);</b>
+<b class="nc">&nbsp;            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,</b>
+&nbsp;              sentStart, checkCaseCoveredUpto);
+&nbsp;            //No language uses this. It could be removed.
+<b class="nc">&nbsp;            if (suggestionWithMessage == null &amp;&amp; sentStart == startIndex &amp;&amp; getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart</b>
+<b class="nc">&nbsp;              &amp;&amp; !keyStr.equals(StringTools.lowercaseFirstChar(keyStr))) {</b>
+<b class="nc">&nbsp;              keyStr = StringTools.lowercaseFirstChar(keyStr);</b>
+<b class="nc">&nbsp;              suggestionWithMessage = mFullSpace.get(keyStr);</b>
+<b class="nc">&nbsp;              createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,</b>
+&nbsp;                sentStart, checkCaseCoveredUpto);
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          endIndex++;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (mStartNoSpace.containsKey(tok.substring(0, 1))) {</b>
+<b class="nc">&nbsp;        int endIndex = startIndex;</b>
+<b class="nc">&nbsp;        StringBuilder keyBuilder = new StringBuilder();</b>
+<b class="nc">&nbsp;        while (endIndex &lt; tokens.length &amp;&amp; endIndex - startIndex &lt; MAX_TOKENS_IN_MULTIWORD) {</b>
+<b class="nc">&nbsp;          if (endIndex &gt; startIndex &amp;&amp; tokens[endIndex].isWhitespaceBefore()) {</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          keyBuilder.append(tokens[endIndex].getToken());</b>
+<b class="nc">&nbsp;          String originalStr = keyBuilder.toString();</b>
+<b class="nc">&nbsp;          String keyStr = originalStr;</b>
+<b class="nc">&nbsp;          if (getCaseSensitivy() == CaseSensitivy.CI) {</b>
+<b class="nc">&nbsp;            keyStr = keyStr.toLowerCase();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          SuggestionWithMessage suggestionWithMessage = mFullNoSpace.get(keyStr);</b>
+<b class="nc">&nbsp;          createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,</b>
+&nbsp;            sentStart, checkCaseCoveredUpto);
+&nbsp;          //No language uses this. It could be removed.
+<b class="nc">&nbsp;          if (suggestionWithMessage == null &amp;&amp; sentStart == startIndex &amp;&amp; getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart</b>
+<b class="nc">&nbsp;            &amp;&amp; !keyStr.equals(StringTools.lowercaseFirstChar(keyStr))) {</b>
+<b class="nc">&nbsp;            keyStr = StringTools.lowercaseFirstChar(keyStr);</b>
+<b class="nc">&nbsp;            suggestionWithMessage = mFullNoSpace.get(keyStr);</b>
+<b class="nc">&nbsp;            createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,</b>
+&nbsp;              sentStart, checkCaseCoveredUpto);
+&nbsp;          }
+<b class="nc">&nbsp;          endIndex++;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void createMatch(List&lt;RuleMatch&gt; ruleMatches, SuggestionWithMessage suggestionWithMessage, int startIndex,
+&nbsp;                           int endIndex, String originalStr, AnalyzedTokenReadings[] tokens, AnalyzedSentence sentence,
+&nbsp;                           int sentStart, int[] checkCaseCoveredUpto) {
+<b class="nc">&nbsp;    if (suggestionWithMessage == null || isException(originalStr)) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = Arrays.asList(suggestionWithMessage.getSuggestion().split(&quot;\\|&quot;));</b>
+<b class="nc">&nbsp;    int fromPos = tokens[startIndex].getStartPos();</b>
+<b class="nc">&nbsp;    int toPos = tokens[endIndex].getEndPos();</b>
+&nbsp;    //keep only the longest match
+<b class="nc">&nbsp;    if (ruleMatches.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);</b>
+<b class="nc">&nbsp;      if (lastRuleMatch.getFromPos() &lt;= fromPos</b>
+<b class="nc">&nbsp;        &amp;&amp; lastRuleMatch.getToPos() &gt;= toPos) {</b>
+&nbsp;        return;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    boolean firstWordInSuggIsCamelCase = replacements.stream().anyMatch(k -&gt; StringTools.isCamelCase(k.split(&quot; &quot;)[0]));</b>
+<b class="nc">&nbsp;    boolean isAllUppercase = StringTools.isAllUppercase(originalStr);</b>
+<b class="nc">&nbsp;    boolean isCapitalized = StringTools.isCapitalizedWord(originalStr.split(&quot; &quot;)[0]);</b>
+&nbsp;    // exceptions for checking case
+<b class="nc">&nbsp;    if (isCheckingCase()) {</b>
+<b class="nc">&nbsp;      if (endIndex &lt;= checkCaseCoveredUpto[0]) {</b>
+&nbsp;        return;
+&nbsp;      }
+<b class="nc">&nbsp;      String replacementCheckCase = replacements.get(0);</b>
+<b class="nc">&nbsp;      if ((sentStart == startIndex &amp;&amp; originalStr.equals(StringTools.uppercaseFirstChar(replacementCheckCase)))</b>
+<b class="nc">&nbsp;        || originalStr.equals(replacementCheckCase)) {</b>
+<b class="nc">&nbsp;        if (ruleMatches.size() &gt; 0) {</b>
+&nbsp;          // remove last match if is contained in a correct phrase
+<b class="nc">&nbsp;          RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);</b>
+<b class="nc">&nbsp;          if (lastRuleMatch.getToPos() &gt; fromPos) {</b>
+<b class="nc">&nbsp;            ruleMatches.remove(ruleMatches.size() - 1);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        checkCaseCoveredUpto[0] = endIndex;</b>
+&nbsp;        return;
+&nbsp;      }
+&nbsp;      //Allow all-upper case, except for CamelCase and short words in Dutch (length&lt;MAX_LENGTH_SHORT_WORDS)
+<b class="nc">&nbsp;      if (!firstWordInSuggIsCamelCase &amp;&amp; originalStr.equals(originalStr.toUpperCase())) {</b>
+<b class="nc">&nbsp;        if (ignoreShortUppercaseWords || originalStr.length() &gt; MAX_LENGTH_SHORT_WORDS) {</b>
+<b class="nc">&nbsp;          checkCaseCoveredUpto[0] = endIndex;</b>
+&nbsp;          return;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; finalReplacements = new ArrayList&lt;&gt;();</b>
+&nbsp;    // adjust casing of suggestions
+<b class="nc">&nbsp;    for (String repl : replacements) {</b>
+<b class="nc">&nbsp;      String finalRepl = repl;</b>
+<b class="nc">&nbsp;      if (!firstWordInSuggIsCamelCase &amp;&amp; (sentStart == startIndex || (isCapitalized &amp;&amp; !isCheckingCase()))) {</b>
+<b class="nc">&nbsp;        finalRepl = StringTools.uppercaseFirstChar(repl);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!isCheckingCase() &amp;&amp; isAllUppercase) {</b>
+<b class="nc">&nbsp;        finalRepl = repl.toUpperCase();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!repl.equals(originalStr) &amp;&amp; !finalRepl.equals(originalStr) &amp;&amp; !finalReplacements.contains(finalRepl)) {</b>
+<b class="nc">&nbsp;        finalReplacements.add(finalRepl);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (finalRepl.equals(originalStr)) {</b>
+&nbsp;        // the original is correct, so there is no need to fix anything
+<b class="nc">&nbsp;        finalReplacements.clear();</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (ruleHasSuggestions &amp;&amp; finalReplacements.isEmpty()) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;    // Begin of match creation
+<b class="nc">&nbsp;    String msg = suggestionWithMessage.getMessage();</b>
+<b class="nc">&nbsp;    String url = null;</b>
+<b class="nc">&nbsp;    if (msg != null &amp;&amp; (msg.startsWith(&quot;http://&quot;) || msg.startsWith(&quot;https://&quot;))) {</b>
+<b class="nc">&nbsp;      msg = null;</b>
+<b class="nc">&nbsp;      url = msg;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (msg == null) {</b>
+<b class="nc">&nbsp;      String msgSuggestions = &quot;&quot;;</b>
+<b class="nc">&nbsp;      for (int k = 0; k &lt; replacements.size(); k++) {</b>
+<b class="nc">&nbsp;        if (k &gt; 0) {</b>
+<b class="nc">&nbsp;          msgSuggestions += (k == replacements.size() - 1 ? getSuggestionsSeparator() : &quot;, &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        msgSuggestions += &quot;&lt;suggestion&gt;&quot; + replacements.get(k) + &quot;&lt;/suggestion&gt;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      msg = getMessage().replaceFirst(&quot;\\$match&quot;, originalStr).replaceFirst(&quot;\\$suggestions&quot;, msgSuggestions);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, getShort());</b>
+<b class="nc">&nbsp;    if (subRuleSpecificIds) {</b>
+<b class="nc">&nbsp;      String id = StringTools.toId(getId() + &quot;_&quot; + originalStr, language);</b>
+<b class="nc">&nbsp;      String desc = getDescription().replace(&quot;$match&quot;, originalStr);</b>
+<b class="nc">&nbsp;      SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(),</b>
+<b class="nc">&nbsp;        getLocQualityIssueType(), getTags());</b>
+<b class="nc">&nbsp;      ruleMatch = new RuleMatch(specificIdRule, sentence, fromPos, toPos, msg, getShort());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (url != null) {</b>
+<b class="nc">&nbsp;      ruleMatch.setUrl(Tools.getUrl(url));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (ruleHasSuggestions) {</b>
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacements(finalReplacements);</b>
+&nbsp;    }
+&nbsp;    // End of match creation
+<b class="nc">&nbsp;    if (isRuleMatchException(ruleMatch)) {</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;    //keep only the longest match
+<b class="nc">&nbsp;    if (ruleMatches.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      RuleMatch lastRuleMatch = ruleMatches.get(ruleMatches.size() - 1);</b>
+<b class="nc">&nbsp;      if (lastRuleMatch.getFromPos() &gt;= fromPos</b>
+<b class="nc">&nbsp;        &amp;&amp; lastRuleMatch.getToPos() &lt;= toPos) {</b>
+<b class="nc">&nbsp;        ruleMatches.remove(ruleMatches.size() - 1);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    ruleMatches.add(ruleMatch);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isRuleMatchException(RuleMatch ruleMatch) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isException(String matchedText) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create a warning if a key word of the replacement rule is not allowed by the speller rule.
+&nbsp;   */
+&nbsp;  public boolean checkKeyWordsAreKnownToSpeller() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create a warning if a key word of the replacement rule is allowed by the speller rule.
+&nbsp;   */
+&nbsp;  public boolean checkKeyWordsAreUnknownToSpeller() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean separateKeyWordsBySpeller() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  protected boolean isPunctuationStart(String word) {
+<b class="nc">&nbsp;    return StringUtils.getDigits(word).length() &gt; 0 // e.g. postal codes</b>
+<b class="nc">&nbsp;      || StringTools.isPunctuationMark(word) || StringTools.isNotWordCharacter(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void lazyInit() {
+<b class="nc">&nbsp;    if (initialized) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    synchronized (this) {</b>
+<b class="nc">&nbsp;      if (initialized) return;</b>
+<b class="nc">&nbsp;      Object2IntOpenHashMap&lt;String&gt; mStartSpace = new Object2IntOpenHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      Object2IntOpenHashMap&lt;String&gt; mStartNoSpace = new Object2IntOpenHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      Object2ObjectOpenHashMap&lt;String, SuggestionWithMessage&gt; mFullSpace = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      Object2ObjectOpenHashMap&lt;String, SuggestionWithMessage&gt; mFullNoSpace = new Object2ObjectOpenHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      fillMaps(mStartSpace, mStartNoSpace, mFullSpace, mFullNoSpace);</b>
+<b class="nc">&nbsp;      mStartSpace.trim();</b>
+<b class="nc">&nbsp;      mStartNoSpace.trim();</b>
+<b class="nc">&nbsp;      mFullSpace.trim();</b>
+<b class="nc">&nbsp;      mFullNoSpace.trim();</b>
+<b class="nc">&nbsp;      this.mStartSpace = mStartSpace;</b>
+<b class="nc">&nbsp;      this.mStartNoSpace = mStartNoSpace;</b>
+<b class="nc">&nbsp;      this.mFullSpace = mFullSpace;</b>
+<b class="nc">&nbsp;      this.mFullNoSpace = mFullNoSpace;</b>
+<b class="nc">&nbsp;      initialized = true;</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void fillMaps(Map&lt;String, Integer&gt; mStartSpace, Map&lt;String, Integer&gt; mStartNoSpace, Map&lt;String,
+&nbsp;    SuggestionWithMessage&gt; mFullSpace, Map&lt;String, SuggestionWithMessage&gt; mFullNoSpace) {
+&nbsp;    try {
+<b class="nc">&nbsp;      for (URL filePath : getAllFilePaths()) {</b>
+<b class="nc">&nbsp;        BufferedReader br = new BufferedReader(new InputStreamReader(filePath.openStream(), StandardCharsets.UTF_8));</b>
+&nbsp;        String line;
+<b class="nc">&nbsp;        while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;          line = line.trim();</b>
+<b class="nc">&nbsp;          if (line.isEmpty() || line.charAt(0) == &#39;#&#39;) { // ignore comments</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          if (line.contains(&quot;  &quot;) &amp;&amp; !language.getShortCode().equals(&quot;ar&quot;)) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;More than one consecutive space in &quot; + filePath + &quot; - use a tab character as &quot; +</b>
+&nbsp;              &quot;a delimiter for the message: &quot; + line);
+&nbsp;          }
+<b class="nc">&nbsp;          line = StringUtils.substringBefore(line, &quot;#&quot;).trim();</b>
+<b class="nc">&nbsp;          if (isCheckingCase()) {</b>
+&nbsp;            // It is a rule for checking chase
+<b class="nc">&nbsp;            String[] parts = line.split(&quot;=&quot;);</b>
+<b class="nc">&nbsp;            line = parts[0].toLowerCase().trim() + &quot;=&quot; + parts[0].trim();</b>
+<b class="nc">&nbsp;            if (parts.length == 2) {</b>
+<b class="nc">&nbsp;              line = line + &quot;\t&quot; + parts[1].trim();</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;          String confPair = parts[0];</b>
+&nbsp;          String msg;
+<b class="nc">&nbsp;          if (parts.length == 1) {</b>
+<b class="nc">&nbsp;            msg = null;</b>
+<b class="nc">&nbsp;          } else if (parts.length == 2) {</b>
+<b class="nc">&nbsp;            msg = parts[1];</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            throw new IOException(&quot;Format error in file &quot; + filePath + &quot;. Expected at most 1 &#39;=&#39; character and at &quot; +</b>
+&nbsp;              &quot;most 1 tab character. Line: &quot; + line);
+&nbsp;          }
+<b class="nc">&nbsp;          String[] confPairParts = confPair.split(&quot;=&quot;);</b>
+<b class="nc">&nbsp;          String suggestion = &quot;&quot;;</b>
+<b class="nc">&nbsp;          if (ruleHasSuggestions) {</b>
+<b class="nc">&nbsp;            if (confPairParts.length &lt; 2) {</b>
+<b class="nc">&nbsp;              throw new IOException(&quot;Format error in file &quot; + filePath</b>
+&nbsp;                + &quot;. Missing suggestion after character &#39;=&#39;. Line: &quot; + line);
+&nbsp;            }
+<b class="nc">&nbsp;            suggestion = confPairParts[1];</b>
+&nbsp;          }
+<b class="nc">&nbsp;          String[] wrongForms = confPairParts[0].split(&quot;\\|&quot;); // multiple incorrect forms</b>
+<b class="nc">&nbsp;          for (String wrongForm : wrongForms) {</b>
+<b class="nc">&nbsp;            String searchKey = getCaseSensitivy() == CaseSensitivy.CI ? wrongForm.toLowerCase() : wrongForm;</b>
+<b class="nc">&nbsp;            if (!isCheckingCase() &amp;&amp; searchKey.equals(suggestion)) {</b>
+<b class="nc">&nbsp;              throw new IOException(&quot;Format error in file &quot; + filePath</b>
+&nbsp;                + &quot;. Found same word on left and right side of &#39;=&#39;. Line: &quot; + line);
+&nbsp;            }
+<b class="nc">&nbsp;            SuggestionWithMessage suggestionWithMessage = new SuggestionWithMessage(suggestion, msg);</b>
+<b class="nc">&nbsp;            boolean containsSpace = wrongForm.indexOf(&#39; &#39;) &gt; 0;</b>
+<b class="nc">&nbsp;            if (!containsSpace) {</b>
+<b class="nc">&nbsp;              String firstChar = searchKey.substring(0, 1);</b>
+<b class="nc">&nbsp;              if (mStartNoSpace.containsKey(firstChar)) {</b>
+<b class="nc">&nbsp;                if (mStartNoSpace.get(firstChar) &lt; searchKey.length()) {</b>
+<b class="nc">&nbsp;                  mStartNoSpace.put(firstChar, searchKey.length());</b>
+&nbsp;                }
+&nbsp;              } else {
+<b class="nc">&nbsp;                mStartNoSpace.put(firstChar, searchKey.length());</b>
+&nbsp;              }
+<b class="nc">&nbsp;              mFullNoSpace.put(searchKey, suggestionWithMessage);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              String[] tokens = searchKey.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;              String firstToken = tokens[0];</b>
+<b class="nc">&nbsp;              if (mStartSpace.containsKey(firstToken)) {</b>
+<b class="nc">&nbsp;                if (mStartSpace.get(firstToken) &lt; tokens.length) {</b>
+<b class="nc">&nbsp;                  mStartSpace.put(firstToken, tokens.length);</b>
+&nbsp;                }
+&nbsp;              } else {
+<b class="nc">&nbsp;                mStartSpace.put(firstToken, tokens.length);</b>
+&nbsp;              }
+<b class="nc">&nbsp;              mFullSpace.put(searchKey, suggestionWithMessage);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;URL&gt; getAllFilePaths() {
+<b class="nc">&nbsp;    List&lt;URL&gt; filePaths = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (getFilePaths() != null) {</b>
+<b class="nc">&nbsp;      filePaths.addAll(getFilePaths());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String fileName : getFileNames()) {</b>
+<b class="nc">&nbsp;      filePaths.add(getDataBroker().getFromRulesDirAsUrl(fileName));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return filePaths;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // Only for checking the spelling of the suggestions
+&nbsp;  public List&lt;Map&lt;String, SuggestionWithMessage&gt;&gt; getWrongWords() {
+<b class="nc">&nbsp;    lazyInit();</b>
+<b class="nc">&nbsp;    List&lt;Map&lt;String, SuggestionWithMessage&gt;&gt; wrongWords = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    wrongWords.add(mFullSpace);</b>
+<b class="nc">&nbsp;    wrongWords.add(mFullNoSpace);</b>
+<b class="nc">&nbsp;    return wrongWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // only for check_case rule
+&nbsp;  protected boolean isIgnoreShortUppercaseWords() {
+<b class="nc">&nbsp;    return ignoreShortUppercaseWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // only for check_case rule
+&nbsp;  protected void setIgnoreShortUppercaseWords(boolean value) {
+<b class="nc">&nbsp;    ignoreShortUppercaseWords = value;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void setRuleHasSuggestions(boolean value) {
+<b class="nc">&nbsp;    ruleHasSuggestions = value;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

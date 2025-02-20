@@ -1,0 +1,380 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MixedAlphabetsRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: MixedAlphabetsRule (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MixedAlphabetsRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/98)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/123)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.tagging.uk.PosTagHelper;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches words Latin and Cyrillic characters in them
+&nbsp; * 
+&nbsp; * @author Andriy Rysin
+&nbsp; */
+&nbsp;public class MixedAlphabetsRule extends Rule {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile(&quot;[XVIХІ]{2,8}(-[а-яіїє]{1,3})?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile(&quot;(Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3})(-[а-яіїє]{1,4})?&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern MIXED_ALPHABETS = Pattern.compile(&quot;.*([a-zA-ZïáÁéÉíÍḯḮóÓúýÝ]&#39;?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]&#39;?[a-zA-ZïáÁéÉíÍḯḮóÓúýÝ]).*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern CYRILLIC_ONLY = Pattern.compile(&quot;.*[бвгґдєжзийїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern LATIN_ONLY = Pattern.compile(&quot;.*[bdfghjlqrstvzDFGJLNQRSUVZ].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern COMMON_CYR_LETTERS = Pattern.compile(&quot;[АВЕІКОРСТУХ]+&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern CYRILLIC_FIRST_LETTER = Pattern.compile(&quot;[а-яіїєґА-ЯІЇЄҐ].*&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  public MixedAlphabetsRule(ResourceBundle messages) throws IOException {</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;UK_MIXED_ALPHABETS&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Змішування кирилиці й латиниці&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getShort() {
+<b class="nc">&nbsp;    return &quot;Мішанина розкладок&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings tokenReadings = tokens[i];</b>
+<b class="nc">&nbsp;      String tokenString = tokenReadings.getCleanToken();</b>
+&nbsp;
+&nbsp;      // optimization: 1-letter tokens first
+<b class="nc">&nbsp;      if( i&lt;tokens.length-1</b>
+<b class="nc">&nbsp;          &amp;&amp; ( tokenString.matches(&quot;[iya]&quot;)</b>
+<b class="nc">&nbsp;            || (tokenString.equals(&quot;A&quot;) &amp;&amp; i == 1) )</b>
+<b class="nc">&nbsp;          &amp;&amp; CYRILLIC_FIRST_LETTER.matcher(tokens[i+1].getToken()).matches()</b>
+<b class="nc">&nbsp;          &amp;&amp; Arrays.stream(tokens).noneMatch(t -&gt; t.getToken().matches(&quot;[xbB]&quot;)) ) {    // filter out formulas</b>
+<b class="nc">&nbsp;        String msg = &quot;Вжито латинську «&quot;+tokenString+&quot;» замість кириличної&quot;;</b>
+<b class="nc">&nbsp;        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg, sentence);</b>
+<b class="nc">&nbsp;        ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if (&quot;І&quot;.equals(tokenString)</b>
+<b class="nc">&nbsp;          &amp;&amp; likelyBadLatinI(tokens, i) ) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        replacements.add( toLatin(tokenString) );</b>
+&nbsp;
+<b class="nc">&nbsp;        String msg = &quot;Вжито кириличну літеру замість латинської&quot;;</b>
+<b class="nc">&nbsp;        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);</b>
+<b class="nc">&nbsp;        ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if (i &lt;= tokens.length-1</b>
+<b class="nc">&nbsp;          &amp;&amp; &quot;І.&quot;.equals(tokenString)</b>
+&nbsp;          &amp;&amp; ( i &gt; 1
+<b class="nc">&nbsp;              &amp;&amp; ! &quot;Тому&quot;.equals(tokens[i-1].getCleanToken())</b>
+<b class="nc">&nbsp;              &amp;&amp; ! &quot;Франко&quot;.equals(tokens[i-1].getCleanToken())</b>
+<b class="nc">&nbsp;              &amp;&amp; PosTagHelper.hasPosTag(tokens[i-1], Pattern.compile(&quot;(?!.*:abbr).*fname.*&quot;))) ) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        replacements.add( toLatin(tokenString) );</b>
+&nbsp;
+<b class="nc">&nbsp;        String msg = &quot;Вжито кириличну літеру замість латинської&quot;;</b>
+<b class="nc">&nbsp;        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);</b>
+<b class="nc">&nbsp;        ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if (COMMON_CYR_LETTERS.matcher(tokenString).matches()) {</b>
+<b class="nc">&nbsp;        String prevLemma = tokens[i-1].getAnalyzedToken(0).getLemma();</b>
+<b class="nc">&nbsp;        if( prevLemma != null &amp;&amp; prevLemma.matches(&quot;гепатит|група|турнір&quot;) ) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          replacements.add( toLatin(tokenString) );</b>
+&nbsp;
+<b class="nc">&nbsp;          String msg = &quot;Вжито кириличну літеру замість латинської&quot;;</b>
+<b class="nc">&nbsp;          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);</b>
+<b class="nc">&nbsp;          ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( tokenString.length() &lt; 2 ) {</b>
+<b class="nc">&nbsp;        if( tokenString.equals(&quot;°&quot;) </b>
+&nbsp;            &amp;&amp; i &lt; tokens.length - 1
+<b class="nc">&nbsp;            &amp;&amp; tokens[i+1].getCleanToken().equals(&quot;С&quot;) ) {  // Cyrillic С</b>
+<b class="nc">&nbsp;          List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          replacements.add(&quot;C&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;          String msg = &quot;Вжито кириличну літеру замість латинської&quot;;</b>
+<b class="nc">&nbsp;          RuleMatch potentialRuleMatch = createRuleMatch(tokens[i+1], replacements, msg, sentence);</b>
+<b class="nc">&nbsp;          ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( MIXED_ALPHABETS.matcher(tokenString).matches() ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        String msg = &quot;Вжито кириличні й латинські літери в одному слові&quot;;</b>
+<b class="nc">&nbsp;        List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        if(!LATIN_ONLY.matcher(tokenString).matches() &amp;&amp; ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {</b>
+<b class="nc">&nbsp;          replacements.add( toCyrillic(tokenString) );</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if( (tokenString.length() &gt; 2 &amp;&amp; ! CYRILLIC_ONLY.matcher(tokenString).matches()) </b>
+<b class="nc">&nbsp;            || LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {</b>
+<b class="nc">&nbsp;          String converted = toLatinLeftOnly(tokenString);</b>
+<b class="nc">&nbsp;          converted = adjustForInvalidSuffix(converted);</b>
+<b class="nc">&nbsp;          replacements.add( converted );</b>
+<b class="nc">&nbsp;          msg = &quot;Вжито кириличні літери замість латинських&quot;;</b>
+<b class="nc">&nbsp;          msg = adjustForInvalidSuffix(tokenString, msg);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (replacements.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);</b>
+<b class="nc">&nbsp;          ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      else if(LATIN_NUMBER_WITH_CYRILLICS.matcher(tokenString).matches()) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        String converted = toLatinLeftOnly(tokenString);</b>
+<b class="nc">&nbsp;        converted = adjustForInvalidSuffix(converted);</b>
+<b class="nc">&nbsp;        replacements.add( converted );</b>
+&nbsp;
+<b class="nc">&nbsp;        String msg = &quot;Вжито кириличні літери замість латинських на позначення римської цифри&quot;;</b>
+<b class="nc">&nbsp;        msg = adjustForInvalidSuffix(tokenString, msg);</b>
+<b class="nc">&nbsp;        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);</b>
+<b class="nc">&nbsp;        ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( tokenString.indexOf(&#39;\u0306&#39;) &gt; 0 || tokenString.indexOf(&#39;\u0308&#39;) &gt; 0 ) {</b>
+<b class="nc">&nbsp;        if( tokenString.matches(&quot;.*(и\u0306|і\u0308).*&quot;) ) {</b>
+<b class="nc">&nbsp;          String fix = tokenString.replace(&quot;и\u0306&quot;, &quot;й&quot;).replace(&quot;і\u0308&quot;, &quot;ї&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;          String msg = &quot;Вжито комбіновані символи замість українських літер&quot;;</b>
+<b class="nc">&nbsp;          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(fix), msg, sentence);</b>
+<b class="nc">&nbsp;          ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean likelyBadLatinI(AnalyzedTokenReadings[] tokens, int i) {
+<b class="nc">&nbsp;    return i &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; ((LemmaHelper.isCapitalized(tokens[i-1].getCleanToken())</b>
+<b class="nc">&nbsp;          || (PosTagHelper.hasPosTagStart(tokens[i-1], &quot;prep&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; i &lt; tokens.length - 1 &amp;&amp; ! LemmaHelper.isAllUppercaseUk(tokens[i+1].getCleanToken())) )</b>
+&nbsp;        ||
+<b class="nc">&nbsp;        i &lt; tokens.length - 1 &amp;&amp; Arrays.asList(&quot;ст.&quot;, &quot;тис.&quot;).contains(tokens[i+1].getCleanToken())</b>
+&nbsp;        || 
+<b class="nc">&nbsp;        i &lt; tokens.length - 1 &amp;&amp; Arrays.asList(&quot;квартал&quot;, &quot;півріччя&quot;, &quot;тисячоліття&quot;, &quot;половина&quot;).contains(tokens[i+1].getCleanToken()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String adjustForInvalidSuffix(String tokenString) {
+<b class="nc">&nbsp;    if( tokenString.contains(&quot;-&quot;) ) {</b>
+<b class="nc">&nbsp;      tokenString = tokenString.replaceFirst(&quot;-[а-яіїє]{1,4}&quot;, &quot;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tokenString;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String adjustForInvalidSuffix(String tokenString, String msg) {
+<b class="nc">&nbsp;    if( tokenString.contains(&quot;-&quot;) &amp;&amp; tokenString.matches(&quot;[IVXІХ]+-[а-яіїє]{1,4}&quot;) ) {</b>
+<b class="nc">&nbsp;      msg += &quot;. Також: до римських цифр букви не дописуються.&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return msg;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String toLatinLeftOnly(String tokenString) {
+<b class="nc">&nbsp;    String[] parts = tokenString.split(&quot;-&quot;, 2);</b>
+<b class="nc">&nbsp;    String right = parts.length &gt; 1 ? &quot;-&quot; + parts[1] : &quot;&quot;;</b>
+<b class="nc">&nbsp;    String converted = toLatin(parts[0]) + right;</b>
+<b class="nc">&nbsp;    return converted;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;//  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List&lt;String&gt; replacements, AnalyzedSentence sentence) {
+&nbsp;//    String tokenString = readings.getToken();
+&nbsp;//    String msg = tokenString + getSuggestion(tokenString) + String.join(&quot;, &quot;, replacements);
+&nbsp;//    
+&nbsp;//    return createRuleMatch(readings, replacements, msg, sentence);
+&nbsp;//  }
+&nbsp;
+&nbsp;  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List&lt;String&gt; replacements, String msg, AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg, getShort());</b>
+<b class="nc">&nbsp;    potentialRuleMatch.setSuggestedReplacements(replacements);</b>
+&nbsp;
+<b class="nc">&nbsp;    return potentialRuleMatch;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Map&lt;Character, Character&gt; toLatMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private static final Map&lt;Character, Character&gt; toCyrMap = new HashMap&lt;&gt;();</b>
+&nbsp;  private static final String cyrChars = &quot;аеіїкморстухАВЕІКМНОРСТУХ&quot;;
+&nbsp;  private static final String latChars = &quot;aeiïkmopctyxABEIKMHOPCTYX&quot;;
+<b class="nc">&nbsp;  private static final String[] umlauts = { &quot;á&quot;, &quot;Á&quot;, &quot;é&quot;, &quot;É&quot;, &quot;í&quot;, &quot;Í&quot;, &quot;ḯ&quot;, &quot;Ḯ&quot;, &quot;ó&quot;, &quot;Ó&quot;, &quot;ú&quot;, &quot;ý&quot;, &quot;Ý&quot; };</b>
+<b class="nc">&nbsp;  private static final String[] umlautsReplace = { &quot;а́&quot;, &quot;А́&quot;, &quot;е́&quot;, &quot;Е́&quot;, &quot;і́&quot;, &quot;І́&quot;, &quot;ї́&quot;, &quot;Ї́&quot;, &quot;о́&quot;, &quot;О́&quot;, &quot;и́&quot;, &quot;у́&quot;, &quot;У́&quot; };</b>
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    for (int i = 0; i &lt; cyrChars.length(); i++) {</b>
+<b class="nc">&nbsp;      toLatMap.put(cyrChars.charAt(i), latChars.charAt(i));</b>
+<b class="nc">&nbsp;      toCyrMap.put(latChars.charAt(i), cyrChars.charAt(i));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String toCyrillic(String word) {
+<b class="nc">&nbsp;    for (Map.Entry&lt;Character, Character&gt; entry : toCyrMap.entrySet()) {</b>
+<b class="nc">&nbsp;      word = word.replace(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for(int i=0; i&lt;umlauts.length; i++) {</b>
+<b class="nc">&nbsp;      word = word.replace(umlauts[i], umlautsReplace[i]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return word;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String toLatin(String word) {
+<b class="nc">&nbsp;    for (Map.Entry&lt;Character, Character&gt; entry : toLatMap.entrySet()) {</b>
+<b class="nc">&nbsp;      word = word.replace(entry.getKey(), entry.getValue());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return word;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

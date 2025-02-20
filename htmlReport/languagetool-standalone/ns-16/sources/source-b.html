@@ -1,0 +1,201 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BrazilianPortuguese</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: BrazilianPortuguese (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BrazilianPortuguese</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (22/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.pt.*;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;public class BrazilianPortuguese extends Portuguese {
+&nbsp;  private static final String LANGUAGE_SHORT_CODE = &quot;pt-BR&quot;;
+&nbsp;
+&nbsp;  private static volatile Throwable instantiationTrace;
+&nbsp;
+&nbsp;  public BrazilianPortuguese() {
+<b class="fc">&nbsp;    this(false);</b>
+<b class="fc">&nbsp;    Throwable trace = instantiationTrace;</b>
+<b class="pc">&nbsp;    if (trace != null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Language was already instantiated, see the cause stacktrace below.&quot;, trace);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    instantiationTrace = new Throwable();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected BrazilianPortuguese(boolean fakeValue) {
+<b class="fc">&nbsp;    super(fakeValue);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="fc">&nbsp;    return &quot;Portuguese (Brazil)&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="fc">&nbsp;    List&lt;Rule&gt; rules = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));</b>
+<b class="fc">&nbsp;    rules.add(new PostReformPortugueseCompoundRule(messages, this, userConfig));</b>
+<b class="fc">&nbsp;    rules.add(new PostReformPortugueseDashRule(messages));</b>
+<b class="fc">&nbsp;    rules.add(new BrazilianPortugueseReplaceRule(messages, &quot;/pt/pt-BR/replace.txt&quot;, this));</b>
+<b class="fc">&nbsp;    rules.add(new PortugueseBarbarismsRule(messages, &quot;/pt/pt-BR/barbarisms.txt&quot;, this));</b>
+<b class="fc">&nbsp;    rules.add(new PortugueseArchaismsRule(messages, &quot;/pt/pt-BR/archaisms.txt&quot;, this));</b>
+<b class="fc">&nbsp;    rules.add(new PortugueseClicheRule(messages, &quot;/pt/pt-BR/cliches.txt&quot;, this));</b>
+<b class="fc">&nbsp;    rules.add(new PortugueseRedundancyRule(messages, &quot;/pt/pt-BR/redundancies.txt&quot;, this));</b>
+<b class="fc">&nbsp;    rules.add(new PortugueseWordinessRule(messages, &quot;/pt/pt-BR/wordiness.txt&quot;, this));</b>
+<b class="fc">&nbsp;    rules.add(new PortugueseWikipediaRule(messages, &quot;/pt/pt-BR/wikipedia.txt&quot;, this));</b>
+<b class="fc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="fc">&nbsp;    return new String[]{&quot;BR&quot;};</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull Portuguese getInstance() {
+<b class="fc">&nbsp;    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));</b>
+<b class="pc">&nbsp;    if (language instanceof Portuguese brazilianPortuguese) {</b>
+<b class="fc">&nbsp;      return brazilianPortuguese;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;BrazilianPortuguese language expected, got &quot; + language);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

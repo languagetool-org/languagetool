@@ -1,0 +1,231 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DhaNoBeirtRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ga</a>
+</div>
+
+<h1>Coverage Summary for Class: DhaNoBeirtRule (org.languagetool.rules.ga)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DhaNoBeirtRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ga;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import static org.languagetool.rules.ga.DhaNoBeirtData.getNumberReplacements;
+&nbsp;import static org.languagetool.rules.ga.DhaNoBeirtData.getDaoine;
+&nbsp;
+&nbsp;public class DhaNoBeirtRule extends Rule {
+<b class="nc">&nbsp;  public DhaNoBeirtRule(ResourceBundle messages) {</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;Tá &lt;marker&gt;dhá&lt;/marker&gt; dheartháireacha agam.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;Tá &lt;marker&gt;beirt&lt;/marker&gt; dheartháireacha agam.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;GA_DHA_NO_BEIRT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;&#39;dhá&#39; nó &#39;beirt&#39;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    int markDeag = 1;</b>
+<b class="nc">&nbsp;    int prevTokenIndex = 0;</b>
+<b class="nc">&nbsp;    String replacement = null;</b>
+<b class="nc">&nbsp;    String msg = null;</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {  // ignoring token 0, i.e., SENT_START</b>
+<b class="nc">&nbsp;      if (isNumber(tokens[i]) &amp;&amp; (i &lt; tokens.length - 2 &amp;&amp; isPerson(tokens[i + 1]))) {</b>
+<b class="nc">&nbsp;        if (&quot;dhá&quot;.equalsIgnoreCase(tokens[i].getToken()) &amp;&amp; (i &lt; tokens.length - 2)) {</b>
+<b class="nc">&nbsp;          for (int j = i + 2; j &lt; tokens.length; j++) {</b>
+<b class="nc">&nbsp;            if (&quot;déag&quot;.equalsIgnoreCase(tokens[j].getToken())) {</b>
+<b class="nc">&nbsp;              markDeag = j;</b>
+<b class="nc">&nbsp;              replacement = &quot;dháréag&quot;;</b>
+<b class="nc">&nbsp;              msg = &quot;Ba chóir duit &lt;suggestion&gt;&quot; + replacement + &quot;&lt;/suggestion&gt; a scríobh&quot;;</b>
+<b class="nc">&nbsp;              RuleMatch match = new RuleMatch(</b>
+<b class="nc">&nbsp;                this, sentence, tokens[prevTokenIndex+1].getStartPos(), tokens[prevTokenIndex+1].getEndPos(), msg, &quot;Uimhir phearsanta&quot;);</b>
+<b class="nc">&nbsp;              ruleMatches.add(match);</b>
+<b class="nc">&nbsp;              msg = &quot;Ba chóir duit \&quot;déag\&quot; a scriosadh.&quot;;</b>
+<b class="nc">&nbsp;              RuleMatch match2 = new RuleMatch(</b>
+<b class="nc">&nbsp;                this, sentence, tokens[markDeag].getStartPos(), tokens[markDeag].getEndPos(), msg, &quot;Uimhir phearsanta&quot;);</b>
+<b class="nc">&nbsp;              ruleMatches.add(match2);</b>
+<b class="nc">&nbsp;              msg = null;</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (replacement == null) {</b>
+<b class="nc">&nbsp;          replacement = getNumberReplacements().get(tokens[i].getToken());</b>
+<b class="nc">&nbsp;          if (msg == null) {</b>
+<b class="nc">&nbsp;            msg = &quot;Ba chóir duit &lt;suggestion&gt;&quot; + replacement + &quot; &quot; + tokens[i + 1].getToken() + &quot;&lt;/suggestion&gt; a scríobh&quot;;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (msg != null) {</b>
+<b class="nc">&nbsp;        RuleMatch match = new RuleMatch(</b>
+<b class="nc">&nbsp;          this, sentence, tokens[prevTokenIndex+1].getStartPos(), tokens[prevTokenIndex+1 ].getEndPos(), msg, &quot;Uimhir phearsanta&quot;);</b>
+<b class="nc">&nbsp;        ruleMatches.add(match);</b>
+<b class="nc">&nbsp;        msg = null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      prevTokenIndex = i;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isNumber(AnalyzedTokenReadings tok) {
+<b class="nc">&nbsp;    for (String num : getNumberReplacements().keySet()) {</b>
+<b class="nc">&nbsp;      if (num.equalsIgnoreCase(tok.getToken())) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  private boolean isPerson(AnalyzedTokenReadings tok) {
+<b class="nc">&nbsp;    if (getDaoine().contains(tok.getToken().toLowerCase())) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (AnalyzedToken reading : tok.getReadings()) {</b>
+<b class="nc">&nbsp;      if (getDaoine().contains(reading.getLemma())) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

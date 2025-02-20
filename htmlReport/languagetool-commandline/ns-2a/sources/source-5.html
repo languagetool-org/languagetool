@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AnarASuggestionsFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: AnarASuggestionsFilter (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AnarASuggestionsFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.9%
+  </span>
+  <span class="absValue">
+    (1/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2023 Jaume Ortolà
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.PatternRule;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/*
+&nbsp; * Suggestions for rule ANAR_A_INFINITIU: anem a fer-li-ho -&gt; li ho farem, li ho fem
+&nbsp; */
+&nbsp;
+<b class="fc">&nbsp;public class AnarASuggestionsFilter extends RuleFilter {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+<b class="nc">&nbsp;    int initPos = 0;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    while (initPos &lt; tokens.length</b>
+<b class="nc">&nbsp;      &amp;&amp; (tokens[initPos].getStartPos() &lt; match.getFromPos() || tokens[initPos].isSentenceStart())) {</b>
+<b class="nc">&nbsp;      initPos++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String verbPostag = tokens[initPos].readingWithTagRegex(&quot;V.IP.*&quot;).getPOSTag();</b>
+<b class="nc">&nbsp;    String lemma = tokens[initPos + 2].readingWithTagRegex(&quot;V.N.*&quot;).getLemma();</b>
+<b class="nc">&nbsp;    AnalyzedToken at = new AnalyzedToken(&quot;&quot;, &quot;&quot;, lemma);</b>
+<b class="nc">&nbsp;    String newPostag =  &quot;V[MS]I[PF]&quot; + verbPostag.substring(4, 8);</b>
+<b class="nc">&nbsp;    Synthesizer synth = getSynthesizerFromRuleMatch(match);</b>
+<b class="nc">&nbsp;    String[] synthForms = synth.synthesize(at, newPostag, true);</b>
+<b class="nc">&nbsp;    if (synthForms.length == 0) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int adjustEndPos = 0;</b>
+<b class="nc">&nbsp;    String[] result = PronomsFeblesHelper.getTwoNextPronouns(tokens,initPos + 3);</b>
+<b class="nc">&nbsp;    String pronomsDarrere = result[0];</b>
+<b class="nc">&nbsp;    adjustEndPos += Integer.valueOf(result[1]);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String verb : synthForms) {</b>
+<b class="nc">&nbsp;      String suggestion = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (!pronomsDarrere.isEmpty()) {</b>
+<b class="nc">&nbsp;        suggestion = PronomsFeblesHelper.transformDavant(pronomsDarrere, verb);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      suggestion += verb;</b>
+<b class="nc">&nbsp;      suggestion = StringTools.preserveCase(suggestion, tokens[initPos].getToken());</b>
+<b class="nc">&nbsp;      replacements.add(suggestion);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (replacements.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[initPos].getStartPos(),</b>
+<b class="nc">&nbsp;      tokens[initPos + 2 + adjustEndPos].getEndPos(), match.getMessage(), match.getShortMessage());</b>
+<b class="nc">&nbsp;    ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;    ruleMatch.setSuggestedReplacements(replacements);</b>
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getLanguageVariantCode(RuleMatch match) {
+<b class="nc">&nbsp;    PatternRule pr = (PatternRule) match.getRule();</b>
+<b class="nc">&nbsp;    return pr.getLanguage().getShortCodeWithCountryAndVariant();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

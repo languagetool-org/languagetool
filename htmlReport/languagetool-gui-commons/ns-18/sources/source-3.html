@@ -1,0 +1,350 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > NGramDetector</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language.identifier.detector</a>
+</div>
+
+<h1>Coverage Summary for Class: NGramDetector (org.languagetool.language.identifier.detector)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NGramDetector</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/114)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 LanguageTooler GmbH
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language.identifier.detector;
+&nbsp;
+&nbsp;import org.languagetool.language.identifier.LanguageIdentifierService;
+&nbsp;import org.languagetool.noop.NoopLanguage;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.text.Normalizer;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.zip.ZipFile;
+&nbsp;
+&nbsp;import static java.lang.StrictMath.log;
+&nbsp;import static java.lang.StrictMath.min;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;
+&nbsp;public class NGramDetector {
+&nbsp;
+&nbsp;  private static final double EPSILON = 1e-4;
+<b class="nc">&nbsp;  private static final Pattern DIGITS = compile(&quot;\\d+&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern KOREAN = compile(&quot;[\\uac00-\\ud7a3]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern JAPANESE = compile(&quot;[\\u3040-\\u30ff]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern CHINESE = compile(&quot;[\\u4e00-\\u9FFF]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern KHMER = compile(&quot;[\\u1780-\\u17FF]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern TAGALOG = compile(&quot;[\\u1700-\\u171F]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ARMENIAN = compile(&quot;[\\u0530-\\u058F]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GREEK = compile(&quot;[\\u0370-\\u03FF]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern TAMIL = compile(&quot;[\\u0B80-\\u0BFF]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern WHITESPACE = compile(&quot;\\s+&quot;);</b>
+&nbsp;
+&nbsp;  private final Map&lt;String, Integer&gt; vocab;
+&nbsp;  private final List&lt;String[]&gt; codes; // Elem format = {Name, 2-code (or &quot;NULL&quot;), 3-code}
+&nbsp;
+&nbsp;  private final List&lt;Map&lt;String, Double&gt;&gt; knpBigramProbs;
+&nbsp;  private final int thresholdsStart;
+&nbsp;  private final List&lt;double[]&gt; thresholds;
+&nbsp;
+&nbsp;  private final int maxLength;
+&nbsp;  private final ZipFile zipFile;
+&nbsp;
+<b class="nc">&nbsp;  public NGramDetector(File sourceModelZip, int maxLength) throws IOException {</b>
+<b class="nc">&nbsp;    this.maxLength = maxLength;</b>
+<b class="nc">&nbsp;    this.zipFile = new ZipFile(sourceModelZip);</b>
+&nbsp;
+&nbsp;    //Load language codes - Line format = {Language Name}\t{2-code or &quot;NULL&quot;}\t{3-code}
+<b class="nc">&nbsp;    codes = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    try (BufferedReader br = getReader(&quot;iso_codes.tsv&quot;)) {</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        String[] values = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;        if (values[3].equals(&quot;1&quot;)) {</b>
+<b class="nc">&nbsp;          codes.add(values);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    //Load vocab - Line format = {token}
+<b class="nc">&nbsp;    vocab = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    try (BufferedReader br = getReader(&quot;vocab.txt&quot;)) {</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        vocab.put(line.split(&quot;\t&quot;)[0].trim(), i);</b>
+<b class="nc">&nbsp;        i++;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    //Load thresholds
+<b class="nc">&nbsp;    thresholds = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    try (BufferedReader br = getReader(&quot;thresholds.txt&quot;)) {</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      thresholdsStart = Integer.parseInt(br.readLine());</b>
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        double[] vals = Arrays.stream(line.split(&quot; &quot;)).mapToDouble(Double::parseDouble).toArray();</b>
+<b class="nc">&nbsp;        thresholds.add(vals);</b>
+&nbsp;      }
+&nbsp;      //assert (thresholds.size() == maxLength - thresholdsStart) : &quot;Thresholds file is incomplete: &quot; + thresholds.size() + &quot; != &quot; + maxLength + &quot;-&quot; + thresholdsStart;
+&nbsp;    }
+&nbsp;
+&nbsp;    //Load transition matrices - Line format = {i} {j} {val}
+<b class="nc">&nbsp;    knpBigramProbs = expectedFiles().stream().map(this::readLines).parallel().map(NGramDetector::loadDict).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Map&lt;String, Double&gt; detectLanguages(String text, List&lt;String&gt; additionalLanguageCodes) {
+<b class="nc">&nbsp;    List&lt;Integer&gt; enc = encode(text);</b>
+<b class="nc">&nbsp;    List&lt;Double&gt; finalProbs = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;int[]&gt; keys = keys(enc);</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 0; i &lt; codes.size(); i++) {</b>
+<b class="nc">&nbsp;      double val = 0;</b>
+<b class="nc">&nbsp;      for (int[] key: keys) {</b>
+<b class="nc">&nbsp;        double prob = knpBigramProbs.get(i).getOrDefault(key[0] + &quot;_&quot; + key[1], EPSILON);</b>
+<b class="nc">&nbsp;        val += log(prob);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      finalProbs.add(val);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    Map&lt;String, Double&gt; result = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    if (text.length() &gt;= this.thresholdsStart) {</b>
+<b class="nc">&nbsp;      int argMax = 0;</b>
+<b class="nc">&nbsp;      for (int i = 1; i &lt; finalProbs.size(); i++) {</b>
+<b class="nc">&nbsp;        if (finalProbs.get(i) &gt; finalProbs.get(argMax)) {</b>
+<b class="nc">&nbsp;          argMax = i;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      int thresholdIndex = min(text.length(), maxLength) - this.thresholdsStart;</b>
+<b class="nc">&nbsp;      if (finalProbs.get(argMax) &lt; thresholds.get(thresholdIndex)[argMax]) {</b>
+<b class="nc">&nbsp;        result.put(NoopLanguage.SHORT_CODE, 100.0);</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    finalProbs = finalProbs.stream().map(StrictMath::exp).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    finalProbs = normalize(finalProbs);</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; codes.size(); i++) {</b>
+<b class="nc">&nbsp;      String langCode = codes.get(i)[1].equals(&quot;NULL&quot;) ? codes.get(i)[2] : codes.get(i)[1]; //2-character code if possible</b>
+<b class="nc">&nbsp;      if (LanguageIdentifierService.INSTANCE.canLanguageBeDetected(langCode, additionalLanguageCodes)) {</b>
+<b class="nc">&nbsp;        result.put(langCode, finalProbs.get(i));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private BufferedReader getReader(String fileName) throws IOException {
+<b class="nc">&nbsp;    InputStream is = this.zipFile.getInputStream(this.zipFile.getEntry(fileName));</b>
+<b class="nc">&nbsp;    InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;    return new BufferedReader(isr);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; readLines(String path) {
+<b class="nc">&nbsp;    ArrayList&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    try (BufferedReader br = getReader(path)) {</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        result.add(line);</b>
+&nbsp;      }
+&nbsp;    } catch(IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;String, Double&gt; loadDict(List&lt;String&gt; lines)  {
+<b class="nc">&nbsp;    Map&lt;String, Double&gt; tm = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      String[] parts = line.trim().split(&quot; &quot;);</b>
+<b class="nc">&nbsp;      String key = String.join(&quot;_&quot;, Arrays.copyOfRange(parts, 0, parts.length-1));</b>
+<b class="nc">&nbsp;      tm.put(key, Double.parseDouble(parts[parts.length-1]));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tm;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; expectedFiles() {
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; codes.size(); i++) {</b>
+<b class="nc">&nbsp;      String name = String.format(&quot;%02d.txt&quot;, i);</b>
+<b class="nc">&nbsp;      result.add(name);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Integer&gt; encode(String text) {
+<b class="nc">&nbsp;    List&lt;Integer&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    result.add(1); //Start of sentence token</b>
+<b class="nc">&nbsp;    if (text.length() &gt; maxLength) {</b>
+<b class="nc">&nbsp;      text = text.substring(0, maxLength);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    text = Normalizer.normalize(text, Normalizer.Form.NFKC).toLowerCase();</b>
+<b class="nc">&nbsp;    text = DIGITS.matcher(text).replaceAll(&quot;&lt;NUM&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = KOREAN.matcher(text).replaceAll(&quot;&lt;KO&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = JAPANESE.matcher(text).replaceAll(&quot;&lt;JA&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = CHINESE.matcher(text).replaceAll(&quot;&lt;ZH&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = KHMER.matcher(text).replaceAll(&quot;&lt;KM&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = TAGALOG.matcher(text).replaceAll(&quot;&lt;TL&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = ARMENIAN.matcher(text).replaceAll(&quot;&lt;HY&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = GREEK.matcher(text).replaceAll(&quot;&lt;EL&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = TAMIL.matcher(text).replaceAll(&quot;&lt;TA&gt;&quot;);</b>
+<b class="nc">&nbsp;    text = WHITESPACE.matcher(text).replaceAll(&quot;▁&quot;);</b>
+<b class="nc">&nbsp;    if (text.length() == 0) {</b>
+<b class="nc">&nbsp;      return result;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    text = &quot;▁&quot; + text;</b>
+<b class="nc">&nbsp;    int cur = 0;</b>
+<b class="nc">&nbsp;    while (cur &lt; text.length()) {</b>
+<b class="nc">&nbsp;      int tok = 0;</b>
+<b class="nc">&nbsp;      int ci = 1;</b>
+<b class="nc">&nbsp;      for (int i = cur + 1; i &lt;= text.length(); i++) {</b>
+<b class="nc">&nbsp;        int maybeTok = vocab.getOrDefault(text.substring(cur, i), -1);</b>
+<b class="nc">&nbsp;        if (maybeTok &gt; -1) {</b>
+<b class="nc">&nbsp;          tok = maybeTok;</b>
+<b class="nc">&nbsp;          ci = i - cur;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      cur += ci;</b>
+<b class="nc">&nbsp;      result.add(tok);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;int[]&gt; keys(List&lt;Integer&gt; enc) {
+&nbsp;    //For now just bigrams
+<b class="nc">&nbsp;    List&lt;int[]&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; enc.size(); i++) {</b>
+<b class="nc">&nbsp;      result.add(new int[]{enc.get(i-1), enc.get(i)});</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Double&gt; normalize(List&lt;Double&gt; vals) {
+<b class="nc">&nbsp;    double tot = vals.stream().mapToDouble(f -&gt; f).sum();</b>
+<b class="nc">&nbsp;    return vals.stream().map(n -&gt; n/tot).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

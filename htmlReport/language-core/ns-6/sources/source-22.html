@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RuleDetails</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleDetails (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleDetails</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.apache.commons.cli.CommandLine;
+&nbsp;import org.apache.commons.cli.DefaultParser;
+&nbsp;import org.apache.commons.cli.Options;
+&nbsp;import org.apache.commons.cli.ParseException;
+&nbsp;import org.apache.commons.csv.CSVFormat;
+&nbsp;import org.apache.commons.csv.CSVParser;
+&nbsp;import org.apache.commons.csv.CSVPrinter;
+&nbsp;import org.apache.commons.csv.CSVRecord;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;
+&nbsp;import java.io.BufferedWriter;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * Extends a CSV with a column of rule ids with rule descriptions and categories
+&nbsp; */
+&nbsp;public class RuleDetails {
+&nbsp;  private final List&lt;Rule&gt; rules;
+&nbsp;
+<b class="nc">&nbsp;  public RuleDetails(Language lang, @Nullable String ngramPath) throws IOException {</b>
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;    if (ngramPath != null) {</b>
+<b class="nc">&nbsp;      lt.activateLanguageModelRules(new File(ngramPath));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    rules = lt.getAllRules();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private Rule getRuleById(String ruleId) {
+<b class="nc">&nbsp;    return rules.stream()</b>
+<b class="nc">&nbsp;      .filter(r -&gt; r.getId().equals(ruleId))</b>
+<b class="nc">&nbsp;      .findFirst().orElse(null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws ParseException, IOException {
+<b class="nc">&nbsp;    Options options = new Options();</b>
+<b class="nc">&nbsp;    options.addRequiredOption(&quot;l&quot;, &quot;language&quot;, true, &quot;Language for rules&quot;);</b>
+<b class="nc">&nbsp;    options.addRequiredOption(&quot;f&quot;, &quot;file&quot;, true, &quot;Input file&quot;);</b>
+<b class="nc">&nbsp;    options.addRequiredOption(&quot;o&quot;, &quot;output&quot;, true, &quot;Output file&quot;);</b>
+<b class="nc">&nbsp;    options.addRequiredOption(&quot;c&quot;, &quot;column&quot;, true, &quot;Column in input file&quot;);</b>
+<b class="nc">&nbsp;    options.addOption(&quot;n&quot;, &quot;ngramPath&quot;, true, &quot;Ngram path to activate ngram rules&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    CommandLine cmd = new DefaultParser().parse(options, args);</b>
+&nbsp;
+<b class="nc">&nbsp;    String langCode = cmd.getOptionValue(&#39;l&#39;);</b>
+<b class="nc">&nbsp;    String inputFile = cmd.getOptionValue(&#39;f&#39;);</b>
+<b class="nc">&nbsp;    String outputFile = cmd.getOptionValue(&#39;o&#39;);</b>
+<b class="nc">&nbsp;    String column = cmd.getOptionValue(&#39;c&#39;);</b>
+<b class="nc">&nbsp;    String ngramPath = cmd.hasOption(&#39;n&#39;) ? cmd.getOptionValue(&#39;n&#39;) : null;</b>
+&nbsp;
+<b class="nc">&nbsp;    RuleDetails details = new RuleDetails(Languages.getLanguageForShortCode(langCode), ngramPath);</b>
+&nbsp;
+<b class="nc">&nbsp;    CSVFormat format = CSVFormat.RFC4180.withFirstRecordAsHeader();</b>
+&nbsp;
+<b class="nc">&nbsp;    try (CSVParser parser = CSVParser.parse(new File(inputFile), Charset.defaultCharset(), format)) {</b>
+<b class="nc">&nbsp;      try (CSVPrinter printer = new CSVPrinter(new BufferedWriter(new FileWriter(outputFile)), format)) {</b>
+<b class="nc">&nbsp;        Map&lt;String, Integer&gt; oldHeader = parser.getHeaderMap();</b>
+<b class="nc">&nbsp;        List&lt;String&gt; newHeader = new ArrayList&lt;&gt;(Collections.nCopies(oldHeader.size(), null));</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Map.Entry&lt;String, Integer&gt; entry : oldHeader.entrySet()) {</b>
+<b class="nc">&nbsp;          newHeader.set(entry.getValue(), entry.getKey());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        newHeader.add(&quot;description&quot;);</b>
+<b class="nc">&nbsp;        newHeader.add(&quot;category&quot;);</b>
+<b class="nc">&nbsp;        printer.printRecord(newHeader);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!oldHeader.containsKey(column)) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Input file does not contain specified column &quot; + column);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        List&lt;CSVRecord&gt; records = parser.getRecords();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        records.stream().sequential().map(record -&gt; {</b>
+<b class="nc">&nbsp;          String ruleId = record.get(column);</b>
+<b class="nc">&nbsp;          Rule rule = details.getRuleById(ruleId);</b>
+<b class="nc">&nbsp;          List&lt;String&gt; transformedValues = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          record.iterator().forEachRemaining(transformedValues::add);</b>
+<b class="nc">&nbsp;          if (rule == null) {</b>
+<b class="nc">&nbsp;            transformedValues.add(&quot;&quot;);</b>
+<b class="nc">&nbsp;            transformedValues.add(&quot;&quot;);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            transformedValues.add(rule.getDescription());</b>
+<b class="nc">&nbsp;            transformedValues.add(rule.getCategory().getId().toString());</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return transformedValues;</b>
+<b class="nc">&nbsp;        }).forEachOrdered(values -&gt; {</b>
+&nbsp;          try {
+<b class="nc">&nbsp;            printer.printRecord(values);</b>
+&nbsp;          } catch (IOException e) {
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;          }
+&nbsp;        });
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

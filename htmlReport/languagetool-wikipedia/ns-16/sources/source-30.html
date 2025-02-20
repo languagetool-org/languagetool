@@ -1,0 +1,229 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SimpleGerman</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: SimpleGerman (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleGerman</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.GlobalConfig;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.de.LongSentenceRule;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;/**
+&nbsp; * Simple German (see e.g. &lt;a href=&quot;https://de.wikipedia.org/wiki/Leichte_Sprache&quot;&gt;Wikipedia&lt;/a&gt;)
+&nbsp; * that only support rules specific to this variant, not the other German rules.
+&nbsp; */
+<b class="nc">&nbsp;public class SimpleGerman extends GermanyGerman {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isVariant() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;Simple German&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="nc">&nbsp;    return &quot;de-DE-x-simple-language&quot;;  // a &quot;private use tag&quot; according to http://tools.ietf.org/html/bcp47</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[] {</b>
+&nbsp;        new Contributor(&quot;Annika Nietzio&quot;)
+&nbsp;    };
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new GermanRuleDisambiguator(getInstance());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    List&lt;Rule&gt; rules = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12);</b>
+<b class="nc">&nbsp;    rules.add(lengthRule);</b>
+<b class="nc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public LanguageModel getLanguageModel(File indexDir) throws IOException {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="nc">&nbsp;    if (id.equals(&quot;TOO_LONG_SENTENCE&quot;)) {</b>
+<b class="nc">&nbsp;      return 10;</b>
+<b class="nc">&nbsp;    } else if (id.equals(&quot;LANGES_WORT&quot;)) {</b>
+<b class="nc">&nbsp;      return -1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return super.getPriorityForId(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; getRuleFileNames() {
+<b class="nc">&nbsp;    List&lt;String&gt; ruleFileNames = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + &quot;/&quot; + getShortCode() + &quot;/&quot;;</b>
+<b class="nc">&nbsp;    ruleFileNames.add(dirBase + &quot;grammar.xml&quot;);</b>
+<b class="nc">&nbsp;    return ruleFileNames;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

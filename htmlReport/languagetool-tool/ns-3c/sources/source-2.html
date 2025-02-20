@@ -1,0 +1,489 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractPatternRulePerformer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractPatternRulePerformer (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractPatternRulePerformer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/190)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/174)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AbstractPatternRulePerformer$MatchConsumer</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/190)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/174)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * Copyright (C) 2013 Stefan Lotties
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 2.3
+&nbsp; */
+&nbsp;public abstract class AbstractPatternRulePerformer {
+&nbsp;
+&nbsp;  protected boolean prevMatched;
+&nbsp;  protected AbstractTokenBasedRule rule;
+&nbsp;  protected Unifier unifier;
+&nbsp;  protected AnalyzedTokenReadings[] unifiedTokens;
+&nbsp;  private final List&lt;PatternTokenMatcher&gt; patternTokenMatchers;
+&nbsp;  private final int patternSize;
+&nbsp;  private final int minOccurCorrection;
+&nbsp;  private final @Nullable Map&lt;PatternToken, List&lt;List&lt;AnalyzedToken&gt;&gt;&gt; toUnify;
+&nbsp;  private final @Nullable Map&lt;PatternToken, List&lt;AnalyzedTokenReadings&gt;&gt; neutralReadings;
+&nbsp;
+<b class="nc">&nbsp;  protected AbstractPatternRulePerformer(AbstractTokenBasedRule rule, Unifier unifier) {</b>
+<b class="nc">&nbsp;    this.rule = Objects.requireNonNull(rule);</b>
+<b class="nc">&nbsp;    this.unifier = Objects.requireNonNull(unifier);</b>
+<b class="nc">&nbsp;    patternTokenMatchers = createElementMatchers();</b>
+<b class="nc">&nbsp;    patternSize = patternTokenMatchers.size();</b>
+<b class="nc">&nbsp;    minOccurCorrection = getMinOccurrenceCorrection();</b>
+<b class="nc">&nbsp;    toUnify = rule.isTestUnification() ? new HashMap&lt;&gt;() : null;</b>
+<b class="nc">&nbsp;    neutralReadings = rule.isTestUnification() ? new HashMap&lt;&gt;() : null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;PatternTokenMatcher&gt; createElementMatchers() {
+<b class="nc">&nbsp;    List&lt;PatternTokenMatcher&gt; patternTokenMatchers = new ArrayList&lt;&gt;(rule.patternTokens.size());</b>
+<b class="nc">&nbsp;    for (PatternToken pToken : rule.patternTokens) {</b>
+<b class="nc">&nbsp;      PatternTokenMatcher matcher = new PatternTokenMatcher(pToken);</b>
+<b class="nc">&nbsp;      patternTokenMatchers.add(matcher);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return patternTokenMatchers;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void doMatch(AnalyzedSentence sentence, AnalyzedTokenReadings[] tokens, MatchConsumer consumer) throws IOException {
+<b class="nc">&nbsp;    AbstractTokenBasedRule.TokenHint anchor = rule.anchorHint;</b>
+<b class="nc">&nbsp;    List&lt;Integer&gt; anchorIndices = anchor == null || isInterpretPosTagsPreDisambiguation() ? null : anchor.getPossibleIndices(sentence);</b>
+&nbsp;
+<b class="nc">&nbsp;    int[] tokenPositions = new int[patternTokenMatchers.size()];</b>
+<b class="nc">&nbsp;    int limit = rule.isSentStart() ? 1 : Math.max(0, tokens.length - patternSize + 1) + minOccurCorrection;</b>
+<b class="nc">&nbsp;    if (anchorIndices != null) {</b>
+<b class="nc">&nbsp;      for (Integer anchorIndex : anchorIndices) {</b>
+<b class="nc">&nbsp;        int i = anchorIndex - anchor.tokenIndex;</b>
+<b class="nc">&nbsp;        if (i &gt;= 0 &amp;&amp; i &lt; limit) {</b>
+<b class="nc">&nbsp;          matchFrom(i, tokens, consumer, tokenPositions);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      for (int i = 0; i &lt; limit; i++) {</b>
+<b class="nc">&nbsp;        matchFrom(i, tokens, consumer, tokenPositions);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void matchFrom(int startIndex, AnalyzedTokenReadings[] tokens, MatchConsumer consumer, int[] tokenPositions) throws IOException {
+<b class="nc">&nbsp;    PatternTokenMatcher pTokenMatcher = null;</b>
+<b class="nc">&nbsp;    int skipShiftTotal = 0;</b>
+<b class="nc">&nbsp;    boolean allElementsMatch = false;</b>
+<b class="nc">&nbsp;    unifiedTokens = null;</b>
+<b class="nc">&nbsp;    int matchingTokens = 0;</b>
+<b class="nc">&nbsp;    int firstMatchToken = -1;</b>
+<b class="nc">&nbsp;    int lastMatchToken = -1;</b>
+<b class="nc">&nbsp;    int firstMarkerMatchToken = -1;</b>
+<b class="nc">&nbsp;    int lastMarkerMatchToken = -1;</b>
+<b class="nc">&nbsp;    int prevSkipNext = 0;</b>
+<b class="nc">&nbsp;    if (toUnify != null) {</b>
+<b class="nc">&nbsp;      toUnify.clear();</b>
+<b class="nc">&nbsp;      Objects.requireNonNull(neutralReadings).clear();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int minOccurSkip = 0;</b>
+<b class="nc">&nbsp;    for (int k = 0; k &lt; patternSize; k++) {</b>
+<b class="nc">&nbsp;      PatternTokenMatcher prevTokenMatcher = pTokenMatcher;</b>
+<b class="nc">&nbsp;      pTokenMatcher = patternTokenMatchers.get(k);</b>
+<b class="nc">&nbsp;      pTokenMatcher.resolveReference(firstMatchToken, tokens, rule.getLanguage());</b>
+<b class="nc">&nbsp;      int nextPos = startIndex + k + skipShiftTotal - minOccurSkip;</b>
+<b class="nc">&nbsp;      prevMatched = false;</b>
+<b class="nc">&nbsp;      if (prevSkipNext + nextPos &gt;= tokens.length || prevSkipNext &lt; 0) { // SENT_END?</b>
+<b class="nc">&nbsp;        prevSkipNext = tokens.length - (nextPos + 1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);</b>
+<b class="nc">&nbsp;      for (int m = nextPos; m &lt;= maxTok; m++) {</b>
+<b class="nc">&nbsp;        allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {</b>
+<b class="nc">&nbsp;          boolean foundNext = false;</b>
+<b class="nc">&nbsp;          for (int k2 = k + 1; k2 &lt; patternSize; k2++) {</b>
+<b class="nc">&nbsp;            PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);</b>
+<b class="nc">&nbsp;            boolean nextElementMatch = testAllReadings(tokens, nextElement, pTokenMatcher, m,</b>
+&nbsp;              firstMatchToken, prevSkipNext);
+<b class="nc">&nbsp;            if (nextElementMatch) {</b>
+&nbsp;              // this element doesn&#39;t match, but it&#39;s optional so accept this and continue
+<b class="nc">&nbsp;              allElementsMatch = true;</b>
+<b class="nc">&nbsp;              minOccurSkip++;</b>
+<b class="nc">&nbsp;              tokenPositions[matchingTokens++] = 0;</b>
+<b class="nc">&nbsp;              foundNext = true;</b>
+&nbsp;              break;
+<b class="nc">&nbsp;            } else if (nextElement.getPatternToken().getMinOccurrence() &gt; 0) {</b>
+&nbsp;              break;
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          if (foundNext) {</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (allElementsMatch) {</b>
+<b class="nc">&nbsp;          int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,</b>
+&nbsp;            prevTokenMatcher, m, patternSize - k - 1);
+<b class="nc">&nbsp;          lastMatchToken = m + skipForMax;</b>
+<b class="nc">&nbsp;          int skipShift = lastMatchToken - nextPos;</b>
+<b class="nc">&nbsp;          tokenPositions[matchingTokens++] = skipShift + 1;</b>
+<b class="nc">&nbsp;          prevSkipNext = translateElementNo(pTokenMatcher.getPatternToken().getSkipNext());</b>
+<b class="nc">&nbsp;          skipShiftTotal += skipShift;</b>
+<b class="nc">&nbsp;          if (firstMatchToken == -1) {</b>
+<b class="nc">&nbsp;            firstMatchToken = lastMatchToken - skipForMax;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (firstMarkerMatchToken == -1 &amp;&amp; pTokenMatcher.getPatternToken().isInsideMarker()) {</b>
+<b class="nc">&nbsp;            firstMarkerMatchToken = lastMatchToken - skipForMax;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (pTokenMatcher.getPatternToken().isInsideMarker()) {</b>
+<b class="nc">&nbsp;            lastMarkerMatchToken = lastMatchToken;</b>
+&nbsp;          }
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (!allElementsMatch) {</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (allElementsMatch &amp;&amp; matchingTokens == patternSize &amp;&amp; testUnification()) {</b>
+<b class="nc">&nbsp;      consumer.consume(tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isInterpretPosTagsPreDisambiguation() {
+<b class="nc">&nbsp;    return rule instanceof PatternRule &amp;&amp; ((PatternRule) rule).isInterpretPosTagsPreDisambiguation();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean testAllReadings(AnalyzedTokenReadings[] tokens,
+&nbsp;                                    PatternTokenMatcher matcher, PatternTokenMatcher prevElement,
+&nbsp;                                    int tokenNo, int firstMatchToken, int prevSkipNext)
+&nbsp;          throws IOException {
+<b class="nc">&nbsp;    boolean anyMatched = false;</b>
+<b class="nc">&nbsp;    int numberOfReadings = tokens[tokenNo].getReadingsLength();</b>
+<b class="nc">&nbsp;    matcher.prepareAndGroup(firstMatchToken, tokens, rule.getLanguage());</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; readingsToUnify = toUnify == null ? null : new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 0; i &lt; numberOfReadings; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(i);</b>
+<b class="nc">&nbsp;      prevMatched = prevMatched || prevSkipNext &gt; 0</b>
+&nbsp;          &amp;&amp; prevElement != null
+<b class="nc">&nbsp;          &amp;&amp; prevElement.isMatchedByScopeNextException(matchToken);</b>
+&nbsp;
+&nbsp;      // a workaround to allow exception with scope=&quot;next&quot; without &quot;skip&quot; in previous token
+&nbsp;      // this allows to check for exception in the next token even if the current one is the last one in the sentence
+<b class="nc">&nbsp;      prevMatched = prevMatched || prevSkipNext == 0</b>
+&nbsp;          &amp;&amp; tokenNo &lt;= tokens.length-2
+<b class="nc">&nbsp;          &amp;&amp; matcher.isMatchedByScopeNextException(tokens[tokenNo+1].getAnalyzedToken(0));</b>
+&nbsp;
+<b class="nc">&nbsp;      if (prevMatched) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      boolean readingTested = false;</b>
+<b class="nc">&nbsp;      boolean readingMatches = false;</b>
+&nbsp;
+<b class="nc">&nbsp;      if (!anyMatched) {</b>
+<b class="nc">&nbsp;        anyMatched = readingMatches = matcher.isMatched(matchToken);</b>
+<b class="nc">&nbsp;        readingTested = true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      //short-circuit when the search cannot possibly match
+<b class="nc">&nbsp;      if (!anyMatched &amp;&amp; (prevElement == null || !prevElement.getPatternToken().hasCurrentOrNextExceptions())) {</b>
+<b class="nc">&nbsp;        if (matcher.getPatternToken().getPOStag() == null) {</b>
+<b class="nc">&nbsp;          if (matcher.getPatternToken().isInflected()) {</b>
+<b class="nc">&nbsp;            if (tokens[tokenNo].hasSameLemmas()) {</b>
+<b class="nc">&nbsp;              return false; // same lemmas everywhere</b>
+&nbsp;            }
+&nbsp;          } else {
+<b class="nc">&nbsp;            return false; // the token is the same, we will not get a match</b>
+&nbsp;          }
+<b class="nc">&nbsp;        } else if (!matcher.getPatternToken().getPOSNegation() // postag =! null</b>
+<b class="nc">&nbsp;            &amp;&amp; !tokens[tokenNo].isTagged()) {</b>
+<b class="nc">&nbsp;          return false; // we won&#39;t find any postag here anyway</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (rule.isGroupsOrUnification()) {</b>
+<b class="nc">&nbsp;        if (!readingTested) {</b>
+<b class="nc">&nbsp;          readingMatches = matcher.isMatched(matchToken);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        boolean isLastReading = i + 1 == numberOfReadings;</b>
+<b class="nc">&nbsp;        PatternToken elem = matcher.getPatternToken();</b>
+<b class="nc">&nbsp;        if (readingMatches &amp;&amp; readingsToUnify != null &amp;&amp; elem.isUnified() &amp;&amp; !elem.isUnificationNeutral()) {</b>
+<b class="nc">&nbsp;          readingsToUnify.add(matchToken);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        anyMatched &amp;= testAndGroup(isLastReading, matchToken, matcher);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (anyMatched) {</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; numberOfReadings; i++) {</b>
+<b class="nc">&nbsp;        if (matcher.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(i))) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (tokenNo &gt; 0 &amp;&amp; matcher.hasPreviousException()) {</b>
+<b class="nc">&nbsp;        if (matcher.isMatchedByPreviousException(tokens[tokenNo - 1])) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (matcher.getPatternToken().isUnificationNeutral() &amp;&amp; neutralReadings != null) {</b>
+<b class="nc">&nbsp;        neutralReadings.computeIfAbsent(matcher.getPatternToken(), __ -&gt; new ArrayList&lt;&gt;()).add(tokens[tokenNo]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    ChunkTag chunkTag = matcher.getPatternToken().getChunkTag();</b>
+<b class="nc">&nbsp;    if (chunkTag != null) {</b>
+<b class="nc">&nbsp;      if (chunkTag.isRegexp()) {</b>
+<b class="nc">&nbsp;        anyMatched &amp;= tokens[tokenNo].getChunkTags().stream().anyMatch(k -&gt; k.getChunkTag().matches(chunkTag.getChunkTag()))</b>
+<b class="nc">&nbsp;                        ^ matcher.getPatternToken().getNegation();</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        anyMatched &amp;= tokens[tokenNo].getChunkTags().contains(chunkTag)</b>
+<b class="nc">&nbsp;                        ^ matcher.getPatternToken().getNegation();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (matcher.getPatternToken().hasAndGroup()) {</b>
+<b class="nc">&nbsp;      for (PatternToken e : matcher.getPatternToken().getAndGroup()) {</b>
+<b class="nc">&nbsp;        if (e.getChunkTag() != null) {</b>
+<b class="nc">&nbsp;          anyMatched &amp;= tokens[tokenNo].getChunkTags().contains(e.getChunkTag())</b>
+<b class="nc">&nbsp;              ^ e.getNegation();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (anyMatched &amp;&amp; readingsToUnify != null &amp;&amp; !readingsToUnify.isEmpty()) {</b>
+<b class="nc">&nbsp;      toUnify.computeIfAbsent(matcher.getPatternToken(), __ -&gt; new ArrayList&lt;&gt;()).add(readingsToUnify);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return anyMatched;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean testUnification() {
+<b class="nc">&nbsp;    if (toUnify == null || neutralReadings == null) return true;</b>
+&nbsp;
+<b class="nc">&nbsp;    unifier.reset();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (PatternTokenMatcher matcher : patternTokenMatchers) {</b>
+<b class="nc">&nbsp;      PatternToken patternToken = matcher.getPatternToken();</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedTokenReadings&gt; neutral = neutralReadings.get(patternToken);</b>
+<b class="nc">&nbsp;      if (neutral != null) {</b>
+<b class="nc">&nbsp;        for (AnalyzedTokenReadings atr : neutral) {</b>
+<b class="nc">&nbsp;          unifier.addNeutralElement(atr);</b>
+&nbsp;        }
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      List&lt;List&lt;AnalyzedToken&gt;&gt; readingSets = toUnify.get(patternToken);</b>
+<b class="nc">&nbsp;      if (readingSets == null) continue;</b>
+&nbsp;
+<b class="nc">&nbsp;      for (List&lt;AnalyzedToken&gt; readings : readingSets) {</b>
+<b class="nc">&nbsp;        boolean anyMatched = false;</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; readings.size(); i++) {</b>
+<b class="nc">&nbsp;          anyMatched |= unifier.isUnified(readings.get(i), patternToken.getUniFeatures(), i == readings.size() - 1);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (patternToken.isUniNegated() &amp;&amp; anyMatched) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (patternToken.isLastInUnification() &amp;&amp; readings == readingSets.get(readingSets.size() - 1)) {</b>
+<b class="nc">&nbsp;          if (!anyMatched &amp;&amp; !patternToken.isUniNegated()) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (rule.isGetUnified()) {</b>
+<b class="nc">&nbsp;            unifiedTokens = unifier.getFinalUnified();</b>
+&nbsp;            //try {
+&nbsp;            //  unifiedTokens = unifier.getFinalUnified();
+&nbsp;            //} catch (Exception e) {
+&nbsp;            //  System.out.println(&quot;Crashing rule: &quot; + rule.getFullId());
+&nbsp;            //  throw e;
+&nbsp;            //}
+&nbsp;          }
+<b class="nc">&nbsp;          unifier.reset();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean testAndGroup(boolean lastReading, AnalyzedToken matchToken, PatternTokenMatcher elemMatcher) {
+<b class="nc">&nbsp;    elemMatcher.addMemberAndGroup(matchToken);</b>
+<b class="nc">&nbsp;    return !lastReading || elemMatcher.checkAndGroup(true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getMinOccurrenceCorrection() {
+<b class="nc">&nbsp;    int minOccurCorrection = 0;</b>
+<b class="nc">&nbsp;    for (PatternToken patternToken : rule.getPatternTokens()) {</b>
+<b class="nc">&nbsp;      if (patternToken.getMinOccurrence() == 0) {</b>
+<b class="nc">&nbsp;        minOccurCorrection++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return minOccurCorrection;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher elem, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
+<b class="nc">&nbsp;    int maxSkip = 0;</b>
+<b class="nc">&nbsp;    int maxOccurrences = elem.getPatternToken().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getPatternToken().getMaxOccurrence();</b>
+<b class="nc">&nbsp;    for (int j = 1; j &lt; maxOccurrences &amp;&amp; m+j &lt; tokens.length - remainingElems; j++) {</b>
+<b class="nc">&nbsp;      boolean nextAllElementsMatch = testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);</b>
+<b class="nc">&nbsp;      if (nextAllElementsMatch) {</b>
+<b class="nc">&nbsp;        maxSkip++;</b>
+&nbsp;      } else {
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return maxSkip;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int translateElementNo(int i) {
+<b class="nc">&nbsp;    return i;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected interface MatchConsumer {
+&nbsp;    void consume(int[] tokenPositions,
+&nbsp;                 int firstMatchToken,
+&nbsp;                 int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,459 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MultitokenSpeller</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.multitoken</a>
+</div>
+
+<h1>Coverage Summary for Class: MultitokenSpeller (org.languagetool.rules.spelling.multitoken)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MultitokenSpeller</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.2%
+  </span>
+  <span class="absValue">
+    (13/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43.2%
+  </span>
+  <span class="absValue">
+    (70/162)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58%
+  </span>
+  <span class="absValue">
+    (91/157)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2023 Jaume Ortolà
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.spelling.multitoken;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.text.similarity.LevenshteinDistance;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.morfologik.WeightedSuggestion;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;
+&nbsp;public class MultitokenSpeller {
+&nbsp;
+&nbsp;  private static final int MAX_LENGTH_DIFF = 3;
+<b class="fc">&nbsp;  private static final Pattern WHITESPACE_AND_SEP = compile(&quot;\\p{Zs}+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SPACE = compile(&quot; &quot;);</b>
+&nbsp;
+&nbsp;  private final SpellingCheckRule spellingRule;
+&nbsp;  private final Language language;
+&nbsp;
+&nbsp;  private HashMap&lt;Character, HashMap&lt;String, List&lt;String&gt;&gt;&gt; suggestionsMap;
+&nbsp;  private HashMap&lt;String, List&lt;String&gt;&gt; suggestionsMapNoSpacesKey;
+&nbsp;
+&nbsp;  /*
+&nbsp;   * Ultra-naive speller that provides spelling suggestions for multitoken words from a list of words.
+&nbsp;   * The fastest method, so far.
+&nbsp;   */
+&nbsp;
+<b class="fc">&nbsp;  public MultitokenSpeller(Language lang, List&lt;String&gt; filePaths) {</b>
+<b class="fc">&nbsp;    language = lang;</b>
+<b class="fc">&nbsp;    spellingRule = lang.getDefaultSpellingRule();</b>
+<b class="fc">&nbsp;    initMultitokenSpeller(filePaths);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getSuggestions(String originalWord) throws IOException {
+<b class="nc">&nbsp;    return getSuggestions(originalWord, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
+<b class="fc">&nbsp;    originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(&quot; &quot;);</b>
+<b class="fc">&nbsp;    String word = originalWord.replace(&quot;- &quot;, &quot;-&quot;).replace(&quot; -&quot;, &quot;-&quot;);</b>
+<b class="pc">&nbsp;    if (discardRunOnWords(word)) {</b>
+<b class="nc">&nbsp;     return Collections.emptyList();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String normalizedWord = getNormalizeKey(word);</b>
+<b class="fc">&nbsp;    List&lt;WeightedSuggestion&gt; weightedCandidates = new ArrayList&lt;&gt;();</b>
+&nbsp;    // try searching the key
+<b class="fc">&nbsp;    String normalizedWordNoSpaces = normalizedWord.replace(&quot; &quot;,&quot;&quot;);</b>
+<b class="pc">&nbsp;    if (suggestionsMapNoSpacesKey.containsKey(normalizedWordNoSpaces)) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; candidates = suggestionsMapNoSpacesKey.get(normalizedWordNoSpaces);</b>
+<b class="nc">&nbsp;      if (stopSearching(candidates, originalWord)) {</b>
+<b class="nc">&nbsp;        return Collections.emptyList();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      for (String candidate : candidates) {</b>
+<b class="nc">&nbsp;        weightedCandidates.add(new WeightedSuggestion(candidate, 0));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    Character firstChar = normalizedWord.charAt(0);</b>
+<b class="pc">&nbsp;    if (weightedCandidates.isEmpty() &amp;&amp; suggestionsMap.containsKey(firstChar) ) {</b>
+<b class="fc">&nbsp;      for (Map.Entry&lt;String, List&lt;String&gt;&gt; entry : suggestionsMap.get(firstChar).entrySet()) {</b>
+<b class="fc">&nbsp;        String normalizedCandidate = entry.getKey();</b>
+<b class="fc">&nbsp;        List&lt;String&gt; candidates = entry.getValue();</b>
+<b class="pc">&nbsp;        if (stopSearching(candidates, originalWord)) {</b>
+<b class="nc">&nbsp;          return Collections.emptyList();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (Math.abs(normalizedCandidate.length() - word.length()) &gt; MAX_LENGTH_DIFF) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="fc">&nbsp;        String[] candidateParts = splitBySpace(normalizedCandidate);</b>
+<b class="fc">&nbsp;        String[] wordParts = splitBySpace(normalizedWord);</b>
+<b class="fc">&nbsp;        List&lt;Integer&gt; distances = distancesPerWord(candidateParts, wordParts, normalizedCandidate, normalizedWord);</b>
+<b class="fc">&nbsp;        int totalDistance = distances.stream().reduce(0, Integer::sum);</b>
+<b class="pc">&nbsp;        if (totalDistance &lt; 1) {</b>
+<b class="nc">&nbsp;          for (String candidate : candidates) {</b>
+<b class="nc">&nbsp;            weightedCandidates.add(new WeightedSuggestion(candidate, 0));</b>
+&nbsp;          }
+&nbsp;          // &quot;continue&quot; allows several candidates with different casing
+<b class="nc">&nbsp;          if (weightedCandidates.size() == 2) {</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        // for very short candidates, allow only distance=0 (casing and diacritics differences)
+<b class="pc">&nbsp;        if (normalizedCandidate.length() &lt; 7) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="fc">&nbsp;        boolean exceedsMaxDistancePerToken = false;</b>
+<b class="pc">&nbsp;        for (int i=0; i&lt;distances.size(); i++) {</b>
+&nbsp;          // usually 2, but 1 for short words
+<b class="fc">&nbsp;          int maxDistance = (wordParts[i].length() &gt; 5 &amp;&amp; candidateParts[i].length() &gt; 4 ? 2: 1);</b>
+<b class="fc">&nbsp;          if (distances.get(i) &gt; maxDistance) {</b>
+<b class="fc">&nbsp;            exceedsMaxDistancePerToken = true;</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+<b class="pc">&nbsp;        if (exceedsMaxDistancePerToken) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (totalDistance &lt;= maxEditDistance(normalizedCandidate, normalizedWord)) {</b>
+<b class="nc">&nbsp;          for (String candidate : candidates) {</b>
+<b class="nc">&nbsp;            weightedCandidates.add(new WeightedSuggestion(candidate, totalDistance));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (weightedCandidates.isEmpty()) {</b>
+<b class="fc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Collections.sort(weightedCandidates);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int weightFirstCandidate = weightedCandidates.get(0).getWeight();</b>
+<b class="nc">&nbsp;    if (areTokensAcceptedBySpeller &amp;&amp; weightedCandidates.get(0).getWord().toUpperCase().equals(originalWord)) {</b>
+&nbsp;      // don&#39;t correct all-upper case words accepted by the speller
+<b class="nc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (areTokensAcceptedBySpeller &amp;&amp; weightFirstCandidate &gt; 1) {</b>
+<b class="nc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (WeightedSuggestion weightedCandidate : weightedCandidates) {</b>
+&nbsp;      // keep only cadidates with the distance of the first candidate
+<b class="nc">&nbsp;      if (weightedCandidate.getWeight() - weightFirstCandidate &lt; 1) {</b>
+<b class="nc">&nbsp;        results.add(weightedCandidate.getWord());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean stopSearching(List&lt;String&gt; candidates, String originalWord) {
+<b class="fc">&nbsp;    for (String candidate : candidates) {</b>
+<b class="pc">&nbsp;      if (isException(originalWord, candidate)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (candidate.equals(originalWord)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    for (String candidate : candidates) {</b>
+<b class="fc">&nbsp;      if (candidate.equals(candidate.toLowerCase())</b>
+<b class="pc">&nbsp;        &amp;&amp; StringTools.convertToTitleCaseIteratingChars(candidate).equals(originalWord)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int maxEditDistance(String normalizedCandidate, String normalizedWord) {
+<b class="nc">&nbsp;    int totalLength = normalizedWord.length();</b>
+<b class="nc">&nbsp;    int correctLength = totalLength - numberOfCorrectChars(normalizedCandidate, normalizedWord);</b>
+<b class="nc">&nbsp;    float firstCharWrong = firstCharacterDistances(normalizedCandidate, normalizedWord).stream().reduce((float) 0, Float::sum);</b>
+<b class="nc">&nbsp;    if (correctLength &lt;= 7) {</b>
+<b class="nc">&nbsp;      return (int) (2 - firstCharWrong);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return (int) (2 + 0.25 * (correctLength - 7) - 0.6 * firstCharWrong);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Integer&gt; distancesPerWord(String[] parts1, String[] parts2, String s1, String s2) {
+<b class="fc">&nbsp;    List&lt;Integer&gt; distances = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (parts1.length == parts2.length &amp;&amp; parts1.length &gt; 1) {</b>
+<b class="fc">&nbsp;      for (int i=0; i&lt;parts1.length; i++) {</b>
+<b class="fc">&nbsp;        distances.add(levenshteinDistance(parts1[i], parts2[i]));</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      distances.add(levenshteinDistance(s1, s2));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return distances;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Float&gt; firstCharacterDistances(String s1, String s2) {
+<b class="nc">&nbsp;    List&lt;Float&gt; distances = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String[] parts1 = splitBySpace(s1);</b>
+<b class="nc">&nbsp;    String[] parts2 = splitBySpace(s2);</b>
+&nbsp;    // for now, only phrase with two tokens
+<b class="nc">&nbsp;    if (parts1.length == parts2.length &amp;&amp; parts1.length == 2) {</b>
+<b class="nc">&nbsp;      for (int i=0; i&lt;parts1.length; i++) {</b>
+<b class="nc">&nbsp;        distances.add(charDistance(parts1[i].charAt(0), parts2[i].charAt(0)));</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      distances.add((float) 0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return distances;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private float charDistance (char a, char b) {
+&nbsp;    //TODO: full keyboard distances
+<b class="nc">&nbsp;    if (a == b) {</b>
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (a == &#39;s&#39; &amp;&amp; b == &#39;z&#39; || a == &#39;z&#39; &amp;&amp; b == &#39;s&#39;) {</b>
+<b class="nc">&nbsp;      return 0.2F;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (a == &#39;b&#39; &amp;&amp; b == &#39;v&#39; || a == &#39;v&#39; &amp;&amp; b == &#39;b&#39;) {</b>
+<b class="nc">&nbsp;      return 0.2F;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (a == &#39;i&#39; &amp;&amp; b == &#39;y&#39; || a == &#39;y&#39; &amp;&amp; b == &#39;i&#39;) {</b>
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int levenshteinDistance(String s1, String s2) {
+<b class="pc">&nbsp;    if (s1.replace(&quot; &quot;,&quot;&quot;).equals(s2.replace(&quot; &quot;,&quot;&quot;))) {</b>
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    int distance = LevenshteinDistance.getDefaultInstance().apply(s1, s2);</b>
+<b class="fc">&nbsp;    String ns1= normalizeSimilarChars(s1);</b>
+<b class="fc">&nbsp;    String ns2= normalizeSimilarChars(s2);</b>
+<b class="pc">&nbsp;    if (!s1.equals(ns1) || !s2.equals(ns2)) {</b>
+<b class="fc">&nbsp;      distance = Math.min(distance, LevenshteinDistance.getDefaultInstance().apply(ns1, ns2));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    boolean anagram = StringTools.isAnagram(s1,s2);</b>
+&nbsp;    // consider transpositions without having a Damerau-Levenshtein method
+<b class="pc">&nbsp;    if (distance &gt; 1 &amp;&amp; anagram) {</b>
+<b class="nc">&nbsp;      distance--;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (distance &gt; 0 &amp;&amp; s1.length()==s2.length() &amp;&amp; anagram) {</b>
+<b class="nc">&nbsp;      distance = 1;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return distance;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String normalizeSimilarChars(String s) {
+<b class="fc">&nbsp;    return s.replace(&quot;y&quot;, &quot;i&quot;).replace(&quot;ko&quot;, &quot;co&quot;).replace(&quot;ka&quot;, &quot;ca&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int numberOfCorrectChars(String s1, String s2) {
+<b class="nc">&nbsp;    String[] parts1 = s1.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    String[] parts2 = s2.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    int correctTokens = 0;</b>
+<b class="nc">&nbsp;    if (parts1.length == parts2.length &amp;&amp; parts1.length &gt; 1) {</b>
+<b class="nc">&nbsp;      for (int i=0; i&lt;parts1.length; i++) {</b>
+<b class="nc">&nbsp;        if (parts1[i].equals(parts2[i])) {</b>
+<b class="nc">&nbsp;          correctTokens += parts1[i].length();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return correctTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void initMultitokenSpeller(List&lt;String&gt; filePaths) {
+<b class="pc">&nbsp;    if (suggestionsMap != null) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="fc">&nbsp;    suggestionsMap = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    suggestionsMapNoSpacesKey = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (String filePath : filePaths) {</b>
+<b class="fc">&nbsp;      try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);</b>
+<b class="fc">&nbsp;           BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {</b>
+&nbsp;        String lineOriginal;
+<b class="fc">&nbsp;        while ((lineOriginal = reader.readLine()) != null) {</b>
+<b class="fc">&nbsp;          if (lineOriginal.isEmpty() || lineOriginal.charAt(0) == &#39;#&#39;) { // ignore comments</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="fc">&nbsp;          for (String line : language.prepareLineForSpeller(StringUtils.substringBefore(lineOriginal, &quot;#&quot;).trim())) {</b>
+<b class="fc">&nbsp;            if (line.isEmpty()) {</b>
+&nbsp;              continue;
+&nbsp;            }
+<b class="fc">&nbsp;            String normalizedKey = getNormalizeKey(line);</b>
+<b class="fc">&nbsp;            if (!normalizedKey.contains(&quot; &quot;)) {</b>
+&nbsp;              //Ignore one-token suggestions. They are provided by the spelling rule, or other rules
+&nbsp;              continue;
+&nbsp;            }
+<b class="fc">&nbsp;            Character firstChar = normalizedKey.charAt(0);</b>
+<b class="fc">&nbsp;            HashMap&lt;String, List&lt;String&gt;&gt; suggestionsMapByChar = suggestionsMap.computeIfAbsent(firstChar, k -&gt; new HashMap&lt;&gt;());</b>
+<b class="fc">&nbsp;            addToMap(suggestionsMapByChar, normalizedKey, line);</b>
+<b class="fc">&nbsp;            addToMap(suggestionsMapNoSpacesKey, normalizedKey.replace(&quot; &quot;,&quot;&quot;), line);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void addToMap(Map&lt;String, List&lt;String&gt;&gt; map, String key, String value) {
+<b class="fc">&nbsp;    List&lt;String&gt; list = map.computeIfAbsent(key, k -&gt; new ArrayList&lt;&gt;());</b>
+<b class="fc">&nbsp;    if (!list.contains(value)) {</b>
+<b class="fc">&nbsp;      list.add(value);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getNormalizeKey(String word) {
+<b class="fc">&nbsp;    return StringTools.removeDiacritics(word.toLowerCase()).replace(&quot;-&quot;, &quot; &quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean discardRunOnWords(String underlinedError) throws IOException {
+<b class="fc">&nbsp;    String[] parts = splitBySpace(underlinedError);</b>
+<b class="pc">&nbsp;    if (parts.length == 2) {</b>
+<b class="fc">&nbsp;      if (StringTools.isCapitalizedWord(parts[1])) {</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (parts[0].isEmpty() || parts[1].isEmpty()) {</b>
+&nbsp;        // probably emojis, or mal-formed chars
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      String sugg1a = parts[0].substring(0, parts[0].length() - 1);</b>
+<b class="fc">&nbsp;      String sugg1b = parts[0].substring(parts[0].length() - 1) + parts[1];</b>
+<b class="pc">&nbsp;      if (!spellingRule.isMisspelled(sugg1a) &amp;&amp; !spellingRule.isMisspelled(sugg1b)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      String sugg2a = parts[0] + parts[1].charAt(0);</b>
+<b class="fc">&nbsp;      String sugg2b = parts[1].substring(1);</b>
+<b class="pc">&nbsp;      return !spellingRule.isMisspelled(sugg2a) &amp;&amp; !spellingRule.isMisspelled(sugg2b);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String [] splitBySpace(String underlinedError) {
+<b class="fc">&nbsp;    return StringUtils.split(underlinedError, &#39; &#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isException(String original, String candidate) {
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

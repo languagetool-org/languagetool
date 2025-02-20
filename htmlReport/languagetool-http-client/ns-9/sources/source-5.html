@@ -1,0 +1,322 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ResultToHtml</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.diff</a>
+</div>
+
+<h1>Coverage Summary for Class: ResultToHtml (org.languagetool.dev.diff)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResultToHtml</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/108)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.diff;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Converts plain text results of Main or SentenceSourceChecker to HTML, sorted by rule id.
+&nbsp; */
+&nbsp;public class ResultToHtml {
+&nbsp;
+&nbsp;  private static final int THRESHOLD = 0;
+&nbsp;
+<b class="nc">&nbsp;  private final Map&lt;String, String&gt; ruleIdToCategoryId = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  private FileWriter fw;
+&nbsp;
+<b class="nc">&nbsp;  public ResultToHtml(Language lang) {</b>
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;    for (Rule rule : lt.getAllRules()) {</b>
+<b class="nc">&nbsp;      ruleIdToCategoryId.put(rule.getId(), rule.getCategory().getId().toString());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void run(String inputFile, String outputFile) throws IOException {
+&nbsp;    try {
+<b class="nc">&nbsp;      fw = new FileWriter(outputFile);</b>
+<b class="nc">&nbsp;      LightRuleMatchParser parser = new LightRuleMatchParser();</b>
+<b class="nc">&nbsp;      List&lt;LightRuleMatch&gt; matches = parser.parseOutput(new File(inputFile)).result;</b>
+<b class="nc">&nbsp;      matches.sort((k, v) -&gt; {</b>
+<b class="nc">&nbsp;          String catIdK = getCategoryId(k);</b>
+<b class="nc">&nbsp;          String catIdV = getCategoryId(v);</b>
+<b class="nc">&nbsp;          if (catIdK.equals(catIdV)) {</b>
+<b class="nc">&nbsp;            return k.getFullRuleId().compareTo(v.getFullRuleId());</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            return catIdK.compareTo(catIdV);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      );
+<b class="nc">&nbsp;      printHtml(inputFile, matches);</b>
+&nbsp;    } finally {
+<b class="nc">&nbsp;      fw.close();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printHtml(String filename, List&lt;LightRuleMatch&gt; matches) throws IOException {
+<b class="nc">&nbsp;    print(&quot;&lt;!doctype html&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;&lt;!-- generated by &quot; + ResultToHtml.class.getSimpleName() + &quot; on &quot; + new Date() + &quot; --&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;&lt;html&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;&lt;head&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;  &lt;title&gt;Sorted &quot; + filename + &quot;&lt;/title&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;  &lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;charset=utf-8\&quot;&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;  &lt;style&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;    .sentence { color: #000; }&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;    .message { color: #777; }&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;    .marker { text-decoration: underline; background-color: #ffe8e8 }&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;    li { margin-bottom: 8px; }&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;  &lt;/style&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;&lt;/head&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;&lt;body&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(matches.size() + &quot; total matches&lt;br&gt;&quot;);</b>
+<b class="nc">&nbsp;    Map&lt;String, Integer&gt; matchToCount = getMatchToCount(matches);</b>
+<b class="nc">&nbsp;    printToc(matches, matchToCount);</b>
+<b class="nc">&nbsp;    String prevRuleId = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String prevCategoryId = &quot;&quot;;</b>
+<b class="nc">&nbsp;    boolean listStarted = false;</b>
+<b class="nc">&nbsp;    int skipped = 0;</b>
+<b class="nc">&nbsp;    for (LightRuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      String categoryId = getCategoryId(match);</b>
+<b class="nc">&nbsp;      if (!match.getFullRuleId().equals(prevRuleId)) {</b>
+<b class="nc">&nbsp;        if (listStarted) {</b>
+<b class="nc">&nbsp;          print(&quot;&lt;/ol&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!categoryId.equals(prevCategoryId)) {</b>
+<b class="nc">&nbsp;          print(&quot;&lt;h1&gt;Category &quot; + categoryId + &quot;&lt;/h1&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Integer count = matchToCount.get(match.getFullRuleId());</b>
+<b class="nc">&nbsp;        if (count &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;          String tempOff = match.getStatus() == LightRuleMatch.Status.temp_off ? &quot;[temp_off]&quot; : &quot;&quot;;</b>
+<b class="nc">&nbsp;          print(&quot;&lt;a name=&#39;&quot; + match.getFullRuleId() + &quot;&#39;&gt;&lt;/a&gt;&lt;h3&gt;&quot; + match.getFullRuleId() + &quot; &quot; + tempOff + &quot; (&quot; + count + &quot; matches)&lt;/h3&gt;&quot;);</b>
+<b class="nc">&nbsp;          print(&quot;Source: &quot; + match.getRuleSource() + &quot;&lt;br&gt;&lt;br&gt;&quot;);</b>
+<b class="nc">&nbsp;          print(&quot;&lt;ol&gt;&quot;);</b>
+<b class="nc">&nbsp;          listStarted = true;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          skipped++;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      print(&quot;&lt;li&gt;&quot;);</b>
+<b class="nc">&nbsp;      print(&quot;  &lt;span class=&#39;message&#39;&gt;&quot; + match.getMessage() + &quot;&lt;/span&gt;&lt;br&gt;&quot;);</b>
+<b class="nc">&nbsp;      print(&quot;  &lt;span class=&#39;sentence&#39;&gt;&quot; + StringTools.escapeHTML(match.getContext())</b>
+<b class="nc">&nbsp;        .replaceFirst(&quot;&amp;lt;span class=&#39;marker&#39;&amp;gt;&quot;, &quot;&lt;span class=&#39;marker&#39;&gt;&quot;)</b>
+<b class="nc">&nbsp;        .replaceFirst(&quot;&amp;lt;/span&amp;gt;&quot;, &quot;&lt;/span&gt;&quot;)</b>
+&nbsp;        + &quot;&lt;/span&gt;&lt;br&gt;&quot;);
+<b class="nc">&nbsp;      print(&quot;&lt;/li&gt;&quot;);</b>
+<b class="nc">&nbsp;      prevRuleId = match.getFullRuleId();</b>
+<b class="nc">&nbsp;      prevCategoryId = categoryId;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    print(&quot;&lt;/ol&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;Note: &quot; + skipped + &quot; rules have been skipped because they matched fewer than &quot; + THRESHOLD + &quot; times&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;&lt;/body&gt;&quot;);</b>
+<b class="nc">&nbsp;    print(&quot;&lt;/html&gt;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private String getCategoryId(LightRuleMatch match) {
+<b class="nc">&nbsp;    String categoryId = ruleIdToCategoryId.get(match.getRuleId());</b>
+<b class="nc">&nbsp;    if (categoryId == null) {</b>
+<b class="nc">&nbsp;      categoryId = &quot;unknown&quot;;  // some rules cannot be mapped, as the rule ids might have changes since the input was generated</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return categoryId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printToc(List&lt;LightRuleMatch&gt; matches, Map&lt;String, Integer&gt; matchToCount) throws IOException {
+<b class="nc">&nbsp;    String prevRuleId = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String prevCategoryId = &quot;&quot;;</b>
+<b class="nc">&nbsp;    print(&quot;&lt;h1&gt;TOC&lt;/h1&gt;&quot;);</b>
+<b class="nc">&nbsp;    Map&lt;String, Integer&gt; rulesInCategory = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (LightRuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      String ruleId = match.getFullRuleId();</b>
+<b class="nc">&nbsp;      String categoryId = getCategoryId(match);</b>
+<b class="nc">&nbsp;      if (!ruleId.equals(prevRuleId)) {</b>
+<b class="nc">&nbsp;        if (!categoryId.equals(prevCategoryId)) {</b>
+<b class="nc">&nbsp;          printRulesInCategory(rulesInCategory);</b>
+<b class="nc">&nbsp;          rulesInCategory.clear();</b>
+<b class="nc">&nbsp;          print(&quot;&lt;h3&gt;Category &quot; + categoryId + &quot;&lt;/h3&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Integer count = matchToCount.get(ruleId);</b>
+<b class="nc">&nbsp;        if (count &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;          rulesInCategory.put(ruleId, count);</b>
+&nbsp;          //print(&quot;&lt;a href=&#39;#&quot; + ruleId + &quot;&#39;&gt;&quot; + ruleId + &quot; (&quot; + count + &quot;)&lt;/a&gt;&lt;br&gt;&quot;);
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      prevRuleId = ruleId;</b>
+<b class="nc">&nbsp;      prevCategoryId = categoryId;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    printRulesInCategory(rulesInCategory);</b>
+<b class="nc">&nbsp;    print(&quot;&lt;br&gt;&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void printRulesInCategory(Map&lt;String, Integer&gt; rulesInCategory) throws IOException {
+<b class="nc">&nbsp;    if (rulesInCategory.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      Map&lt;String, Integer&gt; sorted = rulesInCategory.entrySet().stream()</b>
+<b class="nc">&nbsp;          .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))</b>
+<b class="nc">&nbsp;          .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -&gt; e1, LinkedHashMap::new));</b>
+<b class="nc">&nbsp;      for (Map.Entry&lt;String, Integer&gt; entry : sorted.entrySet()) {</b>
+<b class="nc">&nbsp;        print(&quot;&lt;a href=&#39;#&quot; + entry.getKey() + &quot;&#39;&gt;&quot; + entry.getKey() + &quot; (&quot; + entry.getValue() + &quot;)&lt;/a&gt;&lt;br&gt;&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;String, Integer&gt; getMatchToCount(List&lt;LightRuleMatch&gt; matches) {
+<b class="nc">&nbsp;    Map&lt;String, Integer&gt; catToCount = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (LightRuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      String id = match.getFullRuleId();</b>
+<b class="nc">&nbsp;      if (catToCount.containsKey(id)) {</b>
+<b class="nc">&nbsp;        catToCount.put(id, catToCount.get(id) + 1);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        catToCount.put(id, 1);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return catToCount;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void print(String s) throws IOException {
+&nbsp;    //System.out.println(s);
+<b class="nc">&nbsp;    fw.write(s);</b>
+<b class="nc">&nbsp;    fw.write(&#39;\n&#39;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 3) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + ResultToHtml.class.getSimpleName() + &quot; &lt;langCode&gt; &lt;plainTextResult&gt; &lt;outputFile&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;  &lt;plainTextResult&gt; is the result of e.g. Main or SentenceSourceChecker&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    ResultToHtml prg = new ResultToHtml(Languages.getLanguageForShortCode(args[0]));</b>
+<b class="nc">&nbsp;    prg.run(args[1], args[2]);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

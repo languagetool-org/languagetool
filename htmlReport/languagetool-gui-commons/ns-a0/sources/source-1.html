@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DutchWordTokenizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers.nl</a>
+</div>
+
+<h1>Coverage Summary for Class: DutchWordTokenizer (org.languagetool.tokenizers.nl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DutchWordTokenizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2008 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.tokenizers.nl;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;
+&nbsp;public class DutchWordTokenizer extends WordTokenizer {
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;String&gt; QUOTES = Arrays.asList(&quot;&#39;&quot;, &quot;`&quot;, &quot;’&quot;,  &quot;‘&quot;, &quot;´&quot;);</b>
+&nbsp;
+&nbsp;  private final String nlTokenizingChars;
+&nbsp;
+<b class="nc">&nbsp;  public DutchWordTokenizer() {</b>
+&nbsp;    //remove the apostrophe etc. from the standard tokenizing characters:
+<b class="nc">&nbsp;    String chars = super.getTokenizingCharacters() + &quot;_&quot;;</b>
+<b class="nc">&nbsp;    for (String quote : QUOTES) {</b>
+<b class="nc">&nbsp;      chars = chars.replace(quote, &quot;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    nlTokenizingChars = chars;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tokenizes just like WordTokenizer with the exception for words such as
+&nbsp;   * &quot;oma&#39;s&quot; that contain an apostrophe in their middle.
+&nbsp;   * @param text Text to tokenize
+&nbsp;   * @return List of tokens
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; tokenize(final String text) {
+<b class="nc">&nbsp;    final List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    final StringTokenizer st = new StringTokenizer(text, nlTokenizingChars, true);</b>
+<b class="nc">&nbsp;    while (st.hasMoreElements()) {</b>
+<b class="nc">&nbsp;      String token = st.nextToken();</b>
+<b class="nc">&nbsp;      String origToken = token;</b>
+<b class="nc">&nbsp;      if (token.length() &gt; 1) {</b>
+<b class="nc">&nbsp;        if (startsWithQuote(token) &amp;&amp; endsWithQuote(token) &amp;&amp; token.length() &gt; 2) {</b>
+<b class="nc">&nbsp;          l.add(token.substring(0, 1));</b>
+<b class="nc">&nbsp;          l.add(token.substring(1, token.length()-1));</b>
+<b class="nc">&nbsp;          l.add(token.substring(token.length()-1));</b>
+<b class="nc">&nbsp;        } else if (endsWithQuote(token)) {</b>
+<b class="nc">&nbsp;          int cnt = 0;</b>
+<b class="nc">&nbsp;          while (endsWithQuote(token)) {</b>
+<b class="nc">&nbsp;            token = token.substring(0, token.length() - 1);</b>
+<b class="nc">&nbsp;            cnt++;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          l.add(token);</b>
+<b class="nc">&nbsp;          for (int i = origToken.length() - cnt; i &lt; origToken.length(); i++) {</b>
+<b class="nc">&nbsp;            l.add(origToken.substring(i, i + 1));</b>
+&nbsp;          }
+<b class="nc">&nbsp;        } else if (startsWithQuote(token)) {</b>
+<b class="nc">&nbsp;          while (startsWithQuote(token)) {</b>
+<b class="nc">&nbsp;            l.add(token.substring(0, 1));</b>
+<b class="nc">&nbsp;            token = token.substring(1);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          l.add(token);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          l.add(token);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        l.add(token);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return joinEMailsAndUrls(l);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean startsWithQuote(String token) {
+<b class="nc">&nbsp;    for (String quote : QUOTES) {</b>
+<b class="nc">&nbsp;      if (token.startsWith(quote)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean endsWithQuote(String token) {
+<b class="nc">&nbsp;    for (String quote : QUOTES) {</b>
+<b class="nc">&nbsp;      if (token.endsWith(quote)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getTokenizingCharacters() {
+<b class="nc">&nbsp;    return nlTokenizingChars;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

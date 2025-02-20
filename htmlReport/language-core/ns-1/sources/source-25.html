@@ -1,0 +1,571 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > XMLValidator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: XMLValidator (org.languagetool)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XMLValidator</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (10/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.6%
+  </span>
+  <span class="absValue">
+    (59/77)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">XMLValidator$EntityAsInput</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">XMLValidator$ErrorHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14.3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">XMLValidator$LSRuleEntityResolver</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    29.4%
+  </span>
+  <span class="absValue">
+    (10/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35.7%
+  </span>
+  <span class="absValue">
+    (10/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    53.5%
+  </span>
+  <span class="absValue">
+    (61/114)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.w3c.dom.*;
+&nbsp;import org.w3c.dom.ls.LSInput;
+&nbsp;import org.w3c.dom.ls.LSResourceResolver;
+&nbsp;import org.xml.sax.*;
+&nbsp;import org.xml.sax.helpers.DefaultHandler;
+&nbsp;
+&nbsp;import javax.xml.XMLConstants;
+&nbsp;import javax.xml.parsers.*;
+&nbsp;import javax.xml.transform.Source;
+&nbsp;import javax.xml.transform.dom.DOMSource;
+&nbsp;import javax.xml.transform.stream.StreamSource;
+&nbsp;import javax.xml.validation.*;
+&nbsp;import java.io.*;
+&nbsp;import java.net.URL;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;
+&nbsp;/**
+&nbsp; * Validate XML files with a given DTD or XML Schema (XSD).
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public final class XMLValidator {
+&nbsp;
+<b class="fc">&nbsp;  public XMLValidator() {</b>
+<b class="fc">&nbsp;    Tools.setPasswordAuthenticator();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Validate XML with the given DTD. Throws exception on error. 
+&nbsp;   */
+&nbsp;  public void validateXMLString(String xml, String dtdFile, String docType) throws SAXException, IOException, ParserConfigurationException {
+<b class="nc">&nbsp;    validateInternal(xml, dtdFile, docType);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Validate XML file in classpath with the given DTD. Throws exception on error.
+&nbsp;   */
+&nbsp;  public void validateWithDtd(String filename, String dtdPath, String docType) throws IOException {
+<b class="fc">&nbsp;    try (InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(filename)) {</b>
+<b class="pc">&nbsp;      if (xmlStream == null) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;Not found in classpath: &quot; + filename);</b>
+&nbsp;      }
+&nbsp;      try {
+<b class="fc">&nbsp;        String xml = StringTools.readStream(xmlStream, &quot;utf-8&quot;);</b>
+<b class="fc">&nbsp;        validateInternal(xml, dtdPath, docType);</b>
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        throw new IOException(&quot;Cannot load or parse &#39;&quot; + filename + &quot;&#39;&quot;, e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Validate XML file using the given XSD. Throws an exception on error.
+&nbsp;   * @param filename File in classpath to validate
+&nbsp;   * @param xmlSchemaPath XML schema file in classpath
+&nbsp;   */
+&nbsp;  public void validateWithXmlSchema(String filename, String xmlSchemaPath) throws IOException {
+<b class="fc">&nbsp;    try (InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(filename)) {</b>
+<b class="pc">&nbsp;      if (xmlStream == null) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;File not found in classpath: &quot; + filename);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      URL schemaUrl = this.getClass().getResource(xmlSchemaPath);</b>
+<b class="pc">&nbsp;      if (schemaUrl == null) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;XML schema not found in classpath: &quot; + xmlSchemaPath);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      validateInternal(new StreamSource(xmlStream), schemaUrl, filename);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new IOException(&quot;Cannot load or parse &#39;&quot; + filename + &quot;&#39;&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Validate XML file using the given XSD. Throws an exception on error.
+&nbsp;   * @param baseFilename File to prepend common parts (unification) from before validating main file
+&nbsp;   * @param filename File in classpath to validate
+&nbsp;   * @param xmlSchemaPath XML schema file in classpath
+&nbsp;   */
+&nbsp;  public void validateWithXmlSchema(String baseFilename, String filename, String xmlSchemaPath) throws IOException {
+<b class="fc">&nbsp;    try (InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(filename);</b>
+<b class="fc">&nbsp;         InputStream baseXmlStream = JLanguageTool.getDataBroker().getAsStream(baseFilename)) {</b>
+<b class="pc">&nbsp;      if (xmlStream == null) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;File not found in classpath: &quot; + filename);</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (baseXmlStream == null ) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;File not found in classpath: &quot; + baseFilename);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      URL schemaUrl = this.getClass().getResource(xmlSchemaPath);</b>
+<b class="pc">&nbsp;      if (schemaUrl == null) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;XML schema not found in classpath: &quot; + xmlSchemaPath);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      validateInternal(mergeIntoSource(baseXmlStream, xmlStream, baseFilename), schemaUrl, baseFilename);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new IOException(&quot;Cannot load or parse &#39;&quot; + filename + &quot;&#39;&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream, String baseXmlPath) throws Exception {
+<b class="fc">&nbsp;    DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="fc">&nbsp;    domFactory.setIgnoringComments(true);</b>
+<b class="fc">&nbsp;    domFactory.setValidating(false);</b>
+<b class="fc">&nbsp;    domFactory.setNamespaceAware(true);</b>
+&nbsp;
+<b class="fc">&nbsp;    DocumentBuilder builder = domFactory.newDocumentBuilder();</b>
+<b class="fc">&nbsp;    ResourceDataBroker broker = JLanguageTool.getDataBroker();</b>
+<b class="fc">&nbsp;    URL absoluteUrl = broker.getAsURL(baseXmlPath);</b>
+<b class="fc">&nbsp;    EntityResolver entityResolver = new RuleEntityResolver();</b>
+<b class="fc">&nbsp;    builder.setEntityResolver(entityResolver);</b>
+<b class="fc">&nbsp;    Document baseDoc = builder.parse(baseXmlStream);</b>
+<b class="fc">&nbsp;    Document ruleDoc = builder.parse(xmlStream);</b>
+&nbsp;
+&nbsp;    // Shall this be more generic, i.e. reuse not just unification ???
+<b class="fc">&nbsp;    NodeList unificationNodes = baseDoc.getElementsByTagName(&quot;unification&quot;);</b>
+<b class="fc">&nbsp;    Node ruleNode = ruleDoc.getElementsByTagName(&quot;rules&quot;).item(0);</b>
+<b class="fc">&nbsp;    Node firstChildRuleNode = ruleNode.getChildNodes().item(1);</b>
+&nbsp;
+<b class="fc">&nbsp;    for (int i = 0; i &lt; unificationNodes.getLength(); i++) {</b>
+<b class="fc">&nbsp;      Node unificationNode = ruleDoc.importNode(unificationNodes.item(i), true);</b>
+<b class="fc">&nbsp;      ruleNode.insertBefore(unificationNode, firstChildRuleNode);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return new DOMSource(ruleDoc);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Validate XML file using the given XSD. Throws an exception on error.
+&nbsp;   * @param xml the XML string to be validated
+&nbsp;   * @param xmlSchemaPath XML schema file in classpath
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public void validateStringWithXmlSchema(String xml, String xmlSchemaPath, String xmlPath) throws IOException {
+&nbsp;    try {
+<b class="nc">&nbsp;      URL schemaUrl = this.getClass().getResource(xmlSchemaPath);</b>
+<b class="nc">&nbsp;      if (schemaUrl == null) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;XML schema not found in classpath: &quot; + xmlSchemaPath);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      try (ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))) {</b>
+<b class="nc">&nbsp;        validateInternal(new StreamSource(stream), schemaUrl, xmlPath);</b>
+&nbsp;      }
+&nbsp;    } catch (SAXException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void validateInternal(String xml, String dtdPath, String docType) throws SAXException, IOException, ParserConfigurationException {
+<b class="fc">&nbsp;    SAXParserFactory factory = SAXParserFactory.newInstance();</b>
+<b class="fc">&nbsp;    factory.setValidating(true);</b>
+<b class="fc">&nbsp;    SAXParser saxParser = factory.newSAXParser();</b>
+&nbsp;    //used for removing existing DOCTYPE from grammar.xml files
+<b class="fc">&nbsp;    String cleanXml = xml.replaceAll(&quot;&lt;!DOCTYPE.+&gt;&quot;, &quot;&quot;);</b>
+<b class="fc">&nbsp;    String decl = &quot;&lt;?xml version=\&quot;1.0\&quot;&quot;;</b>
+<b class="fc">&nbsp;    String endDecl = &quot;?&gt;&quot;;</b>
+<b class="fc">&nbsp;    URL dtdUrl = this.getClass().getResource(dtdPath);</b>
+<b class="pc">&nbsp;    if (dtdUrl == null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;DTD not found in classpath: &quot; + dtdPath);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String dtd = &quot;&lt;!DOCTYPE &quot; + docType + &quot; PUBLIC \&quot;-//W3C//DTD Rules 0.1//EN\&quot; \&quot;&quot; + dtdUrl + &quot;\&quot;&gt;&quot;;</b>
+<b class="fc">&nbsp;    int pos = cleanXml.indexOf(decl);</b>
+<b class="fc">&nbsp;    int endPos = cleanXml.indexOf(endDecl);</b>
+<b class="pc">&nbsp;    if (pos == -1) {</b>
+<b class="nc">&nbsp;      throw new IOException(&quot;No XML declaration found in &#39;&quot; + cleanXml.substring(0, Math.min(100, cleanXml.length())) + &quot;...&#39;&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String newXML = cleanXml.substring(0, endPos+endDecl.length()) + &quot;\r\n&quot; + dtd + cleanXml.substring(endPos+endDecl.length());</b>
+<b class="fc">&nbsp;    InputSource is = new InputSource(new StringReader(newXML));</b>
+<b class="fc">&nbsp;    saxParser.parse(is, new ErrorHandler());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void validateInternal(Source xmlSrc, URL xmlSchema, String xmlPath) throws SAXException, IOException {
+<b class="fc">&nbsp;    Validator validator = getValidator(xmlSchema, xmlPath);</b>
+<b class="fc">&nbsp;    validator.validate(xmlSrc);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Validator getValidator(URL xmlSchema, String xmlPath) throws SAXException {
+<b class="fc">&nbsp;    SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);</b>
+<b class="fc">&nbsp;    Schema schema = sf.newSchema(xmlSchema);</b>
+<b class="fc">&nbsp;    Validator validator = schema.newValidator();</b>
+&nbsp;
+<b class="fc">&nbsp;    validator.setResourceResolver(new LSRuleEntityResolver());</b>
+<b class="fc">&nbsp;    validator.setErrorHandler(new ErrorHandler());</b>
+<b class="fc">&nbsp;    return validator;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Defines an EntityResolver-like object (cf. {@link RuleEntityResolver}) as used by DOM. TBH I haven&#39;t gone very
+&nbsp;   * deep into the differences between DOM and SAX, but I don&#39;t think it should matter that much here. The logic for
+&nbsp;   * constructing the input sources/streams is the same.
+&nbsp;   */
+<b class="fc">&nbsp;  static class LSRuleEntityResolver implements LSResourceResolver {</b>
+&nbsp;    @Override
+&nbsp;    public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
+<b class="nc">&nbsp;      if (systemId != null &amp;&amp; systemId.endsWith(&quot;.ent&quot;)) {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          return new EntityAsInput(publicId, systemId);</b>
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Defines an input source based on the correct path to external entities.
+&nbsp;   */
+&nbsp;  static class EntityAsInput implements LSInput {
+<b class="nc">&nbsp;    private RuleEntityResolver ruleEntityResolver = new RuleEntityResolver();</b>
+&nbsp;    private String systemId;
+&nbsp;    private String publicId;
+&nbsp;    private InputStream inputStream;
+&nbsp;
+&nbsp;    private URL entitiesUrl;
+&nbsp;    @Override
+&nbsp;    public Reader getCharacterStream() {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setCharacterStream(Reader characterStream) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public InputStream getByteStream() {
+<b class="nc">&nbsp;      return this.inputStream;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setByteStream(InputStream inputStream) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getStringData() {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public InputStream getInputStream() {
+<b class="nc">&nbsp;      System.out.println(&quot;GET FOO GET FOO&quot;);</b>
+<b class="nc">&nbsp;      return this.inputStream;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set InputStream from the value of the entities URL.
+&nbsp;     * @throws IOException if the file pointed to is invalid, or we end up getting an unreadable stream from it some
+&nbsp;     *                     other way
+&nbsp;     */
+&nbsp;    public void setInputStream() throws IOException {
+<b class="nc">&nbsp;      if (systemId != null &amp;&amp; systemId.endsWith(&quot;.ent&quot;)) {</b>
+<b class="nc">&nbsp;        this.inputStream = ruleEntityResolver.getInputStreamLTEntities(this.systemId);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setStringData(String stringData) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getSystemId() {
+<b class="nc">&nbsp;      return this.systemId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute absolute path to entities file from source XML URL and relative path (systemId param).
+&nbsp;     * @param systemId relative URI pointing to entity file
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setSystemId(String systemId) {
+<b class="nc">&nbsp;      this.systemId = systemId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getPublicId() {
+<b class="nc">&nbsp;      return this.publicId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute absolute path to entities file from source XML URL and relative path (systemId param).
+&nbsp;     * @param publicId relative URI pointing to entity file
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setPublicId(String publicId) {
+<b class="nc">&nbsp;      this.publicId = publicId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getBaseURI() {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setBaseURI(String baseURI) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getEncoding() {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setEncoding(String encoding) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean getCertifiedText() {
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setCertifiedText(boolean certifiedText) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param publicId from outer context, entity URI
+&nbsp;     * @param systemId from outer context, entity URI (if you ask me the precise difference between publicId and
+&nbsp;     *                 systemId I will cry)
+&nbsp;     */
+<b class="nc">&nbsp;    public EntityAsInput(String publicId, String systemId) throws IOException {</b>
+<b class="nc">&nbsp;      this.setPublicId(publicId);</b>
+<b class="nc">&nbsp;      this.setSystemId(systemId);</b>
+<b class="nc">&nbsp;      this.setInputStream();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * XML handler that throws exception on error and warning, does nothing otherwise.
+&nbsp;   */
+<b class="fc">&nbsp;  static class ErrorHandler extends DefaultHandler {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void warning (SAXParseException e) throws SAXException {
+<b class="nc">&nbsp;      System.err.println(e.getMessage()</b>
+<b class="nc">&nbsp;              + &quot; Problem found at line &quot; + e.getLineNumber()</b>
+<b class="nc">&nbsp;              + &quot;, column &quot; + e.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;      throw e;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void error (SAXParseException e) throws SAXException {
+<b class="nc">&nbsp;      System.err.println(e.getMessage()</b>
+<b class="nc">&nbsp;              + &quot; Problem found at line &quot; + e.getLineNumber()</b>
+<b class="nc">&nbsp;              + &quot;, column &quot; + e.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;      throw e;
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

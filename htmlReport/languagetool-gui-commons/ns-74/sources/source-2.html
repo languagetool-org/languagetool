@@ -1,0 +1,301 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DisambiguationPatternRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.disambiguation.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: DisambiguationPatternRule (org.languagetool.tagging.disambiguation.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DisambiguationPatternRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DisambiguationPatternRule$DisambiguatorAction</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.disambiguation.rules;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.patterns.AbstractTokenBasedRule;
+&nbsp;import org.languagetool.rules.patterns.Match;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * A Rule that describes a pattern of words or part-of-speech tags used for
+&nbsp; * disambiguation.
+&nbsp; * 
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+&nbsp;public class DisambiguationPatternRule extends AbstractTokenBasedRule {
+&nbsp;
+&nbsp;  /** Possible disambiguator actions. **/
+<b class="nc">&nbsp;  public enum DisambiguatorAction {</b>
+<b class="nc">&nbsp;    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE, IGNORE_SPELLING, FILTERALL, ADDCHUNK</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final String disambiguatedPOS;
+&nbsp;  private final Match matchElement;
+&nbsp;  private final DisambiguatorAction disAction;
+&nbsp;
+&nbsp;  private AnalyzedToken[] newTokenReadings;
+<b class="nc">&nbsp;  private List&lt;DisambiguatedExample&gt; examples = Collections.emptyList();</b>
+<b class="nc">&nbsp;  private List&lt;String&gt; untouchedExamples = Collections.emptyList();</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param id Id of the Rule
+&nbsp;   * @param language Language of the Rule
+&nbsp;   * @param description Description to be shown (name)
+&nbsp;   * @param disambAction the action to be executed on found token(s)
+&nbsp;   * @since public since 2.5
+&nbsp;   */
+&nbsp;  public DisambiguationPatternRule(String id, String description,
+&nbsp;                                   Language language, List&lt;PatternToken&gt; patternTokens,
+&nbsp;                                   String disambiguatedPOS, Match posSelect,
+&nbsp;                                   DisambiguatorAction disambAction) {
+<b class="nc">&nbsp;    super(id, description, language, patternTokens, true);</b>
+<b class="nc">&nbsp;    if (disambiguatedPOS == null &amp;&amp; posSelect == null</b>
+&nbsp;        &amp;&amp; disambAction != DisambiguatorAction.UNIFY
+&nbsp;        &amp;&amp; disambAction != DisambiguatorAction.ADD
+&nbsp;        &amp;&amp; disambAction != DisambiguatorAction.REMOVE
+&nbsp;        &amp;&amp; disambAction != DisambiguatorAction.IMMUNIZE
+&nbsp;        &amp;&amp; disambAction != DisambiguatorAction.REPLACE
+&nbsp;        &amp;&amp; disambAction != DisambiguatorAction.FILTERALL
+&nbsp;        &amp;&amp; disambAction != DisambiguatorAction.IGNORE_SPELLING
+&nbsp;        &amp;&amp; disambAction != DisambiguatorAction.ADDCHUNK) {
+<b class="nc">&nbsp;      throw new NullPointerException(&quot;disambiguated POS cannot be null with posSelect == null and &quot; + disambAction);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.disambiguatedPOS = disambiguatedPOS;</b>
+<b class="nc">&nbsp;    this.matchElement = posSelect;</b>
+<b class="nc">&nbsp;    this.disAction = Objects.requireNonNull(disambAction);</b>
+<b class="nc">&nbsp;    setMessage(&quot;&quot;);</b>
+<b class="nc">&nbsp;    suggestionsOutMsg = &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to add new interpretations.
+&nbsp;   * @param newReadings
+&nbsp;   *          An array of AnalyzedTokens. The length of the array should be the
+&nbsp;   *          same as the number of the tokens matched and selected by
+&nbsp;   *          {@code &lt;marker&gt;...&lt;/marker&gt;} elements.
+&nbsp;   */
+&nbsp;  public final void setNewInterpretations(AnalyzedToken[] newReadings) {
+<b class="nc">&nbsp;    newTokenReadings = newReadings.clone();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Performs disambiguation on the source sentence.
+&nbsp;   * @param sentence {@link AnalyzedSentence} Sentence to be disambiguated.
+&nbsp;   * @return {@link AnalyzedSentence} Disambiguated sentence (might be unchanged).
+&nbsp;   */
+&nbsp;  public final AnalyzedSentence replace(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    return canBeIgnoredFor(sentence) ? sentence : new DisambiguationPatternRuleReplacer(this).replace(sentence);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setExamples(List&lt;DisambiguatedExample&gt; examples) {
+<b class="nc">&nbsp;    this.examples = Objects.requireNonNull(examples);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;DisambiguatedExample&gt; getExamples() {
+<b class="nc">&nbsp;    return Collections.unmodifiableList(examples);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setUntouchedExamples(List&lt;String&gt; untouchedExamples) {
+<b class="nc">&nbsp;    this.untouchedExamples = Objects.requireNonNull(untouchedExamples);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getUntouchedExamples() {
+<b class="nc">&nbsp;    return Collections.unmodifiableList(untouchedExamples);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public DisambiguatorAction getAction() {
+<b class="nc">&nbsp;    return disAction;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public AnalyzedToken[] getNewTokenReadings() {
+<b class="nc">&nbsp;    return newTokenReadings;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public Match getMatchElement() {
+<b class="nc">&nbsp;    return matchElement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getDisambiguatedPOS() {
+<b class="nc">&nbsp;    return disambiguatedPOS;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

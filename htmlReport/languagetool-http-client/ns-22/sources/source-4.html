@@ -1,0 +1,366 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CorrectionLoopFinderApi</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.remote</a>
+</div>
+
+<h1>Coverage Summary for Class: CorrectionLoopFinderApi (org.languagetool.remote)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CorrectionLoopFinderApi</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/71)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CorrectionLoopFinderApi$Configuration</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/52)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/98)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2023 Jaume Ortlà
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.remote;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;/**
+&nbsp; * Find correction loops, i.e. cases where accepting a correction causes
+&nbsp; * another rule to match which then again suggests the original text.
+&nbsp; * Use on any plain text file with one sentence per line (like Tatoeba).
+&nbsp; */
+<b class="nc">&nbsp;public class CorrectionLoopFinderApi {</b>
+&nbsp;
+&nbsp;  private final static int linesToSkip = 0;
+&nbsp;
+&nbsp;  private static void run(Configuration cfg) throws IOException {
+<b class="nc">&nbsp;    Scanner sc = new Scanner(cfg.inputFile);</b>
+<b class="nc">&nbsp;    int lineCount = 0;</b>
+<b class="nc">&nbsp;    while (sc.hasNextLine()) {</b>
+<b class="nc">&nbsp;      String line = sc.nextLine();</b>
+<b class="nc">&nbsp;      lineCount++;</b>
+<b class="nc">&nbsp;      if (lineCount &lt; linesToSkip) {</b>
+<b class="nc">&nbsp;        if (lineCount % 1000 == 0) {</b>
+<b class="nc">&nbsp;          System.out.println(lineCount + &quot; skipped ...&quot;);</b>
+&nbsp;        }
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;RemoteRuleMatch&gt; matches = null;</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        matches = cfg.lt.check(line, cfg.ltConfig, cfg.customParams).getMatches();</b>
+&nbsp;      } catch (RuntimeException e) {
+<b class="nc">&nbsp;        System.err.println(&quot;An exception occurred: &quot; + e.getMessage());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (matches != null) {</b>
+<b class="nc">&nbsp;        for (RemoteRuleMatch match : matches) {</b>
+<b class="nc">&nbsp;          int suggCount = 0;</b>
+<b class="nc">&nbsp;          for (String repl : match.getReplacements().get()) {</b>
+<b class="nc">&nbsp;            if (++suggCount &gt; 5) {</b>
+&nbsp;              break;
+&nbsp;            }
+<b class="nc">&nbsp;            String corr = new StringBuilder(line).replace(match.getErrorOffset(), match.getErrorOffset()+match.getErrorLength(), repl).toString();</b>
+&nbsp;            //System.out.println(line + &quot; =&gt; &quot; + corr);
+<b class="nc">&nbsp;            List&lt;RemoteRuleMatch&gt; corrMatches = null;</b>
+&nbsp;            try {
+<b class="nc">&nbsp;              corrMatches = cfg.lt.check(corr, cfg.ltConfig, cfg.customParams).getMatches();</b>
+&nbsp;            } catch (RuntimeException e) {
+<b class="nc">&nbsp;              System.err.println(&quot;An exception occurred: &quot; + e.getMessage());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (corrMatches == null) {</b>
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;            for (RemoteRuleMatch corrMatch : corrMatches) {</b>
+<b class="nc">&nbsp;              for (String repl2 : corrMatch.getReplacements().get()) {</b>
+<b class="nc">&nbsp;                String corr2 = new StringBuilder(corr).replace(corrMatch.getErrorOffset(), corrMatch.getErrorOffset()+corrMatch.getErrorLength(), repl2).toString();</b>
+<b class="nc">&nbsp;                if (corr2.equals(line)) {</b>
+<b class="nc">&nbsp;                  cfg.out.write(&quot;LOOP by &quot; + getFullId(match) + &quot;/&quot; + getFullId(corrMatch) + &quot;: &quot; +</b>
+<b class="nc">&nbsp;                    line.substring(match.getErrorOffset(), match.getErrorOffset()+match.getErrorLength()) + &quot; =&gt; &quot; + repl + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;                  cfg.out.write(&quot;  &quot; + line + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;                  cfg.out.write(&quot;  &quot; + corr + &quot;\n&quot;);</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        cfg.out.flush();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (lineCount % 1000 == 0) {</b>
+<b class="nc">&nbsp;        System.out.println(lineCount + &quot;...&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + CorrectionLoopFinderApi.class.getSimpleName() + &quot; &lt;configFile&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String configurationFilename = args[0];</b>
+<b class="nc">&nbsp;    Properties prop = new Properties();</b>
+<b class="nc">&nbsp;    FileInputStream fis = new FileInputStream(configurationFilename);</b>
+<b class="nc">&nbsp;    prop.load(new InputStreamReader(fis, Charset.forName(&quot;UTF-8&quot;)));</b>
+<b class="nc">&nbsp;    Configuration cfg = new Configuration();</b>
+<b class="nc">&nbsp;    cfg.remoteServer = prop.getProperty(&quot;remoteServer&quot;, &quot;http://localhost:8081&quot;).trim();</b>
+<b class="nc">&nbsp;    cfg.userName = prop.getProperty(&quot;userName&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;    cfg.annotatorName = prop.getProperty(&quot;annotatorName&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;    cfg.apiKey = prop.getProperty(&quot;apiKey&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;    cfg.inputFilePath = prop.getProperty(&quot;inputFile&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;    cfg.outputFilePath = prop.getProperty(&quot;outputFile&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;    cfg.languageCode = prop.getProperty(&quot;languageCode&quot;).trim();</b>
+<b class="nc">&nbsp;    String customParamsStr = prop.getProperty(&quot;customParams&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;    if (!customParamsStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      for (String customParam : customParamsStr.split(&quot;;&quot;)) {</b>
+<b class="nc">&nbsp;        String[] parts = customParam.split(&quot;,&quot;);</b>
+<b class="nc">&nbsp;        cfg.customParams.put(parts[0], parts[1]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    String enabledOnlyRulesStr = prop.getProperty(&quot;enabledOnlyRules&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;    if (!enabledOnlyRulesStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(&quot;,&quot;));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String disabledRulesStr = prop.getProperty(&quot;disabledRules&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;    if (!disabledRulesStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      cfg.disabledRules = Arrays.asList(disabledRulesStr.split(&quot;,&quot;));</b>
+&nbsp;    }
+&nbsp;    // defaultColor=&quot;\u001B[0m&quot;
+&nbsp;    // highlightColor=&quot;\u001B[97m&quot;
+<b class="nc">&nbsp;    cfg.ansiDefault = prop.getProperty(&quot;defaultColor&quot;, &quot;&quot;).trim().replace(&quot;\&quot;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    cfg.ansiHighlight = prop.getProperty(&quot;highlightColor&quot;, &quot;&quot;).trim().replace(&quot;\&quot;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    cfg.prepareConfiguration();</b>
+<b class="nc">&nbsp;    run(cfg);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static private class Configuration {</b>
+&nbsp;    String remoteServer;
+&nbsp;    String userName;
+&nbsp;    String annotatorName;
+&nbsp;    String apiKey;
+&nbsp;    String inputFilePath;
+&nbsp;    String outputFilePath;
+&nbsp;    String languageCode;
+&nbsp;    File inputFile;
+&nbsp;    File outputFile;
+&nbsp;    boolean automaticAnnotation;
+&nbsp;    CheckConfiguration ltConfig;
+&nbsp;    RemoteLanguageTool lt;
+<b class="nc">&nbsp;    Map&lt;String, String&gt; customParams = new HashMap&lt;&gt;();</b>
+&nbsp;    FileWriter out;
+&nbsp;    StringBuilder outStrB;
+<b class="nc">&nbsp;    String ansiDefault = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String ansiHighlight = &quot;&quot;;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; enabledOnlyRules = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; disabledRules = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+&nbsp;    void prepareConfiguration() throws IOException {
+<b class="nc">&nbsp;      CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(languageCode);</b>
+&nbsp;      // cfgBuilder.textSessionID(&quot;-2&quot;);
+<b class="nc">&nbsp;      if (enabledOnlyRules.isEmpty()) {</b>
+<b class="nc">&nbsp;        cfgBuilder.disabledRuleIds(&quot;WHITESPACE_RULE&quot;);</b>
+<b class="nc">&nbsp;        cfgBuilder.disabledRuleIds(&quot;UNPAIRED_BRACKETS&quot;);</b>
+<b class="nc">&nbsp;        if (!disabledRules.isEmpty()) {</b>
+<b class="nc">&nbsp;          cfgBuilder.disabledRuleIds(disabledRules);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        cfgBuilder.enabledRuleIds(enabledOnlyRules).enabledOnly();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!userName.isEmpty() &amp;&amp; !apiKey.isEmpty()) {</b>
+<b class="nc">&nbsp;        cfgBuilder.username(userName).apiKey(apiKey).build();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ltConfig = cfgBuilder.build();</b>
+<b class="nc">&nbsp;      inputFile = new File(inputFilePath);</b>
+<b class="nc">&nbsp;      if (!inputFile.exists() || inputFile.isDirectory()) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;File not found: &quot; + inputFile);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String fileName = inputFile.getName();</b>
+&nbsp;      // System.out.println(&quot;Analyzing file: &quot; + fileName);
+<b class="nc">&nbsp;      fileName = fileName.substring(0, fileName.lastIndexOf(&#39;.&#39;));</b>
+<b class="nc">&nbsp;      if (outputFilePath.isEmpty()) {</b>
+<b class="nc">&nbsp;        outputFile = new File(inputFile.getParentFile() + &quot;/&quot; + fileName + &quot;-loops.txt&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        outputFile = new File(outputFilePath);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      outStrB = new StringBuilder();</b>
+<b class="nc">&nbsp;      out = new FileWriter(outputFile, true);</b>
+<b class="nc">&nbsp;      lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String getFullId(RemoteRuleMatch match) {
+<b class="nc">&nbsp;    String ruleId = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (match != null) {</b>
+<b class="nc">&nbsp;      String subId = null;</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        subId = match.getRuleSubId().get();</b>
+&nbsp;      } catch (NoSuchElementException e) {
+&nbsp;      }
+<b class="nc">&nbsp;      if (subId != null) {</b>
+<b class="nc">&nbsp;        ruleId = match.getRuleId() + &quot;[&quot; + subId + &quot;]&quot;;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        ruleId = match.getRuleId();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleId;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

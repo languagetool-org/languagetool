@@ -1,0 +1,285 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DatabaseHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.dumpcheck</a>
+</div>
+
+<h1>Coverage Summary for Class: DatabaseHandler (org.languagetool.dev.dumpcheck)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DatabaseHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/68)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.dumpcheck;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.languagetool.tools.ContextTools;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Properties;
+&nbsp;
+&nbsp;/**
+&nbsp; * Store rule matches to a database.
+&nbsp; * @since 2.4
+&nbsp; */
+&nbsp;class DatabaseHandler extends ResultHandler {
+&nbsp;
+&nbsp;  private static final int MAX_CONTEXT_LENGTH = 500;
+&nbsp;  private static final int SMALL_CONTEXT_LENGTH = 40;  // do not modify - it would break lookup of errors marked as &#39;false alarm&#39;
+&nbsp;
+&nbsp;  private final Connection conn;
+&nbsp;  private final ContextTools contextTools;
+&nbsp;  private final ContextTools smallContextTools;
+&nbsp;
+&nbsp;  private final PreparedStatement insertSt;
+&nbsp;  private final int batchSize;
+&nbsp;  
+<b class="nc">&nbsp;  private int batchCount = 0;</b>
+&nbsp;
+&nbsp;  DatabaseHandler(File propertiesFile, int maxSentences, int maxErrors) {
+<b class="nc">&nbsp;    super(maxSentences, maxErrors);</b>
+&nbsp;
+<b class="nc">&nbsp;    String insertSql = &quot;INSERT INTO corpus_match &quot; +</b>
+&nbsp;            &quot;(version, language_code, ruleid, rule_category, rule_subid, rule_description, message, error_context, small_error_context, corpus_date, &quot; +
+&nbsp;            &quot;check_date, sourceuri, source_type, is_visible) &quot;+
+&nbsp;            &quot;VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)&quot;;
+&nbsp;
+<b class="nc">&nbsp;    Properties dbProperties = new Properties();</b>
+<b class="nc">&nbsp;    try (FileInputStream inStream = new FileInputStream(propertiesFile)) {</b>
+<b class="nc">&nbsp;      dbProperties.load(inStream);</b>
+<b class="nc">&nbsp;      String dbUrl = getProperty(dbProperties, &quot;dbUrl&quot;);</b>
+<b class="nc">&nbsp;      String dbUser = getProperty(dbProperties, &quot;dbUser&quot;);</b>
+<b class="nc">&nbsp;      String dbPassword = getProperty(dbProperties, &quot;dbPassword&quot;);</b>
+<b class="nc">&nbsp;      batchSize = Integer.decode(dbProperties.getProperty(&quot;batchSize&quot;, &quot;1&quot;));</b>
+<b class="nc">&nbsp;      conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);</b>
+<b class="nc">&nbsp;      insertSt = conn.prepareStatement(insertSql);</b>
+&nbsp;    } catch (SQLException | IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    contextTools = new ContextTools();</b>
+<b class="nc">&nbsp;    contextTools.setContextSize(MAX_CONTEXT_LENGTH);</b>
+<b class="nc">&nbsp;    contextTools.setErrorMarker(MARKER_START, MARKER_END);</b>
+<b class="nc">&nbsp;    contextTools.setEscapeHtml(false);</b>
+<b class="nc">&nbsp;    smallContextTools = new ContextTools();</b>
+<b class="nc">&nbsp;    smallContextTools.setContextSize(SMALL_CONTEXT_LENGTH);</b>
+<b class="nc">&nbsp;    smallContextTools.setErrorMarker(MARKER_START, MARKER_END);</b>
+<b class="nc">&nbsp;    smallContextTools.setEscapeHtml(false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getProperty(Properties prop, String key) {
+<b class="nc">&nbsp;    String value = prop.getProperty(key);</b>
+<b class="nc">&nbsp;    if (value == null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Required key &#39;&quot; + key + &quot;&#39; not found in properties&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return value;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected void handleResult(Sentence sentence, List&lt;RuleMatch&gt; ruleMatches, Language language) {
+&nbsp;    try {
+<b class="nc">&nbsp;      java.sql.Date nowDate = new java.sql.Date(new Date().getTime());</b>
+<b class="nc">&nbsp;      for (RuleMatch match : ruleMatches) {</b>
+<b class="nc">&nbsp;        String smallContext = smallContextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());</b>
+<b class="nc">&nbsp;        insertSt.setString(1, language.getShortCode());</b>
+<b class="nc">&nbsp;        Rule rule = match.getRule();</b>
+<b class="nc">&nbsp;        insertSt.setString(2, rule.getId());</b>
+<b class="nc">&nbsp;        insertSt.setString(3, rule.getCategory().getName());</b>
+<b class="nc">&nbsp;        if (rule instanceof AbstractPatternRule) {</b>
+<b class="nc">&nbsp;          AbstractPatternRule patternRule = (AbstractPatternRule) rule;</b>
+<b class="nc">&nbsp;          insertSt.setString(4, patternRule.getSubId());</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          insertSt.setNull(4, Types.VARCHAR);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        insertSt.setString(5, rule.getDescription());</b>
+<b class="nc">&nbsp;        insertSt.setString(6, StringUtils.abbreviate(match.getMessage(), 255));</b>
+&nbsp;
+<b class="nc">&nbsp;        String context = contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());</b>
+<b class="nc">&nbsp;        if (context.length() &gt; MAX_CONTEXT_LENGTH) {</b>
+&nbsp;          // let&#39;s skip these strange cases, as shortening the text might leave us behind with invalid markup etc
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        insertSt.setString(7, context);</b>
+<b class="nc">&nbsp;        insertSt.setString(8, StringUtils.abbreviate(smallContext, 255));</b>
+&nbsp;        
+<b class="nc">&nbsp;        insertSt.setDate(9, nowDate);  // should actually be the dump&#39;s date, but isn&#39;t really used anyway...</b>
+<b class="nc">&nbsp;        insertSt.setDate(10, nowDate);</b>
+<b class="nc">&nbsp;        insertSt.setString(11, sentence.getUrl());</b>
+<b class="nc">&nbsp;        insertSt.setString(12, sentence.getSource());</b>
+<b class="nc">&nbsp;        insertSt.addBatch();</b>
+<b class="nc">&nbsp;        if (++batchCount &gt;= batchSize){</b>
+<b class="nc">&nbsp;          executeBatch();</b>
+<b class="nc">&nbsp;          batchCount = 0;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        checkMaxErrors(++errorCount);</b>
+<b class="nc">&nbsp;        if (errorCount % 100 == 0) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;Storing error #&quot; + errorCount + &quot; for text:&quot;);</b>
+<b class="nc">&nbsp;          System.out.println(&quot;  &quot; + sentence.getText());</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      checkMaxSentences(++sentenceCount);</b>
+&nbsp;    } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
+&nbsp;      throw e;
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Error storing matches for &#39;&quot; + sentence.getTitle() + &quot;&#39;&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void executeBatch() throws SQLException {
+<b class="nc">&nbsp;    boolean autoCommit = conn.getAutoCommit();</b>
+<b class="nc">&nbsp;    conn.setAutoCommit(false);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      insertSt.executeBatch();</b>
+<b class="nc">&nbsp;      if (autoCommit) {</b>
+<b class="nc">&nbsp;        conn.commit();</b>
+&nbsp;      }
+&nbsp;    } finally {
+<b class="nc">&nbsp;      conn.setAutoCommit(autoCommit);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void close() throws Exception {
+<b class="nc">&nbsp;    if (insertSt != null) {</b>
+<b class="nc">&nbsp;      if (batchCount &gt; 0) {</b>
+<b class="nc">&nbsp;        executeBatch();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      insertSt.close();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (conn != null) {</b>
+<b class="nc">&nbsp;      conn.close();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

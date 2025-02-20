@@ -1,0 +1,373 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PipelinePool</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: PipelinePool (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PipelinePool</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/101)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import io.opentelemetry.api.common.Attributes;
+&nbsp;import org.apache.commons.pool2.KeyedObjectPool;
+&nbsp;import org.apache.commons.pool2.KeyedPooledObjectFactory;
+&nbsp;import org.apache.commons.pool2.PooledObject;
+&nbsp;import org.apache.commons.pool2.impl.DefaultPooledObject;
+&nbsp;import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
+&nbsp;import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.gui.Configuration;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.tools.TelemetryProvider;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.NoSuchElementException;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
+&nbsp; */
+&nbsp;class PipelinePool implements KeyedPooledObjectFactory&lt;PipelineSettings, Pipeline&gt; {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(PipelinePool.class);</b>
+&nbsp;
+&nbsp;  private final KeyedObjectPool&lt;PipelineSettings, Pipeline&gt; pool;
+&nbsp;
+&nbsp;  private final HTTPServerConfig config;
+&nbsp;  private final ResultCache cache;
+&nbsp;  private final boolean internalServer;
+&nbsp;
+<b class="nc">&nbsp;  PipelinePool(HTTPServerConfig config, ResultCache cache, boolean internalServer) {</b>
+<b class="nc">&nbsp;    this.internalServer = internalServer;</b>
+<b class="nc">&nbsp;    this.config = config;</b>
+<b class="nc">&nbsp;    this.cache = cache;</b>
+<b class="nc">&nbsp;    int maxPoolSize = config.getMaxPipelinePoolSize();</b>
+<b class="nc">&nbsp;    if (config.isPipelineCachingEnabled()) {</b>
+<b class="nc">&nbsp;      GenericKeyedObjectPoolConfig&lt;Pipeline&gt; poolConfig = new GenericKeyedObjectPoolConfig&lt;&gt;();</b>
+<b class="nc">&nbsp;      poolConfig.setMaxTotal(maxPoolSize);</b>
+<b class="nc">&nbsp;      poolConfig.setMaxIdlePerKey(maxPoolSize);</b>
+<b class="nc">&nbsp;      poolConfig.setMaxTotalPerKey(maxPoolSize);</b>
+<b class="nc">&nbsp;      poolConfig.setMinIdlePerKey(0);</b>
+<b class="nc">&nbsp;      poolConfig.setBlockWhenExhausted(false);</b>
+&nbsp;      // could try setting wait time, idle time (from expireTime), use another eviction policy, ...
+<b class="nc">&nbsp;      this.pool = new GenericKeyedObjectPool&lt;&gt;(this, poolConfig);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.pool = null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  Pipeline getPipeline(PipelineSettings settings) throws Exception {
+<b class="nc">&nbsp;    if (pool == null) {</b>
+<b class="nc">&nbsp;      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());</b>
+&nbsp;    } else {
+&nbsp;      try {
+<b class="nc">&nbsp;        long time = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        logger.debug(&quot;Requesting pipeline; pool has {} active objects, {} idle; pipeline settings: {}&quot;,</b>
+<b class="nc">&nbsp;          pool.getNumActive(), pool.getNumIdle(), settings);</b>
+<b class="nc">&nbsp;        Pipeline p = pool.borrowObject(settings);</b>
+<b class="nc">&nbsp;        logger.debug(&quot;Fetching pipeline took {}ms; pool has {} active objects, {} idle; pipeline settings: {}&quot;,</b>
+<b class="nc">&nbsp;          System.currentTimeMillis() - time, pool.getNumActive(), pool.getNumIdle(), settings);</b>
+<b class="nc">&nbsp;        return p;</b>
+&nbsp;      } catch(NoSuchElementException ignored) {
+<b class="nc">&nbsp;        logger.info(&quot;Pipeline pool capacity reached: {} active objects, {} idle&quot;,</b>
+<b class="nc">&nbsp;          pool.getNumActive(), pool.getNumIdle());</b>
+<b class="nc">&nbsp;        return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  void returnPipeline(PipelineSettings settings, Pipeline pipeline) throws Exception {
+<b class="nc">&nbsp;    if (pool == null) return;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      pool.returnObject(settings, pipeline);</b>
+&nbsp;    } catch(IllegalStateException e) {
+&nbsp;      // this might happen when pool capacity is reached and we return newly created objects that were never borrowed
+<b class="nc">&nbsp;      logger.info(&quot;Exception while trying to return pipeline to pool;&quot; +</b>
+&nbsp;        &quot; this is expected when pipeline capacity is reached&quot;, e);
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create a JLanguageTool instance for a specific language, mother tongue, and rule configuration.
+&nbsp;   * Uses Pipeline wrapper to safely share objects
+&nbsp;   *  @param lang the language to be used
+&nbsp;   * @param motherTongue the user&#39;s mother tongue or {@code null}
+&nbsp;   */
+&nbsp;  Pipeline createPipeline(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig,
+&nbsp;                          UserConfig userConfig, List&lt;String&gt; disabledRuleIds)
+&nbsp;    throws Exception { // package-private for mocking
+<b class="nc">&nbsp;    Attributes attributes = Attributes.builder()</b>
+<b class="nc">&nbsp;        .put(&quot;text.language&quot;, lang.getShortCode())</b>
+<b class="nc">&nbsp;        .put(&quot;check.premium&quot;, params.premium)</b>
+<b class="nc">&nbsp;        .put(&quot;check.mode&quot;, params.mode.name())</b>
+<b class="nc">&nbsp;        .put(&quot;check.level&quot;, params.level.name())</b>
+<b class="nc">&nbsp;        .build();</b>
+<b class="nc">&nbsp;    return TelemetryProvider.INSTANCE.createSpan(&quot;createPipeline&quot;, attributes, () -&gt; {</b>
+<b class="nc">&nbsp;      Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging);</b>
+&nbsp;      //Add custom rules as filter if there are implement the RuleMatchFilter interface
+&nbsp;      //TODO: Will not work anymore if we handle custom rules as remote rules
+<b class="nc">&nbsp;      for (Rule rule : userConfig.getRules()) {</b>
+<b class="nc">&nbsp;        if (rule instanceof RuleMatchFilter) {</b>
+<b class="nc">&nbsp;          lt.addMatchFilter((RuleMatchFilter) rule);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());</b>
+<b class="nc">&nbsp;      lt.disableRules(disabledRuleIds);</b>
+<b class="nc">&nbsp;      if (config.getLanguageModelDir() != null) {</b>
+<b class="nc">&nbsp;        lt.activateLanguageModelRules(config.getLanguageModelDir());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (config.getRulesConfigFile() != null) {</b>
+<b class="nc">&nbsp;        configureFromRulesFile(lt, lang);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        configureFromGUI(lt, lang);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (params.regressionTestMode) {</b>
+<b class="nc">&nbsp;        List&lt;RemoteRuleConfig&gt; rules = Collections.emptyList();</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          if (config.getRemoteRulesConfigFile() != null) {</b>
+<b class="nc">&nbsp;            rules = RemoteRuleConfig.load(config.getRemoteRulesConfigFile());</b>
+&nbsp;          }
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;          logger.error(&quot;Could not load remote rule configuration&quot;, e);</b>
+&nbsp;        }
+&nbsp;        // modify remote rule configuration to avoid timeouts
+&nbsp;
+&nbsp;        // temporary workaround: don&#39;t run into check timeout, causes limit enforcement;
+&nbsp;        // extend timeout as long as possible instead
+<b class="nc">&nbsp;        long timeout = Math.max(config.getMaxCheckTimeMillisAnonymous() - 1, 0);</b>
+<b class="nc">&nbsp;        rules = rules.stream().map(c -&gt; {</b>
+<b class="nc">&nbsp;          RemoteRuleConfig config = new RemoteRuleConfig(c);</b>
+<b class="nc">&nbsp;          config.baseTimeoutMilliseconds = timeout;</b>
+<b class="nc">&nbsp;          config.timeoutPerCharacterMilliseconds = 0f;</b>
+<b class="nc">&nbsp;          return config;</b>
+<b class="nc">&nbsp;        }).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;        lt.activateRemoteRules(rules);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        lt.activateRemoteRules(config.getRemoteRulesConfigFile());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (params.useQuerySettings) {</b>
+<b class="nc">&nbsp;        Tools.selectRules(lt, new HashSet&lt;&gt;(params.disabledCategories), new HashSet&lt;&gt;(params.enabledCategories),</b>
+&nbsp;          new HashSet&lt;&gt;(params.disabledRules), new HashSet&lt;&gt;(params.enabledRules), params.useEnabledOnly, params.enableTempOffRules);
+&nbsp;      }
+<b class="nc">&nbsp;      if (userConfig.filterDictionaryMatches()) {</b>
+<b class="nc">&nbsp;        lt.addMatchFilter(new DictionaryMatchFilter(userConfig));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      lt.addMatchFilter(new DictionarySpellMatchFilter(userConfig));</b>
+&nbsp;
+<b class="nc">&nbsp;      Premium premium = Premium.get();</b>
+<b class="nc">&nbsp;      if (config.isPremiumOnly()) {</b>
+&nbsp;        //System.out.println(&quot;Enabling ONLY premium rules.&quot;);
+<b class="nc">&nbsp;        int premiumEnabled = 0;</b>
+<b class="nc">&nbsp;        int otherDisabled = 0;</b>
+<b class="nc">&nbsp;        for (Rule rule : lt.getAllActiveRules()) {</b>
+<b class="nc">&nbsp;          if (premium.isPremiumRule(rule)) {</b>
+<b class="nc">&nbsp;            lt.enableRule(rule.getFullId());</b>
+<b class="nc">&nbsp;            premiumEnabled++;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            lt.disableRule(rule.getFullId());</b>
+<b class="nc">&nbsp;            otherDisabled++;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;        //System.out.println(&quot;Enabled &quot; + premiumEnabled + &quot; premium rules, disabled &quot; + otherDisabled + &quot; non-premium rules.&quot;);
+<b class="nc">&nbsp;      } else if (!params.premium) {</b>
+<b class="nc">&nbsp;        if (!(premium instanceof PremiumOff)) {</b>
+<b class="nc">&nbsp;          for (Rule rule : lt.getAllActiveRules()) {</b>
+<b class="nc">&nbsp;            if (premium.isPremiumRule(rule)) {</b>
+&nbsp;              // compute premium matches locally to use as hidden matches if desired for a rule
+<b class="nc">&nbsp;              if (!params.enableHiddenRules || !rule.isIncludedInHiddenMatches()) {</b>
+<b class="nc">&nbsp;                lt.disableRule(rule.getFullId());</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (pool != null) {</b>
+<b class="nc">&nbsp;        lt.setupFinished();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return lt;</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  private void configureFromRulesFile(JLanguageTool lt, Language lang) throws IOException {
+<b class="nc">&nbsp;    ServerTools.print(&quot;Using options configured in &quot; + config.getRulesConfigFile());</b>
+&nbsp;    // If we are explicitly configuring from rules, ignore the useGUIConfig flag
+<b class="nc">&nbsp;    if (config.getRulesConfigFile() != null) {</b>
+<b class="nc">&nbsp;      org.languagetool.gui.Tools.configureFromRules(lt, new Configuration(config.getRulesConfigFile()</b>
+<b class="nc">&nbsp;        .getCanonicalFile().getParentFile(), config.getRulesConfigFile().getName(), lang));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;config.getRulesConfigFile() is null&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void configureFromGUI(JLanguageTool lt, Language lang) throws IOException {
+<b class="nc">&nbsp;    Configuration config = new Configuration(lang);</b>
+<b class="nc">&nbsp;    if (internalServer &amp;&amp; config.getUseGUIConfig()) {</b>
+<b class="nc">&nbsp;      ServerTools.print(&quot;Using options configured in the GUI&quot;);</b>
+<b class="nc">&nbsp;      org.languagetool.gui.Tools.configureFromRules(lt, config);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public PooledObject&lt;Pipeline&gt; makeObject(PipelineSettings pipelineSettings) throws Exception {
+<b class="nc">&nbsp;    return new DefaultPooledObject&lt;&gt;(createPipeline(pipelineSettings.lang, pipelineSettings.motherTongue, pipelineSettings.query,</b>
+<b class="nc">&nbsp;      pipelineSettings.globalConfig, pipelineSettings.userConfig, config.getDisabledRuleIds()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void destroyObject(PipelineSettings pipelineSettings, PooledObject&lt;Pipeline&gt; pooledObject) throws Exception {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean validateObject(PipelineSettings pipelineSettings, PooledObject&lt;Pipeline&gt; pooledObject) {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // can make equal on pipeline settings more liberal (e.g. equal language, but some rule IDs disabled)
+&nbsp;  // and make required changes to the pipeline before activating/passivating
+&nbsp;  // to improve reuse and reduce number of stored pipelines
+&nbsp;  @Override
+&nbsp;  public void activateObject(PipelineSettings pipelineSettings, PooledObject&lt;Pipeline&gt; pooledObject) throws Exception {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void passivateObject(PipelineSettings pipelineSettings, PooledObject&lt;Pipeline&gt; pooledObject) throws Exception {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,237 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractTextToNumberFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractTextToNumberFilter (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractTextToNumberFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;
+<b class="nc">&nbsp;public abstract class AbstractTextToNumberFilter extends RuleFilter {</b>
+&nbsp;
+<b class="nc">&nbsp;  protected static Map&lt;String, Float&gt; numbers = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  protected static Map&lt;String, Float&gt; multipliers = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+&nbsp;
+<b class="nc">&nbsp;    int posWord = 0;</b>
+<b class="nc">&nbsp;    float total = 0;</b>
+<b class="nc">&nbsp;    float current = 0;</b>
+<b class="nc">&nbsp;    float totalDecimal = 0;</b>
+<b class="nc">&nbsp;    float currentDecimal = 0;</b>
+<b class="nc">&nbsp;    int addedZeros = 0;</b>
+<b class="nc">&nbsp;    boolean percentage = false;</b>
+<b class="nc">&nbsp;    boolean decimal = false;</b>
+<b class="nc">&nbsp;    while (posWord &lt; patternTokens.length &amp;&amp; patternTokens[posWord].getEndPos() &lt;= match.getToPos()) {</b>
+&nbsp;      // inside &lt;marker&gt;
+<b class="nc">&nbsp;      if (patternTokens[posWord].getStartPos() &gt;= match.getFromPos()</b>
+<b class="nc">&nbsp;          &amp;&amp; patternTokens[posWord].getEndPos() &lt;= match.getToPos()) {</b>
+<b class="nc">&nbsp;        String form = patternTokens[posWord].getToken().toLowerCase();</b>
+<b class="nc">&nbsp;        if (posWord &gt; 0 &amp;&amp; isPercentage(patternTokens, posWord)) {</b>
+<b class="nc">&nbsp;          percentage = true;</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        if (isComma(form)) {</b>
+<b class="nc">&nbsp;          decimal = true;</b>
+<b class="nc">&nbsp;          posWord++;</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; forms = tokenize(form);</b>
+<b class="nc">&nbsp;        for (String subForm : forms) {</b>
+<b class="nc">&nbsp;          if (!decimal) {</b>
+<b class="nc">&nbsp;            if (numbers.containsKey(subForm)) {</b>
+<b class="nc">&nbsp;              current += numbers.get(subForm);</b>
+<b class="nc">&nbsp;            } else if (multipliers.containsKey(subForm)) {</b>
+<b class="nc">&nbsp;              if (current == 0) {// mil</b>
+<b class="nc">&nbsp;                current = 1;</b>
+&nbsp;              }
+<b class="nc">&nbsp;              total += current * multipliers.get(subForm);</b>
+<b class="nc">&nbsp;              current = 0;</b>
+&nbsp;            }
+&nbsp;          } else {
+<b class="nc">&nbsp;            if (numbers.containsKey(subForm)) {</b>
+<b class="nc">&nbsp;              int zerosToAdd = format((numbers.get(subForm)), false).length();</b>
+<b class="nc">&nbsp;              currentDecimal += numbers.get(subForm) / Math.pow(10, addedZeros + zerosToAdd);</b>
+<b class="nc">&nbsp;              addedZeros++;</b>
+&nbsp;            } /* else: multipliers after the decimal comma are not expected */
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+&nbsp;      }
+<b class="nc">&nbsp;      posWord++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    total += current;</b>
+<b class="nc">&nbsp;    totalDecimal += currentDecimal;</b>
+<b class="nc">&nbsp;    total = total + totalDecimal /* / (Float.toString(totalDecimal).length() + addedZeros) */;</b>
+<b class="nc">&nbsp;    RuleMatch ruleMatch = match;</b>
+<b class="nc">&nbsp;    String sugg = format(total, percentage);</b>
+&nbsp;
+<b class="nc">&nbsp;    ruleMatch.addSuggestedReplacement(sugg);</b>
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String format(float d, boolean percentage) {
+&nbsp;    String result;
+<b class="nc">&nbsp;    if (d == (long) d) {</b>
+<b class="nc">&nbsp;      result = String.format(&quot;%d&quot;, (long) d);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      result = String.format(&quot;%s&quot;, d);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (percentage) {</b>
+<b class="nc">&nbsp;      result = result + &quot;\u202F%&quot;; // narrow non-breaking space + percentage</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return formatResult(result);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  abstract protected boolean isComma(String s);
+&nbsp;  
+&nbsp;  abstract protected boolean isPercentage(AnalyzedTokenReadings[] patternTokens, int i);
+&nbsp;  
+&nbsp;  protected String formatResult(String s) {
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  };
+&nbsp;  
+&nbsp;  protected List&lt;String&gt; tokenize(String s) {
+<b class="nc">&nbsp;    return Collections.singletonList(s);</b>
+&nbsp;  };
+&nbsp;  
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

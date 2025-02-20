@@ -1,0 +1,177 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GroupRoles</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: GroupRoles (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GroupRoles</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Fabian Richter
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.google.common.collect.Sets;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+<b class="nc">&nbsp;public enum GroupRoles {</b>
+&nbsp;  // one user can have multiple roles
+&nbsp;  // basic user types - each user should only have one of those
+<b class="nc">&nbsp;  EXISTING_MEMBER, // previously existing account, can only be removed from group, can&#39;t be deleted by owner/admin</b>
+<b class="nc">&nbsp;  MEMBER, // fully managed account, deleted on removal from the group</b>
+<b class="nc">&nbsp;  OWNER, // user who created group, full privileges</b>
+&nbsp;  // flags for privileges
+<b class="nc">&nbsp;  ADMIN, // full privileges</b>
+<b class="nc">&nbsp;  EDITOR; // can edit dictionary</b>
+&nbsp;
+&nbsp;  public static final String SEPARATOR = &quot;,&quot;;
+&nbsp;
+&nbsp;  // encode/decode for storage in database
+&nbsp;  public static String encode(List&lt;GroupRoles&gt; roles) {
+<b class="nc">&nbsp;    String role = roles.stream().map(GroupRoles::name).collect(Collectors.joining(GroupRoles.SEPARATOR));</b>
+<b class="nc">&nbsp;    return role;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;GroupRoles&gt; decode(String value) {
+<b class="nc">&nbsp;    String[] roleValues = value.split(GroupRoles.SEPARATOR);</b>
+<b class="nc">&nbsp;    return Arrays.stream(roleValues).map(GroupRoles::valueOf).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPermissions(@Nullable String role, GroupRoles... roles) {
+<b class="nc">&nbsp;    if (role == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    HashSet&lt;GroupRoles&gt; userRoles = Sets.newHashSet(decode(role));</b>
+<b class="nc">&nbsp;    HashSet&lt;GroupRoles&gt; requiredRoles = Sets.newHashSet(Arrays.asList(roles));</b>
+<b class="nc">&nbsp;    return !Sets.intersection(userRoles, requiredRoles).isEmpty();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

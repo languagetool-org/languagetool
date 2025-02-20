@@ -1,0 +1,413 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RemoteRuleFilters</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: RemoteRuleFilters (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteRuleFilters</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/75)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RemoteRuleFilters$ExpectedMatch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RemoteRuleFilters$ExpectedMatches</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RemoteRuleFilters$ExpectedRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/82)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2020 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.core.JsonProcessingException;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import com.google.common.cache.CacheLoader;
+&nbsp;import com.google.common.cache.LoadingCache;
+&nbsp;import com.google.common.collect.Streams;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ExecutionException;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;/**
+&nbsp; * rules in remote-rule-filter.xml, same syntax as pattern rules
+&nbsp; * used as filters for results from matches provided by remote rule
+&nbsp; * i.e. if there is a match with equal match span from remote rule and a corresponding filter (i.e. with the same ID as the match)
+&nbsp; * the match is discarded
+&nbsp; * filtering uses the IDs from the matches, so dynamically created rules using different IDs will work
+&nbsp; */
+&nbsp;public final class RemoteRuleFilters {
+&nbsp;  
+&nbsp;  public static final String RULE_FILE = &quot;remote-rule-filters.xml&quot;;
+&nbsp;
+&nbsp;  private static final LoadingCache&lt;Language, List&lt;Map.Entry&lt;Pattern, List&lt;AbstractPatternRule&gt;&gt;&gt;&gt; rules =
+<b class="nc">&nbsp;    CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;      .build(CacheLoader.from((lang) -&gt; compilePatterns(RemoteRuleFilters.load(lang))));</b>
+&nbsp;
+&nbsp;
+&nbsp;  private RemoteRuleFilters() {
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  public static List&lt;RuleMatch&gt; filterMatches(@NotNull Language lang, @NotNull AnalyzedSentence sentence, @NotNull List&lt;RuleMatch&gt; matches) throws ExecutionException, IOException {
+<b class="nc">&nbsp;    if (matches.isEmpty()) {</b>
+<b class="nc">&nbsp;      return matches;</b>
+&nbsp;    }
+&nbsp;    // load all relevant filters for given matches
+<b class="nc">&nbsp;    Set&lt;String&gt; matchIds = matches.stream().map(m -&gt; m.getRule().getId()).collect(Collectors.toSet());</b>
+<b class="nc">&nbsp;    List&lt;AbstractPatternRule&gt; filters = rules.get(lang).stream()</b>
+<b class="nc">&nbsp;      .filter(e -&gt; matchIds.stream().anyMatch(id -&gt; e.getKey().matcher(id).matches()))</b>
+<b class="nc">&nbsp;      .flatMap(e -&gt; e.getValue().stream())</b>
+<b class="nc">&nbsp;      .collect(Collectors.toList());</b>
+&nbsp;
+&nbsp;    // prepare for lookup of matches
+<b class="nc">&nbsp;    Map&lt;MatchPosition, Set&lt;AbstractPatternRule&gt;&gt; filterRulesByPosition = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (AbstractPatternRule rule : filters) {</b>
+<b class="nc">&nbsp;      RuleMatch[] filterMatches = rule.match(sentence);</b>
+<b class="nc">&nbsp;      for (RuleMatch match : filterMatches) {</b>
+<b class="nc">&nbsp;        MatchPosition pos = new MatchPosition(match.getFromPos(), match.getToPos());</b>
+<b class="nc">&nbsp;        filterRulesByPosition.computeIfAbsent(pos, k -&gt; new HashSet&lt;&gt;()).add(rule);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; filteredMatches = matches.stream()</b>
+<b class="nc">&nbsp;      .filter(match -&gt; {</b>
+<b class="nc">&nbsp;        MatchPosition pos = new MatchPosition(match.getFromPos(), match.getToPos());</b>
+&nbsp;        // is there a filter match with the right ID at this position?
+<b class="nc">&nbsp;        boolean matched = filterRulesByPosition.getOrDefault(pos, Collections.emptySet())</b>
+<b class="nc">&nbsp;          .stream().anyMatch(rule -&gt; match.getRule().getId().matches(rule.getId()));</b>
+<b class="nc">&nbsp;        return !matched;</b>
+&nbsp;      })
+<b class="nc">&nbsp;      .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    return filteredMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  static class ExpectedMatches {</b>
+&nbsp;    public String sentence;
+&nbsp;    public List&lt;ExpectedMatch&gt; matches;
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static class ExpectedMatch {</b>
+&nbsp;    public int offset;
+&nbsp;    public int length;
+&nbsp;    public String rule_id;
+&nbsp;  }
+&nbsp;
+&nbsp;  static class ExpectedRule extends Rule{
+&nbsp;    private final String id;
+<b class="nc">&nbsp;    public ExpectedRule(String id)  {</b>
+<b class="nc">&nbsp;      this.id = id;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;      return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;      throw new IllegalStateException();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Print matches remaining after filtering; arguments are language code and JSON file with matches
+&nbsp;   * e.g. java [...] org.languagetool.rules.RemoteRuleFilters en matches.json
+&nbsp;   */
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="nc">&nbsp;    String langCode = args[0];</b>
+<b class="nc">&nbsp;    String matchesFile = args[1];</b>
+<b class="nc">&nbsp;    Language lang = Languages.getLanguageForShortCode(langCode);</b>
+<b class="nc">&nbsp;    List&lt;AbstractPatternRule&gt; rules = RemoteRuleFilters.load(lang)</b>
+<b class="nc">&nbsp;      .values().stream().flatMap(Collection::stream).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    Stream&lt;String&gt; lines = Files.lines(Paths.get(matchesFile), StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;    ObjectMapper mapper = new ObjectMapper();</b>
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(lang);</b>
+&nbsp;
+<b class="nc">&nbsp;    Map&lt;String, List&lt;AbstractMap.SimpleEntry&lt;Boolean, RuleMatch&gt;&gt;&gt; result = lines.parallel()</b>
+<b class="nc">&nbsp;      .map(s -&gt; {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          return mapper.readValue(s, ExpectedMatches.class);</b>
+&nbsp;        } catch (JsonProcessingException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;      })
+<b class="nc">&nbsp;      .flatMap(matches -&gt; {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          AnalyzedSentence s = lt.getAnalyzedSentence(matches.sentence);</b>
+<b class="nc">&nbsp;          List&lt;RuleMatch&gt; ruleMatches = matches.matches.stream().map(</b>
+<b class="nc">&nbsp;            m -&gt; new RuleMatch(new ExpectedRule(m.rule_id), s, m.offset, m.offset + m.length, &quot;&quot;)</b>
+<b class="nc">&nbsp;          ).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;          List&lt;RuleMatch&gt; remaining = RemoteRuleFilters.filterMatches(lang, s, ruleMatches);</b>
+<b class="nc">&nbsp;          ruleMatches.removeAll(remaining);</b>
+<b class="nc">&nbsp;          return Streams.concat(</b>
+<b class="nc">&nbsp;            remaining.stream().map(m -&gt; new AbstractMap.SimpleEntry&lt;&gt;(true, m)),</b>
+<b class="nc">&nbsp;            ruleMatches.stream().map(m -&gt; new AbstractMap.SimpleEntry&lt;&gt;(false, m)));</b>
+&nbsp;        } catch (IOException | ExecutionException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;      })
+<b class="nc">&nbsp;      .collect(Collectors.groupingBy(key -&gt;</b>
+<b class="nc">&nbsp;        (key.getKey() ? &quot;Remaining&quot; : &quot;Removed&quot; ) + &quot; - &quot; + key.getValue().getRule().getId()));</b>
+&nbsp;
+<b class="nc">&nbsp;    result.forEach((section, matches) -&gt; {</b>
+<b class="nc">&nbsp;        System.out.println(section);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;---&quot;);</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;Boolean, RuleMatch&gt; entry : matches) {</b>
+<b class="nc">&nbsp;          RuleMatch match = entry.getValue();</b>
+<b class="nc">&nbsp;          String s = match.getSentence().getText();</b>
+<b class="nc">&nbsp;          String marked = s.substring(0, match.getFromPos()) + &quot;&lt;marker&gt;&quot; +</b>
+<b class="nc">&nbsp;            s.substring(match.getFromPos(), match.getToPos()) + &quot;&lt;/marker&gt;&quot; + s.substring(match.getToPos());</b>
+<b class="nc">&nbsp;          System.out.println(marked);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(&quot;---&quot;);</b>
+&nbsp;      });
+&nbsp;  }
+&nbsp;
+&nbsp;  static Map&lt;String, List&lt;AbstractPatternRule&gt;&gt; load(Language lang) {
+<b class="nc">&nbsp;    JLanguageTool lt = lang.createDefaultJLanguageTool();</b>
+<b class="nc">&nbsp;    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();</b>
+<b class="nc">&nbsp;    String filename = dataBroker.getRulesDir() + &quot;/&quot; + getFilename(lang);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      List&lt;AbstractPatternRule&gt; allRules = lt.loadPatternRules(filename);</b>
+<b class="nc">&nbsp;      Map&lt;String, List&lt;AbstractPatternRule&gt;&gt; rules = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (AbstractPatternRule rule : allRules) {</b>
+<b class="nc">&nbsp;        rules.computeIfAbsent(rule.getId(), k -&gt; new ArrayList&lt;&gt;()).add(rule);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return rules;</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static List&lt;Map.Entry&lt;Pattern, List&lt;AbstractPatternRule&gt;&gt;&gt; compilePatterns(Map&lt;String, List&lt;AbstractPatternRule&gt;&gt; rules) {
+<b class="nc">&nbsp;    List&lt;Map.Entry&lt;Pattern, List&lt;AbstractPatternRule&gt;&gt;&gt; result = new ArrayList&lt;&gt;(rules.size());</b>
+&nbsp;    // we treat rule ids in this file as regexes over rule IDs of matches
+&nbsp;    // compile them once here and then reuse
+<b class="nc">&nbsp;    rules.forEach((ruleId, ruleList) -&gt; {</b>
+<b class="nc">&nbsp;      Pattern key = Pattern.compile(ruleId);</b>
+<b class="nc">&nbsp;      result.add(new AbstractMap.SimpleImmutableEntry&lt;&gt;(key, ruleList));</b>
+&nbsp;    });
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  static String getFilename(Language lang) {
+&nbsp;      // we don&#39;t support language variants in AI rules / remote rule filters at the moment;
+&nbsp;      // this is another kind of variant, treat it as German
+<b class="nc">&nbsp;      if (lang.getShortCode().equals(&quot;de-DE-x-simple-language&quot;)) {</b>
+<b class="nc">&nbsp;        lang = Languages.getLanguageForShortCode(&quot;de-DE&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return lang.getShortCode() + &quot;/&quot; + RULE_FILE;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

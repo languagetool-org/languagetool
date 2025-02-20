@@ -1,0 +1,729 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PronomsFeblesHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: PronomsFeblesHelper (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PronomsFeblesHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/120)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/306)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PronomsFeblesHelper$PronounPosition</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/120)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/308)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2023 Jaume Ortolà
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public class PronomsFeblesHelper {
+&nbsp;
+<b class="nc">&nbsp;  enum PronounPosition {</b>
+<b class="nc">&nbsp;    DAVANT, DAVANT_APOS, DARRERE, DARRERE_APOS, DARRERE_NOGUIONET_NOAPOS, DARRE_APOS_NOGUIONET_NOAPOS</b>
+&nbsp;  }
+<b class="nc">&nbsp;  final static private String[] pronomsFebles = {</b>
+&nbsp;    &quot;el&quot;, &quot;l&#39;&quot;, &quot;-lo&quot;, &quot;&#39;l&quot;, &quot;lo&quot;, &quot;l&quot;,
+&nbsp;    &quot;els el&quot;, &quot;els l&#39;&quot;, &quot;-los-el&quot;, &quot;&#39;ls-el&quot;, &quot;losel&quot;, &quot;lsel&quot;,
+&nbsp;    &quot;els els&quot;, &quot;els els&quot;, &quot;-los-els&quot;, &quot;&#39;ls-els&quot;, &quot;losels&quot;, &quot;lsels&quot;,
+&nbsp;    &quot;els en&quot;, &quot;els n&#39;&quot;, &quot;-los-en&quot;, &quot;&#39;ls-en&quot;, &quot;losen&quot;, &quot;lsen&quot;,
+&nbsp;    &quot;els hi&quot;, &quot;els hi&quot;, &quot;-los-hi&quot;, &quot;&#39;ls-hi&quot;, &quot;loshi&quot;, &quot;lshi&quot;,
+&nbsp;    &quot;els ho&quot;, &quot;els ho&quot;, &quot;-los-ho&quot;, &quot;&#39;ls-ho&quot;, &quot;losho&quot;, &quot;lsho&quot;,
+&nbsp;    &quot;els la&quot;, &quot;els l&#39;&quot;, &quot;-los-la&quot;, &quot;&#39;ls-la&quot;, &quot;losla&quot;, &quot;lsla&quot;,
+&nbsp;    &quot;els les&quot;, &quot;els les&quot;, &quot;-los-les&quot;, &quot;&#39;ls-les&quot;, &quot;losles&quot;, &quot;lsles&quot;,
+&nbsp;    &quot;els&quot;, &quot;els&quot;, &quot;-los&quot;, &quot;&#39;ls&quot;, &quot;los&quot;, &quot;ls&quot;,
+&nbsp;    &quot;em&quot;, &quot;m&#39;&quot;, &quot;-me&quot;, &quot;&#39;m&quot;, &quot;me&quot;, &quot;m&quot;,
+&nbsp;    &quot;en&quot;, &quot;n&#39;&quot;, &quot;-ne&quot;, &quot;&#39;n&quot;, &quot;ne&quot;, &quot;n&quot;,
+&nbsp;    &quot;ens el&quot;, &quot;ens l&#39;&quot;, &quot;-nos-el&quot;, &quot;&#39;ns-el&quot;, &quot;nosel&quot;, &quot;nsel&quot;,
+&nbsp;    &quot;ens els&quot;, &quot;ens els&quot;, &quot;-nos-els&quot;, &quot;&#39;ns-els&quot;, &quot;nosels&quot;, &quot;nsels&quot;,
+&nbsp;    &quot;ens en&quot;, &quot;ens n&#39;&quot;, &quot;-nos-en&quot;, &quot;&#39;ns-en&quot;, &quot;nosen&quot;, &quot;nsen&quot;,
+&nbsp;    &quot;ens hi&quot;, &quot;ens hi&quot;, &quot;-nos-hi&quot;, &quot;&#39;ns-hi&quot;, &quot;noshi&quot;, &quot;nshi&quot;,
+&nbsp;    &quot;ens ho&quot;, &quot;ens ho&quot;, &quot;-nos-ho&quot;, &quot;&#39;ns-ho&quot;, &quot;nosho&quot;, &quot;nsho&quot;,
+&nbsp;    &quot;ens la&quot;, &quot;ens l&#39;&quot;, &quot;-nos-la&quot;, &quot;&#39;ns-la&quot;, &quot;nosla&quot;, &quot;nsla&quot;,
+&nbsp;    &quot;ens les&quot;, &quot;ens les&quot;, &quot;-nos-les&quot;, &quot;&#39;ns-les&quot;, &quot;nosles&quot;, &quot;nsles&quot;,
+&nbsp;    &quot;ens li&quot;, &quot;ens li&quot;, &quot;-nos-li&quot;, &quot;&#39;ns-li&quot;, &quot;nosli&quot;, &quot;nsli&quot;,
+&nbsp;    &quot;ens&quot;, &quot;ens&quot;, &quot;-nos&quot;, &quot;&#39;ns&quot;, &quot;nos&quot;, &quot;ns&quot;,
+&nbsp;    &quot;es&quot;, &quot;s&#39;&quot;, &quot;-se&quot;, &quot;&#39;s&quot;, &quot;se&quot;, &quot;s&quot;,
+&nbsp;    &quot;et&quot;, &quot;t&#39;&quot;, &quot;-te&quot;, &quot;&#39;t&quot;, &quot;te&quot;, &quot;t&quot;,
+&nbsp;    &quot;hi&quot;, &quot;hi&quot;, &quot;-hi&quot;, &quot;-hi&quot;, &quot;hi&quot;, &quot;hi&quot;,
+&nbsp;    &quot;ho&quot;, &quot;ho&quot;, &quot;-ho&quot;, &quot;-ho&quot;, &quot;ho&quot;, &quot;ho&quot;,
+&nbsp;    &quot;l&#39;en&quot;, &quot;el n&#39;&quot;, &quot;-l&#39;en&quot;, &quot;-l&#39;en&quot;, &quot;len&quot;, &quot;len&quot;,
+&nbsp;    &quot;l&#39;hi&quot;, &quot;l&#39;hi&quot;, &quot;-l&#39;hi&quot;, &quot;-l&#39;hi&quot;, &quot;lhi&quot;, &quot;lhi&quot;,
+&nbsp;    &quot;la hi&quot;, &quot;la hi&quot;, &quot;-la-hi&quot;, &quot;-la-hi&quot;, &quot;lahi&quot;, &quot;lahi&quot;,
+&nbsp;    &quot;la&quot;, &quot;l&#39;&quot;, &quot;-la&quot;, &quot;-la&quot;, &quot;la&quot;, &quot;la&quot;,
+&nbsp;    &quot;la&#39;n&quot;, &quot;la n&#39;&quot;, &quot;-la&#39;n&quot;, &quot;-la&#39;n&quot;, &quot;lan&quot;, &quot;lan&quot;,
+&nbsp;    &quot;les en&quot;, &quot;les n&#39;&quot;, &quot;-les-en&quot;, &quot;-les-en&quot;, &quot;lesen&quot;, &quot;lesen&quot;,
+&nbsp;    &quot;les hi&quot;, &quot;les hi&quot;, &quot;-les-hi&quot;, &quot;-les-hi&quot;, &quot;leshi&quot;, &quot;leshi&quot;,
+&nbsp;    &quot;les&quot;, &quot;les&quot;, &quot;-les&quot;, &quot;-les&quot;, &quot;les&quot;, &quot;les&quot;,
+&nbsp;    &quot;li hi&quot;, &quot;li hi&quot;, &quot;-li-hi&quot;, &quot;-li-hi&quot;, &quot;lihi&quot;, &quot;lihi&quot;,
+&nbsp;    &quot;li ho&quot;, &quot;li ho&quot;, &quot;-li-ho&quot;, &quot;-li-ho&quot;, &quot;liho&quot;, &quot;liho&quot;,
+&nbsp;    &quot;li la&quot;, &quot;li l&#39;&quot;, &quot;-li-la&quot;, &quot;-li-la&quot;, &quot;lila&quot;, &quot;lila&quot;,
+&nbsp;    &quot;li les&quot;, &quot;li les&quot;, &quot;-li-les&quot;, &quot;-li-les&quot;, &quot;liles&quot;, &quot;liles&quot;,
+&nbsp;    &quot;li&quot;, &quot;li&quot;, &quot;-li&quot;, &quot;-li&quot;, &quot;li&quot;, &quot;li&quot;,
+&nbsp;    &quot;li&#39;l&quot;, &quot;li l&#39;&quot;, &quot;-li&#39;l&quot;, &quot;-li&#39;l&quot;, &quot;lil&quot;, &quot;lil&quot;,
+&nbsp;    &quot;li&#39;ls&quot;, &quot;li&#39;ls&quot;, &quot;-li&#39;ls&quot;, &quot;-li&#39;ls&quot;, &quot;lils&quot;, &quot;lils&quot;,
+&nbsp;    &quot;li&#39;n&quot;, &quot;li n&#39;&quot;, &quot;-li&#39;n&quot;, &quot;-li&#39;n&quot;, &quot;lin&quot;, &quot;lin&quot;,
+&nbsp;    &quot;m&#39;hi&quot;, &quot;m&#39;hi&quot;, &quot;-m&#39;hi&quot;, &quot;-m&#39;hi&quot;, &quot;mhi&quot;, &quot;mhi&quot;,
+&nbsp;    &quot;m&#39;ho&quot;, &quot;m&#39;ho&quot;, &quot;-m&#39;ho&quot;, &quot;-m&#39;ho&quot;, &quot;mho&quot;, &quot;mho&quot;,
+&nbsp;    &quot;me la&quot;, &quot;me l&#39;&quot;, &quot;-me-la&quot;, &quot;-me-la&quot;, &quot;mela&quot;, &quot;mela&quot;,
+&nbsp;    &quot;me les&quot;, &quot;me les&quot;, &quot;-me-les&quot;, &quot;-me-les&quot;, &quot;meles&quot;, &quot;meles&quot;,
+&nbsp;    &quot;me li&quot;, &quot;me li&quot;, &quot;-me-li&quot;, &quot;-me-li&quot;, &quot;meli&quot;, &quot;meli&quot;,
+&nbsp;    &quot;me&#39;l&quot;, &quot;me l&#39;&quot;, &quot;-me&#39;l&quot;, &quot;-me&#39;l&quot;, &quot;mel&quot;, &quot;mel&quot;,
+&nbsp;    &quot;me&#39;ls&quot;, &quot;me&#39;ls&quot;, &quot;-me&#39;ls&quot;, &quot;-me&#39;ls&quot;, &quot;mels&quot;, &quot;mels&quot;,
+&nbsp;    &quot;me&#39;n&quot;, &quot;me n&#39;&quot;, &quot;-me&#39;n&quot;, &quot;-me&#39;n&quot;, &quot;men&quot;, &quot;men&quot;,
+&nbsp;    &quot;n&#39;hi&quot;, &quot;n&#39;hi&quot;, &quot;-n&#39;hi&quot;, &quot;-n&#39;hi&quot;, &quot;nhi&quot;, &quot;nhi&quot;,
+&nbsp;    &quot;s&#39;hi&quot;, &quot;s&#39;hi&quot;, &quot;-s&#39;hi&quot;, &quot;-s&#39;hi&quot;, &quot;shi&quot;, &quot;shi&quot;,
+&nbsp;    &quot;s&#39;ho&quot;, &quot;s&#39;ho&quot;, &quot;-s&#39;ho&quot;, &quot;-s&#39;ho&quot;, &quot;sho&quot;, &quot;sho&quot;,
+&nbsp;    &quot;se la&quot;, &quot;se l&#39;&quot;, &quot;-se-la&quot;, &quot;-se-la&quot;, &quot;sela&quot;, &quot;sela&quot;,
+&nbsp;    &quot;se les&quot;, &quot;se les&quot;, &quot;-se-les&quot;, &quot;-se-les&quot;, &quot;seles&quot;, &quot;seles&quot;,
+&nbsp;    &quot;se li&quot;, &quot;se li&quot;, &quot;-se-li&quot;, &quot;-se-li&quot;, &quot;seli&quot;, &quot;seli&quot;,
+&nbsp;    &quot;se us&quot;, &quot;se us&quot;, &quot;-se-us&quot;, &quot;-se-us&quot;, &quot;seus&quot;, &quot;seus&quot;,
+&nbsp;    &quot;se vos&quot;, &quot;se vos&quot;, &quot;-se-vos&quot;, &quot;-se-vos&quot;, &quot;sevos&quot;, &quot;sevos&quot;,
+&nbsp;    &quot;se&#39;l&quot;, &quot;se l&#39;&quot;, &quot;-se&#39;l&quot;, &quot;-se&#39;l&quot;, &quot;sel&quot;, &quot;sel&quot;,
+&nbsp;    &quot;se&#39;ls&quot;, &quot;se&#39;ls&quot;, &quot;-se&#39;ls&quot;, &quot;-se&#39;ls&quot;, &quot;sels&quot;, &quot;sels&quot;,
+&nbsp;    &quot;se&#39;m&quot;, &quot;se m&#39;&quot;, &quot;-se&#39;m&quot;, &quot;-se&#39;m&quot;, &quot;sem&quot;, &quot;sem&quot;,
+&nbsp;    &quot;se&#39;n&quot;, &quot;se n&#39;&quot;, &quot;-se&#39;n&quot;, &quot;-se&#39;n&quot;, &quot;sen&quot;, &quot;sen&quot;,
+&nbsp;    &quot;se&#39;ns&quot;, &quot;se&#39;ns&quot;, &quot;-se&#39;ns&quot;, &quot;-se&#39;ns&quot;, &quot;sens&quot;, &quot;sens&quot;,
+&nbsp;    &quot;se&#39;t&quot;, &quot;se t&#39;&quot;, &quot;-se&#39;t&quot;, &quot;-se&#39;t&quot;, &quot;set&quot;, &quot;set&quot;,
+&nbsp;    &quot;t&#39;hi&quot;, &quot;t&#39;hi&quot;, &quot;-t&#39;hi&quot;, &quot;-t&#39;hi&quot;, &quot;thi&quot;, &quot;thi&quot;,
+&nbsp;    &quot;t&#39;ho&quot;, &quot;t&#39;ho&quot;, &quot;-t&#39;ho&quot;, &quot;-t&#39;ho&quot;, &quot;tho&quot;, &quot;tho&quot;,
+&nbsp;    &quot;te la&quot;, &quot;te l&#39;&quot;, &quot;-te-la&quot;, &quot;-te-la&quot;, &quot;tela&quot;, &quot;tela&quot;,
+&nbsp;    &quot;te les&quot;, &quot;te les&quot;, &quot;-te-les&quot;, &quot;-te-les&quot;, &quot;teles&quot;, &quot;teles&quot;,
+&nbsp;    &quot;te li&quot;, &quot;te li&quot;, &quot;-te-li&quot;, &quot;-te-li&quot;, &quot;teli&quot;, &quot;teli&quot;,
+&nbsp;    &quot;te&#39;l&quot;, &quot;te l&#39;&quot;, &quot;-te&#39;l&quot;, &quot;-te&#39;l&quot;, &quot;tel&quot;, &quot;tel&quot;,
+&nbsp;    &quot;te&#39;ls&quot;, &quot;te&#39;ls&quot;, &quot;-te&#39;ls&quot;, &quot;-te&#39;ls&quot;, &quot;tels&quot;, &quot;tels&quot;,
+&nbsp;    &quot;te&#39;m&quot;, &quot;te m&#39;&quot;, &quot;-te&#39;m&quot;, &quot;-te&#39;m&quot;, &quot;tem&quot;, &quot;tem&quot;,
+&nbsp;    &quot;te&#39;n&quot;, &quot;te n&#39;&quot;, &quot;-te&#39;n&quot;, &quot;-te&#39;n&quot;, &quot;ten&quot;, &quot;ten&quot;,
+&nbsp;    &quot;te&#39;ns&quot;, &quot;te&#39;ns&quot;, &quot;-te&#39;ns&quot;, &quot;-te&#39;ns&quot;, &quot;tens&quot;, &quot;tens&quot;,
+&nbsp;    &quot;us el&quot;, &quot;us l&#39;&quot;, &quot;-vos-el&quot;, &quot;-us-el&quot;, &quot;vosel&quot;, &quot;usel&quot;,
+&nbsp;    &quot;us els&quot;, &quot;us els&quot;, &quot;-vos-els&quot;, &quot;-us-els&quot;, &quot;vosels&quot;, &quot;usels&quot;,
+&nbsp;    &quot;us em&quot;, &quot;us m&#39;&quot;, &quot;-vos-em&quot;, &quot;-us-em&quot;, &quot;vosem&quot;, &quot;usem&quot;,
+&nbsp;    &quot;us en&quot;, &quot;us n&#39;&quot;, &quot;-vos-en&quot;, &quot;-us-en&quot;, &quot;vosen&quot;, &quot;usen&quot;,
+&nbsp;    &quot;us ens&quot;, &quot;us ens&quot;, &quot;-vos-ens&quot;, &quot;-us-ens&quot;, &quot;vosens&quot;, &quot;usens&quot;,
+&nbsp;    &quot;us hi&quot;, &quot;us hi&quot;, &quot;-vos-hi&quot;, &quot;-us-hi&quot;, &quot;voshi&quot;, &quot;ushi&quot;,
+&nbsp;    &quot;us ho&quot;, &quot;us ho&quot;, &quot;-vos-ho&quot;, &quot;-us-ho&quot;, &quot;vosho&quot;, &quot;usho&quot;,
+&nbsp;    &quot;us la&quot;, &quot;us l&#39;&quot;, &quot;-vos-la&quot;, &quot;-us-la&quot;, &quot;vosla&quot;, &quot;usla&quot;,
+&nbsp;    &quot;us les&quot;, &quot;us les&quot;, &quot;-vos-les&quot;, &quot;-us-les&quot;, &quot;vosles&quot;, &quot;usles&quot;,
+&nbsp;    &quot;us li&quot;, &quot;us li&quot;, &quot;-vos-li&quot;, &quot;-us-li&quot;, &quot;vosli&quot;, &quot;usli&quot;,
+&nbsp;    &quot;us&quot;, &quot;us&quot;, &quot;-vos&quot;, &quot;-us&quot;, &quot;vos&quot;, &quot;us&quot;
+&nbsp;    // pronoms erronis?
+&nbsp;    //&quot;et&quot;, &quot;t&#39;&quot;, &quot;-t&quot;, &quot;&#39;t&quot;
+&nbsp;  };
+&nbsp;
+<b class="nc">&nbsp;  final static Map&lt;String, String&gt; dativePronoun = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    dativePronoun.put(&quot;1S&quot;, &quot;em&quot;);</b>
+<b class="nc">&nbsp;    dativePronoun.put(&quot;2S&quot;, &quot;et&quot;);</b>
+<b class="nc">&nbsp;    dativePronoun.put(&quot;3S&quot;, &quot;li&quot;);</b>
+<b class="nc">&nbsp;    dativePronoun.put(&quot;3C&quot;, &quot;li&quot;); // also &quot;els&quot;</b>
+<b class="nc">&nbsp;    dativePronoun.put(&quot;1P&quot;, &quot;ens&quot;);</b>
+<b class="nc">&nbsp;    dativePronoun.put(&quot;2P&quot;, &quot;us&quot;);</b>
+<b class="nc">&nbsp;    dativePronoun.put(&quot;3P&quot;, &quot;els&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static Pattern pApostropheNeeded = Pattern.compile(&quot;h?[aeiouàèéíòóú].*&quot;, Pattern.CASE_INSENSITIVE);</b>
+<b class="nc">&nbsp;  static Pattern pApostropheNeededEnd = Pattern.compile(&quot;.*[aei]&quot;, Pattern.CASE_INSENSITIVE);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addEnApostrophe = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;m&#39;&quot;, &quot;me n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;t&#39;&quot;, &quot;te n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;s&#39;&quot;, &quot;se n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;ens&quot;, &quot;ens n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;us&quot;, &quot;us n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;vos&quot;, &quot;vos n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;li&quot;, &quot;li n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;els&quot;, &quot;els n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;se m&#39;&quot;, &quot;se me n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;se t&#39;&quot;, &quot;se te n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;se li&quot;, &quot;se li n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;se&#39;ns&quot;, &quot;se&#39;ns n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;se us&quot;, &quot;se us n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;se vos&quot;, &quot;se vos n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;se&#39;ls&quot;, &quot;se&#39;ls n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;hi&quot;, &quot;n&#39;hi &quot;);</b>
+<b class="nc">&nbsp;    addEnApostrophe.put(&quot;&quot;, &quot;n&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addEn = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addEn.put(&quot;em&quot;, &quot;me&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;et&quot;, &quot;te&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;es&quot;, &quot;se&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;se&quot;, &quot;se&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;ens&quot;, &quot;ens en &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;us&quot;, &quot;us en &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;li&quot;, &quot;li&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;els&quot;, &quot;els en &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;se&#39;m&quot;, &quot;se me&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;se&#39;t&quot;, &quot;se te&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;se li&quot;, &quot;se li&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;se&#39;ns&quot;, &quot;se&#39;ns en &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;se us&quot;, &quot;se us en &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;se vos&quot;, &quot;se vos en &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;se&#39;ls&quot;, &quot;se&#39;ls en &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;hi&quot;, &quot;n&#39;hi &quot;);</b>
+<b class="nc">&nbsp;    addEn.put(&quot;&quot;, &quot;en &quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addHi = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addHi.put(&quot;em&quot;, &quot;m&#39;hi&quot;);</b>
+<b class="nc">&nbsp;    addHi.put(&quot;et&quot;, &quot;t&#39;hi&quot;);</b>
+<b class="nc">&nbsp;    addHi.put(&quot;es&quot;, &quot;s&#39;hi&quot;);</b>
+<b class="nc">&nbsp;    addHi.put(&quot;se&quot;, &quot;s&#39;hi&quot;);</b>
+<b class="nc">&nbsp;    addHi.put(&quot;ens&quot;, &quot;ens hi&quot;);</b>
+<b class="nc">&nbsp;    addHi.put(&quot;us&quot;, &quot;us hi&quot;);</b>
+<b class="nc">&nbsp;    addHi.put(&quot;li&quot;, &quot;li hi&quot;);</b>
+<b class="nc">&nbsp;    addHi.put(&quot;els&quot;, &quot;els hi&quot;);</b>
+<b class="nc">&nbsp;    addHi.put(&quot;&quot;, &quot;hi&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; removeReflexive = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    removeReflexive.put(&quot;em&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;me&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;m&#39;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;et&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;te&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;t&#39;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;es&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;s&#39;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;ens&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;us&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;vos&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se&#39;m&quot;, &quot;em&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se m&#39;&quot;, &quot;m&#39;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se&#39;t&quot;, &quot;et&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se t&#39;&quot;, &quot;t&#39;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se l&#39;&quot;, &quot;l&#39;&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se la&quot;, &quot;la&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se li&quot;, &quot;li&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se&#39;ns&quot;, &quot;ens&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se us&quot;, &quot;us&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;se&#39;ls&quot;, &quot;els&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;s&#39;ho&quot;, &quot;ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;m&#39;ho&quot;, &quot;ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;t&#39;ho&quot;, &quot;ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;ens ho&quot;, &quot;ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;us ho&quot;, &quot;ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;vos ho&quot;, &quot;ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-me&#39;l&quot;, &quot;-lo&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-te&#39;l&quot;, &quot;-lo&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-se&#39;l&quot;, &quot;-lo&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-vos-el&quot;, &quot;-lo&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-nos-el&quot;, &quot;-lo&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-me-la&quot;, &quot;-la&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-te-la&quot;, &quot;-la&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-se-la&quot;, &quot;-la&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-vos-la&quot;, &quot;-la&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-nos-la&quot;, &quot;-la&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-m&#39;ho&quot;, &quot;-ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-t&#39;ho&quot;, &quot;-ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-s&#39;ho&quot;, &quot;-ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-vos-ho&quot;, &quot;-ho&quot;);</b>
+<b class="nc">&nbsp;    removeReflexive.put(&quot;-nos-ho&quot;, &quot;-ho&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addReflexiveVowel = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;1S&quot;, &quot;m&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;2S&quot;, &quot;t&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;3S&quot;, &quot;s&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;1P&quot;, &quot;ens &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;2P&quot;, &quot;us &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;3P&quot;, &quot;s&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addReflexiveConsonant = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;1S&quot;, &quot;em &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;2S&quot;, &quot;et &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;3S&quot;, &quot;es &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;1P&quot;, &quot;ens &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;2P&quot;, &quot;us &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;3P&quot;, &quot;es &quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addReflexiveImperative = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addReflexiveImperative.put(&quot;2S&quot;, &quot;&#39;t&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveImperative.put(&quot;3S&quot;, &quot;&#39;s&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveImperative.put(&quot;1P&quot;, &quot;-nos&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveImperative.put(&quot;2P&quot;, &quot;-vos&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveImperative.put(&quot;3P&quot;, &quot;-se&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addEsEn = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addEsEn.put(&quot;m&#39;&quot;, &quot;se me&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;em&quot;, &quot;se me&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;me&quot;, &quot;se me&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;t&#39;&quot;, &quot;se te&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;et&quot;, &quot;se te&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;te&quot;, &quot;se te&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;li&quot;, &quot;se li&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;ens&quot;, &quot;se&#39;ns en &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;us&quot;, &quot;se us en &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;vos&quot;, &quot;se vos en &quot;);</b>
+<b class="nc">&nbsp;    addEsEn.put(&quot;els&quot;, &quot;se&#39;ls en &quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addEsEnApostrophe = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;m&#39;&quot;, &quot;se me n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;em&quot;, &quot;se me n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;me&quot;, &quot;se me n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;t&#39;&quot;, &quot;se te n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;et&quot;, &quot;se te n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;te&quot;, &quot;se te n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;li&quot;, &quot;se li n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;ens&quot;, &quot;se&#39;ns n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;us&quot;, &quot;se us n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;vos&quot;, &quot;se vos n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addEsEnApostrophe.put(&quot;els&quot;, &quot;se&#39;ls n&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Pattern pronomFeble = Pattern.compile(&quot;P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00&quot;);</b>
+<b class="nc">&nbsp;  private static Pattern infinitiuGerundiImperatiu = Pattern.compile(&quot;V.[GNM].*&quot;);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  PronomsFeblesHelper() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String transform(String inputPronom, PronounPosition pronounPos) {
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    while (i &lt; pronomsFebles.length &amp;&amp; !inputPronom.equalsIgnoreCase(pronomsFebles[i])) {</b>
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int pfPos = PronounPosition.values().length*(i / PronounPosition.values().length) + pronounPos.ordinal();</b>
+<b class="nc">&nbsp;    if (pfPos &gt; pronomsFebles.length - 1) {</b>
+&nbsp;      // pronom inexistent, p.ex. -t
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String pronom = pronomsFebles[pfPos];</b>
+<b class="nc">&nbsp;    if (pronounPos == PronounPosition.DAVANT || (pronounPos == PronounPosition.DAVANT_APOS)</b>
+<b class="nc">&nbsp;      &amp;&amp; !pronom.endsWith(&quot;&#39;&quot;)) {</b>
+<b class="nc">&nbsp;      pronom = pronom + &quot; &quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return pronom;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String transformDavant(String inputPronom, String nextWord) {
+<b class="nc">&nbsp;    if (pApostropheNeeded.matcher(nextWord).matches()) {</b>
+<b class="nc">&nbsp;      return transform(inputPronom, PronounPosition.DAVANT_APOS);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return transform(inputPronom, PronounPosition.DAVANT);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String transformDarrere(String inputPronom, String previousWord) {
+<b class="nc">&nbsp;    if (pApostropheNeededEnd.matcher(previousWord).matches()) {</b>
+<b class="nc">&nbsp;      return transform(inputPronom, PronounPosition.DARRERE_APOS);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return transform(inputPronom, PronounPosition.DARRERE);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String[] getTwoNextPronouns(AnalyzedTokenReadings[] tokens, int from) {
+<b class="nc">&nbsp;    String[] result = new String[2];</b>
+<b class="nc">&nbsp;    int numPronouns = 0;</b>
+<b class="nc">&nbsp;    String pronoms = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (from &lt; tokens.length &amp;&amp; !tokens[from].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;      AnalyzedToken pronom = tokens[from].readingWithTagRegex(pronomFeble);</b>
+<b class="nc">&nbsp;      if (pronom != null) {</b>
+<b class="nc">&nbsp;        pronoms = pronom.getToken();</b>
+<b class="nc">&nbsp;        numPronouns++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (from + 1 &lt; tokens.length &amp;&amp; !tokens[from + 1].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;        AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex(pronomFeble);</b>
+<b class="nc">&nbsp;        if (pronom2 != null) {</b>
+<b class="nc">&nbsp;          pronoms = pronoms + pronom2.getToken();</b>
+<b class="nc">&nbsp;          numPronouns++;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    result[0] = pronoms;</b>
+<b class="nc">&nbsp;    result[1] = String.valueOf(numPronouns);</b>
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String[] getPreviousPronouns(AnalyzedTokenReadings[] tokens, int toIndex) {
+<b class="nc">&nbsp;    String[] result = new String[2];</b>
+<b class="nc">&nbsp;    int numPronouns = 0;</b>
+<b class="nc">&nbsp;    StringBuilder pronouns = new StringBuilder();</b>
+<b class="nc">&nbsp;    int fromIndex = toIndex;</b>
+<b class="nc">&nbsp;    boolean done = false;</b>
+<b class="nc">&nbsp;    while (fromIndex &gt; 0 &amp;&amp; !done) {</b>
+<b class="nc">&nbsp;      AnalyzedToken pronom = tokens[fromIndex].readingWithTagRegex(pronomFeble);</b>
+<b class="nc">&nbsp;      if (pronom != null) {</b>
+<b class="nc">&nbsp;        if (fromIndex - 1 &gt; 0 &amp;&amp; !tokens[fromIndex].isWhitespaceBefore() &amp;&amp; tokens[fromIndex - 1].readingWithTagRegex(infinitiuGerundiImperatiu) != null) {</b>
+<b class="nc">&nbsp;          done = true;</b>
+<b class="nc">&nbsp;        } else if (fromIndex - 2 &gt; 0 &amp;&amp; !tokens[fromIndex].isWhitespaceBefore() &amp;&amp; !tokens[fromIndex - 1].isWhitespaceBefore()</b>
+<b class="nc">&nbsp;          &amp;&amp; tokens[fromIndex - 1].readingWithTagRegex(pronomFeble) != null &amp;&amp; tokens[fromIndex - 2].readingWithTagRegex(infinitiuGerundiImperatiu) != null) {</b>
+<b class="nc">&nbsp;          done = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!done) {</b>
+<b class="nc">&nbsp;          fromIndex--;</b>
+<b class="nc">&nbsp;          numPronouns++;</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        done = true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (numPronouns &gt; 0) {</b>
+<b class="nc">&nbsp;      for (int j = fromIndex + 1; j &lt;= toIndex; j++) {</b>
+<b class="nc">&nbsp;        if (j &gt; fromIndex + 1 &amp;&amp; j &lt;= toIndex) {</b>
+<b class="nc">&nbsp;          if (tokens[j].isWhitespaceBefore()) {</b>
+<b class="nc">&nbsp;            pronouns.append(&quot; &quot;);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        pronouns.append(tokens[j].getToken());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    result[0] = pronouns.toString();</b>
+<b class="nc">&nbsp;    result[1] = String.valueOf(numPronouns);</b>
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String doAddPronounEn(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
+&nbsp;    Map&lt;String, String&gt; transform;
+<b class="nc">&nbsp;    String replacement = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String between = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (pApostropheNeeded.matcher(firstVerb).matches()) {</b>
+<b class="nc">&nbsp;      transform = addEnApostrophe;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      transform = addEn;</b>
+&nbsp;      //between = &quot; &quot;;
+&nbsp;    }
+<b class="nc">&nbsp;    String pronounsReplacement = transform.get(pronounsStr.toLowerCase());</b>
+<b class="nc">&nbsp;    if (pronounsReplacement != null) {</b>
+<b class="nc">&nbsp;      replacement = pronounsReplacement + between + verbStr.toLowerCase();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String doAddPronounHi(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
+<b class="nc">&nbsp;    String replacement = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String between = &quot; &quot;;</b>
+<b class="nc">&nbsp;    String pronounsReplacement = addHi.get(pronounsStr.toLowerCase());</b>
+<b class="nc">&nbsp;    if (pronounsReplacement != null) {</b>
+<b class="nc">&nbsp;      replacement = pronounsReplacement + between + verbStr.toLowerCase();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String doRemovePronounReflexive(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
+<b class="nc">&nbsp;    String replacement = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String pronounsReplacement = removeReflexive.get(pronounsStr.toLowerCase());</b>
+<b class="nc">&nbsp;    if (pronounsAfter) {</b>
+<b class="nc">&nbsp;      replacement = verbStr;</b>
+<b class="nc">&nbsp;      if (pronounsReplacement!=null) {</b>
+<b class="nc">&nbsp;        replacement = verbStr + pronounsReplacement;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return replacement;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String between = &quot; &quot;;</b>
+<b class="nc">&nbsp;    if (pronounsReplacement != null) {</b>
+<b class="nc">&nbsp;      replacement = (pronounsReplacement + between + verbStr).trim().replace(&quot;&#39; &quot;, &quot;&#39;&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      replacement = verbStr;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  private static Pattern containsReflexivePronoun = Pattern.compile(&quot;.*([mts][e&#39;]|[e&#39;][mts]|vos|us|ens|-nos|-vos).*&quot;);</b>
+&nbsp;
+&nbsp;  public static String doAddPronounReflexive(String firstVerb, String pronounsStr, String verbStr,
+&nbsp;                                       String firstVerbPersonaNumber, boolean pronounsAfter) {
+<b class="nc">&nbsp;    String replacement = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (pronounsAfter) {</b>
+<b class="nc">&nbsp;      if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {</b>
+<b class="nc">&nbsp;        return verbStr + pronounsStr;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (verbStr.endsWith(&quot;r&quot;) || verbStr.endsWith(&quot;re&quot;)) {</b>
+<b class="nc">&nbsp;        return verbStr + transformDarrere(&quot;-se&quot;, verbStr);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return verbStr;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    String pronounToAdd = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (pronounsStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      if (pApostropheNeeded.matcher(verbStr).matches()) {</b>
+<b class="nc">&nbsp;        pronounToAdd = addReflexiveVowel.get(firstVerbPersonaNumber);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        pronounToAdd = addReflexiveConsonant.get(firstVerbPersonaNumber);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (pronounToAdd != null) {</b>
+<b class="nc">&nbsp;        replacement = (pronounToAdd + verbStr).trim().replace(&quot;&#39; &quot;, &quot;&#39;&quot;);</b>
+&nbsp;      }
+&nbsp;    } else {
+&nbsp;      //TODO: add reflexive pronoun to another pronoun
+&nbsp;      // containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()
+<b class="nc">&nbsp;      replacement = (pronounsStr + &quot; &quot; + verbStr).trim().replace(&quot;&#39; &quot;, &quot;&#39;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String doAddPronounReflexiveEn(String firstVerb, String pronounsStr, String verbStr,
+&nbsp;                                             String firstVerbPersonaNumber, boolean pronounsAfter) {
+<b class="nc">&nbsp;    String replacement = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (pronounsAfter) {</b>
+<b class="nc">&nbsp;      if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {</b>
+<b class="nc">&nbsp;        return verbStr + transformDarrere(pronounsStr + &quot;&#39;n&quot;, verbStr); // no sempre correcte</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return verbStr + transformDarrere(&quot;-se&#39;n&quot;, verbStr);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String pronounToAdd = &quot;&quot;;</b>
+<b class="nc">&nbsp;    boolean needsApostrophe = pApostropheNeeded.matcher(verbStr).matches();</b>
+<b class="nc">&nbsp;    if (pronounsStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      if (needsApostrophe) {</b>
+<b class="nc">&nbsp;        pronounToAdd = addEnApostrophe.get(addReflexiveVowel.get(firstVerbPersonaNumber).trim());</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        pronounToAdd = addEn.get(addReflexiveConsonant.get(firstVerbPersonaNumber).trim());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (pronounToAdd != null) {</b>
+<b class="nc">&nbsp;        replacement = (pronounToAdd + verbStr).trim().replace(&quot;&#39; &quot;, &quot;&#39;&quot;);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (needsApostrophe) {</b>
+<b class="nc">&nbsp;        pronounToAdd = addEsEnApostrophe.get(pronounsStr);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        pronounToAdd = addEsEn.get(pronounsStr);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (pronounToAdd != null) {</b>
+<b class="nc">&nbsp;        replacement = (pronounToAdd + verbStr).trim().replace(&quot;&#39; &quot;, &quot;&#39;&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        replacement = (pronounsStr + &quot; &quot; + verbStr).trim().replace(&quot;&#39; &quot;, &quot;&#39;&quot;);</b>
+&nbsp;      }
+&nbsp;      //TODO: add reflexive pronoun to another pronoun
+&nbsp;      // containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()
+&nbsp;    }
+<b class="nc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String doAddPronounReflexiveImperative(String firstVerb, String pronounsStr, String verbStr,
+&nbsp;                                                 String firstVerbPersonaNumber) {
+<b class="nc">&nbsp;    String pronounToAdd = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String replacement = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (pronounsStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      pronounToAdd = addReflexiveImperative.get(firstVerbPersonaNumber);</b>
+<b class="nc">&nbsp;      if (pronounToAdd != null) {</b>
+<b class="nc">&nbsp;        replacement = (verbStr + pronounToAdd).trim();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String doReplaceEmEn(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
+<b class="nc">&nbsp;    String replacement = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (pronounsStr.equalsIgnoreCase(&quot;em&quot;)) {</b>
+<b class="nc">&nbsp;      replacement = &quot;en&quot;+ &quot; &quot; + verbStr;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (pronounsStr.equalsIgnoreCase(&quot;m&#39;&quot;)) {</b>
+<b class="nc">&nbsp;      replacement = &quot;n&#39;&quot; + verbStr;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (pronounsStr.equalsIgnoreCase(&quot;m&#39;hi&quot;)) {</b>
+<b class="nc">&nbsp;      replacement = &quot;n&#39;hi &quot; + verbStr;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String convertPronounsForIntransitiveVerb(String s) {
+<b class="nc">&nbsp;    return s.replace(&quot;-se&#39;l&quot;, &quot;-se-li&quot;).replace(&quot;se&#39;l &quot;, &quot;se li &quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;l&#39;&quot;, &quot;li &quot;).replace(&quot;-lo&quot;, &quot;-li&quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;-la&quot;, &quot;-li&quot;).replace(&quot;la &quot;, &quot;li &quot;)</b>
+<b class="nc">&nbsp;      .replace(&quot;el &quot;, &quot;li &quot;).replace(&quot;ho&quot;, &quot;hi&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Pattern de_wrong_apostrophation = Pattern.compile(&quot;.*d&#39;[^aeiouh].*&quot;, Pattern.CASE_INSENSITIVE);</b>
+<b class="nc">&nbsp;  private static Pattern pronoun_wrong_apostrophation = Pattern.compile(&quot;([mts])&#39;([^aeiouh].*)&quot;,</b>
+&nbsp;    Pattern.CASE_INSENSITIVE);
+<b class="nc">&nbsp;  private static Pattern pronoun_missing_apostrophation = Pattern.compile(&quot;(.*)\\be([stm]) (h?[aeiouh].*)&quot;,</b>
+&nbsp;    Pattern.CASE_INSENSITIVE);
+<b class="nc">&nbsp;  private static Pattern pronoun_wrong_hypphen = Pattern.compile(&quot;(.*)(-[stm])e-(h[oi])&quot;,</b>
+&nbsp;    Pattern.CASE_INSENSITIVE);
+&nbsp;
+&nbsp;  public static String fixApostrophes(String s) {
+<b class="nc">&nbsp;    if (de_wrong_apostrophation.matcher(s).matches()) {</b>
+<b class="nc">&nbsp;      s = s.replace(&quot;d&#39;&quot;, &quot;de &quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Matcher matcher = pronoun_missing_apostrophation.matcher(s);</b>
+<b class="nc">&nbsp;    if (matcher.matches()) {</b>
+<b class="nc">&nbsp;      s = matcher.group(1) + matcher.group(2) + &quot;&#39;&quot; + matcher.group(3);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    matcher = pronoun_wrong_apostrophation.matcher(s);</b>
+<b class="nc">&nbsp;    if (matcher.matches()) {</b>
+<b class="nc">&nbsp;      s = &quot;e&quot; + matcher.group(1) + &quot; &quot; + matcher.group(2);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    matcher = pronoun_wrong_hypphen.matcher(s);</b>
+<b class="nc">&nbsp;    if (matcher.matches()) {</b>
+<b class="nc">&nbsp;      s = matcher.group(1) + matcher.group(2) + &quot;&#39;&quot; + matcher.group(3);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

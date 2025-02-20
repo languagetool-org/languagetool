@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ResourceDataBroker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.broker</a>
+</div>
+
+<h1>Coverage Summary for Class: ResourceDataBroker (org.languagetool.broker)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ResourceDataBroker</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.broker;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Is responsible for getting the necessary resources for the LanguageTool
+&nbsp; * library. Following directories are currently needed by a couple of classes:
+&nbsp; *
+&nbsp; * &lt;ul style=&quot;list-type: circle&quot;&gt;
+&nbsp; * &lt;li&gt;{@code /resource}&lt;/li&gt;
+&nbsp; * &lt;li&gt;{@code /rules}&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; *
+&nbsp; * This interface determines methods to obtain any contents from these
+&nbsp; * directories.
+&nbsp; * &lt;p&gt;
+&nbsp; *
+&nbsp; * Make sure that you never obtain any LanguageTool resources by calling
+&nbsp; * {@code Object.class.getResource(String)} or {@code
+&nbsp; * Object.class.getResourceAsStream(String)} directly. If you would like to
+&nbsp; * obtain something from these directories do always use
+&nbsp; * {@link JLanguageTool#getDataBroker()} which provides proper methods for
+&nbsp; * reading the directories above.
+&nbsp; * &lt;p&gt;
+&nbsp; *
+&nbsp; * For example, if you want to get the {@link URL} of {@code
+&nbsp; * /rules/de/grammar.xml} just invoke
+&nbsp; * {@link ResourceDataBroker#getFromRulesDirAsUrl(String)} and pass {@code
+&nbsp; * /de/grammar.xml} as a string. Note: The {@code /rules} directory&#39;s name isn&#39;t
+&nbsp; * passed, because its name might have changed. The same usage does apply for the
+&nbsp; * {@code /resource} directory.
+&nbsp; *
+&nbsp; * @author PAX
+&nbsp; * @since 1.0.1
+&nbsp; */
+&nbsp;public interface ResourceDataBroker {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The directory name of the {@code /resource} directory.
+&nbsp;   */
+&nbsp;  String RESOURCE_DIR = &quot;/org/languagetool/resource&quot;;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The directory name of the {@code /rules} directory.
+&nbsp;   */
+&nbsp;  String RULES_DIR = &quot;/org/languagetool/rules&quot;;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets any resource from LanguageTool&#39;s {@code /resource} directory.
+&nbsp;   * @param path Path to an item from the {@code /resource} directory.
+&nbsp;   * @return An {@link URL} object to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;  URL getFromResourceDirAsUrl(String path);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets all resources in a form of URL from LanguageTool&#39;s {@code /resource}
+&nbsp;   * directory with the same {@code path}.
+&nbsp;   * @param path Path to an items from the {@code /resource} directory.
+&nbsp;   * @return A list of {@link URL} objects to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;  List&lt;URL&gt; getFromResourceDirAsUrls(String path);
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Checks if a resource in LanguageTool&#39;s {@code /resource} exists.
+&nbsp;   * @param path Path to an item from the {@code /resource} directory.
+&nbsp;   * @return {@code true} if the resource file exists.
+&nbsp;   */
+&nbsp;  boolean resourceExists(String path);
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Checks if a resource in LanguageTool&#39;s {@code /rules} exists.
+&nbsp;   * @param path Path to an item from the {@code /rules} directory.
+&nbsp;   * @return {@code true} if the resource file exists.
+&nbsp;   */
+&nbsp;  boolean ruleFileExists(String path);
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Gets any resource from LanguageTool&#39;s {@code /resource} directory.
+&nbsp;   * @param path Path to an item from the {@code /resource} directory.
+&nbsp;   * @return An {@link InputStream} object to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;   InputStream getFromResourceDirAsStream(String path);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets any resource from the {@code /resource} directory.
+&nbsp;   * @param path The relative path to the item inside of the {@code /resource}, e.g. {@code /xx/filename}
+&nbsp;   * @return An list of strings, one per line
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;   List&lt;String&gt; getFromResourceDirAsLines(String path);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get from resource broker by a path file
+&nbsp;   * @param path Path to an item
+&nbsp;   * @return An {@link InputStream} object to the requested item
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  InputStream getAsStream(String path);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get from resource broker by a path file
+&nbsp;   * @param path Path to an item
+&nbsp;   * @return An {@link URL} object to the requested item
+&nbsp;   * @since 5.0
+&nbsp;   */
+&nbsp;  URL getAsURL(String path);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get URLs from resource broker by a path file
+&nbsp;   * @param path Path to an item
+&nbsp;   * @return An list of {@link URL} objects to the requested item
+&nbsp;   * @since 5.0
+&nbsp;   */
+&nbsp;  List&lt;URL&gt; getAsURLs(String path);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets any resource from LanguageTool&#39;s {@code /rules} directory.
+&nbsp;   * @param path Path to an item from the {@code /rules} directory.
+&nbsp;   * @return An {@link URL} object to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;  URL getFromRulesDirAsUrl(String path);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets any resource from LanguageTool&#39;s {@code /rules} directory.
+&nbsp;   * @param path Path to an item from the {@code /rules} directory.
+&nbsp;   * @return An {@link InputStream} object to the requested item
+&nbsp;   * @throws RuntimeException if path cannot be found
+&nbsp;   */
+&nbsp;  InputStream getFromRulesDirAsStream(String path);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return The currently set resource directory path as a string. Make sure
+&nbsp;   *         that you comply with the following format when setting this value:&lt;br&gt;
+&nbsp;   *         {@code /subdir/furtherdir/resourcedir}
+&nbsp;   */
+&nbsp;  String getResourceDir();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return The currently set rules directory path as a string. Make sure
+&nbsp;   *         that you comply with the following format when setting this value:&lt;br&gt;
+&nbsp;   *         {@code /subdir/furtherdir/rulesdir}
+&nbsp;   */
+&nbsp;  String getRulesDir();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets a resource bundle using the specified base name and locale, and the caller module.
+&nbsp;   *
+&nbsp;   * @param baseName the base name of the resource bundle, a fully qualified class name
+&nbsp;   * @param locale the locale for which a resource bundle is desired
+&nbsp;   * @return a resource bundle for the given base name and locale
+&nbsp;   * @since 5.0
+&nbsp;   */
+&nbsp;  ResourceBundle getResourceBundle(String baseName, Locale locale);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

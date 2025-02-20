@@ -1,0 +1,325 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RegexPatternRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: RegexPatternRule (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RegexPatternRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.5%
+  </span>
+  <span class="absValue">
+    (6/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    34.1%
+  </span>
+  <span class="absValue">
+    (15/44)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37.2%
+  </span>
+  <span class="absValue">
+    (29/78)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.tuple.Pair;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.tools.InterruptibleCharSequence;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Matches &#39;regexp&#39; elements from XML rules against sentences.
+&nbsp; *
+&nbsp; * @since 3.2
+&nbsp; */
+&nbsp;public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern suggestionPattern = Pattern.compile(&quot;&lt;suggestion&gt;(.*?)&lt;/suggestion&gt;&quot;);  // TODO: this needs to be cleaned up, there should be no need to parse this?</b>
+<b class="fc">&nbsp;  private static final Pattern matchPattern = Pattern.compile(&quot;\\\\\\d&quot;);</b>
+&nbsp;
+&nbsp;  // in suggestions tokens are numbered from 1, anywhere else tokens are numbered from 0.
+&nbsp;  // see: https://dev.languagetool.org/development-overview
+&nbsp;  // But most of the rules tend to use 1 to refer the first capturing group, so keeping that behavior as default
+&nbsp;  private static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
+&nbsp;  public static final int MAX_SENT_LENGTH = 2000;
+&nbsp;
+&nbsp;  private final Pattern pattern;
+&nbsp;  private final int markGroup;
+&nbsp;  private final String shortMessage;
+&nbsp;  private RegexRuleFilter regexFilter;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private final Substrings requiredSubstrings;
+&nbsp;  private final boolean caseSensitive;
+&nbsp;
+&nbsp;  public RegexPatternRule(String id, String description, String message, String shortMessage, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
+<b class="fc">&nbsp;    super(id, description, language);</b>
+<b class="fc">&nbsp;    this.message = message;</b>
+<b class="fc">&nbsp;    pattern = regex;</b>
+<b class="fc">&nbsp;    requiredSubstrings = StringMatcher.getRequiredSubstrings(regex.toString());</b>
+<b class="fc">&nbsp;    caseSensitive = (regex.flags() &amp; Pattern.CASE_INSENSITIVE) == 0;</b>
+<b class="pc">&nbsp;    this.shortMessage = shortMessage == null ? &quot;&quot; : shortMessage;</b>
+<b class="fc">&nbsp;    this.suggestionsOutMsg = suggestionsOutMsg.isEmpty() ? &quot;&quot; : suggestionsOutMsg;</b>
+<b class="fc">&nbsp;    markGroup = regexpMark;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Pattern getPattern() {
+<b class="nc">&nbsp;    return pattern;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void setRegexFilter(RegexRuleFilter filter) {
+<b class="fc">&nbsp;    regexFilter = filter;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentenceObj) throws IOException {
+<b class="fc">&nbsp;    String text = sentenceObj.getText();</b>
+<b class="fc">&nbsp;    int startPos = requiredSubstrings == null ? 0 : requiredSubstrings.find(text, caseSensitive);</b>
+<b class="fc">&nbsp;    if (startPos &lt; 0) return RuleMatch.EMPTY_ARRAY;</b>
+<b class="fc">&nbsp;    return doMatch(sentenceObj, text, requiredSubstrings != null &amp;&amp; !requiredSubstrings.mustStart ? 0 : startPos);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private RuleMatch[] doMatch(AnalyzedSentence sentenceObj, String text, int startPos) {
+<b class="fc">&nbsp;    List&lt;Pair&lt;Integer, Integer&gt;&gt; suggestionsInMessage = getClausePositionsInMessage(suggestionPattern, message);</b>
+<b class="fc">&nbsp;    List&lt;Pair&lt;Integer, Integer&gt;&gt; backReferencesInMessage = getClausePositionsInMessage(matchPattern, message);</b>
+&nbsp;
+<b class="fc">&nbsp;    List&lt;Pair&lt;Integer, Integer&gt;&gt; suggestionsInSuggestionsOutMsg = getClausePositionsInMessage(suggestionPattern, suggestionsOutMsg);</b>
+<b class="fc">&nbsp;    List&lt;Pair&lt;Integer, Integer&gt;&gt; backReferencesInSuggestionsOutMsg = getClausePositionsInMessage(matchPattern, suggestionsOutMsg);</b>
+&nbsp;
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (text.length() &gt; MAX_SENT_LENGTH) {</b>
+<b class="nc">&nbsp;      return matches.toArray(new RuleMatch[0]);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Matcher patternMatcher = pattern.matcher(new InterruptibleCharSequence(text));</b>
+&nbsp;
+<b class="pc">&nbsp;    while (patternMatcher.find(startPos)) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        int markStart = patternMatcher.start(markGroup);</b>
+<b class="nc">&nbsp;        int markEnd = patternMatcher.end(markGroup);</b>
+&nbsp;
+<b class="nc">&nbsp;        String processedMessage = processMessage(patternMatcher, message, backReferencesInMessage, suggestionsInMessage, getSuggestionMatches());</b>
+<b class="nc">&nbsp;        String processedSuggestionsOutMsg = processMessage(patternMatcher, suggestionsOutMsg, backReferencesInSuggestionsOutMsg,</b>
+<b class="nc">&nbsp;                suggestionsInSuggestionsOutMsg, getSuggestionMatchesOutMsg());</b>
+&nbsp;
+<b class="nc">&nbsp;        boolean startsWithUpperCase = patternMatcher.start() == 0 &amp;&amp; Character.isUpperCase(text.charAt(patternMatcher.start()));</b>
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, patternMatcher.start(), patternMatcher.end(),</b>
+&nbsp;                processedMessage, shortMessage, startsWithUpperCase, false, processedSuggestionsOutMsg, true);
+<b class="nc">&nbsp;        if (regexFilter != null) {</b>
+<b class="nc">&nbsp;          RegexRuleFilterEvaluator ruleFilterEvaluator = new RegexRuleFilterEvaluator(regexFilter);</b>
+<b class="nc">&nbsp;          RuleMatch filteredMatch = ruleFilterEvaluator.runFilter(getFilterArguments(), ruleMatch, sentenceObj, patternMatcher);</b>
+<b class="nc">&nbsp;          if (filteredMatch != null) {</b>
+<b class="nc">&nbsp;            matches.add(ruleMatch);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          matches.add(ruleMatch);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        startPos = patternMatcher.end();</b>
+&nbsp;      } catch (IndexOutOfBoundsException e){
+<b class="nc">&nbsp;        throw new RuntimeException(String.format(&quot;Unexpected reference to capturing group in rule with id %s.&quot;, this.getFullId()), e);</b>
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        throw new RuntimeException(String.format(&quot;Unexpected exception when processing regexp in rule with id %s.&quot;, this.getFullId()), e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return matches.toArray(new RuleMatch[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;Pair&lt;Integer, Integer&gt;&gt; getClausePositionsInMessage(Pattern pattern, String message) {
+<b class="fc">&nbsp;    Matcher matcher = pattern.matcher(message);</b>
+<b class="fc">&nbsp;    List&lt;Pair&lt;Integer, Integer&gt;&gt; clausePositionsInMessage = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    while (matcher.find()) {</b>
+<b class="fc">&nbsp;      clausePositionsInMessage.add(Pair.of(matcher.start(), matcher.end()));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return clausePositionsInMessage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String processMessage(Matcher matcher, String message, List&lt;Pair&lt;Integer, Integer&gt;&gt; backReferences,
+&nbsp;                                List&lt;Pair&lt;Integer, Integer&gt;&gt; suggestions, List&lt;Match&gt; matches) {
+&nbsp;
+<b class="nc">&nbsp;    int closestSuggestionPosition = -1;</b>
+<b class="nc">&nbsp;    boolean allSuggestionsPassed = suggestions.isEmpty();</b>
+<b class="nc">&nbsp;    if (!suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      closestSuggestionPosition = 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    boolean insideSuggestion;
+<b class="nc">&nbsp;    StringBuilder processedMessage = new StringBuilder();</b>
+<b class="nc">&nbsp;    int startOfProcessingPart = 0;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; backReferences.size(); i++) {</b>
+<b class="nc">&nbsp;      Pair&lt;Integer, Integer&gt; reference = backReferences.get(i);</b>
+&nbsp;
+<b class="nc">&nbsp;      while (!allSuggestionsPassed &amp;&amp; (reference.getLeft() &gt; suggestions.get(closestSuggestionPosition).getRight())) {</b>
+<b class="nc">&nbsp;        closestSuggestionPosition += 1;</b>
+<b class="nc">&nbsp;        if (closestSuggestionPosition == suggestions.size()) {</b>
+<b class="nc">&nbsp;          allSuggestionsPassed = true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      insideSuggestion = !allSuggestionsPassed &amp;&amp; reference.getLeft() &gt;= suggestions.get(closestSuggestionPosition).getLeft();</b>
+&nbsp;
+<b class="nc">&nbsp;      int inXMLMatchReferenceNo = Integer.parseInt(message.substring(reference.getLeft(), reference.getRight()).split(&quot;\\\\&quot;)[1]);</b>
+<b class="nc">&nbsp;      int actualMatchReferenceNo = inXMLMatchReferenceNo - (insideSuggestion ? MATCHES_IN_SUGGESTIONS_NUMBERED_FROM : 0);</b>
+&nbsp;
+<b class="nc">&nbsp;      String matchReferenceStringValue = matcher.group(actualMatchReferenceNo);</b>
+<b class="nc">&nbsp;      if (matchReferenceStringValue == null) {</b>
+<b class="nc">&nbsp;        matchReferenceStringValue = &quot;&quot;;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      Match currentProcessingMatch = matches.get(i);</b>
+<b class="nc">&nbsp;      String regexReplace = currentProcessingMatch.getRegexReplace();</b>
+&nbsp;      String suggestion;
+<b class="nc">&nbsp;      if (regexReplace != null) {</b>
+<b class="nc">&nbsp;        suggestion = currentProcessingMatch.getRegexMatch().matcher(matchReferenceStringValue).replaceFirst(regexReplace);</b>
+<b class="nc">&nbsp;        suggestion = CaseConversionHelper.convertCase(currentProcessingMatch.getCaseConversionType(), suggestion, matchReferenceStringValue, getLanguage());</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        suggestion = matchReferenceStringValue;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      processedMessage.append(message, startOfProcessingPart, reference.getLeft()).append(suggestion);</b>
+&nbsp;
+<b class="nc">&nbsp;      startOfProcessingPart = reference.getRight();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    processedMessage.append(message.substring(startOfProcessingPart));</b>
+&nbsp;
+<b class="nc">&nbsp;    return processedMessage.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return pattern + &quot;/flags:&quot; + pattern.flags();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* (non-Javadoc)
+&nbsp;   * @see org.languagetool.rules.patterns.AbstractPatternRule#getShortMessage()
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  String getShortMessage() {
+<b class="nc">&nbsp;    return shortMessage;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

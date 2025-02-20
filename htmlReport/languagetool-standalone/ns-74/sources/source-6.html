@@ -1,0 +1,219 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > XmlRuleDisambiguator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.disambiguation.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: XmlRuleDisambiguator (org.languagetool.tagging.disambiguation.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XmlRuleDisambiguator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (5/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.2%
+  </span>
+  <span class="absValue">
+    (15/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.tagging.disambiguation.rules;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.patterns.RuleSet;
+&nbsp;import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;import javax.xml.parsers.ParserConfigurationException;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * Rule-based disambiguator. Implements an idea by Agnes Souque.
+&nbsp; * 
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+&nbsp;public class XmlRuleDisambiguator extends AbstractDisambiguator {
+&nbsp;
+&nbsp;  private static final String DISAMBIGUATION_FILE = &quot;disambiguation.xml&quot;;
+&nbsp;  private static final String GLOBAL_DISAMBIGUATION_FILE = &quot;disambiguation-global.xml&quot;;
+&nbsp;
+&nbsp;  private final RuleSet disambiguationRules;
+&nbsp;  
+&nbsp;  public XmlRuleDisambiguator(Language language) {
+&nbsp;    // by default, don&#39;t use global disambiguation (for now)
+<b class="fc">&nbsp;    this(language, false);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public XmlRuleDisambiguator(Language language, boolean useGlobalDisambiguation) {</b>
+<b class="fc">&nbsp;    Objects.requireNonNull(language);</b>
+<b class="fc">&nbsp;    String disambiguationFile = language.getShortCode() + &quot;/&quot; + DISAMBIGUATION_FILE;</b>
+&nbsp;    List&lt;DisambiguationPatternRule&gt; disambiguationRulesList;
+&nbsp;    try {
+<b class="fc">&nbsp;      disambiguationRulesList = loadPatternRules(disambiguationFile, language);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Problems with loading disambiguation file: &quot; + disambiguationFile, e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (useGlobalDisambiguation) {</b>
+&nbsp;      // disambiguation-global.xml
+&nbsp;      try {
+<b class="fc">&nbsp;        disambiguationRulesList.addAll(loadPatternRules(GLOBAL_DISAMBIGUATION_FILE, language));</b>
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Problems with loading global disambiguation file: &quot; + GLOBAL_DISAMBIGUATION_FILE, e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    disambiguationRules = RuleSet.textHinted(disambiguationRulesList);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
+<b class="fc">&nbsp;    return disambiguate(input, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public AnalyzedSentence disambiguate(AnalyzedSentence sentence,
+&nbsp;      @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
+<b class="fc">&nbsp;    for (Rule rule : disambiguationRules.rulesForSentence(sentence)) {</b>
+<b class="pc">&nbsp;      if (checkCanceled != null &amp;&amp; checkCanceled.checkCancelled()) {</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="fc">&nbsp;      sentence = ((DisambiguationPatternRule) rule).replace(sentence);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return sentence;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Load disambiguation rules from an XML file. Use {@link JLanguageTool#addRule}
+&nbsp;   * to add these rules to the checking process.
+&nbsp;   * 
+&nbsp;   * @return a List of {@link DisambiguationPatternRule} objects
+&nbsp;   */
+&nbsp;  protected List&lt;DisambiguationPatternRule&gt; loadPatternRules(String filename, Language language)
+&nbsp;      throws ParserConfigurationException, SAXException, IOException {
+<b class="fc">&nbsp;    DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();</b>
+<b class="fc">&nbsp;    return ruleLoader.getRules(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename), language, filename);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

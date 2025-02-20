@@ -1,0 +1,1832 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CompoundTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: CompoundTagger (org.languagetool.tagging.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CompoundTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    15%
+  </span>
+  <span class="absValue">
+    (6/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0.1%
+  </span>
+  <span class="absValue">
+    (1/814)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.5%
+  </span>
+  <span class="absValue">
+    (71/834)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.uk;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.LinkedHashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.rules.uk.ExtraDictionaryLoader;
+&nbsp;import org.languagetool.rules.uk.LemmaHelper;
+&nbsp;import org.languagetool.tagging.TaggedWord;
+&nbsp;import org.languagetool.tagging.WordTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;/**
+&nbsp; * Allows to tag compound words with hyphen dynamically by analyzing each part
+&nbsp; * 
+&nbsp; * @since 3.0
+&nbsp; */
+&nbsp;class CompoundTagger {
+&nbsp;  private static final String TAG_ANIM = &quot;:anim&quot;;
+&nbsp;  private static final String TAG_INANIM = &quot;:inanim&quot;;
+<b class="fc">&nbsp;  private static final Pattern EXTRA_TAGS = Pattern.compile(&quot;:bad&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(&quot;:(comp.|np|ns|slang|xp[1-9]|&amp;predic|&amp;insert)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern EXTRA_TAGS_DROP_NONINFL = Pattern.compile(&quot;:(comp.|np|ns|slang|xp[1-9]|&amp;insert)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile(&quot;noun.*?:[mfn]:v_rod.*&quot;);</b>
+&nbsp;//  private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile(&quot;noun.*?:.:v_naz.*&quot;);
+<b class="fc">&nbsp;  private static final Pattern SING_REGEX_F = Pattern.compile(&quot;:[mfn]:&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern O_ADJ_PATTERN = Pattern.compile(&quot;.+?(о|[чшщ]е)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NUMR_ADJ_PATTERN = Pattern.compile(&quot;.+?(одно|дво|ох|и)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern DASH_PREFIX_LAT_PATTERN = Pattern.compile(&quot;[a-zA-Z]{3,}|[α-ωΑ-Ω]&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern YEAR_NUMBER = Pattern.compile(&quot;[12][0-9]{3}&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NOUN_PREFIX_NUMBER = Pattern.compile(&quot;[0-9]+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NOUN_WITH_INTERVAL_PREFIX_NUMBER = Pattern.compile(&quot;([0-9]+[-–])?[0-9]+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NOUN_SUFFIX_NUMBER_LETTER = Pattern.compile(&quot;[0-9][0-9А-ЯІЇЄҐ-]*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern ADJ_PREFIX_NUMBER = Pattern.compile(&quot;[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?%?|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})|І{2,3}&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern REQ_NUM_DVA_PATTERN = Pattern.compile(&quot;(місн|томник|поверхів).{0,4}&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern REQ_NUM_DESYAT_PATTERN = Pattern.compile(&quot;(класни[кц]|бальни[кц]|раундов|томн|томов|хвилин|десятиріч|кілометрів|річ).{0,4}&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern REQ_NUM_STO_PATTERN = Pattern.compile(&quot;(річч|літт|метрів|грамов|тисячник).{0,3}&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern INTJ_PATTERN = Pattern.compile(&quot;intj.*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NONINFL_PATTERN = Pattern.compile(&quot;noninfl.*(onomat|predic).*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern UKR_LETTERS_PATTERN = Pattern.compile(&quot;[А-ЯІЇЄҐа-яіїєґ&#39;-]+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern GEO_V_NAZ = Pattern.compile(&quot;noun:inanim:.:v_naz.*:geo.*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern FNAME = Pattern.compile(&quot;noun:anim:[mf].*fname.*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern LNAME_V_NAZ = Pattern.compile(&quot;noun:anim:[fm]:v_naz.*lname.*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern LNAME_V_ROD = Pattern.compile(&quot;noun:anim:[fm]:v_rod.*lname.*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NAME = Pattern.compile(&quot;noun:anim:.*name.*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern PROP_V_NAZ = Pattern.compile(&quot;noun:inanim:.:v_naz.*prop.*&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern MNP_NAZ_REGEX = Pattern.compile(&quot;.*?:[mnp]:v_naz.*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern MNP_ZNA_REGEX = Pattern.compile(&quot;.*?:[mnp]:v_zna.*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern MNP_ROD_REGEX = Pattern.compile(&quot;.*?:[mnp]:v_rod.*&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern stdNounTagRegex = Pattern.compile(&quot;noun:(?:in)?anim:(.):(v_...).*&quot;);</b>
+&nbsp;  private static final Map&lt;String, String&gt; dashPrefixes;
+&nbsp;  private static final Set&lt;String&gt; leftMasterSet;
+&nbsp;  private static final Map&lt;String, List&lt;String&gt;&gt; numberedEntities;
+<b class="fc">&nbsp;  private static final Map&lt;String, Pattern&gt; rightPartsWithLeftTagMap = new HashMap&lt;&gt;();</b>
+&nbsp;  private static final Set&lt;String&gt; followerSet;
+&nbsp;  private static final Set&lt;String&gt; dashPrefixesInvalid;
+&nbsp;  private static final Set&lt;String&gt; noDashPrefixes2019;
+&nbsp;  private static final Set&lt;String&gt; noDashPrefixes;
+&nbsp;  private static final String ADJ_TAG_FOR_PO_ADV_MIS = &quot;adj:m:v_mis&quot;;
+&nbsp;  private static final String ADJ_TAG_FOR_PO_ADV_NAZ = &quot;adj:m:v_naz&quot;;
+<b class="fc">&nbsp;  private static final Pattern PREFIX_NO_DASH_POSTAG_PATTERN = Pattern.compile(&quot;(noun|adj|adv)(?!.*&amp;pron).*&quot;);</b>
+&nbsp;
+&nbsp;  // додаткові вкорочені прикметникові ліві частини, що не мають відповідного прикметника
+<b class="fc">&nbsp;  private static final List&lt;String&gt; LEFT_O_ADJ = Arrays.asList(</b>
+&nbsp;    &quot;австро&quot;, &quot;адиго&quot;, &quot;американо&quot;, &quot;англо&quot;, &quot;афро&quot;, &quot;еко&quot;, &quot;індо&quot;, &quot;іспано&quot;, &quot;італо&quot;, &quot;історико&quot;, 
+&nbsp;    &quot;києво&quot;, &quot;марокано&quot;, &quot;угро&quot;, &quot;японо&quot;, &quot;румуно&quot;
+&nbsp;  );
+&nbsp;
+<b class="fc">&nbsp;  static final List&lt;String&gt; LEFT_O_ADJ_INVALID = Arrays.asList(</b>
+&nbsp;    &quot;багато&quot;, &quot;мало&quot;, &quot;високо&quot;, &quot;низько&quot;, &quot;старо&quot;, &quot;важко&quot;, &quot;зовнішньо&quot;, &quot;внутрішньо&quot;, &quot;ново&quot;, &quot;середньо&quot;,
+&nbsp;    &quot;південно&quot;, &quot;північно&quot;, &quot;західно&quot;, &quot;східно&quot;, &quot;центрально&quot;, &quot;ранньо&quot;, &quot;пізньо&quot;
+&nbsp;  );
+&nbsp;
+<b class="fc">&nbsp;  static final Pattern LEFT_O_ADJ_INVALID_PATTERN = Pattern.compile(&quot;^(&quot; + StringUtils.join(LEFT_O_ADJ_INVALID, &quot;|&quot;) + &quot;)(.+)&quot;);</b>
+&nbsp;
+&nbsp;  // TODO: чемпіонат світу-2014, людина року-2018, Червона рута-2011, Нова хвиля-2012, Фабрика зірок-2
+<b class="fc">&nbsp;  private static final List&lt;String&gt; WORDS_WITH_YEAR = Arrays.asList(</b>
+&nbsp;      &quot;бюджет&quot;, &quot;вибори&quot;, &quot;гра&quot;, &quot;держбюджет&quot;, &quot;кошторис&quot;, &quot;кампанія&quot;,
+&nbsp;      &quot;єврокубок&quot;, &quot;єврокваліфікація&quot;, &quot;євровідбір&quot;, &quot;єврофорум&quot;,
+&nbsp;      &quot;конкурс&quot;, &quot;кінофестиваль&quot;, &quot;кубок&quot;, &quot;мундіаль&quot;, &quot;м&#39;яч&quot;, &quot;олімпіада&quot;, &quot;оцінювання&quot;, &quot;оскар&quot;,
+&nbsp;      &quot;пектораль&quot;, &quot;перегони&quot;, &quot;першість&quot;, &quot;політреформа&quot;, &quot;премія&quot;, &quot;рейтинг&quot;, &quot;реформа&quot;, &quot;сезон&quot;, 
+&nbsp;      &quot;турнір&quot;, &quot;універсіада&quot;, &quot;фестиваль&quot;, &quot;форум&quot;, &quot;чемпіонат&quot;, &quot;чемпіон&quot;, &quot;чемпіонка&quot;, &quot;ярмарок&quot;, &quot;ЧУ&quot;, &quot;ЧЄ&quot;);
+<b class="fc">&nbsp;  private static final List&lt;String&gt; WORDS_WITH_NUM = Arrays.asList(</b>
+&nbsp;      &quot;Формула&quot;, &quot;Карпати&quot;, &quot;Динамо&quot;, &quot;Шахтар&quot;, &quot;Фукусіма&quot;, &quot;Квартал&quot;, &quot;Золоте&quot;, &quot;Мінськ&quot;, &quot;Нюренберг&quot;,
+&nbsp;      &quot;омега&quot;, &quot;плутоній&quot;, &quot;полоній&quot;, &quot;стронцій&quot;, &quot;уран&quot;, &quot;потік&quot;); //TODO: потік-2 - prop
+<b class="fc">&nbsp;  private static final List&lt;String&gt; NAME_SUFFIX = Arrays.asList(&quot;ага&quot;, &quot;ефенді&quot;, &quot;бек&quot;, &quot;заде&quot;, &quot;огли&quot;, &quot;сан&quot;, &quot;кизи&quot;, &quot;сенсей&quot;);</b>
+<b class="fc">&nbsp;  private static final List&lt;String&gt; BAD_SUFFIX = Arrays.asList(&quot;б&quot;, &quot;би&quot;, &quot;ж&quot;, &quot;же&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SKY_PATTERN = Pattern.compile(&quot;.*[сзц]ьки&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SKYI_PATTERN = Pattern.compile(&quot;.*[сзц]ький&quot;);</b>
+&nbsp;
+&nbsp;  // http://www.pravopys.net/sections/33/
+&nbsp;  static {
+<b class="fc">&nbsp;    rightPartsWithLeftTagMap.put(&quot;бо&quot;, Pattern.compile(&quot;(verb|.*?pron|noun|adv|intj|part).*&quot;));</b>
+<b class="fc">&nbsp;    rightPartsWithLeftTagMap.put(&quot;но&quot;, Pattern.compile(&quot;((verb(?!.*bad).*?:(impr|futr|&amp;insert))|intj|adv|part|conj).*&quot;)); </b>
+<b class="fc">&nbsp;    rightPartsWithLeftTagMap.put(&quot;от&quot;, Pattern.compile(&quot;(.*?pron|adv|part|verb).*&quot;));</b>
+<b class="fc">&nbsp;    rightPartsWithLeftTagMap.put(&quot;то&quot;, Pattern.compile(&quot;(.*?pron|verb|noun|adj|adv|conj).*&quot;)); // part|conj</b>
+&nbsp;    // noun gives false on зразу-таки
+<b class="fc">&nbsp;    rightPartsWithLeftTagMap.put(&quot;таки&quot;, Pattern.compile(&quot;(verb|adv|adj|.*?pron|part|noninfl:&amp;predic).*&quot;)); </b>
+&nbsp;
+<b class="fc">&nbsp;    dashPrefixes = ExtraDictionaryLoader.loadMap(&quot;/uk/dash_prefixes.txt&quot;);</b>
+<b class="fc">&nbsp;    dashPrefixesInvalid = ExtraDictionaryLoader.loadSet(&quot;/uk/dash_prefixes_invalid.txt&quot;);</b>
+<b class="fc">&nbsp;    noDashPrefixes2019 = dashPrefixes.entrySet().stream()</b>
+<b class="fc">&nbsp;         .filter(e -&gt; e.getValue().contains(&quot;ua_1992&quot;))</b>
+<b class="fc">&nbsp;         .map(e -&gt; e.getKey())</b>
+<b class="fc">&nbsp;         .collect(Collectors.toSet());</b>
+&nbsp;
+<b class="fc">&nbsp;    noDashPrefixes = new HashSet&lt;&gt;(dashPrefixesInvalid);</b>
+<b class="fc">&nbsp;    noDashPrefixes.addAll(noDashPrefixes2019);</b>
+&nbsp;    // too many false positives
+<b class="fc">&nbsp;    noDashPrefixes.remove(&quot;мілі&quot;);</b>
+<b class="fc">&nbsp;    noDashPrefixes.remove(&quot;поп&quot;);</b>
+<b class="fc">&nbsp;    noDashPrefixes.remove(&quot;прес&quot;);</b>
+&nbsp;    
+<b class="fc">&nbsp;    leftMasterSet = ExtraDictionaryLoader.loadSet(&quot;/uk/dash_left_master.txt&quot;);</b>
+&nbsp;    // TODO: &quot;бабуся&quot;, &quot;лялька&quot;, &quot;рятівник&quot; - not quite followers, could be masters too
+<b class="fc">&nbsp;    followerSet = ExtraDictionaryLoader.loadSet(&quot;/uk/dash_follower.txt&quot;);</b>
+<b class="fc">&nbsp;    numberedEntities = ExtraDictionaryLoader.loadSpacedLists(&quot;/uk/entities.txt&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final WordTagger wordTagger;
+&nbsp;  private final Locale conversionLocale;
+&nbsp;  private final UkrainianTagger ukrainianTagger;
+<b class="fc">&nbsp;  private final CompoundDebugLogger compoundDebugLogger = new CompoundDebugLogger();</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;  CompoundTagger(UkrainianTagger ukrainianTagger, WordTagger wordTagger, Locale conversionLocale) {</b>
+<b class="fc">&nbsp;    this.ukrainianTagger = ukrainianTagger;</b>
+<b class="fc">&nbsp;    this.wordTagger = wordTagger;</b>
+<b class="fc">&nbsp;    this.conversionLocale = conversionLocale;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public List&lt;AnalyzedToken&gt; guessCompoundTag(String word) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; guessedTokens = doGuessCompoundTag(word);</b>
+<b class="nc">&nbsp;    compoundDebugLogger.logTaggedCompound(guessedTokens);</b>
+<b class="nc">&nbsp;    return guessedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private List&lt;AnalyzedToken&gt; doGuessCompoundTag(String word) {
+<b class="nc">&nbsp;    int dashIdx = word.lastIndexOf(&#39;-&#39;);</b>
+<b class="nc">&nbsp;    if( dashIdx == word.length() - 1 )</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;
+<b class="nc">&nbsp;    int firstDashIdx = word.indexOf(&#39;-&#39;);</b>
+<b class="nc">&nbsp;    if( firstDashIdx == 0 )</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;
+<b class="nc">&nbsp;    boolean startsWithDigit = Character.isDigit(word.charAt(0));</b>
+&nbsp;
+<b class="nc">&nbsp;    if( ! startsWithDigit &amp;&amp; dashIdx != firstDashIdx ) {</b>
+<b class="nc">&nbsp;      int dashCount = StringUtils.countMatches(word, &quot;-&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      if( dashCount &gt;= 2</b>
+&nbsp;          &amp;&amp; dashIdx &gt; firstDashIdx + 1 ) {
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; tokens = doGuessMultiHyphens(word, firstDashIdx, dashIdx);</b>
+<b class="nc">&nbsp;        if( tokens != null )</b>
+<b class="nc">&nbsp;          return tokens;</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      if( dashCount == 2</b>
+&nbsp;          &amp;&amp; dashIdx &gt; firstDashIdx + 1 ) {
+<b class="nc">&nbsp;        return doGuessTwoHyphens(word, firstDashIdx, dashIdx);</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String leftWord = word.substring(0, dashIdx);</b>
+<b class="nc">&nbsp;    String rightWord = word.substring(dashIdx + 1);</b>
+<b class="nc">&nbsp;    String leftWordLowerCase = leftWord.toLowerCase(conversionLocale);</b>
+&nbsp;
+&nbsp;    // з-зателефоную
+&nbsp;
+<b class="nc">&nbsp;    if( leftWord.length() == 1 &amp;&amp; rightWord.length() &gt; 3 &amp;&amp; rightWord.startsWith(leftWordLowerCase) ) {</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; rightWdList = wordTagger.tag(rightWord);</b>
+<b class="nc">&nbsp;      rightWdList = PosTagHelper.adjust(rightWdList, null, null, &quot;:alt&quot;);</b>
+<b class="nc">&nbsp;      return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    
+<b class="nc">&nbsp;    boolean dashPrefixMatch = dashPrefixes.containsKey( leftWord ) </b>
+<b class="nc">&nbsp;        || dashPrefixes.containsKey( leftWordLowerCase ) </b>
+<b class="nc">&nbsp;        || DASH_PREFIX_LAT_PATTERN.matcher(leftWord).matches();</b>
+&nbsp;
+<b class="nc">&nbsp;    if( ! dashPrefixMatch </b>
+<b class="nc">&nbsp;        &amp;&amp; (startsWithDigit || word.matches(&quot;[XLIV]+-.*&quot;)) ) {</b>
+<b class="nc">&nbsp;      return matchDigitCompound(word, leftWord, rightWord);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( Character.isDigit(rightWord.charAt(0)) ) {</b>
+<b class="nc">&nbsp;      return matchNumberedProperNoun(word, leftWord, rightWord);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    // авіа..., авто... пишуться разом
+&nbsp;    //TODO: але може бути: авто-пенсіонер
+<b class="nc">&nbsp;    if( dashPrefixesInvalid.contains(leftWordLowerCase) ) {</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; rightWdList = tagEitherCase(rightWord);</b>
+&nbsp;      
+<b class="nc">&nbsp;      rightWdList = PosTagHelper.filter2(rightWdList, Pattern.compile(&quot;(noun|adj)(?!.*pron).*&quot;));</b>
+&nbsp;      
+<b class="nc">&nbsp;      if( rightWdList.isEmpty() )</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;
+&nbsp;//      String lemma = leftWord + &quot;-&quot; + rightWdList.get(0).getLemma();
+<b class="nc">&nbsp;      String extraTag = StringTools.isCapitalizedWord(rightWord) ? &quot;&quot; : &quot;:bad&quot;;</b>
+<b class="nc">&nbsp;      rightWdList = PosTagHelper.adjust(rightWdList, leftWord + &quot;-&quot;, null, extraTag);</b>
+<b class="nc">&nbsp;      return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    // wrong: пів-качана
+<b class="nc">&nbsp;    if( leftWordLowerCase.equals(&quot;пів&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; Character.isLowerCase(rightWord.charAt(0)) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; rightWdList = tagEitherCase(rightWord);</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; newAnalyzedTokens = addPluralNvTokens(word, rightAnalyzedTokens, &quot;:bad&quot;);</b>
+<b class="nc">&nbsp;      return newAnalyzedTokens;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;TaggedWord&gt; leftWdList = tagAsIsAndWithLowerCase(leftWord);</b>
+&nbsp;
+&nbsp;
+&nbsp;    // стривай-бо, чекай-но, прийшов-таки, такий-от, такий-то
+&nbsp;
+<b class="nc">&nbsp;    String rightWordLowerCase = rightWord.toLowerCase();</b>
+<b class="nc">&nbsp;    if( rightPartsWithLeftTagMap.containsKey(rightWordLowerCase) </b>
+<b class="nc">&nbsp;        &amp;&amp; ! PosTagHelper.hasPosTagPart2(leftWdList, &quot;abbr&quot;) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;      if( leftWdList.isEmpty() )</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;
+<b class="nc">&nbsp;      Pattern leftTagRegex = rightPartsWithLeftTagMap.get(rightWordLowerCase);</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;(leftAnalyzedTokens.size());</b>
+&nbsp;
+&nbsp;      // ignore хто-то
+<b class="nc">&nbsp;      if( rightWordLowerCase.equals(&quot;то&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.hasLemma(leftAnalyzedTokens, Arrays.asList(&quot;хто&quot;, &quot;що&quot;, &quot;чи&quot;)) )</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {</b>
+<b class="nc">&nbsp;        String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;        if (leftWord.equalsIgnoreCase(&quot;як&quot;) &amp;&amp; posTag != null &amp;&amp; posTag.contains(&quot;noun&quot;) )</b>
+&nbsp;          continue;
+&nbsp;          
+<b class="nc">&nbsp;        if( posTag != null</b>
+<b class="nc">&nbsp;            &amp;&amp; (leftWordLowerCase.equals(&quot;дуже&quot;) &amp;&amp; posTag.contains(&quot;adv&quot;)) </b>
+<b class="nc">&nbsp;             || (leftTagRegex.matcher(posTag).matches()) ) {</b>
+&nbsp;          
+<b class="nc">&nbsp;          newAnalyzedTokens.add(new AnalyzedToken(word, posTag, analyzedToken.getLemma()));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    // по-болгарськи, по-болгарському
+&nbsp;
+<b class="nc">&nbsp;    if( leftWord.equalsIgnoreCase(&quot;по&quot;) &amp;&amp; SKY_PATTERN.matcher(rightWord).matches() ) {</b>
+<b class="nc">&nbsp;      rightWord += &quot;й&quot;;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // Пенсильванія-авеню
+&nbsp;
+<b class="nc">&nbsp;    if( Character.isUpperCase(leftWord.charAt(0)) &amp;&amp; LemmaHelper.CITY_AVENU.contains(rightWordLowerCase) ) {</b>
+<b class="nc">&nbsp;      String addPos = rightWord.equals(&quot;штрассе&quot;) ? &quot;:alt&quot; : &quot;&quot;;</b>
+<b class="nc">&nbsp;      return PosTagHelper.generateTokensForNv(word, &quot;f&quot;, &quot;:prop&quot; + addPos);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Fe-вмісний
+<b class="nc">&nbsp;    if( rightWordLowerCase.startsWith(&quot;вмісн&quot;) ) {</b>
+<b class="nc">&nbsp;      String adjustedWord = &quot;боро&quot; + rightWord;</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; rightWdList = tagEitherCase(adjustedWord);</b>
+<b class="nc">&nbsp;      rightWdList = rightWdList.stream().map(wd -&gt; new TaggedWord(&quot;вмісний&quot;, wd.getPosTag())).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);</b>
+<b class="nc">&nbsp;      return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText(), null, Pattern.compile(&quot;:comp.&quot;));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;TaggedWord&gt; rightWdList = tagEitherCase(rightWord);</b>
+&nbsp;      
+&nbsp;     
+<b class="nc">&nbsp;    if( word.toLowerCase().startsWith(&quot;напів&quot;) ) {</b>
+&nbsp;      // напівпольської-напіванглійської
+<b class="nc">&nbsp;      Matcher napivMatcher = Pattern.compile(&quot;напів(.+?)-напів(.+)&quot;).matcher(word);</b>
+<b class="nc">&nbsp;      if( napivMatcher.matches() ) {</b>
+<b class="nc">&nbsp;        List&lt;TaggedWord&gt; napivLeftWdList = PosTagHelper.adjust(tagAsIsAndWithLowerCase(napivMatcher.group(1)), &quot;напів&quot;, null);</b>
+<b class="nc">&nbsp;        List&lt;TaggedWord&gt; napivRightWdList = rightWdList.size() &gt; 0 ? rightWdList : PosTagHelper.adjust(tagAsIsAndWithLowerCase(napivMatcher.group(2)), &quot;напів&quot;, null);</b>
+&nbsp;
+<b class="nc">&nbsp;        if( napivLeftWdList.isEmpty() || napivRightWdList.isEmpty() )</b>
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; napivLeftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(napivMatcher.group(1), napivLeftWdList);</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; napivRightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(napivMatcher.group(2), napivRightWdList);</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; tagMatch = tagMatch(word, napivLeftAnalyzedTokens, napivRightAnalyzedTokens);</b>
+<b class="nc">&nbsp;        if( tagMatch != null ) {</b>
+<b class="nc">&nbsp;          return tagMatch;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    Pattern TAGS_TO_REMOVE = Pattern.compile(&quot;:comp.|:&amp;predic|:&amp;insert&quot;);</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);</b>
+&nbsp;    
+&nbsp;    // гірко-прегірко
+<b class="nc">&nbsp;    if( rightWord.startsWith(&quot;пре&quot;) &amp;&amp; leftWordLowerCase.equals(rightWord.substring(3).toLowerCase()) ) {</b>
+<b class="nc">&nbsp;      if (PosTagHelper.hasPosTagStart2(leftWdList, &quot;adv&quot;)) {</b>
+&nbsp;
+<b class="nc">&nbsp;        return leftAnalyzedTokens.stream()</b>
+<b class="nc">&nbsp;            .filter(a -&gt; a.getPOSTag() != null &amp;&amp; a.getPOSTag().startsWith(&quot;adv&quot;) )</b>
+<b class="nc">&nbsp;            .map(a -&gt; new AnalyzedToken(word, TAGS_TO_REMOVE.matcher(a.getPOSTag()).replaceAll(&quot;&quot;), word))</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;      }
+&nbsp;      // гіркий-прегіркий
+<b class="nc">&nbsp;      else if( PosTagHelper.hasPosTagStart2(leftWdList, &quot;adj&quot;) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        return leftAnalyzedTokens.stream()</b>
+<b class="nc">&nbsp;            .filter(a -&gt; a.getPOSTag() != null &amp;&amp; a.getPOSTag().startsWith(&quot;adj&quot;) )</b>
+<b class="nc">&nbsp;            .map(a -&gt; new AnalyzedToken(word, TAGS_TO_REMOVE.matcher(a.getPOSTag()).replaceAll(&quot;&quot;), a.getLemma()+&quot;-пре&quot;+a.getLemma()))</b>
+<b class="nc">&nbsp;            .collect(Collectors.toList());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // Мустафа-ага
+<b class="nc">&nbsp;    if( NAME_SUFFIX.contains(rightWord)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagPart(leftAnalyzedTokens, &quot;name&quot;) ) {</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; wordList = PosTagHelper.adjust(leftWdList, null, &quot;-&quot; + rightWord);</b>
+<b class="nc">&nbsp;      return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, wordList);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( leftWord.equals(&quot;аль&quot;) ) {</b>
+<b class="nc">&nbsp;      String wd = &quot;Аль-&quot; + rightWord;</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; wdList = wordTagger.tag(wd);</b>
+<b class="nc">&nbsp;      if( wdList.size() &gt; 0 ) {</b>
+<b class="nc">&nbsp;        wdList = PosTagHelper.adjust(wdList, null, null, &quot;:bad&quot;);</b>
+<b class="nc">&nbsp;        return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(wd, wdList);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( rightWdList.isEmpty() ) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);</b>
+&nbsp;
+&nbsp;    // півгодини-годину
+<b class="nc">&nbsp;    if( word.startsWith(&quot;пів&quot;) </b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(leftAnalyzedTokens, Pattern.compile(&quot;noun:inanim:p:v_...:nv.*&quot;)) ) {</b>
+&nbsp;      
+<b class="nc">&nbsp;      return rightAnalyzedTokens.stream()</b>
+<b class="nc">&nbsp;          .filter(a -&gt; a.getPOSTag() != null &amp;&amp; a.getPOSTag().startsWith(&quot;noun:inanim:&quot;) )</b>
+<b class="nc">&nbsp;          .map(a -&gt; new AnalyzedToken(word, a.getPOSTag().replaceFirst(&quot;:[mfn]:&quot;, &quot;:p:&quot;), word))</b>
+<b class="nc">&nbsp;          .collect(Collectors.toList());</b>
+&nbsp;      
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( leftWord.equalsIgnoreCase(&quot;по&quot;) ) {</b>
+<b class="nc">&nbsp;      if( rightWord.endsWith(&quot;ому&quot;) ) {</b>
+<b class="nc">&nbsp;        return poAdvMatch(word, rightAnalyzedTokens, ADJ_TAG_FOR_PO_ADV_MIS);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      else if( SKYI_PATTERN.matcher(rightWord).matches() ) {</b>
+<b class="nc">&nbsp;        return poAdvMatch(word, rightAnalyzedTokens, ADJ_TAG_FOR_PO_ADV_NAZ);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( Character.isUpperCase(leftWord.charAt(0)) &amp;&amp; Character.isUpperCase(rightWord.charAt(0)) ) {  </b>
+&nbsp;        // Київ-Прага
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, GEO_V_NAZ)</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(rightAnalyzedTokens, GEO_V_NAZ) ) {</b>
+<b class="nc">&nbsp;          return Arrays.asList(new AnalyzedToken(word, &quot;noninfl:prop:geo&quot;, word));</b>
+&nbsp;        }
+&nbsp;        // Хуана-Карлоса
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, FNAME)</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(rightAnalyzedTokens, FNAME) ) {</b>
+<b class="nc">&nbsp;          leftAnalyzedTokens = PosTagHelper.filter(leftAnalyzedTokens, Pattern.compile(&quot;.*fname.*&quot;));</b>
+<b class="nc">&nbsp;          rightAnalyzedTokens = PosTagHelper.filter(rightAnalyzedTokens, Pattern.compile(&quot;.*fname.*&quot;));</b>
+<b class="nc">&nbsp;          return tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);</b>
+&nbsp;        }
+&nbsp;        // подружжя Карпа-Хансен
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, LNAME_V_NAZ)</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(rightAnalyzedTokens, LNAME_V_NAZ) ) {</b>
+<b class="nc">&nbsp;          return Arrays.asList(new AnalyzedToken(word, &quot;noninfl:prop:lname&quot;, word));</b>
+&nbsp;        }
+&nbsp;        // Джеймса-Веніка
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, LNAME_V_ROD)</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(rightAnalyzedTokens, LNAME_V_ROD) ) {</b>
+<b class="nc">&nbsp;          return Arrays.asList(new AnalyzedToken(word, &quot;noninfl:prop:lname&quot;, word));</b>
+&nbsp;        }
+&nbsp;        // bad: Квітки-Основ&#39;яненко
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, NAME)</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(rightAnalyzedTokens, NAME) ) {</b>
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+&nbsp;        // Україна-ЄС
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, PROP_V_NAZ)</b>
+<b class="nc">&nbsp;            &amp;&amp; PosTagHelper.hasPosTag(rightAnalyzedTokens, PROP_V_NAZ) ) {</b>
+<b class="nc">&nbsp;          return Arrays.asList(new AnalyzedToken(word, &quot;noninfl:prop&quot;, word));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // exclude: Малишко-це, відносини-коли
+&nbsp;
+&nbsp;//    List&lt;AnalyzedToken&gt; leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+&nbsp;
+&nbsp;    // був-би, but not м-б
+<b class="nc">&nbsp;    if( leftWord.length() &gt; 1 &amp;&amp; BAD_SUFFIX.contains(rightWord) ) {</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; wordList = PosTagHelper.adjust(leftWdList, null, &quot;-&quot; + rightWord);</b>
+<b class="nc">&nbsp;      wordList = PosTagHelper.addIfNotContains(leftWdList, &quot;:bad&quot;, null);</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; tagged = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, wordList);</b>
+<b class="nc">&nbsp;      return tagged;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( leftWord.equalsIgnoreCase(rightWord)</b>
+<b class="nc">&nbsp;        &amp;&amp; leftAnalyzedTokens.size() &gt; 0</b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.hasLemma(leftAnalyzedTokens, Pattern.compile(&quot;[ув]?весь|[ву]с[еі]&quot;)) ) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);</b>
+<b class="nc">&nbsp;      if( tagMatch != null ) {</b>
+<b class="nc">&nbsp;        return tagMatch.stream()</b>
+<b class="nc">&nbsp;          .filter(m -&gt; equalParts(m.getLemma()) )</b>
+<b class="nc">&nbsp;          .collect(Collectors.toList());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    
+<b class="nc">&nbsp;    if( PosTagHelper.hasPosTagPart(leftAnalyzedTokens, &quot;&amp;pron&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; ! PosTagHelper.hasPosTagPart(leftAnalyzedTokens, &quot;numr&quot;) )</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;
+<b class="nc">&nbsp;    if( ! leftWord.equalsIgnoreCase(rightWord) &amp;&amp; PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile(&quot;(part|conj).*|.*?:&amp;pron.*&quot;)) </b>
+<b class="nc">&nbsp;        &amp;&amp; ! (PosTagHelper.hasPosTagStart(leftAnalyzedTokens, &quot;numr&quot;) &amp;&amp; PosTagHelper.hasPosTagStart(rightAnalyzedTokens, &quot;numr&quot;)) )</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; adjCompounds = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if( leftWord.matches(&quot;[А-ЯІЇЄҐa-zA-Zα-ωΑ-Ω]|[a-zA-Z-]+&quot;) ) {</b>
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile(&quot;adj(?!.*(pron|bad|slang|arch)).*&quot;)) ) {</b>
+<b class="nc">&nbsp;          adjCompounds = generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText(), null, Pattern.compile(&quot;:comp.&quot;));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // майстер-класу
+&nbsp;    
+<b class="nc">&nbsp;    if( dashPrefixMatch </b>
+<b class="nc">&nbsp;        &amp;&amp; ! ( leftWord.equalsIgnoreCase(&quot;міді&quot;) &amp;&amp; LemmaHelper.hasLemma(rightAnalyzedTokens, Arrays.asList(&quot;бронза&quot;))) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; newTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;//      if( leftWord.length() == 1 &amp;&amp; leftWord.matches(&quot;[a-zA-Zα-ωΑ-Ω]&quot;) ) {
+&nbsp;//        List&lt;AnalyzedToken&gt; newTokensAdj = getNvPrefixLatWithAdjMatch(word, rightAnalyzedTokens, leftWord);
+&nbsp;//        if( newTokensAdj != null ) {
+&nbsp;//          newTokens.addAll(newTokensAdj);
+&nbsp;//        }
+&nbsp;//      }
+&nbsp;      
+<b class="nc">&nbsp;      String extraTag = &quot;&quot;;</b>
+<b class="nc">&nbsp;      boolean lowerCased = false;</b>
+<b class="nc">&nbsp;      if( dashPrefixes.containsKey( leftWord ) ) {</b>
+<b class="nc">&nbsp;        extraTag = dashPrefixes.get(leftWord);</b>
+&nbsp;      }
+&nbsp;      else { 
+<b class="nc">&nbsp;        if( dashPrefixes.containsKey( leftWordLowerCase ) ) {</b>
+<b class="nc">&nbsp;          extraTag = dashPrefixes.get(leftWordLowerCase);</b>
+<b class="nc">&nbsp;          if( leftWordLowerCase.matches(&quot;[а-яіїєґ&#39;]+&quot;) ) { // Інтернет-пошуковик</b>
+<b class="nc">&nbsp;            lowerCased = true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; newTokensNoun = getNvPrefixNounMatch(word, rightAnalyzedTokens, lowerCased ? leftWordLowerCase : leftWord, extraTag);</b>
+<b class="nc">&nbsp;      if( newTokensNoun != null ) {</b>
+<b class="nc">&nbsp;        newTokens.addAll(newTokensNoun);</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      // топ-десять
+<b class="nc">&nbsp;      if( leftWord.equalsIgnoreCase(&quot;топ&quot;) &amp;&amp; PosTagHelper.hasPosTagPart(rightAnalyzedTokens, &quot;numr:&quot;) ) {</b>
+<b class="nc">&nbsp;        return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, &quot;numr:&quot;, &quot;:bad&quot;, null);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( newTokens.isEmpty() ) {</b>
+<b class="nc">&nbsp;        newTokens.addAll(adjCompounds);</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      return newTokens;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( adjCompounds.size() &gt; 0 )</b>
+<b class="nc">&nbsp;      return adjCompounds;</b>
+&nbsp;    
+&nbsp;    // пів-України
+&nbsp;
+<b class="nc">&nbsp;    if( Character.isUpperCase(rightWord.charAt(0)) ) {</b>
+<b class="nc">&nbsp;      if (word.startsWith(&quot;пів-&quot;)) {</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; newAnalyzedTokens = addPluralNvTokens(word, rightAnalyzedTokens, &quot;:ua_1992&quot;);</b>
+<b class="nc">&nbsp;        return newAnalyzedTokens;</b>
+&nbsp;      }
+&nbsp;      else {
+&nbsp;        // we don&#39;t want Нью-Париж but want Австрійсько-Карпатський
+<b class="nc">&nbsp;        if( StringTools.isCapitalizedWord(rightWord)</b>
+<b class="nc">&nbsp;            || leftWord.endsWith(&quot;о&quot;)</b>
+<b class="nc">&nbsp;            || PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile(&quot;adj.*&quot;)) ) {</b>
+&nbsp;
+&nbsp;          // tag Чорноморське/noun і чорноморське adj
+<b class="nc">&nbsp;          List&lt;TaggedWord&gt; rightWdList2 = tagAsIsAndWithLowerCase(rightWord);</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedToken&gt; rightAnalyzedTokens2 = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList2);</b>
+&nbsp;
+<b class="nc">&nbsp;          List&lt;AnalyzedToken&gt; match = tryOWithAdj(word, leftWord, rightAnalyzedTokens2);</b>
+<b class="nc">&nbsp;          if( match != null )</b>
+<b class="nc">&nbsp;            return match;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Жінка-Актриса
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(leftAnalyzedTokens, Pattern.compile(&quot;noun(?!.prop).*&quot;)) </b>
+<b class="nc">&nbsp;              &amp;&amp; PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile(&quot;noun(?!.prop).*&quot;)) ) {</b>
+&nbsp;            // flow-through
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // don&#39;t allow: Донець-кий, зовнішньо-економічний, мас-штаби
+&nbsp;
+&nbsp;    // allow га-га!
+&nbsp;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; noDashAnalyzedTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;    
+<b class="nc">&nbsp;    boolean hasIntj = PosTagHelper.hasPosTagStart(leftAnalyzedTokens, &quot;intj&quot;);</b>
+<b class="nc">&nbsp;    if( ! hasIntj ) {</b>
+<b class="nc">&nbsp;      String noDashWord = word.replace(&quot;-&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; noDashWordList = tagAsIsAndWithLowerCase(noDashWord);</b>
+<b class="nc">&nbsp;      noDashAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(noDashWord, noDashWordList);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    // вгору-вниз, лікар-гомеопат, жило-було
+&nbsp;
+<b class="nc">&nbsp;    if( noDashAnalyzedTokens.isEmpty() ) {</b>
+<b class="nc">&nbsp;      if( ! leftWdList.isEmpty() &amp;&amp; (leftWord.length() &gt; 2 || hasIntj) ) {</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);</b>
+<b class="nc">&nbsp;        if( tagMatch != null ) {</b>
+<b class="nc">&nbsp;          return tagMatch;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; match = tryOWithAdj(word, leftWord, rightAnalyzedTokens);</b>
+<b class="nc">&nbsp;    if( match != null )</b>
+<b class="nc">&nbsp;      return match;</b>
+&nbsp;
+<b class="nc">&nbsp;    compoundDebugLogger.logUnknownCompound(word);</b>
+&nbsp;    
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; addPluralNvTokens(String word, List&lt;AnalyzedToken&gt; rightAnalyzedTokens, String addTag) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;(rightAnalyzedTokens.size());</b>
+&nbsp;    
+<b class="nc">&nbsp;    for (AnalyzedToken rightAnalyzedToken : rightAnalyzedTokens) {</b>
+<b class="nc">&nbsp;      String rightPosTag = rightAnalyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( rightPosTag != null &amp;&amp; NOUN_SING_V_ROD_REGEX.matcher(rightPosTag).matches() ) {</b>
+<b class="nc">&nbsp;        addPluralNvTokens(word, newAnalyzedTokens, rightPosTag, addTag);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return newAnalyzedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private void addPluralNvTokens(String word, List&lt;AnalyzedToken&gt; newAnalyzedTokens, String rightPosTag, String addTag) {
+<b class="nc">&nbsp;    for(String vid: PosTagHelper.VIDMINKY_MAP.keySet()) {</b>
+<b class="nc">&nbsp;      if( vid.equals(&quot;v_kly&quot;) )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      String posTag = rightPosTag.replace(&quot;v_rod&quot;, vid).replaceFirst(&quot;:[mfn]:v_&quot;, &quot;:p:v_&quot;) + &quot;:nv&quot; + addTag;</b>
+<b class="nc">&nbsp;      AnalyzedToken token = new AnalyzedToken(word, posTag, word);</b>
+<b class="nc">&nbsp;      if( ! newAnalyzedTokens.contains(token) ) {</b>
+<b class="nc">&nbsp;        newAnalyzedTokens.add(token);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean equalParts(String lemma) {
+<b class="nc">&nbsp;    if( ! lemma.contains(&quot;-&quot;) )</b>
+<b class="nc">&nbsp;      return false;</b>
+<b class="nc">&nbsp;    String[] parts = lemma.split(&quot;-&quot;, 2);</b>
+<b class="nc">&nbsp;    return parts[0].equals(parts[1]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private List&lt;TaggedWord&gt; tagEitherCase(String word) {
+<b class="nc">&nbsp;    if( word.isEmpty() )</b>
+<b class="nc">&nbsp;      return new ArrayList&lt;&gt;();</b>
+&nbsp;    
+<b class="nc">&nbsp;    List&lt;TaggedWord&gt; rightWdList = wordTagger.tag(word);</b>
+<b class="nc">&nbsp;    if( rightWdList.isEmpty() ) {</b>
+<b class="nc">&nbsp;      if( Character.isUpperCase(word.charAt(0)) ) {</b>
+<b class="nc">&nbsp;        rightWdList = wordTagger.tag(word.toLowerCase());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return rightWdList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;//  private List&lt;TaggedWord&gt; tagBothCases(String rightWord) {
+&nbsp;//    List&lt;TaggedWord&gt; rightWdList = wordTagger.tag(rightWord);
+&nbsp;//    if( Character.isUpperCase(rightWord.charAt(0)) ) {
+&nbsp;//      rightWdList = wordTagger.tag(rightWord.toLowerCase());
+&nbsp;//    }
+&nbsp;//    return rightWdList;
+&nbsp;//  }
+&nbsp;
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; tryOWithAdj(String word, String leftWord, List&lt;AnalyzedToken&gt; rightAnalyzedTokens) {
+<b class="nc">&nbsp;    if( leftWord.length() &lt; 3 )</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    
+&nbsp;    // дво-триметровий...
+<b class="nc">&nbsp;    if( NUMR_ADJ_PATTERN.matcher(leftWord).matches() ) {</b>
+<b class="nc">&nbsp;      return numrAdjMatch(word, rightAnalyzedTokens, leftWord);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // яскраво-барвистий...
+<b class="nc">&nbsp;    if( O_ADJ_PATTERN.matcher(leftWord).matches() ) {</b>
+<b class="nc">&nbsp;      return oAdjMatch(word, rightAnalyzedTokens, leftWord);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; doGuessMultiHyphens(String word, int firstDashIdx, int dashIdx) {
+<b class="nc">&nbsp;    String lowerWord = word.toLowerCase();</b>
+&nbsp;
+<b class="nc">&nbsp;    String[] parts = lowerWord.split(&quot;-&quot;);</b>
+<b class="nc">&nbsp;    LinkedHashSet&lt;String&gt; set = new LinkedHashSet&lt;&gt;(Arrays.asList(parts));</b>
+&nbsp;    // try intj
+<b class="nc">&nbsp;    String leftWd = parts[0];</b>
+<b class="nc">&nbsp;    if( set.size() == 2 ) {</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; leftWdList = tagEitherCase(leftWd);</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; rightWdList = tagEitherCase(new ArrayList&lt;&gt;(set).get(1));</b>
+&nbsp;
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTag2(leftWdList, INTJ_PATTERN)</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN)</b>
+<b class="nc">&nbsp;          || PosTagHelper.hasPosTag2(leftWdList, NONINFL_PATTERN)</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag2(rightWdList, NONINFL_PATTERN)) {</b>
+<b class="nc">&nbsp;        return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    else if( set.size() == 1 ) {</b>
+<b class="nc">&nbsp;      if( lowerWord.equals(&quot;ла&quot;) ) {</b>
+<b class="nc">&nbsp;        return Arrays.asList(new AnalyzedToken(word, &quot;intj&quot;, lowerWord));</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; rightWdList = tagEitherCase(leftWd);</b>
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN) ) {</b>
+<b class="nc">&nbsp;        return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( parts.length == 3 ) {</b>
+<b class="nc">&nbsp;        Set&lt;AnalyzedToken&gt; tokens = generateEntities(word);</b>
+<b class="nc">&nbsp;        if( tokens.size() &gt; 0 )</b>
+<b class="nc">&nbsp;          return new ArrayList&lt;&gt;(tokens);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    
+&nbsp;    // filter out г-г-г
+<b class="nc">&nbsp;    if( parts.length &gt;= 3 &amp;&amp; set.size() &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; ! dashPrefixes.containsKey(parts[0])</b>
+<b class="nc">&nbsp;        &amp;&amp; ! dashPrefixesInvalid.contains(parts[0]) ) {</b>
+&nbsp;
+&nbsp;
+&nbsp;      // ва-ре-ни-ки
+<b class="nc">&nbsp;      String merged = word.replace(&quot;-&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; tagged = tagBothCases(merged,  null);</b>
+<b class="nc">&nbsp;      tagged = PosTagHelper.filter2Negative(tagged, ABBR_PATTERN);</b>
+<b class="nc">&nbsp;      if( ! tagged.isEmpty() ) {</b>
+<b class="nc">&nbsp;        return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, PosTagHelper.addIfNotContains(tagged, &quot;:alt&quot;));</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // ду-у-у-же
+<b class="nc">&nbsp;      merged = collapseStretch(word);</b>
+<b class="nc">&nbsp;      tagged = tagBothCases(merged, null);</b>
+<b class="nc">&nbsp;      tagged = PosTagHelper.filter2Negative(tagged, ABBR_PATTERN);</b>
+<b class="nc">&nbsp;      if( ! tagged.isEmpty() ) {</b>
+<b class="nc">&nbsp;        return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, PosTagHelper.addIfNotContains(tagged, &quot;:alt&quot;));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  private final static Pattern ABBR_PATTERN = Pattern.compile(&quot;.*abbr.*&quot;);</b>
+<b class="fc">&nbsp;  private final static Pattern STRETCH_PATTERN = Pattern.compile(&quot;([а-іяїєґА-ЯІЇЄҐ])\\1*-\\1+&quot;);</b>
+&nbsp;  
+&nbsp;  private static String collapseStretch(String word) {
+<b class="nc">&nbsp;    boolean capitalized = StringTools.isCapitalizedWord(word);</b>
+<b class="nc">&nbsp;    String merged = STRETCH_PATTERN.matcher(word.toLowerCase()).replaceAll(&quot;$1&quot;);</b>
+<b class="nc">&nbsp;    merged = STRETCH_PATTERN.matcher(merged).replaceAll(&quot;$1&quot;);</b>
+<b class="nc">&nbsp;    merged = merged.replace(&quot;-&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    if( capitalized ) {</b>
+<b class="nc">&nbsp;      merged = StringUtils.capitalize(merged);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return merged;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; doGuessTwoHyphens(String word, int firstDashIdx, int dashIdx) {
+<b class="nc">&nbsp;    String[] parts = word.split(&quot;-&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;TaggedWord&gt; rightWdList = tagEitherCase(parts[2]);</b>
+&nbsp;
+<b class="nc">&nbsp;    if( rightWdList.isEmpty() )</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(parts[2], rightWdList);</b>
+&nbsp;
+<b class="nc">&nbsp;    String firstAndSecond = parts[0] + &quot;-&quot; + parts[1];</b>
+&nbsp;
+<b class="nc">&nbsp;    boolean twoDash = false;</b>
+<b class="nc">&nbsp;    String extraTag = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if( dashPrefixes.containsKey(firstAndSecond) ) {</b>
+<b class="nc">&nbsp;      extraTag = dashPrefixes.get(firstAndSecond);</b>
+<b class="nc">&nbsp;      twoDash = true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    else if( dashPrefixes.containsKey( firstAndSecond.toLowerCase() ) ) {</b>
+<b class="nc">&nbsp;      extraTag = dashPrefixes.get(firstAndSecond.toLowerCase());</b>
+<b class="nc">&nbsp;      twoDash = true;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( twoDash ) {</b>
+<b class="nc">&nbsp;      return getNvPrefixNounMatch(word, rightAnalyzedTokens, firstAndSecond, extraTag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    List&lt;TaggedWord&gt; secondWdList = tagEitherCase(parts[1]);</b>
+&nbsp;    
+&nbsp;    // try full match - only adj for now - nouns are complicated
+<b class="nc">&nbsp;    if( PosTagHelper.hasPosTagStart2(secondWdList, &quot;adj&quot;) ) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; secondAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(parts[1], secondWdList);</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; tagMatchSecondAndThird = tagMatch(word, secondAnalyzedTokens, rightAnalyzedTokens);</b>
+<b class="nc">&nbsp;      if( tagMatchSecondAndThird != null ) {</b>
+&nbsp;        
+<b class="nc">&nbsp;        List&lt;TaggedWord&gt; leftWdList = tagEitherCase(parts[0]);</b>
+&nbsp;        
+<b class="nc">&nbsp;        if( ! leftWdList.isEmpty() ) {</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedToken&gt; leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(parts[0], leftWdList);</b>
+<b class="nc">&nbsp;          tagMatch(word, leftAnalyzedTokens, tagMatchSecondAndThird);</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        return tagMatchSecondAndThird;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // try ірансько-нігерійсько-зімбабвійський
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; secondAndThird = tryOWithAdj(word, parts[1], rightAnalyzedTokens);</b>
+&nbsp;    
+<b class="nc">&nbsp;    if( secondAndThird != null ) {</b>
+<b class="nc">&nbsp;      return tryOWithAdj(word, parts[0], secondAndThird);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private static List&lt;AnalyzedToken&gt; generateTokensWithRighInflected(String word, String leftWord, List&lt;AnalyzedToken&gt; rightAnalyzedTokens, String posTagStart, String addTag, Pattern dropTag) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;(rightAnalyzedTokens.size());</b>
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : rightAnalyzedTokens) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag.startsWith( posTagStart )</b>
+<b class="nc">&nbsp;            &amp;&amp; ! posTag.contains(&quot;v_kly&quot;) ) {</b>
+<b class="nc">&nbsp;        if( dropTag != null ) {</b>
+<b class="nc">&nbsp;          posTag = dropTag.matcher(posTag).replaceAll(&quot;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        posTag = PosTagHelper.addIfNotContains(posTag, addTag);</b>
+<b class="nc">&nbsp;        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord + &quot;-&quot; + analyzedToken.getLemma()));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return newAnalyzedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; matchNumberedProperNoun(String word, String leftWord, String rightWord) {
+&nbsp;
+&nbsp;    // Ан-140
+<b class="nc">&nbsp;    if( NOUN_SUFFIX_NUMBER_LETTER.matcher(rightWord).matches() ) {</b>
+<b class="nc">&nbsp;      Set&lt;AnalyzedToken&gt; newAnalyzedTokens = generateEntities(word);</b>
+&nbsp;
+<b class="nc">&nbsp;      if (newAnalyzedTokens.size() &gt; 0)</b>
+<b class="nc">&nbsp;        return new ArrayList&lt;&gt;(newAnalyzedTokens);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Вибори-2014
+<b class="nc">&nbsp;    if (YEAR_NUMBER.matcher(rightWord).matches()) {</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; leftWdList = tagAsIsAndWithLowerCase(leftWord);</b>
+&nbsp;
+<b class="nc">&nbsp;      if (!leftWdList.isEmpty() /*&amp;&amp; Character.isUpperCase(leftWord.charAt(0))*/) {</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        boolean isUppercase = Character.isUpperCase(leftWord.charAt(0));</b>
+<b class="nc">&nbsp;        for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {</b>
+<b class="nc">&nbsp;          if (!PosTagHelper.hasPosTagPart(analyzedToken, &quot;:prop&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; !WORDS_WITH_YEAR.contains(analyzedToken.getLemma()))</b>
+&nbsp;            continue;
+&nbsp;
+<b class="nc">&nbsp;          String posTag = analyzedToken.getPOSTag();</b>
+&nbsp;
+&nbsp;          // only noun - відкидаємо: вибори - вибороти
+&nbsp;          // Афіни-2014 - потрібне лише місто, не ім&#39;я
+&nbsp;          // TODO: чемпіон-2012
+<b class="nc">&nbsp;          if (posTag == null || ! posTag.startsWith(&quot;noun:inanim&quot;))</b>
+&nbsp;            continue;
+&nbsp;
+<b class="nc">&nbsp;          if (posTag.contains(&quot;v_kly&quot;))</b>
+&nbsp;            continue;
+&nbsp;
+<b class="nc">&nbsp;          if (posTag.contains(&quot;:p:&quot;) </b>
+<b class="nc">&nbsp;              &amp;&amp; !Arrays.asList(&quot;гра&quot;, &quot;бюджет&quot;).contains(analyzedToken.getLemma())</b>
+<b class="nc">&nbsp;              &amp;&amp; !posTag.contains(&quot;:ns&quot;))</b>
+&nbsp;            continue;
+&nbsp;
+<b class="nc">&nbsp;          String lemma = analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;          posTag = posTag.replace(&quot;:geo&quot;, &quot;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;          if (!posTag.contains(&quot;:prop&quot;)) {</b>
+<b class="nc">&nbsp;            if( isUppercase ) {</b>
+<b class="nc">&nbsp;              posTag += &quot;:prop&quot;;</b>
+<b class="nc">&nbsp;              lemma = StringUtils.capitalize(lemma);</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          newAnalyzedTokens.add(new AnalyzedToken(word, posTag, lemma + &quot;-&quot; + rightWord));</b>
+&nbsp;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (newAnalyzedTokens.size() &gt; 0)</b>
+<b class="nc">&nbsp;          return newAnalyzedTokens;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    // Формула-1, Карпати-2, омега-3
+<b class="nc">&nbsp;    if (NOUN_PREFIX_NUMBER.matcher(rightWord).matches()) {</b>
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; leftWdList = tagAsIsAndWithLowerCase(leftWord);</b>
+&nbsp;
+<b class="nc">&nbsp;      if (!leftWdList.isEmpty() /*&amp;&amp; Character.isUpperCase(leftWord.charAt(0)) &amp;&amp; leftWord.matches(&quot;[А-ЯІЇЄҐ][а-яіїєґ&#39;].*&quot;)*/ ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {</b>
+&nbsp;
+<b class="nc">&nbsp;          String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;          String lemma = analyzedToken.getLemma();</b>
+&nbsp;
+<b class="nc">&nbsp;          if( posTag == null || ! posTag.startsWith(&quot;noun:inanim&quot;) )</b>
+&nbsp;            continue;
+&nbsp;
+<b class="nc">&nbsp;          if (posTag.contains(&quot;v_kly&quot;))</b>
+&nbsp;            continue;
+&nbsp;
+<b class="nc">&nbsp;          if ( ! posTag.contains(&quot;:prop&quot;) ) {</b>
+<b class="nc">&nbsp;            if( ! WORDS_WITH_NUM.contains(lemma) ) {</b>
+<b class="nc">&nbsp;              posTag += &quot;:prop&quot;;</b>
+<b class="nc">&nbsp;              lemma = StringUtils.capitalize(lemma);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          if( ! WORDS_WITH_NUM.contains(lemma) )</b>
+&nbsp;            continue;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;          newAnalyzedTokens.add(new AnalyzedToken(word, posTag, lemma + &quot;-&quot; + rightWord));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (newAnalyzedTokens.size() &gt; 0)</b>
+<b class="nc">&nbsp;          return newAnalyzedTokens;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  Set&lt;AnalyzedToken&gt; generateEntities(String word) {
+<b class="nc">&nbsp;    Set&lt;AnalyzedToken&gt; newAnalyzedTokens = new LinkedHashSet&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    for(Map.Entry&lt;String, List&lt;String&gt;&gt; entry: numberedEntities.entrySet()) {</b>
+<b class="nc">&nbsp;      if( word.matches(entry.getKey()) ) {</b>
+<b class="nc">&nbsp;        for(String tag: entry.getValue()) {</b>
+<b class="nc">&nbsp;          if( tag.contains(&quot;:nv&quot;) ) {</b>
+<b class="nc">&nbsp;            String[] tagParts = tag.split(&quot;:&quot;);</b>
+<b class="nc">&nbsp;            String extraTags = tag.replaceFirst(&quot;.*?:nv&quot;, &quot;&quot;).replace(&quot;:np&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;            List&lt;AnalyzedToken&gt; newTokens = PosTagHelper.generateTokensForNv(word, tagParts[1], extraTags);</b>
+<b class="nc">&nbsp;            newAnalyzedTokens.addAll(newTokens);</b>
+&nbsp;
+<b class="nc">&nbsp;            if( ! tag.contains(&quot;:np&quot;) &amp;&amp; ! tag.contains(&quot;:p&quot;) ) {</b>
+<b class="nc">&nbsp;              newTokens = PosTagHelper.generateTokensForNv(word, &quot;p&quot;, extraTags);</b>
+<b class="nc">&nbsp;              newAnalyzedTokens.addAll(newTokens);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;          else {
+<b class="nc">&nbsp;            newAnalyzedTokens.add(new AnalyzedToken(word, tag, word));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return newAnalyzedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private List&lt;AnalyzedToken&gt; matchDigitCompound(String word, String leftWord, String rightWord) {
+&nbsp;    // 101-й, 100-річному
+&nbsp;
+<b class="nc">&nbsp;    if( ADJ_PREFIX_NUMBER.matcher(leftWord).matches() ) {</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;      // e.g. 101-го
+<b class="nc">&nbsp;      String[] tags = LetterEndingForNumericHelper.findTagsAdj(leftWord, rightWord);</b>
+<b class="nc">&nbsp;      if( tags != null ) {</b>
+<b class="nc">&nbsp;        for (String tag: tags) {</b>
+<b class="nc">&nbsp;          String lemma = leftWord + &quot;-&quot; + &quot;й&quot;;  // lemma is approximate here, we mostly care about the tag</b>
+<b class="nc">&nbsp;          tag = tag.contains(&quot;:bad&quot;) ? tag.replace(&quot;:bad&quot;, &quot;:&amp;numr:bad&quot;) : tag + &quot;:&amp;numr&quot;;</b>
+<b class="nc">&nbsp;          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag, lemma));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // з 3-ма вікнами - не дуже правильно, але вживають часто
+&nbsp;//        if( &quot;ма&quot;.equals(rightWord) &amp;&amp; leftWord.matches(&quot;.*(1[0-9]|[23456789])&quot;) ) {
+&nbsp;//          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.numr.getText() + &quot;:p:v_oru:bad&quot;, leftWord));
+&nbsp;//        }
+&nbsp;      }
+&nbsp;      else {
+<b class="nc">&nbsp;        if( NOUN_WITH_INTERVAL_PREFIX_NUMBER.matcher(leftWord).matches() ) {</b>
+&nbsp;
+<b class="nc">&nbsp;          String[] tagsNoun = LetterEndingForNumericHelper.findTagsNoun(leftWord, rightWord);</b>
+<b class="nc">&nbsp;          if( tagsNoun != null ) {</b>
+<b class="nc">&nbsp;            for (String tag: tagsNoun) {</b>
+<b class="nc">&nbsp;              newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.numr.getText() + tag, leftWord));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return newAnalyzedTokens;</b>
+&nbsp;          }
+&nbsp;          
+<b class="nc">&nbsp;          if( &quot;мм&quot;.equals(rightWord) ) {</b>
+<b class="nc">&nbsp;            for(String gender: PosTagHelper.BASE_GENDERS ) {</b>
+<b class="nc">&nbsp;              for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {</b>
+<b class="nc">&nbsp;                if( vidm.equals(&quot;v_kly&quot;) )</b>
+&nbsp;                  continue;
+&nbsp;
+<b class="nc">&nbsp;                String posTag = IPOSTag.adj.getText() + &quot;:&quot; + gender + &quot;:&quot; + vidm;</b>
+<b class="nc">&nbsp;                newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));</b>
+&nbsp;              }
+&nbsp;            }
+<b class="nc">&nbsp;            return newAnalyzedTokens;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          // 100-річчя
+&nbsp;          
+<b class="nc">&nbsp;          String tryPrefix = getTryPrefix(rightWord.toLowerCase());</b>
+&nbsp;          
+<b class="nc">&nbsp;          if( tryPrefix != null ) {</b>
+<b class="nc">&nbsp;            List&lt;TaggedWord&gt; rightWdList = wordTagger.tag(tryPrefix + rightWord.toLowerCase());</b>
+&nbsp;            
+<b class="nc">&nbsp;            if( rightWdList == null )</b>
+<b class="nc">&nbsp;              return null;</b>
+&nbsp;
+<b class="nc">&nbsp;            List&lt;AnalyzedToken&gt; rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);</b>
+&nbsp;
+<b class="nc">&nbsp;            for (AnalyzedToken analyzedToken : rightAnalyzedTokens) {</b>
+<b class="nc">&nbsp;              String lemma = analyzedToken.getLemma().substring(tryPrefix.length());</b>
+<b class="nc">&nbsp;              newAnalyzedTokens.add(new AnalyzedToken(word, analyzedToken.getPOSTag(), leftWord + &quot;-&quot; + lemma));</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            return newAnalyzedTokens;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+&nbsp;        // e.g. 100-річному, 100-відсотково
+<b class="nc">&nbsp;        List&lt;TaggedWord&gt; rightWdList = wordTagger.tag(rightWord);</b>
+<b class="nc">&nbsp;        if( rightWdList.isEmpty() || PosTagHelper.hasPosTagPart2(rightWdList, &quot;pron&quot;))</b>
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (AnalyzedToken analyzedToken : rightAnalyzedTokens) {</b>
+<b class="nc">&nbsp;          if( analyzedToken.getPOSTag().startsWith(IPOSTag.adj.getText())</b>
+<b class="nc">&nbsp;              || &quot;відсотково&quot;.equals(analyzedToken.getLemma()) ) {</b>
+<b class="nc">&nbsp;            newAnalyzedTokens.add(new AnalyzedToken(word, analyzedToken.getPOSTag(), leftWord + &quot;-&quot; + analyzedToken.getLemma()));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private String getTryPrefix(String rightWord) {
+<b class="nc">&nbsp;    if( REQ_NUM_STO_PATTERN.matcher(rightWord).matches() )</b>
+<b class="nc">&nbsp;      return &quot;сто&quot;;</b>
+<b class="nc">&nbsp;    if( REQ_NUM_DESYAT_PATTERN.matcher(rightWord).matches() ) </b>
+<b class="nc">&nbsp;      return &quot;десяти&quot;;</b>
+<b class="nc">&nbsp;    if( REQ_NUM_DVA_PATTERN.matcher(rightWord).matches() ) </b>
+<b class="nc">&nbsp;      return &quot;дво&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String dropExtra(String postags) {
+<b class="nc">&nbsp;    Matcher matcher = postags.startsWith(&quot;noninfl&quot;) ? EXTRA_TAGS_DROP_NONINFL.matcher(postags) : EXTRA_TAGS_DROP.matcher(postags);</b>
+&nbsp;//    if( matcher.find() ) {
+<b class="nc">&nbsp;      postags = matcher.replaceAll(&quot;&quot;);</b>
+&nbsp;//    }
+<b class="nc">&nbsp;    return postags;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private List&lt;AnalyzedToken&gt; tagMatch(String word, List&lt;AnalyzedToken&gt; leftAnalyzedTokens, List&lt;AnalyzedToken&gt; rightAnalyzedTokens) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokensAnimInanim = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    String animInanimNotTagged = null;</b>
+&nbsp;
+<b class="nc">&nbsp;    for (AnalyzedToken leftAnalyzedToken : leftAnalyzedTokens) {</b>
+<b class="nc">&nbsp;      String leftPosTag = leftAnalyzedToken.getPOSTag();</b>
+&nbsp;
+<b class="nc">&nbsp;      if( leftPosTag == null </b>
+<b class="nc">&nbsp;          || IPOSTag.contains(leftPosTag, IPOSTag.abbr.getText()) )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      if( leftPosTag.startsWith(&quot;noun:inanim&quot;) ) {</b>
+&nbsp;        // we don&#39;t want to have v_kly for рибо-полювання
+&nbsp;        // but we do for пане-товаришу
+<b class="nc">&nbsp;        if( leftPosTag.contains(&quot;v_kly&quot;) )</b>
+&nbsp;          continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      String leftPosTagExtra = &quot;&quot;;</b>
+<b class="nc">&nbsp;      boolean leftNv = false;</b>
+&nbsp;
+<b class="nc">&nbsp;      if( leftPosTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) ) {</b>
+<b class="nc">&nbsp;        leftNv = true;</b>
+<b class="nc">&nbsp;        leftPosTag = leftPosTag.replace(PosTagHelper.NO_VIDMINOK_SUBSTR, &quot;&quot;);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      leftPosTag = dropExtra(leftPosTag);</b>
+&nbsp;
+<b class="nc">&nbsp;      Matcher matcher = EXTRA_TAGS.matcher(leftPosTag);</b>
+<b class="nc">&nbsp;      if( matcher.find() ) {</b>
+<b class="nc">&nbsp;        leftPosTagExtra += matcher.group();</b>
+<b class="nc">&nbsp;        leftPosTag = matcher.replaceAll(&quot;&quot;);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      for (AnalyzedToken rightAnalyzedToken : rightAnalyzedTokens) {</b>
+<b class="nc">&nbsp;        String rightPosTag = rightAnalyzedToken.getPOSTag();</b>
+&nbsp;
+<b class="nc">&nbsp;        if( rightPosTag == null</b>
+&nbsp;//            || rightPosTag.contains(&quot;v_kly&quot;)
+<b class="nc">&nbsp;            || rightPosTag.contains(IPOSTag.abbr.getText()) )</b>
+&nbsp;          continue;
+&nbsp;
+<b class="nc">&nbsp;        if( rightPosTag.startsWith(&quot;noun:inanim&quot;) ) {</b>
+<b class="nc">&nbsp;          if (rightPosTag.contains(&quot;v_kly&quot;))</b>
+&nbsp;            continue;
+&nbsp;          // skip Гірник geo for Гірник-спорт
+<b class="nc">&nbsp;          if( leftPosTag.contains(&quot;:geo&quot;) </b>
+<b class="nc">&nbsp;              &amp;&amp; ! rightPosTag.contains(&quot;:geo&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; ! rightAnalyzedToken.getLemma().matches(&quot;(?iu)ріка|гора|місто|град|поле|море|парк&quot;) )</b>
+&nbsp;            continue;
+&nbsp;        }
+&nbsp;
+&nbsp;        // країни-агресори - не треба v_zna:rare
+<b class="nc">&nbsp;        if( rightPosTag.startsWith(&quot;noun:anim:p:v_zna:rare&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; leftPosTag.startsWith(&quot;noun:inanim&quot;) )</b>
+&nbsp;          continue;
+&nbsp;
+<b class="nc">&nbsp;        String extraNvTag = &quot;&quot;;</b>
+<b class="nc">&nbsp;        boolean rightNv = false;</b>
+<b class="nc">&nbsp;        if( rightPosTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) ) {</b>
+<b class="nc">&nbsp;          rightNv = true;</b>
+&nbsp;          
+<b class="nc">&nbsp;          if( leftNv ) {</b>
+<b class="nc">&nbsp;            extraNvTag += PosTagHelper.NO_VIDMINOK_SUBSTR;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        rightPosTag = dropExtra(rightPosTag);</b>
+&nbsp;
+<b class="nc">&nbsp;        Matcher matcherR = EXTRA_TAGS.matcher(rightPosTag);</b>
+<b class="nc">&nbsp;        if( matcherR.find() ) {</b>
+<b class="nc">&nbsp;          rightPosTag = matcherR.replaceAll(&quot;&quot;);</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        if (stripPerfImperf(leftPosTag).equals(stripPerfImperf(rightPosTag)) </b>
+<b class="nc">&nbsp;            &amp;&amp; (IPOSTag.startsWith(leftPosTag, IPOSTag.numr, IPOSTag.adv, IPOSTag.adj, IPOSTag.verb)</b>
+<b class="nc">&nbsp;            || (leftPosTag.matches(&quot;intj|noninfl.*&quot;) // (onomat|predic).* </b>
+<b class="nc">&nbsp;                &amp;&amp; leftAnalyzedToken.getLemma().equalsIgnoreCase(rightAnalyzedToken.getLemma())) ) ) {</b>
+<b class="nc">&nbsp;          String newPosTag = leftPosTag + extraNvTag + leftPosTagExtra;</b>
+&nbsp;
+<b class="nc">&nbsp;          if( (leftPosTag.contains(&quot;adjp&quot;) &amp;&amp; ! rightPosTag.contains(&quot;adjp&quot;))</b>
+<b class="nc">&nbsp;              || (! leftPosTag.contains(&quot;adjp&quot;) &amp;&amp; rightPosTag.contains(&quot;adjp&quot;)) ) {</b>
+<b class="nc">&nbsp;            newPosTag = newPosTag.replaceFirst(&quot;:&amp;adjp:(actv|pasv):(im)?perf&quot;, &quot;&quot;);</b>
+&nbsp;          }
+&nbsp;          
+<b class="nc">&nbsp;          String newLemma = leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma();</b>
+<b class="nc">&nbsp;          newAnalyzedTokens.add(new AnalyzedToken(word, newPosTag, newLemma));</b>
+&nbsp;        }
+&nbsp;        // noun-noun
+<b class="nc">&nbsp;        else if ( leftPosTag.startsWith(IPOSTag.noun.getText()) &amp;&amp; rightPosTag.startsWith(IPOSTag.noun.getText()) ) {</b>
+&nbsp;
+&nbsp;          // discard чорний-чорний as noun:anim
+&nbsp;          // but allow дівчинка-дівчинка
+&nbsp;//          if( leftAnalyzedToken.getToken().equalsIgnoreCase(rightAnalyzedToken.getToken())
+&nbsp;//              &amp;&amp; leftPosTag.contains(TAG_ANIM) &amp;&amp; rightPosTag.contains(TAG_ANIM) )
+&nbsp;//            continue;
+&nbsp;
+<b class="nc">&nbsp;          String agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, leftNv, word);</b>
+&nbsp;
+<b class="nc">&nbsp;          if( agreedPosTag == null </b>
+<b class="nc">&nbsp;              &amp;&amp; rightPosTag.startsWith(&quot;noun:inanim:m:v_naz&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; isMinMax(rightAnalyzedToken.getToken()) ) {</b>
+<b class="nc">&nbsp;            agreedPosTag = leftPosTag;</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          if( agreedPosTag == null &amp;&amp; ! isSameAnimStatus(leftPosTag, rightPosTag) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;            agreedPosTag = tryAnimInanim(leftPosTag, rightPosTag, leftAnalyzedToken.getLemma(), rightAnalyzedToken.getLemma(), leftNv, rightNv, word);</b>
+&nbsp;            
+<b class="nc">&nbsp;            if( agreedPosTag == null ) {</b>
+<b class="nc">&nbsp;              animInanimNotTagged = leftPosTag.contains(&quot;:anim&quot;) ? &quot;anim-inanim&quot; : &quot;inanim-anim&quot;;</b>
+&nbsp;            }
+&nbsp;            else {
+<b class="nc">&nbsp;              newAnalyzedTokensAnimInanim.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma()));</b>
+&nbsp;              continue;
+&nbsp;            }
+&nbsp;          }
+&nbsp;          
+<b class="nc">&nbsp;          if( agreedPosTag != null ) {</b>
+<b class="nc">&nbsp;            newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma()));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // numr-numr: один-три
+<b class="nc">&nbsp;        else if ( leftPosTag.startsWith(IPOSTag.numr.getText()) &amp;&amp; rightPosTag.startsWith(IPOSTag.numr.getText()) ) {</b>
+<b class="nc">&nbsp;            String agreedPosTag = getNumAgreedPosTag(leftPosTag, rightPosTag, leftNv);</b>
+<b class="nc">&nbsp;            if( agreedPosTag != null ) {</b>
+&nbsp;              
+<b class="nc">&nbsp;              if( rightPosTag.contains(&quot;:p:&quot;) &amp;&amp; ! agreedPosTag.contains(&quot;:p:&quot;) ) {</b>
+<b class="nc">&nbsp;                agreedPosTag = agreedPosTag.replaceFirst(&quot;:[mfn]:&quot;, &quot;:p:&quot;);</b>
+&nbsp;              }
+&nbsp;              
+<b class="nc">&nbsp;              newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma()));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        // noun-numr match
+<b class="nc">&nbsp;        else if ( IPOSTag.startsWith(leftPosTag, IPOSTag.noun) &amp;&amp; IPOSTag.startsWith(rightPosTag, IPOSTag.numr) ) {</b>
+<b class="nc">&nbsp;          if( ! leftAnalyzedToken.getLemma().equals(&quot;п&#39;ята&quot;) ) {</b>
+&nbsp;            // gender tags match
+<b class="nc">&nbsp;            String leftGenderConj = PosTagHelper.getGenderConj(leftPosTag);</b>
+<b class="nc">&nbsp;            if( leftGenderConj != null &amp;&amp; leftGenderConj.equals(PosTagHelper.getGenderConj(rightPosTag)) ) {</b>
+<b class="nc">&nbsp;              newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma()));</b>
+&nbsp;              // година-півтори може бути як одниною так і множиною: минула година-півтори, минули година-півтори
+<b class="nc">&nbsp;              if( ! leftPosTag.contains(&quot;:p:&quot;) ) {</b>
+<b class="nc">&nbsp;                newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag.replaceAll(&quot;:[mfn]:&quot;, &quot;:p:&quot;) + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma()));</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;            else {
+&nbsp;              // (with different gender tags): сотні (:p:) - дві (:f:)
+<b class="nc">&nbsp;              String agreedPosTag = getNumAgreedPosTag(leftPosTag, rightPosTag, leftNv);</b>
+<b class="nc">&nbsp;              if( agreedPosTag != null ) {</b>
+<b class="nc">&nbsp;                newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma()));</b>
+&nbsp;                // рік-два може бути як одниною так і множиною: минулий рік-два, минули рік-два
+<b class="nc">&nbsp;                if( ! agreedPosTag.contains(&quot;:p:&quot;) ) {</b>
+<b class="nc">&nbsp;                  newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag.replaceAll(&quot;:[mfn]:&quot;, &quot;:p:&quot;) + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma()));</b>
+&nbsp;                }
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // noun-adj match: Буш-молодший, рік-два
+&nbsp;        // не робимо братів-православних — загальний noun-adj дає забагато фальшивих спрацьовувань
+<b class="nc">&nbsp;        else if( leftPosTag.startsWith(IPOSTag.noun.getText()) </b>
+<b class="nc">&nbsp;            &amp;&amp; IPOSTag.startsWith(rightPosTag, IPOSTag.numr) </b>
+<b class="nc">&nbsp;                || (IPOSTag.startsWith(rightPosTag, IPOSTag.adj) &amp;&amp; isJuniorSenior(leftAnalyzedToken, rightAnalyzedToken)) ) {</b>
+&nbsp;          
+&nbsp;//          if( ! leftPosTag.contains(&quot;:prop&quot;)
+&nbsp;//              || isJuniorSenior(leftAnalyzedToken, rightAnalyzedToken) ) { 
+&nbsp;          	
+&nbsp;          	// discard чорний-чорний as noun:anim
+&nbsp;//          	if( leftAnalyzedToken.getToken().equalsIgnoreCase(rightAnalyzedToken.getToken()) )
+&nbsp;//          		continue;
+&nbsp;
+<b class="nc">&nbsp;          String leftGenderConj = PosTagHelper.getGenderConj(leftPosTag);</b>
+<b class="nc">&nbsp;          if( leftGenderConj != null &amp;&amp; leftGenderConj.equals(PosTagHelper.getGenderConj(rightPosTag)) ) {</b>
+<b class="nc">&nbsp;            newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightAnalyzedToken.getLemma()));</b>
+&nbsp;          }
+&nbsp;  //        }
+&nbsp;        }
+&nbsp;        // чарка-друга
+<b class="nc">&nbsp;        else if( leftPosTag.startsWith(IPOSTag.noun.getText()) </b>
+<b class="nc">&nbsp;                &amp;&amp; rightAnalyzedToken.getLemma().equals(&quot;другий&quot;)</b>
+&nbsp;                ) {
+<b class="nc">&nbsp;          String leftGenderConj = PosTagHelper.getGenderConj(leftPosTag);</b>
+<b class="nc">&nbsp;          if( leftGenderConj != null &amp;&amp; leftGenderConj.equals(PosTagHelper.getGenderConj(rightPosTag)) ) {</b>
+<b class="nc">&nbsp;            String rightLemma = leftGenderConj.startsWith(&quot;m&quot;) ? &quot;другий&quot; :</b>
+<b class="nc">&nbsp;              leftGenderConj.startsWith(&quot;f&quot;) ? &quot;друга&quot; : &quot;друге&quot;;</b>
+<b class="nc">&nbsp;            newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + &quot;-&quot; + rightLemma));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( ! newAnalyzedTokens.isEmpty() </b>
+<b class="nc">&nbsp;        &amp;&amp; ! PosTagHelper.hasPosTagPart(newAnalyzedTokens, &quot;:p:&quot;) ) {</b>
+<b class="nc">&nbsp;      if( (LemmaHelper.hasLemma(leftAnalyzedTokens, LemmaHelper.DAYS_OF_WEEK) &amp;&amp; LemmaHelper.hasLemma(rightAnalyzedTokens, LemmaHelper.DAYS_OF_WEEK))</b>
+<b class="nc">&nbsp;          || (LemmaHelper.hasLemma(leftAnalyzedTokens, LemmaHelper.MONTH_LEMMAS) &amp;&amp; LemmaHelper.hasLemma(rightAnalyzedTokens, LemmaHelper.MONTH_LEMMAS)) ) {</b>
+<b class="nc">&nbsp;        newAnalyzedTokens.add(new AnalyzedToken(word, newAnalyzedTokens.get(0).getPOSTag().replaceAll(&quot;:[mfn]:&quot;, &quot;:p:&quot;), newAnalyzedTokens.get(0).getLemma()));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+&nbsp;    // remove duplicates
+<b class="nc">&nbsp;    newAnalyzedTokens = new ArrayList&lt;&gt;(new LinkedHashSet&lt;&gt;(newAnalyzedTokens));</b>
+&nbsp;    
+<b class="nc">&nbsp;    if( newAnalyzedTokens.isEmpty() ) {</b>
+<b class="nc">&nbsp;      newAnalyzedTokens = newAnalyzedTokensAnimInanim;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( animInanimNotTagged != null &amp;&amp; newAnalyzedTokens.isEmpty() ) {</b>
+<b class="nc">&nbsp;      compoundDebugLogger.logUnknownCompound(word + &quot; &quot; + animInanimNotTagged);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private static String stripPerfImperf(String leftPosTag) {
+<b class="nc">&nbsp;    return leftPosTag.replaceAll(&quot;:(im)?perf|:&amp;adjp:(actv|pasv)&quot;, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private boolean isJuniorSenior(AnalyzedToken leftAnalyzedToken, AnalyzedToken rightAnalyzedToken) {
+<b class="nc">&nbsp;    return leftAnalyzedToken.getPOSTag().matches(&quot;.*?:[flp]name.*&quot;) &amp;&amp; rightAnalyzedToken.getLemma().matches(&quot;.*(молодший|старший)&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // right part is numr
+&nbsp;  @Nullable
+&nbsp;  private String getNumAgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
+<b class="nc">&nbsp;    String agreedPosTag = null;</b>
+&nbsp;    
+<b class="nc">&nbsp;    if( leftPosTag.contains(&quot;:p:&quot;) &amp;&amp; SING_REGEX_F.matcher(rightPosTag).find()</b>
+<b class="nc">&nbsp;        || SING_REGEX_F.matcher(leftPosTag).find() &amp;&amp; rightPosTag.contains(&quot;:p:&quot;)) {</b>
+<b class="nc">&nbsp;      String leftConj = PosTagHelper.getConj(leftPosTag);</b>
+<b class="nc">&nbsp;      if( leftConj != null &amp;&amp; leftConj.equals(PosTagHelper.getConj(rightPosTag)) ) {</b>
+<b class="nc">&nbsp;        agreedPosTag = leftPosTag;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return agreedPosTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private String getAgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv, String word) {
+<b class="nc">&nbsp;    boolean leftPlural = isPlural(leftPosTag);</b>
+<b class="nc">&nbsp;    boolean rightPlural = isPlural(rightPosTag);</b>
+<b class="nc">&nbsp;      if (leftPlural != rightPlural)</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    
+<b class="nc">&nbsp;    if( ! isSameAnimStatus(leftPosTag, rightPosTag) )</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    
+<b class="nc">&nbsp;    Matcher stdNounMatcherLeft = stdNounTagRegex.matcher(leftPosTag);</b>
+<b class="nc">&nbsp;    if( stdNounMatcherLeft.matches() ) {</b>
+<b class="nc">&nbsp;      Matcher stdNounMatcherRight = stdNounTagRegex.matcher(rightPosTag);</b>
+<b class="nc">&nbsp;      if (stdNounMatcherRight.matches()) {</b>
+<b class="nc">&nbsp;        String substring1 = stdNounMatcherLeft.group(2); //leftPosTag.substring(stdNounTagLen, stdNounTagLen + 3);</b>
+<b class="nc">&nbsp;        String substring2 = stdNounMatcherRight.group(2); //rightPosTag.substring(stdNounTagLen, stdNounTagLen + 3);</b>
+<b class="nc">&nbsp;        if( substring1.equals(substring2) ) {</b>
+<b class="nc">&nbsp;          if( ! stdNounMatcherLeft.group(1).equals(stdNounMatcherRight.group(1)) ) {</b>
+<b class="nc">&nbsp;            compoundDebugLogger.logGenderMix(word, leftNv, leftPosTag, rightPosTag);</b>
+&nbsp;            // yes for вчителька-педагог
+&nbsp;            // no for піт-стопа
+<b class="nc">&nbsp;            if( word.length() &lt; 10 )</b>
+<b class="nc">&nbsp;              return null;</b>
+&nbsp;          }
+&nbsp;          
+<b class="nc">&nbsp;          if( leftNv )</b>
+<b class="nc">&nbsp;            return rightPosTag;</b>
+&nbsp;
+<b class="nc">&nbsp;          return leftPosTag;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isMinMax(String rightToken) {
+<b class="nc">&nbsp;    return rightToken.equals(&quot;максимум&quot;)</b>
+<b class="nc">&nbsp;        || rightToken.equals(&quot;мінімум&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private String tryAnimInanim(String leftPosTag, String rightPosTag, String leftLemma, String rightLemma, boolean leftNv, boolean rightNv, String word) {
+<b class="nc">&nbsp;    String agreedPosTag = null;</b>
+&nbsp;    
+&nbsp;    // підприємство-банкрут
+<b class="nc">&nbsp;    if( leftMasterSet.contains(leftLemma) ) {</b>
+<b class="nc">&nbsp;      if( leftPosTag.contains(TAG_ANIM) ) {</b>
+<b class="nc">&nbsp;        rightPosTag = rightPosTag.replace(TAG_INANIM, TAG_ANIM);</b>
+&nbsp;      }
+&nbsp;      else {
+<b class="nc">&nbsp;        rightPosTag = rightPosTag.replace(TAG_ANIM, TAG_INANIM);</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, leftNv, word);</b>
+&nbsp;      
+<b class="nc">&nbsp;      if( agreedPosTag == null ) {</b>
+<b class="nc">&nbsp;        if (! leftPosTag.contains(TAG_ANIM)) {</b>
+<b class="nc">&nbsp;          if (MNP_ZNA_REGEX.matcher(leftPosTag).matches() &amp;&amp; MNP_NAZ_REGEX.matcher(rightPosTag).matches()</b>
+&nbsp;              &amp;&amp; ! leftNv &amp;&amp; ! rightNv ) {
+<b class="nc">&nbsp;            agreedPosTag = leftPosTag;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          if (MNP_ZNA_REGEX.matcher(leftPosTag).matches() &amp;&amp; MNP_ROD_REGEX.matcher(rightPosTag).matches()</b>
+&nbsp;              &amp;&amp; ! leftNv &amp;&amp; ! rightNv ) {
+<b class="nc">&nbsp;            agreedPosTag = leftPosTag;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+&nbsp;    }
+&nbsp;    // сонях-красень
+<b class="nc">&nbsp;    else if ( followerSet.contains(rightLemma) ) {</b>
+<b class="nc">&nbsp;      rightPosTag = rightPosTag.replace(&quot;:anim&quot;, &quot;:inanim&quot;);</b>
+<b class="nc">&nbsp;      agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, false, word);</b>
+<b class="nc">&nbsp;      if( agreedPosTag == null ) {</b>
+<b class="nc">&nbsp;        if (leftPosTag.contains(TAG_INANIM)) {</b>
+<b class="nc">&nbsp;          if (MNP_ZNA_REGEX.matcher(leftPosTag).matches() &amp;&amp; MNP_NAZ_REGEX.matcher(rightPosTag).matches()</b>
+<b class="nc">&nbsp;              &amp;&amp; PosTagHelper.getNum(leftPosTag).equals(PosTagHelper.getNum(rightPosTag))</b>
+&nbsp;              &amp;&amp; ! leftNv &amp;&amp; ! rightNv ) {
+<b class="nc">&nbsp;            agreedPosTag = leftPosTag;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // красень-сонях
+<b class="nc">&nbsp;    else if ( followerSet.contains(leftLemma) ) {</b>
+<b class="nc">&nbsp;      leftPosTag = leftPosTag.replace(&quot;:anim&quot;, &quot;:inanim&quot;);</b>
+<b class="nc">&nbsp;      agreedPosTag = getAgreedPosTag(rightPosTag, leftPosTag, false, word);</b>
+<b class="nc">&nbsp;      if( agreedPosTag == null ) {</b>
+<b class="nc">&nbsp;        if ( rightPosTag.contains(TAG_INANIM) ) {</b>
+<b class="nc">&nbsp;          if (MNP_ZNA_REGEX.matcher(rightPosTag).matches() &amp;&amp; MNP_NAZ_REGEX.matcher(leftPosTag).matches()</b>
+<b class="nc">&nbsp;              &amp;&amp; PosTagHelper.getNum(leftPosTag).equals(PosTagHelper.getNum(rightPosTag))</b>
+&nbsp;              &amp;&amp; ! leftNv &amp;&amp; ! rightNv ) {
+<b class="nc">&nbsp;            agreedPosTag = rightPosTag;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // else
+&nbsp;    // рослин-людожерів, слалому-гіганту, місяця-князя, депутатів-привидів
+&nbsp;    
+<b class="nc">&nbsp;    return agreedPosTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isSameAnimStatus(String leftPosTag, String rightPosTag) {
+<b class="nc">&nbsp;    boolean leftAnim = leftPosTag.contains(TAG_ANIM);</b>
+<b class="nc">&nbsp;    boolean rightAnim = rightPosTag.contains(TAG_ANIM);</b>
+<b class="nc">&nbsp;    return leftAnim == rightAnim;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isPlural(String posTag) {
+<b class="nc">&nbsp;    return posTag.startsWith(&quot;noun:&quot;) &amp;&amp; posTag.contains(&quot;:p:&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private List&lt;AnalyzedToken&gt; oAdjMatch(String word, List&lt;AnalyzedToken&gt; analyzedTokens, String leftWord) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;(analyzedTokens.size());</b>
+&nbsp;
+<b class="nc">&nbsp;    String leftBase = leftWord.substring(0, leftWord.length()-1);</b>
+&nbsp;    
+<b class="nc">&nbsp;    String extraTag = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if( ! LEFT_O_ADJ.contains(leftWord.toLowerCase(conversionLocale)) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; taggedWords = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;      // яскраво для яскраво-барвистий, три-чотириметровий
+<b class="nc">&nbsp;      taggedWords = tagBothCases(leftWord, Pattern.compile(&quot;^adv.*|.*?numr.*&quot;));</b>
+<b class="nc">&nbsp;      if( taggedWords.isEmpty() ) {</b>
+<b class="nc">&nbsp;        taggedWords = tagBothCases(oToYj(leftWord), Pattern.compile(&quot;^adj.*&quot;));  // кричущий для кричуще-яскравий</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if( taggedWords.isEmpty() &amp;&amp; leftWord.length() &gt; 4 ) {</b>
+<b class="nc">&nbsp;        taggedWords = tagBothCases(leftBase, Pattern.compile(&quot;^noun.*&quot;));         // паталог для паталого-анатомічний</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if( taggedWords.isEmpty() ) {</b>
+&nbsp;        // два для дво-триметровий, етико-філологічний
+<b class="nc">&nbsp;        taggedWords = tagBothCases(leftBase + &quot;а&quot;, Pattern.compile(&quot;(noun:inanim:f:v_naz|numr).*&quot;));   </b>
+&nbsp;      }
+<b class="nc">&nbsp;      if( taggedWords.isEmpty() )</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;
+&nbsp;      // важконапрацьований - разом
+<b class="nc">&nbsp;      if(! extraTag.equals(&quot;:bad&quot;)) {</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; allCapTokens = ukrainianTagger.analyzeAllCapitamizedAdj(word);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (taggedWords.get(0).getPosTag().startsWith(IPOSTag.adv.getText()) &amp;&amp; PosTagHelper.hasPosTagPart(analyzedTokens, &quot;adjp&quot;)) {</b>
+<b class="nc">&nbsp;          extraTag = &quot;:bad&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if ( PosTagHelper.hasPosTagPart2(taggedWords, &quot;:bad&quot;)) {</b>
+<b class="nc">&nbsp;          extraTag = &quot;:bad&quot;;</b>
+&nbsp;        }
+&nbsp;        // багато..., мало.... пишуться разом
+<b class="nc">&nbsp;        else if( LEFT_O_ADJ_INVALID.contains(leftWord.toLowerCase()) ) {</b>
+&nbsp;          // do not mark Центрально-Східної as :bad
+<b class="nc">&nbsp;          if( allCapTokens.isEmpty() ) {</b>
+<b class="nc">&nbsp;            extraTag = &quot;:bad&quot;;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;        else {
+&nbsp;          // do not mark Івано-Франківської as :bad
+<b class="nc">&nbsp;          if( allCapTokens.size() == 0 ) {</b>
+&nbsp;            // марк високо-продуктивний as :bad
+<b class="nc">&nbsp;            String noDashWord = word.replace(&quot;-&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;            List&lt;TaggedWord&gt; noDashWordList = tagAsIsAndWithLowerCase(noDashWord);</b>
+<b class="nc">&nbsp;            List&lt;AnalyzedToken&gt; noDashAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(noDashWord, noDashWordList);</b>
+&nbsp;
+<b class="nc">&nbsp;            if( ! noDashAnalyzedTokens.isEmpty() ) {</b>
+<b class="nc">&nbsp;              extraTag = &quot;:bad&quot;;</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : analyzedTokens) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag.startsWith( IPOSTag.adj.getText() ) ) {</b>
+<b class="nc">&nbsp;        if( posTag.contains(&quot;:comp&quot;) ) {</b>
+<b class="nc">&nbsp;          posTag = PosTagHelper.ADJ_COMP_REGEX.matcher(posTag).replaceFirst(&quot;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if( extraTag.contains(&quot;:bad&quot;) ) {</b>
+<b class="nc">&nbsp;          posTag = posTag.replace(&quot;:arch&quot;, &quot;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        posTag = PosTagHelper.addIfNotContains(posTag, extraTag);</b>
+&nbsp;
+<b class="nc">&nbsp;        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord.toLowerCase() + &quot;-&quot; + analyzedToken.getLemma()));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;    @Nullable
+&nbsp;    private List&lt;AnalyzedToken&gt; numrAdjMatch(String word, List&lt;AnalyzedToken&gt; analyzedTokens, String leftWord) {
+<b class="nc">&nbsp;      List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;(analyzedTokens.size());</b>
+&nbsp;
+<b class="nc">&nbsp;      String extraTag = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;      List&lt;TaggedWord&gt; taggedWords = wordTagger.tag(leftWord);</b>
+<b class="nc">&nbsp;      if( ! PosTagHelper.hasPosTagStart2(taggedWords, &quot;numr&quot;) )</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;
+<b class="nc">&nbsp;      String leftWordLowerCase = leftWord.toLowerCase();</b>
+&nbsp;
+&nbsp;      // двох-трьохметровий - bad
+<b class="nc">&nbsp;      if( leftWordLowerCase.matches(&quot;.*?(двох|трьох|чотирьох)&quot;) ) {</b>
+&nbsp;        //        taggedWords = wordTagger.tag(&quot;два&quot;);
+<b class="nc">&nbsp;        extraTag = &quot;:bad&quot;;</b>
+&nbsp;      }
+&nbsp;      // три-метровий - bad
+<b class="nc">&nbsp;      else if( analyzedTokens.size() &gt; 0 </b>
+<b class="nc">&nbsp;          &amp;&amp; ! analyzedTokens.get(0).getToken().matches(&quot;(?iu)(дво|три|чотири|п&#39;яти|шести|семи|вісьми|двох|трьох|чотирьох).+&quot;) ) {</b>
+<b class="nc">&nbsp;        extraTag = &quot;:bad&quot;;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : analyzedTokens) {</b>
+<b class="nc">&nbsp;        String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;        if( posTag.startsWith( IPOSTag.adj.getText() ) ) {</b>
+<b class="nc">&nbsp;          if( posTag.contains(&quot;:comp&quot;) ) {</b>
+<b class="nc">&nbsp;            posTag = PosTagHelper.ADJ_COMP_REGEX.matcher(posTag).replaceFirst(&quot;&quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if( ! posTag.contains(&quot;:bad&quot;) ) {</b>
+<b class="nc">&nbsp;            posTag += extraTag;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          String newLemma = leftWordLowerCase + &quot;-&quot; + analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;          newAnalyzedTokens.add(new AnalyzedToken(word, posTag, newLemma));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  private static String oToYj(String leftWord) {
+<b class="nc">&nbsp;    return leftWord.endsWith(&quot;ьо&quot;) </b>
+<b class="nc">&nbsp;        ? leftWord.substring(0, leftWord.length()-2) + &quot;ій&quot; </b>
+<b class="nc">&nbsp;        : leftWord.substring(0,  leftWord.length()-1) + &quot;ий&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static List&lt;AnalyzedToken&gt; getNvPrefixNounMatch(String word, List&lt;AnalyzedToken&gt; analyzedTokens, String leftWord, String extraTag) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;(analyzedTokens.size());</b>
+&nbsp;
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : analyzedTokens) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag.startsWith(IPOSTag.noun.getText() )</b>
+<b class="nc">&nbsp;          &amp;&amp; ! posTag.contains(&quot;v_kly&quot;) ) {</b>
+&nbsp;
+&nbsp;//        if( Arrays.asList(&quot;В2В&quot;, &quot;АІ&quot;, &quot;комьюніті&quot;, &quot;пресс&quot;).contains(leftWord) ) {
+&nbsp;//            posTag = PosTagHelper.addIfNotContains(posTag, &quot;:bad&quot;);
+&nbsp;//        }
+&nbsp;
+&nbsp;        // міні-БПЛА - ok for ua_2019 too
+<b class="nc">&nbsp;        if( ! extraTag.equals(&quot;:ua_1992&quot;) || ! Character.isUpperCase(analyzedToken.getLemma().charAt(0)) ) {</b>
+<b class="nc">&nbsp;          if( StringUtils.isNotEmpty(extraTag) ) {</b>
+<b class="nc">&nbsp;            posTag = PosTagHelper.addIfNotContains(posTag, extraTag);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        String newLemma = leftWord + &quot;-&quot; + analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, newLemma));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static List&lt;AnalyzedToken&gt; getNvPrefixLatWithAdjMatch(String word, List&lt;AnalyzedToken&gt; analyzedTokens, String leftWord) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;(analyzedTokens.size());</b>
+&nbsp;    
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : analyzedTokens) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;         if( posTag.startsWith(IPOSTag.adj.getText())    // n-векторний </b>
+<b class="nc">&nbsp;             &amp;&amp; ! posTag.contains(&quot;v_kly&quot;) ) {</b>
+<b class="nc">&nbsp;        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord + &quot;-&quot; + analyzedToken.getLemma()));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private List&lt;AnalyzedToken&gt; poAdvMatch(String word, List&lt;AnalyzedToken&gt; analyzedTokens, String adjTag) {
+&nbsp;    
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : analyzedTokens) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag.startsWith( adjTag ) ) {</b>
+<b class="nc">&nbsp;        return Arrays.asList(new AnalyzedToken(word, IPOSTag.adv.getText(), word));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private String capitalize(String word) {
+<b class="nc">&nbsp;    return word.substring(0, 1).toUpperCase(conversionLocale) + word.substring(1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;TaggedWord&gt; tagBothCases(String leftWord, Pattern posTagMatcher) {
+<b class="nc">&nbsp;    List&lt;TaggedWord&gt; leftWdList = wordTagger.tag(leftWord);</b>
+&nbsp;    
+<b class="nc">&nbsp;    String leftLowerCase = leftWord.toLowerCase(conversionLocale);</b>
+<b class="nc">&nbsp;    if( ! leftWord.equals(leftLowerCase)) {</b>
+<b class="nc">&nbsp;      leftWdList.addAll(wordTagger.tag(leftLowerCase));</b>
+&nbsp;    }
+&nbsp;    else {
+<b class="nc">&nbsp;      String leftUpperCase = capitalize(leftWord);</b>
+<b class="nc">&nbsp;      if( ! leftWord.equals(leftUpperCase)) {</b>
+<b class="nc">&nbsp;        leftWdList.addAll(wordTagger.tag(leftUpperCase));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if( posTagMatcher != null ) {</b>
+<b class="nc">&nbsp;      leftWdList = leftWdList.stream()</b>
+<b class="nc">&nbsp;          .filter(word -&gt; posTagMatcher.matcher(word.getPosTag()).matches())</b>
+<b class="nc">&nbsp;          .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return leftWdList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;TaggedWord&gt; tagAsIsAndWithLowerCase(String leftWord) {
+<b class="nc">&nbsp;    List&lt;TaggedWord&gt; leftWdList = wordTagger.tag(leftWord);</b>
+&nbsp;    
+<b class="nc">&nbsp;    String leftLowerCase = leftWord.toLowerCase(conversionLocale);</b>
+<b class="nc">&nbsp;    if( ! leftWord.equals(leftLowerCase)) {</b>
+<b class="nc">&nbsp;      leftWdList.addAll(wordTagger.tag(leftLowerCase));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return leftWdList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  
+&nbsp;  @Nullable
+&nbsp;  List&lt;AnalyzedToken&gt; guessOtherTags(String word) {
+<b class="fc">&nbsp;    List&lt;AnalyzedToken&gt; guessedTokens = guessOtherTagsInternal(word);</b>
+<b class="fc">&nbsp;    compoundDebugLogger.logTaggedCompound(guessedTokens);</b>
+<b class="fc">&nbsp;    return guessedTokens;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Nullable
+&nbsp;  private List&lt;AnalyzedToken&gt; guessOtherTagsInternal(String word) {
+<b class="pc">&nbsp;    if( word.length() &lt;= 7 </b>
+<b class="nc">&nbsp;        || ! UKR_LETTERS_PATTERN.matcher(word).matches() )</b>
+<b class="fc">&nbsp;      return null;</b>
+&nbsp;
+<b class="nc">&nbsp;    if( StringTools.isCapitalizedWord(word) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;      if (word.endsWith(&quot;штрассе&quot;)</b>
+<b class="nc">&nbsp;          || word.endsWith(&quot;штрасе&quot;)) {</b>
+<b class="nc">&nbsp;        String addPos = word.endsWith(&quot;штрассе&quot;) ? &quot;:alt&quot; : &quot;&quot;;</b>
+<b class="nc">&nbsp;        return PosTagHelper.generateTokensForNv(word, &quot;f&quot;, &quot;:prop&quot; + addPos);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (word.endsWith(&quot;дзе&quot;)</b>
+<b class="nc">&nbsp;          || word.endsWith(&quot;швілі&quot;)</b>
+<b class="nc">&nbsp;          || word.endsWith(&quot;іані&quot;) ) {</b>
+<b class="nc">&nbsp;        return PosTagHelper.generateTokensForNv(word, &quot;mf&quot;, &quot;:prop:lname&quot;);</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    String lowerCase = word.toLowerCase();</b>
+<b class="nc">&nbsp;    for(String prefix: noDashPrefixes) {</b>
+&nbsp;
+<b class="nc">&nbsp;      if( ! lowerCase.startsWith(prefix) )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      String right = word.substring(prefix.length(), word.length());</b>
+&nbsp;
+<b class="nc">&nbsp;      String apo = &quot;&quot;;</b>
+<b class="nc">&nbsp;      List&lt;String&gt; addTag = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;      if( right.startsWith(&quot;&#39;&quot;) ) { </b>
+<b class="nc">&nbsp;        right = right.substring(1);</b>
+<b class="nc">&nbsp;        apo = &quot;&#39;&quot;;</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      if( right.length() &lt; 2 )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      boolean apoNeeded = false;</b>
+<b class="nc">&nbsp;      if( &quot;єїюя&quot;.indexOf(right.charAt(0)) != -1</b>
+<b class="nc">&nbsp;          &amp;&amp; &quot;аеєиіїоуюя&quot;.indexOf(prefix.charAt(prefix.length()-1)) == -1) {</b>
+<b class="nc">&nbsp;        apoNeeded = true;</b>
+&nbsp;      }
+&nbsp;      // екс&#39;прес
+<b class="nc">&nbsp;      if( ! apoNeeded &amp;&amp; ! apo.isEmpty() ){</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( apoNeeded == apo.isEmpty() ){</b>
+<b class="nc">&nbsp;        addTag.add(&quot;:bad&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if( noDashPrefixes2019.contains(prefix) ) {</b>
+<b class="nc">&nbsp;        addTag.add(&quot;:ua_2019&quot;);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( right.length() &gt;= 4 &amp;&amp; ! StringTools.isCapitalizedWord(right) ) {</b>
+<b class="nc">&nbsp;        List&lt;TaggedWord&gt; rightWdList = wordTagger.tag(right);</b>
+<b class="nc">&nbsp;        rightWdList = PosTagHelper.filter2(rightWdList, PREFIX_NO_DASH_POSTAG_PATTERN);</b>
+<b class="nc">&nbsp;        rightWdList.removeIf(w -&gt; w.getPosTag().startsWith(&quot;noun:inanim&quot;) &amp;&amp; w.getPosTag().contains(&quot;v_kly&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;        if( rightWdList.size() &gt; 0 ) {</b>
+<b class="nc">&nbsp;          rightWdList = PosTagHelper.adjust(rightWdList, prefix+apo, null, addTag.toArray(new String[0]));</b>
+&nbsp;
+<b class="nc">&nbsp;          List&lt;AnalyzedToken&gt; compoundTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);</b>
+<b class="nc">&nbsp;          return compoundTokens;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

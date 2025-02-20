@@ -1,0 +1,300 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > OblidarseSugestionsFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: OblidarseSugestionsFilter (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OblidarseSugestionsFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/52)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/100)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2023 Jaume Ortolà
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.rules.patterns.PatternRule;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.ca.CatalanSynthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;/*
+&nbsp; * Suggestions for rule OBLIDARSE: se m&#39;ha oblidat -&gt; me n&#39;he oblidat, m&#39;he oblidat de
+&nbsp; */
+&nbsp;
+<b class="nc">&nbsp;public class OblidarseSugestionsFilter extends RuleFilter {</b>
+&nbsp;
+<b class="nc">&nbsp;  Language lang = Languages.getLanguageForShortCode(&quot;ca&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  Pattern pApostropheNeeded = Pattern.compile(&quot;h?[aeiouàèéíòóú].*&quot;, Pattern.CASE_INSENSITIVE);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addReflexiveVowel = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;1S&quot;, &quot;m&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;2S&quot;, &quot;t&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;3S&quot;, &quot;s&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;1P&quot;, &quot;ens &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;2P&quot;, &quot;us &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveVowel.put(&quot;3P&quot;, &quot;s&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addReflexiveConsonant = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;1S&quot;, &quot;em &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;2S&quot;, &quot;et &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;3S&quot;, &quot;es &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;1P&quot;, &quot;ens &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;2P&quot;, &quot;us &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveConsonant.put(&quot;3P&quot;, &quot;es &quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addReflexiveEnVowel = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addReflexiveEnVowel.put(&quot;1S&quot;, &quot;me n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnVowel.put(&quot;2S&quot;, &quot;te n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnVowel.put(&quot;3S&quot;, &quot;se n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnVowel.put(&quot;1P&quot;, &quot;ens n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnVowel.put(&quot;2P&quot;, &quot;us n&#39;&quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnVowel.put(&quot;3P&quot;, &quot;se n&#39;&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Map&lt;String, String&gt; addReflexiveEnConsonant = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    addReflexiveEnConsonant.put(&quot;1S&quot;, &quot;me&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnConsonant.put(&quot;2S&quot;, &quot;te&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnConsonant.put(&quot;3S&quot;, &quot;se&#39;n &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnConsonant.put(&quot;1P&quot;, &quot;ens en &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnConsonant.put(&quot;2P&quot;, &quot;us en &quot;);</b>
+<b class="nc">&nbsp;    addReflexiveEnConsonant.put(&quot;3P&quot;, &quot;se&#39;n &quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+<b class="nc">&nbsp;    int posWord = 0;</b>
+<b class="nc">&nbsp;    Synthesizer synth = getSynthesizerFromRuleMatch(match);</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    while (posWord &lt; tokens.length</b>
+<b class="nc">&nbsp;        &amp;&amp; (tokens[posWord].getStartPos() &lt; match.getFromPos() || tokens[posWord].isSentenceStart())) {</b>
+<b class="nc">&nbsp;      posWord++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String pronomPostag = tokens[posWord + 1].readingWithTagRegex(&quot;P.*&quot;).getPOSTag();</b>
+<b class="nc">&nbsp;    String pronomGenderNumber = pronomPostag.substring(2, 3) + pronomPostag.substring(4, 5);</b>
+<b class="nc">&nbsp;    int indexMainVerb = posWord + 2;</b>
+<b class="nc">&nbsp;    while (!tokens[indexMainVerb].hasAnyLemma(&quot;oblidar&quot;, &quot;descuidar&quot;, &quot;passar&quot;)) {</b>
+<b class="nc">&nbsp;      indexMainVerb++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String verbPostag = tokens[posWord + 2].readingWithTagRegex(&quot;V.*&quot;).getPOSTag();</b>
+<b class="nc">&nbsp;    String lemma = tokens[posWord + 2].readingWithTagRegex(&quot;V.*&quot;).getLemma();</b>
+<b class="nc">&nbsp;    if (lemma.equals(&quot;passar&quot;)) {</b>
+<b class="nc">&nbsp;      lemma = &quot;descuidar&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    AnalyzedToken at = new AnalyzedToken(&quot;&quot;, &quot;&quot;, lemma);</b>
+<b class="nc">&nbsp;    String[] synthForms = synth.synthesize(at,</b>
+<b class="nc">&nbsp;        verbPostag.substring(0, 4) + pronomGenderNumber + verbPostag.substring(6, 8));</b>
+<b class="nc">&nbsp;    String newVerb = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (synthForms.length == 0) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    newVerb = synthForms[0];</b>
+<b class="nc">&nbsp;    for (int i = posWord + 3; i &lt; indexMainVerb + 1; i++) {</b>
+<b class="nc">&nbsp;      newVerb = newVerb + tokens[i].getWhitespaceBefore() + tokens[i].getToken().replace(&quot;passar&quot;, &quot;descuidar&quot;)</b>
+<b class="nc">&nbsp;          .replace(&quot;passat&quot;, &quot;descuidat&quot;).replace(&quot;passant&quot;, &quot;descuidant&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    boolean verbVowel = pApostropheNeeded.matcher(newVerb).matches();</b>
+<b class="nc">&nbsp;    String wordAfter = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;    if (indexMainVerb + 1 &lt; tokens.length) {</b>
+<b class="nc">&nbsp;      AnalyzedToken wordAfterReading = tokens[indexMainVerb + 1].readingWithTagRegex(&quot;D.*|V.N.*|P[DI].*|NC.*&quot;);</b>
+<b class="nc">&nbsp;      if (wordAfterReading != null) {</b>
+<b class="nc">&nbsp;        wordAfter = wordAfterReading.getToken();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;String&gt; exceptionsList = Arrays.asList(&quot;com&quot;, &quot;de&quot;, &quot;d&#39;&quot;, &quot;que&quot;);</b>
+<b class="nc">&nbsp;      if (exceptionsList.contains(tokens[indexMainVerb + 1].getToken().toLowerCase())) {</b>
+<b class="nc">&nbsp;        wordAfter = tokens[indexMainVerb + 1].getToken();</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    Map&lt;String, String&gt; transform;
+<b class="nc">&nbsp;    if (wordAfter.isEmpty() &amp;&amp; !wordAfter.equalsIgnoreCase(&quot;de&quot;) &amp;&amp; !wordAfter.equalsIgnoreCase(&quot;d&#39;&quot;)</b>
+<b class="nc">&nbsp;      &amp;&amp; !wordAfter.equalsIgnoreCase(&quot;que&quot;)) {</b>
+<b class="nc">&nbsp;      transform = (verbVowel ? addReflexiveEnVowel : addReflexiveEnConsonant);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      transform = (verbVowel ? addReflexiveVowel : addReflexiveConsonant);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder suggBld = new StringBuilder();</b>
+<b class="nc">&nbsp;    suggBld.append(transform.get(pronomGenderNumber));</b>
+<b class="nc">&nbsp;    suggBld.append(newVerb);</b>
+<b class="nc">&nbsp;    boolean wordAfterApostrophe = false;</b>
+<b class="nc">&nbsp;    int charactersAfterCorrection = 0;</b>
+&nbsp;    // contracció de + el -&gt; del
+<b class="nc">&nbsp;    if (wordAfter.equalsIgnoreCase(&quot;el&quot;) || wordAfter.equalsIgnoreCase(&quot;els&quot;)) {</b>
+<b class="nc">&nbsp;      suggBld.append(&quot; d&quot;);</b>
+<b class="nc">&nbsp;      suggBld.append(wordAfter.toLowerCase());</b>
+<b class="nc">&nbsp;      charactersAfterCorrection = wordAfter.length() + 1;</b>
+&nbsp;      // apostrofació: de | d&#39;
+<b class="nc">&nbsp;    } else if (!wordAfter.isEmpty() &amp;&amp; !wordAfter.equalsIgnoreCase(&quot;de&quot;) &amp;&amp; !wordAfter.equalsIgnoreCase(&quot;d&#39;&quot;)</b>
+<b class="nc">&nbsp;      &amp;&amp; !wordAfter.equalsIgnoreCase(&quot;que&quot;)) {</b>
+<b class="nc">&nbsp;      wordAfterApostrophe = pApostropheNeeded.matcher(wordAfter).matches();</b>
+<b class="nc">&nbsp;      suggBld.append(wordAfterApostrophe ? &quot; d&#39;&quot; : &quot; de&quot;);</b>
+<b class="nc">&nbsp;      charactersAfterCorrection = (wordAfterApostrophe ? 1 : 0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String replacement = StringTools.preserveCase(suggBld.toString(), tokens[posWord].getToken());</b>
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    replacements.add(replacement);</b>
+<b class="nc">&nbsp;    for (String s : match.getSuggestedReplacements()) {</b>
+<b class="nc">&nbsp;      if (charactersAfterCorrection == 1) {</b>
+<b class="nc">&nbsp;        s = s + &quot; &quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      replacements.add(lang.adaptSuggestion(s));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (replacements.isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posWord].getStartPos(),</b>
+<b class="nc">&nbsp;        tokens[indexMainVerb].getEndPos() + charactersAfterCorrection,</b>
+<b class="nc">&nbsp;        match.getMessage().replace(&quot;passar&quot;, &quot;descuidar&quot;), match.getShortMessage());</b>
+<b class="nc">&nbsp;    ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;    ruleMatch.setSuggestedReplacements(replacements);</b>
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getLanguageVariantCode(RuleMatch match) {
+<b class="nc">&nbsp;    PatternRule pr = (PatternRule) match.getRule();</b>
+<b class="nc">&nbsp;    return pr.getLanguage().getShortCodeWithCountryAndVariant();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CompoundDebugLogger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: CompoundDebugLogger (org.languagetool.tagging.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CompoundDebugLogger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/55)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.tagging.uk;
+&nbsp;
+&nbsp;import java.io.BufferedWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helps to write down compound word tagging results so we can analyze the algorithm effectiveness
+&nbsp; */
+&nbsp;class CompoundDebugLogger {
+&nbsp;  private static final String DEBUG_COMPOUNDS_PROPERTY = &quot;org.languagetool.tagging.uk.UkrainianTagger.debugCompounds&quot;;
+&nbsp;
+&nbsp;  private BufferedWriter compoundUnknownDebugWriter;
+&nbsp;  private BufferedWriter compoundTaggedDebugWriter;
+&nbsp;  private BufferedWriter compoundGenderMixDebugWriter;
+&nbsp;  private BufferedWriter compoundTaggedLemmaDebugWriter;
+&nbsp;
+<b class="nc">&nbsp;  public CompoundDebugLogger() {</b>
+<b class="nc">&nbsp;    if( Boolean.valueOf( System.getProperty(DEBUG_COMPOUNDS_PROPERTY) ) ) {</b>
+<b class="nc">&nbsp;      initDebugCompounds();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private synchronized void initDebugCompounds() {
+<b class="nc">&nbsp;    if( compoundUnknownDebugWriter == null ) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        compoundUnknownDebugWriter = createDebugOutFile(&quot;compounds-unknown.txt&quot;);</b>
+<b class="nc">&nbsp;        compoundTaggedDebugWriter = createDebugOutFile(&quot;compounds-tagged.txt&quot;);</b>
+<b class="nc">&nbsp;        compoundTaggedLemmaDebugWriter = createDebugOutFile(&quot;compounds-lemma-tagged.txt&quot;);</b>
+<b class="nc">&nbsp;        compoundGenderMixDebugWriter = createDebugOutFile(&quot;gender-mix.txt&quot;);</b>
+&nbsp;      } catch (IOException ex) {
+<b class="nc">&nbsp;        System.err.println(&quot;Failed to open debug compounds file&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private BufferedWriter createDebugOutFile(String filename) throws IOException {
+<b class="nc">&nbsp;    Path unknownFile = Paths.get(filename);</b>
+<b class="nc">&nbsp;    Files.deleteIfExists(unknownFile);</b>
+<b class="nc">&nbsp;    unknownFile = Files.createFile(unknownFile);</b>
+<b class="nc">&nbsp;    return Files.newBufferedWriter(unknownFile, Charset.defaultCharset());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void logTaggedCompound(List&lt;AnalyzedToken&gt; guessedCompoundTags) {
+<b class="nc">&nbsp;    if( compoundTaggedDebugWriter == null || guessedCompoundTags == null )</b>
+&nbsp;      return;
+&nbsp;
+<b class="nc">&nbsp;    debug_tagged_write(guessedCompoundTags, compoundTaggedDebugWriter);</b>
+&nbsp;
+<b class="nc">&nbsp;    guessedCompoundTags.stream().map(t -&gt; t.getLemma()).collect(Collectors.toSet()).forEach( w -&gt;</b>
+<b class="nc">&nbsp;        logLine(compoundTaggedLemmaDebugWriter, w)</b>
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static int cnt = 0;</b>
+&nbsp;  public void logLine(BufferedWriter writer, String word) {
+<b class="nc">&nbsp;    if( writer == null )</b>
+&nbsp;      return;
+&nbsp;    
+&nbsp;    try {
+<b class="nc">&nbsp;      writer.append(word).append(&#39;\n&#39;);</b>
+<b class="nc">&nbsp;      if( ++cnt % 10 == 0) writer.flush();</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  void logUnknownCompound(String word) {
+<b class="nc">&nbsp;    logLine(compoundUnknownDebugWriter, word);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void debug_tagged_write(List&lt;AnalyzedToken&gt; analyzedTokens, BufferedWriter writer) {
+<b class="nc">&nbsp;    if( analyzedTokens.isEmpty()</b>
+<b class="nc">&nbsp;        || analyzedTokens.get(0).getLemma() == null </b>
+<b class="nc">&nbsp;        || analyzedTokens.get(0).getToken().trim().isEmpty() )</b>
+&nbsp;      return;
+&nbsp;
+&nbsp;    try {
+<b class="nc">&nbsp;      String prevToken = &quot;&quot;;</b>
+<b class="nc">&nbsp;      String prevLemma = &quot;&quot;;</b>
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : analyzedTokens) {</b>
+<b class="nc">&nbsp;        String token = analyzedToken.getToken();</b>
+&nbsp;        
+<b class="nc">&nbsp;        boolean firstTag = false;</b>
+<b class="nc">&nbsp;        if (! prevToken.equals(token)) {</b>
+<b class="nc">&nbsp;          if( prevToken.length() &gt; 0 ) {</b>
+<b class="nc">&nbsp;            writer.append(&quot;;  &quot;);</b>
+<b class="nc">&nbsp;            prevLemma = &quot;&quot;;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          writer.append(token).append(&#39; &#39;);</b>
+<b class="nc">&nbsp;          prevToken = token;</b>
+<b class="nc">&nbsp;          firstTag = true;</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        String lemma = analyzedToken.getLemma();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (! prevLemma.equals(lemma)) {</b>
+<b class="nc">&nbsp;          if( prevLemma.length() &gt; 0 ) {</b>
+<b class="nc">&nbsp;            writer.append(&quot;, &quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          writer.append(lemma); //.append(&#39; &#39;);</b>
+<b class="nc">&nbsp;          prevLemma = lemma;</b>
+<b class="nc">&nbsp;          firstTag = true;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        writer.append(firstTag ? &quot; &quot; : &quot;|&quot;).append(analyzedToken.getPOSTag());</b>
+<b class="nc">&nbsp;        firstTag = false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      writer.newLine();</b>
+<b class="nc">&nbsp;      if( ++cnt % 10 == 0) writer.flush();</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void logGenderMix(String word, boolean leftNv, String leftPosTag, String rightPosTag) {
+<b class="nc">&nbsp;    if( compoundGenderMixDebugWriter != null ) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        compoundGenderMixDebugWriter.append(word + &quot; &quot; + (leftNv ? rightPosTag : leftPosTag));</b>
+<b class="nc">&nbsp;        compoundGenderMixDebugWriter.newLine();</b>
+<b class="nc">&nbsp;        compoundGenderMixDebugWriter.flush();</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        System.err.println(&quot;Failed to write into gender mix file&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

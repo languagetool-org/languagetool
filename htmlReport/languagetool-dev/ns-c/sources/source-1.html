@@ -1,0 +1,297 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AfterTheDeadlineEvaluator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.eval</a>
+</div>
+
+<h1>Coverage Summary for Class: AfterTheDeadlineEvaluator (org.languagetool.dev.eval)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AfterTheDeadlineEvaluator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44.4%
+  </span>
+  <span class="absValue">
+    (4/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (12/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.7%
+  </span>
+  <span class="absValue">
+    (32/75)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.eval;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.ExampleSentence;
+&nbsp;import org.languagetool.rules.IncorrectExample;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.w3c.dom.Document;
+&nbsp;import org.w3c.dom.NodeList;
+&nbsp;import org.xml.sax.InputSource;
+&nbsp;
+&nbsp;import javax.xml.parsers.DocumentBuilder;
+&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+&nbsp;import javax.xml.xpath.XPath;
+&nbsp;import javax.xml.xpath.XPathConstants;
+&nbsp;import javax.xml.xpath.XPathExpressionException;
+&nbsp;import javax.xml.xpath.XPathFactory;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.StringReader;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Runs incorrect example sentences from grammar.xml against an
+&nbsp; * After the Deadline instance reachable via http.
+&nbsp; * @since 2.6
+&nbsp; */
+&nbsp;class AfterTheDeadlineEvaluator {
+&nbsp;
+&nbsp;  private static final int WAIT_TIME_MILLIS = 1000;
+&nbsp;
+&nbsp;  private final String urlPrefix;
+&nbsp;
+<b class="fc">&nbsp;  AfterTheDeadlineEvaluator(String urlPrefix) {</b>
+<b class="fc">&nbsp;    this.urlPrefix = urlPrefix;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void run(Language lang) throws IOException, InterruptedException {
+<b class="nc">&nbsp;    List&lt;Rule&gt; rules = getRules(lang);</b>
+<b class="nc">&nbsp;    int sentenceCount = 0;</b>
+<b class="nc">&nbsp;    int errorFoundCount = 0;</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Starting test for &quot; + lang.getName() + &quot; on &quot; + urlPrefix);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Wait time between HTTP requests: &quot; + WAIT_TIME_MILLIS + &quot;ms&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Starting test on &quot; + rules.size() + &quot; rules&quot;);</b>
+<b class="nc">&nbsp;    for (Rule rule : rules) {</b>
+<b class="nc">&nbsp;      if (rule.isDefaultOff()) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Skipping rule that is off by default: &quot; + rule.getId());</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;IncorrectExample&gt; incorrectExamples = rule.getIncorrectExamples();</b>
+<b class="nc">&nbsp;      System.out.println(&quot;\n&quot; + rule.getId() + &quot;:&quot;);</b>
+<b class="nc">&nbsp;      if (incorrectExamples.isEmpty()) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot; (no examples)&quot;);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      for (IncorrectExample example : incorrectExamples) {</b>
+<b class="nc">&nbsp;        boolean match = queryAtDServer(example);</b>
+<b class="nc">&nbsp;        sentenceCount++;</b>
+<b class="nc">&nbsp;        if (match) {</b>
+<b class="nc">&nbsp;          errorFoundCount++;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String marker = match ? &quot;+&quot; : &quot;-&quot;;</b>
+<b class="nc">&nbsp;        System.out.println(&quot;  [&quot; + marker + &quot;] &quot; + example.getExample().replace(&quot;&lt;marker&gt;&quot;, &quot;&lt;m&gt;&quot;).replace(&quot;&lt;/marker&gt;&quot;, &quot;&lt;/m&gt;&quot;));</b>
+<b class="nc">&nbsp;        Thread.sleep(WAIT_TIME_MILLIS);</b>
+&nbsp;      }
+&nbsp;      //use this to stop: if (sentenceCount &gt; 100) { break; }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;\nDone.&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Sentence count: &quot; + sentenceCount);</b>
+<b class="nc">&nbsp;    float percentage = (float)errorFoundCount / sentenceCount * 100;</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;Expected errors found: &quot; + errorFoundCount + &quot; (%.2f%%)\n&quot;, percentage);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Rule&gt; getRules(Language lang) throws IOException {
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;    return lt.getAllActiveRules();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean queryAtDServer(IncorrectExample example) {
+<b class="nc">&nbsp;    String sentence = ExampleSentence.cleanMarkersInExample(example.getExample());</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      URL url = new URL(urlPrefix + URLEncoder.encode(sentence, &quot;UTF-8&quot;));</b>
+<b class="nc">&nbsp;      String result = getContent(url);</b>
+<b class="nc">&nbsp;      if (isExpectedErrorFound(example, result)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getContent(URL url) throws IOException {
+<b class="nc">&nbsp;    final InputStream contentStream = (InputStream) url.getContent();</b>
+<b class="nc">&nbsp;    return StringTools.streamToString(contentStream, &quot;UTF-8&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean isExpectedErrorFound(IncorrectExample incorrectExample, String resultXml) throws XPathExpressionException {
+<b class="fc">&nbsp;    String example = incorrectExample.getExample();</b>
+<b class="fc">&nbsp;    Document document = getDocument(resultXml);</b>
+<b class="fc">&nbsp;    XPath xPath = XPathFactory.newInstance().newXPath();</b>
+<b class="fc">&nbsp;    NodeList errorStrings = (NodeList)xPath.evaluate(&quot;//string/text()&quot;, document, XPathConstants.NODESET);</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; errorStrings.getLength(); i++) {</b>
+<b class="fc">&nbsp;      String errorStr = errorStrings.item(i).getNodeValue();</b>
+<b class="pc">&nbsp;      if (errorStr.isEmpty()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      List&lt;Integer&gt; errorStartPosList = getStartPositions(incorrectExample, errorStr);</b>
+<b class="fc">&nbsp;      List&lt;String&gt; mismatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;      for (Integer errorStartPos : errorStartPosList) {</b>
+<b class="fc">&nbsp;        int errorEndPos = errorStartPos + errorStr.length();</b>
+<b class="fc">&nbsp;        int expectedErrorStartPos = example.indexOf(&quot;&lt;marker&gt;&quot;);</b>
+<b class="fc">&nbsp;        int expectedErrorEndPos = errorStartPos + errorStr.length();</b>
+<b class="pc">&nbsp;        if (errorStartPos == expectedErrorStartPos &amp;&amp; errorEndPos == expectedErrorEndPos) {</b>
+<b class="fc">&nbsp;          return true;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          mismatches.add(&quot;Position mismatch: &quot; + errorStartPos + &quot;-&quot; + errorEndPos + &quot; != &quot; + expectedErrorStartPos + &quot;-&quot; + expectedErrorEndPos);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      for (String mismatch : mismatches) {</b>
+<b class="fc">&nbsp;        System.out.println(&quot;  &quot; + mismatch);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Integer&gt; getStartPositions(IncorrectExample example, String searchStr) {
+<b class="fc">&nbsp;    List&lt;Integer&gt; posList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int pos = 0;</b>
+<b class="fc">&nbsp;    String sentence = ExampleSentence.cleanMarkersInExample(example.getExample());</b>
+<b class="fc">&nbsp;    while ((pos = sentence.indexOf(searchStr, pos)) != -1) {</b>
+<b class="fc">&nbsp;      posList.add(pos);</b>
+<b class="fc">&nbsp;      pos++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return posList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Document getDocument(String xml) {
+&nbsp;    try {
+<b class="fc">&nbsp;      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();</b>
+<b class="fc">&nbsp;      DocumentBuilder builder = factory.newDocumentBuilder();</b>
+<b class="fc">&nbsp;      InputSource inputSource = new InputSource(new StringReader(xml));</b>
+<b class="fc">&nbsp;      return builder.parse(inputSource);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not parse XML: &quot; + xml);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="nc">&nbsp;    if (args.length != 2) {</b>
+<b class="nc">&nbsp;      System.err.println(&quot;Usage: &quot; + AfterTheDeadlineEvaluator.class.getSimpleName() + &quot; &lt;langCode&gt; &lt;urlPrefix&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;  &lt;urlPrefix&gt; After the Deadline instance, e.g. &#39;http://de.service.afterthedeadline.com/checkDocument?key=test&amp;data=&#39;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    AfterTheDeadlineEvaluator evaluator = new AfterTheDeadlineEvaluator(args[1]);</b>
+<b class="nc">&nbsp;    evaluator.run(Languages.getLanguageForShortCode(args[0]));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,837 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > German</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: German (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">German</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/98)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/364)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.chunking.Chunker;
+&nbsp;import org.languagetool.chunking.GermanChunker;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.de.*;
+&nbsp;import org.languagetool.rules.de.LongSentenceRule;
+&nbsp;import org.languagetool.rules.de.SentenceWhitespaceRule;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
+&nbsp;import org.languagetool.synthesis.GermanSynthesizer;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.de.GermanTagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
+&nbsp;import org.languagetool.tokenizers.CompoundWordTokenizer;
+&nbsp;import org.languagetool.tokenizers.SRXSentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+&nbsp;import org.languagetool.tokenizers.de.GermanWordTokenizer;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;
+&nbsp;/**
+&nbsp; * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
+&nbsp; * if you need spell checking.
+&nbsp; */
+&nbsp;public class German extends LanguageWithModel {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern TYPOGRAPHY_PATTERN = compile(&quot;\\b([a-zA-Z]\\.)([a-zA-Z]\\.)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern AI_DE_GGEC_MISSING_PUNCT =</b>
+<b class="nc">&nbsp;    compile(&quot;AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|AI_DE_GGEC_REPLACEMENT_CONFUSION&quot;, Pattern.CASE_INSENSITIVE);</b>
+&nbsp;  private static final String GERMAN_SHORT_CODE = &quot;de&quot;;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @deprecated use {@link GermanyGerman}, {@link AustrianGerman}, or {@link SwissGerman} instead -
+&nbsp;   *  they have rules for spell checking, this class doesn&#39;t (deprecated since 3.2)
+&nbsp;   */
+&nbsp;  @Deprecated
+<b class="nc">&nbsp;  public German() {</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public Language getDefaultLanguageVariant() {
+<b class="nc">&nbsp;    return GermanyGerman.getInstance();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return new GermanSpellerRule(messages, this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public GermanSpellerRule getDefaultSpellingRule() {
+<b class="nc">&nbsp;    return (GermanSpellerRule) Objects.requireNonNull(super.getDefaultSpellingRule());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new GermanRuleDisambiguator(getDefaultLanguageVariant());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Chunker createDefaultPostDisambiguationChunker() {
+<b class="nc">&nbsp;    return new GermanChunker();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;German&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="nc">&nbsp;    return GERMAN_SHORT_CODE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="nc">&nbsp;    return new String[]{&quot;LU&quot;, &quot;LI&quot;, &quot;BE&quot;};</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return GermanTagger.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;    return GermanSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;    return new SRXSentenceTokenizer(this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[] {</b>
+&nbsp;        new Contributor(&quot;Jan Schreiber&quot;),
+&nbsp;        Contributors.DANIEL_NABER,
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;            new GermanCommaWhitespaceRule(messages,
+<b class="nc">&nbsp;                    Example.wrong(&quot;Die Partei&lt;marker&gt; ,&lt;/marker&gt; die die letzte Wahl gewann.&quot;),</b>
+<b class="nc">&nbsp;                    Example.fixed(&quot;Die Partei&lt;marker&gt;,&lt;/marker&gt; die die letzte Wahl gewann.&quot;),</b>
+<b class="nc">&nbsp;                    Tools.getUrl(&quot;https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen&quot;)),</b>
+&nbsp;            new GermanUnpairedBracketsRule(messages, this),
+&nbsp;            new GermanUnpairedQuotesRule(messages, this),
+&nbsp;            new UppercaseSentenceStartRule(messages, this,
+<b class="nc">&nbsp;                    Example.wrong(&quot;Das Haus ist alt. &lt;marker&gt;es&lt;/marker&gt; wurde 1950 gebaut.&quot;),</b>
+<b class="nc">&nbsp;                    Example.fixed(&quot;Das Haus ist alt. &lt;marker&gt;Es&lt;/marker&gt; wurde 1950 gebaut.&quot;),</b>
+<b class="nc">&nbsp;                    Tools.getUrl(&quot;https://languagetool.org/insights/de/beitrag/gross-klein-schreibung-rechtschreibung/#1-satzanf%C3%A4nge-schreiben-wir-gro%C3%9F&quot;)),</b>
+&nbsp;            new MultipleWhitespaceRule(messages, this),
+&nbsp;            new WhiteSpaceBeforeParagraphEnd(messages, this),
+&nbsp;            new WhiteSpaceAtBeginOfParagraph(messages),
+&nbsp;            new EmptyLineRule(messages, this),
+&nbsp;            new LongParagraphRule(messages, this, userConfig),
+&nbsp;            new PunctuationMarkAtParagraphEnd(messages, this),
+&nbsp;            // specific to German:
+&nbsp;            new SimpleReplaceRule(messages, this),
+&nbsp;            new OldSpellingRule(messages, this),
+&nbsp;            new SentenceWhitespaceRule(messages),
+&nbsp;            new GermanDoublePunctuationRule(messages),
+&nbsp;            new MissingVerbRule(messages, this),
+&nbsp;            new GermanWordRepeatRule(messages, this),
+&nbsp;            new GermanWordRepeatBeginningRule(messages, this),
+&nbsp;            new GermanWrongWordInContextRule(messages, this),
+&nbsp;            new AgreementRule(messages, this),
+&nbsp;            new AgreementRule2(messages, this),
+&nbsp;            new CaseRule(messages, this),
+&nbsp;            new DashRule(messages),
+&nbsp;            new VerbAgreementRule(messages, this),
+&nbsp;            new SubjectVerbAgreementRule(messages, this),
+&nbsp;            new WordCoherencyRule(messages),
+&nbsp;            new SimilarNameRule(messages),
+&nbsp;            new WiederVsWiderRule(messages),
+&nbsp;            new GermanStyleRepeatedWordRule(messages, this, userConfig),
+&nbsp;            new CompoundCoherencyRule(messages),
+&nbsp;            new LongSentenceRule(messages, userConfig, 40),
+&nbsp;            new GermanFillerWordsRule(messages, this, userConfig),
+&nbsp;            new PassiveSentenceRule(messages, this, userConfig),
+&nbsp;            new SentenceWithModalVerbRule(messages, this, userConfig),
+&nbsp;            new SentenceWithManRule(messages, this, userConfig),
+&nbsp;            new ConjunctionAtBeginOfSentenceRule(messages, this, userConfig),
+&nbsp;            new NonSignificantVerbsRule(messages, this, userConfig),
+&nbsp;            new UnnecessaryPhraseRule(messages, this, userConfig),
+&nbsp;            new GermanParagraphRepeatBeginningRule(messages, this),
+&nbsp;            new DuUpperLowerCaseRule(messages),
+&nbsp;            new UnitConversionRule(messages),
+&nbsp;            new MissingCommaRelativeClauseRule(messages),
+&nbsp;            new MissingCommaRelativeClauseRule(messages, true),
+&nbsp;            new RedundantModalOrAuxiliaryVerb(messages),
+&nbsp;            new GermanReadabilityRule(messages, this, userConfig, true),
+&nbsp;            new GermanReadabilityRule(messages, this, userConfig, false),
+&nbsp;            new CompoundInfinitivRule(messages, this, userConfig),
+&nbsp;            new StyleRepeatedVeryShortSentences(messages, this, userConfig),
+&nbsp;            new StyleRepeatedSentenceBeginning(messages),
+&nbsp;            new GermanRepeatedWordsRule(messages),
+&nbsp;            new StyleTooOftenUsedVerbRule(messages, this, userConfig),
+&nbsp;            new StyleTooOftenUsedNounRule(messages, this, userConfig),
+&nbsp;            new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  public CompoundWordTokenizer getNonStrictCompoundSplitter() {
+<b class="nc">&nbsp;    GermanCompoundTokenizer tokenizer = GermanCompoundTokenizer.getNonStrictInstance();  // there&#39;s a spelling mistake in (at least) one part, so strict mode wouldn&#39;t split the word</b>
+<b class="nc">&nbsp;    return word -&gt; new ArrayList&lt;&gt;(tokenizer.tokenize(word));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  public GermanCompoundTokenizer getStrictCompoundTokenizer() {
+<b class="nc">&nbsp;    return GermanCompoundTokenizer.getStrictInstance();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.1 */
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;      new UpperCaseNgramRule(messages, languageModel, this),
+&nbsp;      new GermanConfusionProbabilityRule(messages, languageModel, this),
+&nbsp;      new ProhibitedCompoundRule(messages, languageModel, userConfig, this)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;    return new GermanWordTokenizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;„&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;“&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningSingleQuote() {
+<b class="nc">&nbsp;    return &quot;‚&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingSingleQuote() {
+<b class="nc">&nbsp;    return &quot;‘&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public boolean isAdvancedTypographyEnabled() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String toAdvancedTypography(String input) {
+<b class="nc">&nbsp;    String output = super.toAdvancedTypography(input);</b>
+&nbsp;    //non-breaking space
+<b class="nc">&nbsp;    output = TYPOGRAPHY_PATTERN.matcher(output).replaceAll(&quot;$1\u00a0$2&quot;);</b>
+<b class="nc">&nbsp;    output = TYPOGRAPHY_PATTERN.matcher(output).replaceAll(&quot;$1\u00a0$2&quot;);</b>
+<b class="nc">&nbsp;    return output;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;    return LanguageMaintainedState.ActivelyMaintained;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private final static Map&lt;String, Integer&gt; id2prio = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_PROHIBITED_PHRASE&quot;, 11);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WRONG_SPELLING_PREMIUM_INTERNAL&quot;, 10);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;OLD_SPELLING_RULE&quot;, 10);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_COMPOUNDS&quot;, 10);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;E_MAIL_SIGNATUR&quot;, 10);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TELEFON_NR&quot;, 10);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IRGEND_COMPOUND&quot;, 10);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DA_DURCH&quot;, 2); // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BEI_GOOGLE&quot;, 2);   // prefer over agreement rules and VOR_BEI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EINE_ORIGINAL_RECHNUNG_TEST&quot;, 2);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VON_SEITEN_RECOMMENDATION&quot;, 2);   // prefer over AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AUFFORDERUNG_SIE&quot;, 2);   // prefer over AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WEIS_ICH&quot;, 2);   // prefer over AI_DE_GGEC_*</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VONSTATTEN_GEHEN&quot;, 2);   // prefer over EINE_ORIGINAL_RECHNUNG</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERWECHSLUNG_MIR_DIR_MIR_DIE&quot;, 1); // prefer over MIR_DIR</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ERNEUERBARE_ENERGIEN&quot;, 1); // prefer over VEREINBAREN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DRIVE_IN&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DIES_MAL&quot;, 1); // prefer over GROSSSCHREIBUNG_MAL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AN_STATT&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VOR_BEI&quot;, 1); // prefer over BEI_BEHALTEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SUB_VER_KLEIN&quot;, 1); // prefer over casing rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ALLES_GUTE&quot;, 1); // prefer over premium rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NEUN_NEUEN&quot;, 1); // prefer over VIELZAHL_PLUS_SINGULAR</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERWANDET_VERWANDTE&quot;, 1); // prefer over DE_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IN_DEUTSCHE_SPRACHE&quot;, 1); // prefer over most other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SCHMIERE_STEHEN&quot;, 1); // prefer over most other rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UEBER_EIN_MANGEL&quot;, 1); // prefer over PRAEP_AKK</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEIT_LAENGEREN&quot;, 1); // prefer over DE_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WIR_GEFUEHL&quot;, 1); // prefer over DE_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VORHER_NACHHER_BILD&quot;, 1); // prefer over DE_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEIT_KLEIN_AUF&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEIT_GEBURT_AN&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WO_VON&quot;, 1); // prefer over most agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ICH_BIN_STAND_JETZT_KOMMA&quot;, 1); // prefer over most agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EIN_LOGGEN&quot;, 1); // prefer over most agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZU_GENÜGE&quot;, 1);   // prefer over ZU_KOENNE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEIT_BEKANNT_WERDEN&quot;, 1);   // prefer over agreement and comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IMPFLICHT&quot;, 1);   // prefer over agreement rules DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NULL_KOMMA_NICHTS&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZWEI_AN_HALB&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BLUETOOTH_LAUTSPRECHER&quot;, 1);   // prefer over agreement rules</b>
+&nbsp;    //id2prio.put(&quot;KOENNT_ICH&quot;, 1);   // prefer over DE_VERBAGREEMENT
+<b class="nc">&nbsp;    id2prio.put(&quot;WIR_HABE&quot;, 1);   // prefer over DE_VERBAGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DAS_IST_GLAUBE_ICH_EGAL&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ICH_KOENNT&quot;, 1);   // prefer over DE_VERBAGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HAT_DU&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HAST_DICH&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GRUNDE&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EIN_FACH&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WOGEN_SUBST&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SO_WIES_IST&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SICH_SICHT&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MIT_VERANTWORTLICH&quot;, 1);   // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VOR_LACHEN&quot;, 1);   // prefer over ZUSAMMENGESETZTE_VERBEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TOUREN_SUBST&quot;, 1);   // prefer over ZUSAMMENGESETZTE_VERBEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AUF_DRÄNGEN&quot;, 1);   // prefer over ZUSAMMENGESETZTE_VERBEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AUF_ZACK&quot;, 1);   // prefer over ZUSAMMENGESETZTE_VERBEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UNTER_DRUCK&quot;, 1);   // prefer over ZUSAMMENGESETZTE_VERBEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZUCCHINIS&quot;, 1);   // overwrite spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PASSWORTE&quot;, 1);   // overwrite agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ANGL_PA_ED_UNANGEMESSEN&quot;, 1);   // overwrite spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ANFUEHRUNGSZEICHEN_DE_AT&quot;, 1); // higher prio than UNPAIRED_BRACKETS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ANFUEHRUNGSZEICHEN_CH_FR&quot;, 1); // higher prio than UNPAIRED_BRACKETS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EMAIL&quot;, 1);  // better suggestion than SIMPLE_AGREEMENT_*</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IM_STICH_LASSEN&quot;, 1);  // higher prio than agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZULANGE&quot;, 1);  // better suggestion than SAGT_RUFT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ROCK_N_ROLL&quot;, 1);  // better error than DE_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;JOE_BIDEN&quot;, 1);  // better error than DE_CASE</b>
+&nbsp;    //id2prio.put(&quot;RESOURCE_RESSOURCE&quot;, 1);  // better error than DE_CASE
+<b class="nc">&nbsp;    id2prio.put(&quot;ANS_OHNE_APOSTROPH&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DIESEN_JAHRES&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TAG_EIN_TAG_AUS&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WERT_SEIN&quot;, 1); // prefer over DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EBEN_FALLS&quot;, 1);</b>
+&nbsp;    //id2prio.put(&quot;DA_DRAUS&quot;, 1);
+<b class="nc">&nbsp;    id2prio.put(&quot;AUSSER_ORDENTLICH&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IN_UND_AUSWENDIG&quot;, 1); // prefer over DE_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HIER_MIT&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HIER_FUER&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MIT_REISSEN&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;JEDEN_FALLS&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MOEGLICHER_WEISE_ETC&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UST_ID&quot;, 1);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;INS_FITNESS&quot;, 1); // prefer over DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MIT_UNTER&quot;, 1); // prefer over agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEIT_VS_SEID&quot;, 1); // prefer over some agreement rules (HABE_BIN from premium)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZU_KOMMEN_LASSEN&quot;, 1); // prefer over INFINITIVGRP_VERMOD_PKT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZU_SCHICKEN_LASSEN&quot;, 1); // prefer over INFINITIVGRP_VERMOD_PKT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IM_UM&quot;, 1); // prefer over MIT_MIR and IM_ERSCHEINUNG (premium)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EINEN_VERSUCH_WERT&quot;, 1); // prefer over DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DASS_DAS_PA2_DAS_PROIND&quot;, 1); // prefer over HILFSVERB_HABEN_SEIN, DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AUF_BITTEN&quot;, 1); // prefer over ZUSAMMENGESETZTE_VERBEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MEINET_WEGEN&quot;, 1); // prefer over AUF_DEM_WEG</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FUER_INSBESONDERE&quot;, 1); // prefer over KOMMA_VOR_ERLAEUTERUNG</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COVID_19&quot;, 1); // prefer over PRAEP_GEN and DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DA_VOR&quot;, 1); // prefer over ZUSAMMENGESETZTE_VERBEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DAS_WUENSCHE_ICH&quot;, 1); // prefer over DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KLEINSCHREIBUNG_MAL&quot;, 1); // prefer over DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERINF_DAS_DASS_SUB&quot;, 1); // prefer over DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IM_ALTER&quot;, 1); // prefer over ART_ADJ_SOL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DAS_ALTER&quot;, 1); // prefer over ART_ADJ_SOL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER_INF_PKT_VER_INF&quot;, 1); // prefer over DE_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DASS_MIT_VERB&quot;, 1); // prefer over SUBJUNKTION_KOMMA (&quot;Dass wird Konsequenzen haben.&quot;)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AB_TEST&quot;, 1); // prefer over spell checker and agreement</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BZGL_ABK&quot;, 1); // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DURCH_WACHSEN&quot;, 1); // prefer over SUBSTANTIVIERUNG_NACH_DURCH</b>
+&nbsp;    //id2prio.put(&quot;ICH_WARTE&quot;, 1); // prefer over verb agreement rules (e.g. SUBJECT_VERB_AGREEMENT)
+<b class="nc">&nbsp;    id2prio.put(&quot;RUNDUM_SORGLOS_PAKET&quot;, 1); // higher prio than DE_CASE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MIT_FREUNDLICHEN_GRUESSE&quot;, 1); // higher prio than MEIN_KLEIN_HAUS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;OK&quot;, 1); // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EINE_ORIGINAL_RECHNUNG&quot;, 1); // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS</b>
+&nbsp;    //id2prio.put(&quot;VALENZ_TEST&quot;, 1); // see if this generates more corpus matches
+<b class="nc">&nbsp;    id2prio.put(&quot;WAEHRUNGSANGABEN_CHF&quot;, 1); // higher prio than WAEHRUNGSANGABEN_KOMMA</b>
+&nbsp;    // default is 0
+<b class="nc">&nbsp;    id2prio.put(&quot;FALSCHES_ANFUEHRUNGSZEICHEN&quot;, -1); // less prio than most grammar rules but higher prio than UNPAIRED_BRACKETS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER_KOMMA_PRO_RIN&quot;, -1); // prefer WENN_WEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER_INF_VER_INF&quot;, -1); // prefer id2prio.put(rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_COMPOUND_COHERENCY&quot;, -1);  // prefer EMAIL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GEFEATURED&quot;, -1); // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NUMBER_SUB&quot;, -1); // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MFG&quot;, -1); // prefer over spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER123_VERAUXMOD&quot;, -1); // prefer casing rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_AGREEMENT&quot;, -1);  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_AGREEMENT2&quot;, -1);  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KOMMA_NEBEN_UND_HAUPTSATZ&quot;, -1);  // prefer SAGT_RUFT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FALSCHES_RELATIVPRONOMEN&quot;, -1); // prefer dass/das rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AKZENT_STATT_APOSTROPH&quot;, -1);  // lower prio than PLURAL_APOSTROPH</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BEENDE_IST_SENTEND&quot;, -1); // prefer more specific rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER_ADJ_ZU_SCHLAFEN&quot;, -1); // prefer ETWAS_GUTES</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MIO_PUNKT&quot;, -1); // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AUSLASSUNGSPUNKTE_LEERZEICHEN&quot;, -1); // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IM_ERSCHEINUNG_SPELLING_RULE&quot;, -1); // prefer ZUM_FEM_NOMEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SPACE_BEFORE_OG&quot;, -1); // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERSEHENTLICHERWEISE&quot;, -1); // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERMOD_SKIP_VER_PKT&quot;, -1); // less prio than casing rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;N_NETTER_TYP&quot;, -1); // higher prio than EINZELBUCHSTABE_PREMIUM and speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EINZELBUCHSTABE_PREMIUM&quot;, -2);  // lower prio than &quot;A_LA_CARTE&quot;</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ART_IND_ADJ_SUB&quot;, -2);  // prefer DE_AGREEMENT rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KATARI&quot;, -2); // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SCHOENE_WETTER&quot;, -2); // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MEIN_KLEIN_HAUS&quot;, -2); // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UNPAIRED_BRACKETS&quot;, -2);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_UNPAIRED_QUOTES&quot;, -2); // less prio than FALSCHES_ANFUEHRUNGSZEICHEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ICH_GLAUBE_FUER_EUCH&quot;, -2); // prefer agreement rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;OBJECT_AGREEMENT&quot;, -2); // less prio than DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ICH_INF_PREMIUM&quot;, -2); // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MEHRERE_WOCHE_PREMIUM&quot;, -2);  // less prio than DE_AGREEMENT</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DOPPELTER_NOMINATIV&quot;, -2);  // give precedence to wie-wir-wird confusion rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KUDAMM&quot;, -2);   // overwrite spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ALTERNATIVEN_FUER_ANGLIZISMEN&quot;, -2);   // overwrite spell checker</b>
+&nbsp;    //id2prio.put(&quot;ANGLIZISMUS_INTERNAL&quot;, -2);   // overwrite spell checker
+<b class="nc">&nbsp;    id2prio.put(&quot;DOPPELUNG_VER_MOD_AUX&quot;, -2);</b>
+&nbsp;    //id2prio.put(&quot;AERZTEN_INNEN&quot;, -2);  // overwrite speller (&quot;Ärzte/-innen&quot;)
+<b class="nc">&nbsp;    id2prio.put(&quot;ANGLIZISMEN&quot;, -2);   // overwrite spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ANGLIZISMUS_PA_MIT_ED&quot;, -2);   // overwrite spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MEINSTE&quot;, -2);   // overwrite spell checker</b>
+&nbsp;    //id2prio.put(&quot;ZAHL_IM_WORT&quot;, -2); //should not override rules like H2O
+<b class="nc">&nbsp;    id2prio.put(&quot;ICH_LIEBS&quot;, -2);  // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WENNS_UND_ABERS&quot;, -2);  // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ABERS_SATZANFANG_SPELLING_RULE&quot;, -2);  // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERNEB&quot;, -2);  // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZAHL_IM_WORT_SPELLING_RULE&quot;, -2); // higher prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GERMAN_SPELLER_RULE&quot;, -3);  // assume most other rules are more specific and helpful than the spelling rule</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;AUSTRIAN_GERMAN_SPELLER_RULE&quot;, -3);  // assume most other rules are more specific and helpful than the spelling rule</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SWISS_GERMAN_SPELLER_RULE&quot;, -3);  // assume most other rules are more specific and helpful than the spelling rule</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_VERBAGREEMENT&quot;, -4); // prefer more specific rules (e.g DU_WUENSCHT) and speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;UPPERCASE_SENTENCE_START&quot;, -4);  // prefer speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PUNKT_ENDE_DIREKTE_REDE&quot;, -4); // prefer speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN&quot;, -4); // prefer speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZEICHENSETZUNG_DIREKTE_REDE&quot;, -4); // prefer speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GROSSSCHREIBUNG_WOERTLICHER_REDE&quot;, -4); // prefer speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IM_IHM_SPELLING_RULE&quot;, -4);  // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;IN_UNKNOWNKLEIN_VER&quot;, -4);  // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SEHR_GEEHRTER_NAME&quot;, -4);  // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_PHRASE_REPETITION&quot;, -4);  // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FRAGEZEICHEN_NACH_DIREKTER_REDE&quot;, -4);  // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PUNCTUATION_PARAGRAPH_END&quot;, -4);  // don&#39;t hide spelling mistakes</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;F_ANSTATT_PH_2&quot;, -4);  // don&#39;t hide spelling mistakes</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DAS_WETTER_IST&quot;, -5); // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VEREIZ_VERINF_PKT&quot;, -5); // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WER_STARK_SCHWITZ&quot;, -5); // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERBEN_PRAEFIX_AUS&quot;, -5); // lower prio than spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ANFUEHRUNG_VERSCHACHTELT&quot;, -5);  // lower prio than speller and FALSCHES_ANFUEHRUNGSZEICHEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SATZBAU_AN_DEN_KOMMT&quot;, -5);  // lower prio than rules that give a suggestion</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SUBJECT_VERB_AGREEMENT&quot;, -5); // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SAGT_SAGT&quot;, -9); // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2 and GERMAN_WORD_REPEAT_RULE</b>
+&nbsp;    //id2prio.put(&quot;PUNKT_ENDE_ABSATZ&quot;, -10);  // should never hide other errors, as chance for a false alarm is quite high
+&nbsp;    //id2prio.put(&quot;KOMMA_VOR_RELATIVSATZ&quot;, -10);
+<b class="nc">&nbsp;    id2prio.put(&quot;VON_LEBENSLAEUFE_SPELLING_RULE&quot;, -12); // less prio than AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER_WER_VER_3&quot;, -12); // less prio than AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PA_WAS&quot;, -12); // less prio than AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ICH_GEHE_DU_BLEIBST&quot;, -12); // prefer ICH_GLAUBE_FUER_EUCH and less prio than AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PROPERNOMSIN_VERIMPSIN&quot;, -12); // less prio than AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DIESE_HABE_ER_BELEIDIGTE&quot;, -12); // less prio than AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER123_VERAUXMOD_TEST1&quot;, -12); // less prio than AI to produce a single suggestion</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ZUSAMMENGESETZTE_VERBEN&quot;, -12); // less prio than most more specific rules and AI</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_VER_PRGK&quot;, -13); // lower prio than ZUSAMMENGESETZTE_VERBEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COMMA_IN_FRONT_RELATIVE_CLAUSE&quot;, -13); // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SAGT_RUFT&quot;, -13); // prefer id2prio.put(rules, DE_VERBAGREEMENT, AI and speller</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KANNST_WERDEN&quot;, -13); // prefer more specific rules that offer a suggestion (A.I., spelling)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2&quot;, -14); // lower prio than SAGT_SAGT, but higher than GERMAN_WORD_REPEAT_RULE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MAN_SIEHT_SEHR_SCHOEN&quot;, -14); // prefer over SEHR_SCHOEN</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BEI_VERB&quot;, -14); // prefer case, spelling and AI rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;MODALVERB_FLEKT_VERB&quot;, -14); // prefer case, spelling and AI rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DATIV_NACH_PRP&quot;, -14); // spelling and AI rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DAT_ODER_AKK_NACH_PRP&quot;, -14); // prefer more specific rules that offer a suggestion (A.I., spelling)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENT_START_SIN_PLU&quot;, -14); // prefer more specific rules that offer a suggestion (A.I., spelling)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SENT_START_PLU_SIN&quot;, -14); // prefer more specific rules that offer a suggestion (A.I., spelling)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER_INFNOMEN&quot;, -14);  // prefer spelling and AI rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GERMAN_WORD_REPEAT_RULE&quot;, -15); // lower prio than SAGT_RUFT and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TOO_LONG_PARAGRAPH&quot;, -15);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ALL_UPPERCASE&quot;, -15);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;NUR_LEDIGLICH&quot;, -16); // lower prio than GERMAN_WORD_REPEAT_RULE</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COMMA_BEHIND_RELATIVE_CLAUSE&quot;, -52); // less prio than AI_DE_HYDRA_LEO</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DOPPELUNG_MODALVERB&quot;, -52); // prefer comma rules (DOPPELUNG_MODALVERB, AI)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VER_DOPPELUNG&quot;, -52); // prefer comma rules (including AI)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DEF_ARTIKEL_INDEF_ADJ&quot;, -52); // less prio than DE_AGREMEENT and less prio than most comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;PRP_ADJ_AGREEMENT&quot;, -52); // less prio than DE_AGREMEENT and less prio than most comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SIE_WOLLTEN_SIND&quot;, -52);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ART_ADJ_SOL&quot;, -52); // prefer comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WURDEN_WORDEN_1&quot;, -52); // prefer comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WAR_WAHR&quot;, -52); // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ&quot;, -53);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERB_IST&quot;, -53); // less prio than comma rules and spell checker</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;WAR_WERDEN&quot;, -53); // less prio than comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;INF_VER_MOD_SPELLING_RULE&quot;, -53); // prefer case, spelling and AI rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DOPPELTES_VERB&quot;, -53); // prefer comma rules (including AI)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERB_FEM_SUBST&quot;, -54); // prefer comma rules (including AI)</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;SUBJUNKTION_KOMMA_2&quot;, -54); // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DOPPELUNG_GLEICHES_VERB&quot;, -55); // prefer comma rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;FEHLENDES_NOMEN&quot;, -60); // lower prio than most rules</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;REPETITIONS_STYLE&quot;, -60);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GERMAN_WORD_REPEAT_BEGINNING_RULE&quot;, -61); </b>
+&nbsp;    // Category ids - make sure style issues don&#39;t hide overlapping &quot;real&quot; errors:
+<b class="nc">&nbsp;    id2prio.put(&quot;TYPOGRAPHY&quot;, -14);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;COLLOQUIALISMS&quot;, -15);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;STYLE&quot;, -15);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;REDUNDANCY&quot;, -15);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;GENDER_NEUTRALITY&quot;, -15);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;String, Integer&gt; getPriorityMap() {
+<b class="nc">&nbsp;    return id2prio;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="nc">&nbsp;    Integer prio = id2prio.get(id);</b>
+<b class="nc">&nbsp;    if (prio != null) {</b>
+<b class="nc">&nbsp;      return prio;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;DE_PROHIBITED_COMPOUNDS_&quot;) || id.startsWith(&quot;DE_PROHIBITED_COMPOUNDS_PREMIUM_&quot;)) {   // don&#39;t hide spelling mistakes</b>
+<b class="nc">&nbsp;      return -4;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;DE_MULTITOKEN_SPELLING&quot;)) {</b>
+<b class="nc">&nbsp;      return -2;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CONFUSION_RULE_&quot;)) {</b>
+<b class="nc">&nbsp;      return -1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_DE_HYDRA_LEO&quot;)) { // prefer more specific rules (also speller)</b>
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_DE_HYDRA_LEO_MISSING_COMMA&quot;)) {</b>
+<b class="nc">&nbsp;        return -51; // prefer comma style rules.</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_DE_HYDRA_LEO_CP&quot;)) {</b>
+<b class="nc">&nbsp;        return 2;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_DE_HYDRA_LEO_DATAKK&quot;)) {</b>
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return -11;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_DE_KOMMA&quot;)) {</b>
+<b class="nc">&nbsp;      return -52; // prefer comma style rules and AI_DE_HYDRA_LEO_MISSING_COMMA</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_DE_GGEC&quot;)) {</b>
+&nbsp;      // gGEC IDs that should have less prio than rules with default prio
+&nbsp;      // e. g. ABKUERZUNG_FEHLENDE_PUNKTE
+<b class="nc">&nbsp;      switch (id) {</b>
+&nbsp;        case &quot;AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL&quot;:  // less prio than EMAIL
+<b class="nc">&nbsp;          return 0;</b>
+&nbsp;        case &quot;AI_DE_GGEC_REPLACEMENT_ADJECTIVE&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_REPLACEMENT_ADVERB&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_REPLACEMENT_NOUN&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_REPLACEMENT_OTHER&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_REPLACEMENT_VERB&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_REPLACEMENT_VERB_FORM&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_UNNECESSARY_OTHER&quot;:
+&nbsp;        case &quot;AI_DE_GGEC_UNNECESSARY_SPACE&quot;:
+<b class="nc">&nbsp;          return -1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD&quot;)) {  // less prio than spell checker</b>
+<b class="nc">&nbsp;        return -4;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_DE_GGEC_UNNECESSARY_PUNCTUATION&quot;)) {  // less prio than FALSCHES_ANFUEHRUNGSZEICHEN</b>
+<b class="nc">&nbsp;        return -2;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (AI_DE_GGEC_MISSING_PUNCT.matcher(id).find()) {</b>
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return 1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return super.getPriorityForId(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean hasMinMatchesRules() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;RuleMatch&gt; filterRuleMatches(List&lt;RuleMatch&gt; ruleMatches, AnnotatedText text, Set&lt;String&gt; enabledRules) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; resultMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    RuleMatch previousMatch = null;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; ruleMatches.size(); i++) {</b>
+<b class="nc">&nbsp;      RuleMatch currentMatch = ruleMatches.get(i);</b>
+<b class="nc">&nbsp;      List&lt;String&gt; suggestions = currentMatch.getSuggestedReplacements();</b>
+&nbsp;      // ignore adding punctuation at the sentence end
+<b class="nc">&nbsp;      if (suggestions.size()==1 &amp;&amp; currentMatch.getRule().getId().startsWith(&quot;AI_DE_GGEC&quot;)) {</b>
+<b class="nc">&nbsp;        String suggestion = suggestions.get(0);</b>
+<b class="nc">&nbsp;        if (currentMatch.getRule().getId().equals(&quot;AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD&quot;) &amp;&amp; suggestion.endsWith(&quot;.&quot;)) {</b>
+<b class="nc">&nbsp;          if (currentMatch.getSentence().getText().replaceAll(&quot;\\s+$&quot;, &quot;&quot;).endsWith(suggestion.substring(0, suggestion.length() - 1))) {</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (previousMatch != null &amp;&amp; previousMatch.getRule().getId().startsWith(&quot;AI_DE_GGEC&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;        currentMatch.getRule().getId().startsWith(&quot;AI_DE_GGEC&quot;)) {</b>
+<b class="nc">&nbsp;        if (previousMatch.getToPos() &gt; currentMatch.getFromPos()) {</b>
+&nbsp;          continue;  // Skip overlapping matches
+&nbsp;        }
+&nbsp;        // Check if matches are adjacent and share the same &#39;picky&#39; status
+<b class="nc">&nbsp;        if ((previousMatch.getToPos() == currentMatch.getFromPos() || previousMatch.getToPos() + 1 == currentMatch.getFromPos()) &amp;&amp;</b>
+<b class="nc">&nbsp;          (previousMatch.getRule().getTags().contains(Tag.picky) == currentMatch.getRule().getTags().contains(Tag.picky))) {</b>
+&nbsp;          // Merge if they have the same ITSIssueType
+<b class="nc">&nbsp;          if (previousMatch.getRule().getLocQualityIssueType() == currentMatch.getRule().getLocQualityIssueType()) {</b>
+<b class="nc">&nbsp;            RuleMatch mergedMatch = new RuleMatch(mergeMatches(previousMatch, currentMatch));</b>
+<b class="nc">&nbsp;            previousMatch = mergedMatch;</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;          // If matches have different ITSIssueTypes but neither is a style match, merge them
+<b class="nc">&nbsp;          if (previousMatch.getRule().getLocQualityIssueType() != currentMatch.getRule().getLocQualityIssueType() &amp;&amp;</b>
+<b class="nc">&nbsp;            previousMatch.getRule().getLocQualityIssueType() != ITSIssueType.Style &amp;&amp; currentMatch.getRule().getLocQualityIssueType() != ITSIssueType.Style) {</b>
+<b class="nc">&nbsp;            RuleMatch mergedMatch = new RuleMatch(mergeMatches(previousMatch, currentMatch));</b>
+<b class="nc">&nbsp;            previousMatch = mergedMatch;</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // If no merge happened, add the previous match to results
+<b class="nc">&nbsp;        resultMatches.add(previousMatch);</b>
+<b class="nc">&nbsp;        previousMatch = currentMatch;  // Move to next match</b>
+&nbsp;      } else {
+&nbsp;        // Ensure current match becomes previous if no merging criteria are met
+<b class="nc">&nbsp;        if (previousMatch != null) {</b>
+<b class="nc">&nbsp;          resultMatches.add(previousMatch);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        previousMatch = currentMatch;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // Add the last processed match if it exists and hasn&#39;t been added yet
+<b class="nc">&nbsp;    if (previousMatch != null) {</b>
+<b class="nc">&nbsp;      resultMatches.add(previousMatch);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return resultMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;  private RuleMatch mergeMatches(RuleMatch match1, RuleMatch match2) {
+&nbsp;    // Calculate separator based on position
+<b class="nc">&nbsp;    String separator = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (match1.getToPos() + 1 == match2.getFromPos()) {</b>
+<b class="nc">&nbsp;      separator = &quot; &quot;;</b>
+&nbsp;    }
+&nbsp;    // Merge original error strings and suggested replacements
+<b class="nc">&nbsp;    String newErrorStr = match1.getOriginalErrorStr() + separator + match2.getOriginalErrorStr();</b>
+<b class="nc">&nbsp;    String newReplacement = match1.getSuggestedReplacements().get(0) + separator + match2.getSuggestedReplacements().get(0);</b>
+&nbsp;
+&nbsp;    // Create a new merged RuleMatch object
+<b class="nc">&nbsp;    RuleMatch mergedMatch = new RuleMatch(match1.getRule(), match1.getSentence(), match1.getFromPos(), match2.getToPos(),</b>
+&nbsp;      &quot;Hier scheint es einen Fehler zu geben.&quot;, &quot;Potenzieller Fehler&quot;);
+<b class="nc">&nbsp;    mergedMatch.setOriginalErrorStr(newErrorStr);</b>
+<b class="nc">&nbsp;    mergedMatch.setSuggestedReplacement(newReplacement);</b>
+&nbsp;
+&nbsp;    // Create a new specific rule ID based on conditions
+<b class="nc">&nbsp;    String newId = &quot;AI_DE_MERGED_MATCH&quot;;</b>
+<b class="nc">&nbsp;    mergedMatch.setSpecificRuleId(newId);</b>
+&nbsp;
+&nbsp;    // If issue types differ, set to Grammar unless both are Style
+<b class="nc">&nbsp;    if (match1.getRule().getLocQualityIssueType() != match2.getRule().getLocQualityIssueType()) {</b>
+<b class="nc">&nbsp;      mergedMatch.getRule().setLocQualityIssueType(ITSIssueType.Grammar);</b>
+<b class="nc">&nbsp;    } else if (match1.getRule().getLocQualityIssueType() == ITSIssueType.Style &amp;&amp; match2.getRule().getLocQualityIssueType() == ITSIssueType.Style) {</b>
+<b class="nc">&nbsp;      mergedMatch.getRule().setLocQualityIssueType(ITSIssueType.Style);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return mergedMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; prepareLineForSpeller(String line) {
+<b class="nc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String[] parts = line.split(&quot;#&quot;);</b>
+<b class="nc">&nbsp;    if (parts.length == 0) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] formTag = parts[0].split(&quot;[/]&quot;);</b>
+<b class="nc">&nbsp;    if (formTag.length == 0) {</b>
+<b class="nc">&nbsp;      return Collections.singletonList(&quot;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String form = formTag[0];</b>
+<b class="nc">&nbsp;    results.add(form);</b>
+<b class="nc">&nbsp;    String tag = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (formTag.length==2) {</b>
+<b class="nc">&nbsp;      tag = formTag[1];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (tag.contains(&quot;E&quot;)) {</b>
+<b class="nc">&nbsp;      results.add(form + &quot;e&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (tag.contains(&quot;S&quot;)) {</b>
+<b class="nc">&nbsp;      results.add(form + &quot;s&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (tag.contains(&quot;N&quot;)) {</b>
+<b class="nc">&nbsp;      results.add(form + &quot;n&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MultitokenSpeller getMultitokenSpeller() {
+<b class="nc">&nbsp;    return GermanMultitokenSpeller.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This is a safety method if subclass forgets to create a getInstance method and API user going to invoke it via subclass.
+&nbsp;   */
+&nbsp;  public static @NotNull German getInstance() {
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;You should not obtain the German language instance. Use getInstance method of derived language class instead. Or maybe subclass did not implement the getInstance method.&quot;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

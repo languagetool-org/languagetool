@@ -1,0 +1,222 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PostReformPortugueseCompoundRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: PostReformPortugueseCompoundRule (org.languagetool.rules.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PostReformPortugueseCompoundRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.pt;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;
+&nbsp;/**
+&nbsp; * Checks that compounds (if in the list) are not written as separate words.
+&nbsp; * @since 2.6
+&nbsp; */
+&nbsp;public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern VOWEL = compile(&quot;(?i).+[aeiou]$&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern RS = compile(&quot;(?i)^[rs].+&quot;);</b>
+&nbsp;
+&nbsp;  private static volatile CompoundRuleData compoundData;
+&nbsp;
+&nbsp;  public PostReformPortugueseCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {    
+<b class="nc">&nbsp;    super(messages, lang, userConfig,</b>
+&nbsp;            &quot;Esta palavra é hifenizada.&quot;,
+&nbsp;            &quot;Esta palavra é composta por justaposição.&quot;,
+&nbsp;            &quot;Esta palavra pode ser composta por justaposição ou hifenizada.&quot;,
+&nbsp;            &quot;Este conjunto forma uma palavra composta.&quot;);
+<b class="nc">&nbsp;    super.setCategory(Categories.COMPOUNDING.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Grammar);</b>
+<b class="nc">&nbsp;    useSubRuleSpecificIds();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;PT_COMPOUNDS_POST_REFORM&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Erro na formação da palavra composta \&quot;$match\&quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public URL getUrl() {
+<b class="nc">&nbsp;    return Tools.getUrl(&quot;https://pt.wikipedia.org/wiki/Lista_das_alterações_previstas_pelo_acordo_ortográfico_de_1990&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public CompoundRuleData getCompoundRuleData() {
+<b class="nc">&nbsp;    CompoundRuleData data = compoundData;</b>
+<b class="nc">&nbsp;    if (data == null) {</b>
+<b class="nc">&nbsp;      synchronized (PostReformPortugueseCompoundRule.class) {</b>
+<b class="nc">&nbsp;        data = compoundData;</b>
+<b class="nc">&nbsp;        if (data == null) {</b>
+<b class="nc">&nbsp;          compoundData = data = new CompoundRuleData(&quot;/pt/post-reform-compounds.txt&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return data;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // This override is here to account for Portuguese transformations required as per the latest orthography:
+&nbsp;  // ultra + som  =&gt; ultrassom (with &lt;s&gt; turned into &lt;ss&gt; to keep the sound).
+&nbsp;  @Override
+&nbsp;  public String mergeCompound(String str, boolean uncapitalizeMidWords) {
+<b class="nc">&nbsp;    String[] stringParts = str.replace(&quot;-&quot;, &quot; &quot;).split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (int k = 0; k &lt; stringParts.length; k++) {</b>
+<b class="nc">&nbsp;      if (k == 0) {</b>
+<b class="nc">&nbsp;        sb.append(stringParts[0]);</b>
+&nbsp;      } else {
+&nbsp;        // if previous element ends in vowel and current one starts with &lt;r&gt; or &lt;s&gt;, we need to double the letter into
+&nbsp;        // a digraph that creates the sound we want
+<b class="nc">&nbsp;        if (VOWEL.matcher(stringParts[k - 1]).matches() &amp;&amp; RS.matcher(stringParts[k]).matches()) {</b>
+<b class="nc">&nbsp;          stringParts[k] = stringParts[k].charAt(0) + stringParts[k];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        sb.append(uncapitalizeMidWords ? StringUtils.uncapitalize(stringParts[k]) : stringParts[k]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

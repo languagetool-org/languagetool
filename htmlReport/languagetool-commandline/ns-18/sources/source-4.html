@@ -1,0 +1,259 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UnicodeBasedDetector</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language.identifier.detector</a>
+</div>
+
+<h1>Coverage Summary for Class: UnicodeBasedDetector (org.languagetool.language.identifier.detector)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UnicodeBasedDetector</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35%
+  </span>
+  <span class="absValue">
+    (35/100)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.5%
+  </span>
+  <span class="absValue">
+    (40/65)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language.identifier.detector;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class UnicodeBasedDetector {
+&nbsp;
+&nbsp;  private static final int DEFAULT_MAX_CHECK_LENGTH = 50;
+&nbsp;  private static final float THRESHOLD = 0.5f;
+&nbsp;  private final int maxCheckLength;
+&nbsp;
+&nbsp;  public UnicodeBasedDetector() {
+<b class="fc">&nbsp;    this(DEFAULT_MAX_CHECK_LENGTH);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public UnicodeBasedDetector(int maxCheckLength) {</b>
+<b class="fc">&nbsp;    this.maxCheckLength = maxCheckLength;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getDominantLangCodes(String str) {
+&nbsp;    // For a more complete list of script/language relations,
+&nbsp;    // see https://unicode-org.github.io/cldr-staging/charts/37/supplemental/scripts_and_languages.html
+&nbsp;    // Another more complete approach might be to use Character.UnicodeScript.of() for each character.
+<b class="fc">&nbsp;    int arabicChars = 0;</b>
+<b class="fc">&nbsp;    int cyrillicChars = 0;</b>
+<b class="fc">&nbsp;    int cjkChars = 0;</b>
+<b class="fc">&nbsp;    int khmerChars = 0;</b>
+<b class="fc">&nbsp;    int tamilChars = 0;</b>
+<b class="fc">&nbsp;    int greekChars = 0;</b>
+<b class="fc">&nbsp;    int devanagariChars = 0;</b>
+<b class="fc">&nbsp;    int thaiChars = 0;</b>
+<b class="fc">&nbsp;    int hebrewChars = 0;</b>
+<b class="fc">&nbsp;    int hangulChars = 0;</b>
+<b class="fc">&nbsp;    int significantChars = 0;</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; Math.min(str.length(), maxCheckLength); i++) {</b>
+<b class="fc">&nbsp;      int val = str.charAt(i);</b>
+<b class="pc">&nbsp;      if (!Character.isWhitespace(val) &amp;&amp; !Character.isDigit(val) &amp;&amp; val != &#39;.&#39;) {</b>
+<b class="fc">&nbsp;        significantChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0x0600 &amp;&amp; val &lt;= 0x06FF) {</b>
+<b class="nc">&nbsp;        arabicChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0x0400 &amp;&amp; val &lt;= 0x04FF) {</b>
+<b class="nc">&nbsp;        cyrillicChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0x4E00 &amp;&amp; val &lt;= 0x9FFF ||</b>
+&nbsp;              val &gt;= 0x3040 &amp;&amp; val &lt;= 0x309F ||
+&nbsp;              val &gt;= 0x30A0 &amp;&amp; val &lt;= 0x30FF) {  // https://de.wikipedia.org/wiki/Japanische_Schrift
+&nbsp;        // there might be a better way to tell Chinese from Japanese, but we rely
+&nbsp;        // on the actual language identifier in a later step, so finding candidates is enough here
+<b class="nc">&nbsp;        cjkChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0x1780 &amp;&amp; val &lt;= 0x17FF) {</b>
+<b class="nc">&nbsp;        khmerChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0xB82 &amp;&amp; val &lt;= 0xBFA) {</b>
+<b class="nc">&nbsp;        tamilChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0x0370 &amp;&amp; val &lt;= 0x03FF || val &gt;= 0x1F00 &amp;&amp; val &lt;= 0x1FFF) {</b>
+<b class="nc">&nbsp;        greekChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0x0900 &amp;&amp; val &lt;= 0x097F) {</b>
+<b class="nc">&nbsp;        devanagariChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0x0E00 &amp;&amp; val &lt;= 0x0E7F) {</b>
+<b class="nc">&nbsp;        thaiChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0x0590 &amp;&amp; val &lt;= 0x05FF || val &gt;= 0xFB1D &amp;&amp; val &lt;= 0xFB40) {</b>
+<b class="nc">&nbsp;        hebrewChars++;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (val &gt;= 0xAC00 &amp;&amp; val &lt;= 0xD7AF ||  // https://en.wikipedia.org/wiki/Hangul</b>
+&nbsp;              val &gt;= 0x1100 &amp;&amp; val &lt;= 0x11FF ||
+&nbsp;              val &gt;= 0x3130 &amp;&amp; val &lt;= 0x318F ||
+&nbsp;              val &gt;= 0xA960 &amp;&amp; val &lt;= 0xA97F ||
+&nbsp;              val &gt;= 0xD7B0 &amp;&amp; val &lt;= 0xD7FF) {
+<b class="nc">&nbsp;        hangulChars++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    List&lt;String&gt; langCodes = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if ((float) arabicChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;ar&quot;);</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;fa&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) cyrillicChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;ru&quot;);</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;uk&quot;);</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;be&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) cjkChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;zh&quot;);</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;ja&quot;);</b>
+&nbsp;      // Korean: see hangulChars
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) khmerChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;km&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) tamilChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;ta&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) greekChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;el&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) devanagariChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;hi&quot;);</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;mr&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) thaiChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;th&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) hebrewChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;he&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if ((float) hangulChars / significantChars &gt;= THRESHOLD) {</b>
+<b class="nc">&nbsp;      langCodes.add(&quot;ko&quot;);</b>
+&nbsp;    }
+&nbsp;    //System.out.println(&quot;CJK: &quot; + cjkChars);
+&nbsp;    //System.out.println(&quot;Hangul: &quot; + hangulChars);
+&nbsp;    //
+&nbsp;    // NOTE: if you add languages here that LT doesn&#39;t support, also update LanguageIdentifier.detectLanguage()
+&nbsp;    //       so it makes use of the fact that we have safely detected a language by its character set
+&nbsp;    //       (we can then directly assume it&#39;s not supported)
+&nbsp;    //
+<b class="fc">&nbsp;    return langCodes;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

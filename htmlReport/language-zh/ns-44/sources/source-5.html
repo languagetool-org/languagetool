@@ -1,0 +1,774 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SpellingCheckRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling</a>
+</div>
+
+<h1>Coverage Summary for Class: SpellingCheckRule (org.languagetool.rules.spelling)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SpellingCheckRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/43)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/130)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/206)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Marcin Milkowski (http://www.languagetool.org)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.spelling;
+&nbsp;
+&nbsp;import com.google.common.base.Strings;
+&nbsp;import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+&nbsp;import org.apache.commons.lang3.tuple.Pair;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.rules.spelling.suggestions.*;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * An abstract rule for spellchecking rules.
+&nbsp; *
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+<b class="nc">&nbsp;public abstract class SpellingCheckRule extends Rule {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The confidence value for a suggestion with high confidence. Not 1.0, as even with a high confidence,
+&nbsp;   * we might still be wrong.
+&nbsp;   */
+&nbsp;  public static final float HIGH_CONFIDENCE = 0.99f;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The string {@code LanguageTool}.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public static final String LANGUAGETOOL = &quot;LanguageTool&quot;;
+&nbsp;  /**
+&nbsp;   * The string {@code LanguageTooler}.
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  public static final String LANGUAGETOOLER = &quot;LanguageTooler&quot;;
+&nbsp;  public static final int MAX_TOKEN_LENGTH = 200;
+&nbsp;
+&nbsp;  protected final Language language;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   * For rules from @see Language.getRelevantLanguageModelCapableRules
+&nbsp;   * Optional, allows e.g. better suggestions when set
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  protected LanguageModel languageModel;
+<b class="nc">&nbsp;  protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();</b>
+&nbsp;
+&nbsp;  private static final String SPELLING_IGNORE_FILE = &quot;/hunspell/ignore.txt&quot;;
+&nbsp;  private static final String SPELLING_FILE = &quot;/hunspell/spelling.txt&quot;;
+&nbsp;  protected static final String CUSTOM_SPELLING_FILE = &quot;/hunspell/spelling_custom.txt&quot;;
+&nbsp;  public static final String GLOBAL_SPELLING_FILE = &quot;spelling_global.txt&quot;;
+&nbsp;  private static final String SPELLING_PROHIBIT_FILE = &quot;/hunspell/prohibit.txt&quot;;
+&nbsp;  private static final String CUSTOM_SPELLING_PROHIBIT_FILE = &quot;/hunspell/prohibit_custom.txt&quot;;
+<b class="nc">&nbsp;  private static final String SPELLING_FILE_VARIANT = null;</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Set&lt;String&gt; wordsToBeProhibited = new ObjectOpenHashSet&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  private volatile String[] wordsToBeIgnoredDictionary = null;</b>
+<b class="nc">&nbsp;  private volatile String[] wordsToBeIgnoredDictionaryIgnoreCase = null;</b>
+&nbsp;
+<b class="nc">&nbsp;  private List&lt;DisambiguationPatternRule&gt; antiPatterns = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private boolean considerIgnoreWords = true;</b>
+<b class="nc">&nbsp;  private boolean convertsCase = false;</b>
+<b class="nc">&nbsp;  protected final Set&lt;String&gt; wordsToBeIgnored = new ObjectOpenHashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  protected int ignoreWordsWithLength = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;  private final static Pattern pHasNoLetterLatin = Pattern.compile(&quot;^[^\\p{script=latin}]+$&quot;);</b>
+<b class="nc">&nbsp;  private final static Pattern pHasNoLetter = Pattern.compile(&quot;^[^\\p{L}]+$&quot;);</b>
+&nbsp;
+&nbsp;  public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
+<b class="nc">&nbsp;    this(messages, language, userConfig, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages) {
+<b class="nc">&nbsp;    this(messages, language, userConfig, altLanguages, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages, @Nullable LanguageModel languageModel) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    this.language = language;</b>
+<b class="nc">&nbsp;    this.languageModel = languageModel;</b>
+<b class="nc">&nbsp;    if (userConfig != null) {</b>
+<b class="nc">&nbsp;      wordsToBeIgnored.addAll(userConfig.getAcceptedWords());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param word misspelled word that suggestions should be generated for
+&nbsp;   * @param userCandidatesList candidates from personal dictionary
+&nbsp;   * @param candidatesList candidates from default dictionary
+&nbsp;   * @param orderer model to rank suggestions / extract features, or null
+&nbsp;   * @param match rule match to add suggestions to
+&nbsp;   */
+&nbsp;  protected static void addSuggestionsToRuleMatch(String word, List&lt;SuggestedReplacement&gt; userCandidatesList, List&lt;SuggestedReplacement&gt; candidatesList,
+&nbsp;                                                  @Nullable SuggestionsOrderer orderer, RuleMatch match) {
+<b class="nc">&nbsp;    AnalyzedSentence sentence = match.getSentence();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; userCandidates = userCandidatesList.stream().map(SuggestedReplacement::getReplacement).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    List&lt;String&gt; candidates = candidatesList.stream().map(SuggestedReplacement::getReplacement).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    int startPos = match.getFromPos();</b>
+&nbsp;    //long startTime = System.currentTimeMillis();
+<b class="nc">&nbsp;    if (orderer != null &amp;&amp; orderer.isMlAvailable()) {</b>
+<b class="nc">&nbsp;      if (orderer instanceof SuggestionsRanker) {</b>
+&nbsp;        // don&#39;t rank words form user dictionary, assign confidence 0.0, but add at start
+&nbsp;        // hard to ensure performance on unknown words
+<b class="nc">&nbsp;        SuggestionsRanker ranker = (SuggestionsRanker) orderer;</b>
+<b class="nc">&nbsp;        List&lt;SuggestedReplacement&gt; defaultSuggestions = ranker.orderSuggestions(</b>
+&nbsp;          candidates, word, sentence, startPos);
+<b class="nc">&nbsp;        if (defaultSuggestions.isEmpty()) {</b>
+&nbsp;          // could not rank for some reason
+&nbsp;        } else {
+<b class="nc">&nbsp;          if (userCandidates.isEmpty()) {</b>
+<b class="nc">&nbsp;            match.setAutoCorrect(ranker.shouldAutoCorrect(defaultSuggestions));</b>
+<b class="nc">&nbsp;            match.setSuggestedReplacementObjects(defaultSuggestions);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            List&lt;SuggestedReplacement&gt; combinedSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            for (String wordFromUserDict : userCandidates) {</b>
+<b class="nc">&nbsp;              SuggestedReplacement s = new SuggestedReplacement(wordFromUserDict);</b>
+&nbsp;              // confidence is null
+<b class="nc">&nbsp;              combinedSuggestions.add(s);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            combinedSuggestions.addAll(defaultSuggestions);</b>
+<b class="nc">&nbsp;            match.setSuggestedReplacementObjects(combinedSuggestions);</b>
+&nbsp;            // no auto correct when words from personal dictionaries are included
+<b class="nc">&nbsp;            match.setAutoCorrect(false);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (orderer instanceof SuggestionsOrdererFeatureExtractor) {</b>
+&nbsp;        // disable user suggestions here
+&nbsp;        // problem: how to merge match features when ranking default and user suggestions separately?
+<b class="nc">&nbsp;        if (userCandidates.size() != 0) {</b>
+<b class="nc">&nbsp;          throw new IllegalStateException(</b>
+&nbsp;            &quot;SuggestionsOrdererFeatureExtractor does not support suggestions from personal dictionaries at the moment.&quot;);
+&nbsp;        }
+<b class="nc">&nbsp;        SuggestionsOrdererFeatureExtractor featureExtractor = (SuggestionsOrdererFeatureExtractor) orderer;</b>
+<b class="nc">&nbsp;        Pair&lt;List&lt;SuggestedReplacement&gt;, SortedMap&lt;String, Float&gt;&gt; suggestions =</b>
+<b class="nc">&nbsp;          featureExtractor.computeFeatures(candidates, word, sentence, startPos);</b>
+&nbsp;
+<b class="nc">&nbsp;        match.setSuggestedReplacementObjects(suggestions.getLeft());</b>
+<b class="nc">&nbsp;        match.setFeatures(suggestions.getRight());</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        List&lt;SuggestedReplacement&gt; combinedSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        combinedSuggestions.addAll(orderer.orderSuggestions(userCandidates, word, sentence, startPos));</b>
+<b class="nc">&nbsp;        combinedSuggestions.addAll(orderer.orderSuggestions(candidates, word, sentence, startPos));</b>
+<b class="nc">&nbsp;        match.setSuggestedReplacementObjects(combinedSuggestions);</b>
+&nbsp;      }
+&nbsp;    } else { // no reranking
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; combinedSuggestions = new ArrayList&lt;&gt;(match.getSuggestedReplacementObjects());</b>
+<b class="nc">&nbsp;      combinedSuggestions.addAll(userCandidatesList);</b>
+<b class="nc">&nbsp;      combinedSuggestions.addAll(candidatesList);</b>
+<b class="nc">&nbsp;      match.setSuggestedReplacementObjects(combinedSuggestions);</b>
+&nbsp;    }
+&nbsp;    /*long timeDelta = System.currentTimeMillis() - startTime;
+&nbsp;    System.out.printf(&quot;Reordering %d suggestions took %d ms.%n&quot;, result.getSuggestedReplacements().size(), timeDelta);*/
+&nbsp;  }
+&nbsp;
+&nbsp;  protected RuleMatch createWrongSplitMatch(AnalyzedSentence sentence, List&lt;RuleMatch&gt; ruleMatchesSoFar, int pos, String coveredWord, String suggestion1, String suggestion2, int prevPos) {
+<b class="nc">&nbsp;    if (ruleMatchesSoFar.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      RuleMatch prevMatch = ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1);</b>
+<b class="nc">&nbsp;      if (prevMatch.getFromPos() == prevPos) {</b>
+&nbsp;        // we&#39;ll later create a new match that covers the previous misspelled word and the current one:
+<b class="nc">&nbsp;        ruleMatchesSoFar.remove(ruleMatchesSoFar.size()-1);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos + coveredWord.length(),</b>
+<b class="nc">&nbsp;            messages.getString(&quot;spelling&quot;), messages.getString(&quot;desc_spelling_short&quot;));</b>
+<b class="nc">&nbsp;    ruleMatch.setType(RuleMatch.Type.UnknownWord);</b>
+<b class="nc">&nbsp;    ruleMatch.setSuggestedReplacement((suggestion1 + &quot; &quot; + suggestion2).trim());</b>
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public abstract String getId();
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public abstract String getDescription();
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.8
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  public abstract boolean isMisspelled(String word) throws IOException;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isDictionaryBasedSpellingRule() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Add the given words to the list of words to be ignored during spell check.
+&nbsp;   * You might want to use {@link #acceptPhrases(List)} instead, as only that
+&nbsp;   * can also deal with phrases.
+&nbsp;   */
+&nbsp;  public void addIgnoreTokens(List&lt;String&gt; tokens) {
+<b class="nc">&nbsp;    wordsToBeIgnored.addAll(tokens);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void updateIgnoredWordDictionary() {
+<b class="nc">&nbsp;    wordsToBeIgnoredDictionaryIgnoreCase = null;</b>
+<b class="nc">&nbsp;    wordsToBeIgnoredDictionary = null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set whether the list of words to be explicitly ignored (set with {@link #addIgnoreTokens(List)}) is considered at all.
+&nbsp;   */
+&nbsp;  public void setConsiderIgnoreWords(boolean considerIgnoreWords) {
+<b class="nc">&nbsp;    this.considerIgnoreWords = considerIgnoreWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get additional suggestions added before other suggestions (note the rule may choose to
+&nbsp;   * re-order the suggestions anyway). Only add suggestions here that you know are spelled correctly,
+&nbsp;   * they will not be checked again before being shown to the user.
+&nbsp;   */
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getAdditionalTopSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; moreSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if ((&quot;Languagetool&quot;.equals(word) || &quot;languagetool&quot;.equals(word)) &amp;&amp; suggestions.stream().noneMatch(k -&gt; k.getReplacement().equals(LANGUAGETOOL))) {</b>
+<b class="nc">&nbsp;      moreSuggestions.add(LANGUAGETOOL);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if ((&quot;Languagetooler&quot;.equals(word) || &quot;languagetooler&quot;.equals(word)) &amp;&amp; suggestions.stream().noneMatch(k -&gt; k.getReplacement().equals(LANGUAGETOOLER))) {</b>
+<b class="nc">&nbsp;      moreSuggestions.add(LANGUAGETOOLER);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return SuggestedReplacement.convert(moreSuggestions);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get suggestions that will replace all other suggestions.
+&nbsp;   * Only add suggestions here that you know are spelled correctly,
+&nbsp;   * they will not be checked again before being shown to the user.
+&nbsp;   */
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getOnlySuggestions(String word) {
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get additional suggestions added after other suggestions (note the rule may choose to
+&nbsp;   * re-order the suggestions anyway).
+&nbsp;   */
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getAdditionalSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word) {
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns true iff the token at the given position should be ignored by the spell checker.
+&nbsp;   * Use {@link #ignorePotentiallyMisspelledWord(String)} if the check you want to implement is slightly
+&nbsp;   * computationally expensive.
+&nbsp;   */
+&nbsp;  protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; words = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings token : tokens) {</b>
+<b class="nc">&nbsp;      words.add(token.getToken());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ignoreWord(words, idx);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns true iff the word should be ignored by the spell checker.
+&nbsp;   * If possible, use {@link #ignoreToken(AnalyzedTokenReadings[], int)} instead.
+&nbsp;   */
+&nbsp;  protected boolean ignoreWord(String word) throws IOException {
+<b class="nc">&nbsp;    if (word.length() &gt; MAX_TOKEN_LENGTH) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!considerIgnoreWords) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;    // Tokens with no letters cannot have spelling errors. So ignore them.
+&nbsp;    Matcher mHasNoLetter;
+<b class="nc">&nbsp;    if (isLatinScript()) {</b>
+<b class="nc">&nbsp;      mHasNoLetter = pHasNoLetterLatin.matcher(word);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      mHasNoLetter = pHasNoLetter.matcher(word);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (mHasNoLetter.matches()) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (word.endsWith(&quot;.&quot;) &amp;&amp; !isInIgnoredSet(word)) {</b>
+<b class="nc">&nbsp;      return isIgnoredNoCase(word.substring(0, word.length()-1));  // e.g. word at end of sentence</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return isIgnoredNoCase(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isInIgnoredSet(String word) {
+<b class="nc">&nbsp;    return wordsToBeIgnored.contains(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isIgnoredNoCase(String word) {
+<b class="nc">&nbsp;    return isInIgnoredSet(word) ||</b>
+<b class="nc">&nbsp;           (!StringTools.isMixedCase(word) &amp;&amp; convertsCase &amp;&amp; isInIgnoredSet(word.toLowerCase(language.getLocale()))) ||</b>
+<b class="nc">&nbsp;           (ignoreWordsWithLength &gt; 0 &amp;&amp; word.length() &lt;= ignoreWordsWithLength);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns true iff the word at the given position should be ignored by the spell checker.
+&nbsp;   * If possible, use {@link #ignoreToken(AnalyzedTokenReadings[], int)} instead.
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  protected boolean ignoreWord(List&lt;String&gt; words, int idx) throws IOException {
+<b class="nc">&nbsp;    return ignoreWord(words.get(idx));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Like {@link #ignoreWord(String)}, but will only be called after the standard spell
+&nbsp;   * check has run and considered this word to be incorrect. This way, tests run here
+&nbsp;   * can be a bit more computationally expensive.
+&nbsp;   */
+&nbsp;  protected boolean ignorePotentiallyMisspelledWord(String words) throws IOException {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to determine whether the dictionary will use case conversions for
+&nbsp;   * spell checking.
+&nbsp;   * @param convertsCase if true, then conversions are used.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public void setConvertsCase(boolean convertsCase) {
+<b class="nc">&nbsp;    this.convertsCase = convertsCase;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  protected static boolean isUrl(String token) {
+<b class="nc">&nbsp;    return WordTokenizer.isUrl(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static boolean isEMail(String token) {
+<b class="nc">&nbsp;    return WordTokenizer.isEMail(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static &lt;T&gt; List&lt;T&gt; filterDupes(List&lt;T&gt; words) {
+<b class="nc">&nbsp;    return words.stream().distinct().collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected synchronized void init() throws IOException {
+<b class="nc">&nbsp;    for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {</b>
+<b class="nc">&nbsp;      addIgnoreWords(ignoreWord);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (getSpellingFileName() != null) {</b>
+<b class="nc">&nbsp;      for (String ignoreWord : wordListLoader.loadWords(getSpellingFileName())) {</b>
+<b class="nc">&nbsp;        addIgnoreWords(ignoreWord);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (String fileName : getAdditionalSpellingFileNames()) {</b>
+<b class="nc">&nbsp;      if (JLanguageTool.getDataBroker().resourceExists(fileName)) {</b>
+<b class="nc">&nbsp;        for (String ignoreWord : wordListLoader.loadWords(fileName)) {</b>
+<b class="nc">&nbsp;          addIgnoreWords(ignoreWord);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    updateIgnoredWordDictionary();</b>
+<b class="nc">&nbsp;    for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {</b>
+<b class="nc">&nbsp;      addProhibitedWords(expandLine(prohibitedWord));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String fileName : getAdditionalProhibitFileNames()) {</b>
+<b class="nc">&nbsp;      for (String prohibitedWord : wordListLoader.loadWords(fileName)) {</b>
+<b class="nc">&nbsp;        addProhibitedWords(expandLine(prohibitedWord));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the name of the ignore file, which lists words to be accepted, even
+&nbsp;   * when the spell checker would not accept them. Unlike with {@link #getSpellingFileName()}
+&nbsp;   * the words in this file will not be used for creating suggestions for misspelled words.
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  protected String getIgnoreFileName() {
+<b class="nc">&nbsp;    return language.getShortCode() + SPELLING_IGNORE_FILE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the name of the spelling file, which lists words to be accepted
+&nbsp;   * and used for suggestions, even when the spell checker would not accept them.
+&nbsp;   * @since 2.9, public since 3.5
+&nbsp;   */
+&nbsp;  public String getSpellingFileName() {
+<b class="nc">&nbsp;    return language.getShortCode() + SPELLING_FILE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the name of additional spelling file, which lists words to be accepted
+&nbsp;   * and used for suggestions, even when the spell checker would not accept them.
+&nbsp;   * @since 4.8
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getAdditionalSpellingFileNames() {
+&nbsp;    // NOTE: also add to GermanSpellerRule.getSpeller() when adding items here:
+<b class="nc">&nbsp;    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   *
+&nbsp;   * Get the name of the spelling file for a language variant (e.g., en-US or de-AT),
+&nbsp;   * which lists words to be accepted and used for suggestions, even when the spell
+&nbsp;   * checker would not accept them.
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public String getLanguageVariantSpellingFileName() {
+<b class="nc">&nbsp;    return SPELLING_FILE_VARIANT;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the name of the prohibit file, which lists words not to be accepted, even
+&nbsp;   * when the spell checker would accept them.
+&nbsp;   * @since 2.8
+&nbsp;   */
+&nbsp;  protected String getProhibitFileName() {
+<b class="nc">&nbsp;    return language.getShortCode() + SPELLING_PROHIBIT_FILE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the name of the prohibit file, which lists words not to be accepted, even
+&nbsp;   * when the spell checker would accept them.
+&nbsp;   * @since 2.8
+&nbsp;   */
+&nbsp;  protected List&lt;String&gt; getAdditionalProhibitFileNames() {
+<b class="nc">&nbsp;    return Collections.singletonList(language.getShortCode() + CUSTOM_SPELLING_PROHIBIT_FILE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether the word is prohibited, i.e. whether it should be marked as a spelling
+&nbsp;   * error even if the spell checker would accept it. (This is useful to improve our spell
+&nbsp;   * checker without waiting for the upstream checker to be updated.)
+&nbsp;   * @since 2.8
+&nbsp;   */
+&nbsp;  protected boolean isProhibited(String word) {
+<b class="nc">&nbsp;    return wordsToBeProhibited.contains(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Remove prohibited words from suggestions.
+&nbsp;   * @since 2.8
+&nbsp;   */
+&nbsp;  protected List&lt;SuggestedReplacement&gt; filterSuggestions(List&lt;SuggestedReplacement&gt; suggestions) {
+<b class="nc">&nbsp;    suggestions.removeIf(suggestion -&gt; isProhibited(suggestion.getReplacement()));</b>
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; newSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (SuggestedReplacement suggestion : suggestions) {</b>
+<b class="nc">&nbsp;      String replacement = suggestion.getReplacement();</b>
+<b class="nc">&nbsp;      String suggestionWithoutS = replacement.length() &gt; 3 ? replacement.substring(0, replacement.length() - 2) : &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (replacement.endsWith(&quot; s&quot;) &amp;&amp; isProperNoun(suggestionWithoutS)) {</b>
+&nbsp;        // &quot;Michael s&quot; -&gt; &quot;Michael&#39;s&quot;
+&nbsp;        //System.out.println(&quot;### &quot; + suggestion + &quot; =&gt; &quot; + sentence.getText().replaceAll(suggestionWithoutS + &quot;s&quot;, &quot;**&quot; + suggestionWithoutS + &quot;s**&quot;));
+<b class="nc">&nbsp;        SuggestedReplacement sugg1 = new SuggestedReplacement(suggestionWithoutS);</b>
+<b class="nc">&nbsp;        sugg1.setType(SuggestedReplacement.SuggestionType.Curated);</b>
+<b class="nc">&nbsp;        newSuggestions.add(0, sugg1);</b>
+<b class="nc">&nbsp;        SuggestedReplacement sugg2 = new SuggestedReplacement(suggestionWithoutS + &quot;&#39;s&quot;);</b>
+<b class="nc">&nbsp;        sugg2.setType(SuggestedReplacement.SuggestionType.Curated);</b>
+<b class="nc">&nbsp;        newSuggestions.add(0, sugg2);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        newSuggestions.add(suggestion);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    newSuggestions = filterDupes(newSuggestions);</b>
+<b class="nc">&nbsp;    newSuggestions = filterNoSuggestWords(newSuggestions);</b>
+<b class="nc">&nbsp;    return newSuggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;SuggestedReplacement&gt; filterNoSuggestWords(List&lt;SuggestedReplacement&gt; l) {
+<b class="nc">&nbsp;    return l;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isProperNoun(String wordWithoutS) {
+&nbsp;    try {
+<b class="nc">&nbsp;      List&lt;AnalyzedTokenReadings&gt; tags = language.getTagger().tag(Collections.singletonList(wordWithoutS));</b>
+<b class="nc">&nbsp;      return tags.stream().anyMatch(k -&gt; k.hasPosTag(&quot;NNP&quot;));</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param line the line as read from {@code spelling.txt}.
+&nbsp;   * @since 2.9, signature modified in 3.9
+&nbsp;   */
+&nbsp;  protected void addIgnoreWords(String line) {
+<b class="nc">&nbsp;    if (!tokenizeNewWords()) {</b>
+<b class="nc">&nbsp;      wordsToBeIgnored.add(line);</b>
+&nbsp;    } else {
+&nbsp;      // if line consists of several words (separated by &quot; &quot;), a DisambiguationPatternRule
+&nbsp;      // will be created where each words serves as a case-sensitive and non-inflected PatternToken
+&nbsp;      // so that the entire multi-word entry is ignored by the spell checker
+<b class="nc">&nbsp;      List&lt;String&gt; tokens = language.getWordTokenizer().tokenize(line);</b>
+<b class="nc">&nbsp;      if (tokens.size() &gt; 1) {</b>
+&nbsp;        //System.out.println(&quot;Tokenized multi-token: &quot; + line);
+<b class="nc">&nbsp;        List&lt;PatternToken&gt; patternTokens = new ArrayList&lt;&gt;(tokens.size());</b>
+<b class="nc">&nbsp;        for (String token : tokens) {</b>
+<b class="nc">&nbsp;          if (token.trim().isEmpty()) {</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          patternTokens.add(new PatternToken(token, true, false, false));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        antiPatterns.add(new DisambiguationPatternRule(&quot;INTERNAL_ANTIPATTERN&quot;, &quot;(no description)&quot;, language,</b>
+&nbsp;          patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING));
+&nbsp;      } else {
+<b class="nc">&nbsp;        wordsToBeIgnored.add(line);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param words list of words to be prohibited.
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  protected void addProhibitedWords(List&lt;String&gt; words) {
+<b class="nc">&nbsp;    wordsToBeProhibited.addAll(words);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Expand suffixes in a line. By default, the line is not expanded.
+&nbsp;   * Implementations might e.g. turn {@code bicycle/S} into {@code [bicycle, bicycles]}.
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  protected List&lt;String&gt; expandLine(String line) {
+<b class="nc">&nbsp;    return Collections.singletonList(line);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Accept (case-sensitively, unless at the start of a sentence) the given phrases even though they
+&nbsp;   * are not in the built-in dictionary.
+&nbsp;   * Use this to avoid false alarms on e.g. names and technical terms. Unlike {@link #addIgnoreTokens(List)}
+&nbsp;   * this can deal with phrases. A way to call this is like this:
+&nbsp;   * &lt;code&gt;rule.acceptPhrases(Arrays.asList(&quot;duodenal atresia&quot;))&lt;/code&gt;
+&nbsp;   * This way, checking would not create an error for &quot;duodenal atresia&quot;, but it would still
+&nbsp;   * create and error for &quot;duodenal&quot; or &quot;atresia&quot; if they appear on their own.
+&nbsp;   * @since 3.3
+&nbsp;   */
+&nbsp;  public void acceptPhrases(List&lt;String&gt; phrases) {
+<b class="nc">&nbsp;    List&lt;List&lt;PatternToken&gt;&gt; antiPatterns = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String phrase : phrases) {</b>
+<b class="nc">&nbsp;      String[] parts = phrase.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;      List&lt;PatternToken&gt; patternTokens = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      int i = 0;</b>
+<b class="nc">&nbsp;      boolean startsLowercase = false;</b>
+<b class="nc">&nbsp;      for (String part : parts) {</b>
+<b class="nc">&nbsp;        if (i == 0 &amp;&amp; !part.equals(StringTools.uppercaseFirstChar(part))) {</b>
+<b class="nc">&nbsp;          startsLowercase = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        patternTokens.add(new PatternTokenBuilder().csToken(part).build());</b>
+<b class="nc">&nbsp;        i++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      antiPatterns.add(patternTokens);</b>
+<b class="nc">&nbsp;      if (startsLowercase) {</b>
+<b class="nc">&nbsp;        antiPatterns.add(getTokensForSentenceStart(parts));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    this.antiPatterns = makeAntiPatterns(antiPatterns, language);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;PatternToken&gt; getTokensForSentenceStart(String[] parts) {
+<b class="nc">&nbsp;    List&lt;PatternToken&gt; ucPatternTokens = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int j = 0;</b>
+<b class="nc">&nbsp;    for (String part : parts) {</b>
+<b class="nc">&nbsp;      if (j == 0) {</b>
+&nbsp;        // at sentence start, we also need to accept a phrase that starts with an uppercase char:
+<b class="nc">&nbsp;        String uppercased = StringTools.uppercaseFirstChar(part);</b>
+<b class="nc">&nbsp;        ucPatternTokens.add(new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_START_TAGNAME).build());</b>
+<b class="nc">&nbsp;        ucPatternTokens.add(new PatternTokenBuilder().csToken(uppercased).build());</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        ucPatternTokens.add(new PatternTokenBuilder().csToken(part).build());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      j++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ucPatternTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return antiPatterns;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks whether a &lt;code&gt;word&lt;/code&gt; starts with an ignored word.
+&nbsp;   * Note that a minimum &lt;code&gt;word&lt;/code&gt;-length of 4 characters is expected.
+&nbsp;   * (This is for better performance. Moreover, such short words are most likely contained in the dictionary.)
+&nbsp;   * @param word - entire word
+&nbsp;   * @param caseSensitive - determines whether the check is case-sensitive
+&nbsp;   * @return length of the ignored word (i.e., return value is 0, if the word does not start with an ignored word).
+&nbsp;   * If there are several matches from the set of ignored words, the length of the longest matching word is returned.
+&nbsp;   * @since 3.5
+&nbsp;   */
+&nbsp;  protected int startsWithIgnoredWord(String word, boolean caseSensitive) {
+<b class="nc">&nbsp;    if (word.length() &lt; 4) {</b>
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Comparator&lt;String&gt; comparator = caseSensitive ? Comparator.naturalOrder() : String.CASE_INSENSITIVE_ORDER;</b>
+<b class="nc">&nbsp;    String[] array = caseSensitive ? wordsToBeIgnoredDictionary : wordsToBeIgnoredDictionaryIgnoreCase;</b>
+<b class="nc">&nbsp;    if (array == null) {</b>
+<b class="nc">&nbsp;      array = wordsToBeIgnored.stream().sorted(comparator).toArray(String[]::new);</b>
+<b class="nc">&nbsp;      if (caseSensitive) {</b>
+<b class="nc">&nbsp;        wordsToBeIgnoredDictionary = array;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        wordsToBeIgnoredDictionaryIgnoreCase = array;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    while (!word.isEmpty()) {</b>
+<b class="nc">&nbsp;      int result = Arrays.binarySearch(array, word, comparator);</b>
+<b class="nc">&nbsp;      if (result &gt;= 0) break;</b>
+&nbsp;
+<b class="nc">&nbsp;      int prev = -result - 2;</b>
+<b class="nc">&nbsp;      if (prev &lt; 0) return 0;</b>
+&nbsp;
+<b class="nc">&nbsp;      String commonPrefix = caseSensitive</b>
+<b class="nc">&nbsp;                            ? Strings.commonPrefix(word, array[prev])</b>
+<b class="nc">&nbsp;                            : Strings.commonPrefix(word.toLowerCase(Locale.ROOT), array[prev].toLowerCase(Locale.ROOT));</b>
+<b class="nc">&nbsp;      assert commonPrefix.length() &lt; word.length();</b>
+<b class="nc">&nbsp;      word = caseSensitive ? commonPrefix : word.substring(0, commonPrefix.length());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return word.length();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // tokenize words from files spelling.txt, prohibit.txt...
+&nbsp;  protected boolean tokenizeNewWords() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isLatinScript() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

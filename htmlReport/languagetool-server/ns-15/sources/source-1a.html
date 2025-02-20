@@ -1,0 +1,505 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Tools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: Tools (org.languagetool.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Tools</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/68)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/120)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Tools$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/70)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/123)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.gui;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.patterns.FalseFriendPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.event.HyperlinkEvent;
+&nbsp;import javax.swing.event.HyperlinkListener;
+&nbsp;import javax.swing.filechooser.FileFilter;
+&nbsp;import java.awt.*;
+&nbsp;import java.io.File;
+&nbsp;import java.io.UnsupportedEncodingException;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.Set;
+&nbsp;import org.apache.commons.lang3.SystemUtils;
+&nbsp;
+&nbsp;/**
+&nbsp; * GUI-related tools.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public final class Tools {
+&nbsp;
+&nbsp;  private Tools() {
+&nbsp;    // no public constructor
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Show a file chooser dialog and return the file selected by the user or
+&nbsp;   * &lt;code&gt;null&lt;/code&gt;.
+&nbsp;   */
+&nbsp;  static File openFileDialog(Frame frame, FileFilter fileFilter) {
+<b class="nc">&nbsp;    return openFileDialog(frame, fileFilter, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Show a file chooser dialog in a specified directory
+&nbsp;   * @param frame Owner frame
+&nbsp;   * @param fileFilter The pattern of files to choose from
+&nbsp;   * @param initialDir The initial directory
+&nbsp;   * @return the selected file
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  static File openFileDialog(Frame frame, FileFilter fileFilter, File initialDir) {
+<b class="nc">&nbsp;    return openFileDialog(frame, fileFilter, initialDir, JFileChooser.FILES_ONLY);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Show a directory chooser dialog, starting with a specified directory
+&nbsp;   * @param frame Owner frame
+&nbsp;   * @param initialDir The initial directory
+&nbsp;   * @return the selected file
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  static File openDirectoryDialog(Frame frame, File initialDir) {
+<b class="nc">&nbsp;    return openFileDialog(frame, null, initialDir, JFileChooser.DIRECTORIES_ONLY);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static File openFileDialog(Frame frame, FileFilter fileFilter, File initialDir, int mode) {
+<b class="nc">&nbsp;    JFileChooser jfc = new JFileChooser();</b>
+<b class="nc">&nbsp;    jfc.setFileSelectionMode(mode);</b>
+<b class="nc">&nbsp;    jfc.setCurrentDirectory(initialDir);</b>
+<b class="nc">&nbsp;    jfc.setFileFilter(fileFilter);</b>
+<b class="nc">&nbsp;    jfc.showOpenDialog(frame);</b>
+<b class="nc">&nbsp;    return jfc.getSelectedFile();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Show the exception (with stacktrace) in a dialog and print it to STDERR.
+&nbsp;   */
+&nbsp;  static void showError(Exception e) {
+<b class="nc">&nbsp;    String stackTrace = org.languagetool.tools.Tools.getFullStackTrace(e);</b>
+<b class="nc">&nbsp;    String msg = &quot;&lt;html&gt;&lt;p style=&#39;width: 600px;&#39;&gt;&quot; + StringTools.escapeHTML(stackTrace);</b>
+<b class="nc">&nbsp;    JOptionPane.showMessageDialog(null, msg, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</b>
+<b class="nc">&nbsp;    e.printStackTrace();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Show the exception (message without stacktrace) in a dialog and print the
+&nbsp;   * stacktrace to STDERR.
+&nbsp;   */
+&nbsp;  static void showErrorMessage(Exception e, Component parent) {
+<b class="nc">&nbsp;    String msg = e.getMessage();</b>
+<b class="nc">&nbsp;    JOptionPane.showMessageDialog(parent, msg, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</b>
+<b class="nc">&nbsp;    e.printStackTrace();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Show the exception (message without stacktrace) in a dialog and print the
+&nbsp;   * stacktrace to STDERR.
+&nbsp;   */
+&nbsp;  static void showErrorMessage(Exception e) {
+<b class="nc">&nbsp;    showErrorMessage(e, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * LibO shortens menu items with more than ~100 characters by dropping text in the middle.
+&nbsp;   * That isn&#39;t really sensible, so we shorten the text here in order to preserve the important parts.
+&nbsp;   */
+&nbsp;  public static String shortenComment(String comment) {
+<b class="nc">&nbsp;    int maxCommentLength = 100;</b>
+<b class="nc">&nbsp;    String shortComment = comment;</b>
+<b class="nc">&nbsp;    if (shortComment.length() &gt; maxCommentLength) {</b>
+&nbsp;      // if there is text in brackets, drop it (beginning at the end)
+<b class="nc">&nbsp;      while (shortComment.lastIndexOf(&quot; [&quot;) &gt; 0</b>
+<b class="nc">&nbsp;              &amp;&amp; shortComment.lastIndexOf(&#39;]&#39;) &gt; shortComment.lastIndexOf(&quot; [&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; shortComment.length() &gt; maxCommentLength) {</b>
+<b class="nc">&nbsp;        shortComment = shortComment.substring(0, shortComment.lastIndexOf(&quot; [&quot;)) + shortComment.substring(shortComment.lastIndexOf(&#39;]&#39;)+1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      while (shortComment.lastIndexOf(&quot; (&quot;) &gt; 0</b>
+<b class="nc">&nbsp;              &amp;&amp; shortComment.lastIndexOf(&#39;)&#39;) &gt; shortComment.lastIndexOf(&quot; (&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; shortComment.length() &gt; maxCommentLength) {</b>
+<b class="nc">&nbsp;        shortComment = shortComment.substring(0, shortComment.lastIndexOf(&quot; (&quot;)) + shortComment.substring(shortComment.lastIndexOf(&#39;)&#39;)+1);</b>
+&nbsp;      }
+&nbsp;      // in case it&#39;s still not short enough, shorten at the end
+<b class="nc">&nbsp;      if (shortComment.length() &gt; maxCommentLength) {</b>
+<b class="nc">&nbsp;        shortComment = shortComment.substring(0, maxCommentLength-1) + &quot;…&quot;;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return shortComment;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns translation of the UI element without the control character {@code &amp;}. To
+&nbsp;   * have {@code &amp;} in the UI, use {@code &amp;&amp;}.
+&nbsp;   *
+&nbsp;   * @param label Label to convert.
+&nbsp;   * @return String UI element string without mnemonics.
+&nbsp;   */
+&nbsp;  public static String getLabel(String label) {
+<b class="nc">&nbsp;    return label.replaceAll(&quot;&amp;([^&amp;])&quot;, &quot;$1&quot;).replace(&quot;&amp;&amp;&quot;, &quot;&amp;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns mnemonic of a UI element.
+&nbsp;   *
+&nbsp;   * @param label String Label of the UI element
+&nbsp;   * @return Mnemonic of the UI element, or {@code \u0000} in case of no mnemonic set.
+&nbsp;   */
+&nbsp;  public static char getMnemonic(String label) {
+<b class="nc">&nbsp;    int mnemonicPos = label.indexOf(&#39;&amp;&#39;);</b>
+<b class="nc">&nbsp;    while (mnemonicPos != -1 &amp;&amp; mnemonicPos == label.indexOf(&quot;&amp;&amp;&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; mnemonicPos &lt; label.length()) {</b>
+<b class="nc">&nbsp;      mnemonicPos = label.indexOf(&#39;&amp;&#39;, mnemonicPos + 2);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (mnemonicPos == -1 || mnemonicPos == label.length()) {</b>
+<b class="nc">&nbsp;      return &#39;\u0000&#39;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return label.charAt(mnemonicPos + 1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set dialog location to the center of the screen
+&nbsp;   *
+&nbsp;   * @param dialog the dialog which will be centered
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public static void centerDialog(JDialog dialog) {
+<b class="nc">&nbsp;    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();</b>
+<b class="nc">&nbsp;    Dimension frameSize = dialog.getSize();</b>
+<b class="nc">&nbsp;    dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,</b>
+&nbsp;            screenSize.height / 2 - frameSize.height / 2);
+<b class="nc">&nbsp;    dialog.setLocationByPlatform(true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.3
+&nbsp;   */
+&nbsp;  public static void configureFromRules(JLanguageTool lt, Configuration config) {
+<b class="nc">&nbsp;    Set&lt;String&gt; disabledRules = config.getDisabledRuleIds();</b>
+<b class="nc">&nbsp;    if (disabledRules != null) {</b>
+<b class="nc">&nbsp;      for (String ruleId : disabledRules) {</b>
+<b class="nc">&nbsp;        lt.disableRule(ruleId);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    Set&lt;String&gt; disabledCategories = config.getDisabledCategoryNames();</b>
+<b class="nc">&nbsp;    if (disabledCategories != null) {</b>
+<b class="nc">&nbsp;      for (String categoryName : disabledCategories) {</b>
+<b class="nc">&nbsp;        lt.disableCategory(new CategoryId(categoryName));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if(config.getEnabledRulesOnly()) {</b>
+<b class="nc">&nbsp;      for (Rule rule : lt.getAllRules()) {</b>
+<b class="nc">&nbsp;        lt.disableRule(rule.getId());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    Set&lt;String&gt; enabledRules = config.getEnabledRuleIds();</b>
+<b class="nc">&nbsp;    if (enabledRules != null) {</b>
+<b class="nc">&nbsp;      for (String ruleName : enabledRules) {</b>
+<b class="nc">&nbsp;        lt.enableRule(ruleName);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    lt.setConfigValues(config.getConfigurableValues());</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static void addHyperlinkListener(JTextPane pane) {
+<b class="nc">&nbsp;    pane.addHyperlinkListener(new HyperlinkListener() {</b>
+&nbsp;      @Override
+&nbsp;      public void hyperlinkUpdate(HyperlinkEvent e) {
+<b class="nc">&nbsp;        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {</b>
+<b class="nc">&nbsp;          Tools.openURL(e.getURL());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Launches the default browser to display a URL.
+&nbsp;   * 
+&nbsp;   * @param url the URL to be displayed
+&nbsp;   * @since 4.1
+&nbsp;   */
+&nbsp;  public static void openURL(String url) {
+&nbsp;    try {
+<b class="nc">&nbsp;      openURL(new URL(url));</b>
+&nbsp;    } catch (MalformedURLException ex) {
+<b class="nc">&nbsp;      Tools.showError(ex);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Launches the default browser to display a URL.
+&nbsp;   * 
+&nbsp;   * @param url the URL to be displayed
+&nbsp;   * @since 4.1
+&nbsp;   */
+&nbsp;  static void openURL(URL url) {
+<b class="nc">&nbsp;    if (Desktop.isDesktopSupported() </b>
+<b class="nc">&nbsp;        &amp;&amp; Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        Desktop.getDesktop().browse(url.toURI());</b>
+&nbsp;      } catch (Exception ex) {
+<b class="nc">&nbsp;        Tools.showError(ex);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if(SystemUtils.IS_OS_LINUX) {</b>
+&nbsp;      //handle the case where Desktop.browse() is not supported, e.g. kubuntu
+&nbsp;      //without libgnome
+&nbsp;      try {
+<b class="nc">&nbsp;        Runtime.getRuntime().exec(new String[] { &quot;xdg-open&quot;, url.toString() });</b>
+&nbsp;      } catch (Exception ex) {
+<b class="nc">&nbsp;        Tools.showError(ex);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, URL matchUrl, ResourceBundle messages, String lang) {
+<b class="nc">&nbsp;    int dialogWidth = 320;</b>
+<b class="nc">&nbsp;    JTextPane textPane = new JTextPane();</b>
+<b class="nc">&nbsp;    textPane.setEditable(false);</b>
+<b class="nc">&nbsp;    textPane.setContentType(&quot;text/html&quot;);</b>
+<b class="nc">&nbsp;    textPane.setBorder(BorderFactory.createEmptyBorder());</b>
+<b class="nc">&nbsp;    textPane.setOpaque(false);</b>
+<b class="nc">&nbsp;    textPane.setBackground(new Color(0, 0, 0, 0));</b>
+<b class="nc">&nbsp;    Tools.addHyperlinkListener(textPane);</b>
+<b class="nc">&nbsp;    textPane.setSize(dialogWidth, Short.MAX_VALUE);</b>
+<b class="nc">&nbsp;    String messageWithBold = message.replace(&quot;&lt;suggestion&gt;&quot;, &quot;&lt;b&gt;&quot;).replace(&quot;&lt;/suggestion&gt;&quot;, &quot;&lt;/b&gt;&quot;);</b>
+<b class="nc">&nbsp;    String exampleSentences = getExampleSentences(rule, messages);</b>
+<b class="nc">&nbsp;    String url = &quot;http://community.languagetool.org/rule/show/&quot; + encodeUrl(rule)</b>
+&nbsp;            + &quot;?lang=&quot; + lang + &quot;&amp;amp;ref=standalone-gui&quot;;
+<b class="nc">&nbsp;    boolean isExternal = rule.getCategory().getLocation() == Category.Location.EXTERNAL;</b>
+<b class="nc">&nbsp;    String ruleDetailLink = rule instanceof FalseFriendPatternRule || isExternal ?</b>
+<b class="nc">&nbsp;            &quot;&quot; : &quot;&lt;a href=&#39;&quot; + url + &quot;&#39;&gt;&quot; + messages.getString(&quot;ruleDetailsLink&quot;) +&quot;&lt;/a&gt;&quot;;</b>
+<b class="nc">&nbsp;    textPane.setText(&quot;&lt;html&gt;&quot;</b>
+<b class="nc">&nbsp;            + messageWithBold + exampleSentences + formatURL(matchUrl)</b>
+&nbsp;            + &quot;&lt;br&gt;&lt;br&gt;&quot;
+&nbsp;            + ruleDetailLink
+&nbsp;            + &quot;&lt;/html&gt;&quot;);
+<b class="nc">&nbsp;    JScrollPane scrollPane = new JScrollPane(textPane);</b>
+<b class="nc">&nbsp;    scrollPane.setPreferredSize(</b>
+<b class="nc">&nbsp;            new Dimension(dialogWidth, textPane.getPreferredSize().height));</b>
+<b class="nc">&nbsp;    scrollPane.setBorder(BorderFactory.createEmptyBorder());</b>
+&nbsp;
+<b class="nc">&nbsp;    String cleanTitle = title.replace(&quot;&lt;suggestion&gt;&quot;, &quot;&#39;&quot;).replace(&quot;&lt;/suggestion&gt;&quot;, &quot;&#39;&quot;);</b>
+<b class="nc">&nbsp;    JOptionPane.showMessageDialog(parent, scrollPane, cleanTitle,</b>
+&nbsp;            JOptionPane.INFORMATION_MESSAGE);
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String encodeUrl(Rule rule) {
+&nbsp;    try {
+<b class="nc">&nbsp;      return URLEncoder.encode(rule.getId(), &quot;utf-8&quot;);</b>
+&nbsp;    } catch (UnsupportedEncodingException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String getExampleSentences(Rule rule, ResourceBundle messages) {
+<b class="nc">&nbsp;    StringBuilder examples = new StringBuilder(200);</b>
+<b class="nc">&nbsp;    List&lt;IncorrectExample&gt; incorrectExamples = rule.getIncorrectExamples();</b>
+<b class="nc">&nbsp;    if (incorrectExamples.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      String incorrectExample = incorrectExamples.iterator().next().getExample();</b>
+<b class="nc">&nbsp;      String sentence = incorrectExample.replace(&quot;&lt;marker&gt;&quot;, &quot;&lt;span style=&#39;background-color:#ff8080&#39;&gt;&quot;).replace(&quot;&lt;/marker&gt;&quot;, &quot;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;      examples.append(&quot;&lt;br/&gt;&quot;).append(sentence).append(&quot;&amp;nbsp;&lt;span style=&#39;color:red;font-style:italic;font-weight:bold&#39;&gt;x&lt;/span&gt;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;CorrectExample&gt; correctExamples = rule.getCorrectExamples();</b>
+<b class="nc">&nbsp;    if (correctExamples.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      String correctExample = correctExamples.iterator().next().getExample();</b>
+<b class="nc">&nbsp;      String sentence = correctExample.replace(&quot;&lt;marker&gt;&quot;, &quot;&lt;span style=&#39;background-color:#80ff80&#39;&gt;&quot;).replace(&quot;&lt;/marker&gt;&quot;, &quot;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;      examples.append(&quot;&lt;br/&gt;&quot;).append(sentence).append(&quot;&amp;nbsp;&lt;span style=&#39;color:green&#39;&gt;✓&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;    } else if (incorrectExamples.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      IncorrectExample incorrectExample = incorrectExamples.iterator().next();</b>
+<b class="nc">&nbsp;      List&lt;String&gt; corrections = incorrectExample.getCorrections();</b>
+<b class="nc">&nbsp;      if (!corrections.isEmpty() &amp;&amp; !corrections.get(0).isEmpty()) {</b>
+<b class="nc">&nbsp;        String incorrectSentence = incorrectExamples.iterator().next().getExample();</b>
+<b class="nc">&nbsp;        String correctedSentence = incorrectSentence.replaceAll(&quot;&lt;marker&gt;.*?&lt;/marker&gt;&quot;,</b>
+<b class="nc">&nbsp;                &quot;&lt;span style=&#39;background-color:#80ff80&#39;&gt;&quot; + corrections.get(0) + &quot;&lt;/span&gt;&quot;);</b>
+<b class="nc">&nbsp;        examples.append(&quot;&lt;br/&gt;&quot;).append(correctedSentence).append(&quot;&amp;nbsp;&lt;span style=&#39;color:green&#39;&gt;✓&lt;/span&gt;&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (examples.length() &gt; 0) {</b>
+<b class="nc">&nbsp;      examples.insert(0, &quot;&lt;br/&gt;&lt;br/&gt;&quot; + messages.getString(&quot;guiExamples&quot;));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return examples.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String formatURL(URL url) {
+<b class="nc">&nbsp;    if (url == null) {</b>
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return String.format(&quot;&lt;br/&gt;&lt;br/&gt;&lt;a href=\&quot;%s\&quot;&gt;%s&lt;/a&gt;&quot;,</b>
+<b class="nc">&nbsp;            url.toExternalForm(), StringUtils.abbreviate(url.toString(), 50));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

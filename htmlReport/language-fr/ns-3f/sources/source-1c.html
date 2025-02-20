@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PortugueseOrthographyReplaceRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: PortugueseOrthographyReplaceRule (org.languagetool.rules.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PortugueseOrthographyReplaceRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005-2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.pt;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.AbstractSimpleReplaceRule;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import java.net.URL;
+&nbsp;
+&nbsp;/**
+&nbsp; * Rule for simple and frequent one-to-one spelling fixes in Portuguese.
+&nbsp; *
+&nbsp; * @author p-goulart
+&nbsp; */
+&nbsp;public class PortugueseOrthographyReplaceRule extends AbstractSimpleReplaceRule {
+&nbsp;
+&nbsp;  public static final String PORTUGUESE_SIMPLE_REPLACE_ORTHOGRAPHY_RULE = &quot;PT_SIMPLE_REPLACE_ORTHOGRAPHY&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private static final Map&lt;String, List&lt;String&gt;&gt; wrongWords = loadFromPath(&quot;/pt/replace_orthography.txt&quot;);</b>
+<b class="nc">&nbsp;  private static final Locale PT_LOCALE = new Locale(&quot;pt&quot;);</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;String, List&lt;String&gt;&gt; getWrongWords() {
+<b class="nc">&nbsp;    return wrongWords;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public PortugueseOrthographyReplaceRule(ResourceBundle messages, Language language) {
+<b class="nc">&nbsp;    super(messages, language);</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.TYPOS.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="nc">&nbsp;    useSubRuleSpecificIds();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return PORTUGUESE_SIMPLE_REPLACE_ORTHOGRAPHY_RULE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isCaseSensitive() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Locale getLocale() {
+<b class="nc">&nbsp;    return PT_LOCALE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return messages.getString(&quot;desc_spelling&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShort() {
+<b class="nc">&nbsp;    return messages.getString(&quot;desc_spelling_short&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMessage(String token, List&lt;String&gt; replacements) {
+<b class="nc">&nbsp;    return messages.getString(&quot;spelling&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

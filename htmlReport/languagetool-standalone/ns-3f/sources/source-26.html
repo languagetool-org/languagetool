@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PortugueseWordRepeatBeginningRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: PortugueseWordRepeatBeginningRule (org.languagetool.rules.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PortugueseWordRepeatBeginningRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.pt;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.WordRepeatBeginningRule;
+&nbsp;
+&nbsp;/**
+&nbsp; * Adds a list Portuguese adverbs to {@link WordRepeatBeginningRule}.
+&nbsp; * 
+&nbsp; * @since 3.6
+&nbsp; * localized by @author Tiago F. Santos from the german version
+&nbsp; */
+&nbsp;public class PortugueseWordRepeatBeginningRule extends WordRepeatBeginningRule {
+&nbsp;  
+<b class="fc">&nbsp;  private static final Set&lt;String&gt; ADVERBS = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;          &quot;Abaixo&quot;, &quot;Acaso&quot;, &quot;Acima&quot;, &quot;Acolá&quot;,
+&nbsp;          &quot;Ademais&quot;, &quot;Adentro&quot;, &quot;Adiante&quot;, &quot;Adicionalmente&quot;,
+&nbsp;          &quot;Afinal&quot;, &quot;Afora&quot;, &quot;Agora&quot;, &quot;Aí&quot;, &quot;Ainda&quot;,
+&nbsp;          &quot;Além&quot;, &quot;Algures&quot;, &quot;Ali&quot;, &quot;Aliás&quot;,
+&nbsp;          &quot;Amanhã&quot;, &quot;Amiúde&quot;, &quot;Antigamente&quot;, &quot;Aonde&quot;,
+&nbsp;          &quot;Apenas&quot;, &quot;Apesar&quot;, &quot;Aquém&quot;, &quot;Aqui&quot;, &quot;Assaz&quot;,
+&nbsp;          &quot;Assim&quot;, &quot;Até&quot;, &quot;Atrás&quot;, &quot;Bastante&quot;, &quot;Bem&quot;,
+&nbsp;          &quot;Bondosamente&quot;, &quot;Breve&quot;, &quot;Cá&quot;, &quot;Casualmente&quot;,
+&nbsp;          &quot;Cedo&quot;, &quot;Certamente&quot;, &quot;Certo&quot;, &quot;Constantemente&quot;,
+&nbsp;          &quot;Cuidadosamente&quot;, &quot;Dantes&quot;, &quot;Debaixo&quot;, &quot;Debalde&quot;,
+&nbsp;          &quot;Decerto&quot;, &quot;Defronte&quot;, &quot;Demais&quot;, &quot;Demasiado&quot;,
+&nbsp;          &quot;Dentro&quot;, &quot;Depois&quot;, &quot;Depressa&quot;, &quot;Detrás&quot;, &quot;Devagar&quot;,
+&nbsp;          &quot;Doravante&quot;, &quot;E&quot;, &quot;Efetivamente&quot;, &quot;Embaixo&quot;,
+&nbsp;          &quot;Embora&quot;, &quot;Enfim&quot;, &quot;Então&quot;, &quot;Entrementes&quot;,
+&nbsp;          &quot;Exclusivamente&quot;, &quot;Externamente&quot;, &quot;Fora&quot;,
+&nbsp;          &quot;Frequentemente&quot;, &quot;Generosamente&quot;, &quot;Hoje&quot;,
+&nbsp;          &quot;Imediatamente&quot;, &quot;Inclusivamente&quot;, &quot;Inda&quot;, &quot;Já&quot;,
+&nbsp;          &quot;Jamais&quot;, &quot;Lá&quot;, &quot;Logo&quot;, &quot;Longe&quot;, &quot;Mais&quot;, &quot;Mal&quot;,
+&nbsp;          &quot;Mas&quot;, &quot;Melhor&quot;, &quot;Menos&quot;, &quot;Mesmo&quot;, &quot;Muito&quot;, &quot;Não&quot;,
+&nbsp;          &quot;Nem&quot;, &quot;Nenhures&quot;, &quot;Nunca&quot;, &quot;Onde&quot;, &quot;Ontem&quot;, &quot;Ora&quot;,
+&nbsp;          &quot;Ou&quot;, &quot;Outra&quot;, &quot;Outro&quot;, &quot;Outrora&quot;, &quot;Outrossim&quot;,
+&nbsp;          &quot;Perto&quot;, &quot;Pior&quot;, &quot;Porventura&quot;, &quot;Possivelmente&quot;,
+&nbsp;          &quot;Pouco&quot;, &quot;Primeiramente&quot;, &quot;Primeiro&quot;,
+&nbsp;          &quot;Principalmente&quot;, &quot;Provavelmente&quot;, &quot;Provisoriamente&quot;,
+&nbsp;          &quot;Quanto&quot;, &quot;Quão&quot;, &quot;Quase&quot;, &quot;Quiçá&quot;, &quot;Realmente&quot;,
+&nbsp;          &quot;Salvo&quot;, &quot;Seguidamente&quot;, &quot;Sempre&quot;, &quot;Senão&quot;, &quot;Será&quot;,
+&nbsp;          &quot;Sim&quot;, &quot;Simplesmente&quot;, &quot;Só&quot;, &quot;Sobremaneira&quot;,
+&nbsp;          &quot;Sobremodo&quot;, &quot;Sobretudo&quot;, &quot;Somente&quot;, &quot;Sucessivamente&quot;,
+&nbsp;          &quot;Talvez&quot;, &quot;Também&quot;, &quot;Tampouco&quot;, &quot;Tanto&quot;, &quot;Tão&quot;,
+&nbsp;          &quot;Tarde&quot;, &quot;Ultimamente&quot;, &quot;Unicamente&quot;
+&nbsp;  ));
+&nbsp;
+&nbsp;  public PortugueseWordRepeatBeginningRule(ResourceBundle messages, Language language) {
+<b class="fc">&nbsp;    super(messages, language);</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.STYLE.getCategory(messages));</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Style);</b>
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;Além disso, a rua é quase completamente residêncial. &lt;marker&gt;Além&lt;/marker&gt; disso, foi chamada em nome de um poeta.&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;Além disso, a rua é quase completamente residêncial. &lt;marker&gt;Foi&lt;/marker&gt; chamada em nome de um poeta.&quot;));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return &quot;PORTUGUESE_WORD_REPEAT_BEGINNING_RULE&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected boolean isAdverb(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return ADVERBS.contains(token.getToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

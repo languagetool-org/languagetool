@@ -1,0 +1,301 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RuleFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleFilter (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58.3%
+  </span>
+  <span class="absValue">
+    (21/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.3%
+  </span>
+  <span class="absValue">
+    (33/45)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RuleFilter$FakeRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    64.3%
+  </span>
+  <span class="absValue">
+    (9/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58.3%
+  </span>
+  <span class="absValue">
+    (21/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69.4%
+  </span>
+  <span class="absValue">
+    (34/49)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * Filter rule matches after a PatternRule has matched already.
+&nbsp; * Can be used from the XML using the {@code filter} element.
+&nbsp; * @since 2.7 (changed from interface to abstract class in 3.2)
+&nbsp; */
+<b class="fc">&nbsp;public abstract class RuleFilter {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the original rule match or a modified one, or {@code null}
+&nbsp;   * if the rule match is filtered out.
+&nbsp;   *
+&nbsp;   * @param arguments      the resolved argument from the {@code args} attribute in the XML. Resolved
+&nbsp;   *                       means that e.g. {@code \1} has been resolved to the actual string at that match position.
+&nbsp;   * @param patternTokens  those tokens of the text that correspond the matched pattern
+&nbsp;   * @return {@code null} if this rule match should be removed, or any other RuleMatch (e.g. the one from
+&nbsp;   * the arguments) that properly describes the detected error
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public abstract RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException;
+&nbsp;
+&nbsp;  /** @since 3.2 */
+&nbsp;  public boolean matches(Map&lt;String, String&gt; arguments, AnalyzedTokenReadings[] patternTokens, int firstMatchToken, List&lt;Integer&gt; tokenPositions) throws IOException {
+<b class="fc">&nbsp;    RuleMatch fakeMatch = new RuleMatch(new FakeRule(), null, 0, 1, &quot;(internal rule)&quot;);</b>
+<b class="fc">&nbsp;    return acceptRuleMatch(fakeMatch, arguments, firstMatchToken, patternTokens, tokenPositions) != null;</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  private static class FakeRule extends Rule {</b>
+<b class="nc">&nbsp;    @Override public String getId() { return &quot;FAKE-RULE-FOR-FILTER&quot;; }</b>
+<b class="nc">&nbsp;    @Override public String getDescription() { return &quot;&lt;none&gt;&quot;; }</b>
+<b class="nc">&nbsp;    @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return new RuleMatch[0]; }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getRequired(String key, Map&lt;String, String&gt; map) {
+<b class="fc">&nbsp;    String result = map.get(key);</b>
+<b class="pc">&nbsp;    if (result == null) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Missing key &#39;&quot; + key + &quot;&#39;&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getOptional(String key, Map&lt;String, String&gt; map) {
+<b class="fc">&nbsp;    return map.get(key);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getOptional(String key, Map&lt;String, String&gt; map, String defaultValue) {
+<b class="fc">&nbsp;    String value = map.get(key);</b>
+<b class="fc">&nbsp;    if (value == null) {</b>
+<b class="fc">&nbsp;      return defaultValue;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return value;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected int getPosition(String fromStr, AnalyzedTokenReadings[] patternTokens, RuleMatch match) {
+&nbsp;    int i;
+<b class="fc">&nbsp;    if (fromStr.startsWith(&quot;marker&quot;)) {</b>
+<b class="fc">&nbsp;      i = 0;</b>
+<b class="pc">&nbsp;      while (i &lt; patternTokens.length &amp;&amp; patternTokens[i].getStartPos() &lt; match.getFromPos()</b>
+<b class="pc">&nbsp;        || patternTokens[i].isSentenceStart()) {</b>
+<b class="fc">&nbsp;        i++;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      i++;</b>
+<b class="pc">&nbsp;      if (fromStr.length()&gt;6) {</b>
+<b class="nc">&nbsp;        i += Integer.parseInt(fromStr.replace(&quot;marker&quot;, &quot;&quot;));</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      i = Integer.parseInt(fromStr);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (i &lt; 1 || i &gt; patternTokens.length) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;RuleFilter: Index out of bounds in &quot;</b>
+<b class="nc">&nbsp;        + match.getRule().getFullId() + &quot;, value: &quot; + fromStr);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return i - 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isMatchAtSentenceStart(AnalyzedTokenReadings[] tokens, RuleMatch match) {
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    while (i &lt; tokens.length &amp;&amp; tokens[i].getStartPos() &lt; match.getFromPos()) {</b>
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    while (i &gt; 0 &amp;&amp; StringTools.isPunctuationMark(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;      i--;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return i == 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // when there&#39;s a &#39;skip&#39;, we need to adapt the reference number
+&nbsp;  protected int getSkipCorrectedReference(List&lt;Integer&gt; tokenPositions, int refNumber) {
+<b class="fc">&nbsp;    if (refNumber &lt; 0) {</b>
+<b class="fc">&nbsp;      return refNumber;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    int correctedRef = 0;</b>
+<b class="fc">&nbsp;    int i = 0;</b>
+<b class="fc">&nbsp;    for (int tokenPosition : tokenPositions) {</b>
+<b class="fc">&nbsp;      if (i++ &gt;= refNumber) {</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="fc">&nbsp;      correctedRef += tokenPosition;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return correctedRef - 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Language getLanguageFromRuleMatch(RuleMatch match) {
+<b class="fc">&nbsp;    Rule rule = match.getRule();</b>
+&nbsp;    Language language;
+<b class="pc">&nbsp;    if (rule instanceof AbstractPatternRule) {</b>
+<b class="fc">&nbsp;      language = ((PatternRule) match.getRule()).getLanguage();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;AbstractAdvancedSynthesizerFilter only works with pattern rules. &quot; + rule.getFullId() + &quot; is not a pattern rule&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return language;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Synthesizer getSynthesizerFromRuleMatch(RuleMatch match) {
+<b class="nc">&nbsp;    return getLanguageFromRuleMatch(match).getSynthesizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

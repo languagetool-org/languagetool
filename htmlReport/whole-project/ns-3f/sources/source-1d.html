@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PortugueseProclisisFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: PortugueseProclisisFilter (org.languagetool.rules.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PortugueseProclisisFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.2%
+  </span>
+  <span class="absValue">
+    (19/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (29/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.pt;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.pt.PortugueseSynthesizer;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="fc">&nbsp;public class PortugueseProclisisFilter extends RuleFilter {</b>
+&nbsp;  protected PortugueseSynthesizer getSynthesizer() {
+<b class="fc">&nbsp;    return PortugueseSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+<b class="fc">&nbsp;    AnalyzedTokenReadings encliticVerbTokenReadings = patternTokens[patternTokens.length - 1];</b>
+<b class="fc">&nbsp;    HashSet&lt;String&gt; suggestions = new HashSet&lt;&gt;(Collections.emptyList());</b>
+<b class="fc">&nbsp;    for (AnalyzedToken at : encliticVerbTokenReadings.getReadings()) {</b>
+<b class="fc">&nbsp;      String posTag = at.getPOSTag();</b>
+<b class="pc">&nbsp;      if (posTag == null || !posTag.startsWith(&quot;V&quot;) || !posTag.contains(&quot;:&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      String oldToken = at.getToken();</b>
+<b class="fc">&nbsp;      String[] tagParts = posTag.split(&quot;:&quot;);</b>
+<b class="fc">&nbsp;      String verbTag = tagParts[0];</b>
+<b class="fc">&nbsp;      String newVerb = getSynthesizer().synthesize(at, verbTag)[0];</b>
+<b class="fc">&nbsp;      String[] oldTokenParts = oldToken.split(&quot;-&quot;);</b>
+&nbsp;      // Includes only the relevant part of the verb; i.e. for mesoclitics, we ignore the ending
+<b class="fc">&nbsp;      String oldVerb = oldTokenParts[0];</b>
+<b class="fc">&nbsp;      String oldPronoun = oldTokenParts[1];</b>
+<b class="fc">&nbsp;      List&lt;String&gt; newPronounForms = new ArrayList&lt;&gt;(Collections.emptyList());</b>
+<b class="pc">&nbsp;      switch (oldPronoun) {</b>
+&nbsp;        case &quot;lo&quot;:
+&nbsp;        case &quot;no&quot;:
+<b class="fc">&nbsp;          newPronounForms.add(&quot;o&quot;);</b>
+&nbsp;          break;
+&nbsp;        case &quot;la&quot;:
+&nbsp;        case &quot;na&quot;:
+<b class="fc">&nbsp;          newPronounForms.add(&quot;a&quot;);</b>
+&nbsp;          break;
+&nbsp;        case &quot;los&quot;:
+<b class="fc">&nbsp;          newPronounForms.add(&quot;os&quot;);</b>
+&nbsp;          break;
+&nbsp;        case &quot;las&quot;:
+&nbsp;        case &quot;nas&quot;:
+<b class="fc">&nbsp;          newPronounForms.add(&quot;as&quot;);</b>
+&nbsp;          break;
+&nbsp;        case &quot;nos&quot;:
+<b class="fc">&nbsp;          newPronounForms.add(&quot;nos&quot;);</b>
+<b class="pc">&nbsp;          if (oldVerb.endsWith(&quot;m&quot;) || oldVerb.endsWith(&quot;ão&quot;) || oldVerb.endsWith(&quot;õe&quot;)) {</b>
+<b class="fc">&nbsp;            newPronounForms.add(&quot;os&quot;);</b>
+&nbsp;          }
+&nbsp;          break;
+&nbsp;        default:
+<b class="fc">&nbsp;          newPronounForms.add(oldPronoun);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      for (String newPronoun : newPronounForms) {</b>
+<b class="fc">&nbsp;        String suggestion = newPronoun + &quot; &quot; + newVerb;</b>
+<b class="fc">&nbsp;        suggestions.add(suggestion);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    match.setSuggestedReplacements(new ArrayList&lt;&gt;(suggestions));</b>
+<b class="fc">&nbsp;    return match;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

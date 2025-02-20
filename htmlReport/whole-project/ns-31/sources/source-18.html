@@ -1,0 +1,220 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TextToNumberFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.es</a>
+</div>
+
+<h1>Coverage Summary for Class: TextToNumberFilter (org.languagetool.rules.es)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TextToNumberFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/68)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.es;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.AbstractTextToNumberFilter;
+&nbsp;
+<b class="nc">&nbsp;public class TextToNumberFilter extends AbstractTextToNumberFilter {</b>
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    numbers.put(&quot;cero&quot;, (float) 0);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;medio&quot;, (float) 0.5);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;un&quot;, (float) 1);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;uno&quot;, (float) 1);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;una&quot;, (float) 1);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;dos&quot;, (float) 2);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;tres&quot;, (float) 3);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;cuatro&quot;, (float) 4);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;cinco&quot;, (float) 5);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;seis&quot;, (float) 6);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;siete&quot;, (float) 7);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;ocho&quot;, (float) 8);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;nueve&quot;, (float) 9);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;diez&quot;, (float) 10);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;once&quot;, (float) 11);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;doce&quot;, (float) 12);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;trece&quot;, (float) 13);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;catorce&quot;, (float) 14);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;quince&quot;, (float) 15);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;dieciséis&quot;, (float) 16);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;diecisiete&quot;, (float) 17);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;dieciocho&quot;, (float) 18);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;diecinueve&quot;, (float) 19);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veinte&quot;, (float) 20);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veintiuno&quot;, (float) 21);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veintidós&quot;, (float) 22);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veintitrés&quot;, (float) 23);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veinticuatro&quot;, (float) 24);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veinticinco&quot;, (float) 25);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veintiséis&quot;, (float) 26);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veintisiete&quot;, (float) 27);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veintiocho&quot;, (float) 28);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;veintinueve&quot;, (float) 29);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;treinta&quot;, (float) 30);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;cuarenta&quot;, (float) 40);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;cincuenta&quot;, (float) 50);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;sesenta&quot;, (float) 60);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;setenta&quot;, (float) 70);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;ochenta&quot;, (float) 80);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;noventa&quot;, (float) 90);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;cien&quot;, (float) 100);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;ciento&quot;, (float) 100);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;doscientos&quot;, (float) 200);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;trescientos&quot;, (float) 300);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;cuatrocientos&quot;, (float) 400);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;quinientos&quot;, (float) 500);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;seiscientos&quot;, (float) 600);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;setecientos&quot;, (float) 700);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;ochocientos&quot;, (float) 800);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;novecientos&quot;, (float) 900);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;doscientas&quot;, (float) 200);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;trescientas&quot;, (float) 300);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;cuatrocientas&quot;, (float) 400);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;quinientas&quot;, (float) 500);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;seiscientas&quot;, (float) 600);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;setecientas&quot;, (float) 700);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;ochocientas&quot;, (float) 800);</b>
+<b class="nc">&nbsp;    numbers.put(&quot;novecientas&quot;, (float) 900);</b>
+<b class="nc">&nbsp;    multipliers.put(&quot;mil&quot;, (float) 1000);</b>
+<b class="nc">&nbsp;    multipliers.put(&quot;millón&quot;, (float) 1000000);</b>
+<b class="nc">&nbsp;    multipliers.put(&quot;millones&quot;, (float) 1000000);</b>
+<b class="nc">&nbsp;    multipliers.put(&quot;billón&quot;, (float) 10E12);</b>
+<b class="nc">&nbsp;    multipliers.put(&quot;billones&quot;, (float) 10E12);</b>
+<b class="nc">&nbsp;    multipliers.put(&quot;trillón&quot;, (float) 10E18);</b>
+<b class="nc">&nbsp;    multipliers.put(&quot;trillones&quot;, (float) 10E18);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected boolean isComma(String s) {
+<b class="nc">&nbsp;    return s.equalsIgnoreCase(&quot;comma&quot;) || s.equalsIgnoreCase(&quot;coma&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected boolean isPercentage(AnalyzedTokenReadings[] patternTokens, int i) {
+<b class="nc">&nbsp;    return patternTokens[i].getToken().equals(&quot;ciento&quot;) &amp;&amp; patternTokens[i - 1].getToken().toLowerCase().equals(&quot;por&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,598 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CommandLineOptions</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.commandline</a>
+</div>
+
+<h1>Coverage Summary for Class: CommandLineOptions (org.languagetool.commandline)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommandLineOptions</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/69)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/104)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CommandLineOptions$OutputFormat</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/71)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/108)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.commandline;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.CategoryId;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Options that can be set via command line arguments.
+&nbsp; */
+<b class="nc">&nbsp;public class CommandLineOptions {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Constants for rule matches output in command-line.
+&nbsp;   * @since 3.6
+&nbsp;   */
+<b class="nc">&nbsp;  public enum OutputFormat {</b>
+<b class="nc">&nbsp;    PLAINTEXT,</b>
+<b class="nc">&nbsp;    JSON,</b>
+<b class="nc">&nbsp;    XML</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private final Set&lt;CategoryId&gt; enabledCategories = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Set&lt;CategoryId&gt; disabledCategories = new HashSet&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  private boolean printUsage = false;</b>
+<b class="nc">&nbsp;  private boolean printVersion = false;</b>
+<b class="nc">&nbsp;  private boolean printLanguages = false;</b>
+<b class="nc">&nbsp;  private boolean verbose = false;</b>
+<b class="nc">&nbsp;  private boolean recursive = false;</b>
+<b class="nc">&nbsp;  private boolean taggerOnly = false;</b>
+<b class="nc">&nbsp;  private boolean singleLineBreakMarksParagraph = false;</b>
+<b class="nc">&nbsp;  private OutputFormat outputFormat = OutputFormat.PLAINTEXT;</b>
+<b class="nc">&nbsp;  private boolean listUnknown = false;</b>
+<b class="nc">&nbsp;  private boolean applySuggestions = false;</b>
+<b class="nc">&nbsp;  private boolean profile = false;</b>
+<b class="nc">&nbsp;  private boolean bitext = false;</b>
+<b class="nc">&nbsp;  private boolean autoDetect = false;</b>
+<b class="nc">&nbsp;  private boolean xmlFiltering = false;</b>
+<b class="nc">&nbsp;  private boolean lineByLine = false;</b>
+<b class="nc">&nbsp;  private boolean enableTempOff = false;</b>
+<b class="nc">&nbsp;  private boolean cleanOverlapping = false;</b>
+<b class="nc">&nbsp;  private JLanguageTool.Level level = JLanguageTool.Level.DEFAULT;</b>
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private Language language = null;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private Language motherTongue = null;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private File languageModel = null;
+&nbsp;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private File fasttextModel = null;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private File fasttextBinary = null;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private String encoding = null;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private String filename = null;
+<b class="nc">&nbsp;  private List&lt;String&gt; disabledRules = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private List&lt;String&gt; enabledRules = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private boolean useEnabledOnly = false;</b>
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private String ruleFile = null;
+&nbsp;  @Nullable
+&nbsp;  private String remoteRulesFile;
+&nbsp;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private String falseFriendFile = null;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  private String bitextRuleFile = null;
+&nbsp;
+&nbsp;  public boolean isPrintUsage() {
+<b class="nc">&nbsp;    return printUsage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setPrintUsage(boolean printUsage) {
+<b class="nc">&nbsp;    this.printUsage = printUsage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isPrintVersion() {
+<b class="nc">&nbsp;    return printVersion;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setPrintVersion(boolean printVersion) {
+<b class="nc">&nbsp;    this.printVersion = printVersion;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isVerbose() {
+<b class="nc">&nbsp;    return verbose;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setVerbose(boolean verbose) {
+<b class="nc">&nbsp;    this.verbose = verbose;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isLineByLine() {
+<b class="nc">&nbsp;    return lineByLine;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setLineByLine (boolean lineByLine) {
+<b class="nc">&nbsp;    this.lineByLine = lineByLine;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isEnableTempOff() {
+<b class="nc">&nbsp;    return enableTempOff;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setEnableTempOff(boolean enableTempOff) {
+<b class="nc">&nbsp;    this.enableTempOff = enableTempOff;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @since 6.1
+&nbsp;   */
+&nbsp;  public boolean isCleanOverlapping() {
+<b class="nc">&nbsp;    return cleanOverlapping;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setCleanOverlapping(boolean cleanOverlapping) {
+<b class="nc">&nbsp;    this.cleanOverlapping = cleanOverlapping;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isRecursive() {
+<b class="nc">&nbsp;    return recursive;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRecursive(boolean recursive) {
+<b class="nc">&nbsp;    this.recursive = recursive;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isTaggerOnly() {
+<b class="nc">&nbsp;    return taggerOnly;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setTaggerOnly(boolean taggerOnly) {
+<b class="nc">&nbsp;    this.taggerOnly = taggerOnly;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isSingleLineBreakMarksParagraph() {
+<b class="nc">&nbsp;    return singleLineBreakMarksParagraph;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setSingleLineBreakMarksParagraph(boolean singleLineBreakMarksParagraph) {
+<b class="nc">&nbsp;    this.singleLineBreakMarksParagraph = singleLineBreakMarksParagraph;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.6
+&nbsp;   */
+&nbsp;  public boolean isJsonFormat() {
+<b class="nc">&nbsp;    return this.outputFormat == OutputFormat.JSON;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.6
+&nbsp;   */
+&nbsp;  public void setJsonFormat() {
+<b class="nc">&nbsp;    this.outputFormat = OutputFormat.JSON;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isListUnknown() {
+<b class="nc">&nbsp;    return listUnknown;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setListUnknown(boolean listUnknown) {
+<b class="nc">&nbsp;    this.listUnknown = listUnknown;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isApplySuggestions() {
+<b class="nc">&nbsp;    return applySuggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setApplySuggestions(boolean applySuggestions) {
+<b class="nc">&nbsp;    this.applySuggestions = applySuggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isProfile() {
+<b class="nc">&nbsp;    return profile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setProfile(boolean profile) {
+<b class="nc">&nbsp;    this.profile = profile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isBitext() {
+<b class="nc">&nbsp;    return bitext;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setBitext(boolean bitext) {
+<b class="nc">&nbsp;    this.bitext = bitext;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isAutoDetect() {
+<b class="nc">&nbsp;    return autoDetect;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setAutoDetect(boolean autoDetect) {
+<b class="nc">&nbsp;    this.autoDetect = autoDetect;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public Language getLanguage() {
+<b class="nc">&nbsp;    return language;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setLanguage(Language language) {
+<b class="nc">&nbsp;    this.language = language;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public Language getMotherTongue() {
+<b class="nc">&nbsp;    return motherTongue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setMotherTongue(Language motherTongue) {
+<b class="nc">&nbsp;    this.motherTongue = motherTongue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return a directory with Lucene index sub directories like ({@code 3grams}), or {@code null}
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public File getLanguageModel() {
+<b class="nc">&nbsp;    return languageModel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  public void setLanguageModel(File languageModel) {
+<b class="nc">&nbsp;    this.languageModel = languageModel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public File getFasttextModel() {
+<b class="nc">&nbsp;    return fasttextModel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public void setFasttextModel(File fasttextModel) {
+<b class="nc">&nbsp;    this.fasttextModel = fasttextModel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public File getFasttextBinary() {
+<b class="nc">&nbsp;    return fasttextBinary;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public void setFasttextBinary(File fasttextBinary) {
+<b class="nc">&nbsp;    this.fasttextBinary = fasttextBinary;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return an additional rule file name to use
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getRuleFile() {
+<b class="nc">&nbsp;    return ruleFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param ruleFile absolute file name of the XML rule file
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public void setRuleFile(String ruleFile) {
+<b class="nc">&nbsp;    this.ruleFile = ruleFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getRemoteRulesFile() {
+<b class="nc">&nbsp;    return remoteRulesFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  public void setRemoteRulesFile(String remoteRulesFile) {
+<b class="nc">&nbsp;    this.remoteRulesFile = remoteRulesFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getEncoding() {
+<b class="nc">&nbsp;    return encoding;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setEncoding(String encoding) {
+<b class="nc">&nbsp;    this.encoding = encoding;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getFilename() {
+<b class="nc">&nbsp;    return filename;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setFilename(String filename) {
+<b class="nc">&nbsp;    this.filename = filename;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getDisabledRules() {
+<b class="nc">&nbsp;    return disabledRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setDisabledRules(List&lt;String&gt; disabledRules) {
+<b class="nc">&nbsp;    this.disabledRules = Objects.requireNonNull(disabledRules);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getEnabledRules() {
+<b class="nc">&nbsp;    return enabledRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setEnabledRules(List&lt;String&gt; enabledRules) {
+<b class="nc">&nbsp;    this.enabledRules = Objects.requireNonNull(enabledRules);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.3 */
+&nbsp;  public void setEnabledCategories(List&lt;String&gt; categoryIds) {
+<b class="nc">&nbsp;    for (String categoryId : categoryIds) {</b>
+<b class="nc">&nbsp;      enabledCategories.add(new CategoryId(categoryId));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.3 */
+&nbsp;  public Set&lt;CategoryId&gt; getEnabledCategories() {
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(enabledCategories);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.3 */
+&nbsp;  public void setDisabledCategories(List&lt;String&gt; categoryIds) {
+<b class="nc">&nbsp;    for (String categoryId : categoryIds) {</b>
+<b class="nc">&nbsp;      disabledCategories.add(new CategoryId(categoryId));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.3 */
+&nbsp;  public Set&lt;CategoryId&gt; getDisabledCategories() {
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(disabledCategories);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.9 */
+&nbsp;  public boolean isUseEnabledOnly() {
+<b class="nc">&nbsp;    return useEnabledOnly;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.7 */
+&nbsp;  public void setUseEnabledOnly() {
+<b class="nc">&nbsp;    this.useEnabledOnly = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isXmlFiltering() {
+<b class="nc">&nbsp;    return xmlFiltering;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setXmlFiltering(boolean xmlFiltering) {
+<b class="nc">&nbsp;    this.xmlFiltering = xmlFiltering;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isPrintLanguages() {
+<b class="nc">&nbsp;    return printLanguages;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setPrintLanguages(boolean printLanguages) {
+<b class="nc">&nbsp;    this.printLanguages = printLanguages;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param file False friends filename
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public void setFalseFriendFile(String file) {
+<b class="nc">&nbsp;    falseFriendFile = file;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return False friends file name or {@code null}
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getFalseFriendFile() {
+<b class="nc">&nbsp;    return falseFriendFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the bitext rule file name or {@code null}
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getBitextRuleFile() {
+<b class="nc">&nbsp;    return bitextRuleFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param bitextRuleFile the bitext rule file name
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public void setBitextRuleFile(String bitextRuleFile) {
+<b class="nc">&nbsp;    this.bitextRuleFile = bitextRuleFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public void setLevel(JLanguageTool.Level level) {
+<b class="nc">&nbsp;    this.level = level;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public JLanguageTool.Level getLevel() {
+<b class="nc">&nbsp;    return this.level;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,668 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Catalan</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: Catalan (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Catalan</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/210)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/281)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2009 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.ca.*;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.ca.CatalanSynthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.ca.CatalanTagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
+&nbsp;import org.languagetool.tokenizers.*;
+&nbsp;import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;
+&nbsp;public class Catalan extends Language {
+&nbsp;
+&nbsp;  private static final String LANGUAGE_SHORT_CODE = &quot;ca-ES&quot;;
+&nbsp;
+&nbsp;  private static volatile Throwable instantiationTrace;
+&nbsp;
+<b class="nc">&nbsp;  public Catalan() {</b>
+<b class="nc">&nbsp;    Throwable trace = instantiationTrace;</b>
+<b class="nc">&nbsp;    if (trace != null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Language was already instantiated, see the cause stacktrace below.&quot;, trace);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    instantiationTrace = new Throwable();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+&nbsp;   */
+<b class="nc">&nbsp;  protected Catalan(boolean fakeValue) {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static @NotNull Catalan getInstance() {
+<b class="nc">&nbsp;    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));</b>
+<b class="nc">&nbsp;    if (language instanceof Catalan catalan) {</b>
+<b class="nc">&nbsp;      return catalan;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;Catalan language expected, got &quot; + language);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;Catalan&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="nc">&nbsp;    return new String[]{&quot;ES&quot;}; // &quot;AD&quot;, &quot;FR&quot;, &quot;IT&quot;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="nc">&nbsp;    return &quot;ca&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Language getDefaultLanguageVariant() {
+<b class="nc">&nbsp;    return Languages.getLanguageForShortCode(&quot;ca-ES&quot;);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[] { new Contributor(&quot;Ricard Roca&quot;), new Contributor(&quot;Jaume Ortolà&quot;) };</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;            new CommaWhitespaceRule(messages, 
+<b class="nc">&nbsp;            		Example.wrong(&quot;A parer seu&lt;marker&gt; ,&lt;/marker&gt; no era veritat.&quot;),</b>
+<b class="nc">&nbsp;            		Example.fixed(&quot;A parer seu&lt;marker&gt;,&lt;/marker&gt; no era veritat.&quot;)),</b>
+&nbsp;            new DoublePunctuationRule(messages),
+&nbsp;            new CatalanUnpairedBracketsRule(messages, this),
+&nbsp;            new UppercaseSentenceStartRule(messages, this,
+<b class="nc">&nbsp;            		Example.wrong(&quot;Preus de venda al públic. &lt;marker&gt;han&lt;/marker&gt; pujat molt.&quot;),</b>
+<b class="nc">&nbsp;            		Example.fixed(&quot;Preus de venda al públic. &lt;marker&gt;Han&lt;/marker&gt; pujat molt.&quot;)),</b>
+&nbsp;            new MultipleWhitespaceRule(messages, this),
+&nbsp;            new LongSentenceRule(messages, userConfig, 60),
+&nbsp;            // specific to Catalan:
+&nbsp;            new CatalanWordRepeatRule(messages, this),
+&nbsp;            new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
+&nbsp;            new CatalanUnpairedQuestionMarksRule(messages, this),
+&nbsp;            new CatalanUnpairedExclamationMarksRule(messages, this),
+&nbsp;            new CatalanWrongWordInContextRule(messages, this),
+&nbsp;            new SimpleReplaceVerbsRule(messages, this),
+&nbsp;            new SimpleReplaceBalearicRule(messages, this),
+&nbsp;            new SimpleReplaceRule(messages, this),
+&nbsp;            new SimpleReplaceMultiwordsRule(messages),
+&nbsp;            new ReplaceOperationNamesRule(messages, this),
+&nbsp;            new SimpleReplaceDiacriticsIEC(messages, this),
+&nbsp;            new SimpleReplaceAnglicism(messages), 
+&nbsp;            new PronomFebleDuplicateRule(messages),
+&nbsp;            new CheckCaseRule(messages, this),
+&nbsp;            new SimpleReplaceAdverbsMent(messages),
+&nbsp;            new CatalanWordRepeatBeginningRule(messages, this),
+&nbsp;            new CompoundRule(messages, this, userConfig),
+&nbsp;            //new CatalanRepeatedWordsRule(messages, this),
+&nbsp;            new SimpleReplaceDNVRule(messages, this),
+&nbsp;            new SimpleReplaceDNVColloquialRule(messages, this),
+&nbsp;            new SimpleReplaceDNVSecondaryRule(messages, this),
+&nbsp;            new WordCoherencyRule(messages),
+&nbsp;            new PunctuationMarkAtParagraphEnd(messages, this)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return CatalanTagger.INSTANCE_CAT;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;    return CatalanSynthesizer.INSTANCE_CAT;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;    return new SRXSentenceTokenizer(this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new CatalanHybridDisambiguator(getDefaultLanguageVariant());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;    return CatalanWordTokenizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;«&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;»&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningSingleQuote() {
+<b class="nc">&nbsp;    return &quot;‘&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingSingleQuote() {
+<b class="nc">&nbsp;    return &quot;’&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public boolean isAdvancedTypographyEnabled() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern PATTERN_1 = compile(&quot;(\\b[lmnstdLMNSTD])&#39;&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_2 = compile(&quot;(\\b[lmnstdLMNSTD])’\&quot;&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN_3 = compile(&quot;(\\b[lmnstdLMNSTD])’&#39;&quot;);</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toAdvancedTypography (String input) {
+<b class="nc">&nbsp;    String output = super.toAdvancedTypography(input);</b>
+&nbsp;    
+&nbsp;    // special cases: apostrophe + quotation marks
+<b class="nc">&nbsp;    output = PATTERN_1.matcher(output).replaceAll(&quot;$1’&quot;);</b>
+<b class="nc">&nbsp;    output = PATTERN_2.matcher(output).replaceAll(&quot;$1’&quot; + getOpeningDoubleQuote());</b>
+<b class="nc">&nbsp;    output = PATTERN_3.matcher(output).replaceAll(&quot;$1’&quot; + getOpeningSingleQuote());</b>
+&nbsp;    
+<b class="nc">&nbsp;    return output;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;    return LanguageMaintainedState.ActivelyMaintained;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected int getDefaultRulePriorityForStyle() {
+<b class="nc">&nbsp;    return -50;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="nc">&nbsp;    switch (id) {</b>
+<b class="nc">&nbsp;      case &quot;CONFUSIONS2&quot;: return 80;</b>
+<b class="nc">&nbsp;      case &quot;DEU_NI_DO&quot;: return 80; // greater than rules about pronouns</b>
+<b class="nc">&nbsp;      case &quot;FER_LOGIN&quot;: return 70; // greater than anglicisms</b>
+<b class="nc">&nbsp;      case &quot;L_OK&quot;: return 70; // greater than anglicisms</b>
+<b class="nc">&nbsp;      case &quot;INCORRECT_EXPRESSIONS&quot;: return 50;</b>
+<b class="nc">&nbsp;      case &quot;PERSONATGES_FAMOSOS&quot;: return 50;</b>
+<b class="nc">&nbsp;      case &quot;CONEIXO_CONEC&quot;: return 50;</b>
+<b class="nc">&nbsp;      case &quot;COMETES_INCORRECTES&quot;: return 50; // greater than PRONOMS_FEBLES</b>
+<b class="nc">&nbsp;      case &quot;OFERTAR_OFERIR&quot;: return 50; // greater than PRONOMS_FEBLES_SOLTS2</b>
+<b class="nc">&nbsp;      case &quot;DESDE_UN&quot;: return 40;</b>
+<b class="nc">&nbsp;      case &quot;MOTS_NO_SEPARATS&quot;: return 40;</b>
+<b class="nc">&nbsp;      case &quot;REPETEAD_ELEMENTS&quot;: return 40;</b>
+<b class="nc">&nbsp;      case &quot;ESPERANT_US_AGRADI&quot;: return 40;</b>
+<b class="nc">&nbsp;      case &quot;LO_NEUTRE&quot;: return 40; // lower than other INCORRECT_EXPRESSIONS</b>
+<b class="nc">&nbsp;      case &quot;ESPAIS_SOBRANTS&quot;: return 40; // greater than L</b>
+<b class="nc">&nbsp;      case &quot;ELA_GEMINADA&quot;: return 35; // greater than agreement rules, pronoun rules</b>
+<b class="nc">&nbsp;      case &quot;CONFUSIONS_PRONOMS_FEBLES&quot;: return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB</b>
+<b class="nc">&nbsp;      case &quot;CA_SPLIT_WORDS&quot;: return 30;</b>
+<b class="nc">&nbsp;      case &quot;PRONOMS_FEBLES_TEMPS_VERBAL&quot;: return 35;</b>
+<b class="nc">&nbsp;      case &quot;ET_AL&quot;: return 30; // greater than apostrophes and pronouns</b>
+<b class="nc">&nbsp;      case &quot;PRONOMS_FEBLES_COLLOQUIALS&quot;: return 30; // greater than PRONOMS_FEBLES_SOLTS2</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCES_CASOS_PARTICULARS&quot;: return 30;</b>
+<b class="nc">&nbsp;      case &quot;GERUNDI_PERD_T&quot;: return 30;</b>
+<b class="nc">&nbsp;      case &quot;CONFUSIONS&quot;: return 30;</b>
+<b class="nc">&nbsp;      case &quot;PRONOMS_FEBLES_DARRERE_VERB&quot;: return 30; // greater than PRONOMS_FEBLES_SOLTS2</b>
+<b class="nc">&nbsp;      case &quot;VERBS_NO_INCOATIUS&quot;: return 30; // greater than PRONOMS_FEBLES_SOLTS2</b>
+<b class="nc">&nbsp;      case &quot;ARRIBAN_ARRIBANT&quot;: return 30;</b>
+<b class="nc">&nbsp;      case &quot;PUNT_LLETRA&quot;: return 30; // greater than CONCORDANCES_DET_NOM</b>
+<b class="nc">&nbsp;      case &quot;REEMPRENDRE&quot;: return 28; // equal to CA_SIMPLE_REPLACE_VERBS</b>
+<b class="nc">&nbsp;      case &quot;INCORRECT_WORDS_IN_CONTEXT&quot;: return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN</b>
+<b class="nc">&nbsp;      case &quot;PRONOMS_FEBLES_SOLTS2&quot;: return 26;  // greater than PRONOMS_FEBLES_SOLTS, ES, HAVER_SENSE_HAC</b>
+<b class="nc">&nbsp;      case &quot;ES_UNKNOWN&quot;: return 25;</b>
+<b class="nc">&nbsp;      case &quot;HAVER_SENSE_HAC&quot;: return 25; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E</b>
+<b class="nc">&nbsp;      case &quot;HA_A&quot;: return 25; //  lower than CA_SIMPLE_REPLACE_VERBS</b>
+<b class="nc">&nbsp;      case &quot;PASSAT_PERIFRASTIC&quot;: return 25; // greater than CONFUSIONS_ACCENT</b>
+<b class="nc">&nbsp;      case &quot;CONFUSIONS_ACCENT&quot;: return 20;</b>
+<b class="nc">&nbsp;      case &quot;CONFUSIO_PASSAT_INFINITIU&quot;: return 20; // greater than ACCENTUATION_CHECK</b>
+<b class="nc">&nbsp;      case &quot;DIACRITICS&quot;: return 20;</b>
+<b class="nc">&nbsp;      case &quot;CAP_GENS&quot;: return 20; //greater than CAP_ELS_CAP_ALS, CONCORDANCES_DET_NOM</b>
+<b class="nc">&nbsp;      case &quot;MOTS_SENSE_GUIONETS&quot;: return 20; // greater than CONCORDANCES_NUMERALS</b>
+<b class="nc">&nbsp;      case &quot;ORDINALS&quot;: return 20; // greater than SEPARAT</b>
+<b class="nc">&nbsp;      case &quot;SUPER&quot;: return 20;</b>
+<b class="nc">&nbsp;      case &quot;PRONOM_FEBLE_HI&quot;: return 20; // greater than HAVER_PARTICIPI_HAVER_IMPERSONAL</b>
+<b class="nc">&nbsp;      case &quot;HAVER_PARTICIPI_HAVER_IMPERSONAL&quot;: return 15; // greater than ACCENTUATION_CHECK</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCES_NUMERALS_DUES&quot;: return 10; // greater than CONCORDANCES_NUMERALS</b>
+<b class="nc">&nbsp;      case &quot;FALTA_CONDICIONAL&quot;: return 10; // greater than POTSER_SIGUI</b>
+<b class="nc">&nbsp;      case &quot;ACCENTUATION_CHECK&quot;: return 10;</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCA_GRIS&quot;: return 10;</b>
+<b class="nc">&nbsp;      case &quot;A_PER&quot;: return 10;</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCES_NUMERALS&quot;: return 10;</b>
+<b class="nc">&nbsp;      case &quot;COMMA_IJ&quot;: return 10;</b>
+<b class="nc">&nbsp;      case &quot;AVIS&quot;: return 10;</b>
+<b class="nc">&nbsp;      case &quot;CAP_ELS_CAP_ALS&quot;: return 10; // greater than DET_GN</b>
+<b class="nc">&nbsp;      case &quot;CASING&quot;: return 10; // greater than CONCORDANCES_DET_NOM</b>
+<b class="nc">&nbsp;      case &quot;DOS_ARTICLES&quot;: return 10; // greater than apostrophation rules</b>
+<b class="nc">&nbsp;      case &quot;MOTS_GUIONET&quot;: return 10; // greater than CONCORDANCES_DET_NOM</b>
+<b class="nc">&nbsp;      case &quot;SELS_EN_VA&quot;: return 10;</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCES_NOUNS_PRIORITY&quot;: return 10;</b>
+<b class="nc">&nbsp;      case &quot;PREFIXOS_SENSE_GUIONET_EN_DICCIONARI&quot;: return 10; // greater than SPELLING</b>
+<b class="nc">&nbsp;      case &quot;ZERO_O&quot;: return 10; //greater than SPELLING</b>
+<b class="nc">&nbsp;      case &quot;URL&quot;: return 10; //greater than SPELLING</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCES_DET_NOM&quot;: return 5; // greater than DE_EL_S_APOSTROFEN</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCES_DET_ADJ&quot;: return 5; // greater than DE_EL_S_APOSTROFEN</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCES_DET_POSSESSIU&quot;: return 5; // greater than CONCORDANCES_ADJECTIUS_NEUTRES</b>
+<b class="nc">&nbsp;      case &quot;PASSAR_SE&quot;: return 5; // greater than OBLIDARSE</b>
+<b class="nc">&nbsp;      case &quot;DET_GN&quot;: return 5; // greater than DE_EL_S_APOSTROFEN</b>
+<b class="nc">&nbsp;      case &quot;SPELLING&quot;: return 5;</b>
+<b class="nc">&nbsp;      case &quot;APOSTROF_ANYS&quot;: return 5; // greater than typography options</b>
+<b class="nc">&nbsp;      case &quot;VENIR_NO_REFLEXIU&quot;: return 5;</b>
+<b class="nc">&nbsp;      case &quot;DEUS_SEUS&quot;: return 5;</b>
+<b class="nc">&nbsp;      case &quot;SON_BONIC&quot;: return 5;</b>
+<b class="nc">&nbsp;      case &quot;ACCENTUACIO&quot;: return 5;</b>
+<b class="nc">&nbsp;      case &quot;L_NO_APOSTROFA&quot;: return 5;</b>
+<b class="nc">&nbsp;      case &quot;L_D_N_NO_S_APOSTROFEN&quot;: return 5;</b>
+<b class="nc">&nbsp;      case &quot;CONTRACCIONS&quot;: return 0; // lesser than apostrophations</b>
+<b class="nc">&nbsp;      case &quot;CASING_START&quot;: return -5;</b>
+<b class="nc">&nbsp;      case &quot;CA_WORD_COHERENCY&quot;: return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE</b>
+<b class="nc">&nbsp;      case &quot;CA_WORD_COHERENCY_VALENCIA&quot;: return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE</b>
+&nbsp;    // TA_DEMOSTRATIUS_ESTE
+<b class="nc">&nbsp;      case &quot;ARTICLE_TOPONIM_MIN&quot;: return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM </b>
+<b class="nc">&nbsp;      case &quot;PEL_QUE&quot;: return -10; // lesser than PEL_QUE_FA</b>
+<b class="nc">&nbsp;      case &quot;COMMA_LOCUTION&quot;: return -10;</b>
+<b class="nc">&nbsp;      case &quot;REGIONAL_VERBS&quot;: return -10;</b>
+<b class="nc">&nbsp;      case &quot;PRONOMS_FEBLES_SOLTS&quot;: return -10; //lesser than SPELLING</b>
+<b class="nc">&nbsp;      case &quot;CONCORDANCA_PRONOMS_CATCHALL&quot;: return -10;</b>
+<b class="nc">&nbsp;      case &quot;AGREEMENT_POSTPONED_ADJ&quot;: return -15;</b>
+<b class="nc">&nbsp;      case &quot;FALTA_COMA_FRASE_CONDICIONAL&quot;: return -20;</b>
+<b class="nc">&nbsp;      case &quot;ESPAIS_QUE_FALTEN_PUNTUACIO&quot;: return -20;</b>
+<b class="nc">&nbsp;      case &quot;VERBS_NOMSPROPIS&quot;: return -20;</b>
+<b class="nc">&nbsp;      case &quot;VERBS_PRONOMINALS&quot;: return -25;</b>
+<b class="nc">&nbsp;      case &quot;PORTO_LLEGINT&quot;: return -30;</b>
+<b class="nc">&nbsp;      case &quot;PORTA_UNA_HORA&quot;: return -40;</b>
+<b class="nc">&nbsp;      case &quot;REPETITIONS_STYLE&quot;: return -50;</b>
+<b class="nc">&nbsp;      case &quot;MUNDAR&quot;: return -50;</b>
+<b class="nc">&nbsp;      case &quot;NOMBRES_ROMANS&quot;: return -90;</b>
+<b class="nc">&nbsp;      case &quot;TASCAS_TASQUES&quot;: return -97;</b>
+<b class="nc">&nbsp;      case &quot;PREPOSICIONS_MINUSCULA&quot;: return -97; // less than CA_MULTITOKEN_SPELLING</b>
+<b class="nc">&nbsp;      case &quot;SUGGERIMENTS_LE&quot;: return -97; // less than CA_MULTITOKEN_SPELLING</b>
+<b class="nc">&nbsp;      case &quot;MORFOLOGIK_RULE_CA_ES&quot;: return -100;</b>
+<b class="nc">&nbsp;      case &quot;EXIGEIX_ACCENTUACIO_VALENCIANA&quot;: return -120;</b>
+&nbsp;      //case &quot;APOSTROFACIO_MOT_DESCONEGUT&quot;: return -120; // lesser than MORFOLOGIK_RULE_CA_ES
+<b class="nc">&nbsp;      case &quot;PHRASE_REPETITION&quot;: return -150;</b>
+<b class="nc">&nbsp;      case &quot;SUBSTANTIUS_JUNTS&quot;: return -150;</b>
+<b class="nc">&nbsp;      case &quot;REPETITION_ADJ_N_ADJ&quot;: return -155;</b>
+<b class="nc">&nbsp;      case &quot;FALTA_ELEMENT_ENTRE_VERBS&quot;: return -200;</b>
+<b class="nc">&nbsp;      case &quot;PUNT_FINAL&quot;: return -200;</b>
+<b class="nc">&nbsp;      case &quot;PUNCTUATION_PARAGRAPH_END&quot;: return -200;</b>
+<b class="nc">&nbsp;      case &quot;CA_END_PARAGRAPH_PUNCTUATION&quot;: return -250;</b>
+<b class="nc">&nbsp;      case &quot;DICENDI_QUE&quot;: return -250;</b>
+<b class="nc">&nbsp;      case &quot;UPPERCASE_SENTENCE_START&quot;: return -500;</b>
+<b class="nc">&nbsp;      case &quot;MAJUSCULA_IMPROBABLE&quot;: return -500;</b>
+<b class="nc">&nbsp;      case &quot;ELA_GEMINADA_WIKI&quot;: return -500;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CA_MULTITOKEN_SPELLING&quot;)) {</b>
+<b class="nc">&nbsp;      return -95;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CA_SIMPLE_REPLACE_MULTIWORDS&quot;)) {</b>
+<b class="nc">&nbsp;      return 70;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CA_SIMPLE_REPLACE_ANGLICISM&quot;)) {</b>
+<b class="nc">&nbsp;      return 65; // greater than CA_SIMPLE_REPLACE_BALEARIC</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CA_SIMPLE_REPLACE_BALEARIC&quot;)) {</b>
+<b class="nc">&nbsp;      return 60;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CA_SIMPLE_REPLACE_VERBS&quot;)) {</b>
+<b class="nc">&nbsp;      return 28;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CA_COMPOUNDS&quot;)) {</b>
+<b class="nc">&nbsp;      return 50;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CA_SIMPLE_REPLACE_DIACRITICS_IEC&quot;)) {</b>
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;CA_SIMPLE_REPLACE&quot;)) {</b>
+<b class="nc">&nbsp;      return 30;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return super.getPriorityForId(id);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public boolean hasMinMatchesRules() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;      return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  private static final Pattern CA_OLD_DIACRITICS = compile(&quot;.*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*&quot;,Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;  private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set&lt;String&gt; enabledRules) {
+<b class="nc">&nbsp;    String errorStr = ruleMatch.getOriginalErrorStr();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; suggestedReplacements = ruleMatch.getSuggestedReplacements();</b>
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; newReplacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String suggestedReplacement : suggestedReplacements) {</b>
+<b class="nc">&nbsp;      String newReplStr = suggestedReplacement;</b>
+<b class="nc">&nbsp;      if (errorStr.length() &gt; 2 &amp;&amp; errorStr.endsWith(&quot;&#39;&quot;) &amp;&amp; !newReplStr.endsWith(&quot;&#39;&quot;) &amp;&amp; !newReplStr.endsWith(&quot;’&quot;)) {</b>
+<b class="nc">&nbsp;        newReplStr = newReplStr + &quot; &quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!newReplStr.equalsIgnoreCase(&quot;després&quot;) &amp;&amp; enabledRules.contains(&quot;EXIGEIX_ACCENTUACIO_GENERAL&quot;)) {</b>
+<b class="nc">&nbsp;        if (newReplStr.contains(&quot;é&quot;) &amp;&amp; suggestedReplacements.contains(newReplStr.replace(&quot;é&quot;, &quot;è&quot;))) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (newReplStr.contains(&quot;É&quot;) &amp;&amp; suggestedReplacements.contains(newReplStr.replace(&quot;É&quot;, &quot;È&quot;))) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (enabledRules.contains(&quot;EXIGEIX_ACCENTUACIO_VALENCIANA&quot;)) {</b>
+<b class="nc">&nbsp;        if (newReplStr.contains(&quot;è&quot;) &amp;&amp; suggestedReplacements.contains(newReplStr.replace(&quot;è&quot;, &quot;é&quot;))) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (newReplStr.contains(&quot;È&quot;) &amp;&amp; suggestedReplacements.contains(newReplStr.replace(&quot;È&quot;, &quot;É&quot;))) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (enabledRules.contains(&quot;APOSTROF_TIPOGRAFIC&quot;) &amp;&amp; newReplStr.length() &gt; 1) {</b>
+<b class="nc">&nbsp;        newReplStr = newReplStr.replace(&quot;&#39;&quot;, &quot;’&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (enabledRules.contains(&quot;EXIGEIX_POSSESSIUS_U&quot;) &amp;&amp; newReplStr.length() &gt; 3) {</b>
+<b class="nc">&nbsp;        Matcher m = POSSESSIUS_v.matcher(newReplStr);</b>
+<b class="nc">&nbsp;        newReplStr = m.replaceAll(&quot;$1u$2&quot;);</b>
+<b class="nc">&nbsp;        Matcher m2 = POSSESSIUS_V.matcher(newReplStr);</b>
+<b class="nc">&nbsp;        newReplStr = m2.replaceAll(&quot;$1U$2&quot;);</b>
+<b class="nc">&nbsp;        newReplStr = newReplStr.replace(&quot;feina&quot;, &quot;faena&quot;);</b>
+<b class="nc">&nbsp;        newReplStr = newReplStr.replace(&quot;feiner&quot;, &quot;faener&quot;);</b>
+<b class="nc">&nbsp;        newReplStr = newReplStr.replace(&quot;feinera&quot;, &quot;faenera&quot;);</b>
+&nbsp;      }
+&nbsp;      // s = adaptContractionsApostrophes(s);
+<b class="nc">&nbsp;      Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);</b>
+<b class="nc">&nbsp;      if (!enabledRules.contains(&quot;DIACRITICS_TRADITIONAL_RULES&quot;) &amp;&amp; m5.matches()) {</b>
+<b class="nc">&nbsp;        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);</b>
+<b class="nc">&nbsp;        newSuggestedReplacement.setReplacement(removeOldDiacritics(newReplStr));</b>
+<b class="nc">&nbsp;        if (!newReplacements.contains(newSuggestedReplacement)) {</b>
+<b class="nc">&nbsp;          newReplacements.add(newSuggestedReplacement);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);</b>
+<b class="nc">&nbsp;        newSuggestedReplacement.setReplacement(newReplStr);</b>
+<b class="nc">&nbsp;        if (!newReplacements.contains(newSuggestedReplacement)) {</b>
+<b class="nc">&nbsp;          newReplacements.add(newSuggestedReplacement);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    RuleMatch newRuleMatch = new RuleMatch(ruleMatch, newReplacements);</b>
+<b class="nc">&nbsp;    return newRuleMatch;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private String removeOldDiacritics(String s) {
+<b class="nc">&nbsp;    return s</b>
+<b class="nc">&nbsp;        .replace(&quot;dóna&quot;, &quot;dona&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;dónes&quot;, &quot;dones&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;sóc&quot;, &quot;soc&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;vénen&quot;, &quot;venen&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;véns&quot;, &quot;véns&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;fóra&quot;, &quot;fora&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;Dóna&quot;, &quot;Dona&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;Dónes&quot;, &quot;Dones&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;Sóc&quot;, &quot;Soc&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;Vénen&quot;, &quot;Venen&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;Véns&quot;, &quot;Vens&quot;)</b>
+<b class="nc">&nbsp;        .replace(&quot;Fóra&quot;, &quot;Fora&quot;);</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  private static final Pattern CA_CONTRACTIONS = compile(&quot;\\b([Aa]|[Dd]e) e(ls?)\\b&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern CA_APOSTROPHES1 = compile(&quot;\\b([LDNSTMldnstm][&#39;’]) &quot;);</b>
+&nbsp;  // exceptions: l&#39;FBI, l&#39;statu quo
+<b class="nc">&nbsp;  private static final Pattern CA_APOSTROPHES2 = compile(&quot;\\b([mtlsn])[&#39;’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\&quot;])&quot;);</b>
+&nbsp;  // exceptions: el iogurt, la essa
+<b class="nc">&nbsp;  private static final Pattern CA_APOSTROPHES3 = compile(&quot;\\be?([mtsldn])e? (h?[aeiouàèéíòóú])&quot;,</b>
+&nbsp;      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+<b class="nc">&nbsp;  private static final Pattern CA_APOSTROPHES4 = compile(&quot;\\b(l)a ([aeoàúèéí][^ ])&quot;,</b>
+&nbsp;      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+<b class="nc">&nbsp;  private static final Pattern CA_APOSTROPHES5 = compile(&quot;\\b([mts]e) ([&#39;’])&quot;,</b>
+&nbsp;      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+<b class="nc">&nbsp;  private static final Pattern CA_APOSTROPHES6 = compile(&quot;\\bs&#39;e(ns|ls)\\b&quot;,</b>
+&nbsp;      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+<b class="nc">&nbsp;  private static final Pattern CA_APOSTROPHES7 = compile(&quot;\\b(de|a)l (h?[aeoàúèéí][^ ])&quot;,</b>
+&nbsp;    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+<b class="nc">&nbsp;  private static final Pattern POSSESSIUS_v = compile(&quot;\\b([mtsMTS]e)v(a|es)\\b&quot;,</b>
+&nbsp;      Pattern.UNICODE_CASE);
+<b class="nc">&nbsp;  private static final Pattern POSSESSIUS_V = compile(&quot;\\b([MTS]E)V(A|ES)\\b&quot;,</b>
+&nbsp;      Pattern.UNICODE_CASE);
+<b class="nc">&nbsp;  private static final Pattern CA_REMOVE_SPACES = compile(&quot;\\b(a|de|pe) (ls? )&quot;,</b>
+&nbsp;    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String adaptSuggestion(String s) {
+&nbsp;    // Exceptions: Digues-me alguna cosa, urbi et orbi, Guns N&#39; Roses
+<b class="nc">&nbsp;    boolean capitalized = StringTools.isCapitalizedWord(s);</b>
+<b class="nc">&nbsp;    Matcher m = CA_CONTRACTIONS.matcher(s);</b>
+<b class="nc">&nbsp;    s = m.replaceAll(&quot;$1$2&quot;);</b>
+<b class="nc">&nbsp;    Matcher m1 = CA_APOSTROPHES1.matcher(s);</b>
+<b class="nc">&nbsp;    s = m1.replaceAll(&quot;$1&quot;);</b>
+<b class="nc">&nbsp;    Matcher m2 = CA_APOSTROPHES2.matcher(s);</b>
+<b class="nc">&nbsp;    s = m2.replaceAll(&quot;e$1 $2&quot;);</b>
+<b class="nc">&nbsp;    Matcher m3 = CA_APOSTROPHES3.matcher(s);</b>
+<b class="nc">&nbsp;    s = m3.replaceAll(&quot;$1&#39;$2&quot;);</b>
+<b class="nc">&nbsp;    Matcher m4 = CA_APOSTROPHES4.matcher(s);</b>
+<b class="nc">&nbsp;    s = m4.replaceAll(&quot;$1&#39;$2&quot;);</b>
+<b class="nc">&nbsp;    Matcher m5 = CA_APOSTROPHES5.matcher(s);</b>
+<b class="nc">&nbsp;    s = m5.replaceAll(&quot;$1$2&quot;);</b>
+<b class="nc">&nbsp;    Matcher m6 = CA_APOSTROPHES6.matcher(s);</b>
+<b class="nc">&nbsp;    s = m6.replaceAll(&quot;se&#39;$1&quot;);</b>
+<b class="nc">&nbsp;    Matcher m7 = CA_APOSTROPHES7.matcher(s);</b>
+<b class="nc">&nbsp;    s = m7.replaceAll(&quot;$1 l&#39;$2&quot;);</b>
+<b class="nc">&nbsp;    Matcher m8 = CA_REMOVE_SPACES.matcher(s);</b>
+<b class="nc">&nbsp;    s = m8.replaceAll(&quot;$1$2&quot;);</b>
+<b class="nc">&nbsp;    if (capitalized) {</b>
+<b class="nc">&nbsp;      s = StringTools.uppercaseFirstChar(s);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    s = s.replace(&quot; ,&quot;, &quot;,&quot;);</b>
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  private final List&lt;String&gt; spellerExceptions = Arrays.asList(&quot;San Juan&quot;, &quot;Copa América&quot;, &quot;Colección Jumex&quot;, &quot;Banco Santander&quot;,</b>
+&nbsp;    &quot;San Marcos&quot;, &quot;Santa Ana&quot;, &quot;San Joaquín&quot;, &quot;Naguib Mahfouz&quot;, &quot;Rosalía&quot;, &quot;Aristide Maillol&quot;, &quot;Alexia Putellas&quot;,
+&nbsp;    &quot;Mónica Randall&quot;, &quot;Vicente Blasco Ibáñez&quot;, &quot;Copa Sudamericana&quot;, &quot;Série A&quot;);
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; prepareLineForSpeller(String line) {
+<b class="nc">&nbsp;    String[] parts = line.split(&quot;#&quot;);</b>
+<b class="nc">&nbsp;    if (parts.length == 0) {</b>
+<b class="nc">&nbsp;      return Arrays.asList(line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] formTag = parts[0].split(&quot;[\t;]&quot;);</b>
+<b class="nc">&nbsp;    String form = formTag[0].trim();</b>
+<b class="nc">&nbsp;    if (spellerExceptions.contains(form)) {</b>
+<b class="nc">&nbsp;      return Arrays.asList(&quot;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (formTag.length &gt; 1) {</b>
+<b class="nc">&nbsp;      String tag = formTag[1].trim();</b>
+<b class="nc">&nbsp;      if (tag.startsWith(&quot;N&quot;) || tag.equals(&quot;_Latin_&quot;)) {</b>
+<b class="nc">&nbsp;        return Arrays.asList(form);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return Arrays.asList(&quot;&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return Arrays.asList(line);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MultitokenSpeller getMultitokenSpeller() {
+<b class="nc">&nbsp;    return CatalanMultitokenSpeller.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;RuleMatch&gt; filterRuleMatches(List&lt;RuleMatch&gt; ruleMatches, AnnotatedText text, Set&lt;String&gt; enabledRules) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (int i=0; i&lt;ruleMatches.size(); i++) {</b>
+<b class="nc">&nbsp;      RuleMatch ruleMatch = ruleMatches.get(i);</b>
+<b class="nc">&nbsp;      if (ruleMatch.getRule().getFullId().equals(&quot;FALTA_ELEMENT_ENTRE_VERBS[3]&quot;) ||</b>
+<b class="nc">&nbsp;        ruleMatch.getRule().getFullId().equals(&quot;FALTA_ELEMENT_ENTRE_VERBS[4]&quot;)) {</b>
+<b class="nc">&nbsp;        if (i+1 &lt; ruleMatches.size()) {</b>
+<b class="nc">&nbsp;          if (ruleMatches.get(i+1).getFromPosSentence()&gt;-1</b>
+<b class="nc">&nbsp;            &amp;&amp; !ruleMatches.get(i+1).getRule().getFullId().equals(&quot;FALTA_ELEMENT_ENTRE_VERBS[5]&quot;)</b>
+<b class="nc">&nbsp;            &amp;&amp; ruleMatches.get(i+1).getFromPosSentence() - ruleMatch.getToPosSentence()&lt;20) {</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (i&gt;0 &amp;&amp; ruleMatch.getRule().getFullId().equals(&quot;FALTA_ELEMENT_ENTRE_VERBS[5]&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;        ruleMatches.get(i-1).getRule().getId().equals(&quot;FALTA_ELEMENT_ENTRE_VERBS&quot;)) {</b>
+&nbsp;      continue;
+&nbsp;      }
+<b class="nc">&nbsp;      results.add(adjustCatalanMatch(ruleMatch, enabledRules));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

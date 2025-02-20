@@ -1,0 +1,234 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractWordCoherencyRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractWordCoherencyRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractWordCoherencyRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (18/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.7%
+  </span>
+  <span class="absValue">
+    (36/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches words for which two different spellings are used
+&nbsp; * throughout the document.
+&nbsp; * 
+&nbsp; * &lt;p&gt;Note that this should not be used for language variations like
+&nbsp; * American English vs. British English or German &quot;alte Rechtschreibung&quot;
+&nbsp; * vs. &quot;neue Rechtschreibung&quot; -- that&#39;s the task of a spell checker.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;public abstract class AbstractWordCoherencyRule extends TextLevelRule {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Maps words in both directions, e.g. &quot;aufwendig -&amp;gt; aufwändig&quot; and &quot;aufwändig -&amp;gt; aufwendig&quot;.
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  protected abstract Map&lt;String, Set&lt;String&gt;&gt; getWordMap();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the message shown to the user if the rule matches.
+&nbsp;   */
+&nbsp;  protected abstract String getMessage(String word1, String word2);
+&nbsp;
+&nbsp;  protected String getShortMessage() {
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  };
+&nbsp;  
+<b class="fc">&nbsp;  public AbstractWordCoherencyRule(ResourceBundle messages) throws IOException {</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(List&lt;AnalyzedSentence&gt; sentences) {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    Map&lt;String, String&gt; shouldNotAppearWord = new HashMap&lt;&gt;();  // e.g. aufwändig -&gt; aufwendig</b>
+<b class="fc">&nbsp;    int pos = 0;</b>
+<b class="fc">&nbsp;    for (AnalyzedSentence sentence : sentences) {</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;      for (AnalyzedTokenReadings tmpToken : tokens) {</b>
+<b class="fc">&nbsp;        String token = tmpToken.getToken();</b>
+<b class="fc">&nbsp;        List&lt;AnalyzedToken&gt; readings = tmpToken.getReadings();</b>
+<b class="pc">&nbsp;        if (!readings.isEmpty()) {</b>
+<b class="fc">&nbsp;          Set&lt;String&gt; baseforms = readings.stream().map(AnalyzedToken::getLemma).collect(Collectors.toSet());</b>
+<b class="fc">&nbsp;          for (String baseform : baseforms) {</b>
+<b class="fc">&nbsp;            if (baseform != null) {</b>
+<b class="fc">&nbsp;              token = baseform;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            int fromPos = pos + tmpToken.getStartPos();</b>
+<b class="fc">&nbsp;            int toPos = pos + tmpToken.getEndPos();</b>
+<b class="fc">&nbsp;            if (shouldNotAppearWord.containsKey(token)) {</b>
+<b class="fc">&nbsp;              String otherSpelling = shouldNotAppearWord.get(token);</b>
+<b class="fc">&nbsp;              String msg = getMessage(token, otherSpelling);</b>
+<b class="fc">&nbsp;              RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);</b>
+<b class="fc">&nbsp;              String marked = sentence.getText().substring(tmpToken.getStartPos(), tmpToken.getEndPos());</b>
+<b class="fc">&nbsp;              String replacement = createReplacement(marked, token, otherSpelling, tmpToken);</b>
+<b class="pc">&nbsp;              if (StringTools.startsWithUppercase(tmpToken.getToken())) {</b>
+<b class="nc">&nbsp;                replacement = StringTools.uppercaseFirstChar(replacement);</b>
+&nbsp;              }
+<b class="fc">&nbsp;              if (!marked.equalsIgnoreCase(replacement)) {   // see https://github.com/languagetool-org/languagetool/issues/3493</b>
+<b class="fc">&nbsp;                ruleMatch.setSuggestedReplacement(replacement);</b>
+<b class="fc">&nbsp;                ruleMatches.add(ruleMatch);</b>
+&nbsp;              }
+<b class="fc">&nbsp;              ruleMatch.setShortMessage(getShortMessage());</b>
+&nbsp;              break;
+<b class="fc">&nbsp;            } else if (getWordMap().containsKey(token)) {</b>
+<b class="fc">&nbsp;              Set&lt;String&gt; shouldNotAppearSet = getWordMap().get(token);</b>
+<b class="fc">&nbsp;              for (String shouldNotAppear : shouldNotAppearSet) {</b>
+<b class="fc">&nbsp;                shouldNotAppearWord.put(shouldNotAppear, token);</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      pos += sentence.getCorrectedTextLength();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int minToCheckParagraph() {
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String createReplacement(String marked, String token, String otherSpelling, AnalyzedTokenReadings tmpToken) {
+<b class="fc">&nbsp;    return  marked.replaceFirst(&quot;(?i)&quot; + token, otherSpelling);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

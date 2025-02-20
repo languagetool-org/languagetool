@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SynthDictionaryBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: SynthDictionaryBuilder (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SynthDictionaryBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    47.1%
+  </span>
+  <span class="absValue">
+    (16/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.1%
+  </span>
+  <span class="absValue">
+    (69/82)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import org.apache.commons.cli.CommandLine;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Create a Morfologik binary synthesizer dictionary from plain text data.
+&nbsp; */
+&nbsp;final class SynthDictionaryBuilder extends DictionaryBuilder {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * It makes sense to remove all forms from the synthesizer dict where POS tags indicate &quot;unknown form&quot;,
+&nbsp;   * &quot;foreign word&quot; etc., as they only take space. Probably nobody will ever use them:
+&nbsp;   */
+&nbsp;  private static final String POLISH_IGNORE_REGEX = &quot;:neg|qub|depr&quot;;
+&nbsp;
+&nbsp;  private static String tagsFilename; 
+&nbsp;  
+&nbsp;  SynthDictionaryBuilder(File infoFile) throws IOException {
+<b class="fc">&nbsp;    super(infoFile);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="fc">&nbsp;    BuilderOptions builderOptions = new BuilderOptions();</b>
+<b class="fc">&nbsp;    builderOptions.addOption(BuilderOptions.INPUT_OPTION, true, </b>
+&nbsp;        BuilderOptions.TAB_INPUT_HELP, true);
+<b class="fc">&nbsp;    builderOptions.addOption(BuilderOptions.INFO_OPTION, true, </b>
+&nbsp;        BuilderOptions.INFO_HELP, true);
+<b class="fc">&nbsp;    CommandLine cmdLine = builderOptions.parseArguments(args, SynthDictionaryBuilder.class);</b>
+&nbsp;    
+<b class="fc">&nbsp;    File plainTextDictFile = new File(cmdLine.getOptionValue(BuilderOptions.INPUT_OPTION));</b>
+<b class="fc">&nbsp;    File infoFile = new File(cmdLine.getOptionValue(BuilderOptions.INFO_OPTION));</b>
+&nbsp;    
+<b class="fc">&nbsp;    SynthDictionaryBuilder builder = new SynthDictionaryBuilder(infoFile);</b>
+<b class="fc">&nbsp;    builder.setOutputFilename(cmdLine.getOptionValue(BuilderOptions.OUTPUT_OPTION));</b>
+&nbsp;	
+<b class="fc">&nbsp;    tagsFilename = cmdLine.getOptionValue(BuilderOptions.OUTPUT_OPTION) + &quot;_tags.txt&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;    builder.build(plainTextDictFile, infoFile);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  File build(File plainTextDictFile, File infoFile) throws Exception {
+<b class="fc">&nbsp;    String outputFilename = this.getOutputFilename();</b>
+<b class="fc">&nbsp;    File outputDirectory = new File(outputFilename).getParentFile();</b>
+<b class="fc">&nbsp;    File tempFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName(), &quot;.txt&quot;, outputDirectory);</b>
+<b class="fc">&nbsp;    File reversedFile = null;</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      Set&lt;String&gt; itemsToBeIgnored = getIgnoreItems(new File(infoFile.getParent(), &quot;filter-archaic.txt&quot;));</b>
+<b class="fc">&nbsp;      Pattern ignorePosRegex = getPosTagIgnoreRegex(infoFile);</b>
+<b class="fc">&nbsp;      reversedFile = reverseLineContent(plainTextDictFile, itemsToBeIgnored, ignorePosRegex);</b>
+<b class="fc">&nbsp;      writePosTagsToFile(plainTextDictFile, new File(tagsFilename));</b>
+<b class="fc">&nbsp;      return buildDict(reversedFile);</b>
+&nbsp;    } finally {
+<b class="fc">&nbsp;      tempFile.delete();</b>
+<b class="pc">&nbsp;      if (reversedFile != null) {</b>
+<b class="fc">&nbsp;        reversedFile.delete();</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Set&lt;String&gt; getIgnoreItems(File file) throws FileNotFoundException {
+<b class="fc">&nbsp;    Set&lt;String&gt; result = new HashSet&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (file.exists()) {</b>
+<b class="nc">&nbsp;      try (Scanner scanner = new Scanner(file, getOption(&quot;fsa.dict.encoding&quot;))) {</b>
+<b class="nc">&nbsp;        while (scanner.hasNextLine()) {</b>
+<b class="nc">&nbsp;          String line = scanner.nextLine();</b>
+<b class="nc">&nbsp;          if (!line.startsWith(&quot;#&quot;)) {</b>
+<b class="nc">&nbsp;            result.add(line);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.println(&quot;Loaded &quot; + result.size() + &quot; words to be ignored from &quot; + file);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      System.out.println(&quot;File &quot; + file.getAbsolutePath() + &quot; does not exist, no items will be ignored&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private Pattern getPosTagIgnoreRegex(File infoFile) {
+<b class="fc">&nbsp;    String fileName = infoFile.getName();</b>
+<b class="fc">&nbsp;    int underscorePos = fileName.indexOf(&#39;_&#39;);</b>
+<b class="pc">&nbsp;    if (underscorePos == -1) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Please specify an .info file for a synthesizer as the second parameter, named &#39;&lt;xyz&gt;_synth.info&#39;, with &lt;xyz&gt; being a language&#39;&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String baseName = fileName.substring(0, underscorePos);</b>
+<b class="pc">&nbsp;    if (baseName.equals(&quot;polish&quot;)) {</b>
+<b class="nc">&nbsp;      return Pattern.compile(POLISH_IGNORE_REGEX);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private File reverseLineContent(File plainTextDictFile, Set&lt;String&gt; itemsToBeIgnored, Pattern ignorePosRegex) throws IOException {
+<b class="fc">&nbsp;    File reversedFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName() + &quot;_reversed&quot;, &quot;.txt&quot;);</b>
+<b class="fc">&nbsp;    reversedFile.deleteOnExit();</b>
+&nbsp;
+<b class="fc">&nbsp;    String separator = getOption(&quot;fsa.dict.separator&quot;);</b>
+<b class="pc">&nbsp;    if (separator == null || separator.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new IOException(&quot;A separator character (fsa.dict.separator) must be defined in the dictionary info file.&quot;);</b>
+&nbsp;    }
+&nbsp;    
+<b class="fc">&nbsp;    String encoding = getOption(&quot;fsa.dict.encoding&quot;);</b>
+<b class="fc">&nbsp;    int posIgnoreCount = 0;</b>
+<b class="fc">&nbsp;    Scanner scanner = new Scanner(plainTextDictFile, encoding);</b>
+<b class="fc">&nbsp;    try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reversedFile), encoding))) {</b>
+<b class="fc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="fc">&nbsp;        String line = scanner.nextLine();</b>
+<b class="pc">&nbsp;        if (itemsToBeIgnored.contains(line)) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;Ignoring: &quot; + line);</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="fc">&nbsp;        String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="pc">&nbsp;        if (parts.length == 3) {</b>
+<b class="fc">&nbsp;          String posTag = parts[2];</b>
+<b class="pc">&nbsp;          if (ignorePosRegex != null &amp;&amp; ignorePosRegex.matcher(posTag).find()) {</b>
+<b class="nc">&nbsp;            posIgnoreCount++;</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="fc">&nbsp;          out.write(parts[0] + separator + parts[1] + &quot;|&quot; + posTag );</b>
+<b class="fc">&nbsp;          out.write(&#39;\n&#39;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.err.println(&quot;Invalid input, expected three tab-separated columns in &quot; + plainTextDictFile + &quot;: &quot; + line + &quot; =&gt; ignoring&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      scanner.close();
+&nbsp;    }
+<b class="fc">&nbsp;    System.out.println(&quot;Number of lines ignored due to POS tag filter (&#39;&quot; + ignorePosRegex + &quot;&#39;): &quot; + posIgnoreCount);</b>
+<b class="fc">&nbsp;    return reversedFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writePosTagsToFile(File plainTextDictFile, File tagFile) throws IOException {
+<b class="fc">&nbsp;    Set&lt;String&gt; posTags = collectTags(plainTextDictFile);</b>
+<b class="fc">&nbsp;    List&lt;String&gt; sortedTags = new ArrayList&lt;&gt;(posTags);</b>
+<b class="fc">&nbsp;    Collections.sort(sortedTags);</b>
+<b class="fc">&nbsp;    System.out.println(&quot;Writing tag file to &quot; + tagFile);</b>
+<b class="fc">&nbsp;    try (FileWriter out = new FileWriter(tagFile)) {</b>
+<b class="fc">&nbsp;      for (String tag : sortedTags) {</b>
+<b class="fc">&nbsp;        out.write(tag);</b>
+<b class="fc">&nbsp;        out.write(&#39;\n&#39;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Set&lt;String&gt; collectTags(File plainTextDictFile) throws IOException {
+<b class="fc">&nbsp;    Set&lt;String&gt; posTags = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;    try (Scanner scanner = new Scanner(plainTextDictFile, getOption(&quot;fsa.dict.encoding&quot;))) {</b>
+<b class="fc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="fc">&nbsp;        String line = scanner.nextLine();</b>
+<b class="fc">&nbsp;        String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="pc">&nbsp;        if (parts.length == 3) {</b>
+<b class="fc">&nbsp;          String posTag = parts[2];</b>
+<b class="fc">&nbsp;          posTags.add(posTag);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.err.println(&quot;Invalid input, expected three tab-separated columns in &quot; + plainTextDictFile + &quot;: &quot; + line + &quot; =&gt; ignoring&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return posTags;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

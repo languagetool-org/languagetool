@@ -1,0 +1,258 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LocalStorage</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: LocalStorage (org.languagetool.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LocalStorage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.gui;
+&nbsp;
+&nbsp;import java.beans.XMLDecoder;
+&nbsp;import java.beans.XMLEncoder;
+&nbsp;import java.io.BufferedInputStream;
+&nbsp;import java.io.BufferedOutputStream;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.FileOutputStream;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.lang3.SystemUtils;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helper class to store configuration
+&nbsp; *
+&nbsp; * @author Panagiotis Minos
+&nbsp; * @since 3.4
+&nbsp; */
+&nbsp;class LocalStorage {
+&nbsp;
+&nbsp;  private static final String VENDOR_ID = &quot;languagetool.org&quot;;
+&nbsp;  private static final String APPLICATION_ID = &quot;LanguageTool&quot;;
+&nbsp;  
+&nbsp;  private final File directory;
+&nbsp;
+<b class="nc">&nbsp;  LocalStorage() {</b>
+<b class="nc">&nbsp;    String userHome = null;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      userHome = System.getProperty(&quot;user.home&quot;);</b>
+&nbsp;    } catch (SecurityException ex) {
+&nbsp;    }
+<b class="nc">&nbsp;    if (userHome == null) {</b>
+<b class="nc">&nbsp;      directory = null;</b>
+<b class="nc">&nbsp;    } else if (SystemUtils.IS_OS_WINDOWS) {</b>
+<b class="nc">&nbsp;      File appDataDir = null;</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        String appData = System.getenv(&quot;APPDATA&quot;);</b>
+<b class="nc">&nbsp;        if (!StringUtils.isEmpty(appData)) {</b>
+<b class="nc">&nbsp;          appDataDir = new File(appData);</b>
+&nbsp;        }
+&nbsp;      } catch (SecurityException ex) {
+&nbsp;      }
+<b class="nc">&nbsp;      if (appDataDir != null &amp;&amp; appDataDir.isDirectory()) {</b>
+<b class="nc">&nbsp;        String path = VENDOR_ID + &quot;\\&quot; + APPLICATION_ID + &quot;\\&quot;;</b>
+<b class="nc">&nbsp;        directory = new File(appDataDir, path);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        String path = &quot;Application Data\\&quot; + VENDOR_ID + &quot;\\&quot; + APPLICATION_ID + &quot;\\&quot;;</b>
+<b class="nc">&nbsp;        directory = new File(userHome, path);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (SystemUtils.IS_OS_LINUX) {</b>
+<b class="nc">&nbsp;      File appDataDir = null;</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        String xdgConfigHome = System.getenv(&quot;XDG_CONFIG_HOME&quot;);</b>
+<b class="nc">&nbsp;        if (!StringUtils.isEmpty(xdgConfigHome)) {</b>
+<b class="nc">&nbsp;          appDataDir = new File(xdgConfigHome);</b>
+<b class="nc">&nbsp;          if (!appDataDir.isAbsolute()) {</b>
+&nbsp;            //https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+&nbsp;            //All paths set in these environment variables must be absolute.
+&nbsp;            //If an implementation encounters a relative path in any of these
+&nbsp;            //variables it should consider the path invalid and ignore it.
+<b class="nc">&nbsp;            appDataDir = null;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } catch (SecurityException ex) {
+&nbsp;      }
+<b class="nc">&nbsp;      if (appDataDir != null &amp;&amp; appDataDir.isDirectory()) {</b>
+<b class="nc">&nbsp;        String path = APPLICATION_ID + &quot;/&quot;;</b>
+<b class="nc">&nbsp;        directory = new File(appDataDir, path);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        String path = &quot;.config/&quot; + APPLICATION_ID + &quot;/&quot;;</b>
+<b class="nc">&nbsp;        directory = new File(userHome, path);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (SystemUtils.IS_OS_MAC_OSX) {</b>
+<b class="nc">&nbsp;      String path = &quot;Library/Application Support/&quot; + APPLICATION_ID + &quot;/&quot;;</b>
+<b class="nc">&nbsp;      directory = new File(userHome, path);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      String path = &quot;.&quot; + APPLICATION_ID + &quot;/&quot;;</b>
+<b class="nc">&nbsp;      directory = new File(userHome, path);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (directory != null &amp;&amp; !directory.exists()) {</b>
+<b class="nc">&nbsp;      directory.mkdirs();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  void saveProperty(String name, Object obj) {
+<b class="nc">&nbsp;    if (directory == null) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    synchronized(directory) {</b>
+<b class="nc">&nbsp;      try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(</b>
+&nbsp;            new FileOutputStream(new File(directory, name))))) {
+<b class="nc">&nbsp;        encoder.writeObject(obj);</b>
+&nbsp;      } catch (FileNotFoundException ex) {
+<b class="nc">&nbsp;        Tools.showError(ex);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  &lt;T&gt; T loadProperty(String name, Class&lt;T&gt; clazz) {
+<b class="nc">&nbsp;    if (directory == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    synchronized(directory) {</b>
+<b class="nc">&nbsp;      try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(</b>
+&nbsp;            new FileInputStream(new File(directory, name))))) {
+&nbsp;        try {
+<b class="nc">&nbsp;          return clazz.cast(decoder.readObject());</b>
+&nbsp;        } catch (ClassCastException ex) {
+<b class="nc">&nbsp;          Tools.showError(ex);</b>
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        } catch (Exception ex) {
+&nbsp;          //probably user messed up with files
+<b class="nc">&nbsp;          Tools.showError(ex);</b>
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } catch (FileNotFoundException ex) {</b>
+&nbsp;        //ignore, we have not saved yet a property with this name
+&nbsp;      }
+<b class="nc">&nbsp;    }</b>
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

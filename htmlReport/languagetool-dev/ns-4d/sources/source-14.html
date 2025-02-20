@@ -1,0 +1,1022 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TokenAgreementNounVerbExceptionHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: TokenAgreementNounVerbExceptionHelper (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TokenAgreementNounVerbExceptionHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/500)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/466)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.uk.LemmaHelper.Dir;
+&nbsp;import org.languagetool.rules.uk.SearchHelper.Condition;
+&nbsp;import org.languagetool.rules.uk.SearchHelper.Match;
+&nbsp;import org.languagetool.tagging.uk.IPOSTag;
+&nbsp;import org.languagetool.tagging.uk.PosTagHelper;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 3.6
+&nbsp; */
+&nbsp;public final class TokenAgreementNounVerbExceptionHelper {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(TokenAgreementNounVerbExceptionHelper.class);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; MASC_FEM_SET = extendSet(ExtraDictionaryLoader.loadSet(&quot;/uk/masc_fem.txt&quot;), &quot;екс-&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INF_ARGREEMENT_PATTERN = Pattern.compile(</b>
+&nbsp;      &quot;(не)?(здатний|змушений|з?г[іо]дний|зобов&#39;язаний|повинний|готовий|достойний|покликаний|спроможний|радий|налаштований|зацікавлений|повинно|змога|стан|можна)&quot;);
+<b class="nc">&nbsp;  private static final Collection&lt;String&gt; GEO_QUALIFIERS = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;      &quot;село&quot;, &quot;селище&quot;, &quot;місто&quot;, &quot;містечко&quot;, &quot;хутір&quot;, &quot;республіка&quot;, &quot;держава&quot;, &quot;гора&quot;, &quot;планета&quot;, &quot;мікрорайон&quot;, &quot;райцентр&quot;, &quot;заповідник&quot;, &quot;мис&quot;,
+&nbsp;      &quot;м.&quot;, &quot;с.&quot;, &quot;п.&quot;, // (н.п.)
+&nbsp;      &quot;штат&quot;, &quot;округ&quot;, &quot;графство&quot;, 
+&nbsp;      &quot;вірус&quot;, &quot;ураган&quot;));
+&nbsp;
+&nbsp;  
+&nbsp;  
+&nbsp;  private TokenAgreementNounVerbExceptionHelper() {
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isException(AnalyzedTokenReadings[] tokens, int nounPos, int verbPos, 
+&nbsp;                                    List&lt;VerbInflectionHelper.Inflection&gt; nounInflections, 
+&nbsp;                                    List&lt;VerbInflectionHelper.Inflection&gt; verbInflections,
+&nbsp;                                    List&lt;AnalyzedToken&gt; nounTokenReadings, 
+&nbsp;                                    List&lt;AnalyzedToken&gt; verbTokenReadings) {
+&nbsp;
+&nbsp;    // Любителі фотографувати їжу
+&nbsp;    // навичка збиратися швидко (але не «навички»)
+<b class="nc">&nbsp;    if( PosTagHelper.hasPosTag(tokens[verbPos], PosTagHelper.VERB_INF_PATTERN) ) {</b>
+<b class="nc">&nbsp;      if( CaseGovernmentHelper.hasCaseGovernment(tokens[nounPos], &quot;v_inf&quot;) ) { </b>
+&nbsp;          //&amp;&amp; ! PosTagHelper.hasPosTagStart(tokens[nounPos], &quot;noun:inanim:p:v_naz&quot;) ) {
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;      // handled by xml rule
+<b class="nc">&nbsp;      if( new Match().tokenLine(&quot;не сила&quot;).mBefore(tokens, nounPos) &gt; 0) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if( new Match().tokenLine(&quot;не проти&quot;).mBefore(tokens, nounPos) &gt; 0) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if( Arrays.asList(&quot;хтось&quot;, &quot;дехто&quot;).contains(tokens[nounPos].getCleanToken().toLowerCase()) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if( Arrays.asList(&quot;намагаючись&quot;).contains(tokens[verbPos-1].getCleanToken().toLowerCase()) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // шкода було, годі буде
+<b class="nc">&nbsp;    if( PosTagHelper.hasPosTagPart(tokens[nounPos], &quot;predic&quot;) </b>
+<b class="nc">&nbsp;        &amp;&amp; Arrays.asList(&quot;було&quot;, &quot;буде&quot;).contains(tokens[verbPos].getCleanToken()) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // це була (не має значення, бо це - part)
+&nbsp;//    if( tokens[nounPos].getCleanToken().equalsIgnoreCase(&quot;це&quot;) 
+&nbsp;//        &amp;&amp; LemmaHelper.hasLemma(tokens[verbPos], &quot;бути&quot;) ) {
+&nbsp;//      logException();
+&nbsp;//      return true;
+&nbsp;//    }
+&nbsp;
+<b class="nc">&nbsp;    if( Arrays.asList(&quot;правда&quot;).contains(tokens[nounPos].getToken().toLowerCase()) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // під три чорти відіслати
+<b class="nc">&nbsp;    if( new Match().tokenLine(&quot;під три чорти&quot;).mBefore(tokens, nounPos) &gt; 0) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( new Match().tokenLine(&quot;не штука&quot;).mBefore(tokens, nounPos) &gt; 0 ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( new Match().tokenLine(&quot;бісики&quot;).mBefore(tokens, nounPos) &gt; 0 ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // handled by WORDS_WITH_DASH
+<b class="nc">&nbsp;    if( new Match().tokenLine(&quot;будь якого&quot;).mAfter(tokens, verbPos) &gt;= 1 ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( new Match().tokenLine(&quot;не сказати б&quot;).mAfter(tokens, verbPos-1) &gt;= 1 ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Не проти бізнесмени користуватися
+<b class="nc">&nbsp;    if( new Match().tokenLine(&quot;не проти&quot;).mBefore(tokens, verbPos-1) &gt; 0 ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // handled by xml rule (VONO_IMPERF)
+<b class="nc">&nbsp;    if( LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList(&quot;воно&quot;, &quot;решта&quot;)) ) {</b>
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTagPart(tokens[verbPos], &quot;:impers&quot;) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // handled by xml rule
+<b class="nc">&nbsp;    if( LemmaHelper.hasLemma(tokens[verbPos-1], Arrays.asList(&quot;Газа&quot;)) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // чотири дні був
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile(&quot;noun:.*:p:v_naz(?!.*pron).*&quot;) ) </b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.hasLemma(tokens[nounPos-1], Arrays.asList(&quot;два&quot;, &quot;три&quot;, &quot;чотири&quot;), Pattern.compile(&quot;numr:p:v_zna&quot;)) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    
+&nbsp;    // кандидат в президенти поїхав
+&nbsp;    // вона межі люди пішла
+<b class="nc">&nbsp;    List&lt;String&gt; V_PREZYDENTY_PREP_LIST = Arrays.asList(&quot;в&quot;, &quot;у&quot;, &quot;між&quot;, &quot;межи&quot;, &quot;поміж&quot;, &quot;на&quot;);</b>
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagStart(tokens[nounPos], &quot;noun:anim:p:v_naz&quot;) </b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.hasLemma(tokens[nounPos-1], V_PREZYDENTY_PREP_LIST) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // кандидат в народні депутати поїхав
+<b class="nc">&nbsp;    if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagStart(tokens[nounPos], &quot;noun:anim:p:v_naz&quot;) </b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagStart(tokens[nounPos-1], &quot;adj:p:v_zna:rinanim&quot;) </b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.hasLemma(tokens[nounPos-2], V_PREZYDENTY_PREP_LIST) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // невідомі прізвища, що виглядають, як дієслово: Андрій Качала
+<b class="nc">&nbsp;    if( LemmaHelper.isCapitalized(tokens[verbPos].getToken())</b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.isCapitalized(tokens[nounPos].getToken()) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // на прізвисько Михайло відбулася
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile(&quot;noun:anim:.:v_naz:prop:[fl]name.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; Arrays.asList(&quot;ім&#39;я&quot;, &quot;прізвище&quot;, &quot;прізвисько&quot;).contains(tokens[nounPos-1].getCleanToken().toLowerCase()) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // матч Туреччина — Україна зіграють
+<b class="nc">&nbsp;    if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile(&quot;noun.*:v_naz.*prop.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[nounPos-1].getCleanToken().matches(&quot;[-\u2013\u2014]&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-2], Pattern.compile(&quot;noun.*:v_naz.*prop.*&quot;)) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;
+&nbsp;    // невідомі прізвища, як іменник
+&nbsp;    // Любов Євтушок зауважила
+<b class="nc">&nbsp;    if( verbPos &gt; 2</b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.isCapitalized(tokens[nounPos].getToken())</b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.isCapitalized(tokens[nounPos-1].getToken())</b>
+<b class="nc">&nbsp;        &amp;&amp; ! Collections.disjoint(</b>
+<b class="nc">&nbsp;            VerbInflectionHelper.getNounInflections(tokens[nounPos-1].getReadings()), </b>
+&nbsp;            verbInflections) ) {
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Тарас ЗАКУСИЛО
+<b class="nc">&nbsp;    if( StringUtils.isAllUpperCase(tokens[verbPos].getToken()) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Збережені Я позбудуться необхідності
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[nounPos].getToken().equals(&quot;Я&quot;) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // а він давай пити горілку
+&nbsp;    // а він давай за своє
+<b class="nc">&nbsp;    if( verbPos &gt; 2 &amp;&amp; verbPos &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[verbPos].getToken().equals(&quot;давай&quot;) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Ви може образились
+&nbsp;    // but not: Як ви може оцінити
+&nbsp;    // and not: що ми не може просто так
+<b class="nc">&nbsp;    if( verbPos &gt; 1 &amp;&amp; verbPos &lt; tokens.length-1</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[verbPos].getToken().equals(&quot;може&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; ! tokens[verbPos-1].getToken().equals(&quot;не&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; ! PosTagHelper.hasPosTag(tokens[verbPos+1], PosTagHelper.VERB_INF_PATTERN)) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // можуть російськомовні громадяни вважатися
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[verbPos], PosTagHelper.VERB_INF_PATTERN) ) {</b>
+<b class="nc">&nbsp;      int foundIdx = LemmaHelper.reverseSearchIdx(tokens, nounPos-1, 6, INF_ARGREEMENT_PATTERN, null); </b>
+<b class="nc">&nbsp;      if( foundIdx &gt;=0 ) {</b>
+<b class="nc">&nbsp;        if( ! PosTagHelper.hasPosTagStart(tokens[foundIdx], &quot;adj&quot;) </b>
+<b class="nc">&nbsp;            || ! Collections.disjoint(</b>
+<b class="nc">&nbsp;                InflectionHelper.getNounInflections(tokens[nounPos].getReadings()), </b>
+<b class="nc">&nbsp;                InflectionHelper.getAdjInflections(tokens[foundIdx].getReadings())) ) {</b>
+<b class="nc">&nbsp;          logException();</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // ці громадяни проголосувати готові лише...
+<b class="nc">&nbsp;    if( verbPos &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[verbPos], PosTagHelper.VERB_INF_PATTERN) ) {</b>
+<b class="nc">&nbsp;        int foundIdx = LemmaHelper.forwardLemmaSearchIdx(tokens, verbPos+1, 7, INF_ARGREEMENT_PATTERN, null);</b>
+<b class="nc">&nbsp;        if( foundIdx &gt;=0 ) {</b>
+<b class="nc">&nbsp;          if( ! PosTagHelper.hasPosTagStart(tokens[foundIdx], &quot;adj&quot;) </b>
+<b class="nc">&nbsp;              || ! Collections.disjoint(</b>
+<b class="nc">&nbsp;                  InflectionHelper.getNounInflections(nounTokenReadings), </b>
+<b class="nc">&nbsp;                  InflectionHelper.getAdjInflections(tokens[foundIdx].getReadings())) ) {</b>
+<b class="nc">&nbsp;            logException();</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // як навчила мене бабуся місити тісто
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[verbPos], PosTagHelper.VERB_INF_PATTERN) ) {</b>
+<b class="nc">&nbsp;      int prevVerbIdx = LemmaHelper.reverseSearchIdx(tokens, nounPos-1, 7, null, Pattern.compile(&quot;verb.*&quot;)); </b>
+<b class="nc">&nbsp;      if( prevVerbIdx &gt;=0 </b>
+<b class="nc">&nbsp;          &amp;&amp; ! Collections.disjoint(</b>
+<b class="nc">&nbsp;              VerbInflectionHelper.getVerbInflections(tokens[prevVerbIdx].getReadings()), </b>
+<b class="nc">&nbsp;              VerbInflectionHelper.getNounInflections(tokens[nounPos].getReadings())) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // ці громадяни проголосувати зможуть лише...
+<b class="nc">&nbsp;    if( verbPos &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[verbPos], PosTagHelper.VERB_INF_PATTERN) ) {</b>
+&nbsp;//      int nextVerbPos = LemmaHelper.forwardLemmaSearchIdx(tokens, verbPos+1, 7, null, Pattern.compile(&quot;verb.*&quot;));
+<b class="nc">&nbsp;      int nextVerbPos = new Match()</b>
+<b class="nc">&nbsp;          .ignoreInserts()</b>
+<b class="nc">&nbsp;          .limit(8)</b>
+<b class="nc">&nbsp;          .target(Condition.postag(Pattern.compile(&quot;verb.*&quot;)))</b>
+<b class="nc">&nbsp;          .mAfter(tokens, verbPos+1);</b>
+<b class="nc">&nbsp;      if( nextVerbPos &gt;=0 </b>
+<b class="nc">&nbsp;          &amp;&amp; ! Collections.disjoint(</b>
+<b class="nc">&nbsp;              VerbInflectionHelper.getVerbInflections(tokens[nextVerbPos].getReadings()), </b>
+<b class="nc">&nbsp;              VerbInflectionHelper.getNounInflections(tokens[nounPos].getReadings())) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // — це були невільники
+&nbsp;    // — це передбачено
+<b class="nc">&nbsp;    if( nounPos &gt; 1 &amp;&amp; verbPos &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[nounPos].getToken().equals(&quot;це&quot;) </b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.DASHES_PATTERN.matcher(tokens[nounPos-1].getToken()).matches() ) {</b>
+&nbsp;//        &amp;&amp; ! Collections.disjoint(verbInflections, TokenAgreementNounVerbRule.getNounInflections(tokens[i+1].getReadings())) ) {
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // це не передбачено
+<b class="nc">&nbsp;    if( tokens[nounPos].getToken().equals(&quot;це&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagPart(verbTokenReadings, &quot;impers&quot;) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // 22 льотчики загинуло миттєво
+&nbsp;    // два сини народилося там
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile(&quot;noun.*:p:v_naz.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(&quot;verb.*?past:n.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; (Pattern.compile(&quot;\\d+[234]&quot;).matcher(tokens[nounPos-1].getCleanToken()).matches() </b>
+<b class="nc">&nbsp;            || Arrays.asList(&quot;два&quot;, &quot;три&quot;, &quot;чотири&quot;).contains(tokens[nounPos-1].getCleanToken()) ) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // зіркова пара Леброн Джеймс-Дуейн Вейн вирішили вивести
+<b class="nc">&nbsp;    if( PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(&quot;verb.*:[fp](:.*|$)&quot;)) ) {</b>
+<b class="nc">&nbsp;      if( new Match()</b>
+<b class="nc">&nbsp;          .target(Condition.token(&quot;пара&quot;))</b>
+<b class="nc">&nbsp;          .skip(Condition.token(TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_PATTERN).negate())</b>
+<b class="nc">&nbsp;          .mBefore(tokens, nounPos-1) &gt; 0 ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(&quot;verb.*:p(:.*|$)&quot;)) ) {</b>
+&nbsp;
+&nbsp;      // Колесніков/Ахметов посилили
+&nbsp;      // Олександр Недовєсов / Сергій Стаховський не змогли
+<b class="nc">&nbsp;      if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;          &amp;&amp; (tokens[nounPos-1].getToken().equals(&quot;/&quot;)</b>
+<b class="nc">&nbsp;              || tokens[nounPos-2].getToken().equals(&quot;/&quot;)) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // кефаль, барабуля, хамса не затримуються
+<b class="nc">&nbsp;      if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;          &amp;&amp; TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[nounPos-1].getToken())</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-2], PosTagHelper.NOUN_V_NAZ_PATTERN) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      // його побут, життєва поведінка не можуть
+<b class="nc">&nbsp;      if( nounPos &gt; 3</b>
+<b class="nc">&nbsp;          &amp;&amp; TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[nounPos-2].getToken())</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-3], PosTagHelper.NOUN_V_NAZ_PATTERN) </b>
+<b class="nc">&nbsp;          &amp;&amp; ! Collections.disjoint(</b>
+<b class="nc">&nbsp;              InflectionHelper.getAdjInflections(tokens[nounPos-1].getReadings()),</b>
+<b class="nc">&nbsp;              InflectionHelper.getNounInflections(tokens[nounPos].getReadings())) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // моя мама й сестра мешкали
+&nbsp;      // каналізація і навіть охорона пропонувалися
+&nbsp;      // Ґорбачов і його дружина виглядали
+&nbsp;//      int pos0 = LemmaHelper.tokenSearch(tokens, nounPos-1, (String)null, 
+&nbsp;//          TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_PATTERN, 
+&nbsp;//          Pattern.compile(&quot;(noun.*?v_naz|adj:.:v_naz|adv|part).*&quot;), Dir.REVERSE);
+&nbsp;
+<b class="nc">&nbsp;      int pos0left = new Match()</b>
+<b class="nc">&nbsp;          .ignoreInserts()</b>
+<b class="nc">&nbsp;          .limit(7)</b>
+<b class="nc">&nbsp;          .target(Condition.token(TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_PATTERN))</b>
+&nbsp;//          .skip(Condition.postag(Pattern.compile(&quot;conj.*|.*pron.*&quot;)).negate())
+<b class="nc">&nbsp;          .skip(Condition.postag(Pattern.compile(&quot;(noun.*?v_naz|(adj|numr):.:v_naz|adv|part).*&quot;))) //,</b>
+&nbsp;//              Condition.token(LemmaHelper.QUOTES_AND_PARENTH_PATTERN))
+&nbsp;//              Condition.postag(Pattern.compile(&quot;conj.*&quot;)).negate())
+<b class="nc">&nbsp;          .mBefore(tokens, nounPos-1);</b>
+&nbsp;
+<b class="nc">&nbsp;      int pos0right = pos0left;</b>
+<b class="nc">&nbsp;      if( pos0left &gt; 0 ) {</b>
+<b class="nc">&nbsp;        if( isNonPluralA(tokens, pos0left) ) {</b>
+<b class="nc">&nbsp;          pos0left = -1;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      // і мама, і тато
+<b class="nc">&nbsp;      if( pos0left &gt; 1 &amp;&amp; tokens[pos0left-1].getToken().equals(&quot;,&quot;) ) {</b>
+<b class="nc">&nbsp;        pos0left -= 1;</b>
+&nbsp;      }
+&nbsp;      
+<b class="nc">&nbsp;      if( pos0left &gt; 1 ) {</b>
+<b class="nc">&nbsp;        if( pos0right &gt; 2 ) {</b>
+&nbsp;          // і та й інша
+<b class="nc">&nbsp;          if( pos0left &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;              &amp;&amp; LemmaHelper.hasLemma(tokens[pos0right+1], &quot;інший&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; LemmaHelper.hasLemma(tokens[pos0left-1], &quot;той&quot;) ) {</b>
+<b class="nc">&nbsp;            logException();</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          // як Німеччина, так і Україна
+<b class="nc">&nbsp;          if( PosTagHelper.hasPosTagPart(tokens[pos0left-1], &quot;conj&quot;) ) {</b>
+<b class="nc">&nbsp;            pos0left -= 1;</b>
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          List&lt;String&gt; osobysto = Arrays.asList(&quot;особисто&quot;, &quot;зокрема&quot;, &quot;загалом&quot;);</b>
+&nbsp;          
+&nbsp;          // він особисто й облдержадміністрація винесли
+<b class="nc">&nbsp;          if( osobysto.contains(tokens[pos0left-1].getCleanToken()) ) {</b>
+<b class="nc">&nbsp;            pos0left -= 1;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          // громада, або ти особисто закликаєте
+<b class="nc">&nbsp;          if( osobysto.contains(tokens[verbPos-1].getCleanToken()) ) {</b>
+<b class="nc">&nbsp;            logException();</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;          
+&nbsp;          // Німеччина (ще демократична) та Росія почали
+<b class="nc">&nbsp;          if( tokens[pos0left-1].getToken().equals(&quot;)&quot;) ) {</b>
+<b class="nc">&nbsp;            logException();</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          // і уряд (noun+adv), і президент
+<b class="nc">&nbsp;          if( PosTagHelper.hasPosTag(tokens[pos0left-1], PosTagHelper.NOUN_V_NAZ_PATTERN) ) {</b>
+<b class="nc">&nbsp;            logException();</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          // І спочатку Білорусь, а тепер і Україна пішли
+<b class="nc">&nbsp;          if( verbPos &gt; 6 ) {</b>
+<b class="nc">&nbsp;            if( PosTagHelper.hasPosTagPart(tokens[pos0left-1], &quot;adv&quot;)</b>
+<b class="nc">&nbsp;                &amp;&amp; PosTagHelper.hasPosTagPart(tokens[pos0left-2], &quot;conj&quot;) ) {</b>
+<b class="nc">&nbsp;              pos0left -= 2;</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;
+<b class="nc">&nbsp;          while( pos0left &gt; 2 &amp;&amp; tokens[pos0left-1].getToken().matches(&quot;[,»“”\&quot;]&quot;) ) {</b>
+<b class="nc">&nbsp;            pos0left -= 1;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;        // моя мама й сестра мешкали
+&nbsp;        // noun.*?v_naz is too strict: &quot;єднання з Римом та королівська адміністрація закручували гайки&quot;
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTagStart(tokens[pos0left-1], &quot;noun&quot;)</b>
+<b class="nc">&nbsp;            || PosTagHelper.hasPosTagStart(tokens[pos0left-1], &quot;number:latin&quot;)  // Микола ІІ</b>
+<b class="nc">&nbsp;            || (LemmaHelper.isPossiblyProperNoun(tokens[pos0left-1])) ) {</b>
+<b class="nc">&nbsp;          logException();</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;        // біологічна і ядерна зброя стають товаром
+<b class="nc">&nbsp;        if( PosTagHelper.hasPosTag(tokens[pos0left-1], PosTagHelper.ADJ_V_NAZ_PATTERN) ) {</b>
+<b class="nc">&nbsp;          logException();</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;      // Усі розписи, а також архітектура відрізняються
+<b class="nc">&nbsp;      int pos3 = LemmaHelper.tokenSearch(tokens, verbPos-2, (String)null, Pattern.compile(&quot;також&quot;), </b>
+<b class="nc">&nbsp;          Pattern.compile(&quot;(noun|adj:.:v_naz|adv|part).*&quot;), Dir.REVERSE);</b>
+<b class="nc">&nbsp;      if( pos3 &gt; 1 ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;
+&nbsp;      // що пачка цигарок, що ковбаса коштують
+&nbsp;      // TODO: що Петро Порошенко, що Володимир Зеленський мають
+<b class="nc">&nbsp;      if( nounPos &gt; 5 ) {</b>
+<b class="nc">&nbsp;        String lowerCasePrevToken = tokens[nounPos-1].getToken().toLowerCase();</b>
+<b class="nc">&nbsp;        if( Arrays.asList(&quot;що&quot;, &quot;не&quot;).contains(lowerCasePrevToken)</b>
+<b class="nc">&nbsp;            &amp;&amp; LemmaHelper.tokenSearch(tokens, nounPos-3, (String)null, Pattern.compile(&quot;(?iu)&quot;+lowerCasePrevToken), Pattern.compile(&quot;(noun|adj).*&quot;), Dir.REVERSE) &gt; nounPos-7 ) {</b>
+<b class="nc">&nbsp;          logException();</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+&nbsp;
+&nbsp;      // Бразилія, Мексика, Індія збувають
+<b class="nc">&nbsp;      int pos1 = LemmaHelper.tokenSearch(tokens, nounPos-1, (String)null, Pattern.compile(&quot;,&quot;), Pattern.compile(&quot;adj.*&quot;), Dir.REVERSE);</b>
+<b class="nc">&nbsp;      if( pos1 &gt; 1</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(tokens[pos1-1], PosTagHelper.NOUN_V_NAZ_PATTERN)</b>
+&nbsp;          // почуття гумору, іронія були притаманні
+&nbsp;          || (pos1 &gt; 2
+<b class="nc">&nbsp;              &amp;&amp; PosTagHelper.hasPosTag(tokens[pos1-1], &quot;noun.*:v_rod.*&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; PosTagHelper.hasPosTag(tokens[pos1-2], PosTagHelper.NOUN_V_NAZ_PATTERN))) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // Мустафа Джемілєв, Рефат Чубаров зможуть
+&nbsp;      // А. Кидисюк, В. Загорський відповідають
+<b class="nc">&nbsp;      if( nounPos &gt; 4</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.isCapitalized(tokens[nounPos].getToken())</b>
+&nbsp;          //            &amp;&amp; (isCapitalized(tokens[nounPos-1].getToken()) || isInitial(tokens[nounPos-1].getToken()))
+<b class="nc">&nbsp;          &amp;&amp; (PosTagHelper.hasPosTagStart(tokens[nounPos-1], &quot;noun:anim&quot;) || LemmaHelper.isInitial(tokens[nounPos-1])) </b>
+<b class="nc">&nbsp;          &amp;&amp; TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[nounPos-2].getToken())</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.isCapitalized(tokens[nounPos-3].getToken())</b>
+&nbsp;          //            &amp;&amp; (isCapitalized(tokens[nounPos-4].getToken()) || isInitial(tokens[nounPos-4].getToken())) ) {
+<b class="nc">&nbsp;          &amp;&amp; (PosTagHelper.hasPosTagStart(tokens[nounPos-4], &quot;noun:anim&quot;) || LemmaHelper.isInitial(tokens[nounPos-1])) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // закордонний депутат і прем&#39;єр Великої Британії Черчиль
+&nbsp;      // а також/потім/навіть голова Європейської ради Дональд Туск провели
+&nbsp;      // а потім і голова Європейської ради Дональд Туск провели
+&nbsp;//      int idx = Match.findBefore(tokens, nounPos-1, 
+&nbsp;//          Condition.token(TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_PATTERN), 
+&nbsp;//          Condition.postag(Pattern.compile(&quot;(noun|adj).*?v_(naz|rod).*&quot;)),
+&nbsp;//          Condition.token(Pattern.compile(&quot;і?з|зі|від|на|навіть|також|потім|згодом&quot;)),
+&nbsp;//          Condition.token(LemmaHelper.QUOTES_AND_PARENT_PATTERN));
+&nbsp;      
+<b class="nc">&nbsp;      int idx = new Match()</b>
+<b class="nc">&nbsp;        .target(Condition.token(TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_PATTERN))</b>
+<b class="nc">&nbsp;        .ignoreInserts()</b>
+<b class="nc">&nbsp;        .skip(Condition.postag(Pattern.compile(&quot;(noun|adj).*?v_(naz|rod).*&quot;)),</b>
+<b class="nc">&nbsp;            Condition.token(Pattern.compile(&quot;і?з|зі|від|на|навіть|також|потім|згодом&quot;)) )//,</b>
+&nbsp;//            Condition.token(LemmaHelper.QUOTES_AND_PARENTH_PATTERN))
+<b class="nc">&nbsp;        .mBefore(tokens, nounPos-1);</b>
+&nbsp;      
+<b class="nc">&nbsp;      if( idx &gt; 0 ) {</b>
+<b class="nc">&nbsp;        if( isNonPluralA(tokens, idx) )</b>
+<b class="nc">&nbsp;          idx = -1;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( idx &gt; 1 </b>
+<b class="nc">&nbsp;          &amp;&amp; (PosTagHelper.hasPosTag(tokens[idx-1], PosTagHelper.NOUN_V_NAZ_PATTERN) </b>
+<b class="nc">&nbsp;              || LemmaHelper.isCapitalized(tokens[idx-1].getCleanToken())</b>
+<b class="nc">&nbsp;              || LemmaHelper.hasLemma(tokens[idx+1], Arrays.asList(&quot;навіть&quot;, &quot;також&quot;, &quot;потім&quot;, &quot;згодом&quot;))</b>
+<b class="nc">&nbsp;              || LemmaHelper.hasLemma(tokens[idx-1], Arrays.asList(&quot;потім&quot;, &quot;згодом&quot;))) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;
+&nbsp;      // Швидке заселення земель, вирубування лісів, меліорація призвели
+&nbsp;      //        if( pos1 &gt; 2
+&nbsp;      //            &amp;&amp; PosTagHelper.hasPosTag(tokens[pos1-1], &quot;noun.*:v_rod.*&quot;)
+&nbsp;      //            &amp;&amp; PosTagHelper.hasPosTag(tokens[pos1-2], &quot;noun.*:v_naz.*&quot;) ) {
+&nbsp;      //          logException();
+&nbsp;      //          return true;
+&nbsp;      //        }
+&nbsp;      
+&nbsp;      //        int pos2 = LemmaHelper.tokenSearch(tokens, i-2, (String)null, Pattern.compile(&quot;пара&quot;), Pattern.compile(&quot;noun.*&quot;), Dir.REVERSE);
+&nbsp;      //        if( pos2 &gt; 0
+&nbsp;      //            &amp;&amp; tokens[pos2].getToken().equalsIgnoreCase(&quot;пара&quot;) ) {
+&nbsp;      //          logException();
+&nbsp;      //          return true;
+&nbsp;      //        }
+&nbsp;
+&nbsp;      // понад сотня отримали поранення
+<b class="nc">&nbsp;      if( (PosTagHelper.hasPosTagPart(tokens[nounPos], &quot;numr&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; ! LemmaHelper.hasLemma(tokens[nounPos], &quot;один&quot;))</b>
+<b class="nc">&nbsp;          || LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList(&quot;сотня&quot;, &quot;тисяча&quot;, &quot;десяток&quot;)) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTagPart(tokens[nounPos-1], &quot;number&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; (! tokens[nounPos-1].getToken().endsWith(&quot;1&quot;) || tokens[nounPos-1].getToken().endsWith(&quot;11&quot;)) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // 100 чоловік - handled by styling rule
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTagPart(tokens[nounPos-1], &quot;num&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; tokens[nounPos].getToken().equals(&quot;чоловік&quot;) </b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.tokenSearch(tokens, 1, &quot;noun:anim:f:.*&quot;, Pattern.compile(&quot;жінк[аи]&quot;), Pattern.compile(&quot;.*&quot;), Dir.FORWARD) == -1 ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;
+&nbsp;      // 50%+1 акція закріплюються
+&nbsp;      // заінтересованість плюс гарна вивіска зіграли злий жарт
+<b class="nc">&nbsp;      if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;          &amp;&amp; (tokens[nounPos-1].getToken().endsWith(&quot;+1&quot;) </b>
+<b class="nc">&nbsp;              || LemmaHelper.tokenSearch(tokens, verbPos-2, (String)null, Pattern.compile(&quot;плюс&quot;), Pattern.compile(&quot;(numr|adj).*.:v_naz.*&quot;), Dir.REVERSE) &gt; 0) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // Решта 121 депутат висловилися проти
+<b class="nc">&nbsp;      if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.hasLemma(tokens[nounPos-2], &quot;решта&quot;) </b>
+<b class="nc">&nbsp;          &amp;&amp; tokens[nounPos-1].getToken() != null &amp;&amp; tokens[nounPos-1].getToken().matches(&quot;.+1&quot;) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // дві групи, кожна виконували просте завдання
+<b class="nc">&nbsp;      if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.hasLemma(tokens[nounPos], &quot;кожний&quot;) </b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(&quot;verb.*(past:p|:p:3).*&quot;)) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // душ, одеколони, навіть хлорка не допомогли
+<b class="nc">&nbsp;      if( nounPos &gt; 2</b>
+&nbsp;          //            &amp;&amp; tokens[verbPos-1].getToken().equals(&quot;не&quot;)
+<b class="nc">&nbsp;          &amp;&amp; tokens[nounPos-1].getToken().matches(&quot;а?ні|жодн.*|навіть&quot;) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;          &amp;&amp; tokens[verbPos-1].getToken().equals(&quot;не&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.reverseSearch(tokens, nounPos-1, 5, Pattern.compile(&quot;а?ні&quot;), null) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      
+&nbsp;      // TODO: Ні світ, ані навіть Європа чекати не будуть
+&nbsp;//      if( new Match().tokenLine(&quot;ані навіть&quot;).mBefore(tokens, nounPos-1) ) {
+&nbsp;//        logException();
+&nbsp;//        return true;
+&nbsp;//      }
+&nbsp;      
+&nbsp;
+<b class="nc">&nbsp;      if( nounPos &gt; 3</b>
+<b class="nc">&nbsp;          &amp;&amp; tokens[verbPos-1].getToken().equals(&quot;не&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; tokens[nounPos-2].getToken().matches(&quot;а?ні&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; ! Collections.disjoint(</b>
+<b class="nc">&nbsp;              InflectionHelper.getAdjInflections(tokens[nounPos-1].getReadings()),</b>
+<b class="nc">&nbsp;              InflectionHelper.getNounInflections(tokens[nounPos].getReadings())) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    } // verb.*:p
+&nbsp;
+&nbsp;
+&nbsp;    // Сейм Республіки Польща проігнорував
+<b class="nc">&nbsp;    if( nounPos &gt; 3</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagPart(tokens[nounPos], &quot;:prop&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-1], Pattern.compile(&quot;noun.*:v_rod.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; (! Collections.disjoint(VerbInflectionHelper.getNounInflections(tokens[nounPos-2].getReadings()), verbInflections)) ) {</b>
+&nbsp;//            || PosTagHelper.hasPosTag(tokens[i], &quot;verb.*:impers.*&quot;)) ) {
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // комітет порятунку села Оляниця вирішив
+&nbsp;    // ?? Творіння братів Люм’єр знало.
+&nbsp;    // кандидат у губернатори штату Аризона їхав
+<b class="nc">&nbsp;    if( nounPos &gt; 1 ) {</b>
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile(&quot;noun:inanim:[mnf]:v_naz:prop:geo.*&quot;))</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-1], Pattern.compile(&quot;noun:inanim:[mnf]:v_(?!naz)(?!.*&amp;pron).*&quot;)) ) {</b>
+&nbsp;      
+&nbsp;//      Condition condition = new Condition() {
+&nbsp;//        @Override
+&nbsp;//        public boolean matches(AnalyzedTokenReadings analyzedTokenReadings, Context context) {
+&nbsp;//          if( context.pos &gt;= 2 &amp;&amp; LemmaHelper.hasLemma(context.tokens[context.pos-1], Arrays.asList(&quot;в&quot;, &quot;у&quot;)) )
+&nbsp;//            return false;
+&nbsp;//          return super.matches(analyzedTokenReadings, context);
+&nbsp;//        }
+&nbsp;//      };
+&nbsp;//      condition.postag = NOUN_V_NAZ_PATTERN;
+&nbsp;//      int prevNounPos = new Match()
+&nbsp;//          .ignoreInserts()
+&nbsp;//          .limit(4)
+&nbsp;//          .target(condition)
+&nbsp;//          .mBefore(tokens, nounPos-2);
+&nbsp;//      
+&nbsp;//      if( prevNounPos &gt;= 0 
+&nbsp;//          &amp;&amp; ! Collections.disjoint(
+&nbsp;//              verbInflections, 
+&nbsp;//              VerbInflectionHelper.getNounInflections(tokens[prevNounPos].getReadings())) ) {
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( LemmaHelper.isPossiblyProperNoun(tokens[nounPos])</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.hasLemma(tokens[nounPos-1], GEO_QUALIFIERS) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      // У місті Біла Церква було сформовано
+<b class="nc">&nbsp;      if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.isPossiblyProperNoun(tokens[nounPos])</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.isPossiblyProperNoun(tokens[nounPos-1])</b>
+<b class="nc">&nbsp;          &amp;&amp; LemmaHelper.hasLemma(tokens[nounPos-2], GEO_QUALIFIERS) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+&nbsp;    // У невизнаній республіці Південна Осетія відбулися вибори
+<b class="nc">&nbsp;    if( nounPos &gt; 3</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagPart(tokens[nounPos], &quot;v_naz:prop&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-1], &quot;adj:.:v_naz.*&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-2], Pattern.compile(&quot;noun.*:v_(rod|zna|mis).*&quot;)) ) {</b>
+&nbsp;//        &amp;&amp; ! PosTagHelper.hasPosTag(tokens[i-2], &quot;noun.*:v_naz.*&quot;) ) {
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // У штатах Техас і Луїзіана запроваджено надзвичайний стан
+&nbsp;    // Хоча б межі курорту Східниця визначено?
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagPart(tokens[nounPos], &quot;:prop&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[verbPos], &quot;verb.*:impers.*&quot;) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // на австралійський штат Вікторія налетів сильний шторм
+<b class="nc">&nbsp;    if( nounPos &gt; 3</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile(&quot;noun:inanim:.:v_naz:prop.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-1], Pattern.compile(&quot;noun:inanim:.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-2], Pattern.compile(&quot;adj:.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagPart(tokens[nounPos-3], &quot;prep&quot;) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;      Collection&lt;String&gt; prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[nounPos-3], IPOSTag.prep.name());</b>
+<b class="nc">&nbsp;      if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[nounPos-1])</b>
+<b class="nc">&nbsp;            &amp;&amp; TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[nounPos-2]) ) {</b>
+<b class="nc">&nbsp;        logException();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // Угорщина було пішла шляхом
+<b class="nc">&nbsp;    if( verbPos &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[verbPos].getCleanToken().equals(&quot;було&quot;) ) {</b>
+<b class="nc">&nbsp;        int pos = LemmaHelper.tokenSearch(tokens, verbPos+1, &quot;verb:&quot;, null, Pattern.compile(&quot;adv.*&quot;), Dir.FORWARD); // PosTagHelper.hasPosTag(tokens[i+1], &quot;verb.*:past.*&quot;)</b>
+<b class="nc">&nbsp;        if( pos &gt;= 0 </b>
+<b class="nc">&nbsp;            &amp;&amp; ! Collections.disjoint(</b>
+<b class="nc">&nbsp;                VerbInflectionHelper.getNounInflections(tokens[nounPos].getReadings()), </b>
+<b class="nc">&nbsp;                VerbInflectionHelper.getVerbInflections(tokens[pos].getReadings())) ) {</b>
+<b class="nc">&nbsp;          logException();</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // клан Рана було знищено
+<b class="nc">&nbsp;    if( verbPos &lt; tokens.length - 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagPart(tokens[nounPos], &quot;:prop&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[verbPos].getCleanToken().equals(&quot;було&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[verbPos+1], &quot;verb.*:impers.*&quot;) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // діагноз дизентерія підтвердився
+&nbsp;    // селище Криниця розташувалося
+&nbsp;    // TODO: do not ignore: вибори Київрада не завадили
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[nounPos-1], Pattern.compile(&quot;noun:inanim:.:v_naz.*&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; ! PosTagHelper.hasPosTagPart(tokens[nounPos-1], &quot;:&amp;pron&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; ! PosTagHelper.hasPosTag(tokens[nounPos], &quot;noun.*pron.*&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; (! Collections.disjoint(VerbInflectionHelper.getNounInflections(tokens[nounPos-1].getReadings()), verbInflections)) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Прем’єр-міністр повторила у телезверненні
+<b class="nc">&nbsp;    if( PosTagHelper.hasPosTagPart(nounTokenReadings, &quot;noun:anim:m:v_naz&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(&quot;verb.*:f(:.*|$)&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; hasMascFemLemma(nounTokenReadings) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // пора було
+<b class="nc">&nbsp;    if( Arrays.asList(&quot;пора&quot;).contains(tokens[nounPos].getCleanToken().toLowerCase()) </b>
+<b class="nc">&nbsp;        &amp;&amp; Arrays.asList(&quot;було&quot;).contains(tokens[verbPos].getCleanToken()) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // решта забороняються
+<b class="nc">&nbsp;    List&lt;String&gt; pseudoPluralNouns = Arrays.asList(&quot;решта&quot;, &quot;частина&quot;, &quot;частка&quot;, &quot;половина&quot;, &quot;третина&quot;, &quot;чверть&quot;);</b>
+<b class="nc">&nbsp;    if( pseudoPluralNouns.contains(tokens[nounPos].getCleanToken().toLowerCase())</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(&quot;.*:[pn](:.*|$)&quot;)) ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // більше ніж будь-хто маємо повне право
+<b class="nc">&nbsp;    if( nounPos &gt; 2</b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.hasLemma(tokens[nounPos-1], &quot;ніж&quot;)) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // моя ти зоре
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[nounPos].getToken().equalsIgnoreCase(&quot;ти&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[verbPos], Pattern.compile(&quot;noun.*?v_kly.*&quot;))) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // вона візьми та й скажи
+<b class="nc">&nbsp;    if( verbPos &lt; tokens.length-2</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[verbPos].getToken().equals(&quot;візьми&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.hasLemma(tokens[verbPos+1], Arrays.asList(&quot;і&quot;, &quot;й&quot;, &quot;та&quot;))) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    // ми в державі Україна маємо права
+<b class="nc">&nbsp;    int vPos = verbPos;</b>
+<b class="nc">&nbsp;    if( verbPos &gt; 3</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(tokens[verbPos-1], Pattern.compile(&quot;noun:inanim:.:v_naz:prop.*&quot;)) ) {</b>
+&nbsp;
+&nbsp;      // в селі Червона Слобода було вирішено
+<b class="nc">&nbsp;      String token = tokens[nounPos-1].getToken();</b>
+<b class="nc">&nbsp;      if( LemmaHelper.isCapitalized(token) </b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTagStart(tokens[nounPos-1], &quot;adj&quot;) ) {</b>
+<b class="nc">&nbsp;        vPos -= 1;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTagStart(tokens[vPos-2], &quot;noun:inanim&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; PosTagHelper.hasPosTagPart(tokens[vPos-3], &quot;prep&quot;) ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        Collection&lt;String&gt; prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[vPos-3], IPOSTag.prep.name());</b>
+<b class="nc">&nbsp;        if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[vPos-2]) ) {</b>
+<b class="nc">&nbsp;          logException();</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // чи готові ми сидіти
+&nbsp;    //TODO: ніхто знижувати тарифи на газ і комунальні послуги, зрозуміло, не збирається
+<b class="nc">&nbsp;    if( nounPos &gt; 1</b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTagPart(tokens[nounPos-1], &quot;adj&quot;) </b>
+<b class="nc">&nbsp;        &amp;&amp; PosTagHelper.hasPosTag(verbTokenReadings, PosTagHelper.VERB_INF_PATTERN)</b>
+<b class="nc">&nbsp;        &amp;&amp; CaseGovernmentHelper.hasCaseGovernment(tokens[nounPos-1], &quot;v_inf&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; ! Collections.disjoint(InflectionHelper.getAdjInflections(tokens[nounPos-1].getReadings()), </b>
+<b class="nc">&nbsp;            InflectionHelper.getNounInflections(nounTokenReadings))) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // тому що, як австрієць маєте
+<b class="nc">&nbsp;    if( PosTagHelper.hasPosTag(tokens[nounPos], PosTagHelper.NOUN_V_NAZ_PATTERN)</b>
+<b class="nc">&nbsp;        &amp;&amp; LemmaHelper.tokenSearch(tokens, nounPos-1, (String)null, Pattern.compile(&quot;[Яя]к&quot;), PosTagHelper.ADJ_V_NAZ_PATTERN, Dir.REVERSE) != -1 ) {</b>
+<b class="nc">&nbsp;      logException();</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    } 
+&nbsp;    
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static boolean isNonPluralA(AnalyzedTokenReadings[] tokens, int pos) {
+&nbsp;    // both Cyrillic and Latin :(
+<b class="nc">&nbsp;    return (tokens[pos].getToken().equals(&quot;а&quot;) || tokens[pos].getToken().equals(&quot;a&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; ! LemmaHelper.hasLemma(tokens[pos+1], Arrays.asList(&quot;також&quot;, &quot;потім&quot;, &quot;пізніше&quot;));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;
+&nbsp;  static boolean hasMascFemLemma(List&lt;AnalyzedToken&gt; nounTokenReadings) {
+<b class="nc">&nbsp;    String token = nounTokenReadings.get(0).getToken();</b>
+<b class="nc">&nbsp;    if( token.endsWith(&quot;олог&quot;) || token.endsWith(&quot;знавець&quot;) )</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : nounTokenReadings) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag != null &amp;&amp; posTag.contains(&quot;noun:anim:m:v_naz&quot;) ) {</b>
+<b class="nc">&nbsp;        String lemma = analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;        if( isInMascFemSet(lemma)</b>
+<b class="nc">&nbsp;            || ( lemma.contains(&quot;-&quot;) &amp;&amp; isInMascFemSet(lemma.replaceFirst(&quot;-.*&quot;, &quot;&quot;)) ) )</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isInMascFemSet(String lemma) {
+<b class="nc">&nbsp;    return MASC_FEM_SET.contains(lemma.replace(&#39;\u2018&#39;, &#39;-&#39;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private static Set&lt;String&gt; extendSet(Set&lt;String&gt; loadSet, String string) {
+<b class="nc">&nbsp;    Set&lt;String&gt; extraSet = loadSet.stream().map(line -&gt; &quot;екс-&quot; + line).collect(Collectors.toSet());</b>
+<b class="nc">&nbsp;    loadSet.addAll(extraSet);</b>
+<b class="nc">&nbsp;    return loadSet;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private static void logException() {
+<b class="nc">&nbsp;    if( logger.isDebugEnabled() ) {</b>
+<b class="nc">&nbsp;      StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];</b>
+<b class="nc">&nbsp;      logger.debug(&quot;exception: &quot; /*+ stackTraceElement.getFileName()*/ + stackTraceElement.getLineNumber());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AgreementTools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: AgreementTools (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AgreementTools</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    27.6%
+  </span>
+  <span class="absValue">
+    (16/58)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    48.9%
+  </span>
+  <span class="absValue">
+    (22/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.de.AgreementRule.GrammarCategory;
+&nbsp;import org.languagetool.tagging.de.AnalyzedGermanToken;
+&nbsp;import org.languagetool.tagging.de.GermanToken;
+&nbsp;import org.languagetool.tagging.de.GermanToken.Determination;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import static org.languagetool.tagging.de.GermanToken.Genus.*;
+&nbsp;
+&nbsp;class AgreementTools {
+&nbsp;
+&nbsp;  private AgreementTools() {
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Return Kasus, Numerus, Genus of those forms with a determiner. */
+&nbsp;  static Set&lt;String&gt; getAgreementCategories(AnalyzedTokenReadings aToken, Set&lt;GrammarCategory&gt; omit, boolean skipSol) {
+<b class="fc">&nbsp;    Set&lt;String&gt; set = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;    List&lt;AnalyzedToken&gt; readings = aToken.getReadings();</b>
+<b class="fc">&nbsp;    for (AnalyzedToken tmpReading : readings) {</b>
+<b class="pc">&nbsp;      if (skipSol &amp;&amp; tmpReading.getPOSTag() != null &amp;&amp; tmpReading.getPOSTag().endsWith(&quot;:SOL&quot;)) {</b>
+&nbsp;        // SOL = alleinstehend - needs to be skipped so we find errors like &quot;An der roter Ampel.&quot;
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);</b>
+<b class="pc">&nbsp;      if (reading.getCasus() == null &amp;&amp; reading.getNumerus() == null &amp;&amp;</b>
+<b class="nc">&nbsp;        reading.getGenus() == null) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="pc">&nbsp;      if (reading.getGenus() == ALLGEMEIN &amp;&amp;</b>
+<b class="nc">&nbsp;        tmpReading.getPOSTag() != null &amp;&amp; !tmpReading.getPOSTag().endsWith(&quot;:STV&quot;) &amp;&amp;  // STV: stellvertretend (!= begleitend)</b>
+<b class="nc">&nbsp;        !possessiveSpecialCase(aToken, tmpReading)) {</b>
+&nbsp;        // genus=ALG in the original data. Not sure if this is allowed, but expand this so
+&nbsp;        // e.g. &quot;Ich Arbeiter&quot; doesn&#39;t get flagged as incorrect:
+<b class="nc">&nbsp;        if (reading.getDetermination() == null) {</b>
+&nbsp;          // Nouns don&#39;t have the determination property (definite/indefinite), and as we don&#39;t want to
+&nbsp;          // introduce a special case for that, we just pretend they always fulfill both properties:
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), MASKULINUM, Determination.DEFINITE, omit));</b>
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), MASKULINUM, Determination.INDEFINITE, omit));</b>
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), FEMININUM, Determination.DEFINITE, omit));</b>
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), FEMININUM, Determination.INDEFINITE, omit));</b>
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), NEUTRUM, Determination.DEFINITE, omit));</b>
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), NEUTRUM, Determination.INDEFINITE, omit));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), MASKULINUM, reading.getDetermination(), omit));</b>
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), FEMININUM, reading.getDetermination(), omit));</b>
+<b class="nc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), NEUTRUM, reading.getDetermination(), omit));</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="pc">&nbsp;        if (reading.getDetermination() == null || &quot;jed&quot;.equals(tmpReading.getLemma()) || &quot;manch&quot;.equals(tmpReading.getLemma())) {  // &quot;jeder&quot; etc. needs a special case to avoid false alarm</b>
+<b class="fc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), Determination.DEFINITE, omit));</b>
+<b class="fc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), Determination.INDEFINITE, omit));</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), reading.getDetermination(), omit));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return set;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static Set&lt;String&gt; getAgreementSOLCategories(AnalyzedTokenReadings aToken, Set&lt;GrammarCategory&gt; omit) {
+<b class="nc">&nbsp;    Set&lt;String&gt; set = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; readings = aToken.getReadings();</b>
+<b class="nc">&nbsp;    for (AnalyzedToken tmpReading : readings) {</b>
+<b class="nc">&nbsp;      if (tmpReading.getPOSTag() != null &amp;&amp; !tmpReading.getPOSTag().endsWith(&quot;:SOL&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);</b>
+<b class="nc">&nbsp;      if (reading.getCasus() == null &amp;&amp; reading.getNumerus() == null &amp;&amp; reading.getGenus() == null) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), Determination.DEFINITE, omit));</b>
+<b class="nc">&nbsp;      set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), Determination.INDEFINITE, omit));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return set;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean possessiveSpecialCase(AnalyzedTokenReadings aToken, AnalyzedToken tmpReading) {
+&nbsp;    // would cause error misses as it contains &#39;ALG&#39;, e.g. in &quot;Der Zustand meiner Gehirns.&quot;
+<b class="nc">&nbsp;    return aToken.hasPosTagStartingWith(&quot;PRO:POS&quot;) &amp;&amp; StringUtils.equalsAny(tmpReading.getLemma(), &quot;ich&quot;, &quot;sich&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
+&nbsp;                            Determination determination, Set&lt;GrammarCategory&gt; omit) {
+<b class="fc">&nbsp;    List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (casus != null &amp;&amp; !omit.contains(GrammarCategory.KASUS)) {</b>
+<b class="fc">&nbsp;      l.add(casus.toString());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (num != null &amp;&amp; !omit.contains(GrammarCategory.NUMERUS)) {</b>
+<b class="fc">&nbsp;      l.add(num.toString());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (gen != null &amp;&amp; !omit.contains(GrammarCategory.GENUS)) {</b>
+<b class="fc">&nbsp;      l.add(gen.toString());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (determination != null) {</b>
+<b class="fc">&nbsp;      l.add(determination.toString());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return String.join(&quot;/&quot;, l);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,418 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AgreementRule2</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: AgreementRule2 (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AgreementRule2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (10/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.4%
+  </span>
+  <span class="absValue">
+    (47/52)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.5%
+  </span>
+  <span class="absValue">
+    (156/160)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.synthesis.GermanSynthesizer;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;
+&nbsp;import static java.util.Arrays.*;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+&nbsp;import static org.languagetool.tools.StringTools.uppercaseFirstChar;
+&nbsp;
+&nbsp;/**
+&nbsp; * Simple agreement checker for German noun phrases. Checks agreement in:
+&nbsp; *
+&nbsp; * &lt;ul&gt;
+&nbsp; *  &lt;li&gt;SENT_START ADJ NOUN: e.g. &quot;Wirtschaftlicher Wachstum&quot; (incorrect), &quot;Wirtschaftliches Wachstum&quot; (correct)&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; *
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class AgreementRule2 extends Rule {
+&nbsp;
+&nbsp;  private static final String ADJ_GRU = &quot;Allgemein|Ausgiebig|Stilvoll|Link|Direkt|Gegenseitig|Offensichtlich|Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt&quot;;
+<b class="fc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = asList(</b>
+<b class="fc">&nbsp;    asList(csRegex(&quot;Willkommen|Link|Aktuell|Diverse|Flächendeckend|Entsprechende|Angeblich|Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|&quot; +</b>
+&nbsp;      &quot;Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Allwöchentlich|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|&quot; +
+&nbsp;      &quot;Genau|Gerade|Bewusst|Vereinzelt|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|&quot; +
+<b class="fc">&nbsp;      &quot;Regelmäßig(e|es)?|Unregelmäßig|Hauptsächlich&quot;), posRegex(&quot;SUB:.*&quot;)),  // &quot;Regelmäßig Kiwis und Ananas zu essen...&quot;, &quot;Reichlich Inspiration bietet...&quot;</b>
+<b class="fc">&nbsp;    asList(csRegex(ADJ_GRU), posRegex(&quot;SUB:.*&quot;), posRegex(&quot;VER:.*&quot;)),  // &quot;Überraschend Besuch bekommt er dann von ...&quot;</b>
+<b class="fc">&nbsp;    asList(csRegex(ADJ_GRU), posRegex(&quot;SUB:.*&quot;), posRegex(&quot;PRP.*&quot;)),  // &quot;Prinzipiell Anrecht auf eine Vertretung...&quot;</b>
+<b class="fc">&nbsp;    asList(csRegex(ADJ_GRU), posRegex(&quot;SUB:.*&quot;), token(&quot;,&quot;)),  // &quot;Weitgehend Konsens, auch über ...&quot;</b>
+<b class="fc">&nbsp;    asList(csRegex(&quot;Gut|Schlecht|Existenziell|Ganz|Gering|Viel|Wenig&quot;), posRegex(&quot;SUB:.*ADJ&quot;)),  // &quot;Existenziell Bedrohte kriegen...&quot;</b>
+<b class="fc">&nbsp;    asList(regex(&quot;Nachhaltig|Direkt&quot;), posRegex(&quot;SUB:NOM:.*&quot;), posRegex(&quot;VER:INF:(SFT|NON)&quot;)),  // &#39;nachhaltig Yoga praktizieren&#39;</b>
+<b class="fc">&nbsp;    asList(regex(&quot;\\d0er&quot;), regex(&quot;Jahren?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Liebe&quot;), token(&quot;Mai&quot;)),   // Mai = auch Eigenname</b>
+<b class="fc">&nbsp;    asList(token(&quot;Ganz&quot;), token(&quot;Ohr&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Klar&quot;), token(&quot;Schiff&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Echt&quot;), tokenRegex(&quot;Scheiße|Mist&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Dickes&quot;), token(&quot;Danke&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Personal&quot;), token(&quot;Shopper&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Schwäbisch&quot;), token(&quot;Hall&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Herzlich&quot;), token(&quot;Willkommen&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Gut&quot;), tokenRegex(&quot;Ding|Holz&quot;)),  // &quot;Gut Ding will Weile haben&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;Urban&quot;), token(&quot;Mining&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Responsive&quot;), token(&quot;Design&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Dual&quot;), token(&quot;Studierende&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Deutsche&quot;), csRegex(&quot;Grammophon|Wohnen&quot;)),</b>
+<b class="fc">&nbsp;    asList(posRegex(&quot;ADJ.*&quot;), tokenRegex(&quot;.+beamte&quot;)),  // &quot;Alarmierte Polizeibeamte&quot;</b>
+<b class="fc">&nbsp;    asList(new PatternTokenBuilder().token(&quot;Anderen&quot;).setSkip(5).build(), posRegex(&quot;VER:INF:(SFT|NON)&quot;)),  // &quot;Anderen Brot und Arbeit ermöglichen - ...&quot;</b>
+<b class="fc">&nbsp;    asList(regex(&quot;echt|absolut|voll|total&quot;), regex(&quot;Wahnsinn|Klasse&quot;)),</b>
+<b class="fc">&nbsp;    asList(pos(&quot;SENT_START&quot;), pos(&quot;ADJ:PRD:GRU&quot;), posRegex(&quot;SUB:NOM:SIN:NEU:INF&quot;)),  // &quot;Ruhig Schlafen &amp; Zentral Wohnen&quot;</b>
+<b class="fc">&nbsp;    asList(tokenRegex(&quot;voll|voller&quot;), posRegex(&quot;SUB:NOM:SIN:.*&quot;)),  // &quot;Voller Mitleid&quot;, &quot;Voller Mitleid&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;einzig&quot;), posRegex(&quot;SUB:NOM:.*&quot;)),  // &quot;Einzig Fernschüsse brachten Erfolgsaussichten&quot;</b>
+<b class="fc">&nbsp;    asList(tokenRegex(&quot;Intelligent|Urban&quot;), token(&quot;Design&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Alternativ&quot;), token(&quot;Berufserfahrung&quot;)),  // &quot;Alternativ Berufserfahrung im Bereich ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;Maritim&quot;), token(&quot;Hotel&quot;)),</b>
+<b class="fc">&nbsp;    asList(csToken(&quot;Russisch&quot;), csToken(&quot;Brot&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;ruhig&quot;), csToken(&quot;Blut&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Blind&quot;), regex(&quot;Dates?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Fair&quot;), token(&quot;Trade&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Frei&quot;), token(&quot;Haus&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Global&quot;), token(&quot;Player&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;psychisch&quot;), regex(&quot;Kranken?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;sportlich&quot;), regex(&quot;Aktiven?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;politisch&quot;), regex(&quot;Interessierten?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;voraussichtlich&quot;), regex(&quot;Ende|Anfang&quot;)),</b>
+<b class="fc">&nbsp;    asList(regex(&quot;gesetzlich|privat|freiwillig&quot;), regex(&quot;(Kranken)?Versicherten?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;typisch&quot;), posRegex(&quot;SUB:.*&quot;), regex(&quot;[!?.]&quot;)),  // &quot;Typisch November!&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;lecker&quot;), token(&quot;Essen&quot;)),  // &quot;Lecker Essen an Weihnachten.&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;erneut&quot;), posRegex(&quot;SUB:.*&quot;)),  // &quot;Erneut Ausgangssperre beschlossen&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;Gesetzlich&quot;), regex(&quot;Krankenversicherten?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;weitgehend&quot;), token(&quot;Einigkeit&quot;)),      // feste Phrase</b>
+<b class="fc">&nbsp;    asList(token(&quot;Ernst&quot;)),      // Vorname</b>
+<b class="fc">&nbsp;    asList(token(&quot;Anders&quot;)),     // Vorname</b>
+<b class="fc">&nbsp;    asList(token(&quot;wirklich&quot;)),   // &quot;Wirklich Frieden herrscht aber noch nicht&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;gemeinsam&quot;)),   // &quot;Gemeinsam Sportler anfeuern&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;wenig&quot;)),      // &quot;Wenig Geld - ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;weniger&quot;)),      // &quot;Weniger Geld - ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;unaufgefordert&quot;)),      // Unaufgefordert Dinge erledigen</b>
+<b class="fc">&nbsp;    asList(token(&quot;richtig&quot;)),    // &quot;Richtig Kaffee kochen ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;weiß&quot;)),       // &quot;Weiß Papa, dass ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;speziell&quot;)),   // &quot;Speziell Flugfähigkeit hat sich unabhängig voneinander ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;proaktiv&quot;)),   // &quot;Speziell Flugfähigkeit hat sich unabhängig voneinander ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;halb&quot;)),       // &quot;Halb Traum, halb Wirklichkeit&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;hinter&quot;)),     // &quot;Hinter Bäumen&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;vermutlich&quot;)), // &quot;Vermutlich Ende 1813 erkrankte...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;eventuell&quot;)), // &quot;Eventuell Ende 1813 erkrankte...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;ausschließlich&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;ausschliesslich&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;bloß&quot;)),       // &quot;Bloß Anhängerkupplung und solche Dinge...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;einfach&quot;)),    // &quot;Einfach Bescheid sagen ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;egal&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;endlich&quot;)),    // &quot;Endlich Mittagspause!&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;unbemerkt&quot;)),    // &quot;Unbemerkt Süßigkeiten essen&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;Typisch&quot;), tokenRegex(&quot;Mann|Frau&quot;)),    // &quot;Einfach Bescheid sagen ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;Ausreichend&quot;), tokenRegex(&quot;Bewegung&quot;)),    // &quot;Ausreichend Bewegung ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;Genau&quot;), token(&quot;Null&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;wohl&quot;)),       // &quot;Wohl Anfang 1725 begegnete Bach ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;erst&quot;)),       // &quot;Erst X, dann ...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;lieber&quot;)),     // &quot;Lieber X als Y&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;besser&quot;)),     // &quot;Besser Brot ohne Butter...&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;laut&quot;)),       // &quot;Laut Fernsehen&quot;</b>
+<b class="fc">&nbsp;    asList(token(&quot;research&quot;)),   // engl.</b>
+<b class="fc">&nbsp;    asList(token(&quot;researchs&quot;)),  // engl.</b>
+<b class="fc">&nbsp;    asList(token(&quot;security&quot;)),   // engl.</b>
+<b class="fc">&nbsp;    asList(token(&quot;business&quot;)),   // oft engl.</b>
+<b class="fc">&nbsp;    asList(token(&quot;Universal&quot;)),   // oft engl.</b>
+<b class="fc">&nbsp;    asList(token(&quot;voll&quot;), token(&quot;Sorge&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Total&quot;), tokenRegex(&quot;Tankstellen?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Ganz&quot;), token(&quot;Gentleman&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Kurz&quot;), token(&quot;Zeit&quot;), tokenRegex(&quot;für|um&quot;)), // Kurz Zeit für einen Call?</b>
+<b class="fc">&nbsp;    asList(token(&quot;Golden&quot;), token(&quot;Gate&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Wirtschaftlich&quot;), tokenRegex(&quot;Berechtigte[rn]?&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Russisch&quot;), token(&quot;Roulette&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Clever&quot;), tokenRegex(&quot;Shuttles?&quot;)), // name</b>
+<b class="fc">&nbsp;    asList(token(&quot;Personal&quot;), tokenRegex(&quot;(Computer|Coach|Trainer|Brand).*&quot;)),</b>
+<b class="fc">&nbsp;    asList(tokenRegex(&quot;Digital|Fair|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden|Human&quot;), tokenRegex(&quot;(Initiative|Office|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive|Learning|Publishing|Signage|Value|Entertainment|Museum|Register|Society|Union|Institute|Symposium|Style|Design|Edition).*&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;Smart&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;International&quot;), tokenRegex(&quot;Society|Olympic|Space&quot;)),</b>
+<b class="fc">&nbsp;    asList(token(&quot;GmbH&quot;))</b>
+&nbsp;  );
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;
+<b class="fc">&nbsp;  public AgreementRule2(ResourceBundle messages, Language language) {</b>
+<b class="fc">&nbsp;    setCategory(Categories.GRAMMAR.getCategory(messages));</b>
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;&lt;marker&gt;Kleiner Haus&lt;/marker&gt; am Waldrand&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;&lt;marker&gt;Kleines Haus&lt;/marker&gt; am Waldrand&quot;));</b>
+<b class="fc">&nbsp;    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return &quot;DE_AGREEMENT2&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Kongruenz von Adjektiv und Nomen (unvollständig!), z.B. &#39;kleiner (kleines) Haus&#39;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="fc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="pc">&nbsp;    for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="fc">&nbsp;      String token = tokens[i].getToken();</b>
+<b class="fc">&nbsp;      if (!tokens[i].isSentenceStart() &amp;&amp; !StringUtils.equalsAny(token, &quot;\&quot;&quot;, &quot;„&quot;, &quot;»&quot;, &quot;«&quot;)) {</b>
+&nbsp;        // skip quotes, as these are not relevant
+<b class="fc">&nbsp;        if (i+ 1 &lt; tokens.length &amp;&amp; tokens[i].hasPosTagStartingWith(&quot;ADJ&quot;) &amp;&amp; tokens[i+1].hasPosTagStartingWith(&quot;SUB&quot;) &amp;&amp; !tokens[i+1].hasPosTagStartingWith(&quot;EIG&quot;)) {</b>
+<b class="pc">&nbsp;          if (tokens[i].isImmunized() || tokens[i+1].isImmunized() || tokens[i].getToken().equalsIgnoreCase(&quot;unter&quot;)) {</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="fc">&nbsp;          AnalyzedTokenReadings nextToken = i + 2 &lt; tokens.length ? tokens[i + 2] : null;</b>
+<b class="fc">&nbsp;          if (nextToken != null &amp;&amp; nextToken.hasPosTagStartingWith(&quot;SUB&quot;)) {</b>
+&nbsp;            // no alarm for e.g. &quot;Deutscher Taschenbuch Verlag&quot;
+&nbsp;            break;
+&nbsp;          }
+<b class="fc">&nbsp;          RuleMatch ruleMatch = checkAdjNounAgreement(tokens[i], tokens[i+1], sentence);</b>
+<b class="fc">&nbsp;          if (ruleMatch != null) {</b>
+<b class="fc">&nbsp;            List&lt;String&gt; suggestions = getSuggestions(tokens, i);</b>
+<b class="fc">&nbsp;            ruleMatch.setSuggestedReplacements(suggestions);</b>
+<b class="fc">&nbsp;            ruleMatches.add(ruleMatch);</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        } else {
+&nbsp;          // rule only works at sentence start (minus quotes)
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;String&gt; getSuggestions(AnalyzedTokenReadings[] tokens, int i) {
+<b class="fc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedToken adjToken = tokens[i].getAnalyzedToken(0);</b>
+<b class="fc">&nbsp;    for (AnalyzedToken nounToken : tokens[i+1].getReadings()) {</b>
+<b class="pc">&nbsp;      if (nounToken.getPOSTag() == null) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;      try {
+<b class="fc">&nbsp;        String gender = getGender(nounToken);</b>
+<b class="fc">&nbsp;        if (gender == null) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="fc">&nbsp;        String number = getNumber(nounToken);</b>
+<b class="pc">&nbsp;        if (number == null) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="fc">&nbsp;        String[] forms = GermanSynthesizer.INSTANCE.synthesize(adjToken, &quot;ADJ:NOM:&quot; + number + &quot;:&quot; + gender + &quot;:GRU:SOL&quot;, true);</b>
+<b class="fc">&nbsp;        for (String s : forms) {</b>
+<b class="fc">&nbsp;          String fullSugg = uppercaseFirstChar(s) + &quot; &quot; + nounToken.getToken();</b>
+<b class="fc">&nbsp;          if (!suggestions.contains(fullSugg)) {</b>
+<b class="fc">&nbsp;            suggestions.add(fullSugg);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static String getGender(AnalyzedToken nounToken) {
+&nbsp;    String gender;
+<b class="fc">&nbsp;    if (nounToken.getPOSTag().contains(&quot;:MAS&quot;)) {</b>
+<b class="fc">&nbsp;      gender = &quot;MAS&quot;;</b>
+<b class="fc">&nbsp;    } else if (nounToken.getPOSTag().contains(&quot;:FEM&quot;)) {</b>
+<b class="fc">&nbsp;      gender = &quot;FEM&quot;;</b>
+<b class="fc">&nbsp;    } else if (nounToken.getPOSTag().contains(&quot;:NEU&quot;)) {</b>
+<b class="fc">&nbsp;      gender = &quot;NEU&quot;;</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return gender;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private static String getNumber(AnalyzedToken nounToken) {
+&nbsp;    String number;
+<b class="fc">&nbsp;    if (nounToken.getPOSTag().contains(&quot;:SIN:&quot;)) {</b>
+<b class="fc">&nbsp;      number = &quot;SIN&quot;;</b>
+<b class="pc">&nbsp;    } else if (nounToken.getPOSTag().contains(&quot;:PLU:&quot;)) {</b>
+<b class="fc">&nbsp;      number = &quot;PLU&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return number;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private RuleMatch checkAdjNounAgreement(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedSentence sentence) {
+<b class="fc">&nbsp;    Set&lt;String&gt; set = retainCommonCategories(token1, token2);</b>
+<b class="fc">&nbsp;    RuleMatch ruleMatch = null;</b>
+<b class="fc">&nbsp;    if (set.isEmpty()) {</b>
+<b class="fc">&nbsp;      String msg = &quot;Möglicherweise fehlende grammatikalische Übereinstimmung zwischen Adjektiv und &quot; +</b>
+&nbsp;            &quot;Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: &#39;kleiner Haus&#39; statt &#39;kleines Haus&#39;&quot;;
+<b class="fc">&nbsp;      String shortMsg = &quot;Möglicherweise keine Übereinstimmung bezüglich Kasus, Numerus oder Genus&quot;;</b>
+<b class="fc">&nbsp;      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token2.getEndPos(), msg, shortMsg);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private Set&lt;String&gt; retainCommonCategories(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+<b class="fc">&nbsp;    Set&lt;AgreementRule.GrammarCategory&gt; categoryToRelaxSet = Collections.emptySet();</b>
+&nbsp;    // finds more error but also more false alarms? see commented out cases in testSuggestion():
+&nbsp;    //Set&lt;String&gt; set1 = AgreementTools.getAgreementSOLCategories(token1, categoryToRelaxSet);
+<b class="fc">&nbsp;    Set&lt;String&gt; set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, false);</b>
+&nbsp;    //System.out.println(token1 + &quot; -&gt; &quot; + set1);
+<b class="fc">&nbsp;    Set&lt;String&gt; set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, false);</b>
+&nbsp;    //System.out.println(token2 + &quot; -&gt; &quot; + set2);
+<b class="fc">&nbsp;    set1.retainAll(set2);</b>
+&nbsp;    //System.out.println(&quot;==&gt;&quot;+set1);
+<b class="fc">&nbsp;    return set1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

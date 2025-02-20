@@ -1,0 +1,286 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GRPCServer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: GRPCServer (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GRPCServer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/79)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.concurrent.Executor;
+&nbsp;import java.util.concurrent.Executors;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.apache.commons.cli.*;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.GRPCUtils;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.ml.MLServerProto.AnalyzeResponse;
+&nbsp;import org.languagetool.rules.ml.MLServerProto.ProcessResponse;
+&nbsp;import org.languagetool.rules.ml.MLServerProto.ProcessingOptions;
+&nbsp;import org.languagetool.rules.ml.ProcessingServerGrpc.ProcessingServerImplBase;
+&nbsp;
+&nbsp;import io.grpc.Server;
+&nbsp;import io.grpc.ServerBuilder;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;
+<b class="nc">&nbsp;@Slf4j</b>
+&nbsp;@Experimental
+&nbsp;public class GRPCServer extends ProcessingServerImplBase
+&nbsp;{
+&nbsp;  private PipelinePool pool;
+&nbsp;  private UserConfig userConfig;
+&nbsp;  private GlobalConfig globalConfig;
+&nbsp;
+<b class="nc">&nbsp;  public GRPCServer() {</b>
+<b class="nc">&nbsp;    userConfig = new UserConfig();</b>
+<b class="nc">&nbsp;    globalConfig = new GlobalConfig();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void initPool(HTTPServerConfig serverConfig) {
+<b class="nc">&nbsp;    pool = new PipelinePool(serverConfig, null, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private PipelineSettings buildSettings(ProcessingOptions options) {
+<b class="nc">&nbsp;    Language lang = Languages.getLanguageForShortCode(options.getLanguage());</b>
+<b class="nc">&nbsp;    JLanguageTool.Level level = GRPCUtils.fromGRPC(options.getLevel());</b>
+<b class="nc">&nbsp;    List&lt;String&gt; enabled = options.getEnabledRulesList().stream().collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    List&lt;String&gt; disabled = options.getDisabledRulesList().stream().collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    TextChecker.QueryParams params = new TextChecker.QueryParams(Collections.emptyList(), enabled, disabled,</b>
+<b class="nc">&nbsp;      Collections.emptyList(), Collections.emptyList(), options.getEnabledOnly(), true, false,</b>
+<b class="nc">&nbsp;      false, options.getPremium(), options.getTempOff(), JLanguageTool.Mode.ALL, level, null);</b>
+<b class="nc">&nbsp;    return new PipelineSettings(lang, null, params, globalConfig, userConfig);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   */
+&nbsp;  public void analyze(org.languagetool.rules.ml.MLServerProto.AnalyzeRequest request,
+&nbsp;      io.grpc.stub.StreamObserver&lt;org.languagetool.rules.ml.MLServerProto.AnalyzeResponse&gt; responseObserver) {
+<b class="nc">&nbsp;    if (pool == null) {</b>
+<b class="nc">&nbsp;      responseObserver.onError(new IllegalStateException(&quot;Pool not initialized&quot;));</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      log.info(&quot;Handling analyze request&quot;);</b>
+<b class="nc">&nbsp;       PipelineSettings settings = buildSettings(request.getOptions());</b>
+<b class="nc">&nbsp;       Pipeline pipeline = pool.getPipeline(settings);</b>
+<b class="nc">&nbsp;       List&lt;AnalyzedSentence&gt; sentences = pipeline.analyzeText(request.getText());</b>
+<b class="nc">&nbsp;      AnalyzeResponse response = AnalyzeResponse.newBuilder()</b>
+<b class="nc">&nbsp;         .addAllSentences(sentences.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))</b>
+<b class="nc">&nbsp;        .build();</b>
+<b class="nc">&nbsp;      responseObserver.onNext(response);</b>
+<b class="nc">&nbsp;      responseObserver.onCompleted();</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      log.warn(&quot;Analyze request failed&quot;, e);</b>
+<b class="nc">&nbsp;      responseObserver.onError(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   */
+&nbsp;  public void process(org.languagetool.rules.ml.MLServerProto.ProcessRequest request,
+&nbsp;      io.grpc.stub.StreamObserver&lt;org.languagetool.rules.ml.MLServerProto.ProcessResponse&gt; responseObserver) {
+<b class="nc">&nbsp;    if (pool == null) {</b>
+<b class="nc">&nbsp;      responseObserver.onError(new IllegalStateException(&quot;Pool not initialized&quot;));</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      log.info(&quot;Handling process request: {}&quot;, request);</b>
+<b class="nc">&nbsp;      PipelineSettings settings = buildSettings(request.getOptions());</b>
+<b class="nc">&nbsp;      Pipeline pipeline = pool.getPipeline(settings);</b>
+&nbsp;      // List&lt;AnalyzedSentence&gt; sentences = request.getSentencesList().stream()
+&nbsp;      //   .map(GRPCUtils::fromGRPC).collect(Collectors.toList());
+&nbsp;
+&nbsp;      // TODO: rawMatches should have all results, regardless of mode/level/tempOff/...
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; rawMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      String text = request.getSentencesList().stream().map(s -&gt; s.getText()).collect(Collectors.joining());</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; matches = pipeline.check(text, m -&gt; rawMatches.add(m));</b>
+&nbsp;      // TODO use checkInternal again
+&nbsp;      // CheckResults results = pipeline.checkAnalyzedSentences(sentences, m -&gt; rawMatches.add(m));
+&nbsp;
+<b class="nc">&nbsp;      ProcessResponse response = ProcessResponse.newBuilder()</b>
+<b class="nc">&nbsp;        .addAllRawMatches(rawMatches.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))</b>
+&nbsp;        // .addAllMatches(results.getRuleMatches().stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+<b class="nc">&nbsp;        .addAllMatches(matches.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))</b>
+<b class="nc">&nbsp;        .build();</b>
+<b class="nc">&nbsp;      responseObserver.onNext(response);</b>
+<b class="nc">&nbsp;      log.info(&quot;Sending response: {}&quot;, response);</b>
+<b class="nc">&nbsp;      responseObserver.onCompleted();</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      log.warn(&quot;Process request failed&quot;, e);</b>
+<b class="nc">&nbsp;      responseObserver.onError(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Options getCommandLineOptions() {
+<b class="nc">&nbsp;    Options options = new Options();</b>
+<b class="nc">&nbsp;    options.addOption(Option.builder().longOpt(&quot;config&quot;).hasArg().required().build());</b>
+<b class="nc">&nbsp;    options.addOption(Option.builder().longOpt(&quot;port&quot;).hasArg().build());</b>
+<b class="nc">&nbsp;    options.addOption(Option.builder().longOpt(&quot;cert&quot;).hasArg().build());</b>
+<b class="nc">&nbsp;    options.addOption(Option.builder().longOpt(&quot;key&quot;).hasArg().build());</b>
+<b class="nc">&nbsp;    return options;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private CommandLine parseCommandLine(String[] args) throws ParseException {
+<b class="nc">&nbsp;    CommandLineParser parser = new DefaultParser();</b>
+<b class="nc">&nbsp;    return parser.parse(getCommandLineOptions(), args);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="nc">&nbsp;    GRPCServer instance = new GRPCServer();</b>
+&nbsp;
+<b class="nc">&nbsp;    int port = 8080;</b>
+<b class="nc">&nbsp;    File cert = null, key = null;</b>
+&nbsp;    HTTPServerConfig config;
+&nbsp;
+&nbsp;    try {
+<b class="nc">&nbsp;      CommandLine cli = instance.parseCommandLine(args);</b>
+<b class="nc">&nbsp;      String certPath = cli.getOptionValue(&quot;cert&quot;);</b>
+<b class="nc">&nbsp;      String keyPath = cli.getOptionValue(&quot;key&quot;);</b>
+<b class="nc">&nbsp;      if (certPath != null &amp;&amp; keyPath != null) {</b>
+<b class="nc">&nbsp;        cert = new File(certPath);</b>
+<b class="nc">&nbsp;        key = new File(keyPath);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (cli.hasOption(&quot;port&quot;)) {</b>
+<b class="nc">&nbsp;        port = Integer.parseInt(cli.getOptionValue(&quot;port&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (cli.hasOption(&quot;config&quot;)) {</b>
+<b class="nc">&nbsp;        config = new HTTPServerConfig(new String[] { &quot;--config&quot;, cli.getOptionValue(&quot;config&quot;)});</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        config = new HTTPServerConfig();</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      HelpFormatter help = new HelpFormatter();</b>
+<b class="nc">&nbsp;      help.printHelp(&quot;GRPCServer&quot;, instance.getCommandLineOptions());</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    instance.initPool(config);</b>
+&nbsp;
+<b class="nc">&nbsp;    Executor executor = Executors.newCachedThreadPool();</b>
+<b class="nc">&nbsp;    ServerBuilder builder = ServerBuilder.forPort(port)</b>
+<b class="nc">&nbsp;      .addService(instance)</b>
+<b class="nc">&nbsp;      .executor(executor);</b>
+<b class="nc">&nbsp;    if (cert != null &amp;&amp; key != null) {</b>
+<b class="nc">&nbsp;      builder = builder.useTransportSecurity(cert, key);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Server server = builder.build();</b>
+<b class="nc">&nbsp;    server.start();</b>
+<b class="nc">&nbsp;    System.out.println(&quot;port=&quot; + server.getPort());</b>
+<b class="nc">&nbsp;    server.awaitTermination();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,864 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SentenceAnnotator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.remote</a>
+</div>
+
+<h1>Coverage Summary for Class: SentenceAnnotator (org.languagetool.remote)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SentenceAnnotator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/161)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/379)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SentenceAnnotator$AnnotatorConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/175)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/407)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2023 Jaume Ortlà
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.remote;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.security.MessageDigest;
+&nbsp;import java.security.NoSuchAlgorithmException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.languagetool.tools.DiffsAsMatches;
+&nbsp;import org.languagetool.tools.PseudoMatch;
+&nbsp;
+&nbsp;import javax.xml.bind.DatatypeConverter;
+&nbsp;
+<b class="nc">&nbsp;public class SentenceAnnotator {</b>
+&nbsp;
+&nbsp;  static HashMap&lt;String, List&lt;RemoteRuleMatch&gt;&gt; cachedMatches;
+&nbsp;
+<b class="nc">&nbsp;  private static final String timestamp = String.format(&quot;%1$tY-%1$tm-%1$td&quot;, new Date());</b>
+&nbsp;
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="nc">&nbsp;    long start = System.currentTimeMillis();</b>
+&nbsp;    // use configuration file
+<b class="nc">&nbsp;    if (args.length == 1) {</b>
+<b class="nc">&nbsp;      String configurationFilename = args[0];</b>
+<b class="nc">&nbsp;      Properties prop = new Properties();</b>
+<b class="nc">&nbsp;      FileInputStream fis = new FileInputStream(configurationFilename);</b>
+<b class="nc">&nbsp;      prop.load(new InputStreamReader(fis, Charset.forName(&quot;UTF-8&quot;)));</b>
+<b class="nc">&nbsp;      AnnotatorConfig cfg = new AnnotatorConfig();</b>
+<b class="nc">&nbsp;      cfg.remoteServer = prop.getProperty(&quot;remoteServer&quot;, &quot;http://localhost:8081&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.userName = prop.getProperty(&quot;userName&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.annotatorName = prop.getProperty(&quot;annotatorName&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.apiKey = prop.getProperty(&quot;apiKey&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.inputFilePath = prop.getProperty(&quot;inputFile&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.outputFilePath = prop.getProperty(&quot;outputFile&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.languageCode = prop.getProperty(&quot;languageCode&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.waitMilliseconds = Integer.valueOf(prop.getProperty(&quot;waitMilliseconds&quot;, &quot;0&quot;).trim());</b>
+<b class="nc">&nbsp;      String customParamsStr = prop.getProperty(&quot;customParams&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      if (!customParamsStr.isEmpty()) {</b>
+<b class="nc">&nbsp;        for (String customParam : customParamsStr.split(&quot;;&quot;)) {</b>
+<b class="nc">&nbsp;          String[] parts = customParam.split(&quot;,&quot;);</b>
+<b class="nc">&nbsp;          cfg.customParams.put(parts[0], parts[1]);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      String automaticAnnotationStr = prop.getProperty(&quot;automaticAnnotation&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.automaticAnnotation = automaticAnnotationStr.equalsIgnoreCase(&quot;yes&quot;)</b>
+<b class="nc">&nbsp;          || automaticAnnotationStr.equalsIgnoreCase(&quot;true&quot;);</b>
+<b class="nc">&nbsp;      String ignoreStyleRulesStr = prop.getProperty(&quot;ignoreStyleRules&quot;, &quot;yes&quot;).trim();</b>
+<b class="nc">&nbsp;      cfg.ignoreStyleRules = ignoreStyleRulesStr.equalsIgnoreCase(&quot;yes&quot;)</b>
+<b class="nc">&nbsp;        || ignoreStyleRulesStr.equalsIgnoreCase(&quot;true&quot;);</b>
+<b class="nc">&nbsp;      String enabledOnlyRulesStr = prop.getProperty(&quot;enabledOnlyRules&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      if (!enabledOnlyRulesStr.isEmpty()) {</b>
+<b class="nc">&nbsp;        cfg.enabledOnlyRules = Arrays.asList(enabledOnlyRulesStr.split(&quot;,&quot;));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String disabledRulesStr = prop.getProperty(&quot;disabledRules&quot;, &quot;&quot;).trim();</b>
+<b class="nc">&nbsp;      if (!disabledRulesStr.isEmpty()) {</b>
+<b class="nc">&nbsp;        cfg.disabledRules = Arrays.asList(disabledRulesStr.split(&quot;,&quot;));</b>
+&nbsp;      }
+&nbsp;      // defaultColor=&quot;\u001B[0m&quot;
+&nbsp;      // highlightColor=&quot;\u001B[97m&quot;
+<b class="nc">&nbsp;      cfg.ansiDefault = prop.getProperty(&quot;defaultColor&quot;, &quot;&quot;).trim().replace(&quot;\&quot;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      cfg.ansiHighlight = prop.getProperty(&quot;highlightColor&quot;, &quot;&quot;).trim().replace(&quot;\&quot;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      cfg.prepareConfiguration();</b>
+<b class="nc">&nbsp;      if (cfg.automaticAnnotation) {</b>
+<b class="nc">&nbsp;        runAutomaticAnnotation(cfg);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        runAnnotation(cfg);</b>
+&nbsp;      }
+&nbsp;
+&nbsp;    } else {
+<b class="nc">&nbsp;      writeHelp();</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(printTimeFromStart(start, &quot;Total time:&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void runAnnotation(AnnotatorConfig cfg) throws IOException, NoSuchAlgorithmException, InterruptedException {
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(cfg.inputFilePath));</b>
+<b class="nc">&nbsp;    int numSentence = 0;</b>
+<b class="nc">&nbsp;    Scanner sc = new Scanner(System.in);</b>
+<b class="nc">&nbsp;    System.out.print(&quot;Start at line? &quot;);</b>
+<b class="nc">&nbsp;    String response = sc.nextLine();</b>
+<b class="nc">&nbsp;    int startLine = 0;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      startLine = Integer.valueOf(response);</b>
+&nbsp;    } catch (NumberFormatException ex) {
+<b class="nc">&nbsp;      startLine = 0;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Starting at line &quot; + String.valueOf(startLine) + &quot; of file &quot; + cfg.inputFilePath);</b>
+<b class="nc">&nbsp;    boolean quit = false;</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      if (quit) {</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="nc">&nbsp;      numSentence++;</b>
+<b class="nc">&nbsp;      if (numSentence &lt; startLine) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String[] partsLine = line.split(&quot;\t&quot;);</b>
+&nbsp;      String sentenceID;
+&nbsp;      String originalSentence;
+<b class="nc">&nbsp;      if (partsLine.length == 2) {</b>
+<b class="nc">&nbsp;        originalSentence = partsLine[1];</b>
+<b class="nc">&nbsp;        sentenceID = partsLine[0];</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        originalSentence = partsLine[0];</b>
+<b class="nc">&nbsp;        sentenceID = &quot;N/A&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String sentence = originalSentence;</b>
+<b class="nc">&nbsp;      String sentenceHash = md5FromSentence(sentence);</b>
+<b class="nc">&nbsp;      boolean done = false;</b>
+<b class="nc">&nbsp;      List&lt;String&gt; fpMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      int annotationsPerSentence = 0;</b>
+<b class="nc">&nbsp;      while (!done) {</b>
+<b class="nc">&nbsp;        List&lt;RemoteRuleMatch&gt; matches = getMatches(cfg, sentence);</b>
+<b class="nc">&nbsp;        RemoteRuleMatch match = null;</b>
+<b class="nc">&nbsp;        int i = 0;</b>
+<b class="nc">&nbsp;        boolean isValidMatch = false;</b>
+<b class="nc">&nbsp;        while (!isValidMatch &amp;&amp; i &lt; matches.size()) {</b>
+<b class="nc">&nbsp;          match = matches.get(i);</b>
+<b class="nc">&nbsp;          i++;</b>
+<b class="nc">&nbsp;          isValidMatch = !fpMatches.contains(getMatchIdentifier(sentence, match));</b>
+<b class="nc">&nbsp;          if (cfg.ignoreStyleRules &amp;&amp; match.getLocQualityIssueType().get().equals(&quot;style&quot;)) {</b>
+<b class="nc">&nbsp;            isValidMatch = false;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (!isValidMatch) {</b>
+<b class="nc">&nbsp;            match = null;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        String formattedSentence = formatedSentence(sentence, match);</b>
+<b class="nc">&nbsp;        String formattedCorrectedSentence = formattedSentence;</b>
+<b class="nc">&nbsp;        String detectedErrorStr = &quot;&quot;;</b>
+<b class="nc">&nbsp;        System.out.println(cfg.ansiDefault + &quot;=============================================&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Sentence no. &quot; + String.valueOf(numSentence));</b>
+<b class="nc">&nbsp;        System.out.println(&quot;---------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(cfg.ansiHighlight + formattedSentence + cfg.ansiDefault);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;---------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        if (match != null) {</b>
+<b class="nc">&nbsp;          System.out.println(match.getMessage());</b>
+<b class="nc">&nbsp;          detectedErrorStr = sentence.substring(match.getErrorOffset(),</b>
+<b class="nc">&nbsp;              match.getErrorOffset() + match.getErrorLength());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(listSuggestions(match, detectedErrorStr));</b>
+<b class="nc">&nbsp;        System.out.println(&quot;---------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        System.out.print(&quot;Action? &quot;);</b>
+<b class="nc">&nbsp;        response = sc.nextLine();</b>
+<b class="nc">&nbsp;        if (!response.contains(&quot;&gt;&gt;&quot;)) {</b>
+<b class="nc">&nbsp;          response = response.toLowerCase();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String errorType = &quot;&quot;;</b>
+<b class="nc">&nbsp;        int suggestionPos = -1;</b>
+<b class="nc">&nbsp;        String suggestionApplied = &quot;&quot;;</b>
+<b class="nc">&nbsp;        int suggestionsTotal = 0;</b>
+<b class="nc">&nbsp;        if (match != null) {</b>
+<b class="nc">&nbsp;          suggestionsTotal = match.getReplacements().get().size();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        switch (response) {</b>
+&nbsp;        case &quot;r&quot;:
+<b class="nc">&nbsp;          sentence = originalSentence;</b>
+<b class="nc">&nbsp;          fpMatches.clear();</b>
+<b class="nc">&nbsp;          cfg.outStrB = new StringBuilder();</b>
+&nbsp;          break;
+&nbsp;        case &quot;q&quot;:
+<b class="nc">&nbsp;          done = true;</b>
+<b class="nc">&nbsp;          quit = true;</b>
+<b class="nc">&nbsp;          writeToOutputFile(cfg);</b>
+&nbsp;          break;
+&nbsp;        case &quot;d&quot;:
+<b class="nc">&nbsp;          done = true;</b>
+<b class="nc">&nbsp;          if (annotationsPerSentence == 0) {</b>
+<b class="nc">&nbsp;            errorType = &quot;OK&quot;;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          writeToOutputFile(cfg);</b>
+&nbsp;          break;
+&nbsp;        case &quot;g&quot;:
+<b class="nc">&nbsp;          done = true;</b>
+<b class="nc">&nbsp;          errorType = &quot;IG&quot;;</b>
+<b class="nc">&nbsp;          cfg.outStrB = new StringBuilder();</b>
+<b class="nc">&nbsp;          match = null;</b>
+&nbsp;          break;
+&nbsp;        case &quot;i&quot;:
+<b class="nc">&nbsp;          fpMatches.add(getMatchIdentifier(sentence, match));</b>
+<b class="nc">&nbsp;          errorType = &quot;IM&quot;;</b>
+&nbsp;          break;
+&nbsp;        case &quot;b&quot;:
+<b class="nc">&nbsp;          fpMatches.add(getMatchIdentifier(sentence, match));</b>
+<b class="nc">&nbsp;          errorType = &quot;BO&quot;;</b>
+&nbsp;          break;
+&nbsp;        case &quot;f&quot;:
+<b class="nc">&nbsp;          fpMatches.add(getMatchIdentifier(sentence, match));</b>
+<b class="nc">&nbsp;          errorType = &quot;FP&quot;;</b>
+&nbsp;          break;
+&nbsp;        case &quot;1&quot;:
+&nbsp;        case &quot;2&quot;:
+&nbsp;        case &quot;3&quot;:
+&nbsp;        case &quot;4&quot;:
+&nbsp;        case &quot;5&quot;:
+<b class="nc">&nbsp;          errorType = &quot;TP&quot;;</b>
+<b class="nc">&nbsp;          if (suggestionsTotal &gt; 1) {</b>
+<b class="nc">&nbsp;            errorType = &quot;TPmultiple&quot;;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          int r = Integer.valueOf(response);</b>
+<b class="nc">&nbsp;          if (match != null &amp;&amp; r &gt;= 1 &amp;&amp; r &lt;= 5) {</b>
+<b class="nc">&nbsp;            formattedCorrectedSentence = formattedCorrectedSentence(sentence, match, r);</b>
+<b class="nc">&nbsp;            sentence = replaceSuggestion(sentence, match, r);</b>
+<b class="nc">&nbsp;            suggestionPos = r;</b>
+<b class="nc">&nbsp;            suggestionApplied = match.getReplacements().get().get(suggestionPos - 1);</b>
+&nbsp;          }
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        if (quit) {</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        if (response.startsWith(&quot;&gt;&gt;&quot;) &amp;&amp; match != null) { // alternative suggestion</b>
+<b class="nc">&nbsp;          formattedCorrectedSentence = sentence.substring(0, match.getErrorOffset()) + &quot;___&quot; + response.substring(2)</b>
+<b class="nc">&nbsp;              + &quot;___&quot; + sentence.substring(match.getErrorOffset() + match.getErrorLength());</b>
+<b class="nc">&nbsp;          sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)</b>
+<b class="nc">&nbsp;              + sentence.substring(match.getErrorOffset() + match.getErrorLength());</b>
+<b class="nc">&nbsp;          if (suggestionsTotal == 0) {</b>
+<b class="nc">&nbsp;            errorType = &quot;TPno&quot;;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            errorType = &quot;TPwrong&quot;;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          suggestionApplied = response.substring(2);</b>
+<b class="nc">&nbsp;        } else if (response.contains(&quot;&gt;&gt;&quot;)) {</b>
+<b class="nc">&nbsp;          String[] parts = response.split(&quot;&gt;&gt;&quot;);</b>
+<b class="nc">&nbsp;          String toReplace = parts[0];</b>
+<b class="nc">&nbsp;          String replacement = parts[1];</b>
+<b class="nc">&nbsp;          int ind = sentence.indexOf(toReplace);</b>
+<b class="nc">&nbsp;          if (ind &gt; -1) {</b>
+<b class="nc">&nbsp;            if (sentence.substring(ind + toReplace.length()).indexOf(toReplace) &gt; -1) {</b>
+<b class="nc">&nbsp;              System.out.println(&quot;Cannot replace duplicate string in sentence.&quot;);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              formattedSentence = sentence.substring(0, ind) + &quot;___&quot; + toReplace + &quot;___&quot;</b>
+<b class="nc">&nbsp;                  + sentence.substring(ind + toReplace.length());</b>
+<b class="nc">&nbsp;              formattedCorrectedSentence = sentence.substring(0, ind) + &quot;___&quot; + replacement + &quot;___&quot;</b>
+<b class="nc">&nbsp;                  + sentence.substring(ind + toReplace.length());</b>
+<b class="nc">&nbsp;              sentence = sentence.substring(0, ind) + replacement + sentence.substring(ind + toReplace.length());</b>
+<b class="nc">&nbsp;              System.out.println(&quot;FN: replacement done.&quot;);</b>
+<b class="nc">&nbsp;              errorType = &quot;FN&quot;;</b>
+<b class="nc">&nbsp;              suggestionApplied = replacement;</b>
+<b class="nc">&nbsp;              detectedErrorStr = toReplace;</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (!errorType.isEmpty()) {</b>
+<b class="nc">&nbsp;          printOutputLine(cfg, sentenceHash, sentenceID, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,</b>
+<b class="nc">&nbsp;              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),</b>
+<b class="nc">&nbsp;              getRuleType(match));</b>
+<b class="nc">&nbsp;          annotationsPerSentence++;</b>
+<b class="nc">&nbsp;          if (errorType.equals(&quot;OK&quot;) || errorType.equals(&quot;IG&quot;)) {</b>
+<b class="nc">&nbsp;            writeToOutputFile(cfg);</b>
+<b class="nc">&nbsp;            cfg.outStrB = new StringBuilder();</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    sc.close();
+<b class="nc">&nbsp;    cfg.out.close();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * If the input file has two tab-separated columns (original sentence, golden sentence),
+&nbsp;   * the sentence to be evaluated is generated by the API defined in the configuration.
+&nbsp;   *
+&nbsp;   * Otherwise, the input file has three tab-separated columns:
+&nbsp;   * original sentence, golden sentence, sentence to be evaluated (no API is used)
+&nbsp;   */
+&nbsp;  private static void runAutomaticAnnotation(AnnotatorConfig cfg) throws Exception {
+<b class="nc">&nbsp;    DiffsAsMatches diffsAsMatches = new DiffsAsMatches();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(cfg.inputFilePath));</b>
+<b class="nc">&nbsp;    int numSentence = 0;</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Starting at line 1 of file &quot; + cfg.inputFilePath);</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      numSentence++;</b>
+<b class="nc">&nbsp;      line = line.replace(&quot;\u00A0&quot; , &quot; &quot;);</b>
+<b class="nc">&nbsp;      String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;      if (parts.length &lt; 2) {</b>
+<b class="nc">&nbsp;        throw new Exception(&quot;Error: Lines from the input file should contain at least two tab-separated columns. &quot;</b>
+&nbsp;          + &quot;Line: &quot; + line);
+&nbsp;      }
+<b class="nc">&nbsp;      String sentence = parts[0].replace(&quot;__&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      String sentenceHash = md5FromSentence(sentence);</b>
+<b class="nc">&nbsp;      String correctedSentence = parts[1].replace(&quot;__&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      List&lt;PseudoMatch&gt; matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);</b>
+<b class="nc">&nbsp;      if (parts.length &lt; 3) {</b>
+<b class="nc">&nbsp;        List&lt;RemoteRuleMatch&gt; matches = getMatches(cfg, sentence);</b>
+<b class="nc">&nbsp;        correctedSentence = applyAllMatches(sentence, matches);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        correctedSentence = parts[2].replace(&quot;__&quot;, &quot;&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      RemoteRuleMatch match = null;</b>
+<b class="nc">&nbsp;      List&lt;PseudoMatch&gt; matchesEval = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);</b>
+<b class="nc">&nbsp;      String errorType = &quot;&quot;;</b>
+<b class="nc">&nbsp;      int iGolden = 0;</b>
+<b class="nc">&nbsp;      int iEval = 0;</b>
+<b class="nc">&nbsp;      while (iGolden &lt; matchesGolden.size() || iEval &lt; matchesEval.size()) {</b>
+<b class="nc">&nbsp;        PseudoMatch iGMatch = null;</b>
+<b class="nc">&nbsp;        PseudoMatch iEMatch = null;</b>
+<b class="nc">&nbsp;        if (iGolden &lt; matchesGolden.size()) {</b>
+<b class="nc">&nbsp;          iGMatch = matchesGolden.get(iGolden);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (iEval &lt; matchesEval.size()) {</b>
+<b class="nc">&nbsp;          iEMatch = matchesEval.get(iEval);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String formattedOriginalSentence = &quot;&quot;;</b>
+<b class="nc">&nbsp;        String formattedCorrectSentence = &quot;&quot;;</b>
+<b class="nc">&nbsp;        String detectedErrorStr = &quot;&quot;;</b>
+<b class="nc">&nbsp;        String replacement = &quot;&quot;;</b>
+<b class="nc">&nbsp;        if (iGMatch == null) {</b>
+<b class="nc">&nbsp;          errorType = &quot;FP&quot;;</b>
+<b class="nc">&nbsp;          iEval++;</b>
+<b class="nc">&nbsp;        } else if (iEMatch == null) {</b>
+<b class="nc">&nbsp;          errorType = &quot;FN&quot;;</b>
+<b class="nc">&nbsp;          iGolden++;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          if (iGMatch.getFromPos() == iEMatch.getFromPos()) {</b>
+<b class="nc">&nbsp;            if (iEMatch.getReplacements().size() == 0) {</b>
+<b class="nc">&nbsp;              errorType = &quot;TPns&quot;;</b>
+<b class="nc">&nbsp;            } else if (iGMatch.getReplacements().get(0).equals(iEMatch.getReplacements().get(0))) {</b>
+<b class="nc">&nbsp;              errorType = &quot;TP&quot;;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              errorType = &quot;TPws&quot;;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            iGolden++;</b>
+<b class="nc">&nbsp;            iEval++;</b>
+<b class="nc">&nbsp;          } else if (iGMatch.getFromPos() &lt; iEMatch.getFromPos()) {</b>
+<b class="nc">&nbsp;            errorType = &quot;FN&quot;;</b>
+<b class="nc">&nbsp;            iGolden++;</b>
+<b class="nc">&nbsp;          } else if (iGMatch.getFromPos() &gt; iEMatch.getFromPos()) {</b>
+<b class="nc">&nbsp;            errorType = &quot;FP&quot;;</b>
+<b class="nc">&nbsp;            iEval++;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        switch (errorType) {</b>
+&nbsp;        case &quot;FP&quot;:
+<b class="nc">&nbsp;          formattedOriginalSentence = formatedSentence2(sentence, iEMatch);</b>
+<b class="nc">&nbsp;          formattedCorrectSentence = formattedOriginalSentence;</b>
+<b class="nc">&nbsp;          detectedErrorStr = sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos());</b>
+<b class="nc">&nbsp;          replacement = iEMatch.getReplacements().get(0);</b>
+&nbsp;          break;
+&nbsp;        case &quot;FN&quot;:
+<b class="nc">&nbsp;          formattedOriginalSentence = formatedSentence2(sentence, iGMatch);</b>
+<b class="nc">&nbsp;          formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);</b>
+<b class="nc">&nbsp;          detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());</b>
+<b class="nc">&nbsp;          replacement = &quot;&quot;;</b>
+&nbsp;          break;
+&nbsp;        case &quot;TP&quot;:
+&nbsp;        case &quot;TPns&quot;:
+&nbsp;        case &quot;TPws&quot;:
+<b class="nc">&nbsp;          formattedOriginalSentence = formatedSentence2(sentence, iGMatch);</b>
+<b class="nc">&nbsp;          formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);</b>
+<b class="nc">&nbsp;          detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());</b>
+<b class="nc">&nbsp;          replacement = iEMatch.getReplacements().get(0);</b>
+&nbsp;          break;
+&nbsp;        }
+<b class="nc">&nbsp;        printOutputLine(cfg, sentenceHash, &quot;N/A&quot;, formattedOriginalSentence, formattedCorrectSentence, errorType,</b>
+<b class="nc">&nbsp;            detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      writeToOutputFile(cfg);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    cfg.out.close();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // surround by double quotes and CSV-style escape of field-internal quotes
+&nbsp;  static private StringBuilder prepareFieldForCSV(String fieldValue) {
+<b class="nc">&nbsp;    if (fieldValue.contains(&quot;\&quot;&quot;) || fieldValue.contains(&quot;,&quot;)) {</b>
+<b class="nc">&nbsp;      return new StringBuilder()</b>
+<b class="nc">&nbsp;        .append(&quot;\&quot;&quot;)</b>
+<b class="nc">&nbsp;        .append(fieldValue.replace(&quot;\&quot;&quot;, &quot;\&quot;\&quot;&quot;))</b>
+<b class="nc">&nbsp;        .append(&quot;\&quot;&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return new StringBuilder(fieldValue);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static private StringBuilder createCSVRow(String[] fieldValues) {
+<b class="nc">&nbsp;    StringBuilder row = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; fieldValues.length; i++) {</b>
+<b class="nc">&nbsp;      row.append(prepareFieldForCSV(fieldValues[i]));</b>
+<b class="nc">&nbsp;      if (i != fieldValues.length - 1) {</b>
+<b class="nc">&nbsp;        row.append(&quot;,&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return row;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String md5FromSentence(String sentence) throws NoSuchAlgorithmException {
+<b class="nc">&nbsp;    MessageDigest md5 = MessageDigest.getInstance(&quot;MD5&quot;);</b>
+<b class="nc">&nbsp;    md5.update(sentence.getBytes());</b>
+<b class="nc">&nbsp;    byte[] digest = md5.digest();</b>
+<b class="nc">&nbsp;    return DatatypeConverter.printHexBinary(digest);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash, String sentenceID,
+&nbsp;                                      String errorSentence, String correctedSentence, String errorType,
+&nbsp;                                      String detectedErrorStr, String suggestion, int suggestionPos,
+&nbsp;                                      int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
+<b class="nc">&nbsp;    String[] rowFields = {</b>
+&nbsp;      sentenceHash,
+&nbsp;      sentenceID,
+&nbsp;      cfg.annotatorName,
+&nbsp;      timestamp,
+&nbsp;      errorSentence,
+&nbsp;      correctedSentence,
+&nbsp;      errorType,
+&nbsp;      detectedErrorStr,
+&nbsp;      suggestion,
+&nbsp;      ruleId,
+<b class="nc">&nbsp;      String.valueOf(suggestionPos),</b>
+<b class="nc">&nbsp;      String.valueOf(suggestionsTotal),</b>
+&nbsp;      ruleCategory,
+&nbsp;      ruleType
+&nbsp;    };
+<b class="nc">&nbsp;    cfg.outStrB.append(createCSVRow(rowFields)).append(&quot;\n&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private void writeToOutputFile(AnnotatorConfig cfg) throws IOException {
+<b class="nc">&nbsp;    cfg.out.write(cfg.outStrB.toString());</b>
+<b class="nc">&nbsp;    cfg.out.flush();</b>
+<b class="nc">&nbsp;    cfg.outStrB = new StringBuilder();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String getMatchIdentifier(String sentence, RemoteRuleMatch match) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(sentence.substring(match.getErrorOffset(), match.getErrorOffset() + match.getErrorLength()));</b>
+<b class="nc">&nbsp;    sb.append(getFullId(match));</b>
+<b class="nc">&nbsp;    sb.append(match.getReplacements().get().toString());</b>
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String getFullId(RemoteRuleMatch match) {
+<b class="nc">&nbsp;    String ruleId = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (match != null) {</b>
+<b class="nc">&nbsp;      String subId = null;</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        subId = match.getRuleSubId().get();</b>
+&nbsp;      } catch (NoSuchElementException e) {
+&nbsp;      }
+<b class="nc">&nbsp;      if (subId != null) {</b>
+<b class="nc">&nbsp;        ruleId = match.getRuleId() + &quot;[&quot; + subId + &quot;]&quot;;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        ruleId = match.getRuleId();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String getRuleCategoryId(RemoteRuleMatch match) {
+<b class="nc">&nbsp;    String categoryId = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (match != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        categoryId = match.getCategoryId().get();</b>
+&nbsp;      } catch (NoSuchElementException e) {
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return categoryId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String getRuleType(RemoteRuleMatch match) {
+<b class="nc">&nbsp;    String ruleType = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (match != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        ruleType = match.getLocQualityIssueType().get().toString();</b>
+&nbsp;      } catch (NoSuchElementException e) {
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleType;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String listSuggestions(RemoteRuleMatch match, String detectedErrorStr) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(&quot;(Q)uit (D)one (G)arbled (R)estartSentence &quot;);</b>
+<b class="nc">&nbsp;    if (match == null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;NO MATCHES&quot;);</b>
+<b class="nc">&nbsp;      return sb.toString();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    sb.append(&quot;(I)gnoreMatch &quot;);</b>
+<b class="nc">&nbsp;    sb.append(&quot;(B)othOK &quot;);</b>
+<b class="nc">&nbsp;    sb.append(&quot;(F)P &quot;);</b>
+<b class="nc">&nbsp;    if (!detectedErrorStr.isEmpty()) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;\nUNDERLINED_STR: &quot;);</b>
+<b class="nc">&nbsp;      sb.append(detectedErrorStr);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (match.getReplacements().get().size() &gt; 0) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;\nSUGGESTIONS: &quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int i = 1;</b>
+<b class="nc">&nbsp;    for (String suggestion : match.getReplacements().get()) {</b>
+<b class="nc">&nbsp;      sb.append(String.valueOf(i) + &quot;) &quot; + suggestion + &quot; &quot;);</b>
+<b class="nc">&nbsp;      i++;</b>
+<b class="nc">&nbsp;      if (i &gt; 5) {</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String formatedSentence2(String line, PseudoMatch match) {
+<b class="nc">&nbsp;    if (match == null) {</b>
+<b class="nc">&nbsp;      return line;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(line.substring(0, match.getFromPos()));</b>
+<b class="nc">&nbsp;    sb.append(&quot;___&quot;);</b>
+<b class="nc">&nbsp;    sb.append(line.substring(match.getFromPos(), match.getToPos()));</b>
+<b class="nc">&nbsp;    sb.append(&quot;___&quot;);</b>
+<b class="nc">&nbsp;    sb.append(line.substring(match.getToPos()));</b>
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String formattedCorrectedSentence2(String line, PseudoMatch match) {
+<b class="nc">&nbsp;    if (match == null) {</b>
+<b class="nc">&nbsp;      return line;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(line.substring(0, match.getFromPos()));</b>
+<b class="nc">&nbsp;    sb.append(&quot;___&quot;);</b>
+<b class="nc">&nbsp;    sb.append(match.getReplacements().get(0));</b>
+<b class="nc">&nbsp;    sb.append(&quot;___&quot;);</b>
+<b class="nc">&nbsp;    sb.append(line.substring(match.getToPos()));</b>
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String formatedSentence(String line, RemoteRuleMatch match) {
+<b class="nc">&nbsp;    if (match == null) {</b>
+<b class="nc">&nbsp;      return line;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(line.substring(0, match.getErrorOffset()));</b>
+<b class="nc">&nbsp;    sb.append(&quot;___&quot;);</b>
+<b class="nc">&nbsp;    sb.append(line.substring(match.getErrorOffset(), match.getErrorOffset() + match.getErrorLength()));</b>
+<b class="nc">&nbsp;    sb.append(&quot;___&quot;);</b>
+<b class="nc">&nbsp;    sb.append(line.substring(match.getErrorOffset() + match.getErrorLength()));</b>
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String applyAllMatches(String line, List&lt;RemoteRuleMatch&gt; matches) {
+<b class="nc">&nbsp;    if (matches == null) {</b>
+<b class="nc">&nbsp;      return line;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int correctedPos = 0;</b>
+<b class="nc">&nbsp;    String sentence = line;</b>
+<b class="nc">&nbsp;    for (RemoteRuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; replacements = match.getReplacements().get();</b>
+<b class="nc">&nbsp;      if (replacements.size()&gt;0) {</b>
+&nbsp;        // if there is no suggestion, the match is ignored
+<b class="nc">&nbsp;        StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;        sb.append(sentence.substring(0, match.getErrorOffset() + correctedPos));</b>
+<b class="nc">&nbsp;        sb.append(match.getReplacements().get().get(0));</b>
+<b class="nc">&nbsp;        sb.append(sentence.substring(match.getErrorOffset() + match.getErrorLength() + correctedPos));</b>
+<b class="nc">&nbsp;        sentence = sb.toString();</b>
+<b class="nc">&nbsp;        correctedPos += match.getReplacements().get().get(0).length() - match.getErrorLength();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sentence;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String formattedCorrectedSentence(String line, RemoteRuleMatch match, int i) {
+<b class="nc">&nbsp;    if (match == null) {</b>
+<b class="nc">&nbsp;      return line;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(line.substring(0, match.getErrorOffset()));</b>
+<b class="nc">&nbsp;    sb.append(&quot;___&quot;);</b>
+<b class="nc">&nbsp;    sb.append(match.getReplacements().get().get(i - 1));</b>
+<b class="nc">&nbsp;    sb.append(&quot;___&quot;);</b>
+<b class="nc">&nbsp;    sb.append(line.substring(match.getErrorOffset() + match.getErrorLength()));</b>
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static private String replaceSuggestion(String line, RemoteRuleMatch match, int i) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(line.substring(0, match.getErrorOffset()));</b>
+<b class="nc">&nbsp;    sb.append(match.getReplacements().get().get(i - 1));</b>
+<b class="nc">&nbsp;    sb.append(line.substring(match.getErrorOffset() + match.getErrorLength()));</b>
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;RemoteRuleMatch&gt; getMatches(AnnotatorConfig cfg, String sentence) throws InterruptedException {
+&nbsp;    List&lt;RemoteRuleMatch&gt; matches;
+<b class="nc">&nbsp;    TimeUnit.MILLISECONDS.sleep(cfg.waitMilliseconds);</b>
+<b class="nc">&nbsp;    if (cachedMatches.containsKey(sentence)) {</b>
+<b class="nc">&nbsp;      matches = cachedMatches.get(sentence);</b>
+&nbsp;    } else {
+&nbsp;      try {
+<b class="nc">&nbsp;        matches = cfg.lt.check(sentence, cfg.ltConfig, cfg.customParams).getMatches();</b>
+&nbsp;      } catch (RuntimeException e) {
+<b class="nc">&nbsp;        e.printStackTrace();</b>
+<b class="nc">&nbsp;        wait(1000);</b>
+<b class="nc">&nbsp;        matches = cfg.lt.check(sentence, cfg.ltConfig, cfg.customParams).getMatches();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      cachedMatches.put(sentence, matches);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return matches;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static private class AnnotatorConfig {</b>
+&nbsp;    String remoteServer;
+&nbsp;    String userName;
+&nbsp;    String annotatorName;
+&nbsp;    String apiKey;
+&nbsp;    String inputFilePath;
+&nbsp;    String outputFilePath;
+&nbsp;    String languageCode;
+&nbsp;    File inputFile;
+&nbsp;    File outputFile;
+&nbsp;    boolean automaticAnnotation;
+&nbsp;    boolean ignoreStyleRules;
+&nbsp;    CheckConfiguration ltConfig;
+&nbsp;    RemoteLanguageTool lt;
+<b class="nc">&nbsp;    Map&lt;String, String&gt; customParams = new HashMap&lt;&gt;();</b>
+&nbsp;    FileWriter out;
+&nbsp;    StringBuilder outStrB;
+<b class="nc">&nbsp;    String ansiDefault = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String ansiHighlight = &quot;&quot;;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; enabledOnlyRules = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; disabledRules = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;    Integer waitMilliseconds = 0;</b>
+&nbsp;
+&nbsp;    void prepareConfiguration() throws IOException {
+<b class="nc">&nbsp;      CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(languageCode);</b>
+&nbsp;      // cfgBuilder.textSessionID(&quot;-2&quot;);
+<b class="nc">&nbsp;      if (enabledOnlyRules.isEmpty()) {</b>
+<b class="nc">&nbsp;        cfgBuilder.disabledRuleIds(&quot;WHITESPACE_RULE&quot;);</b>
+<b class="nc">&nbsp;        if (!disabledRules.isEmpty()) {</b>
+<b class="nc">&nbsp;          cfgBuilder.disabledRuleIds(disabledRules);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        cfgBuilder.enabledRuleIds(enabledOnlyRules).enabledOnly();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (!userName.isEmpty() &amp;&amp; !apiKey.isEmpty()) {</b>
+<b class="nc">&nbsp;        cfgBuilder.username(userName).apiKey(apiKey).build();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ltConfig = cfgBuilder.build();</b>
+<b class="nc">&nbsp;      inputFile = new File(inputFilePath);</b>
+<b class="nc">&nbsp;      if (!inputFile.exists() || inputFile.isDirectory()) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;File not found: &quot; + inputFile);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String fileName = inputFile.getName();</b>
+&nbsp;      // System.out.println(&quot;Analyzing file: &quot; + fileName);
+<b class="nc">&nbsp;      fileName = fileName.substring(0, fileName.lastIndexOf(&#39;.&#39;));</b>
+<b class="nc">&nbsp;      if (outputFilePath.isEmpty()) {</b>
+<b class="nc">&nbsp;        outputFile = new File(inputFile.getParentFile() + &quot;/&quot; + fileName + &quot;-annotations.csv&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        outputFile = new File(outputFilePath);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      outStrB = new StringBuilder();</b>
+<b class="nc">&nbsp;      out = new FileWriter(outputFile, true);</b>
+<b class="nc">&nbsp;      cachedMatches = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String printTimeFromStart(long start, String tag) {
+<b class="nc">&nbsp;    if (tag.isEmpty()) {</b>
+<b class="nc">&nbsp;      tag = &quot;Time:&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    long totalSecs = (long) ((System.currentTimeMillis() - start) / 1000.0);</b>
+<b class="nc">&nbsp;    long hours = totalSecs / 3600;</b>
+<b class="nc">&nbsp;    int minutes = (int) ((totalSecs % 3600) / 60);</b>
+<b class="nc">&nbsp;    int seconds = (int) (totalSecs % 60);</b>
+<b class="nc">&nbsp;    return String.format(tag + &quot; %02d:%02d:%02d\n&quot;, hours, minutes, seconds);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void writeHelp() {
+<b class="nc">&nbsp;    System.out.println(&quot;Usage: &quot; + SentenceAnnotator.class.getSimpleName() + &quot; &lt;configuration file&gt;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void wait(int ms) {
+&nbsp;    try {
+<b class="nc">&nbsp;      Thread.sleep(ms);</b>
+&nbsp;    } catch (InterruptedException ex) {
+<b class="nc">&nbsp;      Thread.currentThread().interrupt();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

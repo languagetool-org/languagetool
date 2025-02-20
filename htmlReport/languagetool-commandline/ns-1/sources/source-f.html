@@ -1,0 +1,1132 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Language</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: Language (org.languagetool)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Language</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63.4%
+  </span>
+  <span class="absValue">
+    (52/82)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    65.6%
+  </span>
+  <span class="absValue">
+    (84/128)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    74.2%
+  </span>
+  <span class="absValue">
+    (193/260)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;import org.languagetool.chunking.Chunker;
+&nbsp;import org.languagetool.language.Contributor;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.languagetool.rules.patterns.PatternRuleLoader;
+&nbsp;import org.languagetool.rules.patterns.Unifier;
+&nbsp;import org.languagetool.rules.patterns.UnifierConfiguration;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+&nbsp;import org.languagetool.tagging.xx.DemoTagger;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.SimpleSentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.function.Function;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Base class for any supported language (English, German, etc). Language classes
+&nbsp; * are detected at runtime by searching the classpath for files named
+&nbsp; * {@code META-INF/org/languagetool/language-module.properties}. Those file(s)
+&nbsp; * need to contain a key {@code languageClasses} which specifies the fully qualified
+&nbsp; * class name(s), e.g. {@code org.languagetool.language.English}. Use commas to specify 
+&nbsp; * more than one class.
+&nbsp; *
+&nbsp; * &lt;p&gt;Sub classes should typically use lazy init for anything that&#39;s costly to set up.
+&nbsp; * This improves start up time for the LanguageTool stand-alone version.
+&nbsp; */
+&nbsp;public abstract class Language {
+<b class="fc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(Language.class);</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();</b>
+<b class="fc">&nbsp;  private static final Tagger DEMO_TAGGER = new DemoTagger();</b>
+<b class="fc">&nbsp;  private static final SentenceTokenizer SENTENCE_TOKENIZER = new SimpleSentenceTokenizer();</b>
+<b class="fc">&nbsp;  private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();</b>
+<b class="fc">&nbsp;  private static final Pattern INSIDE_SUGGESTION = compile(&quot;&lt;suggestion&gt;(.+?)&lt;/suggestion&gt;&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern APOSTROPHE = compile(&quot;([\\p{L}\\d-])&#39;([\\p{L}«])&quot;,</b>
+&nbsp;    CASE_INSENSITIVE | UNICODE_CASE);
+&nbsp;
+&nbsp;  private static final String SUGGESTION_OPEN_TAG = &quot;&lt;suggestion&gt;&quot;;
+&nbsp;  private static final String SUGGESTION_CLOSE_TAG = &quot;&lt;/suggestion&gt;&quot;;
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern NBSPACE1 = compile(&quot;\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern NBSPACE2 = compile(&quot;\\b([a-zA-Z]\\.) &quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Map&lt;Class&lt;Language&gt;, JLanguageTool&gt; languagetoolInstances = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;  private static final Pattern QUOTED_CHAR_PATTERN = compile(&quot; &#39;(.)&#39;&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern TYPOGRAPHY_PATTERN_1 = compile(&quot;([\\u202f\\u00a0 «\&quot;\\(])&#39;&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern TYPOGRAPHY_PATTERN_2 = compile(&quot;&#39;([\u202f\u00a0 !\\?,\\.;:\&quot;\\)])&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern TYPOGRAPHY_PATTERN_3 = compile(&quot;‘s\\b([^’])&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern TYPOGRAPHY_PATTERN_4 = compile(&quot;([ \\(])\&quot;&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern TYPOGRAPHY_PATTERN_5 = compile(&quot;\&quot;([\\u202f\\u00a0 !\\?,\\.;:\\)])&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;  private final UnifierConfiguration unifierConfig = new UnifierConfiguration();</b>
+<b class="fc">&nbsp;  private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();</b>
+&nbsp;
+<b class="fc">&nbsp;  private final Pattern ignoredCharactersRegex = compile(&quot;[\u00AD]&quot;);  // soft hyphen</b>
+&nbsp;  
+&nbsp;  private List&lt;AbstractPatternRule&gt; patternRules;
+&nbsp;
+&nbsp;  private Disambiguator disambiguator;
+&nbsp;  private Tagger tagger;
+&nbsp;  private SentenceTokenizer sentenceTokenizer;
+&nbsp;  private Tokenizer wordTokenizer;
+&nbsp;  private Chunker chunker;
+&nbsp;  private Chunker postDisambiguationChunker;
+&nbsp;  private Synthesizer synthesizer;
+&nbsp;
+&nbsp;  private String shortCodeWithCountryAndVariant;
+&nbsp;
+<b class="fc">&nbsp;  protected Language() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s character code, e.g. &lt;code&gt;en&lt;/code&gt; for English.
+&nbsp;   * For most languages this is a two-letter code according to ISO 639-1,
+&nbsp;   * but for those languages that don&#39;t have a two-letter code, a three-letter
+&nbsp;   * code according to ISO 639-2 is returned.
+&nbsp;   * The country parameter (e.g. &quot;US&quot;), if any, is not returned.
+&nbsp;   * @since 3.6
+&nbsp;   */
+&nbsp;  public abstract String getShortCode();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s name in English, e.g. &lt;code&gt;English&lt;/code&gt; or
+&nbsp;   * &lt;code&gt;German (Germany)&lt;/code&gt;.
+&nbsp;   * @return language name
+&nbsp;   */
+&nbsp;  public abstract String getName();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s country options , e.g. &lt;code&gt;US&lt;/code&gt; (as in &lt;code&gt;en-US&lt;/code&gt;) or
+&nbsp;   * &lt;code&gt;PL&lt;/code&gt; (as in &lt;code&gt;pl-PL&lt;/code&gt;).
+&nbsp;   * @return String[] - array of country options for the language.
+&nbsp;   */
+&nbsp;  public abstract String[] getCountries();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the name(s) of the maintainer(s) for this language or &lt;code&gt;null&lt;/code&gt;.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public abstract Contributor[] getMaintainers();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the rules classes that should run for texts in this language.
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public abstract List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException;
+&nbsp;
+&nbsp;  // -------------------------------------------------------------------------
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A file with commons words, either in the classpath or as a filename in the file system.
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public String getCommonWordsPath() {
+<b class="fc">&nbsp;    return getShortCode() + &quot;/common_words.txt&quot;;     </b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s variant, e.g. &lt;code&gt;valencia&lt;/code&gt; (as in &lt;code&gt;ca-ES-valencia&lt;/code&gt;)
+&nbsp;   * or &lt;code&gt;null&lt;/code&gt;.
+&nbsp;   * Attention: not to be confused with &quot;country&quot; option
+&nbsp;   * @return variant for the language or {@code null}
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getVariant() {
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Get enabled rules different from the default ones for this language variant. 
+&nbsp;   * 
+&nbsp;   * @return enabled rules for the language variant.
+&nbsp;   * @since 2.4
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getDefaultEnabledRulesForVariant() {
+<b class="fc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get disabled rules different from the default ones for this language variant. 
+&nbsp;   * 
+&nbsp;   * @return disabled rules for the language variant.
+&nbsp;   * @since 2.4
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getDefaultDisabledRulesForVariant() {
+<b class="fc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param indexDir directory with a &#39;3grams&#39; sub directory which contains a Lucene index with 3gram occurrence counts
+&nbsp;   * @return a LanguageModel or {@code null} if this language doesn&#39;t support one
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public LanguageModel getLanguageModel(File indexDir) throws IOException {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a list of rules that require a {@link LanguageModel}. Returns an empty list for
+&nbsp;   * languages that don&#39;t have such rules.
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a list of rules that can optionally use a {@link LanguageModel}. Returns an empty list for
+&nbsp;   * languages that don&#39;t have such rules.
+&nbsp;   * @since 4.5
+&nbsp;   * @param languageModel null if no language model is available
+&nbsp;   */
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel,
+&nbsp;                                                         GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="fc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For rules that depend on a remote server; based on {@link RemoteRule}
+&nbsp;   * will be executed asynchronously, with timeout, retries, etc.  as configured
+&nbsp;   * Can return non-remote rules (e.g. if configuration missing, or for A/B tests), will be executed normally
+&nbsp;   */
+&nbsp;  public List&lt;Rule&gt; getRelevantRemoteRules(ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs,
+&nbsp;                                           GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages, boolean inputLogging)
+&nbsp;      throws IOException {
+<b class="fc">&nbsp;    List&lt;Rule&gt; rules = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    GRPCPostProcessing.configure(this, configs);</b>
+<b class="fc">&nbsp;    rules.addAll(GRPCRule.createAll(this, configs, inputLogging));</b>
+<b class="fc">&nbsp;    configs.stream()</b>
+<b class="fc">&nbsp;      .filter(config -&gt; config.getRuleId().startsWith(&quot;TEST&quot;))</b>
+<b class="fc">&nbsp;      .map(c -&gt; new TestRemoteRule(this, c))</b>
+<b class="fc">&nbsp;      .forEach(rules::add);</b>
+<b class="fc">&nbsp;    rules.removeIf(rule -&gt; {</b>
+<b class="nc">&nbsp;      String activeRemoteRuleAbTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get(&quot;abtest&quot;); //abtest option value must match the abtest value from server.properties</b>
+&nbsp;      // allow disabling based on A/B test flags to compare multiple models
+<b class="nc">&nbsp;      String excludeABTest = ((RemoteRule) rule).getServiceConfiguration().getOptions().get(&quot;excludeABTest&quot;);</b>
+<b class="nc">&nbsp;      List&lt;String&gt; activeAbTestsForUser = userConfig.getAbTest();</b>
+<b class="nc">&nbsp;      if (excludeABTest != null &amp;&amp; activeAbTestsForUser != null &amp;&amp;</b>
+<b class="nc">&nbsp;        activeAbTestsForUser.stream().anyMatch(flag -&gt; flag.matches(excludeABTest))) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (activeRemoteRuleAbTest != null &amp;&amp; !activeRemoteRuleAbTest.trim().isEmpty()) { // A/B-Test active for remote rule</b>
+<b class="nc">&nbsp;        if (activeAbTestsForUser == null) {</b>
+<b class="nc">&nbsp;          return true; // No A/B-Tests are not active for user</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return !activeAbTestsForUser.contains(activeRemoteRuleAbTest); // A/B-Test an active remote rule A/B-Test is active for this user</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return false; // No A/B-Test active for remote rule</b>
+&nbsp;      }
+&nbsp;    });
+<b class="fc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For rules whose results are extended using some remote service, e.g. {@link BERTSuggestionRanking}
+&nbsp;   * @return function that transforms old rule into remote-enhanced rule
+&nbsp;   * @since 4.8
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  public Function&lt;Rule, Rule&gt; getRemoteEnhancedRules(
+&nbsp;    ResourceBundle messageBundle, List&lt;RemoteRuleConfig&gt; configs, UserConfig userConfig,
+&nbsp;    Language motherTongue, List&lt;Language&gt; altLanguages, boolean inputLogging) throws IOException {
+<b class="fc">&nbsp;    return Function.identity();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the rules classes that should run for texts in this language.
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  public List&lt;Rule&gt; getRelevantRulesGlobalConfig(ResourceBundle messages, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="fc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create an instance of the default spelling rule of this language
+&nbsp;   * Accessed (with caching) via getDefaultSpellingRule
+&nbsp;   * @since 5.5
+&nbsp;   */
+<b class="fc">&nbsp;  private static final Map&lt;Class&lt;? extends Language&gt;, SpellingCheckRule&gt; spellingRules = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;  @Nullable
+&nbsp;  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Retrieve default spelling rule for this language
+&nbsp;   * Useful for rules to implement suppression of misspelled suggestions
+&nbsp;   * @since 5.5
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public SpellingCheckRule getDefaultSpellingRule() {
+<b class="nc">&nbsp;    return spellingRules.computeIfAbsent(getClass(), c -&gt; {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        return createDefaultSpellingRule(ResourceBundleTools.getMessageBundle(this));</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        logger.warn(&quot;Failed to create default spelling rule&quot;, e);</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+&nbsp;    }) ;
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Retrieve default spelling rule for this language
+&nbsp;   * Useful for rules to implement suppression of misspelled suggestions
+&nbsp;   * @param messages unused
+&nbsp;   * @since 5.5
+&nbsp;   * @deprecated use {@link #getDefaultSpellingRule()}
+&nbsp;   */
+&nbsp;  @Deprecated
+&nbsp;  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    return getDefaultSpellingRule();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s Java locale, not considering the country code.
+&nbsp;   */
+&nbsp;  public Locale getLocale() {
+<b class="fc">&nbsp;    return new Locale(getShortCode());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s Java locale, considering language code and country code (if any).
+&nbsp;   * @since 2.1
+&nbsp;   */
+&nbsp;  public Locale getLocaleWithCountryAndVariant() {
+<b class="fc">&nbsp;    if (getCountries().length &gt; 0) {</b>
+<b class="fc">&nbsp;      if (getVariant() != null) {</b>
+<b class="fc">&nbsp;        return new Locale(getShortCode(), getCountries()[0], getVariant());</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        return new Locale(getShortCode(), getCountries()[0]);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      return getLocale();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the location of the rule file(s) in a form like {@code /org/languagetool/rules/de/grammar.xml},
+&nbsp;   * i.e. a path in the classpath. The files must exist or an exception will be thrown, unless the filename
+&nbsp;   * contains the string {@code -test-}.
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getRuleFileNames() {
+<b class="fc">&nbsp;    List&lt;String&gt; ruleFiles = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();</b>
+<b class="fc">&nbsp;    ruleFiles.add(dataBroker.getRulesDir()</b>
+<b class="fc">&nbsp;            + &quot;/&quot; + getShortCode() + &quot;/&quot; + JLanguageTool.PATTERN_FILE);</b>
+<b class="fc">&nbsp;    if (dataBroker.ruleFileExists(getShortCode() + &quot;/&quot; + JLanguageTool.STYLE_FILE)) {</b>
+<b class="fc">&nbsp;      String customFile = dataBroker.getRulesDir() + &quot;/&quot; + getShortCode() + &quot;/&quot; + JLanguageTool.STYLE_FILE;</b>
+<b class="fc">&nbsp;      ruleFiles.add(customFile);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (dataBroker.ruleFileExists(getShortCode() + &quot;/&quot; + JLanguageTool.CUSTOM_PATTERN_FILE)) {</b>
+<b class="nc">&nbsp;      String customFile = dataBroker.getRulesDir() + &quot;/&quot; + getShortCode() + &quot;/&quot; + JLanguageTool.CUSTOM_PATTERN_FILE;</b>
+<b class="nc">&nbsp;      ruleFiles.add(customFile);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (getShortCodeWithCountryAndVariant().length() &gt; 2) {</b>
+<b class="fc">&nbsp;      String fileName = getShortCode() + &quot;/&quot;</b>
+<b class="fc">&nbsp;              + getShortCodeWithCountryAndVariant()</b>
+&nbsp;              + &quot;/&quot; + JLanguageTool.PATTERN_FILE;
+<b class="fc">&nbsp;      if (dataBroker.ruleFileExists(fileName)) {</b>
+<b class="fc">&nbsp;        ruleFiles.add(dataBroker.getRulesDir() + &quot;/&quot; + fileName);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      String styleFileName = getShortCode() + &quot;/&quot; + getShortCodeWithCountryAndVariant() + &quot;/&quot; + JLanguageTool.STYLE_FILE;</b>
+<b class="fc">&nbsp;      if (dataBroker.ruleFileExists(styleFileName)) {</b>
+<b class="fc">&nbsp;        ruleFiles.add(dataBroker.getRulesDir() + &quot;/&quot; + styleFileName);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      String premiumFileName = getShortCode() + &quot;/&quot; + getShortCodeWithCountryAndVariant() + &quot;/grammar-premium.xml&quot;;</b>
+<b class="pc">&nbsp;      if (dataBroker.ruleFileExists(premiumFileName)) {</b>
+<b class="nc">&nbsp;        ruleFiles.add(dataBroker.getRulesDir() + &quot;/&quot; + premiumFileName);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return ruleFiles;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Languages that have country variants need to overwrite this to select their most common variant.
+&nbsp;   * @return default country variant
+&nbsp;   * @since 1.8
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public Language getDefaultLanguageVariant() {
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates language specific disambiguator. This function will be called each time in
+&nbsp;   * {@link #getDisambiguator()} if disambiguator is not set.
+&nbsp;   */
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return DEMO_DISAMBIGUATOR;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s part-of-speech disambiguator implementation.
+&nbsp;   */
+&nbsp;  public synchronized Disambiguator getDisambiguator() {
+<b class="fc">&nbsp;    if (disambiguator == null) {</b>
+<b class="fc">&nbsp;      disambiguator = createDefaultDisambiguator();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return disambiguator;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set this language&#39;s part-of-speech disambiguator implementation.
+&nbsp;   */
+&nbsp;  public void setDisambiguator(Disambiguator disambiguator) {
+<b class="nc">&nbsp;    this.disambiguator = disambiguator;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates language specific part-of-speech tagger. The tagger must not be {@code null},
+&nbsp;   * but it can be a trivial pseudo-tagger that only assigns {@code null} tags.
+&nbsp;   * This function will be called each time in {@link #getTagger()} ()} if tagger is not set.
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return DEMO_TAGGER;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s part-of-speech tagger implementation.
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  public synchronized Tagger getTagger() {
+<b class="fc">&nbsp;    if (tagger == null) {</b>
+<b class="fc">&nbsp;      tagger = createDefaultTagger();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return tagger;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set this language&#39;s part-of-speech tagger implementation.
+&nbsp;   */
+&nbsp;  public void setTagger(Tagger tagger) {
+<b class="nc">&nbsp;    this.tagger = tagger;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates language specific sentence tokenizer. This function will be called each time in
+&nbsp;   * {@link #getSentenceTokenizer()} if sentence tokenizer is not set.
+&nbsp;   */
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="fc">&nbsp;    return SENTENCE_TOKENIZER;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s sentence tokenizer implementation.
+&nbsp;   */
+&nbsp;  public synchronized SentenceTokenizer getSentenceTokenizer() {
+<b class="fc">&nbsp;    if (sentenceTokenizer == null) {</b>
+<b class="fc">&nbsp;      sentenceTokenizer = createDefaultSentenceTokenizer();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return sentenceTokenizer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set this language&#39;s sentence tokenizer implementation.
+&nbsp;   */
+&nbsp;  public void setSentenceTokenizer(SentenceTokenizer tokenizer) {
+<b class="nc">&nbsp;    sentenceTokenizer = tokenizer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates language specific word tokenizer. This function will be called each time in
+&nbsp;   * {@link #getWordTokenizer()} if word tokenizer is not set.
+&nbsp;   */
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="fc">&nbsp;    return WORD_TOKENIZER;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s word tokenizer implementation.
+&nbsp;   */
+&nbsp;  public synchronized Tokenizer getWordTokenizer() {
+<b class="fc">&nbsp;    if (wordTokenizer == null) {</b>
+<b class="fc">&nbsp;      wordTokenizer = createDefaultWordTokenizer();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return wordTokenizer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set this language&#39;s word tokenizer implementation.
+&nbsp;   */
+&nbsp;  public void setWordTokenizer(Tokenizer tokenizer) {
+<b class="nc">&nbsp;    wordTokenizer = tokenizer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates language specific chunker. This function will be called each time in
+&nbsp;   * {@link #getChunker()} if chunker is not set.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public Chunker createDefaultChunker() {
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s chunker implementation or {@code null}.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public synchronized Chunker getChunker() {
+<b class="fc">&nbsp;    if (chunker == null) {</b>
+<b class="fc">&nbsp;      chunker = createDefaultChunker();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return chunker;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set this language&#39;s chunker implementation or {@code null}.
+&nbsp;   */
+&nbsp;  public void setChunker(Chunker chunker) {
+<b class="nc">&nbsp;    this.chunker = chunker;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates language specific post disambiguation chunker. This function will be called
+&nbsp;   * each time in {@link #getPostDisambiguationChunker()} if chunker is not set.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public Chunker createDefaultPostDisambiguationChunker() {
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s post disambiguation chunker implementation or {@code null}.
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public synchronized Chunker getPostDisambiguationChunker() {
+<b class="fc">&nbsp;    if (postDisambiguationChunker == null) {</b>
+<b class="fc">&nbsp;      postDisambiguationChunker = createDefaultPostDisambiguationChunker();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return postDisambiguationChunker;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set this language&#39;s post disambiguation chunker implementation or {@code null}.
+&nbsp;   */
+&nbsp;  public void setPostDisambiguationChunker(Chunker chunker) {
+<b class="nc">&nbsp;    postDisambiguationChunker = chunker;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create a shared instance of JLanguageTool to use in rules for further processing
+&nbsp;   * Instances are shared by Language
+&nbsp;   * As this is a shared instance, do not modify (add or remove) any rules or filters.
+&nbsp;   * The alternative to disabling/enabling rules is to select the desired rules from getAllActiveRules(), and run them separately with rule.match(analizedSentence).
+&nbsp;   *
+&nbsp;   * Do not call this in a static block or to initialize a static JLanguageTool field in rules or filters classes, this could lead to a deadlock during initialization.
+&nbsp;   *
+&nbsp;   * @since 6.1
+&nbsp;   * @return a shared JLanguageTool instance for this language
+&nbsp;   */
+&nbsp;  public JLanguageTool createDefaultJLanguageTool() {
+<b class="nc">&nbsp;    Language self = this;</b>
+<b class="nc">&nbsp;    Class clazz = this.getClass();</b>
+<b class="nc">&nbsp;    return languagetoolInstances.computeIfAbsent(clazz, _class -&gt; new JLanguageTool(self));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates language specific part-of-speech synthesizer. This function will be called
+&nbsp;   * each time in {@link #getSynthesizer()} if synthesizer is not set.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s part-of-speech synthesizer implementation or {@code null}.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public synchronized Synthesizer getSynthesizer() {
+<b class="fc">&nbsp;    if (synthesizer == null) {</b>
+<b class="fc">&nbsp;      synthesizer = createDefaultSynthesizer();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return synthesizer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set this language&#39;s part-of-speech synthesizer implementation or {@code null}.
+&nbsp;   */
+&nbsp;  public void setSynthesizer(Synthesizer synthesizer) {
+<b class="nc">&nbsp;    this.synthesizer = synthesizer;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s feature unifier.
+&nbsp;   * @return Feature unifier for analyzed tokens.
+&nbsp;   */
+&nbsp;  public Unifier getUnifier() {
+<b class="fc">&nbsp;    return unifierConfig.createUnifier();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Get this language&#39;s feature unifier used for disambiguation.
+&nbsp;   * Note: it might be different from the normal rule unifier.
+&nbsp;   * @return Feature unifier for analyzed tokens.
+&nbsp;   */
+&nbsp;  public Unifier getDisambiguationUnifier() {
+<b class="fc">&nbsp;    return disambiguationUnifierConfig.createUnifier();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public UnifierConfiguration getUnifierConfiguration() {
+<b class="fc">&nbsp;    return unifierConfig;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public UnifierConfiguration getDisambiguationUnifierConfiguration() {
+<b class="fc">&nbsp;    return disambiguationUnifierConfig;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Get the name of the language translated to the current locale,
+&nbsp;   * if available. Otherwise, get the untranslated name.
+&nbsp;   */
+&nbsp;  public final String getTranslatedName(ResourceBundle messages) {
+&nbsp;    try {
+<b class="nc">&nbsp;      return messages.getString(getShortCodeWithCountryAndVariant());</b>
+&nbsp;    } catch (MissingResourceException e) {
+&nbsp;      try {
+<b class="nc">&nbsp;        return messages.getString(getShortCode());</b>
+&nbsp;      } catch (MissingResourceException e1) {
+<b class="nc">&nbsp;        return getName();</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Get the short name of the language with country and variant (if any), if it is
+&nbsp;   * a single-country language. For generic language classes, get only a two- or
+&nbsp;   * three-character code.
+&nbsp;   * @since 3.6
+&nbsp;   */
+&nbsp;  public final String getShortCodeWithCountryAndVariant() {
+<b class="fc">&nbsp;    if (shortCodeWithCountryAndVariant == null) {</b>
+<b class="fc">&nbsp;      synchronized (this) {</b>
+<b class="pc">&nbsp;        if (shortCodeWithCountryAndVariant == null) {</b>
+<b class="fc">&nbsp;          shortCodeWithCountryAndVariant = buildShortCodeWithCountryAndVariant();</b>
+&nbsp;        }
+<b class="fc">&nbsp;      }</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return shortCodeWithCountryAndVariant;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String buildShortCodeWithCountryAndVariant() {
+<b class="fc">&nbsp;    String name = getShortCode();</b>
+<b class="fc">&nbsp;    if (getCountries().length == 1 &amp;&amp; !name.contains(&quot;-x-&quot;)) {   // e.g. &quot;de-DE-x-simple-language&quot;</b>
+<b class="fc">&nbsp;      name += &quot;-&quot; + getCountries()[0];</b>
+<b class="fc">&nbsp;      if (getVariant() != null) {   // e.g. &quot;ca-ES-valencia&quot;</b>
+<b class="fc">&nbsp;        name += &quot;-&quot; + getVariant();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return name;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Get the pattern rules as defined in the files returned by {@link #getRuleFileNames()}.
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  @SuppressWarnings(&quot;resource&quot;)
+&nbsp;  protected synchronized List&lt;AbstractPatternRule&gt; getPatternRules() throws IOException {
+&nbsp;    // use lazy loading to speed up server use case and start of stand-alone LT, where all the languages get initialized:
+<b class="fc">&nbsp;    if (patternRules == null) {</b>
+<b class="fc">&nbsp;      List&lt;AbstractPatternRule&gt; rules = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;      PatternRuleLoader ruleLoader = new PatternRuleLoader();</b>
+<b class="fc">&nbsp;      for (String fileName : getRuleFileNames()) {</b>
+<b class="fc">&nbsp;        InputStream is = null;</b>
+&nbsp;        try {
+<b class="fc">&nbsp;          is = JLanguageTool.getDataBroker().getAsStream(fileName);</b>
+<b class="fc">&nbsp;          boolean ignore = false;</b>
+<b class="pc">&nbsp;          if (is == null) {                     // files loaded via the dialog</b>
+&nbsp;            try {
+<b class="nc">&nbsp;              is = new FileInputStream(fileName);</b>
+&nbsp;            } catch (FileNotFoundException e) {
+<b class="nc">&nbsp;              if (fileName.contains(&quot;-test-&quot;)) {</b>
+&nbsp;                // ignore, used for testing
+<b class="nc">&nbsp;                ignore = true;</b>
+&nbsp;              } else {
+&nbsp;                throw e;
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+<b class="pc">&nbsp;          if (!ignore) {</b>
+<b class="fc">&nbsp;            rules.addAll(ruleLoader.getRules(is, fileName, this));</b>
+<b class="fc">&nbsp;            patternRules = Collections.unmodifiableList(rules);</b>
+&nbsp;          }
+&nbsp;        } finally {
+<b class="pc">&nbsp;          if (is != null) {</b>
+&nbsp;            is.close();
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return patternRules;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public final String toString() {
+<b class="fc">&nbsp;    return getName();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether this is a country variant of another language, i.e. whether it doesn&#39;t
+&nbsp;   * directly extend {@link Language}, but a subclass of {@link Language}.
+&nbsp;   * @since 1.8
+&nbsp;   */
+&nbsp;  public boolean isVariant() {
+<b class="fc">&nbsp;    for (Language language : Languages.get()) {</b>
+<b class="fc">&nbsp;      boolean skip = language.getShortCodeWithCountryAndVariant().equals(getShortCodeWithCountryAndVariant());</b>
+<b class="fc">&nbsp;      if (!skip &amp;&amp; language.getClass().isAssignableFrom(getClass())) {</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether this class has at least one subclass that implements variants of this language.
+&nbsp;   * @since 1.8
+&nbsp;   */
+&nbsp;  public final boolean hasVariant() {
+<b class="nc">&nbsp;    for (Language language : Languages.get()) {</b>
+<b class="nc">&nbsp;      boolean skip = language.getShortCodeWithCountryAndVariant().equals(getShortCodeWithCountryAndVariant());</b>
+<b class="nc">&nbsp;      if (!skip &amp;&amp; getClass().isAssignableFrom(language.getClass())) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For internal use only. Overwritten to return {@code true} for languages that
+&nbsp;   * have been loaded from an external file after start up.
+&nbsp;   */
+&nbsp;  public boolean isExternal() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return true if this is the same language as the given one, considering country
+&nbsp;   * variants only if set for both languages. For example: en = en, en = en-GB, en-GB = en-GB,
+&nbsp;   * but en-US != en-GB
+&nbsp;   * @since 1.8
+&nbsp;   */
+&nbsp;  public boolean equalsConsiderVariantsIfSpecified(Language otherLanguage) {
+<b class="fc">&nbsp;    if (getShortCode().equals(otherLanguage.getShortCode())) {</b>
+<b class="fc">&nbsp;      boolean thisHasCountry = hasCountry();</b>
+<b class="fc">&nbsp;      boolean otherHasCountry = otherLanguage.hasCountry();</b>
+<b class="fc">&nbsp;      return !(thisHasCountry &amp;&amp; otherHasCountry) ||</b>
+<b class="fc">&nbsp;              getShortCodeWithCountryAndVariant().equals(otherLanguage.getShortCodeWithCountryAndVariant());</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasCountry() {
+<b class="fc">&nbsp;    return getCountries().length == 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return Return compiled regular expression to ignore inside tokens
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public Pattern getIgnoredCharactersRegex() {
+<b class="fc">&nbsp;    return ignoredCharactersRegex;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Information about whether the support for this language in LanguageTool is actively maintained.
+&nbsp;   * If not, the user interface might show a warning.
+&nbsp;   * @since 3.3
+&nbsp;   */
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;    return LanguageMaintainedState.LookingForNewMaintainer;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * True if language should be hidden on GUI (i.e. en, de, pt, 
+&nbsp;   * instead of en-US, de-DE, pt-PT)
+&nbsp;   * @since 3.3
+&nbsp;   */
+&nbsp;  public boolean isHiddenFromGui() {
+<b class="nc">&nbsp;    return hasVariant() &amp;&amp; !isVariant() &amp;&amp; !isTheDefaultVariant();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isTheDefaultVariant() {
+<b class="nc">&nbsp;    if (getDefaultLanguageVariant() != null) {</b>
+<b class="nc">&nbsp;      return getClass().equals(getDefaultLanguageVariant().getClass());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Returns a priority for Rule or Category Id (default: 0).
+&nbsp;   * Positive integers have higher priority.
+&nbsp;   * Negative integers have lower priority.
+&nbsp;   * @since 3.6
+&nbsp;   */
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="pc">&nbsp;    if (id.equalsIgnoreCase(&quot;TOO_LONG_SENTENCE&quot;)) {</b>
+<b class="nc">&nbsp;      return -101;  // don&#39;t hide spelling errors</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (id.equals(&quot;REPETITIONS_STYLE&quot;)) {  // category</b>
+<b class="nc">&nbsp;      return -55;  // don&#39;t let style issues hide more important errors</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (id.contains(&quot;STYLE&quot;)) {  // category</b>
+<b class="nc">&nbsp;      return -50;  // don&#39;t let style issues hide more important errors</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Returns a priority for Rule (default: 0).
+&nbsp;   * Positive integers have higher priority.
+&nbsp;   * Negative integers have lower priority.
+&nbsp;   * @since 5.0
+&nbsp;   */
+&nbsp;  public int getRulePriority(Rule rule) {
+<b class="fc">&nbsp;    int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());</b>
+<b class="fc">&nbsp;    int rulePriority = this.getPriorityForId(rule.getId());</b>
+<b class="fc">&nbsp;    int rulePriorityFromRule = rule.getPriority();</b>
+&nbsp;    // if there is a priority defined for rule it takes precedence over category priority
+<b class="fc">&nbsp;    if (rulePriority != 0) {</b>
+<b class="fc">&nbsp;      return rulePriority;</b>
+<b class="pc">&nbsp;    } else if ( rulePriorityFromRule != 0) {</b>
+<b class="nc">&nbsp;      return rulePriorityFromRule;</b>
+<b class="fc">&nbsp;    } else if (categoryPriority != 0) {</b>
+<b class="fc">&nbsp;      return categoryPriority;</b>
+<b class="pc">&nbsp;    } else if (getDefaultRulePriorityForStyle() != 0 &amp;&amp; rule.getLocQualityIssueType().equals(ITSIssueType.Style)) {</b>
+<b class="nc">&nbsp;      return getDefaultRulePriorityForStyle();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected int getDefaultRulePriorityForStyle() {
+<b class="fc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether this language supports spell checking only and
+&nbsp;   * no advanced grammar and style checking.
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public boolean isSpellcheckOnlyLanguage() {
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return true if language has ngram-based false friend rule returned by {@link #getRelevantLanguageModelCapableRules}.
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  public boolean hasNGramFalseFriendRule(Language motherTongue) {
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public String getOpeningDoubleQuote() {
+<b class="fc">&nbsp;    return &quot;\&quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public String getClosingDoubleQuote() {
+<b class="fc">&nbsp;    return &quot;\&quot;&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  public String getOpeningSingleQuote() {
+<b class="nc">&nbsp;    return &quot;&#39;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  public String getClosingSingleQuote() {
+<b class="nc">&nbsp;    return &quot;&#39;&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  public boolean isAdvancedTypographyEnabled() {
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  public String toAdvancedTypography(String input) {
+<b class="fc">&nbsp;    if (!isAdvancedTypographyEnabled()) {</b>
+<b class="fc">&nbsp;      return input.replace(SUGGESTION_OPEN_TAG, getOpeningDoubleQuote())</b>
+<b class="fc">&nbsp;        .replace(SUGGESTION_CLOSE_TAG, getClosingDoubleQuote());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String output = input;</b>
+&nbsp;   
+&nbsp;    //Preserve content inside &lt;suggestion&gt;&lt;/suggestion&gt;
+<b class="fc">&nbsp;    List&lt;String&gt; preservedStrings = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int countPreserved = 0; </b>
+<b class="fc">&nbsp;    Matcher m = INSIDE_SUGGESTION.matcher(output);</b>
+<b class="fc">&nbsp;    int offset = 0;</b>
+<b class="fc">&nbsp;    while (m.find(offset)) {</b>
+<b class="fc">&nbsp;      String group = m.group(1);</b>
+<b class="fc">&nbsp;      preservedStrings.add(group);</b>
+<b class="fc">&nbsp;      output = StringUtils.replaceOnce(output, &quot;&lt;suggestion&gt;&quot; + group + &quot;&lt;/suggestion&gt;&quot;, &quot;\\&quot; + countPreserved);</b>
+<b class="fc">&nbsp;      countPreserved++;</b>
+<b class="fc">&nbsp;      offset = m.end();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // Ellipsis (for all languages?)
+<b class="fc">&nbsp;    output = output.replace(&quot;...&quot;, &quot;…&quot;);</b>
+&nbsp;    
+&nbsp;    // non-breaking space
+<b class="fc">&nbsp;    output = NBSPACE1.matcher(output).replaceAll(&quot;$1\u00a0$2&quot;);</b>
+<b class="fc">&nbsp;    output = NBSPACE2.matcher(output).replaceAll(&quot;$1\u00a0&quot;);</b>
+&nbsp;    
+<b class="fc">&nbsp;    Matcher matcher = APOSTROPHE.matcher(output);</b>
+<b class="fc">&nbsp;    output = matcher.replaceAll(&quot;$1’$2&quot;);</b>
+&nbsp;    
+&nbsp;    // single quotes
+<b class="pc">&nbsp;    if (output.startsWith(&quot;&#39;&quot;)) { </b>
+<b class="nc">&nbsp;      output = getOpeningSingleQuote() + output.substring(1);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (output.endsWith(&quot;&#39;&quot;)) { </b>
+<b class="nc">&nbsp;      output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    output = QUOTED_CHAR_PATTERN.matcher(output).replaceAll(&quot; &quot; + getOpeningSingleQuote() + &quot;$1&quot; + getClosingSingleQuote()); //exception single character</b>
+<b class="fc">&nbsp;    output = TYPOGRAPHY_PATTERN_1.matcher(output).replaceAll(&quot;$1&quot; + getOpeningSingleQuote());</b>
+<b class="fc">&nbsp;    output = TYPOGRAPHY_PATTERN_2.matcher(output).replaceAll(getClosingSingleQuote() + &quot;$1&quot;);</b>
+<b class="fc">&nbsp;    output = TYPOGRAPHY_PATTERN_3.matcher(output).replaceAll(&quot;’s$1&quot;); // exception genitive</b>
+&nbsp;    
+&nbsp;    // double quotes
+<b class="pc">&nbsp;    if (output.startsWith(&quot;\&quot;&quot;)) { </b>
+<b class="nc">&nbsp;      output = getOpeningDoubleQuote() + output.substring(1);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (output.endsWith(&quot;\&quot;&quot;)) { </b>
+<b class="nc">&nbsp;      output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    output = TYPOGRAPHY_PATTERN_4.matcher(output).replaceAll(&quot;$1&quot; + getOpeningDoubleQuote());</b>
+<b class="fc">&nbsp;    output = TYPOGRAPHY_PATTERN_5.matcher(output).replaceAll(getClosingDoubleQuote() + &quot;$1&quot;);</b>
+&nbsp;    
+&nbsp;    //restore suggestions
+<b class="fc">&nbsp;    for (int i = 0; i &lt; preservedStrings.size(); i++) {</b>
+<b class="fc">&nbsp;      output = StringUtils.replaceOnce(output, &quot;\\&quot; + i, getOpeningDoubleQuote() + preservedStrings.get(i) + getClosingDoubleQuote() );</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return output.replace(SUGGESTION_OPEN_TAG, getOpeningDoubleQuote())</b>
+<b class="fc">&nbsp;      .replace(SUGGESTION_CLOSE_TAG, getClosingDoubleQuote());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Considers languages as equal if their language code, including the country and variant codes are equal.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="fc">&nbsp;    if (this == o) return true;</b>
+<b class="pc">&nbsp;    if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="fc">&nbsp;    Language other = (Language) o;</b>
+<b class="fc">&nbsp;    return Objects.equals(getShortCodeWithCountryAndVariant(), other.getShortCodeWithCountryAndVariant());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="fc">&nbsp;    return getShortCodeWithCountryAndVariant().hashCode();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @since 5.1 
+&nbsp;   * Some rules contain the field min_matches to check repeated patterns 
+&nbsp;   */
+&nbsp;  public boolean hasMinMatchesRules() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.0 
+&nbsp;   * Adjust suggestion 
+&nbsp;   */
+&nbsp;  public String adaptSuggestion(String s) {
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getConsistencyRulePrefix() {
+<b class="fc">&nbsp;    return &quot;PREFIXFORCONSISTENCYRULES_&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public RuleMatch adjustMatch(RuleMatch rm, List&lt;String&gt; features) {
+<b class="nc">&nbsp;    return rm;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; prepareLineForSpeller(String s) {
+<b class="fc">&nbsp;    return Collections.singletonList(s);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This function is called by JLanguageTool before CleanOverlappingFilter removes overlapping ruleMatches
+&nbsp;   * @return filtered ruleMatches
+&nbsp;   */
+&nbsp;  public List&lt;RuleMatch&gt; filterRuleMatches(List&lt;RuleMatch&gt; ruleMatches, AnnotatedText text, Set&lt;String&gt; enabledRules) {
+<b class="fc">&nbsp;    return ruleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MultitokenSpeller getMultitokenSpeller() {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.4
+&nbsp;   */
+&nbsp;  public Map&lt;String, Integer&gt; getPriorityMap() {
+<b class="nc">&nbsp;    return new HashMap&lt;&gt;();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

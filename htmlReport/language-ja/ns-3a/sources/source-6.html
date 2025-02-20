@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Probability</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ngrams</a>
+</div>
+
+<h1>Coverage Summary for Class: Probability (org.languagetool.rules.ngrams)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Probability</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ngrams;
+&nbsp;
+&nbsp;/**
+&nbsp; * Probability, but doesn&#39;t check for a range of 0 to 1.
+&nbsp; * @since 3.2
+&nbsp; */
+&nbsp;public class Probability {
+&nbsp;
+&nbsp;  private final double prob;
+&nbsp;  private final float coverage;
+&nbsp;  private final long occurrences;
+&nbsp;
+<b class="nc">&nbsp;  public Probability(double prob, float coverage, long occurrences) {</b>
+<b class="nc">&nbsp;    if (prob &lt; 0.0) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Probability must be &gt;= 0: &quot; + prob);</b>
+&nbsp;    }
+&nbsp;    //if (prob &gt; 1.0) {
+&nbsp;    //  throw new RuntimeException(&quot;Probability must be 0.0 to 1.0: &quot; + prob);
+&nbsp;    //}
+<b class="nc">&nbsp;    this.prob = prob;</b>
+<b class="nc">&nbsp;    this.coverage = coverage;</b>
+<b class="nc">&nbsp;    this.occurrences = occurrences;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Probability(double prob, float coverage) {
+<b class="nc">&nbsp;    this(prob, coverage, -1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A probability-like value, but can be filled with any float &amp;gt;= 0.
+&nbsp;   */
+&nbsp;  public double getProb() {
+<b class="nc">&nbsp;    return prob;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public double getLogProb() {
+<b class="nc">&nbsp;    return Math.log(prob);</b>
+&nbsp;  }
+&nbsp;  /**
+&nbsp;   * The fraction of lookups that had occurrence counts &amp;gt; 0. This
+&nbsp;   * might be used to ignore the whole probability for low coverage items.
+&nbsp;   */
+&nbsp;  public float getCoverage() {
+<b class="nc">&nbsp;    return coverage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The number the longest ngram occurs in the corpus. Maybe be -1 if not known.
+&nbsp;   */
+&nbsp;  public long getOccurrences() {
+<b class="nc">&nbsp;    return occurrences;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return prob + &quot;, coverage=&quot; + coverage;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

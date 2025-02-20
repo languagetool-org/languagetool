@@ -1,0 +1,147 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LoggingInterceptor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: LoggingInterceptor (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LoggingInterceptor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;
+&nbsp;import org.apache.ibatis.executor.statement.StatementHandler;
+&nbsp;import org.apache.ibatis.mapping.BoundSql;
+&nbsp;import org.apache.ibatis.plugin.Interceptor;
+&nbsp;import org.apache.ibatis.plugin.Intercepts;
+&nbsp;import org.apache.ibatis.plugin.Invocation;
+&nbsp;import org.apache.ibatis.plugin.Signature;
+&nbsp;import org.apache.ibatis.session.ResultHandler;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.sql.Statement;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;@Intercepts({
+&nbsp;  @Signature(type = StatementHandler.class, method = &quot;query&quot;, args = {Statement.class, ResultHandler.class}),
+&nbsp;  @Signature(type = StatementHandler.class, method = &quot;update&quot;, args = {Statement.class}),
+&nbsp;  @Signature(type = StatementHandler.class, method = &quot;batch&quot;, args = {Statement.class})})
+<b class="nc">&nbsp;public class LoggingInterceptor implements Interceptor {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(LoggingInterceptor.class);</b>
+<b class="nc">&nbsp;  private static final Pattern WHITESPACE_PATTERN = Pattern.compile(&quot;\\s+&quot;);</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Object intercept(Invocation invocation) throws Throwable {
+<b class="nc">&nbsp;    Object target = invocation.getTarget();</b>
+<b class="nc">&nbsp;    long startTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    StatementHandler statementHandler = (StatementHandler) target;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      return invocation.proceed();</b>
+&nbsp;    } finally {
+<b class="nc">&nbsp;      long endTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;      long time = endTime - startTime;</b>
+&nbsp;
+<b class="nc">&nbsp;      BoundSql boundSql = statementHandler.getBoundSql();</b>
+<b class="nc">&nbsp;      String sql = WHITESPACE_PATTERN.matcher(boundSql.getSql()).replaceAll(&quot; &quot;);</b>
+<b class="nc">&nbsp;      Object parameterObject = boundSql.getParameterObject();</b>
+<b class="nc">&nbsp;      logger.info(&quot;Executing SQL: [{}, {}] takes {}ms&quot;, sql, parameterObject, time);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

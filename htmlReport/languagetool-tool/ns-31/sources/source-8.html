@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikSpanishSpellerRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.es</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikSpanishSpellerRule (org.languagetool.rules.es)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikSpanishSpellerRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/54)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.es;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+&nbsp;import org.languagetool.tagging.es.SpanishTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 2.8
+&nbsp; */
+&nbsp;public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;String&gt; REMOVE_FROM_SUGGESTIONS = Arrays.asList(&quot;abu&quot;, &quot;abue&quot;, &quot;abus&quot;, &quot;anarco&quot;, &quot;anarcos&quot;,</b>
+&nbsp;    &quot;arbi&quot;, &quot;arbis&quot;, &quot;arqui&quot;, &quot;arquis&quot;, &quot;Barna&quot;, &quot;bibe&quot;, &quot;bibes&quot;, &quot;biblio&quot;, &quot;biblios&quot;, &quot;bolche&quot;, &quot;bolches&quot;, &quot;cami&quot;,
+&nbsp;    &quot;camis&quot;, &quot;capi&quot;, &quot;capis&quot;, &quot;celu&quot;, &quot;celus&quot;, &quot;ceni&quot;, &quot;cenis&quot;, &quot;cerve&quot;, &quot;cerves&quot;, &quot;chiqui&quot;, &quot;chiquis&quot;, &quot;chuche&quot;,
+&nbsp;    &quot;chuches&quot;, &quot;chumi&quot;, &quot;chumis&quot;, &quot;cintu&quot;, &quot;cintus&quot;, &quot;comi&quot;, &quot;comis&quot;, &quot;compu&quot;, &quot;compus&quot;, &quot;confe&quot;, &quot;confes&quot;, &quot;confi&quot;,
+&nbsp;    &quot;confis&quot;, &quot;conge&quot;, &quot;conges&quot;, &quot;copi&quot;, &quot;copis&quot;, &quot;cosquis&quot;, &quot;coti&quot;, &quot;cotis&quot;, &quot;cíber&quot;, &quot;deco&quot;, &quot;decos&quot;, &quot;deli&quot;, &quot;delis&quot;,
+&nbsp;    &quot;depa&quot;, &quot;depas&quot;, &quot;díver&quot;, &quot;facu&quot;, &quot;facus&quot;, &quot;festi&quot;, &quot;festis&quot;, &quot;frigo&quot;, &quot;frigos&quot;, &quot;fácul&quot;, &quot;gili&quot;, &quot;gilis&quot;, &quot;gine&quot;,
+&nbsp;    &quot;gineco&quot;, &quot;ginecos&quot;, &quot;gines&quot;, &quot;Graná&quot;, &quot;hospi&quot;, &quot;hospis&quot;, &quot;ilu&quot;, &quot;ilus&quot;, &quot;impeque&quot;, &quot;impeques&quot;, &quot;inge&quot;, &quot;inges&quot;,
+&nbsp;    &quot;joputa&quot;, &quot;joputas&quot;, &quot;jueputa&quot;, &quot;jueputas&quot;, &quot;lesbi&quot;, &quot;lesbis&quot;, &quot;lipo&quot;, &quot;lipos&quot;, &quot;lito&quot;, &quot;litos&quot;, &quot;mani&quot;, &quot;manifa&quot;,
+&nbsp;    &quot;manifas&quot;, &quot;manis&quot;, &quot;mari&quot;, &quot;maris&quot;, &quot;masoca&quot;, &quot;masocas&quot;, &quot;milqui&quot;, &quot;milquis&quot;, &quot;munipa&quot;, &quot;munipas&quot;, &quot;ofi&quot;, &quot;ofis&quot;,
+&nbsp;    &quot;pandi&quot;, &quot;pandis&quot;, &quot;pasti&quot;, &quot;pastis&quot;, &quot;pelu&quot;, &quot;pelus&quot;, &quot;pendeviejo&quot;, &quot;pendeviejos&quot;, &quot;peni&quot;, &quot;penis&quot;, &quot;pisci&quot;,
+&nbsp;    &quot;piscis&quot;, &quot;piti&quot;, &quot;pitis&quot;, &quot;porfaplís&quot;, &quot;porfi&quot;, &quot;porfiplís&quot;, &quot;porfis&quot;, &quot;porsi&quot;, &quot;porsiaca&quot;, &quot;porsiacas&quot;, &quot;porsis&quot;,
+&nbsp;    &quot;prefe&quot;, &quot;prefes&quot;, &quot;prince&quot;, &quot;princes&quot;, &quot;pringui&quot;, &quot;pringuis&quot;, &quot;prosti&quot;, &quot;prostis&quot;, &quot;prota&quot;, &quot;protas&quot;, &quot;prote&quot;,
+&nbsp;    &quot;protes&quot;, &quot;psico&quot;, &quot;psicos&quot;, &quot;psiqui&quot;, &quot;psiquis&quot;, &quot;publi&quot;, &quot;publis&quot;, &quot;puti&quot;, &quot;putis&quot;, &quot;quillo&quot;, &quot;quillos&quot;, &quot;refri&quot;,
+&nbsp;    &quot;refris&quot;, &quot;regu&quot;, &quot;regus&quot;, &quot;repe&quot;, &quot;repes&quot;, &quot;resi&quot;, &quot;resis&quot;, &quot;ridi&quot;, &quot;ridis&quot;, &quot;rotu&quot;, &quot;rotus&quot;, &quot;sado&quot;, &quot;sados&quot;,
+&nbsp;    &quot;soco&quot;, &quot;socos&quot;, &quot;sufi&quot;, &quot;sufis&quot;, &quot;suje&quot;, &quot;sujes&quot;, &quot;tatu&quot;, &quot;tatus&quot;, &quot;torti&quot;, &quot;tortis&quot;, &quot;tranqui&quot;, &quot;tranquis&quot;,
+&nbsp;    &quot;trici&quot;, &quot;tricis&quot;, &quot;ulti&quot;, &quot;ultis&quot;, &quot;urba&quot;, &quot;urbas&quot;, &quot;vice&quot;, &quot;vices&quot;, &quot;vitro&quot;, &quot;vitros&quot;, &quot;ñero&quot;, &quot;ñeros&quot;);
+<b class="nc">&nbsp;  private static final List&lt;String&gt; PREFIX_WITH_WHITESPACE = Arrays.asList(&quot;ultra&quot;, &quot;eco&quot;, &quot;tele&quot;, &quot;anti&quot;, &quot;auto&quot;, &quot;ex&quot;,</b>
+&nbsp;    &quot;extra&quot;, &quot;macro&quot;, &quot;mega&quot;, &quot;meta&quot;, &quot;micro&quot;, &quot;multi&quot;, &quot;mono&quot;, &quot;mini&quot;, &quot;post&quot;, &quot;retro&quot;, &quot;semi&quot;, &quot;super&quot;, &quot;hiper&quot;,
+&nbsp;    &quot;trans&quot;, &quot;re&quot;, &quot;g&quot;, &quot;l&quot;, &quot;m&quot;);
+<b class="nc">&nbsp;  private static final List&lt;String&gt; PRONOMBRE_INICIAL = Arrays.asList(&quot;me&quot;, &quot;te&quot;, &quot;se&quot;, &quot;nos&quot;, &quot;os&quot;, &quot;lo&quot;, &quot;le&quot;, &quot;la&quot;, &quot;los&quot;,</b>
+&nbsp;    &quot;las&quot;);
+<b class="nc">&nbsp;  private static final Pattern CAMEL_CASE = Pattern.compile(&quot;^(.\\p{Ll}+)(\\p{Lu}.+)$&quot;, Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final List&lt;String&gt; PARTICULA_FINAL = Arrays.asList(&quot;que&quot;, &quot;cual&quot;);</b>
+<b class="nc">&nbsp;  private static final List&lt;String&gt; SPLIT_DIGITS_AT_END = Arrays.asList(&quot;en&quot;, &quot;de&quot;, &quot;del&quot;, &quot;al&quot;, &quot;a&quot;, &quot;y&quot;, &quot;o&quot;, &quot;con&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB_INDSUBJ = Pattern.compile(&quot;V.[SI].*&quot;);</b>
+<b class="nc">&nbsp;  private static final SpanishTagger tagger = SpanishTagger.INSTANCE;</b>
+&nbsp;
+&nbsp;  public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+&nbsp;      List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    super(messages, language, userConfig, altLanguages);</b>
+<b class="nc">&nbsp;    this.setIgnoreTaggedWords();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getFileName() {
+<b class="nc">&nbsp;    return &quot;/es/es-ES.dict&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;MORFOLOGIK_RULE_ES&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  // Use this rule in LO/OO extension despite being a spelling rule
+&nbsp;  public boolean useInOffice() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; getAdditionalSpellingFileNames() {
+<b class="nc">&nbsp;    return Arrays.asList(&quot;/es/&quot;+ SpellingCheckRule.CUSTOM_SPELLING_FILE, SpellingCheckRule.GLOBAL_SPELLING_FILE,</b>
+&nbsp;      &quot;/es/multiwords.txt&quot;);
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; orderSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word) {
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; newSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    String wordWithouDiacriticsString = StringTools.removeDiacritics(word);</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; suggestions.size(); i++) {</b>
+<b class="nc">&nbsp;      String replacement = suggestions.get(i).getReplacement().toLowerCase();</b>
+<b class="nc">&nbsp;      if (REMOVE_FROM_SUGGESTIONS.contains(replacement)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String parts[] = replacement.split(&quot; &quot;);</b>
+&nbsp;      // Don&#39;t change first suggestions if they match word without diacritics
+<b class="nc">&nbsp;      int posNewSugg = 0;</b>
+<b class="nc">&nbsp;      while (newSuggestions.size() &gt; posNewSugg</b>
+<b class="nc">&nbsp;        &amp;&amp; StringTools.removeDiacritics(newSuggestions.get(posNewSugg).getReplacement())</b>
+<b class="nc">&nbsp;        .equalsIgnoreCase(wordWithouDiacriticsString)) {</b>
+<b class="nc">&nbsp;        posNewSugg++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (parts.length == 2) {</b>
+&nbsp;        // remove wrong split prefixes
+<b class="nc">&nbsp;        if (parts[1].equals(&quot;s&quot;)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (PREFIX_WITH_WHITESPACE.contains(parts[0])) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        // move some split words to first place
+<b class="nc">&nbsp;        if (parts[1].length() &gt; 1 &amp;&amp; PRONOMBRE_INICIAL.contains(parts[0].toLowerCase())) {</b>
+<b class="nc">&nbsp;          String newSuggestion = parts[1];</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; atkn = tagger.tag(Arrays.asList(newSuggestion));</b>
+<b class="nc">&nbsp;          if (atkn.get(0).matchesPosTagRegex(VERB_INDSUBJ)) {</b>
+<b class="nc">&nbsp;            newSuggestions.add(posNewSugg, suggestions.get(i));</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+&nbsp;        // move some split words to first place
+<b class="nc">&nbsp;        if (PARTICULA_FINAL.contains(parts[1])) {</b>
+<b class="nc">&nbsp;          newSuggestions.add(0, suggestions.get(i));</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      newSuggestions.add(suggestions.get(i));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newSuggestions;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; getAdditionalTopSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word)
+&nbsp;      throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; suggestionsList = suggestions.stream().map(SuggestedReplacement::getReplacement)</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;    return SuggestedReplacement.convert(getAdditionalTopSuggestionsString(suggestionsList, word));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private List&lt;String&gt; getAdditionalTopSuggestionsString(List&lt;String&gt; suggestions, String word) throws IOException {
+<b class="nc">&nbsp;    String[] parts = StringTools.splitCamelCase(word);</b>
+<b class="nc">&nbsp;    if (parts.length &gt; 1) {</b>
+<b class="nc">&nbsp;      boolean isNotMisspelled = true;</b>
+<b class="nc">&nbsp;      for(String part: parts) {</b>
+<b class="nc">&nbsp;        isNotMisspelled &amp;= !speller1.isMisspelled(part);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (isNotMisspelled) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(String.join(&quot; &quot;,parts));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    parts = StringTools.splitDigitsAtEnd(word);</b>
+<b class="nc">&nbsp;    if (parts.length &gt; 1) {</b>
+<b class="nc">&nbsp;      if (tagger.tag(Arrays.asList(parts[0])).get(0).isTagged()</b>
+<b class="nc">&nbsp;        &amp;&amp; (parts[0].length() &gt; 2 || SPLIT_DIGITS_AT_END.contains(parts[0].toLowerCase()))) {</b>
+<b class="nc">&nbsp;        return Collections.singletonList(String.join(&quot; &quot;,parts));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // Do not tokenize new words from spelling.txt...
+&nbsp;  // Multi-token words should be in multiwords.txt
+&nbsp;  protected boolean tokenizeNewWords() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

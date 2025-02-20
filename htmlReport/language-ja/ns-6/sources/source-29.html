@@ -1,0 +1,260 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > XmlUsageCounter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: XmlUsageCounter (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XmlUsageCounter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">XmlUsageCounter$ElemCount</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/39)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;
+&nbsp;import javax.xml.stream.XMLEventReader;
+&nbsp;import javax.xml.stream.XMLInputFactory;
+&nbsp;import javax.xml.stream.XMLStreamException;
+&nbsp;import javax.xml.stream.events.Attribute;
+&nbsp;import javax.xml.stream.events.XMLEvent;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Internal tool to count XML elements and attributes used in our grammar XML files.
+&nbsp; * @since 2.6
+&nbsp; */
+<b class="nc">&nbsp;class XmlUsageCounter {</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Map&lt;String,Integer&gt; map = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  private void countElementsAndAttributes(InputStream in) throws XMLStreamException {
+<b class="nc">&nbsp;    XMLInputFactory inputFactory = XMLInputFactory.newInstance();</b>
+<b class="nc">&nbsp;    XMLEventReader eventReader = inputFactory.createXMLEventReader(in);</b>
+<b class="nc">&nbsp;    while (eventReader.hasNext()) {</b>
+<b class="nc">&nbsp;      XMLEvent event = eventReader.nextEvent();</b>
+<b class="nc">&nbsp;      if (event.isStartElement()) {</b>
+<b class="nc">&nbsp;        String elementName = event.asStartElement().getName().getLocalPart();</b>
+<b class="nc">&nbsp;        add(elementName);</b>
+<b class="nc">&nbsp;        Iterator attributes = event.asStartElement().getAttributes();</b>
+<b class="nc">&nbsp;        while (attributes.hasNext()) {</b>
+<b class="nc">&nbsp;          Attribute att = (Attribute) attributes.next();</b>
+<b class="nc">&nbsp;          add(elementName + &quot;/&quot; + att.getName());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void add(String name) {
+<b class="nc">&nbsp;    if (map.containsKey(name)) {</b>
+<b class="nc">&nbsp;      int oldCount = map.get(name);</b>
+<b class="nc">&nbsp;      map.put(name, oldCount+1);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      map.put(name, 1);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printResult() {
+<b class="nc">&nbsp;    List&lt;ElemCount&gt; elemCounts = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Integer&gt; entry : map.entrySet()) {</b>
+<b class="nc">&nbsp;      elemCounts.add(new ElemCount(entry.getKey(), entry.getValue()));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Collections.sort(elemCounts, (ec1, ec2) -&gt; ec2.count - ec1.count);</b>
+<b class="nc">&nbsp;    for (ElemCount elemCount : elemCounts) {</b>
+<b class="nc">&nbsp;      System.out.println(elemCount.count + &quot; &quot; + elemCount.elem);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws XMLStreamException {
+<b class="nc">&nbsp;    XmlUsageCounter counter = new XmlUsageCounter();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; countedFiles = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Language language : Languages.get()) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; ruleFileNames = language.getRuleFileNames();</b>
+&nbsp;      //comment in this to count disambiguation files instead:
+&nbsp;      //List&lt;String&gt; ruleFileNames = Collections.singletonList(ResourceDataBroker.RESOURCE_DIR + &quot;/&quot; +
+&nbsp;      //        language.getShortCode() + &quot;/&quot; + &quot;disambiguation.xml&quot;);
+<b class="nc">&nbsp;      for (String ruleFileName : ruleFileNames) {</b>
+<b class="nc">&nbsp;        if (countedFiles.contains(ruleFileName)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        System.err.println(&quot;Counting elements for &quot; + ruleFileName);</b>
+<b class="nc">&nbsp;        InputStream ruleStream = XmlUsageCounter.class.getResourceAsStream(ruleFileName);</b>
+<b class="nc">&nbsp;        if (ruleStream == null) {</b>
+<b class="nc">&nbsp;          System.err.println(&quot;Not found, ignoring: &quot; + ruleFileName);</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        counter.countElementsAndAttributes(ruleStream);</b>
+<b class="nc">&nbsp;        countedFiles.add(ruleFileName);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    counter.printResult();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class ElemCount {
+&nbsp;    String elem;
+&nbsp;    Integer count;
+<b class="nc">&nbsp;    ElemCount(String elem, Integer count) {</b>
+<b class="nc">&nbsp;      this.elem = elem;</b>
+<b class="nc">&nbsp;      this.count = count;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

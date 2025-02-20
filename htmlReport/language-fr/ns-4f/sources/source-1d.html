@@ -1,0 +1,621 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LanguageToolHttpHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: LanguageToolHttpHandler (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LanguageToolHttpHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/182)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/260)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.sun.net.httpserver.Headers;
+&nbsp;import com.sun.net.httpserver.HttpExchange;
+&nbsp;import com.sun.net.httpserver.HttpHandler;
+&nbsp;import io.opentelemetry.api.common.Attributes;
+&nbsp;import io.opentelemetry.api.trace.Span;
+&nbsp;import io.opentelemetry.api.trace.StatusCode;
+&nbsp;import io.opentelemetry.context.Scope;
+&nbsp;import io.opentelemetry.semconv.trace.attributes.SemanticAttributes;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.lang3.exception.ExceptionUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.ErrorRateTooHighException;
+&nbsp;import org.languagetool.tools.TelemetryProvider;
+&nbsp;import org.languagetool.tools.LoggingTools;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.slf4j.MDC;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.io.Reader;
+&nbsp;import java.io.UnsupportedEncodingException;
+&nbsp;import java.net.HttpURLConnection;
+&nbsp;import java.net.URI;
+&nbsp;import java.net.URLDecoder;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.concurrent.BlockingQueue;
+&nbsp;import java.util.concurrent.TimeoutException;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
+&nbsp;import static org.languagetool.server.ServerTools.getHttpReferrer;
+&nbsp;import static org.languagetool.server.ServerTools.print;
+&nbsp;
+&nbsp;class LanguageToolHttpHandler implements HttpHandler {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(LanguageToolHttpHandler.class);</b>
+&nbsp;
+&nbsp;  static final String API_DOC_URL = &quot;https://languagetool.org/http-api/swagger-ui/#/default&quot;;
+&nbsp;  static final String REQUEST_LIMIT_ACCESS_TOKEN_HEADER  = &quot;X-Request-Limit-Access-Token&quot;;
+&nbsp;  
+&nbsp;  private static final String ENCODING = &quot;utf-8&quot;;
+&nbsp;
+&nbsp;  private final Set&lt;String&gt; allowedIps;  
+&nbsp;  private final RequestLimiter requestLimiter;
+&nbsp;  private final ErrorRequestLimiter errorRequestLimiter;
+&nbsp;  private final BlockingQueue&lt;Runnable&gt; workQueue;
+&nbsp;  private final Server httpServer;
+&nbsp;  private final TextChecker textCheckerV2;
+&nbsp;  private final HTTPServerConfig config;
+<b class="nc">&nbsp;  private final RequestCounter reqCounter = new RequestCounter();</b>
+&nbsp;  
+<b class="nc">&nbsp;  LanguageToolHttpHandler(HTTPServerConfig config, Set&lt;String&gt; allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, BlockingQueue&lt;Runnable&gt; workQueue, Server httpServer) {</b>
+<b class="nc">&nbsp;    this.config = config;</b>
+<b class="nc">&nbsp;    this.allowedIps = allowedIps;</b>
+<b class="nc">&nbsp;    this.requestLimiter = requestLimiter;</b>
+<b class="nc">&nbsp;    this.errorRequestLimiter = errorLimiter;</b>
+<b class="nc">&nbsp;    this.workQueue = workQueue;</b>
+<b class="nc">&nbsp;    this.httpServer = httpServer;</b>
+<b class="nc">&nbsp;    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, reqCounter);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.6 */
+&nbsp;  void shutdown() {
+<b class="nc">&nbsp;    textCheckerV2.shutdownNow();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void handle(HttpExchange httpExchange) throws IOException {
+<b class="nc">&nbsp;    long startTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    String remoteAddress = null;</b>
+<b class="nc">&nbsp;    Map&lt;String, String&gt; parameters = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    int reqId = reqCounter.incrementRequestCount();</b>
+<b class="nc">&nbsp;    ServerMetricsCollector.getInstance().logRequest();</b>
+<b class="nc">&nbsp;    boolean incrementHandleCount = false;</b>
+<b class="nc">&nbsp;    String requestId = getRequestId(httpExchange);</b>
+<b class="nc">&nbsp;    MDC.MDCCloseable mdcRequestID = MDC.putCloseable(&quot;rID&quot;, requestId);</b>
+<b class="nc">&nbsp;    Attributes attributes = Attributes.builder()</b>
+<b class="nc">&nbsp;                  .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())</b>
+<b class="nc">&nbsp;                  .put(SemanticAttributes.HTTP_ROUTE, httpExchange.getRequestURI().getRawPath())</b>
+<b class="nc">&nbsp;                  .put(&quot;http.path_group&quot;, httpExchange.getRequestURI().getRawPath())</b>
+<b class="nc">&nbsp;                  .put(&quot;request.id&quot;, requestId)</b>
+<b class="nc">&nbsp;                  .build();</b>
+<b class="nc">&nbsp;    Span globalSpan = TelemetryProvider.INSTANCE.createSpan(&quot;handle-http-request&quot;, attributes);</b>
+<b class="nc">&nbsp;    try (Scope scope = globalSpan.makeCurrent()) {</b>
+<b class="nc">&nbsp;      URI requestedUri = httpExchange.getRequestURI();</b>
+<b class="nc">&nbsp;      String path = requestedUri.getRawPath();</b>
+<b class="nc">&nbsp;      logger.info(&quot;Handling {} {}&quot;, httpExchange.getRequestMethod(), path);</b>
+<b class="nc">&nbsp;      if (config.getServerURL() != null) {</b>
+<b class="nc">&nbsp;        path = config.getServerURL().relativize(new URI(requestedUri.getPath())).getRawPath();</b>
+<b class="nc">&nbsp;        if (!path.startsWith(&quot;/&quot;)) {</b>
+<b class="nc">&nbsp;          path = &quot;/&quot; + path;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (path.startsWith(&quot;/v2/stop&quot;) &amp;&amp; config.isStoppable()) {</b>
+<b class="nc">&nbsp;        logger.warn(&quot;Stopping server by external command&quot;);</b>
+<b class="nc">&nbsp;        httpServer.stop();</b>
+&nbsp;        return;
+&nbsp;      }
+<b class="nc">&nbsp;      if (path.startsWith(&quot;/v2/&quot;)) {</b>
+&nbsp;        // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
+<b class="nc">&nbsp;        String pathWithoutVersion = path.substring(&quot;/v2/&quot;.length());</b>
+<b class="nc">&nbsp;        if (pathWithoutVersion.equals(&quot;healthcheck&quot;)) {</b>
+<b class="nc">&nbsp;          String message = &quot;Healthcheck failed: There are currently too many parallel requests.&quot;;</b>
+<b class="nc">&nbsp;          if (workQueueFull(httpExchange, parameters, message) || textCheckerQueueFull(httpExchange, message)) {</b>
+<b class="nc">&nbsp;            ServerMetricsCollector.getInstance().logFailedHealthcheck();</b>
+&nbsp;            return;
+&nbsp;          } else {
+<b class="nc">&nbsp;            httpExchange.getResponseHeaders().set(&quot;Content-Type&quot;, &quot;text/plain&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            String requestMethod = httpExchange.getRequestMethod();</b>
+<b class="nc">&nbsp;            if (&quot;HEAD&quot;.equalsIgnoreCase(requestMethod)) {</b>
+&nbsp;              // Send HTTP 200 without content
+<b class="nc">&nbsp;              httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, -1);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              String ok = &quot;OK&quot;;</b>
+<b class="nc">&nbsp;              httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;              httpExchange.getResponseBody().write(ok.getBytes(ENCODING));</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);</b>
+&nbsp;            return;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      String referrer = httpExchange.getRequestHeaders().getFirst(&quot;Referer&quot;);</b>
+<b class="nc">&nbsp;      String origin = httpExchange.getRequestHeaders().getFirst(&quot;Origin&quot;);   // Referer can be turned off with meta tags, so also check this</b>
+<b class="nc">&nbsp;      for (String ref : config.getBlockedReferrers()) {</b>
+<b class="nc">&nbsp;        String errorMessage = null;</b>
+<b class="nc">&nbsp;        if (ref != null &amp;&amp; !ref.isEmpty()) {</b>
+<b class="nc">&nbsp;          if (referrer != null &amp;&amp; ServerTools.siteMatches(referrer, ref)) {</b>
+<b class="nc">&nbsp;            errorMessage = &quot;Error: Access with referrer &quot; + referrer + &quot; denied.&quot;;</b>
+<b class="nc">&nbsp;          } else if (origin != null &amp;&amp; ServerTools.siteMatches(origin, ref)) {</b>
+<b class="nc">&nbsp;            errorMessage = &quot;Error: Access with origin &quot; + origin + &quot; denied.&quot;;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (errorMessage != null) {</b>
+<b class="nc">&nbsp;          sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);</b>
+<b class="nc">&nbsp;          logError(errorMessage, HttpURLConnection.HTTP_FORBIDDEN, parameters, httpExchange);</b>
+<b class="nc">&nbsp;          ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_FORBIDDEN);</b>
+&nbsp;          return;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();</b>
+<b class="nc">&nbsp;      String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);</b>
+<b class="nc">&nbsp;      remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;</b>
+<b class="nc">&nbsp;      reqCounter.incrementHandleCount(remoteAddress, reqId);</b>
+<b class="nc">&nbsp;      incrementHandleCount = true;</b>
+&nbsp;      // According to the Javadoc, &quot;Closing an exchange without consuming all of the request body is
+&nbsp;      // not an error but may make the underlying TCP connection unusable for following exchanges.&quot;,
+&nbsp;      // so we consume the request now, even before checking for request limits:
+<b class="nc">&nbsp;      parameters = getRequestQuery(httpExchange, requestedUri);</b>
+<b class="nc">&nbsp;      if (requestLimiter != null &amp;&amp; limitPath(path) &amp;&amp; !allowSkipRequestLimit(httpExchange.getRequestHeaders())) {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          UserLimits userLimits = ServerTools.getUserLimits(parameters, config);</b>
+<b class="nc">&nbsp;          requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);</b>
+&nbsp;        } catch (TooManyRequestsException e) {
+<b class="nc">&nbsp;          String errorMessage = &quot;Error: Access from &quot; + remoteAddress + &quot; denied: &quot; + e.getMessage();</b>
+<b class="nc">&nbsp;          int code = 429; // too many requests</b>
+<b class="nc">&nbsp;          sendError(httpExchange, code, errorMessage);</b>
+&nbsp;          // already logged via DatabaseAccessLimitLogEntry
+<b class="nc">&nbsp;          logError(errorMessage, code, parameters, httpExchange, false);</b>
+&nbsp;          return;
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (errorRequestLimiter != null &amp;&amp;</b>
+<b class="nc">&nbsp;          !allowSkipRequestLimit(httpExchange.getRequestHeaders()) &amp;&amp;</b>
+<b class="nc">&nbsp;          !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, parameters, httpExchange.getRequestHeaders())) {</b>
+<b class="nc">&nbsp;        String textSizeMessage = getTextOrDataSizeMessage(parameters);</b>
+<b class="nc">&nbsp;        String errorMessage = &quot;Error: Access from &quot; + remoteAddress + &quot; denied - too many recent timeouts. &quot; +</b>
+&nbsp;                textSizeMessage +
+<b class="nc">&nbsp;                &quot; Allowed maximum timeouts: &quot; + errorRequestLimiter.getRequestLimit() +</b>
+<b class="nc">&nbsp;                &quot; per &quot; + errorRequestLimiter.getRequestLimitPeriodInSeconds() + &quot; seconds&quot;;</b>
+<b class="nc">&nbsp;        int code = 429; // too many requests</b>
+<b class="nc">&nbsp;        sendError(httpExchange, code, errorMessage);</b>
+<b class="nc">&nbsp;        logError(errorMessage, code, parameters, httpExchange);</b>
+&nbsp;        return;
+&nbsp;      }
+<b class="nc">&nbsp;      if (workQueueFull(httpExchange, parameters, &quot;Error: There are currently too many parallel requests. Please try again later.&quot;)) {</b>
+<b class="nc">&nbsp;        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.QUEUE_FULL);</b>
+&nbsp;        return;
+&nbsp;      }
+<b class="nc">&nbsp;      if (allowedIps == null || allowedIps.contains(origAddress)) {</b>
+<b class="nc">&nbsp;        if (path.startsWith(&quot;/v2/&quot;)) {</b>
+<b class="nc">&nbsp;          ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());</b>
+<b class="nc">&nbsp;          String pathWithoutVersion = path.substring(&quot;/v2/&quot;.length());</b>
+<b class="nc">&nbsp;          final Map&lt;String, String&gt; finalParameters = parameters;</b>
+<b class="nc">&nbsp;          final String finalRemoteAddress = remoteAddress;</b>
+<b class="nc">&nbsp;          TelemetryProvider.INSTANCE.createSpan(&quot;/v2&quot;, Attributes.empty(), () -&gt; apiV2.handleRequest(pathWithoutVersion, httpExchange, finalParameters, errorRequestLimiter, finalRemoteAddress, config));</b>
+<b class="nc">&nbsp;        } else if (path.endsWith(&quot;/Languages&quot;)) {</b>
+<b class="nc">&nbsp;          throw new BadRequestException(&quot;You&#39;re using an old version of our API that&#39;s not supported anymore. Please see &quot; + API_DOC_URL);</b>
+<b class="nc">&nbsp;        } else if (path.equals(&quot;/&quot;)) {</b>
+<b class="nc">&nbsp;          throw new BadRequestException(&quot;Missing arguments for LanguageTool API. Please see &quot; + API_DOC_URL);</b>
+<b class="nc">&nbsp;        } else if (path.contains(&quot;/v2/&quot;)) {</b>
+<b class="nc">&nbsp;          throw new BadRequestException(&quot;You have &#39;/v2/&#39; in your path, but not at the root. Try an URL like &#39;http://server/v2/...&#39; &quot;);</b>
+<b class="nc">&nbsp;        } else if (path.equals(&quot;/favicon.ico&quot;)) {</b>
+<b class="nc">&nbsp;          sendError(httpExchange, HttpURLConnection.HTTP_NOT_FOUND, &quot;Not found&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          throw new BadRequestException(&quot;This is the LanguageTool API. You have not specified any parameters. Please see &quot; + API_DOC_URL);</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        String errorMessage = &quot;Error: Access from &quot; + StringTools.escapeXML(origAddress) + &quot; denied&quot;;</b>
+<b class="nc">&nbsp;        sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);</b>
+<b class="nc">&nbsp;        throw new RuntimeException(errorMessage);</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+&nbsp;      String response;
+&nbsp;      int errorCode;
+<b class="nc">&nbsp;      boolean textLoggingAllowed = false;</b>
+<b class="nc">&nbsp;      boolean logStacktrace = true;</b>
+<b class="nc">&nbsp;      Throwable rootCause = ExceptionUtils.getRootCause(e);</b>
+<b class="nc">&nbsp;      if (e instanceof TextTooLongException || rootCause instanceof TextTooLongException) {</b>
+<b class="nc">&nbsp;        errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;</b>
+<b class="nc">&nbsp;        response = e.getMessage();</b>
+<b class="nc">&nbsp;        logStacktrace = false;</b>
+<b class="nc">&nbsp;      } else if (e instanceof ErrorRateTooHighException || rootCause instanceof ErrorRateTooHighException) {</b>
+<b class="nc">&nbsp;        errorCode = HttpURLConnection.HTTP_BAD_REQUEST;</b>
+<b class="nc">&nbsp;        response = ExceptionUtils.getRootCause(e).getMessage();</b>
+<b class="nc">&nbsp;        logStacktrace = false;</b>
+<b class="nc">&nbsp;      } else if (hasCause(e, AuthException.class)) {</b>
+<b class="nc">&nbsp;        errorCode = HttpURLConnection.HTTP_FORBIDDEN;</b>
+<b class="nc">&nbsp;        response = AuthException.class.getName() + &quot;: &quot; + e.getMessage();</b>
+<b class="nc">&nbsp;        logStacktrace = false;</b>
+<b class="nc">&nbsp;      } else if (e instanceof BadRequestException || rootCause instanceof BadRequestException) {</b>
+<b class="nc">&nbsp;        errorCode = HttpURLConnection.HTTP_BAD_REQUEST;</b>
+<b class="nc">&nbsp;        response = e.getMessage();</b>
+<b class="nc">&nbsp;      } else if (e instanceof PathNotFoundException || rootCause instanceof PathNotFoundException) {</b>
+<b class="nc">&nbsp;        errorCode = HttpURLConnection.HTTP_NOT_FOUND;</b>
+<b class="nc">&nbsp;        response = e.getMessage();</b>
+<b class="nc">&nbsp;      } else if (e instanceof TimeoutException || rootCause instanceof TimeoutException) {</b>
+<b class="nc">&nbsp;        errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;</b>
+<b class="nc">&nbsp;        if (e.getMessage().contains(&quot;Checking took longer than&quot;)) {</b>
+<b class="nc">&nbsp;          response = e.getMessage(); // more specific information already provided</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          response = &quot;Checking took longer than &quot; + config.getMaxCheckTimeMillisAnonymous() / 1000.0f + &quot; seconds, which is this server&#39;s limit. Please make sure you have selected the proper language or consider submitting a shorter text.&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (e instanceof UnavailableException) {</b>
+<b class="nc">&nbsp;        errorCode = HTTP_UNAVAILABLE;</b>
+<b class="nc">&nbsp;        response = e.getMessage();</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        response = &quot;Internal Error: &quot; + e.getMessage();</b>
+<b class="nc">&nbsp;        errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;</b>
+<b class="nc">&nbsp;        textLoggingAllowed = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      long endTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace, endTime-startTime);</b>
+<b class="nc">&nbsp;      sendError(httpExchange, errorCode, &quot;Error: &quot; + response);</b>
+<b class="nc">&nbsp;      globalSpan.recordException(e);</b>
+<b class="nc">&nbsp;      globalSpan.setStatus(StatusCode.ERROR);</b>
+&nbsp;    } finally {
+<b class="nc">&nbsp;      logger.info(&quot;Handled request in {}ms; sending code {}&quot;, System.currentTimeMillis() - startTime, httpExchange.getResponseCode());</b>
+&nbsp;      httpExchange.close();
+&nbsp;      mdcRequestID.close();
+<b class="nc">&nbsp;      globalSpan.setAttribute(SemanticAttributes.HTTP_STATUS_CODE, httpExchange.getResponseCode());</b>
+<b class="nc">&nbsp;      globalSpan.end();</b>
+<b class="nc">&nbsp;      if (incrementHandleCount) {</b>
+<b class="nc">&nbsp;        reqCounter.decrementHandleCount(reqId);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean allowSkipRequestLimit(Headers requestHeaders) {
+<b class="nc">&nbsp;    if (config.getRequestLimitAccessToken() == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!requestHeaders.containsKey(REQUEST_LIMIT_ACCESS_TOKEN_HEADER)) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return config.getRequestLimitAccessToken().equals(requestHeaders.getFirst(REQUEST_LIMIT_ACCESS_TOKEN_HEADER));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * whitelist paths from request limiting
+&nbsp;   */
+&nbsp;  private boolean limitPath(String path) {
+<b class="nc">&nbsp;    return !path.endsWith(&quot;admin/refreshUser&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  static String getRequestId(HttpExchange httpExchange) {
+<b class="nc">&nbsp;    String requestId = httpExchange.getRequestHeaders().getFirst(&quot;X-Request-ID&quot;);</b>
+<b class="nc">&nbsp;    if (requestId == null) {</b>
+<b class="nc">&nbsp;      requestId = &quot;-&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return requestId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasCause(Exception e, Class&lt;AuthException&gt; clazz) {
+<b class="nc">&nbsp;    for (Throwable throwable : ExceptionUtils.getThrowableList(e)) {</b>
+<b class="nc">&nbsp;      if (throwable.getClass().equals(clazz)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean workQueueFull(HttpExchange httpExchange, Map&lt;String, String&gt; parameters, String response) throws IOException {
+<b class="nc">&nbsp;    if (config.getMaxWorkQueueSize() != 0 &amp;&amp; workQueue.size() &gt; config.getMaxWorkQueueSize()) {</b>
+<b class="nc">&nbsp;      String message = response + &quot; queue size: &quot; + workQueue.size() + &quot;, maximum size: &quot; + config.getMaxWorkQueueSize();</b>
+<b class="nc">&nbsp;      logError(message, HTTP_UNAVAILABLE, parameters, httpExchange);</b>
+<b class="nc">&nbsp;      sendError(httpExchange, HTTP_UNAVAILABLE, &quot;Error: &quot; + response);</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean textCheckerQueueFull(HttpExchange httpExchange, String response) throws IOException {
+<b class="nc">&nbsp;    if(textCheckerV2.checkerQueueAlmostFull()) {</b>
+<b class="nc">&nbsp;      sendError(httpExchange, HTTP_UNAVAILABLE, &quot;Error: &quot; + response);</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private String getTextOrDataSizeMessage(Map&lt;String, String&gt; parameters) {
+<b class="nc">&nbsp;    String text = parameters.get(&quot;text&quot;);</b>
+<b class="nc">&nbsp;    if (text != null) {</b>
+<b class="nc">&nbsp;      return &quot;Text size: &quot; + text.length() + &quot;.&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      String data = parameters.get(&quot;data&quot;);</b>
+<b class="nc">&nbsp;      if (data != null) {</b>
+<b class="nc">&nbsp;        return &quot;Data size: &quot; + data.length() + &quot;.&quot;;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void logError(String errorMessage, int code, Map&lt;String, String&gt; params, HttpExchange httpExchange) {
+<b class="nc">&nbsp;    logError(errorMessage, code, params, httpExchange, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void logError(String errorMessage, int code, Map&lt;String, String&gt; params, HttpExchange httpExchange, boolean logToDb) {
+<b class="nc">&nbsp;    String message = errorMessage + &quot;, sending code &quot; + code + &quot; - useragent: &quot; + params.get(&quot;useragent&quot;) +</b>
+<b class="nc">&nbsp;            &quot; - HTTP UserAgent: &quot; + ServerTools.getHttpUserAgent(httpExchange) + &quot;, r:&quot; + reqCounter.getRequestCount();</b>
+<b class="nc">&nbsp;    if (params.get(&quot;username&quot;) != null) {</b>
+<b class="nc">&nbsp;      message += &quot;, user: &quot; + params.get(&quot;username&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (params.get(&quot;apiKey&quot;) != null) {</b>
+<b class="nc">&nbsp;      message += &quot;, apiKey: &quot; + params.get(&quot;apiKey&quot;);</b>
+&nbsp;    }
+&nbsp;    // TODO: might need more than 512 chars, thus not logged to DB:
+<b class="nc">&nbsp;    message += &quot;, referrer: &quot; + getHttpReferrer(httpExchange);</b>
+<b class="nc">&nbsp;    message += &quot;, language: &quot; + params.get(&quot;language&quot;);</b>
+<b class="nc">&nbsp;    message += &quot;, &quot; + getTextOrDataSizeMessage(params);</b>
+<b class="nc">&nbsp;    logger.error(message);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map&lt;String, String&gt; params, 
+&nbsp;                        boolean textLoggingAllowed, boolean logStacktrace, long runtimeMillis) {
+<b class="nc">&nbsp;    String message = ServerTools.getLoggingInfo(remoteAddress, e, errorCode, httpExchange, params, runtimeMillis, reqCounter);</b>
+<b class="nc">&nbsp;    String text = params.get(&quot;text&quot;);</b>
+<b class="nc">&nbsp;    if (text != null) {</b>
+<b class="nc">&nbsp;      message += &quot;text length: &quot; + text.length() + &quot;, &quot;;</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      message += &quot;m: &quot; + ServerTools.getMode(params) + &quot;, &quot;;</b>
+&nbsp;    } catch (BadRequestException ex) {
+<b class="nc">&nbsp;      message += &quot;m: invalid, &quot;;</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      message += &quot;l: &quot; + ServerTools.getLevel(params) + &quot;, &quot;;</b>
+&nbsp;    } catch (BadRequestException ex) {
+<b class="nc">&nbsp;      message += &quot;l: invalid, &quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (params.containsKey(&quot;instanceId&quot;)) {</b>
+<b class="nc">&nbsp;      message += &quot;iID: &quot; + params.get(&quot;instanceId&quot;) + &quot;, &quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (logStacktrace) {</b>
+<b class="nc">&nbsp;      message += &quot;Stacktrace follows:&quot;;</b>
+<b class="nc">&nbsp;      String stackTrace = ExceptionUtils.getStackTrace(e);</b>
+<b class="nc">&nbsp;      message += ServerTools.cleanUserTextFromMessage(stackTrace, params);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      message += &quot;(no stacktrace logged)&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (errorCode &lt; 500) {</b>
+<b class="nc">&nbsp;      logger.info(LoggingTools.BAD_REQUEST, message);</b>
+<b class="nc">&nbsp;    } else if (e.getMessage() != null &amp;&amp; e.getMessage().contains(&quot;took longer than&quot;)) {</b>
+<b class="nc">&nbsp;      logger.warn(LoggingTools.REQUEST, message);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      logger.error(LoggingTools.REQUEST, message);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||</b>
+<b class="nc">&nbsp;        ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException || e.getCause() instanceof TimeoutException)) {</b>
+<b class="nc">&nbsp;      if (config.isVerbose() &amp;&amp; text != null &amp;&amp; textLoggingAllowed) {</b>
+<b class="nc">&nbsp;        print(&quot;Exception was caused by this text (&quot; + text.length() + &quot; chars, showing up to 500):\n&quot; +</b>
+<b class="nc">&nbsp;          StringUtils.abbreviate(text, 500), System.err);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A (reverse) proxy can set the &#39;X-forwarded-for&#39; header so we can see a user&#39;s original IP.
+&nbsp;   * But that&#39;s just a common header than can also be set by the client. So we restrict access to this
+&nbsp;   * server to the load balancer, which should add the header originally with the user&#39;s own IP.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  private String getRealRemoteAddressOrNull(HttpExchange httpExchange) {
+<b class="nc">&nbsp;    if (config.getTrustXForwardForHeader()) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; forwardedIpsStr = httpExchange.getRequestHeaders().get(&quot;X-forwarded-for&quot;);</b>
+<b class="nc">&nbsp;      if (forwardedIpsStr != null &amp;&amp; forwardedIpsStr.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        return forwardedIpsStr.get(0);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void sendError(HttpExchange httpExchange, int httpReturnCode, String response) throws IOException {
+<b class="nc">&nbsp;    ServerTools.setAllowOrigin(httpExchange, config.getAllowOriginUrl());</b>
+<b class="nc">&nbsp;    httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;    httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+<b class="nc">&nbsp;    ServerMetricsCollector.getInstance().logResponse(httpReturnCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;String, String&gt; getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; params = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (&quot;post&quot;.equalsIgnoreCase(httpExchange.getRequestMethod())) {</b>
+<b class="nc">&nbsp;      try (InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING)) {</b>
+<b class="nc">&nbsp;        params.putAll(parseQuery(readerToString(isr, config.getMaxTextHardLength()), httpExchange));</b>
+<b class="nc">&nbsp;        params.putAll(parseQuery(requestedUri.getRawQuery(), httpExchange));  // POST requests can have query parameters, too</b>
+<b class="nc">&nbsp;        return params;</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      return parseQuery(requestedUri.getRawQuery(), httpExchange);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String readerToString(Reader reader, int maxTextLength) throws IOException {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    char[] chars = new char[4000];</b>
+&nbsp;    while (true) {
+<b class="nc">&nbsp;      int readBytes = reader.read(chars, 0, 4000);</b>
+<b class="nc">&nbsp;      if (readBytes &lt;= 0) {</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="nc">&nbsp;      int generousMaxLength = maxTextLength * 10;  // one character can be encoded as e.g. &quot;%D8&quot;, plus estimated space for sending data (JSON)</b>
+<b class="nc">&nbsp;      if (generousMaxLength &lt; 0) {  // might happen as it can overflow</b>
+<b class="nc">&nbsp;        generousMaxLength = Integer.MAX_VALUE;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (sb.length() &gt; 0 &amp;&amp; sb.length() &gt; generousMaxLength) {</b>
+&nbsp;        // don&#39;t stop at maxTextLength as that&#39;s the text length, but here also other parameters
+&nbsp;        // are included (still we need this check here so we don&#39;t OOM if someone posts a few hundred MB)...
+<b class="nc">&nbsp;        throw new TextTooLongException(&quot;Your text&#39;s length exceeds this server&#39;s hard limit of &quot; + generousMaxLength + &quot; characters.&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      sb.append(new String(chars, 0, readBytes));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  private Map&lt;String, String&gt; parseQuery(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; parameters = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (query != null) {</b>
+<b class="nc">&nbsp;      parameters.putAll(getParameterMap(query, httpExchange));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return parameters;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;String, String&gt; getParameterMap(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
+<b class="nc">&nbsp;    String[] pairs = StringUtils.split(query, &#39;&amp;&#39;);</b>
+<b class="nc">&nbsp;    Map&lt;String, String&gt; parameters = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String pair : pairs) {</b>
+<b class="nc">&nbsp;      int delimPos = pair.indexOf(&#39;=&#39;);</b>
+<b class="nc">&nbsp;      if (delimPos != -1) {</b>
+<b class="nc">&nbsp;        String param = pair.substring(0, delimPos);</b>
+<b class="nc">&nbsp;        String key = URLDecoder.decode(param, ENCODING);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);</b>
+<b class="nc">&nbsp;          parameters.put(key, value);</b>
+&nbsp;        } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;          throw new BadRequestException(&quot;Could not decode query. Query length: &quot; + query.length() +</b>
+<b class="nc">&nbsp;                                     &quot; Request method: &quot; + httpExchange.getRequestMethod());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return parameters;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,253 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MissingHyphenRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: MissingHyphenRule (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MissingHyphenRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.tagging.WordTagger;
+&nbsp;import org.languagetool.tagging.uk.PosTagHelper;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author Andriy Rysin
+&nbsp; */
+&nbsp;public class MissingHyphenRule extends Rule {
+&nbsp;
+&nbsp;  private static final String UA_1992_TAG_PART = &quot;:ua_1992&quot;;
+<b class="nc">&nbsp;  private static final Map&lt;String, String&gt; dashPrefixes = ExtraDictionaryLoader.loadMap(&quot;/uk/dash_prefixes.txt&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ALL_LOWER = Pattern.compile(&quot;[а-яіїєґ&#39;-]+&quot;);</b>
+&nbsp;  private WordTagger wordTagger;
+&nbsp;
+&nbsp;  static {
+&nbsp;    // these two generate too many false positives
+<b class="nc">&nbsp;    dashPrefixes.remove(&quot;блок&quot;);</b>
+<b class="nc">&nbsp;    dashPrefixes.remove(&quot;рейтинг&quot;);</b>
+<b class="nc">&nbsp;    dashPrefixes.entrySet().removeIf(entry -&gt; !ALL_LOWER.matcher(entry.getKey()).matches() || entry.getValue().contains(&quot;:bad&quot;) );</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MissingHyphenRule(ResourceBundle messages, WordTagger wordTagger) throws IOException {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="nc">&nbsp;    this.wordTagger = wordTagger;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;UK_MISSING_HYPHEN&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Пропущений дефіс&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length-1; i++) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings tokenReadings = tokens[i];</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings nextTokenReadings = tokens[i + 1];</b>
+&nbsp;      
+&nbsp;
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTagStart(nextTokenReadings, &quot;noun&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; ! PosTagHelper.hasPosTagPart(nextTokenReadings, &quot;&amp;pron&quot;)</b>
+&nbsp;          //    &amp;&amp; ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile(&quot;^(?!noun).*&quot;))
+<b class="nc">&nbsp;          &amp;&amp; ALL_LOWER.matcher(nextTokenReadings.getCleanToken()).matches() ) {</b>
+&nbsp;
+<b class="nc">&nbsp;        boolean isCapitalized = LemmaHelper.isCapitalized(tokenReadings.getCleanToken());</b>
+&nbsp;
+<b class="nc">&nbsp;        String extraTag = getPrefixExtraTag(tokenReadings, isCapitalized);</b>
+<b class="nc">&nbsp;        if ( extraTag != null</b>
+<b class="nc">&nbsp;            || (tokenReadings.getCleanToken().toLowerCase().equals(&quot;тайм&quot;)</b>
+<b class="nc">&nbsp;                &amp;&amp; LemmaHelper.hasLemma(nextTokenReadings, &quot;аут&quot;)) ) {</b>
+&nbsp;
+&nbsp;          // всі медіа країни
+<b class="nc">&nbsp;          if( &quot;медіа&quot;.equalsIgnoreCase(tokenReadings.getCleanToken()) </b>
+<b class="nc">&nbsp;              &amp;&amp; nextTokenReadings.getCleanToken().matches(&quot;країни|півострова&quot;))</b>
+&nbsp;            continue;
+&nbsp;          
+&nbsp;          String suggested;
+&nbsp;          String message;
+&nbsp;          
+<b class="nc">&nbsp;          if( UA_1992_TAG_PART.equals(extraTag) ) {</b>
+<b class="nc">&nbsp;            suggested = String.format(&quot;%s%s&quot;, tokenReadings.getToken(), nextTokenReadings.getToken());</b>
+<b class="nc">&nbsp;            message = &quot;Можливо, зайвий пробіл?&quot;;</b>
+&nbsp;          }
+&nbsp;          else {
+<b class="nc">&nbsp;            suggested = String.format(&quot;%s-%s&quot;, tokenReadings.getToken(), nextTokenReadings.getToken());</b>
+<b class="nc">&nbsp;            message = &quot;Можливо, пропущено дефіс?&quot;;</b>
+&nbsp;          }
+&nbsp;          
+<b class="nc">&nbsp;          String tokenToCheck = isCapitalized ? StringUtils.uncapitalize(suggested) : suggested;</b>
+&nbsp;
+<b class="nc">&nbsp;          if (wordTagger.tag(tokenToCheck).size() &gt; 0</b>
+<b class="nc">&nbsp;              || (UA_1992_TAG_PART.equals(extraTag) &amp;&amp; PosTagHelper.hasPosTagPart(nextTokenReadings, UA_1992_TAG_PART)) ) {</b>
+<b class="nc">&nbsp;            RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(),</b>
+<b class="nc">&nbsp;                nextTokenReadings.getEndPos(), message, getDescription());</b>
+<b class="nc">&nbsp;            potentialRuleMatch.setSuggestedReplacement(suggested);</b>
+&nbsp;
+<b class="nc">&nbsp;            ruleMatches.add(potentialRuleMatch);</b>
+&nbsp;          }
+&nbsp;
+&nbsp;        }
+&nbsp;      }      
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return ruleMatches.toArray(new RuleMatch[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getPrefixExtraTag(AnalyzedTokenReadings tokenReadings, boolean isCapitalized) {
+<b class="nc">&nbsp;    String token = tokenReadings.getToken();</b>
+<b class="nc">&nbsp;    if( isCapitalized ) {</b>
+<b class="nc">&nbsp;      token = StringUtils.uncapitalize(token);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return dashPrefixes.get(token);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,341 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AvsAnRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: AvsAnRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AvsAnRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/78)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/78)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AvsAnRule$Determiner</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/78)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/80)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;import static org.languagetool.rules.en.AvsAnData.getWordsRequiringA;
+&nbsp;import static org.languagetool.rules.en.AvsAnData.getWordsRequiringAn;
+&nbsp;
+&nbsp;/**
+&nbsp; * Check if the determiner (if any) preceding a word is:
+&nbsp; * &lt;ul&gt;
+&nbsp; *   &lt;li&gt;&lt;i&gt;an&lt;/i&gt; if the next word starts with a vowel
+&nbsp; *   &lt;li&gt;&lt;i&gt;a&lt;/i&gt; if the next word does not start with a vowel
+&nbsp; * &lt;/ul&gt;
+&nbsp; *  This rule loads some exceptions from external files {@code det_a.txt} and
+&nbsp; *  {@code det_an.txt} (e.g. for &lt;i&gt;an hour&lt;/i&gt;).
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class AvsAnRule extends Rule {
+&nbsp;
+<b class="nc">&nbsp;  enum Determiner {</b>
+<b class="nc">&nbsp;    A, AN, A_OR_AN, UNKNOWN</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern cleanupPattern = compile(&quot;[^αa-zA-Z0-9.;,:&#39;]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern delimPattern = compile(&quot;[-\&quot;“&#39;‘()\\[\\]]+&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern dashQuotePattern = compile(&quot;[-&#39;]&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  public AvsAnRule(ResourceBundle messages) {</b>
+<b class="nc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="nc">&nbsp;    setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/post/indefinite-articles/&quot;));</b>
+<b class="nc">&nbsp;    addExamplePair(Example.wrong(&quot;The train arrived &lt;marker&gt;a hour&lt;/marker&gt; ago.&quot;),</b>
+<b class="nc">&nbsp;                   Example.fixed(&quot;The train arrived &lt;marker&gt;an hour&lt;/marker&gt; ago.&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;EN_A_VS_AN&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Use of &#39;a&#39; vs. &#39;an&#39;&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    int prevTokenIndex = 0;</b>
+&nbsp;    boolean isSentenceStart;
+&nbsp;    boolean equalsA;
+&nbsp;    boolean equalsAn;
+<b class="nc">&nbsp;    for (int i = 1; i &lt; tokens.length; i++) {  // ignoring token 0, i.e., SENT_START</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings token = tokens[i];</b>
+<b class="nc">&nbsp;      String prevTokenStr = prevTokenIndex &gt; 0 ? tokens[prevTokenIndex].getToken() : null;</b>
+<b class="nc">&nbsp;      isSentenceStart = prevTokenIndex == 1;</b>
+<b class="nc">&nbsp;      if (!isSentenceStart) {</b>
+<b class="nc">&nbsp;        equalsA = &quot;a&quot;.equals(prevTokenStr);</b>
+<b class="nc">&nbsp;        equalsAn = &quot;an&quot;.equals(prevTokenStr);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;      	equalsA = &quot;a&quot;.equalsIgnoreCase(prevTokenStr);</b>
+<b class="nc">&nbsp;        equalsAn = &quot;an&quot;.equalsIgnoreCase(prevTokenStr);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (equalsA || equalsAn) {</b>
+<b class="nc">&nbsp;        Determiner determiner = getCorrectDeterminerFor(token);</b>
+<b class="nc">&nbsp;        String msg = null;</b>
+<b class="nc">&nbsp;        if (equalsA &amp;&amp; determiner == Determiner.AN) {</b>
+<b class="nc">&nbsp;          String replacement = StringTools.startsWithUppercase(prevTokenStr) ? &quot;An&quot; : &quot;an&quot;;</b>
+<b class="nc">&nbsp;          msg = &quot;Use &lt;suggestion&gt;&quot; + replacement + &quot;&lt;/suggestion&gt; instead of &#39;&quot; + prevTokenStr + &quot;&#39; if the following &quot;+</b>
+&nbsp;                  &quot;word starts with a vowel sound, e.g. &#39;an article&#39;, &#39;an hour&#39;.&quot;;
+<b class="nc">&nbsp;        } else if (equalsAn &amp;&amp; determiner == Determiner.A) {</b>
+<b class="nc">&nbsp;          String replacement = StringTools.startsWithUppercase(prevTokenStr) ? &quot;A&quot; : &quot;a&quot;;</b>
+<b class="nc">&nbsp;          msg = &quot;Use &lt;suggestion&gt;&quot; + replacement + &quot;&lt;/suggestion&gt; instead of &#39;&quot; + prevTokenStr + &quot;&#39; if the following &quot;+</b>
+&nbsp;                  &quot;word doesn&#39;t start with a vowel sound, e.g. &#39;a sentence&#39;, &#39;a university&#39;.&quot;;
+&nbsp;        }
+<b class="nc">&nbsp;        if (msg != null) {</b>
+<b class="nc">&nbsp;          RuleMatch match = new RuleMatch(</b>
+<b class="nc">&nbsp;              this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(),</b>
+<b class="nc">&nbsp;                  tokens[prevTokenIndex].getStartPos(), token.getEndPos(), msg, &quot;Wrong article&quot;);</b>
+<b class="nc">&nbsp;          ruleMatches.add(match);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      String nextToken = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (i + 1 &lt; tokens.length) {</b>
+<b class="nc">&nbsp;        nextToken = tokens[i + 1].getToken();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (token.hasPosTag(&quot;DT&quot;)) {</b>
+<b class="nc">&nbsp;        prevTokenIndex = i;</b>
+<b class="nc">&nbsp;      } else if (nextToken.length() &gt; 1 &amp;&amp; delimPattern.matcher(token.getToken()).matches()) {</b>
+&nbsp;        // skip e.g. the quote in &gt;&gt;an &quot;industry party&quot;&lt;&lt;
+&nbsp;      } else {
+<b class="nc">&nbsp;        prevTokenIndex = 0;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Adds &quot;a&quot; or &quot;an&quot; to the English noun. Used for suggesting the proper form of the indefinite article.
+&nbsp;   * For the rare cases where both &quot;a&quot; and &quot;an&quot; are considered okay (e.g. for &quot;historical&quot;), &quot;a&quot; is returned.
+&nbsp;   * @param origWord Word that needs an article.
+&nbsp;   * @return String containing the word with a determiner, or just the word if the word is an abbreviation.
+&nbsp;   */
+&nbsp;  public String suggestAorAn(String origWord) {
+<b class="nc">&nbsp;    AnalyzedTokenReadings token = new AnalyzedTokenReadings(new AnalyzedToken(origWord, null, null), 0);</b>
+<b class="nc">&nbsp;    Determiner determiner = getCorrectDeterminerFor(token);</b>
+<b class="nc">&nbsp;    if (determiner == Determiner.A || determiner == Determiner.A_OR_AN) {</b>
+<b class="nc">&nbsp;      return &quot;a &quot; + StringTools.lowercaseFirstCharIfCapitalized(origWord);</b>
+<b class="nc">&nbsp;    } else if (determiner == Determiner.AN) {</b>
+<b class="nc">&nbsp;      return &quot;an &quot; + StringTools.lowercaseFirstCharIfCapitalized(origWord);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return origWord;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static Determiner getCorrectDeterminerFor(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    String word = token.getToken();</b>
+<b class="nc">&nbsp;    Determiner determiner = Determiner.UNKNOWN;</b>
+<b class="nc">&nbsp;    String[] parts = dashQuotePattern.split(word);  // for example, in &quot;one-way&quot; only &quot;one&quot; is relevant</b>
+<b class="nc">&nbsp;    if (parts.length &gt;= 1 &amp;&amp; !parts[0].equalsIgnoreCase(&quot;a&quot;)) {  // avoid false alarm on &quot;A-levels are...&quot;</b>
+<b class="nc">&nbsp;      word = parts[0];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (token.isWhitespaceBefore() || !&quot;-&quot;.equals(word)) { // e.g., &#39;a- or anti- are prefixes&#39;</b>
+<b class="nc">&nbsp;      word = cleanupPattern.matcher(word).replaceAll(&quot;&quot;);         // e.g. &gt;&gt;an &quot;industry party&quot;&lt;&lt;</b>
+<b class="nc">&nbsp;      if (StringTools.isEmpty(word)) {</b>
+<b class="nc">&nbsp;        return Determiner.UNKNOWN;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (getWordsRequiringA().contains(word.toLowerCase()) || getWordsRequiringA().contains(word)) {</b>
+<b class="nc">&nbsp;      determiner = Determiner.A;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (getWordsRequiringAn().contains(word.toLowerCase()) || getWordsRequiringAn().contains(word)) {</b>
+<b class="nc">&nbsp;      if (determiner == Determiner.A) {</b>
+<b class="nc">&nbsp;        determiner = Determiner.A_OR_AN;   // e.g. for &#39;historical&#39;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        determiner = Determiner.AN;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (determiner == Determiner.UNKNOWN) {</b>
+<b class="nc">&nbsp;      char tokenFirstChar = word.charAt(0);</b>
+<b class="nc">&nbsp;      if (StringTools.isAllUppercase(word) || StringTools.isMixedCase(word)) {</b>
+&nbsp;        // we don&#39;t know how all-uppercase words (often abbreviations) are pronounced,
+&nbsp;        // so never complain about these
+<b class="nc">&nbsp;        determiner = Determiner.UNKNOWN;</b>
+<b class="nc">&nbsp;      } else if (isVowel(tokenFirstChar)) {</b>
+<b class="nc">&nbsp;        determiner = Determiner.AN;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        determiner = Determiner.A;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return determiner;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isVowel(char c) {
+<b class="nc">&nbsp;    char lc = Character.toLowerCase(c);</b>
+<b class="nc">&nbsp;    return lc == &#39;a&#39; || lc == &#39;e&#39; || lc == &#39;i&#39; || lc == &#39;o&#39; || lc == &#39;u&#39;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

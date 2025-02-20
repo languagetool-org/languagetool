@@ -1,0 +1,309 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PortugueseWordTokenizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: PortugueseWordTokenizer (org.languagetool.tokenizers.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PortugueseWordTokenizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.2%
+  </span>
+  <span class="absValue">
+    (41/56)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.3%
+  </span>
+  <span class="absValue">
+    (62/71)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tokenizers.pt;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.tagging.pt.PortugueseTagger;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.*;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
+&nbsp; *
+&nbsp; * @author Tiago F. Santos
+&nbsp; * @since 3.6
+&nbsp; */
+&nbsp;public class PortugueseWordTokenizer extends WordTokenizer {
+&nbsp;
+&nbsp;  private final PortugueseTagger tagger;
+&nbsp;
+&nbsp;  // Section copied from UkranianWordTokenizer.java for handling exceptions
+&nbsp;  private static final char DECIMAL_COMMA_SUBST = &#39;\uE001&#39;; // some unused character to hide comma in decimal number temporary for tokenizer run
+&nbsp;  private static final char NON_BREAKING_SPACE_SUBST = &#39;\uE002&#39;;
+&nbsp;  private static final char NON_BREAKING_DOT_SUBST = &#39;\uE003&#39;; // some unused character to hide dot in date temporary for tokenizer run
+&nbsp;  private static final char NON_BREAKING_COLON_SUBST = &#39;\uE004&#39;;
+&nbsp;  private static final String HYPHEN_SUBST_TEXT = &quot;\u0001\u0001PT_HYPHEN\u0001\u0001&quot;;
+<b class="fc">&nbsp;  private static final Pattern HYPHEN_SUBST = compile(HYPHEN_SUBST_TEXT);</b>
+&nbsp;
+&nbsp;  // decimal comma between digits
+<b class="fc">&nbsp;  private static final Pattern DECIMAL_COMMA_PATTERN = compile(&quot;([\\d]),([\\d])&quot;, CASE_INSENSITIVE| UNICODE_CASE);</b>
+&nbsp;  private static final String DECIMAL_COMMA_REPL = &quot;$1&quot; + DECIMAL_COMMA_SUBST + &quot;$2&quot;;
+&nbsp;
+&nbsp;  // space between digits
+<b class="fc">&nbsp;  private static final Pattern DECIMAL_SPACE_PATTERN = compile(&quot;(?&lt;=^|[\\s(])\\d{1,3}( \\d{3})+(?:[&quot; + DECIMAL_COMMA_SUBST + NON_BREAKING_DOT_SUBST + &quot;]\\d+)?(?=\\D|$)&quot;, CASE_INSENSITIVE|UNICODE_CASE);</b>
+&nbsp;
+&nbsp;  // dots in numbers
+<b class="fc">&nbsp;  private static final Pattern DOTTED_NUMBERS_PATTERN = compile(&quot;([\\d])\\.([\\d])&quot;, CASE_INSENSITIVE| UNICODE_CASE);</b>
+&nbsp;  private static final String DOTTED_NUMBERS_REPL = &quot;$1&quot; + NON_BREAKING_DOT_SUBST + &quot;$2&quot;;
+&nbsp;
+&nbsp;  // colon in numbers
+<b class="fc">&nbsp;  private static final Pattern COLON_NUMBERS_PATTERN = compile(&quot;([\\d]):([\\d])&quot;, CASE_INSENSITIVE| UNICODE_CASE);</b>
+&nbsp;  private static final String COLON_NUMBERS_REPL = &quot;$1&quot; + NON_BREAKING_COLON_SUBST + &quot;$2&quot;;
+&nbsp;
+&nbsp;  // dates
+<b class="fc">&nbsp;  private static final Pattern DATE_PATTERN = compile(&quot;([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})|([\\d]{4})\\.([\\d]{2})\\.([\\d]{2})|([\\d]{4})-([\\d]{2})-([\\d]{2})&quot;, CASE_INSENSITIVE| UNICODE_CASE);</b>
+&nbsp;  private static final String DATE_PATTERN_REPL = &quot;$1&quot; + NON_BREAKING_DOT_SUBST + &quot;$2&quot; + NON_BREAKING_DOT_SUBST + &quot;$3&quot;;
+&nbsp;  // END of Section copied from UkranianWordTokenizer.java for handling exceptions
+&nbsp;
+&nbsp;  // dots in ordinals
+<b class="fc">&nbsp;  private static final Pattern DOTTED_ORDINALS_PATTERN = compile(&quot;([\\d])\\.([aoªºᵃᵒ][sˢ]?)&quot;, CASE_INSENSITIVE| UNICODE_CASE);</b>
+&nbsp;  private static final String DOTTED_ORDINALS_REPL = &quot;$1&quot; + NON_BREAKING_DOT_SUBST + &quot;$2&quot;;
+&nbsp;
+&nbsp;  // hyphens inside words
+<b class="fc">&nbsp;  private static final Pattern HYPHEN_PATTERN = compile(&quot;([\\p{L}])-([\\p{L}\\d])&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="fc">&nbsp;  private static final String HYPHEN_REPL = &quot;$1&quot; + HYPHEN_SUBST + &quot;$2&quot;;</b>
+<b class="fc">&nbsp;  private static final Pattern NEARBY_HYPHENS_PATTERN = compile(&quot;([\\p{L}])-([\\p{L}])-([\\p{L}])&quot;, CASE_INSENSITIVE | UNICODE_CASE);</b>
+<b class="fc">&nbsp;  private static final String NEARBY_HYPHENS_REPL = &quot;$1&quot; + HYPHEN_SUBST + &quot;$2&quot; + HYPHEN_SUBST + &quot;$3&quot;;</b>
+&nbsp;  // \u0300-\u036F is the range of combining diacritical marks
+&nbsp;  // \u00A8 is the diaeresis
+&nbsp;  // \u2070-\u209F is the range of superscript characters
+&nbsp;  // The degree sign is included in the word characters, as it is used in temperatures and angles, and can appear
+&nbsp;  // in the middle of a token, e.g. &quot;30°C&quot;.
+<b class="fc">&nbsp;  private final String wordChars = &quot;°\\^\\-\\p{L}\\d\\u0300-\\u036F\\u00A8\\u2070-\\u209F&quot; + DECIMAL_COMMA_SUBST +</b>
+&nbsp;    NON_BREAKING_DOT_SUBST + NON_BREAKING_COLON_SUBST + NON_BREAKING_SPACE_SUBST + HYPHEN_SUBST;
+&nbsp;  // The following characters might be included at some point, but, to preserve the current behaviour, they aren&#39;t:
+&nbsp;  // - ©®™
+&nbsp;  // - # (hashtags)
+&nbsp;  // This leads to some inconsistencies, e.g. &#39;@user&#39; is tokenised as &#39;@user&#39;, but &#39;#hashtag&#39; as &#39;#&#39; + &#39;hashtag&#39;.
+<b class="fc">&nbsp;  private final String wordCharsLeftEdge = &quot;−@€£\\$¢¥¤&quot;;</b>
+<b class="fc">&nbsp;  private final String wordCharsRightEdge = &quot;€£\\$%‰‱ºªᵃᵒˢ&quot;;</b>
+<b class="fc">&nbsp;  private final Pattern wordPattern = compile(</b>
+&nbsp;    &quot;[&quot; + wordCharsLeftEdge + &quot;]?[&quot; + wordChars + &quot;]+[&quot; + wordCharsRightEdge + &quot;]?|&quot; +
+&nbsp;      &quot;[^&quot; + wordChars + &quot;]&quot;,
+&nbsp;    CASE_INSENSITIVE | UNICODE_CASE
+&nbsp;  );
+&nbsp;
+<b class="fc">&nbsp;  public PortugueseWordTokenizer() {</b>
+<b class="fc">&nbsp;    tagger = new PortugueseTagger();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; tokenize(final String text) {
+<b class="fc">&nbsp;    String tokenisedText = text;  // it&#39;s really bad practice to reassign method params imo...</b>
+&nbsp;
+<b class="fc">&nbsp;    if (tokenisedText.contains(&quot;,&quot;)) {</b>
+<b class="fc">&nbsp;      tokenisedText = DECIMAL_COMMA_PATTERN.matcher(tokenisedText).replaceAll(DECIMAL_COMMA_REPL);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // if period is not the last character in the sentence
+<b class="fc">&nbsp;    int dotIndex = tokenisedText.indexOf(&#39;.&#39;);</b>
+<b class="fc">&nbsp;    boolean dotInsideSentence = dotIndex &gt;= 0 &amp;&amp; dotIndex &lt; tokenisedText.length() - 1;</b>
+<b class="fc">&nbsp;    if (dotInsideSentence) {</b>
+<b class="fc">&nbsp;      tokenisedText = DATE_PATTERN.matcher(tokenisedText).replaceAll(DATE_PATTERN_REPL);</b>
+<b class="fc">&nbsp;      tokenisedText = DOTTED_NUMBERS_PATTERN.matcher(tokenisedText).replaceAll(DOTTED_NUMBERS_REPL);</b>
+<b class="fc">&nbsp;      tokenisedText = DOTTED_ORDINALS_PATTERN.matcher(tokenisedText).replaceAll(DOTTED_ORDINALS_REPL);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // 2 000 000
+<b class="fc">&nbsp;    Matcher spacedDecimalMatcher = DECIMAL_SPACE_PATTERN.matcher(tokenisedText);</b>
+<b class="pc">&nbsp;    if (spacedDecimalMatcher.find()) {</b>
+<b class="nc">&nbsp;      StringBuffer sb = new StringBuffer();</b>
+&nbsp;      do {
+<b class="nc">&nbsp;        String splitNumber = spacedDecimalMatcher.group(0);</b>
+<b class="nc">&nbsp;        String splitNumberAdjusted = splitNumber.replace(&#39; &#39;, NON_BREAKING_SPACE_SUBST);</b>
+<b class="nc">&nbsp;        splitNumberAdjusted = splitNumberAdjusted.replace(&#39;\u00A0&#39;, NON_BREAKING_SPACE_SUBST);</b>
+<b class="nc">&nbsp;        spacedDecimalMatcher.appendReplacement(sb, splitNumberAdjusted);</b>
+<b class="nc">&nbsp;      } while (spacedDecimalMatcher.find());</b>
+<b class="nc">&nbsp;      spacedDecimalMatcher.appendTail(sb);</b>
+<b class="nc">&nbsp;      tokenisedText = sb.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // 12:25
+<b class="fc">&nbsp;    if (tokenisedText.contains(&quot;:&quot;)) {</b>
+<b class="fc">&nbsp;      tokenisedText = COLON_NUMBERS_PATTERN.matcher(tokenisedText).replaceAll(COLON_NUMBERS_REPL);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (tokenisedText.contains(&quot;-&quot;)) {</b>
+<b class="fc">&nbsp;      tokenisedText = NEARBY_HYPHENS_PATTERN.matcher(tokenisedText).replaceAll(NEARBY_HYPHENS_REPL);</b>
+<b class="fc">&nbsp;      tokenisedText = HYPHEN_PATTERN.matcher(tokenisedText).replaceAll(HYPHEN_REPL);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    List&lt;String&gt; tokenList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    Matcher tokeniserMatcher = wordPattern.matcher(tokenisedText);</b>
+<b class="fc">&nbsp;    while (tokeniserMatcher.find()) {</b>
+<b class="fc">&nbsp;      String token = tokeniserMatcher.group();</b>
+&nbsp;      // 0xFE00-0xFE0F are non-spacing marks
+<b class="pc">&nbsp;      if (!tokenList.isEmpty() &amp;&amp; token.length() == 1 &amp;&amp; token.codePointAt(0)&gt;=0xFE00 &amp;&amp; token.codePointAt(0)&lt;=0xFE0F) {</b>
+<b class="fc">&nbsp;        tokenList.set(tokenList.size() - 1, tokenList.get(tokenList.size() - 1) + token);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      token = token.replace(DECIMAL_COMMA_SUBST, &#39;,&#39;);</b>
+<b class="fc">&nbsp;      token = token.replace(NON_BREAKING_COLON_SUBST, &#39;:&#39;);</b>
+<b class="fc">&nbsp;      token = token.replace(NON_BREAKING_SPACE_SUBST, &#39; &#39;);</b>
+&nbsp;      // outside of if as we also replace back sentence-ending abbreviations
+<b class="fc">&nbsp;      token = token.replace(NON_BREAKING_DOT_SUBST, &#39;.&#39;);</b>
+<b class="fc">&nbsp;      token = token.replace(HYPHEN_SUBST_TEXT, &quot;-&quot;);</b>
+<b class="fc">&nbsp;      tokenList.addAll(wordsToAdd(token));</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return joinEMailsAndUrls(tokenList);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* Splits a word containing hyphen(-) if it doesn&#39;t exist in the dictionary. */
+&nbsp;  private List&lt;String&gt; wordsToAdd(String s) {
+<b class="fc">&nbsp;    final List&lt;String&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (!s.isEmpty()) {</b>
+<b class="pc">&nbsp;      if (isCurrencyExpression(s)) {</b>
+<b class="nc">&nbsp;        l.addAll(splitCurrencyExpression(s));</b>
+<b class="fc">&nbsp;      } else if (!s.contains(&quot;-&quot;)) {</b>
+<b class="fc">&nbsp;        l.add(s);</b>
+&nbsp;      } else {
+&nbsp;        // words containing hyphen (-) are looked up in the dictionary
+<b class="fc">&nbsp;        if (tagger.tag(Arrays.asList(s.replace(&quot;’&quot;, &quot;&#39;&quot;))).get(0).isTagged()) {</b>
+&nbsp;          // In the current POS tag, most apostrophes are curly: to be fixed
+<b class="fc">&nbsp;          l.add(s);</b>
+&nbsp;        }
+&nbsp;        // some camel-case words containing hyphen (is there any better fix?)
+<b class="pc">&nbsp;        else if (s.equalsIgnoreCase(&quot;mers-cov&quot;) || s.equalsIgnoreCase(&quot;mcgraw-hill&quot;)</b>
+<b class="pc">&nbsp;          || s.equalsIgnoreCase(&quot;sars-cov-2&quot;) || s.equalsIgnoreCase(&quot;sars-cov&quot;) || s.equalsIgnoreCase(&quot;ph-metre&quot;)</b>
+<b class="pc">&nbsp;          || s.equalsIgnoreCase(&quot;ph-metres&quot;) || s.equalsIgnoreCase(&quot;anti-ivg&quot;) || s.equalsIgnoreCase(&quot;anti-uv&quot;)</b>
+<b class="pc">&nbsp;          || s.equalsIgnoreCase(&quot;anti-vih&quot;) || s.equalsIgnoreCase(&quot;al-qaïda&quot;)) {</b>
+<b class="fc">&nbsp;          l.add(s);</b>
+&nbsp;        } else {
+&nbsp;          // if not found, the word is split
+<b class="fc">&nbsp;          final StringTokenizer st2 = new StringTokenizer(s, &quot;-&quot;, true);</b>
+<b class="fc">&nbsp;          while (st2.hasMoreElements()) {</b>
+<b class="fc">&nbsp;            l.add(st2.nextToken());</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return l;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

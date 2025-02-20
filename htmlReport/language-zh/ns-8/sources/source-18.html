@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > NGramUrlGenerator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: NGramUrlGenerator (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NGramUrlGenerator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.language.AmericanEnglish;
+&nbsp;import org.languagetool.rules.ConfusionPair;
+&nbsp;import org.languagetool.rules.ConfusionSetLoader;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Generate URLs for the confusion set to download the parts of Google&#39;s ngram corpus (v2)
+&nbsp; * that we need to cover the confusion set.
+&nbsp; * @since 2.7
+&nbsp; */
+&nbsp;@SuppressWarnings(&quot;DynamicRegexReplaceableByCompiledPattern&quot;)
+&nbsp;final class NGramUrlGenerator {
+&nbsp;
+&nbsp;  private NGramUrlGenerator() {}
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    String url = &quot;http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-4gram-20120701-&lt;XX&gt;.gz&quot;;</b>
+<b class="nc">&nbsp;    String chars = &quot;abcdefghijklmnopqrstuvwxyz&quot;;</b>
+<b class="nc">&nbsp;    String chars2 = &quot;abcdefghijklmnopqrstuvwxyz_&quot;;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt;= 9; i++) {</b>
+<b class="nc">&nbsp;      System.out.println(url.replace(&quot;&lt;XX&gt;&quot;, String.valueOf(i)));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (int i = 0; i &lt; chars.length(); i++) {</b>
+<b class="nc">&nbsp;      for (int j = 0; j &lt; chars2.length(); j++) {</b>
+<b class="nc">&nbsp;        String name = String.valueOf(chars.charAt(i)) + chars2.charAt(j);</b>
+<b class="nc">&nbsp;        System.out.println(url.replace(&quot;&lt;XX&gt;&quot;, name));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(url.replace(&quot;&lt;XX&gt;&quot;, &quot;punctuation&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void mainDownloadSome(String[] args) throws IOException {
+<b class="nc">&nbsp;    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(AmericanEnglish.getInstance());</b>
+<b class="nc">&nbsp;    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(&quot;/en/homophones.txt&quot;);</b>
+<b class="nc">&nbsp;    Map&lt;String,List&lt;ConfusionPair&gt;&gt; map = confusionSetLoader.loadConfusionPairs(inputStream);</b>
+<b class="nc">&nbsp;    String url = &quot;http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-2gram-20120701-&lt;XX&gt;.gz&quot;;</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; nameSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String s : map.keySet()) {</b>
+<b class="nc">&nbsp;      if (s.length() &lt; 2) {</b>
+<b class="nc">&nbsp;        nameSet.add(s.substring(0, 1).toLowerCase() + &quot;_&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        nameSet.add(s.substring(0, 2).toLowerCase());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; nameList = new ArrayList&lt;&gt;(nameSet);</b>
+<b class="nc">&nbsp;    Collections.sort(nameList);</b>
+<b class="nc">&nbsp;    for (String name : nameList) {</b>
+<b class="nc">&nbsp;      System.out.println(url.replace(&quot;&lt;XX&gt;&quot;, name));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.err.println(&quot;Number of files: &quot; + nameList.size());</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

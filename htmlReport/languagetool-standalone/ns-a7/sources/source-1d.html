@@ -1,0 +1,567 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Tools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: Tools (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Tools</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55%
+  </span>
+  <span class="absValue">
+    (11/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18%
+  </span>
+  <span class="absValue">
+    (23/128)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37.1%
+  </span>
+  <span class="absValue">
+    (59/159)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.bitext.BitextRule;
+&nbsp;import org.languagetool.rules.patterns.PasswordAuthenticator;
+&nbsp;import org.languagetool.rules.patterns.bitext.*;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;import javax.xml.parsers.ParserConfigurationException;
+&nbsp;import java.io.*;
+&nbsp;import java.lang.reflect.Constructor;
+&nbsp;import java.net.*;
+&nbsp;import java.text.MessageFormat;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;public final class Tools {
+&nbsp;
+<b class="fc">&nbsp;  private static LinguServices linguServices = null;</b>
+&nbsp;  
+&nbsp;  private Tools() {
+&nbsp;    // cannot construct, static methods only
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Translate a text string based on our i18n files.
+&nbsp;   * @since 3.1
+&nbsp;   */
+&nbsp;  public static String i18n(ResourceBundle messages, String key, Object... messageArguments) {
+<b class="fc">&nbsp;    MessageFormat formatter = new MessageFormat(&quot;&quot;);</b>
+<b class="fc">&nbsp;    formatter.applyPattern(messages.getString(key));</b>
+<b class="fc">&nbsp;    return formatter.format(messageArguments);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks the bilingual input (bitext).
+&nbsp;   *
+&nbsp;   * @param src   Source text.
+&nbsp;   * @param trg   Target text.
+&nbsp;   * @param srcLt Source JLanguageTool (used to analyze the text).
+&nbsp;   * @param trgLt Target JLanguageTool (used to analyze the text).
+&nbsp;   * @param bRules  Bilingual rules used in addition to target standard rules.  
+&nbsp;   * @return  The list of rule matches on the bitext.
+&nbsp;   * @since 1.0.1
+&nbsp;   */
+&nbsp;  public static List&lt;RuleMatch&gt; checkBitext(String src, String trg,
+&nbsp;                                            JLanguageTool srcLt, JLanguageTool trgLt,
+&nbsp;                                            List&lt;BitextRule&gt; bRules) throws IOException {
+<b class="fc">&nbsp;    AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);</b>
+<b class="fc">&nbsp;    AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);</b>
+<b class="fc">&nbsp;    List&lt;Rule&gt; nonBitextRules = trgLt.getAllActiveRules();</b>
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL, nonBitextRules, trgText, true);</b>
+<b class="fc">&nbsp;    for (BitextRule bRule : bRules) {</b>
+<b class="fc">&nbsp;      RuleMatch[] curMatch = bRule.match(srcText, trgText);</b>
+<b class="pc">&nbsp;      if (curMatch != null &amp;&amp; curMatch.length &gt; 0) {</b>
+&nbsp;        // adjust positions for bitext rules
+<b class="fc">&nbsp;        for (RuleMatch match : curMatch) {</b>
+<b class="pc">&nbsp;          if (match.getColumn() &lt; 0) {</b>
+<b class="fc">&nbsp;            match.setColumn(1);</b>
+&nbsp;          }
+<b class="pc">&nbsp;          if (match.getEndColumn() &lt; 0) {</b>
+<b class="fc">&nbsp;            match.setEndColumn(trg.length() + 1); // we count from 0</b>
+&nbsp;          }
+<b class="pc">&nbsp;          if (match.getLine() &lt; 0) {</b>
+<b class="fc">&nbsp;            match.setLine(1);</b>
+&nbsp;          }
+<b class="pc">&nbsp;          if (match.getEndLine() &lt; 0) {</b>
+<b class="fc">&nbsp;            match.setEndLine(1);</b>
+&nbsp;          }
+<b class="fc">&nbsp;          ruleMatches.add(match);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return ruleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** 
+&nbsp;   * Gets default bitext rules for a given pair of languages
+&nbsp;   * @param source  Source language.
+&nbsp;   * @param target  Target language.
+&nbsp;   * @return  List of Bitext rules
+&nbsp;   */
+&nbsp;  public static List&lt;BitextRule&gt; getBitextRules(Language source,
+&nbsp;      Language target) throws IOException, ParserConfigurationException, SAXException {
+<b class="fc">&nbsp;    return getBitextRules(source, target, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets default bitext rules for a given pair of languages
+&nbsp;   * @param source  Source language.
+&nbsp;   * @param target  Target language.
+&nbsp;   * @param externalBitextRuleFile external file with bitext rules
+&nbsp;   * @return  List of Bitext rules
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public static List&lt;BitextRule&gt; getBitextRules(Language source,
+&nbsp;      Language target, File externalBitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
+<b class="fc">&nbsp;    List&lt;BitextRule&gt; bRules = new ArrayList&lt;&gt;();</b>
+&nbsp;    //try to load the bitext pattern rules for the language...
+<b class="fc">&nbsp;    BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          </b>
+<b class="fc">&nbsp;    String name = &quot;/&quot; + target.getShortCode() + &quot;/bitext.xml&quot;;</b>
+<b class="pc">&nbsp;    if (JLanguageTool.getDataBroker().ruleFileExists(name)) {</b>
+<b class="fc">&nbsp;      InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);</b>
+<b class="pc">&nbsp;      if (is != null) {</b>
+<b class="fc">&nbsp;        bRules.addAll(ruleLoader.getRules(is, name));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (externalBitextRuleFile != null) {</b>
+<b class="nc">&nbsp;      bRules.addAll(ruleLoader.getRules(new FileInputStream(externalBitextRuleFile), externalBitextRuleFile.getAbsolutePath()));</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    //load the false friend rules in the bitext mode:
+<b class="fc">&nbsp;    FalseFriendsAsBitextLoader fRuleLoader = new FalseFriendsAsBitextLoader();</b>
+<b class="fc">&nbsp;    String falseFriendsFile = &quot;/false-friends.xml&quot;;</b>
+<b class="fc">&nbsp;    List&lt;BitextPatternRule&gt; rules = fRuleLoader.getFalseFriendsAsBitext(falseFriendsFile, source, target);</b>
+<b class="fc">&nbsp;    bRules.addAll(rules);</b>
+&nbsp;
+&nbsp;    //load Java bitext rules:
+<b class="fc">&nbsp;    bRules.addAll(getAllBuiltinBitextRules(source, null));</b>
+<b class="fc">&nbsp;    return bRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Use reflection to add bitext rules.
+&nbsp;   */
+&nbsp;  private static List&lt;BitextRule&gt; getAllBuiltinBitextRules(Language language,
+&nbsp;      ResourceBundle messages) {
+<b class="fc">&nbsp;    List&lt;BitextRule&gt; rules = new ArrayList&lt;&gt;();</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      List&lt;Class&lt;? extends BitextRule&gt;&gt; classes = BitextRule.getRelevantRules();</b>
+<b class="fc">&nbsp;      for (Class class1 : classes) {</b>
+<b class="fc">&nbsp;        Constructor[] constructors = class1.getConstructors();</b>
+<b class="fc">&nbsp;        boolean foundConstructor = false;</b>
+<b class="pc">&nbsp;        for (Constructor constructor : constructors) {</b>
+<b class="fc">&nbsp;          Class[] paramTypes = constructor.getParameterTypes();</b>
+<b class="pc">&nbsp;          if (paramTypes.length == 0) {</b>
+<b class="fc">&nbsp;            rules.add((BitextRule) constructor.newInstance());</b>
+<b class="fc">&nbsp;            foundConstructor = true;</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          if (paramTypes.length == 1</b>
+<b class="nc">&nbsp;              &amp;&amp; paramTypes[0].equals(ResourceBundle.class)) {</b>
+<b class="nc">&nbsp;            rules.add((BitextRule) constructor.newInstance(messages));</b>
+<b class="nc">&nbsp;            foundConstructor = true;</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          if (paramTypes.length == 2</b>
+<b class="nc">&nbsp;              &amp;&amp; paramTypes[0].equals(ResourceBundle.class)</b>
+<b class="nc">&nbsp;              &amp;&amp; paramTypes[1].equals(Language.class)) {</b>
+<b class="nc">&nbsp;            rules.add((BitextRule) constructor.newInstance(messages, language));</b>
+<b class="nc">&nbsp;            foundConstructor = true;</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+<b class="pc">&nbsp;        if (!foundConstructor) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Unknown constructor type for rule class &quot; + class1.getName()</b>
+<b class="nc">&nbsp;                  + &quot;, it supports only these constructors: &quot; + Arrays.toString(constructors));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Failed to load bitext rules&quot;, e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the number of rule matches
+&nbsp;   */
+&nbsp;  public static int profileRulesOnLine(String contents,
+&nbsp;      JLanguageTool lt, Rule rule) throws IOException {
+<b class="nc">&nbsp;    int count = 0;</b>
+<b class="nc">&nbsp;    for (String sentence : lt.sentenceTokenize(contents)) {</b>
+<b class="nc">&nbsp;      count += rule.match(lt.getAnalyzedSentence(sentence)).length ;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return count;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Automatically applies suggestions to the text, as suggested
+&nbsp;   * by the rules that match.
+&nbsp;   * Note: if there is more than one suggestion, always the first
+&nbsp;   * one is applied, and others are ignored silently.
+&nbsp;   *
+&nbsp;   * @param contents String to be corrected
+&nbsp;   * @param lt Initialized LanguageTool object
+&nbsp;   * @return Corrected text as String.
+&nbsp;   */
+&nbsp;  public static String correctText(String contents, JLanguageTool lt) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = lt.check(contents);</b>
+<b class="nc">&nbsp;    if (ruleMatches.isEmpty()) {</b>
+<b class="nc">&nbsp;      return contents;  </b>
+&nbsp;    }    
+<b class="nc">&nbsp;    return correctTextFromMatches(contents, ruleMatches);    </b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public static String correctTextFromMatches(
+&nbsp;      String contents, List&lt;RuleMatch&gt; matches) {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder(contents);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; errors = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RuleMatch rm : matches) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; replacements = rm.getSuggestedReplacements();</b>
+<b class="nc">&nbsp;      if (!replacements.isEmpty()) {</b>
+<b class="nc">&nbsp;        errors.add(sb.substring(rm.getFromPos(), rm.getToPos()));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    int offset = 0;</b>
+<b class="nc">&nbsp;    int counter = 0;</b>
+<b class="nc">&nbsp;    for (RuleMatch rm : matches) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; replacements = rm.getSuggestedReplacements();</b>
+<b class="nc">&nbsp;      if (!replacements.isEmpty()) {</b>
+&nbsp;        //make sure the error hasn&#39;t been already corrected:
+<b class="nc">&nbsp;        if (rm.getFromPos()-offset &gt;= 0 &amp;&amp;</b>
+<b class="nc">&nbsp;            rm.getToPos()-offset &gt;= rm.getFromPos()-offset &amp;&amp;</b>
+<b class="nc">&nbsp;            errors.get(counter).equals(sb.substring(rm.getFromPos() - offset, rm.getToPos() - offset))) {</b>
+<b class="nc">&nbsp;          sb.replace(rm.getFromPos() - offset, rm.getToPos() - offset, replacements.get(0));</b>
+<b class="nc">&nbsp;          offset += rm.getToPos() - rm.getFromPos() - replacements.get(0).length();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        counter++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();  </b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Get a stacktrace as a string.
+&nbsp;   */
+&nbsp;  public static String getFullStackTrace(Throwable e) {
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;    PrintWriter pw = new PrintWriter(sw);</b>
+<b class="nc">&nbsp;    e.printStackTrace(pw);</b>
+<b class="nc">&nbsp;    return sw.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Load a file from the classpath using {@link Class#getResourceAsStream(String)}.
+&nbsp;   * Please load files in the {@code rules} and {@code resource} directories with
+&nbsp;   * {@link org.languagetool.broker.ResourceDataBroker} instead.
+&nbsp;   */
+&nbsp;  public static InputStream getStream(String path) throws IOException {
+&nbsp;    // the other ways to load the stream like
+&nbsp;    // &quot;Tools.class.getClass().getResourceAsStream(filename)&quot;
+&nbsp;    // don&#39;t work in a web context (using Grails):
+<b class="fc">&nbsp;    InputStream is = JLanguageTool.getDataBroker().getAsStream(path);</b>
+<b class="pc">&nbsp;    if (is == null) {</b>
+<b class="nc">&nbsp;      throw new IOException(&quot;Could not load file from classpath: &#39;&quot; + path + &quot;&#39;&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return is;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Enable and disable rules of the given LanguageTool instance.
+&nbsp;   * @param lt LanguageTool object
+&nbsp;   * @param disabledRuleIds ids of the rules to be disabled
+&nbsp;   * @param enabledRuleIds ids of the rules to be enabled
+&nbsp;   * @param useEnabledOnly if set to {@code true}, disable all rules except those enabled explicitly
+&nbsp;   */
+&nbsp;  public static void selectRules(JLanguageTool lt, List&lt;String&gt; disabledRuleIds, List&lt;String&gt; enabledRuleIds, boolean useEnabledOnly) {
+<b class="nc">&nbsp;    Set&lt;String&gt; disabledRuleIdsSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    disabledRuleIdsSet.addAll(disabledRuleIds);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; enabledRuleIdsSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    enabledRuleIdsSet.addAll(enabledRuleIds);</b>
+<b class="nc">&nbsp;    selectRules(lt, Collections.emptySet(), Collections.emptySet(), disabledRuleIdsSet, enabledRuleIdsSet, useEnabledOnly, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.3
+&nbsp;   */
+&nbsp;  public static void selectRules(JLanguageTool lt, Set&lt;CategoryId&gt; disabledCategories, Set&lt;CategoryId&gt; enabledCategories,
+&nbsp;                                 Set&lt;String&gt; disabledRules, Set&lt;String&gt; enabledRules, boolean useEnabledOnly, boolean enableTempOff) {
+<b class="nc">&nbsp;    if (enableTempOff) {</b>
+<b class="nc">&nbsp;      for (Rule rule : lt.getAllRules()) {</b>
+<b class="nc">&nbsp;        if (rule.isDefaultTempOff()) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;Activating &quot; + rule.getFullId() + &quot;, which is default=&#39;temp_off&#39;&quot;);</b>
+<b class="nc">&nbsp;          lt.enableRule(rule.getFullId());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    for (CategoryId id : disabledCategories) {</b>
+<b class="nc">&nbsp;      lt.disableCategory(id);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (enabledCategories.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      for (CategoryId id : enabledCategories) {</b>
+<b class="nc">&nbsp;        lt.enableRuleCategory(id);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (useEnabledOnly) {</b>
+&nbsp;        // disable all rules except those in explicitly enabled categories, if any:
+<b class="nc">&nbsp;        for (Rule rule : lt.getAllRules()) {</b>
+<b class="nc">&nbsp;          Category category = rule.getCategory();</b>
+<b class="nc">&nbsp;          if (!enabledCategories.contains(category.getId())) {</b>
+<b class="nc">&nbsp;            lt.disableRule(rule.getFullId());</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // disable rules that are disabled explicitly:
+<b class="nc">&nbsp;    for (String disabledRule : disabledRules) {</b>
+<b class="nc">&nbsp;      lt.disableRule(disabledRule);</b>
+&nbsp;    }
+&nbsp;    // enable rules
+<b class="nc">&nbsp;    if (enabledRules.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      for (String ruleName : enabledRules) {</b>
+<b class="nc">&nbsp;        lt.enableRule(ruleName);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (useEnabledOnly) {</b>
+&nbsp;        // disable all rules except those enabled explicitly, if any:
+<b class="nc">&nbsp;        for (Rule rule : lt.getAllRules()) {</b>
+<b class="nc">&nbsp;          if (!(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId()))) {</b>
+<b class="nc">&nbsp;            lt.disableRule(rule.getFullId());</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Enable and disable bitext rules.
+&nbsp;   * @param bRules List of all bitext rules
+&nbsp;   * @param disabledRules ids of rules to be disabled
+&nbsp;   * @param enabledRules ids of rules to be enabled (by default all are enabled)
+&nbsp;   * @param useEnabledOnly if set to {@code true}, if set to {@code true}, disable all rules except those enabled explicitly.
+&nbsp;   * @return the list of rules to be used.
+&nbsp;   * @since 2.8
+&nbsp;   */
+&nbsp;  public static List&lt;BitextRule&gt; selectBitextRules(List&lt;BitextRule&gt; bRules, List&lt;String&gt; disabledRules, List&lt;String&gt; enabledRules, boolean useEnabledOnly) {
+<b class="nc">&nbsp;    List&lt;BitextRule&gt; newBRules = new ArrayList&lt;&gt;(bRules.size());</b>
+<b class="nc">&nbsp;    newBRules.addAll(bRules);</b>
+<b class="nc">&nbsp;    List&lt;BitextRule&gt; rulesToDisable = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (useEnabledOnly) {</b>
+<b class="nc">&nbsp;      for (String enabledRule : enabledRules) {</b>
+<b class="nc">&nbsp;        for (BitextRule b : bRules) {</b>
+<b class="nc">&nbsp;          if (!b.getId().equals(enabledRule)) {</b>
+<b class="nc">&nbsp;            rulesToDisable.add(b);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      for (String disabledRule : disabledRules) {</b>
+<b class="nc">&nbsp;        for (BitextRule b : newBRules) {</b>
+<b class="nc">&nbsp;          if (b.getId().equals(disabledRule)) {</b>
+<b class="nc">&nbsp;            rulesToDisable.add(b);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    newBRules.removeAll(rulesToDisable);</b>
+<b class="nc">&nbsp;    return newBRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Calls {@code Authenticator.setDefault()} with a password
+&nbsp;   * authenticator so that it&#39;s possible to use URLs of the
+&nbsp;   * format {@code http://username:password@server} when loading XML files.
+&nbsp;   * If the password manager doesn&#39;t allow calling {@code Authenticator.setDefault()},
+&nbsp;   * this will be silently ignored and the feature of using these URLs
+&nbsp;   * will not be available.
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  public static void setPasswordAuthenticator() {
+<b class="fc">&nbsp;    SecurityManager security = System.getSecurityManager();</b>
+<b class="pc">&nbsp;    if (security != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        security.checkPermission(new NetPermission(&quot;setDefaultAuthenticator&quot;));</b>
+<b class="nc">&nbsp;        Authenticator.setDefault(new PasswordAuthenticator());</b>
+&nbsp;      } catch (SecurityException e) {
+&nbsp;        // ignore, but the feature to use user:password in the URL cannot be used now,
+&nbsp;        // see https://github.com/languagetool-org/languagetool/issues/255
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      Authenticator.setDefault(new PasswordAuthenticator());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create a URL object from a string. Helper method that turns
+&nbsp;   * the {@code MalformedURLException} into a {@code RuntimeException}.
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  public static URL getUrl(String url) {
+&nbsp;    try {
+<b class="fc">&nbsp;      return new URL(url);</b>
+&nbsp;    } catch (MalformedURLException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  public static boolean isParagraphEnd(List&lt;AnalyzedSentence&gt; sentences, int nTest, Language lang) {
+<b class="pc">&nbsp;    if (nTest &gt;= sentences.size() - 1) {</b>
+<b class="fc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (lang.getSentenceTokenizer().singleLineBreaksMarksPara()) {</b>
+<b class="nc">&nbsp;      if (sentences.get(nTest).getText().endsWith(&quot;\n&quot;) || sentences.get(nTest).getText().endsWith(&quot;\n\r&quot;)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (sentences.get(nTest).getText().endsWith(&quot;\n\n&quot;) || sentences.get(nTest).getText().endsWith(&quot;\n\r\n\r&quot;) || sentences.get(nTest).getText().endsWith(&quot;\r\n\r\n&quot;)) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (sentences.get(nTest + 1).getText().startsWith(&quot;\n&quot;) || sentences.get(nTest + 1).getText().startsWith(&quot;\r\n&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * set linguistic services (only to introduce external speller for LT)
+&nbsp;   * since 5.7
+&nbsp;   */
+&nbsp;  public static void setLinguisticServices(LinguServices ls) {
+<b class="nc">&nbsp;    linguServices = ls;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * since 5.7
+&nbsp;   */
+&nbsp;  public static boolean isExternSpeller() {
+<b class="pc">&nbsp;    return linguServices != null;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * since 5.7
+&nbsp;   */
+&nbsp;  public static LinguServices getLinguisticServices() {
+<b class="nc">&nbsp;    return linguServices;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

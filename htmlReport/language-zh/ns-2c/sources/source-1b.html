@@ -1,0 +1,371 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GermanFillerWordsRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: GermanFillerWordsRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GermanFillerWordsRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/150)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/91)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.LinguServices;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.AbstractStatisticStyleRule;
+&nbsp;import org.languagetool.rules.RuleOption;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that gives Hints about the use of German filler words.
+&nbsp; * The Hints are only given when the percentage of filler words per chapter/text exceeds the given limit.
+&nbsp; * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
+&nbsp; * This rule detects no grammar error but gives stylistic hints (default off).
+&nbsp; * @author Fred Kruse
+&nbsp; * @since 4.2
+&nbsp; */
+&nbsp;public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
+&nbsp;  
+&nbsp;  private static final int DEFAULT_MIN_PERCENT = 8;
+&nbsp;  private static final boolean DEFAULT_TWO_FOLLOWING = false;
+&nbsp;  private static final boolean DEFAULT_MANY_IN_SENTENCE = false;
+&nbsp;  
+&nbsp;  private static final String DEFAULT_SENTENCE_MSG1 = &quot;Zwei potentielle Füllwörter hintereinander. Mindestens eins sollte gelöscht werden.&quot;;
+&nbsp;  private static final String DEFAULT_SENTENCE_MSG2 = &quot;Mehr als zwei potentielle Füllwörter in einem Satz. Mindestens eins sollte gelöscht werden.&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private static final Set&lt;String&gt; fillerWords = new HashSet&lt;&gt;(Arrays.asList( &quot;aber&quot;,&quot;abermals&quot;,&quot;allein&quot;,&quot;allemal&quot;,&quot;allenfalls&quot;,&quot;allenthalben&quot;,&quot;allerdings&quot;,&quot;allesamt&quot;,&quot;allzu&quot;,&quot;also&quot;,</b>
+&nbsp;      &quot;alt&quot;,&quot;andauernd&quot;,&quot;andererseits&quot;,&quot;andernfalls&quot;,&quot;anscheinend&quot;,&quot;auch&quot;,&quot;auffallend&quot;,&quot;augenscheinlich&quot;,&quot;ausdrücklich&quot;,&quot;ausgerechnet&quot;,&quot;ausnahmslos&quot;,
+&nbsp;      &quot;außerdem&quot;,&quot;äußerst&quot;,&quot;beinahe&quot;,&quot;bekanntlich&quot;,&quot;bereits&quot;,&quot;besonders&quot;,&quot;bestenfalls&quot;,&quot;bestimmt&quot;,&quot;bloß&quot;,&quot;dabei&quot;,&quot;dadurch&quot;,&quot;dafür&quot;,&quot;dagegen&quot;,&quot;daher&quot;,&quot;damals&quot;,
+&nbsp;      &quot;danach&quot;,&quot;demgegenüber&quot;,&quot;demgemäß&quot;,&quot;demnach&quot;,&quot;denkbar&quot;,&quot;denn&quot;,&quot;dennoch&quot;,&quot;deshalb&quot;,&quot;deswegen&quot;,&quot;doch&quot;,&quot;durchaus&quot;,&quot;durchweg&quot;,&quot;eben&quot;,&quot;eigentlich&quot;,
+&nbsp;      &quot;einerseits&quot;,&quot;einfach&quot;,&quot;einige&quot;,&quot;einigermaßen&quot;,&quot;einmal&quot;,&quot;ergo&quot;,&quot;erheblich&quot;,&quot;etliche&quot;,&quot;etwa&quot;,&quot;etwas&quot;,&quot;fast&quot;,&quot;folgendermaßen&quot;,&quot;folglich&quot;,&quot;förmlich&quot;,
+&nbsp;      &quot;fortwährend&quot;,&quot;fraglos&quot;,&quot;freilich&quot;,&quot;ganz&quot;,&quot;gänzlich&quot;,&quot;gar&quot;,&quot;gelegentlich&quot;,&quot;gemeinhin&quot;,&quot;genau&quot;,&quot;geradezu&quot;,&quot;gewiss&quot;,&quot;gewissermaßen&quot;,&quot;glatt&quot;,&quot;gleichsam&quot;,
+&nbsp;      &quot;gleichwohl&quot;,&quot;glücklicherweise&quot;,&quot;gottseidank&quot;,&quot;größtenteils&quot;,&quot;häufig&quot;,&quot;hingegen&quot;,&quot;hinlänglich&quot;,&quot;höchst&quot;,&quot;höchstens&quot;,&quot;immer&quot;,&quot;immerhin&quot;,&quot;immerzu&quot;,
+&nbsp;      &quot;indessen&quot;,&quot;infolgedessen&quot;,&quot;insbesondere&quot;,&quot;inzwischen&quot;,&quot;irgend&quot;,&quot;irgendein&quot;,&quot;irgendjemand&quot;,&quot;irgendwann&quot;,&quot;irgendwie&quot;,&quot;irgendwo&quot;,&quot;ja&quot;,&quot;je&quot;,
+&nbsp;      &quot;jedenfalls&quot;,&quot;jedoch&quot;,&quot;jemals&quot;,&quot;kaum&quot;,&quot;keinesfalls&quot;,&quot;keineswegs&quot;,&quot;längst&quot;,&quot;lediglich&quot;,&quot;leider&quot;,&quot;letztlich&quot;,&quot;manchmal&quot;,&quot;mehrfach&quot;,&quot;meinetwegen&quot;,
+&nbsp;      &quot;meist&quot;,&quot;meistens&quot;,&quot;meistenteils&quot;,&quot;mindestens&quot;,&quot;mithin&quot;,&quot;mitunter&quot;,&quot;möglicherweise&quot;,&quot;möglichst&quot;,&quot;nämlich&quot;,&quot;naturgemäß&quot;,&quot;natürlich&quot;,&quot;neuerdings&quot;,
+&nbsp;      &quot;neuerlich&quot;,&quot;neulich&quot;,&quot;nichtsdestoweniger&quot;,&quot;nie&quot;,&quot;niemals&quot;,&quot;nun&quot;,&quot;nur&quot;,&quot;offenbar&quot;,&quot;offenkundig&quot;,&quot;offensichtlich&quot;,&quot;oft&quot;,&quot;ohnedies&quot;,&quot;partout&quot;,
+&nbsp;      &quot;plötzlich&quot;,&quot;praktisch&quot;,&quot;quasi&quot;,&quot;recht&quot;,&quot;reichlich&quot;,&quot;reiflich&quot;,&quot;relativ&quot;,&quot;restlos&quot;,&quot;richtiggehend&quot;,&quot;rundheraus&quot;,&quot;rundum&quot;,&quot;sattsam&quot;,&quot;schlicht&quot;,
+&nbsp;      &quot;schlichtweg&quot;,&quot;schließlich&quot;,&quot;schlussendlich&quot;,&quot;schon&quot;,&quot;sehr&quot;,&quot;selbst&quot;,&quot;selbstredend&quot;,&quot;selbstverständlich&quot;,&quot;selten&quot;,&quot;seltsamerweise&quot;,&quot;sicher&quot;,
+&nbsp;      &quot;sicherlich&quot;,&quot;so&quot;,&quot;sogar&quot;,&quot;sonst&quot;,&quot;sowieso&quot;,&quot;sozusagen&quot;,&quot;stellenweise&quot;,&quot;stets&quot;,&quot;trotzdem&quot;,&quot;überaus&quot;,&quot;überdies&quot;,&quot;überhaupt&quot;,&quot;übrigens&quot;,
+&nbsp;      &quot;umständehalber&quot;,&quot;unbedingt&quot;,&quot;unerhört&quot;,&quot;ungefähr&quot;,&quot;ungemein&quot;,&quot;ungewöhnlich&quot;,&quot;ungleich&quot;,&quot;unglücklicherweise&quot;,&quot;unlängst&quot;,&quot;unmaßgeblich&quot;,
+&nbsp;      &quot;unsagbar&quot;,&quot;unsäglich&quot;,&quot;unstreitig&quot;,&quot;unzweifelhaft&quot;,&quot;vergleichsweise&quot;,&quot;vermutlich&quot;,&quot;vielfach&quot;,&quot;vielleicht&quot;,&quot;voll&quot;,&quot;vollends&quot;,&quot;völlig&quot;,
+&nbsp;      &quot;vollkommen&quot;,&quot;vollständig&quot;,&quot;wahrscheinlich&quot;,&quot;weidlich&quot;,&quot;weitgehend&quot;,&quot;wenigstens&quot;,&quot;wieder&quot;,&quot;wiederum&quot;,&quot;wirklich&quot;,&quot;wohl&quot;,&quot;wohlgemerkt&quot;,
+&nbsp;      &quot;womöglich&quot;,&quot;ziemlich&quot;,&quot;zudem&quot;,&quot;zugegeben&quot;,&quot;zumeist&quot;,&quot;zusehends&quot;,&quot;zuweilen&quot;,&quot;zweifellos&quot;,&quot;zweifelsfrei&quot;,&quot;zweifelsohne&quot;
+&nbsp;  ));
+&nbsp;  
+&nbsp;  private final Boolean testTwoFollowing;
+&nbsp;  private final Boolean TestManyInSentence;
+&nbsp;
+<b class="nc">&nbsp;  String sentenceMessage = null;</b>
+&nbsp;  
+&nbsp;  public GermanFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
+<b class="nc">&nbsp;    super(messages, lang, userConfig, DEFAULT_MIN_PERCENT);</b>
+<b class="nc">&nbsp;    if (userConfig != null) {</b>
+<b class="nc">&nbsp;      LinguServices linguServices = userConfig.getLinguServices();</b>
+<b class="nc">&nbsp;      if (linguServices != null) {</b>
+<b class="nc">&nbsp;        linguServices.setThesaurusRelevantRule(this);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    testTwoFollowing = getTwoFollowing(userConfig);</b>
+<b class="nc">&nbsp;    TestManyInSentence = getManyInSentence(userConfig);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private boolean getTwoFollowing(UserConfig userConfig) {
+<b class="nc">&nbsp;    if (userConfig != null) {</b>
+<b class="nc">&nbsp;      Object[] cf = userConfig.getConfigValueByID(getId());</b>
+<b class="nc">&nbsp;      if (cf != null &amp;&amp; cf.length &gt; 2 &amp;&amp; cf[2] != null &amp;&amp; cf[2] instanceof Boolean) {</b>
+<b class="nc">&nbsp;        return (boolean) cf[2];</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return DEFAULT_TWO_FOLLOWING;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean getManyInSentence(UserConfig userConfig) {
+<b class="nc">&nbsp;    if (userConfig != null) {</b>
+<b class="nc">&nbsp;      Object[] cf = userConfig.getConfigValueByID(getId());</b>
+<b class="nc">&nbsp;      if (cf != null &amp;&amp; cf.length &gt; 2 &amp;&amp; cf[2] != null &amp;&amp; cf[2] instanceof Boolean) {</b>
+<b class="nc">&nbsp;        return (boolean) cf[2];</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return DEFAULT_MANY_IN_SENTENCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isException(AnalyzedTokenReadings[] tokens, int num) {
+<b class="nc">&nbsp;    if (num == 1 || &quot;,&quot;.equals(tokens[num - 1].getToken())) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;allein&quot;.equals(tokens[num].getToken())) {</b>
+<b class="nc">&nbsp;      for(int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;        if (tokens[i].hasLemma(&quot;sein&quot;)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;recht&quot;.equals(tokens[num].getToken())) {</b>
+<b class="nc">&nbsp;      for(int i = 1; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;        if (tokens[i].hasAnyLemma(&quot;haben&quot;, &quot;geben&quot;)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (num &lt; tokens.length - 1 &amp;&amp; (&quot;so&quot;.equals(tokens[num].getToken()) || &quot;besonders&quot;.equals(tokens[num].getToken())) </b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[num + 1].hasPosTagStartingWith(&quot;ADJ&quot;)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(tokens[num].hasPosTagStartingWith(&quot;ADJ&quot;) &amp;&amp; &quot;so&quot;.equals(tokens[num - 1].getToken())) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (&quot;nur&quot;.equals(tokens[num].getToken()) &amp;&amp; &quot;nicht&quot;.equals(tokens[num - 1].getToken())) {</b>
+<b class="nc">&nbsp;      for(int i = num + 1; i &lt; tokens.length - 2; i++) {</b>
+<b class="nc">&nbsp;        if (&quot;,&quot;.equals(tokens[i].getToken()) &amp;&amp; (&quot;auch&quot;.equals(tokens[i + 1].getToken()) </b>
+<b class="nc">&nbsp;            || (&quot;sondern&quot;.equals(tokens[i + 1].getToken()) &amp;&amp; &quot;auch&quot;.equals(tokens[i + 2].getToken())))) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (num &gt; 2 &amp;&amp; &quot;auch&quot;.equals(tokens[num].getToken()) &amp;&amp; &quot;sondern&quot;.equals(tokens[num - 1].getToken()) &amp;&amp; &quot;,&quot;.equals(tokens[num - 2].getToken())) {</b>
+<b class="nc">&nbsp;      for(int i = 1; i &lt; num - 2; i++) {</b>
+<b class="nc">&nbsp;        if (&quot;nicht&quot;.equals(tokens[i].getToken()) &amp;&amp; &quot;nur&quot;.equals(tokens[i + 1].getToken())){</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected int conditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
+<b class="nc">&nbsp;    if (fillerWords.contains(tokens[nToken].getToken()) &amp;&amp; !isException(tokens, nToken) </b>
+<b class="nc">&nbsp;         &amp;&amp; (nToken &lt; 2 || !isTwoWordException(tokens[nToken - 1].getToken(), tokens[nToken].getToken())) </b>
+<b class="nc">&nbsp;         &amp;&amp; (nToken &gt; tokens.length - 2 || !isTwoWordException(tokens[nToken].getToken(), tokens[nToken + 1].getToken()))</b>
+&nbsp;         ) {
+<b class="nc">&nbsp;      return nToken;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static boolean isTwoWordException(String first, String second) {
+<b class="nc">&nbsp;    return ((&quot;aber&quot;.equals(first) &amp;&amp; (&quot;nur&quot;.equals(second) || &quot;auch&quot;.equals(second)))</b>
+<b class="nc">&nbsp;        || (&quot;auch&quot;.equals(first) &amp;&amp; &quot;nur&quot;.equals(second))</b>
+<b class="nc">&nbsp;        || (&quot;immer&quot;.equals(first) &amp;&amp; &quot;wieder&quot;.equals(second))</b>
+<b class="nc">&nbsp;        || (&quot;genau&quot;.equals(first) &amp;&amp; &quot;so&quot;.equals(second))</b>
+<b class="nc">&nbsp;        || (&quot;so&quot;.equals(first) &amp;&amp; (&quot;etwas&quot;.equals(second) || &quot;viel&quot;.equals(second) || &quot;oft&quot;.equals(second)))</b>
+<b class="nc">&nbsp;        || (&quot;schon&quot;.equals(first) &amp;&amp; &quot;fast&quot;.equals(second))</b>
+&nbsp;        );
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
+<b class="nc">&nbsp;    if (testTwoFollowing) {</b>
+<b class="nc">&nbsp;      if ((nToken &gt; 1 &amp;&amp; fillerWords.contains(tokens[nToken - 1].getToken()) &amp;&amp; !isException(tokens, nToken - 1)) || </b>
+<b class="nc">&nbsp;          (nToken &lt; tokens.length - 1 &amp;&amp; fillerWords.contains(tokens[nToken + 1].getToken()) &amp;&amp; !isException(tokens, nToken + 1))) {</b>
+<b class="nc">&nbsp;        sentenceMessage = DEFAULT_SENTENCE_MSG1;</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (TestManyInSentence) {</b>
+<b class="nc">&nbsp;      int n = 0;</b>
+<b class="nc">&nbsp;      for (int i = nToken - 2; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;        if (conditionFulfilled(tokens, i) == i) {</b>
+<b class="nc">&nbsp;          n++;</b>
+<b class="nc">&nbsp;          if (n &gt; 1) {</b>
+<b class="nc">&nbsp;            sentenceMessage = DEFAULT_SENTENCE_MSG2;</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      for (int i = nToken + 2; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;        if (conditionFulfilled(tokens, i) == i) {</b>
+<b class="nc">&nbsp;          n++;</b>
+<b class="nc">&nbsp;          if (n &gt; 1) {</b>
+<b class="nc">&nbsp;            sentenceMessage = DEFAULT_SENTENCE_MSG2;</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean excludeDirectSpeech() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getLimitMessage(int limit, double percent) {
+<b class="nc">&nbsp;    if (limit == 0) {</b>
+<b class="nc">&nbsp;      return &quot;Dieses Wort könnte ein Füllwort sein. Möglicherweise ist es besser es zu löschen.&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;Mehr als &quot; + limit + &quot;% Füllwörter {&quot; + ((int) (percent +0.5d)) + &quot;%} gefunden. Möglicherweise ist es besser dieses potentielle Füllwort zu löschen.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getSentenceMessage() {
+<b class="nc">&nbsp;    return sentenceMessage;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;FILLER_WORDS_DE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Statistische Stilanalyse: Füllwörter&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getConfigurePercentText() {
+<b class="nc">&nbsp;    return &quot;Anzeigen wenn mehr als ...% eines Kapitels Füllwörter sind:&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getConfigureWithoutDirectSpeachText() {
+<b class="nc">&nbsp;    return &quot;Keine wörtliche Rede und Zitate berücksichtigen&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public RuleOption[] getRuleOptions() {
+<b class="nc">&nbsp;    RuleOption[] ruleOptions = { </b>
+<b class="nc">&nbsp;        new RuleOption(DEFAULT_MIN_PERCENT, getConfigurePercentText(), 0, 100),</b>
+<b class="nc">&nbsp;        new RuleOption(excludeDirectSpeech(), getConfigureWithoutDirectSpeachText()),</b>
+<b class="nc">&nbsp;        new RuleOption(DEFAULT_TWO_FOLLOWING, &quot;Zeige zwei aufeinander folgende Füllwörter&quot;),</b>
+<b class="nc">&nbsp;        new RuleOption(DEFAULT_MANY_IN_SENTENCE, &quot;Zeige mehr als zwei Füllwörter in einem Satz&quot;)</b>
+&nbsp;        };
+<b class="nc">&nbsp;    return ruleOptions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

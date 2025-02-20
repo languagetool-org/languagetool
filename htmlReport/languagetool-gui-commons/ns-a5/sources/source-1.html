@@ -1,0 +1,593 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UkrainianWordTokenizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tokenizers.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: UkrainianWordTokenizer (org.languagetool.tokenizers.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UkrainianWordTokenizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/92)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/223)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tokenizers.uk;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map.Entry;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tokenizes a sentence into words.
+&nbsp; * Punctuation and whitespace gets its own token.
+&nbsp; * Specific to Ukrainian: apostrophes (0x27 and U+2019) not in the list as they are part of the word
+&nbsp; * 
+&nbsp; * @author Andriy Rysin
+&nbsp; */
+&nbsp;public class UkrainianWordTokenizer implements Tokenizer {
+&nbsp;
+<b class="nc">&nbsp;  private static final String SPLIT_CHARS =</b>
+&nbsp;//      &quot;(?&lt;!\uE120)(!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}&quot;
+&nbsp;            &quot;(!{2,3}|\\?{2,3}|\\.{3}|[!?][!?.]{1,2}&quot;
+&nbsp;            + &quot;|[\u0020\u00A0\\n\\r\\t&quot;
+&nbsp;            + &quot;,.;!?\u2014\u2015:()\\[\\]{}&lt;&gt;/|\\\\…°$€₴=№§¿¡~×]&quot; 
+&nbsp;            + &quot;|%(?![-\u2013][а-яіїєґ])&quot; // allow 5%-й
+&nbsp;            + &quot;|(?&lt;!\uE109)[\&quot;«»„”“]&quot;                       // quotes have special cases
+&nbsp;            + &quot;|(?&lt;=[а-яіїєґА-ЯІЇЄҐ])[\u00B9\u00B2\u2070-\u2079]&quot;  // superscript for regular words only //
+&nbsp;          // preserve * inside words (sometimes used instead of apostrophe or to mask profane words)
+&nbsp;          // but split if it&#39;s the beginning or end of the word (often used for mark-up and footnotes)
+&nbsp;            + &quot;|(?&lt;![а-яіїєґА-ЯІЇЄҐa-zA-Z])[_*]+&quot;
+&nbsp;            + &quot;|[_*]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z0-9])&quot;
+&nbsp;            + &quot;|[\u2000-\u200F&quot;
+&nbsp;            + &quot;\u201A\u2020-\u202F\u2030-\u206F&quot;
+&nbsp;            + &quot;\u2400-\u27FF&quot;    // Control Pictures
+<b class="nc">&nbsp;            + String.valueOf(Character.toChars(0x1F000)) + &quot;-&quot; + String.valueOf(Character.toChars(0x1FFFF))          // Emojis</b>
+&nbsp;            + &quot;\uf000-\uffff&quot; // private unicode area: U+E000..U+F8FF
+&nbsp;            + &quot;\uE110])(?!\uE120)&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern SPLIT_CHARS_REGEX = Pattern.compile(SPLIT_CHARS);</b>
+&nbsp;
+&nbsp;
+&nbsp;  // for handling exceptions
+&nbsp;
+&nbsp;  private static final char DECIMAL_COMMA_SUBST = &#39;\uE001&#39;; // some unused character to hide comma in decimal number temporary for tokenizer run
+&nbsp;  private static final char NON_BREAKING_SPACE_SUBST = &#39;\uE002&#39;;
+&nbsp;  private static final char NON_BREAKING_DOT_SUBST = &#39;\uE003&#39;; // some unused character to hide dot in date temporary for tokenizer run
+&nbsp;  private static final char NON_BREAKING_COLON_SUBST = &#39;\uE004&#39;;
+&nbsp;  private static final char LEFT_BRACE_SUBST = &#39;\uE005&#39;;
+&nbsp;  private static final char RIGHT_BRACE_SUBST = &#39;\uE006&#39;;
+&nbsp;  private static final char NON_BREAKING_SLASH_SUBST = &#39;\uE007&#39;;    // hide slash in с/г
+&nbsp;  private static final char LEFT_ANGLE_SUBST = &#39;\uE008&#39;;
+&nbsp;  private static final char RIGHT_ANGLE_SUBST = &#39;\uE009&#39;;
+&nbsp;  private static final char SLASH_SUBST = &#39;\uE010&#39;;
+&nbsp;  private static final String NON_BREAKING_PLACEHOLDER = &quot;\uE109&quot;;
+&nbsp;  private static final String BREAKING_PLACEHOLDER = &quot;\uE110&quot;;
+&nbsp;  private static final String NON_BREAKING_PLACEHOLDER2 = &quot;\uE120&quot;;
+&nbsp;  // TODO: use \uE120 for most of non-breaking cases
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern WEIRD_APOSTROPH_PATTERN = Pattern.compile(&quot;([бвджзклмнпрстфхш])([\&quot;\u201D\u201F`´])([єїюя])&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  public static final Pattern WORDS_WITH_BRACKETS_PATTERN = Pattern.compile(&quot;([а-яіїєґ])\\[([а-яіїєґ]+)\\]&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;  // decimal comma between digits
+<b class="nc">&nbsp;  private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile(&quot;([\\d]),([\\d])&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  private static final String DECIMAL_COMMA_REPL = &quot;$1&quot; + DECIMAL_COMMA_SUBST + &quot;$2&quot;;
+&nbsp;
+&nbsp;  // space between digits
+<b class="nc">&nbsp;  private static final Pattern DECIMAL_SPACE_PATTERN = Pattern.compile(&quot;(?&lt;=^|[\\h\\v(])\\d{1,3}([\\h][\\d]{3})+(?=[\\h\\v(]|$)&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;  // numbers with n-dash
+<b class="nc">&nbsp;  private static final Pattern DASH_NUMBERS_PATTERN = Pattern.compile(&quot;([IVXІХ]+)([\u2013-])([IVXІХ]+)&quot;);</b>
+&nbsp;  private static final String DASH_NUMBERS_REPL = &quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot; + BREAKING_PLACEHOLDER + &quot;$3&quot;;
+<b class="nc">&nbsp;  private static final Pattern N_DASH_SPACE_PATTERN = Pattern.compile(&quot;([а-яіїєґa-z0-9])(\u2013\\h)(?!(та|чи|і|й)[\\h\\v])&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern N_DASH_SPACE_PATTERN2 = Pattern.compile(&quot;([\\h.,;!?]\u2013)([а-яіїєґa-z])&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  private static final String N_DASH_SPACE_REPL = &quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot;;
+&nbsp;
+&nbsp;  // dots in numbers
+<b class="nc">&nbsp;  private static final Pattern DOTTED_NUMBERS_PATTERN = Pattern.compile(&quot;([\\d])\\.([\\d])&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DOTTED_NUMBERS_PATTERN3 = Pattern.compile(&quot;([\\d])\\.([\\d]+)\\.([\\d])&quot;);</b>
+&nbsp;
+&nbsp;  // colon in numbers
+<b class="nc">&nbsp;  private static final Pattern COLON_NUMBERS_PATTERN = Pattern.compile(&quot;([\\d]):([\\d])&quot;);</b>
+&nbsp;  private static final String COLON_NUMBERS_REPL = &quot;$1&quot; + NON_BREAKING_COLON_SUBST + &quot;$2&quot;;
+&nbsp;
+&nbsp;  // dates
+&nbsp;  // braces in words
+<b class="nc">&nbsp;  private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile(&quot;([а-яіїєґ])\\(([а-яіїєґ&#39;]+)\\)&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern XML_TAG_PATTERN = Pattern.compile(&quot;&lt;(/?[a-z_]+/?)&gt;&quot;, Pattern.CASE_INSENSITIVE);</b>
+&nbsp;
+&nbsp;  // tokenize initials with dot before last name, e.g. &quot;А.&quot;, &quot;Ковальчук&quot;
+<b class="nc">&nbsp;  private static final Pattern INITIALS_DOT_PATTERN_SP_2 = Pattern.compile(&quot;([А-ЯІЇЄҐ])\\.([\\h\\v]{0,5}[А-ЯІЇЄҐ])\\.([\\h\\v]{0,5}[А-ЯІЇЄҐ][а-яіїєґ&#39;]+)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INITIALS_DOT_PATTERN_SP_1 = Pattern.compile(&quot;([А-ЯІЇЄҐ])\\.([\\h\\v]{0,5}[А-ЯІЇЄҐ][а-яіїєґ&#39;]+)&quot;);</b>
+&nbsp;
+&nbsp;  // tokenize initials with dot after last name, e.g.  &quot;Ковальчук&quot;, &quot;А.&quot;
+<b class="nc">&nbsp;  private static final Pattern INITIALS_DOT_PATTERN_RSP_2 = Pattern.compile(&quot;([А-ЯІЇЄҐ][а-яіїєґ&#39;]+)([\\h\\v]?[А-ЯІЇЄҐ])\\.([\\h\\v]?[А-ЯІЇЄҐ])\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INITIALS_DOT_PATTERN_RSP_1 = Pattern.compile(&quot;([А-ЯІЇЄҐ][а-яіїєґ&#39;]+)([\\h\\v]?[А-ЯІЇЄҐ])\\.&quot;);</b>
+&nbsp;
+&nbsp;  private static final String INITIALS_DOT_REPL_SP_2 = &quot;$1&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + &quot;$2&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + &quot;$3&quot;;
+&nbsp;  private static final String INITIALS_DOT_REPL_SP_1 = &quot;$1&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + &quot;$2&quot;;
+&nbsp;  private static final String INITIALS_DOT_REPL_RSP_2 = &quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + &quot;$3&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
+&nbsp;  private static final String INITIALS_DOT_REPL_RSP_1 = &quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
+&nbsp;
+&nbsp;  // abbreviation dot
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_VO_PATTERN1 = Pattern.compile(&quot;([вВу])\\.([\\h\\v]*о)\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_VO_PATTERN2 = Pattern.compile(&quot;(к)\\.([\\h\\v]*с)\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_VO_PATTERN3 = Pattern.compile(&quot;(ч|ст)\\.([\\h\\v]*л)\\.&quot;);</b>
+&nbsp;//  private static final Pattern ABBR_DOT_VO_PATTERN4 = Pattern.compile(&quot;(р)\\.([\\s\u00A0\u202F]*х)\\.&quot;);
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile(&quot;([0-9IІ][\\h\\v]+)(тис|арт)\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile(&quot;(тис|арт)\\.([\\h\\v]+[а-яіїєґ0-9])&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_ART_PATTERN = Pattern.compile(&quot;([Аа]рт|[Мм]ал|[Рр]ис|[Сс]пр)\\.([\\h]*(№[\\h]*)?[0-9])&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_MAN_PATTERN = Pattern.compile(&quot;(Ман)\\.([\\h]*(Сіті|[Юю]н))&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile(&quot;([^а-яіїєґА-ЯІЇЄҐ&#39;\u0301-]лат)\\.([\\h\\v]+[a-zA-Z])&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile(&quot;(?&lt;![а-яіїєґА-ЯІЇЄҐ&#39;\u0301-])([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|ап|тов|вул|бул|бульв|о|р|ім|упорядн?|др|[Пп]реп|Ів|Дж|Ол|[сС]вт)\\.([\\h\\v]+[А-ЯІЇЄҐа-яіїєґ])&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_GUB_PATTERN = Pattern.compile(&quot;(.[А-ЯІЇЄҐ][а-яіїєґ&#39;-]+[\\h\\v]+губ)\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_DASH_PATTERN = Pattern.compile(&quot;\\b([А-ЯІЇЄҐ]ж?)\\.([-\u2013]([А-ЯІЇЄҐ][а-яіїєґ&#39;]{2}|[А-ЯІЇЄҐ]\\.))&quot;, Pattern.UNICODE_CHARACTER_CLASS);</b>
+&nbsp;  // село, місто, річка (якщо з цифрою: секунди, метри, роки) - з роками складно
+&nbsp;  //private static final Pattern ABBR_DOT_INVALID_DOT_PATTERN = Pattern.compile(&quot;((?:[0-9]|кв\\.|куб\\.)[\\s\u00A0\u202F]+(?:[смкд]|мк)?м)\\.(.)&quot;);
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_KUB_SM_PATTERN = Pattern.compile(&quot;(кв|куб)\\.([\\h\\v]*(?:[смкд]|мк)?м)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_S_G_PATTERN = Pattern.compile(&quot;(с)\\.(-г)\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_CHL_KOR_PATTERN = Pattern.compile(&quot;(чл)\\.(-кор)\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_PN_ZAH_PATTERN = Pattern.compile(&quot;(пн|пд)\\.(-(зах|сх))\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern INVALID_MLN_DOT_PATTERN = Pattern.compile(&quot;(млн|млрд)\\.( [а-яіїєґ])&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_2_SMALL_LETTERS_PATTERN = Pattern.compile(&quot;([^а-яіїєґА-ЯІЇЄҐ&#39;\u0301-][векнпрстцч]{1,2})\\.(\\h*(?![смкд]?м\\.)[екмнпрстч]{1,2})\\.&quot;);</b>
+&nbsp;  private static final String ABBR_DOT_2_SMALL_LETTERS_REPL = &quot;$1&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + &quot;$2&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
+&nbsp;  
+&nbsp;  private static final String ONE_DOT_TWO_REPL = &quot;$1&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + &quot;$2&quot;;
+&nbsp;
+&nbsp;  // скорочення що не можуть бути в кінці речення
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile(&quot;(?&lt;![а-яіїєґА-ЯІЇЄҐ&#39;\u0301-])(абз|австрал|ам|амер|англ|акад(ем)?|арк|ауд|біол|бл(?:изьк)?|болг|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)?&quot;</b>
+&nbsp;      + &quot;|держ|див|дир|діал|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зневажл?|зовн|ім|івр|інж|ісп|іст|італ&quot;
+&nbsp;      + &quot;|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кін|кл|кн|коеф|латин|мал|моб|н|[Нн]апр|нач|нім|нац|нпр|образн|оз|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|порівн|[Пп]оч|пп|прибл|прикм|прим|присл|пров|пром|просп&quot;
+&nbsp;      + &quot;|[Рр]ед|[Рр]еж|розд|розм|рос|рт|рум|с|санскр|[Сс]вв?|скор|соц|співавт|[сС]т|стор|сх|табл|тт|[тТ]ел|техн|укр|філол|фр|франц|худ|[цЦ]ит|ч|чайн|част|ц|яп)\\.(?!\uE120|\\.+[\\h\\v]*$)&quot;);
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile(&quot;([^а-яіїєґА-ЯІЇЄҐ&#39;-]м\\.)([\\h\\v]*[А-ЯІЇЄҐ])&quot;);</b>
+&nbsp;  
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_NAR_PATTERN_1 = Pattern.compile(&quot;(([0-9]|рік|[рp]\\.|[-–—])[\\h\\v]+нар)\\.&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_NAR_PATTERN_2 = Pattern.compile(&quot;\\b(нар)\\.([\\h\\v]+[0-9а-яіїєґ])&quot;, Pattern.UNICODE_CHARACTER_CLASS);</b>
+&nbsp;
+&nbsp;  // скорочення що можуть бути в кінці речення
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile(&quot;([^а-яіїєґА-ЯІЇЄҐ&#39;\u0301-]((та|й|і) (інш?|под)|атм|відс|гр|коп|дес|дол|обл|р|рр|РР|руб|ст|стст|стол|стор|чол|шт))\\.(?!\uE120)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile(&quot;([ій][\\h\\v]+т\\.)([\\h\\v]*(д|п|ін)\\.)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_I_T_CH_PATTERN = Pattern.compile(&quot;([ву][\\h\\v]+т\\.)([\\h\\v]*ч\\.)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_T_ZV_PATTERN = Pattern.compile(&quot;([\\h\\v\\(]+т\\.)([\\h\\v]*зв\\.)&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern ABBR_AT_THE_END = Pattern.compile(&quot;(?&lt;![а-яіїєґА-ЯІЇЄҐ&#39;\u0301])(тис|губ|[А-ЯІЇЄҐ])\\.[\\h\\v]*$&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern APOSTROPHE_BEGIN_PATTERN = Pattern.compile(&quot;(^|[\\h\\v(„«\&quot;&#39;])&#39;(?!дно)(\\p{L})&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern APOSTROPHE_END_PATTER = Pattern.compile(&quot;(\\p{L})(?&lt;!\\b(?:мо|тре|тра|чо|нічо|бо|зара|пра))&#39;([^\\p{L}-]|$)&quot;, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern YEAR_WITH_R = Pattern.compile(&quot;((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern COMPOUND_WITH_QUOTES1 = Pattern.compile(&quot;([а-яіїє]-)([«\&quot;„])([а-яіїєґ&#39;-]+)([»\&quot;“])&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;  private static final Pattern COMPOUND_WITH_QUOTES2 = Pattern.compile(&quot;([«\&quot;„])([а-яіїєґ0-9&#39;-]+)([»\\\&quot;“])(-[а-яіїє])&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;
+&nbsp;  // Сьогодні (у четвер. - Ред.), вранці.
+&nbsp;//  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile(&quot;([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])&quot;);
+<b class="nc">&nbsp;  private static final Pattern ABBR_DOT_RED_AVT_PATTERN = Pattern.compile(&quot;([\\h\\v]+(?:[Рр]ед|[Аа]вт))\\.(\\h*[)\\]а-яіїєґ])&quot;);</b>
+&nbsp;  
+&nbsp;  private static final String SOFT_HYPHEN_WRAP = &quot;\u00AD\n&quot;;
+&nbsp;  private static final String SOFT_HYPHEN_WRAP_SUBST = &quot;\uE103&quot;;
+&nbsp;  // url
+<b class="nc">&nbsp;  private static final Pattern URL_PATTERN = Pattern.compile(&quot;((https?|ftp)://|www\\.)[^\\h\\v/$.?#),]+\\.[^\\h\\v),\&quot;&gt;]*|(mailto:)?[\\p{L}\\d._-]+@[\\p{L}\\d_-]+(\\.[\\p{L}\\d_-]+)+&quot;, Pattern.CASE_INSENSITIVE);</b>
+&nbsp;  private static final int URL_START_REPLACE_CHAR = 0xE300;
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern LEADING_DASH_PATTERN = Pattern.compile(&quot;^([\u2014\u2013])([а-яіїєґА-ЯІЇЄҐA-Z])&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern LEADING_DASH_PATTERN_2 = Pattern.compile(&quot;^(-)([А-ЯІЇЄҐA-Z])&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern NUMBER_MISSING_SPACE = Pattern.compile(&quot;((?:[\\h\\v\uE110]|^)[а-яїієґА-ЯІЇЄҐ&#39;-]*[а-яїієґ&#39;]?[а-яїієґ])([0-9]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z»\&quot;“]))&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern WEB_ENTITIES = Pattern.compile(&quot;([а-яіїєґ])\\.(НЕТ|net|Інфо|Info|City|Life|UA|юа|лі|media|com|фм|ru|Ру)\\b&quot;, Pattern.CASE_INSENSITIVE| Pattern.UNICODE_CHARACTER_CLASS);</b>
+<b class="nc">&nbsp;  private static final Pattern WEB_ENTITIES2 = Pattern.compile(&quot;\\.([a-z_-]+)\\.(ua)&quot;, Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);</b>
+&nbsp;  
+<b class="nc">&nbsp;  public UkrainianWordTokenizer() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; tokenize(String text) {
+<b class="nc">&nbsp;    HashMap&lt;String, String&gt; urls = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    if( ! text.trim().isEmpty() ) {</b>
+<b class="nc">&nbsp;      text = adjustTextForTokenizing(text, urls);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; tokenList = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; tokens = splitWithDelimiters(text, SPLIT_CHARS_REGEX);</b>
+&nbsp;
+<b class="nc">&nbsp;    for(String token: tokens) {</b>
+&nbsp;
+<b class="nc">&nbsp;      if( token.equals(BREAKING_PLACEHOLDER) )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      token = token.replace(DECIMAL_COMMA_SUBST, &#39;,&#39;);</b>
+&nbsp;
+<b class="nc">&nbsp;      token = token.replace(NON_BREAKING_SLASH_SUBST, &#39;/&#39;);</b>
+<b class="nc">&nbsp;      token = token.replace(NON_BREAKING_COLON_SUBST, &#39;:&#39;);</b>
+<b class="nc">&nbsp;      token = token.replace(NON_BREAKING_SPACE_SUBST, &#39; &#39;);</b>
+&nbsp;
+<b class="nc">&nbsp;      token = token.replace(LEFT_BRACE_SUBST, &#39;(&#39;);</b>
+<b class="nc">&nbsp;      token = token.replace(RIGHT_BRACE_SUBST, &#39;)&#39;);</b>
+&nbsp;
+<b class="nc">&nbsp;      token = token.replace(LEFT_ANGLE_SUBST, &#39;&lt;&#39;);</b>
+<b class="nc">&nbsp;      token = token.replace(RIGHT_ANGLE_SUBST, &#39;&gt;&#39;);</b>
+<b class="nc">&nbsp;      token = token.replace(SLASH_SUBST, &#39;/&#39;);</b>
+&nbsp;
+&nbsp;      // outside of if as we also replace back sentence-ending abbreviations
+<b class="nc">&nbsp;      token = token.replace(NON_BREAKING_DOT_SUBST, &#39;.&#39;);</b>
+&nbsp;
+<b class="nc">&nbsp;      token = token.replace(SOFT_HYPHEN_WRAP_SUBST, SOFT_HYPHEN_WRAP);</b>
+&nbsp;
+<b class="nc">&nbsp;      token = token.replace(NON_BREAKING_PLACEHOLDER, &quot;&quot;);</b>
+<b class="nc">&nbsp;      token = token.replace(NON_BREAKING_PLACEHOLDER2, &quot;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      if( ! urls.isEmpty() ) {</b>
+<b class="nc">&nbsp;        for(Entry&lt;String, String&gt; entry : urls.entrySet()) {</b>
+<b class="nc">&nbsp;          token = token.replace(entry.getKey(), entry.getValue());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      tokenList.add( token );</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return tokenList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String adjustTextForTokenizing(String text, HashMap&lt;String, String&gt; urls) {
+<b class="nc">&nbsp;    text = cleanup(text);</b>
+&nbsp;
+<b class="nc">&nbsp;    if( &quot;\u2014\u2013-&quot;.indexOf(text.charAt(0)) &gt;=0 ) {</b>
+<b class="nc">&nbsp;      Matcher matcher = LEADING_DASH_PATTERN.matcher(text);</b>
+<b class="nc">&nbsp;      if( matcher.find() ) {</b>
+<b class="nc">&nbsp;        text = matcher.replaceFirst(&quot;$1&quot;+BREAKING_PLACEHOLDER+&quot;$2&quot;);</b>
+&nbsp;      }
+&nbsp;      else {
+<b class="nc">&nbsp;        matcher = LEADING_DASH_PATTERN_2.matcher(text);</b>
+<b class="nc">&nbsp;        if( matcher.find() ) {</b>
+<b class="nc">&nbsp;          text = matcher.replaceFirst(&quot;$1&quot;+BREAKING_PLACEHOLDER+&quot;$2&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if( text.contains(&quot;,&quot;) ) {</b>
+<b class="nc">&nbsp;      text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll(DECIMAL_COMMA_REPL);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // check for urls
+<b class="nc">&nbsp;    if( text.contains(&quot;http&quot;) || text.contains(&quot;www&quot;) || text.contains(&quot;@&quot;) || text.contains(&quot;ftp&quot;) ) { // https?|ftp</b>
+<b class="nc">&nbsp;      Matcher matcher = URL_PATTERN.matcher(text);</b>
+<b class="nc">&nbsp;      int urlReplaceChar = URL_START_REPLACE_CHAR;</b>
+&nbsp;      
+<b class="nc">&nbsp;      while( matcher.find() ) {</b>
+<b class="nc">&nbsp;        String urlGroup = matcher.group();</b>
+<b class="nc">&nbsp;        String replaceChar = String.valueOf((char)urlReplaceChar);</b>
+<b class="nc">&nbsp;        urls.put(replaceChar, urlGroup);</b>
+<b class="nc">&nbsp;        text = matcher.replaceFirst(replaceChar);</b>
+<b class="nc">&nbsp;        urlReplaceChar++;</b>
+<b class="nc">&nbsp;        matcher = URL_PATTERN.matcher(text);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.indexOf(&#39;\u2014&#39;) != -1 ) {</b>
+<b class="nc">&nbsp;      text = text.replaceAll(&quot;\u2014([\\h\\v])&quot;, BREAKING_PLACEHOLDER + &quot;\u2014$1&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    boolean nDashPresent = text.indexOf(&#39;\u2013&#39;) != -1;</b>
+<b class="nc">&nbsp;    if( text.indexOf(&#39;-&#39;) != -1 || nDashPresent ) {</b>
+<b class="nc">&nbsp;      text = DASH_NUMBERS_PATTERN.matcher(text).replaceAll(DASH_NUMBERS_REPL);</b>
+<b class="nc">&nbsp;      if( nDashPresent ) {</b>
+<b class="nc">&nbsp;        text = N_DASH_SPACE_PATTERN.matcher(text).replaceAll(N_DASH_SPACE_REPL);</b>
+<b class="nc">&nbsp;        text = N_DASH_SPACE_PATTERN2.matcher(text).replaceAll(N_DASH_SPACE_REPL);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.indexOf(&quot;с/г&quot;) != -1 ) {</b>
+<b class="nc">&nbsp;      text = text.replace(&quot;с/г&quot;, &quot;с&quot; +NON_BREAKING_SLASH_SUBST + &quot;г&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.indexOf(&quot;Л/ДНР&quot;) != -1 ) {</b>
+<b class="nc">&nbsp;      text = text.replace(&quot;Л/ДНР&quot;, &quot;Л&quot; +NON_BREAKING_SLASH_SUBST + &quot;ДНР&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.indexOf(&quot;р.&quot;) != -1 ) {</b>
+<b class="nc">&nbsp;      Matcher matcher = YEAR_WITH_R.matcher(text);</b>
+<b class="nc">&nbsp;      if( matcher.find() ) {</b>
+<b class="nc">&nbsp;        text = matcher.replaceAll(&quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // leave only potential hashtags together
+<b class="nc">&nbsp;    text = text.replace(&quot;#&quot;, BREAKING_PLACEHOLDER + &quot;#&quot;);</b>
+&nbsp;    // leave numbers with following % together
+<b class="nc">&nbsp;    if( text.indexOf(&#39;%&#39;) &gt;= 0 ) {</b>
+<b class="nc">&nbsp;      text = text.replaceAll(&quot;%([^-])&quot;, &quot;%&quot; + BREAKING_PLACEHOLDER + &quot;$1&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    
+<b class="nc">&nbsp;    text = COMPOUND_WITH_QUOTES1.matcher(text).replaceAll(&quot;$1$2\uE120$3\uE120$4\uE120&quot;);</b>
+<b class="nc">&nbsp;    text = COMPOUND_WITH_QUOTES2.matcher(text).replaceAll(&quot;$1\uE120$2\uE120$3\uE120$4&quot;);</b>
+<b class="nc">&nbsp;    if( text.indexOf(&#39;[&#39;) != -1 ) {</b>
+<b class="nc">&nbsp;      text = WORDS_WITH_BRACKETS_PATTERN.matcher(text).replaceAll(&quot;$1\\[\uE120$2\\]\uE120&quot;);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // if period is not the last character in the sentence
+<b class="nc">&nbsp;    int dotIndex = text.indexOf(&#39;.&#39;);</b>
+<b class="nc">&nbsp;    String textRtrimmed = text.replaceFirst(&quot;[\\h\\v]*$&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    boolean dotInsideSentence = dotIndex &gt;= 0 &amp;&amp; dotIndex &lt; textRtrimmed.length()-1;</b>
+&nbsp;
+<b class="nc">&nbsp;    if( dotInsideSentence </b>
+<b class="nc">&nbsp;        || (dotIndex == textRtrimmed.length()-1</b>
+<b class="nc">&nbsp;            &amp;&amp; ABBR_AT_THE_END.matcher(text).find()) ) {  // ugly - special case for тис. та ініціалів</b>
+&nbsp;
+<b class="nc">&nbsp;      text = DOTTED_NUMBERS_PATTERN3.matcher(text).replaceAll(&quot;$1.\uE120$2.\uE120$3&quot;);</b>
+<b class="nc">&nbsp;      text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120$2&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      text = ABBR_DOT_NAR_PATTERN_1.matcher(text).replaceAll(&quot;$1.\uE120\uE110&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_NAR_PATTERN_2.matcher(text).replaceAll(&quot;$1.\uE120\uE110$2&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      text = ABBR_DOT_2_SMALL_LETTERS_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120\uE110$2.\uE120\uE110&quot;); //.replaceFirst(&quot;(([смкд]|мк)?м\\.[\\h\\v]*)\uE120\uE110$&quot;, &quot;$1&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_VO_PATTERN1.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_VO_PATTERN2.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_VO_PATTERN3.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_ART_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_MAN_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_TYS_PATTERN1.matcher(text).replaceAll(&quot;$1$2&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_TYS_PATTERN2.matcher(text).replaceAll(ONE_DOT_TWO_REPL);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_LAT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_PROF_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_GUB_PATTERN.matcher(text).replaceAll(&quot;$1&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_DASH_PATTERN.matcher(text).replaceAll(&quot;$1&quot; + NON_BREAKING_DOT_SUBST + &quot;$2&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      text = INITIALS_DOT_PATTERN_SP_2.matcher(text).replaceAll(INITIALS_DOT_REPL_SP_2);</b>
+<b class="nc">&nbsp;      text = INITIALS_DOT_PATTERN_SP_1.matcher(text).replaceAll(INITIALS_DOT_REPL_SP_1);</b>
+<b class="nc">&nbsp;      text = INITIALS_DOT_PATTERN_RSP_2.matcher(text).replaceAll(INITIALS_DOT_REPL_RSP_2);</b>
+<b class="nc">&nbsp;      text = INITIALS_DOT_PATTERN_RSP_1.matcher(text).replaceAll(INITIALS_DOT_REPL_RSP_1);</b>
+&nbsp;
+&nbsp;//      text = ABBR_DOT_INVALID_DOT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
+<b class="nc">&nbsp;      text = ABBR_DOT_KUB_SM_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120\uE110$2&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_S_G_PATTERN.matcher(text).replaceAll(&quot;$1&quot; + NON_BREAKING_DOT_SUBST + &quot;$2&quot; + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_CHL_KOR_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120$2.\uE120\uE110&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_PN_ZAH_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120\uE110$2.\uE120\uE110&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_I_T_P_PATTERN.matcher(text).replaceAll(&quot;$1\uE120\uE110$2\uE120\uE110&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_I_T_CH_PATTERN.matcher(text).replaceAll(&quot;$1\uE120\uE110$2\uE120\uE110&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_T_ZV_PATTERN.matcher(text).replaceAll(&quot;$1\uE120\uE110$2\uE120\uE110&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_RED_AVT_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120\uE110$2&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_NON_ENDING_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120\uE110&quot;);</b>
+<b class="nc">&nbsp;      text = ABBR_DOT_NON_ENDING_PATTERN_2.matcher(text).replaceAll(&quot;$1\uE120\uE110$2&quot;);</b>
+<b class="nc">&nbsp;      text = INVALID_MLN_DOT_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120\uE110$2&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( dotInsideSentence ) {</b>
+<b class="nc">&nbsp;      text = WEB_ENTITIES.matcher(text).replaceAll(&quot;$1.\uE120$2&quot;);</b>
+<b class="nc">&nbsp;      text = WEB_ENTITIES2.matcher(text).replaceAll(&quot;.\uE120$1.\uE120$2&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    text = ABBR_DOT_ENDING_PATTERN.matcher(text).replaceAll(&quot;$1.\uE120\uE110&quot;);</b>
+&nbsp;
+&nbsp;    // 2 000 000
+<b class="nc">&nbsp;    Matcher spacedDecimalMatcher = DECIMAL_SPACE_PATTERN.matcher(text);</b>
+<b class="nc">&nbsp;    if( spacedDecimalMatcher.find() ) {</b>
+<b class="nc">&nbsp;    	StringBuffer sb = new StringBuffer();</b>
+&nbsp;    	do {
+<b class="nc">&nbsp;    		String splitNumber = spacedDecimalMatcher.group(0);</b>
+<b class="nc">&nbsp;    		String splitNumberAdjusted = splitNumber.replace(&#39; &#39;, NON_BREAKING_SPACE_SUBST);</b>
+<b class="nc">&nbsp;    		splitNumberAdjusted = splitNumberAdjusted.replace(&#39;\u00A0&#39;, NON_BREAKING_SPACE_SUBST);</b>
+<b class="nc">&nbsp;    		splitNumberAdjusted = splitNumberAdjusted.replace(&#39;\u202F&#39;, NON_BREAKING_SPACE_SUBST);</b>
+<b class="nc">&nbsp;    		spacedDecimalMatcher.appendReplacement(sb, splitNumberAdjusted);</b>
+<b class="nc">&nbsp;    	} while( spacedDecimalMatcher.find() );</b>
+&nbsp;
+<b class="nc">&nbsp;    	spacedDecimalMatcher.appendTail(sb);</b>
+<b class="nc">&nbsp;    	text = sb.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // 12:25
+<b class="nc">&nbsp;    if( text.contains(&quot;:&quot;) ) {</b>
+<b class="nc">&nbsp;    	text = COLON_NUMBERS_PATTERN.matcher(text).replaceAll(COLON_NUMBERS_REPL);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // ВКПБ(о)
+<b class="nc">&nbsp;    if( text.contains(&quot;(&quot;) ) {</b>
+<b class="nc">&nbsp;      text = BRACE_IN_WORD_PATTERN.matcher(text).replaceAll(&quot;$1&quot; + LEFT_BRACE_SUBST + &quot;$2&quot; + RIGHT_BRACE_SUBST);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.contains(&quot;&lt;&quot;) ) {</b>
+<b class="nc">&nbsp;      text = XML_TAG_PATTERN.matcher(text).replaceAll(BREAKING_PLACEHOLDER + LEFT_ANGLE_SUBST + &quot;$1&quot; + RIGHT_ANGLE_SUBST + BREAKING_PLACEHOLDER);</b>
+<b class="nc">&nbsp;      text = text.replace(LEFT_ANGLE_SUBST+&quot;/&quot;, &quot;&quot; + LEFT_ANGLE_SUBST + SLASH_SUBST);</b>
+<b class="nc">&nbsp;      text = text.replace(&quot;/&quot; + RIGHT_ANGLE_SUBST, &quot;&quot; + SLASH_SUBST + RIGHT_ANGLE_SUBST);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.contains(&quot;-&quot;) ) {</b>
+<b class="nc">&nbsp;      text = text.replaceAll(&quot;([а-яіїєґА-ЯІЇЄҐ])([»\&quot;-]+-)&quot;, &quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot;);</b>
+<b class="nc">&nbsp;      text = text.replaceAll(&quot;([»\&quot;-]+-)([а-яіїєґА-ЯІЇЄҐ])&quot;, &quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.contains(SOFT_HYPHEN_WRAP) ) {</b>
+<b class="nc">&nbsp;      text = text.replaceAll(&quot;(?&lt;!\\s)&quot;+SOFT_HYPHEN_WRAP, SOFT_HYPHEN_WRAP_SUBST);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.indexOf(&#39;\&#39;&#39;) &gt;= 0 ) {</b>
+<b class="nc">&nbsp;      text = APOSTROPHE_BEGIN_PATTERN.matcher(text).replaceAll(&quot;$1&#39;&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot;);</b>
+<b class="nc">&nbsp;      text = APOSTROPHE_END_PATTER.matcher(text).replaceAll(&quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;&#39;$2&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( text.contains(&quot;+&quot;) ) {</b>
+<b class="nc">&nbsp;      text = text.replaceAll(&quot;\\+(?=[а-яіїєґА-ЯІЇЄҐ0-9])&quot;, BREAKING_PLACEHOLDER + &quot;+&quot; + BREAKING_PLACEHOLDER);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // -20C
+<b class="nc">&nbsp;    if( text.length() &gt; 1 &amp;&amp; (text.contains(&quot;-&quot;) || text.contains(&quot;\u2013&quot;)) ) {</b>
+<b class="nc">&nbsp;      text = text.replaceAll(&quot;(?&lt;=(^|[\\h\\v]))([-\u2013])(?=[0-9])&quot;, &quot;$2&quot; + BREAKING_PLACEHOLDER);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    text = NUMBER_MISSING_SPACE.matcher(text).replaceAll(&quot;$1&quot; + BREAKING_PLACEHOLDER + &quot;$2&quot;);</b>
+<b class="nc">&nbsp;    return text;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String cleanup(String text) {
+<b class="nc">&nbsp;    text = text</b>
+<b class="nc">&nbsp;        .replace(&#39;\u2019&#39;, &#39;\&#39;&#39;)</b>
+<b class="nc">&nbsp;        .replace(&#39;\u02BC&#39;, &#39;\&#39;&#39;)</b>
+<b class="nc">&nbsp;        .replace(&#39;\u2018&#39;, &#39;\&#39;&#39;)</b>
+&nbsp;//        .replace(&#39;`&#39;, &#39;\&#39;&#39;)
+&nbsp;//        .replace(&#39;´&#39;,  &#39;\&#39;&#39;)
+<b class="nc">&nbsp;        .replace(&#39;\u201A&#39;, &#39;,&#39;)  // SINGLE LOW-9 QUOTATION MARK sometimes used as a comma</b>
+<b class="nc">&nbsp;        .replace(&#39;\u2011&#39;, &#39;-&#39;); // we handle \u2013 in tagger so we can base our rule on it</b>
+&nbsp;
+<b class="nc">&nbsp;    text = WEIRD_APOSTROPH_PATTERN.matcher(text).replaceAll(&quot;$1\uE120$2\uE120$3&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    return text;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;String&gt; splitWithDelimiters(String str, Pattern delimPattern) {
+<b class="nc">&nbsp;    List&lt;String&gt; parts = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    Matcher matcher = delimPattern.matcher(str);</b>
+&nbsp;
+<b class="nc">&nbsp;    int lastEnd = 0;</b>
+<b class="nc">&nbsp;    while (matcher.find()) {</b>
+<b class="nc">&nbsp;      int start = matcher.start();</b>
+&nbsp;
+<b class="nc">&nbsp;      if (lastEnd != start) {</b>
+<b class="nc">&nbsp;        String nonDelim = str.substring(lastEnd, start);</b>
+<b class="nc">&nbsp;        parts.add(nonDelim);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      String delim = matcher.group();</b>
+<b class="nc">&nbsp;      parts.add(delim);</b>
+&nbsp;
+<b class="nc">&nbsp;      lastEnd = matcher.end();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (lastEnd != str.length()) {</b>
+<b class="nc">&nbsp;      String nonDelim = str.substring(lastEnd);</b>
+<b class="nc">&nbsp;      parts.add(nonDelim);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return parts;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

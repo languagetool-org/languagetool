@@ -1,0 +1,483 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RuleOverview</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleOverview (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleOverview</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/62)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/137)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RuleOverview$JavaFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RuleOverview$SpellcheckSupport</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/66)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/145)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;import org.languagetool.language.AmericanEnglish;
+&nbsp;import org.languagetool.language.Contributor;
+&nbsp;import org.languagetool.rules.ConfusionSetLoader;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileFilter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.net.URL;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import static java.util.Comparator.comparing;
+&nbsp;
+&nbsp;/**
+&nbsp; * Command line tool to list supported languages and their number of rules.
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public final class RuleOverview {
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;String&gt; langSpecificWebsites = Arrays.asList(</b>
+&nbsp;          &quot;ca&quot;, &quot;nl&quot;, &quot;fr&quot;, &quot;de&quot;, &quot;it&quot;, &quot;pl&quot;, &quot;pt&quot;, &quot;ru&quot;, &quot;es&quot;, &quot;uk&quot;
+&nbsp;  );
+&nbsp;
+<b class="nc">&nbsp;  enum SpellcheckSupport {</b>
+<b class="nc">&nbsp;    Full, NoSuggestion, None</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(final String[] args) throws IOException {
+<b class="nc">&nbsp;    RuleOverview prg = new RuleOverview();</b>
+<b class="nc">&nbsp;    prg.run();</b>
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  private RuleOverview() {</b>
+&nbsp;    // no public constructor
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void run() throws IOException {
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;p&gt;&lt;b&gt;Rules in LanguageTool &quot; + JLanguageTool.VERSION + &quot;&lt;/b&gt;&lt;br /&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Date: &quot; + new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(new Date()) + &quot;&lt;/p&gt;\n&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;table class=\&quot;tablesorter sortable\&quot; style=\&quot;width: auto\&quot;&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;thead&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;tr&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  &lt;th valign=&#39;bottom&#39; width=\&quot;200\&quot;&gt;Language&lt;/th&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  &lt;th valign=&#39;bottom&#39; align=\&quot;left\&quot; width=\&quot;60\&quot;&gt;XML&lt;br/&gt;rules&lt;/th&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  &lt;th&gt;&lt;/th&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  &lt;th align=\&quot;left\&quot; width=\&quot;60\&quot;&gt;Java&lt;br/&gt;rules&lt;/th&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  &lt;th align=\&quot;left\&quot; width=\&quot;60\&quot;&gt;Spell&lt;br/&gt;check&lt;/th&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  &lt;th align=\&quot;left\&quot; width=\&quot;60\&quot;&gt;Confusion&lt;br/&gt;pairs&lt;/th&gt;&quot;);</b>
+&nbsp;    //System.out.println(&quot;  &lt;th valign=&#39;bottom&#39; width=\&quot;65\&quot;&gt;Auto-&lt;br/&gt;detected&lt;/th&gt;&quot;);
+<b class="nc">&nbsp;    System.out.println(&quot;  &lt;th valign=&#39;bottom&#39; align=\&quot;left\&quot; width=\&quot;90\&quot;&gt;Activity&lt;/th&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;/tr&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;/thead&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;tbody&gt;&quot;);</b>
+<b class="nc">&nbsp;    final List&lt;Language&gt; sortedLanguages = getSortedLanguages();</b>
+&nbsp;
+<b class="nc">&nbsp;    int overallJavaCount = 0;</b>
+<b class="nc">&nbsp;    RuleActivityOverview activity = new RuleActivityOverview();</b>
+<b class="nc">&nbsp;    for (final Language lang : sortedLanguages) {</b>
+<b class="nc">&nbsp;      if (lang.isVariant()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.print(&quot;&lt;tr&gt;&quot;);</b>
+<b class="nc">&nbsp;      final String langCode = lang.getShortCode();</b>
+<b class="nc">&nbsp;      final List&lt;String&gt; variants = getVariantNames(sortedLanguages, lang);</b>
+<b class="nc">&nbsp;      String variantsText = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (variants.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        variantsText = &quot;&lt;br/&gt;&lt;span class=&#39;langVariants&#39;&gt;Variants for: &quot; + String.join(&quot;, &quot;, variants) + &quot;&lt;/span&gt;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (langSpecificWebsites.contains(langCode)) {</b>
+<b class="nc">&nbsp;        System.out.print(&quot;&lt;td valign=\&quot;top\&quot;&gt;&lt;a href=\&quot;https://languagetool.org/&quot; + langCode + &quot;/\&quot;&gt;&quot; + lang.getName() + &quot;&lt;/a&gt;&quot; + variantsText + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        System.out.print(&quot;&lt;td valign=\&quot;top\&quot;&gt;&quot; + lang.getName() + &quot; &quot; + variantsText + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      int allRules = countRulesForLanguage(lang);</b>
+<b class="nc">&nbsp;      if (allRules == 0) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;0&lt;/td&gt;&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        final String ruleBase = &quot;https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/&quot;</b>
+&nbsp;                + langCode + &quot;/src/main/resources/org/languagetool/rules/&quot;;
+<b class="nc">&nbsp;        System.out.print(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;&quot; + allRules + &quot;&lt;/td&gt;&quot;);</b>
+<b class="nc">&nbsp;        System.out.print(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;&quot; +</b>
+&nbsp;            //&quot;&lt;a href=\&quot;&quot; + ruleBase + langCode + &quot;/grammar.xml&quot; + &quot;\&quot;&gt;Show&lt;/a&gt; / &quot; +
+&nbsp;            &quot;&lt;a href=\&quot;http://community.languagetool.org/rule/list?lang=&quot; + langCode + &quot;\&quot;&gt;Browse&lt;/a&gt;,&amp;nbsp;&quot; +
+&nbsp;            &quot;&lt;a href=\&quot;&quot; + ruleBase + langCode + &quot;/grammar.xml\&quot;&gt;XML&lt;/a&gt;&quot; +
+&nbsp;            &quot;&lt;/td&gt;&quot;);
+&nbsp;      }
+&nbsp;
+&nbsp;      // count Java rules:
+<b class="nc">&nbsp;      final File dir = new File(&quot;../languagetool-language-modules/&quot; + langCode + &quot;/src/main/java&quot; +</b>
+<b class="nc">&nbsp;              JLanguageTool.getDataBroker().getRulesDir() + &quot;/&quot; + langCode);</b>
+<b class="nc">&nbsp;      if (!dir.exists()) {</b>
+<b class="nc">&nbsp;        System.out.print(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;0&lt;/td&gt;&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        final File[] javaRules = dir.listFiles(new JavaFilter(lang.getName()));</b>
+<b class="nc">&nbsp;        final int javaCount = javaRules.length;</b>
+<b class="nc">&nbsp;        if (javaCount &gt; 0) {</b>
+<b class="nc">&nbsp;          final String sourceCodeLink = </b>
+&nbsp;                  &quot;https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/&quot;
+&nbsp;                  + langCode + &quot;/src/main/java/org/languagetool/rules/&quot; 
+&nbsp;                  + langCode + &quot;/&quot;;
+<b class="nc">&nbsp;          System.out.print(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;&lt;a href=\&quot;&quot; + sourceCodeLink + &quot;\&quot;&gt;&quot; + javaCount + &quot;&lt;/a&gt;&lt;/td&gt;&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.out.print(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;&quot; + javaCount + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        overallJavaCount++;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      SpellcheckSupport spellcheckSupport = spellcheckSupport(lang, sortedLanguages);</b>
+<b class="nc">&nbsp;      String spellSupportStr = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (spellcheckSupport == SpellcheckSupport.Full) {</b>
+<b class="nc">&nbsp;        spellSupportStr = &quot;✓&quot;;</b>
+<b class="nc">&nbsp;      } else if (spellcheckSupport == SpellcheckSupport.NoSuggestion) {</b>
+<b class="nc">&nbsp;        spellSupportStr = &quot;&lt;span title=&#39;spell check without suggestions&#39;&gt;(✓)&lt;/span&gt;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.print(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;&quot; + spellSupportStr + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      System.out.print(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;&quot; + countConfusionPairs(lang) + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;
+&nbsp;      // activity:
+<b class="nc">&nbsp;      int commits = activity.getActivityFor(lang, 365/2);</b>
+<b class="nc">&nbsp;      int width = (int) Math.max(commits * 0.25, 1);</b>
+<b class="nc">&nbsp;      String images = &quot;&quot;;</b>
+<b class="nc">&nbsp;      if (width &gt; 50) {</b>
+<b class="nc">&nbsp;        images += &quot;&lt;img title=&#39;&quot; + commits + &quot; commits in the last 6 months&#39; src=&#39;images/bar-end.png&#39; width=&#39;22&#39; height=&#39;10&#39;/&gt;&quot;;</b>
+<b class="nc">&nbsp;        width = 50;</b>
+<b class="nc">&nbsp;      } else if (width == 1 &amp;&amp; commits &gt; 0) {</b>
+<b class="nc">&nbsp;        width = 3;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      images += &quot;&lt;img title=&#39;&quot; + commits + &quot; commits in the last 6 months&#39; src=&#39;images/bar.png&#39; width=&#39;&quot; + width + &quot;&#39; height=&#39;10&#39;/&gt;&quot;;</b>
+<b class="nc">&nbsp;      System.out.print(&quot;&lt;td valign=\&quot;top\&quot; align=\&quot;right\&quot;&gt;&lt;span style=&#39;display:none&#39;&gt;&quot; + commits + &quot;&lt;/span&gt;&quot; + images + &quot;&lt;/td&gt;&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;      System.out.println(&quot;&lt;/tr&gt;&quot;);    </b>
+&nbsp;    }
+&nbsp;      
+<b class="nc">&nbsp;    if (overallJavaCount == 0) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;No Java rules found - start this script from the languagetool-standalone directory&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;/tbody&gt;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;&lt;/table&gt;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int countRulesForLanguage(Language lang) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; ruleFileNames = lang.getRuleFileNames();</b>
+<b class="nc">&nbsp;    int count = 0;</b>
+<b class="nc">&nbsp;    for (String ruleFileName : ruleFileNames) {</b>
+<b class="nc">&nbsp;      final URL url = this.getClass().getResource(ruleFileName);</b>
+<b class="nc">&nbsp;      if (url != null) {</b>
+<b class="nc">&nbsp;        String xmlRules = StringTools.readStream(Tools.getStream(ruleFileName), &quot;utf-8&quot;);</b>
+<b class="nc">&nbsp;        xmlRules = xmlRules.replaceAll(&quot;(?s)&lt;!--.*?--&gt;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        xmlRules = xmlRules.replaceAll(&quot;(?s)&lt;rules.*?&gt;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        count += countXmlRules(xmlRules);</b>
+<b class="nc">&nbsp;        count += countXmlRuleGroupRules(xmlRules);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return count;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; getVariantNames(List&lt;Language&gt; allLanguages, Language lang) {
+<b class="nc">&nbsp;    List&lt;Language&gt; variants = getVariants(allLanguages, lang);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Language l : variants) {</b>
+<b class="nc">&nbsp;      result.add(l.getName().replaceAll(&quot;.*\\((.*?)\\).*&quot;, &quot;$1&quot;).trim());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Language&gt; getVariants(List&lt;Language&gt; allLanguages, Language lang) {
+<b class="nc">&nbsp;    List&lt;Language&gt; variants = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Language sortedLanguage : allLanguages) {</b>
+<b class="nc">&nbsp;      if (sortedLanguage.isVariant() &amp;&amp; lang.getShortCode().equals(sortedLanguage.getShortCode())) {</b>
+<b class="nc">&nbsp;        variants.add(sortedLanguage);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return variants;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Language&gt; getSortedLanguages() {
+<b class="nc">&nbsp;    final List&lt;Language&gt; sortedLanguages = new ArrayList&lt;&gt;(Languages.get());</b>
+<b class="nc">&nbsp;    sortedLanguages.sort(comparing(Language::getName));</b>
+<b class="nc">&nbsp;    return sortedLanguages;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int countXmlRules(String xmlRules) {
+<b class="nc">&nbsp;    return StringUtils.countMatches(xmlRules, &quot;&lt;rule &quot;);  // rules with IDs</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int countXmlRuleGroupRules(String xmlRules) {
+<b class="nc">&nbsp;    return StringUtils.countMatches(xmlRules, &quot;&lt;rule&gt;&quot;); // rules in rule groups have no ID</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private SpellcheckSupport spellcheckSupport(Language lang, List&lt;Language&gt; allLanguages) throws IOException {
+<b class="nc">&nbsp;    if (spellcheckSupport(lang) != SpellcheckSupport.None) {</b>
+<b class="nc">&nbsp;      return spellcheckSupport(lang);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;Language&gt; variants = getVariants(allLanguages, lang);</b>
+<b class="nc">&nbsp;    for (Language variant : variants) {</b>
+<b class="nc">&nbsp;      if (spellcheckSupport(variant) != SpellcheckSupport.None) {</b>
+<b class="nc">&nbsp;        return spellcheckSupport(variant);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return SpellcheckSupport.None;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private SpellcheckSupport spellcheckSupport(Language lang) throws IOException {
+<b class="nc">&nbsp;    List&lt;Rule&gt; rules = new ArrayList&lt;&gt;(lang.getRelevantRules(JLanguageTool.getMessageBundle(),</b>
+<b class="nc">&nbsp;      null, null, Collections.emptyList()));</b>
+<b class="nc">&nbsp;    rules.addAll(lang.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null, null,</b>
+<b class="nc">&nbsp;            null, null, Collections.emptyList()));</b>
+<b class="nc">&nbsp;    for (Rule rule : rules) {</b>
+<b class="nc">&nbsp;      if (rule.isDictionaryBasedSpellingRule()) {</b>
+<b class="nc">&nbsp;        if (rule instanceof HunspellNoSuggestionRule) {</b>
+<b class="nc">&nbsp;          return SpellcheckSupport.NoSuggestion;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          return SpellcheckSupport.Full;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return SpellcheckSupport.None;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int countConfusionPairs(Language lang) {
+<b class="nc">&nbsp;    String path = &quot;/&quot; + lang.getShortCode() + &quot;/confusion_sets.txt&quot;;</b>
+<b class="nc">&nbsp;    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();</b>
+<b class="nc">&nbsp;    if (dataBroker.resourceExists(path)) {</b>
+<b class="nc">&nbsp;      try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {</b>
+<b class="nc">&nbsp;        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(AmericanEnglish.getInstance());</b>
+<b class="nc">&nbsp;        return confusionSetLoader.loadConfusionPairs(confusionSetStream).size()/2;</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private String getMaintainerInfo(Language lang) {
+<b class="nc">&nbsp;    final StringBuilder maintainerInfo = new StringBuilder();</b>
+<b class="nc">&nbsp;    if (lang.getMaintainers() != null) {</b>
+<b class="nc">&nbsp;      for (Contributor contributor : lang.getMaintainers()) {</b>
+<b class="nc">&nbsp;        if (!StringTools.isEmpty(maintainerInfo.toString())) {</b>
+<b class="nc">&nbsp;          maintainerInfo.append(&quot;, &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (contributor.getUrl() != null) {</b>
+<b class="nc">&nbsp;          maintainerInfo.append(&quot;&lt;a href=\&quot;&quot;);</b>
+<b class="nc">&nbsp;          maintainerInfo.append(contributor.getUrl());</b>
+<b class="nc">&nbsp;          maintainerInfo.append(&quot;\&quot;&gt;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        maintainerInfo.append(contributor.getName());</b>
+<b class="nc">&nbsp;        if (contributor.getUrl() != null) {</b>
+<b class="nc">&nbsp;          maintainerInfo.append(&quot;&lt;/a&gt;&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return maintainerInfo.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class JavaFilter implements FileFilter {
+&nbsp;
+&nbsp;    private final String langName;
+&nbsp;
+<b class="nc">&nbsp;    JavaFilter(String langName) {</b>
+<b class="nc">&nbsp;      this.langName = langName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean accept(final File f) {
+<b class="nc">&nbsp;      final String filename = f.getName();</b>
+<b class="nc">&nbsp;      final boolean isAbstractTopClass = filename.endsWith(langName + &quot;Rule.java&quot;);</b>
+<b class="nc">&nbsp;      final boolean isSpellerClass = filename.endsWith(&quot;SpellerRule.java&quot;);</b>
+<b class="nc">&nbsp;      return filename.endsWith(&quot;.java&quot;) &amp;&amp; !isAbstractTopClass &amp;&amp; !isSpellerClass;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

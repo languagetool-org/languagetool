@@ -1,0 +1,350 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EnglishRepeatedWordsRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: EnglishRepeatedWordsRule (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnglishRepeatedWordsRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22.2%
+  </span>
+  <span class="absValue">
+    (2/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (2/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.5%
+  </span>
+  <span class="absValue">
+    (94/105)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Tag;
+&nbsp;import org.languagetool.language.AmericanEnglish;
+&nbsp;import org.languagetool.rules.AbstractRepeatedWordsRule;
+&nbsp;import org.languagetool.rules.SynonymsData;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.en.EnglishSynthesizer;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+&nbsp;
+&nbsp;public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
+&nbsp;  
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;
+<b class="fc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = Arrays.asList(</b>
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;need&quot;).matchInflectedForms().build(),   // &quot;I still need -&gt; require to sign in&quot;</b>
+<b class="fc">&nbsp;      token(&quot;to&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;solve(s|d|ing)?&quot;).setSkip(3).build(),   // &quot;solve the problem&quot; is a unique collocation</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;problems?&quot;)                                                    // &quot;solve the issue|concern|difficulty&quot; sounds bizarre</b>
+&nbsp;    ),                                                                             // lots of disables in Matomo
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(&quot;SENT_START|PCT&quot;),       // &quot;No problem, I&#39;m not in a rush.&quot;</b>
+<b class="fc">&nbsp;      token(&quot;no&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;problem&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;PCT&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;math|word&quot;),       // &quot;math/word problem&quot;</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;problems?&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;as&quot;),       // &quot;doesn&#39;t apply to the group as a whole&quot;</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;a&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;whole&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;more&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;often&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;than&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;not&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;often&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;times&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;details?|facts?|it|journals?|questions?|research|results?|study|studies|this|these|those|which&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().pos(&quot;RB&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;suggest&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;form&quot;).matchInflectedForms().build(),   // &quot;form in the bloodstream&quot;</b>
+<b class="fc">&nbsp;      posRegex(&quot;IN|PCT|RP|TO|SENT_END&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;bonds?|crystals?|ions?|rocks?|.*valence&quot;).setSkip(10).build(),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;form&quot;).matchInflectedForms().build()</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().tokenRegex(&quot;form(s|ed|ing)?&quot;).setSkip(10).build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;bonds?|crystals?|ions?|rocks?|.*valence&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;interesting&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;facts?|things?&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;several&quot;),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;hundreds?|thousands?|millions?&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;must&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;be&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;nice&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;nice&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;day&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;nice&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;to&quot;),</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().token(&quot;meet&quot;).min(0).build(),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PRP_O.*&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;be&quot;).matchInflectedForms().build(),  // nice and plump</b>
+<b class="fc">&nbsp;      token(&quot;nice&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;and&quot;),</b>
+<b class="fc">&nbsp;      pos(&quot;JJ&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PCT|SENT_END&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(&quot;P?DT|PRP$.*&quot;),  // the proposed agreement</b>
+<b class="fc">&nbsp;      token(&quot;proposed&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;N.*&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      new PatternTokenBuilder().csToken(&quot;propose&quot;).matchInflectedForms().build(),</b>
+<b class="fc">&nbsp;      tokenRegex(&quot;to|marriage&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;too&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;literally&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;literally&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;and&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;figuratively&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;literally&quot;),</b>
+<b class="fc">&nbsp;      token(&quot;everything&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      token(&quot;literally&quot;),</b>
+<b class="fc">&nbsp;      posRegex(&quot;PCT|SENT_END&quot;)</b>
+&nbsp;    ),
+&nbsp;
+<b class="fc">&nbsp;    Arrays.asList(</b>
+<b class="fc">&nbsp;      posRegex(&quot;CC&quot;),       // &quot;Or maybe it&#39;s because I have eyes that see!&quot;</b>
+<b class="fc">&nbsp;      token(&quot;maybe&quot;)</b>
+&nbsp;    )
+&nbsp;
+&nbsp;  );
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public EnglishRepeatedWordsRule(ResourceBundle messages) {
+<b class="fc">&nbsp;    super(messages, AmericanEnglish.getInstance());</b>
+<b class="fc">&nbsp;    setTags(Collections.singletonList(Tag.picky));</b>
+<b class="fc">&nbsp;    antiPatterns = cacheAntiPatterns(AmericanEnglish.getInstance(), ANTI_PATTERNS);</b>
+<b class="fc">&nbsp;    String id = this.getId();</b>
+<b class="pc">&nbsp;    if (id.equals(&quot;EN_REPEATEDWORDS_DEFINITELY&quot;)){</b>
+<b class="nc">&nbsp;      this.setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/post/i-agree-synonyms/&quot;));</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (id.equals(&quot;EN_REPEATEDWORDS_CHOOSE&quot;)){</b>
+<b class="nc">&nbsp;      this.setUrl(Tools.getUrl(&quot;https://languagetool.org/insights/post/choose-vs-chose/&quot;));</b>
+&nbsp;    }
+&nbsp;    //super.setDefaultTempOff();
+&nbsp;  }
+&nbsp;  
+<b class="fc">&nbsp;  private static final Map&lt;String, SynonymsData&gt; wordsToCheck = loadWords(&quot;/en/synonyms.txt&quot;);</b>
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String getMessage() {
+<b class="nc">&nbsp;    return &quot;This word has been used in one of the immediately preceding sentences. Using a synonym could make your text more interesting to read, unless the repetition is intentional.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return (&quot;Suggest synonyms for repeated words.&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Map&lt;String, SynonymsData&gt; getWordsToCheck() {
+<b class="nc">&nbsp;    return wordsToCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getShortMessage() {
+<b class="nc">&nbsp;    return &quot;Style: repeated word&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Synthesizer getSynthesizer() {
+<b class="nc">&nbsp;    return EnglishSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isException(AnalyzedTokenReadings[] tokens, int i, boolean sentStart, boolean isCapitalized,
+&nbsp;      boolean isAllUppercase) {
+<b class="nc">&nbsp;    if (isAllUppercase || (isCapitalized &amp;&amp; !sentStart)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tokens[i].hasPosTagStartingWith(&quot;NNP&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

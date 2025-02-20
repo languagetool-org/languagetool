@@ -1,0 +1,252 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BretonTagger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.br</a>
+</div>
+
+<h1>Coverage Summary for Class: BretonTagger (org.languagetool.tagging.br)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BretonTagger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.br;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.tagging.BaseTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/** Breton Tagger.
+&nbsp; *
+&nbsp; * Based on Breton diction diction from apertium:
+&nbsp; *
+&nbsp; *  Copyright (C) 2008--2010 Francis Tyers (ftyers@prompsit.com)
+&nbsp; *  Copyright (C) 2009--2010 Fulup Jakez (fulup.jakez@ofis-bzh.org)
+&nbsp; *  Copyright (C) 2009       Gwenvael Jekel (jequelg@yahoo.fr)
+&nbsp; *  Development supported by:
+&nbsp; *  * Prompsit Language Engineering, S. L.
+&nbsp; *  * Ofis ar Brezhoneg
+&nbsp; *  * Grup Transducens, Universitat d&#39;Alacant
+&nbsp; *
+&nbsp; * Implemented in FSA.
+&nbsp; *
+&nbsp; * @author Dominique Pellé (dominique.pelle@gmail.com)
+&nbsp; */
+&nbsp;public class BretonTagger extends BaseTagger {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern patternSuffix = Pattern.compile(&quot;(?iu)(..+)-(mañ|se|hont)$&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Locale conversionLocale = Locale.getDefault();</b>
+&nbsp;
+&nbsp;  public BretonTagger() {
+<b class="nc">&nbsp;    super(&quot;/br/breton.dict&quot;, new Locale(&quot;br&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // This method is almost the same as the &#39;tag&#39; method in
+&nbsp;  // BaseTagger class, except that when probing the
+&nbsp;  // dictionary fails, it retry without the suffixes
+&nbsp;  // -mañ, -se, -hont.
+&nbsp;  @Override
+&nbsp;  public List&lt;AnalyzedTokenReadings&gt; tag(List&lt;String&gt; sentenceTokens)
+&nbsp;  throws IOException {
+&nbsp;    List&lt;AnalyzedToken&gt; taggerTokens;
+&nbsp;    List&lt;AnalyzedToken&gt; lowerTaggerTokens;
+&nbsp;    List&lt;AnalyzedToken&gt; upperTaggerTokens;
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; tokenReadings = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int pos = 0;</b>
+&nbsp;
+&nbsp;    Matcher matcher;
+<b class="nc">&nbsp;    for (String word : sentenceTokens) {</b>
+<b class="nc">&nbsp;      String probeWord = word;</b>
+<b class="nc">&nbsp;      if (probeWord.length() &gt; 50) {</b>
+&nbsp;        // avoid excessively long computation times for long (probably artificial) tokens:
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        l.add(new AnalyzedToken(word, null, null));</b>
+<b class="nc">&nbsp;        tokenReadings.add(new AnalyzedTokenReadings(l, pos));</b>
+<b class="nc">&nbsp;        pos += word.length();</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+&nbsp;      // This loop happens when we need to retry probing the dictionary
+&nbsp;      // which happens rarely when trying to remove suffixes -mañ, -se, etc.
+&nbsp;      for (;;) {
+<b class="nc">&nbsp;        List&lt;AnalyzedToken&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        String lowerWord = probeWord.toLowerCase(conversionLocale);</b>
+<b class="nc">&nbsp;        taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(probeWord));</b>
+<b class="nc">&nbsp;        lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));</b>
+<b class="nc">&nbsp;        boolean isLowercase = probeWord.equals(lowerWord);</b>
+&nbsp;
+&nbsp;        // Normal case.
+<b class="nc">&nbsp;        addTokens(taggerTokens, l);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!isLowercase) {</b>
+&nbsp;          // Lowercase.
+<b class="nc">&nbsp;          addTokens(lowerTaggerTokens, l);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Uppercase.
+<b class="nc">&nbsp;        if (lowerTaggerTokens.isEmpty() &amp;&amp; taggerTokens.isEmpty()) {</b>
+<b class="nc">&nbsp;          if (isLowercase) {</b>
+<b class="nc">&nbsp;            upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,</b>
+<b class="nc">&nbsp;                getWordTagger().tag(StringTools.uppercaseFirstChar(probeWord)));</b>
+<b class="nc">&nbsp;            if (!upperTaggerTokens.isEmpty()) {</b>
+<b class="nc">&nbsp;              addTokens(upperTaggerTokens, l);</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          if (l.isEmpty()) {</b>
+<b class="nc">&nbsp;            if ((matcher = patternSuffix.matcher(probeWord)).find()) {</b>
+&nbsp;              // Remove the suffix and probe dictionary again.
+&nbsp;              // So given a word such as &quot;xxx-mañ&quot;, we&#39;re going to
+&nbsp;              // try to probe the dictionary again with &quot;xxx&quot; this time.
+<b class="nc">&nbsp;              probeWord = matcher.group(1);</b>
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;            l.add(new AnalyzedToken(word, null, null));</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        tokenReadings.add(new AnalyzedTokenReadings(l, pos));</b>
+<b class="nc">&nbsp;        pos += word.length();</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return tokenReadings;</b>
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addTokens(List&lt;AnalyzedToken&gt; taggedTokens, List&lt;AnalyzedToken&gt; l) {
+<b class="nc">&nbsp;    if (taggedTokens != null) {</b>
+<b class="nc">&nbsp;      for (AnalyzedToken at : taggedTokens) {</b>
+<b class="nc">&nbsp;        l.add(at);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

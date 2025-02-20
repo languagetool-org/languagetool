@@ -1,0 +1,1341 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TextChecker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: TextChecker (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TextChecker</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/318)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/531)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TextChecker$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">TextChecker$QueryParams</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/81)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/328)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/616)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.sun.net.httpserver.HttpExchange;
+&nbsp;import io.opentelemetry.api.common.Attributes;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.apache.commons.lang3.builder.EqualsBuilder;
+&nbsp;import org.apache.commons.lang3.builder.HashCodeBuilder;
+&nbsp;import org.apache.commons.lang3.builder.ToStringBuilder;
+&nbsp;import org.apache.commons.lang3.exception.ExceptionUtils;
+&nbsp;import org.apache.ibatis.session.RowBounds;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.language.identifier.LanguageIdentifier;
+&nbsp;import org.languagetool.language.identifier.LanguageIdentifierService;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.markup.AnnotatedTextBuilder;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.bitext.BitextRule;
+&nbsp;import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+&nbsp;import org.languagetool.server.tools.AbTestService;
+&nbsp;import org.languagetool.server.tools.LocalAbTestService;
+&nbsp;import org.languagetool.tools.TelemetryProvider;
+&nbsp;import org.languagetool.tools.LtThreadPoolFactory;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.slf4j.MDC;
+&nbsp;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.HttpURLConnection;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;import static org.languagetool.server.ServerTools.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 3.4
+&nbsp; */
+<b class="nc">&nbsp;@Slf4j</b>
+&nbsp;abstract class TextChecker {
+&nbsp;
+&nbsp;  private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
+&nbsp;  private static final int PINGS_MAX_SIZE = 5000;
+&nbsp;  private static final String SPAN_NAME_PREFIX = &quot;/v2/check-&quot;;
+<b class="nc">&nbsp;  private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(&quot;,\\s*&quot;);</b>
+<b class="nc">&nbsp;  private static final AbTestService AB_TEST_SERVICE = new LocalAbTestService();</b>
+&nbsp;
+&nbsp;  protected abstract void setHeaders(HttpExchange httpExchange);
+&nbsp;  protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List&lt;CheckResults&gt; matches,
+&nbsp;                                        List&lt;RuleMatch&gt; hiddenMatches, String incompleteResultReason, int compactMode, boolean showPremiumHint, JLanguageTool.Mode mode);
+&nbsp;  @NotNull
+&nbsp;  protected abstract List&lt;String&gt; getPreferredVariants(Map&lt;String, String&gt; parameters);
+&nbsp;  protected abstract DetectedLanguage getLanguage(String text, Map&lt;String, String&gt; parameters, List&lt;String&gt; preferredVariants,
+&nbsp;                                                  List&lt;String&gt; additionalDetectLangs, List&lt;String&gt; preferredLangs, boolean testMode);
+&nbsp;  protected abstract boolean getLanguageAutoDetect(Map&lt;String, String&gt; parameters);
+&nbsp;  @NotNull
+&nbsp;  protected abstract List&lt;String&gt; getEnabledRuleIds(Map&lt;String, String&gt; parameters);
+&nbsp;  @NotNull
+&nbsp;  protected abstract List&lt;String&gt; getDisabledRuleIds(Map&lt;String, String&gt; parameters);
+&nbsp;    
+&nbsp;  protected static final int CONTEXT_SIZE = 40; // characters
+&nbsp;  protected static final int NUM_PIPELINES_PER_SETTING = 3; // for prewarming
+&nbsp;
+&nbsp;  protected final HTTPServerConfig config;
+&nbsp;
+&nbsp;  private static final String ENCODING = &quot;UTF-8&quot;;
+&nbsp;  private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
+&nbsp;  
+<b class="nc">&nbsp;  private final Map&lt;String,Integer&gt; languageCheckCounts = new HashMap&lt;&gt;();</b>
+&nbsp;  private final Queue&lt;Runnable&gt; workQueue;
+&nbsp;  private final RequestCounter reqCounter;
+&nbsp;  private final LanguageIdentifier languageIdentifier;
+&nbsp;  private final ExecutorService executorService;
+&nbsp;  private final ResultCache cache;
+&nbsp;  private final DatabaseLogger databaseLogger;
+&nbsp;  private final Long logServerId;
+<b class="nc">&nbsp;  private final Random random = new Random();</b>
+<b class="nc">&nbsp;  private final Set&lt;DatabasePingLogEntry&gt; pings = new HashSet&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;  private long pingsCleanDateMillis = System.currentTimeMillis();</b>
+&nbsp;  PipelinePool pipelinePool; // mocked in test -&gt; package-private / not final
+&nbsp;
+&nbsp;  /**
+&nbsp;   * List of usernames for A/B testing with restricted rules.
+&nbsp;   * Populated from LT_TEST_ONLY_USERS environment variable.
+&nbsp;   * Format: comma-separated list of usernames
+&nbsp;   */
+&nbsp;  private final static List&lt;String&gt; onlyTestUsers;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * List of rule IDs enabled for restricted rules A/B testing.
+&nbsp;   * Populated from LT_TEST_ONLY_RULES environment variable.
+&nbsp;   * Format: comma-separated list of rule IDs
+&nbsp;   */
+&nbsp;  private final static List&lt;String&gt; onlyTestRules;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * List of languages enabled for restricted rules A/B testing.
+&nbsp;   * Populated from LT_TEST_ONLY_LANGUAGES environment variable.
+&nbsp;   * Format: comma-separated list of language codes
+&nbsp;   */
+&nbsp;  private final static List&lt;String&gt; onlyTestLanguages;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * List of clients enabled for restricted rules A/B testing.
+&nbsp;   * Populated from LT_TEST_ONLY_CLIENTS environment variable.
+&nbsp;   * Format: comma-separated list of client identifiers
+&nbsp;   */
+&nbsp;  private final static List&lt;String&gt; onlyTestClients;
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    String onlyUsersEnv = System.getenv(&quot;LT_TEST_ONLY_USERS&quot;);</b>
+<b class="nc">&nbsp;    if (onlyUsersEnv == null || onlyUsersEnv.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      onlyTestUsers = Collections.emptyList();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      onlyTestUsers = Arrays.stream(onlyUsersEnv.split(&quot;,&quot;))</b>
+<b class="nc">&nbsp;        .map(String::trim)</b>
+<b class="nc">&nbsp;        .filter(s -&gt; !s.isEmpty())</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String onlyRulesEnv = System.getenv(&quot;LT_TEST_ONLY_RULES&quot;);</b>
+<b class="nc">&nbsp;    if (onlyRulesEnv == null || onlyRulesEnv.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      onlyTestRules = Collections.emptyList();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      onlyTestRules = Arrays.stream(onlyRulesEnv.split(&quot;,&quot;))</b>
+<b class="nc">&nbsp;        .map(String::trim)</b>
+<b class="nc">&nbsp;        .filter(s -&gt; !s.isEmpty())</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String onlyLanguagesEnv = System.getenv(&quot;LT_TEST_ONLY_LANGUAGES&quot;);</b>
+<b class="nc">&nbsp;    if (onlyLanguagesEnv == null || onlyLanguagesEnv.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      onlyTestLanguages = Collections.emptyList();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      onlyTestLanguages = Arrays.stream(onlyLanguagesEnv.split(&quot;,&quot;))</b>
+<b class="nc">&nbsp;        .map(String::trim)</b>
+<b class="nc">&nbsp;        .filter(s -&gt; !s.isEmpty())</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String onlyClientsEnv = System.getenv(&quot;LT_TEST_ONLY_CLIENTS&quot;);</b>
+<b class="nc">&nbsp;    if (onlyClientsEnv == null || onlyClientsEnv.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      onlyTestClients = Collections.emptyList();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      onlyTestClients = Arrays.stream(onlyClientsEnv.split(&quot;,&quot;))</b>
+<b class="nc">&nbsp;        .map(String::trim)</b>
+<b class="nc">&nbsp;        .filter(s -&gt; !s.isEmpty())</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (!onlyTestRules.isEmpty()) {</b>
+<b class="nc">&nbsp;      log.info(&quot;Initialized A/B test restrictions - users: {}, rules: {}, languages: {}, clients: {}&quot;,</b>
+&nbsp;        onlyTestUsers, onlyTestRules, onlyTestLanguages, onlyTestClients);
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  TextChecker(HTTPServerConfig config, boolean internalServer, Queue&lt;Runnable&gt; workQueue, RequestCounter reqCounter) {</b>
+<b class="nc">&nbsp;    this.config = config;</b>
+<b class="nc">&nbsp;    this.workQueue = workQueue;</b>
+<b class="nc">&nbsp;    this.reqCounter = reqCounter;</b>
+<b class="nc">&nbsp;    if (config.isLocalApiMode()) {</b>
+<b class="nc">&nbsp;      this.languageIdentifier = LanguageIdentifierService.INSTANCE.getSimpleLanguageIdentifier(config.preferredLanguages);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.languageIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(</b>
+&nbsp;              0,
+<b class="nc">&nbsp;              config.getNgramLangIdentData(),</b>
+<b class="nc">&nbsp;              config.getFasttextBinary(),</b>
+<b class="nc">&nbsp;              config.getFasttextModel());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.executorService = LtThreadPoolFactory.createFixedThreadPoolExecutor(</b>
+&nbsp;      LtThreadPoolFactory.TEXT_CHECKER_POOL,
+<b class="nc">&nbsp;      config.getMaxTextCheckerThreads(), config.getMaxTextCheckerThreads(),</b>
+<b class="nc">&nbsp;      config.getTextCheckerQueueSize(),</b>
+&nbsp;      60L, false, (thread, throwable) -&gt; {
+<b class="nc">&nbsp;        log.error(&quot;Thread: &quot; + thread.getName() + &quot; failed with: &quot; + throwable.getMessage());</b>
+&nbsp;      },
+&nbsp;      false);
+&nbsp;
+&nbsp;    // set up other pools used by text checker and remote rule
+&nbsp;    //Need to use own thread pool, otherwise the text-checker thread-pool will be full very soon
+<b class="nc">&nbsp;    int remoteRuleCount = 0;</b>
+<b class="nc">&nbsp;    if (config.getRemoteRulesConfigFile() != null) {</b>
+<b class="nc">&nbsp;      try (FileInputStream fis = new FileInputStream(config.getRemoteRulesConfigFile())) {</b>
+<b class="nc">&nbsp;        remoteRuleCount = RemoteRuleConfig.parse(fis).size();</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        log.error(&quot;Couldn&#39;t read RemoteRule configuration&quot;, e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (remoteRuleCount &gt; 0) {</b>
+<b class="nc">&nbsp;      LtThreadPoolFactory.createFixedThreadPoolExecutor(</b>
+&nbsp;        LtThreadPoolFactory.REMOTE_RULE_EXECUTING_POOL,
+<b class="nc">&nbsp;        config.getMaxCheckThreads(),</b>
+<b class="nc">&nbsp;        config.getMaxCheckThreads() * remoteRuleCount * LtThreadPoolFactory.REMOTE_RULE_POOL_SIZE_FACTOR,</b>
+&nbsp;        -1,
+&nbsp;        5L, true, (thread, throwable) -&gt; {
+<b class="nc">&nbsp;          log.error(&quot;Thread: &quot; + thread.getName() + &quot; failed with: &quot; + throwable.getMessage());</b>
+&nbsp;        },
+&nbsp;        true
+&nbsp;      );
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    this.cache = config.getCacheSize() &gt; 0 ? new ResultCache(</b>
+<b class="nc">&nbsp;      config.getCacheSize(), config.getCacheTTLSeconds(), TimeUnit.SECONDS) : null;</b>
+<b class="nc">&nbsp;    this.databaseLogger = DatabaseLogger.getInstance();</b>
+<b class="nc">&nbsp;    if (databaseLogger.isLogging()) {</b>
+<b class="nc">&nbsp;      this.logServerId = DatabaseAccess.getInstance().getOrCreateServerId();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.logServerId = null;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;        if (cache != null &amp;&amp; !config.isLocalApiMode()) {</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().monitorCache(&quot;languagetool_matches_cache&quot;, cache.getMatchesCache());</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().monitorCache(&quot;languagetool_remote_matches_cache&quot;, cache.getRemoteMatchesCache());</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().monitorCache(&quot;languagetool_sentences_cache&quot;, cache.getSentenceCache());</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().monitorCache(&quot;languagetool_remote_matches_cache&quot;, cache.getRemoteMatchesCache());</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    pipelinePool = new PipelinePool(config, cache, internalServer);</b>
+<b class="nc">&nbsp;    if (config.isPipelinePrewarmingEnabled()) {</b>
+<b class="nc">&nbsp;      log.info(&quot;Prewarming pipelines...&quot;);</b>
+<b class="nc">&nbsp;      prewarmPipelinePool();</b>
+<b class="nc">&nbsp;      log.info(&quot;Prewarming finished.&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (config.getAbTest() != null) {</b>
+<b class="nc">&nbsp;      UserConfig.enableABTests();</b>
+<b class="nc">&nbsp;      log.info(&quot;A/B-Test enabled: &quot; + config.getAbTest());</b>
+<b class="nc">&nbsp;      if (config.getAbTest().equals(&quot;SuggestionsOrderer&quot;)) {</b>
+<b class="nc">&nbsp;        SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static Language parseLanguage(String code) throws BadRequestException {
+&nbsp;    try {
+<b class="nc">&nbsp;      return Languages.getLanguageForShortCode(code);</b>
+&nbsp;    } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;      throw new BadRequestException(e.getMessage());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void prewarmPipelinePool() {
+&nbsp;    // setting + number of pipelines
+&nbsp;    // typical addon settings at the moment (2018-11-05)
+<b class="nc">&nbsp;    Map&lt;PipelineSettings, Integer&gt; prewarmSettings = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;Language&gt; prewarmLanguages = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (config.preferredLanguages.isEmpty()) {</b>
+<b class="nc">&nbsp;      prewarmLanguages.addAll(Stream.of(</b>
+&nbsp;                      &quot;de-DE&quot;, &quot;en-US&quot;, &quot;en-GB&quot;, &quot;pt-BR&quot;, &quot;ru-RU&quot;, &quot;es&quot;, &quot;it&quot;, &quot;fr&quot;, &quot;pl-PL&quot;, &quot;uk-UA&quot;)
+<b class="nc">&nbsp;              .map(Languages::getLanguageForShortCode)</b>
+<b class="nc">&nbsp;              .collect(Collectors.toList()));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      config.preferredLanguages.forEach(s -&gt; {</b>
+<b class="nc">&nbsp;        prewarmLanguages.add(Languages.getLanguageForShortCode(s));</b>
+&nbsp;      });
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; addonDisabledRules = Collections.singletonList(&quot;WHITESPACE_RULE&quot;);</b>
+<b class="nc">&nbsp;    List&lt;JLanguageTool.Mode&gt; addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);</b>
+<b class="nc">&nbsp;    UserConfig user = new UserConfig();</b>
+<b class="nc">&nbsp;    for (Language language : prewarmLanguages) {</b>
+&nbsp;      // add-on uses picky mode since 2021-01-20
+<b class="nc">&nbsp;      for (JLanguageTool.Mode mode : addonModes) {</b>
+<b class="nc">&nbsp;        QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,</b>
+<b class="nc">&nbsp;          Collections.emptyList(), Collections.emptyList(), false, true,</b>
+<b class="nc">&nbsp;          true, true, Premium.isPremiumVersion(), false, mode, JLanguageTool.Level.PICKY, null);</b>
+<b class="nc">&nbsp;        PipelineSettings settings = new PipelineSettings(language, null, params, config.globalConfig, user);</b>
+<b class="nc">&nbsp;        prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);</b>
+&nbsp;
+<b class="nc">&nbsp;        PipelineSettings settingsMotherTongueEqual = new PipelineSettings(language, language, params, config.globalConfig, user);</b>
+<b class="nc">&nbsp;        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language,</b>
+<b class="nc">&nbsp;          Languages.getLanguageForName(&quot;English&quot;), params, config.globalConfig, user);</b>
+<b class="nc">&nbsp;        prewarmSettings.put(settingsMotherTongueEqual, NUM_PIPELINES_PER_SETTING);</b>
+<b class="nc">&nbsp;        prewarmSettings.put(settingsMotherTongueEnglish, NUM_PIPELINES_PER_SETTING);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      for (Map.Entry&lt;PipelineSettings, Integer&gt; prewarmSetting : prewarmSettings.entrySet()) {</b>
+<b class="nc">&nbsp;          int numPipelines = prewarmSetting.getValue();</b>
+<b class="nc">&nbsp;          PipelineSettings setting = prewarmSetting.getKey();</b>
+&nbsp;
+&nbsp;          // request n pipelines first, return all afterwards -&gt; creates multiple for same setting
+<b class="nc">&nbsp;          List&lt;Pipeline&gt; pipelines = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          for (int i = 0; i &lt; numPipelines; i++) {</b>
+<b class="nc">&nbsp;            Pipeline p = pipelinePool.getPipeline(setting);</b>
+<b class="nc">&nbsp;            p.check(&quot;LanguageTool&quot;);</b>
+<b class="nc">&nbsp;            pipelines.add(p);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          for (Pipeline p : pipelines) {</b>
+<b class="nc">&nbsp;            pipelinePool.returnPipeline(setting, p);</b>
+&nbsp;          }
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Error while prewarming pipelines&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  void shutdownNow() {
+<b class="nc">&nbsp;    executorService.shutdownNow();</b>
+<b class="nc">&nbsp;    RemoteRule.shutdown();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean shouldRunRestrictedRulesTest(Map&lt;String, String&gt; params, String agent, Language lang, List&lt;String&gt; abTest) {
+<b class="nc">&nbsp;    String username = params.getOrDefault(&quot;username&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;    return (onlyTestUsers.contains(username) || (abTest != null &amp;&amp; abTest.contains(&quot;only&quot;))) &amp;&amp;</b>
+<b class="nc">&nbsp;      onlyTestLanguages.contains(lang.getShortCodeWithCountryAndVariant()) &amp;&amp;</b>
+<b class="nc">&nbsp;      onlyTestClients.contains(agent);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  void checkText(AnnotatedText aText, HttpExchange httpExchange, Map&lt;String, String&gt; params, ErrorRequestLimiter errorRequestLimiter,
+&nbsp;                 String remoteAddress) throws Exception {
+<b class="nc">&nbsp;    checkParams(params);</b>
+<b class="nc">&nbsp;    long timeStart = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    UserLimits limits = ServerTools.getUserLimits(params, config);</b>
+&nbsp;
+<b class="nc">&nbsp;    if (Premium.isPremiumStatusCheck(aText)) {</b>
+<b class="nc">&nbsp;      Language premiumStatusCheckLang = Languages.getLanguageForShortCode(&quot;en-US&quot;);</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      if (limits.hasPremium() || config.isPremiumAlways()) {</b>
+<b class="nc">&nbsp;        matches.add(new RuleMatch(new Rule() {</b>
+&nbsp;          @Override
+&nbsp;          public String getId() {
+<b class="nc">&nbsp;            return &quot;PREMIUM_FAKE_RULE&quot;;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          @Override
+&nbsp;          public String getDescription() {
+<b class="nc">&nbsp;            return &quot;PREMIUM_FAKE_RULE&quot;;</b>
+&nbsp;          }
+&nbsp;
+&nbsp;          @Override
+&nbsp;          public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;            return RuleMatch.EMPTY_ARRAY;</b>
+&nbsp;          }
+&nbsp;        }, null,0,1,&quot;&quot;));
+&nbsp;      }
+<b class="nc">&nbsp;      DetectedLanguage detectedLanguage = new DetectedLanguage(premiumStatusCheckLang, premiumStatusCheckLang, 0.99999076F, &quot;ngram&quot;);</b>
+<b class="nc">&nbsp;      int compactMode = Integer.parseInt(params.getOrDefault(&quot;c&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;      String response = getResponse(aText, premiumStatusCheckLang, detectedLanguage, premiumStatusCheckLang, Collections.singletonList(new CheckResults(matches, Collections.emptyList())), Collections.emptyList(), null, compactMode,</b>
+<b class="nc">&nbsp;        !limits.hasPremium(), JLanguageTool.Mode.ALL);</b>
+<b class="nc">&nbsp;      setHeaders(httpExchange);</b>
+<b class="nc">&nbsp;      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;      httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String requestId = httpExchange.getRequestHeaders().getFirst(&quot;X-Request-ID&quot;);</b>
+&nbsp;
+&nbsp;    // logging information
+<b class="nc">&nbsp;    String agent = params.get(&quot;useragent&quot;) != null ? params.get(&quot;useragent&quot;) : &quot;-&quot;;</b>
+<b class="nc">&nbsp;    Long agentId = null, userId = null;</b>
+<b class="nc">&nbsp;    if (databaseLogger.isLogging()) {</b>
+<b class="nc">&nbsp;      DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;      agentId = db.getOrCreateClientId(params.get(&quot;useragent&quot;));</b>
+<b class="nc">&nbsp;      userId = limits.getPremiumUid();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String referrer = httpExchange.getRequestHeaders().getFirst(&quot;Referer&quot;);</b>
+<b class="nc">&nbsp;    String userAgent = httpExchange.getRequestHeaders().getFirst(&quot;User-Agent&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    if (!config.isAnonymousAccessAllowed() &amp;&amp; limits.getPremiumUid() == null) {</b>
+<b class="nc">&nbsp;      throw new AuthException(&quot;Anonymous access is prohibited on this server, please provide authentication.&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    int length = aText.getPlainText().length();</b>
+<b class="nc">&nbsp;    if (&quot;true&quot;.equals(params.get(&quot;languageChanged&quot;))) {</b>
+<b class="nc">&nbsp;      log.info(&quot;languageChanged to &quot; + params.get(&quot;language&quot;) + &quot; for text with length &quot; + aText.getPlainText().trim().length());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (length &gt; limits.getMaxTextLength()) {</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_TEXT_SIZE);</b>
+<b class="nc">&nbsp;      throw new TextTooLongException(&quot;Your text exceeds the limit of &quot; + limits.getMaxTextLength() +</b>
+&nbsp;              &quot; characters (it&#39;s &quot; + length + &quot; characters). Please submit a shorter text.&quot;);
+&nbsp;    }
+&nbsp;    // static because we can&#39;t rely on errorRequestLimiter, null when timeoutRequestLimit option not set
+<b class="nc">&nbsp;    if (!config.isLocalApiMode()) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        RequestLimiter.checkUserLimit(referrer, userAgent, limits);</b>
+&nbsp;      } catch (TooManyRequestsException e) {
+<b class="nc">&nbsp;        String response = &quot;Error: Access denied: &quot; + e.getMessage();</b>
+<b class="nc">&nbsp;        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;        httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+<b class="nc">&nbsp;        String message = &quot;Blocked request from uid:&quot; + userId + &quot; because user limit is reached: &quot;;</b>
+<b class="nc">&nbsp;        message += &quot;limit = &quot; + limits.getRequestsPerDay() + &quot;, mode = &quot; + limits.getLimitEnforcementMode() + &quot;. &quot;;</b>
+<b class="nc">&nbsp;        message += &quot;Access from &quot; + remoteAddress + &quot;, &quot;;</b>
+<b class="nc">&nbsp;        message += &quot;HTTP user agent: &quot; + userAgent + &quot;, &quot;;</b>
+<b class="nc">&nbsp;        message += &quot;User agent param: &quot; + params.get(&quot;useragent&quot;) + &quot;, &quot;;</b>
+<b class="nc">&nbsp;        message += &quot;Referrer: &quot; + referrer + &quot;, &quot;;</b>
+<b class="nc">&nbsp;        message += &quot;language: &quot; + params.get(&quot;language&quot;) + &quot;, &quot;;</b>
+<b class="nc">&nbsp;        message += &quot;h: &quot; + reqCounter.getHandleCount() + &quot;, &quot;;</b>
+<b class="nc">&nbsp;        message += &quot;r: &quot; + reqCounter.getRequestCount();</b>
+<b class="nc">&nbsp;        if (params.get(&quot;username&quot;) != null) {</b>
+<b class="nc">&nbsp;          message += &quot;, user: &quot; + params.get(&quot;username&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (params.get(&quot;apiKey&quot;) != null) {</b>
+<b class="nc">&nbsp;          message += &quot;, apiKey: &quot; + params.get(&quot;apiKey&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String text = params.get(&quot;text&quot;);</b>
+<b class="nc">&nbsp;        if (text != null) {</b>
+<b class="nc">&nbsp;          message += &quot;, text length: &quot; + text.length();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        log.warn(message);</b>
+&nbsp;        return;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; dictGroups = null;</b>
+<b class="nc">&nbsp;    String dictName = &quot;default&quot;;</b>
+<b class="nc">&nbsp;    if (params.containsKey(&quot;dicts&quot;)) {</b>
+<b class="nc">&nbsp;      dictGroups = Arrays.asList(params.get(&quot;dicts&quot;).split(&quot;,&quot;));</b>
+<b class="nc">&nbsp;      dictGroups.sort(Comparator.naturalOrder());</b>
+<b class="nc">&nbsp;      dictName = &quot;groups_&quot; + String.join(&quot;,&quot;, dictGroups);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    final List&lt;String&gt; finalDictGroups = dictGroups;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; dictWords = limits.getPremiumUid() != null ?</b>
+<b class="nc">&nbsp;      TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX +&quot;GetUserDictWords&quot;, Attributes.empty(), () -&gt; getUserDictWords(limits, finalDictGroups)) : Collections.emptyList();</b>
+&nbsp;
+<b class="nc">&nbsp;    boolean filterDictionaryMatches = &quot;true&quot;.equals(params.getOrDefault(&quot;filterDictionaryMatches&quot;, &quot;true&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;    Long textSessionId = null;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      if (params.containsKey(&quot;textSessionId&quot;)) {</b>
+<b class="nc">&nbsp;        String textSessionIdStr = params.get(&quot;textSessionId&quot;);</b>
+<b class="nc">&nbsp;        if (textSessionIdStr.startsWith(&quot;user:&quot;)) {</b>
+<b class="nc">&nbsp;          int sepPos = textSessionIdStr.indexOf(&#39;:&#39;);</b>
+<b class="nc">&nbsp;          String sessionId = textSessionIdStr.substring(sepPos + 1);</b>
+<b class="nc">&nbsp;          textSessionId = Long.valueOf(sessionId);</b>
+<b class="nc">&nbsp;        } else if (textSessionIdStr.contains(&quot;:&quot;)) { // transitioning to new format used in chrome addon</b>
+&nbsp;          // format: &quot;{random number in 0..99999}:{unix time}&quot;
+&nbsp;          long random, timestamp;
+<b class="nc">&nbsp;          int sepPos = textSessionIdStr.indexOf(&#39;:&#39;);</b>
+<b class="nc">&nbsp;          random = Long.parseLong(textSessionIdStr.substring(0, sepPos));</b>
+<b class="nc">&nbsp;          timestamp = Long.parseLong(textSessionIdStr.substring(sepPos + 1));</b>
+&nbsp;          // use random number to choose a slice in possible range of values
+&nbsp;          // then choose position in slice by timestamp
+<b class="nc">&nbsp;          long maxRandom = 100000;</b>
+<b class="nc">&nbsp;          long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;</b>
+<b class="nc">&nbsp;          long segmentOffset = random * randomSegmentSize;</b>
+<b class="nc">&nbsp;          if (timestamp &gt; randomSegmentSize) {</b>
+<b class="nc">&nbsp;            log.warn(String.format(&quot;Could not transform textSessionId &#39;%s&#39;&quot;, textSessionIdStr));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          textSessionId = segmentOffset + timestamp;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          textSessionId = Long.valueOf(textSessionIdStr);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (NumberFormatException ex) {
+<b class="nc">&nbsp;      log.info(&quot;Could not parse textSessionId &#39;&quot; + params.get(&quot;textSessionId&quot;) + &quot;&#39; as long: &quot; + ex.getMessage() +</b>
+<b class="nc">&nbsp;        &quot;, user agent: &quot; + params.get(&quot;useragent&quot;) + &quot;, version: &quot; + params.get(&quot;v&quot;) +</b>
+<b class="nc">&nbsp;        &quot;, HTTP user agent: &quot; + getHttpUserAgent(httpExchange) + &quot;, referrer: &quot; + getHttpReferrer(httpExchange));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; abTest = AB_TEST_SERVICE.getActiveAbTestForClient(params, config);</b>
+&nbsp;
+<b class="nc">&nbsp;    boolean enableHiddenRules = &quot;true&quot;.equals(params.get(&quot;enableHiddenRules&quot;));</b>
+<b class="nc">&nbsp;    if (limits.hasPremium()) {</b>
+<b class="nc">&nbsp;      enableHiddenRules = false;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    boolean autoDetectLanguage = getLanguageAutoDetect(params);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; preferredVariants = getPreferredVariants(params);</b>
+<b class="nc">&nbsp;    if (params.get(&quot;noopLanguages&quot;) != null &amp;&amp; !autoDetectLanguage) {</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;You can specify &#39;noopLanguages&#39; only when also using &#39;language=auto&#39;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; noopLangs = params.get(&quot;noopLanguages&quot;) != null ?</b>
+<b class="nc">&nbsp;            Arrays.asList(params.get(&quot;noopLanguages&quot;).split(&quot;,&quot;)) : Collections.emptyList();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; preferredLangs = params.get(&quot;preferredLanguages&quot;) != null ?</b>
+<b class="nc">&nbsp;            Arrays.asList(params.get(&quot;preferredLanguages&quot;).split(&quot;,&quot;)) : Collections.emptyList();</b>
+<b class="nc">&nbsp;    DetectedLanguage detLang = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + &quot;DetetectLanguage&quot;, Attributes.empty(), () -&gt; getLanguage(aText.getPlainText(), params, preferredVariants, noopLangs, preferredLangs,</b>
+<b class="nc">&nbsp;      params.getOrDefault(&quot;ld&quot;, &quot;control&quot;).equalsIgnoreCase(&quot;test&quot;)));</b>
+<b class="nc">&nbsp;    Language lang = detLang.getGivenLanguage();</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;Rule&gt; userRules = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + &quot;GetUserRules&quot;, Attributes.empty(), () -&gt; getUserRules(limits, lang, finalDictGroups));</b>
+<b class="nc">&nbsp;    String ltAgent = params.getOrDefault(&quot;useragent&quot;, &quot;unknown&quot;);</b>
+<b class="nc">&nbsp;    Pattern trustedSourcesPattern = config.getTrustedSources();</b>
+<b class="nc">&nbsp;    boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());</b>
+<b class="nc">&nbsp;    UserConfig userConfig =</b>
+&nbsp;      new UserConfig(dictWords, userRules,
+<b class="nc">&nbsp;                     getRuleValues(params), config.getMaxSpellingSuggestions(),</b>
+<b class="nc">&nbsp;                     limits.getPremiumUid(), dictName, limits.getDictCacheSize(),</b>
+&nbsp;                     null, filterDictionaryMatches, abTest, textSessionId,
+<b class="nc">&nbsp;                     !limits.hasPremium() &amp;&amp; enableHiddenRules, preferredLangs, trustedSource);</b>
+&nbsp;
+&nbsp;    //print(&quot;Check start: &quot; + text.length() + &quot; chars, &quot; + langParam);
+&nbsp;
+&nbsp;    // == temporary counting code ======================================
+&nbsp;    /*
+&nbsp;    if (httpExchange.getRequestHeaders() != null &amp;&amp; httpExchange.getRequestHeaders().get(&quot;Accept-Language&quot;) != null) {
+&nbsp;      List&lt;String&gt; langs = httpExchange.getRequestHeaders().get(&quot;Accept-Language&quot;);
+&nbsp;      if (langs.size() &gt; 0) {
+&nbsp;        String[] split = langs.get(0).split(&quot;,&quot;);
+&nbsp;        if (split.length &gt; 0 &amp;&amp; detLang.getDetectedLanguage() != null &amp;&amp; detLang.getDetectedLanguage().getShortCode().equals(&quot;en&quot;)) {
+&nbsp;          int theCount1 = StringUtils.countMatches(aText.toString(), &quot; the &quot;);
+&nbsp;          int theCount2 = StringUtils.countMatches(aText.toString(), &quot;The &quot;);
+&nbsp;          String browserLang = split[0];
+&nbsp;          System.out.println(&quot;STAT\t&quot; + detLang.getDetectedLanguage().getShortCode() + &quot;\t&quot; + detLang.getDetectionConfidence() + &quot;\t&quot; + aText.toString().length() + &quot;\t&quot; + browserLang + &quot;\t&quot; + theCount1 + &quot;\t&quot; + theCount2);
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    */
+&nbsp;    // ========================================
+&nbsp;
+<b class="nc">&nbsp;    Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());</b>
+<b class="nc">&nbsp;    if (count == null) {</b>
+<b class="nc">&nbsp;      count = 1;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      count++;</b>
+&nbsp;    }
+&nbsp;    //print(&quot;Starting check: &quot; + aText.getPlainText().length() + &quot; chars, #&quot; + count);
+<b class="nc">&nbsp;    String motherTongueParam = params.get(&quot;motherTongue&quot;);</b>
+<b class="nc">&nbsp;    Language motherTongue = motherTongueParam != null ? parseLanguage(motherTongueParam) : null;</b>
+<b class="nc">&nbsp;    boolean useEnabledOnly = &quot;yes&quot;.equals(params.get(&quot;enabledOnly&quot;)) || &quot;true&quot;.equals(params.get(&quot;enabledOnly&quot;));</b>
+<b class="nc">&nbsp;    List&lt;Language&gt; altLanguages = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (params.get(&quot;altLanguages&quot;) != null) {</b>
+<b class="nc">&nbsp;      String[] altLangParams = COMMA_WHITESPACE_PATTERN.split(params.get(&quot;altLanguages&quot;));</b>
+<b class="nc">&nbsp;      for (String langCode : altLangParams) {</b>
+<b class="nc">&nbsp;        Language altLang = parseLanguage(langCode);</b>
+<b class="nc">&nbsp;        altLanguages.add(altLang);</b>
+<b class="nc">&nbsp;        if (altLang.hasVariant() &amp;&amp; !altLang.isVariant()) {</b>
+<b class="nc">&nbsp;          ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);</b>
+<b class="nc">&nbsp;          throw new BadRequestException(&quot;You specified altLanguage &#39;&quot; + langCode + &quot;&#39;, but for this language you need to specify a variant, e.g. &#39;en-GB&#39; instead of just &#39;en&#39;&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; enabledRules = getEnabledRuleIds(params);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; disabledRules = getDisabledRuleIds(params);</b>
+<b class="nc">&nbsp;    List&lt;CategoryId&gt; enabledCategories = getCategoryIds(&quot;enabledCategories&quot;, params);</b>
+<b class="nc">&nbsp;    List&lt;CategoryId&gt; disabledCategories = getCategoryIds(&quot;disabledCategories&quot;, params);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    if (shouldRunRestrictedRulesTest(params, agent, lang, abTest)) {</b>
+<b class="nc">&nbsp;      log.info(&quot;Running test with restricted rules for user: {}, language: {}, client: {}&quot;,</b>
+<b class="nc">&nbsp;        params.getOrDefault(&quot;username&quot;, &quot;&quot;), lang.getShortCodeWithCountryAndVariant(), agent);</b>
+<b class="nc">&nbsp;      useEnabledOnly = true;</b>
+<b class="nc">&nbsp;      enabledRules = onlyTestRules;</b>
+&nbsp;      // need to clear these settings, leads to conflict with useEnabledOnly otherwise
+<b class="nc">&nbsp;      disabledRules = Collections.emptyList();</b>
+<b class="nc">&nbsp;      disabledCategories = Collections.emptyList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    if ((disabledRules.size() &gt; 0 || disabledCategories.size() &gt; 0) &amp;&amp; useEnabledOnly) {</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;You cannot specify disabled rules or categories using enabledOnly=true&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (enabledRules.isEmpty() &amp;&amp; enabledCategories.isEmpty() &amp;&amp; useEnabledOnly) {</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;You must specify enabled rules or categories when using enabledOnly=true&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    boolean enableTempOffRules = &quot;true&quot;.equals(params.get(&quot;enableTempOffRules&quot;));</b>
+<b class="nc">&nbsp;    boolean useQuerySettings = enabledRules.size() &gt; 0 || disabledRules.size() &gt; 0 ||</b>
+<b class="nc">&nbsp;            enabledCategories.size() &gt; 0 || disabledCategories.size() &gt; 0 || enableTempOffRules;</b>
+<b class="nc">&nbsp;    boolean allowIncompleteResults = &quot;true&quot;.equals(params.get(&quot;allowIncompleteResults&quot;));</b>
+<b class="nc">&nbsp;    JLanguageTool.Mode mode = ServerTools.getMode(params);</b>
+<b class="nc">&nbsp;    JLanguageTool.Level level = ServerTools.getLevel(params);</b>
+<b class="nc">&nbsp;    String[] toneTagNames = params.get(&quot;toneTags&quot;) != null ? params.get(&quot;toneTags&quot;).split(&quot;,&quot;) : null;</b>
+<b class="nc">&nbsp;    Set&lt;ToneTag&gt; toneTags = new HashSet&lt;&gt;(ToneTag.values().length);</b>
+<b class="nc">&nbsp;    if (toneTagNames != null) {</b>
+<b class="nc">&nbsp;      if (toneTagNames.length == 1 &amp;&amp; toneTagNames[0].isEmpty()) { //&amp;toneTags=</b>
+<b class="nc">&nbsp;        toneTags.add(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        for (String toneTagName : toneTagNames) {</b>
+<b class="nc">&nbsp;          if (toneTagNames.length &gt; 1 &amp;&amp; (toneTagName.equals(&quot;NO_TONE_RULE&quot;) || toneTagName.equals(&quot;ALL_TONE_RULES&quot;))) { //&amp;toneTags=ALL_TONE_RULES or //&amp;toneTags=NO_TONE_RULE</b>
+<b class="nc">&nbsp;            log.warn(&quot;NO_TONE_RULE and ALL_TONE_RULES will be ignored if more than one toneTag is in params.&quot;);</b>
+&nbsp;            continue;
+&nbsp;          }
+&nbsp;          try {
+<b class="nc">&nbsp;            toneTags.add(ToneTag.valueOf(toneTagName));</b>
+&nbsp;          } catch (IllegalArgumentException ex) {
+&nbsp;            //just ignore unsupported toneTags
+<b class="nc">&nbsp;            log.warn(&quot;Unsupported toneTag found in params: {}&quot;, toneTagName);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      toneTags.add(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC); //No toneTags param in request</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String callback = params.get(&quot;callback&quot;);</b>
+&nbsp;    // allowed to log input on errors?
+<b class="nc">&nbsp;    boolean inputLogging = !params.getOrDefault(&quot;inputLogging&quot;, &quot;&quot;).equals(&quot;no&quot;);</b>
+<b class="nc">&nbsp;    QueryParams qParams = new QueryParams(altLanguages, enabledRules, disabledRules,</b>
+&nbsp;      enabledCategories, disabledCategories, useEnabledOnly,
+<b class="nc">&nbsp;      useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null &amp;&amp; limits.hasPremium(), enableTempOffRules, mode, level, toneTags, callback, inputLogging);</b>
+&nbsp;
+<b class="nc">&nbsp;    int textSize = length;</b>
+<b class="nc">&nbsp;    List&lt;CheckResults&gt; ruleMatchesSoFar = Collections.synchronizedList(new ArrayList&lt;&gt;());</b>
+&nbsp;    Future&lt;List&lt;CheckResults&gt;&gt; future;
+&nbsp;    try {
+<b class="nc">&nbsp;      future = executorService.submit(() -&gt; {</b>
+<b class="nc">&nbsp;        try (MDC.MDCCloseable c = MDC.putCloseable(&quot;rID&quot;, LanguageToolHttpHandler.getRequestId(httpExchange))) {</b>
+<b class="nc">&nbsp;          log.debug(&quot;Starting text check on {} chars; params: {}&quot;, length, qParams);</b>
+<b class="nc">&nbsp;          long time = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;          List&lt;CheckResults&gt; results = getRuleMatches(aText, lang, motherTongue, params, qParams, userConfig, f -&gt; ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));</b>
+<b class="nc">&nbsp;          log.debug(&quot;Finished text check in {}ms. Starting suggestion generation.&quot;, System.currentTimeMillis() - time);</b>
+<b class="nc">&nbsp;          time = System.currentTimeMillis();</b>
+&nbsp;          // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
+<b class="nc">&nbsp;          results.stream().flatMap(r -&gt; r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);</b>
+<b class="nc">&nbsp;          log.debug(&quot;Finished suggestion generation in {}ms, returning results.&quot;, System.currentTimeMillis() - time);</b>
+<b class="nc">&nbsp;          return results;</b>
+&nbsp;        }
+&nbsp;      });
+&nbsp;    } catch (RejectedExecutionException e) {
+<b class="nc">&nbsp;      throw new UnavailableException(&quot;Server overloaded, please try again later&quot;, e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String incompleteResultReason = null;</b>
+&nbsp;    List&lt;CheckResults&gt; res;
+<b class="nc">&nbsp;    Attributes textCheckingAttributes = Attributes.builder()</b>
+<b class="nc">&nbsp;            .put(&quot;text.language&quot;, lang.getShortCode())</b>
+<b class="nc">&nbsp;            .put(&quot;text.size&quot;, textSize)</b>
+<b class="nc">&nbsp;            .put(&quot;userRules.size&quot;, userRules.size())</b>
+<b class="nc">&nbsp;            .put(&quot;dictionary.size&quot;, dictWords.size())</b>
+<b class="nc">&nbsp;            .build();</b>
+<b class="nc">&nbsp;    Integer finalCount = count;</b>
+<b class="nc">&nbsp;    Map.Entry&lt;List&lt;CheckResults&gt;, String&gt; resAndReason = TelemetryProvider.INSTANCE.createSpan(SPAN_NAME_PREFIX + &quot;GetRuleMatches&quot;, textCheckingAttributes, (span) -&gt; {</b>
+&nbsp;        List&lt;CheckResults&gt; localRes;
+<b class="nc">&nbsp;        String localReason = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          if (limits.getMaxCheckTimeMillis() &lt; 0) {</b>
+<b class="nc">&nbsp;            localRes = future.get();</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            localRes = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);</b>
+&nbsp;          }
+&nbsp;        } catch (ExecutionException e) {
+<b class="nc">&nbsp;          future.cancel(true);</b>
+<b class="nc">&nbsp;          if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {</b>
+<b class="nc">&nbsp;            ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (qParams.allowIncompleteResults &amp;&amp; ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {</b>
+<b class="nc">&nbsp;            log.warn(e.getMessage() + &quot; - returning &quot; + ruleMatchesSoFar.size() + &quot; matches found so far. &quot; +</b>
+<b class="nc">&nbsp;              &quot;Detected language: &quot; + detLang + &quot;, &quot; + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,</b>
+<b class="nc">&nbsp;              params, System.currentTimeMillis() - timeStart, reqCounter));</b>
+<b class="nc">&nbsp;            localRes = new ArrayList&lt;&gt;(ruleMatchesSoFar);  // threads might still be running, so make a copy</b>
+<b class="nc">&nbsp;            localReason = &quot;Results are incomplete: &quot; + ExceptionUtils.getRootCause(e).getMessage();</b>
+<b class="nc">&nbsp;          } else if (e.getCause() != null &amp;&amp; e.getCause() instanceof OutOfMemoryError) {</b>
+<b class="nc">&nbsp;            throw (OutOfMemoryError) e.getCause();</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            throw new RuntimeException(ServerTools.cleanUserTextFromMessage(e.getMessage(), params) + &quot;, detected: &quot; + detLang, e);</b>
+&nbsp;          }
+&nbsp;        } catch (TimeoutException e) {
+<b class="nc">&nbsp;          boolean cancelled = future.cancel(true);</b>
+<b class="nc">&nbsp;          Path loadFile = Paths.get(&quot;/proc/loadavg&quot;);  // works in Linux only(?)</b>
+<b class="nc">&nbsp;          String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : &quot;(unknown)&quot;;</b>
+<b class="nc">&nbsp;          if (errorRequestLimiter != null) {</b>
+<b class="nc">&nbsp;            errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders(), params);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          String message = &quot;Text checking took longer than allowed maximum of &quot; + limits.getMaxCheckTimeMillis() +</b>
+&nbsp;            &quot; milliseconds (cancelled: &quot; + cancelled +
+<b class="nc">&nbsp;            &quot;, lang: &quot; + lang.getShortCodeWithCountryAndVariant() +</b>
+&nbsp;            &quot;, detected: &quot; + detLang +
+&nbsp;            &quot;, #&quot; + finalCount +
+&nbsp;            &quot;, &quot; + length + &quot; characters of text&quot; +
+<b class="nc">&nbsp;            &quot;, mode: &quot; + mode.toString().toLowerCase() +</b>
+<b class="nc">&nbsp;            &quot;, h: &quot; + reqCounter.getHandleCount() +</b>
+<b class="nc">&nbsp;            &quot;, r: &quot; + reqCounter.getRequestCount() +</b>
+&nbsp;            &quot;, requestId: &quot; + requestId +
+&nbsp;            &quot;, system load: &quot; + loadInfo + &quot;)&quot;;
+<b class="nc">&nbsp;          if (qParams.allowIncompleteResults) {</b>
+<b class="nc">&nbsp;            log.info(message + &quot; - returning &quot; + ruleMatchesSoFar.size() + &quot; matches found so far&quot;);</b>
+<b class="nc">&nbsp;            localRes = new ArrayList&lt;&gt;(ruleMatchesSoFar);  // threads might still be running, so make a copy</b>
+<b class="nc">&nbsp;            localReason = &quot;Results are incomplete: text checking took longer than allowed maximum of &quot; +</b>
+<b class="nc">&nbsp;              String.format(Locale.ENGLISH, &quot;%.2f&quot;, limits.getMaxCheckTimeMillis() / 1000.0) + &quot; seconds&quot;;</b>
+<b class="nc">&nbsp;            span.setAttribute(&quot;incompleteResults&quot;, true);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);</b>
+<b class="nc">&nbsp;            throw new RuntimeException(message, e);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return new AbstractMap.SimpleEntry(localRes, localReason);</b>
+&nbsp;      });
+<b class="nc">&nbsp;    res = resAndReason.getKey();</b>
+<b class="nc">&nbsp;    incompleteResultReason = resAndReason.getValue();</b>
+&nbsp;
+&nbsp;    // no lazy computation at later points (outside of timeout enforcement)
+&nbsp;    // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
+<b class="nc">&nbsp;    res.forEach(checkResults -&gt; checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));</b>
+&nbsp;
+<b class="nc">&nbsp;    setHeaders(httpExchange);</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; hiddenMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    boolean temporaryPremiumDisabledRuleMatch = false;</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; temporaryPremiumDisabledRuleMatchedIds = new HashSet&lt;&gt;();</b>
+&nbsp;    // filter computed premium matches, convert to hidden matches - no separate hidden matches server needed
+<b class="nc">&nbsp;    if (!qParams.premium &amp;&amp; qParams.enableHiddenRules) {</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; allMatches = new ArrayList&lt;&gt;(); // for filtering out overlapping matches, collect across CheckResults</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; premiumMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (CheckResults result : res) {</b>
+<b class="nc">&nbsp;        List&lt;RuleMatch&gt; filteredMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (RuleMatch match : result.getRuleMatches()) {</b>
+<b class="nc">&nbsp;          if (Premium.get().isPremiumRule(match.getRule()) &amp;&amp; !Premium.isTempNotPremium(match.getRule())) {</b>
+<b class="nc">&nbsp;            premiumMatches.add(match);</b>
+<b class="nc">&nbsp;          } else if (userConfig.getAbTest() != null &amp;&amp; userConfig.getAbTest().equals(&quot;ALLOW_PREMIUM_IN_BASIC&quot;) &amp;&amp; Premium.get().isPremiumRule(match.getRule()) &amp;&amp; Premium.isTempNotPremium(match.getRule())) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Rule: &quot; + match.getRule().getId() + &quot; is premium but temporary available in basic&quot;);</b>
+<b class="nc">&nbsp;            filteredMatches.add(match);</b>
+<b class="nc">&nbsp;            allMatches.add(match);</b>
+<b class="nc">&nbsp;            temporaryPremiumDisabledRuleMatch = true;</b>
+<b class="nc">&nbsp;            temporaryPremiumDisabledRuleMatchedIds.add(match.getRule().getId());</b>
+&nbsp;          } else {
+&nbsp;            // filter out premium matches
+<b class="nc">&nbsp;            filteredMatches.add(match);</b>
+&nbsp;            // keep track for filtering out overlapping matches
+<b class="nc">&nbsp;            allMatches.add(match);</b>
+&nbsp;          }
+&nbsp;          // need to replace list, can&#39;t iterate and remove since some rules may return unmodifiable lists
+<b class="nc">&nbsp;          result.setRuleMatches(filteredMatches);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      hiddenMatches.addAll(ResultExtender.getAsHiddenMatches(allMatches, premiumMatches));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    int compactMode = Integer.parseInt(params.getOrDefault(&quot;c&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;    String response = getResponse(aText, lang, detLang, motherTongue, res, hiddenMatches, incompleteResultReason, compactMode,</b>
+<b class="nc">&nbsp;      limits.getPremiumUid() == null, qParams.mode);</b>
+<b class="nc">&nbsp;    if (qParams.callback != null) {</b>
+&nbsp;      // JSONP - still needed today for the special case of hosting your own on-premise LT without SSL
+&nbsp;      // and using it from a local MS Word (not Online Word) - issue #89 in the add-in repo:
+<b class="nc">&nbsp;      response = qParams.callback + &quot;(&quot; + response + &quot;);&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String messageSent = &quot;sent&quot;;</b>
+<b class="nc">&nbsp;    String languageMessage = lang.getShortCodeWithCountryAndVariant();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);</b>
+<b class="nc">&nbsp;      httpExchange.getResponseBody().write(response.getBytes(ENCODING));</b>
+<b class="nc">&nbsp;      ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);</b>
+&nbsp;    } catch (IOException exception) {
+&nbsp;      // the client is disconnected
+<b class="nc">&nbsp;      messageSent = &quot;notSent: &quot; + exception.getMessage();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (motherTongue != null) {</b>
+<b class="nc">&nbsp;      languageMessage += &quot; (mother tongue: &quot; + motherTongue.getShortCodeWithCountryAndVariant() + &quot;)&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (autoDetectLanguage) {</b>
+<b class="nc">&nbsp;      languageMessage += &quot;[auto]&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);</b>
+<b class="nc">&nbsp;    int computationTime = (int) (System.currentTimeMillis() - timeStart);</b>
+<b class="nc">&nbsp;    Premium premium = Premium.get();</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; premiumMatchRuleIds = res.stream().</b>
+<b class="nc">&nbsp;            flatMap(r -&gt; r.getRuleMatches().stream()).</b>
+<b class="nc">&nbsp;            filter(k -&gt; premium.isPremiumRule(k.getRule())).</b>
+<b class="nc">&nbsp;            map(k -&gt; k.getRule().getId()).</b>
+<b class="nc">&nbsp;            collect(Collectors.toList());</b>
+&nbsp;
+<b class="nc">&nbsp;    Map&lt;String, Integer&gt; ruleMatchCount = getRuleMatchCount(res);</b>
+<b class="nc">&nbsp;    int matchCount = ruleMatchCount.size();</b>
+&nbsp;
+<b class="nc">&nbsp;    String version = params.get(&quot;v&quot;) != null ? &quot;, version: &quot; + params.get(&quot;v&quot;) : &quot;&quot;;</b>
+<b class="nc">&nbsp;    String skipLimits = limits.getSkipLimits() ? &quot;, skipLimits&quot; : &quot;&quot;;</b>
+<b class="nc">&nbsp;    log.info(&quot;Check done: &quot; + length + &quot; chars, &quot; + languageMessage +</b>
+&nbsp;            &quot;, requestId: &quot; + requestId + &quot;, #&quot; + count + &quot;, &quot; + referrer + &quot;, &quot;
+<b class="nc">&nbsp;            + premiumMatchRuleIds.size() + &quot;/&quot;</b>
+&nbsp;            + matchCount + &quot; matches, &quot;
+&nbsp;            + computationTime + &quot;ms, agent:&quot; + agent + version
+<b class="nc">&nbsp;            + &quot;, &quot; + messageSent + &quot;, q:&quot; + (workQueue != null ? workQueue.size() : &quot;?&quot;)</b>
+<b class="nc">&nbsp;            + &quot;, h:&quot; + reqCounter.getHandleCount() + &quot;, dH:&quot; + reqCounter.getDistinctIps()</b>
+<b class="nc">&nbsp;            + &quot;, r:&quot; + reqCounter.getRequestCount()</b>
+<b class="nc">&nbsp;            + &quot;, m:&quot; + ServerTools.getModeForLog(mode) + skipLimits</b>
+<b class="nc">&nbsp;            + &quot;, premium: &quot; + (limits.getPremiumUid() != null &amp;&amp; limits.hasPremium())</b>
+&nbsp;            //+ &quot;, temporaryPremiumDisabledRuleMatches: &quot; + temporaryPremiumDisabledRuleMatch //TODO activate if used
+&nbsp;            //+ &quot;, temporaryPremiumDisabledRuleMatchedIds: &quot; + temporaryPremiumDisabledRuleMatchedIds //TODO activate if used
+<b class="nc">&nbsp;            + (limits.getPremiumUid() != null ? &quot;, uid:&quot; + limits.getPremiumUid() : &quot;&quot;));</b>
+<b class="nc">&nbsp;    if (premiumMatchRuleIds.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      for (String premiumMatchRuleId : premiumMatchRuleIds) {</b>
+<b class="nc">&nbsp;        log.info(&quot;premium:&quot; + lang.getShortCodeWithCountryAndVariant() + &quot;:&quot; + premiumMatchRuleId);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    ServerMetricsCollector.getInstance().logCheck(</b>
+&nbsp;      lang, computationTime, textSize, matchCount, mode);
+&nbsp;
+<b class="nc">&nbsp;    if (!config.isSkipLoggingChecks()) {</b>
+&nbsp;      // NOTE: Java/DB (not sure) can&#39;t keep up with logging the volume of new entries we&#39;ve reached,
+&nbsp;      // so we limit it to enterprise customers where we actually pay attention to the request limits
+<b class="nc">&nbsp;      if (limits.getRequestsPerDay() != null) {</b>
+<b class="nc">&nbsp;        DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,</b>
+<b class="nc">&nbsp;          lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());</b>
+<b class="nc">&nbsp;        databaseLogger.log(logEntry);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (databaseLogger.isLogging()) {</b>
+<b class="nc">&nbsp;      if (System.currentTimeMillis() - pingsCleanDateMillis &gt; PINGS_CLEAN_MILLIS &amp;&amp; pings.size() &lt; PINGS_MAX_SIZE) {</b>
+<b class="nc">&nbsp;        log.info(&quot;Cleaning pings DB (&quot; + pings.size() + &quot; items)&quot;);</b>
+<b class="nc">&nbsp;        pings.clear();</b>
+<b class="nc">&nbsp;        pingsCleanDateMillis = System.currentTimeMillis();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (agentId != null &amp;&amp; userId != null) {</b>
+<b class="nc">&nbsp;        DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);</b>
+<b class="nc">&nbsp;        if (!pings.contains(ping)) {</b>
+<b class="nc">&nbsp;          databaseLogger.log(ping);</b>
+<b class="nc">&nbsp;          if (pings.size() &gt;= PINGS_MAX_SIZE) {</b>
+&nbsp;            // prevent pings taking up unlimited amounts of memory
+<b class="nc">&nbsp;            log.warn(&quot;Pings DB has reached max size: &quot; + pings.size());</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            pings.add(ping);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean checkerQueueAlmostFull() {
+<b class="nc">&nbsp;    if (this.executorService instanceof ThreadPoolExecutor) {</b>
+<b class="nc">&nbsp;      ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) this.executorService;</b>
+<b class="nc">&nbsp;      int maxQueueSize = config.getTextCheckerQueueSize();</b>
+<b class="nc">&nbsp;      int queuesize = threadPoolExecutor.getQueue().size();</b>
+<b class="nc">&nbsp;      if (queuesize &gt; maxQueueSize/2) { //should not happen in normal cases (workQueue.size() == config.getTextCheckerQueueSize())</b>
+<b class="nc">&nbsp;        log.warn(&quot;TextChecker queue is almost full requests in queue: {} active request: {}&quot;, queuesize, threadPoolExecutor.getActiveCount());</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private Map&lt;String, Integer&gt; getRuleMatchCount(List&lt;CheckResults&gt; res) {
+<b class="nc">&nbsp;    Map&lt;String, Integer&gt; ruleMatchCount = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (CheckResults r : res) {</b>
+<b class="nc">&nbsp;      for (RuleMatch ruleMatch : r.getRuleMatches()) {</b>
+<b class="nc">&nbsp;        String ruleId = ruleMatch.getRule().getId();</b>
+<b class="nc">&nbsp;        ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatchCount;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;String, Object[]&gt; getRuleValues(Map&lt;String, String&gt; parameters) {
+<b class="nc">&nbsp;    Map&lt;String, Object[]&gt; ruleValues = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    String parameterString = parameters.get(&quot;ruleValues&quot;);</b>
+<b class="nc">&nbsp;    if (parameterString == null) {</b>
+<b class="nc">&nbsp;      return ruleValues;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] pairs = parameterString.split(&quot;,&quot;);</b>
+<b class="nc">&nbsp;    for (String pair : pairs) {</b>
+<b class="nc">&nbsp;      String[] ruleAndValue  = pair.split(&quot;:&quot;);</b>
+<b class="nc">&nbsp;      Object[] objects = RuleOption.stringToObjects(ruleAndValue[1]);</b>
+<b class="nc">&nbsp;      ruleValues.put(ruleAndValue[0], objects);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleValues;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; getUserDictWords(UserLimits limits, List&lt;String&gt; groups) {
+<b class="nc">&nbsp;    DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;    return db.getWords(limits, groups, RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;Rule&gt; getUserRules(UserLimits limits, Language lang, List&lt;String&gt; groups) {
+<b class="nc">&nbsp;    if (limits.getPremiumUid() != null &amp;&amp; DatabaseAccess.isReady()) {</b>
+<b class="nc">&nbsp;      DatabaseAccess db = DatabaseAccess.getInstance();</b>
+<b class="nc">&nbsp;      return db.getRules(limits, lang, groups);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void checkParams(Map&lt;String, String&gt; parameters) {
+<b class="nc">&nbsp;    if (parameters.get(&quot;text&quot;) == null &amp;&amp; parameters.get(&quot;data&quot;) == null) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;Missing &#39;text&#39; or &#39;data&#39; parameter&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;CheckResults&gt; getRuleMatches(AnnotatedText aText, Language lang,
+&nbsp;                                         Language motherTongue, Map&lt;String, String&gt; parameters,
+&nbsp;                                         QueryParams params, UserConfig userConfig,
+&nbsp;                                         /*DetectedLanguage detLang,
+&nbsp;                                         List&lt;String&gt; preferredLangs, List&lt;String&gt; preferredVariants,*/
+&nbsp;                                         RuleMatchListener listener) throws Exception {
+<b class="nc">&nbsp;    if (cache != null &amp;&amp; cache.requestCount() &gt; 0 &amp;&amp; cache.requestCount() % CACHE_STATS_PRINT == 0) {</b>
+<b class="nc">&nbsp;      String sentenceHitPercentage = String.format(Locale.ENGLISH, &quot;%.2f&quot;, cache.getSentenceCache().stats().hitRate() * 100.0f);</b>
+<b class="nc">&nbsp;      String matchesHitPercentage = String.format(Locale.ENGLISH, &quot;%.2f&quot;, cache.getMatchesCache().stats().hitRate() * 100.0f);</b>
+<b class="nc">&nbsp;      String remoteHitPercentage = String.format(Locale.ENGLISH, &quot;%.2f&quot;, cache.getRemoteMatchesCache().stats().hitRate() * 100.0f);</b>
+<b class="nc">&nbsp;      log.info(&quot;Cache stats: &quot; + sentenceHitPercentage + &quot;% / &quot; + matchesHitPercentage + &quot;% / &quot; + remoteHitPercentage + &quot;% hit rate&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (parameters.get(&quot;sourceText&quot;) != null) {</b>
+<b class="nc">&nbsp;      if (parameters.get(&quot;sourceLanguage&quot;) == null) {</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;&#39;sourceLanguage&#39; parameter missing - must be set when &#39;sourceText&#39; is set&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      Language sourceLanguage = parseLanguage(parameters.get(&quot;sourceLanguage&quot;));</b>
+<b class="nc">&nbsp;      JLanguageTool sourceLt = new JLanguageTool(sourceLanguage);</b>
+<b class="nc">&nbsp;      JLanguageTool targetLt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;      if (userConfig.filterDictionaryMatches()) {</b>
+<b class="nc">&nbsp;        targetLt.addMatchFilter(new DictionaryMatchFilter(userConfig));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;BitextRule&gt; bitextRules = Tools.getBitextRules(sourceLanguage, lang);</b>
+<b class="nc">&nbsp;      return Collections.singletonList(</b>
+<b class="nc">&nbsp;              new CheckResults(Tools.checkBitext(parameters.get(&quot;sourceText&quot;), aText.getPlainText(), sourceLt, targetLt, bitextRules), Collections.emptyList())</b>
+&nbsp;      );
+&nbsp;    } else {
+<b class="nc">&nbsp;      List&lt;CheckResults&gt; res = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));</b>
+<b class="nc">&nbsp;      return res;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Language getLanguageVariantForCode(String langCode, List&lt;String&gt; preferredVariants) {
+<b class="nc">&nbsp;    for (String preferredVariant : preferredVariants) {</b>
+<b class="nc">&nbsp;      if (preferredVariant.startsWith(langCode + &quot;-&quot;)) {</b>
+<b class="nc">&nbsp;        return parseLanguage(preferredVariant);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return parseLanguage(langCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;CheckResults&gt; getPipelineResults(AnnotatedText aText, Language lang, Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
+<b class="nc">&nbsp;    PipelineSettings settings = null;</b>
+<b class="nc">&nbsp;    Pipeline lt = null;</b>
+<b class="nc">&nbsp;    List&lt;CheckResults&gt; res = new ArrayList&lt;&gt;();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      settings = new PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);</b>
+<b class="nc">&nbsp;      lt = pipelinePool.getPipeline(settings);</b>
+<b class="nc">&nbsp;      Long textSessionId = userConfig.getTextSessionId();</b>
+<b class="nc">&nbsp;      if (params.regressionTestMode) {</b>
+<b class="nc">&nbsp;        textSessionId = -2L; // magic value for remote rule roll-out - includes all results, even from disabled models</b>
+&nbsp;      }
+<b class="nc">&nbsp;      res.add(lt.check2(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener,</b>
+&nbsp;        params.mode, params.level, params.toneTags, textSessionId));
+&nbsp;    } finally {
+<b class="nc">&nbsp;      if (lt != null) {</b>
+<b class="nc">&nbsp;        pipelinePool.returnPipeline(settings, lt);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return res;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private Map&lt;Language, AnnotatedTextBuilder&gt; getBuilderMap(List&lt;FragmentWithLanguage&gt; fragments, Set&lt;Language&gt; maybeUsedLangs) {
+<b class="nc">&nbsp;    Map&lt;Language, AnnotatedTextBuilder&gt; lang2builder = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Language usedLang : maybeUsedLangs) {</b>
+<b class="nc">&nbsp;      if (!lang2builder.containsKey(usedLang)) {</b>
+<b class="nc">&nbsp;        lang2builder.put(usedLang, new AnnotatedTextBuilder());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      AnnotatedTextBuilder atb = lang2builder.get(usedLang);</b>
+<b class="nc">&nbsp;      for (FragmentWithLanguage fragment : fragments) {</b>
+<b class="nc">&nbsp;        if (usedLang.getShortCodeWithCountryAndVariant().equals(fragment.getLangCode())) {</b>
+<b class="nc">&nbsp;          atb.addText(fragment.getFragment());</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          atb.addMarkup(fragment.getFragment());  // markup = ignore this text</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return lang2builder;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;CategoryId&gt; getCategoryIds(String paramName, Map&lt;String, String&gt; parameters) {
+<b class="nc">&nbsp;    List&lt;String&gt; stringIds = getCommaSeparatedStrings(paramName, parameters);</b>
+<b class="nc">&nbsp;    List&lt;CategoryId&gt; ids = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String stringId : stringIds) {</b>
+<b class="nc">&nbsp;      ids.add(new CategoryId(stringId));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ids;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  protected List&lt;String&gt; getCommaSeparatedStrings(String paramName, Map&lt;String, String&gt; parameters) {
+<b class="nc">&nbsp;    String disabledParam = parameters.get(paramName);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (disabledParam != null) {</b>
+<b class="nc">&nbsp;      result.addAll(Arrays.asList(disabledParam.split(&quot;,&quot;)));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List&lt;String&gt; preferredVariants,
+&nbsp;                                          List&lt;String&gt; noopLangs, List&lt;String&gt; preferredLangs) {
+<b class="nc">&nbsp;    return this.detectLanguageOfString(text, fallbackLanguage, preferredVariants, noopLangs, preferredLangs, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List&lt;String&gt; preferredVariants,
+&nbsp;                                          List&lt;String&gt; noopLangs, List&lt;String&gt; preferredLangs, boolean forcePreferredLanguages) {
+&nbsp;    Language lang;
+<b class="nc">&nbsp;    String cleanText = languageIdentifier.cleanAndShortenText(text);</b>
+<b class="nc">&nbsp;    DetectedLanguage detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs, forcePreferredLanguages);</b>
+<b class="nc">&nbsp;    if (detected == null) {</b>
+<b class="nc">&nbsp;      lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : &quot;en&quot;);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      lang = detected.getDetectedLanguage();</b>
+&nbsp;    }
+&nbsp;    //String mode;
+&nbsp;    //long t1 = System.nanoTime();
+&nbsp;    //long t2 = System.nanoTime();
+&nbsp;    //float runTime = (t2-t1)/1000.0f/1000.0f;
+&nbsp;    //System.out.printf(Locale.ENGLISH, &quot;detected &quot; + detected + &quot; using &quot; + mode + &quot; in %.2fms for %d chars\n&quot;, runTime, text.length());
+&nbsp;    
+<b class="nc">&nbsp;    if (preferredVariants.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      for (String preferredVariant : preferredVariants) {</b>
+<b class="nc">&nbsp;        if (!preferredVariant.contains(&quot;-&quot;)) {</b>
+<b class="nc">&nbsp;          throw new BadRequestException(&quot;Invalid format for &#39;preferredVariants&#39;, expected a dash as in &#39;en-GB&#39;: &#39;&quot; + preferredVariant + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String preferredVariantLang = preferredVariant.split(&quot;-&quot;)[0];</b>
+<b class="nc">&nbsp;        if (preferredVariantLang.equals(lang.getShortCode())) {</b>
+<b class="nc">&nbsp;          lang = parseLanguage(preferredVariant);</b>
+<b class="nc">&nbsp;          if (lang == null) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Invalid &#39;preferredVariants&#39;, no such language/variant found: &#39;&quot; + preferredVariant + &quot;&#39;&quot;);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (lang.getDefaultLanguageVariant() != null) {</b>
+<b class="nc">&nbsp;        lang = lang.getDefaultLanguageVariant();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new DetectedLanguage(null, lang, detected != null ? detected.getDetectionConfidence() : 0f,</b>
+<b class="nc">&nbsp;      detected != null ? detected.getDetectionSource() : null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class QueryParams {
+&nbsp;    final List&lt;Language&gt; altLanguages;
+&nbsp;    final List&lt;String&gt; enabledRules;
+&nbsp;    final List&lt;String&gt; disabledRules;
+&nbsp;    final List&lt;CategoryId&gt; enabledCategories;
+&nbsp;    final List&lt;CategoryId&gt; disabledCategories;
+&nbsp;    final boolean useEnabledOnly;
+&nbsp;    final boolean useQuerySettings;
+&nbsp;    final boolean allowIncompleteResults;
+&nbsp;    final boolean enableHiddenRules;
+&nbsp;    final boolean premium;
+&nbsp;    final boolean enableTempOffRules;
+&nbsp;    final JLanguageTool.Mode mode;
+&nbsp;    final JLanguageTool.Level level;
+&nbsp;    final Set&lt;ToneTag&gt; toneTags;
+&nbsp;    final String callback;
+&nbsp;    /** allowed to log input with stack traces to reproduce errors? */
+&nbsp;    final boolean inputLogging;
+&nbsp;
+&nbsp;    final boolean regressionTestMode; // no fallbacks for remote rules, retries, enable all rules
+&nbsp;
+&nbsp;    QueryParams() {
+<b class="nc">&nbsp;      this(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),</b>
+&nbsp;           false, false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+&nbsp;    }
+&nbsp;
+&nbsp;    QueryParams(List&lt;Language&gt; altLanguages, List&lt;String&gt; enabledRules, List&lt;String&gt; disabledRules, List&lt;CategoryId&gt; enabledCategories, List&lt;CategoryId&gt; disabledCategories,
+&nbsp;                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback) {
+<b class="nc">&nbsp;      this(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, premium, enableTempOffRules, mode, level, callback, true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    QueryParams(List&lt;Language&gt; altLanguages, List&lt;String&gt; enabledRules, List&lt;String&gt; disabledRules, List&lt;CategoryId&gt; enabledCategories, List&lt;CategoryId&gt; disabledCategories,
+&nbsp;                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, @Nullable String callback, boolean inputLogging) {
+<b class="nc">&nbsp;      this(altLanguages, enabledRules, disabledRules, enabledCategories,disabledCategories,useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, premium, enableTempOffRules, mode, level, null, callback, inputLogging);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    QueryParams(List&lt;Language&gt; altLanguages, List&lt;String&gt; enabledRules, List&lt;String&gt; disabledRules, List&lt;CategoryId&gt; enabledCategories, List&lt;CategoryId&gt; disabledCategories,
+<b class="nc">&nbsp;                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean premium, boolean enableTempOffRules, JLanguageTool.Mode mode, JLanguageTool.Level level, Set&lt;ToneTag&gt; toneTags, @Nullable String callback, boolean inputLogging) {</b>
+<b class="nc">&nbsp;      this.altLanguages = Objects.requireNonNull(altLanguages);</b>
+<b class="nc">&nbsp;      this.enabledRules = enabledRules;</b>
+<b class="nc">&nbsp;      this.disabledRules = disabledRules;</b>
+<b class="nc">&nbsp;      this.enabledCategories = enabledCategories;</b>
+<b class="nc">&nbsp;      this.disabledCategories = disabledCategories;</b>
+<b class="nc">&nbsp;      this.useEnabledOnly = useEnabledOnly;</b>
+<b class="nc">&nbsp;      this.useQuerySettings = useQuerySettings;</b>
+<b class="nc">&nbsp;      this.allowIncompleteResults = allowIncompleteResults;</b>
+<b class="nc">&nbsp;      this.enableHiddenRules = enableHiddenRules;</b>
+<b class="nc">&nbsp;      this.premium = premium;</b>
+<b class="nc">&nbsp;      this.enableTempOffRules = enableTempOffRules;</b>
+<b class="nc">&nbsp;      this.regressionTestMode = enableTempOffRules;</b>
+<b class="nc">&nbsp;      this.mode = Objects.requireNonNull(mode);</b>
+<b class="nc">&nbsp;      this.level = Objects.requireNonNull(level);</b>
+<b class="nc">&nbsp;      this.toneTags = toneTags;</b>
+<b class="nc">&nbsp;      if (callback != null &amp;&amp; !callback.matches(&quot;[a-zA-Z]+&quot;)) {</b>
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;&#39;callback&#39; value must match [a-zA-Z]+: &#39;&quot; + callback + &quot;&#39;&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      this.callback = callback;</b>
+<b class="nc">&nbsp;      this.inputLogging = inputLogging;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      return new HashCodeBuilder()</b>
+<b class="nc">&nbsp;        .append(altLanguages)</b>
+<b class="nc">&nbsp;        .append(enabledRules)</b>
+<b class="nc">&nbsp;        .append(disabledRules)</b>
+<b class="nc">&nbsp;        .append(enabledCategories)</b>
+<b class="nc">&nbsp;        .append(disabledCategories)</b>
+<b class="nc">&nbsp;        .append(useEnabledOnly)</b>
+<b class="nc">&nbsp;        .append(useQuerySettings)</b>
+<b class="nc">&nbsp;        .append(allowIncompleteResults)</b>
+<b class="nc">&nbsp;        .append(enableHiddenRules)</b>
+<b class="nc">&nbsp;        .append(premium)</b>
+<b class="nc">&nbsp;        .append(enableTempOffRules)</b>
+<b class="nc">&nbsp;        .append(regressionTestMode)</b>
+<b class="nc">&nbsp;        .append(mode)</b>
+<b class="nc">&nbsp;        .append(level)</b>
+<b class="nc">&nbsp;        .append(callback)</b>
+<b class="nc">&nbsp;        .append(inputLogging)</b>
+<b class="nc">&nbsp;        .toHashCode();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object obj) {
+<b class="nc">&nbsp;      if (obj == this) return true;</b>
+<b class="nc">&nbsp;      if (obj == null || getClass() != obj.getClass()) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      QueryParams other = (QueryParams) obj;</b>
+<b class="nc">&nbsp;      return new EqualsBuilder()</b>
+<b class="nc">&nbsp;        .append(altLanguages, other.altLanguages)</b>
+<b class="nc">&nbsp;        .append(enabledRules, other.enabledRules)</b>
+<b class="nc">&nbsp;        .append(disabledRules, other.disabledRules)</b>
+<b class="nc">&nbsp;        .append(enabledCategories, other.enabledCategories)</b>
+<b class="nc">&nbsp;        .append(disabledCategories, other.disabledCategories)</b>
+<b class="nc">&nbsp;        .append(useEnabledOnly, other.useEnabledOnly)</b>
+<b class="nc">&nbsp;        .append(useQuerySettings, other.useQuerySettings)</b>
+<b class="nc">&nbsp;        .append(allowIncompleteResults, other.allowIncompleteResults)</b>
+<b class="nc">&nbsp;        .append(enableHiddenRules, other.enableHiddenRules)</b>
+<b class="nc">&nbsp;        .append(premium, other.premium)</b>
+<b class="nc">&nbsp;        .append(enableTempOffRules, other.enableTempOffRules)</b>
+<b class="nc">&nbsp;        .append(regressionTestMode, other.regressionTestMode)</b>
+<b class="nc">&nbsp;        .append(mode, other.mode)</b>
+<b class="nc">&nbsp;        .append(level, other.level)</b>
+<b class="nc">&nbsp;        .append(callback, other.callback)</b>
+<b class="nc">&nbsp;        .append(inputLogging, other.inputLogging)</b>
+<b class="nc">&nbsp;        .isEquals();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return new ToStringBuilder(this)</b>
+<b class="nc">&nbsp;        .append(&quot;altLanguages&quot;, altLanguages)</b>
+<b class="nc">&nbsp;        .append(&quot;enabledRules&quot;, enabledRules)</b>
+<b class="nc">&nbsp;        .append(&quot;disabledRules&quot;, disabledRules)</b>
+<b class="nc">&nbsp;        .append(&quot;enabledCategories&quot;, enabledCategories)</b>
+<b class="nc">&nbsp;        .append(&quot;disabledCategories&quot;, disabledCategories)</b>
+<b class="nc">&nbsp;        .append(&quot;useEnabledOnly&quot;, useEnabledOnly)</b>
+<b class="nc">&nbsp;        .append(&quot;useQuerySettings&quot;, useQuerySettings)</b>
+<b class="nc">&nbsp;        .append(&quot;allowIncompleteResults&quot;, allowIncompleteResults)</b>
+<b class="nc">&nbsp;        .append(&quot;enableHiddenRules&quot;, enableHiddenRules)</b>
+<b class="nc">&nbsp;        .append(&quot;premium&quot;, premium)</b>
+<b class="nc">&nbsp;        .append(&quot;enableTempOffRules&quot;, enableTempOffRules)</b>
+<b class="nc">&nbsp;        .append(&quot;regressionTestMode&quot;, regressionTestMode)</b>
+<b class="nc">&nbsp;        .append(&quot;mode&quot;, mode)</b>
+<b class="nc">&nbsp;        .append(&quot;level&quot;, level)</b>
+<b class="nc">&nbsp;        .append(&quot;callback&quot;, callback)</b>
+<b class="nc">&nbsp;        .append(&quot;inputLogging&quot;, inputLogging)</b>
+<b class="nc">&nbsp;        .build();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

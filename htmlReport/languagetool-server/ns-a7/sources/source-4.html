@@ -1,0 +1,157 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicStringTools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicStringTools (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicStringTools</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2021 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Tools for working with arabic strings.
+&nbsp; *
+&nbsp; * @author Taha Zerrouki
+&nbsp; */
+<b class="nc">&nbsp;public class ArabicStringTools {</b>
+&nbsp;
+&nbsp;  public static final String TASHKEEL_CHARS =
+&nbsp;    &quot;\u064B&quot;    // Fathatan
+&nbsp;    + &quot;\u064C&quot;  // Dammatan
+&nbsp;    + &quot;\u064D&quot;  // Kasratan
+&nbsp;    + &quot;\u064E&quot;  // Fatha
+&nbsp;    + &quot;\u064F&quot;  // Damma
+&nbsp;    + &quot;\u0650&quot;  // Kasra
+&nbsp;    + &quot;\u0651&quot;  // Shadda
+&nbsp;    + &quot;\u0652&quot;  // Sukun
+&nbsp;    + &quot;\u0653&quot;  // Maddah Above
+&nbsp;    + &quot;\u0654&quot;  // Hamza Above
+&nbsp;    + &quot;\u0655&quot;  // Hamza Below
+&nbsp;    + &quot;\u0656&quot;  // Subscript Alef
+&nbsp;    + &quot;\u0640&quot;; // Tatweel
+<b class="nc">&nbsp;  private static final Pattern TASHKEEL_PATTERN = Pattern.compile(&quot;[&quot; + TASHKEEL_CHARS + &quot;]&quot;);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return &lt;code&gt;str&lt;/code&gt; without tashkeel characters
+&nbsp;   * @param str input str
+&nbsp;   */
+&nbsp;  public static String removeTashkeel(String str) {
+<b class="nc">&nbsp;     return TASHKEEL_PATTERN.matcher(str).replaceAll(&quot;&quot;);</b>
+&nbsp;   }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

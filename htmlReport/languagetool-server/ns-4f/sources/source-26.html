@@ -1,0 +1,265 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RemoteSynthesizer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: RemoteSynthesizer (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteSynthesizer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.6%
+  </span>
+  <span class="absValue">
+    (5/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    34.6%
+  </span>
+  <span class="absValue">
+    (9/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37%
+  </span>
+  <span class="absValue">
+    (27/73)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.concurrent.Executor;
+&nbsp;import java.util.concurrent.Executors;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.regex.PatternSyntaxException;
+&nbsp;
+&nbsp;import io.grpc.Server;
+&nbsp;import io.grpc.ServerBuilder;
+&nbsp;import io.grpc.stub.StreamObserver;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.apache.commons.cli.*;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.grpc.SynthesizeServerGrpc;
+&nbsp;import org.languagetool.rules.GRPCUtils;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;
+<b class="fc">&nbsp;@Slf4j</b>
+<b class="fc">&nbsp;public class RemoteSynthesizer extends SynthesizeServerGrpc.SynthesizeServerImplBase {</b>
+&nbsp;
+&nbsp;  protected List&lt;String&gt; synthesize(String languageCode, String lemma, String postag, boolean postagRegexp)
+&nbsp;      throws IOException {
+<b class="fc">&nbsp;    Language lang = Languages.getLanguageForShortCode(languageCode);</b>
+<b class="fc">&nbsp;    Synthesizer synth = lang.getSynthesizer();</b>
+<b class="fc">&nbsp;    AnalyzedToken at = new AnalyzedToken(lemma, postag, lemma);</b>
+<b class="fc">&nbsp;    String[] synthesizedForms = synth.synthesize(at, postag, postagRegexp);</b>
+&nbsp;    // removing duplicates. TODO: de-duplicate in the original synthesizer (?)
+<b class="fc">&nbsp;    return removeDuplicates(synthesizedForms);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;String&gt; synthesize(String languageCode, AnalyzedTokenReadings atrs, boolean postagRegexp,
+&nbsp;      String postagSelect, String postagReplace, String lemmaReplace) throws IOException {
+<b class="pc">&nbsp;    if (!postagRegexp) {</b>
+<b class="nc">&nbsp;      return synthesize(languageCode, lemmaReplace, postagReplace, false);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    AnalyzedToken atr = atrs.readingWithTagRegex(postagSelect);</b>
+<b class="pc">&nbsp;    if (atr == null) {</b>
+<b class="nc">&nbsp;      log.error(&quot;AnalyzedToken is null. Language: &quot; + languageCode + &quot;, Token:&quot; + atrs + &quot;, postagSelect: &quot; + postagSelect);</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (lemmaReplace != null &amp; !lemmaReplace.isEmpty()) {</b>
+<b class="fc">&nbsp;      atr = new AnalyzedToken(atr.getToken(), atr.getPOSTag(), lemmaReplace);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String postagReplaceFinal = null;</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      Pattern p = Pattern.compile(postagSelect);</b>
+<b class="fc">&nbsp;      Matcher m = p.matcher(atr.getPOSTag());</b>
+<b class="fc">&nbsp;      postagReplaceFinal = m.replaceAll(postagReplace);</b>
+&nbsp;    } catch (IndexOutOfBoundsException | PatternSyntaxException e) {
+<b class="fc">&nbsp;      log.error(&quot;Exception: error in regular expressions. Language: &quot; + languageCode + &quot;, Token:&quot; + atrs, e);</b>
+<b class="fc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Language lang = Languages.getLanguageForShortCode(languageCode);</b>
+<b class="fc">&nbsp;    Synthesizer synth = lang.getSynthesizer();</b>
+<b class="fc">&nbsp;    String[] synthesizedForms = synth.synthesize(atr, postagReplaceFinal, true);</b>
+<b class="fc">&nbsp;    return removeDuplicates(synthesizedForms);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; removeDuplicates(String[] forms) {
+<b class="fc">&nbsp;    List&lt;String&gt; results = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (String s : forms) {</b>
+<b class="fc">&nbsp;      if (!results.contains(s)) {</b>
+<b class="fc">&nbsp;        results.add(s);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return results;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void synthesize(org.languagetool.grpc.Synthesizer.SynthesizeRequest request, StreamObserver&lt;org.languagetool.grpc.Synthesizer.SynthesizeResponse&gt; responseObserver) {
+&nbsp;
+&nbsp;    try {
+<b class="nc">&nbsp;      List&lt;org.languagetool.grpc.Synthesizer.SynthesizeResponseItem&gt; items = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;      for (org.languagetool.grpc.Synthesizer.SynthesizeRequestItem item : request.getItemsList()) {</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings tokens = null;</b>
+<b class="nc">&nbsp;        if (item.getPostagRegexp()) {</b>
+<b class="nc">&nbsp;          tokens = GRPCUtils.fromGRPC(item.getTokens());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; forms = synthesize(request.getLanguageCode(), tokens, item.getPostagRegexp(), item.getPostag(), item.getPostagReplace(), item.getLemma());</b>
+<b class="nc">&nbsp;        items.add(org.languagetool.grpc.Synthesizer.SynthesizeResponseItem.newBuilder()</b>
+<b class="nc">&nbsp;          .addAllForms(forms).build());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      responseObserver.onNext(org.languagetool.grpc.Synthesizer.SynthesizeResponse.newBuilder().addAllItems(items).build());</b>
+<b class="nc">&nbsp;      responseObserver.onCompleted();</b>
+&nbsp;    } catch(Exception e) {
+<b class="nc">&nbsp;      log.warn(&quot;Synthesize request failed&quot;, e);</b>
+<b class="nc">&nbsp;      responseObserver.onError(e);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;  private Options getCommandLineOptions() {
+<b class="nc">&nbsp;    Options options = new Options();</b>
+<b class="nc">&nbsp;    options.addOption(Option.builder().longOpt(&quot;port&quot;).hasArg().build());</b>
+<b class="nc">&nbsp;    options.addOption(Option.builder().longOpt(&quot;cert&quot;).hasArg().build());</b>
+<b class="nc">&nbsp;    options.addOption(Option.builder().longOpt(&quot;key&quot;).hasArg().build());</b>
+<b class="nc">&nbsp;    return options;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private CommandLine parseCommandLine(String[] args) throws ParseException {
+<b class="nc">&nbsp;    CommandLineParser parser = new DefaultParser();</b>
+<b class="nc">&nbsp;    return parser.parse(getCommandLineOptions(), args);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException, InterruptedException {
+<b class="nc">&nbsp;    int port = 8080;</b>
+<b class="nc">&nbsp;    File cert = null, key = null;</b>
+<b class="nc">&nbsp;    RemoteSynthesizer instance = new RemoteSynthesizer();</b>
+&nbsp;
+&nbsp;    try {
+<b class="nc">&nbsp;      CommandLine cli = instance.parseCommandLine(args);</b>
+<b class="nc">&nbsp;      String certPath = cli.getOptionValue(&quot;cert&quot;);</b>
+<b class="nc">&nbsp;      String keyPath = cli.getOptionValue(&quot;key&quot;);</b>
+<b class="nc">&nbsp;      if (certPath != null &amp;&amp; keyPath != null) {</b>
+<b class="nc">&nbsp;        cert = new File(certPath);</b>
+<b class="nc">&nbsp;        key = new File(keyPath);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (cli.hasOption(&quot;port&quot;)) {</b>
+<b class="nc">&nbsp;        port = Integer.parseInt(cli.getOptionValue(&quot;port&quot;));</b>
+&nbsp;      }
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      HelpFormatter help = new HelpFormatter();</b>
+<b class="nc">&nbsp;      help.printHelp(&quot;RemoteSynthesizer&quot;, instance.getCommandLineOptions());</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    Executor executor = Executors.newCachedThreadPool();</b>
+<b class="nc">&nbsp;    ServerBuilder builder = ServerBuilder.forPort(port)</b>
+<b class="nc">&nbsp;      .addService(instance)</b>
+<b class="nc">&nbsp;      .executor(executor);</b>
+<b class="nc">&nbsp;    if (cert != null &amp;&amp; key != null) {</b>
+<b class="nc">&nbsp;      builder = builder.useTransportSecurity(cert, key);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Server server = builder.build();</b>
+<b class="nc">&nbsp;    server.start();</b>
+<b class="nc">&nbsp;    log.info(&quot;Server listening on port {}&quot;, port);</b>
+<b class="nc">&nbsp;    server.awaitTermination();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

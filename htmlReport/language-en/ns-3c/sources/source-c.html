@@ -1,0 +1,400 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Match</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: Match (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Match</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.5%
+  </span>
+  <span class="absValue">
+    (21/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.6%
+  </span>
+  <span class="absValue">
+    (41/42)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Match$CaseConversion</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Match$IncludeRange</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    96.2%
+  </span>
+  <span class="absValue">
+    (25/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.8%
+  </span>
+  <span class="absValue">
+    (45/46)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;/**
+&nbsp; * A {@link Match} is the configuration of an algorithm used to match {@link AnalyzedTokenReadings}s.
+&nbsp; * In XML, it&#39;s the {@code &lt;match/&gt;} element.
+&nbsp; * Use {@link #createState(Synthesizer, AnalyzedTokenReadings)} and {@link #createState(Synthesizer, AnalyzedTokenReadings[], int, int)}
+&nbsp; * to create a {@link MatchState} used to actually match {@link AnalyzedTokenReadings}.
+&nbsp; *
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+&nbsp;public final class Match {
+&nbsp;
+&nbsp;  /** Possible string case conversions. **/
+<b class="fc">&nbsp;  public enum CaseConversion {</b>
+<b class="fc">&nbsp;    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER, PRESERVE, FIRSTUPPER, NOTASHKEEL</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public enum IncludeRange {</b>
+<b class="fc">&nbsp;    NONE, FOLLOWING, ALL</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final String posTag;
+&nbsp;  private final boolean suppressMisspelled;
+&nbsp;  private final String regexReplace;
+&nbsp;  private final String posTagReplace;
+&nbsp;  private final CaseConversion caseConversionType;
+&nbsp;  private final IncludeRange includeSkipped;
+&nbsp;  // Pattern used to define parts of the matched token:
+&nbsp;  private final Pattern pRegexMatch;
+&nbsp;  // True if this match element is used for formatting POS token:
+&nbsp;  private final boolean setPos;
+&nbsp;
+&nbsp;  private boolean postagRegexp;
+&nbsp;  // True if this match element formats a statically defined lemma which is
+&nbsp;  // enclosed by the element, e.g., &lt;match...&gt;word&lt;/match&gt;:
+&nbsp;  private boolean staticLemma;
+&nbsp;  private String lemma;
+&nbsp;  private int tokenRef;
+&nbsp;  // Pattern used to define parts of the matched POS token:
+&nbsp;  private Pattern pPosRegexMatch;
+&nbsp;  // True when the match is not in the suggestion:
+&nbsp;  private boolean inMessageOnly;
+&nbsp;
+&nbsp;  public Match(String posTag, String posTagReplace,
+&nbsp;      boolean postagRegexp, String regexMatch,
+&nbsp;      String regexReplace, CaseConversion caseConversionType,
+&nbsp;      boolean setPOS,
+&nbsp;      boolean suppressMisspelled,
+<b class="fc">&nbsp;      IncludeRange includeSkipped) {</b>
+<b class="fc">&nbsp;    this.posTag = posTag;</b>
+<b class="fc">&nbsp;    this.postagRegexp = postagRegexp;</b>
+<b class="fc">&nbsp;    this.caseConversionType = caseConversionType;</b>
+<b class="fc">&nbsp;    pRegexMatch = regexMatch != null ? Pattern.compile(regexMatch) : null;</b>
+<b class="fc">&nbsp;    if (postagRegexp &amp;&amp; posTag != null) {</b>
+<b class="fc">&nbsp;      pPosRegexMatch = Pattern.compile(posTag);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    this.regexReplace = regexReplace;</b>
+<b class="fc">&nbsp;    this.posTagReplace = posTagReplace;</b>
+<b class="fc">&nbsp;    this.setPos = setPOS;</b>
+<b class="fc">&nbsp;    this.includeSkipped = includeSkipped;</b>
+<b class="fc">&nbsp;    this.suppressMisspelled = suppressMisspelled;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a state used for actually matching a token.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public MatchState createState(Synthesizer synthesizer, AnalyzedTokenReadings token) {
+<b class="fc">&nbsp;    MatchState state = new MatchState(this, synthesizer);</b>
+<b class="fc">&nbsp;    state.setToken(token);</b>
+<b class="fc">&nbsp;    return state;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a state used for actually matching a token.
+&nbsp;   * @since 2.3
+&nbsp;   */
+&nbsp;  public MatchState createState(Synthesizer synthesizer, AnalyzedTokenReadings[] tokens, int index, int next) {
+<b class="fc">&nbsp;    MatchState state = new MatchState(this, synthesizer);</b>
+<b class="fc">&nbsp;    state.setToken(tokens, index, next);</b>
+<b class="fc">&nbsp;    return state;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the Match element is used for setting the part of speech: {@code setpos=&quot;yes&quot;} in XML.
+&nbsp;   * @return True if Match sets POS.
+&nbsp;   */
+&nbsp;  public boolean setsPos() {
+<b class="fc">&nbsp;    return setPos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the Match element uses regexp-based form of the POS tag.
+&nbsp;   * @return True if regexp is used in POS.
+&nbsp;   */
+&nbsp;  public boolean posRegExp() {
+<b class="nc">&nbsp;    return postagRegexp;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets a base form (lemma) that will be formatted, or synthesized, using the
+&nbsp;   * specified POS regular expressions.
+&nbsp;   * @param lemmaString String that specifies the base form.
+&nbsp;   */
+&nbsp;  public void setLemmaString(String lemmaString) {
+<b class="fc">&nbsp;    if (!StringTools.isEmpty(lemmaString)) {</b>
+<b class="fc">&nbsp;      lemma = lemmaString;</b>
+<b class="fc">&nbsp;      staticLemma = true;</b>
+<b class="fc">&nbsp;      postagRegexp = true;</b>
+<b class="fc">&nbsp;      if (posTag != null) {</b>
+<b class="fc">&nbsp;        pPosRegexMatch = Pattern.compile(posTag);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public String getLemma() {
+<b class="fc">&nbsp;    return lemma;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public boolean isStaticLemma() {
+<b class="fc">&nbsp;    return staticLemma;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to tell whether the Match class will spell-check the result so
+&nbsp;   * that misspelled suggestions are suppressed.
+&nbsp;   * @return True if this is so.
+&nbsp;   */
+&nbsp;  public boolean checksSpelling() {
+<b class="fc">&nbsp;    return suppressMisspelled;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the token number referenced by the match.
+&nbsp;   * @param i Token number.
+&nbsp;   */
+&nbsp;  public void setTokenRef(int i) {
+<b class="fc">&nbsp;    tokenRef = i;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the token number referenced by the match.
+&nbsp;   * @return token number.
+&nbsp;   */
+&nbsp;  public int getTokenRef() {
+<b class="fc">&nbsp;    return tokenRef;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Used to let LT know that it should change the case of the match.
+&nbsp;   * @return true if match converts the case of the token.
+&nbsp;   */
+&nbsp;  public boolean convertsCase() {
+<b class="fc">&nbsp;    return caseConversionType != CaseConversion.NONE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public CaseConversion getCaseConversionType() {
+<b class="fc">&nbsp;    return caseConversionType;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setInMessageOnly(boolean inMessageOnly) {
+<b class="fc">&nbsp;    this.inMessageOnly = inMessageOnly;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isInMessageOnly() {
+<b class="fc">&nbsp;    return inMessageOnly;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public String getPosTag() {
+<b class="fc">&nbsp;    return posTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public Pattern getRegexMatch() {
+<b class="fc">&nbsp;    return pRegexMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public String getRegexReplace() {
+<b class="fc">&nbsp;    return regexReplace;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public Pattern getPosRegexMatch() {
+<b class="fc">&nbsp;    return pPosRegexMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public boolean isPostagRegexp() {
+<b class="fc">&nbsp;    return postagRegexp;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public String getPosTagReplace() {
+<b class="fc">&nbsp;    return posTagReplace;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.3 */
+&nbsp;  public IncludeRange getIncludeSkipped() {
+<b class="fc">&nbsp;    return includeSkipped;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

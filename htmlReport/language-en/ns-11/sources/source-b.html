@@ -1,0 +1,261 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SuggestionReplacer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.wikipedia</a>
+</div>
+
+<h1>Coverage Summary for Class: SuggestionReplacer (org.languagetool.dev.wikipedia)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SuggestionReplacer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.wikipedia;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import xtc.tree.Location;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Applies the rule suggestions to a text, considering a mapping so the
+&nbsp; * suggestion can be applied to the original markup of a text.
+&nbsp; */
+&nbsp;public class SuggestionReplacer {
+&nbsp;
+&nbsp;  private final PlainTextMapping textMapping;
+&nbsp;  private final String originalText;
+&nbsp;  private final ErrorMarker errorMarker;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param originalText the original text that includes markup
+&nbsp;   */
+&nbsp;  public SuggestionReplacer(PlainTextMapping textMapping, String originalText) {
+&nbsp;    // use &lt;&lt;span&gt;&gt; to avoid clashes with &lt;span&gt; in original markup:
+<b class="nc">&nbsp;    this(textMapping, originalText, new ErrorMarker(&quot;&lt;&lt;span class=\&quot;error\&quot;&gt;&gt;&quot;, &quot;&lt;&lt;/span&gt;&gt;&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.6
+&nbsp;   */
+<b class="nc">&nbsp;  public SuggestionReplacer(PlainTextMapping textMapping, String originalText, ErrorMarker errorMarker) {</b>
+<b class="nc">&nbsp;    this.textMapping = textMapping;</b>
+<b class="nc">&nbsp;    this.originalText = originalText;</b>
+<b class="nc">&nbsp;    this.errorMarker = errorMarker;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Applies the suggestions from the rule to the original text. For rules that
+&nbsp;   * have no suggestion, a pseudo-correction is generated that contains the same
+&nbsp;   * text as before.
+&nbsp;   */
+&nbsp;  public List&lt;RuleMatchApplication&gt; applySuggestionsToOriginalText(RuleMatch match) {
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;(match.getSuggestedReplacements());</b>
+<b class="nc">&nbsp;    boolean hasRealReplacements = replacements.size() &gt; 0;</b>
+<b class="nc">&nbsp;    if (!hasRealReplacements) {</b>
+&nbsp;      // create a pseudo replacement with the error text itself
+<b class="nc">&nbsp;      String plainText = textMapping.getPlainText();</b>
+<b class="nc">&nbsp;      replacements.add(plainText.substring(match.getFromPos(), match.getToPos()));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    List&lt;RuleMatchApplication&gt; ruleMatchApplications = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Location fromPosLocation = textMapping.getOriginalTextPositionFor(match.getFromPos() + 1);  // not zero-based!</b>
+<b class="nc">&nbsp;    Location toPosLocation = textMapping.getOriginalTextPositionFor(match.getToPos() + 1);</b>
+&nbsp;
+&nbsp;    /*System.out.println(&quot;=========&quot;);
+&nbsp;    System.out.println(textMapping.getMapping());
+&nbsp;    System.out.println(&quot;=========&quot;);
+&nbsp;    System.out.println(textMapping.getPlainText());
+&nbsp;    System.out.println(&quot;=========&quot;);
+&nbsp;    System.out.println(originalText);
+&nbsp;    System.out.println(&quot;=========&quot;);*/
+&nbsp;
+<b class="nc">&nbsp;    int fromPos = LocationHelper.absolutePositionFor(fromPosLocation, originalText);</b>
+<b class="nc">&nbsp;    int toPos = LocationHelper.absolutePositionFor(toPosLocation, originalText);</b>
+<b class="nc">&nbsp;    for (String replacement : replacements) {</b>
+<b class="nc">&nbsp;      String errorText = textMapping.getPlainText().substring(match.getFromPos(), match.getToPos());</b>
+&nbsp;      // the algorithm is off a bit sometimes due to the complex syntax, so consider the next whitespace:
+<b class="nc">&nbsp;      int contextFrom = findNextWhitespaceToTheLeft(originalText, fromPos);</b>
+<b class="nc">&nbsp;      int contextTo = findNextWhitespaceToTheRight(originalText, toPos);</b>
+&nbsp;
+&nbsp;      /*System.out.println(match + &quot;:&quot;);
+&nbsp;      System.out.println(&quot;match.getFrom/ToPos(): &quot; + match.getFromPos() + &quot;/&quot; + match.getToPos());
+&nbsp;      System.out.println(&quot;from/toPosLocation: &quot; + fromPosLocation + &quot;/&quot; + toPosLocation);
+&nbsp;      System.out.println(&quot;from/toPos: &quot; + fromPos + &quot;/&quot; + toPos);
+&nbsp;      System.out.println(&quot;contextFrom/To: &quot; + contextFrom + &quot;/&quot; + contextTo);*/
+&nbsp;
+<b class="nc">&nbsp;      String context = originalText.substring(contextFrom, contextTo);</b>
+<b class="nc">&nbsp;      String text = originalText.substring(0, contextFrom)</b>
+<b class="nc">&nbsp;              + errorMarker.getStartMarker()</b>
+&nbsp;              + context
+<b class="nc">&nbsp;              + errorMarker.getEndMarker()</b>
+<b class="nc">&nbsp;              + originalText.substring(contextTo);</b>
+&nbsp;      String newContext;
+<b class="nc">&nbsp;      if (StringUtils.countMatches(context, errorText) == 1) {</b>
+<b class="nc">&nbsp;        newContext = context.replace(errorText, replacement);</b>
+&nbsp;      } else {
+&nbsp;        // This may happen especially for very short strings. As this is an
+&nbsp;        // error, we don&#39;t claim to have real replacements:
+<b class="nc">&nbsp;        newContext = context;</b>
+<b class="nc">&nbsp;        hasRealReplacements = false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String newText = originalText.substring(0, contextFrom)</b>
+&nbsp;              // we do a simple string replacement as that works even if our mapping is off a bit:
+<b class="nc">&nbsp;              + errorMarker.getStartMarker()</b>
+&nbsp;              + newContext
+<b class="nc">&nbsp;              + errorMarker.getEndMarker()</b>
+<b class="nc">&nbsp;              + originalText.substring(contextTo);</b>
+&nbsp;      RuleMatchApplication application;
+<b class="nc">&nbsp;      if (hasRealReplacements) {</b>
+<b class="nc">&nbsp;        application = RuleMatchApplication.forMatchWithReplacement(match, text, newText, errorMarker);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        application = RuleMatchApplication.forMatchWithoutReplacement(match, text, newText, errorMarker);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ruleMatchApplications.add(application);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ruleMatchApplications;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int findNextWhitespaceToTheRight(String text, int position) {
+<b class="nc">&nbsp;    for (int i = position; i &lt; text.length(); i++) {</b>
+<b class="nc">&nbsp;      if (Character.isWhitespace(text.charAt(i))) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return text.length();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int findNextWhitespaceToTheLeft(String text, int position) {
+<b class="nc">&nbsp;    for (int i = position; i &gt;= 0; i--) {</b>
+<b class="nc">&nbsp;      if (Character.isWhitespace(text.charAt(i))) {</b>
+<b class="nc">&nbsp;        return i + 1;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

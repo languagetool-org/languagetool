@@ -1,0 +1,349 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Dutch</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: Dutch (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Dutch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/57)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.nl.*;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.nl.DutchSynthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.nl.DutchHybridDisambiguator;
+&nbsp;import org.languagetool.tagging.nl.DutchTagger;
+&nbsp;import org.languagetool.tokenizers.SRXSentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;import org.languagetool.tokenizers.nl.DutchWordTokenizer;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="nc">&nbsp;public class Dutch extends LanguageWithModel {</b>
+&nbsp;  @Override
+&nbsp;  public Language getDefaultLanguageVariant() {
+<b class="nc">&nbsp;    return Languages.getLanguageForShortCode(&quot;nl&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;Dutch&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="nc">&nbsp;    return &quot;nl&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="nc">&nbsp;    return new String[]{&quot;NL&quot;, &quot;BE&quot;};</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return DutchTagger.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;    return DutchSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static CompoundAcceptor getCompoundAcceptor() {
+<b class="nc">&nbsp;    return CompoundAcceptor.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;    return new SRXSentenceTokenizer(this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;    return new DutchWordTokenizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new DutchHybridDisambiguator(getDefaultLanguageVariant());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[] {</b>
+&nbsp;            new Contributor(&quot;OpenTaal&quot;, &quot;http://www.opentaal.org&quot;),
+&nbsp;            new Contributor(&quot;TaalTik&quot;, &quot;http://www.taaltik.nl&quot;)
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;    return LanguageMaintainedState.ActivelyMaintained;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;            new CommaWhitespaceRule(messages),
+&nbsp;            new DoublePunctuationRule(messages),
+&nbsp;            new GenericUnpairedBracketsRule(messages,
+<b class="nc">&nbsp;                    Arrays.asList(&quot;[&quot;, &quot;(&quot;, &quot;{&quot;, &quot;“&quot;, &quot;‹&quot;, &quot;“&quot;, &quot;„&quot;, &quot;\&quot;&quot;),</b>
+<b class="nc">&nbsp;                    Arrays.asList(&quot;]&quot;, &quot;)&quot;, &quot;}&quot;, &quot;”&quot;, &quot;›&quot;, &quot;”&quot;, &quot;”&quot;, &quot;\&quot;&quot;)),</b>
+&nbsp;            new UppercaseSentenceStartRule(messages, this),
+&nbsp;            new MorfologikDutchSpellerRule(messages, this, userConfig, altLanguages),
+&nbsp;            new MultipleWhitespaceRule(messages, this),
+&nbsp;            new CompoundRule(messages, this, userConfig),
+&nbsp;            new DutchWrongWordInContextRule(messages, this),
+&nbsp;            new WordCoherencyRule(messages),
+&nbsp;            new SimpleReplaceRule(messages),
+&nbsp;            new LongSentenceRule(messages, userConfig, 40),
+&nbsp;            new LongParagraphRule(messages, this, userConfig),
+&nbsp;            new PreferredWordRule(messages),
+&nbsp;            new SpaceInCompoundRule(messages, this),
+&nbsp;            new SentenceWhitespaceRule(messages),
+&nbsp;            new CheckCaseRule(messages, this)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  // commented out as long as there are not enough entries in nl/confusion_sets.txt
+&nbsp;  /*@Override
+&nbsp;  public List&lt;Rule&gt; getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+&nbsp;    return Collections.singletonList(
+&nbsp;      new DutchConfusionProbabilityRule(messages, languageModel, this)
+&nbsp;    );
+&nbsp;  }*/
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;“&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingDoubleQuote() {
+<b class="nc">&nbsp;    return &quot;”&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getOpeningSingleQuote() {
+<b class="nc">&nbsp;    return &quot;‘&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public String getClosingSingleQuote() {
+<b class="nc">&nbsp;    return &quot;’&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /** @since 5.1 */
+&nbsp;  @Override
+&nbsp;  public boolean isAdvancedTypographyEnabled() {
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private final static Map&lt;String, Integer&gt; id2prio = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="nc">&nbsp;    id2prio.put(LongSentenceRule.RULE_ID, -1);</b>
+&nbsp;    // default: 0
+<b class="nc">&nbsp;    id2prio.put(&quot;SINT_X&quot;,3); // higher than simple replace</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ET_AL&quot;, 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;N_PERSOONS&quot;, 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HOOFDLETTERS_OVERBODIG_A&quot;, 1); // needs higher priority than MORFOLOGIK_RULE_NL_NL</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;VERSCHILLENDE_AANHALINGSTEKENS&quot;, 1); // needs higher priority than UNPAIRED_BRACKETS</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;STAM_ZONDER_IK&quot;, -1);  // see https://github.com/languagetool-org/languagetool/issues/7644</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KOMMA_ONTBR&quot;, -1);   // see https://github.com/languagetool-org/languagetool/issues/7644</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;KOMMA_KOMMA&quot;, -1); // needs higher priority than DOUBLE_PUNCTUATION</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;HET_FIETS&quot;, -2); // first let other rules check for compound words</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;JIJ_JOU_JOUW&quot;, -2);  // needs higher priority than JOU_JOUW</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;JOU_JOUW&quot;, -3);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;BE&quot;, -3); // needs lower priority than BE_GE_SPLITST</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DOUBLE_PUNCTUATION&quot;, -3);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;EINDE_ZIN_ONVERWACHT&quot;, -5);  //so that spelling errors are recognized first</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;TOO_LONG_PARAGRAPH&quot;, -15);</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;ERG_LANG_WOORD&quot;, -20);  // below spell checker and simple replace rule</b>
+<b class="nc">&nbsp;    id2prio.put(&quot;DE_ONVERWACHT&quot;, -20);  // below spell checker and simple replace rule</b>
+&nbsp;    // category style : -50	  
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;String, Integer&gt; getPriorityMap() {
+<b class="nc">&nbsp;    return id2prio;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected int getPriorityForId(String id) {
+<b class="nc">&nbsp;    if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE) || id.startsWith(&quot;NL_SPACE_IN_COMPOUND&quot;)) {</b>
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Integer prio = id2prio.get(id);</b>
+<b class="nc">&nbsp;    if (prio != null) {</b>
+<b class="nc">&nbsp;      return prio;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (id.startsWith(&quot;AI_NL_HYDRA_LEO&quot;)) { // prefer more specific rules (also speller)</b>
+<b class="nc">&nbsp;      if (id.startsWith(&quot;AI_NL_HYDRA_LEO_MISSING_COMMA&quot;)) {</b>
+<b class="nc">&nbsp;        return -51; // prefer comma style rules.</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return -5;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return super.getPriorityForId(id);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; getRuleFileNames() {
+<b class="nc">&nbsp;    List&lt;String&gt; ruleFileNames = super.getRuleFileNames();</b>
+<b class="nc">&nbsp;    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + &quot;/&quot; + getShortCode() + &quot;/&quot;;</b>
+<b class="nc">&nbsp;    ruleFileNames.add(dirBase + &quot;nl-NL/grammar.xml&quot;);</b>
+&nbsp;    //ruleFileNames.add(dirBase + &quot;grammar-test.xml&quot;);
+<b class="nc">&nbsp;    return ruleFileNames;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return new MorfologikDutchSpellerRule(messages, this, null, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MultitokenSpeller getMultitokenSpeller() {
+<b class="nc">&nbsp;    return DutchMultitokenSpeller.INSTANCE;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

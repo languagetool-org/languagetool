@@ -1,0 +1,388 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SimilarWordFinder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.wordsimilarity</a>
+</div>
+
+<h1>Coverage Summary for Class: SimilarWordFinder (org.languagetool.dev.wordsimilarity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimilarWordFinder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/79)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SimilarWordFinder$KnownPairs</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SimilarWordFinder$SimWord</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/90)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.wordsimilarity;
+&nbsp;
+&nbsp;import org.apache.commons.io.FileUtils;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.lucene.analysis.standard.StandardAnalyzer;
+&nbsp;import org.apache.lucene.document.Document;
+&nbsp;import org.apache.lucene.document.Field;
+&nbsp;import org.apache.lucene.document.TextField;
+&nbsp;import org.apache.lucene.index.*;
+&nbsp;import org.apache.lucene.search.FuzzyQuery;
+&nbsp;import org.apache.lucene.search.IndexSearcher;
+&nbsp;import org.apache.lucene.search.ScoreDoc;
+&nbsp;import org.apache.lucene.search.TopDocs;
+&nbsp;import org.apache.lucene.store.FSDirectory;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="nc">&nbsp;class SimilarWordFinder {</b>
+&nbsp;
+&nbsp;  private static final int MAX_DIST = 1;
+<b class="nc">&nbsp;  private static final KeyboardDistance keyDistance = new GermanQwertzKeyboardDistance();</b>
+&nbsp;  //private static final KeyboardDistance keyDistance = new QwertyKeyboardDistance();
+&nbsp;
+<b class="nc">&nbsp;  private final KnownPairs knownPairs = new KnownPairs();</b>
+&nbsp;
+&nbsp;  private void createIndex(List&lt;String&gt; words, File indexDir) throws IOException {
+<b class="nc">&nbsp;    FSDirectory dir = FSDirectory.open(indexDir.toPath());</b>
+<b class="nc">&nbsp;    IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new StandardAnalyzer());</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Creating index...&quot;);</b>
+<b class="nc">&nbsp;    int docs = 0;</b>
+<b class="nc">&nbsp;    try (IndexWriter writer = new IndexWriter(dir, indexWriterConfig)) {</b>
+<b class="nc">&nbsp;      for (String word : words) {</b>
+<b class="nc">&nbsp;        Document doc = new Document();</b>
+<b class="nc">&nbsp;        doc.add(new TextField(&quot;word&quot;, word, Field.Store.YES));</b>
+<b class="nc">&nbsp;        writer.addDocument(doc);</b>
+<b class="nc">&nbsp;        docs++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Index created: &quot; + docs + &quot; docs&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void findSimilarWords(File indexDir, List&lt;String&gt; words) throws IOException {
+<b class="nc">&nbsp;    FSDirectory dir = FSDirectory.open(indexDir.toPath());</b>
+<b class="nc">&nbsp;    try (DirectoryReader reader = DirectoryReader.open(dir)) {</b>
+<b class="nc">&nbsp;      IndexSearcher searcher = new IndexSearcher(reader);</b>
+<b class="nc">&nbsp;      for (String word : words) {</b>
+<b class="nc">&nbsp;        findSimilarWordsTo(reader, searcher, word);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void findSimilarWordsTo(DirectoryReader reader, IndexSearcher searcher, String word) throws IOException {
+<b class="nc">&nbsp;    FuzzyQuery query = new FuzzyQuery(new Term(&quot;word&quot;, word), 2);  // a missing char counts as a distance of 2</b>
+<b class="nc">&nbsp;    TopDocs topDocs = searcher.search(query, 10);</b>
+&nbsp;    //System.out.println(topDocs.totalHits + &quot; hits for &quot; + word);
+<b class="nc">&nbsp;    List&lt;SimWord&gt; simWords = findSimilarWordsFor(reader, word, topDocs);</b>
+&nbsp;    //System.out.println(word + &quot; -&gt; &quot; + String.join(&quot;, &quot;, simWords));
+<b class="nc">&nbsp;    for (SimWord simWord : simWords) {</b>
+<b class="nc">&nbsp;      if (word.length() == simWord.word.length()) {</b>
+<b class="nc">&nbsp;        int firstDiffPos = getDiffPos(simWord.word.toLowerCase(), word.toLowerCase());</b>
+&nbsp;        try {
+<b class="nc">&nbsp;          float dist = keyDistance.getDistance(word.charAt(firstDiffPos), simWord.word.charAt(firstDiffPos));</b>
+<b class="nc">&nbsp;          System.out.println(dist + &quot;; &quot; + word + &quot;; &quot; + simWord);</b>
+&nbsp;        } catch (Exception e) {
+<b class="nc">&nbsp;          System.err.println(&quot;Could not get distance between &#39;&quot; + word + &quot;&#39; and &#39;&quot; + simWord + &quot;&#39;:&quot;);</b>
+<b class="nc">&nbsp;          e.printStackTrace();</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (case1(word, simWord.word) || case1(simWord.word, word)) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;IGNORE: -; &quot; + word + &quot;; &quot; + simWord.word);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.out.println(&quot;-; &quot; + word + &quot;; &quot; + simWord.word);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean case1(String word1, String word2) {
+<b class="nc">&nbsp;    boolean ignore = word1.endsWith(&quot;s&quot;) &amp;&amp; !word1.endsWith(&quot;es&quot;) &amp;&amp; word2.endsWith(&quot;es&quot;);  // z.B. des Manns, des Mannes -&gt; beides ok</b>
+<b class="nc">&nbsp;    return ignore;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void findSimilarWords(File indexDir) throws IOException {
+<b class="nc">&nbsp;    FSDirectory dir = FSDirectory.open(indexDir.toPath());</b>
+<b class="nc">&nbsp;    try (DirectoryReader reader = DirectoryReader.open(dir)) {</b>
+<b class="nc">&nbsp;      IndexSearcher searcher = new IndexSearcher(reader);</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; reader.maxDoc(); i++) {</b>
+<b class="nc">&nbsp;        Document doc = reader.document(i);</b>
+<b class="nc">&nbsp;        String word = doc.get(&quot;word&quot;);</b>
+&nbsp;        //System.out.println(word);
+<b class="nc">&nbsp;        findSimilarWordsTo(reader, searcher, word);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;SimWord&gt; findSimilarWordsFor(DirectoryReader reader, String word, TopDocs topDocs) throws IOException {
+<b class="nc">&nbsp;    List&lt;SimWord&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (ScoreDoc scoreDoc : topDocs.scoreDocs) {</b>
+<b class="nc">&nbsp;      String simWord = reader.document(scoreDoc.doc).get(&quot;word&quot;);</b>
+&nbsp;      //System.out.println(&quot; sim: &quot; + simWord);
+<b class="nc">&nbsp;      if (!simWord.equalsIgnoreCase(word) &amp;&amp; !knownPairs.contains(simWord, word)) {</b>
+<b class="nc">&nbsp;        int firstDiffPos = getDiffPos(simWord.toLowerCase(), word.toLowerCase());</b>
+<b class="nc">&nbsp;        int limit = Math.min(word.length(), simWord.length()) - 1;</b>
+<b class="nc">&nbsp;        if (firstDiffPos &gt; limit) {</b>
+&nbsp;          //System.out.println(&quot;FILTERED: &quot; + word + &quot; -&gt; &quot; + simWord + &quot; [&quot; + firstDiffPos + &quot; &lt;= &quot; + limit + &quot;]&quot;);
+&nbsp;        } else {
+<b class="nc">&nbsp;          int dist = StringUtils.getLevenshteinDistance(word, simWord);</b>
+<b class="nc">&nbsp;          if (dist &lt;= MAX_DIST) {</b>
+&nbsp;            //System.out.println(word + &quot; -&gt; &quot; + simWord + &quot; [&quot; + firstDiffPos + &quot;]&quot;);
+<b class="nc">&nbsp;            result.add(new SimWord(simWord, dist));</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        knownPairs.add(simWord, word);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getDiffPos(String s1, String s2) {
+&nbsp;    int i;
+<b class="nc">&nbsp;    for (i = 0; i &lt; s1.length(); i++) {</b>
+<b class="nc">&nbsp;      if (i &gt;= s2.length()) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (s1.charAt(i) != s2.charAt(i)) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return i;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class SimWord {
+&nbsp;    private final String word;
+&nbsp;    private final int levenshteinDistance;
+<b class="nc">&nbsp;    SimWord(String word, int levenshteinDistance) {</b>
+<b class="nc">&nbsp;      this.word = word;</b>
+<b class="nc">&nbsp;      this.levenshteinDistance = levenshteinDistance;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return word;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  static class KnownPairs {</b>
+<b class="nc">&nbsp;    private final Set&lt;String&gt; set = new HashSet&lt;&gt;();</b>
+&nbsp;
+&nbsp;    boolean contains(String word1, String word2) {
+<b class="nc">&nbsp;      return set.contains(getKey(word1, word2));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void add(String word1, String word2) {
+<b class="nc">&nbsp;      set.add(getKey(word1, word2));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    String getKey(String word1, String word2) {
+<b class="nc">&nbsp;      if (word1.compareTo(word2) &lt; 0) {</b>
+<b class="nc">&nbsp;        return word1 + &quot;;&quot; + word2;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return word2 + &quot;;&quot; + word1;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    SimilarWordFinder simWordFinder = new SimilarWordFinder();</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Using key distance: &quot; + keyDistance.getClass());</b>
+<b class="nc">&nbsp;    if (args.length == 1) {</b>
+<b class="nc">&nbsp;      File indexDir = new File(args[0]);</b>
+<b class="nc">&nbsp;      simWordFinder.findSimilarWords(indexDir);</b>
+<b class="nc">&nbsp;    } else if (args.length == 2) {</b>
+<b class="nc">&nbsp;      File indexDir = new File(args[1]);</b>
+<b class="nc">&nbsp;      String[] words = args[0].split(&quot;,&quot;);</b>
+<b class="nc">&nbsp;      simWordFinder.findSimilarWords(indexDir, Arrays.asList(words));</b>
+<b class="nc">&nbsp;    } else if (args.length == 3) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; words = FileUtils.readLines(new File(args[1]), &quot;utf-8&quot;);</b>
+<b class="nc">&nbsp;      File indexDir = new File(args[2]);</b>
+<b class="nc">&nbsp;      Files.deleteIfExists(indexDir.toPath());</b>
+<b class="nc">&nbsp;      simWordFinder.createIndex(words, indexDir);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      System.out.println(&quot;Usage 1: &quot; + SimilarWordFinder.class.getSimpleName() + &quot; --index &lt;wordFile&gt; &lt;indexDir&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage 2: &quot; + SimilarWordFinder.class.getSimpleName() + &quot; &lt;words&gt; &lt;indexDir&gt; (as created with usage 1)&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;             &lt;indexDir&gt; as created with usage 1&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;             &lt;words&gt; a comma-separated list of words to search similar words for (no spaces)&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage 3: &quot; + SimilarWordFinder.class.getSimpleName() + &quot; &lt;indexDir&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,241 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > InsertCommaFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: InsertCommaFilter (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InsertCommaFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (2/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13%
+  </span>
+  <span class="absValue">
+    (7/54)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.tagging.de.GermanTagger;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.Collections.singletonList;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;
+&nbsp;/**
+&nbsp; * Specific to {@code KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ} - helps setting the comma suggestion, if easily possible.
+&nbsp; * @since 4.5
+&nbsp; */
+<b class="fc">&nbsp;public class InsertCommaFilter extends RuleFilter {</b>
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern WHITESPACE = compile(&quot;\\s&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern SAGT = compile(&quot;[Ss]agt?&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern DER_ETC = compile(&quot;der|die|das|seine|ihre|deine|unsere|meine|folgender|dieser&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern DENKE_ETC = compile(&quot;denke|dachte|glaube|schätze|vermute|behaupte&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern BEI_FUER_MIT = compile(&quot;bei|für|mit&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern DIR_ETC = compile(&quot;[Di]ir|[Dd]ich|[Ee]uer|[Ee]uch&quot;);</b>
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+<b class="nc">&nbsp;    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());</b>
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String replacement : match.getSuggestedReplacements()) {</b>
+<b class="nc">&nbsp;      String[] parts = WHITESPACE.split(replacement);</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        if (parts.length == 2) {</b>
+<b class="nc">&nbsp;          suggestions.add(parts[0] + &quot;, &quot; + parts[1]);</b>
+<b class="nc">&nbsp;        } else if (parts.length == 3) {</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; tags1 = getTag(0, parts);</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; tags2 = getTag(1, parts);</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; tags3 = getTag(2, parts);</b>
+<b class="nc">&nbsp;          if (hasTag(tags1, &quot;VER:&quot;) &amp;&amp; hasTag(tags2, &quot;PRO:PER:&quot;)) {</b>
+&nbsp;            // &quot;Ich hoffe(,) es geht Ihnen gut.&quot;
+<b class="nc">&nbsp;            suggestions.add(parts[0] + &quot;, &quot; + parts[1] + &quot; &quot; + parts[2]);</b>
+<b class="nc">&nbsp;          } else if (SAGT.matcher(parts[0]).matches() &amp;&amp; parts[1].equals(&quot;mal&quot;) &amp;&amp; hasTag(tags3, &quot;VER:&quot;)) {</b>
+&nbsp;            // &quot;Sag mal(,) hast du&quot;
+<b class="nc">&nbsp;            suggestions.add(parts[0] + &quot; &quot; + parts[1] + &quot;, &quot; + parts[2]);</b>
+<b class="nc">&nbsp;          } else if (hasTag(tags1, &quot;VER:&quot;) &amp;&amp; hasTag(tags2, &quot;ADV:&quot;) &amp;&amp; hasTag(tags3, &quot;VER:&quot;)) {</b>
+&nbsp;            // &quot;Ich denke(,) hier kann aber auch ...&quot;
+<b class="nc">&nbsp;            suggestions.add(parts[0] + &quot;, &quot; + parts[1] + &quot; &quot; + parts[2]);</b>
+&nbsp;          }
+<b class="nc">&nbsp;        } else if (parts.length &gt;= 4 &amp;&amp; parts.length &lt;= 7) {</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; tags1 = getTag(0, parts);</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; tags2 = getTag(1, parts);</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; tags3 = getTag(2, parts);</b>
+<b class="nc">&nbsp;          List&lt;AnalyzedTokenReadings&gt; tags4 = getTag(3, parts);</b>
+<b class="nc">&nbsp;          String rest1 = String.join(&quot; &quot;, Arrays.asList(parts).subList(1, parts.length));</b>
+<b class="nc">&nbsp;          if (patternTokenPos &lt;= 2 || (patternTokenPos == 3 &amp;&amp; match.getSentence().getTokens().length &gt;= 1 &amp;&amp; match.getSentence().getTokens()[1].hasPosTagStartingWith(&quot;ADV:&quot;))) {</b>
+<b class="nc">&nbsp;            if (parts.length == 5 &amp;&amp; hasTag(tags1, &quot;VER:&quot;) &amp;&amp; hasTag(tags2, &quot;ART:&quot;) &amp;&amp; hasTag(tags3, &quot;SUB:&quot;) &amp;&amp; hasTag(getTag(3, parts), &quot;SUB:&quot;) &amp;&amp; hasTag(getTag(4, parts), &quot;VER:&quot;)) {</b>
+&nbsp;              // &quot;Ist der Kunde Verbraucher(,) gilt ...&quot;
+<b class="nc">&nbsp;              suggestions.add(parts[0] + &quot; &quot; + parts[1] + &quot; &quot; + parts[2] + &quot; &quot; + parts[3] + &quot;,&quot;);</b>
+<b class="nc">&nbsp;            } else if (parts.length == 4 &amp;&amp;</b>
+<b class="nc">&nbsp;              patternTokens[0].hasPosTagStartingWith(&quot;VER:&quot;) &amp;&amp;</b>
+<b class="nc">&nbsp;              DER_ETC.matcher(patternTokens[1].getToken()).matches()) {</b>
+&nbsp;              // &quot;Aristoteles meint(,) das Genussleben führe nicht zum Glück.&quot;
+<b class="nc">&nbsp;              suggestions.add(parts[0] + &quot;, &quot; + rest1);</b>
+<b class="nc">&nbsp;            } else if (hasTag(tags1, &quot;VER:&quot;) &amp;&amp; hasTag(tags2, &quot;PRO:POS:&quot;) &amp;&amp; hasTag(tags3, &quot;SUB:&quot;)) {</b>
+&nbsp;              // &quot;Ich glaube(,) eure Premium-Accounts sind noch aktiv.&quot;
+<b class="nc">&nbsp;              suggestions.add(parts[0] + &quot;, &quot; + rest1);</b>
+<b class="nc">&nbsp;            } else if (hasTag(tags1, &quot;VER:&quot;) &amp;&amp; hasTag(tags2, &quot;PRO:PER:&quot;) &amp;&amp; hasTag(tags3, &quot;ADV:INR&quot;)) {</b>
+&nbsp;              // &quot;Weißt du(,) warum diese Regel aus ist?&quot;
+<b class="nc">&nbsp;              String rest2 = String.join(&quot; &quot;, Arrays.asList(parts).subList(2, parts.length));</b>
+<b class="nc">&nbsp;              suggestions.add(parts[0] + &quot; &quot; + parts[1] + &quot;, &quot; + rest2);</b>
+<b class="nc">&nbsp;            } else if (hasTag(tags1, &quot;VER:&quot;) &amp;&amp; hasTag(tags2, &quot;PRO:POS:&quot;) &amp;&amp; hasTag(tags3, &quot;ADJ:&quot;)) {</b>
+&nbsp;              // &quot;Ich glaube(,) eure individuellen Premium-Accounts sind noch aktiv.&quot;
+<b class="nc">&nbsp;              suggestions.add(parts[0] + &quot;, &quot; + rest1);</b>
+<b class="nc">&nbsp;            } else if (DENKE_ETC.matcher(parts[0]).matches() &amp;&amp; hasTag(tags2, &quot;PRO:DEM:&quot;) &amp;&amp; hasTag(tags3, &quot;SUB:&quot;)) {</b>
+&nbsp;              // &quot;Ich schätze(,) diese Krawatte passt gut zum Anzug.&quot;
+<b class="nc">&nbsp;              suggestions.add(parts[0] + &quot;, &quot; + rest1);</b>
+<b class="nc">&nbsp;            } else if (patternTokenPos == 1 &amp;&amp; BEI_FUER_MIT.matcher(parts[1]).matches() &amp;&amp;</b>
+<b class="nc">&nbsp;                       DIR_ETC.matcher(parts[2]).matches() &amp;&amp; hasTag(tags4, &quot;VER:&quot;)) {</b>
+&nbsp;              // &quot;Hoffe(,) bei euch ist alles gut.&quot;
+<b class="nc">&nbsp;              suggestions.add(parts[0] + &quot;, &quot; + rest1);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    ruleMatch.setSuggestedReplacements(suggestions);</b>
+<b class="nc">&nbsp;    ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;    return ruleMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static List&lt;AnalyzedTokenReadings&gt; getTag(int i, String[] parts) throws IOException {
+<b class="nc">&nbsp;    return GermanTagger.INSTANCE.tag(singletonList(parts[i]));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean hasTag(List&lt;AnalyzedTokenReadings&gt; tags, String tagStart) {
+<b class="nc">&nbsp;    return tags.stream().anyMatch(k -&gt; k.hasPosTagStartingWith(tagStart));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

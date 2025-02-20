@@ -1,0 +1,325 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractAdvancedSynthesizerFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractAdvancedSynthesizerFilter (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractAdvancedSynthesizerFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/72)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/100)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.languagetool.rules.patterns.PatternRule;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;/*
+&nbsp; * Synthesize suggestions using the lemma from one token (lemma_from) 
+&nbsp; * and the POS tag from another one (postag_from).
+&nbsp; * 
+&nbsp; * The lemma_select and postag_select attributes are required 
+&nbsp; * to choose one among several possible readings.
+&nbsp; */
+<b class="nc">&nbsp;public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+&nbsp;    
+&nbsp;//    if (match.getSentence().getText().contains(&quot;Jo pensem&quot;)) {
+&nbsp;//      int ii=0;
+&nbsp;//      ii++;
+&nbsp;//    }
+&nbsp;
+<b class="nc">&nbsp;    String postagSelect = getRequired(&quot;postagSelect&quot;, arguments);</b>
+<b class="nc">&nbsp;    String lemmaSelect = getRequired(&quot;lemmaSelect&quot;, arguments);</b>
+<b class="nc">&nbsp;    String postagFromStr = getRequired(&quot;postagFrom&quot;, arguments);</b>
+<b class="nc">&nbsp;    String lemmaFromStr = getRequired(&quot;lemmaFrom&quot;, arguments);</b>
+<b class="nc">&nbsp;    String newLemma = getOptional(&quot;newLemma&quot;, arguments, &quot;&quot;);</b>
+&nbsp;    
+<b class="nc">&nbsp;    int postagFrom = 0;</b>
+<b class="nc">&nbsp;    if (postagFromStr.startsWith(&quot;marker&quot;)) {</b>
+<b class="nc">&nbsp;      while (postagFrom &lt; patternTokens.length &amp;&amp; patternTokens[postagFrom].getStartPos() &lt; match.getFromPos()) {</b>
+<b class="nc">&nbsp;        postagFrom++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      postagFrom++;</b>
+<b class="nc">&nbsp;      if (postagFromStr.length()&gt;6) {</b>
+<b class="nc">&nbsp;        postagFrom += Integer.parseInt(postagFromStr.replace(&quot;marker&quot;, &quot;&quot;));</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      postagFrom = Integer.parseInt(postagFromStr);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (postagFrom &lt; 1 || postagFrom &gt; patternTokens.length) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;AdvancedSynthesizerFilter: Index out of bounds in &quot;</b>
+<b class="nc">&nbsp;          + match.getRule().getFullId() + &quot;, value: &quot; + postagFromStr);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int lemmaFrom = 0;</b>
+<b class="nc">&nbsp;    if (lemmaFromStr.startsWith(&quot;marker&quot;)) {</b>
+<b class="nc">&nbsp;      while (lemmaFrom &lt; patternTokens.length &amp;&amp; patternTokens[lemmaFrom].getStartPos() &lt; match.getFromPos()) {</b>
+<b class="nc">&nbsp;        lemmaFrom++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      lemmaFrom++;</b>
+<b class="nc">&nbsp;      if (lemmaFromStr.length()&gt;6) {</b>
+<b class="nc">&nbsp;        lemmaFrom += Integer.parseInt(lemmaFromStr.replace(&quot;marker&quot;, &quot;&quot;));</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      lemmaFrom = Integer.parseInt(lemmaFromStr);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (lemmaFrom &lt; 1 || lemmaFrom &gt; patternTokens.length) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;AdvancedSynthesizerFilter: Index out of bounds in &quot;</b>
+<b class="nc">&nbsp;          + match.getRule().getFullId() + &quot;, value: &quot; + lemmaFromStr);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    String postagReplace = getOptional(&quot;postagReplace&quot;, arguments);</b>
+&nbsp;
+<b class="nc">&nbsp;    String desiredLemma = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getLemma();</b>
+<b class="nc">&nbsp;    String originalPostag = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getPOSTag();</b>
+<b class="nc">&nbsp;    String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();</b>
+<b class="nc">&nbsp;    if (!newLemma.isEmpty()) {</b>
+<b class="nc">&nbsp;      desiredLemma = newLemma;</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    if (desiredPostag == null) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;AdvancedSynthesizerFilter: undefined POS tag for rule &quot; +</b>
+<b class="nc">&nbsp;        match.getRule().getFullId() + &quot; with POS regex &#39;&quot; + postagSelect + &quot;&#39; for token: &quot; + patternTokens[postagFrom-1]);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (postagReplace != null) {</b>
+<b class="nc">&nbsp;      desiredPostag = getCompositePostag(lemmaSelect, postagSelect, originalPostag, desiredPostag, postagReplace);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // take capitalization from the lemma (?)
+<b class="nc">&nbsp;    boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());</b>
+<b class="nc">&nbsp;    boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());</b>
+<b class="nc">&nbsp;    AnalyzedToken token = new AnalyzedToken(&quot;&quot;, desiredPostag, desiredLemma);</b>
+<b class="nc">&nbsp;    Language language = getLanguageFromRuleMatch(match);</b>
+<b class="nc">&nbsp;    Synthesizer synth = language.getSynthesizer();</b>
+<b class="nc">&nbsp;    String[] replacements = synth.synthesize(token, desiredPostag, true);</b>
+<b class="nc">&nbsp;    if (replacements.length &gt; 0) {</b>
+<b class="nc">&nbsp;      RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),</b>
+<b class="nc">&nbsp;          match.getMessage(), match.getShortMessage());</b>
+<b class="nc">&nbsp;      newMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;      List&lt;String&gt; replacementsList = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;      boolean suggestionUsed = false;</b>
+<b class="nc">&nbsp;      for (String r : match.getSuggestedReplacements()) {</b>
+<b class="nc">&nbsp;        for (String nr : replacements) {</b>
+<b class="nc">&nbsp;          if (isSuggestionException(nr, desiredPostag)) {</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          if (r.contains(&quot;{suggestion}&quot;) || r.contains(&quot;{Suggestion}&quot;) || r.contains(&quot;{SUGGESTION}&quot;)) {</b>
+<b class="nc">&nbsp;            suggestionUsed = true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (isWordCapitalized) {</b>
+<b class="nc">&nbsp;            nr = StringTools.uppercaseFirstChar(nr);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (isWordAllupper) {</b>
+<b class="nc">&nbsp;            nr = nr.toUpperCase();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          String completeSuggestion = r.replace(&quot;{suggestion}&quot;, nr);</b>
+<b class="nc">&nbsp;          completeSuggestion = completeSuggestion.replace(&quot;{Suggestion}&quot;, StringTools.uppercaseFirstChar(nr));</b>
+<b class="nc">&nbsp;          completeSuggestion = completeSuggestion.replace(&quot;{SUGGESTION}&quot;, nr.toUpperCase());</b>
+<b class="nc">&nbsp;          if (!replacementsList.contains(completeSuggestion)) {</b>
+<b class="nc">&nbsp;            replacementsList.add(completeSuggestion);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (!suggestionUsed) {</b>
+<b class="nc">&nbsp;        replacementsList.addAll(Arrays.asList(replacements));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;String&gt; adjustedReplacementsList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (String replacement : replacementsList) {</b>
+<b class="nc">&nbsp;        adjustedReplacementsList.add(language.adaptSuggestion(replacement));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      newMatch.setSuggestedReplacements(adjustedReplacementsList);</b>
+<b class="nc">&nbsp;      return newMatch;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return match;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
+&nbsp;      String desiredPostag, String postagReplace) {
+<b class="nc">&nbsp;    Pattern aPattern = Pattern.compile(lemmaSelect, Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;    Pattern bPattern = Pattern.compile(postagSelect, Pattern.UNICODE_CASE);</b>
+<b class="nc">&nbsp;    Matcher aMatcher = aPattern.matcher(originalPostag);</b>
+<b class="nc">&nbsp;    Matcher bMatcher = bPattern.matcher(desiredPostag);</b>
+<b class="nc">&nbsp;    String result = postagReplace;</b>
+<b class="nc">&nbsp;    if (aMatcher.matches() &amp;&amp; bMatcher.matches()) {</b>
+<b class="nc">&nbsp;      for (int i = 1; i &lt;= aMatcher.groupCount(); i++) {</b>
+<b class="nc">&nbsp;        String groupStr = aMatcher.group(i);</b>
+<b class="nc">&nbsp;        if( groupStr != null){</b>
+<b class="nc">&nbsp;          String toReplace = &quot;\\a&quot; + i;</b>
+<b class="nc">&nbsp;          result = result.replace(toReplace, groupStr);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      for (int i = 1; i &lt;= bMatcher.groupCount(); i++) {</b>
+<b class="nc">&nbsp;        String groupStr = bMatcher.group(i);</b>
+<b class="nc">&nbsp;        if( groupStr != null){</b>
+<b class="nc">&nbsp;          String toReplace = &quot;\\b&quot; + i;</b>
+<b class="nc">&nbsp;          result = result.replace(toReplace, groupStr);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean isSuggestionException(String token, String desiredPostag) {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedToken getAnalyzedToken(AnalyzedTokenReadings aToken, String regexp) {
+<b class="nc">&nbsp;    Pattern pattern = Pattern.compile(regexp);</b>
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : aToken) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if (posTag == null) {</b>
+<b class="nc">&nbsp;        posTag = &quot;UNKNOWN&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      final Matcher m = pattern.matcher(posTag);</b>
+<b class="nc">&nbsp;      if (m.matches()) {</b>
+<b class="nc">&nbsp;        return analyzedToken;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // Return the first one. Something is wrong, anyway
+<b class="nc">&nbsp;    return aToken.getAnalyzedToken(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

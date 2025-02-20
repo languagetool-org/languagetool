@@ -1,0 +1,407 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AbstractCompoundRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractCompoundRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractCompoundRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (7/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    34.4%
+  </span>
+  <span class="absValue">
+    (31/90)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    51.9%
+  </span>
+  <span class="absValue">
+    (68/131)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.LinguServices;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;/**
+&nbsp; * Checks that compounds (if in the list) are not written as separate words.
+&nbsp; * 
+&nbsp; * @author Daniel Naber, Marcin Miłkowski (refactoring)
+&nbsp; */
+&nbsp;public abstract class AbstractCompoundRule extends Rule {
+&nbsp;
+&nbsp;  static final int MAX_TERMS = 5;
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern WHITESPACE = Pattern.compile(&quot;\\s+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern DIGIT = Pattern.compile(&quot;\\d+&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern DASHES = Pattern.compile(&quot;--+&quot;);</b>
+&nbsp;
+&nbsp;  private final String withHyphenMessage;
+&nbsp;  private final String withoutHyphenMessage;
+&nbsp;  private final String withOrWithoutHyphenMessage;
+&nbsp;  private final String shortDesc;
+&nbsp;  protected final LinguServices linguServices;   // Linguistic Service of LO/OO used for LO/OO extension is null in other cases
+&nbsp;  protected final Language lang;                 // used by LO/OO Linguistic Service 
+&nbsp;  // if true, the first word will be uncapitalized before compared to the entries in CompoundRuleData
+<b class="fc">&nbsp;  protected boolean sentenceStartsWithUpperCase = true;</b>
+&nbsp;  protected boolean subRuleSpecificIds;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public abstract String getId();
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public abstract String getDescription();
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;    return 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void useSubRuleSpecificIds() {
+<b class="fc">&nbsp;    subRuleSpecificIds = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.0 */
+&nbsp;  public abstract CompoundRuleData getCompoundRuleData();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  public AbstractCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig,
+&nbsp;                              String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage) throws IOException {
+<b class="nc">&nbsp;    this(messages, lang, userConfig, withHyphenMessage, withoutHyphenMessage, withOrWithoutHyphenMessage, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  public AbstractCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig,
+&nbsp;                              String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage,
+<b class="fc">&nbsp;                              String shortMessage) throws IOException {</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.MISC.getCategory(messages));</b>
+<b class="fc">&nbsp;    this.withHyphenMessage = withHyphenMessage;</b>
+<b class="fc">&nbsp;    this.withoutHyphenMessage = withoutHyphenMessage;</b>
+<b class="fc">&nbsp;    this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;</b>
+<b class="fc">&nbsp;    this.shortDesc = shortMessage;</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+<b class="fc">&nbsp;    this.lang = lang;</b>
+<b class="pc">&nbsp;    if (userConfig != null) {</b>
+<b class="fc">&nbsp;      linguServices = userConfig.getLinguServices();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      linguServices = null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+&nbsp;
+<b class="fc">&nbsp;    RuleMatch prevRuleMatch = null;</b>
+<b class="fc">&nbsp;    ArrayDeque&lt;AnalyzedTokenReadings&gt; prevTokens = new ArrayDeque&lt;&gt;(MAX_TERMS);</b>
+<b class="fc">&nbsp;    boolean containsDigits = false;</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; tokens.length + MAX_TERMS; i++) {</b>
+&nbsp;      AnalyzedTokenReadings token;
+&nbsp;      // we need to extend the token list so we find matches at the end of the original list:
+<b class="fc">&nbsp;      if (i &gt;= tokens.length) {</b>
+<b class="fc">&nbsp;        token = new AnalyzedTokenReadings(new AnalyzedToken(&quot;&quot;, &quot;&quot;, null), prevTokens.peek().getStartPos());</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        token = tokens[i];</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (i == 0) {</b>
+<b class="fc">&nbsp;        addToQueue(token, prevTokens);</b>
+&nbsp;        continue;
+<b class="pc">&nbsp;      } else if (token.isImmunized()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      AnalyzedTokenReadings firstMatchToken = prevTokens.peek();</b>
+<b class="fc">&nbsp;      List&lt;String&gt; stringsToCheck = new ArrayList&lt;&gt;();      // no hyphens spelling</b>
+<b class="fc">&nbsp;      List&lt;String&gt; origStringsToCheck = new ArrayList&lt;&gt;();  // original upper/lowercase and hyphens spelling</b>
+<b class="fc">&nbsp;      Map&lt;String, AnalyzedTokenReadings&gt; stringToToken =</b>
+<b class="fc">&nbsp;              getStringToTokenMap(prevTokens, stringsToCheck, origStringsToCheck);</b>
+&nbsp;      // iterate backwards over all potentially incorrect strings to make
+&nbsp;      // sure we match longer strings first:
+<b class="fc">&nbsp;      for (int k = stringsToCheck.size()-1; k &gt;= 0; k--) {</b>
+<b class="fc">&nbsp;        String stringToCheck = stringsToCheck.get(k);</b>
+<b class="fc">&nbsp;        String origStringToCheck = origStringsToCheck.get(k);</b>
+<b class="fc">&nbsp;        String digitsRegexp = null;</b>
+<b class="pc">&nbsp;        if (Stream.of(stringToCheck.split(&quot; &quot;)).anyMatch(s -&gt; StringUtils.isNumeric(s))) {</b>
+<b class="nc">&nbsp;            containsDigits = true;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck) ||</b>
+<b class="nc">&nbsp;            (containsDigits &amp;&amp; getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp = DIGIT.matcher(stringToCheck).replaceAll(&quot;\\\\d+&quot;)))) {</b>
+<b class="nc">&nbsp;          AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);</b>
+<b class="nc">&nbsp;          String msg = null;</b>
+<b class="nc">&nbsp;          List&lt;String&gt; replacement = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          if (getCompoundRuleData().getDashSuggestion().contains(stringToCheck) &amp;&amp; !origStringToCheck.contains(&quot; &quot;)) {</b>
+&nbsp;            // It is already joined
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          if (getCompoundRuleData().getDashSuggestion().contains(stringToCheck) ||</b>
+<b class="nc">&nbsp;              (containsDigits &amp;&amp; getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp))) {</b>
+<b class="nc">&nbsp;            replacement.add(origStringToCheck.replace(&#39; &#39;, &#39;-&#39;));</b>
+<b class="nc">&nbsp;            msg = withHyphenMessage;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (isNotAllUppercase(origStringToCheck) &amp;&amp; getCompoundRuleData().getJoinedSuggestion().contains(stringToCheck)) {</b>
+<b class="nc">&nbsp;            replacement.add(mergeCompound(origStringToCheck, getCompoundRuleData().getJoinedLowerCaseSuggestion().stream().anyMatch(s -&gt; stringToCheck.contains(s))));</b>
+<b class="nc">&nbsp;            msg = withoutHyphenMessage;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          String[] parts = stringToCheck.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;          if (parts.length &gt; 0 &amp;&amp; parts[0].length() == 1) {</b>
+<b class="nc">&nbsp;            replacement.clear();</b>
+<b class="nc">&nbsp;            replacement.add(origStringToCheck.replace(&#39; &#39;, &#39;-&#39;));</b>
+<b class="nc">&nbsp;            msg = withHyphenMessage;</b>
+<b class="nc">&nbsp;          } else if (replacement.isEmpty() || replacement.size() == 2) {     // isEmpty shouldn&#39;t happen</b>
+<b class="nc">&nbsp;            msg = withOrWithoutHyphenMessage;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          replacement = filterReplacements(replacement,</b>
+<b class="nc">&nbsp;            sentence.getText().substring(firstMatchToken.getStartPos(), atr.getEndPos()));</b>
+<b class="nc">&nbsp;          if (replacement.isEmpty()) {</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          int startPos = firstMatchToken.getStartPos();</b>
+<b class="nc">&nbsp;          int endPos = atr.getEndPos();</b>
+<b class="nc">&nbsp;          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, shortDesc);</b>
+<b class="nc">&nbsp;          if (subRuleSpecificIds) {</b>
+<b class="nc">&nbsp;            String id = StringTools.toId(getId() + &quot;_&quot; + stringToCheck, lang);</b>
+<b class="nc">&nbsp;            String description = getDescription().replace(&quot;$match&quot;, origStringToCheck);</b>
+<b class="nc">&nbsp;            SpecificIdRule subRuleId = new SpecificIdRule(id, description, isPremium(), getCategory(),</b>
+<b class="nc">&nbsp;              getLocQualityIssueType(), getTags());</b>
+<b class="nc">&nbsp;            ruleMatch = new RuleMatch(subRuleId, sentence, startPos, endPos, msg, shortDesc);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          ruleMatch.setSuggestedReplacements(replacement);</b>
+&nbsp;          // avoid duplicate matches:
+<b class="nc">&nbsp;          if (prevRuleMatch != null &amp;&amp; prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {</b>
+<b class="nc">&nbsp;            prevRuleMatch = ruleMatch;</b>
+&nbsp;            break;
+&nbsp;          }
+<b class="nc">&nbsp;          prevRuleMatch = ruleMatch;</b>
+<b class="nc">&nbsp;          ruleMatches.add(ruleMatch);</b>
+&nbsp;          break;
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      addToQueue(token, prevTokens);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;String&gt; filterReplacements(List&lt;String&gt; replacements, String original) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; newReplacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String replacement : replacements) {</b>
+<b class="nc">&nbsp;      String newReplacement = DASHES.matcher(replacement).replaceAll(&quot;-&quot;);</b>
+<b class="nc">&nbsp;      if (!newReplacement.equals(original) &amp;&amp; isCorrectSpell(newReplacement)) {</b>
+<b class="nc">&nbsp;        newReplacements.add(newReplacement);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return newReplacements;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;String, AnalyzedTokenReadings&gt; getStringToTokenMap(Queue&lt;AnalyzedTokenReadings&gt; prevTokens,
+&nbsp;                                                                 List&lt;String&gt; stringsToCheck, List&lt;String&gt; origStringsToCheck) {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;    Map&lt;String, AnalyzedTokenReadings&gt; stringToToken = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    int j = 0;</b>
+<b class="fc">&nbsp;    boolean isFirstSentStart = false;</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings atr : prevTokens) {</b>
+<b class="fc">&nbsp;      if (atr.isWhitespaceBefore()) {</b>
+<b class="fc">&nbsp;        sb.append(&#39; &#39;);  </b>
+&nbsp;      }
+<b class="fc">&nbsp;      sb.append(atr.getToken());</b>
+<b class="fc">&nbsp;      if (j == 0) {</b>
+<b class="fc">&nbsp;        isFirstSentStart = atr.hasPosTag(JLanguageTool.SENTENCE_START_TAGNAME);</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (j &gt;= 1 || (j == 0 &amp;&amp; !isFirstSentStart)) {</b>
+<b class="fc">&nbsp;        String stringToCheck = normalize(sb.toString());</b>
+<b class="pc">&nbsp;        if (sentenceStartsWithUpperCase &amp;&amp; isFirstSentStart) {</b>
+<b class="fc">&nbsp;          stringToCheck = StringUtils.uncapitalize(stringToCheck);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        stringsToCheck.add(stringToCheck);</b>
+<b class="fc">&nbsp;        origStringsToCheck.add(sb.toString().trim());</b>
+<b class="fc">&nbsp;        if (!stringToToken.containsKey(stringToCheck)) {</b>
+<b class="fc">&nbsp;          stringToToken.put(stringToCheck, atr);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      j++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return stringToToken;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String normalize(String inStr) {
+<b class="fc">&nbsp;    String str = inStr.trim();</b>
+<b class="fc">&nbsp;    str = str.replace(&quot; - &quot;, &quot; &quot;);</b>
+<b class="fc">&nbsp;    str = str.replace(&#39;-&#39;, &#39; &#39;);</b>
+<b class="fc">&nbsp;    str = WHITESPACE.matcher(str).replaceAll(&quot; &quot;);</b>
+<b class="fc">&nbsp;    return str;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean isNotAllUppercase(String str) {
+<b class="nc">&nbsp;    String[] parts = str.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    for (String part : parts) {</b>
+<b class="nc">&nbsp;      if (!&quot;-&quot;.equals(part)) { // do not treat &#39;-&#39; as an upper-case word</b>
+<b class="nc">&nbsp;        if (StringTools.isAllUppercase(part)) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String mergeCompound(String str, boolean uncapitalizeMidWords) {
+<b class="nc">&nbsp;    String[] stringParts = str.replace(&quot;-&quot;, &quot; &quot;).split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (int k = 0; k &lt; stringParts.length; k++) {  </b>
+<b class="nc">&nbsp;      if (k == 0) {</b>
+<b class="nc">&nbsp;        sb.append(stringParts[0]);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        sb.append(uncapitalizeMidWords ? StringUtils.uncapitalize(stringParts[k]) : stringParts[k]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void addToQueue(AnalyzedTokenReadings token, ArrayDeque&lt;AnalyzedTokenReadings&gt; prevTokens) {
+<b class="fc">&nbsp;    if (prevTokens.size() == MAX_TERMS) {</b>
+<b class="fc">&nbsp;      prevTokens.poll();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    prevTokens.offer(token);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private boolean isCorrectSpell(String word) throws IOException {
+<b class="nc">&nbsp;    if (linguServices == null) {</b>
+<b class="nc">&nbsp;      return !isMisspelled(word);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return linguServices.isCorrectSpell(word, lang);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public boolean isMisspelled(String word) throws IOException {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

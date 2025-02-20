@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ConfusionFileIndenter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: ConfusionFileIndenter (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConfusionFileIndenter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;/**
+&nbsp; * Re-Indent confusion_set.txt files.
+&nbsp; */
+<b class="nc">&nbsp;public class ConfusionFileIndenter {</b>
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + ConfusionFileIndenter.class.getSimpleName() + &quot; &lt;file&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(args[0]));</b>
+<b class="nc">&nbsp;    System.out.println(indent(lines));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static String indent(List&lt;String&gt; lines) {
+<b class="nc">&nbsp;    StringBuilder indentedLines = new StringBuilder();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; alreadyDone = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      if (!line.startsWith(&quot;#&quot;) &amp;&amp; !line.isEmpty()) {</b>
+<b class="nc">&nbsp;        String[] parts = line.replaceFirst(&quot;\\s*#.*&quot;, &quot;&quot;).split(&quot;;\\s*&quot;);</b>
+<b class="nc">&nbsp;        String key = parts[0] + &quot;;&quot; + parts[1];</b>
+<b class="nc">&nbsp;        if (alreadyDone.contains(key)) {</b>
+&nbsp;          //System.err.println(&quot;Skipping, already appeared: &quot; + key);
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        alreadyDone.add(key);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int commentPos = line.lastIndexOf(&#39;#&#39;);</b>
+<b class="nc">&nbsp;      if (commentPos &lt;= 0) {</b>
+<b class="nc">&nbsp;        indentedLines.append(line).append(&#39;\n&#39;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        int endData = commentPos;</b>
+<b class="nc">&nbsp;        while (Character.isWhitespace(line.charAt(endData - 1))) {</b>
+<b class="nc">&nbsp;          endData--;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String spaces = StringUtils.repeat(&quot; &quot;, Math.max(1, 82-endData));</b>
+<b class="nc">&nbsp;        indentedLines.append(line, 0, endData).append(spaces).append(line.substring(commentPos)).append(&#39;\n&#39;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return indentedLines.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

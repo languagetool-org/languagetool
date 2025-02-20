@@ -1,0 +1,521 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LemmaHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: LemmaHelper (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LemmaHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/234)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/173)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LemmaHelper$Dir</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/234)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/174)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.tagging.uk.PosTagHelper;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 3.6
+&nbsp; */
+<b class="nc">&nbsp;public abstract class LemmaHelper {</b>
+&nbsp;  private static final String IGNORE_CHARS = &quot;\u00AD\u0301&quot;;
+<b class="nc">&nbsp;  public static final Set&lt;String&gt; CITY_AVENU = new HashSet&lt;&gt;(Arrays.asList(&quot;сіті&quot;, &quot;ситі&quot;, &quot;стріт&quot;, &quot;стрит&quot;, &quot;рівер&quot;, &quot;ривер&quot;, &quot;авеню&quot;, &quot;штрасе&quot;, &quot;штрассе&quot;, &quot;сьоркл&quot;, &quot;сквер&quot;));</b>
+<b class="nc">&nbsp;  public static final List&lt;String&gt; MONTH_LEMMAS = Arrays.asList(&quot;січень&quot;, &quot;лютий&quot;, &quot;березень&quot;, &quot;квітень&quot;, &quot;травень&quot;, &quot;червень&quot;, &quot;липень&quot;, </b>
+&nbsp;      &quot;серпень&quot;, &quot;вересень&quot;, &quot;жовтень&quot;, &quot;листопад&quot;, &quot;грудень&quot;);
+<b class="nc">&nbsp;  public static final List&lt;String&gt; DAYS_OF_WEEK = Arrays.asList(&quot;понеділок&quot;, &quot;вівторок&quot;, &quot;середа&quot;, &quot;четвер&quot;, &quot;п&#39;ятниця&quot;, &quot;субота&quot;, &quot;неділя&quot;);</b>
+<b class="nc">&nbsp;  public static final List&lt;String&gt; TIME_LEMMAS = Arrays.asList(</b>
+&nbsp;      &quot;секунда&quot;, &quot;хвилина&quot;, &quot;хвилинка&quot;, &quot;хвилина-дві&quot;, &quot;хвилинка-друга&quot;, 
+&nbsp;      &quot;година&quot;, &quot;годинка&quot;, &quot;півгодини&quot;, &quot;година-друга&quot;, &quot;година-дві&quot;, 
+&nbsp;      &quot;час&quot;, &quot;день&quot;, &quot;день-другий&quot;, &quot;півдня&quot;, &quot;ніч&quot;, &quot;ніченька&quot;, &quot;вечір&quot;, &quot;ранок&quot;, &quot;тиждень&quot;, &quot;тиждень-два&quot;, &quot;тиждень-другий&quot;, 
+&nbsp;      &quot;місяць&quot;, &quot;місяць-два&quot;, &quot;місяць-другий&quot;, &quot;місяць-півтора&quot;, &quot;доба&quot;, &quot;мить&quot;, &quot;хвилька&quot;,
+&nbsp;      &quot;рік&quot;, &quot;рік-два&quot;, &quot;рік-півтора&quot;, &quot;півроку&quot;, &quot;півроку-рік&quot;, &quot;десятиліття&quot;, &quot;десятиріччя&quot;, &quot;століття&quot;, &quot;півстоліття&quot;, &quot;сторіччя&quot;, &quot;півсторіччя&quot;, &quot;тисячоліття&quot;, &quot;півтисячоліття&quot;, &quot;квартал&quot;, &quot;годочок&quot;,
+&nbsp;      &quot;літо&quot;, &quot;зима&quot;, &quot;весна&quot;, &quot;осінь&quot;,
+&nbsp;      &quot;тайм&quot;, &quot;мить&quot;, &quot;період&quot;, &quot;термін&quot;, &quot;сезон&quot;, &quot;декада&quot;, &quot;каденція&quot;, &quot;раунд&quot;, &quot;сезон&quot;);
+<b class="nc">&nbsp;  public static final List&lt;String&gt; DISTANCE_LEMMAS = Arrays.asList(</b>
+&nbsp;      &quot;міліметр&quot;, &quot;сантиметр&quot;, &quot;метр&quot;, &quot;кілометр&quot;, &quot;кілограм&quot;, &quot;кілограм–півтора&quot;, 
+&nbsp;      &quot;гектар&quot;, &quot;миля&quot;, &quot;аршин&quot;, &quot;дециметр&quot;, &quot;верства&quot;, &quot;верста&quot;,
+&nbsp;      &quot;грам&quot;, &quot;літр&quot;, &quot;фунт&quot;, &quot;тонна&quot;, &quot;центнер&quot;);
+<b class="nc">&nbsp;  public static final List&lt;String&gt; PSEUDO_NUM_LEMMAS = Arrays.asList(</b>
+&nbsp;      &quot;десяток&quot;, &quot;десяток-другий&quot;,&quot;сотня&quot;, &quot;сотка&quot;, &quot;тисяча&quot;, &quot;п&#39;ятірка&quot;, &quot;пара&quot;, &quot;третина&quot;, &quot;чверть&quot;, &quot;половина&quot;, 
+&nbsp;      &quot;дюжина&quot;, &quot;жменя&quot;, &quot;жменька&quot;, &quot;купа&quot;, &quot;купка&quot;, &quot;парочка&quot;, &quot;оберемок&quot;, &quot;безліч&quot;);
+&nbsp;  //TODO: merge with above?
+<b class="nc">&nbsp;  static final Pattern ADV_QUANT_PATTERN = Pattern.compile(</b>
+&nbsp;      &quot;більше|менше|чимало|багато|мало|забагато|замало|немало|багатенько|чималенько|стільки|обмаль|вдосталь|удосталь|трохи|трошки|досить|достатньо|недостатньо|предостатньо&quot;
+&nbsp;      + &quot;|багацько|чимбільше|побільше|порівну|більшість|трішки|предосить|повно|повнісінько&quot;
+&nbsp;      + &quot;|мільйон|тисяча|сотня|мільярд|трильйон|десяток|нуль|безліч&quot;
+&nbsp;      + &quot;|кілька|декілька|пара|парочка|купа|купка|безліч|мінімум|максимум&quot;
+&nbsp;      + &quot;&quot;); // last 2 are numeric so only will play with fully disambiguated tokens
+<b class="nc">&nbsp;  public static final List&lt;String&gt; MONEY_LEMMAS = Arrays.asList(&quot;гривня&quot;, &quot;копійка&quot;);</b>
+<b class="nc">&nbsp;  public static final Set&lt;String&gt; TIME_PLUS_LEMMAS = new HashSet&lt;&gt;();</b>
+&nbsp;  public static final Pattern TIME_PLUS_LEMMAS_PATTERN;
+<b class="nc">&nbsp;  public static final List&lt;String&gt; TIME_LEMMAS_SHORT = Arrays.asList(&quot;секунда&quot;, &quot;хвилина&quot;, &quot;година&quot;, &quot;рік&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  static final Pattern PART_INSERT_PATTERN = Pattern.compile(</b>
+&nbsp;      &quot;бодай|буцім(то)?|геть|дедалі|десь|іще|ледве|мов(би(то)?)?|навіть|наче(б(то)?)?|неначе(бто)?|немов(би(то)?)?|ніби(то)?&quot;
+&nbsp;          + &quot;|попросту|просто(-напросто)?|справді|усього-на-всього|хай|хоча?|якраз|ж|би?|власне&quot;);
+<b class="nc">&nbsp;  static final Set&lt;String&gt; PLUS_MINUS = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;      &quot;плюс&quot;, &quot;мінус&quot;, &quot;максимум&quot;, &quot;мінімум&quot;
+&nbsp;      ));
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    TIME_PLUS_LEMMAS.addAll(TIME_LEMMAS);</b>
+<b class="nc">&nbsp;    TIME_PLUS_LEMMAS.addAll(DISTANCE_LEMMAS);</b>
+<b class="nc">&nbsp;    TIME_PLUS_LEMMAS.addAll(DAYS_OF_WEEK);</b>
+<b class="nc">&nbsp;    TIME_PLUS_LEMMAS.addAll(MONTH_LEMMAS);</b>
+<b class="nc">&nbsp;    TIME_PLUS_LEMMAS.addAll(PSEUDO_NUM_LEMMAS);</b>
+<b class="nc">&nbsp;    TIME_PLUS_LEMMAS.addAll(MONEY_LEMMAS);</b>
+<b class="nc">&nbsp;    TIME_PLUS_LEMMAS.addAll(Arrays.asList(&quot;вихідний&quot;, &quot;уїк-енд&quot;, &quot;уїкенд&quot;, &quot;вікенд&quot;,</b>
+&nbsp;        &quot;відсоток&quot;, &quot;раз&quot;, &quot;крок&quot;));
+<b class="nc">&nbsp;    TIME_PLUS_LEMMAS_PATTERN = Pattern.compile(StringUtils.join(TIME_PLUS_LEMMAS, &quot;|&quot;));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;
+&nbsp;  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, Collection&lt;String&gt; lemmas) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; readings = analyzedTokenReadings.getReadings();</b>
+<b class="nc">&nbsp;    return hasLemma(readings, lemmas);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasLemma(List&lt;AnalyzedToken&gt; readings, Collection&lt;String&gt; lemmas) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: readings) {</b>
+<b class="nc">&nbsp;      if( lemmas.contains(analyzedToken.getLemma()) ) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasLemma(List&lt;AnalyzedToken&gt; readings, Pattern lemmaRegex) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: readings) {</b>
+<b class="nc">&nbsp;      if( lemmaRegex.matcher(analyzedToken.getLemma()).matches() ) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, List&lt;String&gt; lemmas, String partPos) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;      for(String lemma: lemmas) {</b>
+<b class="nc">&nbsp;        if( lemma.equals(analyzedToken.getLemma()) </b>
+<b class="nc">&nbsp;            &amp;&amp; analyzedToken.getPOSTag() != null &amp;&amp; analyzedToken.getPOSTag().contains(partPos) ) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, Collection&lt;String&gt; lemmas, Pattern posRegex) {
+<b class="nc">&nbsp;    if( ! analyzedTokenReadings.hasReading() )</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;      if( analyzedToken.getPOSTag() != null </b>
+<b class="nc">&nbsp;          &amp;&amp; posRegex.matcher(analyzedToken.getPOSTag()).matches()) {</b>
+&nbsp;        
+<b class="nc">&nbsp;        if( lemmas.contains(analyzedToken.getLemma()) )</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasLemmaBase(AnalyzedTokenReadings analyzedTokenReadings, Collection&lt;String&gt; lemmas, Pattern posRegex) {
+<b class="nc">&nbsp;    if( ! analyzedTokenReadings.hasReading() )</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;      if( analyzedToken.getPOSTag() != null </b>
+<b class="nc">&nbsp;          &amp;&amp; posRegex.matcher(analyzedToken.getPOSTag()).matches()) {</b>
+&nbsp;
+<b class="nc">&nbsp;        String lemma = analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;        if( lemmas.contains(lemma) )</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;
+<b class="nc">&nbsp;        int idx = lemma.indexOf(&#39;-&#39;);</b>
+<b class="nc">&nbsp;        if( idx &gt; 2 &amp;&amp; idx &lt; lemma.length()-1 </b>
+<b class="nc">&nbsp;            &amp;&amp; lemmas.contains(lemma.substring(0, idx)) )</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, String lemma) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;      if( lemma.equals(analyzedToken.getLemma()) ) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, Pattern pattern) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;      String lemma = analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;      if( lemma != null &amp;&amp; pattern.matcher(lemma).matches() ) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, Pattern pattern, Pattern posTagRegex) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {</b>
+<b class="nc">&nbsp;      String lemma = analyzedToken.getLemma();</b>
+<b class="nc">&nbsp;      if( lemma != null &amp;&amp; pattern.matcher(lemma).matches()</b>
+<b class="nc">&nbsp;          &amp;&amp; posTagRegex != null &amp;&amp; analyzedToken.getPOSTag() != null &amp;&amp; posTagRegex.matcher(analyzedToken.getPOSTag()).matches() ) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static boolean reverseSearch(AnalyzedTokenReadings[] tokens, int pos, int depth, Pattern lemma, Pattern postag) {
+<b class="nc">&nbsp;    return reverseSearchIdx(tokens, pos, depth, lemma, postag) &gt;= 0;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  static int reverseSearchIdx(AnalyzedTokenReadings[] tokens, int pos, int depth, Pattern lemma, Pattern postag) {
+<b class="nc">&nbsp;    for(int i=pos; i&gt;pos-depth &amp;&amp; i&gt;=0; i--) {</b>
+<b class="nc">&nbsp;      if( (lemma == null || hasLemma(tokens[i], lemma))</b>
+<b class="nc">&nbsp;          &amp;&amp; (postag == null || PosTagHelper.hasPosTag(tokens[i], postag)) )</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static int forwardLemmaSearchIdx(AnalyzedTokenReadings[] tokens, int pos, int depth, Pattern lemma, Pattern postag) {
+<b class="nc">&nbsp;    for(int i=pos; i&lt;pos+depth &amp;&amp; i&lt;tokens.length; i++) {</b>
+<b class="nc">&nbsp;      if( (lemma == null || hasLemma(tokens[i], lemma))</b>
+<b class="nc">&nbsp;          &amp;&amp; (postag == null || PosTagHelper.hasPosTag(tokens[i], postag)) )</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static boolean forwardPosTagSearch(AnalyzedTokenReadings[] tokens, int pos, String posTag, int maxSkip) {
+<b class="nc">&nbsp;    for(int i=pos; i &lt; tokens.length &amp;&amp; i &lt;= pos + maxSkip; i++) {</b>
+<b class="nc">&nbsp;      if( PosTagHelper.hasPosTagPart(tokens[i], posTag) )</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  enum Dir {FORWARD, REVERSE}</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern QUOTES = Pattern.compile(&quot;[«»„“\u201C]&quot;);</b>
+&nbsp;
+&nbsp;  static int tokenSearch(AnalyzedTokenReadings[] tokens, int pos, String posTag, Pattern token, Pattern posTagsToIgnore, Dir dir) {
+<b class="nc">&nbsp;    int step = dir == Dir.FORWARD ? 1 : -1;</b>
+&nbsp;
+<b class="nc">&nbsp;    for(int i = pos; i &lt; tokens.length &amp;&amp; i &gt; 0; i += step) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings currToken = tokens[i];</b>
+<b class="nc">&nbsp;      if( (posTag == null || PosTagHelper.hasPosTagPart(currToken, posTag)) </b>
+<b class="nc">&nbsp;          &amp;&amp; (token == null || token.matcher(currToken.getCleanToken()).matches()) )</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;
+<b class="nc">&nbsp;      if( posTagsToIgnore != null ) {</b>
+<b class="nc">&nbsp;      if( ! PosTagHelper.hasPosTag(currToken, posTagsToIgnore)</b>
+<b class="nc">&nbsp;          &amp;&amp; ! QUOTES.matcher(currToken.getCleanToken()).matches() )</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static int tokenSearch(AnalyzedTokenReadings[] tokens, int pos, Pattern posTag, Pattern token, Pattern posTagsToIgnore, Dir dir) {
+<b class="nc">&nbsp;    int step = dir == Dir.FORWARD ? 1 : -1;</b>
+&nbsp;
+<b class="nc">&nbsp;    for(int i = pos; i &lt; tokens.length &amp;&amp; i &gt; 0; i += step) {</b>
+<b class="nc">&nbsp;      if( (posTag == null || PosTagHelper.hasPosTag(tokens[i], posTag)) </b>
+<b class="nc">&nbsp;          &amp;&amp; (token == null || token.matcher(tokens[i].getCleanToken()).matches()) )</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;
+<b class="nc">&nbsp;      if( posTagsToIgnore != null ) {</b>
+<b class="nc">&nbsp;        if( ! PosTagHelper.hasPosTag(tokens[i], posTagsToIgnore)</b>
+<b class="nc">&nbsp;            &amp;&amp; ! QUOTES.matcher(tokens[i].getCleanToken()).matches() )</b>
+&nbsp;          break;
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static boolean revSearch(AnalyzedTokenReadings[] tokens, int startPos, Pattern lemma, String postagRegex) {
+<b class="nc">&nbsp;    return LemmaHelper.revSearchIdx(tokens, startPos, lemma, postagRegex) != -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static int revSearchIdx(AnalyzedTokenReadings[] tokens, int startPos, Pattern lemma, String postagRegex) {
+<b class="nc">&nbsp;    if( startPos &gt; 0 &amp;&amp; PosTagHelper.hasPosTag(tokens[startPos], &quot;part.*&quot;) ) {</b>
+&nbsp;      //    if( startPos &gt; 0 &amp;&amp; LemmaHelper.hasLemma(tokens[startPos], Arrays.asList(&quot;б&quot;, &quot;би&quot;)) ) {
+<b class="nc">&nbsp;      startPos -= 1;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( startPos &gt; 0 &amp;&amp; PosTagHelper.hasPosTag(tokens[startPos], &quot;adv(:.*)?|.*pron.*&quot;) ) {</b>
+<b class="nc">&nbsp;      startPos -= 1;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( startPos &gt; 0 &amp;&amp; PosTagHelper.hasPosTag(tokens[startPos], &quot;part.*&quot;) ) {</b>
+<b class="nc">&nbsp;      startPos -= 1;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if( startPos &gt; 0 ) {</b>
+<b class="nc">&nbsp;      if( lemma != null &amp;&amp; ! hasLemma(tokens[startPos], lemma) )</b>
+<b class="nc">&nbsp;        return -1;</b>
+<b class="nc">&nbsp;      if( postagRegex != null &amp;&amp; ! PosTagHelper.hasPosTag(tokens[startPos], postagRegex) )</b>
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;
+<b class="nc">&nbsp;      return startPos;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isAllUppercaseUk(String word) {
+<b class="nc">&nbsp;    int sz = word.length();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; sz; i++) {</b>
+<b class="nc">&nbsp;        char ch = word.charAt(i);</b>
+<b class="nc">&nbsp;        if (ch != &#39;-&#39; &amp;&amp; ch != &#39;\u2013&#39; &amp;&amp; ch != &#39;\&#39;&#39; &amp;&amp; ch != &#39;\u0301&#39; &amp;&amp; ch != &#39;\u00AD&#39; </b>
+<b class="nc">&nbsp;            &amp;&amp; !Character.isUpperCase(ch)) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isAllLowercaseUk(String word) {
+<b class="nc">&nbsp;    int sz = word.length();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; sz; i++) {</b>
+<b class="nc">&nbsp;        char ch = word.charAt(i);</b>
+<b class="nc">&nbsp;        if (ch != &#39;-&#39; &amp;&amp; ch != &#39;\u2013&#39; &amp;&amp; ch != &#39;\&#39;&#39; &amp;&amp; ch != &#39;\u0301&#39; &amp;&amp; ch != &#39;\u00AD&#39; </b>
+<b class="nc">&nbsp;            &amp;&amp; !Character.isLowerCase(ch)) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String capitalizeProperName(String word) {
+<b class="nc">&nbsp;    char[] chars = new char[word.length()];</b>
+<b class="nc">&nbsp;    char prevChar = &#39;-&#39;;</b>
+<b class="nc">&nbsp;    for(int i=0; i&lt;chars.length; i++) {</b>
+<b class="nc">&nbsp;      char ch = word.charAt(i);</b>
+<b class="nc">&nbsp;      chars[i] = prevChar == &#39;-&#39; ? Character.toUpperCase(ch) : Character.toLowerCase(ch);</b>
+<b class="nc">&nbsp;      prevChar = ch == &#39;\u2013&#39; ? &#39;-&#39; : ch;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new String(chars);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isCapitalized(String word) {
+<b class="nc">&nbsp;    if( word == null || word.length() &lt; 2 )</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;
+<b class="nc">&nbsp;    char char0 = word.charAt(0);</b>
+<b class="nc">&nbsp;    if( ! Character.isUpperCase(char0) )</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    
+&nbsp;    // lax on Latin: EuroGas
+<b class="nc">&nbsp;    if( char0 &gt;= &#39;A&#39; &amp;&amp; char0 &lt;= &#39;Z&#39; &amp;&amp; Character.isLowerCase(word.charAt(1)) )</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;
+<b class="nc">&nbsp;    boolean prevDash = false;</b>
+<b class="nc">&nbsp;    int sz = word.length();</b>
+<b class="nc">&nbsp;    for (int i = 1; i &lt; sz; i++) {</b>
+<b class="nc">&nbsp;        char ch = word.charAt(i);</b>
+&nbsp;        
+<b class="nc">&nbsp;        if( IGNORE_CHARS.indexOf(ch) &gt;= 0 )</b>
+&nbsp;          continue;
+&nbsp;
+<b class="nc">&nbsp;        boolean dash = ch == &#39;-&#39; || ch == &#39;\u2013&#39;;</b>
+<b class="nc">&nbsp;        if( dash ) {</b>
+<b class="nc">&nbsp;          if( i == sz-2 &amp;&amp; Character.isDigit(word.charAt(i+1)) )</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;
+<b class="nc">&nbsp;          prevDash = dash;</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if( ch != &#39;\&#39;&#39; &amp;&amp; ch != &#39;\u0301&#39; &amp;&amp; ch != &#39;\u00AD&#39;</b>
+<b class="nc">&nbsp;            &amp;&amp; (prevDash != Character.isUpperCase(ch)) ) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        prevDash = false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;//public static boolean isInitial(String token) {
+&nbsp;//  return token.matches(&quot;[А-ЯІЇЄҐA-Z]\\.&quot;);
+&nbsp;//}
+&nbsp;
+<b class="nc">&nbsp;  static final Pattern DASHES_PATTERN = Pattern.compile(&quot;[\u2010-\u2015-]&quot;);</b>
+<b class="nc">&nbsp;  static final Pattern QUOTES_PATTERN = Pattern.compile(&quot;[\\p{Pi}\\p{Pf}]&quot;);</b>
+&nbsp;//  static final Pattern QUOTES_AND_PARENTH_PATTERN = Pattern.compile(&quot;[\\p{Pi}\\p{Pf}()]&quot;);
+&nbsp;
+&nbsp;
+&nbsp;  static boolean isPossiblyProperNoun(AnalyzedTokenReadings analyzedTokenReadings) {
+<b class="nc">&nbsp;    return // analyzedTokenReadings.getAnalyzedToken(0).hasNoTag() &amp;&amp; </b>
+<b class="nc">&nbsp;        isCapitalized(analyzedTokenReadings.getCleanToken());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isInitial(AnalyzedTokenReadings analyzedTokenReadings) {
+<b class="nc">&nbsp;    return analyzedTokenReadings.getCleanToken().endsWith(&quot;.&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; analyzedTokenReadings.getCleanToken().matches(&quot;[А-ЯІЇЄҐA-Z]\\.&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isDash(AnalyzedTokenReadings analyzedTokenReadings) {
+<b class="nc">&nbsp;    return analyzedTokenReadings.getCleanToken() != null</b>
+<b class="nc">&nbsp;        &amp;&amp; DASHES_PATTERN.matcher(analyzedTokenReadings.getCleanToken()).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

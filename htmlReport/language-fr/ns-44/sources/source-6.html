@@ -1,0 +1,483 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SymSpellRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling</a>
+</div>
+
+<h1>Coverage Summary for Class: SymSpellRule (org.languagetool.rules.spelling)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SymSpellRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/127)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SymSpellRule$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SymSpellRule$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SymSpellRule$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/133)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.spelling;
+&nbsp;
+&nbsp;import com.google.common.cache.*;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.spelling.suggestions.*;
+&nbsp;import org.languagetool.rules.spelling.symspell.implementation.*;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.concurrent.atomic.AtomicInteger;
+&nbsp;import java.util.function.Consumer;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * spell checking using SymSpell algorithm, implementation from
+&nbsp; * https://github.com/Lundez/JavaSymSpell in org.languagetool.rules.spelling.symspell.implementation
+&nbsp; * potential faster alternative to Morfologik, especially in generating suggestions
+&nbsp; */
+&nbsp;@Experimental
+&nbsp;public class SymSpellRule extends SpellingCheckRule {
+<b class="nc">&nbsp;  private static final LoadingCache&lt;Language, SymSpell&gt; spellerCache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;    .expireAfterAccess(10, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;    .build(new CacheLoader&lt;Language, SymSpell&gt;() {</b>
+&nbsp;      @Override
+&nbsp;      public SymSpell load(Language lang) {
+<b class="nc">&nbsp;        return initDefaultDictSpeller(lang);</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;
+<b class="nc">&nbsp;  private static final LoadingCache&lt;Language, Set&lt;String&gt;&gt; ignoredWordsCache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;    .expireAfterAccess(30, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;    .build(new CacheLoader&lt;Language, Set&lt;String&gt;&gt;() {</b>
+&nbsp;      @Override
+&nbsp;      public Set&lt;String&gt; load(Language lang) throws Exception {
+<b class="nc">&nbsp;        return getWordList(lang, &quot;ignore.txt&quot;);</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;  public static final int INITIAL_CAPACITY = 50000;
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private static Set&lt;String&gt; getWordList(Language lang, String file) {
+<b class="nc">&nbsp;    String base = getSpellingDictBaseDir(lang);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; paths = Collections.singletonList(base + file);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; words = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    forEachLineInResources(paths, words::add);</b>
+<b class="nc">&nbsp;    return Collections.unmodifiableSet(words);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final LoadingCache&lt;Language, Set&lt;String&gt;&gt; prohibitedWordsCache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;    .expireAfterAccess(30, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;    .build(new CacheLoader&lt;Language, Set&lt;String&gt;&gt;() {</b>
+&nbsp;      @Override
+&nbsp;      public Set&lt;String&gt; load(Language lang) throws Exception {
+<b class="nc">&nbsp;        return getWordList(lang, &quot;probibit.txt&quot;);</b>
+&nbsp;      }
+&nbsp;    });
+&nbsp;
+&nbsp;  protected final SymSpell defaultDictSpeller;
+&nbsp;  protected final SymSpell userDictSpeller;
+&nbsp;
+<b class="nc">&nbsp;  private int editDistance = 3;</b>
+<b class="nc">&nbsp;  private SymSpell.Verbosity verbosity = SymSpell.Verbosity.Closest;</b>
+<b class="nc">&nbsp;  private SuggestionsOrderer orderer = null;</b>
+&nbsp;
+&nbsp;  protected static String getSpellingDictBaseDir(Language lang) {
+<b class="nc">&nbsp;    return lang.getShortCode() + &quot;/hunspell/&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void forEachLineInResources(List&lt;String&gt; resources, Consumer&lt;String&gt; function) {
+<b class="nc">&nbsp;    ResourceDataBroker broker = JLanguageTool.getDataBroker();</b>
+<b class="nc">&nbsp;    for (String resource : resources) {</b>
+<b class="nc">&nbsp;      if (broker.resourceExists(resource)) {</b>
+<b class="nc">&nbsp;        try (BufferedReader reader = new BufferedReader(new InputStreamReader(</b>
+<b class="nc">&nbsp;          broker.getFromResourceDirAsStream(resource)))) {</b>
+&nbsp;          String line;
+<b class="nc">&nbsp;          while ((line = reader.readLine()) != null) {</b>
+<b class="nc">&nbsp;            function.accept(line);</b>
+&nbsp;          }
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Could not read resource &quot; + resource, e);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return Spell checker using users personal dictionary, or null if no custom speller is needed
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  protected static SymSpell initUserDictSpeller(UserConfig config) {
+<b class="nc">&nbsp;    if (config != null &amp;&amp; config.getAcceptedWords() != null &amp;&amp; !config.getAcceptedWords().isEmpty()) {</b>
+<b class="nc">&nbsp;      List&lt;String&gt; dict = config.getAcceptedWords();</b>
+<b class="nc">&nbsp;      SymSpell speller = new SymSpell(0, 3, -1, 0);</b>
+<b class="nc">&nbsp;      SuggestionStage stage = new SuggestionStage(dict.size());</b>
+<b class="nc">&nbsp;      dict.forEach(word -&gt; {</b>
+<b class="nc">&nbsp;        speller.createDictionaryEntry(word, 1, stage);</b>
+&nbsp;      });
+<b class="nc">&nbsp;      speller.commitStaged(stage);</b>
+<b class="nc">&nbsp;      return speller;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static SymSpell initDefaultDictSpeller(Language lang) {
+<b class="nc">&nbsp;    SymSpell speller = new SymSpell(INITIAL_CAPACITY, 3, -1, 0);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Initializing symspell&quot;);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; prohibitedWords = prohibitedWordsCache.getUnchecked(lang);</b>
+<b class="nc">&nbsp;    long startTime = System.currentTimeMillis();</b>
+&nbsp;
+<b class="nc">&nbsp;    String base = getSpellingDictBaseDir(lang);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; additional = Arrays.asList(base + &quot;spelling.txt&quot;,</b>
+<b class="nc">&nbsp;      base + &quot;spelling_&quot; + lang.getShortCodeWithCountryAndVariant() + &quot;.txt&quot;);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; dict = Collections.singletonList(</b>
+<b class="nc">&nbsp;      base + StringUtils.replaceOnce(lang.getShortCodeWithCountryAndVariant(), &quot;-&quot;, &quot;_&quot;) + &quot;.dic&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    SuggestionStage stage = new SuggestionStage(100000);</b>
+<b class="nc">&nbsp;    forEachLineInResources(additional, word -&gt; {</b>
+<b class="nc">&nbsp;      if (!prohibitedWords.contains(word)) {</b>
+<b class="nc">&nbsp;        speller.createDictionaryEntry(word, 1, stage);</b>
+&nbsp;      }
+&nbsp;    });
+<b class="nc">&nbsp;    AtomicInteger dictWords = new AtomicInteger(0);</b>
+<b class="nc">&nbsp;    forEachLineInResources(dict, line -&gt; {</b>
+<b class="nc">&nbsp;      int split = line.lastIndexOf(&#39;+&#39;);</b>
+<b class="nc">&nbsp;      if (split == -1 || line.length() &lt;= split + 1) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(String.format(&quot;Could not parse frequency dictionary line &#39;%s&#39;.&quot;, line));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String word = line.substring(0, split);</b>
+<b class="nc">&nbsp;      char freqClass = line.charAt(split + 1);</b>
+<b class="nc">&nbsp;      int freq = 1 + ((int) freqClass - (int) &#39;A&#39;); // A - least frequent, Z - most frequent</b>
+&nbsp;      // exact frequencies don&#39;t matter, only used as tiebreaker for sorting
+&nbsp;
+<b class="nc">&nbsp;      if (!prohibitedWords.contains(word)) {</b>
+<b class="nc">&nbsp;        speller.createDictionaryEntry(word, freq, stage);</b>
+<b class="nc">&nbsp;        dictWords.incrementAndGet();</b>
+&nbsp;      }
+&nbsp;    });
+<b class="nc">&nbsp;    System.out.printf(&quot;Loaded %d words from dictionary.%n&quot;, dictWords.intValue());</b>
+<b class="nc">&nbsp;    speller.commitStaged(stage);</b>
+<b class="nc">&nbsp;    long delta = System.currentTimeMillis() - startTime;</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;Reading dictionaries took %f seconds.%n&quot;, (float) delta / 1000.0);</b>
+<b class="nc">&nbsp;    return speller;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void initParameters() {
+<b class="nc">&nbsp;    if (SuggestionsChanges.getInstance() != null &amp;&amp;</b>
+<b class="nc">&nbsp;      SuggestionsChanges.getInstance().getCurrentExperiment() != null) {</b>
+<b class="nc">&nbsp;      if (SuggestionsChanges.getInstance().getCurrentExperiment().parameters.get(&quot;candidates&quot;) != null) {</b>
+<b class="nc">&nbsp;        String candidatesParam = (String) SuggestionsChanges.getInstance().getCurrentExperiment()</b>
+<b class="nc">&nbsp;          .parameters.get(&quot;candidates&quot;);</b>
+<b class="nc">&nbsp;        verbosity = SymSpell.Verbosity.valueOf(candidatesParam);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (SuggestionsChanges.getInstance().getCurrentExperiment().parameters.get(&quot;editDistance&quot;) != null) {</b>
+<b class="nc">&nbsp;        editDistance = (Integer) SuggestionsChanges.getInstance().getCurrentExperiment()</b>
+<b class="nc">&nbsp;          .parameters.get(&quot;editDistance&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (SuggestionsChanges.isRunningExperiment(&quot;SymSpell+NewSuggestionsOrderer&quot;)) {</b>
+<b class="nc">&nbsp;        orderer = new SuggestionsOrdererFeatureExtractor(language, languageModel);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  public SymSpellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
+<b class="nc">&nbsp;    this(messages, language, userConfig, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SymSpellRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages) {
+<b class="nc">&nbsp;    this(messages, language, userConfig, altLanguages, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SymSpellRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages, @Nullable LanguageModel languageModel) {
+<b class="nc">&nbsp;    super(messages, language, userConfig, altLanguages, languageModel);</b>
+<b class="nc">&nbsp;    initParameters();</b>
+<b class="nc">&nbsp;    defaultDictSpeller = spellerCache.getUnchecked(language);</b>
+<b class="nc">&nbsp;    userDictSpeller = initUserDictSpeller(userConfig);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;SYMSPELL_RULE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Spell checking rule using SymSpell algorithm&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; ignoredWords = ignoredWordsCache.getUnchecked(language);</b>
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings token : sentence.getTokensWithoutWhitespace()) {</b>
+<b class="nc">&nbsp;      if (token.isSentenceStart() || token.isImmunized() || token.isIgnoredBySpeller() || token.isNonWord())</b>
+&nbsp;        continue;
+<b class="nc">&nbsp;      String word = token.getToken();</b>
+<b class="nc">&nbsp;      if (ignoredWords.contains(word)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; candidates = SuggestedReplacement.convert(filterCandidates(getSpellerMatches(word, defaultDictSpeller)));</b>
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; userCandidates = SuggestedReplacement.convert(getSpellerMatches(word, userDictSpeller));</b>
+&nbsp;      // TODO: messages
+<b class="nc">&nbsp;      RuleMatch match = null;</b>
+<b class="nc">&nbsp;      if (candidates.isEmpty() &amp;&amp; userCandidates.isEmpty()) {</b>
+<b class="nc">&nbsp;        match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), &quot;Misspelling or unknown word!&quot;);</b>
+<b class="nc">&nbsp;      } else if (!(candidates.size() &gt; 0 &amp;&amp; candidates.get(0).getReplacement().equals(word) ||</b>
+<b class="nc">&nbsp;        userCandidates.size() &gt; 0 &amp;&amp; userCandidates.get(0).getReplacement().equals(word))) {</b>
+<b class="nc">&nbsp;        match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), &quot;Misspelling!&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        addSuggestionsToRuleMatch(token.getToken(), userCandidates, candidates, orderer, match);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (match != null) {</b>
+<b class="nc">&nbsp;        matches.add(match);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return matches.toArray(new RuleMatch[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean isMisspelled(String word) {
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;not implemented&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;String&gt; filterCandidates(List&lt;String&gt; candidates) {
+<b class="nc">&nbsp;    Set&lt;String&gt; ignoredWords = ignoredWordsCache.getUnchecked(language);</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; prohibitedWords = prohibitedWordsCache.getUnchecked(language);</b>
+<b class="nc">&nbsp;    return candidates.stream()</b>
+<b class="nc">&nbsp;      .filter(c -&gt; !ignoredWords.contains(c))</b>
+<b class="nc">&nbsp;      .filter(c -&gt; !prohibitedWords.contains(c))</b>
+<b class="nc">&nbsp;      .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;String&gt; getSpellerMatches(String word, SymSpell speller) {
+<b class="nc">&nbsp;    if (speller == null) {</b>
+<b class="nc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;SuggestItem&gt; candidatesData = speller.lookup(word, verbosity, editDistance);</b>
+<b class="nc">&nbsp;    return candidatesData.stream().map(candidate -&gt; candidate.term).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException, ClassNotFoundException {
+<b class="nc">&nbsp;    Language lang = Languages.getLanguageForShortCode(&quot;en-US&quot;);</b>
+&nbsp;    //JLanguageTool lt = new JLanguageTool(lang);
+<b class="nc">&nbsp;    SymSpellRule r = new SymSpellRule(JLanguageTool.getMessageBundle(), lang, new UserConfig());</b>
+&nbsp;
+<b class="nc">&nbsp;    SymSpell speller = r.defaultDictSpeller;</b>
+<b class="nc">&nbsp;    ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();</b>
+<b class="nc">&nbsp;    long timeStart = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    ObjectOutputStream serializer = new ObjectOutputStream(outBuffer);</b>
+<b class="nc">&nbsp;    serializer.writeObject(speller);</b>
+&nbsp;    serializer.close();
+<b class="nc">&nbsp;    System.out.printf(&quot;Serializing took %d ms.%n&quot;, System.currentTimeMillis() - timeStart);</b>
+<b class="nc">&nbsp;    ByteArrayInputStream inBuffer = new ByteArrayInputStream(outBuffer.toByteArray());</b>
+<b class="nc">&nbsp;    timeStart = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    ObjectInputStream deserializer = new ObjectInputStream(inBuffer);</b>
+<b class="nc">&nbsp;    SymSpell speller2 = (SymSpell) deserializer.readObject();</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;Deserializing took %d ms.%n&quot;, System.currentTimeMillis() - timeStart);</b>
+&nbsp;    deserializer.close();
+&nbsp;
+<b class="nc">&nbsp;    System.out.println(speller.lookupCompound(&quot;This is a mistak.&quot;));</b>
+<b class="nc">&nbsp;    System.out.println(speller2.lookupCompound(&quot;This is a mistak.&quot;));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

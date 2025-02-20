@@ -1,0 +1,873 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikSpellerRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.morfologik</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikSpellerRule (org.languagetool.rules.spelling.morfologik)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikSpellerRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.4%
+  </span>
+  <span class="absValue">
+    (21/29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43.1%
+  </span>
+  <span class="absValue">
+    (138/320)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.3%
+  </span>
+  <span class="absValue">
+    (189/342)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MorfologikSpellerRule$PhraseToTranslate</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    70%
+  </span>
+  <span class="absValue">
+    (21/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43.1%
+  </span>
+  <span class="absValue">
+    (138/320)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.8%
+  </span>
+  <span class="absValue">
+    (189/345)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.spelling.morfologik;
+&nbsp;
+&nbsp;import com.google.common.collect.Iterables;
+&nbsp;import com.google.common.collect.Lists;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.Categories;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;import org.languagetool.rules.spelling.ForeignLanguageChecker;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
+&nbsp;import org.languagetool.rules.translation.TranslationEntry;
+&nbsp;import org.languagetool.rules.translation.Translator;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static org.languagetool.JLanguageTool.getDataBroker;
+&nbsp;
+&nbsp;public abstract class MorfologikSpellerRule extends SpellingCheckRule {
+&nbsp;
+<b class="fc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);</b>
+&nbsp;
+&nbsp;  protected MorfologikMultiSpeller speller1;
+&nbsp;  protected MorfologikMultiSpeller speller2;
+&nbsp;  protected MorfologikMultiSpeller speller3;
+&nbsp;  protected Locale conversionLocale;
+&nbsp;  protected final Language motherTongue;
+&nbsp;  protected final GlobalConfig globalConfig;
+&nbsp;
+<b class="fc">&nbsp;  private boolean ignoreTaggedWords = false;</b>
+<b class="fc">&nbsp;  private boolean checkCompound = false;</b>
+<b class="fc">&nbsp;  private Pattern compoundRegex = Pattern.compile(&quot;-&quot;);</b>
+&nbsp;  private final UserConfig userConfig;
+&nbsp; 
+&nbsp;  //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
+&nbsp;  static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
+&nbsp;  
+<b class="fc">&nbsp;  private final static Pattern pStartsWithNumbersBullets = Pattern.compile(&quot;^(\\d[\\.,\\d]*|\\P{L}+)(.*)$&quot;);</b>
+<b class="fc">&nbsp;  private final static Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile(&quot;^([\\p{C}\\-\\$%&amp;]+)(.*)$&quot;);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the filename, e.g., &lt;tt&gt;/resource/pl/spelling.dict&lt;/tt&gt;.
+&nbsp;   */
+&nbsp;  public abstract String getFileName();
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public abstract String getId();
+&nbsp;
+&nbsp;  public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
+<b class="nc">&nbsp;    this(messages, language, null);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
+<b class="nc">&nbsp;    this(messages, language, userConfig, Collections.emptyList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="fc">&nbsp;    this(messages, language, null, userConfig, altLanguages, null, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MorfologikSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig,
+&nbsp;                               List&lt;Language&gt; altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
+<b class="fc">&nbsp;    super(messages, language, userConfig, altLanguages, languageModel);</b>
+<b class="fc">&nbsp;    this.globalConfig = globalConfig;</b>
+<b class="fc">&nbsp;    this.userConfig = userConfig;</b>
+<b class="fc">&nbsp;    this.motherTongue = motherTongue;</b>
+<b class="fc">&nbsp;    super.setCategory(Categories.TYPOS.getCategory(messages));</b>
+<b class="pc">&nbsp;    conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();</b>
+<b class="fc">&nbsp;    init();</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Misspelling);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="fc">&nbsp;    return messages.getString(&quot;desc_spelling&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setLocale(Locale locale) {
+<b class="nc">&nbsp;    conversionLocale = locale;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Skip words that are known in the POS tagging dictionary, assuming they
+&nbsp;   * cannot be incorrect.
+&nbsp;   */
+&nbsp;  public void setIgnoreTaggedWords() {
+<b class="fc">&nbsp;    ignoreTaggedWords = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="pc">&nbsp;    if (initSpellers()) return toRuleMatchArray(ruleMatches);</b>
+<b class="fc">&nbsp;    int idx = -1;</b>
+<b class="fc">&nbsp;    boolean isFirstWord = true;</b>
+<b class="fc">&nbsp;    boolean gotResultsFromForeignLanguageChecker = false;</b>
+<b class="fc">&nbsp;    Long sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -&gt; !k.isNonWord()).count() - 1; </b>
+<b class="fc">&nbsp;    ForeignLanguageChecker foreignLanguageChecker = null;</b>
+<b class="pc">&nbsp;    if (userConfig != null &amp;&amp; !userConfig.getPreferredLanguages().isEmpty() &amp;&amp; userConfig.getPreferredLanguages().size() &gt;= 2) { //only create instance if user has 2 or more preferredLanguages</b>
+<b class="nc">&nbsp;      foreignLanguageChecker = new ForeignLanguageChecker(language.getShortCode(), sentence.getText(), sentenceLength, userConfig.getPreferredLanguages());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings token : tokens) {</b>
+<b class="fc">&nbsp;      idx++;</b>
+<b class="fc">&nbsp;      if (canBeIgnored(tokens, idx, token)) {</b>
+<b class="pc">&nbsp;        if (idx &gt; 0 &amp;&amp; isFirstWord &amp;&amp; !StringTools.isPunctuationMark(token.getToken())) {</b>
+<b class="fc">&nbsp;          isFirstWord = false;</b>
+&nbsp;        }
+&nbsp;        continue;
+&nbsp;      }
+<b class="fc">&nbsp;      int startPos = token.getStartPos();</b>
+&nbsp;      // if we use token.getToken() we&#39;ll get ignored characters inside and speller will choke
+<b class="fc">&nbsp;      String word = token.getAnalyzedToken(0).getToken();</b>
+&nbsp;      
+<b class="fc">&nbsp;      int newRuleIdx = ruleMatches.size();</b>
+<b class="fc">&nbsp;      Pattern pattern = tokenizingPattern();</b>
+<b class="fc">&nbsp;      if (pattern == null) {</b>
+<b class="fc">&nbsp;        ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, tokens));</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        int index = 0;</b>
+<b class="fc">&nbsp;        Matcher m = pattern.matcher(word);</b>
+<b class="pc">&nbsp;        while (m.find()) {</b>
+<b class="nc">&nbsp;          String match = word.subSequence(index, m.start()).toString();</b>
+<b class="nc">&nbsp;          ruleMatches.addAll(getRuleMatches(match, startPos + index, sentence, ruleMatches, idx, tokens));</b>
+<b class="nc">&nbsp;          index = m.end();</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (index == 0) { // tokenizing char not found</b>
+<b class="fc">&nbsp;          ruleMatches.addAll(getRuleMatches(word, startPos, sentence, ruleMatches, idx, tokens));</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          ruleMatches.addAll(getRuleMatches(word.subSequence(index, word.length()).toString(), startPos + index, sentence, ruleMatches, idx, tokens));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      if (ruleMatches.size() &gt; newRuleIdx) {</b>
+&nbsp;        // matches added for current token - need to adjust for hidden characters
+<b class="fc">&nbsp;        int hiddenCharOffset = token.getToken().length() - word.length();</b>
+<b class="pc">&nbsp;        if (hiddenCharOffset &gt; 0) {</b>
+<b class="nc">&nbsp;          for (int i = newRuleIdx; i &lt; ruleMatches.size(); i++) {</b>
+<b class="nc">&nbsp;            RuleMatch ruleMatch = ruleMatches.get(i);</b>
+<b class="nc">&nbsp;            if (token.getEndPos() &lt; ruleMatch.getToPos()) { // done by multi-token speller, no need to adjust</b>
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;            ruleMatch.setOffsetPosition(ruleMatch.getFromPos(), ruleMatch.getToPos()+hiddenCharOffset);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;      
+&nbsp;      // Capitalize word at the sentence start
+&nbsp;      // if it is not the last token in the sentence, similarly to UPPERCASE_SENTENCE_START
+<b class="fc">&nbsp;      if (isFirstWord &amp;&amp; ruleMatches.size() &gt; 0 &amp;&amp; idx &lt; tokens.length - 1) {</b>
+<b class="fc">&nbsp;        RuleMatch ruleMatch = ruleMatches.get(0);</b>
+<b class="fc">&nbsp;        List&lt;String&gt; replacements = ruleMatch.getSuggestedReplacements();</b>
+<b class="fc">&nbsp;        List&lt;String&gt; newReplacements = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (String replacement : replacements) {</b>
+&nbsp;          // only if the replacement is all lower case
+<b class="fc">&nbsp;          if (replacement.equals(replacement.toLowerCase())) {</b>
+<b class="fc">&nbsp;            String capitalizedReplacement = StringTools.uppercaseFirstChar(replacement);</b>
+<b class="fc">&nbsp;            if (!newReplacements.contains(capitalizedReplacement)) {</b>
+<b class="fc">&nbsp;              newReplacements.add(capitalizedReplacement);</b>
+&nbsp;            }
+&nbsp;          } else {
+<b class="pc">&nbsp;            if (!newReplacements.contains(replacement)) {</b>
+<b class="fc">&nbsp;              newReplacements.add(replacement);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="fc">&nbsp;        ruleMatch.setSuggestedReplacements(newReplacements);</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (idx &gt; 0 &amp;&amp; isFirstWord &amp;&amp; !StringTools.isPunctuationMark(token.getToken())) {</b>
+<b class="fc">&nbsp;        isFirstWord = false;</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (foreignLanguageChecker != null &amp;&amp; !gotResultsFromForeignLanguageChecker) {</b>
+<b class="nc">&nbsp;        Map&lt;String, Float&gt; langCodesScoring = foreignLanguageChecker.check(ruleMatches.size());</b>
+<b class="nc">&nbsp;        if (!langCodesScoring.isEmpty()) {</b>
+<b class="nc">&nbsp;          if (langCodesScoring.get(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED) == null) {</b>
+<b class="nc">&nbsp;            ruleMatches.get(0).setNewLanguageMatches(langCodesScoring);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          gotResultsFromForeignLanguageChecker = true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected Translator getTranslator(GlobalConfig globalConfig) {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean initSpellers() throws IOException {
+<b class="fc">&nbsp;    if (speller1 == null) {</b>
+<b class="fc">&nbsp;      String binaryDict = null;</b>
+<b class="pc">&nbsp;      if (getDataBroker().resourceExists(getFileName()) || Paths.get(getFileName()).toFile().exists()) {</b>
+<b class="fc">&nbsp;        binaryDict = getFileName();</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (binaryDict != null) {</b>
+<b class="fc">&nbsp;        initSpeller(binaryDict);</b>
+&nbsp;      } else {
+&nbsp;        // should not happen, as we only configure this rule (or rather its subclasses)
+&nbsp;        // when we have the resources:
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Cannot find dictionary file &quot; + getFileName());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void initSpeller(String binaryDict) throws IOException {
+<b class="fc">&nbsp;    List&lt;String&gt; plainTextDicts = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    String languageVariantPlainTextDict = null;</b>
+<b class="pc">&nbsp;    if (getSpellingFileName() != null &amp;&amp; getDataBroker().resourceExists(getSpellingFileName())) {</b>
+<b class="fc">&nbsp;      plainTextDicts.add(getSpellingFileName());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    for (String fileName : getAdditionalSpellingFileNames()) {</b>
+<b class="fc">&nbsp;      if (getDataBroker().resourceExists(fileName)) {</b>
+<b class="fc">&nbsp;        plainTextDicts.add(fileName);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (getLanguageVariantSpellingFileName() != null &amp;&amp; getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {</b>
+<b class="fc">&nbsp;      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 1, language);</b>
+<b class="fc">&nbsp;    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 2, language);</b>
+<b class="fc">&nbsp;    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 3, language);</b>
+<b class="fc">&nbsp;    setConvertsCase(speller1.convertsCase());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean canBeIgnored(AnalyzedTokenReadings[] tokens, int idx, AnalyzedTokenReadings token) throws IOException {
+<b class="fc">&nbsp;    return token.isSentenceStart() ||</b>
+<b class="pc">&nbsp;           token.isImmunized() ||</b>
+<b class="fc">&nbsp;           token.isIgnoredBySpeller() ||</b>
+<b class="pc">&nbsp;           isUrl(token.getToken()) ||</b>
+<b class="pc">&nbsp;           isEMail(token.getToken()) ||</b>
+<b class="pc">&nbsp;           (ignoreTaggedWords &amp;&amp; token.isTagged() &amp;&amp; !isProhibited(token.getToken())) ||</b>
+<b class="fc">&nbsp;           ignoreToken(tokens, idx);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.8
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  @Override
+&nbsp;  public boolean isMisspelled(String word) throws IOException {
+<b class="fc">&nbsp;    initSpellers();</b>
+<b class="fc">&nbsp;    return isMisspelled(speller1, word);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return true if the word is misspelled
+&nbsp;   * @since 2.4
+&nbsp;   */
+&nbsp;  protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
+<b class="pc">&nbsp;    if (Tools.isExternSpeller()) {  // use of external speller for OO extension (32-bit)</b>
+<b class="nc">&nbsp;      if (Tools.getLinguisticServices().isCorrectSpell(word, language)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="fc">&nbsp;      if (!speller.isMisspelled(word)) {</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (checkCompound &amp;&amp; compoundRegex.matcher(word).find()) {</b>
+<b class="nc">&nbsp;      String[] words = compoundRegex.split(word);</b>
+<b class="nc">&nbsp;      for (String singleWord: words) {</b>
+<b class="nc">&nbsp;        if (Tools.isExternSpeller()) {  // use of external speller for OO extension (32-bit)</b>
+<b class="nc">&nbsp;          if (!Tools.getLinguisticServices().isCorrectSpell(singleWord, language)) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          if (speller.isMisspelled(singleWord)) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private static int getFrequency(MorfologikMultiSpeller speller, String word) {
+<b class="fc">&nbsp;    return speller.getFrequency(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;RuleMatch&gt; getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List&lt;RuleMatch&gt; ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
+&nbsp;    // We create only one rule match. 
+&nbsp;    // Several rule matches on the same word or words can not be shown to the user.
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    RuleMatch ruleMatch = null;</b>
+&nbsp;    
+<b class="pc">&nbsp;    if (!isMisspelled(speller1, word) &amp;&amp; !isProhibited(word)) {</b>
+<b class="fc">&nbsp;      return ruleMatches;</b>
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    if (ignorePotentiallyMisspelledWord(word)) {</b>
+<b class="nc">&nbsp;      return ruleMatches;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    //the current word is already dealt with in the previous match, so do nothing
+<b class="pc">&nbsp;    if (ruleMatchesSoFar.size() &gt; 0 &amp;&amp; ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1).getToPos() &gt; startPos) {</b>
+<b class="nc">&nbsp;      return ruleMatches;</b>
+&nbsp;    }
+&nbsp;    
+<b class="fc">&nbsp;    String beforeSuggestionStr = &quot;&quot;; //to be added before the suggestion if there is a suggestion for a split word</b>
+<b class="fc">&nbsp;    String afterSuggestionStr = &quot;&quot;;  //to be added after</b>
+&nbsp;    
+&nbsp;    // Check for split word with previous word
+<b class="pc">&nbsp;    if (idx &gt; 0 &amp;&amp; tokens[idx].isWhitespaceBefore()) {</b>
+<b class="fc">&nbsp;      String prevWord = tokens[idx - 1].getToken();</b>
+<b class="pc">&nbsp;      if (prevWord.length() &gt; 0 &amp;&amp; !StringUtils.containsAny(prevWord, &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;)</b>
+<b class="fc">&nbsp;          &amp;&amp; getFrequency(speller1, prevWord) &lt; MAX_FREQUENCY_FOR_SPLITTING) {</b>
+<b class="fc">&nbsp;        int prevStartPos = tokens[idx - 1].getStartPos();</b>
+&nbsp;        // &quot;thanky ou&quot; -&gt; &quot;thank you&quot;
+<b class="fc">&nbsp;        String sugg1a = prevWord.substring(0, prevWord.length() - 1);</b>
+<b class="fc">&nbsp;        String sugg1b = prevWord.substring(prevWord.length() - 1) + word;</b>
+<b class="pc">&nbsp;        if (sugg1a.length() &gt; 1 &amp;&amp; sugg1b.length() &gt; 2 &amp;&amp; !isMisspelled(speller1, sugg1a)</b>
+<b class="pc">&nbsp;            &amp;&amp; !isMisspelled(speller1, sugg1b)</b>
+<b class="nc">&nbsp;            &amp;&amp; getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) &gt; getFrequency(speller1, prevWord)) {</b>
+<b class="nc">&nbsp;          ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg1a, sugg1b, prevStartPos);</b>
+<b class="nc">&nbsp;          beforeSuggestionStr = prevWord + &quot; &quot;;</b>
+&nbsp;        }
+&nbsp;        // &quot;than kyou&quot; -&gt; &quot;thank you&quot; ; but not &quot;She awaked&quot; -&gt; &quot;Shea waked&quot;
+<b class="fc">&nbsp;        String sugg2a = prevWord + word.charAt(0);</b>
+<b class="fc">&nbsp;        String sugg2b = word.substring(1);</b>
+<b class="pc">&nbsp;        if (sugg2b.length() &gt; 2 &amp;&amp; !isMisspelled(speller1, sugg2a) &amp;&amp; !isMisspelled(speller1, sugg2b)) {</b>
+<b class="nc">&nbsp;          if (ruleMatch == null) {</b>
+<b class="nc">&nbsp;            if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) &gt; getFrequency(speller1, prevWord)) {</b>
+<b class="nc">&nbsp;              ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, startPos, word, sugg2a, sugg2b,</b>
+&nbsp;                  prevStartPos);
+<b class="nc">&nbsp;              beforeSuggestionStr = prevWord + &quot; &quot;;</b>
+&nbsp;            }
+&nbsp;          } else {
+<b class="nc">&nbsp;            ruleMatch.addSuggestedReplacement((sugg2a + &quot; &quot; + sugg2b).trim());</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;        // &quot;g oing-&gt; &quot;going&quot;
+<b class="fc">&nbsp;        String sugg = prevWord + word;</b>
+<b class="pc">&nbsp;        if (word.equals(word.toLowerCase()) &amp;&amp; !isMisspelled(speller1, sugg)) {</b>
+<b class="nc">&nbsp;          if (ruleMatch == null) {</b>
+<b class="nc">&nbsp;            if (getFrequency(speller1, sugg) &gt;= getFrequency(speller1, prevWord)) {</b>
+<b class="nc">&nbsp;              ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),</b>
+<b class="nc">&nbsp;                  messages.getString(&quot;spelling&quot;), messages.getString(&quot;desc_spelling_short&quot;));</b>
+<b class="nc">&nbsp;              ruleMatch.setType(RuleMatch.Type.UnknownWord);</b>
+<b class="nc">&nbsp;              beforeSuggestionStr = prevWord + &quot; &quot;;</b>
+<b class="nc">&nbsp;              ruleMatch.setSuggestedReplacement(sugg);</b>
+&nbsp;            }
+&nbsp;          } else {
+<b class="nc">&nbsp;            ruleMatch.addSuggestedReplacement(sugg);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="pc">&nbsp;        if (ruleMatch != null &amp;&amp; isMisspelled(speller1, prevWord)) {</b>
+<b class="nc">&nbsp;          ruleMatches.add(ruleMatch);</b>
+<b class="nc">&nbsp;          return ruleMatches;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;        
+&nbsp;    // Check for split word with next word
+<b class="pc">&nbsp;    if (ruleMatch == null &amp;&amp; idx &lt; tokens.length - 1 &amp;&amp; tokens[idx + 1].isWhitespaceBefore()) {</b>
+<b class="fc">&nbsp;      String nextWord = tokens[idx + 1].getToken();</b>
+<b class="pc">&nbsp;      if (nextWord.length() &gt; 0 &amp;&amp; !StringUtils.containsAny(nextWord, &#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;, &#39;8&#39;, &#39;9&#39;)</b>
+<b class="pc">&nbsp;          &amp;&amp; getFrequency(speller1, nextWord) &lt; MAX_FREQUENCY_FOR_SPLITTING) {</b>
+<b class="fc">&nbsp;        int nextStartPos = tokens[idx + 1].getStartPos();</b>
+<b class="fc">&nbsp;        String sugg1a = word.substring(0, word.length() - 1);</b>
+<b class="fc">&nbsp;        String sugg1b = word.substring(word.length() - 1) + nextWord;</b>
+<b class="pc">&nbsp;        if (sugg1a.length() &gt; 1 &amp;&amp; sugg1b.length() &gt; 2 &amp;&amp; !isMisspelled(speller1, sugg1a) &amp;&amp; !isMisspelled(speller1, sugg1b) &amp;&amp;</b>
+<b class="nc">&nbsp;            getFrequency(speller1, sugg1a) + getFrequency(speller1, sugg1b) &gt; getFrequency(speller1, nextWord)) {</b>
+<b class="nc">&nbsp;          ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg1a, sugg1b, startPos);</b>
+<b class="nc">&nbsp;          afterSuggestionStr = &quot; &quot; + nextWord;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String sugg2a = word + nextWord.charAt(0);</b>
+<b class="fc">&nbsp;        String sugg2b = nextWord.substring(1);</b>
+<b class="pc">&nbsp;        if (sugg2b.length() &gt; 2 &amp;&amp; !isMisspelled(speller1, sugg2a) &amp;&amp; !isMisspelled(speller1, sugg2b)) {</b>
+<b class="nc">&nbsp;          if (ruleMatch == null) {</b>
+<b class="nc">&nbsp;            if (getFrequency(speller1, sugg2a) + getFrequency(speller1, sugg2b) &gt; getFrequency(speller1, nextWord)) {</b>
+<b class="nc">&nbsp;              ruleMatch = createWrongSplitMatch(sentence, ruleMatchesSoFar, nextStartPos, nextWord, sugg2a, sugg2b, startPos);</b>
+<b class="nc">&nbsp;              afterSuggestionStr = &quot; &quot; + nextWord;</b>
+&nbsp;            }
+&nbsp;          } else {
+<b class="nc">&nbsp;            ruleMatch.addSuggestedReplacement((sugg2a + &quot; &quot; + sugg2b).trim());</b>
+&nbsp;          }
+&nbsp;        }
+<b class="fc">&nbsp;        String sugg = word + nextWord;</b>
+<b class="pc">&nbsp;        if (nextWord.equals(nextWord.toLowerCase()) &amp;&amp; !isMisspelled(speller1, sugg)) {</b>
+<b class="nc">&nbsp;          if (ruleMatch == null) {</b>
+<b class="nc">&nbsp;            if (getFrequency(speller1, sugg) &gt;= getFrequency(speller1, nextWord)) {</b>
+<b class="nc">&nbsp;              ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),</b>
+<b class="nc">&nbsp;                  messages.getString(&quot;spelling&quot;), messages.getString(&quot;desc_spelling_short&quot;));</b>
+<b class="nc">&nbsp;              ruleMatch.setType(RuleMatch.Type.UnknownWord);</b>
+<b class="nc">&nbsp;              afterSuggestionStr = &quot; &quot; + nextWord;</b>
+<b class="nc">&nbsp;              ruleMatch.setSuggestedReplacement(sugg);</b>
+&nbsp;            }
+&nbsp;          } else {
+<b class="nc">&nbsp;            ruleMatch.addSuggestedReplacement(sugg);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="pc">&nbsp;        if (ruleMatch != null &amp;&amp; isMisspelled(speller1, nextWord)) {</b>
+<b class="nc">&nbsp;          ruleMatches.add(ruleMatch);</b>
+<b class="nc">&nbsp;          return ruleMatches;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp; 
+<b class="fc">&nbsp;    int translationSuggestionCount = 0;</b>
+<b class="fc">&nbsp;    boolean preventFurtherSuggestions = false;</b>
+&nbsp;    
+&nbsp;    //Translator translator = getTranslator(globalConfig);
+<b class="fc">&nbsp;    Translator translator = null;</b>
+<b class="pc">&nbsp;    if (translator != null &amp;&amp; ruleMatch == null &amp;&amp; motherTongue != null &amp;&amp;</b>
+<b class="nc">&nbsp;        language.getShortCode().equals(&quot;en&quot;) &amp;&amp; motherTongue.getShortCode().equals(&quot;de&quot;)) {</b>
+<b class="nc">&nbsp;      List&lt;PhraseToTranslate&gt; phrasesToTranslate = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      if (idx + 1 &lt; tokens.length) {</b>
+<b class="nc">&nbsp;        String nextWord = tokens[idx + 1].getToken();</b>
+<b class="nc">&nbsp;        if (isMisspelled(nextWord)) {</b>
+<b class="nc">&nbsp;          phrasesToTranslate.add(new PhraseToTranslate(word + &quot; &quot; + nextWord, tokens[idx + 1].getEndPos()));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      phrasesToTranslate.add(new PhraseToTranslate(word, startPos + word.length()));</b>
+<b class="nc">&nbsp;      for (PhraseToTranslate phraseToTranslate : phrasesToTranslate) {</b>
+<b class="nc">&nbsp;        List&lt;TranslationEntry&gt; translations = translator.translate(phraseToTranslate.phrase, motherTongue.getShortCode(), language.getShortCode());</b>
+<b class="nc">&nbsp;        if (!translations.isEmpty()) {</b>
+<b class="nc">&nbsp;          logger.info(&quot;Translated: {}&quot;, word);   // privacy: logging a single word without IP address etc. is okay</b>
+<b class="nc">&nbsp;          ruleMatch = new RuleMatch(this, sentence, startPos, phraseToTranslate.endPos, translator.getMessage());</b>
+<b class="nc">&nbsp;          ruleMatch.setType(RuleMatch.Type.Hint);</b>
+<b class="nc">&nbsp;          ruleMatch.setSuggestedReplacements(new ArrayList&lt;&gt;());</b>
+<b class="nc">&nbsp;          List&lt;SuggestedReplacement&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          String prevWord = idx &gt; 0 ? tokens[idx-1].getToken() : null;</b>
+<b class="nc">&nbsp;          for (TranslationEntry translation : translations) {</b>
+<b class="nc">&nbsp;            for (String s : translation.getL2()) {</b>
+<b class="nc">&nbsp;              String suffix = translator.getTranslationSuffix(s);</b>
+<b class="nc">&nbsp;              SuggestedReplacement repl = new SuggestedReplacement(translator.cleanTranslationForReplace(s, prevWord), String.join(&quot;, &quot;, translation.getL1()), suffix.isEmpty() ? null : suffix);</b>
+<b class="nc">&nbsp;              repl.setType(SuggestedReplacement.SuggestionType.Translation);</b>
+<b class="nc">&nbsp;              if (!repl.getReplacement().equals(word)) {</b>
+<b class="nc">&nbsp;                l.add(repl);</b>
+&nbsp;              }
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          List&lt;SuggestedReplacement&gt; mergedRepl = mergeSuggestionsWithSameTranslation(l);</b>
+<b class="nc">&nbsp;          if (!mergedRepl.isEmpty()) {</b>
+<b class="nc">&nbsp;            ruleMatch.setSuggestedReplacementObjects(mergedRepl);</b>
+<b class="nc">&nbsp;            translationSuggestionCount = mergedRepl.size();</b>
+<b class="nc">&nbsp;            if (phraseToTranslate.phrase.contains(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;              preventFurtherSuggestions = true;  // mark gets extended, so suggestions for the original marker won&#39;t make sense</b>
+&nbsp;            }
+&nbsp;            break;  // let&#39;s assume the first phrase is the best because it&#39;s longer
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    if (ruleMatch == null) {</b>
+<b class="fc">&nbsp;      ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(), messages.getString(&quot;spelling&quot;),</b>
+<b class="fc">&nbsp;              messages.getString(&quot;desc_spelling_short&quot;));</b>
+<b class="fc">&nbsp;      ruleMatch.setType(RuleMatch.Type.UnknownWord);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    //word starting with numbers or bullets    
+<b class="fc">&nbsp;    String cleanWord = word;</b>
+<b class="fc">&nbsp;    String firstPart = &quot;&quot;;</b>
+<b class="fc">&nbsp;    String secondPart = &quot;&quot;;</b>
+<b class="fc">&nbsp;    Matcher mStartsWithNumbersBullets = pStartsWithNumbersBullets.matcher(word);</b>
+<b class="pc">&nbsp;    if (mStartsWithNumbersBullets.matches()) {</b>
+<b class="nc">&nbsp;      Matcher mStartsWithNumbersBulletsExceptions = pStartsWithNumbersBulletsExceptions.matcher(word);</b>
+<b class="nc">&nbsp;      if (!mStartsWithNumbersBulletsExceptions.matches()) {</b>
+<b class="nc">&nbsp;        firstPart = mStartsWithNumbersBullets.group(1);</b>
+<b class="nc">&nbsp;        secondPart = mStartsWithNumbersBullets.group(2);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; secondPartTokens = this.language.getWordTokenizer().tokenize(secondPart);</b>
+<b class="nc">&nbsp;        boolean multitokenIsMisspeled = secondPartTokens.stream().anyMatch(str -&gt; isMisspelled(speller1, str));;</b>
+<b class="nc">&nbsp;        if ((!multitokenIsMisspeled || isIgnoredNoCase(secondPart)) &amp;&amp; !isProhibited(secondPart)) {</b>
+<b class="nc">&nbsp;          ruleMatch.addSuggestedReplacement(firstPart + &quot; &quot; + secondPart);</b>
+<b class="nc">&nbsp;          preventFurtherSuggestions = true;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          beforeSuggestionStr = firstPart + &quot; &quot;;</b>
+<b class="nc">&nbsp;          cleanWord = secondPart;</b>
+&nbsp;        }  
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="pc">&nbsp;    boolean fullResults = SuggestionsChanges.getInstance() != null &amp;&amp;</b>
+<b class="nc">&nbsp;      SuggestionsChanges.getInstance().getCurrentExperiment() != null &amp;&amp;</b>
+<b class="nc">&nbsp;      (boolean) SuggestionsChanges.getInstance().getCurrentExperiment()</b>
+<b class="nc">&nbsp;        .parameters.getOrDefault(&quot;fullSuggestionCandidates&quot;, Boolean.FALSE);</b>
+&nbsp;
+<b class="pc">&nbsp;    if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 </b>
+<b class="nc">&nbsp;        || ruleMatchesSoFar.size() &lt;= userConfig.getMaxSpellingSuggestions()) {</b>
+<b class="pc">&nbsp;      if (translationSuggestionCount &gt; 0) {</b>
+<b class="nc">&nbsp;        List&lt;SuggestedReplacement&gt; prev = ruleMatch.getSuggestedReplacementObjects();</b>
+<b class="nc">&nbsp;        ruleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),</b>
+<b class="nc">&nbsp;          messages.getString(&quot;spelling&quot;) + &quot; Translations to English are also offered.&quot;);</b>
+<b class="nc">&nbsp;        ruleMatch.setSuggestedReplacementObjects(prev);</b>
+&nbsp;      }
+&nbsp;
+<b class="pc">&nbsp;      if (!preventFurtherSuggestions) {</b>
+<b class="fc">&nbsp;        ruleMatch.setLazySuggestedReplacements(appendLazySuggestions(cleanWord, beforeSuggestionStr, afterSuggestionStr,</b>
+<b class="fc">&nbsp;          fullResults, ruleMatch.getSuggestedReplacementObjects()));</b>
+&nbsp;      }
+&nbsp;    } else {
+&nbsp;      // limited to save CPU
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacement(messages.getString(&quot;too_many_errors&quot;));</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    ruleMatches.add(ruleMatch);</b>
+<b class="fc">&nbsp;    return ruleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Supplier&lt;List&lt;SuggestedReplacement&gt;&gt; appendLazySuggestions(String word, String beforeSuggestionStr, String afterSuggestionStr, boolean fullResults, List&lt;SuggestedReplacement&gt; prev) {
+<b class="fc">&nbsp;    return () -&gt; {</b>
+&nbsp;      List&lt;SuggestedReplacement&gt; joined;
+&nbsp;      try {
+<b class="fc">&nbsp;        List&lt;SuggestedReplacement&gt; fromSpeller = calcSpellerSuggestions(word, fullResults);</b>
+<b class="fc">&nbsp;        joined = joinBeforeAfterSuggestions(fromSpeller, beforeSuggestionStr, afterSuggestionStr);</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return Lists.newArrayList(Iterables.concat(prev, joined));</b>
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;SuggestedReplacement&gt; calcSpellerSuggestions(String word, boolean fullResults) throws IOException {
+<b class="fc">&nbsp;    List&lt;SuggestedReplacement&gt; onlySuggestions = getOnlySuggestions(word);</b>
+<b class="pc">&nbsp;    if (!onlySuggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return onlySuggestions;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    List&lt;SuggestedReplacement&gt; defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));</b>
+<b class="fc">&nbsp;    List&lt;SuggestedReplacement&gt; userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));</b>
+&nbsp;    //System.out.println(&quot;speller1: &quot; + suggestions);
+<b class="fc">&nbsp;    boolean onlyCaseDiffers = false;</b>
+<b class="pc">&nbsp;    if (defaultSuggestions.size() &gt; 0 &amp;&amp; word.equalsIgnoreCase(defaultSuggestions.get(0).getReplacement())) {</b>
+&nbsp;      // We have no good concept yet for showing both translations and standard suggestions, so
+&nbsp;      // use a hack to fix e.g. &quot;muslims&quot; not suggesting &quot;Muslims&quot; (https://github.com/languagetool-org/languagetool/issues/3333)
+<b class="nc">&nbsp;      onlyCaseDiffers = true;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (word.length() &gt;= 3 &amp;&amp; (onlyCaseDiffers || fullResults || defaultSuggestions.isEmpty())) {</b>
+&nbsp;      // speller1 uses a maximum edit distance of 1, it won&#39;t find suggestion for &quot;garentee&quot;, &quot;greatful&quot; etc.
+&nbsp;      //System.out.println(&quot;speller2: &quot; + speller2.getSuggestions(word));
+<b class="nc">&nbsp;      defaultSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromDefaultDicts(word)));</b>
+<b class="nc">&nbsp;      userSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromUserDicts(word)));</b>
+<b class="nc">&nbsp;      if (word.length() &gt;= 5 &amp;&amp; (fullResults || defaultSuggestions.isEmpty())) {</b>
+&nbsp;        //System.out.println(&quot;speller3: &quot; + speller3.getSuggestions(word));
+<b class="nc">&nbsp;        defaultSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromDefaultDicts(word)));</b>
+<b class="nc">&nbsp;        userSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromUserDicts(word)));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    //System.out.println(&quot;getAdditionalTopSuggestions(suggestions, word): &quot; + getAdditionalTopSuggestions(suggestions, word));
+<b class="fc">&nbsp;    List&lt;SuggestedReplacement&gt; topSuggestions = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (defaultSuggestions.size() == 0 &amp;&amp; userSuggestions.size() == 0 &amp;&amp; word.contains(&quot;-&quot;))  {</b>
+<b class="nc">&nbsp;      addHyphenSuggestions(word.split(&quot;-&quot;), topSuggestions);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    topSuggestions.addAll(getAdditionalTopSuggestions(defaultSuggestions, word));</b>
+<b class="fc">&nbsp;    topSuggestions.forEach(s -&gt; s.setType(SuggestedReplacement.SuggestionType.Curated));</b>
+<b class="fc">&nbsp;    defaultSuggestions.addAll(0, topSuggestions);</b>
+&nbsp;    //System.out.println(&quot;getAdditionalSuggestions(suggestions, word): &quot; + getAdditionalSuggestions(suggestions, word));
+<b class="fc">&nbsp;    defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));</b>
+&nbsp;
+<b class="pc">&nbsp;    if (defaultSuggestions.isEmpty() &amp;&amp; userSuggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      return Collections.emptyList();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    defaultSuggestions = filterSuggestions(defaultSuggestions);</b>
+<b class="fc">&nbsp;    userSuggestions = filterDupes(userSuggestions);</b>
+<b class="fc">&nbsp;    defaultSuggestions = orderSuggestions(defaultSuggestions, word);</b>
+&nbsp;
+<b class="fc">&nbsp;    if (word.length()&gt;4) {</b>
+<b class="fc">&nbsp;      return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));</b>
+&nbsp;    } else {
+&nbsp;      // Don&#39;t use short words from user dictionaries because they usually hide the best suggestions
+<b class="fc">&nbsp;      return Lists.newArrayList(Iterables.concat(defaultSuggestions, userSuggestions));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void addHyphenSuggestions(String[] split, List&lt;SuggestedReplacement&gt; topSuggestions) throws IOException {
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private static List&lt;SuggestedReplacement&gt; mergeSuggestionsWithSameTranslation(List&lt;SuggestedReplacement&gt; l) {
+<b class="nc">&nbsp;    List&lt;SuggestedReplacement&gt; mergedRepl = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; handledReplacements = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (SuggestedReplacement repl : l) {</b>
+<b class="nc">&nbsp;      List&lt;SuggestedReplacement&gt; sameRepl = l.stream()</b>
+<b class="nc">&nbsp;        .filter(k -&gt; k.getReplacement().equals(repl.getReplacement()))</b>
+<b class="nc">&nbsp;        .filter(k -&gt; k.getSuffix() == null || (k.getSuffix() != null &amp;&amp; k.getSuffix().equals(repl.getSuffix())))</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+<b class="nc">&nbsp;      if (sameRepl.size() &gt; 1) {</b>
+<b class="nc">&nbsp;        if (!handledReplacements.contains(repl.getReplacement())) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; joinedRepls = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          for (SuggestedReplacement r : sameRepl) {</b>
+<b class="nc">&nbsp;            joinedRepls.add(&quot;* &quot; + r.getShortDescription());</b>
+&nbsp;          }
+<b class="nc">&nbsp;          mergedRepl.add(new SuggestedReplacement(repl.getReplacement(), String.join(&quot;\n&quot;, joinedRepls), repl.getSuffix()));</b>
+<b class="nc">&nbsp;          handledReplacements.add(repl.getReplacement());</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        mergedRepl.add(repl);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return mergedRepl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the regular expression pattern used to tokenize
+&nbsp;   * the words as in the source dictionary. For example,
+&nbsp;   * it may contain a hyphen, if the words with hyphens are
+&nbsp;   * not included in the dictionary
+&nbsp;   * @return A compiled {@link Pattern} that is used to tokenize words or {@code null}.
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public Pattern tokenizingPattern() {
+<b class="fc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected List&lt;SuggestedReplacement&gt; orderSuggestions(List&lt;SuggestedReplacement&gt; suggestions, String word) {
+<b class="fc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param checkCompound If true and the word is not in the dictionary
+&nbsp;   * it will be split (see {@link #setCompoundRegex(String)})
+&nbsp;   * and each component will be checked separately
+&nbsp;   * @since 2.4
+&nbsp;   */
+&nbsp;  protected void setCheckCompound(boolean checkCompound) {
+<b class="fc">&nbsp;    this.checkCompound = checkCompound;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param compoundRegex see {@link #setCheckCompound(boolean)}
+&nbsp;   * @since 2.4
+&nbsp;   */
+&nbsp;  protected void setCompoundRegex(String compoundRegex) {
+<b class="nc">&nbsp;    this.compoundRegex = Pattern.compile(compoundRegex);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Ignore surrogate pairs (emojis) 
+&nbsp;   * @since 4.3 
+&nbsp;   * @see org.languagetool.rules.spelling.SpellingCheckRule#ignoreWord(java.lang.String)
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  protected boolean ignoreWord(String word) throws IOException {
+<b class="fc">&nbsp;    return super.ignoreWord(word) || StringTools.isEmoji(word);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * 
+&nbsp;   * Join strings before and after a suggestion.
+&nbsp;   * Used when there is also suggestion for split words
+&nbsp;   * Ex. to thow &gt; tot how | to throw
+&nbsp;   * 
+&nbsp;   */
+&nbsp;  private static List&lt;SuggestedReplacement&gt; joinBeforeAfterSuggestions(List&lt;SuggestedReplacement&gt; suggestionsList, String beforeSuggestionStr,
+&nbsp;                                                                       String afterSuggestionStr) {
+<b class="fc">&nbsp;    List&lt;SuggestedReplacement&gt; newSuggestionsList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (SuggestedReplacement suggestion : suggestionsList) {</b>
+<b class="fc">&nbsp;      String str = suggestion.getReplacement();</b>
+<b class="fc">&nbsp;      SuggestedReplacement newSuggestion = new SuggestedReplacement(suggestion);</b>
+<b class="fc">&nbsp;      newSuggestion.setReplacement(beforeSuggestionStr + str + afterSuggestionStr);</b>
+<b class="fc">&nbsp;      newSuggestionsList.add(newSuggestion);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return newSuggestionsList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class PhraseToTranslate {
+&nbsp;    String phrase;
+&nbsp;    int endPos;
+<b class="nc">&nbsp;    PhraseToTranslate(String phrase, int endPos) {</b>
+<b class="nc">&nbsp;      this.phrase = phrase;</b>
+<b class="nc">&nbsp;      this.endPos = endPos;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  /*
+&nbsp;   * Get suggestions for a single word, using all the features of the Morfologik
+&nbsp;   * spelling rule
+&nbsp;   * 
+&nbsp;   * @since 5.6
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getSpellingSuggestions(String w) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] atk = new AnalyzedTokenReadings[1];</b>
+<b class="nc">&nbsp;    AnalyzedToken token = new AnalyzedToken(w, null, null);</b>
+<b class="nc">&nbsp;    atk[0] = new AnalyzedTokenReadings(token);</b>
+<b class="nc">&nbsp;    AnalyzedSentence sentence = new AnalyzedSentence(atk);</b>
+<b class="nc">&nbsp;    RuleMatch[] matches = this.match(sentence);</b>
+<b class="nc">&nbsp;    if (matches.length &gt; 0) {</b>
+<b class="nc">&nbsp;      suggestions.addAll(matches[0].getSuggestedReplacements());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

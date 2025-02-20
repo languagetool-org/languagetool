@@ -1,0 +1,289 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CommonCrawlToNgram3</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonCrawlToNgram3 (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonCrawlToNgram3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/75)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.apache.commons.compress.compressors.CompressorException;
+&nbsp;import org.apache.commons.compress.compressors.CompressorInputStream;
+&nbsp;import org.apache.commons.compress.compressors.CompressorStreamFactory;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.rules.en.GoogleStyleWordTokenizer;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tokenizers.Tokenizer;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * Prepare indexing the CommonCrawl-based data from http://data.statmt.org/ngrams/
+&nbsp; * to ngrams - result will still need to be aggregated and then indexed
+&nbsp; * with {@link AggregatedNgramToLucene}.
+&nbsp; * @since 3.2
+&nbsp; */
+&nbsp;class CommonCrawlToNgram3 implements AutoCloseable {
+&nbsp;
+&nbsp;  private static final int MAX_TOKEN_LENGTH = 20;
+&nbsp;  private static final int MAX_SENTENCE_LENGTH = 50_000;
+&nbsp;  private static final int CACHE_LIMIT = 1_000_000;  // max. number of trigrams in HashMap before we flush to Lucene
+&nbsp;
+&nbsp;  private final File input;
+&nbsp;  private final SentenceTokenizer sentenceTokenizer;
+&nbsp;  private final Tokenizer wordTokenizer;
+<b class="nc">&nbsp;  private final Map&lt;String, Long&gt; unigramToCount = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, Long&gt; bigramToCount = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, Long&gt; trigramToCount = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;Integer, FileWriter&gt; ngramSizeToWriter = new HashMap&lt;&gt;();</b>
+&nbsp;  
+<b class="nc">&nbsp;  private long charCount = 0;</b>
+<b class="nc">&nbsp;  private long lineCount = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;  CommonCrawlToNgram3(Language language, File input, File outputDir) throws IOException {</b>
+<b class="nc">&nbsp;    this.input = input;</b>
+<b class="nc">&nbsp;    this.sentenceTokenizer = language.getSentenceTokenizer();</b>
+<b class="nc">&nbsp;    this.wordTokenizer = new GoogleStyleWordTokenizer();</b>
+<b class="nc">&nbsp;    ngramSizeToWriter.put(1, new FileWriter(new File(outputDir, &quot;unigrams.csv&quot;)));</b>
+<b class="nc">&nbsp;    ngramSizeToWriter.put(2, new FileWriter(new File(outputDir, &quot;bigrams.csv&quot;)));</b>
+<b class="nc">&nbsp;    ngramSizeToWriter.put(3, new FileWriter(new File(outputDir, &quot;trigrams.csv&quot;)));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void close() throws Exception {
+<b class="nc">&nbsp;    for (Map.Entry&lt;Integer, FileWriter&gt; entry : ngramSizeToWriter.entrySet()) {</b>
+<b class="nc">&nbsp;      entry.getValue().close();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void indexInputFile() throws IOException, CompressorException {
+<b class="nc">&nbsp;    FileInputStream fin = new FileInputStream(input);</b>
+<b class="nc">&nbsp;    BufferedInputStream in = new BufferedInputStream(fin);</b>
+<b class="nc">&nbsp;    try (CompressorInputStream input = new CompressorStreamFactory().createCompressorInputStream(in)) {</b>
+<b class="nc">&nbsp;      final byte[] buffer = new byte[8192];</b>
+&nbsp;      int n;
+<b class="nc">&nbsp;      while ((n = input.read(buffer)) != -1) {</b>
+<b class="nc">&nbsp;        String buf = new String(buffer, 0, n);  // TODO: not always correct, we need to wait for line end first?</b>
+<b class="nc">&nbsp;        String[] lines = buf.split(&quot;\n&quot;);</b>
+<b class="nc">&nbsp;        indexLine(lines);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    writeToDisk(1, unigramToCount);</b>
+<b class="nc">&nbsp;    writeToDisk(2, bigramToCount);</b>
+<b class="nc">&nbsp;    writeToDisk(3, trigramToCount);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void indexLine(String[] lines) throws IOException {
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      if (line.length() &gt; MAX_SENTENCE_LENGTH) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Ignoring long line: &quot; + line.length() + &quot; bytes&quot;);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (lineCount++ % 50_000 == 0) {</b>
+<b class="nc">&nbsp;        float mb = (float) charCount / 1000 / 1000;</b>
+<b class="nc">&nbsp;        System.out.printf(Locale.ENGLISH, &quot;Indexing line %d (%.2fMB)\n&quot;, lineCount, mb);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      charCount += line.length();</b>
+<b class="nc">&nbsp;      List&lt;String&gt; sentences = sentenceTokenizer.tokenize(line);</b>
+<b class="nc">&nbsp;      for (String sentence : sentences) {</b>
+<b class="nc">&nbsp;        indexSentence(sentence);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void indexSentence(String sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; tokens = wordTokenizer.tokenize(sentence);</b>
+<b class="nc">&nbsp;    tokens.add(0, LanguageModel.GOOGLE_SENTENCE_START);</b>
+<b class="nc">&nbsp;    tokens.add(LanguageModel.GOOGLE_SENTENCE_END);</b>
+<b class="nc">&nbsp;    String prevPrev = null;</b>
+<b class="nc">&nbsp;    String prev = null;</b>
+<b class="nc">&nbsp;    for (String token : tokens) {</b>
+<b class="nc">&nbsp;      if (token.trim().isEmpty()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if (token.length() &lt;= MAX_TOKEN_LENGTH) {</b>
+<b class="nc">&nbsp;        unigramToCount.compute(token, (k, v) -&gt; v == null ? 1 : v + 1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (prev != null) {</b>
+<b class="nc">&nbsp;        if (token.length() &lt;= MAX_TOKEN_LENGTH &amp;&amp; prev.length() &lt;= MAX_TOKEN_LENGTH) {</b>
+<b class="nc">&nbsp;          String ngram = prev + &quot; &quot; + token;</b>
+<b class="nc">&nbsp;          bigramToCount.compute(ngram, (k, v) -&gt; v == null ? 1 : v + 1);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (prevPrev != null &amp;&amp; prev != null) {</b>
+<b class="nc">&nbsp;        if (token.length() &lt;= MAX_TOKEN_LENGTH &amp;&amp; prev.length() &lt;= MAX_TOKEN_LENGTH &amp;&amp; prevPrev.length() &lt;= MAX_TOKEN_LENGTH) {</b>
+<b class="nc">&nbsp;          String ngram = prevPrev + &quot; &quot; + prev + &quot; &quot; + token;</b>
+<b class="nc">&nbsp;          trigramToCount.compute(ngram, (k, v) -&gt; v == null ? 1 : v + 1);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (unigramToCount.size() &gt; CACHE_LIMIT) {</b>
+<b class="nc">&nbsp;          writeToDisk(1, unigramToCount);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (bigramToCount.size() &gt; CACHE_LIMIT) {</b>
+<b class="nc">&nbsp;          writeToDisk(2, bigramToCount);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (trigramToCount.size() &gt; CACHE_LIMIT) {</b>
+<b class="nc">&nbsp;          writeToDisk(3, trigramToCount);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      prevPrev = prev;</b>
+<b class="nc">&nbsp;      prev = token;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeToDisk(int ngramSize, Map&lt;String, Long&gt; ngramToCount) throws IOException {
+<b class="nc">&nbsp;    System.out.println(&quot;Writing &quot; + ngramToCount.size() + &quot; cached ngrams to disk (ngramSize=&quot; + ngramSize + &quot;)...&quot;);</b>
+<b class="nc">&nbsp;    FileWriter writer = ngramSizeToWriter.get(ngramSize);</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, Long&gt; entry : ngramToCount.entrySet()) {</b>
+<b class="nc">&nbsp;      writer.write(entry.getKey() + &quot;\t&quot; + entry.getValue() + &quot;\n&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    writer.flush();</b>
+<b class="nc">&nbsp;    ngramToCount.clear();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="nc">&nbsp;    if (args.length != 3) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + CommonCrawlToNgram3.class + &quot; &lt;langCode&gt; &lt;input.xz/bz2&gt; &lt;outputDir&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Language language = Languages.getLanguageForShortCode(args[0]);</b>
+<b class="nc">&nbsp;    File input = new File(args[1]);</b>
+<b class="nc">&nbsp;    File outputDir = new File(args[2]);</b>
+<b class="nc">&nbsp;    try (CommonCrawlToNgram3 prg = new CommonCrawlToNgram3(language, input, outputDir)) {</b>
+<b class="nc">&nbsp;      prg.indexInputFile();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

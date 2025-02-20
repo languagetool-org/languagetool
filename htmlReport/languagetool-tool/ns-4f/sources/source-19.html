@@ -1,0 +1,1673 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > HTTPServerConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: HTTPServerConfig (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HTTPServerConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/159)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/156)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/465)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">HTTPServerConfig$Mode</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/160)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/156)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/466)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.ArrayUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URI;
+&nbsp;import java.net.URISyntaxException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 2.0
+&nbsp; */
+&nbsp;public class HTTPServerConfig {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(HTTPServerConfig.class);</b>
+&nbsp;
+<b class="nc">&nbsp;  enum Mode { LanguageTool }</b>
+&nbsp;
+&nbsp;  public static final String DEFAULT_HOST = &quot;localhost&quot;;
+&nbsp;
+&nbsp;  /** The default port on which the server is running (8081). */
+&nbsp;  public static final int DEFAULT_PORT = 8081;
+&nbsp;  
+&nbsp;  static final String LANGUAGE_MODEL_OPTION = &quot;--languageModel&quot;;
+&nbsp;
+<b class="nc">&nbsp;  protected boolean verbose = false;</b>
+<b class="nc">&nbsp;  protected boolean publicAccess = false;</b>
+<b class="nc">&nbsp;  protected int port = DEFAULT_PORT;</b>
+&nbsp;  protected int minPort;
+&nbsp;  protected int maxPort;
+<b class="nc">&nbsp;  protected String allowOriginUrl = null;</b>
+&nbsp;
+<b class="nc">&nbsp;  protected boolean logIp = true;</b>
+<b class="nc">&nbsp;  protected String logIpMatchingPattern = &quot;__logIPNowForLanguageTool__&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;  protected URI serverURL = null;</b>
+<b class="nc">&nbsp;  protected int maxTextLengthAnonymous = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;  protected int maxTextLengthLoggedIn = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;  protected int maxTextLengthPremium = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;  protected int maxTextHardLength = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;  protected long maxCheckTimeMillisAnonymous = -1;</b>
+<b class="nc">&nbsp;  protected long maxCheckTimeMillisLoggedIn = -1;</b>
+<b class="nc">&nbsp;  protected long maxCheckTimeMillisPremium = -1;</b>
+<b class="nc">&nbsp;  protected int maxCheckThreads = 10;</b>
+&nbsp;  protected int maxTextCheckerThreads; // default to same value as maxCheckThreads
+<b class="nc">&nbsp;  protected int textCheckerQueueSize = 8;</b>
+&nbsp;  protected Mode mode;
+<b class="nc">&nbsp;  protected File languageModelDir = null;</b>
+<b class="nc">&nbsp;  protected File ruleIdToConfidenceFile = null;</b>
+<b class="nc">&nbsp;  protected boolean pipelineCaching = false;</b>
+<b class="nc">&nbsp;  protected boolean pipelinePrewarming = false;</b>
+&nbsp;
+&nbsp;  protected int maxPipelinePoolSize;
+&nbsp;  protected int pipelineExpireTime;
+<b class="nc">&nbsp;  protected File fasttextModel = null;</b>
+<b class="nc">&nbsp;  protected File fasttextBinary = null;</b>
+&nbsp;  protected int requestLimit;
+&nbsp;  protected int requestLimitInBytes;
+&nbsp;  protected int timeoutRequestLimit;
+&nbsp;  protected int requestLimitPeriodInSeconds;
+&nbsp;  protected List&lt;String&gt; requestLimitWhitelistUsers;
+&nbsp;  protected int requestLimitWhitelistLimit;
+<b class="nc">&nbsp;  protected int ipFingerprintFactor = 1;</b>
+&nbsp;  protected boolean trustXForwardForHeader;
+&nbsp;  protected int maxWorkQueueSize;
+<b class="nc">&nbsp;  protected File rulesConfigFile = null;</b>
+<b class="nc">&nbsp;  protected File remoteRulesConfigFile = null;</b>
+<b class="nc">&nbsp;  protected int cacheSize = 0;</b>
+<b class="nc">&nbsp;  protected long cacheTTLSeconds = 300;</b>
+<b class="nc">&nbsp;  protected float maxErrorsPerWordRate = 0;</b>
+<b class="nc">&nbsp;  protected int maxSpellingSuggestions = 0;</b>
+<b class="nc">&nbsp;  protected List&lt;String&gt; blockedReferrers = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  protected Pattern trustedSources = null;</b>
+&nbsp;  protected boolean premiumAlways;
+&nbsp;  protected boolean premiumOnly;
+<b class="nc">&nbsp;  protected String requestLimitAccessToken = null;</b>
+&nbsp;
+&nbsp;  public void setPremiumOnly(boolean premiumOnly) {
+<b class="nc">&nbsp;    this.premiumOnly = premiumOnly;</b>
+&nbsp;  }
+<b class="nc">&nbsp;  boolean anonymousAccessAllowed = true;</b>
+&nbsp;  public boolean isAnonymousAccessAllowed() {
+<b class="nc">&nbsp;    return anonymousAccessAllowed;</b>
+&nbsp;  }
+<b class="nc">&nbsp;  protected boolean gracefulDatabaseFailure = false;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   * @return whether user creation should be restricted (e.g. according to subscriptions in cloud usage) or be unlimited (for self-hosted installations)
+&nbsp;   */
+&nbsp;  public boolean isRestrictManagedAccounts() {
+<b class="nc">&nbsp;    return restrictManagedAccounts;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRestrictManagedAccounts(boolean restrictManagedAccounts) {
+<b class="nc">&nbsp;    this.restrictManagedAccounts = restrictManagedAccounts;</b>
+&nbsp;  }
+&nbsp;  // NOTE: offer option to set this in configuration file; document for customers
+<b class="nc">&nbsp;  protected boolean restrictManagedAccounts = true;</b>
+<b class="nc">&nbsp;  protected String dbDriver = null;</b>
+<b class="nc">&nbsp;  protected String dbUrl = null;</b>
+<b class="nc">&nbsp;  protected String dbUsername = null;</b>
+<b class="nc">&nbsp;  protected String dbPassword = null;</b>
+<b class="nc">&nbsp;  protected long dbTimeoutSeconds = 10;</b>
+<b class="nc">&nbsp;  protected int dbMaxConnections = 10;</b>
+<b class="nc">&nbsp;  protected int databaseTimeoutRateThreshold = 100;</b>
+<b class="nc">&nbsp;  protected int databaseErrorRateThreshold = 50;</b>
+<b class="nc">&nbsp;  protected int databaseDownIntervalSeconds = 10;</b>
+&nbsp;
+&nbsp;  protected boolean dbLogging;
+<b class="nc">&nbsp;  protected boolean prometheusMonitoring = false;</b>
+<b class="nc">&nbsp;  protected int prometheusPort = 9301;</b>
+<b class="nc">&nbsp;  protected GlobalConfig globalConfig = new GlobalConfig();</b>
+<b class="nc">&nbsp;  protected List&lt;String&gt; disabledRuleIds = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  protected boolean stoppable = false;</b>
+&nbsp;  
+<b class="nc">&nbsp;  protected String passwortLoginAccessListPath = &quot;&quot;;</b>
+&nbsp;  /**
+&nbsp;   * caching to avoid database hits for e.g. dictionaries
+&nbsp;   * null -&amp;gt; disabled
+&nbsp;   */
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  protected String redisHost = null;
+<b class="nc">&nbsp;  protected int redisPort = 6379;</b>
+<b class="nc">&nbsp;  protected int redisDatabase = 0;</b>
+<b class="nc">&nbsp;  protected boolean redisUseSSL = true;</b>
+&nbsp;  protected String redisCertificate;
+&nbsp;  protected String redisKey;
+&nbsp;  protected String redisKeyPassword;
+<b class="nc">&nbsp;  @Nullable</b>
+&nbsp;  protected String redisPassword = null;
+<b class="nc">&nbsp;  protected long redisDictTTL = 600; // in seconds</b>
+<b class="nc">&nbsp;  protected long redisTimeout = 100; // in milliseconds</b>
+<b class="nc">&nbsp;  protected long redisConnectionTimeout = 5000; // in milliseconds</b>
+<b class="nc">&nbsp;  protected boolean redisUseSentinel = false;</b>
+&nbsp;  protected String sentinelHost;
+<b class="nc">&nbsp;  protected int sentinelPort = 26379;</b>
+&nbsp;  protected String sentinelPassword;
+&nbsp;  protected String sentinelMasterId;
+&nbsp;
+<b class="nc">&nbsp;  protected boolean skipLoggingRuleMatches = false;</b>
+<b class="nc">&nbsp;  protected boolean skipLoggingChecks = false;</b>
+&nbsp;
+<b class="nc">&nbsp;  protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; &lt; 0 - disabled</b>
+&nbsp;
+<b class="nc">&nbsp;  protected List&lt;String&gt; abTest = Collections.emptyList();</b>
+<b class="nc">&nbsp;  protected Pattern abTestClients = null;</b>
+<b class="nc">&nbsp;  protected int abTestRollout = 100; // percentage [0,100]</b>
+&nbsp;  protected File ngramLangIdentData;
+&nbsp;
+&nbsp;    //User Settings for local-api
+<b class="nc">&nbsp;  protected boolean localApiMode = false;</b>
+<b class="nc">&nbsp;  protected String motherTongue = &quot;en-US&quot;;</b>
+<b class="nc">&nbsp;  protected List&lt;String&gt; preferredLanguages = new ArrayList&lt;&gt;();</b>
+&nbsp;  
+<b class="nc">&nbsp;  protected int dictLimitUser = 0;</b>
+<b class="nc">&nbsp;  protected int dictLimitTeam = 0;</b>
+<b class="nc">&nbsp;  protected int styleGuideLimitUser = 0;</b>
+<b class="nc">&nbsp;  protected int styleGuideLimitTeam = 0;</b>
+&nbsp;  
+&nbsp;  
+<b class="nc">&nbsp;  private static final List&lt;String&gt; KNOWN_OPTION_KEYS = Arrays.asList(&quot;abTest&quot;, &quot;abTestClients&quot;, &quot;abTestRollout&quot;,</b>
+&nbsp;    &quot;beolingusFile&quot;, &quot;blockedReferrers&quot;, &quot;cacheSize&quot;, &quot;cacheTTLSeconds&quot;,
+&nbsp;    &quot;dbDriver&quot;, &quot;dbPassword&quot;, &quot;dbUrl&quot;, &quot;dbUsername&quot;, &quot;disabledRuleIds&quot;, &quot;fasttextBinary&quot;, &quot;fasttextModel&quot;, &quot;grammalectePassword&quot;,
+&nbsp;    &quot;grammalecteServer&quot;, &quot;grammalecteUser&quot;, &quot;ipFingerprintFactor&quot;, &quot;languageModel&quot;, &quot;maxCheckThreads&quot;, &quot;maxTextCheckerThreads&quot;, &quot;textCheckerQueueSize&quot;, &quot;maxCheckTimeMillis&quot;,
+&nbsp;    &quot;maxCheckTimeWithApiKeyMillis&quot;, &quot;maxErrorsPerWordRate&quot;, &quot;maxPipelinePoolSize&quot;, &quot;maxSpellingSuggestions&quot;, &quot;maxTextHardLength&quot;,
+&nbsp;    &quot;maxTextLength&quot;, &quot;maxTextLengthWithApiKey&quot;, &quot;maxWorkQueueSize&quot;, &quot;pipelineCaching&quot;,
+&nbsp;    &quot;pipelineExpireTimeInSeconds&quot;, &quot;pipelinePrewarming&quot;, &quot;prometheusMonitoring&quot;, &quot;prometheusPort&quot;, &quot;remoteRulesFile&quot;,
+&nbsp;    &quot;requestLimit&quot;, &quot;requestLimitInBytes&quot;, &quot;requestLimitPeriodInSeconds&quot;, &quot;requestLimitWhitelistUsers&quot;, &quot;requestLimitWhitelistLimit&quot;,
+&nbsp;    &quot;rulesFile&quot;, &quot;serverURL&quot;,
+&nbsp;    &quot;skipLoggingChecks&quot;, &quot;skipLoggingRuleMatches&quot;, &quot;timeoutRequestLimit&quot;, &quot;trustXForwardForHeader&quot;,
+&nbsp;    &quot;keystore&quot;, &quot;password&quot;, &quot;maxTextLengthPremium&quot;, &quot;maxTextLengthAnonymous&quot;, &quot;maxTextLengthLoggedIn&quot;, &quot;gracefulDatabaseFailure&quot;,
+&nbsp;    &quot;ngramLangIdentData&quot;,
+&nbsp;    &quot;dbTimeoutSeconds&quot;, &quot;dbMaxConnections&quot;, &quot;dbErrorRateThreshold&quot;, &quot;dbTimeoutRateThreshold&quot;, &quot;dbDownIntervalSeconds&quot;,
+&nbsp;    &quot;redisDatabase&quot;, &quot;redisUseSSL&quot;, &quot;redisTimeoutMilliseconds&quot;, &quot;redisConnectionTimeoutMilliseconds&quot;,
+&nbsp;    &quot;anonymousAccessAllowed&quot;,
+&nbsp;    &quot;premiumAlways&quot;, &quot;trustedSource&quot;,
+&nbsp;    &quot;redisPassword&quot;, &quot;redisHost&quot;, &quot;redisCertificate&quot;, &quot;redisKey&quot;, &quot;redisKeyPassword&quot;,
+&nbsp;    &quot;redisUseSentinel&quot;, &quot;sentinelHost&quot;, &quot;sentinelPort&quot;, &quot;sentinelPassword&quot;, &quot;sentinelMasterId&quot;,
+&nbsp;    &quot;dbLogging&quot;, &quot;premiumOnly&quot;, &quot;nerUrl&quot;, &quot;minPort&quot;, &quot;maxPort&quot;, &quot;localApiMode&quot;, &quot;motherTongue&quot;, &quot;preferredLanguages&quot;,
+&nbsp;    &quot;dictLimitUser&quot;, &quot;dictLimitTeam&quot;, &quot;styleGuideLimitUser&quot;, &quot;styleGuideLimitTeam&quot;,
+&nbsp;    &quot;passwortLoginAccessListPath&quot;, &quot;redisDictTTLSeconds&quot;, &quot;requestLimitAccessToken&quot;, &quot;trustedSources&quot;,
+&nbsp;    &quot;ruleIdToConfidenceFile&quot;);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
+&nbsp;   */
+&nbsp;  public HTTPServerConfig() {
+<b class="nc">&nbsp;    this(DEFAULT_PORT, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param serverPort the port to bind to
+&nbsp;   * @since 2.8
+&nbsp;   */
+&nbsp;  public HTTPServerConfig(int serverPort) {
+<b class="nc">&nbsp;    this(serverPort, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param serverPort the port to bind to
+&nbsp;   * @param verbose when set to &lt;tt&gt;true&lt;/tt&gt;, the input text will be logged in case there is an exception
+&nbsp;   */
+<b class="nc">&nbsp;  public HTTPServerConfig(int serverPort, boolean verbose) {</b>
+<b class="nc">&nbsp;    this.port = serverPort;</b>
+<b class="nc">&nbsp;    this.verbose = verbose;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Parse command line options.
+&nbsp;   */
+<b class="nc">&nbsp;  HTTPServerConfig(String[] args) {</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; args.length; i++) {</b>
+<b class="nc">&nbsp;      if (args[i].matches(&quot;--[a-zA-Z]+=.+&quot;)) {</b>
+<b class="nc">&nbsp;        System.err.println(&quot;WARNING: use `--option value`, not `--option=value`, parameters will be ignored otherwise: &quot; + args[i]);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      switch (args[i]) {</b>
+&nbsp;        case &quot;--config&quot;:
+<b class="nc">&nbsp;          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION));</b>
+&nbsp;          break;
+&nbsp;        case &quot;-p&quot;:
+&nbsp;        case &quot;--port&quot;:
+<b class="nc">&nbsp;          port = Integer.parseInt(args[++i]);</b>
+&nbsp;          break;
+&nbsp;        case &quot;-v&quot;:
+&nbsp;        case &quot;--verbose&quot;:
+<b class="nc">&nbsp;          verbose = true;</b>
+&nbsp;          break;
+&nbsp;        case &quot;--public&quot;:
+<b class="nc">&nbsp;          publicAccess = true;</b>
+&nbsp;          break;
+&nbsp;        case &quot;--premiumAlways&quot;:
+<b class="nc">&nbsp;          if (!Premium.isPremiumVersion()) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Cannot use --premiumAlways with non-premium version&quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          premiumAlways = true;</b>
+<b class="nc">&nbsp;          System.out.println(&quot;*** Running in PREMIUM-ALWAYS mode, premium features are available without authentication&quot;);</b>
+&nbsp;          break;
+&nbsp;        case &quot;--allow-origin&quot;:
+&nbsp;          try {
+<b class="nc">&nbsp;            allowOriginUrl = args[++i];</b>
+<b class="nc">&nbsp;            if (allowOriginUrl.startsWith(&quot;--&quot;)) {  // no parameter, next option starts instead</b>
+<b class="nc">&nbsp;              allowOriginUrl = &quot;*&quot;;</b>
+<b class="nc">&nbsp;              i--;</b>
+&nbsp;            }
+&nbsp;          } catch (ArrayIndexOutOfBoundsException e) {
+<b class="nc">&nbsp;            allowOriginUrl = &quot;*&quot;;</b>
+&nbsp;          }
+&nbsp;          break;
+&nbsp;        case LANGUAGE_MODEL_OPTION:
+<b class="nc">&nbsp;          setLanguageModelDirectory(args[++i]);</b>
+&nbsp;          break;
+&nbsp;        case &quot;--stoppable&quot;:  // internal only, doesn&#39;t need to be documented
+<b class="nc">&nbsp;          stoppable = true;</b>
+&nbsp;          break;
+&nbsp;        case &quot;--notLogIP&quot;:
+<b class="nc">&nbsp;          logIp = false;</b>
+&nbsp;          break;
+&nbsp;        case &quot;--logIpMatchingPattern&quot;:
+&nbsp;          try {
+<b class="nc">&nbsp;            logIpMatchingPattern = args[++i];</b>
+<b class="nc">&nbsp;            if (logIpMatchingPattern.startsWith(&quot;--&quot;)) {</b>
+<b class="nc">&nbsp;              throw new IllegalArgumentException(&quot;Missing argument for &#39;--logIpMatchingPattern&#39; (e.g. any random String)&quot;);</b>
+&nbsp;            }
+&nbsp;          } catch (ArrayIndexOutOfBoundsException e) {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Missing argument for &#39;--logIpMatchingPattern&#39; (e.g. any random String)&quot;);</b>
+&nbsp;          }
+&nbsp;          break;
+&nbsp;        default:
+<b class="nc">&nbsp;          if (args[i].contains(&quot;=&quot;)) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;WARNING: unknown option: &quot; + args[i] +</b>
+&nbsp;                    &quot; - please note that parameters are given as &#39;--arg param&#39;, i.e. without &#39;=&#39; between argument and parameter&quot;);
+&nbsp;          } else {
+<b class="nc">&nbsp;            System.out.println(&quot;WARNING: unknown option: &quot; + args[i]);</b>
+&nbsp;          }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void parseConfigFile(File file, boolean loadLangModel) {
+&nbsp;    try {
+<b class="nc">&nbsp;      Properties props = new Properties();</b>
+<b class="nc">&nbsp;      try (FileInputStream fis = new FileInputStream(file)) {</b>
+<b class="nc">&nbsp;        props.load(fis);</b>
+<b class="nc">&nbsp;        maxTextHardLength = Integer.parseInt(getOptionalProperty(props, &quot;maxTextHardLength&quot;, Integer.toString(Integer.MAX_VALUE)));</b>
+&nbsp;
+<b class="nc">&nbsp;        maxTextLengthAnonymous = maxTextLengthLoggedIn = maxTextLengthPremium = Integer.parseInt(getOptionalProperty(props, &quot;maxTextLength&quot;, Integer.toString(Integer.MAX_VALUE)));</b>
+<b class="nc">&nbsp;        maxTextLengthAnonymous = Integer.parseInt(getOptionalProperty(props, &quot;maxTextLengthAnonymous&quot;, String.valueOf(maxTextLengthAnonymous)));</b>
+<b class="nc">&nbsp;        maxTextLengthLoggedIn = Integer.parseInt(getOptionalProperty(props, &quot;maxTextLengthLoggedIn&quot;, String.valueOf(maxTextLengthLoggedIn)));</b>
+<b class="nc">&nbsp;        maxTextLengthPremium = Integer.parseInt(getOptionalProperty(props, &quot;maxTextLengthPremium&quot;, String.valueOf(maxTextLengthPremium)));</b>
+&nbsp;
+<b class="nc">&nbsp;        maxCheckTimeMillisAnonymous = maxCheckTimeMillisLoggedIn = maxCheckTimeMillisPremium = Integer.parseInt(getOptionalProperty(props, &quot;maxCheckTimeMillis&quot;, &quot;-1&quot;));</b>
+<b class="nc">&nbsp;        maxCheckTimeMillisAnonymous = Long.parseLong(getOptionalProperty(props, &quot;maxCheckTimeMillisAnonymous&quot;, String.valueOf(maxCheckTimeMillisAnonymous)));</b>
+<b class="nc">&nbsp;        maxCheckTimeMillisLoggedIn = Long.parseLong(getOptionalProperty(props, &quot;maxCheckTimeMillisLoggedIn&quot;, String.valueOf(maxCheckTimeMillisLoggedIn)));</b>
+<b class="nc">&nbsp;        maxCheckTimeMillisPremium = Long.parseLong(getOptionalProperty(props, &quot;maxCheckTimeMillisPremium&quot;, String.valueOf(maxCheckTimeMillisPremium)));</b>
+<b class="nc">&nbsp;        requestLimit = Integer.parseInt(getOptionalProperty(props, &quot;requestLimit&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, &quot;requestLimitInBytes&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, &quot;timeoutRequestLimit&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        requestLimitWhitelistUsers = Arrays.asList(getOptionalProperty(props, &quot;requestLimitWhitelistUsers&quot;, &quot;&quot;).split(&quot;,\\s*&quot;));</b>
+<b class="nc">&nbsp;        requestLimitWhitelistLimit = Integer.parseInt(getOptionalProperty(props, &quot;requestLimitWhitelistLimit&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, &quot;pipelineCaching&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        pipelinePrewarming = Boolean.parseBoolean(getOptionalProperty(props, &quot;pipelinePrewarming&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        maxPipelinePoolSize = Integer.parseInt(getOptionalProperty(props, &quot;maxPipelinePoolSize&quot;, &quot;5&quot;));</b>
+<b class="nc">&nbsp;        pipelineExpireTime = Integer.parseInt(getOptionalProperty(props, &quot;pipelineExpireTimeInSeconds&quot;, &quot;10&quot;));</b>
+<b class="nc">&nbsp;        requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, &quot;requestLimitPeriodInSeconds&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        ipFingerprintFactor = Integer.parseInt(getOptionalProperty(props, &quot;ipFingerprintFactor&quot;, &quot;1&quot;));</b>
+<b class="nc">&nbsp;        trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, &quot;trustXForwardForHeader&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, &quot;maxWorkQueueSize&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        if (maxWorkQueueSize &lt; 0) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;maxWorkQueueSize must be &gt;= 0: &quot; + maxWorkQueueSize);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        minPort = Integer.parseInt(getOptionalProperty(props, &quot;minPort&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        maxPort = Integer.parseInt(getOptionalProperty(props, &quot;maxPort&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        String url = getOptionalProperty(props, &quot;serverURL&quot;, null);</b>
+<b class="nc">&nbsp;        setServerURL(url);</b>
+<b class="nc">&nbsp;        String ruleIdToConfidence = getOptionalProperty(props, &quot;ruleIdToConfidenceFile&quot;, null);</b>
+<b class="nc">&nbsp;        if (ruleIdToConfidence != null) {</b>
+<b class="nc">&nbsp;          ruleIdToConfidenceFile = new File(ruleIdToConfidence);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String langModel = getOptionalProperty(props, &quot;languageModel&quot;, null);</b>
+<b class="nc">&nbsp;        if (langModel != null &amp;&amp; loadLangModel) {</b>
+<b class="nc">&nbsp;          setLanguageModelDirectory(langModel);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String fasttextModel = getOptionalProperty(props, &quot;fasttextModel&quot;, null);</b>
+<b class="nc">&nbsp;        String fasttextBinary = getOptionalProperty(props, &quot;fasttextBinary&quot;, null);</b>
+<b class="nc">&nbsp;        if (fasttextBinary != null &amp;&amp; fasttextModel != null) {</b>
+<b class="nc">&nbsp;          setFasttextPaths(fasttextModel, fasttextBinary);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        maxCheckThreads = Integer.parseInt(getOptionalProperty(props, &quot;maxCheckThreads&quot;, &quot;10&quot;));</b>
+<b class="nc">&nbsp;        if (maxCheckThreads &lt; 1) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Invalid value for maxCheckThreads, must be &gt;= 1: &quot; + maxCheckThreads);</b>
+&nbsp;        }
+&nbsp;        // default value 0 = use maxCheckThreads setting (for compatibility)
+<b class="nc">&nbsp;        maxTextCheckerThreads = Integer.parseInt(getOptionalProperty(props, &quot;maxTextCheckerThreads&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        if (maxTextCheckerThreads &lt; 0) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Invalid value for maxTextCheckerThreads, must be &gt;= 1: &quot; + maxTextCheckerThreads);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        textCheckerQueueSize = Integer.parseInt(getOptionalProperty(props, &quot;textCheckerQueueSize&quot;, &quot;8&quot;));</b>
+<b class="nc">&nbsp;        if (textCheckerQueueSize &lt; 0) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Invalid value for textCheckerQueueSize, must be &gt;= 1: &quot; + textCheckerQueueSize);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        boolean atdMode = getOptionalProperty(props, &quot;mode&quot;, &quot;LanguageTool&quot;).equalsIgnoreCase(&quot;AfterTheDeadline&quot;);</b>
+<b class="nc">&nbsp;        if (atdMode) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;The AfterTheDeadline mode is not supported anymore in LanguageTool 3.8 or later&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String rulesConfigFilePath = getOptionalProperty(props, &quot;rulesFile&quot;, null);</b>
+<b class="nc">&nbsp;        if (rulesConfigFilePath != null) {</b>
+<b class="nc">&nbsp;          rulesConfigFile = new File(rulesConfigFilePath);</b>
+<b class="nc">&nbsp;          if (!rulesConfigFile.exists() || !rulesConfigFile.isFile()) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Rules Configuration file cannot be found: &quot; + rulesConfigFile);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        String remoteRulesConfigFilePath = getOptionalProperty(props, &quot;remoteRulesFile&quot;, null);</b>
+<b class="nc">&nbsp;        if (remoteRulesConfigFilePath != null) {</b>
+<b class="nc">&nbsp;          remoteRulesConfigFile = new File(remoteRulesConfigFilePath);</b>
+<b class="nc">&nbsp;          if (!remoteRulesConfigFile.exists() || !remoteRulesConfigFile.isFile()) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Remote rules configuration file cannot be found: &quot; + remoteRulesConfigFile);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        cacheSize = Integer.parseInt(getOptionalProperty(props, &quot;cacheSize&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        if (cacheSize &lt; 0) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Invalid value for cacheSize: &quot; + cacheSize + &quot;, use 0 to deactivate cache&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (props.containsKey(&quot;cacheTTLSeconds&quot;) &amp;&amp; !props.containsKey(&quot;cacheSize&quot;)) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Use of cacheTTLSeconds without also setting cacheSize has no effect.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cacheTTLSeconds = Integer.parseInt(getOptionalProperty(props, &quot;cacheTTLSeconds&quot;, &quot;300&quot;));</b>
+<b class="nc">&nbsp;        maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, &quot;maxErrorsPerWordRate&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, &quot;maxSpellingSuggestions&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        blockedReferrers = Arrays.asList(getOptionalProperty(props, &quot;blockedReferrers&quot;, &quot;&quot;).split(&quot;,\\s*&quot;));</b>
+<b class="nc">&nbsp;        setTrustedSources(getOptionalProperty(props, &quot;trustedSources&quot;, null));</b>
+<b class="nc">&nbsp;        String premiumAlwaysValue = props.getProperty(&quot;premiumAlways&quot;);</b>
+<b class="nc">&nbsp;        if (premiumAlwaysValue != null) {</b>
+<b class="nc">&nbsp;          premiumAlways = Boolean.parseBoolean(premiumAlwaysValue.trim());</b>
+<b class="nc">&nbsp;          if (premiumAlways) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;*** Running in PREMIUM-ALWAYS mode&quot;);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        premiumOnly = Boolean.valueOf(getOptionalProperty(props, &quot;premiumOnly&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        if (premiumOnly) {</b>
+<b class="nc">&nbsp;          if (!Premium.isPremiumVersion()) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Cannot use premiumOnly=true with non-premium version&quot;);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          System.out.println(&quot;*** Running in PREMIUM-ONLY mode&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        anonymousAccessAllowed = Boolean.valueOf(getOptionalProperty(props, &quot;anonymousAccessAllowed&quot;, &quot;true&quot;).trim());</b>
+<b class="nc">&nbsp;        if (!anonymousAccessAllowed) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;*** Running in RESTRICTED-ACCESS mode&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        redisHost = getOptionalProperty(props, &quot;redisHost&quot;, null);</b>
+<b class="nc">&nbsp;        redisPort = Integer.parseInt(getOptionalProperty(props, &quot;redisPort&quot;, &quot;6379&quot;));</b>
+<b class="nc">&nbsp;        redisDatabase = Integer.parseInt(getOptionalProperty(props, &quot;redisDatabase&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        redisUseSSL = Boolean.valueOf(getOptionalProperty(props, &quot;redisUseSSL&quot;, &quot;true&quot;).trim());</b>
+<b class="nc">&nbsp;        redisPassword = getOptionalProperty(props, &quot;redisPassword&quot;, null);</b>
+<b class="nc">&nbsp;        redisDictTTL = Integer.parseInt(getOptionalProperty(props, &quot;redisDictTTLSeconds&quot;, &quot;600&quot;));</b>
+<b class="nc">&nbsp;        redisTimeout = Integer.parseInt(getOptionalProperty(props, &quot;redisTimeoutMilliseconds&quot;, &quot;100&quot;));</b>
+<b class="nc">&nbsp;        redisConnectionTimeout = Integer.parseInt(getOptionalProperty(props, &quot;redisConnectionTimeoutMilliseconds&quot;, &quot;5000&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;        redisCertificate = getOptionalProperty(props, &quot;redisCertificate&quot;, null);</b>
+<b class="nc">&nbsp;        redisKey = getOptionalProperty(props, &quot;redisKey&quot;, null);</b>
+<b class="nc">&nbsp;        redisKeyPassword = getOptionalProperty(props, &quot;redisKeyPassword&quot;, null);</b>
+&nbsp;
+<b class="nc">&nbsp;        redisUseSentinel = Boolean.parseBoolean(getOptionalProperty(props, &quot;redisUseSentinel&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        sentinelHost = getOptionalProperty(props, &quot;sentinelHost&quot;, null);</b>
+<b class="nc">&nbsp;        sentinelPort = Integer.parseInt(getOptionalProperty(props, &quot;sentinelPort&quot;, &quot;26379&quot;));</b>
+<b class="nc">&nbsp;        sentinelPassword = getOptionalProperty(props, &quot;sentinelPassword&quot;, null);</b>
+<b class="nc">&nbsp;        sentinelMasterId = getOptionalProperty(props, &quot;sentinelMasterId&quot;, null);</b>
+&nbsp;
+<b class="nc">&nbsp;        gracefulDatabaseFailure = Boolean.parseBoolean(getOptionalProperty(props, &quot;gracefulDatabaseFailure&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        dbDriver = getOptionalProperty(props, &quot;dbDriver&quot;, null);</b>
+<b class="nc">&nbsp;        dbUrl = getOptionalProperty(props, &quot;dbUrl&quot;, null);</b>
+<b class="nc">&nbsp;        dbUsername = getOptionalProperty(props, &quot;dbUsername&quot;, null);</b>
+<b class="nc">&nbsp;        dbPassword = getOptionalProperty(props, &quot;dbPassword&quot;, null);</b>
+<b class="nc">&nbsp;        dbTimeoutSeconds = Integer.parseInt(getOptionalProperty(props, &quot;dbTimeoutSeconds&quot;, &quot;10&quot;));</b>
+<b class="nc">&nbsp;        dbMaxConnections = Integer.parseInt(getOptionalProperty(props, &quot;dbMaxConnections&quot;, &quot;10&quot;));</b>
+<b class="nc">&nbsp;        databaseErrorRateThreshold = Integer.parseInt(getOptionalProperty(props, &quot;dbErrorRateThreshold&quot;, &quot;50&quot;));</b>
+<b class="nc">&nbsp;        databaseTimeoutRateThreshold = Integer.parseInt(getOptionalProperty(props, &quot;dbTimeoutRateThreshold&quot;, &quot;100&quot;));</b>
+<b class="nc">&nbsp;        databaseDownIntervalSeconds = Integer.parseInt(getOptionalProperty(props, &quot;dbDownIntervalSeconds&quot;, &quot;10&quot;));</b>
+<b class="nc">&nbsp;        dbLogging = Boolean.valueOf(getOptionalProperty(props, &quot;dbLogging&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        passwortLoginAccessListPath = getOptionalProperty(props, &quot;passwortLoginAccessListPath&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, &quot;prometheusMonitoring&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        prometheusPort = Integer.parseInt(getOptionalProperty(props, &quot;prometheusPort&quot;, &quot;9301&quot;));</b>
+<b class="nc">&nbsp;        skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, &quot;skipLoggingRuleMatches&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        skipLoggingChecks = Boolean.valueOf(getOptionalProperty(props, &quot;skipLoggingChecks&quot;, &quot;false&quot;).trim());</b>
+<b class="nc">&nbsp;        if (dbLogging &amp;&amp; (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props, &quot;slowRuleLoggingThreshold&quot;, &quot;-1&quot;));</b>
+<b class="nc">&nbsp;        disabledRuleIds = Arrays.asList(getOptionalProperty(props, &quot;disabledRuleIds&quot;, &quot;&quot;).split(&quot;,\\s*&quot;));</b>
+<b class="nc">&nbsp;        localApiMode = Boolean.parseBoolean(getOptionalProperty(props, &quot;localApiMode&quot;, &quot;false&quot;));</b>
+<b class="nc">&nbsp;        motherTongue = getOptionalProperty(props, &quot;motherTongue&quot;, &quot;en-US&quot;);</b>
+<b class="nc">&nbsp;        String preferredLanguages = getOptionalProperty(props, &quot;preferredLanguages&quot;, &quot;&quot;).replace(&quot; &quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        if (!preferredLanguages.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;          this.preferredLanguages = Arrays.asList(preferredLanguages.split(&quot;,&quot;));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        dictLimitUser = Integer.valueOf(getOptionalProperty(props, &quot;dictLimitUser&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        dictLimitTeam = Integer.valueOf(getOptionalProperty(props, &quot;dictLimitTeam&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        styleGuideLimitUser = Integer.valueOf(getOptionalProperty(props, &quot;styleGuideLimitUser&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        styleGuideLimitTeam = Integer.valueOf(getOptionalProperty(props, &quot;styleGuideLimitTeam&quot;, &quot;0&quot;));</b>
+<b class="nc">&nbsp;        requestLimitAccessToken = getOptionalProperty(props, &quot;requestLimitAccessToken&quot;, null);</b>
+&nbsp;        
+<b class="nc">&nbsp;        globalConfig.setGrammalecteServer(getOptionalProperty(props, &quot;grammalecteServer&quot;, null));</b>
+<b class="nc">&nbsp;        globalConfig.setGrammalecteUser(getOptionalProperty(props, &quot;grammalecteUser&quot;, null));</b>
+<b class="nc">&nbsp;        globalConfig.setGrammalectePassword(getOptionalProperty(props, &quot;grammalectePassword&quot;, null));</b>
+<b class="nc">&nbsp;        String beolingusFile = getOptionalProperty(props, &quot;beolingusFile&quot;, null);</b>
+<b class="nc">&nbsp;        if (beolingusFile != null) {</b>
+<b class="nc">&nbsp;          if (new File(beolingusFile).exists()) {</b>
+<b class="nc">&nbsp;            globalConfig.setBeolingusFile(new File(beolingusFile));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;beolingusFile not found: &quot; + beolingusFile);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        String nerUrl = getOptionalProperty(props, &quot;nerUrl&quot;, null);</b>
+<b class="nc">&nbsp;        if (nerUrl != null) {</b>
+<b class="nc">&nbsp;          globalConfig.setNERUrl(nerUrl);</b>
+<b class="nc">&nbsp;          logger.info(&quot;Using NER service: &quot; + globalConfig.getNerUrl());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (Object o : props.keySet()) {</b>
+<b class="nc">&nbsp;          String key = (String)o;</b>
+<b class="nc">&nbsp;          if (!KNOWN_OPTION_KEYS.contains(key) &amp;&amp; !key.matches(&quot;lang-[a-z]+-dictPath&quot;) &amp;&amp; !key.matches(&quot;lang-[a-z]+&quot;)) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;***** WARNING: ****&quot;);</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Key &#39;&quot; + key + &quot;&#39; from configuration file &#39;&quot; + file + &quot;&#39; is unknown. Please check the key&#39;s spelling (case is significant).&quot;);</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Known keys: &quot; + KNOWN_OPTION_KEYS);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        addDynamicLanguages(props);</b>
+<b class="nc">&nbsp;        setAbTest(getOptionalProperty(props, &quot;abTest&quot;, null));</b>
+<b class="nc">&nbsp;        setAbTestClients(getOptionalProperty(props, &quot;abTestClients&quot;, null));</b>
+<b class="nc">&nbsp;        setAbTestRollout(Integer.parseInt(getOptionalProperty(props, &quot;abTestRollout&quot;, &quot;100&quot;)));</b>
+<b class="nc">&nbsp;        String ngramLangIdentData = getOptionalProperty(props, &quot;ngramLangIdentData&quot;, null);</b>
+<b class="nc">&nbsp;        if (ngramLangIdentData != null) {</b>
+<b class="nc">&nbsp;          File dir = new File(ngramLangIdentData);</b>
+<b class="nc">&nbsp;          if (!dir.exists() || dir.isDirectory()) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;ngramLangIdentData does not exist or is a directory (needs to be a ZIP file): &quot; + ngramLangIdentData);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          setNgramLangIdentData(dir);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not load properties from &#39;&quot; + file + &quot;&#39;&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addDynamicLanguages(Properties props) throws IOException {
+<b class="nc">&nbsp;    for (Object keyObj : props.keySet()) {</b>
+<b class="nc">&nbsp;      String key = (String)keyObj;</b>
+<b class="nc">&nbsp;      if (key.startsWith(&quot;lang-&quot;) &amp;&amp; !key.contains(&quot;-dictPath&quot;)) {</b>
+<b class="nc">&nbsp;        String code = key.substring(&quot;lang-&quot;.length());</b>
+<b class="nc">&nbsp;        if (!code.contains(&quot;-&quot;) &amp;&amp; code.length() != 2 &amp;&amp; code.length() != 3) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;code is supposed to be a 2 (or rarely 3) character code (unless it uses a format with variant, like xx-YY): &#39;&quot; + code + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String nameKey = &quot;lang-&quot; + code;</b>
+<b class="nc">&nbsp;        String name = props.getProperty(nameKey);</b>
+<b class="nc">&nbsp;        String dictPathKey = &quot;lang-&quot; + code + &quot;-dictPath&quot;;</b>
+<b class="nc">&nbsp;        String dictPath = props.getProperty(dictPathKey);</b>
+<b class="nc">&nbsp;        if (dictPath == null) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(dictPathKey + &quot; must be set&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        File dictPathFile = new File(dictPath);</b>
+<b class="nc">&nbsp;        if (!dictPathFile.exists() || !dictPathFile.isFile()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;dictionary file does not exist or is not a file: &#39;&quot; + dictPath + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ServerTools.print(&quot;Adding dynamic spell checker language &quot; + name + &quot;, code: &quot; + code + &quot;, dictionary: &quot; + dictPath);</b>
+<b class="nc">&nbsp;        Language lang = Languages.addLanguage(name, code, new File(dictPath));</b>
+&nbsp;        // better fail early in case of misconfiguration, so use the language now:
+<b class="nc">&nbsp;        if (!new File(lang.getCommonWordsPath()).exists()) {</b>
+<b class="nc">&nbsp;          throw new IllegalArgumentException(&quot;Common words path not found: &#39;&quot; + lang.getCommonWordsPath() + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;        lt.check(&quot;test&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setLanguageModelDirectory(String langModelDir) {
+<b class="nc">&nbsp;    SuggestionsOrdererConfig.setNgramsPath(langModelDir);</b>
+<b class="nc">&nbsp;    languageModelDir = new File(langModelDir);</b>
+<b class="nc">&nbsp;    if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;LanguageModel directory not found or is not a directory: &quot; + languageModelDir);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  void setFasttextPaths(String fasttextModelPath, String fasttextBinaryPath) {
+<b class="nc">&nbsp;    fasttextModel = new File(fasttextModelPath);</b>
+<b class="nc">&nbsp;    fasttextBinary = new File(fasttextBinaryPath);</b>
+<b class="nc">&nbsp;    if (!fasttextModel.exists() || fasttextModel.isDirectory()) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Fasttext model path not valid (file doesn&#39;t exist or is a directory): &quot; + fasttextModelPath);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!fasttextBinary.exists() || fasttextBinary.isDirectory() || !fasttextBinary.canExecute()) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Fasttext binary path not valid (file doesn&#39;t exist, is a directory or not executable): &quot; + fasttextBinaryPath);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /*
+&nbsp;   * @param verbose if true, the text to be checked will be displayed in case of exceptions
+&nbsp;   */
+&nbsp;  public boolean isVerbose() {
+<b class="nc">&nbsp;    return verbose;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isPublicAccess() {
+<b class="nc">&nbsp;    return publicAccess;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getPort() {
+<b class="nc">&nbsp;    return port;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public int getMinPort() {
+<b class="nc">&nbsp;    return minPort;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getMaxPort() {
+<b class="nc">&nbsp;    return maxPort;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Value to set as the &quot;Access-Control-Allow-Origin&quot; http header. {@code null}
+&nbsp;   * will not return that header at all. With {@code *} your server can be used from any other web site
+&nbsp;   * from Javascript/Ajax (search Cross-origin resource sharing (CORS) for details).
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getAllowOriginUrl() {
+<b class="nc">&nbsp;    return allowOriginUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public void setAllowOriginUrl(String allowOriginUrl) {
+<b class="nc">&nbsp;    this.allowOriginUrl = allowOriginUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.8
+&nbsp;   * @return prefix / base URL for API requests
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public URI getServerURL() {
+<b class="nc">&nbsp;    return serverURL;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.8
+&nbsp;   * @param url prefix / base URL for API requests
+&nbsp;   */
+&nbsp;  public void setServerURL(@Nullable String url) {
+<b class="nc">&nbsp;    if (url != null) {</b>
+&nbsp;      try {
+&nbsp;        // ignore different protocols, ports,... just use path for relative requests
+<b class="nc">&nbsp;        serverURL = new URI(new URI(url).getPath());</b>
+&nbsp;      } catch (URISyntaxException e) {
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;Could not parse provided serverURL: &#39;&quot; + url + &quot;&#39;&quot;, e);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      serverURL = null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param len the maximum text length allowed (in number of characters), texts that are longer
+&nbsp;   *            will cause an exception when being checked, unless the user can provide
+&nbsp;   *            an API key
+&nbsp;   */
+&nbsp;  public void setMaxTextLengthAnonymous(int len) {
+<b class="nc">&nbsp;    this.maxTextLengthAnonymous = len;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setMaxTextLengthLoggedIn(int len) {
+<b class="nc">&nbsp;    this.maxTextLengthLoggedIn = len;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setMaxTextLengthPremium(int len) {
+<b class="nc">&nbsp;    this.maxTextLengthPremium = len;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param len the maximum text length allowed (in number of characters), texts that are longer
+&nbsp;   *            will cause an exception when being checked even if the user can provide an API key
+&nbsp;   * @since 3.9
+&nbsp;   */
+&nbsp;  public void setMaxTextHardLength(int len) {
+<b class="nc">&nbsp;    this.maxTextHardLength = len;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getMaxTextLengthAnonymous() {
+<b class="nc">&nbsp;    return maxTextLengthAnonymous;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * For users that have an account, but no premium subscription
+&nbsp;   */
+&nbsp;  int getMaxTextLengthLoggedIn() {
+<b class="nc">&nbsp;    return maxTextLengthLoggedIn;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getMaxTextLengthPremium() {
+<b class="nc">&nbsp;    return maxTextLengthPremium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Limit for maximum text length - text cannot be longer than this, even if user has valid secret token.
+&nbsp;   * @since 3.9
+&nbsp;   */
+&nbsp;  int getMaxTextHardLength() {
+<b class="nc">&nbsp;    return maxTextHardLength;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;    @since 5.3
+&nbsp;    use a higher request limit for a list of users
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getRequestLimitWhitelistUsers() {
+<b class="nc">&nbsp;    return requestLimitWhitelistUsers;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRequestLimitWhitelistUsers(List&lt;String&gt; requestLimitWhitelistUsers) {
+<b class="nc">&nbsp;    this.requestLimitWhitelistUsers = requestLimitWhitelistUsers;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   @since 5.3
+&nbsp;   use a higher request limit for a list of users
+&nbsp;   */
+&nbsp;  public int getRequestLimitWhitelistLimit() {
+<b class="nc">&nbsp;    return requestLimitWhitelistLimit;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRequestLimitWhitelistLimit(int requestLimitWhitelistLimit) {
+<b class="nc">&nbsp;    this.requestLimitWhitelistLimit = requestLimitWhitelistLimit;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getRequestLimit() {
+<b class="nc">&nbsp;    return requestLimit;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /** @since 4.0 */
+&nbsp;  int getTimeoutRequestLimit() {
+<b class="nc">&nbsp;    return timeoutRequestLimit;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.0 */
+&nbsp;  int getRequestLimitInBytes() {
+<b class="nc">&nbsp;    return requestLimitInBytes;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  int getRequestLimitPeriodInSeconds() {
+<b class="nc">&nbsp;    return requestLimitPeriodInSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 6.3 */
+&nbsp;  public void setRequestLimit(int requestLimit) {
+<b class="nc">&nbsp;    this.requestLimit = requestLimit;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 6.3 */
+&nbsp;  public void setRequestLimitPeriodInSeconds(int requestLimitPeriodInSeconds) {
+<b class="nc">&nbsp;    this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /** 
+&nbsp;   * @since 6.3
+&nbsp;   * Can configure a secret value for the Header X-Request-Limit-Access-Token that allows skipping limtis
+&nbsp;   */
+&nbsp;  public String getRequestLimitAccessToken() {
+<b class="nc">&nbsp;    return requestLimitAccessToken;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 6.3 */
+&nbsp;  public void setRequestLimitAccessToken(String requestLimitAccessToken) {
+<b class="nc">&nbsp;    this.requestLimitAccessToken = requestLimitAccessToken;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** since 4.4
+&nbsp;   * @return
+&nbsp;   * if &gt; 0: allow n more requests per IP if fingerprints differ
+&nbsp;   * if &lt;= 0: disable fingerprinting, only rely on IP address
+&nbsp;   *  */
+&nbsp;  int getIpFingerprintFactor() {
+<b class="nc">&nbsp;    return ipFingerprintFactor;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param maxCheckTimeMillis The maximum duration allowed for a single check in milliseconds, checks that take longer
+&nbsp;   *                      will stop with an exception. Use {@code -1} for no limit.
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  void setMaxCheckTimeMillisAnonymous(int maxCheckTimeMillis) {
+<b class="nc">&nbsp;    this.maxCheckTimeMillisAnonymous = maxCheckTimeMillis;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  long getMaxCheckTimeMillisAnonymous() {
+<b class="nc">&nbsp;    return maxCheckTimeMillisAnonymous;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  void setMaxCheckTimeMillisLoggedIn(int maxCheckTimeMillis) {
+<b class="nc">&nbsp;    this.maxCheckTimeMillisLoggedIn = maxCheckTimeMillis;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  long getMaxCheckTimeMillisLoggedIn() {
+<b class="nc">&nbsp;    return maxCheckTimeMillisLoggedIn;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  void setMaxCheckTimeMillisPremium(int maxCheckTimeMillis) {
+<b class="nc">&nbsp;    this.maxCheckTimeMillisPremium = maxCheckTimeMillis;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  @Experimental
+&nbsp;  long getMaxCheckTimeMillisPremium() {
+<b class="nc">&nbsp;    return maxCheckTimeMillisPremium;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get language model directory (which contains &#39;3grams&#39; sub directory) or {@code null}.
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  File getLanguageModelDir() {
+<b class="nc">&nbsp;    return languageModelDir;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get model path for fasttext language detection
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public File getFasttextModel() {
+<b class="nc">&nbsp;    return fasttextModel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set model path for fasttext language detection
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  public void setFasttextModel(File model) {
+<b class="nc">&nbsp;    fasttextModel = Objects.requireNonNull(model);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get binary path for fasttext language detection
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public File getFasttextBinary() {
+<b class="nc">&nbsp;    return fasttextBinary;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set binary path for fasttext language detection
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  public void setFasttextBinary(File binary) {
+<b class="nc">&nbsp;    fasttextBinary = Objects.requireNonNull(binary);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.7 */
+&nbsp;  Mode getMode() {
+<b class="nc">&nbsp;    return mode;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param maxCheckThreads The maximum number of threads serving requests running at the same time.
+&nbsp;   * If there are more requests, they will be queued until a thread can work on them.
+&nbsp;   * @since 2.7
+&nbsp;   */
+&nbsp;  void setMaxCheckThreads(int maxCheckThreads) {
+<b class="nc">&nbsp;    this.maxCheckThreads = maxCheckThreads;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.7 */
+&nbsp;  int getMaxCheckThreads() {
+<b class="nc">&nbsp;    return maxCheckThreads;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param maxTextCheckerThreads The maximum number of threads in the worker pool processing text checks running at the same time.
+&nbsp;   * @since 5.6
+&nbsp;   */
+&nbsp;  void setMaxTextCheckerThreads(int maxTextCheckerThreads) {
+<b class="nc">&nbsp;    this.maxTextCheckerThreads = maxTextCheckerThreads;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.6 */
+&nbsp;  int getMaxTextCheckerThreads() {
+&nbsp;    // unset - use maxCheckThreads
+<b class="nc">&nbsp;    return maxTextCheckerThreads != 0 ? maxTextCheckerThreads : maxCheckThreads;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getTextCheckerQueueSize() {
+<b class="nc">&nbsp;    return textCheckerQueueSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setTextCheckerQueueSize(int textCheckerQueueSize) {
+<b class="nc">&nbsp;    this.textCheckerQueueSize = textCheckerQueueSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set to {@code true} if this is running behind a (reverse) proxy which
+&nbsp;   * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
+&nbsp;   * in that header will then be used for enforcing a request limitation.
+&nbsp;   * @since 2.8
+&nbsp;   */
+&nbsp;  void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
+<b class="nc">&nbsp;    this.trustXForwardForHeader = trustXForwardForHeader;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.8 */
+&nbsp;  boolean getTrustXForwardForHeader() {
+<b class="nc">&nbsp;    return trustXForwardForHeader;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.9 */
+&nbsp;  int getMaxWorkQueueSize() {
+<b class="nc">&nbsp;    return maxWorkQueueSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   * Cache initialized JLanguageTool instances and share between non-parallel requests with identical parameters.
+&nbsp;   * Improves response time (especially when dealing with many small requests without specific settings),
+&nbsp;   * but increases memory usage
+&nbsp;   */
+&nbsp;  public boolean isPipelineCachingEnabled() {
+<b class="nc">&nbsp;    return pipelineCaching;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   * Before starting to listen for requests, create a few pipelines for frequently used request settings
+&nbsp;   * and run simple checks on them; prevents long response time / request overload on the first real incoming requests
+&nbsp;   */
+&nbsp;  public boolean isPipelinePrewarmingEnabled() {
+<b class="nc">&nbsp;    return pipelinePrewarming;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   * Keep pipelines ready for this many different request settings
+&nbsp;   */
+&nbsp;  public int getMaxPipelinePoolSize() {
+<b class="nc">&nbsp;    return maxPipelinePoolSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   * Expire pipelines for a specific request setting after this many seconds without any matching request elapsed
+&nbsp;   */
+&nbsp;  public int getPipelineExpireTime() {
+<b class="nc">&nbsp;    return pipelineExpireTime;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  public void setPipelineCaching(boolean pipelineCaching) {
+<b class="nc">&nbsp;    this.pipelineCaching = pipelineCaching;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  public void setPipelinePrewarming(boolean pipelinePrewarming) {
+<b class="nc">&nbsp;    this.pipelinePrewarming = pipelinePrewarming;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  public void setMaxPipelinePoolSize(int maxPipelinePoolSize) {
+<b class="nc">&nbsp;    this.maxPipelinePoolSize = maxPipelinePoolSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  public void setPipelineExpireTime(int pipelineExpireTime) {
+<b class="nc">&nbsp;    this.pipelineExpireTime = pipelineExpireTime;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Cache size (in number of sentences).
+&nbsp;   * @since 3.7
+&nbsp;   */
+&nbsp;  int getCacheSize() {
+<b class="nc">&nbsp;    return cacheSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** 
+&nbsp;   * Set cache size (in number of sentences).
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  void setCacheSize(int sentenceCacheSize) {
+<b class="nc">&nbsp;    this.cacheSize = sentenceCacheSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Cache entry TTL; refreshed on access; in seconds
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  long getCacheTTLSeconds() {
+<b class="nc">&nbsp;    return cacheTTLSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Set cache entry TTL in seconds
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  void setCacheTTLSeconds(long cacheTTLSeconds) {
+<b class="nc">&nbsp;    this.cacheTTLSeconds = cacheTTLSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Maximum errors per word rate, checking will stop if the rate is higher.
+&nbsp;   * For example, with a rate of 0.33, the checking would stop if the user&#39;s
+&nbsp;   * text has so many errors that more than every 3rd word causes a rule match.
+&nbsp;   * Note that this may not apply for very short texts.
+&nbsp;   * @since 4.0
+&nbsp;   */
+&nbsp;  float getMaxErrorsPerWordRate() {
+<b class="nc">&nbsp;    return maxErrorsPerWordRate;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Maximum number of spelling errors for which a suggestion will be generated
+&nbsp;   * per check. It makes sense to limit this as generating suggestions is a CPU-heavy task.
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  int getMaxSpellingSuggestions() {
+<b class="nc">&nbsp;    return maxSpellingSuggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A list of HTTP referrers that are blocked and will only get an error message.
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  List&lt;String&gt; getBlockedReferrers() {
+<b class="nc">&nbsp;    return blockedReferrers;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  void setBlockedReferrers(List&lt;String&gt; blockedReferrers) {
+<b class="nc">&nbsp;    this.blockedReferrers = Objects.requireNonNull(blockedReferrers);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public Pattern getTrustedSources() {
+<b class="nc">&nbsp;    return this.trustedSources;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setTrustedSources(String pattern) {
+<b class="nc">&nbsp;    if (pattern == null) {</b>
+<b class="nc">&nbsp;      this.trustedSources = null;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.trustedSources = Pattern.compile(pattern);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the file from which server rules configuration should be loaded, or {@code null}
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  File getRulesConfigFile() {
+<b class="nc">&nbsp;    return rulesConfigFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the file from which remote rules should be configured, or {@code null}
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  File getRemoteRulesConfigFile() {
+<b class="nc">&nbsp;    return remoteRulesConfigFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the database driver name like {@code org.mariadb.jdbc.Driver}, or {@code null}
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  String getDatabaseDriver() {
+<b class="nc">&nbsp;    return dbDriver;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  void setDatabaseDriver(String dbDriver) {
+<b class="nc">&nbsp;    this.dbDriver = dbDriver;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the database url like {@code jdbc:mysql://localhost:3306/languagetool}, or {@code null}
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  String getDatabaseUrl() {
+<b class="nc">&nbsp;    return dbUrl;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  void setDatabaseUrl(String dbUrl) {
+<b class="nc">&nbsp;    this.dbUrl = dbUrl;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return the database username, or {@code null}
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  String getDatabaseUsername() {
+<b class="nc">&nbsp;    return dbUsername;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  void setDatabaseUsername(String dbUsername) {
+<b class="nc">&nbsp;    this.dbUsername = dbUsername;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return the database password matching {@link #getDatabaseUsername()}, or {@code null}
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  String getDatabasePassword() {
+<b class="nc">&nbsp;    return dbPassword;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  void setDatabasePassword(String dbPassword) {
+<b class="nc">&nbsp;    this.dbPassword = dbPassword;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Whether meta data about each search (like in the logfile) should be logged to the database.
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  void setDatabaseLogging(boolean logging) {
+<b class="nc">&nbsp;    this.dbLogging = logging;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   */
+&nbsp;  boolean getDatabaseLogging() {
+<b class="nc">&nbsp;    return this.dbLogging;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * timeout for database requests (for now, only requests for credentials to log in)
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public long getDbTimeoutSeconds() {
+<b class="nc">&nbsp;    return dbTimeoutSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * timeout for database requests (for now, only requests for credentials to log in)
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public void setDbTimeoutSeconds(long dbTimeoutSeconds) {
+<b class="nc">&nbsp;    this.dbTimeoutSeconds = dbTimeoutSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Rate in percent of requests (0-100) of timeouts during database queries until circuit breaker opens
+&nbsp;   * @since 5.5
+&nbsp;   */
+&nbsp;  public int getDatabaseTimeoutRateThreshold() {
+<b class="nc">&nbsp;    return databaseTimeoutRateThreshold;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setDatabaseTimeoutRateThreshold(int databaseTimeoutRateThreshold) {
+<b class="nc">&nbsp;    this.databaseTimeoutRateThreshold = databaseTimeoutRateThreshold;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Rate in percent of requests (0-100) of errors during database queries until circuit breaker opens
+&nbsp;   * @since 5.5
+&nbsp;   */
+&nbsp;  public int getDatabaseErrorRateThreshold() {
+<b class="nc">&nbsp;    return databaseErrorRateThreshold;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setDatabaseErrorRateThreshold(int databaseErrorRateThreshold) {
+<b class="nc">&nbsp;    this.databaseErrorRateThreshold = databaseErrorRateThreshold;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Number of seconds to skip database requests when a potential downtime has been detected
+&nbsp;   * @since 5.5
+&nbsp;   */
+&nbsp;  public int getDatabaseDownIntervalSeconds() {
+<b class="nc">&nbsp;    return databaseDownIntervalSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setDatabaseDownIntervalSeconds(int databaseDownIntervalSeconds) {
+<b class="nc">&nbsp;    this.databaseDownIntervalSeconds = databaseDownIntervalSeconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether requests with credentials should be treated as anonymous requests in case of DB errors/timeout or
+&nbsp;   * throw an error
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public boolean getGracefulDatabaseFailure() {
+<b class="nc">&nbsp;    return gracefulDatabaseFailure;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether requests with credentials should be treated as anonymous requests in case of DB errors/timeout or
+&nbsp;   * throw an error
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public void setGracefulDatabaseFailure(boolean gracefulDatabaseFailure) {
+<b class="nc">&nbsp;    this.gracefulDatabaseFailure = gracefulDatabaseFailure;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  public boolean isPrometheusMonitoring() {
+<b class="nc">&nbsp;    return prometheusMonitoring;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  public int getPrometheusPort() {
+<b class="nc">&nbsp;    return prometheusPort;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getRedisHost() {
+<b class="nc">&nbsp;    return redisHost;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getRedisPort() {
+<b class="nc">&nbsp;    return redisPort;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getRedisDatabase() {
+<b class="nc">&nbsp;    return redisDatabase;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isRedisUseSSL() {
+<b class="nc">&nbsp;    return redisUseSSL;</b>
+&nbsp;  }
+&nbsp;  @Nullable
+&nbsp;  public String getRedisPassword() {
+<b class="nc">&nbsp;    return redisPassword;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public long getRedisDictTTLSeconds() {
+<b class="nc">&nbsp;    return redisDictTTL;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Timeout for regular commands
+&nbsp;   * @return
+&nbsp;   */
+&nbsp;  public long getRedisTimeoutMilliseconds() {
+<b class="nc">&nbsp;    return redisTimeout;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Timeout for establishing the initial connection, including e.g. SSL handshake
+&nbsp;   * and commands like SENTINEL, ...
+&nbsp;   */
+&nbsp;  public long getRedisConnectionMilliseconds() {
+<b class="nc">&nbsp;    return redisConnectionTimeout;</b>
+&nbsp;  }
+&nbsp;  // TODO could introduce &#39;expire after access&#39; logic, i.e. refresh expire when reading
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   * @return threshold for rule computation time until a warning gets logged, in milliseconds
+&nbsp;   */
+&nbsp;  public int getSlowRuleLoggingThreshold() {
+<b class="nc">&nbsp;    return slowRuleLoggingThreshold;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  boolean isSkipLoggingRuleMatches() {
+<b class="nc">&nbsp;    return this.skipLoggingRuleMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  public boolean isSkipLoggingChecks() {
+<b class="nc">&nbsp;    return skipLoggingChecks;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getDisabledRuleIds() {
+<b class="nc">&nbsp;    return disabledRuleIds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Whether the server can be stopped by sending a command (useful for tests only).
+&nbsp;   */
+&nbsp;  boolean isStoppable() {
+<b class="nc">&nbsp;    return stoppable;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   * Get a list of active A/B-Tests
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getAbTest() {
+<b class="nc">&nbsp;    return abTest;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.4
+&nbsp;   * Enable A/B-Tests to be run (comma seperated for a list or null to disable all tests)
+&nbsp;   */
+&nbsp;  public void setAbTest(@Nullable String abTest) {
+<b class="nc">&nbsp;    if (abTest != null &amp;&amp; !abTest.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      this.abTest = new ArrayList&lt;&gt;(Arrays.asList(abTest.trim().split(&quot;,&quot;)));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.abTest = Collections.emptyList();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Clients that a A/B test runs on; null -&amp;gt; disabled
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  @Nullable
+&nbsp;  public Pattern getAbTestClients() {
+<b class="nc">&nbsp;    return abTestClients;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Clients that a A/B test runs on; null -&amp;gt; disabled
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  public void setAbTestClients(@Nullable String pattern) {
+<b class="nc">&nbsp;    if (pattern == null) {</b>
+<b class="nc">&nbsp;      this.abTestClients = null;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.abTestClients = Pattern.compile(pattern);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param abTestRollout percentage [0,100] of users to include in ab test rollout
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  public void setAbTestRollout(int abTestRollout) {
+<b class="nc">&nbsp;    this.abTestRollout = abTestRollout;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.9
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  public int getAbTestRollout() {
+<b class="nc">&nbsp;    return abTestRollout;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.2 */
+&nbsp;  public void setNgramLangIdentData(File ngramLangIdentData) {
+<b class="nc">&nbsp;    this.ngramLangIdentData = ngramLangIdentData;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.2 */
+&nbsp;  @Nullable
+&nbsp;  public File getNgramLangIdentData() {
+<b class="nc">&nbsp;    return ngramLangIdentData;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @throws IllegalConfigurationException if property is not set 
+&nbsp;   */
+&nbsp;  protected String getProperty(Properties props, String propertyName, File config) {
+<b class="nc">&nbsp;    String propertyValue = (String)props.get(propertyName);</b>
+<b class="nc">&nbsp;    if (propertyValue == null || propertyValue.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new IllegalConfigurationException(&quot;Property &#39;&quot; + propertyName + &quot;&#39; must be set in &quot; + config);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return propertyValue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
+<b class="nc">&nbsp;    String propertyValue = (String)props.get(propertyName);</b>
+<b class="nc">&nbsp;    if (propertyValue == null) {</b>
+<b class="nc">&nbsp;      return defaultValue;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return propertyValue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  boolean isPremiumAlways() {
+<b class="nc">&nbsp;    return premiumAlways;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.1 */
+&nbsp;  void setPremiumAlways(boolean premiumAlways) {
+<b class="nc">&nbsp;    this.premiumAlways = premiumAlways;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isPremiumOnly() {
+<b class="nc">&nbsp;    return premiumOnly;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Allow using redis sentinel for automated failover */
+&nbsp;  public boolean isRedisUseSentinel() {
+<b class="nc">&nbsp;    return redisUseSentinel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRedisUseSentinel(boolean redisUseSentinel) {
+<b class="nc">&nbsp;    this.redisUseSentinel = redisUseSentinel;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getSentinelHost() {
+<b class="nc">&nbsp;    return sentinelHost;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setSentinelHost(String sentinelHost) {
+<b class="nc">&nbsp;    this.sentinelHost = sentinelHost;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getSentinelPort() {
+<b class="nc">&nbsp;    return sentinelPort;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setSentinelPort(int sentinelPort) {
+<b class="nc">&nbsp;    this.sentinelPort = sentinelPort;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getSentinelPassword() {
+<b class="nc">&nbsp;    return sentinelPassword;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setSentinelPassword(String sentinelPassword) {
+<b class="nc">&nbsp;    this.sentinelPassword = sentinelPassword;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getSentinelMasterId() {
+<b class="nc">&nbsp;    return sentinelMasterId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setSentinelMasterId(String sentinelMasterId) {
+<b class="nc">&nbsp;    this.sentinelMasterId = sentinelMasterId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getRedisCertificate() {
+<b class="nc">&nbsp;    return redisCertificate;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRedisCertificate(String redisCertificate) {
+<b class="nc">&nbsp;    this.redisCertificate = redisCertificate;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getRedisKey() {
+<b class="nc">&nbsp;    return redisKey;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRedisKey(String redisKey) {
+<b class="nc">&nbsp;    this.redisKey = redisKey;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getRedisKeyPassword() {
+<b class="nc">&nbsp;    return redisKeyPassword;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRedisKeyPassword(String redisKeyPassword) {
+<b class="nc">&nbsp;    this.redisKeyPassword = redisKeyPassword;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getPasswortLoginAccessListPath() {
+<b class="nc">&nbsp;    return passwortLoginAccessListPath;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isLocalApiMode() {
+<b class="nc">&nbsp;    return localApiMode;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getMotherTongue() {
+<b class="nc">&nbsp;    return motherTongue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;String&gt; getPreferedLanguages() {
+<b class="nc">&nbsp;    return preferredLanguages;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getDictLimitUser() {
+<b class="nc">&nbsp;    return dictLimitUser;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getDictLimitTeam() {
+<b class="nc">&nbsp;    return dictLimitTeam;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getStyleGuideLimitUser() {
+<b class="nc">&nbsp;    return styleGuideLimitUser;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getStyleGuideLimitTeam() {
+<b class="nc">&nbsp;    return styleGuideLimitTeam;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.2
+&nbsp;   * @return max number of active connections in DB connection pool
+&nbsp;   */ 
+&nbsp;  public int getDbMaxConnections() {
+<b class="nc">&nbsp;    return dbMaxConnections;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.2
+&nbsp;   * @param dbMaxConnections max number of active connections in DB connection pool
+&nbsp;   */ 
+&nbsp;  public void setDbMaxConnections(int dbMaxConnections) {
+<b class="nc">&nbsp;    this.dbMaxConnections = dbMaxConnections;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 6.4
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public File getRuleIdToConfidenceFile() {
+<b class="nc">&nbsp;    return ruleIdToConfidenceFile;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

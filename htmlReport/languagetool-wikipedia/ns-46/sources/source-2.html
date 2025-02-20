@@ -1,0 +1,382 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikSpeller</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.morfologik</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikSpeller (org.languagetool.rules.spelling.morfologik)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikSpeller</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/56)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/70)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MorfologikSpeller$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/75)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.spelling.morfologik;
+&nbsp;
+&nbsp;import com.google.common.cache.*;
+&nbsp;import morfologik.speller.Speller;
+&nbsp;import morfologik.stemming.Dictionary;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.broker.ResourceDataBroker;
+&nbsp;import org.languagetool.rules.patterns.StringMatcher;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Morfologik-based spell checker.
+&nbsp; */
+&nbsp;public class MorfologikSpeller {
+&nbsp;  
+&nbsp;  // Speed up the server use case, where rules get initialized for every call.
+&nbsp;  // See https://github.com/morfologik/morfologik-stemming/issues/69 for confirmation that
+&nbsp;  // Dictionary is thread-safe:
+<b class="nc">&nbsp;  private static final LoadingCache&lt;String, Dictionary&gt; dictCache = CacheBuilder.newBuilder()</b>
+&nbsp;      //.maximumSize(0)
+<b class="nc">&nbsp;      .expireAfterWrite(10, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;      .build(new CacheLoader&lt;String, Dictionary&gt;() {</b>
+&nbsp;        @Override
+&nbsp;        public Dictionary load(@NotNull String fileInClassPath) throws IOException {
+<b class="nc">&nbsp;          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();</b>
+<b class="nc">&nbsp;          if (dataBroker.resourceExists(fileInClassPath)) {</b>
+<b class="nc">&nbsp;            return Dictionary.read(dataBroker.getFromResourceDirAsUrl(fileInClassPath));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            return Dictionary.read(Paths.get(fileInClassPath));</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      });
+&nbsp;
+&nbsp;  private final Dictionary dictionary;
+&nbsp;  private final Speller speller;
+&nbsp;  private final int maxEditDistance;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a speller with the given maximum edit distance.
+&nbsp;   * @param fileInClassPath path in classpath to morfologik dictionary
+&nbsp;   */
+&nbsp;  public MorfologikSpeller(String fileInClassPath, int maxEditDistance) {
+<b class="nc">&nbsp;    this(getDictionaryWithCaching(fileInClassPath), maxEditDistance);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a speller with a maximum edit distance of one.
+&nbsp;   * @param fileInClassPath path in classpath to morfologik dictionary
+&nbsp;   */
+&nbsp;  public MorfologikSpeller(String fileInClassPath) throws IOException {
+<b class="nc">&nbsp;    this(fileInClassPath, 1);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 2.9 */
+<b class="nc">&nbsp;  MorfologikSpeller(Dictionary dictionary, int maxEditDistance) {</b>
+<b class="nc">&nbsp;    if (maxEditDistance &lt;= 0) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;maxEditDistance must be &gt; 0: &quot; + maxEditDistance);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.dictionary = dictionary;</b>
+<b class="nc">&nbsp;    this.maxEditDistance = maxEditDistance;</b>
+<b class="nc">&nbsp;    speller = new Speller(dictionary, maxEditDistance);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Load a dictionary from the given path or reuse a cached instance, if present.
+&nbsp;   * @param fileInClassPath path in classpath to morfologik dictionary
+&nbsp;   */
+&nbsp;  public static Dictionary getDictionaryWithCaching(@NotNull String fileInClassPath) {
+<b class="nc">&nbsp;    return dictCache.getUnchecked(fileInClassPath);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isMisspelled(String word) {
+<b class="nc">&nbsp;    if (word.isEmpty() || SpellingCheckRule.LANGUAGETOOL.equals(word) || SpellingCheckRule.LANGUAGETOOLER.equals(word)) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    synchronized (this) {</b>
+<b class="nc">&nbsp;      return speller.isMisspelled(word);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public synchronized List&lt;String&gt; findReplacements(String word) {
+<b class="nc">&nbsp;    return speller.findReplacements(word);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public synchronized List&lt;String&gt; findSimilarWords(String word) {
+<b class="nc">&nbsp;    return speller.findSimilarWords(word);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @deprecated use (or introduce) other methods to this class which would take care of the necessary synchronization
+&nbsp;   */
+&nbsp;  @Deprecated
+&nbsp;  public Speller getSpeller() {
+<b class="nc">&nbsp;    return speller;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;WeightedSuggestion&gt; getSuggestions(String word) {
+<b class="nc">&nbsp;    List&lt;WeightedSuggestion&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (word.length() &gt; StringMatcher.MAX_MATCH_LENGTH) {</b>
+<b class="nc">&nbsp;      return suggestions;</b>
+&nbsp;    }
+&nbsp;    // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
+&nbsp;    // output changes when reused
+<b class="nc">&nbsp;    Speller speller = new Speller(dictionary, maxEditDistance);</b>
+&nbsp;    List&lt;Speller.CandidateData&gt; replacementCandidates;
+<b class="nc">&nbsp;    if (word.length() &lt; 50) {   // slow for long words (the limit is arbitrary)</b>
+<b class="nc">&nbsp;      replacementCandidates = speller.findReplacementCandidates(word);</b>
+<b class="nc">&nbsp;      for (Speller.CandidateData candidate : replacementCandidates) {</b>
+<b class="nc">&nbsp;        suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance()));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;Speller.CandidateData&gt; runOnCandidates = speller.replaceRunOnWordCandidates(word);</b>
+<b class="nc">&nbsp;    for (Speller.CandidateData runOnCandidate : runOnCandidates) {</b>
+<b class="nc">&nbsp;      suggestions.add(new WeightedSuggestion(runOnCandidate.getWord(), runOnCandidate.getDistance()));</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    // all upper-case suggestions if necessary
+<b class="nc">&nbsp;    if (dictionary.metadata.isConvertingCase() &amp;&amp; StringTools.isAllUppercase(word)) {</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; suggestions.size(); i++) {</b>
+<b class="nc">&nbsp;        WeightedSuggestion sugg = suggestions.get(i);</b>
+<b class="nc">&nbsp;        String allUppercase = sugg.getWord().toUpperCase();</b>
+&nbsp;        // do not use capitalized word if it matches the original word or it&#39;s mixed case
+<b class="nc">&nbsp;        if (allUppercase.equals(word) || StringTools.isMixedCase(suggestions.get(i).getWord())) {</b>
+<b class="nc">&nbsp;          allUppercase = sugg.getWord();</b>
+&nbsp;        }
+&nbsp;        // remove duplicates
+<b class="nc">&nbsp;        int auxIndex = getSuggestionIndex(suggestions, allUppercase);</b>
+<b class="nc">&nbsp;        if (auxIndex &gt; i) {</b>
+<b class="nc">&nbsp;          suggestions.remove(auxIndex);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (auxIndex &gt; -1 &amp;&amp; auxIndex &lt; i) {</b>
+<b class="nc">&nbsp;          suggestions.remove(i);</b>
+<b class="nc">&nbsp;          i--;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          suggestions.set(i, new WeightedSuggestion(allUppercase, sugg.getWeight()));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // capitalize suggestions if necessary
+<b class="nc">&nbsp;    else if (dictionary.metadata.isConvertingCase() &amp;&amp; StringTools.startsWithUppercase(word)) {</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; suggestions.size(); i++) {</b>
+<b class="nc">&nbsp;        WeightedSuggestion sugg = suggestions.get(i);</b>
+<b class="nc">&nbsp;        String uppercaseFirst = StringTools.uppercaseFirstChar(sugg.getWord());</b>
+&nbsp;        // do not use capitalized word if it matches the original word or it&#39;s mixed case
+<b class="nc">&nbsp;        if (uppercaseFirst.equals(word) || StringTools.isMixedCase(suggestions.get(i).getWord())) {</b>
+<b class="nc">&nbsp;          uppercaseFirst = sugg.getWord();</b>
+&nbsp;        }
+&nbsp;        // remove capitalized duplicates
+<b class="nc">&nbsp;        int auxIndex = getSuggestionIndex(suggestions, uppercaseFirst);</b>
+<b class="nc">&nbsp;        if (auxIndex &gt; i) {</b>
+<b class="nc">&nbsp;          suggestions.remove(auxIndex);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (auxIndex &gt; -1 &amp;&amp; auxIndex &lt; i) {</b>
+<b class="nc">&nbsp;          suggestions.remove(i);</b>
+<b class="nc">&nbsp;          i--;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          suggestions.set(i, new WeightedSuggestion(uppercaseFirst, sugg.getWeight()));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getSuggestionIndex(List&lt;WeightedSuggestion&gt; suggestions, String uppercaseFirst) {
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (WeightedSuggestion suggestion : suggestions) {</b>
+<b class="nc">&nbsp;      if (suggestion.getWord().equals(uppercaseFirst)) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      i++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Determines whether the dictionary uses case conversions.
+&nbsp;   * @return True when the speller uses spell conversions.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public boolean convertsCase() {
+<b class="nc">&nbsp;    return speller.convertsCase();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return &quot;dist=&quot; + maxEditDistance;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public synchronized int getFrequency(String word) {
+<b class="nc">&nbsp;    int freq = speller.getFrequency(word);</b>
+<b class="nc">&nbsp;    if (freq == 0 &amp;&amp; !word.equals(word.toLowerCase())) {</b>
+<b class="nc">&nbsp;      freq = speller.getFrequency(word.toLowerCase());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return freq;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

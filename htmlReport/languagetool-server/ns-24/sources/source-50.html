@@ -1,0 +1,281 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RuleOption</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleOption (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleOption</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class to configure rule option by option panel
+&nbsp; * @author Fred Kruse
+&nbsp; * @since 6.5
+&nbsp; */
+&nbsp;public class RuleOption {
+&nbsp;
+&nbsp;  public final static String DEFAULT_VALUE = &quot;defaultValue&quot;;
+&nbsp;  public final static String DEFAULT_TYPE = &quot;defaultType&quot;;
+&nbsp;  public final static String MIN_CONF_VALUE = &quot;minConfigurableValue&quot;;
+&nbsp;  public final static String MAX_CONF_VALUE = &quot;maxConfigurableValue&quot;;
+&nbsp;  public final static String CONF_TEXT = &quot;configureText&quot;;
+&nbsp;
+&nbsp;  private final Object defaultValue;
+&nbsp;  private final String configureText;
+&nbsp;  private final Object minConfigurableValue;
+&nbsp;  private final Object maxConfigurableValue;
+&nbsp;  
+<b class="nc">&nbsp;  public RuleOption(Object defaultValue, String configureText, Object minConfigurableValue, Object maxConfigurableValue) {</b>
+<b class="nc">&nbsp;    this.defaultValue = defaultValue;</b>
+<b class="nc">&nbsp;    this.configureText = configureText;</b>
+<b class="nc">&nbsp;    if (minConfigurableValue != null &amp;&amp; maxConfigurableValue != null &amp;&amp; </b>
+&nbsp;        (defaultValue instanceof Integer || defaultValue instanceof Character || 
+&nbsp;            defaultValue instanceof Float || defaultValue instanceof Double)) {
+<b class="nc">&nbsp;      this.minConfigurableValue = minConfigurableValue;</b>
+<b class="nc">&nbsp;      this.maxConfigurableValue = maxConfigurableValue;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      this.minConfigurableValue = 0;</b>
+<b class="nc">&nbsp;      this.maxConfigurableValue = 100;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  public RuleOption(Object defaultValue, String configureText) {
+<b class="nc">&nbsp;    this(defaultValue, configureText, 0 , 100);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get a default Value by option panel
+&nbsp;   */
+&nbsp;  public Object getDefaultValue() {
+<b class="nc">&nbsp;    return defaultValue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the Configuration Text by option panel
+&nbsp;   */
+&nbsp;  public String getConfigureText() {
+<b class="nc">&nbsp;    return configureText;</b>
+&nbsp;  }
+&nbsp;  /**
+&nbsp;   * Get the minimum of a configurable value
+&nbsp;   */
+&nbsp;  public Object getMinConfigurableValue() {
+<b class="nc">&nbsp;    return minConfigurableValue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the maximum of a configurable value
+&nbsp;   */
+&nbsp;  public Object getMaxConfigurableValue() {
+<b class="nc">&nbsp;    return maxConfigurableValue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gives back a special String representation of an Object for save or communication
+&nbsp;   * add a character to characterize the type of object before its String value
+&nbsp;   * (i for Integer, b for Boolean, etc.
+&nbsp;   * Can be decoded by StringToObject
+&nbsp;   */
+&nbsp;  public static String objectToString(Object o) {
+&nbsp;    char c;
+<b class="nc">&nbsp;    if (o instanceof Integer) {</b>
+<b class="nc">&nbsp;      c = &#39;i&#39;;</b>
+<b class="nc">&nbsp;    } else if (o instanceof Character) {</b>
+<b class="nc">&nbsp;      c = &#39;c&#39;;</b>
+<b class="nc">&nbsp;    } else if (o instanceof Boolean) {</b>
+<b class="nc">&nbsp;      c = &#39;b&#39;;</b>
+<b class="nc">&nbsp;    } else if (o instanceof Float) {</b>
+<b class="nc">&nbsp;      c = &#39;f&#39;;</b>
+<b class="nc">&nbsp;    } else if (o instanceof Double) {</b>
+<b class="nc">&nbsp;      c = &#39;d&#39;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      c = &#39;s&#39;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return c + o.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gives back a special String representation of an array of Objects for save or communication
+&nbsp;   * use ObjectToString for encoding the single objects
+&nbsp;   * separate the objects by &#39;;&#39;
+&nbsp;   * Can be decoded by StringToObjects
+&nbsp;   */
+&nbsp;  public static String objectsToString(Object[] o) {
+<b class="nc">&nbsp;    String s = &quot;&quot;;</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; o.length; i++) {</b>
+<b class="nc">&nbsp;      if (i &gt; 0) {</b>
+<b class="nc">&nbsp;        s += &quot;;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      s += objectToString(o[i]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * decodes an String to an object encoded by ObjectToString
+&nbsp;   * Note: if there is no special encoding character at the beginning of the string
+&nbsp;   *       an integer is assumed for compatibility with older versions of LT
+&nbsp;   */
+&nbsp;  public static Object stringToObject(String s) {
+&nbsp;    Object o;
+<b class="nc">&nbsp;    char c = s.charAt(0);</b>
+<b class="nc">&nbsp;    String str = s.substring(1);</b>
+<b class="nc">&nbsp;    if (c == &#39;s&#39;) {</b>
+<b class="nc">&nbsp;      o = str;</b>
+<b class="nc">&nbsp;    } else if (c == &#39;b&#39;) {</b>
+<b class="nc">&nbsp;      o = Boolean.parseBoolean(str);</b>
+<b class="nc">&nbsp;    } else if (c == &#39;f&#39;) {</b>
+<b class="nc">&nbsp;      o = Float.parseFloat(str);</b>
+<b class="nc">&nbsp;    } else if (c == &#39;d&#39;) {</b>
+<b class="nc">&nbsp;      o = Double.parseDouble(str);</b>
+<b class="nc">&nbsp;    } else if (c == &#39;c&#39;) {</b>
+<b class="nc">&nbsp;      o = str.charAt(0);</b>
+<b class="nc">&nbsp;    } else if (c == &#39;i&#39;) {</b>
+<b class="nc">&nbsp;      o = Integer.parseInt(str);</b>
+&nbsp;    } else {  //  compatible to old version 
+<b class="nc">&nbsp;      o = Integer.parseInt(s);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return o;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * decodes an String to an array of object encoded by ObjectsToString
+&nbsp;   */
+&nbsp;  public static Object[] stringToObjects(String s) {
+<b class="nc">&nbsp;    String[] strs = s.split(&quot;;&quot;);</b>
+<b class="nc">&nbsp;    Object[] o = new Object[strs.length];</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; strs.length; i++) {</b>
+<b class="nc">&nbsp;      String str = strs[i].trim();</b>
+<b class="nc">&nbsp;      o[i] = stringToObject(str);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return o;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

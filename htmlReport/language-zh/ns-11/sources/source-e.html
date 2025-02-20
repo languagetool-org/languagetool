@@ -1,0 +1,515 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WikipediaQuickCheck</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.wikipedia</a>
+</div>
+
+<h1>Coverage Summary for Class: WikipediaQuickCheck (org.languagetool.dev.wikipedia)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WikipediaQuickCheck</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/120)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">WikipediaQuickCheck$RevisionContentHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/133)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.wikipedia;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.StringReader;
+&nbsp;import java.net.HttpURLConnection;
+&nbsp;import java.net.SocketTimeoutException;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import javax.xml.parsers.SAXParser;
+&nbsp;import javax.xml.parsers.SAXParserFactory;
+&nbsp;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.MultiThreadedJLanguageTool;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.xml.sax.Attributes;
+&nbsp;import org.xml.sax.InputSource;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;import org.xml.sax.helpers.DefaultHandler;
+&nbsp;
+&nbsp;/**
+&nbsp; * Check a Wikipedia page (without spell check), fetching the page via the MediaWiki API.
+&nbsp; */
+&nbsp;public class WikipediaQuickCheck {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern WIKIPEDIA_URL_REGEX = Pattern.compile(&quot;https?://(..)\\.wikipedia\\.org/wiki/(.*)&quot;); </b>
+<b class="nc">&nbsp;  private static final Pattern SECURE_WIKIPEDIA_URL_REGEX = Pattern.compile(&quot;https://secure\\.wikimedia\\.org/wikipedia/(..)/wiki/(.*)&quot;);</b>
+&nbsp;
+&nbsp;  private final File ngramDir;
+&nbsp;  private final int maxSizeBytes;
+&nbsp;
+<b class="nc">&nbsp;  private List&lt;String&gt; disabledRuleIds = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  public WikipediaQuickCheck() {
+<b class="nc">&nbsp;    this(null, Integer.MAX_VALUE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.1
+&nbsp;   * @param ngramDir directory with sub directories like &#39;en&#39;, &#39;de&#39; etc that contain &#39;1grams&#39; etc directories with ngram data (Lucene indexes)
+&nbsp;   */
+&nbsp;  public WikipediaQuickCheck(File ngramDir) {
+<b class="nc">&nbsp;    this(ngramDir, Integer.MAX_VALUE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.3
+&nbsp;   * @param ngramDir directory with sub directories like &#39;en&#39;, &#39;de&#39; etc that contain &#39;1grams&#39; etc directories with ngram data (Lucene indexes)
+&nbsp;   * @param maxSizeBytes the maximum bytes of XML for the methods that take an URL, longer content will throw an exception
+&nbsp;   */
+<b class="nc">&nbsp;  public WikipediaQuickCheck(File ngramDir, int maxSizeBytes) {</b>
+<b class="nc">&nbsp;    this.ngramDir = ngramDir;</b>
+<b class="nc">&nbsp;    this.maxSizeBytes = maxSizeBytes;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
+<b class="nc">&nbsp;    Language lang = getLanguage(wikipediaUrl);</b>
+<b class="nc">&nbsp;    String pageTitle = getPageTitle(wikipediaUrl);</b>
+<b class="nc">&nbsp;    String apiUrl = &quot;https://&quot; + lang.getShortCode() + &quot;.wikipedia.org/w/api.php?titles=&quot; </b>
+<b class="nc">&nbsp;            + URLEncoder.encode(pageTitle, &quot;utf-8&quot;) + &quot;&amp;action=query&amp;prop=revisions&amp;rvprop=content|timestamp&amp;format=xml&quot;;</b>
+<b class="nc">&nbsp;    return getContent(new URL(apiUrl));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Language getLanguage(URL url) {
+<b class="nc">&nbsp;    Matcher matcher = getUrlMatcher(url.toString());</b>
+<b class="nc">&nbsp;    return Languages.getLanguageForShortCode(matcher.group(1));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getPageTitle(URL url) {
+<b class="nc">&nbsp;    Matcher matcher = getUrlMatcher(url.toString());</b>
+<b class="nc">&nbsp;    return matcher.group(2);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private Matcher getUrlMatcher(String url) {
+<b class="nc">&nbsp;    Matcher matcher1 = WIKIPEDIA_URL_REGEX.matcher(url);</b>
+<b class="nc">&nbsp;    Matcher matcher2 = SECURE_WIKIPEDIA_URL_REGEX.matcher(url);</b>
+<b class="nc">&nbsp;    if (matcher1.matches()) {</b>
+<b class="nc">&nbsp;      return matcher1;</b>
+<b class="nc">&nbsp;    } else if (matcher2.matches()) {</b>
+<b class="nc">&nbsp;      return matcher2;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;URL does not seem to be a valid Wikipedia URL: &quot; + url);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setDisabledRuleIds(List&lt;String&gt; ruleIds) {
+<b class="nc">&nbsp;    disabledRuleIds = ruleIds;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public List&lt;String&gt; getDisabledRuleIds() {
+<b class="nc">&nbsp;    return disabledRuleIds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MarkupAwareWikipediaResult checkPage(URL url) throws IOException, PageNotFoundException {
+<b class="nc">&nbsp;    return checkPage(url, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 2.6
+&nbsp;   */
+&nbsp;  public MarkupAwareWikipediaResult checkPage(URL url, ErrorMarker errorMarker) throws IOException, PageNotFoundException {
+<b class="nc">&nbsp;    validateWikipediaUrl(url);</b>
+<b class="nc">&nbsp;    String xml = getMediaWikiContent(url);</b>
+<b class="nc">&nbsp;    if (xml.length() &gt; maxSizeBytes) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Sorry, the content at &quot; + url + &quot; is too big - this process has been limited to &quot; + maxSizeBytes +</b>
+<b class="nc">&nbsp;              &quot; bytes, but the content is &quot; + xml.length() + &quot; bytes&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    MediaWikiContent wikiContent = getRevisionContent(xml);</b>
+<b class="nc">&nbsp;    String content = wikiContent.getContent();</b>
+<b class="nc">&nbsp;    if (content.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new PageNotFoundException(&quot;No content found at &#39;&quot; + url + &quot;&#39;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (content.toLowerCase().contains(&quot;#redirect&quot;)) {</b>
+<b class="nc">&nbsp;      throw new PageNotFoundException(&quot;No content but redirect found at &#39;&quot; + url + &quot;&#39;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return checkWikipediaMarkup(url, wikiContent, getLanguage(url), errorMarker);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  MarkupAwareWikipediaResult checkWikipediaMarkup(URL url, MediaWikiContent wikiContent, Language language, ErrorMarker errorMarker) throws IOException {
+<b class="nc">&nbsp;    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();</b>
+<b class="nc">&nbsp;    PlainTextMapping mapping = filter.filter(wikiContent.getContent());</b>
+<b class="nc">&nbsp;    MultiThreadedJLanguageTool lt = getLanguageTool(language);</b>
+<b class="nc">&nbsp;    List&lt;AppliedRuleMatch&gt; appliedMatches = new ArrayList&lt;&gt;();</b>
+&nbsp;    List&lt;RuleMatch&gt; matches;
+&nbsp;    try {
+<b class="nc">&nbsp;      matches = lt.check(mapping.getPlainText());</b>
+&nbsp;    } finally {
+<b class="nc">&nbsp;      lt.shutdown();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int internalErrors = 0;</b>
+<b class="nc">&nbsp;    for (RuleMatch match : matches) {</b>
+<b class="nc">&nbsp;      SuggestionReplacer replacer = errorMarker != null ? </b>
+<b class="nc">&nbsp;              new SuggestionReplacer(mapping, wikiContent.getContent(), errorMarker) :</b>
+<b class="nc">&nbsp;              new SuggestionReplacer(mapping, wikiContent.getContent());</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        List&lt;RuleMatchApplication&gt; ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);</b>
+<b class="nc">&nbsp;        appliedMatches.add(new AppliedRuleMatch(match, ruleMatchApplications));</b>
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        System.err.println(&quot;Failed to apply suggestion for rule match &#39;&quot; + match + &quot;&#39; for URL &quot; + url + &quot;: &quot; + e);</b>
+<b class="nc">&nbsp;        internalErrors++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new MarkupAwareWikipediaResult(wikiContent, appliedMatches, internalErrors);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {
+<b class="nc">&nbsp;    MultiThreadedJLanguageTool lt = getLanguageTool(lang);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; ruleMatches = lt.check(plainText);</b>
+<b class="nc">&nbsp;      return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortCode());</b>
+&nbsp;    } finally {
+<b class="nc">&nbsp;      lt.shutdown();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public void validateWikipediaUrl(URL wikipediaUrl) {
+&nbsp;    // will throw exception if URL is not valid:
+<b class="nc">&nbsp;    getUrlMatcher(wikipediaUrl.toString());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param completeWikiContent the Mediawiki syntax as it comes from the API, including surrounding XML
+&nbsp;   */
+&nbsp;  public String getPlainText(String completeWikiContent) {
+<b class="nc">&nbsp;    MediaWikiContent wikiContent = getRevisionContent(completeWikiContent);</b>
+<b class="nc">&nbsp;    String cleanedWikiContent = removeWikipediaLinks(wikiContent.getContent());</b>
+<b class="nc">&nbsp;    TextMapFilter filter = new SwebleWikipediaTextFilter();</b>
+<b class="nc">&nbsp;    return filter.filter(cleanedWikiContent).getPlainText();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param completeWikiContent the Mediawiki syntax as it comes from the API, including surrounding XML
+&nbsp;   */
+&nbsp;  public PlainTextMapping getPlainTextMapping(String completeWikiContent) {
+<b class="nc">&nbsp;    MediaWikiContent wikiContent = getRevisionContent(completeWikiContent);</b>
+<b class="nc">&nbsp;    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();</b>
+<b class="nc">&nbsp;    return filter.filter(wikiContent.getContent());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // catches most, not all links (&quot;[[pt:Linux]]&quot;, but not &quot;[[zh-min-nan:Linux]]&quot;). Might remove some non-interlanguage links.
+&nbsp;  String removeWikipediaLinks(String wikiContent) {
+&nbsp;    // interlanguage links
+<b class="nc">&nbsp;    return wikiContent</b>
+<b class="nc">&nbsp;        .replaceAll(&quot;\\[\\[[a-z]{2,6}:.*?\\]\\]&quot;, &quot;&quot;)</b>
+&nbsp;        // category links
+<b class="nc">&nbsp;        .replaceAll(</b>
+&nbsp;            &quot;\\[\\[:?(Category|Categoria|Categoría|Catégorie|Kategorie):.*?\\]\\]&quot;, &quot;&quot;)
+&nbsp;        // file links, keeps alt and caption
+<b class="nc">&nbsp;        .replaceAll(</b>
+&nbsp;            &quot;(File|Fitxer|Fichero|Ficheiro|Fichier|Datei):.*?\\.(png|jpg|svg|jpeg|tiff|gif|PNG|JPG|SVG|JPEG|TIFF|GIF)\\|((thumb|miniatur)\\|)?((right|left)\\|)?&quot;, &quot;&quot;);
+&nbsp;  }
+&nbsp;
+&nbsp;  private MediaWikiContent getRevisionContent(String completeWikiContent) {
+<b class="nc">&nbsp;    SAXParserFactory factory = SAXParserFactory.newInstance();</b>
+&nbsp;    SAXParser saxParser;
+<b class="nc">&nbsp;    RevisionContentHandler handler = new RevisionContentHandler();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      saxParser = factory.newSAXParser();</b>
+<b class="nc">&nbsp;      saxParser.parse(new InputSource(new StringReader(completeWikiContent)), handler);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not parse XML: &quot; + completeWikiContent, e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new MediaWikiContent(handler.getRevisionContent(), handler.getTimestamp());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private MultiThreadedJLanguageTool getLanguageTool(Language lang) throws IOException {
+<b class="nc">&nbsp;    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);</b>
+<b class="nc">&nbsp;    enableWikipediaRules(lt);</b>
+<b class="nc">&nbsp;    for (String disabledRuleId : disabledRuleIds) {</b>
+<b class="nc">&nbsp;      lt.disableRule(disabledRuleId);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (ngramDir != null) {</b>
+<b class="nc">&nbsp;      lt.activateLanguageModelRules(ngramDir);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    disableSpellingRules(lt);</b>
+<b class="nc">&nbsp;    return lt;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void enableWikipediaRules(JLanguageTool lt) {
+<b class="nc">&nbsp;    List&lt;Rule&gt; allRules = lt.getAllRules();</b>
+<b class="nc">&nbsp;    for (Rule rule : allRules) {</b>
+<b class="nc">&nbsp;      if (rule.getCategory().getName().equals(&quot;Wikipedia&quot;)) {</b>
+<b class="nc">&nbsp;        lt.enableRule(rule.getId());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void disableSpellingRules(JLanguageTool languageTool) {
+<b class="nc">&nbsp;    List&lt;Rule&gt; allActiveRules = languageTool.getAllActiveRules();</b>
+<b class="nc">&nbsp;    for (Rule rule : allActiveRules) {</b>
+<b class="nc">&nbsp;      if (rule.isDictionaryBasedSpellingRule()) {</b>
+<b class="nc">&nbsp;        languageTool.disableRule(rule.getId());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private String getContent(URL wikipediaUrl) throws IOException {
+&nbsp;    try {
+<b class="nc">&nbsp;      HttpURLConnection conn = (HttpURLConnection) wikipediaUrl.openConnection();</b>
+<b class="nc">&nbsp;      conn.setRequestMethod(&quot;GET&quot;);</b>
+<b class="nc">&nbsp;      conn.setConnectTimeout(30_000);</b>
+<b class="nc">&nbsp;      conn.setReadTimeout(30_000);</b>
+<b class="nc">&nbsp;      conn.connect();</b>
+<b class="nc">&nbsp;      try (InputStream contentStream = (InputStream) conn.getContent()) {</b>
+<b class="nc">&nbsp;        return StringTools.streamToString(contentStream, &quot;UTF-8&quot;);</b>
+&nbsp;      }
+&nbsp;    } catch (SocketTimeoutException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Timeout accessing &quot; + wikipediaUrl, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /*public static void mainTest(String[] args) throws IOException {
+&nbsp;      TextFilter filter = new SwebleWikipediaTextFilter();
+&nbsp;      String plainText = filter.filter(&quot;hallo\n* eins\n* zwei&quot;);
+&nbsp;      System.out.println(plainText);
+&nbsp;  }*/
+&nbsp;    
+&nbsp;  public static void main(String[] args) throws IOException, PageNotFoundException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + WikipediaQuickCheck.class.getName() + &quot; &lt;url&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    WikipediaQuickCheck check = new WikipediaQuickCheck();</b>
+&nbsp;    // URL examples:
+&nbsp;    //String urlString = &quot;http://de.wikipedia.org/wiki/Angela_Merkel&quot;;
+&nbsp;    //String urlString = &quot;https://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber&quot;;
+&nbsp;    //String urlString = &quot;https://secure.wikimedia.org/wikipedia/de/wiki/Gütersloh&quot;;
+<b class="nc">&nbsp;    String urlString = args[0];</b>
+<b class="nc">&nbsp;    MarkupAwareWikipediaResult result = check.checkPage(new URL(urlString), new ErrorMarker(&quot;***&quot;, &quot;***&quot;));</b>
+<b class="nc">&nbsp;    int errorCount = 0;</b>
+<b class="nc">&nbsp;    for (AppliedRuleMatch match : result.getAppliedRuleMatches()) {</b>
+<b class="nc">&nbsp;      RuleMatchApplication matchApplication = match.getRuleMatchApplications().get(0);</b>
+<b class="nc">&nbsp;      RuleMatch ruleMatch = match.getRuleMatch();</b>
+<b class="nc">&nbsp;      Rule rule = ruleMatch.getRule();</b>
+<b class="nc">&nbsp;      System.out.println();</b>
+<b class="nc">&nbsp;      String message = ruleMatch.getMessage().replace(&quot;&lt;suggestion&gt;&quot;, &quot;&#39;&quot;).replace(&quot;&lt;/suggestion&gt;&quot;, &quot;&#39;&quot;);</b>
+<b class="nc">&nbsp;      errorCount++;</b>
+<b class="nc">&nbsp;      System.out.print(errorCount + &quot;. &quot; + message);</b>
+<b class="nc">&nbsp;      if (rule instanceof AbstractPatternRule) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot; (&quot; + rule.getFullId() + &quot;)&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        System.out.println(&quot; (&quot; + rule.getId() + &quot;)&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.println(&quot;    ...&quot; + matchApplication.getOriginalErrorContext(50).replace(&quot;\n&quot;, &quot;\\n&quot;) + &quot;...&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+<b class="nc">&nbsp;  class RevisionContentHandler extends DefaultHandler {</b>
+&nbsp;
+<b class="nc">&nbsp;    private final StringBuilder revisionText = new StringBuilder();</b>
+&nbsp;
+&nbsp;    private String timestamp;
+<b class="nc">&nbsp;    private boolean inRevision = false;</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void startElement(String namespaceURI, String lName,
+&nbsp;        String qName, Attributes attrs) throws SAXException {
+<b class="nc">&nbsp;      if (&quot;rev&quot;.equals(qName)) {</b>
+<b class="nc">&nbsp;        timestamp = attrs.getValue(&quot;timestamp&quot;);</b>
+<b class="nc">&nbsp;        inRevision = true;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void endElement(String namespaceURI, String sName,
+&nbsp;        String qName) throws SAXException {
+<b class="nc">&nbsp;      if (&quot;rev&quot;.equals(qName)) {</b>
+<b class="nc">&nbsp;        inRevision = false;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Override
+&nbsp;    public void characters(char[] buf, int offset, int len) {
+<b class="nc">&nbsp;      String s = new String(buf, offset, len);</b>
+<b class="nc">&nbsp;      if (inRevision) {</b>
+<b class="nc">&nbsp;        revisionText.append(s);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getRevisionContent() {
+<b class="nc">&nbsp;      return revisionText.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getTimestamp() {
+<b class="nc">&nbsp;      return timestamp;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

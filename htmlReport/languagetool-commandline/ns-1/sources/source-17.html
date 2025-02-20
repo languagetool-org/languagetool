@@ -1,0 +1,416 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MultiThreadedJLanguageTool</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool</a>
+</div>
+
+<h1>Coverage Summary for Class: MultiThreadedJLanguageTool (org.languagetool)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MultiThreadedJLanguageTool</td>
+<td class="coverageStat">
+  <span class="percent">
+    78.6%
+  </span>
+  <span class="absValue">
+    (11/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.5%
+  </span>
+  <span class="absValue">
+    (21/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.1%
+  </span>
+  <span class="absValue">
+    (58/63)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MultiThreadedJLanguageTool$AnalyzeSentenceCallable</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MultiThreadedJLanguageTool$ParagraphEndAnalyzeSentenceCallable</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (15/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.5%
+  </span>
+  <span class="absValue">
+    (21/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.8%
+  </span>
+  <span class="absValue">
+    (64/69)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool;
+&nbsp;
+&nbsp;import com.google.common.collect.Iterables;
+&nbsp;import com.google.common.collect.Lists;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleSet;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.*;
+&nbsp;import java.util.concurrent.atomic.AtomicInteger;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.stream.IntStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * A variant of {@link JLanguageTool} that uses several threads for rule matching.
+&nbsp; * Use this if you want text checking to be fast and do not care about the 
+&nbsp; * high load that this might cause. Call {@link #shutdown()} when you don&#39;t need
+&nbsp; * the object anymore.
+&nbsp; * 
+&nbsp; * &lt;p&gt;Also see the javadoc of {@link JLanguageTool}.&lt;/p&gt;
+&nbsp; * 
+&nbsp; * &lt;p&gt;&lt;b&gt;Thread-safety:&lt;/b&gt; this class is &lt;b&gt;not&lt;/b&gt; thread-safe, see the remarks at {@link JLanguageTool}.
+&nbsp; */
+&nbsp;public class MultiThreadedJLanguageTool extends JLanguageTool {
+&nbsp;  
+&nbsp;  private final int threadPoolSize;
+&nbsp;  private final ExecutorService threadPool;
+&nbsp;
+&nbsp;  public MultiThreadedJLanguageTool(Language language) {
+<b class="fc">&nbsp;    this(language, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @see #shutdown()
+&nbsp;   * @param threadPoolSize the number of concurrent threads (use 0 or negative value for a default)
+&nbsp;   * @since 2.9
+&nbsp;   */
+&nbsp;  public MultiThreadedJLanguageTool(Language language, int threadPoolSize) {
+<b class="nc">&nbsp;    this(language, null, threadPoolSize, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @see #shutdown()
+&nbsp;   */
+&nbsp;  public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
+<b class="fc">&nbsp;    this(language, motherTongue, getDefaultThreadCount(), null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public MultiThreadedJLanguageTool(Language language, Language motherTongue, UserConfig userConfig) {
+<b class="nc">&nbsp;    this(language, motherTongue, getDefaultThreadCount(), userConfig);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @see #shutdown()
+&nbsp;   * @param threadPoolSize the number of concurrent threads
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize,
+&nbsp;      UserConfig userConfig) {
+<b class="fc">&nbsp;    this(language, motherTongue, threadPoolSize, null, userConfig);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @see #shutdown()
+&nbsp;   * @param threadPoolSize the number of concurrent threads
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize,
+&nbsp;                                    GlobalConfig globalConfig, UserConfig userConfig) {
+<b class="fc">&nbsp;    super(language, Collections.emptyList(), motherTongue, null, globalConfig, userConfig);</b>
+<b class="pc">&nbsp;    this.threadPoolSize = threadPoolSize &lt;= 0 ? getDefaultThreadCount() : threadPoolSize;</b>
+<b class="fc">&nbsp;    threadPool = new ForkJoinPool(this.threadPoolSize, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Call this to shut down the internally used thread pool.
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  public void shutdown() {
+<b class="fc">&nbsp;    threadPool.shutdownNow();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Call this to shut down the internally used thread pool after all running tasks are finished.
+&nbsp;   * @since 3.1
+&nbsp;   */
+&nbsp;  public void shutdownWhenDone() {
+<b class="nc">&nbsp;    threadPool.shutdown();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static int getDefaultThreadCount() {
+<b class="fc">&nbsp;    return Runtime.getRuntime().availableProcessors();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * When no thread pool size is configured, the number of available processors is returned.
+&nbsp;   */
+&nbsp;  protected int getThreadPoolSize() {
+<b class="fc">&nbsp;    return threadPoolSize;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @return a fixed size executor with the given number of threads
+&nbsp;   */
+&nbsp;  protected ExecutorService getExecutorService() {
+<b class="fc">&nbsp;    return threadPool;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected List&lt;AnalyzedSentence&gt; analyzeSentences(List&lt;String&gt; sentences) throws IOException {
+<b class="fc">&nbsp;    if (sentences.size() &lt; 2) {</b>
+<b class="fc">&nbsp;      return super.analyzeSentences(sentences);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    List&lt;AnalyzedSentence&gt; analyzedSentences = new ArrayList&lt;&gt;();</b>
+&nbsp;    
+<b class="fc">&nbsp;    ExecutorService executorService = getExecutorService();</b>
+&nbsp;
+<b class="fc">&nbsp;    int j = 0;</b>
+&nbsp;    
+<b class="fc">&nbsp;    List&lt;Callable&lt;AnalyzedSentence&gt;&gt; callables = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (String sentence : sentences) {</b>
+&nbsp;      AnalyzeSentenceCallable analyzeSentenceCallable = 
+<b class="fc">&nbsp;          ++j &lt; sentences.size() </b>
+<b class="fc">&nbsp;            ? new AnalyzeSentenceCallable(sentence)</b>
+<b class="fc">&nbsp;            : new ParagraphEndAnalyzeSentenceCallable(sentence);</b>
+<b class="fc">&nbsp;      callables.add(analyzeSentenceCallable);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    try {
+<b class="fc">&nbsp;      List&lt;Future&lt;AnalyzedSentence&gt;&gt; futures = executorService.invokeAll(callables);</b>
+<b class="fc">&nbsp;      for (Future&lt;AnalyzedSentence&gt; future : futures) {</b>
+<b class="fc">&nbsp;        AnalyzedSentence analyzedSentence = future.get();</b>
+<b class="fc">&nbsp;        rememberUnknownWords(analyzedSentence);</b>
+<b class="fc">&nbsp;        printSentenceInfo(analyzedSentence);</b>
+<b class="fc">&nbsp;        analyzedSentences.add(analyzedSentence);</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;    } catch (InterruptedException | ExecutionException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;    
+<b class="fc">&nbsp;    return analyzedSentences;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected CheckResults performCheck(List&lt;AnalyzedSentence&gt; analyzedSentences, List&lt;String&gt; sentenceTexts,
+&nbsp;                                         RuleSet ruleSet, ParagraphHandling paraMode,
+&nbsp;                                         AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules, Set&lt;ToneTag&gt; toneTags) {
+<b class="fc">&nbsp;    List&lt;Rule&gt; allRules = ruleSet.allRules();</b>
+<b class="fc">&nbsp;    List&lt;SentenceData&gt; sentences = computeSentenceData(analyzedSentences, sentenceTexts);</b>
+&nbsp;
+<b class="fc">&nbsp;    Map&lt;Rule, BitSet&gt; map = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; sentences.size(); i++) {</b>
+<b class="fc">&nbsp;      for (Rule rule : ruleSet.rulesForSentence(sentences.get(i).analyzed)) {</b>
+<b class="fc">&nbsp;        map.computeIfAbsent(rule, __ -&gt; new BitSet()).set(i);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    AtomicInteger ruleIndex = new AtomicInteger();</b>
+<b class="fc">&nbsp;    Map&lt;Integer, List&lt;RuleMatch&gt;&gt; ruleMatches = new TreeMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    List&lt;Range&gt; ignoreRanges = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    List&lt;Future&lt;?&gt;&gt; futures = IntStream.range(0, getThreadPoolSize()).mapToObj(__ -&gt; getExecutorService().submit(() -&gt; {</b>
+&nbsp;      while (true) {
+<b class="fc">&nbsp;        int index = ruleIndex.getAndIncrement();</b>
+<b class="fc">&nbsp;        if (index &gt;= allRules.size()) return null;</b>
+&nbsp;
+<b class="fc">&nbsp;        Rule rule = allRules.get(index);</b>
+<b class="fc">&nbsp;        BitSet applicable = map.get(rule);</b>
+<b class="fc">&nbsp;        if (applicable == null) continue;</b>
+&nbsp;
+&nbsp;        // less need for special treatment of remote rules when execution is already parallel
+<b class="fc">&nbsp;        CheckResults res = new TextCheckCallable(RuleSet.plain(Collections.singletonList(rule)),</b>
+<b class="fc">&nbsp;          RuleSet.filterList(applicable, sentences),</b>
+<b class="fc">&nbsp;          paraMode, annotatedText, listener, mode, level, true, toneTags).call();</b>
+<b class="fc">&nbsp;        if (!res.getRuleMatches().isEmpty()) {</b>
+<b class="fc">&nbsp;          synchronized (ruleMatches) {</b>
+<b class="fc">&nbsp;            ruleMatches.put(index, res.getRuleMatches());</b>
+<b class="fc">&nbsp;          }</b>
+<b class="fc">&nbsp;          synchronized (ignoreRanges) {</b>
+<b class="fc">&nbsp;            ignoreRanges.addAll(res.getIgnoredRanges());</b>
+<b class="fc">&nbsp;          }</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;    })).collect(Collectors.toList());</b>
+&nbsp;
+&nbsp;    try {
+<b class="fc">&nbsp;      for (Future&lt;?&gt; future : futures) {</b>
+<b class="fc">&nbsp;        future.get();</b>
+&nbsp;      }
+&nbsp;    } catch (InterruptedException | ExecutionException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; rm = applyCustomFilters(Lists.newArrayList(Iterables.concat(ruleMatches.values())), annotatedText);</b>
+<b class="fc">&nbsp;    return new CheckResults(rm, ignoreRanges);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private class AnalyzeSentenceCallable implements Callable&lt;AnalyzedSentence&gt; {
+&nbsp;    private final String sentence;
+&nbsp;
+<b class="fc">&nbsp;    private AnalyzeSentenceCallable(String sentence) {</b>
+<b class="fc">&nbsp;      this.sentence = sentence;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public AnalyzedSentence call() throws Exception {
+<b class="fc">&nbsp;      return getAnalyzedSentence(sentence);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private final class ParagraphEndAnalyzeSentenceCallable extends AnalyzeSentenceCallable {
+<b class="fc">&nbsp;    private ParagraphEndAnalyzeSentenceCallable(String sentence) {</b>
+<b class="fc">&nbsp;      super(sentence);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public AnalyzedSentence call() throws Exception {
+<b class="fc">&nbsp;      return markAsParagraphEnd(super.call());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,665 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PostponedAdjectiveConcordanceFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: PostponedAdjectiveConcordanceFilter (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PostponedAdjectiveConcordanceFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/304)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/320)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2020 Jaume Ortolà  i Font
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.ca.CatalanSynthesizer;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * This rule checks if an adjective doesn&#39;t agree with the previous noun and at
+&nbsp; * the same time it doesn&#39;t agree with any of the previous words. Takes care of
+&nbsp; * some exceptions.
+&nbsp; * 
+&nbsp; * @author Jaume Ortolà i Font
+&nbsp; */
+<b class="nc">&nbsp;public class PostponedAdjectiveConcordanceFilter extends RuleFilter {</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Patterns
+&nbsp;   */
+&nbsp;
+<b class="nc">&nbsp;  private final int maxLevels = 4;</b>
+&nbsp;  
+<b class="nc">&nbsp;  private static final Pattern NOM = Pattern.compile(&quot;N.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_MS = Pattern.compile(&quot;N.MS.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_FS = Pattern.compile(&quot;N.FS.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_MP = Pattern.compile(&quot;N.MP.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_MN = Pattern.compile(&quot;N.MN.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_FP = Pattern.compile(&quot;N.FP.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_CS = Pattern.compile(&quot;N.CS.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOM_CP = Pattern.compile(&quot;N.CP.*&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern NOM_DET = Pattern.compile(&quot;N.*|D[NDA0I].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _GN_ = Pattern.compile(&quot;_GN_.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _GN_MS = Pattern.compile(&quot;_GN_MS&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _GN_FS = Pattern.compile(&quot;_GN_FS&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _GN_MP = Pattern.compile(&quot;_GN_MP&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _GN_FP = Pattern.compile(&quot;_GN_FP&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _GN_CS = Pattern.compile(&quot;_GN_[MF]S&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern _GN_CP = Pattern.compile(&quot;_GN_[MF]P&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern DET = Pattern.compile(&quot;D[NDA0IP].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DET_CS = Pattern.compile(&quot;D[NDA0IP]0CS0&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DET_MS = Pattern.compile(&quot;D[NDA0IP]0MS0&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DET_FS = Pattern.compile(&quot;D[NDA0IP]0FS0&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DET_MP = Pattern.compile(&quot;D[NDA0IP]0MP0&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern DET_FP = Pattern.compile(&quot;D[NDA0IP]0FP0&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern GN_MS = Pattern.compile(&quot;N.[MC][SN].*|A..[MC][SN].*|V.P..SM.?|PX.MS.*|D[NDA0I]0MS0|PI0MS000&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GN_FS = Pattern.compile(&quot;N.[FC][SN].*|A..[FC][SN].*|V.P..SF.?|PX.FS.*|D[NDA0I]0FS0|PI0FS000&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GN_MP = Pattern.compile(&quot;N.[MC][PN].*|A..[MC][PN].*|V.P..PM.?|PX.MP.*|D[NDA0I]0MP0&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GN_FP = Pattern.compile(&quot;N.[FC][PN].*|A..[FC][PN].*|V.P..PF.?|PX.FP.*|D[NDA0I]0FP0&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GN_CP = Pattern.compile(&quot;N.[FMC][PN].*|A..[FMC][PN].*|D[NDA0I]0[FM]P0&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GN_CS = Pattern.compile(&quot;N.[FMC][SN].*|A..[FMC][SN].*|D[NDA0I]0[FM]S0&quot;);</b>
+&nbsp;  
+&nbsp;  //private static final Pattern NOM_ADJ = Pattern.compile(&quot;N.*|A.*|V.P.*&quot;);
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU = Pattern.compile(&quot;AQ.*|V.P.*|PX.*|.*LOC_ADJ.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_MS = Pattern.compile(&quot;A..[MC][SN].*|V.P..SM.?|PX.MS.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_FS = Pattern.compile(&quot;A..[FC][SN].*|V.P..SF.?|PX.FS.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_MP = Pattern.compile(&quot;A..[MC][PN].*|V.P..PM.?|PX.MP.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_FP = Pattern.compile(&quot;A..[FC][PN].*|V.P..PF.?|PX.FP.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_CP = Pattern.compile(&quot;A..C[PN].*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_CS = Pattern.compile(&quot;A..C[SN].*&quot;);</b>
+&nbsp;  // private static final Pattern ADJECTIU_M =
+&nbsp;  // Pattern.compile(&quot;A..[MC].*|V.P...M.?|PX.M.*&quot;);
+&nbsp;  // private static final Pattern ADJECTIU_F =
+&nbsp;  // Pattern.compile(&quot;A..[FC].*|V.P...F.?|PX.F.*&quot;);
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_S = Pattern.compile(&quot;A...[SN].*|V.P..S..?|PX..S.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJECTIU_P = Pattern.compile(&quot;A...[PN].*|V.P..P..?|PX..P.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADVERBI = Pattern.compile(&quot;R.|.*LOC_ADV.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern CONJUNCIO = Pattern.compile(&quot;C.|.*LOC_CONJ.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PUNTUACIO = Pattern.compile(&quot;_PUNCT&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern LOC_ADV = Pattern.compile(&quot;.*LOC_ADV.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile(&quot;RG_anteposat&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern COORDINACIO_IONI = Pattern.compile(&quot;i|o|ni&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern KEEP_COUNT = Pattern.compile(&quot;A.*|N.*|D[NAIDP].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|PI0.S000|UNKNOWN&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern KEEP_COUNT2 = Pattern.compile(&quot;,|i|o|ni&quot;); // |\\d+%?|%</b>
+<b class="nc">&nbsp;  private static final Pattern STOP_COUNT = Pattern.compile(&quot;[;:]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PREPOSICIONS = Pattern.compile(&quot;SPS.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile(&quot;de|d&#39;|en|sobre|a|entre|per|pe|amb|sense|contra|com|envers&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern VERB = Pattern.compile(&quot;V.[^P].*|_GV_&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GV = Pattern.compile(&quot;_GV_&quot;);</b>
+&nbsp;  
+<b class="nc">&nbsp;  boolean adverbAppeared = false;</b>
+<b class="nc">&nbsp;  boolean conjunctionAppeared = false;</b>
+<b class="nc">&nbsp;  boolean punctuationAppeared = false;</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+<b class="nc">&nbsp;    boolean addComma = getOptional(&quot;addComma&quot;, arguments, &quot;false&quot;).equalsIgnoreCase(&quot;true&quot;)? true : false;</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    int i = patternTokenPos;</b>
+&nbsp;    int j;
+<b class="nc">&nbsp;    boolean isPlural = true;</b>
+<b class="nc">&nbsp;    boolean isPrevNoun = false;</b>
+<b class="nc">&nbsp;    Pattern substPattern = null;</b>
+<b class="nc">&nbsp;    Pattern gnPattern = null;</b>
+<b class="nc">&nbsp;    Pattern adjPattern = null;</b>
+<b class="nc">&nbsp;    boolean canBeMS = false;</b>
+<b class="nc">&nbsp;    boolean canBeFS = false;</b>
+<b class="nc">&nbsp;    boolean canBeMP = false;</b>
+<b class="nc">&nbsp;    boolean canBeFP = false;</b>
+<b class="nc">&nbsp;    boolean canBeP = false;</b>
+&nbsp;    /* Count all nouns and determiners before the adjectives */
+&nbsp;    // Takes care of acceptable combinations.
+<b class="nc">&nbsp;    int[] cNt = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cNMS = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cNFS = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cNMP = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cNMN = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cNFP = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cNCS = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cNCP = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cDMS = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cDFS = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cDMP = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cDFP = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cN = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int[] cD = new int[maxLevels];</b>
+<b class="nc">&nbsp;    int level = 0;</b>
+<b class="nc">&nbsp;    j = 1;</b>
+<b class="nc">&nbsp;    initializeApparitions();</b>
+&nbsp;    
+&nbsp;//    if (match.getSentence().getText().contains(&quot;camins rural&quot;)) {
+&nbsp;//      int ii=0;
+&nbsp;//      ii++;
+&nbsp;//    }
+&nbsp;    
+<b class="nc">&nbsp;    while (i - j &gt; 0 &amp;&amp; keepCounting(tokens[i - j]) &amp;&amp; level &lt; maxLevels) {</b>
+<b class="nc">&nbsp;      if (!isPrevNoun) {</b>
+<b class="nc">&nbsp;        if (matchPostagRegexp(tokens[i - j], NOM) || (</b>
+&nbsp;        // adjectiu o participi sense nom, però amb algun determinant davant
+<b class="nc">&nbsp;        i - j - 1 &gt; 0 &amp;&amp; !matchPostagRegexp(tokens[i - j], NOM) &amp;&amp; matchPostagRegexp(tokens[i - j], ADJECTIU)</b>
+<b class="nc">&nbsp;            &amp;&amp; matchPostagRegexp(tokens[i - j - 1], DET))) {</b>
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], _GN_MS)) {</b>
+<b class="nc">&nbsp;            cNMS[level]++;</b>
+<b class="nc">&nbsp;            canBeMS = true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], _GN_FS)) {</b>
+<b class="nc">&nbsp;            cNFS[level]++;</b>
+<b class="nc">&nbsp;            canBeFS = true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], _GN_MP)) {</b>
+<b class="nc">&nbsp;            cNMP[level]++;</b>
+<b class="nc">&nbsp;            canBeMP = true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], _GN_FP)) {</b>
+<b class="nc">&nbsp;            cNFP[level]++;</b>
+<b class="nc">&nbsp;            canBeFP = true;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (!matchPostagRegexp(tokens[i - j], _GN_)) {</b>
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], NOM_MS)) {</b>
+<b class="nc">&nbsp;            cNMS[level]++;</b>
+<b class="nc">&nbsp;            canBeMS = true;</b>
+<b class="nc">&nbsp;          } else if (matchPostagRegexp(tokens[i - j], NOM_FS)) {</b>
+<b class="nc">&nbsp;            cNFS[level]++;</b>
+<b class="nc">&nbsp;            canBeFS = true;</b>
+<b class="nc">&nbsp;          } else if (matchPostagRegexp(tokens[i - j], NOM_MP)) {</b>
+<b class="nc">&nbsp;            cNMP[level]++;</b>
+<b class="nc">&nbsp;            canBeMP = true;</b>
+<b class="nc">&nbsp;          } else if (matchPostagRegexp(tokens[i - j], NOM_MN)) {</b>
+<b class="nc">&nbsp;            cNMN[level]++;</b>
+<b class="nc">&nbsp;            canBeMS = true;</b>
+<b class="nc">&nbsp;            canBeMP = true;</b>
+<b class="nc">&nbsp;          } else if (matchPostagRegexp(tokens[i - j], NOM_FP)) {</b>
+<b class="nc">&nbsp;            cNFP[level]++;</b>
+<b class="nc">&nbsp;            canBeFP = true;</b>
+<b class="nc">&nbsp;          } else if (matchPostagRegexp(tokens[i - j], NOM_CS)) {</b>
+<b class="nc">&nbsp;            cNCS[level]++;</b>
+<b class="nc">&nbsp;            canBeMS = true;</b>
+<b class="nc">&nbsp;            canBeFS = true;</b>
+<b class="nc">&nbsp;          } else if (matchPostagRegexp(tokens[i - j], NOM_CP)) {</b>
+<b class="nc">&nbsp;            cNCP[level]++;</b>
+<b class="nc">&nbsp;            canBeFP = true;</b>
+<b class="nc">&nbsp;            canBeMP = true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;      // avoid two consecutive nouns
+<b class="nc">&nbsp;      if (matchPostagRegexp(tokens[i - j], NOM)) {</b>
+<b class="nc">&nbsp;        cNt[level]++;</b>
+<b class="nc">&nbsp;        isPrevNoun = true;</b>
+&nbsp;        // initializeApparitions();
+&nbsp;      } else {
+<b class="nc">&nbsp;        isPrevNoun = false;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (matchPostagRegexp(tokens[i - j], DET_CS)) {</b>
+<b class="nc">&nbsp;        if (matchPostagRegexp(tokens[i - j + 1], NOM_MS)) {</b>
+<b class="nc">&nbsp;          cDMS[level]++;</b>
+<b class="nc">&nbsp;          canBeMS = true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (matchPostagRegexp(tokens[i - j + 1], NOM_FS)) {</b>
+<b class="nc">&nbsp;          cDFS[level]++;</b>
+<b class="nc">&nbsp;          canBeFS = true;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (!matchPostagRegexp(tokens[i - j], ADVERBI)) {</b>
+&nbsp;        // exception: tot el
+<b class="nc">&nbsp;        if (!(tokens[i - j].hasLemma(&quot;tot&quot;) &amp;&amp; tokens[i - j + 1].hasLemma(&quot;el&quot;))) {</b>
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], DET_MS)) {</b>
+<b class="nc">&nbsp;            cDMS[level]++;</b>
+<b class="nc">&nbsp;            canBeMS = true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], DET_FS)) {</b>
+<b class="nc">&nbsp;            cDFS[level]++;</b>
+<b class="nc">&nbsp;            canBeFS = true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], DET_MP)) {</b>
+<b class="nc">&nbsp;            cDMP[level]++;</b>
+<b class="nc">&nbsp;            canBeMP = true;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (matchPostagRegexp(tokens[i - j], DET_FP)) {</b>
+<b class="nc">&nbsp;            cDFP[level]++;</b>
+<b class="nc">&nbsp;            canBeFP = true;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (i - j - 1 &gt; 0) {</b>
+<b class="nc">&nbsp;        if (matchRegexp(tokens[i - j].getToken(), PREPOSICIO_CANVI_NIVELL)</b>
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i - j], CONJUNCIO) // &quot;com&quot; com a conjunció</b>
+<b class="nc">&nbsp;            &amp;&amp; !matchRegexp(tokens[i - j - 1].getToken(), COORDINACIO_IONI)</b>
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i - j + 1], ADVERBI)) {</b>
+<b class="nc">&nbsp;          level++;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      j = updateJValue(tokens, i, j, level);</b>
+<b class="nc">&nbsp;      updateApparitions(tokens[i - j]);</b>
+<b class="nc">&nbsp;      j++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    level++;</b>
+<b class="nc">&nbsp;    if (level &gt; maxLevels) {</b>
+<b class="nc">&nbsp;      level = maxLevels;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    j = 0;</b>
+<b class="nc">&nbsp;    int cNtotal = 0;</b>
+<b class="nc">&nbsp;    int cDtotal = 0;</b>
+<b class="nc">&nbsp;    while (j &lt; level) {</b>
+<b class="nc">&nbsp;      cN[j] = cNMS[j] + cNFS[j] + cNMP[j] + cNFP[j] + cNCS[j] + cNCP[j] + cNMN[j];</b>
+<b class="nc">&nbsp;      cD[j] = cDMS[j] + cDFS[j] + cDMP[j] + cDFP[j];</b>
+<b class="nc">&nbsp;      cNtotal += cN[j];</b>
+<b class="nc">&nbsp;      cDtotal += cD[j];</b>
+&nbsp;
+&nbsp;      // exceptions: adjective is plural and there are several nouns before
+<b class="nc">&nbsp;      if (matchPostagRegexp(tokens[i], ADJECTIU_MP) &amp;&amp; (cN[j] &gt; 1 || cD[j] &gt; 1)</b>
+&nbsp;          &amp;&amp; (cNMS[j] + cNMN[j] + cNMP[j] + cNCS[j] + cNCP[j] + cDMS[j] + cDMP[j]) &gt; 0
+&nbsp;          &amp;&amp; (cNFS[j] + cNFP[j] &lt;= cNt[j])) {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (matchPostagRegexp(tokens[i], ADJECTIU_FP) &amp;&amp; (cN[j] &gt; 1 || cD[j] &gt; 1)</b>
+&nbsp;          &amp;&amp; ((cNMS[j] + cNMP[j] + cNMN[j] + cDMS[j] + cDMP[j]) == 0 || (cNt[j] &gt; 0 &amp;&amp; cNFS[j] + cNFP[j] &gt;= cNt[j]))) {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+&nbsp;      // Adjective can&#39;t be singular
+<b class="nc">&nbsp;      if (cN[j] + cD[j] &gt; 0) { // &amp;&amp; level&gt;1</b>
+<b class="nc">&nbsp;        isPlural = isPlural &amp;&amp; cD[j] &gt; 1; // cN[j]&gt;1</b>
+<b class="nc">&nbsp;        canBeP = canBeP || cN[j]&gt;1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      j++;</b>
+&nbsp;    }
+&nbsp;    // comma + plural noun
+<b class="nc">&nbsp;    isPlural = isPlural || (i - 2 &gt; 0 &amp;&amp; cNMP[0] + cNFP[0] + cNCP[0] &gt; 0 &amp;&amp; tokens[i - 2].getToken().equals(&quot;,&quot;));</b>
+&nbsp;    
+&nbsp;    // there is no noun, (no determinant --&gt; &amp;&amp; cDtotal==0)
+<b class="nc">&nbsp;    if (cNtotal == 0 &amp;&amp; cDtotal == 0) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // patterns according to the analyzed adjective
+<b class="nc">&nbsp;    if (matchPostagRegexp(tokens[i], ADJECTIU_CS)) {</b>
+<b class="nc">&nbsp;      substPattern = GN_CS;</b>
+<b class="nc">&nbsp;      adjPattern = ADJECTIU_S;</b>
+<b class="nc">&nbsp;      gnPattern = _GN_CS;</b>
+<b class="nc">&nbsp;    } else if (matchPostagRegexp(tokens[i], ADJECTIU_CP)) {</b>
+<b class="nc">&nbsp;      substPattern = GN_CP;</b>
+<b class="nc">&nbsp;      adjPattern = ADJECTIU_P;</b>
+<b class="nc">&nbsp;      gnPattern = _GN_CP;</b>
+<b class="nc">&nbsp;    } else if (matchPostagRegexp(tokens[i], ADJECTIU_MS)) {</b>
+<b class="nc">&nbsp;      substPattern = GN_MS;</b>
+<b class="nc">&nbsp;      adjPattern = ADJECTIU_MS;</b>
+<b class="nc">&nbsp;      gnPattern = _GN_MS;</b>
+<b class="nc">&nbsp;    } else if (matchPostagRegexp(tokens[i], ADJECTIU_FS)) {</b>
+<b class="nc">&nbsp;      substPattern = GN_FS;</b>
+<b class="nc">&nbsp;      adjPattern = ADJECTIU_FS;</b>
+<b class="nc">&nbsp;      gnPattern = _GN_FS;</b>
+<b class="nc">&nbsp;    } else if (matchPostagRegexp(tokens[i], ADJECTIU_MP)) {</b>
+<b class="nc">&nbsp;      substPattern = GN_MP;</b>
+<b class="nc">&nbsp;      adjPattern = ADJECTIU_MP;</b>
+<b class="nc">&nbsp;      gnPattern = _GN_MP;</b>
+<b class="nc">&nbsp;    } else if (matchPostagRegexp(tokens[i], ADJECTIU_FP)) {</b>
+<b class="nc">&nbsp;      substPattern = GN_FP;</b>
+<b class="nc">&nbsp;      adjPattern = ADJECTIU_FP;</b>
+<b class="nc">&nbsp;      gnPattern = _GN_FP;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (substPattern == null || gnPattern == null || adjPattern == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // combinations Det/Nom + adv (1,2..) + adj.
+&nbsp;    // If there is agreement, the rule doesn&#39;t match
+<b class="nc">&nbsp;    j = 1;</b>
+<b class="nc">&nbsp;    boolean keepCount = true;</b>
+<b class="nc">&nbsp;    while (i - j &gt; 0 &amp;&amp; keepCount) {</b>
+<b class="nc">&nbsp;      if (matchPostagRegexp(tokens[i - j], NOM_DET) &amp;&amp; matchPostagRegexp(tokens[i - j], gnPattern)) {</b>
+<b class="nc">&nbsp;        return null; // there is a previous agreeing noun</b>
+<b class="nc">&nbsp;      } else if (!matchPostagRegexp(tokens[i - j], _GN_) &amp;&amp; matchPostagRegexp(tokens[i - j], substPattern)) {</b>
+<b class="nc">&nbsp;        return null; // there is a previous agreeing noun</b>
+&nbsp;      }
+<b class="nc">&nbsp;      keepCount = !matchPostagRegexp(tokens[i - j], NOM_DET);</b>
+<b class="nc">&nbsp;      j++;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Necessary condition: previous token is a non-agreeing noun
+&nbsp;    // or it is adjective or adverb (not preceded by verb)
+&nbsp;    // /*&amp;&amp; !matchPostagRegexp(tokens[i],NOM)*/
+<b class="nc">&nbsp;    if ((matchPostagRegexp(tokens[i - 1], NOM) &amp;&amp; !matchPostagRegexp(tokens[i - 1], substPattern))</b>
+<b class="nc">&nbsp;        || (matchPostagRegexp(tokens[i - 1], ADJECTIU) &amp;&amp; !matchPostagRegexp(tokens[i - 1], gnPattern))</b>
+<b class="nc">&nbsp;        || (matchPostagRegexp(tokens[i - 1], ADJECTIU) &amp;&amp; !matchPostagRegexp(tokens[i - 1], adjPattern))</b>
+<b class="nc">&nbsp;        || (i &gt; 2 &amp;&amp; matchPostagRegexp(tokens[i - 1], ADVERBIS_ACCEPTATS) &amp;&amp; !matchPostagRegexp(tokens[i - 2], VERB)</b>
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i - 2], PREPOSICIONS))</b>
+<b class="nc">&nbsp;        || (i &gt; 3 &amp;&amp; matchPostagRegexp(tokens[i - 1], LOC_ADV) &amp;&amp; matchPostagRegexp(tokens[i - 2], LOC_ADV)</b>
+<b class="nc">&nbsp;            &amp;&amp; !matchPostagRegexp(tokens[i - 3], VERB) &amp;&amp; !matchPostagRegexp(tokens[i - 3], PREPOSICIONS))) {</b>
+&nbsp;
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Adjective can&#39;t be singular. The rule matches
+<b class="nc">&nbsp;    if (!(isPlural &amp;&amp; matchPostagRegexp(tokens[i], ADJECTIU_S))) {</b>
+&nbsp;      // look into previous words
+<b class="nc">&nbsp;      j = 1;</b>
+<b class="nc">&nbsp;      initializeApparitions();</b>
+<b class="nc">&nbsp;      while (i - j &gt; 0 &amp;&amp; keepCounting(tokens[i - j])) { //&amp;&amp; (level &gt; 1 || j &lt; 4)</b>
+&nbsp;        // there is a previous agreeing noun
+<b class="nc">&nbsp;        if (!matchPostagRegexp(tokens[i - j], _GN_) &amp;&amp; matchPostagRegexp(tokens[i - j], NOM_DET)</b>
+<b class="nc">&nbsp;            &amp;&amp; matchPostagRegexp(tokens[i - j], substPattern)) {</b>
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;          // there is a previous agreeing adjective (in a nominal group)
+<b class="nc">&nbsp;        } else if (matchPostagRegexp(tokens[i - j], gnPattern)) {</b>
+<b class="nc">&nbsp;          return null;</b>
+&nbsp;          // if there is no nominal group, it requires noun
+&nbsp;        } /*
+&nbsp;           * else if (!matchPostagRegexp(tokens[i - j], _GN_) &amp;&amp;
+&nbsp;           * matchPostagRegexp(tokens[i - j], substPattern)) { return null; // there is a
+&nbsp;           * previous agreeing noun }
+&nbsp;           */
+<b class="nc">&nbsp;        j = updateJValue(tokens, i, j, 0);</b>
+<b class="nc">&nbsp;        updateApparitions(tokens[i - j]);</b>
+<b class="nc">&nbsp;        j++;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    Synthesizer synth = getSynthesizerFromRuleMatch(match);</b>
+&nbsp;    // The rule matches
+&nbsp;    // Synthesize suggestions
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedToken at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_CS);</b>
+<b class="nc">&nbsp;    if (at != null) {</b>
+<b class="nc">&nbsp;      suggestions.addAll(Arrays.asList(synth.synthesize(at,&quot;A..CP.&quot;, true)));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_CP);</b>
+<b class="nc">&nbsp;      if (at != null) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(Arrays.asList(synth.synthesize(at,&quot;A..CS.&quot;, true)));</b>
+&nbsp;      }  
+&nbsp;    }
+<b class="nc">&nbsp;    if (suggestions.isEmpty() &amp;&amp; isPlural) {</b>
+<b class="nc">&nbsp;      at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_P);</b>
+<b class="nc">&nbsp;      if (at != null) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(Arrays.asList(synth.synthesize(at, &quot;A...P.|V.P..P..|PX..P.*&quot;, true)));</b>
+&nbsp;      }  
+&nbsp;    }
+<b class="nc">&nbsp;    at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU);</b>
+<b class="nc">&nbsp;    if (at != null &amp;&amp; suggestions.isEmpty()) {</b>
+<b class="nc">&nbsp;      if (canBeMS &amp;&amp; !isPlural) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(Arrays.asList(synth.synthesize(at, &quot;A..MS.|V.P..SM.|PX.MS.*&quot;, true)));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (canBeFS &amp;&amp; !isPlural) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(Arrays.asList(synth.synthesize(at, &quot;A..FS.|V.P..SF.|PX.FS.*&quot;, true)));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (canBeMP) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(Arrays.asList(synth.synthesize(at, &quot;A..MP.|V.P..PM.|PX.MP.*&quot;, true)));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (canBeFP) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(Arrays.asList(synth.synthesize(at, &quot;A..FP.|V.P..PF.|PX.FP.*&quot;, true)));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (canBeMS &amp;&amp; (isPlural || canBeP)) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(Arrays.asList(synth.synthesize(at, &quot;A..MP.|V.P..PM.|PX.MP.*&quot;, true)));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (canBeFS &amp;&amp; !canBeMS &amp;&amp; (isPlural || canBeP)) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(Arrays.asList(synth.synthesize(at, &quot;A..FP.|V.P..PF.|PX.FP.*&quot;, true)));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    // avoid the original token as suggestion 
+<b class="nc">&nbsp;    if (suggestions.contains(tokens[patternTokenPos].getToken().toLowerCase())) {</b>
+<b class="nc">&nbsp;      suggestions.remove(tokens[patternTokenPos].getToken().toLowerCase());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; definitiveSugestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (addComma) {</b>
+<b class="nc">&nbsp;      definitiveSugestions.add(&quot;, &quot; + tokens[patternTokenPos].getToken());</b>
+<b class="nc">&nbsp;      for (String s : suggestions) {</b>
+<b class="nc">&nbsp;        definitiveSugestions.add(&quot; &quot; + s);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      match.setOffsetPosition(match.getFromPos() - 1,  match.getToPos());</b>
+<b class="nc">&nbsp;      match.setSentencePosition(match.getFromPosSentence() - 1, match.getToPosSentence());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      definitiveSugestions.addAll(suggestions);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    match.setSuggestedReplacements(definitiveSugestions.stream().distinct().collect(Collectors.toList()));</b>
+<b class="nc">&nbsp;    return match;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int updateJValue(AnalyzedTokenReadings[] tokens, int i, int j, int level) {
+&nbsp;   /* if (level &gt; 0 &amp;&amp; matchRegexp(tokens[i - j].getToken(), COORDINACIO_IONI)) {
+&nbsp;      int k = 1;
+&nbsp;      while (k &lt; 4 &amp;&amp; i - j - k &gt; 0
+&nbsp;          &amp;&amp; (matchPostagRegexp(tokens[i - j - k], KEEP_COUNT)
+&nbsp;              || matchRegexp(tokens[i - j - k].getToken(), KEEP_COUNT2)
+&nbsp;              || matchPostagRegexp(tokens[i - j - k], ADVERBIS_ACCEPTATS))
+&nbsp;          &amp;&amp; (!matchRegexp(tokens[i - j - k].getToken(), STOP_COUNT))) {
+&nbsp;        if (matchPostagRegexp(tokens[i - j - k], PREPOSICIONS)) {
+&nbsp;          j = j + k;
+&nbsp;          break;
+&nbsp;        }
+&nbsp;        k++;
+&nbsp;      }
+&nbsp;    }*/
+&nbsp;    // dos o més
+<b class="nc">&nbsp;    if (matchRegexp(tokens[i - j].getToken(), COORDINACIO_IONI)) {</b>
+<b class="nc">&nbsp;      if (i - j - 1 &gt; 0 &amp;&amp; i - j + 1 &lt; tokens.length) {</b>
+<b class="nc">&nbsp;        if (matchPostagRegexp(tokens[i - j - 1], DET) &amp;&amp; tokens[i - j + 1].getToken().equals(&quot;més&quot;)) {</b>
+<b class="nc">&nbsp;          j = j + 1;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return j;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean keepCounting(AnalyzedTokenReadings aTr) {
+<b class="nc">&nbsp;    if (matchRegexp(aTr.getToken(), PREPOSICIO_CANVI_NIVELL)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (aTr.getToken().equals(&quot;.&quot;)) { //it is not sentence end, but abbreviation</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;    // stop searching if there is some of these combinations:
+&nbsp;    // adverb+comma, adverb+conjunction, comma+conjunction,
+&nbsp;    // punctuation+punctuation
+<b class="nc">&nbsp;    if ((adverbAppeared &amp;&amp; conjunctionAppeared) || (adverbAppeared &amp;&amp; punctuationAppeared)</b>
+<b class="nc">&nbsp;        || (conjunctionAppeared &amp;&amp; punctuationAppeared) || (punctuationAppeared &amp;&amp; matchPostagRegexp(aTr, PUNTUACIO))) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return (matchPostagRegexp(aTr, KEEP_COUNT) || matchRegexp(aTr.getToken(), KEEP_COUNT2)</b>
+<b class="nc">&nbsp;        || matchPostagRegexp(aTr, ADVERBIS_ACCEPTATS)) &amp;&amp; !matchRegexp(aTr.getToken(), STOP_COUNT)</b>
+<b class="nc">&nbsp;        &amp;&amp; (!matchPostagRegexp(aTr, GV) || matchPostagRegexp(aTr, _GN_));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void initializeApparitions() {
+<b class="nc">&nbsp;    adverbAppeared = false;</b>
+<b class="nc">&nbsp;    conjunctionAppeared = false;</b>
+<b class="nc">&nbsp;    punctuationAppeared = false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void updateApparitions(AnalyzedTokenReadings aTr) {
+<b class="nc">&nbsp;    conjunctionAppeared |= matchPostagRegexp(aTr, CONJUNCIO);</b>
+<b class="nc">&nbsp;    if (aTr.getToken().equals(&quot;com&quot;)) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    if (matchPostagRegexp(aTr, NOM) || matchPostagRegexp(aTr, ADJECTIU)) {</b>
+<b class="nc">&nbsp;      initializeApparitions();</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    adverbAppeared |= matchPostagRegexp(aTr, ADVERBI);</b>
+<b class="nc">&nbsp;    punctuationAppeared |= (matchPostagRegexp(aTr, PUNTUACIO) || aTr.getToken().equals(&quot;,&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Match POS tag with regular expression
+&nbsp;   */
+&nbsp;  private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
+<b class="nc">&nbsp;    boolean matches = false;</b>
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : aToken) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if (posTag == null) {</b>
+<b class="nc">&nbsp;        posTag = &quot;UNKNOWN&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      final Matcher m = pattern.matcher(posTag);</b>
+<b class="nc">&nbsp;      if (m.matches()) {</b>
+<b class="nc">&nbsp;        matches = true;</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return matches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Match String with regular expression
+&nbsp;   */
+&nbsp;  private boolean matchRegexp(String s, Pattern pattern) {
+<b class="nc">&nbsp;    final Matcher m = pattern.matcher(s);</b>
+<b class="nc">&nbsp;    return m.matches();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  private AnalyzedToken getAnalyzedToken(AnalyzedTokenReadings aToken, Pattern pattern) {
+<b class="nc">&nbsp;    for (AnalyzedToken analyzedToken : aToken) {</b>
+<b class="nc">&nbsp;      String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if (posTag == null) {</b>
+<b class="nc">&nbsp;        posTag = &quot;UNKNOWN&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      final Matcher m = pattern.matcher(posTag);</b>
+<b class="nc">&nbsp;      if (m.matches()) {</b>
+<b class="nc">&nbsp;        return analyzedToken;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

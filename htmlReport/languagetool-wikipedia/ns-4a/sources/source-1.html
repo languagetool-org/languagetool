@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ChunkArray</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.symspell.implementation</a>
+</div>
+
+<h1>Coverage Summary for Class: ChunkArray (org.languagetool.rules.spelling.symspell.implementation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChunkArray</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.spelling.symspell.implementation;
+&nbsp;//        MIT License
+&nbsp;//
+&nbsp;//        Copyright (c) 2018 Hampus Londögård
+&nbsp;//
+&nbsp;//        Permission is hereby granted, free of charge, to any person obtaining a copy
+&nbsp;//        of this software and associated documentation files (the &quot;Software&quot;), to deal
+&nbsp;//        in the Software without restriction, including without limitation the rights
+&nbsp;//        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+&nbsp;//        copies of the Software, and to permit persons to whom the Software is
+&nbsp;//        furnished to do so, subject to the following conditions:
+&nbsp;//
+&nbsp;//        The above copyright notice and this permission notice shall be included in all
+&nbsp;//        copies or substantial portions of the Software.
+&nbsp;//
+&nbsp;//        THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&nbsp;//        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+&nbsp;//        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+&nbsp;//        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+&nbsp;//        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+&nbsp;//        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+&nbsp;//        SOFTWARE.
+&nbsp;import org.languagetool.rules.spelling.symspell.implementation.SuggestionStage.Node;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;// A growable list of elements that&#39;s optimized to support adds, but not deletes,
+&nbsp;// of large numbers of elements, storing data in a way that&#39;s friendly to the garbage
+&nbsp;// collector (not backed by a monolithic array object), and can grow without needing
+&nbsp;// to copy the entire backing array contents from the old backing array to the new.
+&nbsp;public class ChunkArray&lt;T&gt;
+&nbsp;{
+<b class="nc">&nbsp;    private static int chunkSize = 4096;//this must be a power of 2, otherwise can&#39;t optimize row and col functions</b>
+<b class="nc">&nbsp;    private static int divShift = 12;   // number of bits to shift right to do division by chunkSize (the bit position of chunkSize)</b>
+&nbsp;    public SuggestionStage.Node[][] values;             // Note: Node (SymSpell.SuggestionStage.Node) is found in SymSpell.SymSpell.java.
+&nbsp;    public int count;
+&nbsp;
+&nbsp;    ChunkArray(int initialCapacity)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        int chunks = (initialCapacity + chunkSize - 1) / chunkSize;</b>
+<b class="nc">&nbsp;        values = new SuggestionStage.Node[chunks][];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; values.length; i++) values[i] = new Node[chunkSize];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int add(Node value)
+&nbsp;    {
+<b class="nc">&nbsp;        if (count == capacity()) {</b>
+<b class="nc">&nbsp;            Node[][] newValues = Arrays.copyOf(values, values.length + 1);</b>
+<b class="nc">&nbsp;            newValues[values.length] = new Node[chunkSize];</b>
+<b class="nc">&nbsp;            values = newValues;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        values[row(count)][col(count)] = value;</b>
+<b class="nc">&nbsp;        count++;</b>
+<b class="nc">&nbsp;        return count - 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void clear()
+&nbsp;    {
+<b class="nc">&nbsp;        count = 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Node getValues(int index) {
+<b class="nc">&nbsp;        return values[row(index)][col(index)];</b>
+&nbsp;    }
+&nbsp;    public void setValues(int index, Node value){
+<b class="nc">&nbsp;        values[row(index)][col(index)] = value;</b>
+&nbsp;    }
+&nbsp;    public void setValues(int index, Node value, Node[][] list){
+<b class="nc">&nbsp;        list[row(index)][col(index)] = value;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    private int row(int index) { return index &gt;&gt; divShift; } // same as index / chunkSize</b>
+<b class="nc">&nbsp;    private int col(int index) { return index &amp; (chunkSize - 1); } //same as index % chunkSize</b>
+<b class="nc">&nbsp;    private int capacity() { return values.length * chunkSize; }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

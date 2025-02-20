@@ -1,0 +1,348 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RuleCreator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleCreator (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleCreator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/80)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RuleCreator$OccurrenceInfo</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.language.AmericanEnglish;
+&nbsp;import org.languagetool.language.English;
+&nbsp;import org.languagetool.rules.ConfusionPair;
+&nbsp;import org.languagetool.rules.ConfusionSetLoader;
+&nbsp;import org.languagetool.rules.ConfusionString;
+&nbsp;import org.languagetool.tokenizers.WordTokenizer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Takes the output of {@link HomophoneOccurrenceDumper} and automatically
+&nbsp; * writes the error probabilities of variants (e.g. &quot;0.977 public hair&quot;)
+&nbsp; * when {@code XML_MODE = false} or writes XML rules when {@code XML_MODE = true}.
+&nbsp; * @since 2.8
+&nbsp; */
+&nbsp;public class RuleCreator {
+&nbsp;
+&nbsp;  private static final boolean XML_MODE = true;
+&nbsp;  
+<b class="nc">&nbsp;  private final Map&lt;String, List&lt;OccurrenceInfo&gt;&gt; occurrenceInfos = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Map&lt;String, Long&gt; ngramToOccurrence = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final WordTokenizer wordTokenizer = (WordTokenizer) new English().getWordTokenizer();</b>
+&nbsp;  private final float minErrorProb;
+&nbsp;
+<b class="nc">&nbsp;  private int ruleCount = 0;</b>
+<b class="nc">&nbsp;  private int tokenFilteredRules = 0;</b>
+<b class="nc">&nbsp;  private int probFilteredRules = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;  public RuleCreator(float minErrorProb) {</b>
+<b class="nc">&nbsp;    this.minErrorProb = minErrorProb;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void run(File homophoneOccurrences, String homophonePath) throws IOException {
+<b class="nc">&nbsp;    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(AmericanEnglish.getInstance());</b>
+<b class="nc">&nbsp;    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);</b>
+<b class="nc">&nbsp;    Map&lt;String,List&lt;ConfusionPair&gt;&gt; confusionPairsMap = confusionSetLoader.loadConfusionPairs(inputStream);</b>
+<b class="nc">&nbsp;    initMaps(homophoneOccurrences);</b>
+<b class="nc">&nbsp;    int groupCount = 0;</b>
+&nbsp;    if (XML_MODE) {
+<b class="nc">&nbsp;      System.out.println(&quot;&lt;rules lang=&#39;en&#39;&gt;\n&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;&lt;category name=&#39;Auto-generated rules&#39;&gt;\n&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, List&lt;ConfusionPair&gt;&gt; entry : confusionPairsMap.entrySet()) {</b>
+<b class="nc">&nbsp;      System.err.println(&quot; === &quot; + entry + &quot; === &quot;);</b>
+<b class="nc">&nbsp;      if (entry.getValue().size() &gt; 1) {</b>
+<b class="nc">&nbsp;        System.err.println(&quot;WARN: will use only first pair of &quot; + entry.getValue().size() + &quot;: &quot; + entry.getValue().get(0));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;OccurrenceInfo&gt; infos = occurrenceInfos.get(entry.getKey());</b>
+<b class="nc">&nbsp;      if (infos == null) {</b>
+<b class="nc">&nbsp;        System.err.println(&quot;Could not find occurrence infos for &#39;&quot; + entry.getKey() + &quot;&#39;, skipping&quot;);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      Set cleanSet = new HashSet&lt;&gt;(entry.getValue().get(0).getTerms());</b>
+<b class="nc">&nbsp;      cleanSet.remove(entry.getKey());</b>
+<b class="nc">&nbsp;      String name = StringUtils.join(cleanSet, &quot;/&quot;) + &quot; -&gt; &quot; + entry.getKey();</b>
+&nbsp;      if (XML_MODE) {
+<b class="nc">&nbsp;        System.out.println(&quot;&lt;rulegroup id=&#39;R&quot; + groupCount + &quot;&#39; name=\&quot;&quot; + StringTools.escapeXML(name) + &quot;\&quot;&gt;\n&quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      groupCount++;</b>
+<b class="nc">&nbsp;      for (OccurrenceInfo occurrenceInfo : infos) {</b>
+<b class="nc">&nbsp;        String[] parts = occurrenceInfo.ngram.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;        for (ConfusionString variant : entry.getValue().get(0).getTerms()) {</b>
+<b class="nc">&nbsp;          if (variant.getString().equals(entry.getKey())) {</b>
+&nbsp;            continue;
+&nbsp;          }
+<b class="nc">&nbsp;          printRule(occurrenceInfo, parts, variant.getString());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      if (XML_MODE) {
+<b class="nc">&nbsp;        System.out.println(&quot;&lt;/rulegroup&gt;\n&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    if (XML_MODE) {
+<b class="nc">&nbsp;      System.out.println(&quot;&lt;/category&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;&lt;/rules&gt;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.err.println(&quot;Done. Wrote &quot; + ruleCount + &quot; rules.&quot;);</b>
+<b class="nc">&nbsp;    System.err.println(&quot;Rules ignored because of different tokenization: &quot; + tokenFilteredRules);</b>
+<b class="nc">&nbsp;    System.err.println(&quot;Rules ignored because of error probability limit (&quot; + minErrorProb + &quot;): &quot; + probFilteredRules);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void printRule(OccurrenceInfo occurrenceInfo, String[] parts, String variant) {
+<b class="nc">&nbsp;    String term = parts[1];</b>
+<b class="nc">&nbsp;    String termPhrase = parts[0] + &quot; &quot; + parts[1] + &quot; &quot; + parts[2];</b>
+<b class="nc">&nbsp;    String variantPhrase = parts[0] + &quot; &quot; + variant + &quot; &quot; + parts[2];</b>
+<b class="nc">&nbsp;    List&lt;String&gt; tokens = wordTokenizer.tokenize(variantPhrase);</b>
+<b class="nc">&nbsp;    if (tokens.size() != 3+2) {  // 3 tokens, 2 whitespace</b>
+<b class="nc">&nbsp;      System.err.println(&quot;Skipping &#39;&quot; + variantPhrase + &quot;&#39;, does not tokenize to 3 tokens: &quot; + tokens);</b>
+<b class="nc">&nbsp;      tokenFilteredRules++;</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    Long variantOccObj = ngramToOccurrence.get(variantPhrase);</b>
+<b class="nc">&nbsp;    long variantOcc = variantOccObj != null ? variantOccObj : 0;</b>
+<b class="nc">&nbsp;    long totalOcc = occurrenceInfo.occurrence + variantOcc;</b>
+<b class="nc">&nbsp;    float variantProb = (float)variantOcc / totalOcc;</b>
+<b class="nc">&nbsp;    float variantErrorProb = 1.0f - variantProb;</b>
+<b class="nc">&nbsp;    if (variantErrorProb &lt; minErrorProb) {</b>
+<b class="nc">&nbsp;      System.err.println(&quot;Skipping &#39;&quot; + variantPhrase + &quot;&#39;, error probability too low: &quot; + variantErrorProb + &quot; &lt; &quot; + minErrorProb);</b>
+<b class="nc">&nbsp;      probFilteredRules++;</b>
+&nbsp;      return;
+&nbsp;    }
+&nbsp;    if (XML_MODE) {
+<b class="nc">&nbsp;      System.out.printf(Locale.ENGLISH,</b>
+&nbsp;                      &quot;  &lt;rule case_sensitive=&#39;yes&#39;&gt;\n&quot; +
+&nbsp;                      &quot;    &lt;!-- auto-generated, error probability: %.3f, correct phrase occurrences: %d --&gt;\n&quot; +
+&nbsp;                      &quot;    &lt;pattern&gt;\n&quot; +
+&nbsp;                      &quot;      &lt;token&gt;%s&lt;/token&gt;\n&quot; +
+&nbsp;                      &quot;      &lt;marker&gt;&lt;token&gt;%s&lt;/token&gt;&lt;/marker&gt;\n&quot; +
+&nbsp;                      &quot;      &lt;token&gt;%s&lt;/token&gt;\n&quot; +
+&nbsp;                      &quot;    &lt;/pattern&gt;\n&quot; +
+&nbsp;                      &quot;    &lt;message&gt;Did you mean &lt;suggestion&gt;%s&lt;/suggestion&gt;?&lt;/message&gt;\n&quot; +
+&nbsp;                      &quot;    &lt;example type=&#39;incorrect&#39;&gt;%s&lt;/example&gt;\n&quot; +
+&nbsp;                      &quot;    &lt;example type=&#39;correct&#39;&gt;%s&lt;/example&gt;\n&quot; +
+<b class="nc">&nbsp;                      &quot;  &lt;/rule&gt;\n\n&quot;, variantErrorProb, occurrenceInfo.occurrence,</b>
+<b class="nc">&nbsp;                                       StringTools.escapeXML(parts[0]), StringTools.escapeXML(variant), StringTools.escapeXML(parts[2]),</b>
+<b class="nc">&nbsp;                                       StringTools.escapeXML(term), StringTools.escapeXML(variantPhrase), StringTools.escapeXML(termPhrase));</b>
+&nbsp;    } else {
+&nbsp;      System.out.printf(Locale.ENGLISH, &quot;%.2f\t%s\t%s\n&quot;, variantErrorProb, variantPhrase, term);
+&nbsp;    }
+<b class="nc">&nbsp;    ruleCount++;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void initMaps(File homophoneOccurrenceFile) throws FileNotFoundException {
+<b class="nc">&nbsp;    try (Scanner s = new Scanner(homophoneOccurrenceFile)) {</b>
+<b class="nc">&nbsp;      while (s.hasNextLine()) {</b>
+<b class="nc">&nbsp;        String line = s.nextLine();</b>
+<b class="nc">&nbsp;        String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;        if (parts.length != 3) {</b>
+<b class="nc">&nbsp;          throw new RuntimeException(&quot;Unexpected format: &#39;&quot; + line + &quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        long occurrenceCount = Integer.parseInt(parts[1]);</b>
+<b class="nc">&nbsp;        OccurrenceInfo occurrenceInfo = new OccurrenceInfo(parts[2], occurrenceCount);</b>
+&nbsp;        List&lt;OccurrenceInfo&gt; list;
+<b class="nc">&nbsp;        if (occurrenceInfos.containsKey(parts[0])) {</b>
+<b class="nc">&nbsp;          list = occurrenceInfos.get(parts[0]);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          list = new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        list.add(occurrenceInfo);</b>
+<b class="nc">&nbsp;        occurrenceInfos.put(parts[0], list);</b>
+<b class="nc">&nbsp;        ngramToOccurrence.put(parts[2], occurrenceCount);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class OccurrenceInfo {
+&nbsp;    private final String ngram;
+&nbsp;    private final long occurrence;
+<b class="nc">&nbsp;    OccurrenceInfo(String ngram, long occurrence) {</b>
+<b class="nc">&nbsp;      this.ngram = ngram;</b>
+<b class="nc">&nbsp;      this.occurrence = occurrence;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return ngram + &quot;/&quot; + occurrence;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length &lt; 1 || args.length &gt; 2) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + RuleCreator.class.getSimpleName() + &quot; &lt;homophoneResultFile&gt; [minErrorProbability]&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;    homophoneResultFile   the output of org.languagetool.dev.HomophoneOccurrenceDumper&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;    minErrorProbability   the minimal error probability (0.0-1.0), other rules will be ignored&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    float minErrorProb = args.length &gt;= 2 ? Float.parseFloat(args[1]) : 0.0f;</b>
+<b class="nc">&nbsp;    RuleCreator creator = new RuleCreator(minErrorProb);</b>
+<b class="nc">&nbsp;    creator.run(new File(args[0]), &quot;/en/confusion_sets_subset.txt&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

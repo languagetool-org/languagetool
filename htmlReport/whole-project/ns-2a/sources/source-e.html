@@ -1,0 +1,274 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CatalanUnpairedQuestionMarksRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ca</a>
+</div>
+
+<h1>Coverage Summary for Class: CatalanUnpairedQuestionMarksRule (org.languagetool.rules.ca)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CatalanUnpairedQuestionMarksRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    56%
+  </span>
+  <span class="absValue">
+    (56/100)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (54/66)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2010 Daniel Naber (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.ca;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.TextLevelRule;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;public class CatalanUnpairedQuestionMarksRule extends TextLevelRule {
+&nbsp;
+&nbsp;  public CatalanUnpairedQuestionMarksRule(ResourceBundle messages, Language language) {
+<b class="fc">&nbsp;    super();</b>
+<b class="fc">&nbsp;    setLocQualityIssueType(ITSIssueType.Style);</b>
+<b class="fc">&nbsp;    setDefaultOff();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getStartSymbol() {
+<b class="fc">&nbsp;    return &quot;¿&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getEndSymbol() {
+<b class="fc">&nbsp;    return &quot;?&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int minToCheckParagraph() {
+<b class="nc">&nbsp;    return 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return &quot;CA_UNPAIRED_QUESTION&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="fc">&nbsp;    return &quot;Exigeix signe d&#39;interrogació inicial&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(List&lt;AnalyzedSentence&gt; sentences) {
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; matches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int pos = 0;</b>
+<b class="fc">&nbsp;    for (AnalyzedSentence sentence : sentences) {</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;      int needsInvQuestionMarkAt = hasTokenAtPos(getEndSymbol(), tokens);</b>
+<b class="fc">&nbsp;      if (needsInvQuestionMarkAt &gt; 1) {</b>
+<b class="fc">&nbsp;        boolean hasInvQuestionMark = false;</b>
+&nbsp;        // boolean hasInvExlcMark = false;
+<b class="fc">&nbsp;        AnalyzedTokenReadings firstToken = null;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; tokens.length; i++) {</b>
+<b class="fc">&nbsp;          if (firstToken == null &amp;&amp; !tokens[i].isSentenceStart()</b>
+<b class="fc">&nbsp;              &amp;&amp; !StringTools.isPunctuationMark(tokens[i].getToken())) {</b>
+<b class="fc">&nbsp;            firstToken = tokens[i];</b>
+&nbsp;          }
+<b class="pc">&nbsp;          if (tokens[i].getToken().equals(getStartSymbol()) &amp;&amp; i &lt; needsInvQuestionMarkAt) {</b>
+<b class="nc">&nbsp;            hasInvQuestionMark = true;</b>
+&nbsp;          }
+&nbsp;          // possibly a sentence end
+<b class="pc">&nbsp;          if (!tokens[i].isSentenceEnd() &amp;&amp; tokens[i].getToken().equals(getEndSymbol())</b>
+&nbsp;            &amp;&amp; i &lt; needsInvQuestionMarkAt) {
+<b class="nc">&nbsp;            firstToken = null;</b>
+&nbsp;          }
+&nbsp;          // put the question mark in: ¿de què... ¿de quina
+&nbsp;          // put the question mark in: ¿de qué... ¿para cuál... ¿cómo...
+<b class="fc">&nbsp;          if (i &gt; 2 &amp;&amp; i + 2 &lt; tokens.length) {</b>
+<b class="pc">&nbsp;            if (tokens[i - 1].getToken().equals(&quot;,&quot;) &amp;&amp; tokens[i].hasPosTag(&quot;CC&quot;) &amp;&amp; tokens[i + 1].hasPosTag(&quot;SPS00&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; (tokens[i + 2].hasPosTagStartingWith(&quot;PT&quot;) || tokens[i + 2].hasPosTagStartingWith(&quot;DT&quot;))) {</b>
+<b class="nc">&nbsp;              firstToken = tokens[i];</b>
+&nbsp;            }
+<b class="pc">&nbsp;            if (tokens[i - 1].getToken().equals(&quot;,&quot;) &amp;&amp; tokens[i].hasPosTag(&quot;SPS00&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; (tokens[i + 1].hasPosTagStartingWith(&quot;PT&quot;) || tokens[i + 1].hasPosTagStartingWith(&quot;DT&quot;))) {</b>
+<b class="nc">&nbsp;              firstToken = tokens[i];</b>
+&nbsp;            }
+<b class="pc">&nbsp;            if (tokens[i - 1].getToken().equals(&quot;,&quot;) &amp;&amp; tokens[i].hasPosTag(&quot;CC&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; (tokens[i + 1].hasPosTagStartingWith(&quot;PT&quot;) || tokens[i + 1].hasPosTagStartingWith(&quot;DT&quot;))) {</b>
+<b class="nc">&nbsp;              firstToken = tokens[i];</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (tokens[i - 1].getToken().equals(&quot;,&quot;)</b>
+<b class="pc">&nbsp;              &amp;&amp; (tokens[i].hasPosTagStartingWith(&quot;PT&quot;) || tokens[i].hasPosTagStartingWith(&quot;DT&quot;))) {</b>
+<b class="nc">&nbsp;              firstToken = tokens[i];</b>
+&nbsp;            }
+<b class="pc">&nbsp;            if (tokens[i - 1].getToken().equals(&quot;,&quot;) &amp;&amp; tokens[i].hasPosTag(&quot;CC&quot;)</b>
+<b class="nc">&nbsp;              &amp;&amp; (tokens[i + 1].getToken().equals(&quot;no&quot;) || tokens[i + 1].getToken().equals(&quot;sí&quot;))) {</b>
+<b class="nc">&nbsp;              firstToken = tokens[i];</b>
+&nbsp;            }
+&nbsp;          }
+<b class="pc">&nbsp;          if (i &gt; 2 &amp;&amp; i &lt; tokens.length) {</b>
+<b class="fc">&nbsp;            if (tokens[i - 1].getToken().equals(&quot;,&quot;)</b>
+<b class="pc">&nbsp;              &amp;&amp; (tokens[i].getToken().equals(&quot;no&quot;) || tokens[i].getToken().equals(&quot;sí&quot;)</b>
+<b class="pc">&nbsp;              || tokens[i].getToken().equals(&quot;oi&quot;) || tokens[i].getToken().equals(&quot;eh&quot;))) {</b>
+<b class="fc">&nbsp;              firstToken = tokens[i];</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="pc">&nbsp;        if (firstToken != null) {</b>
+<b class="fc">&nbsp;          String s = null;</b>
+<b class="pc">&nbsp;          if (needsInvQuestionMarkAt &gt; 1 &amp;&amp; !hasInvQuestionMark) {</b>
+<b class="fc">&nbsp;            s = getStartSymbol();</b>
+&nbsp;          }
+<b class="pc">&nbsp;          if (s != null) { // &amp;&amp; !prevSentEndsWithColon: skip sentences with &#39;:&#39; due to unclear sentence</b>
+&nbsp;                           // boundaries
+<b class="fc">&nbsp;            String message = &quot;Símbol sense parella: Sembla que falta un &#39;&quot; + s + &quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;            RuleMatch match = new RuleMatch(this, sentence, pos + firstToken.getStartPos(),</b>
+<b class="fc">&nbsp;                pos + firstToken.getEndPos(), message);</b>
+<b class="fc">&nbsp;            match.setSuggestedReplacement(s + firstToken.getToken());</b>
+<b class="fc">&nbsp;            matches.add(match);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      pos += sentence.getCorrectedTextLength();</b>
+&nbsp;      // prevSentEndsWithColon = endsWithColon;
+&nbsp;    }
+<b class="fc">&nbsp;    return toRuleMatchArray(matches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int hasTokenAtPos(String ch, AnalyzedTokenReadings[] tokens) {
+<b class="fc">&nbsp;    int i = tokens.length - 1;</b>
+<b class="fc">&nbsp;    while (i &gt; 0) {</b>
+<b class="fc">&nbsp;      if (tokens[i].getToken().equals(ch)) {</b>
+<b class="pc">&nbsp;        if (i &lt; tokens.length - 1 &amp;&amp; !tokens[i + 1].isWhitespaceBefore()</b>
+<b class="pc">&nbsp;          &amp;&amp; !StringTools.isPunctuationMark(tokens[i + 1].getToken())</b>
+<b class="pc">&nbsp;          &amp;&amp; !tokens[i + 1].isWhitespace()) {</b>
+&nbsp;          // ignore question marks joined to the next word, as in URLs
+&nbsp;        } else {
+<b class="fc">&nbsp;          return i;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      i--;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

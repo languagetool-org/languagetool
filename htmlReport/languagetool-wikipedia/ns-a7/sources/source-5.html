@@ -1,0 +1,255 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicUnitsHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicUnitsHelper (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicUnitsHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/71)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/*
+&nbsp;  Used to generate and handle units for numbers(Tamyeez)
+&nbsp;
+&nbsp;  The main task is to get agreement with numeric phrase
+&nbsp;  like
+&nbsp;  سبعة عشر رجلا
+&nbsp;  ثلاثة رجال
+&nbsp; */
+<b class="nc">&nbsp;public class ArabicUnitsHelper {</b>
+&nbsp;  // map of unit cases
+<b class="nc">&nbsp;  static final Map&lt;String, List&lt;String&gt;&gt; unitsMap2 = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  static final Map&lt;String, Map&lt;String, String&gt;&gt; unitsMap = new HashMap&lt;&gt;();</b>
+&nbsp;  // cases will be indexed by numeric values
+<b class="nc">&nbsp;  final short ONE_POS_RAF3 = 0;</b>
+<b class="nc">&nbsp;  final short ONE_POS_NASB = 1;</b>
+<b class="nc">&nbsp;  final short ONE_POS_JAR = 2;</b>
+&nbsp;
+<b class="nc">&nbsp;  final short TWO_POS_RAF3 = 3;</b>
+<b class="nc">&nbsp;  final short TWO_POS_NASB = 4;</b>
+<b class="nc">&nbsp;  final short TWO_POS_JAR = 5;</b>
+&nbsp;
+<b class="nc">&nbsp;  final short PLURAL_POS_RAF3 = 6;</b>
+<b class="nc">&nbsp;  final short PLURAL_POS_NASB = 7;</b>
+<b class="nc">&nbsp;  final short PLURAL_POS_JAR = 8;</b>
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; unitsEntry = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;feminin&quot;, &quot;no&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_raf3&quot;, &quot;دينار&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_nasb&quot;, &quot;دينارًا&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_jar&quot;, &quot;دينارٍ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_raf3&quot;, &quot;ديناران&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_nasb&quot;, &quot;دينارين&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_jar&quot;, &quot;دينارين&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_raf3&quot;, &quot;دنانيرُ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_nasb&quot;, &quot;دنانيرَ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_jar&quot;, &quot;دنانيرَ&quot;);</b>
+<b class="nc">&nbsp;    unitsMap.put(&quot;دينار&quot;, unitsEntry);</b>
+&nbsp;
+<b class="nc">&nbsp;    unitsEntry = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;feminin&quot;, &quot;no&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_raf3&quot;, &quot;درهم&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_nasb&quot;, &quot;درهمًا&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_jar&quot;, &quot;درهمٍ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_raf3&quot;, &quot;درهمان&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_nasb&quot;, &quot;درهمين&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_jar&quot;, &quot;درهمين&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_raf3&quot;, &quot;دراهمُ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_nasb&quot;, &quot;دراهمَ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_jar&quot;, &quot;دراهمَ&quot;);</b>
+<b class="nc">&nbsp;    unitsMap.put(&quot;درهم&quot;, unitsEntry);</b>
+&nbsp;
+<b class="nc">&nbsp;    unitsEntry = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;feminin&quot;, &quot;no&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_raf3&quot;, &quot;دولار&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_nasb&quot;, &quot;دولارًا&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_jar&quot;, &quot;دولارٍ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_raf3&quot;, &quot;دولاران&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_nasb&quot;, &quot;دولارين&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_jar&quot;, &quot;دولارين&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_raf3&quot;, &quot;دولاراتٌ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_nasb&quot;, &quot;دولاراتٍ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_jar&quot;, &quot;دولاراتٍ&quot;);</b>
+<b class="nc">&nbsp;    unitsMap.put(&quot;دولار&quot;, unitsEntry);</b>
+&nbsp;
+<b class="nc">&nbsp;    unitsEntry = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;feminin&quot;, &quot;yes&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_raf3&quot;, &quot;ليرة&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_nasb&quot;, &quot;ليرةً&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;one_jar&quot;, &quot;ليرةٍ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_raf3&quot;, &quot;ليرتان&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_nasb&quot;, &quot;ليرتين&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;two_jar&quot;, &quot;ليرتين&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_raf3&quot;, &quot;ليراتٌ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_nasb&quot;, &quot;ليراتٍ&quot;);</b>
+<b class="nc">&nbsp;    unitsEntry.put(&quot;plural_jar&quot;, &quot;ليراتٍ&quot;);</b>
+<b class="nc">&nbsp;    unitsMap.put(&quot;ليرة&quot;, unitsEntry);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* test if the unit is feminin */
+&nbsp;  public static boolean isFeminin(String unit) {
+<b class="nc">&nbsp;    return (unitsMap.containsKey(unit) &amp;&amp; unitsMap.get(unit).getOrDefault(&quot;feminin&quot;, &quot;no&quot;).equals(&quot;yes&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean isUnit(String unit) {
+<b class="nc">&nbsp;    return unitsMap.containsKey(unit);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* return the suitable form of units according to inflection */
+&nbsp;  public static String getForm(String unit, String category, String inflection) {
+<b class="nc">&nbsp;    if (inflection.isEmpty()) {</b>
+<b class="nc">&nbsp;      inflection = &quot;raf3&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String key = category + &quot;_&quot; + inflection;</b>
+<b class="nc">&nbsp;    if (unitsMap.containsKey(unit)) {</b>
+<b class="nc">&nbsp;      return unitsMap.get(unit).getOrDefault(key, &quot;[&quot; + unit + &quot;]&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return &quot;[[&quot; + unit + &quot;]]&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* return the suitable form of units according to inflection */
+&nbsp;  public static String getOneForm(String unit, String inflection) {
+<b class="nc">&nbsp;    return getForm(unit, &quot;one&quot;, inflection);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* return the suitable form of units according to inflection */
+&nbsp;  public static String getTwoForm(String unit, String inflection) {
+<b class="nc">&nbsp;    return getForm(unit, &quot;two&quot;, inflection);</b>
+&nbsp;  }  /* return the suitable form of units according to inflection */
+&nbsp;
+&nbsp;  public static String getPluralForm(String unit, String inflection) {
+<b class="nc">&nbsp;    return getForm(unit, &quot;plural&quot;, inflection);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,342 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DictionaryBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: DictionaryBuilder (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DictionaryBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/97)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.BufferedWriter;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.io.OutputStreamWriter;
+&nbsp;import java.io.Writer;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.StandardCopyOption;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Properties;
+&nbsp;import java.util.Scanner;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;
+&nbsp;import morfologik.tools.DictCompile;
+&nbsp;import morfologik.tools.FSACompile;
+&nbsp;import morfologik.tools.SerializationFormat;
+&nbsp;
+&nbsp;/**
+&nbsp; * Create a Morfologik binary dictionary from plain text data.
+&nbsp; */
+&nbsp;class DictionaryBuilder {
+&nbsp;
+<b class="nc">&nbsp;  private final Properties props = new Properties();</b>
+&nbsp;
+&nbsp;  private static final int FREQ_RANGES_IN = 256;
+&nbsp;  private static final int FREQ_RANGES_OUT = 26; // (A-Z)
+&nbsp;  private static final int FIRST_RANGE_CODE = 65; // character &#39;A&#39;, less frequent words
+<b class="nc">&nbsp;  private static final SerializationFormat serializationFormat = SerializationFormat.CFSA2;</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Map&lt;String, Integer&gt; freqList = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Pattern pFreqEntry = Pattern.compile(&quot;.*&lt;w f=\&quot;(\\d+)\&quot;(?: flags=\&quot;(.*?)\&quot;)?&gt;(.+)&lt;/w&gt;.*&quot;);</b>
+&nbsp;  // Valid for tagger dictionaries (wordform_TAB_lemma_TAB_postag) or spelling dictionaries (wordform)
+<b class="nc">&nbsp;  private final Pattern pTaggerEntry = Pattern.compile(&quot;^([^\t]+).*$&quot;);</b>
+&nbsp;  private String outputFilename;
+&nbsp;
+<b class="nc">&nbsp;  protected DictionaryBuilder(File infoFile) throws IOException {</b>
+<b class="nc">&nbsp;    props.load(new FileInputStream(infoFile));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected void setOutputFilename(String outputFilename) {
+<b class="nc">&nbsp;    this.outputFilename = outputFilename;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String getOutputFilename() {
+<b class="nc">&nbsp;    return outputFilename;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected File buildDict(File inputFile) throws Exception {
+<b class="nc">&nbsp;    File outputFile = new File(outputFilename);</b>
+<b class="nc">&nbsp;    String infoPath = inputFile.toString().replaceAll(&quot;\\.txt$&quot;, &quot;.info&quot;);</b>
+<b class="nc">&nbsp;    File resultFile = new File (inputFile.toString().replaceAll(&quot;\\.txt$&quot;, JLanguageTool.DICTIONARY_FILENAME_EXTENSION));</b>
+<b class="nc">&nbsp;    File infoFile = new File(infoPath);</b>
+&nbsp;    // save info file in the same path of input text file and with the same name
+<b class="nc">&nbsp;    props.store(new FileOutputStream(infoFile), &quot;&quot;);</b>
+<b class="nc">&nbsp;    String[] buildOptions = {&quot;--exit&quot;, &quot;false&quot;,</b>
+<b class="nc">&nbsp;        &quot;-i&quot;, inputFile.toString(), </b>
+<b class="nc">&nbsp;        &quot;-f&quot;, serializationFormat.toString()};</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Running Morfologik DictCompile.main with these options: &quot; + Arrays.toString(buildOptions));</b>
+<b class="nc">&nbsp;    DictCompile.main(buildOptions);</b>
+&nbsp;    // move output file to the desired path and name
+<b class="nc">&nbsp;    Files.move(resultFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Done. The binary dictionary has been written to &quot; + outputFile.getAbsolutePath());</b>
+<b class="nc">&nbsp;    return outputFile;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected File buildFSA(File inputFile) throws Exception {
+<b class="nc">&nbsp;    File resultFile = new File(outputFilename);</b>
+<b class="nc">&nbsp;    String[] buildOptions = {</b>
+&nbsp;        &quot;--exit&quot;, &quot;false&quot;,
+<b class="nc">&nbsp;        &quot;-i&quot;, inputFile.toString(), </b>
+<b class="nc">&nbsp;        &quot;-o&quot;, resultFile.toString(),</b>
+<b class="nc">&nbsp;        &quot;-f&quot;, serializationFormat.toString()};</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Running Morfologik FSACompile.main with these options: &quot; + Arrays.toString(buildOptions));</b>
+<b class="nc">&nbsp;    FSACompile.main(buildOptions);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Done. The binary dictionary has been written to &quot; + resultFile.getAbsolutePath());</b>
+<b class="nc">&nbsp;    return resultFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected String getOption(String option) {
+<b class="nc">&nbsp;    String property = props.getProperty(option);</b>
+<b class="nc">&nbsp;    if (property == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return property.trim();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected boolean hasOption(String option) {
+<b class="nc">&nbsp;    return props.getProperty(option) != null; </b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected boolean isOptionTrue(String option) {
+<b class="nc">&nbsp;    return hasOption(option) &amp;&amp; &quot;true&quot;.equals(getOption(option));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected void readFreqList(File freqListFile) {
+&nbsp;    try (
+<b class="nc">&nbsp;      FileInputStream fis = new FileInputStream(freqListFile.getAbsoluteFile());</b>
+<b class="nc">&nbsp;      InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;      BufferedReader br = new BufferedReader(reader)</b>
+&nbsp;    ) {
+&nbsp;      String line;
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        Matcher m = pFreqEntry.matcher(line);</b>
+<b class="nc">&nbsp;        if (m.matches()) {</b>
+<b class="nc">&nbsp;          freqList.put(m.group(3), Integer.parseInt(m.group(1)));</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Cannot read file: &quot; + freqListFile.getAbsolutePath());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected File addFreqData(File dictFile, boolean useSeparator) throws IOException {
+<b class="nc">&nbsp;    if (!isOptionTrue(&quot;fsa.dict.frequency-included&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IOException(&quot;In order to use frequency data add the line &#39;fsa.dict.frequency-included=true&#39; to the dictionary info file.&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String separator = getOption(&quot;fsa.dict.separator&quot;);</b>
+<b class="nc">&nbsp;    if (separator == null || separator.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new IOException(&quot;A separator character (fsa.dict.separator) must be defined in the dictionary info file.&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    File tempFile = File.createTempFile(DictionaryBuilder.class.getSimpleName(), &quot;WithFrequencies.txt&quot;);</b>
+<b class="nc">&nbsp;    tempFile.deleteOnExit();</b>
+<b class="nc">&nbsp;    String encoding = getOption(&quot;fsa.dict.encoding&quot;);</b>
+<b class="nc">&nbsp;    int freqValuesApplied = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;    try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempFile.getAbsoluteFile()), encoding));</b>
+<b class="nc">&nbsp;         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(dictFile.getAbsoluteFile()), encoding))) {</b>
+&nbsp;      String line;
+<b class="nc">&nbsp;      int maxFreq = Collections.max(freqList.values());</b>
+<b class="nc">&nbsp;      double maxFreqLog = Math.log(maxFreq);</b>
+<b class="nc">&nbsp;      while ((line = br.readLine()) != null) {</b>
+<b class="nc">&nbsp;        Matcher m = pTaggerEntry.matcher(line);</b>
+<b class="nc">&nbsp;        if (m.matches()) {</b>
+<b class="nc">&nbsp;          int freq = 0;</b>
+<b class="nc">&nbsp;          String key = m.group(1);</b>
+<b class="nc">&nbsp;          if (freqList.containsKey(key)) {</b>
+<b class="nc">&nbsp;            freq = freqList.get(key);</b>
+<b class="nc">&nbsp;            freqValuesApplied++;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          int normalizedFreq = freq;</b>
+<b class="nc">&nbsp;          if (freq &gt; 0 &amp;&amp; maxFreq &gt; 255) {</b>
+<b class="nc">&nbsp;            double freqZeroToOne = Math.log(freq) / maxFreqLog;  // spread number better over the range</b>
+<b class="nc">&nbsp;            normalizedFreq = (int) (freqZeroToOne * (FREQ_RANGES_IN-1));  // 0 to 255</b>
+&nbsp;          }
+<b class="nc">&nbsp;          if (normalizedFreq &lt; 0 || normalizedFreq &gt; 255) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Frequency out of range (0-255): &quot; + normalizedFreq + &quot; in word &quot; + key);</b>
+&nbsp;          }
+&nbsp;          // Convert integers 0-255 to ranges A-Z, and write output 
+<b class="nc">&nbsp;          String freqChar = Character.toString((char) (FIRST_RANGE_CODE + normalizedFreq*FREQ_RANGES_OUT/FREQ_RANGES_IN));</b>
+&nbsp;          //add separator only in speller dictionaries
+<b class="nc">&nbsp;          if (useSeparator) { </b>
+<b class="nc">&nbsp;            bw.write(line + separator + freqChar + &quot;\n&quot;);  </b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            bw.write(line + freqChar + &quot;\n&quot;);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.println(freqList.size() + &quot; frequency values applied to &quot; + freqValuesApplied + &quot; word forms.&quot;);</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Cannot read file: &quot; + dictFile.getAbsolutePath());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tempFile;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected File convertTabToSeparator(File inputFile) throws RuntimeException, IOException {
+<b class="nc">&nbsp;    File outputFile = File.createTempFile(</b>
+<b class="nc">&nbsp;        DictionaryBuilder.class.getSimpleName() + &quot;_separator&quot;, &quot;.txt&quot;);</b>
+<b class="nc">&nbsp;    outputFile.deleteOnExit();</b>
+&nbsp;
+<b class="nc">&nbsp;    String separator = getOption(&quot;fsa.dict.separator&quot;);</b>
+<b class="nc">&nbsp;    if (separator == null || separator.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new IOException(</b>
+&nbsp;          &quot;A separator character (fsa.dict.separator) must be defined in the dictionary info file.&quot;);
+&nbsp;    }
+<b class="nc">&nbsp;    String encoding = getOption(&quot;fsa.dict.encoding&quot;);</b>
+<b class="nc">&nbsp;    try (Scanner scanner = new Scanner(inputFile, encoding);</b>
+<b class="nc">&nbsp;         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), encoding))) {</b>
+<b class="nc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="nc">&nbsp;        String line = scanner.nextLine();</b>
+<b class="nc">&nbsp;        String[] parts = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;        if (parts.length == 3) {</b>
+<b class="nc">&nbsp;          out.write(parts[1] + separator + parts[0] + separator + parts[2]);</b>
+<b class="nc">&nbsp;          out.write(&#39;\n&#39;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          System.err</b>
+<b class="nc">&nbsp;              .println(&quot;Invalid input, expected three tab-separated columns in &quot;</b>
+&nbsp;                  + inputFile + &quot;: &quot; + line + &quot; =&gt; ignoring&quot;);
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return outputFile;</b>
+&nbsp;  }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AutomaticProhibitedCompoundRuleEvaluator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: AutomaticProhibitedCompoundRuleEvaluator (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AutomaticProhibitedCompoundRuleEvaluator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/91)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AutomaticProhibitedCompoundRuleEvaluator$TooFewExamples</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/95)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.apache.commons.io.IOUtils;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.lucene.index.DirectoryReader;
+&nbsp;import org.apache.lucene.index.Term;
+&nbsp;import org.apache.lucene.search.*;
+&nbsp;import org.apache.lucene.store.FSDirectory;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.languagemodel.LanguageModel;
+&nbsp;import org.languagetool.languagemodel.LuceneLanguageModel;
+&nbsp;import org.languagetool.rules.ConfusionPair;
+&nbsp;import org.languagetool.rules.ConfusionSetLoader;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * Automatically run {@link ConfusionRuleEvaluator} on word pairs.
+&nbsp; * @since 3.2
+&nbsp; */
+&nbsp;@SuppressWarnings({&quot;resource&quot;, &quot;CallToPrintStackTrace&quot;})
+&nbsp;class AutomaticProhibitedCompoundRuleEvaluator {
+&nbsp;
+&nbsp;  private static final String LANGUAGE = &quot;de&quot;;
+&nbsp;  private static final int MAX_EXAMPLES = 1000;
+&nbsp;  private static final int MIN_EXAMPLES = 50;
+<b class="nc">&nbsp;  private static final List&lt;Long&gt; EVAL_FACTORS = Arrays.asList(10L);//, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);</b>
+&nbsp;  private static final float MIN_PRECISION = 0.95f;
+&nbsp;  private static final float MIN_RECALL = 0.1f;
+&nbsp;  private static final String LUCENE_CONTENT_FIELD = &quot;fieldLowercase&quot;;
+&nbsp;
+&nbsp;  private final IndexSearcher searcher;
+&nbsp;  private final Map&lt;String, List&lt;ConfusionPair&gt;&gt; knownSets;
+<b class="nc">&nbsp;  private final Set&lt;String&gt; finishedPairs = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final Language language = Languages.getLanguageForShortCode(LANGUAGE);</b>
+&nbsp;
+<b class="nc">&nbsp;  private int ignored = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;  AutomaticProhibitedCompoundRuleEvaluator(File luceneIndexDir) throws IOException {</b>
+<b class="nc">&nbsp;    DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));</b>
+<b class="nc">&nbsp;    searcher = new IndexSearcher(reader);</b>
+<b class="nc">&nbsp;    InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(&quot;/&quot; + LANGUAGE + &quot;/confusion_sets.txt&quot;);</b>
+<b class="nc">&nbsp;    knownSets = new ConfusionSetLoader(language).loadConfusionPairs(confusionSetStream);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void run(List&lt;String&gt; lines, File indexDir) throws IOException {
+<b class="nc">&nbsp;    LanguageModel lm = new LuceneLanguageModel(indexDir);</b>
+<b class="nc">&nbsp;    ProhibitedCompoundRuleEvaluator evaluator = new ProhibitedCompoundRuleEvaluator(language, lm);</b>
+<b class="nc">&nbsp;    int lineCount = 0;</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      lineCount++;</b>
+<b class="nc">&nbsp;      if (line.contains(&quot;#&quot;)) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Ignoring: &quot; + line);</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String[] parts = line.split(&quot;;\\s*&quot;);</b>
+<b class="nc">&nbsp;      if (parts.length != 2) {</b>
+<b class="nc">&nbsp;        throw new IOException(&quot;Expected semicolon-separated input: &quot; + line);</b>
+&nbsp;      }
+&nbsp;      try {
+<b class="nc">&nbsp;        int i = 1;</b>
+<b class="nc">&nbsp;        for (String part : parts) {</b>
+&nbsp;          // compare pair-wise - maybe we should compare every item with every other item?
+<b class="nc">&nbsp;          if (i &lt; parts.length) {</b>
+<b class="nc">&nbsp;            runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part), removeComment(parts[i]));</b>
+&nbsp;          }
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;        }
+&nbsp;      } catch (RuntimeException e) {
+<b class="nc">&nbsp;        e.printStackTrace();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Done. Ignored items because they are already known: &quot; + ignored);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String removeComment(String str) {
+<b class="nc">&nbsp;    return str.replaceFirst(&quot;\\|.*&quot;, &quot;&quot;).trim();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void runOnPair(ProhibitedCompoundRuleEvaluator evaluator, String line, int lineCount, int totalLines, String part1, String part2) throws IOException {
+<b class="nc">&nbsp;    if (finishedPairs.contains(part1 + &quot;/&quot; + part2) || finishedPairs.contains(part2 + &quot;/&quot; + part1)) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Ignoring: &quot; + part1 + &quot;/&quot; + part2 + &quot;, finished before&quot;);</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    for (Map.Entry&lt;String, List&lt;ConfusionPair&gt;&gt; entry : knownSets.entrySet()) {</b>
+<b class="nc">&nbsp;      if (entry.getKey().equals(part1)) {</b>
+<b class="nc">&nbsp;        List&lt;ConfusionPair&gt; confusionPair = entry.getValue();</b>
+<b class="nc">&nbsp;        for (ConfusionPair pair : confusionPair) {</b>
+<b class="nc">&nbsp;          Set&lt;String&gt; stringSet = pair.getTerms().stream().map(l -&gt; l.getString()).collect(Collectors.toSet());</b>
+<b class="nc">&nbsp;          if (stringSet.containsAll(Arrays.asList(part1, part2))) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Ignoring: &quot; + part1 + &quot;/&quot; + part2 + &quot;, in active confusion sets already&quot;);</b>
+<b class="nc">&nbsp;            ignored++;</b>
+&nbsp;            return;
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Working on: &quot; + line + &quot; (&quot; + lineCount + &quot; of &quot; + totalLines + &quot;)&quot;);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});</b>
+<b class="nc">&nbsp;      List&lt;String&gt; input = Arrays.asList(sentencesFile.getAbsolutePath());</b>
+<b class="nc">&nbsp;      Map&lt;Long, RuleEvalResult&gt; results = evaluator.run(input, part1, part2, MAX_EXAMPLES, EVAL_FACTORS);</b>
+<b class="nc">&nbsp;      Map&lt;Long, RuleEvalResult&gt; bestResults = findBestFactor(results);</b>
+<b class="nc">&nbsp;      if (bestResults.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;Long, RuleEvalResult&gt; entry : bestResults.entrySet()) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;=&gt; &quot; + entry.getValue().getSummary());</b>
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        System.out.println(&quot;No good result found for &quot; + part1 + &quot;/&quot; + part2);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      finishedPairs.add(part1 + &quot;/&quot; + part2);</b>
+&nbsp;    } catch (TooFewExamples e) {
+<b class="nc">&nbsp;      System.out.println(&quot;Skipping &quot; + part1 + &quot;/&quot; + part2 + &quot;, too few examples: &quot; + e.getMessage());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private Map&lt;Long, RuleEvalResult&gt; findBestFactor(Map&lt;Long, RuleEvalResult&gt; results) {
+<b class="nc">&nbsp;    Map&lt;Long, RuleEvalResult&gt; filteredResults = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Map.Entry&lt;Long, RuleEvalResult&gt; entry : results.entrySet()) {</b>
+<b class="nc">&nbsp;      RuleEvalResult result = entry.getValue();</b>
+<b class="nc">&nbsp;      boolean candidate = result.getPrecision() &gt;= MIN_PRECISION &amp;&amp; result.getRecall() &gt;= MIN_RECALL;</b>
+<b class="nc">&nbsp;      if (candidate) {</b>
+<b class="nc">&nbsp;        filteredResults.put(entry.getKey(), entry.getValue());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return filteredResults;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private File writeExampleSentencesToTempFile(String[] words) throws IOException {
+<b class="nc">&nbsp;    File tempFile = new File(&quot;/tmp/example-sentences.txt&quot;);</b>
+<b class="nc">&nbsp;    int count = 0;</b>
+<b class="nc">&nbsp;    try (FileWriter fw = new FileWriter(tempFile)) {</b>
+<b class="nc">&nbsp;      for (String word : words) {</b>
+<b class="nc">&nbsp;        int tmpCount = findExampleSentences(word, fw);</b>
+<b class="nc">&nbsp;        if (tmpCount &lt;= MIN_EXAMPLES) {</b>
+<b class="nc">&nbsp;          throw new TooFewExamples(word, tmpCount);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        count += tmpCount;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      System.out.println(count + &quot; example sentences written to &quot; + tempFile);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tempFile;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int findExampleSentences(String word, FileWriter fw) throws IOException {
+<b class="nc">&nbsp;    Term term = new Term(LUCENE_CONTENT_FIELD, &quot;.+&quot; + word + &quot;|&quot; + StringUtils.capitalize(word) + &quot;.+&quot;);</b>
+<b class="nc">&nbsp;    long t1 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    TopDocs topDocs = searcher.search(new RegexpQuery(term), MAX_EXAMPLES);</b>
+<b class="nc">&nbsp;    long t2 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    int count = 0;</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; foundSentences = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (ScoreDoc scoreDoc : topDocs.scoreDocs) {</b>
+<b class="nc">&nbsp;      String sentence = searcher.doc(scoreDoc.doc).get(LUCENE_CONTENT_FIELD);</b>
+<b class="nc">&nbsp;      if (!foundSentences.contains(sentence)) {</b>
+<b class="nc">&nbsp;        fw.write(sentence + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;        foundSentences.add(sentence);</b>
+<b class="nc">&nbsp;        count++;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if (count &gt; MAX_EXAMPLES) {</b>
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    long t3 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    long searchTime = t2 - t1;</b>
+<b class="nc">&nbsp;    long iterateTime = t3 - t2;</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Found &quot; + count + &quot; examples for &quot; + word + &quot; (&quot; + searchTime + &quot;ms, &quot; + iterateTime + &quot;ms)&quot;);</b>
+<b class="nc">&nbsp;    return count;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 3) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + AutomaticProhibitedCompoundRuleEvaluator.class.getSimpleName() + &quot; &lt;confusionPairCandidates&gt; &lt;exampleSentenceIndexDir&gt; &lt;ngramDir&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;   &lt;confusionPairCandidates&gt; is a semicolon-separated list of words (one pair per line)&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;   &lt;exampleSentenceIndexDir&gt; is a Lucene index created by TextIndexCreator&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; lines = IOUtils.readLines(new FileInputStream(args[0]), &quot;utf-8&quot;);</b>
+<b class="nc">&nbsp;    AutomaticProhibitedCompoundRuleEvaluator eval = new AutomaticProhibitedCompoundRuleEvaluator(new File(args[1]));</b>
+<b class="nc">&nbsp;    eval.run(lines, new File(args[2]));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class TooFewExamples extends RuntimeException {
+&nbsp;    private final String word;
+&nbsp;    private final int exampleCount;
+<b class="nc">&nbsp;    TooFewExamples(String word, int exampleCount) {</b>
+<b class="nc">&nbsp;      this.word = word;</b>
+<b class="nc">&nbsp;      this.exampleCount = exampleCount;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String getMessage() {
+<b class="nc">&nbsp;      return exampleCount + &quot; matches for &quot; + word;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

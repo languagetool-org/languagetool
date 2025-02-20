@@ -1,0 +1,398 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RemoteRuleConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: RemoteRuleConfig (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteRuleConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/69)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RemoteRuleConfig$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RemoteRuleConfig$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/73)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+&nbsp;import com.fasterxml.jackson.core.JsonFactory;
+&nbsp;import com.fasterxml.jackson.core.JsonParser;
+&nbsp;import com.fasterxml.jackson.core.type.TypeReference;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import com.google.common.cache.CacheLoader;
+&nbsp;import com.google.common.cache.LoadingCache;
+&nbsp;import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+&nbsp;import org.apache.commons.lang3.builder.EqualsBuilder;
+&nbsp;import org.apache.commons.lang3.builder.HashCodeBuilder;
+&nbsp;import org.apache.commons.lang3.builder.ToStringBuilder;
+&nbsp;import org.languagetool.Language;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.concurrent.ExecutionException;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.function.Predicate;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;@SuppressWarnings(&quot;PublicField&quot;)
+&nbsp;@JsonIgnoreProperties(ignoreUnknown = true)
+&nbsp;public class RemoteRuleConfig {
+&nbsp;  private static final int DEFAULT_PORT = 443;
+&nbsp;  private static final long DEFAULT_BASE_TIMEOUT = 1000;
+&nbsp;  private static final float DEFAULT_TIMEOUT_PER_CHAR = 0;
+&nbsp;  private static final long DEFAULT_DOWN = 5000L;
+&nbsp;  private static final float DEFAULT_FAILURE_RATE_THRESHOLD = 50f;
+<b class="nc">&nbsp;  private static final String DEFAULT_SLIDING_WINDOW_TYPE = CircuitBreakerConfig.SlidingWindowType.TIME_BASED.name();</b>
+&nbsp;  private static final int DEFAULT_SLIDING_WINDOW_SIZE = 60;
+&nbsp;  private static final int DEFAULT_MINIMUM_NUMBER_OF_CALLS = 10;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  private static final LoadingCache&lt;File, List&lt;RemoteRuleConfig&gt;&gt; configCache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;    .expireAfterWrite(15, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;    .build(new CacheLoader&lt;File, List&lt;RemoteRuleConfig&gt;&gt;() {</b>
+&nbsp;      @Override
+&nbsp;      public List&lt;RemoteRuleConfig&gt; load(File path) throws Exception {
+<b class="nc">&nbsp;        try (FileInputStream in = new FileInputStream(path)) {</b>
+<b class="nc">&nbsp;          return parse(in);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    });
+&nbsp;  public String ruleId;
+&nbsp;  public String url;
+<b class="nc">&nbsp;  public Integer port = DEFAULT_PORT;</b>
+<b class="nc">&nbsp;  public long baseTimeoutMilliseconds = DEFAULT_BASE_TIMEOUT;</b>
+<b class="nc">&nbsp;  public float timeoutPerCharacterMilliseconds = DEFAULT_TIMEOUT_PER_CHAR;</b>
+<b class="nc">&nbsp;  public long downMilliseconds = DEFAULT_DOWN;</b>
+<b class="nc">&nbsp;  public float failureRateThreshold = DEFAULT_FAILURE_RATE_THRESHOLD;</b>
+<b class="nc">&nbsp;  public String slidingWindowType = DEFAULT_SLIDING_WINDOW_TYPE;</b>
+<b class="nc">&nbsp;  public int slidingWindowSize = DEFAULT_SLIDING_WINDOW_SIZE;</b>
+<b class="nc">&nbsp;  public int minimumNumberOfCalls = DEFAULT_MINIMUM_NUMBER_OF_CALLS;</b>
+<b class="nc">&nbsp;  public Map&lt;String, String&gt; options = new HashMap&lt;&gt;();</b>
+&nbsp;  public String language;
+&nbsp;  public String type;
+&nbsp;
+<b class="nc">&nbsp;  public RemoteRuleConfig() {</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public RemoteRuleConfig(RemoteRuleConfig copy) {</b>
+<b class="nc">&nbsp;    this.ruleId = copy.ruleId;</b>
+<b class="nc">&nbsp;    this.url = copy.url;</b>
+<b class="nc">&nbsp;    this.port = copy.port;</b>
+<b class="nc">&nbsp;    this.baseTimeoutMilliseconds = copy.baseTimeoutMilliseconds;</b>
+<b class="nc">&nbsp;    this.timeoutPerCharacterMilliseconds = copy.timeoutPerCharacterMilliseconds;</b>
+<b class="nc">&nbsp;    this.downMilliseconds = copy.downMilliseconds;</b>
+<b class="nc">&nbsp;    this.failureRateThreshold = copy.failureRateThreshold;</b>
+<b class="nc">&nbsp;    this.slidingWindowType = copy.slidingWindowType;</b>
+<b class="nc">&nbsp;    this.slidingWindowSize = copy.slidingWindowSize;</b>
+<b class="nc">&nbsp;    this.minimumNumberOfCalls = copy.minimumNumberOfCalls;</b>
+<b class="nc">&nbsp;    this.options = new HashMap&lt;&gt;(copy.options);</b>
+<b class="nc">&nbsp;    this.language = copy.language;</b>
+<b class="nc">&nbsp;    this.type = copy.type;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static RemoteRuleConfig getRelevantConfig(String rule, List&lt;RemoteRuleConfig&gt; configs) {
+<b class="nc">&nbsp;    return configs.stream().filter(config -&gt; config.getRuleId().equals(rule)).findFirst().orElse(null);</b>
+&nbsp;  }
+&nbsp;  public static Predicate&lt;RemoteRuleConfig&gt; isRelevantConfig(String type, Language language) {
+<b class="nc">&nbsp;    return (r) -&gt; type.equals(r.type) &amp;&amp;</b>
+<b class="nc">&nbsp;      (r.language == null || language.getShortCodeWithCountryAndVariant().matches(r.language));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;RemoteRuleConfig&gt; parse(InputStream json) throws IOException {
+<b class="nc">&nbsp;    ObjectMapper mapper = new ObjectMapper(new JsonFactory().enable(JsonParser.Feature.ALLOW_COMMENTS));</b>
+<b class="nc">&nbsp;    return mapper.readValue(json, new TypeReference&lt;List&lt;RemoteRuleConfig&gt;&gt;() {});</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;RemoteRuleConfig&gt; load(File configFile) throws ExecutionException {
+<b class="nc">&nbsp;    return configCache.get(configFile);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public float getFailureRateThreshold() {
+<b class="nc">&nbsp;    return failureRateThreshold;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getSlidingWindowType() {
+<b class="nc">&nbsp;    return slidingWindowType;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getSlidingWindowSize() {
+<b class="nc">&nbsp;    return slidingWindowSize;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getRuleId() {
+<b class="nc">&nbsp;    return ruleId;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getUrl() {
+<b class="nc">&nbsp;    return url;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getPort() {
+<b class="nc">&nbsp;    return port != null ? port : DEFAULT_PORT;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public long getDownMilliseconds() {
+<b class="nc">&nbsp;    return downMilliseconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public long getBaseTimeoutMilliseconds() {
+<b class="nc">&nbsp;    return baseTimeoutMilliseconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public float getTimeoutPerCharacterMilliseconds() {
+<b class="nc">&nbsp;    return timeoutPerCharacterMilliseconds;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getMinimumNumberOfCalls() {
+<b class="nc">&nbsp;    return minimumNumberOfCalls;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   *  miscellaneous options for remote rules
+&nbsp;   *  allows implementing additional behavior in subclasses
+&nbsp;   *  some options defined in {@link RemoteRule}:
+&nbsp;   *  fixOffsets: boolean - adjust offsets of matches because of discrepancies in string length for some unicode characters between Java and Python
+&nbsp;   *  filterMatches: boolean - enable anti-patterns from remote-rule-filters.xml
+&nbsp;   *  suppressMisspelledMatch: regex - filter out matches with matching rule IDs that have misspelled suggestions
+&nbsp;   *  suppressMisspelledSuggestions: regex - filter out misspelled suggestions from matches with matching rule IDs
+&nbsp;   *  */
+&nbsp;  public Map&lt;String, String&gt; getOptions() {
+<b class="nc">&nbsp;    return options;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Regex to match language codes for which this rule should be applied
+&nbsp;   */
+&nbsp;  public String getLanguage() {
+<b class="nc">&nbsp;    return language;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Identifier for the implementation of RemoteRule that this configuration is meant for
+&nbsp;   */
+&nbsp;  public String getType() {
+<b class="nc">&nbsp;    return type;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="nc">&nbsp;    if (this == o) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    if (o == null || getClass() != o.getClass()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    RemoteRuleConfig that = (RemoteRuleConfig) o;</b>
+&nbsp;
+<b class="nc">&nbsp;    return new EqualsBuilder().append(baseTimeoutMilliseconds, that.baseTimeoutMilliseconds).append(timeoutPerCharacterMilliseconds, that.timeoutPerCharacterMilliseconds).append(downMilliseconds, that.downMilliseconds).append(failureRateThreshold, that.failureRateThreshold).append(slidingWindowSize, that.slidingWindowSize).append(minimumNumberOfCalls, that.minimumNumberOfCalls).append(ruleId, that.ruleId).append(url, that.url).append(port, that.port).append(slidingWindowType, that.slidingWindowType).append(options, that.options).append(language, that.language).append(type, that.type).isEquals();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="nc">&nbsp;    return new HashCodeBuilder(17, 37).append(ruleId).append(url).append(port).append(baseTimeoutMilliseconds).append(timeoutPerCharacterMilliseconds).append(downMilliseconds).append(failureRateThreshold).append(slidingWindowType).append(slidingWindowSize).append(minimumNumberOfCalls).append(options).append(language).append(type).toHashCode();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return new ToStringBuilder(this)</b>
+<b class="nc">&nbsp;      .append(&quot;ruleId&quot;, ruleId)</b>
+<b class="nc">&nbsp;      .append(&quot;url&quot;, url)</b>
+<b class="nc">&nbsp;      .append(&quot;port&quot;, port)</b>
+<b class="nc">&nbsp;      .append(&quot;baseTimeoutMilliseconds&quot;, baseTimeoutMilliseconds)</b>
+<b class="nc">&nbsp;      .append(&quot;timeoutPerCharacterMilliseconds&quot;, timeoutPerCharacterMilliseconds)</b>
+<b class="nc">&nbsp;      .append(&quot;downMilliseconds&quot;, downMilliseconds)</b>
+<b class="nc">&nbsp;      .append(&quot;failureRateThreshold&quot;, failureRateThreshold)</b>
+<b class="nc">&nbsp;      .append(&quot;slidingWindowType&quot;, slidingWindowType)</b>
+<b class="nc">&nbsp;      .append(&quot;slidingWindowSize&quot;, slidingWindowSize)</b>
+<b class="nc">&nbsp;      .append(&quot;minimumNumberOfCalls&quot;, minimumNumberOfCalls)</b>
+<b class="nc">&nbsp;      .append(&quot;options&quot;, options)</b>
+<b class="nc">&nbsp;      .append(&quot;language&quot;, language)</b>
+<b class="nc">&nbsp;      .append(&quot;type&quot;, type)</b>
+<b class="nc">&nbsp;      .toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

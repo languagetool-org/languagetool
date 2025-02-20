@@ -1,0 +1,484 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DatabaseAccessOpenSource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: DatabaseAccessOpenSource (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DatabaseAccessOpenSource</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/62)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/146)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.google.common.cache.Cache;
+&nbsp;import com.google.common.cache.CacheBuilder;
+&nbsp;import org.apache.commons.lang3.NotImplementedException;
+&nbsp;import org.apache.ibatis.datasource.pooled.PooledDataSource;
+&nbsp;import org.apache.ibatis.exceptions.PersistenceException;
+&nbsp;import org.apache.ibatis.io.Resources;
+&nbsp;import org.apache.ibatis.session.RowBounds;
+&nbsp;import org.apache.ibatis.session.SqlSession;
+&nbsp;import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Premium;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ExecutionException;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Encapsulate database access. Will do nothing if database access is not configured.
+&nbsp; * @since 4.2
+&nbsp; */
+&nbsp;class DatabaseAccessOpenSource extends DatabaseAccess {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(DatabaseAccessOpenSource.class);</b>
+&nbsp;  private static final String NON_PREMIUM_MSG = &quot;This server does not support username/password&quot;;
+<b class="nc">&nbsp;  private static final Pattern WHITESPACE_PATTERN = Pattern.compile(&quot;.*\\s.*&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  private final Cache&lt;String, Long&gt; dbLoggingCache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;    .expireAfterAccess(1, TimeUnit.HOURS)</b>
+<b class="nc">&nbsp;    .maximumSize(5000)</b>
+<b class="nc">&nbsp;    .build();</b>
+&nbsp;
+&nbsp;  public DatabaseAccessOpenSource(HTTPServerConfig config) {
+<b class="nc">&nbsp;    super(config);</b>
+<b class="nc">&nbsp;    if (config.getDatabaseDriver() != null) {</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        logger.info(&quot;Setting up database access, URL &quot; + config.getDatabaseUrl() + &quot;, driver: &quot; + config.getDatabaseDriver() + &quot;, user: &quot; + config.getDatabaseUsername());</b>
+<b class="nc">&nbsp;        InputStream inputStream = Resources.getResourceAsStream(&quot;org/languagetool/server/mybatis-config.xml&quot;);</b>
+<b class="nc">&nbsp;        Properties properties = new Properties();</b>
+<b class="nc">&nbsp;        properties.setProperty(&quot;driver&quot;, config.getDatabaseDriver());</b>
+<b class="nc">&nbsp;        properties.setProperty(&quot;url&quot;, config.getDatabaseUrl());</b>
+<b class="nc">&nbsp;        properties.setProperty(&quot;username&quot;, config.getDatabaseUsername());</b>
+<b class="nc">&nbsp;        properties.setProperty(&quot;password&quot;, config.getDatabasePassword());</b>
+<b class="nc">&nbsp;        properties.setProperty(&quot;premium&quot;, Premium.isPremiumVersion() ? &quot;Premium&quot; : &quot;OpenSource&quot;);</b>
+<b class="nc">&nbsp;        properties.setProperty(&quot;timeout&quot;, String.valueOf(config.getDbTimeoutSeconds()));</b>
+<b class="nc">&nbsp;        properties.setProperty(&quot;poolMaximumActiveConnections&quot;, String.valueOf(config.getDbMaxConnections()));</b>
+<b class="nc">&nbsp;        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);</b>
+&nbsp;
+&nbsp;        // try to close connections even on hard restart
+&nbsp;        // workaround as described in https://github.com/mybatis/mybatis-3/issues/821
+<b class="nc">&nbsp;        Runtime.getRuntime().addShutdownHook(new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;          if (sqlSessionFactory != null) {</b>
+<b class="nc">&nbsp;            ((PooledDataSource) sqlSessionFactory</b>
+<b class="nc">&nbsp;              .getConfiguration().getEnvironment().getDataSource()).forceCloseAll();</b>
+&nbsp;          }
+&nbsp;        }));
+&nbsp;
+<b class="nc">&nbsp;        DatabaseLogger.init(sqlSessionFactory);</b>
+<b class="nc">&nbsp;        if (!config.getDatabaseLogging()) {</b>
+<b class="nc">&nbsp;          logger.info(&quot;dbLogging not set to true, turning off logging&quot;);</b>
+<b class="nc">&nbsp;          DatabaseLogger.getInstance().disableLogging();</b>
+&nbsp;        }
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      logger.info(&quot;Not setting up database access, dbDriver is not configured&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  void invalidateCaches() {
+&nbsp;
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  boolean addWord(String word, Long userId, String groupName) {
+<b class="nc">&nbsp;    return addWord(word, userId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  boolean deleteWord(String word, Long userId, String groupName) {
+<b class="nc">&nbsp;    return deleteWord(word, userId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  boolean deleteWordBatch(List&lt;String&gt; words, Long userId, String groupName) {
+<b class="nc">&nbsp;    boolean deleted = false;</b>
+<b class="nc">&nbsp;    for (String word : words) {</b>
+<b class="nc">&nbsp;      if (deleteWord(word, userId)) {</b>
+<b class="nc">&nbsp;        deleted = true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return deleted;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  void addWordBatch(List&lt;String&gt; words, Long userId, String groupName) {
+<b class="nc">&nbsp;    words.forEach(w -&gt; addWord(w, userId));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  UserInfoEntry getUserInfoWithPassword(String username, String password) {
+<b class="nc">&nbsp;    throw new NotImplementedException(NON_PREMIUM_MSG);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  ExtendedUserInfo getExtendedUserInfo(String user) {
+<b class="nc">&nbsp;    throw new NotImplementedException(NON_PREMIUM_MSG);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  ExtendedUserInfo getExtendedUserInfo(long userId) {
+<b class="nc">&nbsp;    throw new NotImplementedException(NON_PREMIUM_MSG);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  UserInfoEntry getUserInfoWithApiKey(String username, String apiKey) {
+<b class="nc">&nbsp;    Long userId = getUserId(username, apiKey);</b>
+<b class="nc">&nbsp;    UserInfoEntry user = new UserInfoEntry(userId, username, null, null, null, null, null, null, null, null, apiKey, null, null, null);</b>
+<b class="nc">&nbsp;    return user;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  UserInfoEntry getUserInfoWithAddonToken(String username, String apiKey) {
+<b class="nc">&nbsp;    throw new NotImplementedException(NON_PREMIUM_MSG);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  void invalidateUserInfoCache(String user) {
+<b class="nc">&nbsp;    throw new NotImplementedException(NON_PREMIUM_MSG);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  Long getUserRequestCount(Long userId) {
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;String&gt; getWords(Long userId, int offset, int limit) {
+<b class="nc">&nbsp;    if (sqlSessionFactory == null) {</b>
+<b class="nc">&nbsp;      return new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;      Map&lt;Object, Object&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      map.put(&quot;userId&quot;, userId);</b>
+<b class="nc">&nbsp;      return session.selectList(&quot;org.languagetool.server.UserDictMapper.selectWordList&quot;, map, new RowBounds(offset, limit));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  boolean addWord(String word, Long userId) {
+<b class="nc">&nbsp;    validateWord(word);</b>
+<b class="nc">&nbsp;    if (sqlSessionFactory == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;      Map&lt;Object, Object&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      map.put(&quot;word&quot;, word);</b>
+<b class="nc">&nbsp;      map.put(&quot;userId&quot;, userId);</b>
+<b class="nc">&nbsp;      List&lt;String&gt; existingWords = session.selectList(&quot;org.languagetool.server.UserDictMapper.selectWord&quot;, map);</b>
+<b class="nc">&nbsp;      if (existingWords.size() &gt;= 1) {</b>
+<b class="nc">&nbsp;        logger.info(&quot;Did not add &#39;&quot; + word + &quot;&#39; for user &quot; + userId + &quot; to list of ignored words, already exists&quot;);</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        Date now = new Date();</b>
+<b class="nc">&nbsp;        map.put(&quot;created_at&quot;, now);</b>
+<b class="nc">&nbsp;        map.put(&quot;updated_at&quot;, now);</b>
+<b class="nc">&nbsp;        int affectedRows = session.insert(&quot;org.languagetool.server.UserDictMapper.addWord&quot;, map);</b>
+<b class="nc">&nbsp;        logger.info(&quot;Added &#39;&quot; + word + &quot;&#39; for user &quot; + userId + &quot; to list of ignored words, affectedRows: &quot; + affectedRows);</b>
+<b class="nc">&nbsp;        return affectedRows == 1;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  Long getUserId(String username, String apiKey) {
+<b class="nc">&nbsp;    if (username == null || username.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;username must be set&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (apiKey == null || apiKey.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;apiKey must be set&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (sqlSessionFactory == null) {</b>
+<b class="nc">&nbsp;      throw new AuthException(&quot;This is the endpoint for the basic version of LanguageTool. &quot; +</b>
+&nbsp;        &quot;When using &#39;username&#39; and &#39;apiKey&#39; to access the premium version, use api.languagetoolplus.com instead.&quot;);
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      Long value = dbLoggingCache.get(String.format(&quot;user_%s_%s&quot;, username, apiKey), () -&gt; {</b>
+<b class="nc">&nbsp;        try (SqlSession session = sqlSessionFactory.openSession()) {</b>
+<b class="nc">&nbsp;          Map&lt;Object, Object&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;          map.put(&quot;username&quot;, username);</b>
+<b class="nc">&nbsp;          map.put(&quot;apiKey&quot;, apiKey);</b>
+<b class="nc">&nbsp;          Long id = session.selectOne(&quot;org.languagetool.server.UserDictMapper.getUserIdByApiKey&quot;, map);</b>
+<b class="nc">&nbsp;          if (id == null) {</b>
+<b class="nc">&nbsp;            return -1L;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return id;</b>
+&nbsp;        }
+&nbsp;      });
+<b class="nc">&nbsp;      if (value == -1) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;No user found for given username &#39;&quot; + username + &quot;&#39; and given api key&quot;);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return value;</b>
+&nbsp;      }
+&nbsp;    } catch (ExecutionException e) {
+<b class="nc">&nbsp;      throw new IllegalStateException(&quot;Could not fetch given user &#39;&quot; + username + &quot;&#39; from cache&quot;, e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  boolean deleteWord(String word, Long userId) {
+<b class="nc">&nbsp;    if (sqlSessionFactory == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;      Map&lt;Object, Object&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;      map.put(&quot;word&quot;, word);</b>
+<b class="nc">&nbsp;      map.put(&quot;userId&quot;, userId);</b>
+<b class="nc">&nbsp;      int count = session.delete(&quot;org.languagetool.server.UserDictMapper.selectWord&quot;, map);</b>
+<b class="nc">&nbsp;      if (count == 0) {</b>
+<b class="nc">&nbsp;        logger.info(&quot;Did not delete &#39;&quot; + word + &quot;&#39; for user &quot; + userId + &quot; from list of ignored words, does not exist&quot;);</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        int affectedRows = session.delete(&quot;org.languagetool.server.UserDictMapper.deleteWord&quot;, map);</b>
+<b class="nc">&nbsp;        logger.info(&quot;Deleted &#39;&quot; + word + &quot;&#39; for user &quot; + userId + &quot; from list of ignored words, affectedRows: &quot; + affectedRows);</b>
+<b class="nc">&nbsp;        return affectedRows &gt;= 1;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  Long getOrCreateServerId() {
+&nbsp;    // original code not working anymore
+&nbsp;    // database logging is going to be deprecated
+&nbsp;    // this is not supported anymore, just silently fail
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  Long getOrCreateClientId(String client) {
+<b class="nc">&nbsp;    if (sqlSessionFactory == null || client == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="nc">&nbsp;      Long id = dbLoggingCache.get(&quot;client_&quot; + client, () -&gt; {</b>
+<b class="nc">&nbsp;        try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;          Map&lt;Object, Object&gt; parameters = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;          parameters.put(&quot;name&quot;, client);</b>
+<b class="nc">&nbsp;          List&lt;Long&gt; result = session.selectList(&quot;org.languagetool.server.LogMapper.findClient&quot;, parameters);</b>
+<b class="nc">&nbsp;          if (result.size() &gt; 0) {</b>
+<b class="nc">&nbsp;            return result.get(0);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            session.insert(&quot;org.languagetool.server.LogMapper.newClient&quot;, parameters);</b>
+<b class="nc">&nbsp;            Object value = parameters.get(&quot;id&quot;);</b>
+<b class="nc">&nbsp;            if (value == null) {</b>
+&nbsp;              //System.err.println(&quot;Could not get/register id for this client.&quot;);
+<b class="nc">&nbsp;              return -1L;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              return (Long) value;</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        } catch (PersistenceException e) {
+<b class="nc">&nbsp;          logger.warn(&quot;Error: Could not get/register id for this client: &quot; + client, e);</b>
+<b class="nc">&nbsp;          return -1L;</b>
+&nbsp;        }
+&nbsp;      });
+<b class="nc">&nbsp;      if (id == -1L) { // loaders can&#39;t return null, so using -1 instead</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;      }
+&nbsp;    } catch (ExecutionException e) {
+<b class="nc">&nbsp;      logger.warn(&quot;Failure in getOrCreateClientId with client &#39;&quot; + client + &quot;&#39;: &quot;, e);</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  List&lt;DictGroupEntry&gt; getDictGroups(Long userId) {
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  Long getOrCreateDictGroup(Long userId, String groupName) {
+<b class="nc">&nbsp;    throw new NotImplementedException(NON_PREMIUM_MSG);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void validateWord(String word) {
+<b class="nc">&nbsp;    if (word == null || word.trim().isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;Invalid word, cannot be empty or whitespace only&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (WHITESPACE_PATTERN.matcher(word).matches()) {</b>
+<b class="nc">&nbsp;      throw new BadRequestException(&quot;Invalid word, you can only add words that don&#39;t contain spaces: &#39;&quot; + word + &quot;&#39;&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** For unit tests only! */
+&nbsp;  @Override
+&nbsp;  public void createAndFillTestTables(boolean mysql, List&lt;String&gt; skipStatements) {
+<b class="nc">&nbsp;    try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Setting up tables and adding test user...&quot;);</b>
+<b class="nc">&nbsp;      String[] statements = { &quot;org.languagetool.server.UserDictMapper.createUserTable&quot;,</b>
+&nbsp;        &quot;org.languagetool.server.UserDictMapper.createIgnoreWordTable&quot; };
+<b class="nc">&nbsp;      for (String statement : statements) {</b>
+<b class="nc">&nbsp;        if (skipStatements.contains(statement)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (mysql) {</b>
+<b class="nc">&nbsp;          session.insert(statement + &quot;MySQL&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          session.insert(statement);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      session.insert(&quot;org.languagetool.server.UserDictMapper.createTestUser1&quot;);</b>
+<b class="nc">&nbsp;      session.insert(&quot;org.languagetool.server.UserDictMapper.createTestUser2&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** For unit tests only! */
+&nbsp;  @Override
+&nbsp;  public void deleteTestTables() {
+<b class="nc">&nbsp;    try (SqlSession session = sqlSessionFactory.openSession(true)) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Deleting tables...&quot;);</b>
+<b class="nc">&nbsp;      session.delete(&quot;org.languagetool.server.UserDictMapper.deleteUsersTable&quot;);</b>
+<b class="nc">&nbsp;      session.delete(&quot;org.languagetool.server.UserDictMapper.deleteIgnoreWordsTable&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;String&gt; getWords(UserLimits limits, List&lt;String&gt; groups, int offset, int limit) {
+<b class="nc">&nbsp;    return getWords(limits.getPremiumUid(), offset, limit);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRules(UserLimits limits, Language lang, List&lt;String&gt; groups) {
+&nbsp;    // not implemented in open source
+<b class="nc">&nbsp;    return Collections.emptyList();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

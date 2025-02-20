@@ -1,0 +1,236 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SpanishRepeatedWordsRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.es</a>
+</div>
+
+<h1>Coverage Summary for Class: SpanishRepeatedWordsRule (org.languagetool.rules.es)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SpanishRepeatedWordsRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.es;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Tag;
+&nbsp;import org.languagetool.language.Spanish;
+&nbsp;import org.languagetool.rules.AbstractRepeatedWordsRule;
+&nbsp;import org.languagetool.rules.SynonymsData;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.es.SpanishSynthesizer;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Supplier;
+&nbsp;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+&nbsp;
+&nbsp;public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
+&nbsp;
+&nbsp;  private final Supplier&lt;List&lt;DisambiguationPatternRule&gt;&gt; antiPatterns;
+&nbsp;  
+<b class="nc">&nbsp;  private static final List&lt;List&lt;PatternToken&gt;&gt; ANTI_PATTERNS = Arrays</b>
+<b class="nc">&nbsp;      .asList(Arrays.asList(token(&quot;también&quot;), csRegex(&quot;.+&quot;)), </b>
+<b class="nc">&nbsp;          Arrays.asList(csRegex(&quot;.+&quot;), token(&quot;también&quot;)),</b>
+<b class="nc">&nbsp;          Arrays.asList(csRegex(&quot;[Aa]ntes|[Dd]espués&quot;), csRegex(&quot;de|del&quot;)),</b>
+<b class="nc">&nbsp;          Arrays.asList(csRegex(&quot;[Tt]ema|TEMA&quot;), csRegex(&quot;\\d+|[IXVC]+&quot;)),</b>
+<b class="nc">&nbsp;          Arrays.asList(csRegex(&quot;[Aa]sí&quot;), token(&quot;que&quot;)));</b>
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return antiPatterns.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SpanishRepeatedWordsRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    super(messages, Spanish.getInstance());</b>
+<b class="nc">&nbsp;    antiPatterns = cacheAntiPatterns(Spanish.getInstance(), ANTI_PATTERNS);</b>
+<b class="nc">&nbsp;    super.setTags(Collections.singletonList(Tag.picky));</b>
+&nbsp;    // super.setDefaultTempOff();
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final Map&lt;String, SynonymsData&gt; wordsToCheck = loadWords(&quot;/es/synonyms.txt&quot;);</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getMessage() {
+<b class="nc">&nbsp;    return &quot;Esta palabra ya ha aparecido en una de las frases inmediatamente anteriores. Puede usar un sinónimo para hacer más interesante el texto, excepto si la repetición es intencionada.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return (&quot;Sinónimos para palabras repetidas.&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Map&lt;String, SynonymsData&gt; getWordsToCheck() {
+<b class="nc">&nbsp;    return wordsToCheck;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String getShortMessage() {
+<b class="nc">&nbsp;    return &quot;Estilo: palabra repetida&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Synthesizer getSynthesizer() {
+<b class="nc">&nbsp;    return SpanishSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected String adjustPostag(String postag) {
+<b class="nc">&nbsp;    if (postag.contains(&quot;CN&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;CN&quot;, &quot;..&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.contains(&quot;MS&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;MS&quot;, &quot;[MC][SN]&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.contains(&quot;FS&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;FS&quot;, &quot;[FC][SN]&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.contains(&quot;MP&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;MP&quot;, &quot;[MC][PN]&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.contains(&quot;FP&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;FP&quot;, &quot;[FC][PN]&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.contains(&quot;CS&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;CS&quot;, &quot;[MC][SN]&quot;); // also F ?</b>
+<b class="nc">&nbsp;    } else if (postag.contains(&quot;CP&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;CP&quot;, &quot;[MC][PN]&quot;); // also F ?</b>
+<b class="nc">&nbsp;    } else if (postag.contains(&quot;MN&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;MN&quot;, &quot;[MC][SPN]&quot;);</b>
+<b class="nc">&nbsp;    } else if (postag.contains(&quot;FN&quot;)) {</b>
+<b class="nc">&nbsp;      return StringUtils.replaceOnce(postag,&quot;FN&quot;, &quot;[FC][SPN]&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return postag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isException(AnalyzedTokenReadings[] tokens, int i, boolean sentStart, boolean isCapitalized,
+&nbsp;      boolean isAllUppercase) {
+<b class="nc">&nbsp;    if (isAllUppercase || (isCapitalized &amp;&amp; !sentStart)) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tokens[i].hasPosTagStartingWith(&quot;NP&quot;) || tokens[i].hasPosTag(&quot;_english_ignore_&quot;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

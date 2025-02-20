@@ -1,0 +1,602 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TextConverter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.wikipedia</a>
+</div>
+
+<h1>Coverage Summary for Class: TextConverter (org.languagetool.dev.wikipedia)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TextConverter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; * Copyright 2011 The Open Source Research Group,
+&nbsp; *                University of Erlangen-Nürnberg
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; */
+&nbsp;package org.languagetool.dev.wikipedia;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import de.fau.cs.osr.ptk.common.AstVisitor;
+&nbsp;import de.fau.cs.osr.ptk.common.ast.*;
+&nbsp;import org.apache.commons.lang3.StringEscapeUtils;
+&nbsp;//import org.sweble.wikitext.engine.Page;
+&nbsp;import org.sweble.wikitext.engine.PageTitle;
+&nbsp;//import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
+&nbsp;//import org.sweble.wikitext.lazy.LinkTargetException;
+&nbsp;//import org.sweble.wikitext.lazy.encval.IllegalCodePoint;
+&nbsp;//import org.sweble.wikitext.lazy.parser.*;
+&nbsp;//import org.sweble.wikitext.lazy.preprocessor.TagExtension;
+&nbsp;//import org.sweble.wikitext.lazy.preprocessor.Template;
+&nbsp;//import org.sweble.wikitext.lazy.preprocessor.TemplateArgument;
+&nbsp;//import org.sweble.wikitext.lazy.preprocessor.TemplateParameter;
+&nbsp;//import org.sweble.wikitext.lazy.preprocessor.XmlComment;
+&nbsp;//import org.sweble.wikitext.lazy.utils.XmlCharRef;
+&nbsp;//import org.sweble.wikitext.lazy.utils.XmlEntityRef;
+&nbsp;
+&nbsp;import xtc.tree.Locatable;
+&nbsp;import xtc.tree.Location;
+&nbsp;
+&nbsp;/**
+&nbsp; * A visitor to convert an article AST into a pure text representation. To
+&nbsp; * better understand the visitor pattern as implemented by the Visitor class,
+&nbsp; * please take a look at the following resources:
+&nbsp; * &lt;ul&gt;
+&nbsp; * &lt;li&gt;http://en.wikipedia.org/wiki/Visitor_pattern (classic pattern)&lt;/li&gt;
+&nbsp; * &lt;li&gt;http://www.javaworld.com/javaworld/javatips/jw-javatip98.html (the version we use here)&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; *
+&nbsp; * The methods needed to descend into an AST and visit the children of a given
+&nbsp; * node &lt;code&gt;n&lt;/code&gt; are
+&nbsp; * &lt;ul&gt;
+&nbsp; * &lt;li&gt;&lt;code&gt;dispatch(n)&lt;/code&gt; - visit node &lt;code&gt;n&lt;/code&gt;,&lt;/li&gt;
+&nbsp; * &lt;li&gt;&lt;code&gt;iterate(n)&lt;/code&gt; - visit the &lt;b&gt;children&lt;/b&gt; of node
+&nbsp; * &lt;code&gt;n&lt;/code&gt;,&lt;/li&gt;
+&nbsp; * &lt;li&gt;&lt;code&gt;map(n)&lt;/code&gt; - visit the &lt;b&gt;children&lt;/b&gt; of node &lt;code&gt;n&lt;/code&gt;
+&nbsp; * and gather the return values of the &lt;code&gt;visit()&lt;/code&gt; calls in a list,&lt;/li&gt;
+&nbsp; * &lt;li&gt;&lt;code&gt;mapInPlace(n)&lt;/code&gt; - visit the &lt;b&gt;children&lt;/b&gt; of node
+&nbsp; * &lt;code&gt;n&lt;/code&gt; and replace each child node &lt;code&gt;c&lt;/code&gt; with the return
+&nbsp; * value of the call to &lt;code&gt;visit(c)&lt;/code&gt;.&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; */
+<b class="nc">&nbsp;public class TextConverter extends AstVisitor {</b>
+<b class="nc">&nbsp;  private static final Pattern ws = Pattern.compile(&quot;\\s+&quot;);</b>
+&nbsp;
+&nbsp;//  private final SimpleWikiConfiguration config;
+&nbsp;
+&nbsp;//  private final int wrapCol;
+&nbsp;
+<b class="nc">&nbsp;  private Map&lt;Integer, Location&gt; mapping = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  private StringBuilder sb;
+&nbsp;
+&nbsp;  private StringBuilder line;
+&nbsp;
+&nbsp;  private boolean pastBod;
+&nbsp;
+&nbsp;  private int needNewlines;
+&nbsp;
+&nbsp;  private boolean needSpace;
+&nbsp;
+&nbsp;  private boolean noWrap;
+&nbsp;
+&nbsp;  private LinkedList&lt;Integer&gt; sections;
+&nbsp;  
+<b class="nc">&nbsp;  private boolean enableMapping = true;</b>
+&nbsp;
+&nbsp;  // =========================================================================
+&nbsp;
+&nbsp;//  public TextConverter(SimpleWikiConfiguration config, int wrapCol) {
+&nbsp;//    this.config = config;
+&nbsp;//    this.wrapCol = wrapCol;
+&nbsp;//  }
+&nbsp;
+&nbsp;  public void enableMapping(boolean enableMapping) {
+<b class="nc">&nbsp;    this.enableMapping = enableMapping;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Return a mapping from converted text positions to original text positions.
+&nbsp;   */
+&nbsp;  public Map&lt;Integer, Location&gt; getMapping() {
+<b class="nc">&nbsp;    if (!enableMapping) {</b>
+<b class="nc">&nbsp;      throw new IllegalStateException(&quot;enableMapping not activated&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return mapping;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;//  @Override
+&nbsp;//  protected boolean before(AstNode node) {
+&nbsp;//    // This method is called by go() before visitation starts
+&nbsp;//    sb = new StringBuilder();
+&nbsp;//    line = new StringBuilder();
+&nbsp;//    mapping = new HashMap&lt;&gt;();
+&nbsp;//    pastBod = false;
+&nbsp;//    needNewlines = 0;
+&nbsp;//    needSpace = false;
+&nbsp;//    noWrap = false;
+&nbsp;//    sections = new LinkedList&lt;&gt;();
+&nbsp;//    return super.before(node);
+&nbsp;//  }
+&nbsp;
+&nbsp;//  @Override
+&nbsp;//  protected Object after(AstNode node, Object result) {
+&nbsp;//    finishLine();
+&nbsp;//
+&nbsp;//    // This method is called by go() after visitation has finished
+&nbsp;//    // The return value will be passed to go() which passes it to the caller
+&nbsp;//    return sb.toString();
+&nbsp;//  }
+&nbsp;
+&nbsp;  // =========================================================================
+&nbsp;
+<b class="nc">&nbsp;  private boolean inGallery = false;</b>
+<b class="nc">&nbsp;  private boolean inSource = false;</b>
+&nbsp;  
+&nbsp;//  public void visit(AstNode n) {
+&nbsp;//    // Fallback for all nodes that are not explicitly handled elsewhere
+&nbsp;//    Object data = n.getAttribute(&quot;RTD&quot;);
+&nbsp;//    if (data != null &amp;&amp; data instanceof RtData) {
+&nbsp;//      RtData rtd = (RtData) data;
+&nbsp;//      Object[][] rts = rtd.getRts();
+&nbsp;//      if (rts.length &gt; 0 &amp;&amp; rts[0].length &gt; 0) {
+&nbsp;//        Object rtsElem = rts[0][0];
+&nbsp;//        if (&quot;&lt;gallery&quot;.equals(rtsElem)) {
+&nbsp;//          inGallery = true;
+&nbsp;//        } else if (&quot;&lt;source&quot;.equals(rtsElem)) {
+&nbsp;//          inSource = true;
+&nbsp;//        } else if (&quot;&lt;/gallery&gt;&quot;.equals(rtsElem)) {
+&nbsp;//          inGallery = false;
+&nbsp;//        } else if (&quot;&lt;/source&gt;&quot;.equals(rtsElem)) {
+&nbsp;//          inSource = false;
+&nbsp;//        }
+&nbsp;//      }
+&nbsp;//    }
+&nbsp;//  }
+&nbsp;
+&nbsp;//  public void visit(NodeList n) {
+&nbsp;//    iterate(n);
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Itemization e) {
+&nbsp;//    iterate(e.getContent());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(ItemizationItem i) {
+&nbsp;//    newline(2);
+&nbsp;//    iterate(i.getContent());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Enumeration e) {
+&nbsp;//    iterate(e.getContent());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(EnumerationItem item) {
+&nbsp;//    newline(2);
+&nbsp;//    iterate(item.getContent());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Page p) {
+&nbsp;//    iterate(p.getContent());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Text text) {
+&nbsp;//    if (inGallery || inSource) {
+&nbsp;//      return;
+&nbsp;//    }
+&nbsp;//    addMapping(text);
+&nbsp;//    write(text.getContent());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Whitespace w) {
+&nbsp;//    addMapping(w);
+&nbsp;//    write(&quot; &quot;);
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Bold b) {
+&nbsp;//    //write(&quot;**&quot;);
+&nbsp;//    iterate(b.getContent());
+&nbsp;//    //write(&quot;**&quot;);
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Italics i) {
+&nbsp;//    //write(&quot;//&quot;);
+&nbsp;//    iterate(i.getContent());
+&nbsp;//    //write(&quot;//&quot;);
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(XmlCharRef cr) {
+&nbsp;//    addMapping(cr);
+&nbsp;//    write(Character.toChars(cr.getCodePoint()));
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(XmlEntityRef er) {
+&nbsp;//    addMapping(er);
+&nbsp;//    if (&quot;nbsp&quot;.equals(er.getName())) {
+&nbsp;//      write(&#39;\u00A0&#39;);  // non-breaking space
+&nbsp;//    } else {
+&nbsp;//      String ch = StringEscapeUtils.unescapeHtml4(&quot;&amp;&quot; + er.getName() + &quot;;&quot;);
+&nbsp;//      write(ch);
+&nbsp;//    }
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Url url) {
+&nbsp;//    addMapping(url);
+&nbsp;//    write(url.getProtocol());
+&nbsp;//    write(&#39;:&#39;);
+&nbsp;//    write(url.getPath());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(ExternalLink link) {
+&nbsp;//    StringBuilder out = new StringBuilder();
+&nbsp;//    for (AstNode node : link.getTitle()) {
+&nbsp;//      try {
+&nbsp;//        out.append(toText(node));
+&nbsp;//      } catch (IOException e) {
+&nbsp;//        throw new RuntimeException(&quot;Error getting content of external link &quot; + link, e);
+&nbsp;//      }
+&nbsp;//    }
+&nbsp;//    
+&nbsp;//    // TODO: sometimes this seems to fix the error position, but we&#39;d need to find out under which circumstances:
+&nbsp;//    //String url = link.getTarget().getProtocol() + &quot;:&quot; + link.getTarget().getPath();
+&nbsp;//    //int correction = url.length();
+&nbsp;//    //addMapping(link, correction);
+&nbsp;//    addMapping(link);
+&nbsp;//    write(out.toString());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(InternalLink link) {
+&nbsp;//    try {
+&nbsp;//      PageTitle page = PageTitle.make(config, link.getTarget());
+&nbsp;//      if (page.getNamespace().equals(config.getNamespace(&quot;Category&quot;)))
+&nbsp;//        return;
+&nbsp;//    } catch (LinkTargetException e) {
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    addMapping(link);
+&nbsp;//    write(link.getPrefix());
+&nbsp;//
+&nbsp;//    if (link.getTitle().getContent() == null
+&nbsp;//            || link.getTitle().getContent().isEmpty()) {
+&nbsp;//      addMapping(link);
+&nbsp;//      write(link.getTarget());
+&nbsp;//    } else {
+&nbsp;//      addMapping(link);
+&nbsp;//      iterate(link.getTitle());
+&nbsp;//    }
+&nbsp;//    write(link.getPostfix());
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Section s) {
+&nbsp;//    finishLine();
+&nbsp;//    StringBuilder saveSb = sb;
+&nbsp;//    boolean saveNoWrap = noWrap;
+&nbsp;//
+&nbsp;//    sb = new StringBuilder();
+&nbsp;//    noWrap = true;
+&nbsp;//
+&nbsp;//    iterate(s.getTitle());
+&nbsp;//    finishLine();
+&nbsp;//    String title = sb.toString().trim();
+&nbsp;//
+&nbsp;//    sb = saveSb;
+&nbsp;//
+&nbsp;//    if (s.getLevel() &gt;= 1) {
+&nbsp;//      while (sections.size() &gt; s.getLevel())
+&nbsp;//        sections.removeLast();
+&nbsp;//      while (sections.size() &lt; s.getLevel())
+&nbsp;//        sections.add(1);
+&nbsp;//
+&nbsp;//      StringBuilder sb2 = new StringBuilder();
+&nbsp;//      for (int i = 0; i &lt; sections.size(); ++i) {
+&nbsp;//        if (i &lt; 1)
+&nbsp;//          continue;
+&nbsp;//
+&nbsp;//        sb2.append(sections.get(i));
+&nbsp;//        sb2.append(&#39;.&#39;);
+&nbsp;//      }
+&nbsp;//
+&nbsp;//      if (sb2.length() &gt; 0)
+&nbsp;//        sb2.append(&#39; &#39;);
+&nbsp;//      sb2.append(title);
+&nbsp;//      title = sb2.toString();
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    newline(2);
+&nbsp;//    addMapping(s);
+&nbsp;//    write(title);
+&nbsp;//    //newline(1);
+&nbsp;//    //write(StringUtils.strrep(&#39;-&#39;, title.length()));
+&nbsp;//    newline(2);
+&nbsp;//
+&nbsp;//    noWrap = saveNoWrap;
+&nbsp;//
+&nbsp;//    iterate(s.getBody());
+&nbsp;//
+&nbsp;//    while (sections.size() &gt; s.getLevel())
+&nbsp;//      sections.removeLast();
+&nbsp;//    sections.add(sections.removeLast() + 1);
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Paragraph p) {
+&nbsp;//    iterate(p.getContent());
+&nbsp;//    newline(2);
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(HorizontalRule hr) {
+&nbsp;//    //newline(1);
+&nbsp;//    //write(StringUtils.strrep(&#39;-&#39;, wrapCol));
+&nbsp;//    newline(2);
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(XmlElement e) {
+&nbsp;//    if (e.getName().equalsIgnoreCase(&quot;br&quot;)) {
+&nbsp;//      newline(1);
+&nbsp;//    } else {
+&nbsp;//      iterate(e.getBody());
+&nbsp;//    }
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  // =========================================================================
+&nbsp;//  // Stuff we want to hide
+&nbsp;//
+&nbsp;//  public void visit(ImageLink n) {
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(IllegalCodePoint n) {
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(XmlComment n) {
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(Template n) {
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(TemplateArgument n) {
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(TemplateParameter n) {
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(TagExtension n) {
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  public void visit(MagicWord n) {
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  // =========================================================================
+&nbsp;//
+&nbsp;//  private String toText(AstNode node) throws IOException {
+&nbsp;//    StringBuilder out = new StringBuilder();
+&nbsp;//    if (node instanceof StringContentNode) {
+&nbsp;//      out.append(((StringContentNode)node).getContent());
+&nbsp;//    } else if (node instanceof ContentNode) {
+&nbsp;//      NodeList nodes = ((ContentNode) node).getContent();
+&nbsp;//      for (AstNode subNode : nodes) {
+&nbsp;//        out.append(toText(subNode));
+&nbsp;//      }
+&nbsp;//    }
+&nbsp;//    return out.toString();
+&nbsp;//  }
+&nbsp;
+&nbsp;  private void addMapping(Locatable loc) {
+<b class="nc">&nbsp;    addMapping(loc, 0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addMapping(Locatable loc, int columnCorrection) {
+<b class="nc">&nbsp;    if (!enableMapping) {</b>
+&nbsp;      // this is surprisingly resource intensive, so it can be disabled
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    String contentSoFar = sb.toString() + line;</b>
+<b class="nc">&nbsp;    int textPos = contentSoFar.length() + needNewlines + 1;</b>
+<b class="nc">&nbsp;    if (loc.hasLocation()) {</b>
+<b class="nc">&nbsp;      Location location = loc.getLocation();</b>
+<b class="nc">&nbsp;      mapping.put(textPos, new Location(location.file, location.line, location.column + columnCorrection));</b>
+&nbsp;      //System.out.println(&quot;PUT &quot; + textPos + &quot; -&gt; &quot; + loc.getLocation());
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void newline(int num) {
+<b class="nc">&nbsp;    if (pastBod) {</b>
+<b class="nc">&nbsp;      if (num &gt; needNewlines)</b>
+<b class="nc">&nbsp;        needNewlines = num;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void wantSpace() {
+<b class="nc">&nbsp;    if (pastBod)</b>
+<b class="nc">&nbsp;      needSpace = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void finishLine() {
+<b class="nc">&nbsp;    sb.append(line);</b>
+<b class="nc">&nbsp;    line.setLength(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeNewlines(int num) {
+<b class="nc">&nbsp;    finishLine();</b>
+&nbsp;    //sb.append(StringUtils.strrep(&#39;\n&#39;, num));
+<b class="nc">&nbsp;    for (int i = 0; i &lt; num; i++) {</b>
+<b class="nc">&nbsp;      sb.append(&#39;\n&#39;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    needNewlines = 0;</b>
+<b class="nc">&nbsp;    needSpace = false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;//  private void writeWord(String s) {
+&nbsp;//    int length = s.length();
+&nbsp;//    if (length == 0)
+&nbsp;//      return;
+&nbsp;//
+&nbsp;//    if (!noWrap &amp;&amp; needNewlines &lt;= 0) {
+&nbsp;//      if (needSpace)
+&nbsp;//        length += 1;
+&nbsp;//
+&nbsp;//      if (line.length() + length &gt;= wrapCol &amp;&amp; line.length() &gt; 0)
+&nbsp;//        writeNewlines(1);
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    if (needSpace &amp;&amp; needNewlines &lt;= 0)
+&nbsp;//      line.append(&#39; &#39;);
+&nbsp;//
+&nbsp;//    if (needNewlines &gt; 0)
+&nbsp;//      writeNewlines(needNewlines);
+&nbsp;//
+&nbsp;//    needSpace = false;
+&nbsp;//    pastBod = true;
+&nbsp;//    line.append(s);
+&nbsp;//  }
+&nbsp;
+&nbsp;//  private void write(String s) {
+&nbsp;//    if (s.isEmpty())
+&nbsp;//      return;
+&nbsp;//
+&nbsp;//    if (Character.isSpaceChar(s.charAt(0)))
+&nbsp;//      wantSpace();
+&nbsp;//
+&nbsp;//    String[] words = ws.split(s);
+&nbsp;//    for (int i = 0; i &lt; words.length; ) {
+&nbsp;//      writeWord(words[i]);
+&nbsp;//      if (++i &lt; words.length)
+&nbsp;//        wantSpace();
+&nbsp;//    }
+&nbsp;//
+&nbsp;//    if (Character.isSpaceChar(s.charAt(s.length() - 1)))
+&nbsp;//      wantSpace();
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  private void write(char[] cs) {
+&nbsp;//    write(String.valueOf(cs));
+&nbsp;//  }
+&nbsp;
+&nbsp;//  private void write(char ch) {
+&nbsp;//    writeWord(String.valueOf(ch));
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  private void write(int num) {
+&nbsp;//    writeWord(String.valueOf(num));
+&nbsp;//  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

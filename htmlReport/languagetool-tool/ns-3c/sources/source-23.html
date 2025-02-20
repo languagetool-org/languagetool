@@ -1,0 +1,339 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RuleSet</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleSet (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleSet</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RuleSet$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RuleSet$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/52)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.ApiStatus;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;/**
+&nbsp; * An object holding a set of rules with an optional possibility to fetch only the ones applicable for a given sentence
+&nbsp; * (via {@link #rulesForSentence}), to avoid even invoking the definitely inapplicable ones.
+&nbsp; * The filtering is based on cues provided by the rules, e.g. possible token strings or lemmas in pattern rules.
+&nbsp; *
+&nbsp; * @since 5.2
+&nbsp; */
+&nbsp;@ApiStatus.Internal
+<b class="nc">&nbsp;public abstract class RuleSet {</b>
+&nbsp;  private volatile Set&lt;String&gt; ruleIds;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return all rules in this set, not filtered
+&nbsp;   */
+&nbsp;  public abstract List&lt;Rule&gt; allRules();
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return all rules from {@link #allRules} that might be applicable to the given sentence.
+&nbsp;   */
+&nbsp;  public abstract List&lt;Rule&gt; rulesForSentence(AnalyzedSentence sentence);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return the ids of {@link #allRules()}
+&nbsp;   * @since 5.6
+&nbsp;   */
+&nbsp;  public Set&lt;String&gt; allRuleIds() {
+<b class="nc">&nbsp;    Set&lt;String&gt; result = ruleIds;</b>
+<b class="nc">&nbsp;    if (result == null) {</b>
+<b class="nc">&nbsp;      ruleIds = result = Collections.unmodifiableSet(allRules().stream().map(Rule::getId).collect(Collectors.toSet()));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return a simple RuleSet that returns all the rules from {@link #rulesForSentence}
+&nbsp;   */
+&nbsp;  public static RuleSet plain(List&lt;Rule&gt; rules) {
+<b class="nc">&nbsp;    List&lt;Rule&gt; allRules = Collections.unmodifiableList(rules);</b>
+<b class="nc">&nbsp;    return new RuleSet() {</b>
+&nbsp;      @Override
+&nbsp;      public List&lt;Rule&gt; allRules() {
+<b class="nc">&nbsp;        return allRules;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      @Override
+&nbsp;      public List&lt;Rule&gt; rulesForSentence(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;        return allRules;</b>
+&nbsp;      }
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return a RuleSet whose {@link #rulesForSentence} excludes rules requiring token texts or lemmas
+&nbsp;   * that don&#39;t occur in the given sentence
+&nbsp;   */
+&nbsp;  public static RuleSet textLemmaHinted(List&lt;? extends Rule&gt; rules) {
+<b class="nc">&nbsp;    return hinted(rules, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return a RuleSet whose {@link #rulesForSentence} excludes rules requiring token texts
+&nbsp;   * that don&#39;t occur in the given sentence.
+&nbsp;   */
+&nbsp;  public static RuleSet textHinted(List&lt;? extends Rule&gt; rules) {
+<b class="nc">&nbsp;    return hinted(rules, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static RuleSet hinted(List&lt;? extends Rule&gt; rules, boolean withLemmaHints) {
+<b class="nc">&nbsp;    List&lt;Rule&gt; allRules = Collections.unmodifiableList(rules);</b>
+<b class="nc">&nbsp;    Map&lt;String, BitSet&gt; byToken = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    Map&lt;String, BitSet&gt; byLemma = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    BitSet unclassified = new BitSet();</b>
+<b class="nc">&nbsp;    for (int i = 0; i &lt; allRules.size(); i++) {</b>
+<b class="nc">&nbsp;      Rule rule = allRules.get(i);</b>
+<b class="nc">&nbsp;      boolean classified = false;</b>
+<b class="nc">&nbsp;      if (rule instanceof AbstractTokenBasedRule) {</b>
+<b class="nc">&nbsp;        AbstractTokenBasedRule.TokenHint[] tokenHints = ((AbstractTokenBasedRule) rule).tokenHints;</b>
+&nbsp;        AbstractTokenBasedRule.TokenHint firstHint =
+<b class="nc">&nbsp;          tokenHints == null ? null :</b>
+<b class="nc">&nbsp;          withLemmaHints ? tokenHints[0] :</b>
+<b class="nc">&nbsp;          Arrays.stream(tokenHints).filter(th -&gt; !th.inflected).findFirst().orElse(null);</b>
+<b class="nc">&nbsp;        if (firstHint != null) {</b>
+<b class="nc">&nbsp;          classified = true;</b>
+<b class="nc">&nbsp;          Map&lt;String, BitSet&gt; map = firstHint.inflected ? byLemma : byToken;</b>
+<b class="nc">&nbsp;          for (String hint : firstHint.lowerCaseValues) {</b>
+<b class="nc">&nbsp;            map.computeIfAbsent(hint, __ -&gt; new BitSet()).set(i);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if (!classified) {</b>
+<b class="nc">&nbsp;        unclassified.set(i);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new RuleSet() {</b>
+&nbsp;      @Override
+&nbsp;      public List&lt;Rule&gt; allRules() {
+<b class="nc">&nbsp;        return allRules;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      @Override
+&nbsp;      public List&lt;Rule&gt; rulesForSentence(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;        BitSet included = new BitSet();</b>
+<b class="nc">&nbsp;        included.or(unclassified);</b>
+<b class="nc">&nbsp;        if (!byLemma.isEmpty()) {</b>
+<b class="nc">&nbsp;          for (String lemma : sentence.getLemmaSet()) {</b>
+<b class="nc">&nbsp;            BitSet set = byLemma.get(lemma);</b>
+<b class="nc">&nbsp;            if (set != null) {</b>
+<b class="nc">&nbsp;              included.or(set);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        for (String token : sentence.getTokenSet()) {</b>
+<b class="nc">&nbsp;          BitSet set = byToken.get(token);</b>
+<b class="nc">&nbsp;          if (set != null) {</b>
+<b class="nc">&nbsp;            included.or(set);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return filterList(included, allRules);</b>
+&nbsp;      }
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @ApiStatus.Internal
+&nbsp;  public static &lt;T&gt; List&lt;T&gt; filterList(BitSet includedIndices, List&lt;T&gt; list) {
+<b class="nc">&nbsp;    List&lt;T&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int i = -1;</b>
+&nbsp;    while (true) {
+<b class="nc">&nbsp;      i = includedIndices.nextSetBit(i + 1);</b>
+<b class="nc">&nbsp;      if (i &lt; 0) break;</b>
+<b class="nc">&nbsp;      result.add(list.get(i));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,273 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SimpleReplaceSoftRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: SimpleReplaceSoftRule (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleReplaceSoftRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SimpleReplaceSoftRule$ContextRepl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.rules.AbstractSimpleReplaceRule;
+&nbsp;import org.languagetool.rules.ITSIssueType;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule that matches words for which better alternatives exist and suggests them instead.
+&nbsp; * On top of generic replacement list supports allowed word contexts, e.g.
+&nbsp; * спасіння=ctx: релігія,поезія|рятування|...
+&nbsp; * Loads the relevant words from &lt;code&gt;rules/uk/replace_soft.txt&lt;/code&gt;.
+&nbsp; * 
+&nbsp; * TODO: AbstractSimpleReplaceRule loads context as part of suggestion list
+&nbsp; * and to be able to merge contexts for different lemmas we need to extract context out
+&nbsp; * of suggestions list on every match. We may need to write our own replacement loader to make it right.
+&nbsp; * 
+&nbsp; * @author Andriy Rysin
+&nbsp; */
+&nbsp;public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
+&nbsp;
+&nbsp;  private static final String CONTEXT_PREFIX = &quot;ctx:&quot;;
+<b class="nc">&nbsp;  private static final Map&lt;String, List&lt;String&gt;&gt; WRONG_WORDS = loadFromPath(&quot;/uk/replace_soft.txt&quot;);</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;String, List&lt;String&gt;&gt; getWrongWords() {
+<b class="nc">&nbsp;    return WRONG_WORDS;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SimpleReplaceSoftRule(ResourceBundle messages, Language language) throws IOException {
+<b class="nc">&nbsp;    super(messages, language);</b>
+<b class="nc">&nbsp;    setLocQualityIssueType(ITSIssueType.Style);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public final String getId() {
+<b class="nc">&nbsp;    return &quot;UK_SIMPLE_REPLACE_SOFT&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Пошук нерекомендованих слів&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShort() {
+<b class="nc">&nbsp;    return &quot;Нерекомендоване слово&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMessage(String tokenStr, List&lt;String&gt; replacements) {
+<b class="nc">&nbsp;    ContextRepl repl = findContext(replacements);</b>
+<b class="nc">&nbsp;    String replaceText = StringUtils.join(repl.replacements, &quot;, &quot;);</b>
+&nbsp;
+&nbsp;    // this is a bit ugly as we&#39;re modifying original list
+<b class="nc">&nbsp;    replacements.retainAll(repl.replacements);</b>
+&nbsp;    
+<b class="nc">&nbsp;    if( repl.contexts.size() &gt; 0 ) {</b>
+<b class="nc">&nbsp;      return &quot;«&quot; + tokenStr + &quot;» вживається лише в таких контекстах: &quot; </b>
+<b class="nc">&nbsp;          + StringUtils.join(repl.contexts, &quot;, &quot;)</b>
+&nbsp;          + &quot;, можливо, ви мали на увазі: &quot; + replaceText + &quot;?&quot;;
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return &quot;«&quot; + tokenStr + &quot;» — нерекомендоване слово, кращий варіант: &quot; + replaceText + &quot;.&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+&nbsp;    // завидна - could be normal adv
+<b class="nc">&nbsp;    return &quot;завидна&quot;.equals(atr.getCleanToken()) || super.isTokenException(atr);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public boolean isCaseSensitive() {
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static ContextRepl findContext(List&lt;String&gt; replacements) {
+<b class="nc">&nbsp;    ContextRepl contextRepl = new ContextRepl();</b>
+&nbsp;    
+<b class="nc">&nbsp;    for (String replacement: replacements) {</b>
+<b class="nc">&nbsp;      if( replacement.startsWith(CONTEXT_PREFIX) ) {</b>
+<b class="nc">&nbsp;        contextRepl.contexts.addAll(Arrays.asList(replacement.replace(CONTEXT_PREFIX, &quot;&quot;).trim().split(&quot;, *&quot;)));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        contextRepl.replacements.add(replacement);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return contextRepl;</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static final class ContextRepl {</b>
+<b class="nc">&nbsp;    final List&lt;String&gt; contexts = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    final List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

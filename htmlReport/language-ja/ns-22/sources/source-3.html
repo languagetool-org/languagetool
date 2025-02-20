@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CheckConfigurationBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.remote</a>
+</div>
+
+<h1>Coverage Summary for Class: CheckConfigurationBuilder (org.languagetool.remote)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CheckConfigurationBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.remote;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * Builder for a {@link CheckConfiguration}.
+&nbsp; * @since 3.4
+&nbsp; */
+&nbsp;public class CheckConfigurationBuilder {
+&nbsp;
+&nbsp;  private final String langCode;
+&nbsp;  
+&nbsp;  private String motherTongueLangCode;
+&nbsp;  private boolean autoDetectLanguage;
+&nbsp;  private boolean enabledOnly;
+<b class="nc">&nbsp;  private List&lt;String&gt; enabledRuleIds = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private List&lt;String&gt; disabledRuleIds = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private String mode = null;</b>
+<b class="nc">&nbsp;  private String level = null;</b>
+<b class="nc">&nbsp;  private List&lt;String&gt; ruleValues = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private String textSessionID = null;</b>
+<b class="nc">&nbsp;  private String username = null;</b>
+<b class="nc">&nbsp;  private String apiKey = null;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param langCode a language code like {@code en} or {@code en-US}
+&nbsp;   */
+<b class="nc">&nbsp;  public CheckConfigurationBuilder(String langCode) {</b>
+<b class="nc">&nbsp;    this.langCode = Objects.requireNonNull(langCode);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A configuration that causes the server to automatically detected the text language.
+&nbsp;   * Note that this requires at least a few sentences of text to work reliably.
+&nbsp;   */
+<b class="nc">&nbsp;  public CheckConfigurationBuilder() {</b>
+<b class="nc">&nbsp;    this.langCode = null;</b>
+<b class="nc">&nbsp;    this.autoDetectLanguage = true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfiguration build() {
+<b class="nc">&nbsp;    if (enabledOnly &amp;&amp; enabledRuleIds.isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new IllegalStateException(&quot;You cannot use &#39;enabledOnly&#39; when you haven&#39;t set rule ids to be enabled&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new CheckConfiguration(langCode, motherTongueLangCode, autoDetectLanguage, enabledRuleIds, enabledOnly, </b>
+&nbsp;                                  disabledRuleIds, mode, level, ruleValues, textSessionID, username, apiKey);
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder setMotherTongueLangCode(String motherTongueLangCode) {
+<b class="nc">&nbsp;    this.motherTongueLangCode = motherTongueLangCode;</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder enabledRuleIds(List&lt;String&gt; ruleIds) {
+<b class="nc">&nbsp;    this.enabledRuleIds = Objects.requireNonNull(ruleIds);</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder enabledRuleIds(String... ruleIds) {
+<b class="nc">&nbsp;    return enabledRuleIds(Arrays.asList(ruleIds));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder enabledOnly() {
+<b class="nc">&nbsp;    this.enabledOnly = true;</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder disabledRuleIds(List&lt;String&gt; ruleIds) {
+<b class="nc">&nbsp;    this.disabledRuleIds = Objects.requireNonNull(ruleIds);</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public CheckConfigurationBuilder disabledRuleIds(String... ruleIds) {
+<b class="nc">&nbsp;    return disabledRuleIds(Arrays.asList(ruleIds));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public CheckConfigurationBuilder mode(String mode) {
+<b class="nc">&nbsp;    this.mode = mode;</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder level(String level) {
+<b class="nc">&nbsp;    this.level = level;</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder ruleValues(List&lt;String&gt; ruleValues) {
+<b class="nc">&nbsp;    this.ruleValues = Objects.requireNonNull(ruleValues);</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder textSessionID(String textSessionID) {
+<b class="nc">&nbsp;    this.textSessionID = textSessionID;</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder username(String username) {
+<b class="nc">&nbsp;    this.username = username;</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public CheckConfigurationBuilder apiKey(String apiKey) {
+<b class="nc">&nbsp;    this.apiKey = apiKey;</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

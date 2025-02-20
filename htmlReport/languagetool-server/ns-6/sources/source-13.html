@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MissingGermanCompoundAdjectiveFinder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: MissingGermanCompoundAdjectiveFinder (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MissingGermanCompoundAdjectiveFinder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import de.danielnaber.jwordsplitter.GermanWordSplitter;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.GermanyGerman;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;/**
+&nbsp; * Find German compounds like &quot;verwaltungstechnisch&quot; that are not tagged yet.
+&nbsp; */
+<b class="nc">&nbsp;public class MissingGermanCompoundAdjectiveFinder {</b>
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(args[0]));</b>
+<b class="nc">&nbsp;    Tagger tagger = GermanyGerman.getInstance().getTagger();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; printed = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    int j = 0;</b>
+<b class="nc">&nbsp;    int splitCount = 0;</b>
+<b class="nc">&nbsp;    GermanWordSplitter splitter = new GermanWordSplitter(false);</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      if (!StringTools.startsWithLowercase(line)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String clean = line.replaceFirst(&quot;e[rmns]?$&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;      List&lt;AnalyzedTokenReadings&gt; tags = tagger.tag(Collections.singletonList(clean));</b>
+<b class="nc">&nbsp;      boolean isTagged = tags.stream().anyMatch(k -&gt; k.isTagged());</b>
+<b class="nc">&nbsp;      if (isTagged) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      for (int i = clean.length()-2; i &gt; 2; i--) {</b>
+<b class="nc">&nbsp;        String part1 = clean.substring(0, i);</b>
+<b class="nc">&nbsp;        String part2 = clean.substring(i);</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedTokenReadings&gt; part1Tags = tagger.tag(Collections.singletonList(StringTools.uppercaseFirstChar(part1)));</b>
+<b class="nc">&nbsp;        List&lt;AnalyzedTokenReadings&gt; part2Tags = tagger.tag(Collections.singletonList(part2));</b>
+<b class="nc">&nbsp;        boolean part1isNoun = part1Tags.stream().anyMatch(k -&gt; k.hasAnyPartialPosTag(&quot;SUB&quot;));</b>
+<b class="nc">&nbsp;        boolean part2isAdj = part2Tags.stream().anyMatch(k -&gt; k.hasAnyPartialPosTag(&quot;ADJ&quot;, &quot;PA1&quot;, &quot;PA2&quot;));</b>
+<b class="nc">&nbsp;        if (part1isNoun &amp;&amp; part2isAdj &amp;&amp; !printed.contains(clean)) {</b>
+&nbsp;          //System.out.println(part1 + &quot; / &quot; + part2 + &quot; &quot; + part2isAdj);
+<b class="nc">&nbsp;          List&lt;String&gt; split = splitter.splitWord(clean);</b>
+<b class="nc">&nbsp;          if (split.size() &gt; 1) {</b>
+<b class="nc">&nbsp;            splitCount++;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          System.out.println(j + &quot;. &quot; + clean);</b>
+<b class="nc">&nbsp;          printed.add(clean);</b>
+<b class="nc">&nbsp;          j++;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;splitCount: &quot; + splitCount);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /*public static void main2(String[] args) throws IOException {
+&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(&quot;/tmp/x&quot;));
+&nbsp;    GermanSpellerRule speller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), GermanyGerman.getInstance());
+&nbsp;    for (String line : lines) {
+&nbsp;      if (!speller.isMisspelled(line)) {
+&nbsp;        System.out.println(line);
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }*/
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:56</div>
+</div>
+</body>
+</html>

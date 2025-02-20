@@ -1,0 +1,219 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > FindSuggestionsFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.fr</a>
+</div>
+
+<h1>Coverage Summary for Class: FindSuggestionsFilter (org.languagetool.rules.fr)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FindSuggestionsFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.3%
+  </span>
+  <span class="absValue">
+    (1/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (6/30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2020 Jaume Ortolà
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.fr;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.ResourceBundleTools;
+&nbsp;import org.languagetool.language.French;
+&nbsp;import org.languagetool.rules.AbstractFindSuggestionsFilter;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.synthesis.FrenchSynthesizer;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.fr.FrenchTagger;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
+&nbsp;
+<b class="fc">&nbsp;  private static final Pattern ENDS_IN_VOWEL = Pattern.compile(&quot;[aeioué]$&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern PATTERN = Pattern.compile(&quot;^[smntl]&#39;|^(nous|vous|le|la|les|me|te|se|leur|en|y) &quot;);</b>
+&nbsp;
+&nbsp;  private static MorfologikFrenchSpellerRule morfologikRule;
+&nbsp;  
+<b class="fc">&nbsp;  public FindSuggestionsFilter() throws IOException {</b>
+<b class="pc">&nbsp;    if (morfologikRule == null) {</b>
+<b class="fc">&nbsp;      ResourceBundle messages = ResourceBundleTools.getMessageBundle(French.getInstance());</b>
+<b class="fc">&nbsp;      morfologikRule = MorfologikFrenchSpellerRule.getRule(messages);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Tagger getTagger() {
+<b class="nc">&nbsp;    return FrenchTagger.INSTANCE;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected Synthesizer getSynthesizer() {
+<b class="nc">&nbsp;    return FrenchSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected List&lt;String&gt; getSpellingSuggestions(AnalyzedTokenReadings atr) throws IOException {
+&nbsp;    String w;
+<b class="nc">&nbsp;    if (atr.isTagged()) {</b>
+<b class="nc">&nbsp;      w = StringTools.makeWrong(atr.getToken());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      w = atr.getToken();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; suggestions = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    List&lt;String&gt; wordsToCheck = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    wordsToCheck.add(w);</b>
+<b class="nc">&nbsp;    if (w.endsWith(&quot;s&quot;)) {</b>
+<b class="nc">&nbsp;      wordsToCheck.add(w.substring(0, w.length() - 1));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (ENDS_IN_VOWEL.matcher(w).matches()) {</b>
+<b class="nc">&nbsp;      wordsToCheck.add(w + &quot;s&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String word : wordsToCheck) {</b>
+<b class="nc">&nbsp;      AnalyzedTokenReadings[] atk = new AnalyzedTokenReadings[1];</b>
+<b class="nc">&nbsp;      AnalyzedToken token = new AnalyzedToken(word, null, null);</b>
+<b class="nc">&nbsp;      atk[0] = new AnalyzedTokenReadings(token);</b>
+<b class="nc">&nbsp;      AnalyzedSentence sentence = new AnalyzedSentence(atk);</b>
+<b class="nc">&nbsp;      RuleMatch[] matches = morfologikRule.match(sentence);</b>
+<b class="nc">&nbsp;      if (matches.length &gt; 0) {</b>
+<b class="nc">&nbsp;        suggestions.addAll(matches[0].getSuggestedReplacements());</b>
+&nbsp;      }  
+&nbsp;    }
+<b class="nc">&nbsp;    return suggestions;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected String cleanSuggestion(String s) {
+&nbsp;    //remove pronouns before verbs
+<b class="nc">&nbsp;    String output = PATTERN.matcher(s).replaceAll(&quot;&quot;);</b>
+&nbsp;    //check only first element 
+<b class="nc">&nbsp;    output = output.split(&quot; &quot;)[0];</b>
+<b class="nc">&nbsp;    return output;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:42</div>
+</div>
+</body>
+</html>

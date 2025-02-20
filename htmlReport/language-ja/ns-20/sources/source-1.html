@@ -1,0 +1,322 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AnnotatedText</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.markup</a>
+</div>
+
+<h1>Coverage Summary for Class: AnnotatedText (org.languagetool.markup)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AnnotatedText</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.5%
+  </span>
+  <span class="absValue">
+    (6/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41.2%
+  </span>
+  <span class="absValue">
+    (14/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (27/45)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AnnotatedText$MetaDataKey</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    46.2%
+  </span>
+  <span class="absValue">
+    (6/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41.2%
+  </span>
+  <span class="absValue">
+    (14/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54%
+  </span>
+  <span class="absValue">
+    (27/50)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.markup;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * A text with markup and with a mapping so error positions will refer to the original
+&nbsp; * position that includes the markup, even though only the plain text parts are checked.
+&nbsp; * Use {@link AnnotatedTextBuilder} to create objects of this type.
+&nbsp; * @since 2.3
+&nbsp; */
+&nbsp;public class AnnotatedText {
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.9
+&nbsp;   */
+<b class="nc">&nbsp;  public enum MetaDataKey {</b>
+<b class="nc">&nbsp;    DocumentTitle,</b>
+<b class="nc">&nbsp;    EmailToAddress,</b>
+<b class="nc">&nbsp;    FullName,</b>
+<b class="nc">&nbsp;    EmailNumberOfAttachments</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private final List&lt;TextPart&gt; parts;
+&nbsp;  private final Map&lt;Integer, MappingValue&gt; mapping;  // plain text position to original text (with markup) position
+&nbsp;  private final Map&lt;MetaDataKey, String&gt; metaData;
+&nbsp;  private final Map&lt;String, String&gt; customMetaData;
+&nbsp;
+<b class="fc">&nbsp;  AnnotatedText(List&lt;TextPart&gt; parts, Map&lt;Integer, MappingValue&gt; mapping, Map&lt;MetaDataKey, String&gt; metaData, Map&lt;String, String&gt; customMetaData) {</b>
+<b class="fc">&nbsp;    this.parts = Objects.requireNonNull(parts);</b>
+<b class="fc">&nbsp;    this.mapping = Objects.requireNonNull(mapping);</b>
+<b class="fc">&nbsp;    this.metaData = Objects.requireNonNull(metaData);</b>
+<b class="fc">&nbsp;    this.customMetaData = Objects.requireNonNull(customMetaData);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.4
+&nbsp;   */
+&nbsp;  public List&lt;TextPart&gt; getParts() {
+<b class="fc">&nbsp;    return parts;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the plain text, without markup and content from {@code interpretAs}.
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public String getOriginalText() {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (TextPart part : parts) {</b>
+<b class="nc">&nbsp;      if (part.getType() == TextPart.Type.TEXT) {</b>
+<b class="nc">&nbsp;        sb.append(part.getPart());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the plain text, without markup but with content from {@code interpretAs}.
+&nbsp;   */
+&nbsp;  public String getPlainText() {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;    for (TextPart part : parts) {</b>
+<b class="pc">&nbsp;      if (part.getType() == TextPart.Type.TEXT || part.getType() == TextPart.Type.FAKE_CONTENT) {</b>
+<b class="fc">&nbsp;        sb.append(part.getPart());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public String getTextWithMarkup() {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    for (TextPart part : parts) {</b>
+<b class="nc">&nbsp;      if (part.getType() != TextPart.Type.FAKE_CONTENT) {</b>
+<b class="nc">&nbsp;        sb.append(part.getPart());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Internally used by LanguageTool to adjust error positions to point to the
+&nbsp;   * original location with markup, even though markup was ignored during text checking.
+&nbsp;   * @param plainTextPosition the position in the plain text (no markup) that was checked
+&nbsp;   * @param isToPos the from/to position needed
+&nbsp;   * @return an adjusted position of the same location in the text with markup
+&nbsp;   */
+&nbsp;  public int getOriginalTextPositionFor(int plainTextPosition, boolean isToPos) {
+<b class="pc">&nbsp;    if (plainTextPosition &lt; 0) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;plainTextPosition must be &gt;= 0: &quot; + plainTextPosition);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (mapping.isEmpty()) {</b>
+<b class="nc">&nbsp;      return 0;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    int minDiff = Integer.MAX_VALUE;</b>
+<b class="fc">&nbsp;    MappingValue bestMatch = null;</b>
+&nbsp;    // algorithm: find the closest lower position
+<b class="fc">&nbsp;    for (Map.Entry&lt;Integer, MappingValue&gt; entry : mapping.entrySet()) {</b>
+<b class="fc">&nbsp;      int maybeClosePosition = entry.getKey();</b>
+<b class="pc">&nbsp;      if (plainTextPosition &lt; maybeClosePosition) {</b>
+<b class="fc">&nbsp;        int diff = maybeClosePosition - plainTextPosition;</b>
+<b class="pc">&nbsp;        if (diff &gt; 0 &amp;&amp; diff &lt; minDiff) {</b>
+<b class="fc">&nbsp;          bestMatch = entry.getValue();</b>
+<b class="fc">&nbsp;          minDiff = diff;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (bestMatch == null) {</b>
+<b class="nc">&nbsp;      String msg = &quot;mappings: &quot; + (mapping.size() &lt; 5 ? mapping : mapping.size());</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Could not map &quot; + plainTextPosition + &quot; to original position. isToPos: &quot; + isToPos + &quot;, &quot; + msg);</b>
+&nbsp;    }
+&nbsp;    // we remove markup total length if usage of fake markup and need from position
+<b class="pc">&nbsp;    if (!isToPos &amp;&amp; bestMatch.getFakeMarkupLength() &gt; 0) {</b>
+<b class="nc">&nbsp;      minDiff = bestMatch.getFakeMarkupLength();</b>
+&nbsp;    }
+&nbsp;    // We assume that when we have found the closest match there&#39;s a one-to-one mapping
+&nbsp;    // in this region, thus we can subtract &#39;minDiff&#39; to get the exact position.
+&nbsp;    // If the bestMatch is a fakeMarkup, subtract it:
+<b class="fc">&nbsp;    return bestMatch.getTotalPosition() - minDiff;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * @since 3.9
+&nbsp;   */
+&nbsp;  public String getGlobalMetaData(String key, String defaultValue) {
+<b class="nc">&nbsp;    return customMetaData.getOrDefault(key, defaultValue);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 3.9
+&nbsp;   */
+&nbsp;  public String getGlobalMetaData(MetaDataKey key, String defaultValue) {
+<b class="nc">&nbsp;    return metaData.getOrDefault(key, defaultValue);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.4 */
+&nbsp;  public Map&lt;MetaDataKey, String&gt; getGlobalMetaData() {
+<b class="fc">&nbsp;    return metaData;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 5.4 */
+&nbsp;  public Map&lt;String, String&gt; getCustomMetaData() {
+<b class="fc">&nbsp;    return customMetaData;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return StringUtils.join(parts, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,250 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikRussianYOSpellerRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ru</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikRussianYOSpellerRule (org.languagetool.rules.ru)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikRussianYOSpellerRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (5/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    65.4%
+  </span>
+  <span class="absValue">
+    (17/26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules.ru;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.Example;
+&nbsp;import org.languagetool.rules.RuleOption;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+&nbsp;import org.languagetool.rules.SuggestedReplacement;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * An experimental rule for spell check (only yo variant)(set default off).
+&nbsp; * @author Yakov Reztsov
+&nbsp; * @since 5.0
+&nbsp; */
+&nbsp;
+&nbsp;public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule {
+&nbsp;
+&nbsp;  public static final String RULE_ID = &quot;MORFOLOGIK_RULE_RU_RU_YO&quot;;
+&nbsp;
+&nbsp;  private static final String RESOURCE_FILENAME = &quot;/ru/hunspell/ru_RU_yo.dict&quot;;
+<b class="fc">&nbsp;  private static final Pattern RUSSIAN_LETTERS = Pattern.compile(&quot;[-а-яёо́а́е́у́и́ы́э́ю́я́о̀а̀ѐу̀ѝы̀э̀ю̀я̀ʼА-ЯЁ]*&quot;);</b>
+&nbsp;  private static final int DEFAULT_MIN_RU_VALUE = 0;
+&nbsp;
+<b class="fc">&nbsp;  private int conf_ru_Value = DEFAULT_MIN_RU_VALUE;</b>
+&nbsp;  
+<b class="fc">&nbsp;  private final static Set &lt;String&gt; lcDoNotSuggestWords = new HashSet &lt;&gt; (Arrays.asList(</b>
+&nbsp;    // words with &#39;NOSUGGEST&#39; flag:
+&nbsp;    &quot;блоггер&quot;,
+&nbsp;    &quot;елка&quot;,
+&nbsp;    &quot;дрочим&quot;, &quot;анальный&quot;, &quot;орочем&quot;      
+&nbsp; ));
+&nbsp;
+&nbsp;  public MorfologikRussianYOSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="fc">&nbsp;    super(messages, language, userConfig, altLanguages);</b>
+<b class="fc">&nbsp;    setDefaultOff(); </b>
+<b class="fc">&nbsp;    addExamplePair(Example.wrong(&quot;Все счастливые семьи похожи друг на друга, &lt;marker&gt;каждя&lt;/marker&gt; несчастливая семья несчастлива по-своему.&quot;),</b>
+<b class="fc">&nbsp;                   Example.fixed(&quot;Все счастливые семьи похожи друг на друга, &lt;marker&gt;каждая&lt;/marker&gt; несчастливая семья несчастлива по-своему.&quot;));</b>
+&nbsp;
+<b class="pc">&nbsp;    if (userConfig != null) {</b>
+<b class="nc">&nbsp;      Object[] cf = userConfig.getConfigValueByID(getId());</b>
+<b class="nc">&nbsp;      if (cf != null) {</b>
+<b class="nc">&nbsp;        this.conf_ru_Value = (int) cf[0];</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getFileName() {
+<b class="fc">&nbsp;    return RESOURCE_FILENAME;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="fc">&nbsp;    return RULE_ID;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  
+&nbsp; @Override
+&nbsp;  protected List&lt;SuggestedReplacement&gt; filterNoSuggestWords(List&lt;SuggestedReplacement&gt; l) {
+<b class="nc">&nbsp;    return l.stream().filter(k -&gt; !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase())).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
+<b class="fc">&nbsp;    String word = tokens[idx].getToken();  </b>
+&nbsp;    // don&#39;t check words that don&#39;t have  letters
+<b class="pc">&nbsp;    if ((conf_ru_Value != 1) &amp;&amp; !RUSSIAN_LETTERS.matcher(word).matches()) {</b>
+<b class="nc">&nbsp;      return true;</b>
+&nbsp;    }
+&nbsp;      
+<b class="fc">&nbsp;    List&lt;String&gt; words = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (AnalyzedTokenReadings token : tokens) {</b>
+<b class="fc">&nbsp;      words.add(token.getToken());</b>
+&nbsp;    }
+&nbsp;    
+<b class="fc">&nbsp;    return ignoreWord(words, idx);</b>
+&nbsp;  }
+&nbsp; 
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Проверка орфографии. Только «Ё» (экспериментальное правило).&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  protected boolean isLatinScript() {
+<b class="fc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public String getConfigureText() {
+<b class="nc">&nbsp;    return  &quot;Проверять слова на латинице, только термины (0/1)&quot;;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public RuleOption[] getRuleOptions() {
+<b class="nc">&nbsp;    RuleOption[] ruleOptions = { new RuleOption(DEFAULT_MIN_RU_VALUE, getConfigureText(), 0, 1) };</b>
+<b class="nc">&nbsp;    return ruleOptions;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

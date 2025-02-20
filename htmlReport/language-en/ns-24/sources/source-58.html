@@ -1,0 +1,322 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SuggestedReplacement</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: SuggestedReplacement (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SuggestedReplacement</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.5%
+  </span>
+  <span class="absValue">
+    (21/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (5/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.5%
+  </span>
+  <span class="absValue">
+    (39/40)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SuggestedReplacement$SuggestionType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    95.8%
+  </span>
+  <span class="absValue">
+    (23/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (5/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.6%
+  </span>
+  <span class="absValue">
+    (41/42)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.SortedMap;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.util.Collections.singletonList;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 4.5
+&nbsp; */
+&nbsp;public class SuggestedReplacement {
+&nbsp;
+&nbsp;  private String replacement;
+&nbsp;  private String shortDescription;
+&nbsp;  private String suffix;
+<b class="fc">&nbsp;  private SortedMap&lt;String, Float&gt; features = Collections.emptySortedMap();</b>
+<b class="fc">&nbsp;  private Float confidence = null;</b>
+<b class="fc">&nbsp;  private SuggestionType type = SuggestionType.Default;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;    classify the type of the suggestion
+&nbsp;    so that downstream tasks (e.g. resorting, as in {@link BERTSuggestionRanking})
+&nbsp;    can treat them accordingly
+&nbsp;    Default - default, no special treatment
+&nbsp;    Translation - offers to translate words from native language into text language;
+&nbsp;      suggestion ranking extends size of list of candidates
+&nbsp;    Curated - a manually curated suggestion / special case / ...; don&#39;t resort
+&nbsp;   */
+<b class="fc">&nbsp;  public enum SuggestionType {</b>
+<b class="fc">&nbsp;    Default, Translation, Curated</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SuggestedReplacement(String replacement) {
+<b class="fc">&nbsp;    this(replacement, null, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SuggestedReplacement(String replacement, String shortDescription) {
+<b class="fc">&nbsp;    this(replacement, shortDescription, null);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public SuggestedReplacement(String replacement, String shortDescription, String suffix) {</b>
+<b class="fc">&nbsp;    this.replacement = Objects.requireNonNull(replacement);</b>
+<b class="fc">&nbsp;    this.shortDescription = shortDescription;</b>
+<b class="fc">&nbsp;    this.suffix = suffix;</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public SuggestedReplacement(SuggestedReplacement repl) {</b>
+<b class="fc">&nbsp;    this.replacement = repl.replacement;</b>
+<b class="fc">&nbsp;    this.suffix = repl.suffix;</b>
+<b class="fc">&nbsp;    setShortDescription(repl.getShortDescription());</b>
+<b class="fc">&nbsp;    setConfidence(repl.getConfidence());</b>
+<b class="fc">&nbsp;    setFeatures(repl.getFeatures());</b>
+<b class="fc">&nbsp;    setType(repl.getType());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String getReplacement() {
+<b class="fc">&nbsp;    return replacement;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setReplacement(String replacement) {
+<b class="fc">&nbsp;    this.replacement = Objects.requireNonNull(replacement);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public String getShortDescription() {
+<b class="fc">&nbsp;    return shortDescription;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setShortDescription(String desc) {
+<b class="fc">&nbsp;    this.shortDescription = desc;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.9 */
+&nbsp;  public void setType(SuggestionType type) {
+<b class="fc">&nbsp;    this.type = Objects.requireNonNull(type);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.9 */
+&nbsp;  @NotNull
+&nbsp;  public SuggestionType getType() {
+<b class="fc">&nbsp;    return type;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Value shown in the UI after the replacement (but not part of it).
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  public String getSuffix() {
+<b class="fc">&nbsp;    return suffix;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setSuffix(String val) {
+<b class="fc">&nbsp;    this.suffix = val;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return replacement + &#39;(&#39; + shortDescription + &#39;)&#39;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public boolean equals(Object o) {
+<b class="pc">&nbsp;    if (this == o) return true;</b>
+<b class="pc">&nbsp;    if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="fc">&nbsp;    SuggestedReplacement that = (SuggestedReplacement) o;</b>
+<b class="fc">&nbsp;    return replacement.equals(that.replacement) &amp;&amp;</b>
+<b class="fc">&nbsp;            Objects.equals(shortDescription, that.shortDescription);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int hashCode() {
+<b class="fc">&nbsp;    return Objects.hash(replacement, shortDescription);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public Float getConfidence() {
+<b class="fc">&nbsp;    return confidence;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setConfidence(@Nullable Float confidence) {
+<b class="fc">&nbsp;    this.confidence = confidence;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public SortedMap&lt;String, Float&gt; getFeatures() {
+<b class="fc">&nbsp;    return Collections.unmodifiableSortedMap(features);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setFeatures(@NotNull SortedMap&lt;String, Float&gt; features) {
+<b class="fc">&nbsp;    this.features = features;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;SuggestedReplacement&gt; convert(List&lt;String&gt; suggestions) {
+<b class="fc">&nbsp;    return suggestions.stream().map(SuggestedReplacement::new).collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;SuggestedReplacement&gt; topMatch(String word) {
+<b class="fc">&nbsp;    return topMatch(word, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;SuggestedReplacement&gt; topMatch(String word, String shortDesc) {
+<b class="fc">&nbsp;    SuggestedReplacement sugg = new SuggestedReplacement(word, shortDesc);</b>
+<b class="fc">&nbsp;    sugg.setConfidence(SpellingCheckRule.HIGH_CONFIDENCE);</b>
+<b class="fc">&nbsp;    return singletonList(sugg);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

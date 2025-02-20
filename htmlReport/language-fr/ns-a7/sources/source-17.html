@@ -1,0 +1,495 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RuleMatchesAsJsonSerializer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tools</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleMatchesAsJsonSerializer (org.languagetool.tools)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleMatchesAsJsonSerializer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/92)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/192)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tools;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.core.JsonFactory;
+&nbsp;import com.fasterxml.jackson.core.JsonGenerator;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.markup.AnnotatedText;
+&nbsp;import org.languagetool.markup.AnnotatedTextBuilder;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.StringWriter;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Write rule matches and some meta information as JSON.
+&nbsp; * @since 3.4, public since 3.6
+&nbsp; */
+&nbsp;public class RuleMatchesAsJsonSerializer {
+&nbsp;
+&nbsp;  private static final int API_VERSION = 1;
+&nbsp;  private static final String STATUS = &quot;&quot;;
+&nbsp;  private static final String PREMIUM_HINT = &quot;You might be missing errors only the Premium version can find. Contact us at support&lt;at&gt;languagetoolplus.com.&quot;;
+&nbsp;  private static final String START_MARKER = &quot;__languagetool_start_marker&quot;;
+<b class="nc">&nbsp;  private static final JsonFactory factory = new JsonFactory();</b>
+&nbsp;  private static final String SUGGESTION = &quot;&lt;suggestion&gt;&quot;;
+&nbsp;  private static final String SUGGESTION_END = &quot;&lt;/suggestion&gt;&quot;;
+<b class="nc">&nbsp;  private static final Pattern ANYTHING_SLASH_PATTERN = Pattern.compile(&quot;.*/&quot;);</b>
+&nbsp;
+&nbsp;  private final int compactMode;
+&nbsp;  private final Language lang;
+&nbsp;  private Map&lt;ConfidenceKey,Float&gt; confidenceMap;
+&nbsp;
+&nbsp;  public RuleMatchesAsJsonSerializer() {
+<b class="nc">&nbsp;    this(0, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.7
+&nbsp;   */
+&nbsp;  public RuleMatchesAsJsonSerializer(int compactMode) {
+<b class="nc">&nbsp;    this(compactMode, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 5.1
+&nbsp;   */
+<b class="nc">&nbsp;  public RuleMatchesAsJsonSerializer(int compactMode, Language lang) {</b>
+<b class="nc">&nbsp;    this.compactMode = compactMode;</b>
+<b class="nc">&nbsp;    this.lang = lang;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public String ruleMatchesToJson(List&lt;RuleMatch&gt; matches, String text, int contextSize, DetectedLanguage detectedLang) {
+<b class="nc">&nbsp;    return ruleMatchesToJson(matches, new ArrayList&lt;&gt;(), text, contextSize, detectedLang, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+&nbsp;   *        a &#39;warnings&#39; section will be added to the JSON. Use {@code null} if results are complete.
+&nbsp;   * @since 3.7
+&nbsp;   */
+&nbsp;  public String ruleMatchesToJson(List&lt;RuleMatch&gt; matches, List&lt;RuleMatch&gt; hiddenMatches, String text, int contextSize,
+&nbsp;                                  DetectedLanguage detectedLang, String incompleteResultsReason) {
+<b class="nc">&nbsp;    return ruleMatchesToJson(matches, hiddenMatches, new AnnotatedTextBuilder().addText(text).build(), contextSize, detectedLang, incompleteResultsReason, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+&nbsp;   *        a &#39;warnings&#39; section will be added to the JSON. Use {@code null} if results are complete.
+&nbsp;   * @since 4.3
+&nbsp;   */
+&nbsp;  public String ruleMatchesToJson(List&lt;RuleMatch&gt; matches, List&lt;RuleMatch&gt; hiddenMatches, AnnotatedText text, int contextSize,
+&nbsp;                                  DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint) {
+<b class="nc">&nbsp;    return ruleMatchesToJson2(Collections.singletonList(new CheckResults(matches, Collections.emptyList())),</b>
+&nbsp;            hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint, null);
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+&nbsp;   *        a &#39;warnings&#39; section will be added to the JSON. Use {@code null} if results are complete.
+&nbsp;   * @since 5.3
+&nbsp;   */
+&nbsp;  public String ruleMatchesToJson2(List&lt;CheckResults&gt; res, List&lt;RuleMatch&gt; hiddenMatches, AnnotatedText text, int contextSize,
+&nbsp;                                   DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint, JLanguageTool.Mode mode) {
+<b class="nc">&nbsp;    ContextTools contextTools = new ContextTools();</b>
+<b class="nc">&nbsp;    contextTools.setEscapeHtml(false);</b>
+<b class="nc">&nbsp;    contextTools.setContextSize(contextSize);</b>
+<b class="nc">&nbsp;    contextTools.setErrorMarker(START_MARKER, &quot;&quot;);</b>
+<b class="nc">&nbsp;    StringWriter sw = new StringWriter();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      try (JsonGenerator g = factory.createGenerator(sw)) {</b>
+<b class="nc">&nbsp;        g.writeStartObject();</b>
+<b class="nc">&nbsp;        writeSoftwareSection(g, showPremiumHint);</b>
+<b class="nc">&nbsp;        writeWarningsSection(g, incompleteResultsReason);</b>
+<b class="nc">&nbsp;        writeLanguageSection(g, detectedLang);</b>
+<b class="nc">&nbsp;        writeMatchesSection(&quot;matches&quot;, g, res, text, contextTools);</b>
+<b class="nc">&nbsp;        if (hiddenMatches != null &amp;&amp; hiddenMatches.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          writeMatchesSection(&quot;hiddenMatches&quot;, g, Collections.singletonList(new CheckResults(hiddenMatches, Collections.emptyList())), text, contextTools);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        writeIgnoreRanges(g, res);</b>
+<b class="nc">&nbsp;        writeSentenceRanges(g, res);</b>
+<b class="nc">&nbsp;        writeExtendedSentenceRanges(g, res);</b>
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sw.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeSoftwareSection(JsonGenerator g, boolean showPremiumHint) throws IOException {
+<b class="nc">&nbsp;    if (compactMode == 1) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeObjectFieldStart(&quot;software&quot;);</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;name&quot;, &quot;LanguageTool&quot;);</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;version&quot;, JLanguageTool.VERSION);</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;buildDate&quot;, JLanguageTool.BUILD_DATE);</b>
+<b class="nc">&nbsp;    g.writeNumberField(&quot;apiVersion&quot;, API_VERSION);</b>
+<b class="nc">&nbsp;    g.writeBooleanField(&quot;premium&quot;, Premium.isPremiumVersion());</b>
+<b class="nc">&nbsp;    if (showPremiumHint) {</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;premiumHint&quot;, PREMIUM_HINT);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeStringField(&quot;status&quot;, STATUS);</b>
+<b class="nc">&nbsp;    g.writeEndObject();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeWarningsSection(JsonGenerator g, String incompleteResultsReason) throws IOException {
+<b class="nc">&nbsp;    if (compactMode == 1 &amp;&amp; incompleteResultsReason == null) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeObjectFieldStart(&quot;warnings&quot;);</b>
+<b class="nc">&nbsp;    if (incompleteResultsReason != null) {</b>
+<b class="nc">&nbsp;      g.writeBooleanField(&quot;incompleteResults&quot;, true);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;incompleteResultsReason&quot;, incompleteResultsReason);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      g.writeBooleanField(&quot;incompleteResults&quot;, false);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeEndObject();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeLanguageSection(JsonGenerator g, DetectedLanguage detectedLang) throws IOException {
+<b class="nc">&nbsp;    g.writeObjectFieldStart(&quot;language&quot;);</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;name&quot;, detectedLang.getGivenLanguage().getName());</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;code&quot;, detectedLang.getGivenLanguage().getShortCodeWithCountryAndVariant());</b>
+<b class="nc">&nbsp;    if (detectedLang.getGivenLanguage().isSpellcheckOnlyLanguage()) {</b>
+<b class="nc">&nbsp;      g.writeBooleanField(&quot;spellCheckOnly&quot;, true);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeObjectFieldStart(&quot;detectedLanguage&quot;);</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;name&quot;, detectedLang.getDetectedLanguage().getName());</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;code&quot;, detectedLang.getDetectedLanguage().getShortCodeWithCountryAndVariant());</b>
+<b class="nc">&nbsp;    g.writeNumberField(&quot;confidence&quot;, detectedLang.getDetectionConfidence());</b>
+<b class="nc">&nbsp;    if (detectedLang.getDetectedLanguage().isSpellcheckOnlyLanguage()) {</b>
+<b class="nc">&nbsp;      g.writeBooleanField(&quot;spellCheckOnly&quot;, true);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeStringField(&quot;source&quot;, detectedLang.getDetectionSource());</b>
+<b class="nc">&nbsp;    g.writeEndObject();</b>
+<b class="nc">&nbsp;    g.writeEndObject();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeMatchesSection(String sectionName, JsonGenerator g, List&lt;CheckResults&gt; res, AnnotatedText text, ContextTools contextTools) throws IOException {
+<b class="nc">&nbsp;    g.writeArrayFieldStart(sectionName);</b>
+<b class="nc">&nbsp;    for (CheckResults r : res) {</b>
+<b class="nc">&nbsp;      for (RuleMatch match : r.getRuleMatches()) {</b>
+<b class="nc">&nbsp;        g.writeStartObject();</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;message&quot;, cleanSuggestion(match.getMessage()));</b>
+<b class="nc">&nbsp;        if (match.getShortMessage() != null) {</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;shortMessage&quot;, cleanSuggestion(match.getShortMessage()));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        writeReplacements(g, match);</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;offset&quot;, match.getFromPos());</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;length&quot;, match.getToPos()-match.getFromPos());</b>
+<b class="nc">&nbsp;        writeContext(g, match, text, contextTools);</b>
+<b class="nc">&nbsp;        g.writeObjectFieldStart(&quot;type&quot;);</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;typeName&quot;, match.getType().toString());</b>
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+<b class="nc">&nbsp;        writeRule(g, match);</b>
+&nbsp;        // 3 is a guess - key &#39;ignoreForIncompleteSentence&#39; isn&#39;t official and can hopefully be removed in the future
+&nbsp;        // now that we have &#39;contextForSureMatch&#39;:
+<b class="nc">&nbsp;        int contextEstimate = match.getRule().estimateContextForSureMatch();</b>
+<b class="nc">&nbsp;        g.writeBooleanField(&quot;ignoreForIncompleteSentence&quot;, contextEstimate == -1 || contextEstimate &gt; 3);</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;contextForSureMatch&quot;, contextEstimate);</b>
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeEndArray();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeIgnoreRanges(JsonGenerator g, List&lt;CheckResults&gt; res) throws IOException {
+<b class="nc">&nbsp;    if (res.stream().allMatch(k -&gt; k.getIgnoredRanges().size() == 0)) {</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeArrayFieldStart(&quot;ignoreRanges&quot;);</b>
+<b class="nc">&nbsp;    for (CheckResults r : res) {</b>
+<b class="nc">&nbsp;      for (Range range : r.getIgnoredRanges()) {</b>
+<b class="nc">&nbsp;        g.writeStartObject();</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;from&quot;, range.getFromPos());</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;to&quot;, range.getToPos());</b>
+<b class="nc">&nbsp;        g.writeObjectFieldStart(&quot;language&quot;);</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;code&quot;, range.getLang());</b>
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeEndArray();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeSentenceRanges(JsonGenerator g, List&lt;CheckResults&gt; res) throws IOException {
+<b class="nc">&nbsp;    g.writeArrayFieldStart(&quot;sentenceRanges&quot;);</b>
+<b class="nc">&nbsp;    for (CheckResults r : res) {</b>
+<b class="nc">&nbsp;      for (SentenceRange range : r.getSentenceRanges()) {</b>
+<b class="nc">&nbsp;        g.writeStartArray();</b>
+<b class="nc">&nbsp;        g.writeNumber(range.getFromPos());</b>
+<b class="nc">&nbsp;        g.writeNumber(range.getToPos());</b>
+<b class="nc">&nbsp;        g.writeEndArray();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeEndArray();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeExtendedSentenceRanges(JsonGenerator g, List&lt;CheckResults&gt; res) throws IOException{
+<b class="nc">&nbsp;    g.writeArrayFieldStart(&quot;extendedSentenceRanges&quot;);</b>
+<b class="nc">&nbsp;    for (CheckResults r : res) {</b>
+<b class="nc">&nbsp;      for (ExtendedSentenceRange range : r.getExtendedSentenceRanges()) {</b>
+<b class="nc">&nbsp;        g.writeStartObject();</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;from&quot;, range.getFromPos());</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;to&quot;, range.getToPos());</b>
+<b class="nc">&nbsp;        g.writeArrayFieldStart(&quot;detectedLanguages&quot;);</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;String, Float&gt; entry : range.getLanguageConfidenceRates().entrySet()) {</b>
+<b class="nc">&nbsp;          String language = entry.getKey();</b>
+<b class="nc">&nbsp;          Float rate = entry.getValue();</b>
+<b class="nc">&nbsp;          g.writeStartObject();</b>
+<b class="nc">&nbsp;          g.writeStringField(&quot;language&quot;, language);</b>
+<b class="nc">&nbsp;          g.writeNumberField(&quot;rate&quot;, rate);</b>
+<b class="nc">&nbsp;          g.writeEndObject();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        g.writeEndArray();</b>
+<b class="nc">&nbsp;        g.writeEndObject();</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeEndArray();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String cleanSuggestion(String s) {
+<b class="nc">&nbsp;    if (lang != null) {</b>
+<b class="nc">&nbsp;      return lang.toAdvancedTypography(s); //.replaceAll(&quot;&lt;suggestion&gt;&quot;, lang.getOpeningDoubleQuote()).replaceAll(&quot;&lt;/suggestion&gt;&quot;, lang.getClosingDoubleQuote())</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return s.replace(SUGGESTION, &quot;\&quot;&quot;).replace(SUGGESTION_END, &quot;\&quot;&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
+<b class="nc">&nbsp;    g.writeArrayFieldStart(&quot;replacements&quot;);</b>
+<b class="nc">&nbsp;    boolean autoCorrect = match.isAutoCorrect();</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    for (SuggestedReplacement replacement : match.getSuggestedReplacementObjects()) {</b>
+<b class="nc">&nbsp;      i++;</b>
+<b class="nc">&nbsp;      if (compactMode == 1 &amp;&amp; i &gt; 5) {  // these clients only show up to 5 suggestions anyway</b>
+&nbsp;        break;
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeStartObject();</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;value&quot;, replacement.getReplacement());</b>
+<b class="nc">&nbsp;      if (replacement.getShortDescription() != null) {</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;shortDescription&quot;, replacement.getShortDescription());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (replacement.getSuffix() != null) {</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;suffix&quot;, replacement.getSuffix());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (replacement.getType() != SuggestedReplacement.SuggestionType.Default) {</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;type&quot;, replacement.getType().name());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (autoCorrect) {</b>
+<b class="nc">&nbsp;        g.writeBooleanField(&quot;autoCorrect&quot;, true);</b>
+<b class="nc">&nbsp;        autoCorrect = false; // only for first replacement</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (replacement.getConfidence() != null) {</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;confidence&quot;, replacement.getConfidence());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeEndArray();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeContext(JsonGenerator g, RuleMatch match, AnnotatedText text, ContextTools contextTools) throws IOException {
+<b class="nc">&nbsp;    if (compactMode != 1) {</b>
+<b class="nc">&nbsp;      String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());</b>
+<b class="nc">&nbsp;      int contextOffset = context.indexOf(START_MARKER);</b>
+<b class="nc">&nbsp;      context = StringUtils.replaceOnce(context, START_MARKER, &quot;&quot;);</b>
+<b class="nc">&nbsp;      g.writeObjectFieldStart(&quot;context&quot;);</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;text&quot;, context);</b>
+<b class="nc">&nbsp;      g.writeNumberField(&quot;offset&quot;, contextOffset);</b>
+<b class="nc">&nbsp;      g.writeNumberField(&quot;length&quot;, match.getToPos()-match.getFromPos());</b>
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+<b class="nc">&nbsp;      if (match.getSentence() != null) {</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;sentence&quot;, match.getSentence().getText().trim());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeRule(JsonGenerator g, RuleMatch match) throws IOException {
+<b class="nc">&nbsp;    g.writeObjectFieldStart(&quot;rule&quot;);</b>
+<b class="nc">&nbsp;    Rule rule = match.getRule();</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;id&quot;, match.getSpecificRuleId()); // rule.getId()</b>
+<b class="nc">&nbsp;    if (rule.getSubId() != null) {</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;subId&quot;, rule.getSubId());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (rule.getSourceFile() != null &amp;&amp; compactMode != 1) {</b>
+<b class="nc">&nbsp;      g.writeStringField(&quot;sourceFile&quot;, ANYTHING_SLASH_PATTERN.matcher(rule.getSourceFile()).replaceFirst(&quot;&quot;));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeStringField(&quot;description&quot;, rule.getDescription());</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;issueType&quot;, rule.getLocQualityIssueType().toString());</b>
+<b class="nc">&nbsp;    if (rule.isDefaultTempOff()) {</b>
+<b class="nc">&nbsp;      g.writeBooleanField(&quot;tempOff&quot;, true);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (match.getUrl() != null || rule.getUrl() != null) {</b>
+<b class="nc">&nbsp;      g.writeArrayFieldStart(&quot;urls&quot;);  // currently only one, but keep it extensible</b>
+<b class="nc">&nbsp;      g.writeStartObject();</b>
+<b class="nc">&nbsp;      if (match.getUrl() != null) {</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;value&quot;, match.getUrl().toString());</b>
+<b class="nc">&nbsp;      } else if (rule.getUrl() != null) {</b>
+<b class="nc">&nbsp;        g.writeStringField(&quot;value&quot;, rule.getUrl().toString());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeEndObject();</b>
+<b class="nc">&nbsp;      g.writeEndArray();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    writeCategory(g, rule.getCategory());</b>
+<b class="nc">&nbsp;    if (Premium.isPremiumVersion()) {</b>
+<b class="nc">&nbsp;      g.writeBooleanField(&quot;isPremium&quot;, Premium.get().isPremiumRule(rule));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (rule.getTags().size() &gt; 0) {</b>
+<b class="nc">&nbsp;      g.writeArrayFieldStart(&quot;tags&quot;);</b>
+<b class="nc">&nbsp;      for (Tag tag : rule.getTags()) {</b>
+<b class="nc">&nbsp;        g.writeString(tag.name());</b>
+&nbsp;      }
+<b class="nc">&nbsp;      g.writeEndArray();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (confidenceMap != null) {</b>
+<b class="nc">&nbsp;      Float confidence = confidenceMap.get(new ConfidenceKey(lang, rule.getId()));</b>
+<b class="nc">&nbsp;      if (confidence != null) {</b>
+<b class="nc">&nbsp;        g.writeNumberField(&quot;confidence&quot;, confidence);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    g.writeEndObject();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void writeCategory(JsonGenerator g, Category category) throws IOException {
+<b class="nc">&nbsp;    g.writeObjectFieldStart(&quot;category&quot;);</b>
+<b class="nc">&nbsp;    CategoryId catId = category.getId();</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;id&quot;, catId.toString());</b>
+<b class="nc">&nbsp;    g.writeStringField(&quot;name&quot;, category.getName());</b>
+<b class="nc">&nbsp;    g.writeEndObject();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setRuleIdToConfidenceMap(Map&lt;ConfidenceKey,Float&gt; confidenceMap) {
+<b class="nc">&nbsp;    this.confidenceMap = confidenceMap;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

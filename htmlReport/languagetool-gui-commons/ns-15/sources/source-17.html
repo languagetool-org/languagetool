@@ -1,0 +1,307 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RetainLineBreakTransferHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: RetainLineBreakTransferHandler (org.languagetool.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RetainLineBreakTransferHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RetainLineBreakTransferHandler$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RetainLineBreakTransferHandler$MyTransferable</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/**
+&nbsp; * Copyright (C) 2011 Steve McLeod (http://stackoverflow.com/users/2959/steve-mcleod)
+&nbsp; *
+&nbsp; * Source:
+&nbsp; * http://stackoverflow.com/questions/7745087
+&nbsp; *
+&nbsp; * License: http://creativecommons.org/licenses/by-sa/3.0/
+&nbsp; */
+&nbsp;package org.languagetool.gui;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.text.MutableAttributeSet;
+&nbsp;import javax.swing.text.html.HTML;
+&nbsp;import javax.swing.text.html.HTMLEditorKit;
+&nbsp;import javax.swing.text.html.parser.ParserDelegator;
+&nbsp;import java.awt.datatransfer.Clipboard;
+&nbsp;import java.awt.datatransfer.DataFlavor;
+&nbsp;import java.awt.datatransfer.Transferable;
+&nbsp;import java.awt.datatransfer.UnsupportedFlavorException;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.Reader;
+&nbsp;import java.io.StringReader;
+&nbsp;
+&nbsp;/**
+&nbsp; * Keep line breaks when copying from JTextPane.
+&nbsp; */
+<b class="nc">&nbsp;class RetainLineBreakTransferHandler extends TransferHandler {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected Transferable createTransferable(JComponent c) {
+<b class="nc">&nbsp;    JEditorPane pane = (JEditorPane) c;</b>
+<b class="nc">&nbsp;    String htmlText = pane.getText();</b>
+<b class="nc">&nbsp;    String plainText = extractText(new StringReader(htmlText));</b>
+<b class="nc">&nbsp;    return new MyTransferable(plainText, htmlText);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private String extractText(Reader reader) {
+<b class="nc">&nbsp;    StringBuilder result = new StringBuilder();</b>
+<b class="nc">&nbsp;    HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {</b>
+&nbsp;      @Override
+&nbsp;      public void handleText(char[] data, int pos) {
+<b class="nc">&nbsp;        result.append(data);</b>
+&nbsp;      }
+&nbsp;      @Override
+&nbsp;      public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet a, int pos) {
+<b class="nc">&nbsp;        if (tag.equals(HTML.Tag.BR)) {</b>
+<b class="nc">&nbsp;          result.append(&#39;\n&#39;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    };
+&nbsp;    try {
+<b class="nc">&nbsp;      new ParserDelegator().parse(reader, parserCallback, true);</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void exportToClipboard(JComponent comp, Clipboard clip, int action) throws IllegalStateException {
+<b class="nc">&nbsp;    if (action == COPY) {</b>
+<b class="nc">&nbsp;      clip.setContents(this.createTransferable(comp), null);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int getSourceActions(JComponent c) {
+<b class="nc">&nbsp;    return COPY;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class MyTransferable implements Transferable {
+&nbsp;
+&nbsp;    private static final DataFlavor[] supportedFlavors;
+&nbsp;
+&nbsp;    static {
+&nbsp;      try {
+<b class="nc">&nbsp;        supportedFlavors = new DataFlavor[]{</b>
+&nbsp;                new DataFlavor(&quot;text/html;class=java.lang.String&quot;),
+&nbsp;                new DataFlavor(&quot;text/plain;class=java.lang.String&quot;)
+&nbsp;        };
+&nbsp;      } catch (ClassNotFoundException e) {
+<b class="nc">&nbsp;        throw new ExceptionInInitializerError(e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    private final String plainData;
+&nbsp;    private final String htmlData;
+&nbsp;
+<b class="nc">&nbsp;    MyTransferable(String plainData, String htmlData) {</b>
+<b class="nc">&nbsp;      this.plainData = plainData;</b>
+<b class="nc">&nbsp;      this.htmlData = htmlData;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public DataFlavor[] getTransferDataFlavors() {
+<b class="nc">&nbsp;      return supportedFlavors;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean isDataFlavorSupported(DataFlavor flavor) {
+<b class="nc">&nbsp;      for (DataFlavor supportedFlavor : supportedFlavors) {</b>
+<b class="nc">&nbsp;        if (supportedFlavor == flavor) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+<b class="nc">&nbsp;      if (flavor.equals(supportedFlavors[0])) {</b>
+<b class="nc">&nbsp;        return htmlData;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (flavor.equals(supportedFlavors[1])) {</b>
+<b class="nc">&nbsp;        return plainData;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      throw new UnsupportedFlavorException(flavor);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

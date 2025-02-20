@@ -1,0 +1,526 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CommandLineTools</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.commandline</a>
+</div>
+
+<h1>Coverage Summary for Class: CommandLineTools (org.languagetool.commandline)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommandLineTools</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (10/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70.6%
+  </span>
+  <span class="absValue">
+    (48/68)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69.7%
+  </span>
+  <span class="absValue">
+    (122/175)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.commandline;
+&nbsp;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.bitext.BitextReader;
+&nbsp;import org.languagetool.bitext.StringPair;
+&nbsp;import org.languagetool.markup.AnnotatedTextBuilder;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.TextLevelRule;
+&nbsp;import org.languagetool.rules.bitext.BitextRule;
+&nbsp;import org.languagetool.rules.patterns.AbstractPatternRule;
+&nbsp;import org.languagetool.tokenizers.SentenceTokenizer;
+&nbsp;import org.languagetool.tools.ContextTools;
+&nbsp;import org.languagetool.tools.RuleMatchesAsJsonSerializer;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.languagetool.tools.Tools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.PrintStream;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.util.Collections.emptyList;
+&nbsp;import static org.languagetool.JLanguageTool.Level.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 2.3
+&nbsp; */
+&nbsp;public final class CommandLineTools {
+&nbsp;
+&nbsp;  private static final int DEFAULT_CONTEXT_SIZE = 45;
+&nbsp;
+&nbsp;  private CommandLineTools() {
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Tags text using the LanguageTool tagger, printing results to System.out.
+&nbsp;   *
+&nbsp;   * @param contents Text to tag.
+&nbsp;   * @param lt LanguageTool instance
+&nbsp;   */
+&nbsp;  public static void tagText(String contents, JLanguageTool lt) throws IOException {
+&nbsp;    AnalyzedSentence analyzedText;
+<b class="fc">&nbsp;    List&lt;String&gt; sentences = lt.sentenceTokenize(contents);</b>
+<b class="fc">&nbsp;    for (String sentence : sentences) {</b>
+<b class="fc">&nbsp;      analyzedText = lt.getAnalyzedSentence(sentence);</b>
+<b class="fc">&nbsp;      System.out.println(analyzedText);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static int checkText(String contents, JLanguageTool lt) throws IOException {
+<b class="fc">&nbsp;    return checkText(contents, lt, false, -1, 0, 0, StringTools.ApiPrintMode.NORMAL_API, false, DEFAULT, emptyList(), false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static int checkText(String contents, JLanguageTool lt,
+&nbsp;                              boolean isJsonFormat, int lineOffset) throws IOException {
+<b class="nc">&nbsp;    return checkText(contents, lt, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, false, DEFAULT, emptyList(), false);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static int checkText(String contents, JLanguageTool lt,
+&nbsp;          boolean isJsonFormat, int lineOffset, JLanguageTool.Level level, boolean listUnknownWords) throws IOException {
+<b class="nc">&nbsp;    return checkText(contents, lt, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, listUnknownWords, level, emptyList(), false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static int checkText(String contents, JLanguageTool lt,
+&nbsp;          boolean isJsonFormat, int lineOffset, JLanguageTool.Level level, boolean listUnknownWords, boolean verbose) throws IOException {
+<b class="fc">&nbsp;    return checkText(contents, lt, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, listUnknownWords, level, emptyList(), verbose);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Check the given text and print results to System.out.
+&nbsp;   *
+&nbsp;   * @param contents a text to check (may be more than one sentence)
+&nbsp;   * @param lt Initialized LanguageTool
+&nbsp;   * @param isJsonFormat whether to print the result in JSON format
+&nbsp;   * @param contextSize error text context size: -1 for default
+&nbsp;   * @param lineOffset line number offset to be added to line numbers in matches
+&nbsp;   * @param prevMatches number of previously matched rules
+&nbsp;   * @param apiMode mode of xml/json printout for simple xml/json output
+&nbsp;   * @return Number of rule matches to the input text.
+&nbsp;   */
+&nbsp;  public static int checkText(String contents, JLanguageTool lt,
+&nbsp;                              boolean isJsonFormat, int contextSize, int lineOffset,
+&nbsp;                              int prevMatches, StringTools.ApiPrintMode apiMode,
+&nbsp;                              boolean listUnknownWords, JLanguageTool.Level level, List&lt;String&gt; unknownWords,
+&nbsp;                              boolean verbose) throws IOException {
+<b class="pc">&nbsp;    if (contextSize == -1) {</b>
+<b class="fc">&nbsp;      contextSize = DEFAULT_CONTEXT_SIZE;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    long startTime = System.currentTimeMillis();</b>
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = lt.check(new AnnotatedTextBuilder().addText(contents).build(), true, JLanguageTool.ParagraphHandling.NORMAL,</b>
+&nbsp;      null, JLanguageTool.Mode.ALL, level);
+<b class="fc">&nbsp;    ruleMatches.parallelStream().forEach(r -&gt; {</b>
+&nbsp;      // adjust line numbers
+<b class="fc">&nbsp;      r.setLine(r.getLine() + lineOffset);</b>
+<b class="fc">&nbsp;      r.setEndLine(r.getEndLine() + lineOffset);</b>
+&nbsp;
+&nbsp;      // calculate lazy suggestions in parallel and cache them
+<b class="fc">&nbsp;      r.getSuggestedReplacementObjects();</b>
+&nbsp;    });
+<b class="fc">&nbsp;    if (isJsonFormat) {</b>
+<b class="fc">&nbsp;      RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();</b>
+<b class="fc">&nbsp;      String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize,</b>
+<b class="fc">&nbsp;        new DetectedLanguage(lt.getLanguage(), lt.getLanguage()));</b>
+<b class="fc">&nbsp;      PrintStream out = new PrintStream(System.out, true, &quot;UTF-8&quot;);</b>
+<b class="fc">&nbsp;      out.print(json);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      printMatches(ruleMatches, prevMatches, contents, contextSize, lt.getLanguage(), verbose);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //display stats if it&#39;s not in a buffered mode
+<b class="pc">&nbsp;    if (apiMode == StringTools.ApiPrintMode.NORMAL_API &amp;&amp; !isJsonFormat) {</b>
+<b class="fc">&nbsp;      SentenceTokenizer sentenceTokenizer = lt.getLanguage().getSentenceTokenizer();</b>
+<b class="fc">&nbsp;      int sentenceCount = sentenceTokenizer.tokenize(contents).size();</b>
+<b class="fc">&nbsp;      displayTimeStats(startTime, sentenceCount);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return ruleMatches.size();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void displayTimeStats(long startTime, long sentCount) {
+<b class="fc">&nbsp;    long endTime = System.currentTimeMillis();</b>
+<b class="fc">&nbsp;    long time = endTime - startTime;</b>
+<b class="fc">&nbsp;    float timeInSeconds = time / 1000.0f;</b>
+<b class="fc">&nbsp;    float sentencesPerSecond = sentCount / timeInSeconds;</b>
+<b class="fc">&nbsp;    System.out.printf(Locale.ENGLISH,</b>
+<b class="fc">&nbsp;            &quot;Time: %dms for %d sentences (%.1f sentences/sec)&quot;, time,</b>
+<b class="fc">&nbsp;            sentCount, sentencesPerSecond);</b>
+<b class="fc">&nbsp;    System.out.println();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Displays matches in a simple text format.
+&nbsp;   * @param ruleMatches Matches from rules.
+&nbsp;   * @param prevMatches Number of previously found matches.
+&nbsp;   * @param contents  The text that was checked.
+&nbsp;   * @param contextSize The size of contents displayed.
+&nbsp;   * @since 1.0.1
+&nbsp;   */
+&nbsp;  public static void printMatches(List&lt;RuleMatch&gt; ruleMatches,
+&nbsp;                                  int prevMatches, String contents, int contextSize, Language lang, boolean verbose) {
+<b class="fc">&nbsp;    int i = 1;</b>
+<b class="fc">&nbsp;    ContextTools contextTools = new ContextTools();</b>
+<b class="fc">&nbsp;    contextTools.setContextSize(contextSize);</b>
+<b class="fc">&nbsp;    for (RuleMatch match : ruleMatches) {</b>
+<b class="fc">&nbsp;      Rule rule = match.getRule();</b>
+<b class="fc">&nbsp;      String output = i + prevMatches + &quot;.) Line &quot; + (match.getLine() + 1) + &quot;, column &quot;</b>
+<b class="fc">&nbsp;              + match.getColumn() + &quot;, Rule ID: &quot; + match.getSpecificRuleId(); //rule.getId();</b>
+<b class="fc">&nbsp;      if (rule instanceof AbstractPatternRule) {</b>
+<b class="fc">&nbsp;        AbstractPatternRule pRule = (AbstractPatternRule) rule;</b>
+<b class="fc">&nbsp;        if (pRule.getSubId() != null) {</b>
+<b class="fc">&nbsp;          output += &quot;[&quot; + pRule.getSubId() + &quot;]&quot;;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      output += &quot; premium: &quot; + Premium.get().isPremiumRule(match.getRule());</b>
+<b class="fc">&nbsp;      int priorityForId = lang.getRulePriority(match.getRule());</b>
+<b class="fc">&nbsp;      if (priorityForId != 0) {</b>
+<b class="fc">&nbsp;        output += &quot; prio=&quot; + priorityForId;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (verbose &amp;&amp; rule instanceof AbstractPatternRule) {</b>
+<b class="fc">&nbsp;        AbstractPatternRule pRule = (AbstractPatternRule) rule;</b>
+<b class="fc">&nbsp;        output += &quot; (line &quot; + pRule.getXmlLineNumber()+&quot;)&quot;;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      System.out.println(output);</b>
+<b class="fc">&nbsp;      String msg = lang.toAdvancedTypography(match.getMessage()); //.replaceAll(&quot;&lt;suggestion&gt;&quot;, lang.getOpeningDoubleQuote()).replaceAll(&quot;&lt;/suggestion&gt;&quot;, lang.getClosingDoubleQuote())</b>
+<b class="fc">&nbsp;      System.out.println(&quot;Message: &quot; + msg);</b>
+<b class="fc">&nbsp;      List&lt;String&gt; replacements = match.getSuggestedReplacements();</b>
+<b class="fc">&nbsp;      if (!replacements.isEmpty()) {</b>
+<b class="fc">&nbsp;        replacements = replacements.subList(0, Math.min(5, replacements.size()));</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Suggestion: &quot; + String.join(&quot;; &quot;, replacements));</b>
+&nbsp;      }
+<b class="fc">&nbsp;      System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));</b>
+<b class="fc">&nbsp;      if (match.getUrl() != null) {</b>
+<b class="fc">&nbsp;        System.out.println(&quot;More info: &quot; + match.getUrl());</b>
+<b class="fc">&nbsp;      } else if (rule.getUrl() != null) {</b>
+<b class="fc">&nbsp;        System.out.println(&quot;More info: &quot; + rule.getUrl());</b>
+&nbsp;      }
+<b class="fc">&nbsp;      List&lt;Tag&gt; tags = rule.getTags();</b>
+<b class="fc">&nbsp;      if (!tags.isEmpty()) {</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Tags: &quot; + tags);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      if (i &lt; ruleMatches.size()) {</b>
+<b class="fc">&nbsp;        System.out.println();</b>
+&nbsp;      }
+<b class="fc">&nbsp;      i++;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks the bilingual input (bitext) and displays the output (considering the target 
+&nbsp;   * language) in API format or in the simple text format.
+&nbsp;   *
+&nbsp;   * NOTE: the positions returned by the rule matches are adjusted
+&nbsp;   * according to the data returned by the reader.
+&nbsp;   *
+&nbsp;   * @param reader   Reader of bitext strings.
+&nbsp;   * @param srcLt Source JLanguageTool (used to analyze the text).
+&nbsp;   * @param trgLt Target JLanguageTool (used to analyze the text).
+&nbsp;   * @param bRules  Bilingual rules used in addition to target standard rules.
+&nbsp;   * @return The number of rules matched on the bitext.
+&nbsp;   * @since 1.0.1
+&nbsp;   */
+&nbsp;  public static int checkBitext(BitextReader reader,
+&nbsp;                                JLanguageTool srcLt, JLanguageTool trgLt,
+&nbsp;                                List&lt;BitextRule&gt; bRules) throws IOException {
+<b class="fc">&nbsp;    long startTime = System.currentTimeMillis();</b>
+<b class="fc">&nbsp;    int contextSize = DEFAULT_CONTEXT_SIZE;</b>
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int matchCount = 0;</b>
+<b class="fc">&nbsp;    int sentCount = 0;</b>
+<b class="fc">&nbsp;    try (PrintStream out = new PrintStream(System.out, true, &quot;UTF-8&quot;)) {</b>
+<b class="fc">&nbsp;      for (StringPair srcAndTrg : reader) {</b>
+<b class="fc">&nbsp;        List&lt;RuleMatch&gt; curMatches = Tools.checkBitext(</b>
+<b class="fc">&nbsp;          srcAndTrg.getSource(), srcAndTrg.getTarget(),</b>
+&nbsp;          srcLt, trgLt, bRules);
+<b class="fc">&nbsp;        List&lt;RuleMatch&gt; fixedMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (RuleMatch thisMatch : curMatches) {</b>
+<b class="fc">&nbsp;          fixedMatches.add(</b>
+<b class="fc">&nbsp;            trgLt.adjustRuleMatchPos(thisMatch,</b>
+<b class="fc">&nbsp;              reader.getSentencePosition(),</b>
+<b class="fc">&nbsp;              reader.getColumnCount(),</b>
+<b class="fc">&nbsp;              reader.getLineCount(),</b>
+<b class="fc">&nbsp;              reader.getCurrentLine(), null));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ruleMatches.addAll(fixedMatches);</b>
+<b class="fc">&nbsp;        if (fixedMatches.size() &gt; 0) {</b>
+<b class="fc">&nbsp;          printMatches(fixedMatches, matchCount, reader.getCurrentLine(), contextSize, trgLt.getLanguage(), false);</b>
+<b class="fc">&nbsp;          matchCount += fixedMatches.size();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        sentCount++;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      displayTimeStats(startTime, sentCount);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return ruleMatches.size();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Simple rule profiler - used to run LT on a corpus to see which
+&nbsp;   * rule takes most time. Prints results to System.out.
+&nbsp;   *
+&nbsp;   * @param contents text to check
+&nbsp;   * @param lt instance of LanguageTool
+&nbsp;   */
+&nbsp;  public static void profileRulesOnText(String contents,
+&nbsp;                                        JLanguageTool lt) throws IOException {
+<b class="nc">&nbsp;    int iterationCount = 3;</b>
+<b class="nc">&nbsp;    long[] workTime = new long[iterationCount];</b>
+<b class="nc">&nbsp;    List&lt;Rule&gt; rules = lt.getAllActiveRules();</b>
+<b class="nc">&nbsp;    int ruleCount = rules.size();</b>
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; sentences = lt.sentenceTokenize(contents);</b>
+&nbsp;
+<b class="nc">&nbsp;    long analyzeStartTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedSentence&gt; rawAnalyzedSentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for(String sentence: sentences) {</b>
+<b class="nc">&nbsp;      rawAnalyzedSentences.add(lt.getRawAnalyzedSentence(sentence));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    long tagEndTime = System.currentTimeMillis();</b>
+&nbsp;
+<b class="nc">&nbsp;    long analyzeEndTime = tagEndTime;</b>
+<b class="nc">&nbsp;    long analyzeTime = analyzeEndTime-analyzeStartTime;</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;Analyze time: %d ms, %.1f sent/sec\n\n&quot;, analyzeTime, (float)sentences.size()/analyzeTime);</b>
+&nbsp;
+<b class="nc">&nbsp;    Language language = lt.getLanguage();</b>
+&nbsp;    
+&nbsp;    //TODO: it would be nice to have timing for each disambiguation rule too
+<b class="nc">&nbsp;    List&lt;AnalyzedSentence&gt; analyzedSentences = rawAnalyzedSentences.stream().map( s -&gt; </b>
+&nbsp;    {
+&nbsp;      try {
+<b class="nc">&nbsp;        AnalyzedSentence disambig = language.getDisambiguator().disambiguate(s);</b>
+<b class="nc">&nbsp;        AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), s.getTokens());</b>
+<b class="nc">&nbsp;        if (language.getPostDisambiguationChunker() != null) {</b>
+<b class="nc">&nbsp;          language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return analyzedSentence;</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    ).collect(Collectors.toList());</b>
+&nbsp;
+<b class="nc">&nbsp;    long disambigEndTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    long disambigTime = disambigEndTime-tagEndTime;</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;Disambig time: %d ms, %f sent/sec\n\n&quot;, disambigTime, (float)sentences.size()/disambigTime);</b>
+&nbsp;
+<b class="nc">&nbsp;    System.out.printf(&quot;Testing %d rules%n&quot;, ruleCount);</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;%-40s%10s%10s%10s%15s\n&quot;, &quot;Rule ID&quot;, &quot;Time&quot;, &quot;Sentences&quot;, &quot;Matches&quot;, &quot;Sentences per sec.&quot;);</b>
+&nbsp;    
+&nbsp;    
+<b class="nc">&nbsp;    for (Rule rule : rules) {</b>
+<b class="nc">&nbsp;      if (rule instanceof TextLevelRule) {</b>
+&nbsp;        continue; // profile rules for sentences only
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      int matchCount = 0;</b>
+<b class="nc">&nbsp;      for (int k = 0; k &lt; iterationCount; k++) {</b>
+<b class="nc">&nbsp;        long startTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        for (AnalyzedSentence sentence : analyzedSentences) {</b>
+<b class="nc">&nbsp;          matchCount += rule.match</b>
+<b class="nc">&nbsp;                  (sentence).length;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        long endTime =  System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        workTime[k] = endTime - startTime;</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      long time = median(workTime);</b>
+<b class="nc">&nbsp;      float timeInSeconds = time / 1000.0f;</b>
+<b class="nc">&nbsp;      float sentencesPerSecond = sentences.size() / timeInSeconds;</b>
+<b class="nc">&nbsp;      System.out.printf(Locale.ENGLISH,</b>
+<b class="nc">&nbsp;              &quot;%-40s%10d%10d%10d%15.1f\n&quot;, rule.getFullId(),</b>
+<b class="nc">&nbsp;              time, sentences.size(), matchCount, sentencesPerSecond);</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    long ruleEndTime =  System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    System.out.printf(&quot;\nTotal rule time: %d ms\n&quot;, (ruleEndTime - disambigEndTime)/iterationCount);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static long median(long[] m) {
+<b class="nc">&nbsp;    Arrays.sort(m);</b>
+<b class="nc">&nbsp;    int middle = m.length / 2;  // subscript of middle element</b>
+<b class="nc">&nbsp;    if (m.length % 2 == 1) {</b>
+&nbsp;      // Odd number of elements -- return the middle one.
+<b class="nc">&nbsp;      return m[middle];</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return (m[middle-1] + m[middle]) / 2;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Automatically applies suggestions to the bilingual text.
+&nbsp;   * Note: if there is more than one suggestion, always the first
+&nbsp;   * one is applied, and others ignored silently.
+&nbsp;   * Prints results to System.out.
+&nbsp;   *
+&nbsp;   * @param reader a bitext file reader
+&nbsp;   * @param sourceLt Initialized source JLanguageTool object
+&nbsp;   * @param targetLt Initialized target JLanguageTool object
+&nbsp;   * @param bRules  List of all BitextRules to use
+&nbsp;   */
+&nbsp;  public static void correctBitext(BitextReader reader,
+&nbsp;                                   JLanguageTool sourceLt, JLanguageTool targetLt,
+&nbsp;                                   List&lt;BitextRule&gt; bRules) throws IOException {
+<b class="fc">&nbsp;    for (StringPair srcAndTrg : reader) {</b>
+<b class="fc">&nbsp;      List&lt;RuleMatch&gt; curMatches = Tools.checkBitext(</b>
+<b class="fc">&nbsp;              srcAndTrg.getSource(), srcAndTrg.getTarget(),</b>
+&nbsp;              sourceLt, targetLt, bRules);
+<b class="fc">&nbsp;      List&lt;RuleMatch&gt; fixedMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;      for (RuleMatch thisMatch : curMatches) {</b>
+<b class="fc">&nbsp;        fixedMatches.add(</b>
+<b class="fc">&nbsp;                targetLt.adjustRuleMatchPos(thisMatch,</b>
+&nbsp;                        0, //don&#39;t need to adjust at all, we have zero offset related to trg sentence 
+<b class="fc">&nbsp;                        reader.getTargetColumnCount(),</b>
+<b class="fc">&nbsp;                        reader.getLineCount(),</b>
+<b class="fc">&nbsp;                        reader.getCurrentLine(), null));</b>
+&nbsp;      }
+<b class="pc">&nbsp;      if (fixedMatches.size() &gt; 0) {</b>
+<b class="fc">&nbsp;        System.out.println(correctTextFromMatches(srcAndTrg.getTarget(), fixedMatches));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        System.out.println(srcAndTrg.getTarget());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String correctTextFromMatches(
+&nbsp;          String contents, List&lt;RuleMatch&gt; matches) {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder(contents);</b>
+<b class="fc">&nbsp;    List&lt;String&gt; errors = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (RuleMatch rm : matches) {</b>
+<b class="fc">&nbsp;      List&lt;String&gt; replacements = rm.getSuggestedReplacements();</b>
+<b class="pc">&nbsp;      if (!replacements.isEmpty()) {</b>
+<b class="fc">&nbsp;        errors.add(sb.substring(rm.getFromPos(), rm.getToPos()));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    int offset = 0;</b>
+<b class="fc">&nbsp;    int counter = 0;</b>
+<b class="fc">&nbsp;    for (RuleMatch rm : matches) {</b>
+<b class="fc">&nbsp;      List&lt;String&gt; replacements = rm.getSuggestedReplacements();</b>
+<b class="pc">&nbsp;      if (!replacements.isEmpty()) {</b>
+&nbsp;        //make sure the error hasn&#39;t been already corrected:
+<b class="pc">&nbsp;        if (errors.get(counter).equals(sb.substring(rm.getFromPos() - offset, rm.getToPos() - offset))) {</b>
+<b class="fc">&nbsp;          sb.replace(rm.getFromPos() - offset, rm.getToPos() - offset, replacements.get(0));</b>
+<b class="fc">&nbsp;          offset += (rm.getToPos() - rm.getFromPos()) - replacements.get(0).length();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        counter++;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

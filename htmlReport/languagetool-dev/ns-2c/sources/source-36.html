@@ -1,0 +1,209 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PotentialCompoundFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: PotentialCompoundFilter (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PotentialCompoundFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2021 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.GermanyGerman;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;
+&nbsp;/*
+&nbsp; * This filter creates a compound word from two tokens. 
+&nbsp; * If the joined word is a valid word and its length is less than 20 characters, 
+&nbsp; * the rule provides the joined word as a suggestion. 
+&nbsp; * Otherwise, it provides the hyphenated word.
+&nbsp; */
+&nbsp;
+<b class="nc">&nbsp;public class PotentialCompoundFilter extends RuleFilter {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos,
+&nbsp;                                   AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) throws IOException {
+<b class="nc">&nbsp;    String part1 = arguments.get(&quot;part1&quot;);</b>
+<b class="nc">&nbsp;    String part2 = arguments.get(&quot;part2&quot;);</b>
+<b class="nc">&nbsp;    String part1capitalized = part1;</b>
+<b class="nc">&nbsp;    String part2capitalized = part2;</b>
+<b class="nc">&nbsp;    String part2lowercase = part2;</b>
+<b class="nc">&nbsp;    if (!StringTools.isMixedCase(part2) &amp;&amp; !StringTools.isAllUppercase(part2)) {</b>
+<b class="nc">&nbsp;      part2lowercase = part2.toLowerCase();</b>
+<b class="nc">&nbsp;      part2capitalized = StringTools.uppercaseFirstChar(part2.toLowerCase());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!StringTools.isMixedCase(part1) &amp;&amp; !StringTools.isAllUppercase(part1)) {</b>
+<b class="nc">&nbsp;      part1capitalized = StringTools.uppercaseFirstChar(part1.toLowerCase());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String joinedWord = part1capitalized + part2lowercase;</b>
+<b class="nc">&nbsp;    String hyphenatedWord = part1capitalized + &quot;-&quot; + part2capitalized;</b>
+<b class="nc">&nbsp;    List&lt;String&gt; replacements = new ArrayList&lt;&gt;();</b>
+&nbsp;    // create an AnalyzedSentence without instantiating a new JLanguageTool
+<b class="nc">&nbsp;    List&lt;String&gt; tokens =  Collections.singletonList(joinedWord);</b>
+<b class="nc">&nbsp;    List&lt;AnalyzedTokenReadings&gt; tokensList = GermanyGerman.getInstance().getTagger().tag(tokens);</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokensArray = new AnalyzedTokenReadings[2];</b>
+<b class="nc">&nbsp;    AnalyzedToken sentenceStartToken = new AnalyzedToken(&quot;&quot;, &quot;SENT_START&quot;, null);</b>
+<b class="nc">&nbsp;    AnalyzedToken[] startTokenArray = new AnalyzedToken[1];</b>
+<b class="nc">&nbsp;    startTokenArray[0] = sentenceStartToken;</b>
+<b class="nc">&nbsp;    tokensArray[0] = new AnalyzedTokenReadings(startTokenArray, 0);</b>
+<b class="nc">&nbsp;    tokensArray[1] = tokensList.get(0);</b>
+<b class="nc">&nbsp;    AnalyzedSentence analyzedSentence = new AnalyzedSentence(tokensArray);</b>
+&nbsp;    // check with the spelling rule
+<b class="nc">&nbsp;    RuleMatch[] matches = GermanyGerman.getInstance().getDefaultSpellingRule().match(analyzedSentence);</b>
+<b class="nc">&nbsp;    if (matches.length == 0) {</b>
+<b class="nc">&nbsp;      if (joinedWord.length() &gt; 20) {</b>
+<b class="nc">&nbsp;        replacements.add(hyphenatedWord);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      replacements.add(joinedWord);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      replacements.add(hyphenatedWord);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!replacements.isEmpty()) {</b>
+<b class="nc">&nbsp;      String message = match.getMessage();</b>
+<b class="nc">&nbsp;      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),</b>
+<b class="nc">&nbsp;          message, match.getShortMessage());</b>
+<b class="nc">&nbsp;      ruleMatch.setType(match.getType());</b>
+<b class="nc">&nbsp;      ruleMatch.setSuggestedReplacements(replacements);</b>
+<b class="nc">&nbsp;      return ruleMatch;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

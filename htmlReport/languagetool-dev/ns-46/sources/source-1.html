@@ -1,0 +1,697 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MorfologikMultiSpeller</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling.morfologik</a>
+</div>
+
+<h1>Coverage Summary for Class: MorfologikMultiSpeller (org.languagetool.rules.spelling.morfologik)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MorfologikMultiSpeller</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/88)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/146)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MorfologikMultiSpeller$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MorfologikMultiSpeller$BufferedReaderWithSource</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MorfologikMultiSpeller$UserDictCacheKey</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/116)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/193)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.spelling.morfologik;
+&nbsp;
+&nbsp;import com.google.common.cache.*;
+&nbsp;import morfologik.fsa.FSA;
+&nbsp;import morfologik.fsa.builders.CFSA2Serializer;
+&nbsp;import morfologik.fsa.builders.FSABuilder;
+&nbsp;import morfologik.stemming.Dictionary;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.apache.commons.lang3.builder.EqualsBuilder;
+&nbsp;import org.apache.commons.lang3.builder.HashCodeBuilder;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.function.Supplier;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static java.nio.charset.StandardCharsets.UTF_8;
+&nbsp;import static org.languagetool.JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+&nbsp;import static org.languagetool.JLanguageTool.getDataBroker;
+&nbsp;
+&nbsp;/**
+&nbsp; * Morfologik speller that merges results from binary (.dict) and plain text
+&nbsp; * (.txt) dictionaries.
+&nbsp; *
+&nbsp; * @since 2.9
+&nbsp; */
+&nbsp;public class MorfologikMultiSpeller {
+&nbsp;
+<b class="nc">&nbsp;  private static final LoadingCache&lt;BufferedReaderWithSource, List&lt;byte[]&gt;&gt; dictCache = CacheBuilder.newBuilder()</b>
+&nbsp;    // .maximumSize(0)
+<b class="nc">&nbsp;    .expireAfterWrite(10, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;    .build(new CacheLoader&lt;BufferedReaderWithSource, List&lt;byte[]&gt;&gt;() {</b>
+&nbsp;      @Override
+&nbsp;      public List&lt;byte[]&gt; load(@NotNull BufferedReaderWithSource reader) throws IOException {
+<b class="nc">&nbsp;        List&lt;byte[]&gt; lines = getLines(reader.reader, reader.readerPath, reader.language);</b>
+<b class="nc">&nbsp;        if (reader.languageVariantReader != null) {</b>
+<b class="nc">&nbsp;          lines.addAll(getLines(reader.languageVariantReader, reader.readerPath, reader.language));</b>
+<b class="nc">&nbsp;          lines.add(SpellingCheckRule.LANGUAGETOOL.getBytes()); // adding here so it&#39;s also used for suggestions</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return lines;</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      private List&lt;byte[]&gt; getLines(BufferedReader br, String path, Language lang) throws IOException {
+<b class="nc">&nbsp;        List&lt;byte[]&gt; lines = new ArrayList&lt;&gt;();</b>
+&nbsp;        String originalLine;
+<b class="nc">&nbsp;        while ((originalLine = br.readLine()) != null) {</b>
+&nbsp;          List&lt;String&gt; lineList;
+<b class="nc">&nbsp;          if (lang != null) {</b>
+<b class="nc">&nbsp;            lineList = lang.prepareLineForSpeller(originalLine);</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            lineList = Arrays.asList(originalLine);</b>
+&nbsp;          }
+<b class="nc">&nbsp;          for (String line : lineList) {</b>
+<b class="nc">&nbsp;            if (line.startsWith(&quot;#&quot;) || line.isEmpty()) {</b>
+&nbsp;              continue;
+&nbsp;            }
+<b class="nc">&nbsp;            line = line.split(&quot;#&quot;)[0].trim();</b>
+<b class="nc">&nbsp;            if (!line.isEmpty()) {</b>
+<b class="nc">&nbsp;              lines.add(line.getBytes(UTF_8));</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return lines;</b>
+&nbsp;      }
+&nbsp;    });
+<b class="nc">&nbsp;  private static final Map&lt;String, Dictionary&gt; dicPathToDict = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private static final Map&lt;UserDictCacheKey, Cache&lt;String, Dictionary&gt;&gt; userDictCaches = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private static final Map&lt;UserDictCacheKey, Map&lt;String, Integer&gt;&gt; userDictSizes = new HashMap&lt;&gt;();</b>
+&nbsp;  private final List&lt;MorfologikSpeller&gt; spellers;
+&nbsp;  private final List&lt;MorfologikSpeller&gt; defaultDictSpellers;
+&nbsp;  private final List&lt;MorfologikSpeller&gt; userDictSpellers;
+&nbsp;  private final boolean convertsCase;
+&nbsp;  private final Long premiumUid;
+&nbsp;  private final Long userDictCacheSize;
+&nbsp;  private final String userDictName;
+&nbsp;  private final UserDictCacheKey userDictCacheKey;
+&nbsp;  private final Language language;
+&nbsp;
+&nbsp;  public MorfologikMultiSpeller(String binaryDictPath, List&lt;String&gt; plainTextPaths, String languageVariantPlainTextPath,
+&nbsp;                                int maxEditDistance) throws IOException {
+<b class="nc">&nbsp;    this(binaryDictPath, plainTextPaths, languageVariantPlainTextPath, null, maxEditDistance, null);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param binaryDictPath  path in classpath to a {@code .dict} binary Morfologik
+&nbsp;   *                        file
+&nbsp;   * @param plainTextPaths  paths in classpath to plain text {@code .txt} files
+&nbsp;   *                        (like spelling.txt)
+&nbsp;   * @param maxEditDistance maximum edit distance for accepting suggestions
+&nbsp;   * @since 4.2
+&nbsp;   */
+&nbsp;  public MorfologikMultiSpeller(String binaryDictPath, List&lt;String&gt; plainTextPaths, String languageVariantPlainTextPath,
+&nbsp;                                UserConfig userConfig, int maxEditDistance, Language lang) throws IOException {
+<b class="nc">&nbsp;    this(binaryDictPath,</b>
+<b class="nc">&nbsp;      getBufferedReader(plainTextPaths),</b>
+&nbsp;      plainTextPaths,
+<b class="nc">&nbsp;      languageVariantPlainTextPath == null ? null</b>
+<b class="nc">&nbsp;        : new BufferedReader(</b>
+<b class="nc">&nbsp;        new InputStreamReader(getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextPath), UTF_8)),</b>
+&nbsp;      languageVariantPlainTextPath,
+&nbsp;      userConfig, maxEditDistance, lang);
+<b class="nc">&nbsp;    for (String plainTextPath : plainTextPaths) {</b>
+<b class="nc">&nbsp;      if (plainTextPath != null &amp;&amp;</b>
+<b class="nc">&nbsp;        (!plainTextPath.endsWith(&quot;.txt&quot;) ||</b>
+<b class="nc">&nbsp;          (languageVariantPlainTextPath != null &amp;&amp; !languageVariantPlainTextPath.endsWith(&quot;.txt&quot;)))) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(</b>
+&nbsp;          &quot;Unsupported dictionary, plain text file needs to have suffix .txt: &quot; + plainTextPath);
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param binaryDictPath  path in classpath to a {@code .dict} binary Morfologik
+&nbsp;   *                        file
+&nbsp;   * @param plainTextReader reader with to a plain text {@code .txt} file (like
+&nbsp;   *                        from spelling.txt)
+&nbsp;   * @param maxEditDistance maximum edit distance for accepting suggestions
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, List&lt;String&gt; plainTextReaderPath,
+&nbsp;                                BufferedReader languageVariantPlainTextReader, String languageVariantPlainTextPath, UserConfig userConfig,
+<b class="nc">&nbsp;                                int maxEditDistance, Language lang) throws IOException {</b>
+<b class="nc">&nbsp;    this.language = lang;</b>
+<b class="nc">&nbsp;    if (userConfig == null || userConfig.getAcceptedWords() == null || userConfig.getAcceptedWords().isEmpty()) {</b>
+<b class="nc">&nbsp;      premiumUid = null;</b>
+<b class="nc">&nbsp;      userDictName = null;</b>
+<b class="nc">&nbsp;      userDictCacheSize = null;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      premiumUid = userConfig.getPremiumUid();</b>
+<b class="nc">&nbsp;      userDictName = userConfig.getUserDictName();</b>
+<b class="nc">&nbsp;      userDictCacheSize = userConfig.getUserDictCacheSize();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (premiumUid != null &amp;&amp; userDictCacheSize != null) {</b>
+<b class="nc">&nbsp;      userDictCacheKey = new UserDictCacheKey(premiumUid, binaryDictPath);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      userDictCacheKey = null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    MorfologikSpeller speller = getBinaryDict(binaryDictPath, maxEditDistance);</b>
+<b class="nc">&nbsp;    List&lt;MorfologikSpeller&gt; spellers = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    MorfologikSpeller userDictSpeller = getUserDictSpellerOrNull(userConfig, binaryDictPath, maxEditDistance);</b>
+<b class="nc">&nbsp;    if (userDictSpeller != null) {</b>
+&nbsp;      // add this first, as otherwise suggestions from user&#39;s own dictionary might
+&nbsp;      // drown in the mass of other suggestions
+<b class="nc">&nbsp;      spellers.add(userDictSpeller);</b>
+<b class="nc">&nbsp;      userDictSpellers = Collections.singletonList(userDictSpeller);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      userDictSpellers = Collections.emptyList();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    spellers.add(speller);</b>
+<b class="nc">&nbsp;    convertsCase = speller.convertsCase();</b>
+<b class="nc">&nbsp;    if (plainTextReader != null) {</b>
+<b class="nc">&nbsp;      MorfologikSpeller plainTextSpeller = getPlainTextDictSpellerOrNull(plainTextReader, plainTextReaderPath,</b>
+&nbsp;        languageVariantPlainTextReader, languageVariantPlainTextPath, binaryDictPath, maxEditDistance);
+<b class="nc">&nbsp;      if (plainTextSpeller != null) {</b>
+<b class="nc">&nbsp;        spellers.add(plainTextSpeller);</b>
+<b class="nc">&nbsp;        defaultDictSpellers = Arrays.asList(speller, plainTextSpeller);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        defaultDictSpellers = Collections.singletonList(speller);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      defaultDictSpellers = Collections.singletonList(speller);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    this.spellers = Collections.unmodifiableList(spellers);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private static BufferedReader getBufferedReader(List&lt;String&gt; plainTextPaths) {
+<b class="nc">&nbsp;    List&lt;InputStream&gt; streams = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String plainTextPath : plainTextPaths) {</b>
+<b class="nc">&nbsp;      streams.add(getDataBroker().getFromResourceDirAsStream(plainTextPath));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new BufferedReader(new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * for tests only
+&nbsp;   */
+&nbsp;  public static void clearUserDictCache() {
+<b class="nc">&nbsp;    userDictCaches.clear();</b>
+<b class="nc">&nbsp;    userDictSizes.clear();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Cache&lt;String, Dictionary&gt; getUserDictCache() {
+<b class="nc">&nbsp;    if (premiumUid == null || userDictCacheSize == null || userDictName == null) {</b>
+<b class="nc">&nbsp;      throw new IllegalStateException(&quot;No user / dict caching / dict name configured: &quot;</b>
+&nbsp;        + &quot;user = &quot; + premiumUid + &quot;, cache size = &quot; + userDictCacheSize + &quot;, dict name = &quot; + userDictName);
+&nbsp;    }
+<b class="nc">&nbsp;    if (userDictCaches.containsKey(userDictCacheKey)) {</b>
+<b class="nc">&nbsp;      return userDictCaches.get(userDictCacheKey);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      Cache&lt;String, Dictionary&gt; cache = CacheBuilder.newBuilder()</b>
+<b class="nc">&nbsp;        .concurrencyLevel(1) // makes eviction behavior easier to understand, makes choosing maximumWeight</b>
+&nbsp;        // easier
+<b class="nc">&nbsp;        .expireAfterWrite(10, TimeUnit.MINUTES)</b>
+<b class="nc">&nbsp;        .maximumWeight(userDictCacheSize)</b>
+<b class="nc">&nbsp;        .weigher((Weigher&lt;String, Dictionary&gt;) (k, v) -&gt; userDictSizes.get(userDictCacheKey).get(k))</b>
+<b class="nc">&nbsp;        .build();</b>
+<b class="nc">&nbsp;      userDictCaches.put(userDictCacheKey, cache);</b>
+<b class="nc">&nbsp;      return cache;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private MorfologikSpeller getUserDictSpellerOrNull(UserConfig userConfig, String dictPath, int maxEditDistance)
+&nbsp;    throws IOException {
+<b class="nc">&nbsp;    if (premiumUid == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (userConfig.getAcceptedWords().isEmpty()) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Supplier&lt;List&lt;byte[]&gt;&gt; byteLinesSupplier = () -&gt; {</b>
+<b class="nc">&nbsp;      List&lt;byte[]&gt; byteLines = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (String line : userConfig.getAcceptedWords()) {</b>
+<b class="nc">&nbsp;        byteLines.add(line.getBytes(UTF_8));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return byteLines;</b>
+&nbsp;    };
+<b class="nc">&nbsp;    Dictionary dictionary = getDictionary(byteLinesSupplier, dictPath,</b>
+<b class="nc">&nbsp;      dictPath.replace(DICTIONARY_FILENAME_EXTENSION, &quot;.info&quot;),</b>
+<b class="nc">&nbsp;      true, userConfig.getAcceptedWords().size());</b>
+<b class="nc">&nbsp;    return new MorfologikSpeller(dictionary, maxEditDistance);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private MorfologikSpeller getBinaryDict(String binaryDictPath, int maxEditDistance) {
+<b class="nc">&nbsp;    if (binaryDictPath.endsWith(DICTIONARY_FILENAME_EXTENSION)) {</b>
+<b class="nc">&nbsp;      return new MorfologikSpeller(binaryDictPath, maxEditDistance);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new IllegalArgumentException(</b>
+&nbsp;        &quot;Unsupported dictionary, binary Morfologik file needs to have suffix .dict: &quot; + binaryDictPath);
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private MorfologikSpeller getPlainTextDictSpellerOrNull(BufferedReader plainTextReader,
+&nbsp;                                                          List&lt;String&gt; plainTextReaderPaths,
+&nbsp;                                                          BufferedReader languageVariantPlainTextReader, String languageVariantPlainTextPath, String dictPath,
+&nbsp;                                                          int maxEditDistance) throws IOException {
+<b class="nc">&nbsp;    Supplier&lt;List&lt;byte[]&gt;&gt; lineSupplier = () -&gt; {</b>
+<b class="nc">&nbsp;      List&lt;byte[]&gt; lines = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (String plainTextReaderPath : plainTextReaderPaths) {</b>
+<b class="nc">&nbsp;        List&lt;byte[]&gt; l = dictCache.getUnchecked(new BufferedReaderWithSource(plainTextReader, plainTextReaderPath,</b>
+&nbsp;          languageVariantPlainTextReader, languageVariantPlainTextPath, language));
+<b class="nc">&nbsp;        lines.addAll(l);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (lines.isEmpty()) {</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return lines;</b>
+&nbsp;    };
+<b class="nc">&nbsp;    Dictionary dictionary = getDictionary(lineSupplier, plainTextReaderPaths.toString(),</b>
+<b class="nc">&nbsp;      dictPath.replace(DICTIONARY_FILENAME_EXTENSION, &quot;.info&quot;), false, 0);</b>
+<b class="nc">&nbsp;    if (dictionary == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new MorfologikSpeller(dictionary, maxEditDistance);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private Dictionary getDictionary(Supplier&lt;List&lt;byte[]&gt;&gt; lines, String dictPath, String infoPath, boolean isUserDict,
+&nbsp;                                   int userDictSize)
+&nbsp;    throws IOException {
+&nbsp;    // avoid reading data for dictionaries when we can just use the cached one
+&nbsp;    // by passing in lines lazily
+<b class="nc">&nbsp;    String cacheKey = dictPath + &quot;|&quot; + infoPath;</b>
+<b class="nc">&nbsp;    Dictionary dictFromCache = dicPathToDict.get(cacheKey);</b>
+<b class="nc">&nbsp;    if (!isUserDict &amp;&amp; dictFromCache != null) {</b>
+<b class="nc">&nbsp;      return dictFromCache;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (isUserDict &amp;&amp; userDictCacheSize != null) {</b>
+&nbsp;        // for cache weigher, save dictionary sizes
+<b class="nc">&nbsp;        userDictSizes.putIfAbsent(userDictCacheKey, new HashMap&lt;&gt;());</b>
+<b class="nc">&nbsp;        userDictSizes.get(userDictCacheKey).put(userDictName, userDictSize);</b>
+<b class="nc">&nbsp;        Cache&lt;String, Dictionary&gt; userDictCache = getUserDictCache();</b>
+<b class="nc">&nbsp;        Dictionary userDict = userDictCache.getIfPresent(userDictName);</b>
+<b class="nc">&nbsp;        if (userDict != null) {</b>
+<b class="nc">&nbsp;          return userDict;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      // Creating the dictionary at runtime can easily take 50ms for spelling.txt
+&nbsp;      // files
+&nbsp;      // that are ~50KB. We don&#39;t want that overhead for every check of a short
+&nbsp;      // sentence,
+&nbsp;      // so we cache the result
+&nbsp;      // Two caches exist: One for the standard dictionaries, which are static and in
+&nbsp;      // dicPathToDict
+&nbsp;      // Another one for user dictionaries, this is only enabled for selected users
+&nbsp;      // with huge and relatively static dictionaries
+&nbsp;      //
+<b class="nc">&nbsp;      List&lt;byte[]&gt; linesCopy = lines.get();</b>
+<b class="nc">&nbsp;      if (linesCopy.isEmpty()) {</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      linesCopy.sort(FSABuilder.LEXICAL_ORDERING);</b>
+<b class="nc">&nbsp;      FSA fsa = FSABuilder.build(linesCopy);</b>
+<b class="nc">&nbsp;      ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());</b>
+<b class="nc">&nbsp;      ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());</b>
+&nbsp;      InputStream metadata;
+<b class="nc">&nbsp;      if (new File(infoPath).exists()) {</b>
+<b class="nc">&nbsp;        metadata = new FileInputStream(infoPath);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        metadata = getDataBroker().getFromResourceDirAsStream(infoPath);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      Dictionary dict = Dictionary.read(fsaInStream, metadata);</b>
+<b class="nc">&nbsp;      if (!isUserDict) {</b>
+<b class="nc">&nbsp;        dicPathToDict.put(cacheKey, dict);</b>
+<b class="nc">&nbsp;      } else if (userDictCacheSize != null) {</b>
+<b class="nc">&nbsp;        getUserDictCache().put(userDictName, dict);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return dict;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Accept the word if at least one of the dictionaries accepts it as not
+&nbsp;   * misspelled.
+&nbsp;   */
+&nbsp;  public boolean isMisspelled(String word) {
+<b class="nc">&nbsp;    for (MorfologikSpeller speller : spellers) {</b>
+<b class="nc">&nbsp;      if (!speller.isMisspelled(word)) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Get the frequency of use of a word (0-27) from the dictionary
+&nbsp;   */
+&nbsp;  public int getFrequency(String word) {
+<b class="nc">&nbsp;    for (MorfologikSpeller speller : spellers) {</b>
+<b class="nc">&nbsp;      int freq = speller.getFrequency(word);</b>
+<b class="nc">&nbsp;      if (freq &gt; 0) {</b>
+<b class="nc">&nbsp;        return freq;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;String&gt; getSuggestionsFromSpellers(String word, List&lt;MorfologikSpeller&gt; spellerList) {
+<b class="nc">&nbsp;    List&lt;WeightedSuggestion&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    Set&lt;String&gt; seenWords = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (MorfologikSpeller speller : spellerList) {</b>
+<b class="nc">&nbsp;      List&lt;WeightedSuggestion&gt; suggestions = speller.getSuggestions(word);</b>
+<b class="nc">&nbsp;      for (WeightedSuggestion suggestion : suggestions) {</b>
+<b class="nc">&nbsp;        if (!seenWords.contains(suggestion.getWord()) &amp;&amp; !suggestion.getWord().equals(word)) {</b>
+<b class="nc">&nbsp;          result.add(suggestion);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        seenWords.add(suggestion.getWord());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    Collections.sort(result);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; wordResults = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (WeightedSuggestion weightedSuggestion : result) {</b>
+<b class="nc">&nbsp;      wordResults.add(weightedSuggestion.getWord());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return wordResults;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The suggestions from all dictionaries (without duplicates).
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getSuggestions(String word) {
+<b class="nc">&nbsp;    return getSuggestionsFromSpellers(word, spellers);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param word misspelled word
+&nbsp;   * @return suggestions from users personal dictionary
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getSuggestionsFromUserDicts(String word) {
+<b class="nc">&nbsp;    return getSuggestionsFromSpellers(word, userDictSpellers);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param word misspelled word
+&nbsp;   * @return suggestions from built-in dictionaries
+&nbsp;   * @since 4.5
+&nbsp;   */
+&nbsp;  public List&lt;String&gt; getSuggestionsFromDefaultDicts(String word) {
+<b class="nc">&nbsp;    return getSuggestionsFromSpellers(word, defaultDictSpellers);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Determines whether the dictionary uses case conversions.
+&nbsp;   *
+&nbsp;   * @return True when the speller uses spell conversions.
+&nbsp;   * @since 2.5
+&nbsp;   */
+&nbsp;  public boolean convertsCase() {
+<b class="nc">&nbsp;    return convertsCase;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static class UserDictCacheKey {
+&nbsp;
+&nbsp;    private final long userId;
+&nbsp;    private final String binaryDictPath;
+&nbsp;
+<b class="nc">&nbsp;    UserDictCacheKey(long userId, String binaryDictPath) {</b>
+<b class="nc">&nbsp;      this.userId = userId;</b>
+<b class="nc">&nbsp;      this.binaryDictPath = binaryDictPath;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;      if (this == o) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (o == null || getClass() != o.getClass()) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      UserDictCacheKey that = (UserDictCacheKey) o;</b>
+<b class="nc">&nbsp;      return new EqualsBuilder()</b>
+<b class="nc">&nbsp;        .append(userId, that.userId)</b>
+<b class="nc">&nbsp;        .append(binaryDictPath, that.binaryDictPath)</b>
+<b class="nc">&nbsp;        .isEquals();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      return new HashCodeBuilder(43, 57)</b>
+<b class="nc">&nbsp;        .append(userId)</b>
+<b class="nc">&nbsp;        .append(binaryDictPath)</b>
+<b class="nc">&nbsp;        .toHashCode();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  static class BufferedReaderWithSource {
+&nbsp;    private final BufferedReader reader;
+&nbsp;    private final String readerPath;
+&nbsp;    private final BufferedReader languageVariantReader;
+&nbsp;    private final String languageVariantPath;
+&nbsp;    private final Language language;
+&nbsp;
+&nbsp;    BufferedReaderWithSource(BufferedReader reader, String readerPath, BufferedReader languageVariantReader,
+<b class="nc">&nbsp;                             String languageVariantPath, Language language) {</b>
+<b class="nc">&nbsp;      this.reader = Objects.requireNonNull(reader);</b>
+<b class="nc">&nbsp;      this.readerPath = Objects.requireNonNull(readerPath);</b>
+<b class="nc">&nbsp;      this.languageVariantReader = languageVariantReader;</b>
+<b class="nc">&nbsp;      this.languageVariantPath = languageVariantPath;</b>
+<b class="nc">&nbsp;      this.language = language;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;      if (this == o) {</b>
+<b class="nc">&nbsp;        return true;</b>
+<b class="nc">&nbsp;      } else if (o == null || getClass() != o.getClass()) {</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      BufferedReaderWithSource that = (BufferedReaderWithSource) o;</b>
+<b class="nc">&nbsp;      return Objects.equals(readerPath, that.readerPath)</b>
+<b class="nc">&nbsp;        &amp;&amp; Objects.equals(languageVariantPath, that.languageVariantPath);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;      return Objects.hash(readerPath, languageVariantPath);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

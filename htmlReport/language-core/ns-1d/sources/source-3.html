@@ -1,0 +1,406 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LuceneSingleIndexLanguageModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.languagemodel</a>
+</div>
+
+<h1>Coverage Summary for Class: LuceneSingleIndexLanguageModel (org.languagetool.languagemodel)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LuceneSingleIndexLanguageModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (12/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (25/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.2%
+  </span>
+  <span class="absValue">
+    (61/80)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LuceneSingleIndexLanguageModel$LuceneSearcher</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    76.5%
+  </span>
+  <span class="absValue">
+    (13/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.9%
+  </span>
+  <span class="absValue">
+    (26/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.1%
+  </span>
+  <span class="absValue">
+    (67/88)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.languagemodel;
+&nbsp;
+&nbsp;import org.apache.lucene.index.DirectoryReader;
+&nbsp;import org.apache.lucene.index.IndexReader;
+&nbsp;import org.apache.lucene.index.Term;
+&nbsp;import org.apache.lucene.search.*;
+&nbsp;import org.apache.lucene.store.FSDirectory;
+&nbsp;import org.languagetool.Experimental;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Information about ngram occurrences, taken from Lucene indexes (one index per ngram level).
+&nbsp; * This is not a real language model as it only returns information
+&nbsp; * about occurrence counts but has no probability calculation, especially
+&nbsp; * not for the case with 0 occurrences.
+&nbsp; * @since 3.2
+&nbsp; */
+&nbsp;public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
+&nbsp;
+<b class="fc">&nbsp;  private static final Map&lt;File,LuceneSearcher&gt; dirToSearcherMap = new HashMap&lt;&gt;();  // static to save memory for language variants</b>
+&nbsp;
+<b class="fc">&nbsp;  private final List&lt;File&gt; indexes = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  private final Map&lt;Integer,LuceneSearcher&gt; luceneSearcherMap = new HashMap&lt;&gt;();</b>
+&nbsp;  private final File topIndexDir;
+&nbsp;  private final long maxNgram;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Throw RuntimeException is the given directory does not seem to be a valid ngram top directory
+&nbsp;   * with sub directories {@code 1grams} etc.
+&nbsp;   * @since 3.0
+&nbsp;   */
+&nbsp;  public static void validateDirectory(File topIndexDir) {
+<b class="pc">&nbsp;    if (!topIndexDir.exists() || !topIndexDir.isDirectory()) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Not found or is not a directory:\n&quot; +</b>
+&nbsp;              topIndexDir + &quot;\n&quot; +
+&nbsp;              &quot;As ngram directory, please select the directory that has a subdirectory like &#39;en&#39;\n&quot; +
+&nbsp;              &quot;(or whatever language code you&#39;re using).&quot;);
+&nbsp;    }
+<b class="fc">&nbsp;    List&lt;String&gt; dirs = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (String name : topIndexDir.list()) {</b>
+<b class="pc">&nbsp;      if (name.matches(&quot;[123]grams&quot;)) {</b>
+<b class="fc">&nbsp;        dirs.add(name);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="pc">&nbsp;    if (dirs.isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Directory must contain at least &#39;1grams&#39;, &#39;2grams&#39;, and &#39;3grams&#39;: &quot; + topIndexDir.getAbsolutePath());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (dirs.size() &lt; 3) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Expected at least &#39;1grams&#39;, &#39;2grams&#39;, and &#39;3grams&#39; sub directories but only got &quot; + dirs + &quot; in &quot; + topIndexDir.getAbsolutePath());</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  /**
+&nbsp;   * Only used internally. 
+&nbsp;   * @since 3.2 
+&nbsp;   */
+&nbsp;  @Experimental
+&nbsp;  public static void clearCaches() {
+<b class="nc">&nbsp;    dirToSearcherMap.clear();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param topIndexDir a directory which contains at least another sub directory called {@code 3grams},
+&nbsp;   *                    which is a Lucene index with ngram occurrences as created by
+&nbsp;   *                    {@code org.languagetool.dev.FrequencyIndexCreator}.
+&nbsp;   */
+<b class="fc">&nbsp;  public LuceneSingleIndexLanguageModel(File topIndexDir)  {</b>
+<b class="fc">&nbsp;    doValidateDirectory(topIndexDir);</b>
+<b class="fc">&nbsp;    this.topIndexDir = topIndexDir;</b>
+<b class="fc">&nbsp;    addIndex(topIndexDir, 1);</b>
+<b class="fc">&nbsp;    addIndex(topIndexDir, 2);</b>
+<b class="fc">&nbsp;    addIndex(topIndexDir, 3);</b>
+<b class="fc">&nbsp;    addIndex(topIndexDir, 4);</b>
+<b class="pc">&nbsp;    if (luceneSearcherMap.isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;No directories &#39;1grams&#39; ... &#39;3grams&#39; found in &quot; + topIndexDir);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    maxNgram = Collections.&lt;Integer&gt;max(luceneSearcherMap.keySet());</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public LuceneSingleIndexLanguageModel(int maxNgram) {</b>
+<b class="fc">&nbsp;    this.maxNgram = maxNgram;</b>
+<b class="fc">&nbsp;    this.topIndexDir = null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void doValidateDirectory(File topIndexDir) {
+<b class="fc">&nbsp;    validateDirectory(topIndexDir);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addIndex(File topIndexDir, int ngramSize) {
+<b class="fc">&nbsp;    File indexDir = new File(topIndexDir, ngramSize + &quot;grams&quot;);</b>
+<b class="pc">&nbsp;    if (indexDir.exists() &amp;&amp; indexDir.isDirectory()) {</b>
+<b class="pc">&nbsp;      if (luceneSearcherMap.containsKey(ngramSize)) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Searcher for ngram size &quot; + ngramSize + &quot; already exists&quot;);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      luceneSearcherMap.put(ngramSize, getCachedLuceneSearcher(indexDir));</b>
+<b class="fc">&nbsp;      indexes.add(indexDir);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public long getCount(List&lt;String&gt; tokens) {
+<b class="pc">&nbsp;    if (tokens.size() &gt; maxNgram) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Requested &quot; + tokens.size() + &quot;gram but index has only up to &quot; + maxNgram + &quot;gram: &quot; + tokens);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Objects.requireNonNull(tokens);</b>
+<b class="fc">&nbsp;    Term term = new Term(&quot;ngram&quot;, String.join(&quot; &quot;, tokens));</b>
+<b class="fc">&nbsp;    return getCount(term, getLuceneSearcher(tokens.size()));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public long getCount(String token1) {
+<b class="nc">&nbsp;    Objects.requireNonNull(token1);</b>
+&nbsp;    //TODO: move this into the document? It&#39;s not there currently...
+&nbsp;    //if (token1.equals(LanguageModel.GOOGLE_SENTENCE_START)) {
+&nbsp;    //  return 42_107_029_039L;  // see StartTokenCounter, run with 2grams (3grams: 124_541_229_392)
+&nbsp;    //}
+<b class="nc">&nbsp;    return getCount(Arrays.asList(token1));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public long getTotalTokenCount() {
+<b class="fc">&nbsp;    LuceneSearcher luceneSearcher = getLuceneSearcher(1);</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      RegexpQuery query = new RegexpQuery(new Term(&quot;totalTokenCount&quot;, &quot;.*&quot;));</b>
+<b class="fc">&nbsp;      TopDocs docs = luceneSearcher.searcher.search(query, 1000);  // Integer.MAX_VALUE might cause OOE on wrong index</b>
+<b class="pc">&nbsp;      if (docs.totalHits == 0) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Expected &#39;totalTokenCount&#39; meta documents not found in 1grams index: &quot; + luceneSearcher.directory);</b>
+<b class="pc">&nbsp;      } else if (docs.totalHits &gt; 1000) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Did not expect more than 1000 &#39;totalTokenCount&#39; meta documents: &quot; + docs.totalHits + &quot; in &quot; + luceneSearcher.directory);</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        long result = 0;</b>
+<b class="fc">&nbsp;        for (ScoreDoc scoreDoc : docs.scoreDocs) {</b>
+<b class="fc">&nbsp;          long tmp = Long.parseLong(luceneSearcher.reader.document(scoreDoc.doc).get(&quot;totalTokenCount&quot;));</b>
+<b class="pc">&nbsp;          if (tmp &gt; result) {</b>
+&nbsp;            // due to the way FrequencyIndexCreator adds these totalTokenCount fields, we must not sum them,
+&nbsp;            // but take the largest one:
+<b class="fc">&nbsp;            result = tmp;</b>
+&nbsp;          }
+&nbsp;        }
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;      }
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected LuceneSearcher getLuceneSearcher(int ngramSize) {
+<b class="fc">&nbsp;    LuceneSearcher luceneSearcher = luceneSearcherMap.get(ngramSize);</b>
+<b class="pc">&nbsp;    if (luceneSearcher == null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;No &quot; + ngramSize + &quot;grams directory found in &quot; + topIndexDir);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return luceneSearcher;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private LuceneSearcher getCachedLuceneSearcher(File indexDir) {
+<b class="fc">&nbsp;    LuceneSearcher luceneSearcher = dirToSearcherMap.get(indexDir);</b>
+<b class="pc">&nbsp;    if (luceneSearcher == null) {</b>
+&nbsp;      try {
+<b class="fc">&nbsp;        LuceneSearcher newSearcher = new LuceneSearcher(indexDir);</b>
+<b class="fc">&nbsp;        dirToSearcherMap.put(indexDir, newSearcher);</b>
+<b class="fc">&nbsp;        return newSearcher;</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      return luceneSearcher;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private long getCount(Term term, LuceneSearcher luceneSearcher) {
+<b class="fc">&nbsp;    long result = 0;</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 2000);</b>
+<b class="pc">&nbsp;      if (docs.totalHits &gt; 2000) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;More than 2000 matches for &#39;&quot; + term + &quot;&#39; not supported for performance reasons: &quot; +</b>
+&nbsp;                                   docs.totalHits + &quot; matches in &quot; + luceneSearcher.directory);
+&nbsp;      }
+<b class="fc">&nbsp;      for (ScoreDoc scoreDoc : docs.scoreDocs) {</b>
+<b class="fc">&nbsp;        String countStr = luceneSearcher.reader.document(scoreDoc.doc).get(&quot;count&quot;);</b>
+<b class="fc">&nbsp;        result += Long.parseLong(countStr);</b>
+&nbsp;      }
+&nbsp;      //System.out.println(term + &quot; -&gt; &quot; + result);
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(e);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void close() {
+<b class="fc">&nbsp;    for (LuceneSearcher searcher : luceneSearcherMap.values()) {</b>
+&nbsp;      try {
+<b class="fc">&nbsp;        searcher.reader.close();</b>
+<b class="fc">&nbsp;        searcher.directory.close();</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return indexes.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static class LuceneSearcher {
+&nbsp;    final FSDirectory directory;
+&nbsp;    final IndexReader reader;
+&nbsp;    final IndexSearcher searcher;
+<b class="fc">&nbsp;    private LuceneSearcher(File indexDir) throws IOException {</b>
+<b class="fc">&nbsp;      Path path = indexDir.toPath();</b>
+&nbsp;      // symlinks are not supported here, see https://issues.apache.org/jira/browse/LUCENE-6700,
+&nbsp;      // so we resolve the link ourselves:
+<b class="pc">&nbsp;      if (Files.isSymbolicLink(path)) {</b>
+<b class="nc">&nbsp;        path = indexDir.getCanonicalFile().toPath();</b>
+&nbsp;      }
+<b class="fc">&nbsp;      this.directory = FSDirectory.open(path);</b>
+<b class="fc">&nbsp;      this.reader = DirectoryReader.open(directory);</b>
+<b class="fc">&nbsp;      this.searcher = new IndexSearcher(reader);</b>
+&nbsp;    }
+&nbsp;    public IndexReader getReader() {
+<b class="nc">&nbsp;      return reader;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

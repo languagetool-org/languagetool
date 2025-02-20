@@ -1,0 +1,712 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AdverbFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.en</a>
+</div>
+
+<h1>Coverage Summary for Class: AdverbFilter (org.languagetool.rules.en)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AdverbFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (2/8)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AdverbFilter$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (506/506)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.8%
+  </span>
+  <span class="absValue">
+    (508/514)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.en;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * Filter that maps suggestion from adverb to adjective.
+&nbsp; * Also see https://www.ef.com/wwen/english-resources/english-grammar/forming-adverbs-adjectives/
+&nbsp; * @since 4.9
+&nbsp; */
+<b class="fc">&nbsp;public class AdverbFilter extends RuleFilter {</b>
+&nbsp;
+<b class="fc">&nbsp;  private final Map&lt;String,String&gt; adverb2Adj = new HashMap&lt;String, String&gt;() {{</b>
+&nbsp;    // irregular ones:
+<b class="fc">&nbsp;    put(&quot;well&quot;, &quot;good&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fast&quot;, &quot;fast&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;hard&quot;, &quot;hard&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;late&quot;, &quot;late&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;early&quot;, &quot;early&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;daily&quot;, &quot;daily&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;straight&quot;, &quot;straight&quot;);</b>
+&nbsp;    // regular ones:
+<b class="fc">&nbsp;    put(&quot;simply&quot;, &quot;simple&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;cheaply&quot;, &quot;cheap&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;quickly&quot;, &quot;quick&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;slowly&quot;, &quot;slow&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;easily&quot;, &quot;easy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;angrily&quot;, &quot;angry&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;happily&quot;, &quot;happy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;luckily&quot;, &quot;lucky&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;terribly&quot;, &quot;terrible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;tragically&quot;, &quot;tragic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;economically&quot;, &quot;economic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;greatly&quot;, &quot;great&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;highly&quot;, &quot;high&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;generally&quot;, &quot;general&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;differently&quot;, &quot;different&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;rightly&quot;, &quot;right&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;largely&quot;, &quot;large&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;really&quot;, &quot;real&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;philosophically&quot;, &quot;philosophical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;directly&quot;, &quot;direct&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;clearly&quot;, &quot;clear&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;merely&quot;, &quot;mere&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;exactly&quot;, &quot;exact&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;recently&quot;, &quot;recent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;rapidly&quot;, &quot;rapid&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;suddenly&quot;, &quot;sudden&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;extremely&quot;, &quot;extreme&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;properly&quot;, &quot;proper&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;politically&quot;, &quot;political&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;probably&quot;, &quot;probable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;self-consciously&quot;, &quot;self-conscious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;successfully&quot;, &quot;successful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unusually&quot;, &quot;unusual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;obviously&quot;, &quot;obvious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;currently&quot;, &quot;current&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;residentially&quot;, &quot;residential&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fully&quot;, &quot;full&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;accidentally&quot;, &quot;accidental&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;medicinally&quot;, &quot;medicinal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;automatically&quot;, &quot;automatic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;completely&quot;, &quot;complete&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;chronologically&quot;, &quot;chronological&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;accurately&quot;, &quot;accurate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;necessarily&quot;, &quot;necessary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;temporarily&quot;, &quot;temporary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;significantly&quot;, &quot;significant&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;hastily&quot;, &quot;hasty&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;immediately&quot;, &quot;immediate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;rarely&quot;, &quot;rare&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;totally&quot;, &quot;total&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;literally&quot;, &quot;literal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;gently&quot;, &quot;gentle&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;finally&quot;, &quot;final&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;increasingly&quot;, &quot;increasing&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;decreasingly&quot;, &quot;decreasing&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;considerably&quot;, &quot;considerable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;effectively&quot;, &quot;effective&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;briefly&quot;, &quot;brief&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;exceedingly&quot;, &quot;exceeding&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;physically&quot;, &quot;physical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;enthusiastically&quot;, &quot;enthusiastic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;incredibly&quot;, &quot;incredible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;permanently&quot;, &quot;permanent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;entirely&quot;, &quot;entire&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;surely&quot;, &quot;sure&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;positively&quot;, &quot;positive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;negatively&quot;, &quot;negative&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;devastatingly&quot;, &quot;devastating&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;relatively&quot;, &quot;relative&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;absolutely&quot;, &quot;absolute&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;socially&quot;, &quot;social&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;industriously&quot;, &quot;industrious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;solely&quot;, &quot;sole&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;asynchronously&quot;, &quot;asynchronous&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fortunately&quot;, &quot;fortunate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unfortunately&quot;, &quot;unfortunate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;ideally&quot;, &quot;ideal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;privately&quot;, &quot;private&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unreasonably&quot;, &quot;unreasonable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;personally&quot;, &quot;personal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;basically&quot;, &quot;basic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;definitely&quot;, &quot;definite&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;potentially&quot;, &quot;potential&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;manually&quot;, &quot;manual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;continuously&quot;, &quot;continuous&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;sadly&quot;, &quot;sad&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;eventually&quot;, &quot;eventual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;possibly&quot;, &quot;possible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;visually&quot;, &quot;visual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;predominantly&quot;, &quot;predominant&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;predominately&quot;, &quot;predominant&quot;); // special case</b>
+<b class="fc">&nbsp;    put(&quot;quietly&quot;, &quot;quiet&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;slightly&quot;, &quot;slight&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;cleverly&quot;, &quot;clever&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;roughly&quot;, &quot;rough&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;environmentally&quot;, &quot;environmental&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;geographically&quot;, &quot;geographical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;usually&quot;, &quot;usual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;normally&quot;, &quot;normal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;deliciously&quot;, &quot;delicious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;steadily&quot;, &quot;steady&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;actively&quot;, &quot;active&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;schematically&quot;, &quot;schematic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;mindfully&quot;, &quot;mindful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;statistically&quot;, &quot;statistical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;culturally&quot;, &quot;cultural&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;vicariously&quot;, &quot;vicarious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;vividly&quot;, &quot;vivid&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;partially&quot;, &quot;partial&quot;);</b>
+&nbsp;    // put(&quot;unduly&quot;, &quot;undue&quot;);
+<b class="fc">&nbsp;    put(&quot;seriously&quot;, &quot;serious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;non-verbally&quot;, &quot;non-verbal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;nonverbally&quot;, &quot;nonverbal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;verbally&quot;, &quot;verbal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;shortly&quot;, &quot;short&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;mildly&quot;, &quot;mild&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;secretly&quot;, &quot;secret&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;especially&quot;, &quot;especial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;specially&quot;, &quot;special&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;previously&quot;, &quot;previous&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;whitely&quot;, &quot;white&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;traditionally&quot;, &quot;traditional&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;individually&quot;, &quot;individual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;carefully&quot;, &quot;careful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;essentially&quot;, &quot;essential&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;originally&quot;, &quot;original&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;alarmingly&quot;, &quot;alarming&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;newly&quot;, &quot;new&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;wrongfully&quot;, &quot;wrongful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;structurally&quot;, &quot;structural&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;globally&quot;, &quot;global&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;pacifically&quot;, &quot;pacific&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;seemingly&quot;, &quot;seeming&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;seamlessly&quot;, &quot;seamless&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;sustainably&quot;, &quot;sustainable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;momentarily&quot;, &quot;momentary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;coldly&quot;, &quot;cold&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;densely&quot;, &quot;dense&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;grimly&quot;, &quot;grim&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;calmly&quot;, &quot;calm&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;racially&quot;, &quot;racial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;widely&quot;, &quot;wide&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;heavily&quot;, &quot;heavy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;authentically&quot;, &quot;authentic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;honestly&quot;, &quot;honest&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;desperately&quot;, &quot;desperate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;immensely&quot;, &quot;immense&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;apparently&quot;, &quot;apparent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;straightforwardly&quot;, &quot;straightforward&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;anatomically&quot;, &quot;anatomical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;uniquely&quot;, &quot;unique&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;systemically&quot;, &quot;systemic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;jokily&quot;, &quot;jokey&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;critically&quot;, &quot;critical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;equally&quot;, &quot;equal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;strongly&quot;, &quot;strong&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;purposely&quot;, &quot;intentional&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;thoroughly&quot;, &quot;thorough&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;outwardly&quot;, &quot;outward&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;horizontally&quot;, &quot;horizontal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;vertically&quot;, &quot;vertical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;technically&quot;, &quot;technical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;swiftly&quot;, &quot;swift&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;accessibly&quot;, &quot;accessible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;occasionally&quot;, &quot;occasional&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;specifically&quot;, &quot;specific&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;subtly&quot;, &quot;subtle&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;actually&quot;, &quot;actual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;particularly&quot;, &quot;particular&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;gloomily&quot;, &quot;gloomy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;nicely&quot;, &quot;nice&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;progressively&quot;, &quot;progressive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;genuinely&quot;, &quot;genuine&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;characteristically&quot;, &quot;characteristic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;deeply&quot;, &quot;deep&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;spiritually&quot;, &quot;spiritual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;purely&quot;, &quot;pure&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;satisfyingly&quot;, &quot;satisfying&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;indolently&quot;, &quot;indolent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;obliquely&quot;, &quot;oblique&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;preferably&quot;, &quot;preferable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;oddly&quot;, &quot;odd&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;professionally&quot;, &quot;professional&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;indispensably&quot;, &quot;indispensable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;dispensably&quot;, &quot;dispensable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;consistently&quot;, &quot;consistent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;truly&quot;, &quot;true&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;commonly&quot;, &quot;common&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;safely&quot;, &quot;safe&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;evolutionarily&quot;, &quot;evolutionary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;internally&quot;, &quot;internal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;magically&quot;, &quot;magical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;annually&quot;, &quot;annual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;brightly&quot;, &quot;bright&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;officially&quot;, &quot;official&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;inofficially&quot;, &quot;inofficial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;perfectly&quot;, &quot;perfect&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;overly&quot;, &quot;over&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;tropically&quot;, &quot;tropical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;brilliantly&quot;, &quot;brilliant&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;exclusively&quot;, &quot;exclusive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;commercially&quot;, &quot;commercial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;mischievously&quot;, &quot;mischievous&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;weirdly&quot;, &quot;weird&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;routinely&quot;, &quot;routine&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;gruffly&quot;, &quot;gruff&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;naturally&quot;, &quot;natural&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;lightly&quot;, &quot;light&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;haphazardly&quot;, &quot;haphazard&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;lovingly&quot;, &quot;loving&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;sagely&quot;, &quot;sage&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;systematically&quot;, &quot;systematical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;academically&quot;, &quot;academical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;jokingly&quot;, &quot;joking&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;primarily&quot;, &quot;primary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;secondarily&quot;, &quot;secondary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;peacefully&quot;, &quot;peaceful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;thankfully&quot;, &quot;thankful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;reliably&quot;, &quot;reliable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unreliably&quot;, &quot;unreliable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;infinitesimally&quot;, &quot;infinitesimal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;hugely&quot;, &quot;huge&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;strictly&quot;, &quot;strict&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;morally&quot;, &quot;moral&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;involuntarily&quot;, &quot;involuntary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;voluntarily&quot;, &quot;voluntary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;vanishingly&quot;, &quot;vanishing&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;typically&quot;, &quot;typical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;playfully&quot;, &quot;playful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;wonderfully&quot;, &quot;wonderful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;roguishly&quot;, &quot;roguish&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;emotionally&quot;, &quot;emotional&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;efficiently&quot;, &quot;efficient&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unkindly&quot;, &quot;unkind&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;mentally&quot;, &quot;mental&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;credibly&quot;, &quot;credible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;seductively&quot;, &quot;seductive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;rashly&quot;, &quot;rash&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;outwards&quot;, &quot;outward&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;periodically&quot;, &quot;periodical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;comparatively&quot;, &quot;comparative&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;confidentially&quot;, &quot;confidential&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;dominantly&quot;, &quot;dominant&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;forcibly&quot;, &quot;forcible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;formerly&quot;, &quot;former&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;financially&quot;, &quot;financial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;urgently&quot;, &quot;urgent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;inherently&quot;, &quot;inherent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;historically&quot;, &quot;historical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;tightly&quot;, &quot;tight&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;greedily&quot;, &quot;greedy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fluently&quot;, &quot;fluent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;ordinarily&quot;, &quot;ordinary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;inevitably&quot;, &quot;inevitable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;partly&quot;, &quot;partial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;liquidly&quot;, &quot;liquid&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;supremely&quot;, &quot;supreme&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;initially&quot;, &quot;initial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unjustly&quot;, &quot;unjust&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;justly&quot;, &quot;just&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;plausibly&quot;, &quot;plausible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;amiably&quot;, &quot;amiable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;massively&quot;, &quot;massive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;lowly&quot;, &quot;low&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;notoriously&quot;, &quot;notorious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;meaningfully&quot;, &quot;meaningful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;approximately&quot;, &quot;approximate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;extraordinarily&quot;, &quot;extraordinary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;warmly&quot;, &quot;warm&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;nearly&quot;, &quot;near&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;strategically&quot;, &quot;strategical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;endlessly&quot;, &quot;endless&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;virtually&quot;, &quot;virtual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;regularly&quot;, &quot;regular&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;deliberately&quot;, &quot;deliberate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;reasonably&quot;, &quot;reasonable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;similarly&quot;, &quot;similar&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;flexibly&quot;, &quot;flexible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;softly&quot;, &quot;soft&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;responsibly&quot;, &quot;responsible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;irresponsibly&quot;, &quot;irresponsible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;sweetly&quot;, &quot;sweet&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;comfortably&quot;, &quot;comfortable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;uncomfortably&quot;, &quot;uncomfortable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;intricately&quot;, &quot;intricate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unnecessarily&quot;, &quot;unnecessary&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;obstinately&quot;, &quot;obstinate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;reportedly&quot;, &quot;reported&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;loosely&quot;, &quot;loose&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;profusely&quot;, &quot;profuse&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;mortally&quot;, &quot;mortal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;dynamically&quot;, &quot;dynamical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;illegally&quot;, &quot;illegal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;legally&quot;, &quot;legal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;undoubtedly&quot;, &quot;undoubted&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;humanly&quot;, &quot;human&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;likewise&quot;, &quot;similar&quot;); // special case</b>
+<b class="fc">&nbsp;    put(&quot;intrinsically&quot;, &quot;intrinsic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;substantially&quot;, &quot;substantial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;suspiciously&quot;, &quot;suspicious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;generationally&quot;, &quot;generational&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;loudly&quot;, &quot;loud&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;moderately&quot;, &quot;moderate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;gravely&quot;, &quot;grave&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;temporally&quot;, &quot;temporal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;digitally&quot;, &quot;digital&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;finely&quot;, &quot;fine&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;respectfully&quot;, &quot;respectful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;questioningly&quot;, &quot;questioning&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;diagonally&quot;, &quot;diagonal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;additionally&quot;, &quot;additional&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;sexually&quot;, &quot;sexual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;remarkably&quot;, &quot;remarkable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;acutely&quot;, &quot;acute&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;linearly&quot;, &quot;linear&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;perfunctorily&quot;, &quot;perfunctory&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unbelievably&quot;, &quot;unbelievable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;merrily&quot;, &quot;merry&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;beneath&quot;, &quot;below&quot;); // special case</b>
+<b class="fc">&nbsp;    put(&quot;lest&quot;, &quot;least&quot;); // special case</b>
+<b class="fc">&nbsp;    put(&quot;either&quot;, &quot;other&quot;); // special case</b>
+<b class="fc">&nbsp;    put(&quot;nasally&quot;, &quot;nasal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;concretely&quot;, &quot;concrete&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;intuitively&quot;, &quot;intuitive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;please&quot;, &quot;pleasing&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;intermediately&quot;, &quot;intermediate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;powerfully&quot;, &quot;powerful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fairly&quot;, &quot;fair&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;wholly&quot;, &quot;whole&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;keenly&quot;, &quot;keen&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unconsciously&quot;, &quot;unconscious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;consciously&quot;, &quot;conscious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;humanely&quot;, &quot;humane&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;honorably&quot;, &quot;honorable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;rudely&quot;, &quot;rude&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;incorrectly&quot;, &quot;incorrect&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;correctly&quot;, &quot;correct&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;mistakenly&quot;, &quot;mistaken&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;wrongly&quot;, &quot;wrong&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;morosely&quot;, &quot;morose&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;worryingly&quot;, &quot;worrying&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;drastically&quot;, &quot;drastical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;willingly&quot;, &quot;willing&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;additively&quot;, &quot;additive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;drolly&quot;, &quot;droll&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;statically&quot;, &quot;statical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;hopefully&quot;, &quot;hopeful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;untruthfully&quot;, &quot;untruthful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;truthfully&quot;, &quot;truthful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;attractively&quot;, &quot;attractive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;supposedly&quot;, &quot;supposed&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;overwhelmingly&quot;, &quot;overwhelming&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;imperfectly&quot;, &quot;imperfect&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;deftly&quot;, &quot;deft&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;wildly&quot;, &quot;wild&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;sheepishly&quot;, &quot;sheepish&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;hotly&quot;, &quot;hot&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;genetically&quot;, &quot;genetic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;inexplicably&quot;, &quot;inexplicable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;explicably&quot;, &quot;explicable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;domestically&quot;, &quot;domestical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;invisibly&quot;, &quot;invisible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;visibly&quot;, &quot;visible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;noteworthily&quot;, &quot;noteworthy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unexpectably&quot;, &quot;unexpectable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;expectably&quot;, &quot;expectable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;foreseeably&quot;, &quot;foreseeable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unforeseeably&quot;, &quot;unforeseeable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;distinctly&quot;, &quot;distinct&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unequivocally&quot;, &quot;unequivocal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;signally&quot;, &quot;signal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;medically&quot;, &quot;medical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;certainly&quot;, &quot;certain&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;beautifully&quot;, &quot;beautiful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;firmly&quot;, &quot;firm&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;electrically&quot;, &quot;electrical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;gradually&quot;, &quot;gradual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;grossly&quot;, &quot;gross&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;memorably&quot;, &quot;memorable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unmemorably&quot;, &quot;unmemorable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;shelly&quot;, &quot;shell&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;strangely&quot;, &quot;strange&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unhealthily&quot;, &quot;unhealthy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;healthily&quot;, &quot;healthy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;harshly&quot;, &quot;harsh&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;proudly&quot;, &quot;proud&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;lately&quot;, &quot;late&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;remotely&quot;, &quot;remote&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;longly&quot;, &quot;long&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;politely&quot;, &quot;polite&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;ethically&quot;, &quot;ethical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;noticeably&quot;, &quot;noticeable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unnoticeably&quot;, &quot;unnoticeable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;consequently&quot;, &quot;consequent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;snugly&quot;, &quot;snug&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;mainly&quot;, &quot;main&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;popularly&quot;, &quot;popular&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;improperly&quot;, &quot;improper&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;deliverly&quot;, &quot;delivery&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;rushingly&quot;, &quot;rushing&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;gravitationally&quot;, &quot;gravitational&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;cruelly&quot;, &quot;cruel&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;optimally&quot;, &quot;optimal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fictionally&quot;, &quot;fictional&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;manageably&quot;, &quot;manageable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unmanageably&quot;, &quot;unmanageable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fashionably&quot;, &quot;fashionable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;secondly&quot;, &quot;second&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;thirdly&quot;, &quot;third&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;curtly&quot;, &quot;curt&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;secretively&quot;, &quot;secretive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;surprisingly&quot;, &quot;surprising&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;sociologically&quot;, &quot;sociological&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;severely&quot;, &quot;severe&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;ruffianly&quot;, &quot;ruffian&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;bigly&quot;, &quot;big&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;frequently&quot;, &quot;frequent&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;irrationally&quot;, &quot;irrational&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;rationally&quot;, &quot;rational&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;riotously&quot;, &quot;riotous&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;excruciatingly&quot;, &quot;excruciating&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;intensively&quot;, &quot;intensive&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;separately&quot;, &quot;separate&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;favorably&quot;, &quot;favorable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;favourably&quot;, &quot;favourable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unfavorably&quot;, &quot;unfavorable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unfavourably&quot;, &quot;unfavourable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fittingly&quot;, &quot;fitting&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;orally&quot;, &quot;oral&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;jointly&quot;, &quot;joint&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;methodically&quot;, &quot;methodical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;ecologically&quot;, &quot;ecological&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;irrepressibly&quot;, &quot;irrepressible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;repressibly&quot;, &quot;repressible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;heartily&quot;, &quot;hearty&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;smoothly&quot;, &quot;smooth&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;dreamily&quot;, &quot;dreamy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;indirectly&quot;, &quot;indirect&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;fascinatingly&quot;, &quot;fascinating&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;scientifically&quot;, &quot;scientific&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unhappily&quot;, &quot;unhappy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;publicly&quot;, &quot;public&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;healthfully&quot;, &quot;healthful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;uncharacteristically&quot;, &quot;uncharacteristic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;genially&quot;, &quot;genial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;ineludibly&quot;, &quot;ineludible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;tenderly&quot;, &quot;tender&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;arguably&quot;, &quot;arguable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;comparably&quot;, &quot;comparable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;procedurally&quot;, &quot;procedural&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;interchangeably&quot;, &quot;interchangeable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;conceivably&quot;, &quot;conceivable&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;jokily&quot;, &quot;joking&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;resignedly&quot;, &quot;resigned&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;vehemently&quot;, &quot;vehement&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;horribly&quot;, &quot;horrible&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;teasingly&quot;, &quot;teasing&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;figuratively&quot;, &quot;figurative&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;excitingly&quot;, &quot;exciting&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;haltingly&quot;, &quot;halting&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;phonetically&quot;, &quot;phonetic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;proverbially&quot;, &quot;proverbial&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;informally&quot;, &quot;informal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;cozily&quot;, &quot;cozy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;cosily&quot;, &quot;cosy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;constantly&quot;, &quot;constant&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;rightfully&quot;, &quot;rightful&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;reluctantly&quot;, &quot;reluctant&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;externally&quot;, &quot;external&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;intellectually&quot;, &quot;intellectual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;dramatically&quot;, &quot;dramatic&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;freshly&quot;, &quot;fresh&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;casually&quot;, &quot;casual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;unevenly&quot;, &quot;uneven&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;enormously&quot;, &quot;enormous&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;callously&quot;, &quot;callous&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;imperiously&quot;, &quot;imperious&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;messily&quot;, &quot;messy&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;alternatively&quot;, &quot;alternative&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;gladly&quot;, &quot;glad&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;adversely&quot;, &quot;adverse&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;petulantly&quot;, &quot;petulant&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;shakily&quot;, &quot;shaky&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;menacingly&quot;, &quot;menacing&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;consensually&quot;, &quot;consensual&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;bitterly&quot;, &quot;bitter&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;terminally&quot;, &quot;terminal&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;faintly&quot;, &quot;faint&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;brusquely&quot;, &quot;brusque&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;humbly&quot;, &quot;humble&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;promptly&quot;, &quot;prompt&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;identically&quot;, &quot;identical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;militarily&quot;, &quot;military&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;neatly&quot;, &quot;neat&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;insanely&quot;, &quot;insane&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;analytically&quot;, &quot;analytical&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;firstly&quot;, &quot;first&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;secondly&quot;, &quot;second&quot;);</b>
+<b class="fc">&nbsp;    put(&quot;twice&quot;, &quot;second&quot;); // special case</b>
+&nbsp;    // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
+&nbsp;    //put(&quot;&quot;, &quot;&quot;);
+&nbsp;  }};
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+<b class="nc">&nbsp;    String adverb = arguments.get(&quot;adverb&quot;);</b>
+<b class="nc">&nbsp;    String noun = arguments.get(&quot;noun&quot;);</b>
+<b class="nc">&nbsp;    String adjective = adverb2Adj.get(adverb);</b>
+<b class="nc">&nbsp;    if (adjective != null &amp;&amp; !adjective.equals(adverb)) {</b>
+&nbsp;      // we can&#39;t simply cut off &quot;ly&quot; because of cases like &quot;simply&quot; -&gt; &quot;simple&quot; etc.
+<b class="nc">&nbsp;      match.setSuggestedReplacement(adjective + &quot; &quot; + noun);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return match;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,341 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > VerbInflectionHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: VerbInflectionHelper (org.languagetool.rules.uk)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VerbInflectionHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/43)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">VerbInflectionHelper$Inflection</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/60)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/78)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.rules.uk;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;
+<b class="nc">&nbsp;class VerbInflectionHelper {</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern VERB_INFLECTION_PATTERN = Pattern.compile(&quot;:([mfnps])(:([123])?|$)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile(&quot;(?::((?:[iu]n)?anim))?:([mfnps]):(v_naz)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(&quot;(adj|numr):([mfnps]):(v_naz)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern NOUN_PERSON_PATTERN = Pattern.compile(&quot;:([123])&quot;);</b>
+&nbsp;
+&nbsp;  static List&lt;VerbInflectionHelper.Inflection&gt; getVerbInflections(List&lt;AnalyzedToken&gt; nounTokenReadings) {
+<b class="nc">&nbsp;    List&lt;VerbInflectionHelper.Inflection&gt; verbGenders = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (AnalyzedToken token: nounTokenReadings) {</b>
+<b class="nc">&nbsp;      String posTag = token.getPOSTag();</b>
+&nbsp;
+<b class="nc">&nbsp;      if( posTag == null || ! posTag.startsWith(&quot;verb&quot;) )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      if( posTag.contains(&quot;:inf&quot;) ) {</b>
+<b class="nc">&nbsp;        verbGenders.add(new VerbInflectionHelper.Inflection(&quot;i&quot;, null));</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      if( posTag.contains(&quot;:impers&quot;) ) {</b>
+<b class="nc">&nbsp;        verbGenders.add(new VerbInflectionHelper.Inflection(&quot;o&quot;, null));</b>
+&nbsp;        continue;
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      Matcher matcher = VERB_INFLECTION_PATTERN.matcher(posTag);</b>
+<b class="nc">&nbsp;      matcher.find();</b>
+&nbsp;
+<b class="nc">&nbsp;      String gen = matcher.group(1);</b>
+<b class="nc">&nbsp;      String person = matcher.group(3);</b>
+&nbsp;
+<b class="nc">&nbsp;      verbGenders.add(new VerbInflectionHelper.Inflection(gen, person));</b>
+&nbsp;    }
+&nbsp;//    System.err.println(&quot;verbInfl: &quot; + verbGenders);
+<b class="nc">&nbsp;    return verbGenders;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  static List&lt;VerbInflectionHelper.Inflection&gt; getNounInflections(List&lt;AnalyzedToken&gt; nounTokenReadings) {
+<b class="nc">&nbsp;    List&lt;VerbInflectionHelper.Inflection&gt; slaveInflections = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (AnalyzedToken token: nounTokenReadings) {</b>
+<b class="nc">&nbsp;      String posTag2 = token.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag2 == null )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      Matcher matcher = NOUN_INFLECTION_PATTERN.matcher(posTag2);</b>
+<b class="nc">&nbsp;      if( ! matcher.find() ) {</b>
+&nbsp;        //        System.err.println(&quot;Failed to find slave inflection tag in &quot; + posTag2 + &quot; for &quot; + nounTokenReadings);
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String gen = matcher.group(2);</b>
+&nbsp;      
+<b class="nc">&nbsp;      Matcher matcherPerson = NOUN_PERSON_PATTERN.matcher(posTag2);</b>
+<b class="nc">&nbsp;      String person = matcherPerson.find() ? matcherPerson.group(1) : null;</b>
+&nbsp;      
+<b class="nc">&nbsp;      slaveInflections.add(new VerbInflectionHelper.Inflection(gen, person));</b>
+&nbsp;    }
+&nbsp;//    System.err.println(&quot;nounInfl: &quot; + slaveInflections);
+<b class="nc">&nbsp;    return slaveInflections;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static List&lt;VerbInflectionHelper.Inflection&gt; getAdjInflections(List&lt;AnalyzedToken&gt; nounTokenReadings) {
+<b class="nc">&nbsp;    List&lt;VerbInflectionHelper.Inflection&gt; slaveInflections = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (AnalyzedToken token: nounTokenReadings) {</b>
+<b class="nc">&nbsp;      String posTag2 = token.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag2 == null )</b>
+&nbsp;        continue;
+&nbsp;
+<b class="nc">&nbsp;      Matcher matcher = ADJ_INFLECTION_PATTERN.matcher(posTag2);</b>
+<b class="nc">&nbsp;      if( ! matcher.find() ) {</b>
+&nbsp;        //        System.err.println(&quot;Failed to find slave inflection tag in &quot; + posTag2 + &quot; for &quot; + nounTokenReadings);
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String gen = matcher.group(2);</b>
+&nbsp;      
+<b class="nc">&nbsp;      Matcher matcherPerson = NOUN_PERSON_PATTERN.matcher(posTag2);</b>
+<b class="nc">&nbsp;      String person = matcherPerson.find() ? matcherPerson.group(1) : null;</b>
+&nbsp;      
+<b class="nc">&nbsp;      slaveInflections.add(new VerbInflectionHelper.Inflection(gen, person));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return slaveInflections;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static boolean inflectionsOverlap(List&lt;AnalyzedToken&gt; verbTokenReadings, List&lt;AnalyzedToken&gt; nounTokenReadings) {
+<b class="nc">&nbsp;    return ! Collections.disjoint(</b>
+<b class="nc">&nbsp;      getVerbInflections(verbTokenReadings), getNounInflections(nounTokenReadings)</b>
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  static class Inflection implements Comparable&lt;Inflection&gt; {
+&nbsp;      final String gender;
+&nbsp;      final String plural;
+&nbsp;      final String person;
+&nbsp;  
+<b class="nc">&nbsp;      Inflection(String gender, String person) {</b>
+<b class="nc">&nbsp;        if( gender.equals(&quot;s&quot;) || gender.equals(&quot;p&quot;) ) {</b>
+<b class="nc">&nbsp;          this.gender = null;</b>
+<b class="nc">&nbsp;          this.plural = gender;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if( gender.equals(&quot;i&quot;) ) {</b>
+<b class="nc">&nbsp;          this.gender = gender;</b>
+<b class="nc">&nbsp;          this.plural = gender;</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="nc">&nbsp;          this.gender = gender;</b>
+<b class="nc">&nbsp;          this.plural = &quot;s&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.person = person;</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      @Override
+&nbsp;      public boolean equals(Object obj) {
+<b class="nc">&nbsp;        if (this == obj)</b>
+<b class="nc">&nbsp;          return true;</b>
+<b class="nc">&nbsp;        if (obj == null)</b>
+<b class="nc">&nbsp;          return false;</b>
+<b class="nc">&nbsp;        if (getClass() != obj.getClass())</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;  
+<b class="nc">&nbsp;        Inflection other = (Inflection) obj;</b>
+&nbsp;  
+<b class="nc">&nbsp;        if( person != null &amp;&amp; other.person != null ) {</b>
+<b class="nc">&nbsp;          if( ! person.equals(other.person) )</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        if( gender != null &amp;&amp; other.gender != null ) {</b>
+&nbsp;  
+&nbsp;          // infinitive matches all for now, otherwise too many false positives
+&nbsp;          // e.g. чи могла вона програти
+&nbsp;  //        if( gender.equals(&quot;i&quot;) || other.gender.equals(&quot;i&quot;) )
+&nbsp;  //          return true;
+&nbsp;  
+<b class="nc">&nbsp;          if( ! gender.equals(other.gender) )</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;  
+<b class="nc">&nbsp;        return plural.equals(other.plural);</b>
+&nbsp;      }
+&nbsp;  
+&nbsp;      @Override
+&nbsp;      public int hashCode() {
+<b class="nc">&nbsp;          final int prime = 31;</b>
+<b class="nc">&nbsp;          int result = 1;</b>
+<b class="nc">&nbsp;          result = prime * result + ((gender == null) ? 0 : gender.hashCode());</b>
+<b class="nc">&nbsp;          result = prime * result + ((plural == null) ? 0 : plural.hashCode());</b>
+<b class="nc">&nbsp;          result = prime * result + ((person == null) ? 0 : person.hashCode());</b>
+<b class="nc">&nbsp;          return result;</b>
+&nbsp;      }
+&nbsp;  
+&nbsp;  
+&nbsp;      @Override
+&nbsp;      public String toString() {
+<b class="nc">&nbsp;          return &quot;Gender: &quot; + gender + &quot;/&quot; + plural + &quot;/&quot; + person;</b>
+&nbsp;      }
+&nbsp;  
+&nbsp;      @Override
+&nbsp;      public int compareTo(Inflection o) {
+<b class="nc">&nbsp;        Integer thisOrder = gender != null ? InflectionHelper.GEN_ORDER.get(gender) : 0;</b>
+<b class="nc">&nbsp;        Integer otherOrder = o.gender != null ? InflectionHelper.GEN_ORDER.get(o.gender) : 0;</b>
+&nbsp;        
+<b class="nc">&nbsp;        int compared = thisOrder.compareTo(otherOrder);</b>
+&nbsp;  //      if( compared != 0 )
+<b class="nc">&nbsp;          return compared;</b>
+&nbsp;        
+&nbsp;  //      compared = VIDM_ORDER.get(_case).compareTo(VIDM_ORDER.get(o._case));
+&nbsp;  //      return compared;
+&nbsp;      }
+&nbsp;    
+&nbsp;  
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,599 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PatternRuleMatcher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: PatternRuleMatcher (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PatternRuleMatcher</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68.8%
+  </span>
+  <span class="absValue">
+    (11/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    31.2%
+  </span>
+  <span class="absValue">
+    (53/170)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    53.5%
+  </span>
+  <span class="absValue">
+    (122/228)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import com.google.common.primitives.Ints;
+&nbsp;import org.jetbrains.annotations.ApiStatus;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;//import org.slf4j.Logger;
+&nbsp;//import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * Matches a pattern rule against text.
+&nbsp; */
+&nbsp;final public class PatternRuleMatcher extends AbstractPatternRulePerformer implements RuleMatcher {
+&nbsp;
+&nbsp;  public static final String MISTAKE = &quot;&lt;mistake/&gt;&quot;;
+&nbsp;
+<b class="fc">&nbsp;  private static final Map&lt;String,Integer&gt; currentlyActiveRules = new ConcurrentHashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  private static final String allowedChars = &quot;[^&lt;&gt;()]*?&quot;;
+<b class="fc">&nbsp;  private static final Pattern SUGGESTION_PATTERN_SUPPRESS = Pattern</b>
+<b class="fc">&nbsp;      .compile(RuleMatch.SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME</b>
+&nbsp;          + allowedChars + &quot;(\\(&quot; + allowedChars + &quot;\\)|&quot; + MISTAKE + &quot;)&quot; + allowedChars  
+&nbsp;          + RuleMatch.SUGGESTION_END_TAG);
+<b class="fc">&nbsp;  private static final Pattern WHITESPACE_OR_PUNCT = Pattern.compile(&quot;[\\s,:;.!?].*&quot;);</b>
+<b class="fc">&nbsp;  private static final Pattern TAG_AND_PLEASE_SPELL_ME = Pattern.compile(RuleMatch.SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME);</b>
+&nbsp;
+&nbsp;  private final boolean useList;
+&nbsp;  //private final Integer slowMatchThreshold;
+<b class="pc">&nbsp;  private static final boolean monitorRules = System.getProperty(&quot;monitorActiveRules&quot;) != null;</b>
+&nbsp;
+&nbsp;  @ApiStatus.Internal
+&nbsp;  public PatternRuleMatcher(AbstractTokenBasedRule rule, boolean useList) {
+<b class="fc">&nbsp;    super(rule, rule.getLanguage().getUnifier());</b>
+<b class="fc">&nbsp;    this.useList = useList;</b>
+&nbsp;    //String slowMatchThresholdStr = System.getProperty(&quot;slowMatchThreshold&quot;);
+&nbsp;    //slowMatchThreshold = slowMatchThresholdStr != null ? Integer.parseInt(slowMatchThresholdStr) : null;
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Map&lt;String, Integer&gt; getCurrentRules() {
+<b class="nc">&nbsp;    return currentlyActiveRules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+&nbsp;//    long startTime = System.currentTimeMillis();
+<b class="fc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="pc">&nbsp;    String key = monitorRules ? rule.getFullId() + &quot;: &quot; + sentence.getText() : null;</b>
+<b class="pc">&nbsp;    if (key != null) {</b>
+<b class="nc">&nbsp;      currentlyActiveRules.compute(key, (k, v) -&gt; v == null ? 1 : v + 1);</b>
+&nbsp;    }
+&nbsp;    try {
+<b class="pc">&nbsp;      AnalyzedTokenReadings[] tokens = isInterpretPosTagsPreDisambiguation()</b>
+<b class="nc">&nbsp;                                       ? sentence.getPreDisambigTokensWithoutWhitespace()</b>
+<b class="fc">&nbsp;                                       : sentence.getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;      doMatch(sentence, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -&gt; {</b>
+<b class="fc">&nbsp;        RuleMatch ruleMatch = createRuleMatch(tokenPositions, tokens, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken, sentence);</b>
+<b class="pc">&nbsp;        if (ruleMatch != null) {</b>
+<b class="fc">&nbsp;          ruleMatches.add(ruleMatch);</b>
+&nbsp;        }
+&nbsp;      });
+<b class="fc">&nbsp;      RuleMatchFilter maxFilter = new RuleWithMaxFilter();</b>
+<b class="fc">&nbsp;      List&lt;RuleMatch&gt; filteredMatches = maxFilter.filter(ruleMatches);</b>
+&nbsp;      /*if (slowMatchThreshold != null) {
+&nbsp;        long runTime = System.currentTimeMillis() - startTime;
+&nbsp;        if (runTime &gt; slowMatchThreshold) {
+&nbsp;          logger.warn(&quot;Slow match for rule &quot; + rule.getFullId() + &quot;: &quot; + runTime + &quot;ms, sentence len: &quot; + sentence.getText().length() + &quot; (threshold: &quot; + slowMatchThreshold + &quot;ms)&quot;);
+&nbsp;        }
+&nbsp;      }*/
+<b class="fc">&nbsp;      return filteredMatches.toArray(RuleMatch.EMPTY_ARRAY);</b>
+&nbsp;    } catch (IOException e) {
+<b class="nc">&nbsp;      throw new IOException(&quot;Error analyzing sentence: &#39;&quot; + sentence + &quot;&#39;&quot;, e);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Error analyzing sentence: &#39;&quot; + sentence + &quot;&#39; with rule &quot; + rule.getFullId(), e);</b>
+&nbsp;    } finally {
+<b class="pc">&nbsp;      if (key != null) {</b>
+<b class="nc">&nbsp;        currentlyActiveRules.computeIfPresent(key, (k, v) -&gt; v - 1 &gt; 0 ? v - 1 : null);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected boolean testAllReadings(AnalyzedTokenReadings[] tokens, PatternTokenMatcher matcher, PatternTokenMatcher prevElement, int tokenNo, int firstMatchToken, int prevSkipNext) throws IOException {
+<b class="fc">&nbsp;    if (tokens[tokenNo].isImmunized()) return false;</b>
+&nbsp;
+<b class="fc">&nbsp;    return super.testAllReadings(tokens, matcher, prevElement, tokenNo, firstMatchToken, prevSkipNext);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  private RuleMatch createRuleMatch(int[] tokenPositions,
+&nbsp;                                    AnalyzedTokenReadings[] tokens, int firstMatchToken,
+&nbsp;                                    int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken,
+&nbsp;                                    AnalyzedSentence sentence) throws IOException {
+<b class="fc">&nbsp;    String errMessage = formatMatches(tokens, tokenPositions,</b>
+<b class="fc">&nbsp;            firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());</b>
+<b class="fc">&nbsp;    String shortErrMessage = formatMatches(tokens, tokenPositions,</b>
+<b class="fc">&nbsp;        firstMatchToken, rule.getShortMessage(), rule.getSuggestionMatches());</b>
+<b class="fc">&nbsp;    String suggestionsOutMsg = formatMatches(tokens, tokenPositions,</b>
+<b class="fc">&nbsp;            firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());</b>
+<b class="fc">&nbsp;    int correctedStPos = 0;</b>
+<b class="pc">&nbsp;    if (rule.startPositionCorrection &gt; 0) {</b>
+<b class="fc">&nbsp;      for (int l = 0; l &lt;= Math.min(rule.startPositionCorrection, tokenPositions.length - 1); l++) {</b>
+<b class="fc">&nbsp;        correctedStPos += tokenPositions[l];</b>
+&nbsp;      }
+<b class="fc">&nbsp;      correctedStPos--;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    int idx = firstMatchToken + correctedStPos;</b>
+<b class="pc">&nbsp;    if (idx &gt;= tokens.length) {</b>
+&nbsp;      // TODO: hacky workaround, find a proper solution. See EnglishPatternRuleTest.testBug()
+&nbsp;      // This is important when the reference points to a token with min=&quot;0&quot;, which has not been
+&nbsp;      // matched... the subsequent match elements need to be renumbered, I guess, and that one
+&nbsp;      // silently discarded
+<b class="nc">&nbsp;      idx = tokens.length - 1;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    AnalyzedTokenReadings firstMatchTokenObj = tokens[idx];</b>
+<b class="fc">&nbsp;    List&lt;String&gt; inputTokens = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    for (int i = idx; i &lt;= lastMatchToken; i++) {</b>
+<b class="fc">&nbsp;      inputTokens.add(tokens[i].getToken());</b>
+&nbsp;    }
+<b class="fc">&nbsp;    boolean isInputAllUppercase = StringTools.isAllUppercase(inputTokens);</b>
+&nbsp;    // one-character words (A, J&#39;, L&#39;) are not enough to consider it an all-uppercase word
+<b class="pc">&nbsp;    boolean isAllUppercase = isInputAllUppercase &amp;&amp;</b>
+<b class="nc">&nbsp;      (firstMatchTokenObj.getToken().replace(&quot;&#39;&quot;, &quot;&quot;).length() &gt; 1 || lastMatchToken &gt; idx)</b>
+<b class="nc">&nbsp;      &amp;&amp; matchPreservesCase(rule.getSuggestionMatches(), rule.getMessage())</b>
+<b class="nc">&nbsp;      &amp;&amp; matchPreservesCase(rule.getSuggestionMatchesOutMsg(), rule.getSuggestionsOutMsg());</b>
+<b class="pc">&nbsp;    isAllUppercase = isAllUppercase &amp;&amp; rule.isAdjustSuggestionCase();</b>
+&nbsp;
+<b class="pc">&nbsp;    boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken())</b>
+<b class="nc">&nbsp;        &amp;&amp; matchPreservesCase(rule.getSuggestionMatches(), rule.getMessage())</b>
+<b class="nc">&nbsp;        &amp;&amp; matchPreservesCase(rule.getSuggestionMatchesOutMsg(), rule.getSuggestionsOutMsg());</b>
+&nbsp;
+<b class="pc">&nbsp;    if (firstMatchTokenObj.isSentenceStart() &amp;&amp; tokens.length &gt; firstMatchToken + correctedStPos + 1) {</b>
+&nbsp;      // make uppercasing work also at sentence start:
+<b class="nc">&nbsp;      firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];</b>
+<b class="nc">&nbsp;      startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken());</b>
+&nbsp;    }
+<b class="pc">&nbsp;    startsWithUppercase = startsWithUppercase &amp;&amp; rule.isAdjustSuggestionCase();</b>
+<b class="pc">&nbsp;    if (firstMarkerMatchToken == -1) {</b>
+<b class="nc">&nbsp;      firstMarkerMatchToken = firstMatchToken;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    int fromPos = tokens[firstMarkerMatchToken].getStartPos();</b>
+&nbsp;    // FIXME: this is fishy, assumes that comma should always come before whitespace:
+<b class="pc">&nbsp;    if (firstMarkerMatchToken &gt;= 1 &amp;&amp; (errMessage.contains(RuleMatch.SUGGESTION_START_TAG + &quot;,&quot;)</b>
+<b class="pc">&nbsp;        || suggestionsOutMsg.contains(RuleMatch.SUGGESTION_START_TAG + &quot;,&quot;))) {</b>
+<b class="nc">&nbsp;      fromPos = tokens[firstMarkerMatchToken - 1].getStartPos()</b>
+<b class="nc">&nbsp;          + tokens[firstMarkerMatchToken - 1].getToken().length();</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (lastMarkerMatchToken == -1) {</b>
+<b class="nc">&nbsp;      lastMarkerMatchToken = lastMatchToken;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    AnalyzedTokenReadings token = tokens[Math.min(lastMarkerMatchToken, tokens.length-1)];</b>
+<b class="fc">&nbsp;    int toPos = token.getEndPos();</b>
+<b class="pc">&nbsp;    if (fromPos &lt; toPos) { // this can happen with some skip=&quot;-1&quot; when the last token is not matched</b>
+&nbsp;      // if the message is &quot;suppress_misspelled&quot; and there are no suggestions,
+&nbsp;      // then do not create the rule match
+<b class="pc">&nbsp;      if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) &amp;&amp; !errMessage.contains(RuleMatch.SUGGESTION_START_TAG)</b>
+<b class="nc">&nbsp;          &amp;&amp; !suggestionsOutMsg.contains(RuleMatch.SUGGESTION_START_TAG))) {</b>
+<b class="fc">&nbsp;        String clearMsg = errMessage.replace(PatternRuleHandler.PLEASE_SPELL_ME, &quot;&quot;);</b>
+<b class="fc">&nbsp;        clearMsg = clearMsg.replace(MISTAKE, &quot;&quot;);</b>
+<b class="fc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(rule, sentence, fromPos, toPos, tokens[firstMatchToken].getStartPos(), tokens[lastMatchToken].getEndPos(),</b>
+&nbsp;                clearMsg, shortErrMessage, startsWithUppercase, isAllUppercase, suggestionsOutMsg, true);
+<b class="fc">&nbsp;        ruleMatch.setType(rule.getType());</b>
+<b class="pc">&nbsp;        if (rule.getFilter() != null) {</b>
+<b class="nc">&nbsp;          RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());</b>
+<b class="nc">&nbsp;          AnalyzedTokenReadings[] patternTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);</b>
+<b class="nc">&nbsp;          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, patternTokens, firstMatchToken, Ints.asList(tokenPositions));</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          return ruleMatch; </b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    } // failed to create any rule match...
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Checks if the suggestion starts with a match that is supposed to preserve
+&nbsp;   * case. If it does not, perform the default conversion to uppercase.
+&nbsp;   * @return true, if the match preserves the case of the token.
+&nbsp;   */
+&nbsp;  private boolean matchPreservesCase(List&lt;Match&gt; suggestionMatches, String msg) {
+<b class="nc">&nbsp;    if (suggestionMatches != null &amp;&amp; !suggestionMatches.isEmpty()) {</b>
+&nbsp;      //PatternRule rule = (PatternRule) this.rule;
+&nbsp;      //FIXME: this only considers properly the first match in first suggestion.
+<b class="nc">&nbsp;      int sugStart = msg.indexOf(RuleMatch.SUGGESTION_START_TAG) + RuleMatch.SUGGESTION_START_TAG.length();</b>
+<b class="nc">&nbsp;      if (msg.contains(PatternRuleHandler.PLEASE_SPELL_ME)) {</b>
+<b class="nc">&nbsp;        sugStart += PatternRuleHandler.PLEASE_SPELL_ME.length();</b>
+&nbsp;      }
+<b class="nc">&nbsp;      for (Match sMatch : suggestionMatches) {</b>
+<b class="nc">&nbsp;        if (!sMatch.isInMessageOnly() &amp;&amp; sMatch.convertsCase()</b>
+<b class="nc">&nbsp;            &amp;&amp; msg.charAt(sugStart) == &#39;\\&#39;) {</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Gets the index of the element indexed by i, adding any offsets because of
+&nbsp;   * the phrases in the rule.
+&nbsp;   * @param i Current element index.
+&nbsp;   * @return int Index translated into XML element no.
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  int translateElementNo(int i) {
+<b class="pc">&nbsp;    if (!useList || i &lt; 0) {</b>
+<b class="fc">&nbsp;      return i;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int j = 0;</b>
+<b class="nc">&nbsp;    PatternRule rule = (PatternRule) this.rule;</b>
+<b class="nc">&nbsp;    for (int k = 0; k &lt; i; k++) {</b>
+<b class="nc">&nbsp;      j += rule.getElementNo().get(k);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return j;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Replace back references generated with &amp;lt;match&amp;gt; and \\1 in message
+&nbsp;   * using Match class, and take care of skipping.
+&nbsp;   * @param tokenReadings Array of AnalyzedTokenReadings that were matched against the pattern
+&nbsp;   * @param positions Array of relative positions of matched tokens
+&nbsp;   * @param firstMatchTok Position of the first matched token
+&nbsp;   * @param errorMsg String containing suggestion markup
+&nbsp;   * @return String Formatted message.
+&nbsp;   */
+&nbsp;  private String formatMatches(AnalyzedTokenReadings[] tokenReadings,
+&nbsp;      int[] positions, int firstMatchTok, String errorMsg,
+&nbsp;      List&lt;Match&gt; suggestionMatches) throws IOException {
+<b class="fc">&nbsp;    String errorMessage = errorMsg;</b>
+<b class="fc">&nbsp;    int matchCounter = 0;</b>
+&nbsp;    //int prevMatchesLength = 0;
+<b class="fc">&nbsp;    int[] numbersToMatches = new int[errorMsg.length()];</b>
+<b class="fc">&nbsp;    boolean newWay = false;</b>
+<b class="fc">&nbsp;    int errLen = errorMessage.length();</b>
+&nbsp;    /*
+&nbsp;    track position of already replaced text to avoid recursion
+&nbsp;    otherwise, if we insert user matches into text and these contain backslashes
+&nbsp;    we will try to interpret these as well -&gt; this can lead to array index violations, etc.
+&nbsp;     */
+<b class="fc">&nbsp;    int errorMessageProcessed = 0;</b>
+<b class="fc">&nbsp;    int errMarker = errorMessage.indexOf(&#39;\\&#39;, errorMessageProcessed);</b>
+<b class="fc">&nbsp;    boolean numberFollows = false;</b>
+<b class="pc">&nbsp;    if (errMarker &gt;= 0 &amp;&amp; errMarker &lt; errLen - 1) {</b>
+<b class="fc">&nbsp;      numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));</b>
+&nbsp;    }
+<b class="pc">&nbsp;    while (errMarker &gt;= 0 &amp;&amp; numberFollows) {</b>
+<b class="fc">&nbsp;      int backslashPos = errorMessage.indexOf(&#39;\\&#39;, errorMessageProcessed);</b>
+<b class="pc">&nbsp;      if (backslashPos &gt;= 0 &amp;&amp; StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + 1))) {</b>
+<b class="fc">&nbsp;        int numLen = 1;</b>
+<b class="pc">&nbsp;        while (backslashPos + numLen &lt; errorMessage.length()</b>
+<b class="fc">&nbsp;            &amp;&amp; Character.isDigit(errorMessage.charAt(backslashPos + numLen))) {</b>
+<b class="fc">&nbsp;          numLen++;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        int j = Integer.parseInt(errorMessage.substring(backslashPos + 1, backslashPos</b>
+&nbsp;            + numLen)) - 1;
+<b class="fc">&nbsp;        int repTokenPos = 0;</b>
+<b class="fc">&nbsp;        int nextTokenPos = 0;</b>
+<b class="fc">&nbsp;        for (int l = 0; l &lt;= Math.min(j, positions.length - 1); l++) {</b>
+<b class="fc">&nbsp;          repTokenPos += positions[l];</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (j + 1 &lt; positions.length) {</b>
+<b class="nc">&nbsp;          nextTokenPos = firstMatchTok + repTokenPos + positions[j + 1];</b>
+&nbsp;        }
+&nbsp;
+<b class="pc">&nbsp;        if (suggestionMatches != null &amp;&amp; suggestionMatches.size() &gt; 0) {</b>
+<b class="pc">&nbsp;          if (matchCounter &lt; suggestionMatches.size()) {</b>
+<b class="fc">&nbsp;            numbersToMatches[j] = matchCounter;</b>
+&nbsp;            // if token is optional remove it from suggestions:
+&nbsp;            String[] matches;
+<b class="pc">&nbsp;            if (j &gt;= positions.length) {</b>
+<b class="nc">&nbsp;              matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);</b>
+<b class="pc">&nbsp;            } else if (positions[j] != 0) {</b>
+<b class="fc">&nbsp;              matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              matches = new String[] { &quot;&quot; };</b>
+&nbsp;            }
+<b class="fc">&nbsp;            String leftSide = errorMessage.substring(0, backslashPos);</b>
+<b class="fc">&nbsp;            String rightSide = errorMessage.substring(backslashPos + numLen);</b>
+<b class="pc">&nbsp;            if (matches.length == 1) {</b>
+&nbsp;              // if we removed optional token from suggestion then remove leading space from the next word
+<b class="pc">&nbsp;              if (matches[0].isEmpty()) {</b>
+<b class="nc">&nbsp;                errorMessage = concatWithoutExtraSpace(leftSide, rightSide);</b>
+<b class="nc">&nbsp;                errorMessageProcessed = leftSide.length();</b>
+&nbsp;              } else {
+<b class="fc">&nbsp;                errorMessage = leftSide + matches[0] + rightSide;</b>
+<b class="fc">&nbsp;                errorMessageProcessed = leftSide.length() + matches[0].length();</b>
+&nbsp;              }
+&nbsp;            } else {
+&nbsp;              // TODO compute/return errorMessageProcessed here as well
+<b class="nc">&nbsp;              errorMessage = formatMultipleSynthesis(matches, leftSide, rightSide);</b>
+&nbsp;            }
+&nbsp;            //TODO keep the previous matches length and handle it appropriately
+&nbsp;            //prevMatchesLength =  matches.length;
+<b class="fc">&nbsp;            matchCounter++;</b>
+<b class="fc">&nbsp;            newWay = true;</b>
+&nbsp;          } else {
+&nbsp;            // FIXME: is this correct? this is how we deal with multiple matches
+<b class="nc">&nbsp;            suggestionMatches.add(suggestionMatches.get(numbersToMatches[j]));</b>
+&nbsp;          }
+&nbsp;        }
+<b class="pc">&nbsp;        if (!newWay) {</b>
+&nbsp;          // in case &lt;match&gt; elements weren&#39;t used (yet)
+<b class="nc">&nbsp;          int newErrorMessageProcessed = errorMessage.lastIndexOf(&quot;\\&quot; + (j + 1)) +</b>
+<b class="nc">&nbsp;            tokenReadings[firstMatchTok + repTokenPos - 1].getToken().length();</b>
+<b class="nc">&nbsp;          errorMessage = errorMessage.substring(0, errorMessageProcessed) +</b>
+<b class="nc">&nbsp;            errorMessage.substring(errorMessageProcessed).replace(&quot;\\&quot; + (j + 1),</b>
+<b class="nc">&nbsp;              tokenReadings[firstMatchTok + repTokenPos - 1].getToken());</b>
+<b class="nc">&nbsp;          errorMessageProcessed = newErrorMessageProcessed;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      errMarker = errorMessage.indexOf(&#39;\\&#39;, errorMessageProcessed);</b>
+<b class="fc">&nbsp;      numberFollows = false;</b>
+<b class="fc">&nbsp;      errLen = errorMessage.length();</b>
+<b class="pc">&nbsp;      if (errMarker &gt;= 0 &amp;&amp; errMarker &lt; errLen - 1) {</b>
+<b class="nc">&nbsp;        numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return removeSuppressMisspelled(errorMessage);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String concatWithoutExtraSpace(String leftSide, String rightSide) {
+&nbsp;    // can&#39;t do \\p{Punct} as it catches \2 placeholder
+<b class="nc">&nbsp;    if ((leftSide.endsWith(&quot; &quot;) &amp;&amp; rightSide.startsWith(&quot;&lt;/suggestion&gt;&quot;))</b>
+<b class="nc">&nbsp;      || (leftSide.endsWith(&quot; &quot;) &amp;&amp; WHITESPACE_OR_PUNCT.matcher(rightSide).matches())) {</b>
+<b class="nc">&nbsp;      return leftSide.substring(0, leftSide.length()-1) + rightSide;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (leftSide.endsWith(&quot;suggestion&gt;&quot;) &amp;&amp; rightSide.startsWith(&quot; &quot;)) {</b>
+<b class="nc">&nbsp;      return leftSide + rightSide.substring(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return leftSide + rightSide;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String removeSuppressMisspelled(String s) {
+<b class="fc">&nbsp;    String result = s;</b>
+&nbsp;    // remove suggestions not synthesized: &lt;suggestion&gt;&lt;pleasespellme/&gt;...(...)...&lt;/suggestion&gt;
+&nbsp;    // remove misspelled words: &lt;suggestion&gt;&lt;pleasespellme/&gt;...&lt;mistake/&gt;...&lt;/suggestion&gt;
+<b class="fc">&nbsp;    Matcher matcher = SUGGESTION_PATTERN_SUPPRESS.matcher(result);</b>
+<b class="fc">&nbsp;    result = matcher.replaceAll(&quot;&quot;);</b>
+&nbsp;    // remove the remaining tags &lt;pleasespellme/&gt; in suggestions but not in the message
+<b class="fc">&nbsp;    result = TAG_AND_PLEASE_SPELL_ME.matcher(result).replaceAll(RuleMatch.SUGGESTION_START_TAG);</b>
+<b class="fc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // non-private for tests
+&nbsp;  static String formatMultipleSynthesis(String[] matches,
+&nbsp;      String leftSide, String rightSide) {
+&nbsp;    String errorMessage;
+<b class="nc">&nbsp;    String suggestionLeft = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String suggestionRight = &quot;&quot;;</b>
+<b class="nc">&nbsp;    String rightSideNew = rightSide;</b>
+<b class="nc">&nbsp;    int sPos = leftSide.lastIndexOf(RuleMatch.SUGGESTION_START_TAG);</b>
+<b class="nc">&nbsp;    if (sPos &gt;= 0) {</b>
+<b class="nc">&nbsp;      suggestionLeft = leftSide.substring(sPos + RuleMatch.SUGGESTION_START_TAG.length());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (StringTools.isEmpty(suggestionLeft)) {</b>
+<b class="nc">&nbsp;      errorMessage = leftSide;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      errorMessage = leftSide.substring(0, leftSide.lastIndexOf(RuleMatch.SUGGESTION_START_TAG)) + RuleMatch.SUGGESTION_START_TAG;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int rPos = rightSide.indexOf(RuleMatch.SUGGESTION_END_TAG);</b>
+<b class="nc">&nbsp;    if (rPos &gt;= 0) {</b>
+<b class="nc">&nbsp;      suggestionRight = rightSide.substring(0, rPos);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (!StringTools.isEmpty(suggestionRight)) {</b>
+<b class="nc">&nbsp;      rightSideNew = rightSide.substring(rightSide.indexOf(RuleMatch.SUGGESTION_END_TAG));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int lastLeftSugEnd = leftSide.indexOf(RuleMatch.SUGGESTION_END_TAG);</b>
+<b class="nc">&nbsp;    int lastLeftSugStart = leftSide.lastIndexOf(RuleMatch.SUGGESTION_START_TAG);</b>
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;    sb.append(errorMessage);</b>
+<b class="nc">&nbsp;    for (int z = 0; z &lt; matches.length; z++) {</b>
+<b class="nc">&nbsp;      sb.append(suggestionLeft);</b>
+<b class="nc">&nbsp;      sb.append(matches[z]);</b>
+<b class="nc">&nbsp;      sb.append(suggestionRight);</b>
+<b class="nc">&nbsp;      if (z &lt; matches.length - 1 &amp;&amp; lastLeftSugEnd &lt; lastLeftSugStart) {</b>
+<b class="nc">&nbsp;        sb.append(RuleMatch.SUGGESTION_END_TAG);</b>
+<b class="nc">&nbsp;        sb.append(&quot;, &quot;);</b>
+<b class="nc">&nbsp;        sb.append(RuleMatch.SUGGESTION_START_TAG);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    sb.append(rightSideNew);</b>
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Concatenates the matches, and takes care of phrases (including inflection
+&nbsp;   * using synthesis).
+&nbsp;   * @param start Position of the element as referenced by match element in the rule.
+&nbsp;   * @param index The index of the element found in the matching sentence.
+&nbsp;   * @param tokenIndex The position of the token in the AnalyzedTokenReadings array.
+&nbsp;   * @param tokens Array of AnalyzedTokenReadings
+&nbsp;   * @return @String[] Array of concatenated strings
+&nbsp;   */
+&nbsp;  private String[] concatMatches(int start, int index,
+&nbsp;      int tokenIndex, AnalyzedTokenReadings[] tokens,
+&nbsp;      int nextTokenPos, List&lt;Match&gt; suggestionMatches)
+&nbsp;          throws IOException {
+&nbsp;    String[] finalMatch;
+<b class="fc">&nbsp;    int len = phraseLen(index);</b>
+<b class="fc">&nbsp;    Language language = rule.language;</b>
+<b class="pc">&nbsp;    if (len == 1) {</b>
+<b class="fc">&nbsp;      int skippedTokens = nextTokenPos - tokenIndex;</b>
+<b class="fc">&nbsp;      MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1, skippedTokens);</b>
+<b class="fc">&nbsp;      finalMatch = matchState.toFinalString(language);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      List&lt;String[]&gt; matchList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;      for (int i = 0; i &lt; len; i++) {</b>
+<b class="nc">&nbsp;        int skippedTokens = nextTokenPos - (tokenIndex + i);</b>
+<b class="nc">&nbsp;        MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1 + i, skippedTokens);</b>
+<b class="nc">&nbsp;        matchList.add(matchState.toFinalString(language));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return combineLists(matchList.toArray(new String[matchList.size()][]),</b>
+<b class="nc">&nbsp;          new String[matchList.size()], 0, language);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return finalMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private int phraseLen(int i) {
+<b class="fc">&nbsp;    PatternRule rule = (PatternRule) this.rule;</b>
+<b class="fc">&nbsp;    List&lt;Integer&gt; elementNo = rule.getElementNo();</b>
+<b class="pc">&nbsp;    if (!useList || i &gt; elementNo.size() - 1) {</b>
+<b class="fc">&nbsp;      return 1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return elementNo.get(i);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a Cartesian product of the arrays stored in the input array.
+&nbsp;   * @param input Array of string arrays to combine.
+&nbsp;   * @param output Work array of strings.
+&nbsp;   * @param r Starting parameter (use 0 to get all combinations).
+&nbsp;   * @param lang Text language for adding spaces in some languages.
+&nbsp;   * @return Combined array of String.
+&nbsp;   */
+&nbsp;  private static String[] combineLists(String[][] input,
+&nbsp;      String[] output, int r, Language lang) {
+<b class="nc">&nbsp;    List&lt;String&gt; outputList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    if (r == input.length) {</b>
+<b class="nc">&nbsp;      StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;      for (int k = 0; k &lt; output.length; k++) {</b>
+<b class="nc">&nbsp;        sb.append(output[k]);</b>
+<b class="nc">&nbsp;        if (k &lt; output.length - 1) {</b>
+<b class="nc">&nbsp;          sb.append(StringTools.addSpace(output[k + 1], lang));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      outputList.add(sb.toString());</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      for (int c = 0; c &lt; input[r].length; c++) {</b>
+<b class="nc">&nbsp;        output[r] = input[r][c];</b>
+<b class="nc">&nbsp;        String[] sList = combineLists(input, output, r + 1, lang);</b>
+<b class="nc">&nbsp;        outputList.addAll(Arrays.asList(sList));</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return outputList.toArray(new String[0]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

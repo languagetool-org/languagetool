@@ -1,0 +1,291 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PatternTokenBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: PatternTokenBuilder (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PatternTokenBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.4%
+  </span>
+  <span class="absValue">
+    (17/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.3%
+  </span>
+  <span class="absValue">
+    (56/60)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helper to build {@link PatternToken}s.
+&nbsp; * @since 3.1
+&nbsp; */
+<b class="fc">&nbsp;public class PatternTokenBuilder {</b>
+&nbsp;
+&nbsp;  private String token;
+&nbsp;  private String posTag;
+<b class="fc">&nbsp;  private boolean marker = true;</b>
+<b class="fc">&nbsp;  private boolean matchInflectedForms = false;</b>
+&nbsp;  private boolean caseSensitive;
+&nbsp;  private boolean regexp;
+&nbsp;  private boolean negation;
+<b class="fc">&nbsp;  private boolean isWhiteSpaceSet = false;</b>
+&nbsp;  private boolean isWhiteSpaceBefore;
+<b class="fc">&nbsp;  private int minOccurrence = 1;</b>
+<b class="fc">&nbsp;  private int maxOccurrence = 1;</b>
+&nbsp;  private int skip;
+&nbsp;  private String tokenException;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Add a case-insensitive token. 
+&nbsp;   */
+&nbsp;  public PatternTokenBuilder token(String token) {
+<b class="fc">&nbsp;    this.token = Objects.requireNonNull(token);</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Add a case-sensitive token. 
+&nbsp;   * @since 3.3 
+&nbsp;   */
+&nbsp;  public PatternTokenBuilder csToken(String token) {
+<b class="fc">&nbsp;    this.token = Objects.requireNonNull(token);</b>
+<b class="fc">&nbsp;    caseSensitive = true;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public PatternTokenBuilder tokenRegex(String token) {
+<b class="fc">&nbsp;    this.token = Objects.requireNonNull(token);</b>
+<b class="fc">&nbsp;    regexp = true;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public PatternTokenBuilder csTokenRegex(String token) {
+<b class="fc">&nbsp;    this.token = Objects.requireNonNull(token);</b>
+<b class="fc">&nbsp;    regexp = true;</b>
+<b class="fc">&nbsp;    caseSensitive = true;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public PatternTokenBuilder pos(String posTag) {
+<b class="fc">&nbsp;    return pos(posTag, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public PatternTokenBuilder posRegex(String posTag) {
+<b class="fc">&nbsp;    return pos(posTag, true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.9 */
+&nbsp;  public PatternTokenBuilder min(int val) {
+<b class="pc">&nbsp;    if (val &lt; 0) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;minOccurrence must be &gt;= 0: &quot; + minOccurrence);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    minOccurrence = val;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.9 */
+&nbsp;  public PatternTokenBuilder max(int val) {
+<b class="fc">&nbsp;    maxOccurrence = val;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Corresponds to {@code &lt;marker&gt;...&lt;/marker&gt;} in XML. Note that there
+&nbsp;   * can be more tokens with a mark, but then must all be adjacent.
+&nbsp;   * @since 4.6
+&nbsp;   */
+&nbsp;  public PatternTokenBuilder mark(boolean isMarked) {
+<b class="nc">&nbsp;    this.marker = isMarked;</b>
+<b class="nc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public PatternTokenBuilder posRegexWithStringException(String posTag, String tokenExceptionRegex) {
+<b class="fc">&nbsp;    return pos(posTag, true, tokenExceptionRegex);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private PatternTokenBuilder pos(String posTag, boolean regexp) {
+<b class="fc">&nbsp;    this.posTag = Objects.requireNonNull(posTag);</b>
+<b class="fc">&nbsp;    this.regexp = regexp;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private PatternTokenBuilder pos(String posTag, boolean regexp, String tokenExceptionRegex) {
+<b class="fc">&nbsp;    this.posTag = Objects.requireNonNull(posTag);</b>
+<b class="fc">&nbsp;    this.regexp = regexp;</b>
+<b class="fc">&nbsp;    this.tokenException = tokenExceptionRegex;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 3.3 */
+&nbsp;  public PatternTokenBuilder negate() {
+<b class="fc">&nbsp;    this.negation = true;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.0 */
+&nbsp;  public PatternTokenBuilder setSkip(int skip) {
+<b class="fc">&nbsp;    this.skip = skip;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** @since 4.4 */
+&nbsp;  public PatternTokenBuilder setIsWhiteSpaceBefore(boolean whiteSpaceBefore) {
+<b class="fc">&nbsp;    this.isWhiteSpaceBefore = whiteSpaceBefore;</b>
+<b class="fc">&nbsp;    this.isWhiteSpaceSet = true;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Also match inflected forms of the given word - note this will only work when the
+&nbsp;   * given token actually is a baseform.
+&nbsp;   * @since 3.8 
+&nbsp;   */
+&nbsp;  public PatternTokenBuilder matchInflectedForms() {
+<b class="fc">&nbsp;    matchInflectedForms = true;</b>
+<b class="fc">&nbsp;    return this;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public PatternToken build() {
+&nbsp;    PatternToken patternToken;
+<b class="fc">&nbsp;    patternToken = new PatternToken(token, caseSensitive, regexp, matchInflectedForms);</b>
+<b class="fc">&nbsp;    if (posTag != null) {</b>
+<b class="fc">&nbsp;      patternToken.setPosToken(new PatternToken.PosToken(posTag, regexp, false));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (isWhiteSpaceSet) {</b>
+<b class="fc">&nbsp;      patternToken.setWhitespaceBefore(isWhiteSpaceBefore);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (maxOccurrence &lt; minOccurrence) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;minOccurrence must &lt;= maxOccurrence: minOccurrence &quot; + minOccurrence + &quot;, maxOccurrence &quot; + maxOccurrence);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (tokenException != null) {</b>
+<b class="fc">&nbsp;      patternToken.setStringPosException(tokenException, true, false, false, false, false, null, false, false, false);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    patternToken.setMinOccurrence(minOccurrence);</b>
+<b class="fc">&nbsp;    patternToken.setMaxOccurrence(maxOccurrence);</b>
+<b class="fc">&nbsp;    patternToken.setNegation(negation);</b>
+<b class="fc">&nbsp;    patternToken.setSkipNext(skip);</b>
+<b class="fc">&nbsp;    patternToken.setInsideMarker(marker);</b>
+<b class="fc">&nbsp;    return patternToken;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 21:44</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,297 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > TabBitextReader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.bitext</a>
+</div>
+
+<h1>Coverage Summary for Class: TabBitextReader (org.languagetool.bitext)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TabBitextReader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TabBitextReader$TabReader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2010 Marcin Miłkowski (http://www.languagetool.org)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.bitext;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.util.Iterator;
+&nbsp;
+&nbsp;/**
+&nbsp; * Reader of simple tab-delimited bilingual files.
+&nbsp; * 
+&nbsp; * @author Marcin Miłkowski
+&nbsp; */
+&nbsp;public class TabBitextReader implements BitextReader {
+&nbsp;
+&nbsp;  protected BufferedReader in;
+&nbsp;  protected StringPair nextPair; 
+&nbsp;  protected String nextLine;
+&nbsp;  protected int sentencePos;
+&nbsp;
+&nbsp;  private String prevLine;
+<b class="nc">&nbsp;  private int lineCount = -1;</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param encoding input encoding or {@code null} to use the platform default
+&nbsp;   */
+<b class="nc">&nbsp;  public TabBitextReader(String filename, String encoding) {</b>
+&nbsp;    try {     
+<b class="nc">&nbsp;      if (encoding == null) {</b>
+<b class="nc">&nbsp;        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      nextLine = in.readLine();</b>
+<b class="nc">&nbsp;      prevLine = &quot;&quot;;</b>
+<b class="nc">&nbsp;      nextPair = tab2StringPair(nextLine);</b>
+&nbsp;    } catch (IOException e) { 
+<b class="nc">&nbsp;      throw new RuntimeException(e); </b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected StringPair tab2StringPair(String line) {
+<b class="nc">&nbsp;    if (line == null) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] fields = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;    if (fields.length &lt; 2) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Unexpected format, expected two tab-separated columns: &quot; + line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new StringPair(fields[0], fields[1]);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Iterator&lt;StringPair&gt; iterator() {
+<b class="nc">&nbsp;    return new TabReader();</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  class TabReader implements Iterator&lt;StringPair&gt; {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean hasNext() { 
+<b class="nc">&nbsp;      return nextLine != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public StringPair next() {
+&nbsp;      try {
+<b class="nc">&nbsp;        StringPair result = nextPair;</b>
+<b class="nc">&nbsp;        sentencePos = nextPair.getSource().length() + 1;</b>
+<b class="nc">&nbsp;        if (nextLine != null) {</b>
+<b class="nc">&nbsp;          prevLine = nextLine;</b>
+<b class="nc">&nbsp;          nextLine = in.readLine();</b>
+<b class="nc">&nbsp;          nextPair = tab2StringPair(nextLine);</b>
+<b class="nc">&nbsp;          lineCount++;</b>
+<b class="nc">&nbsp;          if (nextLine == null) {</b>
+<b class="nc">&nbsp;            in.close();</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;      } catch (IOException e) { 
+<b class="nc">&nbsp;        throw new RuntimeException(e); </b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // The file is read-only.
+&nbsp;    @Override
+&nbsp;    public void remove() { 
+<b class="nc">&nbsp;      throw new UnsupportedOperationException(); </b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int getColumnCount() {
+<b class="nc">&nbsp;    return sentencePos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int getTargetColumnCount() {
+<b class="nc">&nbsp;    return 1;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public int getLineCount() {    
+<b class="nc">&nbsp;    return lineCount;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public int getSentencePosition() {
+<b class="nc">&nbsp;    return sentencePos;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getCurrentLine() {
+<b class="nc">&nbsp;    return prevLine;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

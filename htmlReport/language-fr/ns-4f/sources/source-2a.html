@@ -1,0 +1,310 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Server</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: Server (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/88)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import com.sun.net.httpserver.HttpServer;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.tools.LtThreadPoolFactory;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.concurrent.ThreadPoolExecutor;
+&nbsp;
+&nbsp;import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
+&nbsp;
+&nbsp;/**
+&nbsp; * Super class for HTTP and HTTPS server.
+&nbsp; *
+&nbsp; * @since 2.0
+&nbsp; */
+<b class="nc">&nbsp;@Slf4j</b>
+<b class="nc">&nbsp;abstract class Server {</b>
+&nbsp;
+&nbsp;  protected abstract String getProtocol();
+&nbsp;
+<b class="nc">&nbsp;  protected static final Set&lt;String&gt; DEFAULT_ALLOWED_IPS = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;            &quot;0:0:0:0:0:0:0:1&quot;,     // Suse Linux IPv6 stuff
+&nbsp;            &quot;0:0:0:0:0:0:0:1%0&quot;,   // some(?) Mac OS X
+&nbsp;            &quot;127.0.0.1&quot;
+&nbsp;    ));
+&nbsp;
+&nbsp;  protected int port;
+&nbsp;  protected String host;
+&nbsp;  protected HttpServer server;
+&nbsp;  protected LanguageToolHttpHandler httpHandler;
+&nbsp;
+&nbsp;  private boolean isRunning;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Start the server.
+&nbsp;   */
+&nbsp;  public void run() {
+<b class="nc">&nbsp;    String hostName = host != null ? host : &quot;localhost&quot;;</b>
+<b class="nc">&nbsp;    ServerTools.print(&quot;Starting LanguageTool &quot; + JLanguageTool.VERSION +</b>
+<b class="nc">&nbsp;            &quot; (build date: &quot; + JLanguageTool.BUILD_DATE + &quot;, &quot; + JLanguageTool.GIT_SHORT_ID + &quot;) server on &quot; + getProtocol() + &quot;://&quot; + hostName + &quot;:&quot; + port  + &quot;...&quot;);</b>
+<b class="nc">&nbsp;    server.start();</b>
+<b class="nc">&nbsp;    isRunning = true;</b>
+<b class="nc">&nbsp;    ServerTools.print(&quot;Server started&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Stop the server. Once stopped, a server cannot be used again.
+&nbsp;   */
+&nbsp;  public void stop() {
+<b class="nc">&nbsp;    if (httpHandler != null) {</b>
+<b class="nc">&nbsp;      httpHandler.shutdown();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (server != null) {</b>
+<b class="nc">&nbsp;      ServerTools.print(&quot;Stopping server...&quot;);</b>
+<b class="nc">&nbsp;      server.stop(5);</b>
+<b class="nc">&nbsp;      isRunning = false;</b>
+<b class="nc">&nbsp;      ServerTools.print(&quot;Server stopped&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @return whether the server is running
+&nbsp;   * @since 2.0
+&nbsp;   */
+&nbsp;  public boolean isRunning() {
+<b class="nc">&nbsp;    return isRunning;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
+<b class="nc">&nbsp;    int requestLimit = config.getRequestLimit();</b>
+<b class="nc">&nbsp;    int requestLimitInBytes = config.getRequestLimitInBytes();</b>
+<b class="nc">&nbsp;    int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();</b>
+<b class="nc">&nbsp;    int ipFingerprintFactor = config.getIpFingerprintFactor(); // can be &lt;= 0, means fingerprinting is disabled</b>
+<b class="nc">&nbsp;    List&lt;String&gt; requestLimitWhitelistUsers = config.getRequestLimitWhitelistUsers();</b>
+<b class="nc">&nbsp;    int requestLimitWhitelistLimit = config.getRequestLimitWhitelistLimit();</b>
+<b class="nc">&nbsp;    if ((requestLimit &gt; 0 || requestLimitInBytes &gt; 0) &amp;&amp; requestLimitPeriodInSeconds &gt; 0) {</b>
+<b class="nc">&nbsp;      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, ipFingerprintFactor,</b>
+&nbsp;        requestLimitWhitelistUsers, requestLimitWhitelistLimit);
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  protected ErrorRequestLimiter getErrorRequestLimiterOrNull(HTTPServerConfig config) {
+<b class="nc">&nbsp;    int requestLimit = config.getTimeoutRequestLimit();</b>
+<b class="nc">&nbsp;    int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();</b>
+<b class="nc">&nbsp;    if (requestLimit &gt; 0 &amp;&amp; requestLimitPeriodInSeconds &gt; 0) {</b>
+<b class="nc">&nbsp;      return new ErrorRequestLimiter(requestLimit, requestLimitPeriodInSeconds);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static boolean usageRequested(String[] args) {
+<b class="nc">&nbsp;    return args.length == 1 &amp;&amp; (args[0].equals(&quot;-h&quot;) || args[0].equals(&quot;--help&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static void printCommonConfigFileOptions() {
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;maxTextLength&#39; - maximum text length, longer texts will cause an error (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;maxTextHardLength&#39; - maximum text length, applies even to users with a special secret &#39;token&#39; parameter (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;maxCheckTimeMillis&#39; - maximum time in milliseconds allowed per check (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;maxErrorsPerWordRate&#39; - checking will stop with error if there are more rules matches per word (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;maxSpellingSuggestions&#39; - only this many spelling errors will have suggestions for performance reasons (optional,\n&quot; +</b>
+&nbsp;                       &quot;                                            affects Hunspell-based languages only)&quot;);
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;maxCheckThreads&#39; - maximum number of threads working in parallel (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;cacheSize&#39; - size of internal cache in number of sentences (optional, default: 0)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;cacheTTLSeconds&#39; - how many seconds sentences are kept in cache (optional, default: 300 if &#39;cacheSize&#39; is set)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;requestLimit&#39; - maximum number of requests per requestLimitPeriodInSeconds (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;requestLimitInBytes&#39; - maximum aggregated size of requests per requestLimitPeriodInSeconds (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;timeoutRequestLimit&#39; - maximum number of timeout request (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;requestLimitPeriodInSeconds&#39; - time period to which requestLimit and timeoutRequestLimit applies (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;languageModel&#39; - a directory with &#39;1grams&#39;, &#39;2grams&#39;, &#39;3grams&#39; sub directories per language which contain a Lucene index&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                                   each with ngram occurrence counts; activates the confusion rule if supported (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;fasttextModel&#39; - a model file for better language detection (optional), see&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                                   https://fasttext.cc/docs/en/language-identification.html&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;fasttextBinary&#39; - compiled fasttext executable for language detection (optional), see&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                                    https://fasttext.cc/docs/en/support.html&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;maxWorkQueueSize&#39; - reject request if request queue gets larger than this (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;rulesFile&#39; - a file containing rules configuration, such as .languagetool.cfg (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;blockedReferrers&#39; - a comma-separated list of HTTP referrers (and &#39;Origin&#39; headers) that are blocked and will not be served (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;premiumOnly&#39; - activate only the premium rules (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;disabledRuleIds&#39; - a comma-separated list of rule ids that are turned off for this server (optional)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;pipelineCaching&#39; - set to &#39;true&#39; to enable caching of internal pipelines to improve performance&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;maxPipelinePoolSize&#39; - cache size if &#39;pipelineCaching&#39; is set&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;pipelineExpireTimeInSeconds&#39; - time after which pipeline cache items expire&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;pipelinePrewarming&#39; - set to &#39;true&#39; to fill pipeline cache on start (can slow down start a lot)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 &#39;trustXForwardForHeader&#39; - set this to &#39;true&#39; if you run the server behind a reverse proxy and want the&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                                            request limit to work on the original IP addresses provided by the &#39;X-forwarded-for&#39; HTTP header,&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                                            usually set by the proxy&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                 Spellcheck-only languages: You can add simple spellcheck-only support for languages that LT doesn&#39;t&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                                            support by defining two optional properties:&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                   &#39;lang-xx&#39; - set name of the language, use language code instead of &#39;xx&#39;, e.g. lang-tr=Turkish&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                   &#39;lang-xx-dictPath&#39; - absolute path to the hunspell .dic file, use language code instead of &#39;xx&#39;, e.g.&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                                        lang-tr-dictPath=/path/to/tr.dic. Note that the same directory also needs to&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                                        contain a common_words.txt file with the most common 10,000 words (used for better language detection)&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static void printCommonOptions() {
+<b class="nc">&nbsp;    System.out.println(&quot;  --port, -p PRT   port to bind to, defaults to &quot; + DEFAULT_PORT + &quot; if not specified&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  --public         allow this server process to be connected from anywhere; if not set,&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                   it can only be connected from the computer it was started on&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  --allow-origin [ORIGIN] set the Access-Control-Allow-Origin header in the HTTP response,&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                         used for direct (non-proxy) JavaScript-based access from browsers.&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                         Example: --allow-origin \&quot;https://my-website.org\&quot;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                         Don&#39;t set a parameter for `*`, i.e. access from all websites.&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  --verbose, -v    in case of exceptions, log the input text (up to 500 characters)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  --languageModel  a directory with &#39;1grams&#39;, &#39;2grams&#39;, &#39;3grams&#39; sub directories (per language)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                         which contain a Lucene index (optional, overwrites &#39;languageModel&#39;&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;                         parameter in properties files)&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;  --premiumAlways  activate the premium rules even when user has no username/password - useful for API servers&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static void checkForNonRootUser() {
+<b class="nc">&nbsp;    if (&quot;root&quot;.equals(System.getProperty(&quot;user.name&quot;))) {</b>
+<b class="nc">&nbsp;      ServerTools.print(&quot;****************************************************************************************************&quot;);</b>
+<b class="nc">&nbsp;      ServerTools.print(&quot;*** WARNING: this process is running as root - please do not run it as root for security reasons ***&quot;);</b>
+<b class="nc">&nbsp;      ServerTools.print(&quot;****************************************************************************************************&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  protected ThreadPoolExecutor getExecutorService(HTTPServerConfig config) {
+<b class="nc">&nbsp;    int threadPoolSize = config.getMaxCheckThreads();</b>
+<b class="nc">&nbsp;    ServerTools.print(&quot;Setting up thread pool with &quot; + threadPoolSize + &quot; threads&quot;);</b>
+&nbsp;
+&nbsp;    // reuse = false -&gt; this should only be called once in production, needs to be false for tests
+<b class="nc">&nbsp;    return LtThreadPoolFactory.createFixedThreadPoolExecutor(LtThreadPoolFactory.SERVER_POOL,</b>
+&nbsp;      threadPoolSize, threadPoolSize, 0,0L, false,
+<b class="nc">&nbsp;      (thread, throwable) -&gt; log.error(&quot;Thread: &quot; + thread.getName() + &quot; failed with: &quot; + throwable.getMessage()), false);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

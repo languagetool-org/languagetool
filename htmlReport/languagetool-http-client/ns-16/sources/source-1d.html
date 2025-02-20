@@ -1,0 +1,238 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Greek</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.language</a>
+</div>
+
+<h1>Coverage Summary for Class: Greek (org.languagetool.language)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Greek</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    23.1%
+  </span>
+  <span class="absValue">
+    (3/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    15.8%
+  </span>
+  <span class="absValue">
+    (3/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.language;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.*;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;import org.languagetool.rules.el.GreekRedundancyRule;
+&nbsp;import org.languagetool.rules.el.GreekWordRepeatBeginningRule;
+&nbsp;import org.languagetool.rules.el.MorfologikGreekSpellerRule;
+&nbsp;import org.languagetool.rules.el.NumeralStressRule;
+&nbsp;import org.languagetool.rules.el.ReplaceHomonymsRule;
+&nbsp;import org.languagetool.rules.el.GreekSpecificCaseRule;
+&nbsp;import org.languagetool.rules.spelling.SpellingCheckRule;
+&nbsp;import org.languagetool.synthesis.Synthesizer;
+&nbsp;import org.languagetool.synthesis.el.GreekSynthesizer;
+&nbsp;import org.languagetool.tagging.Tagger;
+&nbsp;import org.languagetool.tagging.disambiguation.Disambiguator;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+&nbsp;import org.languagetool.tagging.el.GreekTagger;
+&nbsp;import org.languagetool.tokenizers.*;
+&nbsp;import org.languagetool.tokenizers.el.GreekWordTokenizer;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author Panagiotis Minos (pminos@gmail.com)
+&nbsp; */
+<b class="fc">&nbsp;public class Greek extends Language {</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getShortCode() {
+<b class="fc">&nbsp;    return &quot;el&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getName() {
+<b class="nc">&nbsp;    return &quot;Greek&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String[] getCountries() {
+<b class="fc">&nbsp;    return new String[]{&quot;GR&quot;};</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Contributor[] getMaintainers() {
+<b class="nc">&nbsp;    return new Contributor[]{</b>
+&nbsp;            new Contributor(&quot;Panagiotis Minos&quot;)
+&nbsp;    };
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;Rule&gt; getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List&lt;Language&gt; altLanguages) throws IOException {
+<b class="nc">&nbsp;    return Arrays.asList(</b>
+&nbsp;            new CommaWhitespaceRule(messages, 
+<b class="nc">&nbsp;                    Example.wrong(&quot;Το κόμμα χωρίζει προτάσεις&lt;marker&gt; ,&lt;/marker&gt; όρους προτάσεων και φράσεις.&quot;),</b>
+<b class="nc">&nbsp;                    Example.fixed(&quot;Το κόμμα χωρίζει προτάσεις&lt;marker&gt;,&lt;/marker&gt; όρους προτάσεων και φράσεις.&quot;)),</b>
+&nbsp;            new DoublePunctuationRule(messages),
+&nbsp;            new GenericUnpairedBracketsRule(&quot;EL_UNPAIRED_BRACKETS&quot;, messages,
+<b class="nc">&nbsp;                    Arrays.asList(&quot;[&quot;, &quot;(&quot;, &quot;{&quot;, &quot;“&quot;, &quot;\&quot;&quot;, &quot;«&quot;),</b>
+<b class="nc">&nbsp;                    Arrays.asList(&quot;]&quot;, &quot;)&quot;, &quot;}&quot;, &quot;”&quot;, &quot;\&quot;&quot;, &quot;»&quot;)),</b>
+&nbsp;            new LongSentenceRule(messages, userConfig, 50),
+&nbsp;            new MorfologikGreekSpellerRule(messages, this, userConfig, altLanguages),
+&nbsp;            new UppercaseSentenceStartRule(messages, this,
+<b class="nc">&nbsp;                    Example.wrong(&quot;Η τελεία είναι σημείο στίξης. &lt;marker&gt;δείχνει&lt;/marker&gt; το τέλος μίας πρότασης.&quot;),</b>
+<b class="nc">&nbsp;                    Example.fixed(&quot;Η τελεία είναι σημείο στίξης. &lt;marker&gt;Δείχνει&lt;/marker&gt; το τέλος μίας πρότασης.&quot;)),</b>
+&nbsp;            new MultipleWhitespaceRule(messages, this),
+&nbsp;            new GreekWordRepeatBeginningRule(messages, this),
+&nbsp;            new WordRepeatRule(messages, this),
+&nbsp;            new ReplaceHomonymsRule(messages, this),
+&nbsp;            new GreekSpecificCaseRule(messages),
+&nbsp;            new NumeralStressRule(messages),
+&nbsp;            new GreekRedundancyRule(messages, this)
+&nbsp;    );
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  @Override
+&nbsp;  public Tagger createDefaultTagger() {
+<b class="nc">&nbsp;    return new GreekTagger();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public SentenceTokenizer createDefaultSentenceTokenizer() {
+<b class="nc">&nbsp;    return new SRXSentenceTokenizer(this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Tokenizer createDefaultWordTokenizer() {
+<b class="nc">&nbsp;    return new GreekWordTokenizer();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public Synthesizer createDefaultSynthesizer() {
+<b class="nc">&nbsp;    return GreekSynthesizer.INSTANCE;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Disambiguator createDefaultDisambiguator() {
+<b class="nc">&nbsp;    return new XmlRuleDisambiguator(this);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public LanguageMaintainedState getMaintainedState() {
+<b class="nc">&nbsp;		return LanguageMaintainedState.ActivelyMaintained;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+<b class="nc">&nbsp;    return new MorfologikGreekSpellerRule(messages, this, null, null);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

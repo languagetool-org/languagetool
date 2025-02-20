@@ -1,0 +1,530 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PosTagHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.uk</a>
+</div>
+
+<h1>Coverage Summary for Class: PosTagHelper (org.languagetool.tagging.uk)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PosTagHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/43)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/116)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/183)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.languagetool.tagging.uk;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.LinkedHashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.tagging.TaggedWord;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 2.9
+&nbsp; */
+&nbsp;public final class PosTagHelper {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern NUM_REGEX = Pattern.compile(&quot;(noun:(?:[iu]n)?anim|numr|adj|adjp.*):(.):v_.*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern CONJ_REGEX = Pattern.compile(&quot;(noun:(?:[iu]n)?anim|numr|adj|adjp.*):[mfnp]:(v_...).*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern GENDER_REGEX = NUM_REGEX;</b>
+<b class="nc">&nbsp;  private static final Pattern GENDER_CONJ_REGEX = Pattern.compile(&quot;(noun:(?:[iu]n)?anim|adj|numr|adjp.*):(.:v_...).*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PATTERN = Pattern.compile(&quot;:(comp.|&amp;&amp;?adjp:.*?(:(im)?perf)+)&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;  public static final Pattern ADJ_COMP_REGEX = Pattern.compile(&quot;:comp[bcs]&quot;);</b>
+&nbsp;  public static final Map&lt;String, String&gt; VIDMINKY_MAP;
+&nbsp;  public static final Map&lt;String, String&gt; VIDMINKY_I_MAP;
+&nbsp;  public static final Map&lt;String, String&gt; GENDER_MAP;
+<b class="nc">&nbsp;  public static final List&lt;String&gt; BASE_GENDERS = Arrays.asList(&quot;m&quot;, &quot;f&quot;, &quot;n&quot;, &quot;p&quot;);</b>
+&nbsp;  public static final Map&lt;String, String&gt; PERSON_MAP;
+&nbsp;  public static final String NO_VIDMINOK_SUBSTR = &quot;:nv&quot;;
+&nbsp;
+&nbsp;  static {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; map = new LinkedHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    map.put(&quot;v_naz&quot;, &quot;називний&quot;);</b>
+<b class="nc">&nbsp;    map.put(&quot;v_rod&quot;, &quot;родовий&quot;);</b>
+<b class="nc">&nbsp;    map.put(&quot;v_dav&quot;, &quot;давальний&quot;);</b>
+<b class="nc">&nbsp;    map.put(&quot;v_zna&quot;, &quot;знахідний&quot;);</b>
+<b class="nc">&nbsp;    map.put(&quot;v_oru&quot;, &quot;орудний&quot;);</b>
+<b class="nc">&nbsp;    map.put(&quot;v_mis&quot;, &quot;місцевий&quot;);</b>
+<b class="nc">&nbsp;    map.put(&quot;v_kly&quot;, &quot;кличний&quot;);</b>
+<b class="nc">&nbsp;    VIDMINKY_MAP = Collections.unmodifiableMap(map);</b>
+&nbsp;
+<b class="nc">&nbsp;    VIDMINKY_I_MAP = new HashMap&lt;&gt;(VIDMINKY_MAP);</b>
+<b class="nc">&nbsp;    VIDMINKY_I_MAP.put(&quot;v_inf&quot;, &quot;інфінітив&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    Map&lt;String, String&gt; map2 = new LinkedHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    map2.put(&quot;m&quot;, &quot;ч.р.&quot;);</b>
+<b class="nc">&nbsp;    map2.put(&quot;f&quot;, &quot;ж.р.&quot;);</b>
+<b class="nc">&nbsp;    map2.put(&quot;n&quot;, &quot;с.р.&quot;);</b>
+<b class="nc">&nbsp;    map2.put(&quot;p&quot;, &quot;мн.&quot;);</b>
+<b class="nc">&nbsp;    map2.put(&quot;s&quot;, &quot;одн.&quot;);</b>
+<b class="nc">&nbsp;    map2.put(&quot;i&quot;, &quot;інф.&quot;);</b>
+<b class="nc">&nbsp;    map2.put(&quot;o&quot;, &quot;безос. форма&quot;);</b>
+<b class="nc">&nbsp;    GENDER_MAP = Collections.unmodifiableMap(map2);</b>
+&nbsp;
+<b class="nc">&nbsp;    Map&lt;String, String&gt; map3 = new LinkedHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    map3.put(&quot;1&quot;, &quot;1-а особа&quot;);</b>
+<b class="nc">&nbsp;    map3.put(&quot;2&quot;, &quot;2-а особа&quot;);</b>
+<b class="nc">&nbsp;    map3.put(&quot;3&quot;, &quot;3-я особа&quot;);</b>
+<b class="nc">&nbsp;    map3.put(&quot;s&quot;, &quot;одн.&quot;);</b>
+<b class="nc">&nbsp;    map3.put(&quot;p&quot;, &quot;мн.&quot;);</b>
+<b class="nc">&nbsp;    PERSON_MAP = Collections.unmodifiableMap(map3);</b>
+&nbsp;  }
+<b class="nc">&nbsp;  public static final Pattern NOUN_V_NAZ_PATTERN = Pattern.compile(&quot;noun.*:v_naz.*&quot;);</b>
+<b class="nc">&nbsp;  public static final Pattern ADJ_V_NAZ_PATTERN = Pattern.compile(&quot;adj:.:v_naz.*&quot;);</b>
+<b class="nc">&nbsp;  public static final Pattern VERB_INF_PATTERN = Pattern.compile(&quot;verb.*:inf.*&quot;);</b>
+<b class="nc">&nbsp;  public static final Pattern ADJ_V_KLY_PATTERN = Pattern.compile(&quot;adj:.:v_kly.*&quot;);</b>
+<b class="nc">&nbsp;  public static final Pattern VERB_PATTERN = Pattern.compile(&quot;verb.*&quot;);</b>
+<b class="nc">&nbsp;  public static final Pattern VERB_ADVP_PATTERN = Pattern.compile(&quot;(verb|advp).*&quot;);</b>
+&nbsp;  
+&nbsp;  private PosTagHelper() {
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Nullable
+&nbsp;  public static String getGender(String posTag) {
+<b class="nc">&nbsp;    Matcher pos4matcher = GENDER_REGEX.matcher(posTag);</b>
+<b class="nc">&nbsp;    if( pos4matcher.matches() ) {</b>
+<b class="nc">&nbsp;      return pos4matcher.group(2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;//    System.err.println(&quot;WARNING: gender field not found for &quot; + posTag);
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public static String getNum(String posTag) {
+<b class="nc">&nbsp;    Matcher pos4matcher = NUM_REGEX.matcher(posTag);</b>
+<b class="nc">&nbsp;    if( pos4matcher.matches() ) {</b>
+<b class="nc">&nbsp;      String group = pos4matcher.group(2);</b>
+<b class="nc">&nbsp;      if( ! group.equals(&quot;p&quot;) ) {</b>
+<b class="nc">&nbsp;        group = &quot;s&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return group;</b>
+&nbsp;    }
+&nbsp;  
+&nbsp;//    System.err.println(&quot;WARNING: num field not found for &quot; + posTag);
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public static String getConj(String posTag) {
+<b class="nc">&nbsp;    Matcher pos4matcher = CONJ_REGEX.matcher(posTag);</b>
+<b class="nc">&nbsp;    if( pos4matcher.matches() )</b>
+<b class="nc">&nbsp;      return pos4matcher.group(2);</b>
+&nbsp;  
+&nbsp;//    System.err.println(&quot;WARNING: conj field is not found for &quot; + posTag);
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  public static String getGenderConj(String posTag) {
+<b class="nc">&nbsp;    Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);</b>
+<b class="nc">&nbsp;    if( pos4matcher.matches() )</b>
+<b class="nc">&nbsp;      return pos4matcher.group(2);</b>
+&nbsp;
+&nbsp;//    System.err.println(&quot;WARNING: gender/conj fields is not found for &quot; + posTag);
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTag(AnalyzedTokenReadings analyzedTokenReadings, Pattern posTagRegex) {
+<b class="nc">&nbsp;    return hasPosTag(analyzedTokenReadings.getReadings(), posTagRegex);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTag(AnalyzedTokenReadings analyzedTokenReadings, String posTagRegex) {
+<b class="nc">&nbsp;    return hasPosTag(analyzedTokenReadings.getReadings(), Pattern.compile(posTagRegex));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTag(Collection&lt;AnalyzedToken&gt; analyzedTokenReadings, String posTagRegex) {
+<b class="nc">&nbsp;    return hasPosTag(analyzedTokenReadings, Pattern.compile(posTagRegex));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static boolean hasPosTag(Collection&lt;AnalyzedToken&gt; analyzedTokenReadings, Pattern posTagRegex) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {</b>
+<b class="nc">&nbsp;      if( hasPosTag(analyzedToken, posTagRegex) )</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static boolean hasPosTag(AnalyzedToken analyzedToken, String posTagRegex) {
+<b class="nc">&nbsp;    String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;    return posTag != null &amp;&amp; posTag.matches(posTagRegex);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagPart(AnalyzedToken analyzedToken, String posTagPart) {
+<b class="nc">&nbsp;    String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;    return posTag != null &amp;&amp; posTag.contains(posTagPart);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTag(AnalyzedToken analyzedToken, Pattern posTagRegex) {
+<b class="nc">&nbsp;    String posTag = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;    return posTag != null &amp;&amp; posTagRegex.matcher(posTag).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTag(TaggedWord analyzedToken, Pattern posTagRegex) {
+<b class="nc">&nbsp;    String posTag = analyzedToken.getPosTag();</b>
+<b class="nc">&nbsp;    return posTag != null &amp;&amp; posTagRegex.matcher(posTag).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagPart(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
+<b class="nc">&nbsp;    return hasPosTagPart(analyzedTokenReadings.getReadings(), posTagPart);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static boolean hasPosTagPart(List&lt;AnalyzedToken&gt; analyzedTokenReadings, String posTagPart) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {</b>
+<b class="nc">&nbsp;      if( analyzedToken.getPOSTag() != null &amp;&amp; analyzedToken.getPOSTag().contains(posTagPart) )</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagPartAll(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
+<b class="nc">&nbsp;    return hasPosTagPartAll(analyzedTokenReadings.getReadings(), posTagPart);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static boolean hasPosTagPartAll(List&lt;AnalyzedToken&gt; analyzedTokenReadings, String posTagPart) {
+<b class="nc">&nbsp;    boolean foundTag = false;</b>
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {</b>
+<b class="nc">&nbsp;      if( analyzedToken.getPOSTag() != null</b>
+<b class="nc">&nbsp;          &amp;&amp; ! analyzedToken.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME)</b>
+<b class="nc">&nbsp;          &amp;&amp; ! analyzedToken.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {</b>
+&nbsp;        
+<b class="nc">&nbsp;        if (!analyzedToken.getPOSTag().contains(posTagPart))</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;
+<b class="nc">&nbsp;        foundTag = true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return foundTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagAll(List&lt;AnalyzedToken&gt; analyzedTokenReadings, Pattern posTag) {
+<b class="nc">&nbsp;    boolean foundTag = false;</b>
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {</b>
+<b class="nc">&nbsp;      String posTag2 = analyzedToken.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag2 != null</b>
+<b class="nc">&nbsp;          &amp;&amp; ! analyzedToken.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME)</b>
+<b class="nc">&nbsp;          &amp;&amp; ! analyzedToken.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {</b>
+&nbsp;
+<b class="nc">&nbsp;        if (! posTag.matcher(analyzedToken.getPOSTag()).matches())</b>
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        
+<b class="nc">&nbsp;        foundTag = true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return foundTag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagStart(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
+<b class="nc">&nbsp;    return hasPosTagStart(analyzedTokenReadings.getReadings(), posTagPart);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagStart(List&lt;AnalyzedToken&gt; analyzedTokenReadings, String posTagPart) {
+<b class="nc">&nbsp;    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {</b>
+<b class="nc">&nbsp;      if( hasPosTagStart(analyzedToken, posTagPart) )</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagStart(AnalyzedToken analyzedToken, String posTagPart) {
+<b class="nc">&nbsp;    return analyzedToken.getPOSTag() != null </b>
+<b class="nc">&nbsp;        &amp;&amp; analyzedToken.getPOSTag().startsWith(posTagPart);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagPart2(List&lt;TaggedWord&gt; taggedWords, String posTagPart) {
+<b class="nc">&nbsp;    for(TaggedWord analyzedToken: taggedWords) {</b>
+<b class="nc">&nbsp;      if( analyzedToken.getPosTag() != null &amp;&amp; analyzedToken.getPosTag().contains(posTagPart) )</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTag2(List&lt;TaggedWord&gt; taggedWords, Pattern pattern) {
+<b class="nc">&nbsp;    for(TaggedWord analyzedToken: taggedWords) {</b>
+<b class="nc">&nbsp;      if( analyzedToken.getPosTag() != null &amp;&amp; pattern.matcher(analyzedToken.getPosTag()).matches() )</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagStart2(List&lt;TaggedWord&gt; taggedWords, String posTagPart) {
+<b class="nc">&nbsp;    for(TaggedWord analyzedToken: taggedWords) {</b>
+<b class="nc">&nbsp;      if( analyzedToken.getPosTag() != null &amp;&amp; analyzedToken.getPosTag().startsWith(posTagPart) )</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String getGenders(AnalyzedTokenReadings tokenReadings, String posTagRegex) {
+<b class="nc">&nbsp;    Pattern posTagPattern = Pattern.compile(posTagRegex);</b>
+<b class="nc">&nbsp;    return getGenders(tokenReadings, posTagPattern); </b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static String getGenders(AnalyzedTokenReadings tokenReadings, Pattern posTagRegex) {
+&nbsp;  
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder(4);</b>
+<b class="nc">&nbsp;    for (AnalyzedToken tokenReading: tokenReadings) {</b>
+<b class="nc">&nbsp;      String posTag = tokenReading.getPOSTag();</b>
+<b class="nc">&nbsp;      if( posTag != null &amp;&amp; posTagRegex.matcher(posTag).matches() ) {</b>
+<b class="nc">&nbsp;        String gender = getGender(posTag);</b>
+<b class="nc">&nbsp;        if( gender != null &amp;&amp; sb.indexOf(gender) == -1 ) {</b>
+<b class="nc">&nbsp;          sb.append(gender);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public static List&lt;AnalyzedToken&gt; generateTokensForNv(String word, String genders, String extraTags) {
+<b class="nc">&nbsp;    List&lt;AnalyzedToken&gt; newAnalyzedTokens = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for(char gen: genders.toCharArray()) {</b>
+<b class="nc">&nbsp;      String posTagBase = &quot;noun:inanim:&quot; + gen + &quot;:&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;      for(String vidm: VIDMINKY_MAP.keySet()) {</b>
+<b class="nc">&nbsp;        if( vidm.equals(&quot;v_kly&quot;) )</b>
+&nbsp;          continue;
+&nbsp;
+<b class="nc">&nbsp;        String posTag = posTagBase + vidm + PosTagHelper.NO_VIDMINOK_SUBSTR;</b>
+<b class="nc">&nbsp;        if( extraTags != null ) {</b>
+<b class="nc">&nbsp;          posTag += extraTags;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    return newAnalyzedTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public static String addIfNotContains(@NotNull String tag, @Nullable String addTag) {
+<b class="nc">&nbsp;    if( StringUtils.isNotEmpty(addTag) &amp;&amp; ! tag.contains(addTag) )</b>
+<b class="nc">&nbsp;      return tag + addTag;</b>
+<b class="nc">&nbsp;    return tag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public static String addIfNotContains(@NotNull String tag, @Nullable String... addTags) {
+<b class="nc">&nbsp;    for(String addTag: addTags) {</b>
+<b class="nc">&nbsp;      if( ! tag.contains(addTag) ) {</b>
+<b class="nc">&nbsp;        tag += addTag;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return tag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public static List&lt;TaggedWord&gt; addIfNotContains(@NotNull List&lt;TaggedWord&gt; taggedWords, @NotNull String addTag) {
+<b class="nc">&nbsp;    return addIfNotContains(taggedWords, addTag, null);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @NotNull
+&nbsp;  public static List&lt;TaggedWord&gt; addIfNotContains(@NotNull List&lt;TaggedWord&gt; taggedWords, @NotNull String addTag, @Nullable String lemma) {
+<b class="nc">&nbsp;    return taggedWords.stream()</b>
+<b class="nc">&nbsp;        .map(w -&gt; new TaggedWord(lemma != null ? lemma : w.getLemma(), addIfNotContains(w.getPosTag(), addTag)))</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  public static List&lt;TaggedWord&gt; adjust(@NotNull List&lt;TaggedWord&gt; taggedWords, @Nullable String lemmaPrefix, @Nullable String lemmaSuffix, @Nullable String... addTags) {
+<b class="nc">&nbsp;    return taggedWords.stream()</b>
+<b class="nc">&nbsp;        .map(w -&gt; new TaggedWord(adjustLemma(w, lemmaPrefix, lemmaSuffix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTags)))</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String adjustLemma(TaggedWord w, String lemmaPrefix, String lemmaSuffix) {
+<b class="nc">&nbsp;    String lemma = w.getLemma();</b>
+<b class="nc">&nbsp;    if( lemmaPrefix != null ) lemma = lemmaPrefix + lemma;</b>
+<b class="nc">&nbsp;    if( lemmaSuffix != null ) lemma += lemmaSuffix;</b>
+<b class="nc">&nbsp;    return lemma;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String cleanExtraTags(String tag) {
+<b class="nc">&nbsp;    if (tag != null) {</b>
+<b class="nc">&nbsp;      tag = PATTERN.matcher(tag).replaceAll(&quot;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tag;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;AnalyzedToken&gt; filter(List&lt;AnalyzedToken&gt; analyzedTokens, Pattern posTag) {
+<b class="nc">&nbsp;    return </b>
+<b class="nc">&nbsp;        analyzedTokens.stream()</b>
+<b class="nc">&nbsp;        .filter(token -&gt; hasPosTag(token, posTag) )</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;TaggedWord&gt; filter2(List&lt;TaggedWord&gt; analyzedTokens, Pattern posTag) {
+<b class="nc">&nbsp;    return </b>
+<b class="nc">&nbsp;        analyzedTokens.stream()</b>
+<b class="nc">&nbsp;        .filter(token -&gt; hasPosTag(token, posTag) )</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;TaggedWord&gt; filter2Negative(List&lt;TaggedWord&gt; analyzedTokens, Pattern posTag) {
+<b class="nc">&nbsp;    return </b>
+<b class="nc">&nbsp;        analyzedTokens.stream()</b>
+<b class="nc">&nbsp;        .filter(token -&gt; ! hasPosTag(token, posTag) )</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Pattern WORD_PATTERN = Pattern.compile(&quot;[а-яіїєґa-z&#39;-]+&quot;, Pattern.UNICODE_CASE|Pattern.CASE_INSENSITIVE);</b>
+&nbsp;  public static boolean isUnknownWord(AnalyzedTokenReadings analyzedTokenReadings) {
+<b class="nc">&nbsp;    return analyzedTokenReadings.getAnalyzedToken(0).hasNoTag()</b>
+<b class="nc">&nbsp;        &amp;&amp; WORD_PATTERN.matcher(analyzedTokenReadings.getToken()).matches();</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private static Pattern PREDICT_INSERT_PATTERN = Pattern.compile(&quot;noninfl:&amp;(predic|insert).*&quot;);</b>
+&nbsp;  public static boolean isPredictOrInsert(AnalyzedToken token) {
+<b class="nc">&nbsp;    return PREDICT_INSERT_PATTERN.matcher(token.getPOSTag()).matches();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasPosTagAndToken(AnalyzedTokenReadings tokens, Pattern postag, Pattern token) {
+<b class="nc">&nbsp;    return filter(tokens, postag, token).size() &gt; 0;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static List&lt;AnalyzedToken&gt; filter(AnalyzedTokenReadings tokens, Pattern postag, Pattern token) {
+<b class="nc">&nbsp;    return tokens.getReadings().stream()</b>
+<b class="nc">&nbsp;        .filter(t -&gt; </b>
+<b class="nc">&nbsp;          t.getPOSTag() != null &amp;&amp; postag.matcher(t.getPOSTag()).matches() </b>
+<b class="nc">&nbsp;            &amp;&amp; t.getToken() != null &amp;&amp; token.matcher(t.getToken()).matches())</b>
+<b class="nc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static boolean hasMaleUA(AnalyzedTokenReadings tokenReadings) {
+<b class="nc">&nbsp;    return PosTagHelper.hasPosTagAndToken(tokenReadings, Pattern.compile(&quot;noun:inanim:m:v_dav(?!:nv).*&quot;), Pattern.compile(&quot;.*[ую]&quot;));</b>
+&nbsp;//        &amp;&amp; ! PosTagHelper.hasPosTagAndToken(tokenReadings, Pattern.compile(&quot;noun:inanim:m:v_rod.*&quot;), Pattern.compile(&quot;.*у&quot;));
+&nbsp;  }
+&nbsp;  
+&nbsp;//private static String getNumAndConj(String posTag) {
+&nbsp;//  Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
+&nbsp;//  if( pos4matcher.matches() ) {
+&nbsp;//    String group = pos4matcher.group(2);
+&nbsp;//    if( group.charAt(0) != &#39;p&#39; ) {
+&nbsp;//      group = &quot;s&quot; + group.substring(1);
+&nbsp;//    }
+&nbsp;//    return group;
+&nbsp;//  }
+&nbsp;//
+&nbsp;//  return null;
+&nbsp;//}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

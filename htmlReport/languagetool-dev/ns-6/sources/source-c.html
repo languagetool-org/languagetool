@@ -1,0 +1,458 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GenerateIrishWordforms</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev</a>
+</div>
+
+<h1>Coverage Summary for Class: GenerateIrishWordforms (org.languagetool.dev)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GenerateIrishWordforms</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35.7%
+  </span>
+  <span class="absValue">
+    (5/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.3%
+  </span>
+  <span class="absValue">
+    (7/133)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18.8%
+  </span>
+  <span class="absValue">
+    (36/192)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Jim O&#39;Regan
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev;
+&nbsp;
+&nbsp;import org.languagetool.tagging.ga.Utils;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+<b class="nc">&nbsp;public class GenerateIrishWordforms {</b>
+<b class="fc">&nbsp;  private static final Map&lt;String, String[]&gt; nounGuesses = new HashMap&lt;&gt;();</b>
+&nbsp;  static {
+<b class="fc">&nbsp;    nounGuesses.put(&quot;óir&quot;, new String[]{&quot;m3&quot;, &quot;óir&quot;, &quot;óra&quot;, &quot;óirí&quot;, &quot;óirí&quot;});</b>
+<b class="fc">&nbsp;    nounGuesses.put(&quot;eoir&quot;, new String[]{&quot;m3&quot;, &quot;eoir&quot;, &quot;eora&quot;, &quot;eoirí&quot;, &quot;eoirí&quot;});</b>
+<b class="fc">&nbsp;    nounGuesses.put(&quot;éir&quot;, new String[]{&quot;m3&quot;, &quot;éir&quot;, &quot;éara&quot;, &quot;éirí&quot;, &quot;éirí&quot;});</b>
+<b class="fc">&nbsp;    nounGuesses.put(&quot;úir&quot;, new String[]{&quot;m3&quot;, &quot;úir&quot;, &quot;úra&quot;, &quot;úirí&quot;, &quot;úirí&quot;});</b>
+<b class="fc">&nbsp;    nounGuesses.put(&quot;aeir&quot;, new String[]{&quot;m3&quot;, &quot;aeir&quot;, &quot;aera&quot;, &quot;aeirí&quot;, &quot;aeirí&quot;});</b>
+<b class="fc">&nbsp;    nounGuesses.put(&quot;álaí&quot;, new String[]{&quot;m4&quot;, &quot;álaí&quot;, &quot;álaí&quot;, &quot;álaithe&quot;, &quot;álaithe&quot;});</b>
+<b class="fc">&nbsp;    nounGuesses.put(&quot;eálaí&quot;, new String[]{&quot;m4&quot;, &quot;eálaí&quot;, &quot;eálaí&quot;, &quot;eálaithe&quot;, &quot;eálaithe&quot;});</b>
+&nbsp;  }
+<b class="fc">&nbsp;  private static final String NOUN_ENDINGS_REGEX = getEndingsRegex(nounGuesses);</b>
+<b class="fc">&nbsp;  private static final Pattern NOUN_PATTERN = Pattern.compile(NOUN_ENDINGS_REGEX);</b>
+<b class="fc">&nbsp;  private static final String[] BASEFORMS = {&quot;sg.nom&quot;, &quot;sg.gen&quot;, &quot;pl.nom&quot;, &quot;pl.gen&quot;};</b>
+&nbsp;
+&nbsp;  public static void writeFromGuess(String word) {
+<b class="nc">&nbsp;    Matcher m = NOUN_PATTERN.matcher(word);</b>
+<b class="nc">&nbsp;    if(m.find()) {</b>
+<b class="nc">&nbsp;      String stem = m.group(1);</b>
+<b class="nc">&nbsp;      String ending = m.group(2);</b>
+<b class="nc">&nbsp;      String[] endings = nounGuesses.get(ending);</b>
+<b class="nc">&nbsp;      Map&lt;String, String&gt; forms = expandNounForms(stem, endings);</b>
+<b class="nc">&nbsp;      Map&lt;String, String&gt; tags = getIrishFSTTags(forms);</b>
+<b class="nc">&nbsp;      for (String s : tags.keySet()) {</b>
+<b class="nc">&nbsp;        StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;        sb.append(forms.get(s));</b>
+<b class="nc">&nbsp;        sb.append(&#39;\t&#39;);</b>
+<b class="nc">&nbsp;        sb.append(word);</b>
+<b class="nc">&nbsp;        sb.append(&#39;\t&#39;);</b>
+<b class="nc">&nbsp;        sb.append(tags.get(s));</b>
+<b class="nc">&nbsp;        System.out.println(sb.toString());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Map&lt;String, String&gt; expandNounForms(String stem, String[] parts) {
+<b class="nc">&nbsp;    String gender = parts[0];</b>
+<b class="nc">&nbsp;    String nounClass = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if (parts[0].matches(&quot;[mf][0-9]&quot;)) {</b>
+<b class="nc">&nbsp;      gender = parts[0].substring(0, 1);</b>
+<b class="nc">&nbsp;      nounClass = parts[0].substring(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (nounClass.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;      String irishFSTOut = getIrishFSTNounClass(parts[1]);</b>
+<b class="nc">&nbsp;      nounClass = irishFSTOut.substring(2, 1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Map&lt;String, String&gt; forms = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    forms.put(&quot;stem&quot;, stem);</b>
+<b class="nc">&nbsp;    forms.put(&quot;pos&quot;, &quot;n&quot;);</b>
+<b class="nc">&nbsp;    forms.put(&quot;class&quot;, gender + nounClass);</b>
+<b class="nc">&nbsp;    forms.put(&quot;gender&quot;, gender);</b>
+<b class="nc">&nbsp;    forms.put(&quot;sg.nom&quot;, stem + parts[1]);</b>
+<b class="nc">&nbsp;    forms.put(&quot;sg.gen&quot;, stem + parts[2]);</b>
+<b class="nc">&nbsp;    forms.put(&quot;pl.nom&quot;, stem + parts[3]);</b>
+<b class="nc">&nbsp;    forms.put(&quot;pl.gen&quot;, stem + parts[4]);</b>
+&nbsp;    //Not doing separate vocative yet
+&nbsp;    //if (parts.length == 6) {}
+<b class="nc">&nbsp;    addMutatedForms(forms);</b>
+<b class="nc">&nbsp;    if (nounClass.equals(&quot;3&quot;) || nounClass.equals(&quot;4&quot;)) {</b>
+<b class="nc">&nbsp;      forms.put(&quot;sg.voc.len&quot;, forms.get(&quot;sg.nom.len&quot;));</b>
+<b class="nc">&nbsp;      forms.put(&quot;pl.voc.len&quot;, forms.get(&quot;pl.nom.len&quot;));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String bf : BASEFORMS) {</b>
+<b class="nc">&nbsp;      forms.put(bf + &quot;.defart&quot;, mutate(forms.get(bf), getDefArtMutation(gender, bf)));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String genderForDefArt = gender;</b>
+<b class="nc">&nbsp;    if (Utils.isVowel(stem.charAt(0))) {</b>
+<b class="nc">&nbsp;      genderForDefArt += &quot;v&quot;;</b>
+<b class="nc">&nbsp;    } else if (stem.toLowerCase().charAt(0) == &#39;s&#39; &amp;&amp; stem.length() &gt;= 2 &amp;&amp; Utils.isSLenitable(stem.charAt(1))) {</b>
+<b class="nc">&nbsp;      genderForDefArt += &quot;s&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return forms;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static Map&lt;String, String&gt; getIrishFSTTags(Map&lt;String, String&gt; forms) {
+<b class="nc">&nbsp;    Map&lt;String, String&gt; out = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    boolean strong = (forms.get(&quot;pl.nom&quot;).equals(forms.get(&quot;pl.gen&quot;)));</b>
+<b class="nc">&nbsp;    StringBuilder builder = new StringBuilder();</b>
+<b class="nc">&nbsp;    if(forms.get(&quot;pos&quot;).equals(&quot;n&quot;))  {</b>
+<b class="nc">&nbsp;      builder.append(&quot;Noun&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (forms.get(&quot;gender&quot;).equals(&quot;m&quot;)) {</b>
+<b class="nc">&nbsp;      builder.append(&quot;:Masc&quot;);</b>
+<b class="nc">&nbsp;    } else if (forms.get(&quot;gender&quot;).equals(&quot;f&quot;)) {</b>
+<b class="nc">&nbsp;      builder.append(&quot;:Fem&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String base = builder.toString();</b>
+<b class="nc">&nbsp;    for (String k : forms.keySet()) {</b>
+<b class="nc">&nbsp;      if (!k.startsWith(&quot;sg&quot;) &amp;&amp; !k.startsWith(&quot;pl&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String[] tagParts = k.split(&quot;\\.&quot;);</b>
+<b class="nc">&nbsp;      StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;      sb.append(base);</b>
+<b class="nc">&nbsp;      if (k.startsWith(&quot;pl.gen&quot;)) {</b>
+<b class="nc">&nbsp;        sb.append(&quot;:Gen&quot;);</b>
+<b class="nc">&nbsp;        if (strong) {</b>
+<b class="nc">&nbsp;          sb.append(&quot;:Strong&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          sb.append(&quot;:Weak&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        sb.append(&quot;:Pl&quot;);</b>
+<b class="nc">&nbsp;        sb.append(morphTag(k));</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        sb.append(&#39;:&#39;);</b>
+<b class="nc">&nbsp;        sb.append(tagParts[1].toUpperCase().charAt(0));</b>
+<b class="nc">&nbsp;        sb.append(tagParts[1].substring(1));</b>
+<b class="nc">&nbsp;        sb.append(&#39;:&#39;);</b>
+<b class="nc">&nbsp;        sb.append(tagParts[0].toUpperCase().charAt(0));</b>
+<b class="nc">&nbsp;        sb.append(tagParts[0].substring(1));</b>
+<b class="nc">&nbsp;        sb.append(morphTag(k));</b>
+&nbsp;      }
+<b class="nc">&nbsp;      out.put(k, sb.toString());</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return out;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String morphTag(String s) {
+<b class="nc">&nbsp;    if (s.endsWith(&quot;.len&quot;)) {</b>
+<b class="nc">&nbsp;      return &quot;:Len&quot;;</b>
+<b class="nc">&nbsp;    } else if (s.endsWith(&quot;.ecl&quot;)) {</b>
+<b class="nc">&nbsp;      return &quot;:Ecl&quot;;</b>
+<b class="nc">&nbsp;    } else if (s.endsWith(&quot;.hpref&quot;)) {</b>
+<b class="nc">&nbsp;      return &quot;:hPref&quot;;</b>
+<b class="nc">&nbsp;    } else if (s.endsWith(&quot;.defart&quot;)) {</b>
+<b class="nc">&nbsp;      return &quot;:DefArt&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void addMutatedForms(Map&lt;String, String&gt; map) {
+<b class="nc">&nbsp;    for (String s : BASEFORMS) {</b>
+<b class="nc">&nbsp;      String key = s + &quot;.len&quot;;</b>
+<b class="nc">&nbsp;      String len = Utils.lenite(map.get(s));</b>
+<b class="nc">&nbsp;      map.put(key, len);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String s : BASEFORMS) {</b>
+<b class="nc">&nbsp;      String key = s + &quot;.ecl&quot;;</b>
+<b class="nc">&nbsp;      String ecl = Utils.eclipse(map.get(s));</b>
+<b class="nc">&nbsp;      map.put(key, ecl);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (String s : BASEFORMS) {</b>
+<b class="nc">&nbsp;      if (Utils.isVowel(map.get(s).charAt(0))) {</b>
+<b class="nc">&nbsp;        map.put(s + &quot;.hpref&quot;, &quot;h&quot; + map.get(s));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String mutate(String word, String mutation) {
+<b class="nc">&nbsp;    if (mutation == null) {</b>
+<b class="nc">&nbsp;      return word;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (mutation.equals(&quot;len&quot;)) {</b>
+<b class="nc">&nbsp;      return Utils.lenite(word);</b>
+<b class="nc">&nbsp;    } else if (mutation.equals(&quot;ecl&quot;)) {</b>
+<b class="nc">&nbsp;      return Utils.eclipse(word);</b>
+<b class="nc">&nbsp;    } else if (mutation.equals(&quot;hpref&quot;)) {</b>
+<b class="nc">&nbsp;      return &quot;h&quot; + word;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return word;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String guessIrishFSTNounClassSimple(String ending) {
+<b class="fc">&nbsp;    Matcher m = NOUN_PATTERN.matcher(ending);</b>
+<b class="pc">&nbsp;    if(m.find()) {</b>
+<b class="fc">&nbsp;      return getIrishFSTNounClass(m.group(2));</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  static String getIrishFSTNounClass(String ending) {
+<b class="pc">&nbsp;    switch (ending) {</b>
+&nbsp;      case &quot;óir&quot;:
+&nbsp;      case &quot;eoir&quot;:
+&nbsp;      case &quot;éir&quot;:
+&nbsp;      case &quot;úir&quot;:
+&nbsp;      case &quot;aeir&quot;:
+<b class="fc">&nbsp;        return &quot;Nm3-1&quot;;</b>
+&nbsp;      case &quot;álaí&quot;:
+&nbsp;      case &quot;eálaí&quot;:
+<b class="nc">&nbsp;        return &quot;Nm4-4&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;  static String getIrishFSTAdjClass(String ending) {
+<b class="nc">&nbsp;    switch (ending) {</b>
+&nbsp;      case &quot;iúil&quot;:
+&nbsp;      case &quot;úil&quot;:
+<b class="nc">&nbsp;        return &quot;Adj2-1&quot;;</b>
+&nbsp;      case &quot;each&quot;:
+&nbsp;      case &quot;ach&quot;:
+<b class="nc">&nbsp;        return &quot;Adj3-1&quot;;</b>
+&nbsp;      case &quot;aíoch&quot;:
+&nbsp;      case &quot;íoch&quot;:
+<b class="nc">&nbsp;        return &quot;Adj1-4&quot;;</b>
+&nbsp;      default:
+<b class="nc">&nbsp;        return &quot;&quot;;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String getDefArtMutation(String gender, String form) {
+<b class="nc">&nbsp;    if (gender.equals(&quot;f&quot;)) {</b>
+<b class="nc">&nbsp;      switch (form) {</b>
+&nbsp;        case &quot;nom.sg&quot;:
+<b class="nc">&nbsp;          return &quot;len&quot;;</b>
+&nbsp;        case &quot;nom.pl&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;        case &quot;gen.sg&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;        case &quot;gen.pl&quot;:
+<b class="nc">&nbsp;          return &quot;ecl&quot;;</b>
+&nbsp;        case &quot;voc.pl&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (gender.equals(&quot;fv&quot;)) {</b>
+<b class="nc">&nbsp;      switch (form) {</b>
+&nbsp;        case &quot;nom.sg&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;        case &quot;nom.pl&quot;:
+<b class="nc">&nbsp;          return &quot;hpref&quot;;</b>
+&nbsp;        case &quot;gen.sg&quot;:
+<b class="nc">&nbsp;          return &quot;hpref&quot;;</b>
+&nbsp;        case &quot;gen.pl&quot;:
+<b class="nc">&nbsp;          return &quot;ecl&quot;;</b>
+&nbsp;        case &quot;voc.pl&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (gender.equals(&quot;fs&quot;)) {</b>
+<b class="nc">&nbsp;      switch (form) {</b>
+&nbsp;        case &quot;nom.pl&quot;:
+&nbsp;        case &quot;gen.sg&quot;:
+&nbsp;        case &quot;gen.pl&quot;:
+&nbsp;        case &quot;voc.pl&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;        case &quot;nom.sg&quot;:
+<b class="nc">&nbsp;          return &quot;tpref&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (gender.equals(&quot;m&quot;)) {</b>
+<b class="nc">&nbsp;      switch (form) {</b>
+&nbsp;        case &quot;nom.sg&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;        case &quot;nom.pl&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;        case &quot;gen.sg&quot;:
+<b class="nc">&nbsp;          return &quot;len&quot;;</b>
+&nbsp;        case &quot;gen.pl&quot;:
+<b class="nc">&nbsp;          return &quot;ecl&quot;;</b>
+&nbsp;        case &quot;voc.pl&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (gender.equals(&quot;mv&quot;)) {</b>
+<b class="nc">&nbsp;      switch (form) {</b>
+&nbsp;        case &quot;nom.sg&quot;:
+<b class="nc">&nbsp;          return &quot;tpref&quot;;</b>
+&nbsp;        case &quot;nom.pl&quot;:
+<b class="nc">&nbsp;          return &quot;hpref&quot;;</b>
+&nbsp;        case &quot;gen.sg&quot;:
+<b class="nc">&nbsp;          return &quot;hpref&quot;;</b>
+&nbsp;        case &quot;gen.pl&quot;:
+<b class="nc">&nbsp;          return &quot;ecl&quot;;</b>
+&nbsp;        case &quot;voc.pl&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (gender.equals(&quot;ms&quot;)) {</b>
+<b class="nc">&nbsp;      switch (form) {</b>
+&nbsp;        case &quot;nom.sg&quot;:
+&nbsp;        case &quot;nom.pl&quot;:
+&nbsp;        case &quot;gen.pl&quot;:
+&nbsp;        case &quot;voc.pl&quot;:
+<b class="nc">&nbsp;          return &quot;&quot;;</b>
+&nbsp;        case &quot;gen.sg&quot;:
+<b class="nc">&nbsp;          return &quot;tpref&quot;;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static Map&lt;String, String&gt; extractEnWiktionaryNounTemplate(String tpl) {
+<b class="fc">&nbsp;    Map&lt;String, String&gt; out = new HashMap&lt;&gt;();</b>
+<b class="pc">&nbsp;    if (!tpl.contains(&quot;{{&quot;) &amp;&amp; !tpl.contains(&quot;}}&quot;)) {</b>
+<b class="nc">&nbsp;      return out;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    int start = tpl.indexOf(&quot;{{&quot;) + 2;</b>
+<b class="fc">&nbsp;    int end = tpl.indexOf(&quot;}}&quot;, start);</b>
+<b class="fc">&nbsp;    String inner = tpl.substring(start, end);</b>
+<b class="fc">&nbsp;    String[] parts = inner.split(&quot;\\|&quot;);</b>
+<b class="pc">&nbsp;    if(parts[0].equals(&quot;ga-decl-m3&quot;) &amp;&amp; parts.length &gt;= 4) {</b>
+<b class="fc">&nbsp;      out.put(&quot;class&quot;, &quot;m3&quot;);</b>
+<b class="fc">&nbsp;      out.put(&quot;stem&quot;, parts[1]);</b>
+<b class="fc">&nbsp;      out.put(&quot;sg.nom&quot;, parts[2]);</b>
+<b class="fc">&nbsp;      out.put(&quot;sg.gen&quot;, parts[3]);</b>
+<b class="pc">&nbsp;      if (parts.length == 4) {</b>
+<b class="nc">&nbsp;        out.put(&quot;pl.nom&quot;, parts[3]);</b>
+<b class="nc">&nbsp;        out.put(&quot;pl.gen&quot;, parts[3]);</b>
+<b class="pc">&nbsp;      } else if (parts.length == 5) {</b>
+<b class="fc">&nbsp;        out.put(&quot;pl.nom&quot;, parts[3]);</b>
+<b class="fc">&nbsp;        out.put(&quot;pl.gen&quot;, parts[4]);</b>
+<b class="nc">&nbsp;      } else if (parts.length == 6) {</b>
+<b class="nc">&nbsp;        out.put(&quot;pl.nom&quot;, parts[4]);</b>
+<b class="nc">&nbsp;        out.put(&quot;pl.gen&quot;, parts[5]);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return out;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  static String getEndingsRegex (Map&lt;String, String[]&gt; map) {
+<b class="fc">&nbsp;    List&lt;String&gt; endings = new ArrayList&lt;&gt;(map.size());</b>
+<b class="fc">&nbsp;    endings.addAll(map.keySet());</b>
+<b class="fc">&nbsp;    Collections.sort(endings, Comparator.comparingInt(String::length).reversed());</b>
+<b class="fc">&nbsp;    return &quot;(.+)(&quot; + String.join(&quot;|&quot;, endings) + &quot;)$&quot;;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

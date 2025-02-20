@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DatabaseCheckLogEntry</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: DatabaseCheckLogEntry (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DatabaseCheckLogEntry</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.Language;
+&nbsp;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;class DatabaseCheckLogEntry extends DatabaseLogEntry {
+&nbsp;  private final Long userId;
+&nbsp;  private final Long client;
+&nbsp;  private final Long server;
+&nbsp;  private final int textSize;
+&nbsp;  private final int matches;
+&nbsp;  private final Language lang;
+&nbsp;  private final Language langDetected;
+&nbsp;  private final int computationTime;
+&nbsp;  private final Long textSessionId;
+&nbsp;  private final Calendar date;
+&nbsp;  private final String checkMode;
+&nbsp;
+&nbsp;  public DatabaseCheckLogEntry(Long userId, Long client, Long server, int textSize, int matches,
+&nbsp;                               Language lang, Language langDetected, int computationTime,
+<b class="nc">&nbsp;                               Long textSessionId, String checkMode) {</b>
+<b class="nc">&nbsp;    this.userId = userId;</b>
+<b class="nc">&nbsp;    this.client = client;</b>
+<b class="nc">&nbsp;    this.server = server;</b>
+<b class="nc">&nbsp;    this.textSize = textSize;</b>
+<b class="nc">&nbsp;    this.matches = matches;</b>
+<b class="nc">&nbsp;    this.lang = lang;</b>
+<b class="nc">&nbsp;    this.langDetected = langDetected;</b>
+<b class="nc">&nbsp;    this.computationTime = computationTime;</b>
+<b class="nc">&nbsp;    this.textSessionId = textSessionId;</b>
+<b class="nc">&nbsp;    this.checkMode = checkMode;</b>
+<b class="nc">&nbsp;    this.date = Calendar.getInstance();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public Map&lt;Object, Object&gt; getMapping() {
+<b class="nc">&nbsp;    HashMap&lt;Object, Object&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    SimpleDateFormat dayFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</b>
+<b class="nc">&nbsp;    dayFormat.setTimeZone(TimeZone.getTimeZone(&quot;UTC&quot;));</b>
+<b class="nc">&nbsp;    map.put(&quot;day&quot;, dayFormat.format(date.getTime()));</b>
+<b class="nc">&nbsp;    map.put(&quot;date&quot;, ServerTools.getSQLDatetimeString(date));</b>
+<b class="nc">&nbsp;    map.put(&quot;user_id&quot;, userId);</b>
+<b class="nc">&nbsp;    map.put(&quot;textsize&quot;, textSize);</b>
+<b class="nc">&nbsp;    map.put(&quot;matches&quot;, matches);</b>
+<b class="nc">&nbsp;    map.put(&quot;language&quot;, StringUtils.abbreviate(lang.getShortCodeWithCountryAndVariant(), 30));</b>
+<b class="nc">&nbsp;    map.put(&quot;language_detected&quot;, StringUtils.abbreviate(langDetected.getShortCodeWithCountryAndVariant(), 30));</b>
+<b class="nc">&nbsp;    map.put(&quot;computation_time&quot;, computationTime);</b>
+<b class="nc">&nbsp;    map.put(&quot;text_session_id&quot;, textSessionId);</b>
+<b class="nc">&nbsp;    map.put(&quot;check_mode&quot;, StringUtils.abbreviate(checkMode, 32));</b>
+<b class="nc">&nbsp;    map.put(&quot;server&quot;, server);</b>
+<b class="nc">&nbsp;    map.put(&quot;client&quot;, client);</b>
+<b class="nc">&nbsp;    return map;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getMappingIdentifier() {
+<b class="nc">&nbsp;    return &quot;org.languagetool.server.LogMapper.logCheck&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,496 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DisambiguationPatternRuleReplacer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.tagging.disambiguation.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: DisambiguationPatternRuleReplacer (org.languagetool.tagging.disambiguation.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DisambiguationPatternRuleReplacer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    36.1%
+  </span>
+  <span class="absValue">
+    (56/155)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44.8%
+  </span>
+  <span class="absValue">
+    (74/165)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DisambiguationPatternRuleReplacer$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    36.1%
+  </span>
+  <span class="absValue">
+    (56/155)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    45.2%
+  </span>
+  <span class="absValue">
+    (75/166)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * Copyright (C) 2013 Stefan Lotties
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.tagging.disambiguation.rules;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.*;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.stream.IntStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * @since 2.3
+&nbsp; */
+&nbsp;class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
+&nbsp;
+&nbsp;  DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
+&nbsp;    // The disambiguation Unifier is always in the default language variant
+<b class="fc">&nbsp;    super(rule, rule.getLanguage().getDefaultLanguageVariant().getDisambiguationUnifier());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  AnalyzedSentence replace(AnalyzedSentence sentence) throws IOException {
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] preDisambigTokens = sentence.getTokens();</b>
+<b class="fc">&nbsp;    AnalyzedTokenReadings[][] whTokens = {sentence.getTokens()};</b>
+<b class="fc">&nbsp;    boolean[] changed = {false};</b>
+&nbsp;
+<b class="fc">&nbsp;    doMatch(sentence, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -&gt; {</b>
+<b class="fc">&nbsp;      int ruleMatchFromPos = -1;</b>
+<b class="fc">&nbsp;      int ruleMatchToPos = -1;</b>
+<b class="fc">&nbsp;      int tokenCount = 0;</b>
+<b class="fc">&nbsp;      for (AnalyzedTokenReadings token : tokens) {</b>
+<b class="fc">&nbsp;        if (ruleMatchFromPos == -1 &amp;&amp; tokenCount == firstMatchToken) {</b>
+<b class="fc">&nbsp;          ruleMatchFromPos = token.getStartPos();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (ruleMatchToPos == -1 &amp;&amp; tokenCount == lastMatchToken) {</b>
+<b class="fc">&nbsp;          ruleMatchToPos = token.getEndPos();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        tokenCount++;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      int matchingTokens = (int)Arrays.stream(tokenPositions).filter(i -&gt; i != 0).count();</b>
+<b class="fc">&nbsp;      if (keepDespiteFilter(tokens, tokenPositions, firstMatchToken, lastMatchToken) &amp;&amp; keepByDisambig(sentence, ruleMatchFromPos, ruleMatchToPos)) {</b>
+<b class="fc">&nbsp;        whTokens[0] = executeAction(sentence, whTokens[0], unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);</b>
+<b class="fc">&nbsp;        changed[0] = true;</b>
+&nbsp;      }
+&nbsp;    });
+<b class="fc">&nbsp;    if (changed[0]) {</b>
+<b class="fc">&nbsp;      return new AnalyzedSentence(whTokens[0], preDisambigTokens);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return sentence;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean keepByDisambig(AnalyzedSentence sentence, int ruleMatchFromPos, int ruleMatchToPos) throws IOException {
+<b class="fc">&nbsp;    List&lt;DisambiguationPatternRule&gt; antiPatterns = rule.getAntiPatterns();</b>
+<b class="fc">&nbsp;    for (DisambiguationPatternRule antiPattern : antiPatterns) {</b>
+<b class="fc">&nbsp;      if (!antiPattern.canBeIgnoredFor(sentence)) {</b>
+<b class="fc">&nbsp;        RuleMatch[] matches = new PatternRuleMatcher(antiPattern, false).match(sentence);</b>
+<b class="fc">&nbsp;        for (RuleMatch disMatch : matches) {</b>
+<b class="fc">&nbsp;          if ((disMatch.getFromPos() &lt;= ruleMatchFromPos &amp;&amp; disMatch.getToPos() &gt;= ruleMatchFromPos) ||  // left overlap of rule match start</b>
+<b class="fc">&nbsp;              (disMatch.getFromPos() &lt;= ruleMatchToPos &amp;&amp; disMatch.getToPos() &gt;= ruleMatchToPos) ||  // right overlap of rule match end</b>
+<b class="fc">&nbsp;              (disMatch.getFromPos() &gt;= ruleMatchFromPos &amp;&amp; disMatch.getToPos() &lt;= ruleMatchToPos)  // inside longer rule match</b>
+&nbsp;          ) {
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean keepDespiteFilter(AnalyzedTokenReadings[] tokens, int[] tokenPositions, int firstMatchToken, int lastMatchToken) throws IOException {
+<b class="fc">&nbsp;    RuleFilter filter = rule.getFilter();</b>
+<b class="fc">&nbsp;    if (filter != null) {</b>
+<b class="fc">&nbsp;      RuleFilterEvaluator ruleFilterEval = new RuleFilterEvaluator(filter);</b>
+<b class="fc">&nbsp;      List&lt;Integer&gt; tokensPos = IntStream.of(tokenPositions).boxed().collect(Collectors.toList());</b>
+<b class="fc">&nbsp;      Map&lt;String, String&gt; resolvedArguments = ruleFilterEval.getResolvedArguments(rule.getFilterArguments(), tokens, firstMatchToken, tokensPos);</b>
+<b class="fc">&nbsp;      AnalyzedTokenReadings[] relevantTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);</b>
+<b class="fc">&nbsp;      return filter.matches(resolvedArguments, relevantTokens, firstMatchToken, tokensPos);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return true;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private AnalyzedTokenReadings[] executeAction(AnalyzedSentence sentence,
+&nbsp;                                                AnalyzedTokenReadings[] whiteTokens,
+&nbsp;                                                AnalyzedTokenReadings[] unifiedTokens,
+&nbsp;                                                int firstMatchToken, int lastMatchToken,
+&nbsp;                                                int matchingTokens, int[] tokenPositions) {
+<b class="fc">&nbsp;    AnalyzedTokenReadings[] whTokens = whiteTokens.clone();</b>
+<b class="fc">&nbsp;    DisambiguationPatternRule rule = (DisambiguationPatternRule) this.rule;</b>
+&nbsp;
+<b class="fc">&nbsp;    int correctedStPos = 0;</b>
+<b class="fc">&nbsp;    int startPositionCorrection = rule.getStartPositionCorrection();</b>
+<b class="fc">&nbsp;    int endPositionCorrection = rule.getEndPositionCorrection();</b>
+&nbsp;
+<b class="fc">&nbsp;    int matchingTokensWithCorrection = matchingTokens;</b>
+&nbsp;
+<b class="pc">&nbsp;    if (startPositionCorrection &gt; 0) {</b>
+<b class="nc">&nbsp;      correctedStPos--; //token positions are shifted by 1</b>
+&nbsp;
+<b class="nc">&nbsp;      for (int l = 0; l &lt;= startPositionCorrection &amp;&amp; l &lt; tokenPositions.length; l++) {</b>
+<b class="nc">&nbsp;        correctedStPos += tokenPositions[l];</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      int w = startPositionCorrection; // adjust to make sure the token count is fine as it&#39;s checked later</b>
+<b class="nc">&nbsp;      for (int j = 0; j &lt;= w; j++) {</b>
+<b class="nc">&nbsp;        if (j &lt; tokenPositions.length &amp;&amp; tokenPositions[j] == 0) {</b>
+<b class="nc">&nbsp;          startPositionCorrection--;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    if (endPositionCorrection &lt; 0) { // adjust the end position correction if one of the elements has not been matched</b>
+<b class="fc">&nbsp;      for (int d = startPositionCorrection; d &lt; tokenPositions.length; d++) {</b>
+<b class="pc">&nbsp;        if (tokenPositions[d] == 0) {</b>
+<b class="nc">&nbsp;          endPositionCorrection++;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    if (lastMatchToken != -1) {</b>
+<b class="fc">&nbsp;      int maxPosCorrection = Math.max((lastMatchToken + 1 - (firstMatchToken + correctedStPos)) - matchingTokens, 0);</b>
+<b class="fc">&nbsp;      matchingTokensWithCorrection += maxPosCorrection;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);</b>
+&nbsp;
+<b class="fc">&nbsp;    DisambiguationPatternRule.DisambiguatorAction disAction = rule.getAction();</b>
+&nbsp;
+<b class="fc">&nbsp;    AnalyzedToken[] newTokenReadings = rule.getNewTokenReadings();</b>
+<b class="fc">&nbsp;    Match matchElement = rule.getMatchElement();</b>
+<b class="fc">&nbsp;    String disambiguatedPOS = rule.getDisambiguatedPOS();</b>
+&nbsp;
+<b class="pc">&nbsp;    switch (disAction) {</b>
+&nbsp;    case UNIFY:
+<b class="nc">&nbsp;      if (unifiedTokens != null &amp;&amp;</b>
+&nbsp;          unifiedTokens.length == matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection) {
+&nbsp;        //TODO: unifiedTokens.length is larger &gt; matchingTokensWithCorrection in cases where there are no markers...
+<b class="nc">&nbsp;        if (whTokens[sentence.getOriginalPosition(firstMatchToken</b>
+<b class="nc">&nbsp;            + correctedStPos + unifiedTokens.length - 1)].isSentenceEnd()) {</b>
+<b class="nc">&nbsp;          unifiedTokens[unifiedTokens.length - 1].setSentEnd();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = 0; i &lt; unifiedTokens.length; i++) {</b>
+<b class="nc">&nbsp;          int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);</b>
+<b class="nc">&nbsp;          whTokens[position] = new AnalyzedTokenReadings(whTokens[position], unifiedTokens[i].getReadings(), rule.getFullId());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      break;
+&nbsp;    case REMOVE:
+<b class="nc">&nbsp;      if (newTokenReadings != null &amp;&amp; newTokenReadings.length &gt; 0) {</b>
+<b class="nc">&nbsp;        if (newTokenReadings.length == matchingTokensWithCorrection</b>
+&nbsp;            - startPositionCorrection + endPositionCorrection) {
+<b class="nc">&nbsp;          for (int i = 0; i &lt; newTokenReadings.length; i++) {</b>
+<b class="nc">&nbsp;            int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);</b>
+<b class="nc">&nbsp;            whTokens[position].removeReading(newTokenReadings[i], rule.getFullId());</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;      } else if (!StringTools.isEmpty(disambiguatedPOS)) { // negative filtering</b>
+<b class="nc">&nbsp;        Pattern p = Pattern.compile(disambiguatedPOS);</b>
+<b class="nc">&nbsp;        AnalyzedTokenReadings tmp = new AnalyzedTokenReadings(whTokens[fromPos].getReadings(),</b>
+<b class="nc">&nbsp;            whTokens[fromPos].getStartPos());</b>
+<b class="nc">&nbsp;        for (AnalyzedToken analyzedToken : tmp) {</b>
+<b class="nc">&nbsp;          if (analyzedToken.getPOSTag() != null &amp;&amp; p.matcher(analyzedToken.getPOSTag()).matches()) {</b>
+<b class="nc">&nbsp;            int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos);</b>
+<b class="nc">&nbsp;            whTokens[position].removeReading(analyzedToken, rule.getFullId());</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;      break;
+&nbsp;    case ADD:
+<b class="nc">&nbsp;      if (newTokenReadings != null &amp;&amp; newTokenReadings.length == matchingTokensWithCorrection</b>
+&nbsp;            - startPositionCorrection + endPositionCorrection) {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; newTokenReadings.length; i++) {</b>
+&nbsp;          String token;
+<b class="nc">&nbsp;          int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);</b>
+<b class="nc">&nbsp;          if (newTokenReadings[i].getToken().isEmpty()) {</b>
+<b class="nc">&nbsp;            token = whTokens[position].getToken();</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            token = newTokenReadings[i].getToken();</b>
+&nbsp;          }
+&nbsp;          String lemma;
+<b class="nc">&nbsp;          if (newTokenReadings[i].getLemma() == null) {</b>
+<b class="nc">&nbsp;            lemma = token;</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            lemma = newTokenReadings[i].getLemma();</b>
+&nbsp;          }
+<b class="nc">&nbsp;          AnalyzedToken newTok = new AnalyzedToken(token,</b>
+<b class="nc">&nbsp;              newTokenReadings[i].getPOSTag(), lemma);</b>
+<b class="nc">&nbsp;          whTokens[position].addReading(newTok, rule.getFullId());</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      break;
+&nbsp;    case ADDCHUNK:
+<b class="nc">&nbsp;      if (newTokenReadings != null &amp;&amp; newTokenReadings.length == matchingTokensWithCorrection</b>
+&nbsp;            - startPositionCorrection + endPositionCorrection) {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; newTokenReadings.length; i++) {</b>
+<b class="nc">&nbsp;          int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);</b>
+<b class="nc">&nbsp;          List&lt;ChunkTag&gt; listChunkTag = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;          listChunkTag.addAll(whTokens[position].getChunkTags());</b>
+&nbsp;          // the POStag is added to the ChunkTag
+<b class="nc">&nbsp;          ChunkTag newChunkTag = new ChunkTag(newTokenReadings[i].getPOSTag());</b>
+<b class="nc">&nbsp;          if (!listChunkTag.contains(newChunkTag)) {</b>
+<b class="nc">&nbsp;            listChunkTag.add(newChunkTag);  </b>
+&nbsp;          }
+<b class="nc">&nbsp;          whTokens[position].setChunkTags(listChunkTag);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;      break;
+&nbsp;    case FILTERALL:
+<b class="nc">&nbsp;      for (int i = 0; i &lt; matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {</b>
+<b class="nc">&nbsp;        int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);</b>
+&nbsp;        PatternToken pToken;
+<b class="nc">&nbsp;        if (tokenPositions[i + startPositionCorrection] &gt; 0) {</b>
+<b class="nc">&nbsp;          pToken = rule.getPatternTokens().get(i + startPositionCorrection);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          int k = 1;</b>
+<b class="nc">&nbsp;          while (i + startPositionCorrection + k &lt; rule.getPatternTokens().size() + endPositionCorrection &amp;&amp;</b>
+&nbsp;              tokenPositions[i + startPositionCorrection + k] == 0) {
+<b class="nc">&nbsp;            k++;</b>
+&nbsp;          }
+<b class="nc">&nbsp;         pToken = rule.getPatternTokens().get(i + k + startPositionCorrection);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Match tmpMatchToken = new Match(pToken.getPOStag(), null,</b>
+&nbsp;            true,
+<b class="nc">&nbsp;            pToken.getPOStag(),</b>
+&nbsp;            null, Match.CaseConversion.NONE, false, false,
+&nbsp;            Match.IncludeRange.NONE);
+&nbsp;
+<b class="nc">&nbsp;        MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[position]);</b>
+<b class="nc">&nbsp;        whTokens[position] = new AnalyzedTokenReadings(whTokens[position], matchState.filterReadings().getReadings(), rule.getFullId());</b>
+&nbsp;      }
+&nbsp;      break;
+&nbsp;    case IMMUNIZE:
+<b class="fc">&nbsp;      for (int i = 0; i &lt; matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {</b>
+<b class="fc">&nbsp;        whTokens[sentence.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize(rule.getXmlLineNumber());</b>
+&nbsp;      }
+&nbsp;      break;
+&nbsp;    case IGNORE_SPELLING:
+<b class="nc">&nbsp;      for (int i = 0; i &lt; matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {</b>
+<b class="nc">&nbsp;        whTokens[sentence.getOriginalPosition(firstMatchToken + correctedStPos + i)].ignoreSpelling();</b>
+&nbsp;      }
+&nbsp;      break;
+&nbsp;    case FILTER:
+<b class="nc">&nbsp;      if (matchElement == null) { // same as REPLACE if using &lt;match&gt;</b>
+<b class="nc">&nbsp;        Match tmpMatchToken = new Match(disambiguatedPOS, null,</b>
+&nbsp;            true, disambiguatedPOS, null,
+&nbsp;            Match.CaseConversion.NONE, false, false,
+&nbsp;            Match.IncludeRange.NONE);
+<b class="nc">&nbsp;        boolean newPOSmatches = false;</b>
+&nbsp;
+&nbsp;        // only apply filter rule when it matches previous tags:
+<b class="nc">&nbsp;        for (int i = 0; i &lt; whTokens[fromPos].getReadingsLength(); i++) {</b>
+<b class="nc">&nbsp;          if (!whTokens[fromPos].getAnalyzedToken(i).hasNoTag() &amp;&amp;</b>
+<b class="nc">&nbsp;              whTokens[fromPos].getAnalyzedToken(i).getPOSTag() != null &amp;&amp;</b>
+<b class="nc">&nbsp;              whTokens[fromPos].getAnalyzedToken(i).getPOSTag().matches(disambiguatedPOS)) {</b>
+<b class="nc">&nbsp;            newPOSmatches = true;</b>
+&nbsp;            break;
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        if (newPOSmatches) {</b>
+<b class="nc">&nbsp;          MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);</b>
+<b class="nc">&nbsp;          whTokens[fromPos] = new AnalyzedTokenReadings(whTokens[fromPos], matchState.filterReadings().getReadings(), rule.getFullId());</b>
+&nbsp;          
+&nbsp;        }
+&nbsp;        break;
+&nbsp;      }
+&nbsp;      //fallthrough
+&nbsp;    case REPLACE:
+&nbsp;    default:
+<b class="pc">&nbsp;        if (newTokenReadings != null &amp;&amp; newTokenReadings.length &gt; 0) {</b>
+<b class="nc">&nbsp;          if (newTokenReadings.length == matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; newTokenReadings.length; i++) {</b>
+&nbsp;              String token;
+<b class="nc">&nbsp;              int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);</b>
+<b class="nc">&nbsp;              if (&quot;&quot;.equals(newTokenReadings[i].getToken())) { // empty token</b>
+<b class="nc">&nbsp;                token = whTokens[position].getToken();</b>
+&nbsp;              } else {
+<b class="nc">&nbsp;                token = newTokenReadings[i].getToken();</b>
+&nbsp;              }
+&nbsp;              String lemma;
+<b class="nc">&nbsp;              if (newTokenReadings[i].getLemma() == null) { // empty lemma</b>
+<b class="nc">&nbsp;                lemma = token;</b>
+&nbsp;              } else {
+<b class="nc">&nbsp;                lemma = newTokenReadings[i].getLemma();</b>
+&nbsp;              }
+<b class="nc">&nbsp;              AnalyzedToken analyzedToken = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);</b>
+<b class="nc">&nbsp;              AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(</b>
+&nbsp;                  analyzedToken,
+<b class="nc">&nbsp;                  whTokens[fromPos].getStartPos());</b>
+<b class="nc">&nbsp;              whTokens[position] = new AnalyzedTokenReadings(whTokens[position], toReplace.getReadings(), rule.getFullId());</b>
+&nbsp;            }
+&nbsp;          }
+<b class="pc">&nbsp;        } else if (matchElement == null) {</b>
+<b class="fc">&nbsp;          String lemma = &quot;&quot;;</b>
+<b class="fc">&nbsp;          for (AnalyzedToken analyzedToken : whTokens[fromPos]) {</b>
+<b class="fc">&nbsp;            if (analyzedToken.getPOSTag() != null</b>
+<b class="pc">&nbsp;                &amp;&amp; analyzedToken.getPOSTag().equals(disambiguatedPOS) &amp;&amp; analyzedToken.getLemma() != null) {</b>
+<b class="nc">&nbsp;              lemma = analyzedToken.getLemma();</b>
+&nbsp;            }
+&nbsp;          }
+<b class="pc">&nbsp;          if (StringTools.isEmpty(lemma)) {</b>
+<b class="fc">&nbsp;            lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();</b>
+&nbsp;          }
+&nbsp;
+<b class="fc">&nbsp;          AnalyzedToken analyzedToken = new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma);</b>
+<b class="fc">&nbsp;          AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(</b>
+<b class="fc">&nbsp;              analyzedToken, whTokens[fromPos].getStartPos());</b>
+<b class="fc">&nbsp;          whTokens[fromPos] = new AnalyzedTokenReadings(whTokens[fromPos], toReplace.getReadings(), rule.getFullId());</b>
+&nbsp;        } else {
+&nbsp;          // using the match element
+<b class="nc">&nbsp;          MatchState matchElementState = matchElement.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);</b>
+<b class="nc">&nbsp;          whTokens[fromPos] = new AnalyzedTokenReadings(whTokens[fromPos], matchElementState.filterReadings().getReadings(), rule.getFullId());</b>
+<b class="nc">&nbsp;          matchElementState.filterReadings();</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;    return whTokens;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

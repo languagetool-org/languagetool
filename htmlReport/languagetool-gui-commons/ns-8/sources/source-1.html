@@ -1,0 +1,305 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AggregatedNgramToLucene</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: AggregatedNgramToLucene (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AggregatedNgramToLucene</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/57)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AggregatedNgramToLucene$LuceneIndex</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.apache.lucene.analysis.Analyzer;
+&nbsp;import org.apache.lucene.analysis.standard.StandardAnalyzer;
+&nbsp;import org.apache.lucene.document.*;
+&nbsp;import org.apache.lucene.index.*;
+&nbsp;import org.apache.lucene.store.Directory;
+&nbsp;import org.apache.lucene.store.FSDirectory;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Indexing the result of {@link CommonCrawlNGramJob} with Lucene.
+&nbsp; * @since 3.2
+&nbsp; */
+&nbsp;class AggregatedNgramToLucene implements AutoCloseable {
+&nbsp;
+<b class="nc">&nbsp;  private final Map&lt;Integer, LuceneIndex&gt; indexes = new HashMap&lt;&gt;();</b>
+&nbsp;  
+<b class="nc">&nbsp;  private long totalTokenCount = 0;</b>
+<b class="nc">&nbsp;  private long lineCount = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;  AggregatedNgramToLucene(File indexTopDir) throws IOException {</b>
+<b class="nc">&nbsp;    indexes.put(1, new LuceneIndex(new File(indexTopDir, &quot;1grams&quot;)));</b>
+<b class="nc">&nbsp;    indexes.put(2, new LuceneIndex(new File(indexTopDir, &quot;2grams&quot;)));</b>
+<b class="nc">&nbsp;    indexes.put(3, new LuceneIndex(new File(indexTopDir, &quot;3grams&quot;)));</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public void close() throws IOException {
+<b class="nc">&nbsp;    for (LuceneIndex index : indexes.values()) {</b>
+&nbsp;      index.close();
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  void indexInputFile(File file) throws IOException {
+<b class="nc">&nbsp;    System.out.println(&quot;=== Indexing &quot; + file + &quot; ===&quot;);</b>
+<b class="nc">&nbsp;    try (Scanner scanner = new Scanner(file)) {</b>
+<b class="nc">&nbsp;      while (scanner.hasNextLine()) {</b>
+<b class="nc">&nbsp;        String line = scanner.nextLine();</b>
+<b class="nc">&nbsp;        indexLine(line);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void indexLine(String line) throws IOException {
+<b class="nc">&nbsp;    if (lineCount++ % 250_000 == 0) {</b>
+<b class="nc">&nbsp;      System.out.printf(Locale.ENGLISH, &quot;Indexing line %d\n&quot;, lineCount);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String[] lineParts = line.split(&quot;\t&quot;);</b>
+<b class="nc">&nbsp;    if (lineParts.length != 2) {</b>
+<b class="nc">&nbsp;      System.err.println(&quot;Not 2 parts but &quot; + lineParts.length + &quot;, ignoring: &#39;&quot; + line + &quot;&#39;&quot;);</b>
+&nbsp;      return;
+&nbsp;    }
+<b class="nc">&nbsp;    String ngram = lineParts[0];</b>
+<b class="nc">&nbsp;    String[] ngramParts = ngram.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;    LuceneIndex index = indexes.get(ngramParts.length);</b>
+<b class="nc">&nbsp;    if (index == null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;No ngram data found for: &quot; + Arrays.toString(lineParts));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    long count = Long.parseLong(lineParts[1]);</b>
+<b class="nc">&nbsp;    if (ngramParts.length == 1) {</b>
+<b class="nc">&nbsp;      totalTokenCount += count;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    index.indexWriter.addDocument(getDoc(ngram, count));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private Document getDoc(String ngram, long count) {
+<b class="nc">&nbsp;    Document doc = new Document();</b>
+<b class="nc">&nbsp;    doc.add(new Field(&quot;ngram&quot;, ngram, StringField.TYPE_NOT_STORED));  // use StringField.TYPE_STORED for easier debugging with e.g. Luke</b>
+<b class="nc">&nbsp;    doc.add(getCountField(count));</b>
+<b class="nc">&nbsp;    return doc;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private LongField getCountField(long count) {
+<b class="nc">&nbsp;    FieldType fieldType = new FieldType();</b>
+<b class="nc">&nbsp;    fieldType.setStored(true);</b>
+<b class="nc">&nbsp;    fieldType.setOmitNorms(true);</b>
+<b class="nc">&nbsp;    fieldType.setNumericType(FieldType.NumericType.LONG);</b>
+<b class="nc">&nbsp;    fieldType.setDocValuesType(DocValuesType.NUMERIC);</b>
+<b class="nc">&nbsp;    return new LongField(&quot;count&quot;, count, fieldType);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void addTotalTokenCountDoc(long totalTokenCount, IndexWriter writer) throws IOException {
+<b class="nc">&nbsp;    FieldType fieldType = new FieldType();</b>
+<b class="nc">&nbsp;    fieldType.setIndexOptions(IndexOptions.DOCS);</b>
+<b class="nc">&nbsp;    fieldType.setStored(true);</b>
+<b class="nc">&nbsp;    fieldType.setOmitNorms(true);</b>
+<b class="nc">&nbsp;    Field countField = new Field(&quot;totalTokenCount&quot;, String.valueOf(totalTokenCount), fieldType);</b>
+<b class="nc">&nbsp;    Document doc = new Document();</b>
+<b class="nc">&nbsp;    doc.add(countField);</b>
+<b class="nc">&nbsp;    writer.addDocument(doc);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + AggregatedNgramToLucene.class + &quot; &lt;inputDir&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot; &lt;inputDir&gt; is a directory with aggregated ngram files from Hadoop, e.g. produced by CommonCrawlNGramJob&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    File inputDir = new File(args[0]);</b>
+<b class="nc">&nbsp;    File outputDir = new File(inputDir, &quot;index&quot;);</b>
+<b class="nc">&nbsp;    System.out.println(&quot;Indexing to &quot; + outputDir);</b>
+<b class="nc">&nbsp;    try (AggregatedNgramToLucene prg = new AggregatedNgramToLucene(outputDir)) {</b>
+<b class="nc">&nbsp;      for (File file : inputDir.listFiles()) {</b>
+<b class="nc">&nbsp;        if (file.isFile()) {</b>
+<b class="nc">&nbsp;          prg.indexInputFile(file);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      prg.addTotalTokenCountDoc(prg.totalTokenCount, prg.indexes.get(1).indexWriter);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;  static class LuceneIndex {
+&nbsp;
+&nbsp;    private final Directory directory;
+&nbsp;    private final IndexWriter indexWriter;
+&nbsp;
+<b class="nc">&nbsp;    LuceneIndex(File dir) throws IOException {</b>
+<b class="nc">&nbsp;      Analyzer analyzer = new StandardAnalyzer();</b>
+<b class="nc">&nbsp;      IndexWriterConfig config = new IndexWriterConfig(analyzer);</b>
+<b class="nc">&nbsp;      directory = FSDirectory.open(dir.toPath());</b>
+<b class="nc">&nbsp;      indexWriter = new IndexWriter(directory, config);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    void close() throws IOException {
+<b class="nc">&nbsp;      indexWriter.close();</b>
+<b class="nc">&nbsp;      directory.close();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:47</div>
+</div>
+</body>
+</html>

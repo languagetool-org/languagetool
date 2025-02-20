@@ -1,0 +1,855 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > XMLRuleHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns</a>
+</div>
+
+<h1>Coverage Summary for Class: XMLRuleHandler (org.languagetool.rules.patterns)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XMLRuleHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.9%
+  </span>
+  <span class="absValue">
+    (160/178)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.6%
+  </span>
+  <span class="absValue">
+    (292/312)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">XMLRuleHandler$RegexpMode</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (25/25)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.9%
+  </span>
+  <span class="absValue">
+    (160/178)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.6%
+  </span>
+  <span class="absValue">
+    (294/314)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.ObjectUtils;
+&nbsp;import org.apache.commons.lang3.tuple.Triple;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.chunking.ChunkTag;
+&nbsp;import org.languagetool.rules.CorrectExample;
+&nbsp;import org.languagetool.rules.ErrorTriggeringExample;
+&nbsp;import org.languagetool.rules.IncorrectExample;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;import org.languagetool.tools.StringInterner;
+&nbsp;import org.languagetool.tools.StringTools;
+&nbsp;import org.xml.sax.Attributes;
+&nbsp;import org.xml.sax.Locator;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;import org.xml.sax.SAXParseException;
+&nbsp;import org.xml.sax.helpers.DefaultHandler;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * XML rule handler that loads rules from XML and throws
+&nbsp; * exceptions on errors and warnings.
+&nbsp; * 
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class XMLRuleHandler extends DefaultHandler {
+&nbsp;  
+<b class="fc">&nbsp;  enum RegexpMode {</b>
+<b class="fc">&nbsp;    SMART, EXACT</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static final String ID = &quot;id&quot;;
+&nbsp;  public static final String NAME = &quot;name&quot;;
+&nbsp;
+&nbsp;  /** Definitions of values in XML files. */
+&nbsp;  protected static final String PREMIUM = &quot;premium&quot;;
+&nbsp;  protected static final String YES = &quot;yes&quot;;
+&nbsp;  protected static final String OFF = &quot;off&quot;;
+&nbsp;  protected static final String GOAL_SPECIFIC = &quot;is_goal_specific&quot;;
+&nbsp;  protected static final String TRUE = &quot;true&quot;;
+&nbsp;  protected static final String FALSE = &quot;false&quot;;
+&nbsp;  protected static final String TEMP_OFF = &quot;temp_off&quot;;
+&nbsp;  protected static final String ON = &quot;on&quot;;
+&nbsp;  protected static final String POSTAG = &quot;postag&quot;;
+&nbsp;  protected static final String CHUNKTAG = &quot;chunk&quot;;
+&nbsp;  protected static final String CHUNKTAG_REGEXP = &quot;chunk_re&quot;;
+&nbsp;  protected static final String POSTAG_REGEXP = &quot;postag_regexp&quot;;
+&nbsp;  protected static final String REGEXP = &quot;regexp&quot;;
+&nbsp;  protected static final String NEGATE = &quot;negate&quot;;
+&nbsp;  protected static final String INFLECTED = &quot;inflected&quot;;
+&nbsp;  protected static final String NEGATE_POS = &quot;negate_pos&quot;;
+&nbsp;  protected static final String MARKER = &quot;marker&quot;;
+&nbsp;  protected static final String DEFAULT = &quot;default&quot;;
+&nbsp;  protected static final String TYPE = &quot;type&quot;;
+&nbsp;  protected static final String SPACEBEFORE = &quot;spacebefore&quot;;
+&nbsp;  protected static final String EXAMPLE = &quot;example&quot;;
+&nbsp;  protected static final String SCOPE = &quot;scope&quot;;
+&nbsp;  protected static final String IGNORE = &quot;ignore&quot;;
+&nbsp;  protected static final String SKIP = &quot;skip&quot;;
+&nbsp;  protected static final String MIN = &quot;min&quot;;
+&nbsp;  protected static final String MAX = &quot;max&quot;;
+&nbsp;  protected static final String TOKEN = &quot;token&quot;;
+&nbsp;  protected static final String FEATURE = &quot;feature&quot;;
+&nbsp;  protected static final String UNIFY = &quot;unify&quot;;
+&nbsp;  protected static final String UNIFY_IGNORE = &quot;unify-ignore&quot;;
+&nbsp;  protected static final String AND = &quot;and&quot;;
+&nbsp;  protected static final String OR = &quot;or&quot;;
+&nbsp;  protected static final String EXCEPTION = &quot;exception&quot;;
+&nbsp;  protected static final String CASE_SENSITIVE = &quot;case_sensitive&quot;;
+&nbsp;  protected static final String MARK = &quot;mark&quot;;
+&nbsp;  protected static final String PATTERN = &quot;pattern&quot;;
+&nbsp;  protected static final String ANTIPATTERN = &quot;antipattern&quot;;
+&nbsp;  protected static final String MATCH = &quot;match&quot;;
+&nbsp;  protected static final String UNIFICATION = &quot;unification&quot;;
+&nbsp;  protected static final String RULE = &quot;rule&quot;;
+&nbsp;  protected static final String RULES = &quot;rules&quot;;
+&nbsp;  protected static final String RULEGROUP = &quot;rulegroup&quot;;
+&nbsp;  protected static final String NO = &quot;no&quot;;
+&nbsp;  protected static final String PHRASES = &quot;phrases&quot;;
+&nbsp;  protected static final String MESSAGE = &quot;message&quot;;
+&nbsp;  protected static final String SUGGESTION = &quot;suggestion&quot;;
+&nbsp;  protected static final String TABNAME = &quot;tab&quot;;
+&nbsp;  protected static final String MINPREVMATCHES = &quot;min_prev_matches&quot;;
+&nbsp;  protected static final String DISTANCETOKENS = &quot;distance_tokens&quot;;
+&nbsp;  protected static final String PRIO = &quot;prio&quot;;
+&nbsp;
+<b class="fc">&nbsp;  protected List&lt;AbstractPatternRule&gt; rules = new ArrayList&lt;&gt;();</b>
+&nbsp;  protected Language language;
+&nbsp;  protected ResourceBundle messages;
+&nbsp;
+<b class="fc">&nbsp;  protected StringBuilder correctExample = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder antiPatternExample = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder antiPatternForRuleGroupExample = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder incorrectExample = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder errorTriggerExample = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder exampleCorrection = null;</b>
+<b class="fc">&nbsp;  protected StringBuilder message = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder suggestionsOutMsg = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder match = new StringBuilder();</b>
+&nbsp;  protected StringBuilder elements;
+&nbsp;  protected StringBuilder exceptions;
+&nbsp;
+<b class="fc">&nbsp;  protected List&lt;CorrectExample&gt; correctExamples = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;CorrectExample&gt; antipatternExamples = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;CorrectExample&gt; antipatternForRuleGroupsExamples = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;IncorrectExample&gt; incorrectExamples = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;ErrorTriggeringExample&gt; errorTriggeringExamples = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  protected boolean inPattern;
+&nbsp;  protected boolean inCorrectExample;
+&nbsp;  protected boolean inIncorrectExample;
+&nbsp;  protected boolean inErrorTriggerExample;
+&nbsp;  protected boolean inAntiPatternExample;
+&nbsp;  protected boolean inAntiPatternForRuleGroupExample;
+&nbsp;  protected boolean inMessage;
+&nbsp;  protected boolean inSuggestion;
+&nbsp;  protected boolean inMatch;
+&nbsp;  protected boolean inRuleGroup;
+&nbsp;  protected boolean inToken;
+&nbsp;  protected boolean inException;
+&nbsp;  protected boolean inPhrases;
+&nbsp;  protected boolean inAndGroup;
+&nbsp;  protected boolean inOrGroup;
+&nbsp;
+&nbsp;  protected boolean tokenSpaceBefore;
+&nbsp;  protected boolean tokenSpaceBeforeSet;
+&nbsp;  protected String posToken;
+&nbsp;  protected ChunkTag chunkTag;
+&nbsp;  protected boolean posNegation;
+&nbsp;  protected boolean posRegExp;
+&nbsp;
+&nbsp;  protected boolean caseSensitive;
+&nbsp;  protected boolean regExpression;
+&nbsp;  protected boolean tokenNegated;
+&nbsp;  protected boolean tokenInflected;
+&nbsp;  protected String premiumRuleGroupAttribute;
+&nbsp;  protected String premiumCategoryAttribute;
+&nbsp;  protected String premiumFileAttribute;
+&nbsp;  protected boolean isPremiumRule;
+<b class="fc">&nbsp;  protected List&lt;String&gt; categoryTags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;String&gt; ruleGroupTags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;String&gt; ruleGroupToneTags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;String&gt; categoryToneTags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;String&gt; ruleTags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;String&gt; ruleToneTags = new ArrayList&lt;&gt;();</b>
+&nbsp;  protected String isGoalSpecificCategoryAttribute;
+&nbsp;  protected String isGoalSpecificRuleGroupAttribute;
+&nbsp;  protected boolean isGoalSpecific;
+&nbsp;  protected int prioCategoryAttribute;
+&nbsp;  protected int prioRuleGroupAttribute;
+&nbsp;  protected int prioRuleAttribute;
+&nbsp;
+&nbsp;  protected boolean tokenLevelCaseSensitive;
+&nbsp;  protected boolean tokenLevelCaseSet;
+&nbsp;
+&nbsp;  protected String exceptionPosToken;
+&nbsp;  protected boolean exceptionStringRegExp;
+&nbsp;  protected boolean exceptionStringNegation;
+&nbsp;  protected boolean exceptionStringInflected;
+&nbsp;  protected boolean exceptionPosNegation;
+&nbsp;  protected boolean exceptionPosRegExp;
+&nbsp;  protected boolean exceptionValidNext;
+&nbsp;  protected boolean exceptionValidPrev;
+&nbsp;  protected boolean exceptionSet;
+&nbsp;  protected boolean exceptionSpaceBefore;
+&nbsp;  protected boolean exceptionSpaceBeforeSet;
+&nbsp;
+&nbsp;  protected Boolean exceptionLevelCaseSensitive;
+&nbsp;  protected boolean exceptionLevelCaseSet;
+&nbsp;
+&nbsp;  /** List of elements as specified by tokens. */
+<b class="fc">&nbsp;  protected List&lt;PatternToken&gt; patternTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  /** true when phraseref is the last element in the rule. */
+&nbsp;  protected boolean lastPhrase;
+&nbsp;
+&nbsp;  /** ID reference to the phrase. */
+&nbsp;  protected String phraseIdRef;
+&nbsp;
+&nbsp;  /** Current phrase ID. */
+&nbsp;  protected String phraseId;
+&nbsp;  protected int skipPos;
+<b class="fc">&nbsp;  protected int minOccurrence = 1;</b>
+<b class="fc">&nbsp;  protected int maxOccurrence = 1;</b>
+&nbsp;  protected String ruleGroupId;
+&nbsp;  protected String id;
+&nbsp;  protected PatternToken patternToken;
+&nbsp;  protected Match tokenReference;
+<b class="fc">&nbsp;  protected List&lt;Match&gt; suggestionMatches = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected List&lt;Match&gt; suggestionMatchesOutMsg = new ArrayList&lt;&gt;();</b>
+&nbsp;  protected Locator pLocator;
+<b class="fc">&nbsp;  protected int xmlLineNumber = -1;</b>
+<b class="fc">&nbsp;  protected int xmlLineNumberAntiPattern = -1;</b>
+&nbsp;
+&nbsp;  protected int startPositionCorrection;
+&nbsp;  protected int endPositionCorrection;
+&nbsp;  protected int tokenCounter;
+&nbsp;
+&nbsp;  /** Phrase store - elementLists keyed by phraseIds. */
+&nbsp;  protected Map&lt;String, List&lt;List&lt;PatternToken&gt;&gt;&gt; phraseMap;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Logically forking element list, used for including multiple phrases in the
+&nbsp;   * current one.
+&nbsp;   */
+<b class="fc">&nbsp;  protected List&lt;ArrayList&lt;PatternToken&gt;&gt; phrasePatternTokens = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  protected int andGroupCounter;
+&nbsp;  protected int orGroupCounter;
+&nbsp;
+&nbsp;  protected boolean inUrl;
+&nbsp;  protected boolean inUrlForRuleGroup;
+<b class="fc">&nbsp;  protected StringBuilder url = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder urlForRuleGroup = new StringBuilder();</b>
+&nbsp;  
+&nbsp;  protected boolean inRegex;
+<b class="fc">&nbsp;  protected StringBuilder regex = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected RegexpMode regexMode = RegexpMode.SMART;</b>
+<b class="fc">&nbsp;  protected boolean regexCaseSensitive = false;</b>
+<b class="fc">&nbsp;  protected int regexpMark = 0;</b>
+&nbsp;
+&nbsp;  protected boolean inShortMessage;
+&nbsp;  protected boolean inShortMessageForRuleGroup;
+<b class="fc">&nbsp;  protected StringBuilder shortMessage = new StringBuilder();</b>
+<b class="fc">&nbsp;  protected StringBuilder shortMessageForRuleGroup = new StringBuilder();</b>
+&nbsp;
+&nbsp;  protected boolean inUnification;
+&nbsp;  protected boolean inMarker;
+&nbsp;  protected boolean inUnificationDef;
+&nbsp;  protected boolean uniNegation;
+&nbsp;  protected boolean inUnificationNeutral;
+&nbsp;
+&nbsp;  protected String uFeature;
+<b class="fc">&nbsp;  protected String uType = &quot;&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;  protected List&lt;String&gt; uTypeList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;  protected Map&lt;String, List&lt;String&gt;&gt; equivalenceFeatures = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;  public XMLRuleHandler() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;AbstractPatternRule&gt; getRules() {
+<b class="fc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void warning(SAXParseException e) throws SAXException {
+&nbsp;    throw e;
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void error(SAXParseException e) throws SAXException {
+&nbsp;    throw e;
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void setDocumentLocator(Locator locator) {
+<b class="fc">&nbsp;    pLocator = locator;</b>
+<b class="fc">&nbsp;    super.setDocumentLocator(locator);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void resetToken() {
+<b class="fc">&nbsp;    posNegation = false;</b>
+<b class="fc">&nbsp;    posRegExp = false;</b>
+<b class="fc">&nbsp;    inToken = false;</b>
+<b class="fc">&nbsp;    tokenSpaceBefore = false;</b>
+<b class="fc">&nbsp;    tokenSpaceBeforeSet = false;</b>
+<b class="fc">&nbsp;    resetException();</b>
+<b class="fc">&nbsp;    exceptionSet = false;</b>
+<b class="fc">&nbsp;    tokenReference = null;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void resetException() {
+<b class="fc">&nbsp;    exceptionStringNegation = false;</b>
+<b class="fc">&nbsp;    exceptionStringInflected = false;</b>
+<b class="fc">&nbsp;    exceptionPosNegation = false;</b>
+<b class="fc">&nbsp;    exceptionPosRegExp = false;</b>
+<b class="fc">&nbsp;    exceptionStringRegExp = false;</b>
+<b class="fc">&nbsp;    exceptionValidNext = false;</b>
+<b class="fc">&nbsp;    exceptionValidPrev = false;</b>
+<b class="fc">&nbsp;    exceptionSpaceBefore = false;</b>
+<b class="fc">&nbsp;    exceptionSpaceBeforeSet = false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void preparePhrase(Attributes attrs) {
+<b class="fc">&nbsp;    phraseIdRef = attrs.getValue(&quot;idref&quot;);</b>
+<b class="pc">&nbsp;    if (phraseMap.containsKey(phraseIdRef)) {</b>
+<b class="fc">&nbsp;      for (List&lt;PatternToken&gt; curPhrTokens : phraseMap.get(phraseIdRef)) {</b>
+<b class="fc">&nbsp;        for (PatternToken pToken : curPhrTokens) {</b>
+<b class="fc">&nbsp;          pToken.setPhraseName(phraseIdRef);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        List&lt;PatternToken&gt; copy = ObjectUtils.clone(curPhrTokens);</b>
+<b class="fc">&nbsp;        for (PatternToken patternToken : copy) {</b>
+<b class="fc">&nbsp;          patternToken.setInsideMarker(inMarker);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (patternTokens.isEmpty()) {</b>
+<b class="fc">&nbsp;          phrasePatternTokens.add(new ArrayList&lt;&gt;(copy));</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;          List&lt;PatternToken&gt; prevList = new ArrayList&lt;&gt;(patternTokens);</b>
+<b class="fc">&nbsp;          prevList.addAll(copy);</b>
+<b class="fc">&nbsp;          phrasePatternTokens.add(new ArrayList&lt;&gt;(prevList));</b>
+<b class="fc">&nbsp;          prevList.clear();</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      lastPhrase = true;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void finalizePhrase() {
+&nbsp;    // lazy init
+<b class="fc">&nbsp;    if (phraseMap == null) {</b>
+<b class="fc">&nbsp;      phraseMap = new HashMap&lt;&gt;();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    for (PatternToken patternToken : patternTokens) {</b>
+<b class="fc">&nbsp;      patternToken.setInsideMarker(inMarker);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (phrasePatternTokens.isEmpty()) {</b>
+<b class="fc">&nbsp;      phrasePatternTokens.add(new ArrayList&lt;&gt;(patternTokens));</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      for (List&lt;PatternToken&gt; ph : phrasePatternTokens) {</b>
+<b class="fc">&nbsp;        ph.addAll(new ArrayList&lt;&gt;(patternTokens));</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    phraseMap.put(phraseId, new ArrayList&lt;&gt;(phrasePatternTokens));</b>
+<b class="fc">&nbsp;    patternTokens.clear();</b>
+&nbsp;
+<b class="fc">&nbsp;    phrasePatternTokens.clear();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void startPattern(Attributes attrs) throws SAXException {
+<b class="fc">&nbsp;    tokenCounter = 0;</b>
+<b class="fc">&nbsp;    inPattern = true;</b>
+<b class="fc">&nbsp;    caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Calculates the offset of the match reference (if any) in case the match
+&nbsp;   * element has been used in the group.
+&nbsp;   * 
+&nbsp;   * @param patternTokens token list where the match element was used. It is directly changed.
+&nbsp;   */
+&nbsp;  protected void processElement(List&lt;PatternToken&gt; patternTokens) {
+<b class="fc">&nbsp;    int counter = 0;</b>
+<b class="fc">&nbsp;    for (PatternToken pToken : patternTokens) {</b>
+<b class="pc">&nbsp;        if (pToken.getPhraseName() != null &amp;&amp; counter &gt; 0 &amp;&amp; pToken.isReferenceElement()) {</b>
+<b class="nc">&nbsp;            int tokRef = pToken.getMatch().getTokenRef();</b>
+<b class="nc">&nbsp;            pToken.getMatch().setTokenRef(tokRef + counter - 1);</b>
+<b class="nc">&nbsp;            String offsetToken = pToken.getString().replace(&quot;\\&quot; + tokRef,</b>
+&nbsp;                    &quot;\\&quot; + (tokRef + counter - 1));
+<b class="nc">&nbsp;            pToken.setStringElement(offsetToken);</b>
+&nbsp;        }
+<b class="fc">&nbsp;      counter++;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void setMatchElement(Attributes attrs, boolean isSuppressMisspelled) throws SAXException {
+<b class="fc">&nbsp;    inMatch = true;</b>
+<b class="fc">&nbsp;    match = new StringBuilder();</b>
+<b class="fc">&nbsp;    Match.CaseConversion caseConversion = Match.CaseConversion.NONE;</b>
+<b class="fc">&nbsp;    if (attrs.getValue(&quot;case_conversion&quot;) != null) {</b>
+<b class="fc">&nbsp;      caseConversion = Match.CaseConversion.valueOf(attrs</b>
+<b class="fc">&nbsp;          .getValue(&quot;case_conversion&quot;).toUpperCase(Locale.ENGLISH));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Match.IncludeRange includeRange = Match.IncludeRange.NONE;</b>
+<b class="fc">&nbsp;    if (attrs.getValue(&quot;include_skipped&quot;) != null) {</b>
+<b class="fc">&nbsp;      includeRange = Match.IncludeRange.valueOf(attrs</b>
+<b class="fc">&nbsp;          .getValue(&quot;include_skipped&quot;).toUpperCase(Locale.ENGLISH));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Match mWorker = new Match(attrs.getValue(POSTAG), attrs.getValue(&quot;postag_replace&quot;),</b>
+<b class="fc">&nbsp;        YES.equals(attrs.getValue(POSTAG_REGEXP)),</b>
+<b class="fc">&nbsp;        attrs.getValue(&quot;regexp_match&quot;), attrs.getValue(&quot;regexp_replace&quot;),</b>
+<b class="fc">&nbsp;        caseConversion, YES.equals(attrs.getValue(&quot;setpos&quot;)),</b>
+&nbsp;        isSuppressMisspelled,
+&nbsp;        includeRange);
+<b class="fc">&nbsp;    mWorker.setInMessageOnly(!inSuggestion);</b>
+<b class="fc">&nbsp;    if (inMessage) {</b>
+<b class="fc">&nbsp;      suggestionMatches.add(mWorker);</b>
+&nbsp;      // add incorrect XML character for simplicity
+<b class="fc">&nbsp;      message.append(&quot;\u0001\\&quot;);</b>
+<b class="fc">&nbsp;      message.append(attrs.getValue(&quot;no&quot;));</b>
+<b class="fc">&nbsp;      checkNumber(attrs);</b>
+<b class="fc">&nbsp;    } else if (inSuggestion) {</b>
+<b class="fc">&nbsp;      suggestionMatchesOutMsg.add(mWorker);</b>
+&nbsp;      // add incorrect XML character for simplicity
+<b class="fc">&nbsp;      suggestionsOutMsg.append(&quot;\u0001\\&quot;);</b>
+<b class="fc">&nbsp;      suggestionsOutMsg.append(attrs.getValue(&quot;no&quot;));</b>
+<b class="fc">&nbsp;      checkNumber(attrs);</b>
+<b class="pc">&nbsp;    } else if (inToken &amp;&amp; attrs.getValue(&quot;no&quot;) != null) {</b>
+<b class="fc">&nbsp;      int refNumber = Integer.parseInt(attrs.getValue(&quot;no&quot;));</b>
+<b class="fc">&nbsp;      checkRefNumber(refNumber);</b>
+<b class="fc">&nbsp;      mWorker.setTokenRef(refNumber);</b>
+<b class="fc">&nbsp;      tokenReference = mWorker;</b>
+<b class="fc">&nbsp;      elements.append(&#39;\\&#39;);</b>
+<b class="fc">&nbsp;      elements.append(refNumber);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void checkNumber(Attributes attrs) throws SAXException {
+<b class="pc">&nbsp;    if (StringTools.isEmpty(attrs.getValue(&quot;no&quot;))) {</b>
+<b class="nc">&nbsp;      throw new SAXException(&quot;References cannot be empty: &quot; + &quot;\n Line: &quot;</b>
+<b class="nc">&nbsp;          + pLocator.getLineNumber() + &quot;, column: &quot;</b>
+<b class="nc">&nbsp;          + pLocator.getColumnNumber() + &quot;.&quot;);</b>
+<b class="pc">&nbsp;    } else if (Integer.parseInt(attrs.getValue(&quot;no&quot;)) &lt; 1 &amp;&amp; regex.length() == 0) {</b>
+<b class="nc">&nbsp;      throw new SAXException(&quot;References must be larger than 0: &quot;</b>
+<b class="nc">&nbsp;          + attrs.getValue(&quot;no&quot;) + &quot;\n Line: &quot; + pLocator.getLineNumber()</b>
+<b class="nc">&nbsp;          + &quot;, column: &quot; + pLocator.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private void checkRefNumber(int refNumber) throws SAXException {
+<b class="pc">&nbsp;    if (refNumber &gt; patternTokens.size()) {</b>
+<b class="nc">&nbsp;      throw new SAXException(&quot;Only backward references in match elements are possible, tried to specify token &quot;</b>
+<b class="nc">&nbsp;          + refNumber + &quot;\n&quot; + &quot;Line: &quot; + pLocator.getLineNumber()</b>
+<b class="nc">&nbsp;          + &quot;, column: &quot; + pLocator.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void setExceptions(Attributes attrs) {
+<b class="fc">&nbsp;    inException = true;</b>
+<b class="fc">&nbsp;    exceptions = new StringBuilder();</b>
+<b class="fc">&nbsp;    resetException();</b>
+&nbsp;
+<b class="fc">&nbsp;    exceptionStringNegation = YES.equals(attrs.getValue(NEGATE));</b>
+<b class="fc">&nbsp;    exceptionValidNext = &quot;next&quot;.equals(attrs.getValue(SCOPE));</b>
+<b class="fc">&nbsp;    exceptionValidPrev = &quot;previous&quot;.equals(attrs.getValue(SCOPE));</b>
+<b class="fc">&nbsp;    exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));</b>
+&nbsp;
+<b class="fc">&nbsp;    if (attrs.getValue(POSTAG) != null) {</b>
+<b class="fc">&nbsp;      exceptionPosToken = StringInterner.intern(attrs.getValue(POSTAG));</b>
+<b class="fc">&nbsp;      exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));</b>
+<b class="fc">&nbsp;      exceptionPosNegation = YES.equals(attrs.getValue(NEGATE_POS));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));</b>
+<b class="fc">&nbsp;    if (attrs.getValue(SPACEBEFORE) != null) {</b>
+<b class="fc">&nbsp;      exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));</b>
+<b class="fc">&nbsp;      exceptionSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    if (attrs.getValue(CASE_SENSITIVE) != null) {</b>
+<b class="fc">&nbsp;      exceptionLevelCaseSet = true;</b>
+<b class="fc">&nbsp;      exceptionLevelCaseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      exceptionLevelCaseSet = false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void finalizeExceptions() {
+<b class="fc">&nbsp;    inException = false;</b>
+<b class="fc">&nbsp;    if (!exceptionSet) {</b>
+<b class="fc">&nbsp;      boolean tokenCase = caseSensitive;</b>
+<b class="fc">&nbsp;      if (tokenLevelCaseSet) {</b>
+<b class="fc">&nbsp;        tokenCase = tokenLevelCaseSensitive;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      patternToken = new PatternToken(tokenInflected, internMatcher(elements.toString().trim(), regExpression, tokenCase));</b>
+<b class="fc">&nbsp;      exceptionSet = true;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    patternToken.setNegation(tokenNegated);</b>
+<b class="fc">&nbsp;    if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {</b>
+<b class="fc">&nbsp;      if (hasPosixCharacterClass(exceptions.toString())) {</b>
+<b class="fc">&nbsp;        exceptionLevelCaseSensitive = true;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      boolean caseSensitive = exceptionLevelCaseSensitive == null ? patternToken.isCaseSensitive() : exceptionLevelCaseSensitive;</b>
+<b class="fc">&nbsp;      PatternToken exception = new PatternToken(exceptionStringInflected, internMatcher(exceptions.toString().trim(), exceptionStringRegExp, caseSensitive));</b>
+<b class="fc">&nbsp;      exception.setNegation(exceptionStringNegation);</b>
+<b class="fc">&nbsp;      exception.setPosToken(obtainPosToken(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation));</b>
+<b class="fc">&nbsp;      patternToken.addException(exceptionValidNext, exceptionValidPrev, exception);</b>
+<b class="fc">&nbsp;      exceptionPosToken = null;</b>
+<b class="fc">&nbsp;      exceptionLevelCaseSensitive = null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (exceptionSpaceBeforeSet) {</b>
+<b class="fc">&nbsp;      patternToken.setExceptionSpaceBefore(exceptionSpaceBefore);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    resetException();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // To be compatible with Java 15, we make p{Lu} and p{Ll} imply case-sensitivity,
+&nbsp;  // see https://github.com/languagetool-org/languagetool/issues/4061
+&nbsp;  private boolean hasPosixCharacterClass(String s) {
+<b class="fc">&nbsp;    boolean res = s.contains(&quot;\\p{Lu}&quot;) || s.contains(&quot;\\p{Ll}&quot;);</b>
+<b class="pc">&nbsp;    if (res &amp;&amp; s.contains(&quot;(?i&quot;)) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Contradicting regex contains both &#39;?i&#39; (case-insensitive) and \\p{Lu}/\\p{Ll} (case-sensitive): &quot;</b>
+&nbsp;              + s + &quot; in rule &quot; + id);
+&nbsp;    }
+<b class="fc">&nbsp;    return res;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void setToken(Attributes attrs) throws SAXException {
+<b class="fc">&nbsp;    inToken = true;</b>
+<b class="fc">&nbsp;    if (lastPhrase) {</b>
+<b class="fc">&nbsp;      patternTokens.clear();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    lastPhrase = false;</b>
+<b class="fc">&nbsp;    tokenNegated = YES.equals(attrs.getValue(NEGATE));</b>
+<b class="fc">&nbsp;    tokenInflected = YES.equals(attrs.getValue(INFLECTED));</b>
+<b class="fc">&nbsp;    if (attrs.getValue(SKIP) != null) {</b>
+<b class="fc">&nbsp;      skipPos = Integer.parseInt(attrs.getValue(SKIP));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (attrs.getValue(MIN) != null) {</b>
+<b class="fc">&nbsp;      minOccurrence = Integer.parseInt(attrs.getValue(MIN));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (attrs.getValue(MAX) != null) {</b>
+<b class="fc">&nbsp;      maxOccurrence = Integer.parseInt(attrs.getValue(MAX));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    elements = new StringBuilder();</b>
+<b class="fc">&nbsp;    if (attrs.getValue(POSTAG) != null) {</b>
+<b class="fc">&nbsp;      posToken = StringInterner.intern(attrs.getValue(POSTAG));</b>
+<b class="fc">&nbsp;      posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));</b>
+<b class="fc">&nbsp;      posNegation = YES.equals(attrs.getValue(NEGATE_POS));</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (attrs.getValue(CHUNKTAG) != null &amp;&amp; attrs.getValue(CHUNKTAG_REGEXP) != null) {</b>
+<b class="nc">&nbsp;      throw new SAXException(&quot;You cannot set both &#39;chunk&#39; and &#39;chunk_re&#39; for &quot; + id);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (attrs.getValue(CHUNKTAG) != null) {</b>
+<b class="fc">&nbsp;      chunkTag = new ChunkTag(StringInterner.intern(attrs.getValue(CHUNKTAG)));</b>
+<b class="fc">&nbsp;    } else if (attrs.getValue(CHUNKTAG_REGEXP) != null) {</b>
+<b class="fc">&nbsp;      chunkTag = new ChunkTag(StringInterner.intern(attrs.getValue(CHUNKTAG_REGEXP)), true);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    regExpression = YES.equals(attrs.getValue(REGEXP));</b>
+<b class="fc">&nbsp;    if (attrs.getValue(SPACEBEFORE) != null) {</b>
+<b class="fc">&nbsp;      tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));</b>
+<b class="fc">&nbsp;      tokenSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (!inAndGroup &amp;&amp; !inOrGroup) {</b>
+<b class="fc">&nbsp;      tokenCounter++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (attrs.getValue(CASE_SENSITIVE) != null) {</b>
+<b class="fc">&nbsp;      tokenLevelCaseSet = true;</b>
+<b class="fc">&nbsp;      tokenLevelCaseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      tokenLevelCaseSensitive = false;</b>
+<b class="fc">&nbsp;      tokenLevelCaseSet = false;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Adds Match objects for all references to tokens
+&nbsp;   * (including &#39;\1&#39; and the like).
+&nbsp;   */
+&nbsp;  @Nullable
+&nbsp;  protected List&lt;Match&gt; addLegacyMatches(List &lt;Match&gt; existingSugMatches, String messageStr,
+&nbsp;      boolean inMessage) {
+<b class="fc">&nbsp;    List&lt;Match&gt; sugMatch = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    int pos = 0;</b>
+<b class="fc">&nbsp;    int ind = 0;</b>
+<b class="fc">&nbsp;    int matchCounter = 0;</b>
+<b class="fc">&nbsp;    while (pos != -1) {</b>
+<b class="fc">&nbsp;      pos = messageStr.indexOf(&#39;\\&#39;, ind);</b>
+<b class="pc">&nbsp;      if (pos != -1 &amp;&amp; messageStr.length() &gt; pos &amp;&amp; Character.isDigit(messageStr.charAt(pos + 1))) {</b>
+<b class="fc">&nbsp;        if (pos == 0 || messageStr.charAt(pos - 1) != &#39;\u0001&#39;) {</b>
+<b class="fc">&nbsp;          Match mWorker = new Match(null, null, false, null,</b>
+&nbsp;              null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
+<b class="fc">&nbsp;          mWorker.setInMessageOnly(true);</b>
+<b class="fc">&nbsp;          sugMatch.add(mWorker);</b>
+<b class="pc">&nbsp;        } else if (messageStr.charAt(pos - 1) == &#39;\u0001&#39;) { // real suggestion marker</b>
+<b class="fc">&nbsp;          sugMatch.add(existingSugMatches.get(matchCounter));</b>
+<b class="fc">&nbsp;          if (inMessage) {</b>
+<b class="fc">&nbsp;            message.deleteCharAt(pos - 1 - matchCounter);</b>
+&nbsp;          } else {
+<b class="fc">&nbsp;            suggestionsOutMsg.deleteCharAt(pos - 1 - matchCounter);</b>
+&nbsp;          }
+<b class="fc">&nbsp;          matchCounter++;</b>
+&nbsp;        }
+&nbsp;      }
+<b class="fc">&nbsp;      ind = pos + 1;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    if (sugMatch.isEmpty()) {</b>
+<b class="fc">&nbsp;      return existingSugMatches;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return sugMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected void finalizeTokens(UnifierConfiguration unifierConfiguration) throws SAXException {
+<b class="pc">&nbsp;    if (!exceptionSet || patternToken == null) {</b>
+<b class="fc">&nbsp;      boolean tokenCase = caseSensitive || hasPosixCharacterClass(elements.toString());</b>
+<b class="fc">&nbsp;      if (tokenLevelCaseSet) {</b>
+<b class="fc">&nbsp;        tokenCase = tokenLevelCaseSensitive;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      patternToken = new PatternToken(tokenInflected, internMatcher(elements.toString().trim(), regExpression, tokenCase));</b>
+<b class="fc">&nbsp;      patternToken.setNegation(tokenNegated);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      boolean caseSensitive = patternToken.isCaseSensitive() || hasPosixCharacterClass(elements.toString());</b>
+<b class="fc">&nbsp;      patternToken.setTextMatcher(internMatcher(elements.toString().trim(), patternToken.isRegularExpression(), caseSensitive));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (skipPos != 0) {</b>
+<b class="fc">&nbsp;      patternToken.setSkipNext(skipPos);</b>
+<b class="fc">&nbsp;      skipPos = 0;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (minOccurrence == 0) {</b>
+<b class="fc">&nbsp;      patternToken.setMinOccurrence(0);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (maxOccurrence != 1) {</b>
+<b class="fc">&nbsp;      patternToken.setMaxOccurrence(maxOccurrence);</b>
+<b class="fc">&nbsp;      maxOccurrence = 1;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (posToken != null) {</b>
+<b class="fc">&nbsp;      patternToken.setPosToken(obtainPosToken(posToken, posRegExp, posNegation));</b>
+<b class="fc">&nbsp;      posToken = null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (chunkTag != null) {</b>
+<b class="fc">&nbsp;      patternToken.setChunkTag(chunkTag);</b>
+<b class="fc">&nbsp;      chunkTag = null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (tokenReference != null) {</b>
+<b class="fc">&nbsp;      patternToken.setMatch(tokenReference);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (inAndGroup &amp;&amp; andGroupCounter &gt; 0) {</b>
+<b class="fc">&nbsp;      patternTokens.get(patternTokens.size() - 1).setAndGroupElement(patternToken);</b>
+<b class="pc">&nbsp;        if (minOccurrence !=1 || maxOccurrence !=1) {</b>
+<b class="nc">&nbsp;            throw new SAXException(&quot;Please set min and max attributes on the &quot; +</b>
+&nbsp;                    &quot;first token in the AND group.\n You attempted to set these &quot; +
+&nbsp;                    &quot;attributes on the token no. &quot; + (andGroupCounter + 1) + &quot;.&quot; + &quot;\n Line: &quot;
+<b class="nc">&nbsp;                    + pLocator.getLineNumber() + &quot;, column: &quot;</b>
+<b class="nc">&nbsp;                    + pLocator.getColumnNumber() + &quot;.&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;    } else if (inOrGroup &amp;&amp; orGroupCounter &gt; 0) {</b>
+<b class="fc">&nbsp;      patternTokens.get(patternTokens.size() - 1).setOrGroupElement(patternToken);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      if (minOccurrence &lt; 1) {</b>
+<b class="fc">&nbsp;        patternTokens.add(patternToken);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      for (int i = 1; i &lt;= minOccurrence; i ++) {</b>
+<b class="fc">&nbsp;        patternTokens.add(patternToken);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      minOccurrence = 1;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (inAndGroup) {</b>
+<b class="fc">&nbsp;      andGroupCounter++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (inOrGroup) {</b>
+<b class="fc">&nbsp;      orGroupCounter++;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (inUnification) {</b>
+<b class="fc">&nbsp;      patternToken.setUnification(equivalenceFeatures);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (inUnificationNeutral) {</b>
+<b class="nc">&nbsp;      patternToken.setUnificationNeutral();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    patternToken.setInsideMarker(inMarker);</b>
+<b class="fc">&nbsp;    if (inUnificationDef) {</b>
+<b class="fc">&nbsp;      unifierConfiguration.setEquivalence(uFeature, uType, patternToken);</b>
+<b class="fc">&nbsp;      patternTokens.clear();</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (tokenSpaceBeforeSet) {</b>
+<b class="fc">&nbsp;      patternToken.setWhitespaceBefore(tokenSpaceBefore);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    resetToken();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private PatternToken.PosToken obtainPosToken(String posToken, boolean regExp, boolean negated) {
+<b class="fc">&nbsp;    return internedPos.computeIfAbsent(Triple.of(posToken, regExp, negated), t -&gt; {</b>
+<b class="fc">&nbsp;      StringMatcher matcher = t.getMiddle() ? internMatcher(t.getLeft(), true, true) : null;</b>
+<b class="fc">&nbsp;      return new PatternToken.PosToken(t.getLeft(), t.getRight(), matcher);</b>
+&nbsp;    });
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static void setRuleFilter(String filterClassName, String filterArgs, AbstractPatternRule rule) {
+<b class="pc">&nbsp;    if (filterClassName != null &amp;&amp; filterArgs != null) {</b>
+<b class="fc">&nbsp;      if (rule instanceof RegexPatternRule) {</b>
+<b class="fc">&nbsp;        RegexRuleFilterCreator creator = new RegexRuleFilterCreator();</b>
+<b class="fc">&nbsp;        RegexRuleFilter filter = creator.getFilter(filterClassName);</b>
+<b class="fc">&nbsp;        ((RegexPatternRule) rule).setRegexFilter(filter);</b>
+<b class="fc">&nbsp;        rule.setFilterArguments(filterArgs);</b>
+<b class="pc">&nbsp;      } else if (rule instanceof PatternRule || rule instanceof DisambiguationPatternRule) {</b>
+<b class="fc">&nbsp;        RuleFilter filter = RuleFilterCreator.getInstance().getFilter(filterClassName);</b>
+<b class="fc">&nbsp;        rule.setFilter(filter);</b>
+<b class="fc">&nbsp;        rule.setFilterArguments(filterArgs);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Rule &quot; + rule.getFullId() + &quot; of type &quot; + rule.getClass() + &quot; cannot have a filter (&quot; + filterClassName + &quot;)&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  private final Map&lt;Triple&lt;String, Boolean, Boolean&gt;, StringMatcher&gt; internedMatchers = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  private StringMatcher internMatcher(String text, boolean regexp, boolean caseSensitive) {
+<b class="fc">&nbsp;    text = StringInterner.intern(PatternToken.normalizeTextPattern(text));</b>
+<b class="fc">&nbsp;    return internedMatchers.computeIfAbsent(Triple.of(text, regexp, caseSensitive), t -&gt;</b>
+<b class="fc">&nbsp;      StringMatcher.create(t.getLeft(), t.getMiddle(), t.getRight()));</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  private final Map&lt;Triple&lt;String, Boolean, Boolean&gt;, PatternToken.PosToken&gt; internedPos = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 16:57</div>
+</div>
+</body>
+</html>

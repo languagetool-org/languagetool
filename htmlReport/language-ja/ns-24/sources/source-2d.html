@@ -1,0 +1,201 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > DemoRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: DemoRule (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DemoRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * A simple demo rule as an example for how to implement your own Java-based
+&nbsp; * rule in LanguageTool. Simple walks over the text and prints the words
+&nbsp; * and their analysis.
+&nbsp; * 
+&nbsp; * &lt;p&gt;To activate this rule, add it to {@code getRelevantRules()} in e.g. {@code English.java}.
+&nbsp; * 
+&nbsp; * &lt;p&gt;This rule works on sentences, extend {@link TextLevelRule} instead to work 
+&nbsp; * on the complete text.
+&nbsp; */
+<b class="nc">&nbsp;public class DemoRule extends Rule {</b>
+&nbsp;  
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;DEMO_RULE&quot;;  // a unique id that doesn&#39;t change over time</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;A demo rule that just prints the text analysis&quot;;  // shown in the configuration dialog</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // This is the method with the error detection logic that you need to implement:
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    // Let&#39;s get all the tokens (i.e. words) of this sentence, but not the spaces:
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();</b>
+&nbsp;    
+&nbsp;    // No let&#39;s iterate over those - note that the first token will
+&nbsp;    // be a special token that indicates the start of a sentence:
+<b class="nc">&nbsp;    for (AnalyzedTokenReadings token : tokens) {</b>
+&nbsp;      
+<b class="nc">&nbsp;      System.out.println(&quot;Token: &quot; + token.getToken());  // the original word from the input text</b>
+&nbsp;      
+&nbsp;      // A word can have more than one reading, e.g. &#39;dance&#39; can be a verb or a noun,
+&nbsp;      // so we iterate over the readings:
+<b class="nc">&nbsp;      for (AnalyzedToken analyzedToken : token.getReadings()) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;  Lemma: &quot; + analyzedToken.getLemma());</b>
+<b class="nc">&nbsp;        System.out.println(&quot;  POS: &quot; + analyzedToken.getPOSTag());</b>
+&nbsp;      }
+&nbsp;      
+&nbsp;      // You can add your own logic here to find errors. Here, we just consider
+&nbsp;      // the word &quot;demo&quot; an error and create a rule match that LanguageTool will
+&nbsp;      // then show to the user:
+<b class="nc">&nbsp;      if (token.getToken().equals(&quot;demo&quot;)) {</b>
+<b class="nc">&nbsp;        RuleMatch ruleMatch = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), &quot;The demo rule thinks this looks wrong&quot;);</b>
+<b class="nc">&nbsp;        ruleMatch.setSuggestedReplacement(&quot;blablah&quot;);  // the user will see this as a suggested correction</b>
+<b class="nc">&nbsp;        ruleMatches.add(ruleMatch);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>

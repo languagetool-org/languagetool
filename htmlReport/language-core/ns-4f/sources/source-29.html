@@ -1,0 +1,265 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ResultExtender</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.server</a>
+</div>
+
+<h1>Coverage Summary for Class: ResultExtender (org.languagetool.server)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResultExtender</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ResultExtender$HiddenRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.server;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.Tag;
+&nbsp;import org.languagetool.rules.*;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.function.Predicate;
+&nbsp;
+&nbsp;/**
+&nbsp; * Extend results by adding rules matches as hidden matches.
+&nbsp; * @since 4.0
+&nbsp; */
+&nbsp;class ResultExtender {
+&nbsp;
+<b class="nc">&nbsp;  ResultExtender() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Filter {@code extensionMatches} so that only those matches are left that don&#39;t cover or touch one of the {@code matches}.
+&nbsp;   */
+&nbsp;  @NotNull
+&nbsp;  static List&lt;RuleMatch&gt; getAsHiddenMatches(List&lt;RuleMatch&gt; matches, List&lt;RuleMatch&gt; extensionMatches) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; filteredExtMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (RuleMatch extensionMatch : extensionMatches) {</b>
+<b class="nc">&nbsp;      Rule rule = extensionMatch.getRule();</b>
+<b class="nc">&nbsp;      Predicate&lt;RuleMatch&gt; touchedByMatch = m -&gt;</b>
+<b class="nc">&nbsp;        extensionMatch.getFromPos() &lt;= m.getToPos() &amp;&amp; extensionMatch.getToPos() &gt;= m.getFromPos();</b>
+<b class="nc">&nbsp;      if (matches.stream().noneMatch(touchedByMatch)) {</b>
+<b class="nc">&nbsp;        AnalyzedSentence sentence = extensionMatch.getSentence();</b>
+<b class="nc">&nbsp;        String issueType = null;</b>
+<b class="nc">&nbsp;        if (rule.getLocQualityIssueType() != null) {</b>
+<b class="nc">&nbsp;          issueType = rule.getLocQualityIssueType().toString();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String categoryId = rule.getCategory().getId().toString();</b>
+<b class="nc">&nbsp;        String categoryName = rule.getCategory().getName();</b>
+<b class="nc">&nbsp;        HiddenRule hiddenRule = new HiddenRule(categoryId, categoryName, issueType, rule.getTags(), rule.estimateContextForSureMatch());</b>
+<b class="nc">&nbsp;        RuleMatch hiddenRuleMatch = new RuleMatch(hiddenRule, sentence,</b>
+<b class="nc">&nbsp;          extensionMatch.getFromPos(), extensionMatch.getToPos(), &quot;(hidden message)&quot;);</b>
+<b class="nc">&nbsp;        filteredExtMatches.add(hiddenRuleMatch);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return filteredExtMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class HiddenRule extends Rule {
+&nbsp;    final String categoryId;
+&nbsp;    final String categoryName;
+&nbsp;    final ITSIssueType itsType;
+&nbsp;    final int estimatedContextForSureMatch;
+&nbsp;    final List&lt;Tag&gt; tags;
+<b class="nc">&nbsp;    HiddenRule(String categoryId, String categoryName, String type, List&lt;Tag&gt; tags, int estimatedContextForSureMatch) {</b>
+<b class="nc">&nbsp;      this.categoryId = categoryId;</b>
+<b class="nc">&nbsp;      this.categoryName = categoryName;</b>
+<b class="nc">&nbsp;      itsType = type != null ? ITSIssueType.getIssueType(type) : ITSIssueType.Uncategorized;</b>
+<b class="nc">&nbsp;      this.estimatedContextForSureMatch = estimatedContextForSureMatch;</b>
+<b class="nc">&nbsp;      this.tags = tags;</b>
+&nbsp;    }
+&nbsp;    @NotNull
+&nbsp;    public final Category getCategory() {
+<b class="nc">&nbsp;      return new Category(new CategoryId(categoryId), categoryName);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;      return &quot;HIDDEN_RULE&quot;;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public ITSIssueType getLocQualityIssueType() {
+<b class="nc">&nbsp;      return itsType;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;      return &quot;(description hidden)&quot;;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;not implemented&quot;);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public int estimateContextForSureMatch() {
+<b class="nc">&nbsp;      return estimatedContextForSureMatch;</b>
+&nbsp;    }
+&nbsp;    @NotNull
+&nbsp;    public List&lt;Tag&gt; getTags() {
+<b class="nc">&nbsp;      return tags == null ? Collections.emptyList() : tags;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

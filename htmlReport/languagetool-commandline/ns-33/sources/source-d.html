@@ -1,0 +1,865 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GrammalecteRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.fr</a>
+</div>
+
+<h1>Coverage Summary for Class: GrammalecteRule (org.languagetool.rules.fr)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GrammalecteRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/59)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GrammalecteRule$GrammalecteInternalRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/65)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.fr;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import org.jetbrains.annotations.NotNull;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.GlobalConfig;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.DataOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.UnsupportedEncodingException;
+&nbsp;import java.net.HttpURLConnection;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Queries a local Grammalecte server.
+&nbsp; * @since 4.6
+&nbsp; */
+&nbsp;public class GrammalecteRule extends Rule {
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(GrammalecteRule.class);</b>
+&nbsp;  private static final int TIMEOUT_MILLIS = 500;
+&nbsp;  private static final long DOWN_INTERVAL_MILLISECONDS = 5000;
+&nbsp;
+<b class="nc">&nbsp;  private static long lastRequestError = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;  private final ObjectMapper mapper = new ObjectMapper();</b>
+&nbsp;  private final GlobalConfig globalConfig;
+&nbsp;
+&nbsp;  // https://github.com/languagetooler-gmbh/languagetool-premium/issues/197:
+<b class="nc">&nbsp;  static final Set&lt;String&gt; ignoreRules = new HashSet&lt;&gt;(Arrays.asList(</b>
+&nbsp;    &quot;tab_fin_ligne&quot;,
+&nbsp;    &quot;apostrophe_typographique&quot;,
+&nbsp;    &quot;typo_guillemets_typographiques_doubles_ouvrants&quot;,
+&nbsp;    &quot;nbsp_avant_double_ponctuation&quot;,
+&nbsp;    &quot;typo_guillemets_typographiques_doubles_fermants&quot;,
+&nbsp;    // for discussion, see https://github.com/languagetooler-gmbh/languagetool-premium/issues/229:
+&nbsp;    &quot;nbsp_avant_deux_points&quot;,  // Useful only if we decide to have the rest of the non-breakable space rules.
+&nbsp;    &quot;nbsp_ajout_avant_double_ponctuation&quot;,  // Useful only if we decide to have the rest of the non-breakable space rules.
+&nbsp;    &quot;apostrophe_typographique_après_t&quot;,  // Not useful. While being the technically correct character, it does not matter much.
+&nbsp;    &quot;typo_point_collé_à_mot_suivant&quot;, // many FPs: file extensions, domain names...
+&nbsp;    &quot;typo_tiret_début_ligne&quot;,  // Arguably the same as 50671 and 17342 ; the french special character for lists is a &#39;tiret cadratin&#39; ; so it should be that instead of a dash. Having it count as a mistake is giving access to the otherwise unaccessible special character. However, lists are a common occurrence, and the special character does not make a real difference. Not really useful but debatable
+&nbsp;    &quot;typo_guillemets_typographiques_simples_fermants&quot;,
+&nbsp;    &quot;typo_apostrophe_incorrecte&quot;,
+&nbsp;    &quot;unit_nbsp_avant_unités1&quot;,
+&nbsp;    &quot;unit_nbsp_avant_unités2&quot;,
+&nbsp;    &quot;unit_nbsp_avant_unités3&quot;,
+&nbsp;    &quot;nbsp_après_double_ponctuation&quot;,
+&nbsp;    &quot;typo_guillemets_typographiques_simples_ouvrants&quot;,
+&nbsp;    &quot;num_grand_nombre_avec_espaces&quot;,
+&nbsp;    &quot;num_grand_nombre_soudé&quot;,
+&nbsp;    &quot;typo_parenthèse_ouvrante_collée&quot;,  // we already have UNPAIRED_BRACKETS
+&nbsp;    &quot;nbsp_après_chevrons_ouvrants&quot;,
+&nbsp;    &quot;nbsp_avant_chevrons_fermants&quot;,
+&nbsp;    &quot;nbsp_avant_chevrons_fermants1&quot;,
+&nbsp;    &quot;nbsp_avant_chevrons_fermants2&quot;,
+&nbsp;    &quot;typo_points_suspension1&quot;,
+&nbsp;    &quot;typo_points_suspension2&quot;,
+&nbsp;    &quot;typo_points_suspension3&quot;,
+&nbsp;    &quot;typo_tiret_incise&quot;, // picky
+&nbsp;    &quot;esp_avant_après_tiret&quot;, // picky
+&nbsp;    &quot;nbsp_après_tiret1&quot;, // picky
+&nbsp;    &quot;nbsp_après_tiret2&quot;, // picky
+&nbsp;    &quot;nbsp_après_tiret3&quot;, // picky
+&nbsp;    &quot;nbsp_après_chevrons_fermants&quot;, // picky
+&nbsp;    &quot;esp_mélangés1&quot;, // picky
+&nbsp;    &quot;esp_mélangés2&quot;, // picky
+&nbsp;    &quot;tab_début_ligne&quot;,
+&nbsp;    &quot;esp_milieu_ligne&quot;, // we already have WHITESPACE_RULE
+&nbsp;    &quot;typo_ponctuation_superflue1&quot;, // false alarm (1, 2, ...)
+&nbsp;    &quot;esp_insécables_multiples&quot;, // temp disabled, unsure how this works with the browser add-ons
+&nbsp;    &quot;typo_espace_manquant_après1&quot;, // false alarm in urls (e.g. &#39;&amp;rk=...&#39;)
+&nbsp;    &quot;typo_espace_manquant_après2&quot;, // false alarm in urls (e.g. &#39;&amp;rk=...&#39;)
+&nbsp;    &quot;typo_espace_manquant_après3&quot;, // false alarm in file names (e.g. &#39;La teaser.zip&#39;)
+&nbsp;    &quot;typo_tiret_incise2&quot;,  // picky
+&nbsp;    &quot;g1__bs_vidéoprotection__b1_a1_1&quot;,
+&nbsp;    &quot;g2__bs_avoir_été_chez__b1_a1_1&quot;,
+&nbsp;    &quot;g2__bs_pour_ne_pas_que__b1_a1_1&quot;,
+&nbsp;    &quot;g2__bs_silence_assourdissant__b1_a1_1&quot;,
+&nbsp;    &quot;g1__eleu_élisions_manquantes__b1_a1_1&quot;, // picky
+&nbsp;    &quot;typo_tiret_incise1&quot;, // picky
+&nbsp;    &quot;majuscule_après_point&quot;,
+&nbsp;    &quot;p_sigle2&quot;, // picky
+&nbsp;    &quot;g0__imp_verbes_composés_impératifs__b12_a2_1&quot;,
+&nbsp;    &quot;g0__imp_verbes_composés_impératifs__b12_a3_1&quot;,
+&nbsp;    &quot;g0__imp_verbes_composés_impératifs__b5_a2_1&quot;,
+&nbsp;    &quot;g0__virg_virgule_après_point__b1_a1_1&quot;,
+&nbsp;    &quot;g2__date_journée_jour_mois_année_&quot;,
+&nbsp;    &quot;g2__date_journée_jour_mois_année__b1_a1_2&quot;,
+&nbsp;    &quot;g2__date_journée_jour_mois_année__b1_a1_1&quot;,
+&nbsp;    &quot;g2__gn_tous_det_nom__b1_a2_1&quot;,
+&nbsp;    &quot;g2__gn_tous_det_nom__b2_a2_1&quot;,
+&nbsp;    &quot;g2__gn_tous_nom__b2_a1_1&quot;,
+&nbsp;    &quot;g2__gn_tout_det__b2_a1_1&quot;,
+&nbsp;    &quot;g2__gn_tout_nom__b1_a1_1&quot;,
+&nbsp;    &quot;g2__gn_tout_nom__b2_a1_1&quot;,
+&nbsp;    &quot;g2__gn_toute_nom__b1_a1_1&quot;,
+&nbsp;    &quot;g2__gn_toute_nom__b2_a1_1&quot;,
+&nbsp;    &quot;g2__gn_toutes_nom__b1_a1_1&quot;,
+&nbsp;    &quot;g2__gn_toutes_nom__b2_a1_1&quot;,
+&nbsp;    &quot;g2__gn_toutes_nom__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_2m_et_ou__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_2m_et_ou__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_adverbe_fort__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_adverbe_juste__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_au_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_au_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_au_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_au_1m__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_aucun_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_aucun_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_aucun_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_aucune_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_ce_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_ce_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_ce_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_ce_1m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_celle__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_celles__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_certaines_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_certaines_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_certains_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_ces_aux_pluriel_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_ces_aux_pluriel_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_ces_aux_pluriel_1m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_cet_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_cette_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_cette_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_cette_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_des_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_des_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_des_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_2m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_2m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_3m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_3m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_sing_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_sing_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_sing_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_sing_2m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_sing_2m_virg__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_sing_3m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_fem_plur_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_fem_sing_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_fem_sing_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_fem_sing_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_fem_sing_2m_virg__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_fem_sing_3m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_les_3m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_les_3m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_les_3m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_det_les_3m_et__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_les_3m_et__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_les_3m_et__b3_a5_1&quot;,
+&nbsp;    &quot;g3__gn_det_les_3m_et__b3_a6_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_plur_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_plur_3m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_sing_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_sing_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_sing_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_sing_2m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_sing_2m_virg__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_sing_3m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_mas_sing_3m_et__b3_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_mon_ton_son_3m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_mon_ton_son_3m_et__b4_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_fem_sing__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_fem_sing__b3_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_fem_sing__b7_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_fem_sing__b9_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_mas_sing__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_mas_sing__b3_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_plur__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_sing__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_sing_plur__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_sing_plur__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_de_det_nom_adj_sing_plur__b6_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_nom_et_det_nom__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_fem_plur_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_3m_et__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_les_3m_et__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_du_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_du_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_du_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_du_1m__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_du_1m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_groupe_de__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_groupe_de__b3_a1_1&quot;,
+&nbsp;    &quot;g3__gn_intérieur_extérieur__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_l_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_l_1m__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_l_1m__b3_a1_1&quot;,
+&nbsp;    &quot;g3__gn_l_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_l_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_l_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_l_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_l_2m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_l_2m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_l_2m_virg__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_l_3m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_l_3m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_la_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_la_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_la_1m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_la_1m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_la_1m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_la_1m__b3_a1_1&quot;,
+&nbsp;    &quot;g3__gn_la_1m__b3_a2_1&quot;,
+&nbsp;    &quot;g3__gn_la_1m__b3_a3_1&quot;,
+&nbsp;    &quot;g3__gn_la_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_la_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_la_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_la_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_la_2m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_la_2m__b3_a2_1&quot;,
+&nbsp;    &quot;g3__gn_la_2m__b3_a4_1&quot;,
+&nbsp;    &quot;g3__gn_la_2m_virg__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b2_a5_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b3_a2_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b3_a3_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b3_a4_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b3_a5_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b4_a1_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b4_a2_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b4_a3_1&quot;,
+&nbsp;    &quot;g3__gn_le_1m__b4_a4_1&quot;,
+&nbsp;    &quot;g3__gn_le_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_le_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_le_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_le_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_le_2m_virg__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_le_3m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_le_3m_et__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_le_3m_et__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_les_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_les_1m__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_les_1m__b3_a1_1&quot;,
+&nbsp;    &quot;g3__gn_les_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_les_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_les_2m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_les_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_les_2m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_les_2m_virg__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_leur_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_leur_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_leur_1m__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_leur_1m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_leur_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_leur_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_leur_2m__b1_a5_1&quot;,
+&nbsp;    &quot;g3__gn_leur_2m__b1_a5_1&quot;,
+&nbsp;    &quot;g3__gn_leur_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_leur_2m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_leurs_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_leurs_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_ma_ta_sa_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_ma_ta_sa_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_ma_ta_sa_1m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_mon_ton_son_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_mon_ton_son_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_mon_ton_son_1m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_mon_ton_son_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_mon_ton_son_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_mon_ton_son_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_mon_ton_son_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_nom_adj_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_nom_adj_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_nom_adj_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_nom_adj_2m__b1_a5_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_chiffres_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_chiffres_1m__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_chiffres_1m__b3_a2_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_chiffres_1m__b3_a3_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_chiffres_1m__b3_a4_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_de_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_lettres_1m__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_lettres_1m__b4_a1_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_lettres_1m__b5_a1_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_lettres_1m__b6_a1_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_plur_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_plur_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_nombre_plur_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_notre_votre_chaque_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_nul_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_de_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_de_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_de_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_en_2m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_en_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_en_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_en_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_sur_avec_après_2m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_sur_avec_après_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_sur_avec_après_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_sur_avec_après_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_à_par_pour_sans_2m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_à_par_pour_sans_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_à_par_pour_sans_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_à_par_pour_sans_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_plein_de__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_plusieurs_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_start_2m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_start_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_start_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_start_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_start_3m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_start_3m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_start_3m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_start_3m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_start_3m__b1_a5_1&quot;,
+&nbsp;    &quot;g3__gn_start_3m__b1_a6_1&quot;,
+&nbsp;    &quot;g3__gn_start_3m_et__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_start_prn_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_un_1m__b2_a1_1&quot;,
+&nbsp;    &quot;g3__gn_un_1m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_un_1m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_un_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_un_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_un_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_un_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_un_2m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_un_2m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_un_des_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_un_des_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_une_1m__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_une_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_une_1m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_une_2m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_une_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g3__gn_une_2m__b1_a4_1&quot;,
+&nbsp;    &quot;g3__gn_une_2m__b2_a2_1&quot;,
+&nbsp;    &quot;g3__gn_une_2m__b2_a3_1&quot;,
+&nbsp;    &quot;g3__gn_une_2m__b2_a4_1&quot;,
+&nbsp;    &quot;g3__gn_une_2m_virg__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_une_des_1m__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3pl_fem_verbe_état__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3pl_mas_verbe_état__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3pl_mas_verbe_état__b8_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3sg_fem_verbe_état__b3_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3sg_mas_verbe_état__b10_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3sg_mas_verbe_état__b12_a1_2&quot;,
+&nbsp;    &quot;gv1__ppas_3sg_mas_verbe_état__b15_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3sg_mas_verbe_état__b4_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3sg_mas_verbe_état__b4_a1_2&quot;,
+&nbsp;    &quot;gv1__ppas_3sg_mas_verbe_état__b5_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_3sg_mas_verbe_état__b6_a2_1&quot;,
+&nbsp;    &quot;gv1__ppas_adj_accord_il__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_adj_accord_ils__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_adj_être_det_nom__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_adj_être_det_nom__b3_a2_1&quot;,
+&nbsp;    &quot;gv1__ppas_avoir__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_avoir_l_air__b5_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_avoir_l_air__b9_a2_1&quot;,
+&nbsp;    &quot;gv1__ppas_avoir_été__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_det_plur_COD_que_avoir__b1_a3_1&quot;,
+&nbsp;    &quot;gv1__ppas_det_sing_COD_que_avoir__b4_a3_1&quot;,
+&nbsp;    &quot;gv1__ppas_fin_loc_verb_état_adj_et_adj__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_je_tu_verbe_état__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_je_tu_verbe_état__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_je_tu_verbe_état__b3_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_le_verbe_pensée__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_nous_verbe_état__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_être_accord_plur__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_être_accord_plur__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_être_accord_sing__b1_a1_1&quot;,
+&nbsp;    &quot;gv2__conf_ait_confiance_été_faim_tort__b1_a2_1&quot;,
+&nbsp;    &quot;gv1__conf_suj_verbe_det_verbe_nom__b5_a1_1&quot;,
+&nbsp;    &quot;gv2__conj_les_nom__b1_a2_1&quot;,
+&nbsp;    &quot;gv2__conj_quiconque__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_substantifs__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b14_a2_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b14_a3_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b14_a6_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b15_a2_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b15_a3_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_celui_celle_à_qui__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_a__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_a__b2_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_a__b7_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_a_infinitif__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_a__b3_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_a__b4_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_a__b5_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_qui_infinitif__b1_a1_1&quot;,
+&nbsp;    &quot;g3__conf_à_a_après_verbes__b2_a1_1&quot;,
+&nbsp;    &quot;g3__infi_à_verbe__b2_a1_1&quot;,
+&nbsp;    &quot;g3__infi_à_verbe__b3_a1_1&quot;,
+&nbsp;    &quot;g3__infi_de_verbe__b4_a1_1&quot;,
+&nbsp;    &quot;g3__infi_de_verbe__b5_a1_1&quot;,
+&nbsp;    &quot;g3__infi_de_verbe__b6_a1_1&quot;,
+&nbsp;    &quot;g3__infi_savoir__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_avoir__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_avoir__b3_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_avoir__b4_a1_1&quot;,
+&nbsp;    &quot;g2__eleu_élisions_manquantes__b1_a1_1&quot;,
+&nbsp;    &quot;g2__eleu_élisions_manquantes__b2_a1_1&quot;,
+&nbsp;    &quot;g2__eleu_élisions_manquantes__b4_a1_1&quot;,
+&nbsp;    &quot;g2__eleu_élisions_manquantes__b5_a1_1&quot;,
+&nbsp;    &quot;g2__eleu_élisions_manquantes__b6_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_incohérences__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b11_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b13_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b14_a7_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b3_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b4_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b7_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b8_a1_1&quot;,
+&nbsp;    &quot;g2__conf_quand_quant_qu_en__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_de_manière_façon_1m&quot;,
+&nbsp;    &quot;g3__gn_de_manière_façon_1m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_la_3m__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__imp_verbe_groupe3_d__b2_a1_1&quot;,//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
+&nbsp;    &quot;typo_guillemets_perdus&quot;,
+&nbsp;    &quot;g2__conj_2p_sans_sujet__b1_a1_1&quot;,
+&nbsp;    &quot;typo_signe_multiplication&quot;,
+&nbsp;    &quot;typo_écriture_invariable&quot;,
+&nbsp;    &quot;gv1__ppas_avoir_été__b2_a3_1&quot;,
+&nbsp;    &quot;gv1__ppas_sujet_être_accord_singulier__b2_a1_1&quot;,
+&nbsp;    &quot;num_grand_nombre_avec_points&quot;,
+&nbsp;    &quot;g2__conj_tu__b1_a1_1&quot;,
+&nbsp;    &quot;typo_guillemets_doubles_ouvrants_non_fermé&quot;,
+&nbsp;    &quot;g2__maj_gentilés__b3_a1_1&quot;,
+&nbsp;    &quot;g2__maj_gentilés__b3_a2_1&quot;,
+&nbsp;    &quot;g2__maj_Dieu__b1_a1_1&quot;,
+&nbsp;    &quot;g2__maj_jours_semaine__b1_a1_1&quot;,
+&nbsp;    &quot;typo_signe_moins&quot;,
+&nbsp;    &quot;g3__conf_numérique_digital__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_start_nom_ppas__b1_a1_1&quot;,
+&nbsp;    &quot;typo_guillemets_fin&quot;,
+&nbsp;    &quot;g2__conf_non_verbe_après_préverbes__b2_a1_1&quot;,
+&nbsp;    &quot;g2__typo_ordinaux_chiffres_romains_exposants__b9_a1_1&quot;,
+&nbsp;    &quot;g3__gn_pfx_de_2m__b1_a1_1&quot;,
+&nbsp;    &quot;eepi_écriture_épicène_singulier&quot;,
+&nbsp;    &quot;eepi_écriture_épicène_pluriel_e&quot;,
+&nbsp;    &quot;eepi_écriture_épicène_pluriel_er_ère&quot;,
+&nbsp;    &quot;eepi_écriture_épicène_tous_toutes&quot;,
+&nbsp;    &quot;eepi_écriture_épicène_pluriel_eux_euses&quot;,
+&nbsp;    &quot;eepi_écriture_épicène_pluriel_eur_divers&quot;,
+&nbsp;    &quot;g2__chim_molécules__b1_a1_1&quot;,
+&nbsp;    &quot;g3__conf_numérique_digital__b2_a1_1&quot;,
+&nbsp;    &quot;doublon&quot;,
+&nbsp;    &quot;typo_guillemets_doubles_fermants_non_ouverts&quot;,
+&nbsp;    &quot;g2__conf_non_verbe_après_préverbes__b5_a3_1&quot;,
+&nbsp;    &quot;gv1__imp_verbe_groupe2_groupe3_t__b2_a1_1&quot;,
+&nbsp;    &quot;gv2__conj_les_nom__b1_a3_1&quot;,
+&nbsp;    &quot;gv2__vmode_verbe_que_subjonctif__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conj_1p_sans_sujet__b1_a1_1&quot;,
+&nbsp;    &quot;typo_points_suspension_après_espace&quot;,
+&nbsp;    &quot;typo_guillemets_doubles_ouvrants_non_fermés&quot;,
+&nbsp;    &quot;g2__conf_de_vconj__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_déterminant_mas_sing_verbe__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_&quot;,
+&nbsp;    &quot;typo_points_superflus&quot;,
+&nbsp;    &quot;g2__conf_la_là__b2_a1_1&quot;,
+&nbsp;    &quot;g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_1&quot;,
+&nbsp;    &quot;g2__conf_non_verbe_après_préverbes__b5_a2_1&quot;,
+&nbsp;    &quot;g2__conj_je__b2_a1_1&quot;,
+&nbsp;    &quot;gv1__conf_vc_int_imp_verbe__b1_a1_1&quot;,
+&nbsp;    &quot;gv1__conf_le_la_leur_les_verbe_nom__b1_a1_1&quot;,
+&nbsp;    &quot;date_nombres&quot;,
+&nbsp;    &quot;gv1__imp_confusion_2e_pers_pluriel__b5_a1_1&quot;,
+&nbsp;    &quot;g2__conf_tu_non_verbe__b1_a3_1&quot;,
+&nbsp;    &quot;g2__conf_si_vconj__b2_a1_1&quot;,
+&nbsp;    &quot;g2__conf_on_non_verbe__b1_a3_1&quot;,
+&nbsp;    &quot;g2__conf_on_non_verbe__b2_a3_1&quot;,
+&nbsp;    &quot;g2__conj_on__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_start_prn_1m__b1_a1_1&quot;,
+&nbsp;    &quot;gv2__conj_vinfi_suj__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_plus_plu__b5_a1_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_plur_3m__b1_a2_1&quot;,
+&nbsp;    &quot;g3__gn_det_epi_sing_3m__b1_a3_1&quot;,
+&nbsp;    &quot;g2__conf_sur_vconj__b1_a1_1&quot;,
+&nbsp;    &quot;typo_guillemets_ouvrants_inverses1&quot;,
+&nbsp;    &quot;typo_guillemets_ouvrants_inverses2&quot;,
+&nbsp;    &quot;typo_guillemets_ouvrants_inverses3&quot;,
+&nbsp;    &quot;typo_guillemets_fermants_inverses&quot;,
+&nbsp;    &quot;typo_commencement_guillemets&quot;,
+&nbsp;    &quot;typo_guillemets_typographiques_simples_doubles_fermants&quot;,
+&nbsp;    &quot;typo_guillemets_typographiques_simples_doubles_ouvrants&quot;,
+&nbsp;    &quot;typo_guillemets_ouvrants_perdus&quot;,
+&nbsp;    &quot;typo_guillemets_fermants_perdus&quot;,
+&nbsp;    &quot;typo_guillemet_simple_fermant_non_ouvert&quot;,
+&nbsp;    &quot;typo_guillemet_simple_ouvrant_non_fermé&quot;,
+&nbsp;    &quot;typo_cohérence_guillemets_chevrons_fermants&quot;,
+&nbsp;    &quot;typo_cohérence_guillemets_chevrons_ouvrants&quot;,
+&nbsp;    &quot;typo_cohérence_guillemets_doubles_fermants&quot;,
+&nbsp;    &quot;typo_cohérence_guillemets_doubles_ouvrants&quot;,
+&nbsp;    &quot;g2__conf_par_vconj__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_verbe__b15_a7_1&quot;,
+&nbsp;    &quot;typo_espace_avant_signe_fermant&quot;,
+&nbsp;    &quot;g2__date_journée_jour_mois_année__b1_a1_4&quot;,
+&nbsp;    &quot;g2__conf_incohérences_globales__b3_a1_1&quot;,
+&nbsp;    &quot;g2__typo_ordinaux_chiffres_incorrects__b9_a1_1&quot;,
+&nbsp;    &quot;g2__conj_1s_sans_sujet_xxxai__b4_a1_1&quot;,
+&nbsp;    &quot;g2__conf_dès_des_dés__b3_a2_1&quot;,
+&nbsp;    &quot;g2__pleo_substantifs__b11_a1_1&quot;,
+&nbsp;    &quot;g2__pleo_substantifs__b12_a1_1&quot;,
+&nbsp;    &quot;g2__pleo_substantifs__b1_a1_1&quot;,
+&nbsp;    &quot;g2__pleo_verbes__b4_a1_1&quot;,
+&nbsp;    &quot;g2__pleo_verbes__b8_a1_1&quot;,
+&nbsp;    &quot;g2__pleo_locutions__b7_a1_1&quot;,
+&nbsp;    &quot;g2__pleo_verbes__b7_a1_1&quot;,
+&nbsp;    &quot;g2__conf_de_du_d__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_faux_faut__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_poing_point__b1_a1_1&quot;,
+&nbsp;    &quot;g3__conf_foi_fois_foie__b3_a1_1&quot;,
+&nbsp;    &quot;g3__conf_faim_fin__b1_a1_1t&quot;,
+&nbsp;    &quot;gv2__conf_et_est2__b9_a1_1&quot;,
+&nbsp;    &quot;g3__conf_est_et__b4_a1_1&quot;,
+&nbsp;    &quot;g2__conf_près_prêt_pré__b3_a1_1&quot;,
+&nbsp;    &quot;g3__conf_panser_penser__b1_a1_1&quot;,
+&nbsp;    &quot;g3__conf_tache_tâche__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_de_vconj__b6_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_vconj__b3_a1_1&quot;,
+&nbsp;    &quot;gv1__ppas_être_confusion__b4_a4_1&quot;,
+&nbsp;    &quot;gv2__conj_moi_qui__b1_a1_1&quot;,
+&nbsp;    &quot;gv2__conj_3sg_misc__b1_a1_1&quot;,
+&nbsp;    &quot;g3__gn_leur_2m__b1_a3_1&quot;,
+&nbsp;    &quot;g2__tu_pronoms_dits__b2_a1_1&quot;,
+&nbsp;    &quot;g2__conf_tu_non_verbe__b1_a2_1&quot;,
+&nbsp;    &quot;g2__conf_il_non_verbe__b2_a2_1&quot;,
+&nbsp;    &quot;g2__conf_il_non_verbe__b2_a3_1&quot;,
+&nbsp;    &quot;g2__conf_non_verbe_après_préverbes__b2_a2_1&quot;,
+&nbsp;    &quot;g2__conf_non_verbe_après_préverbes__b3_a2_1&quot;,
+&nbsp;    &quot;g2__conf_non_verbe_après_préverbes__b6_a3_1&quot;,
+&nbsp;    &quot;g2__conf_incohérences_globales__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_incohérences_globales__b2_a1_1&quot;,
+&nbsp;    &quot;g2__conj_ce__b3_a1_1&quot;,
+&nbsp;    &quot;g2__conf_de_vconj__b3_a1_1&quot;,
+&nbsp;    &quot;g2__conf_a_à_incohérences__b2_a1_1&quot;,
+&nbsp;    &quot;g2__conj_il__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_déterminant_plur_verbe__b3_a3_1&quot;,
+&nbsp;    &quot;g2__bs_vidéoprotection__b1_a1_1&quot;,
+&nbsp;    &quot;g0__inte_verbes_composés_interrogatifs__b8_a2_1&quot;,
+&nbsp;    &quot;gv2__conj_que_où_comment_verbe_sans_sujet__b1_a2_1&quot;,
+&nbsp;    &quot;gv2__conf_et_est2__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_dès_des_dés__b9_a1_1&quot;,
+&nbsp;    &quot;g2__conf_se_être_avoir__b5_a2_1&quot;,
+&nbsp;    &quot;g2__conf_préverbes__b4_a1_1&quot;,
+&nbsp;    &quot;gv2__conj_des_nom__b1_a3_1&quot;,
+&nbsp;    &quot;gv1__ppas_être_confusion__b4_a2_1&quot;,
+&nbsp;    &quot;gv1__conf_verbes_det_verbe_nom__b1_a1_1&quot;,
+&nbsp;    &quot;g2__typo_ordinaux_chiffres_exposants__b5_a1_1&quot;,
+&nbsp;    &quot;g2__conf_dès_des_dés__b5_a1_1&quot;,
+&nbsp;    &quot;g3__infi_faire__b2_a1_1&quot;,
+&nbsp;    &quot;g3__infi_verbes__b4_a1_1&quot;,
+&nbsp;    &quot;gv2__vmode_verbe_que_subjonctif__b6_a1_1&quot;,
+&nbsp;    &quot;gv2__conj_le_la_leur_nom__b3_a3_1&quot;,
+&nbsp;    &quot;gv1__ppas_pron_pluriel_se_être_ppas__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_si_vconj__b1_a1_1&quot;,
+&nbsp;    &quot;g2__conf_à_vconj__b2_a1_1&quot;,
+&nbsp;    &quot;g3__conf_pris_prix__b1_a1_1&quot;,
+&nbsp;    &quot;g2__tu_locutions__b12_a1_1&quot;
+&nbsp;  ));
+&nbsp;
+&nbsp;  public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
+<b class="nc">&nbsp;    super(messages);</b>
+&nbsp;    //addExamplePair(Example.wrong(&quot;&quot;),
+&nbsp;    //               Example.fixed(&quot;&quot;));
+<b class="nc">&nbsp;    this.globalConfig = globalConfig;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return &quot;FR_GRAMMALECTE&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return &quot;Returns matches of a local Grammalecte server&quot;;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+&nbsp;    // very basic health check -&gt; mark server as down after an error for given interval
+<b class="nc">&nbsp;    if (System.currentTimeMillis() - lastRequestError &lt; DOWN_INTERVAL_MILLISECONDS) {</b>
+<b class="nc">&nbsp;      logger.warn(&quot;Warn: Temporarily disabled Grammalecte server because of recent error.&quot;);</b>
+<b class="nc">&nbsp;      return new RuleMatch[0];</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    URL serverUrl = new URL(globalConfig.getGrammalecteServer());</b>
+<b class="nc">&nbsp;    HttpURLConnection huc = (HttpURLConnection) serverUrl.openConnection();</b>
+<b class="nc">&nbsp;    HttpURLConnection.setFollowRedirects(false);</b>
+<b class="nc">&nbsp;    huc.setConnectTimeout(TIMEOUT_MILLIS);</b>
+<b class="nc">&nbsp;    huc.setReadTimeout(TIMEOUT_MILLIS*2);</b>
+<b class="nc">&nbsp;    if (globalConfig.getGrammalecteUser() != null &amp;&amp; globalConfig.getGrammalectePassword() != null) {</b>
+<b class="nc">&nbsp;      String authString = globalConfig.getGrammalecteUser() + &quot;:&quot; + globalConfig.getGrammalectePassword();</b>
+<b class="nc">&nbsp;      String encoded = Base64.getEncoder().encodeToString(authString.getBytes());</b>
+<b class="nc">&nbsp;      huc.setRequestProperty(&quot;Authorization&quot;, &quot;Basic &quot; + encoded);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    huc.setRequestMethod(&quot;POST&quot;);</b>
+<b class="nc">&nbsp;    huc.setDoOutput(true);</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      huc.connect();</b>
+<b class="nc">&nbsp;      try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {</b>
+<b class="nc">&nbsp;        String urlParameters = &quot;text=&quot; + encode(sentence.getText());</b>
+<b class="nc">&nbsp;        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;        wr.write(postData);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      InputStream input = huc.getInputStream();</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; ruleMatches = parseJson(input);</b>
+<b class="nc">&nbsp;      return toRuleMatchArray(ruleMatches);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      lastRequestError = System.currentTimeMillis();</b>
+&nbsp;      // These are issue that can be request-specific, like wrong parameters. We don&#39;t throw an
+&nbsp;      // exception, as the calling code would otherwise assume this is a persistent error:
+<b class="nc">&nbsp;      logger.warn(&quot;Warn: Failed to query Grammalecte server at &quot; + serverUrl, e);</b>
+&nbsp;    } finally {
+<b class="nc">&nbsp;      huc.disconnect();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new RuleMatch[0];</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;RuleMatch&gt; parseJson(InputStream inputStream) throws IOException {
+<b class="nc">&nbsp;    Map map = mapper.readValue(inputStream, Map.class);</b>
+<b class="nc">&nbsp;    List matches = (ArrayList) map.get(&quot;data&quot;);</b>
+<b class="nc">&nbsp;    if (matches == null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;No &#39;data&#39; found in grammalecte JSON: &quot; + map);  // handled in match()</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (Object match : matches) {</b>
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; remoteMatches = getMatches((Map&lt;String, Object&gt;)match);</b>
+<b class="nc">&nbsp;      result.addAll(remoteMatches);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return result;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected String encode(String plainText) throws UnsupportedEncodingException {
+<b class="nc">&nbsp;    return URLEncoder.encode(plainText, StandardCharsets.UTF_8.name());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @NotNull
+&nbsp;  private List&lt;RuleMatch&gt; getMatches(Map&lt;String, Object&gt; match) {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; remoteMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    ArrayList matches = (ArrayList) match.get(&quot;lGrammarErrors&quot;);</b>
+<b class="nc">&nbsp;    for (Object o : matches) {</b>
+<b class="nc">&nbsp;      Map pairs = (Map) o;</b>
+<b class="nc">&nbsp;      int offset = (int) pairs.get(&quot;nStart&quot;);</b>
+<b class="nc">&nbsp;      int endOffset = (int)pairs.get(&quot;nEnd&quot;);</b>
+<b class="nc">&nbsp;      String id = (String)pairs.get(&quot;sRuleId&quot;);</b>
+<b class="nc">&nbsp;      if (ignoreRules.contains(id)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String message = pairs.get(&quot;sMessage&quot;).toString();</b>
+<b class="nc">&nbsp;      GrammalecteInternalRule rule = new GrammalecteInternalRule(&quot;grammalecte_&quot; + id, message);</b>
+<b class="nc">&nbsp;      RuleMatch extMatch = new RuleMatch(rule, null, offset, endOffset, message);</b>
+<b class="nc">&nbsp;      List&lt;String&gt; suggestions = (List&lt;String&gt;) pairs.get(&quot;aSuggestions&quot;);</b>
+&nbsp;      //SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss ZZZZ&quot;);
+&nbsp;      //System.out.println(sdf.format(new Date()) + &quot; Grammalecte: &quot; + pairs.get(&quot;sRuleId&quot;) + &quot;; &quot; + pairs.get(&quot;sMessage&quot;) + &quot; =&gt; &quot; + suggestions);
+<b class="nc">&nbsp;      extMatch.setSuggestedReplacements(suggestions);</b>
+<b class="nc">&nbsp;      remoteMatches.add(extMatch);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return remoteMatches;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class GrammalecteInternalRule extends Rule {
+&nbsp;    private final String id;
+&nbsp;    private final String desc;
+&nbsp;
+<b class="nc">&nbsp;    GrammalecteInternalRule(String id, String desc) {</b>
+<b class="nc">&nbsp;      this.id = id;</b>
+<b class="nc">&nbsp;      this.desc = desc;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;      return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;      return desc;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public RuleMatch[] match(AnalyzedSentence sentence) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Not implemented&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:50</div>
+</div>
+</body>
+</html>

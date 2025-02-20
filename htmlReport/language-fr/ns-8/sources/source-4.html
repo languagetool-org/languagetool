@@ -1,0 +1,241 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > AutomaticConfusionRuleEvaluatorFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.bigdata</a>
+</div>
+
+<h1>Coverage Summary for Class: AutomaticConfusionRuleEvaluatorFilter (org.languagetool.dev.bigdata)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AutomaticConfusionRuleEvaluatorFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker 
+&nbsp; * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.bigdata;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * Simple hack to filter the result of AutomaticConfusionRuleEvaluator.
+&nbsp; */
+&nbsp;final class AutomaticConfusionRuleEvaluatorFilter {
+&nbsp;  
+&nbsp;  private final static float MIN_PRECISION = 0.99f; 
+&nbsp;  private final static int MIN_OCCURRENCES = 25; 
+&nbsp;
+&nbsp;  private AutomaticConfusionRuleEvaluatorFilter() {
+&nbsp;  }
+&nbsp;
+&nbsp;  private static String reformat(String s) {
+<b class="nc">&nbsp;    int spaceStart = s.indexOf(&quot;0;&quot;);</b>
+<b class="nc">&nbsp;    if (spaceStart == -1) {</b>
+<b class="nc">&nbsp;      spaceStart = s.indexOf(&quot;1;&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int spaceEnd = s.indexOf(&#39;#&#39;);</b>
+<b class="nc">&nbsp;    if (spaceStart &gt; 0 &amp;&amp; spaceEnd &gt; 0) {</b>
+<b class="nc">&nbsp;      String spaces = StringUtils.repeat(&quot; &quot;, 52-spaceStart);</b>
+<b class="nc">&nbsp;      return s.substring(0, spaceStart+2) + spaces + s.substring(spaceEnd);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return s;</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  public static void main(String[] args) throws IOException {
+<b class="nc">&nbsp;    if (args.length != 1) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + AutomaticConfusionRuleEvaluatorFilter.class.getSimpleName() + &quot; &lt;file&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.out.println(&quot;       &lt;file&gt; is the output of &quot; + AutomaticConfusionRuleEvaluator.class.getName());</b>
+<b class="nc">&nbsp;      System.exit(0);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    List&lt;String&gt; lines = Files.readAllLines(Paths.get(args[0]), StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;    String prevKey = null;</b>
+<b class="nc">&nbsp;    int skippedCount = 0;</b>
+<b class="nc">&nbsp;    int lowPrecisionCount = 0;</b>
+<b class="nc">&nbsp;    int lowOccurrenceCount = 0;</b>
+<b class="nc">&nbsp;    int usedCount = 0;</b>
+<b class="nc">&nbsp;    boolean skipping = false;</b>
+<b class="nc">&nbsp;    for (String line : lines) {</b>
+<b class="nc">&nbsp;      if (!line.startsWith(&quot;=&gt;&quot;)) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      String cleanLine = StringUtils.replaceOnce(line, &quot;=&gt; &quot;, &quot;&quot;).replaceFirst(&quot;; \\d.*&quot;, &quot;&quot;);</b>
+&nbsp;      String[] parts;
+&nbsp;      boolean bothDirections;
+<b class="nc">&nbsp;      if (cleanLine.contains(&quot;-&gt;&quot;)) {</b>
+<b class="nc">&nbsp;        parts = cleanLine.split(&quot;\\s*-&gt;\\s*&quot;);</b>
+<b class="nc">&nbsp;        bothDirections = false;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        parts = cleanLine.split(&quot;;\\s*&quot;);</b>
+<b class="nc">&nbsp;        bothDirections = true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      String key = parts[0] + &quot;;&quot; + parts[1];</b>
+<b class="nc">&nbsp;      Pattern data = Pattern.compile(&quot;^(.+?)(?:;| -&gt;) (.+?);.*p=(\\d\\.\\d+), r=(\\d\\.\\d+), f0.5=\\d\\.\\d+, (\\d+)\\+(\\d+),.*&quot;);</b>
+<b class="nc">&nbsp;      Matcher m = data.matcher(StringUtils.replaceOnce(line, &quot;=&gt; &quot;, &quot;&quot;));</b>
+<b class="nc">&nbsp;      m.find();</b>
+<b class="nc">&nbsp;      String word1 = m.group(1);</b>
+<b class="nc">&nbsp;      String word2 = m.group(2);</b>
+<b class="nc">&nbsp;      String delim = bothDirections ? &quot;; &quot; : &quot; -&gt; &quot;;</b>
+<b class="nc">&nbsp;      String wordGroup = word1 + delim + word2;</b>
+<b class="nc">&nbsp;      if (word1.compareTo(word2) &gt; 0 &amp;&amp; bothDirections) {</b>
+<b class="nc">&nbsp;        wordGroup = word2 + delim + word1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      float precision = Float.parseFloat(m.group(3));</b>
+<b class="nc">&nbsp;      int occ1 = Integer.parseInt(m.group(5));</b>
+<b class="nc">&nbsp;      int occ2 = Integer.parseInt(m.group(6));</b>
+<b class="nc">&nbsp;      if (key.equals(prevKey)) {</b>
+<b class="nc">&nbsp;        if (skipping) {</b>
+&nbsp;          //System.out.println(&quot;SKIP: &quot; + reformat(line));
+&nbsp;        }
+&nbsp;      } else {
+<b class="nc">&nbsp;        if (precision &lt; MIN_PRECISION) {</b>
+<b class="nc">&nbsp;          lowPrecisionCount++;</b>
+<b class="nc">&nbsp;          skippedCount++;</b>
+<b class="nc">&nbsp;          skipping = true;</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        if (occ1 &lt; MIN_OCCURRENCES || occ2 &lt; MIN_OCCURRENCES) {</b>
+<b class="nc">&nbsp;          lowOccurrenceCount++;</b>
+<b class="nc">&nbsp;          skippedCount++;</b>
+<b class="nc">&nbsp;          skipping = true;</b>
+&nbsp;          continue;
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(reformat(line.replaceFirst(&quot;=&gt; .+?(;| -&gt;) .+?; &quot;, wordGroup + &quot;; &quot;)));</b>
+<b class="nc">&nbsp;        skipping = false;</b>
+<b class="nc">&nbsp;        usedCount++;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      prevKey = key;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    System.err.println(&quot;Skipped: &quot; + skippedCount);</b>
+<b class="nc">&nbsp;    System.err.println(&quot;lowPrecisionCount: &quot; + lowPrecisionCount);</b>
+<b class="nc">&nbsp;    System.err.println(&quot;lowOccurrences: &quot; + lowOccurrenceCount);</b>
+<b class="nc">&nbsp;    System.err.println(&quot;Used: &quot; + usedCount);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,333 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicAdjectiveToExclamationFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ar.filters</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicAdjectiveToExclamationFilter (org.languagetool.rules.ar.filters)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicAdjectiveToExclamationFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/53)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ArabicAdjectiveToExclamationFilter$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/57)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ar.filters;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SimpleReplaceDataLoader;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.tagging.ar.ArabicTagger;
+&nbsp;import org.languagetool.tools.ArabicWordMaps;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Filter that maps suggestion from adverb to adjective.
+&nbsp; *
+&nbsp; * @since 5.8
+&nbsp; */
+&nbsp;public class ArabicAdjectiveToExclamationFilter extends RuleFilter {
+&nbsp;
+<b class="nc">&nbsp;  public ArabicAdjectiveToExclamationFilter() {</b>
+<b class="nc">&nbsp;    this.adj2compList = loadFromPath(FILE_NAME);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  private final ArabicTagger tagger = new ArabicTagger();</b>
+&nbsp;  private static final String FILE_NAME = &quot;/ar/arabic_adjective_exclamation.txt&quot;;
+&nbsp;  private final Map&lt;String, List&lt;String&gt;&gt; adj2compList;
+&nbsp;
+<b class="nc">&nbsp;  private final Map&lt;String, String&gt; adj2comp = new HashMap&lt;String, String&gt;() {{</b>
+&nbsp;    // tri letters verb:
+<b class="nc">&nbsp;    put(&quot;رشيد&quot;, &quot;أرشد&quot;);</b>
+<b class="nc">&nbsp;    put(&quot;طويل&quot;, &quot;أطول&quot;);</b>
+<b class="nc">&nbsp;    put(&quot;بديع&quot;, &quot;أبدع&quot;);</b>
+&nbsp;  }};
+&nbsp;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+&nbsp;
+&nbsp;    //  This rule return only the comparative according to given adjective
+<b class="nc">&nbsp;    String adj = arguments.get(&quot;adj&quot;); // extract adjective</b>
+<b class="nc">&nbsp;    String noun = arguments.get(&quot;noun&quot;); // the second argument</b>
+&nbsp;    int adjTokenIndex;
+&nbsp;    try {
+<b class="nc">&nbsp;      adjTokenIndex = Integer.parseInt(arguments.get(&quot;adj_pos&quot;)) - 1;</b>
+&nbsp;    } catch (NumberFormatException e) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Error parsing adj_pos from : &quot; + arguments.get(&quot;adj_pos&quot;), e);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // filter tokens which have a lemma of adjective
+&nbsp;
+&nbsp;    // some cases can have multiple lemmas, but only adjective lemma are used
+<b class="nc">&nbsp;    List&lt;String&gt; adjLemmas = tagger.getLemmas(patternTokens[adjTokenIndex], &quot;adj&quot;);</b>
+&nbsp;
+&nbsp;    // get comparative from Adj/comp list
+<b class="nc">&nbsp;    List&lt;String&gt; compList = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (String adjLemma : adjLemmas) {</b>
+&nbsp;      // get comparative suitable to adjective
+<b class="nc">&nbsp;      List&lt;String&gt; comparativeList = adj2compList.get(adjLemma);</b>
+<b class="nc">&nbsp;      if (comparativeList != null) {</b>
+<b class="nc">&nbsp;        compList.addAll(comparativeList);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // remove duplicates
+<b class="nc">&nbsp;    compList = new ArrayList&lt;&gt;(new HashSet&lt;&gt;(compList));</b>
+<b class="nc">&nbsp;    RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());</b>
+&nbsp;    // generate suggestion
+<b class="nc">&nbsp;    List&lt;String&gt; suggestionList = prepareSuggestions(compList, noun);</b>
+<b class="nc">&nbsp;    for (String sug : suggestionList) {</b>
+<b class="nc">&nbsp;      newMatch.addSuggestedReplacement(sug);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* prepare suggestion for a list of comparative */
+&nbsp;  protected static List&lt;String&gt; prepareSuggestions(List&lt;String&gt; compList, String noun) {
+<b class="nc">&nbsp;    List&lt;String&gt; sugList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String comp : compList) {</b>
+<b class="nc">&nbsp;      sugList.addAll(prepareSuggestions(comp, noun));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return sugList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static List&lt;String&gt; prepareSuggestions(String comp, String noun) {
+&nbsp;    /*
+&nbsp;    الحالات:
+&nbsp;    الاسم ليس ضميرا
+&nbsp;
+&nbsp;
+&nbsp;    ال   كم الولد جميل==&gt; ما أجمل الولد
+&nbsp;    أجمل بالولد
+&nbsp;
+&nbsp;    حالة الضمير
+&nbsp;
+&nbsp;    كم هو جميل==&gt; ما أجمله
+&nbsp;      أجمل به
+&nbsp;
+&nbsp;    حالة الضفة غير الثلاثية
+&nbsp;    اسم:
+&nbsp;    كم الطالب شديد الاستيعاب
+&nbsp;    ما أشد استيعاب الطالب
+&nbsp;    أشدد باستيعابه
+&nbsp;
+&nbsp;    ضمير
+&nbsp;    كم هو شديد الاستيعاب
+&nbsp;    ما أشد استيعابه
+&nbsp;    أشد باستيعابه
+&nbsp;     */
+&nbsp;
+<b class="nc">&nbsp;    List&lt;String&gt; sugList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    StringBuilder suggestion = new StringBuilder();</b>
+<b class="nc">&nbsp;    suggestion.append(comp);</b>
+<b class="nc">&nbsp;    if (noun == null || noun.isEmpty()) {</b>
+<b class="nc">&nbsp;    } else if (isPronoun(noun)) {</b>
+&nbsp;      // no space adding
+<b class="nc">&nbsp;      suggestion.append(ArabicWordMaps.getAttachedPronoun(noun));</b>
+&nbsp;    } else {
+&nbsp;      //if comparative is of second form don&#39;t add a space
+<b class="nc">&nbsp;      if (!comp.endsWith(&quot; ب&quot;)) {</b>
+<b class="nc">&nbsp;        suggestion.append(&quot; &quot;);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      suggestion.append(noun);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // add suggestions
+<b class="nc">&nbsp;    sugList.add(suggestion.toString());</b>
+<b class="nc">&nbsp;    return sugList;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* test if the word is an isolated pronoun */
+&nbsp;  private static boolean isPronoun(String word) {
+<b class="nc">&nbsp;    if (word == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return word.equals(&quot;هو&quot;)</b>
+<b class="nc">&nbsp;      || word.equals(&quot;هي&quot;)</b>
+<b class="nc">&nbsp;      || word.equals(&quot;هم&quot;)</b>
+<b class="nc">&nbsp;      || word.equals(&quot;هما&quot;)</b>
+<b class="nc">&nbsp;      || word.equals(&quot;أنا&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /* get corresponding attached to unattached pronoun */
+&nbsp;  private static String getAttachedPronoun(String word) {
+<b class="nc">&nbsp;    if (word == null) {</b>
+<b class="nc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    Map&lt;String, String&gt; isolatedToAttachedPronoun = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    isolatedToAttachedPronoun.put(&quot;هو&quot;, &quot;ه&quot;);</b>
+<b class="nc">&nbsp;    isolatedToAttachedPronoun.put(&quot;هي&quot;, &quot;ها&quot;);</b>
+<b class="nc">&nbsp;    isolatedToAttachedPronoun.put(&quot;هم&quot;, &quot;هم&quot;);</b>
+<b class="nc">&nbsp;    isolatedToAttachedPronoun.put(&quot;هن&quot;, &quot;هن&quot;);</b>
+<b class="nc">&nbsp;    isolatedToAttachedPronoun.put(&quot;نحن&quot;, &quot;نا&quot;);</b>
+<b class="nc">&nbsp;    return isolatedToAttachedPronoun.getOrDefault(word, &quot;&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static Map&lt;String, List&lt;String&gt;&gt; loadFromPath(String path) {
+<b class="nc">&nbsp;    return new SimpleReplaceDataLoader().loadWords(path);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static String getDataFilePath() {
+<b class="nc">&nbsp;    return FILE_NAME;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:58</div>
+</div>
+</body>
+</html>

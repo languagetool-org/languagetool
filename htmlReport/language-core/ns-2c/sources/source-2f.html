@@ -1,0 +1,927 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MissingCommaRelativeClauseRule</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.de</a>
+</div>
+
+<h1>Coverage Summary for Class: MissingCommaRelativeClauseRule (org.languagetool.rules.de)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MissingCommaRelativeClauseRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/358)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/393)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.de;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.StringUtils;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.GermanyGerman;
+&nbsp;import org.languagetool.rules.Category;
+&nbsp;import org.languagetool.rules.Category.Location;
+&nbsp;import org.languagetool.rules.CategoryId;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.PatternTokenBuilder;
+&nbsp;import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import static java.util.regex.Pattern.compile;
+&nbsp;import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * A rule checks a sentence for a missing comma before or after a relative clause (only for German language).
+&nbsp; * @author Fred Kruse
+&nbsp; */
+&nbsp;public class MissingCommaRelativeClauseRule extends Rule {
+&nbsp;
+<b class="nc">&nbsp;  private static final Pattern MARKS_REGEX = compile(&quot;[,;.:?•!-–—’&#39;\&quot;„“”…»«‚‘›‹()\\/\\[\\]]&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern PRONOUN = compile(&quot;(d(e[mnr]|ie|as|e([nr]|ss)en)|welche[mrs]?|wessen|was)&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern verbPattern = Pattern.compile(&quot;(VER:[1-3]:|VER:.*:[1-3]:).*&quot;);</b>
+<b class="nc">&nbsp;  private static final Pattern zalEtcPattern = Pattern.compile(&quot;(ZAL|AD[JV]|ART|SUB|PRO:POS|PRP).*&quot;);</b>
+&nbsp;
+&nbsp;  private final boolean behind;
+&nbsp;
+<b class="nc">&nbsp;  private static final List&lt;DisambiguationPatternRule&gt; ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(</b>
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        regex(&quot;gerade|wenn&quot;),</b>
+<b class="nc">&nbsp;        token(&quot;das&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        token(&quot;anstelle&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;diese[rsm]|de[rsm]|dessen|jene[rsm]|[dms]?eine[rsm]|ihre[rs]|eure[sr]|unse?re[sr]&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        token(&quot;im&quot;),</b>
+<b class="nc">&nbsp;        token(&quot;Zuge&quot;),</b>
+<b class="nc">&nbsp;        token(&quot;dessen&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        csToken(&quot;mit&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;de[mr]&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;de[mrs]&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;SUB:.+&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;verbindet&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        regex(&quot;eine&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;menge&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;SUB:.+&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // dass sich wie folgt formulieren lässt</b>
+<b class="nc">&nbsp;        regex(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;folgt&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;VER:.+&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // das sollte gut überlegt sein</b>
+<b class="nc">&nbsp;        regex(&quot;gut&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;überlegt&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;sein&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // samt Auftraggeber</b>
+<b class="nc">&nbsp;        csToken(&quot;samt&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;SUB:DAT.*&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // ... denen sie ausgesetzt sind.</b>
+<b class="nc">&nbsp;        posRegex(&quot;PA2:PRD:GRU:VER|VER:PA2.*&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;sind&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;PKT&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        csToken(&quot;am&quot;),</b>
+<b class="nc">&nbsp;        pos(&quot;ADJ:PRD:SUP&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;PRP:.+&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;d(e[mnr]|ie|as|e([nr]|ss)en)&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // Aber denen etwas beibringen zu müssen, die sich sträuben, das ist die wahre Hölle.</b>
+<b class="nc">&nbsp;        pos(&quot;SENT_START&quot;),</b>
+<b class="nc">&nbsp;        token(&quot;Aber&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;der|die|denen|das|jenen|einigen|anderen|vielen|manchen|allen&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // Aus diesem Grund sind die Wörter nicht direkt übersetzt, stattdessen wird der Zustand oder die Situation beschrieben in der die Wörter benutzt werden. </b>
+<b class="nc">&nbsp;        posRegex(&quot;PA2.*|VER:PA2.*&quot;),</b>
+<b class="nc">&nbsp;        token(&quot;werden&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;[\\.\\!\\?…\\:;]+&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // Plan von Maßnahmen, mit denen das Ansteckungsrisiko während des Aufenthalts an einem Ort verringert werden soll</b>
+<b class="nc">&nbsp;        token(&quot;werden&quot;),</b>
+<b class="nc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SENT_END&quot;).matchInflectedForms().tokenRegex(&quot;sollen|können|müssen&quot;).build()</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // Aus diesem Grund sind die Wörter nicht direkt übersetzt, stattdessen wird der Zustand oder die Situation beschrieben in der die Wörter benutzt werden.</b>
+<b class="nc">&nbsp;        posRegex(&quot;PA2.*|VER:PA2.*&quot;),</b>
+<b class="nc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SENT_END&quot;).matchInflectedForms().tokenRegex(&quot;haben|werden&quot;).build()</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( // Es würde noch sehr helfen eine Kopie der Google Slide dort zu verlinken damit wir das direkt nachstellen können</b>
+<b class="nc">&nbsp;        posRegex(&quot;VER:INF.*&quot;),</b>
+<b class="nc">&nbsp;        new PatternTokenBuilder().posRegex(&quot;SENT_END&quot;).matchInflectedForms().tokenRegex(&quot;können|werden|sollen|dürfen|müssen|wollen|mögen&quot;).build()</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+&nbsp;        // Komma an der falschen Stelle
+<b class="nc">&nbsp;        regex(&quot;ja|mal&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;was&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+&nbsp;        // Komma an der falschen Stelle
+<b class="nc">&nbsp;        posRegex(&quot;SENT_START|PKT&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;aber&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;solange|wenn|wo|wie|was&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;du|er|sie|sich|man|euch|uns|die|der|das&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+&nbsp;        // Komma an der falschen Stelle
+<b class="nc">&nbsp;        csToken(&quot;selbst&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;wenn&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;du|er|sie|sich|man|euch|uns|die|der|das&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;die|der|das&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+&nbsp;        // Komma an der falschen Stelle
+<b class="nc">&nbsp;        csToken(&quot;wie&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;die|der|das&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList( </b>
+&nbsp;        // Kein Komma in &quot;weder ... noch ...&quot;
+<b class="nc">&nbsp;        new PatternTokenBuilder().setSkip(12).matchInflectedForms().token(&quot;weder&quot;).build(),</b>
+<b class="nc">&nbsp;        token(&quot;noch&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        posRegex(&quot;VER:.*1:SIN:KJ1:.+&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;VER:MOD:[12]:.+&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;PKT|KON:NEB&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+&nbsp;        // Er warnt auch vor Autos, die soeben überholt haben bzw. überholt wurden.
+<b class="nc">&nbsp;        posRegex(&quot;VER:.+&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;bzw&quot;),</b>
+<b class="nc">&nbsp;        csToken(&quot;.&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;VER:.+&quot;)</b>
+&nbsp;      ),
+&nbsp;      // … Planungen, die sich noch auf die ganze Stadt bezogen wurden aufgegeben.
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        regex(&quot;w[eu]rden&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;PA2:PRD:GRU:VER|VER:PA2.*&quot;),</b>
+<b class="nc">&nbsp;        pos(&quot;PKT&quot;)</b>
+&nbsp;      ),
+&nbsp;      // Der Beitrag, den Sie versucht haben aufzurufen, existiert nicht mehr oder wurde verschoben.
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        posRegex(&quot;PA2:PRD:GRU:VER|VER:PA2.*&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;haben?|hatten?&quot;),</b>
+<b class="nc">&nbsp;        posRegex(&quot;VER:EIZ.*&quot;),</b>
+<b class="nc">&nbsp;        pos(&quot;PKT&quot;)</b>
+&nbsp;      ),
+<b class="nc">&nbsp;      Arrays.asList(</b>
+<b class="nc">&nbsp;        posRegex(&quot;VER.*&quot;),</b>
+<b class="nc">&nbsp;        regex(&quot;\\u2063&quot;)</b>
+&nbsp;      )
+<b class="nc">&nbsp;  ), GermanyGerman.getInstance());</b>
+&nbsp;
+&nbsp;  public MissingCommaRelativeClauseRule(ResourceBundle messages) {
+<b class="nc">&nbsp;    this(messages, false);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public MissingCommaRelativeClauseRule(ResourceBundle messages, boolean behind) {
+<b class="nc">&nbsp;    super(messages);</b>
+<b class="nc">&nbsp;    super.setCategory(new Category(new CategoryId(&quot;HILFESTELLUNG_KOMMASETZUNG&quot;),</b>
+&nbsp;        &quot;Kommasetzung&quot;, Location.INTERNAL, true));
+<b class="nc">&nbsp;    this.behind = behind;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getId() {
+<b class="nc">&nbsp;    return (behind ? &quot;COMMA_BEHIND_RELATIVE_CLAUSE&quot; : &quot;COMMA_IN_FRONT_RELATIVE_CLAUSE&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String getDescription() {
+<b class="nc">&nbsp;    return (behind ? &quot;Fehlendes Komma nach Relativsatz&quot; : &quot;Fehlendes Komma vor Relativsatz&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a separator
+&nbsp;   */
+&nbsp;  private static boolean isSeparator(String token) {
+<b class="nc">&nbsp;    return (MARKS_REGEX.matcher(token).matches() || token.equals(&quot;und&quot;) || token.equals(&quot;oder&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * get the position of the next separator
+&nbsp;   */
+&nbsp;  private static int nextSeparator(AnalyzedTokenReadings[] tokens, int start) {
+<b class="nc">&nbsp;    for(int i = start; i &lt; tokens.length; i++) {</b>
+<b class="nc">&nbsp;      if(isSeparator(tokens[i].getToken())) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return tokens.length - 1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is preposition
+&nbsp;   */
+&nbsp;  private static boolean isPrp(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return token.hasPosTagStartingWith(&quot;PRP:&quot;) &amp;&amp; !token.isImmunized();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a potential verb used in sentence or subclause
+&nbsp;   */
+&nbsp;  private static boolean isVerb(AnalyzedTokenReadings[] tokens, int n) {
+<b class="nc">&nbsp;    return (tokens[n].matchesPosTagRegex(verbPattern)</b>
+<b class="nc">&nbsp;        &amp;&amp; !tokens[n].matchesPosTagRegex(zalEtcPattern)</b>
+<b class="nc">&nbsp;        &amp;&amp; (!tokens[n].hasPosTagStartingWith(&quot;VER:INF:&quot;) || !tokens[n-1].getToken().equals(&quot;zu&quot;))</b>
+<b class="nc">&nbsp;        &amp;&amp; !tokens[n].isImmunized()</b>
+&nbsp;      );
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is any verb but not an &quot;Infinitiv mit zu&quot;
+&nbsp;   */
+&nbsp;  private static boolean isAnyVerb(AnalyzedTokenReadings[] tokens, int n) {
+<b class="nc">&nbsp;    return tokens[n].hasPosTagStartingWith(&quot;VER:&quot;)</b>
+&nbsp;        || (n &lt; tokens.length - 1
+<b class="nc">&nbsp;            &amp;&amp; ((tokens[n].getToken().equals(&quot;zu&quot;) &amp;&amp; tokens[n+1].hasPosTagStartingWith(&quot;VER:INF:&quot;))</b>
+<b class="nc">&nbsp;             || (tokens[n].hasPosTag(&quot;NEG&quot;) &amp;&amp; tokens[n+1].hasPosTagStartingWith(&quot;VER:&quot;))));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a verb after sub clause
+&nbsp;   */
+&nbsp;  static boolean isVerbBehind(AnalyzedTokenReadings[] tokens, int end) {
+<b class="nc">&nbsp;    return (end &lt; tokens.length - 1 &amp;&amp; tokens[end].getToken().equals(&quot;,&quot;) &amp;&amp; tokens[end+1].hasPosTagStartingWith(&quot;VER:&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * gives the positions of verbs in a subclause
+&nbsp;   */
+&nbsp;  private static List&lt;Integer&gt; verbPos(AnalyzedTokenReadings[] tokens, int start, int end) {
+<b class="nc">&nbsp;    List&lt;Integer&gt;verbs = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    for(int i = start; i &lt; end; i++) {</b>
+<b class="nc">&nbsp;      if(isVerb(tokens, i)) {</b>
+<b class="nc">&nbsp;        if(tokens[i].hasPosTagStartingWith(&quot;PA&quot;)) {</b>
+<b class="nc">&nbsp;          String gender = getGender(tokens[i]);</b>
+<b class="nc">&nbsp;          String sStr = &quot;(ADJ|PA[12]):.*&quot; + gender +&quot;.*&quot;;</b>
+&nbsp;          int j;
+<b class="nc">&nbsp;          for(j = i + 1; j &lt; end &amp;&amp; tokens[j].matchesPosTagRegex(sStr); j++);</b>
+<b class="nc">&nbsp;          if(!tokens[j].matchesPosTagRegex(&quot;(SUB|EIG):.*&quot; + gender +&quot;.*&quot;) &amp;&amp; !tokens[j].isPosTagUnknown()) {</b>
+<b class="nc">&nbsp;            verbs.add(i);</b>
+&nbsp;          }
+&nbsp;        } else {
+<b class="nc">&nbsp;          verbs.add(i);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return verbs;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * first token initiate a subclause
+&nbsp;   */
+&nbsp;  private static boolean isKonUnt(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return (token.hasPosTag(&quot;KON:UNT&quot;)</b>
+<b class="nc">&nbsp;        || StringUtils.equalsAnyIgnoreCase(token.getToken(), &quot;wer&quot;, &quot;wo&quot;, &quot;wohin&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * checks to what position a test of relative clause should done
+&nbsp;   * return -1 if no potential relative clause is assumed
+&nbsp;   */
+&nbsp;  private static int hasPotentialSubclause(AnalyzedTokenReadings[] tokens, int start, int end) {
+<b class="nc">&nbsp;    List&lt;Integer&gt; verbs = verbPos(tokens, start, end);</b>
+<b class="nc">&nbsp;    if(verbs.size() == 1 &amp;&amp; end &lt; tokens.length - 2 &amp;&amp; verbs.get(0) == end - 1) {</b>
+<b class="nc">&nbsp;      int nextEnd = nextSeparator(tokens, end + 1);</b>
+<b class="nc">&nbsp;      List&lt;Integer&gt; nextVerbs = verbPos(tokens, end + 1, nextEnd);</b>
+<b class="nc">&nbsp;      if(isKonUnt(tokens[start])) {</b>
+<b class="nc">&nbsp;        if(nextVerbs.size() &gt; 1 || (nextVerbs.size() == 1 &amp;&amp; nextVerbs.get(0) == end - 1)) {</b>
+<b class="nc">&nbsp;          return verbs.get(0);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if(nextVerbs.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        return verbs.get(0);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return -1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(verbs.size() == 2) {</b>
+<b class="nc">&nbsp;      if(tokens[verbs.get(0)].matchesPosTagRegex(&quot;VER:(MOD|AUX):.*&quot;) &amp;&amp; tokens[verbs.get(1)].hasPosTagStartingWith(&quot;VER:INF:&quot;)) {</b>
+<b class="nc">&nbsp;        return verbs.get(0);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if(tokens[verbs.get(0)].hasPosTagStartingWith(&quot;VER:AUX:&quot;) &amp;&amp; tokens[verbs.get(1)].hasPosTagStartingWith(&quot;VER:PA2:&quot;)) {</b>
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if(end == tokens.length - 1 &amp;&amp; verbs.get(0) == end - 2</b>
+<b class="nc">&nbsp;          &amp;&amp; tokens[verbs.get(0)].hasPosTagStartingWith(&quot;VER:INF:&quot;) &amp;&amp; tokens[verbs.get(1)].hasPosTagStartingWith(&quot;VER:MOD:&quot;)) {</b>
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if(verbs.size() == 3) {</b>
+<b class="nc">&nbsp;      if(tokens[verbs.get(0)].hasPosTagStartingWith(&quot;VER:MOD:&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; ((tokens[verbs.get(2) - 1].matchesPosTagRegex(&quot;VER:(INF|PA2):.*&quot;) &amp;&amp; tokens[verbs.get(2)].hasPosTagStartingWith(&quot;VER:INF:&quot;))</b>
+<b class="nc">&nbsp;              || (tokens[verbs.get(1) - 1].getToken().equals(&quot;weder&quot;) &amp;&amp; tokens[verbs.get(1)].hasPosTagStartingWith(&quot;VER:INF:&quot;)</b>
+<b class="nc">&nbsp;                  &amp;&amp; tokens[verbs.get(2) - 1].getToken().equals(&quot;noch&quot;) &amp;&amp; tokens[verbs.get(1)].hasPosTagStartingWith(&quot;VER:INF:&quot;)))</b>
+&nbsp;        ) {
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if(verbs.size() &gt; 1) {</b>
+<b class="nc">&nbsp;      return verbs.get(verbs.size() - 1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is potential relative pronoun
+&nbsp;   */
+&nbsp;  private static boolean isPronoun(AnalyzedTokenReadings[] tokens, int n) {
+<b class="nc">&nbsp;    return (PRONOUN.matcher(tokens[n].getToken()).matches()</b>
+<b class="nc">&nbsp;            &amp;&amp; !tokens[n - 1].getToken().equals(&quot;sowie&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * get the gender of of a token
+&nbsp;   */
+&nbsp;  private static String getGender(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    int nMatches = 0;</b>
+<b class="nc">&nbsp;    String ret = &quot;&quot;;</b>
+<b class="nc">&nbsp;    if(token.matchesPosTagRegex(&quot;.*:SIN:FEM.*&quot;)) {</b>
+<b class="nc">&nbsp;      ret += &quot;SIN:FEM&quot;;</b>
+<b class="nc">&nbsp;      nMatches++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(token.matchesPosTagRegex(&quot;.*:SIN:MAS.*&quot;)) {</b>
+<b class="nc">&nbsp;      if(nMatches &gt; 0) {</b>
+<b class="nc">&nbsp;        ret += &quot;|&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ret += &quot;SIN:MAS&quot;;</b>
+<b class="nc">&nbsp;      nMatches++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(token.matchesPosTagRegex(&quot;.*:SIN:NEU.*&quot;)) {</b>
+<b class="nc">&nbsp;      if(nMatches &gt; 0) {</b>
+<b class="nc">&nbsp;        ret += &quot;|&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ret += &quot;SIN:NEU&quot;;</b>
+<b class="nc">&nbsp;      nMatches++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(token.matchesPosTagRegex(&quot;.*:PLU.*&quot;)) {</b>
+<b class="nc">&nbsp;      if(nMatches &gt; 0) {</b>
+<b class="nc">&nbsp;        ret += &quot;|&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ret += &quot;PLU&quot;;</b>
+<b class="nc">&nbsp;      nMatches++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(nMatches &gt; 1) {</b>
+<b class="nc">&nbsp;      ret = &quot;(&quot; + ret + &quot;)&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ret;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * does the gender match with a subject or name?
+&nbsp;   */
+&nbsp;  private static boolean matchesGender(String gender, AnalyzedTokenReadings[] tokens, int from, int to) {
+&nbsp;    String mStr;
+<b class="nc">&nbsp;    if(gender.isEmpty()) {</b>
+<b class="nc">&nbsp;      mStr = &quot;PRO:DEM:.*SIN:NEU.*&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      mStr = &quot;(SUB|EIG):.*&quot; + gender +&quot;.*&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for (int i = to - 1; i &gt;= from; i-- ) {</b>
+<b class="nc">&nbsp;      if(tokens[i].matchesPosTagRegex(mStr) &amp;&amp; (i != 1 || !tokens[i].hasPosTagStartingWith(&quot;VER:&quot;))) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is the token a potential article without a noun
+&nbsp;   */
+&nbsp;  private static boolean isArticleWithoutSub(String gender, AnalyzedTokenReadings[] tokens, int n) {
+<b class="nc">&nbsp;    if(gender.isEmpty()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tokens[n].hasPosTagStartingWith(&quot;VER:&quot;) &amp;&amp; tokens[n - 1].matchesPosTagRegex(&quot;(ADJ|PA[12]|PRO:POS):.*&quot; + gender + &quot;.*&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * skip tokens till the next noun
+&nbsp;   * check for e.g. &quot;das in die dunkle Garage fahrende Auto&quot; -&gt; &quot;das&quot; is article
+&nbsp;   */
+&nbsp;  private static int skipSub(AnalyzedTokenReadings[] tokens, int n, int to) {
+<b class="nc">&nbsp;    String gender = getGender(tokens[n]);</b>
+<b class="nc">&nbsp;    for(int i = n + 1; i &lt; to; i++) {</b>
+<b class="nc">&nbsp;      if(tokens[i].matchesPosTagRegex(&quot;(SUB|EIG):.*&quot; + gender + &quot;.*&quot;)) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * skip tokens till the next noun
+&nbsp;   * check for e.g. &quot;das in die dunkle Garage fahrende Auto&quot; -&gt; &quot;das&quot; is article
+&nbsp;   */
+&nbsp;  private static int skipToSub(String gender, AnalyzedTokenReadings[] tokens, int n, int to) {
+<b class="nc">&nbsp;    if(tokens[n+1].matchesPosTagRegex(&quot;PA[12]:.*&quot; + gender + &quot;.*&quot;)) {</b>
+<b class="nc">&nbsp;      return n+1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for(int i = n + 1; i &lt; to; i++) {</b>
+<b class="nc">&nbsp;      if(tokens[i].matchesPosTagRegex(&quot;(ADJ|PA[12]):.*&quot; + gender + &quot;.*&quot;) || tokens[i].isPosTagUnknown()) {</b>
+<b class="nc">&nbsp;        return i;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if(tokens[i].hasPosTagStartingWith(&quot;ART&quot;)) {</b>
+<b class="nc">&nbsp;        i = skipSub(tokens, i, to);</b>
+<b class="nc">&nbsp;        if (i &lt; 0) {</b>
+<b class="nc">&nbsp;          return i;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * check if token is potentially an article
+&nbsp;   */
+&nbsp;  private static boolean isArticle(String gender, AnalyzedTokenReadings[] tokens, int from, int to) {
+<b class="nc">&nbsp;    if(gender.isEmpty()) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String sSub = &quot;(SUB|EIG):.*&quot; + gender +&quot;.*&quot;;</b>
+<b class="nc">&nbsp;    String sAdj = &quot;(ZAL|PRP:|KON:|ADV:|ADJ:PRD:|(ADJ|PA[12]|PRO:(POS|DEM|IND)):.*&quot; + gender +&quot;).*&quot;;</b>
+<b class="nc">&nbsp;    for (int i = from + 1; i &lt; to; i++ ) {</b>
+<b class="nc">&nbsp;      if(tokens[i].matchesPosTagRegex(sSub) || tokens[i].isPosTagUnknown()) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if((tokens[i].hasPosTagStartingWith(&quot;ART&quot;)) || !tokens[i].matchesPosTagRegex(sAdj)) {</b>
+<b class="nc">&nbsp;        if(isArticleWithoutSub(gender, tokens, i)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        int skipTo = skipToSub(gender, tokens, i, to);</b>
+<b class="nc">&nbsp;        if(skipTo &gt; 0) {</b>
+<b class="nc">&nbsp;          i = skipTo;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          return false;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return to &lt; tokens.length &amp;&amp; isArticleWithoutSub(gender, tokens, to);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * gives back position where a comma is missed
+&nbsp;   * PRP has to be treated separately
+&nbsp;   */
+&nbsp;  private static int missedCommaInFront(AnalyzedTokenReadings[] tokens, int start, int end, int lastVerb) {
+<b class="nc">&nbsp;    for(int i = start; i &lt; lastVerb - 1; i++) {</b>
+<b class="nc">&nbsp;      if (tokens[i].isImmunized()) {</b>
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      if(isPronoun(tokens, i)) {</b>
+<b class="nc">&nbsp;        String gender = getGender(tokens[i]);</b>
+<b class="nc">&nbsp;        if(gender != null &amp;&amp; !isAnyVerb(tokens, i + 1)</b>
+<b class="nc">&nbsp;            &amp;&amp; matchesGender(gender, tokens, start, i) &amp;&amp; !isArticle(gender, tokens, i, lastVerb)) {</b>
+<b class="nc">&nbsp;          return i;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a special combination of two verbs combination
+&nbsp;   */
+&nbsp;  private static boolean isTwoCombinedVerbs(AnalyzedTokenReadings first, AnalyzedTokenReadings second) {
+<b class="nc">&nbsp;    return first.matchesPosTagRegex(&quot;(VER:.*INF|.*PA[12]:).*&quot;) &amp;&amp; second.hasPosTagStartingWith(&quot;VER:&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a special combination of three verbs combination
+&nbsp;   */
+&nbsp;  private static boolean isThreeCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
+<b class="nc">&nbsp;    return tokens[first].matchesPosTagRegex(&quot;VER:(AUX|INF|PA[12]).*&quot;) &amp;&amp; tokens[first + 1].matchesPosTagRegex(&quot;VER:(.*INF|PA[12]).*&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[last].matchesPosTagRegex(&quot;VER:(MOD|AUX).*&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a special combination of four verbs combination
+&nbsp;   */
+&nbsp;  private static boolean isFourCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
+<b class="nc">&nbsp;    return tokens[first].hasPartialPosTag(&quot;KJ2&quot;) &amp;&amp; tokens[first + 1].hasPartialPosTag(&quot;PA2&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[first + 2].matchesPosTagRegex(&quot;VER:(.*INF|PA[12]).*&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[last].matchesPosTagRegex(&quot;VER:(MOD|AUX).*&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is participle
+&nbsp;   */
+&nbsp;  private static boolean isPar(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    return token.hasPosTagStartingWith(&quot;PA2:&quot;) || token.hasPosTagStartingWith(&quot;VER:PA2&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is participle plus special combination of two verbs combination
+&nbsp;   */
+&nbsp;  private static boolean isInfinitivZu(AnalyzedTokenReadings[] tokens, int last) {
+<b class="nc">&nbsp;    return tokens[last - 1 ].getToken().equals(&quot;zu&quot;)&amp;&amp; tokens[last].matchesPosTagRegex(&quot;VER:.*INF.*&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is verb plus special combination of two verbs combination
+&nbsp;   */
+&nbsp;  private static boolean isTwoPlusCombinedVerbs(AnalyzedTokenReadings[] tokens, int first, int last) {
+<b class="nc">&nbsp;    return tokens[first].matchesPosTagRegex(&quot;.*PA[12]:.*&quot;) &amp;&amp; tokens[last-1].matchesPosTagRegex(&quot;VER:.*INF.*&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * conjunction follows last verb
+&nbsp;   */
+&nbsp;  private static boolean isKonAfterVerb(AnalyzedTokenReadings[] tokens, int start, int end) {
+<b class="nc">&nbsp;    if(tokens[start].matchesPosTagRegex(&quot;VER:(MOD|AUX).*&quot;) &amp;&amp; tokens[start + 1].matchesPosTagRegex(&quot;(KON|PRP).*&quot;)) {</b>
+<b class="nc">&nbsp;      if(start + 3 == end) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      for(int i = start + 2; i &lt; end; i++) {</b>
+<b class="nc">&nbsp;        if(tokens[i].matchesPosTagRegex(&quot;(SUB|PRO:PER).*&quot;)) {</b>
+<b class="nc">&nbsp;          return true;</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * two infinitive verbs as pair
+&nbsp;   */
+&nbsp;  private static boolean isSpecialPair(AnalyzedTokenReadings[] tokens, int first, int second) {
+<b class="nc">&nbsp;    if(first + 3 &gt;= second &amp;&amp; tokens[first].matchesPosTagRegex(&quot;VER:.*INF.*&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; StringUtils.equalsAny(tokens[first+1].getToken(), &quot;als&quot;, &quot;noch&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; tokens[first + 2].matchesPosTagRegex(&quot;VER:.*INF.*&quot;)) {</b>
+<b class="nc">&nbsp;      if(first + 2 == second) {</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return isTwoCombinedVerbs(tokens[second - 1], tokens[second]);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a pair of verbs to build the perfect
+&nbsp;   */
+&nbsp;  private static boolean isPerfect(AnalyzedTokenReadings[] tokens, int first, int second) {
+<b class="nc">&nbsp;    return tokens[first].hasPosTagStartingWith(&quot;VER:AUX:&quot;) &amp;&amp; tokens[second].matchesPosTagRegex(&quot;VER:.*(INF|PA2).*&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is Infinitive in combination with substantiv
+&nbsp;   */
+&nbsp;  private static boolean isSpecialInf(AnalyzedTokenReadings[] tokens, int first, int second, int start) {
+<b class="nc">&nbsp;    if(!tokens[first].hasPosTagStartingWith(&quot;VER:INF&quot;)) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    for(int i = first - 1; i &gt; start; i--) {</b>
+<b class="nc">&nbsp;      if(tokens[i].hasPosTagStartingWith(&quot;ART&quot;)) {</b>
+<b class="nc">&nbsp;        i = skipSub(tokens, i, second);</b>
+<b class="nc">&nbsp;        return i &gt; 0;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return false;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is a pair of verbs to build the perfect
+&nbsp;   */
+&nbsp;  private static boolean isPerfect(AnalyzedTokenReadings[] tokens, int first, int second, int third) {
+<b class="nc">&nbsp;    return tokens[second].matchesPosTagRegex(&quot;VER:.*INF.*&quot;) &amp;&amp; isPerfect(tokens, first, third);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * is separator or VER:INF
+&nbsp;   */
+&nbsp;  private static boolean isSeparatorOrInf(AnalyzedTokenReadings[] tokens, int n) {
+<b class="nc">&nbsp;    return isSeparator(tokens[n].getToken()) || tokens[n].hasPosTagStartingWith(&quot;VER:INF&quot;)</b>
+<b class="nc">&nbsp;        || (tokens.length &gt; n + 1 &amp;&amp; tokens[n].getToken().equals(&quot;zu&quot;) &amp;&amp; tokens[n + 1].matchesPosTagRegex(&quot;VER:.*INF.*&quot;));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * gives back position where a comma is missed
+&nbsp;   */
+&nbsp;  private static int getCommaBehind(AnalyzedTokenReadings[] tokens, List&lt;Integer&gt; verbs, int start, int end) {
+<b class="nc">&nbsp;    if(verbs.size() == 1) {</b>
+<b class="nc">&nbsp;      if(isSeparator(tokens[verbs.get(0) + 1].getToken())) {</b>
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return verbs.get(0);</b>
+<b class="nc">&nbsp;    } else if(verbs.size() == 2) {</b>
+<b class="nc">&nbsp;      if(isSpecialPair(tokens, verbs.get(0), verbs.get(1))) {</b>
+<b class="nc">&nbsp;        if(isSeparatorOrInf(tokens, verbs.get(1) + 1)) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return verbs.get(1);</b>
+<b class="nc">&nbsp;      } else if(verbs.get(0) + 1 == verbs.get(1)) {</b>
+<b class="nc">&nbsp;        if(isTwoCombinedVerbs(tokens[verbs.get(0)], tokens[verbs.get(1)])) {</b>
+<b class="nc">&nbsp;          if(isSeparatorOrInf(tokens, verbs.get(1) + 1) || isKonAfterVerb(tokens, verbs.get(1), end)) {</b>
+<b class="nc">&nbsp;            return -1;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return verbs.get(1);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if(verbs.get(0) + 2 == verbs.get(1)) {</b>
+<b class="nc">&nbsp;        if(isThreeCombinedVerbs(tokens, verbs.get(0), verbs.get(1))) {</b>
+<b class="nc">&nbsp;          if(isSeparatorOrInf(tokens, verbs.get(1) + 1)) {</b>
+<b class="nc">&nbsp;            return -1;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return verbs.get(1);</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      if(isPar(tokens[verbs.get(0)]) || isPerfect(tokens, verbs.get(0), verbs.get(1))</b>
+<b class="nc">&nbsp;          || isInfinitivZu(tokens, verbs.get(1)) || isSpecialInf(tokens, verbs.get(0), verbs.get(1), start)) {</b>
+<b class="nc">&nbsp;        if(isSeparatorOrInf(tokens, verbs.get(1) + 1)) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return verbs.get(1);</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if(verbs.size() == 3) {</b>
+<b class="nc">&nbsp;      if(isTwoPlusCombinedVerbs(tokens, verbs.get(0), verbs.get(2))) {</b>
+<b class="nc">&nbsp;        if(isSeparatorOrInf(tokens, verbs.get(2) + 1)) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return verbs.get(2);</b>
+<b class="nc">&nbsp;      } else if(verbs.get(0) + 2 == verbs.get(2)) {</b>
+<b class="nc">&nbsp;        if(verbs.get(0) + 1 == verbs.get(1) &amp;&amp; isThreeCombinedVerbs(tokens, verbs.get(0), verbs.get(2))) {</b>
+<b class="nc">&nbsp;          if(isSeparatorOrInf(tokens, verbs.get(2) + 1)) {</b>
+<b class="nc">&nbsp;            return -1;</b>
+&nbsp;          }
+<b class="nc">&nbsp;          return verbs.get(2);</b>
+&nbsp;        }
+<b class="nc">&nbsp;      } else if(verbs.get(0) + 3 == verbs.get(2) &amp;&amp; isFourCombinedVerbs(tokens, verbs.get(0), verbs.get(2))) {</b>
+<b class="nc">&nbsp;        if(isSeparatorOrInf(tokens, verbs.get(2) + 1)) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return verbs.get(2);</b>
+<b class="nc">&nbsp;      } else if(tokens[verbs.get(2)].hasPosTagStartingWith(&quot;VER:MOD:&quot;)</b>
+<b class="nc">&nbsp;          &amp;&amp; isSpecialPair(tokens, verbs.get(0), verbs.get(1))) {</b>
+<b class="nc">&nbsp;        if(isSeparatorOrInf(tokens, verbs.get(2) + 1)) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return verbs.get(2);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if(isPerfect(tokens, verbs.get(0), verbs.get(1), verbs.get(2))) {</b>
+<b class="nc">&nbsp;        if(isSeparatorOrInf(tokens, verbs.get(2) + 1)) {</b>
+<b class="nc">&nbsp;          return -1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return verbs.get(1);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return verbs.get(0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * gives back position where a comma is missed
+&nbsp;   * PRP has to be treated separately
+&nbsp;   */
+&nbsp;  private static int missedCommaBehind(AnalyzedTokenReadings[] tokens, int inFront, int start, int end) {
+<b class="nc">&nbsp;    for (int i = start; i &lt; end; i++) {</b>
+<b class="nc">&nbsp;      if(isPronoun(tokens, i)) {</b>
+<b class="nc">&nbsp;        List&lt;Integer&gt; verbs = verbPos(tokens, i, end);</b>
+<b class="nc">&nbsp;        if(verbs.size() &gt; 0) {</b>
+<b class="nc">&nbsp;          String gender = getGender(tokens[i]);</b>
+<b class="nc">&nbsp;          if(gender != null &amp;&amp; !isAnyVerb(tokens, i + 1)</b>
+<b class="nc">&nbsp;              &amp;&amp; matchesGender(gender, tokens, inFront, i - 1) &amp;&amp; !isArticle(gender, tokens, i, verbs.get(verbs.size() - 1))) {</b>
+<b class="nc">&nbsp;            return getCommaBehind(tokens, verbs, i, end);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return -1;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * checks if personal pronoun is singular or plural
+&nbsp;   * gives back null if token is not a  personal pronoun
+&nbsp;   */
+&nbsp;  private static String getSinOrPluOfPro(AnalyzedTokenReadings token) {
+<b class="nc">&nbsp;    if(!token.hasPartialPosTag(&quot;PRO:PER:&quot;) &amp;&amp; !token.hasPosTagStartingWith(&quot;IND:&quot;)) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    String ret = &quot;&quot;;</b>
+<b class="nc">&nbsp;    int nMatches = 0;</b>
+<b class="nc">&nbsp;    if(token.matchesPosTagRegex(&quot;.*:SIN.*&quot;)) {</b>
+<b class="nc">&nbsp;      ret += &quot;SIN&quot;;</b>
+<b class="nc">&nbsp;      nMatches++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(token.matchesPosTagRegex(&quot;.*:PLU.*&quot;)) {</b>
+<b class="nc">&nbsp;      if(!ret.isEmpty()) {</b>
+<b class="nc">&nbsp;        ret += &quot;|&quot;;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      ret += &quot;PLU&quot;;</b>
+<b class="nc">&nbsp;      nMatches++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(nMatches &gt; 1) {</b>
+<b class="nc">&nbsp;      ret = &quot;(&quot; + ret + &quot;)&quot;;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return ret;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static boolean isVerbProPair(AnalyzedTokenReadings[] tokens, int n) {
+<b class="nc">&nbsp;    String sinOrPlu = getSinOrPluOfPro(tokens[n+1]);</b>
+<b class="nc">&nbsp;    if(sinOrPlu == null) {</b>
+<b class="nc">&nbsp;      return false;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return tokens[n].matchesPosTagRegex(&quot;VER:.*&quot; + sinOrPlu + &quot;.*&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;    List&lt;RuleMatch&gt; ruleMatches = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();</b>
+<b class="nc">&nbsp;    if(tokens.length &lt;= 1) {</b>
+<b class="nc">&nbsp;      return toRuleMatchArray(ruleMatches);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    int subStart = 1;</b>
+<b class="nc">&nbsp;    if(isSeparator(tokens[subStart].getToken())) {</b>
+<b class="nc">&nbsp;      subStart++;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if(behind) {</b>
+<b class="nc">&nbsp;      int subInFront = subStart;</b>
+<b class="nc">&nbsp;      subStart = nextSeparator(tokens, subInFront) + 1;</b>
+<b class="nc">&nbsp;      while (subStart &lt; tokens.length) {</b>
+<b class="nc">&nbsp;        int subEnd = nextSeparator(tokens, subStart);</b>
+<b class="nc">&nbsp;        int lastVerb = hasPotentialSubclause(tokens, subStart, subEnd);</b>
+<b class="nc">&nbsp;        if(lastVerb &gt; 0) {</b>
+<b class="nc">&nbsp;          int nToken = missedCommaBehind(tokens, subInFront, subStart, subEnd);</b>
+<b class="nc">&nbsp;          if( nToken &gt; 0) {</b>
+<b class="nc">&nbsp;            if(isVerbProPair(tokens, nToken)) {</b>
+<b class="nc">&nbsp;              RuleMatch match = new RuleMatch(this, sentence, tokens[nToken - 1].getStartPos(), tokens[nToken + 1].getEndPos(),</b>
+&nbsp;                  &quot;Sollten Sie hier ein Komma einfügen oder zwei?&quot;);
+<b class="nc">&nbsp;              List&lt;String&gt;suggestedReplacements = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;              suggestedReplacements.add(tokens[nToken - 1].getToken() + &quot;, &quot;</b>
+<b class="nc">&nbsp;                                  + tokens[nToken].getToken() + &quot; &quot; + tokens[nToken + 1].getToken() + &quot;,&quot;);</b>
+<b class="nc">&nbsp;              suggestedReplacements.add(tokens[nToken - 1].getToken() + &quot; &quot;</b>
+<b class="nc">&nbsp;                                  + tokens[nToken].getToken() + &quot; &quot; + tokens[nToken + 1].getToken() + &quot;,&quot;);</b>
+<b class="nc">&nbsp;              suggestedReplacements.add(tokens[nToken - 1].getToken() + &quot; &quot;</b>
+<b class="nc">&nbsp;                                  + tokens[nToken].getToken() + &quot;, &quot; + tokens[nToken + 1].getToken());</b>
+<b class="nc">&nbsp;              match.setSuggestedReplacements(suggestedReplacements);</b>
+<b class="nc">&nbsp;              ruleMatches.add(match);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              RuleMatch match = new RuleMatch(this, sentence, tokens[nToken].getStartPos(), tokens[nToken + 1].getEndPos(),</b>
+&nbsp;                  &quot;Sollten Sie hier ein Komma einfügen?&quot;);
+<b class="nc">&nbsp;              match.setSuggestedReplacement(tokens[nToken].getToken() + &quot;, &quot; + tokens[nToken + 1].getToken());</b>
+<b class="nc">&nbsp;              ruleMatches.add(match);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        subInFront = subStart;</b>
+<b class="nc">&nbsp;        subStart = subEnd + 1;</b>
+&nbsp;      }
+&nbsp;    } else {
+<b class="nc">&nbsp;      while (subStart &lt; tokens.length) {</b>
+<b class="nc">&nbsp;        int subEnd = nextSeparator(tokens, subStart);</b>
+<b class="nc">&nbsp;        int lastVerb = hasPotentialSubclause(tokens, subStart, subEnd);</b>
+<b class="nc">&nbsp;        if(lastVerb &gt; 0) {</b>
+<b class="nc">&nbsp;          int nToken = missedCommaInFront(tokens, subStart, subEnd, lastVerb);</b>
+<b class="nc">&nbsp;          if( nToken &gt; 0) {</b>
+<b class="nc">&nbsp;            int startToken = nToken - (isPrp(tokens[nToken - 1]) ? 2 : 1);</b>
+<b class="nc">&nbsp;            RuleMatch match = new RuleMatch(this, sentence, tokens[startToken].getStartPos(), tokens[nToken].getEndPos(),</b>
+&nbsp;              &quot;Sowohl angehängte als auch eingeschobene Relativsätze werden durch Kommas vom Hauptsatz getrennt.&quot;);
+<b class="nc">&nbsp;            if(nToken - startToken &gt; 1) {</b>
+<b class="nc">&nbsp;              match.setSuggestedReplacement(tokens[startToken].getToken() + &quot;, &quot; + tokens[nToken - 1].getToken() + &quot; &quot; + tokens[nToken].getToken());</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;              match.setSuggestedReplacement(tokens[startToken].getToken() + &quot;, &quot; + tokens[nToken].getToken());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            ruleMatches.add(match);</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        subStart = subEnd + 1;</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return toRuleMatchArray(ruleMatches);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public List&lt;DisambiguationPatternRule&gt; getAntiPatterns() {
+<b class="nc">&nbsp;    return ANTI_PATTERNS;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

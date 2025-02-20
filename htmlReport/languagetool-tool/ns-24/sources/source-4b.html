@@ -1,0 +1,280 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RemoteRuleMetrics</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules</a>
+</div>
+
+<h1>Coverage Summary for Class: RemoteRuleMetrics (org.languagetool.rules)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemoteRuleMetrics</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RemoteRuleMetrics$RequestResult</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/51)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; *  LanguageTool, a natural language style checker
+&nbsp; *  * Copyright (C) 2018 Fabian Richter
+&nbsp; *  *
+&nbsp; *  * This library is free software; you can redistribute it and/or
+&nbsp; *  * modify it under the terms of the GNU Lesser General Public
+&nbsp; *  * License as published by the Free Software Foundation; either
+&nbsp; *  * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *  *
+&nbsp; *  * This library is distributed in the hope that it will be useful,
+&nbsp; *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; *  * Lesser General Public License for more details.
+&nbsp; *  *
+&nbsp; *  * You should have received a copy of the GNU Lesser General Public
+&nbsp; *  * License along with this library; if not, write to the Free Software
+&nbsp; *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; *  * USA
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;package org.languagetool.rules;
+&nbsp;
+&nbsp;import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+&nbsp;import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+&nbsp;import io.prometheus.client.Histogram;
+&nbsp;import org.apache.commons.lang3.exception.ExceptionUtils;
+&nbsp;import org.jetbrains.annotations.ApiStatus;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.util.concurrent.Callable;
+&nbsp;import java.util.concurrent.CancellationException;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import java.util.concurrent.TimeoutException;
+&nbsp;
+&nbsp;public final class RemoteRuleMetrics {
+<b class="nc">&nbsp;  private static final Logger logger = LoggerFactory.getLogger(RemoteRuleMetrics.class);</b>
+&nbsp;
+<b class="nc">&nbsp;  private RemoteRuleMetrics() {</b>
+<b class="nc">&nbsp;    throw new IllegalStateException(&quot;RemoteRuleMetrics should only be used via static methods.&quot;);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public enum RequestResult {</b>
+<b class="nc">&nbsp;    SUCCESS,</b>
+<b class="nc">&nbsp;    SKIPPED,</b>
+<b class="nc">&nbsp;    TIMEOUT,</b>
+<b class="nc">&nbsp;    INTERRUPTED,</b>
+<b class="nc">&nbsp;    DOWN,</b>
+<b class="nc">&nbsp;    ERROR</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // TODO: provide configuration as info?
+&nbsp;
+<b class="nc">&nbsp;  private static final double[] WAIT_BUCKETS = {</b>
+&nbsp;    .05, .1, .2, .3, .4, .5, .75, 1., 2., 5., 7.5, 10., 15.
+&nbsp;  };
+&nbsp;
+<b class="nc">&nbsp;  private static final double[] LATENCY_BUCKETS = {</b>
+&nbsp;    0.025, 0.05, .1, .25, .5, .75, 1., 2., 4., 6., 8., 10., 15.
+&nbsp;  };
+&nbsp;
+<b class="nc">&nbsp;  private static final double[] SIZE_BUCKETS = {</b>
+&nbsp;    25, 100, 500, 1000, 2500, 5000, 10000, 20000, 40000
+&nbsp;  };
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;  private static final Histogram wait = Histogram</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_remote_rule_wait_seconds&quot;, &quot;Time spent waiting on remote rule results/timeouts&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;language&quot;)</b>
+<b class="nc">&nbsp;    .buckets(WAIT_BUCKETS)</b>
+<b class="nc">&nbsp;    .register();</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Histogram requestLatency = Histogram</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_remote_rule_request_latency_seconds&quot;, &quot;Request duration summary&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;rule_id&quot;, &quot;result&quot;)</b>
+<b class="nc">&nbsp;    .buckets(LATENCY_BUCKETS)</b>
+<b class="nc">&nbsp;    .register();</b>
+&nbsp;
+<b class="nc">&nbsp;  private static final Histogram requestThroughput = Histogram</b>
+<b class="nc">&nbsp;    .build(&quot;languagetool_remote_rule_request_throughput_characters&quot;, &quot;Request size summary&quot;)</b>
+<b class="nc">&nbsp;    .labelNames(&quot;rule_id&quot;, &quot;result&quot;)</b>
+<b class="nc">&nbsp;    .buckets(SIZE_BUCKETS)</b>
+<b class="nc">&nbsp;    .register();</b>
+&nbsp;
+&nbsp;  public static void request(String rule, long startNanos, long characters, RequestResult result) {
+<b class="nc">&nbsp;    long delta = System.nanoTime() - startNanos;</b>
+<b class="nc">&nbsp;    requestLatency.labels(rule, result.name().toLowerCase()).observe((double) delta / 1e9);</b>
+<b class="nc">&nbsp;    requestThroughput.labels(rule, result.name().toLowerCase()).observe(characters);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void wait(String langCode, long milliseconds) {
+<b class="nc">&nbsp;    wait.labels(langCode).observe(milliseconds / 1000.0);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @ApiStatus.Internal
+&nbsp;  @Nullable
+&nbsp;  public static &lt;T&gt; T inCircuitBreaker(long deadlineStartNanos, CircuitBreaker circuitBreaker, String ruleKey, long chars, Callable&lt;T&gt; fetchResults) throws InterruptedException {
+&nbsp;    try {
+<b class="nc">&nbsp;      return circuitBreaker.executeCallable(fetchResults);</b>
+&nbsp;    } catch (InterruptedException e) {
+<b class="nc">&nbsp;      logger.info(&quot;Failed to fetch result from remote rule &#39;{}&#39; - interrupted.&quot;, ruleKey);</b>
+<b class="nc">&nbsp;      request(ruleKey, deadlineStartNanos, chars, RequestResult.INTERRUPTED);</b>
+&nbsp;      throw e;
+&nbsp;    } catch (CancellationException e) {
+<b class="nc">&nbsp;      logger.info(&quot;Failed to fetch result from remote rule &#39;{}&#39; - cancelled.&quot;, ruleKey);</b>
+<b class="nc">&nbsp;      request(ruleKey, deadlineStartNanos, chars, RequestResult.INTERRUPTED);</b>
+&nbsp;    } catch (TimeoutException e) {
+<b class="nc">&nbsp;      long timeout = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - deadlineStartNanos);</b>
+<b class="nc">&nbsp;      logger.info(&quot;Failed to fetch result from remote rule &#39;{}&#39; - timed out ({}ms, {} chars).&quot;,</b>
+<b class="nc">&nbsp;        ruleKey, timeout, chars);</b>
+<b class="nc">&nbsp;      request(ruleKey, deadlineStartNanos, chars, RequestResult.TIMEOUT);</b>
+&nbsp;    } catch (CallNotPermittedException e) {
+<b class="nc">&nbsp;      logger.info(&quot;Failed to fetch result from remote rule &#39;{}&#39; - circuitbreaker active, rule marked as down.&quot;, ruleKey);</b>
+<b class="nc">&nbsp;      request(ruleKey, deadlineStartNanos, chars, RequestResult.DOWN);</b>
+&nbsp;    } catch (Exception e) {
+<b class="nc">&nbsp;      if (ExceptionUtils.indexOfThrowable(e, TimeoutException.class) != -1) {</b>
+<b class="nc">&nbsp;        long timeout = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - deadlineStartNanos);</b>
+<b class="nc">&nbsp;        logger.info(&quot;Failed to fetch result from remote rule &#39;{}&#39; - timed out with exception {} ({}ms, {} chars).&quot;,</b>
+<b class="nc">&nbsp;          ruleKey, e, timeout, chars);</b>
+<b class="nc">&nbsp;        request(ruleKey, deadlineStartNanos, chars, RequestResult.TIMEOUT);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        logger.warn(&quot;Failed to fetch result from remote rule &#39;&quot; + ruleKey + &quot;&#39; - error while executing rule.&quot;, e);</b>
+<b class="nc">&nbsp;        request(ruleKey, deadlineStartNanos, chars, RequestResult.ERROR);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return null;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:57</div>
+</div>
+</body>
+</html>

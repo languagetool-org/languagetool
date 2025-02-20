@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BrazilianToponymMapLoader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.pt</a>
+</div>
+
+<h1>Coverage Summary for Class: BrazilianToponymMapLoader (org.languagetool.rules.pt)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BrazilianToponymMapLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2012 Jaume Ortolà i Font
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.pt;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import static org.languagetool.JLanguageTool.getDataBroker;
+&nbsp;
+&nbsp;public class BrazilianToponymMapLoader {
+<b class="nc">&nbsp;  private final String toponymFilepath = &quot;pt/brazilian_municipalities&quot;;</b>
+<b class="nc">&nbsp;  private final List&lt;String&gt; states = Arrays.asList(</b>
+&nbsp;    &quot;AC&quot;, // Acre
+&nbsp;    &quot;AL&quot;, // Alagoas
+&nbsp;    &quot;AP&quot;, // Amapá
+&nbsp;    &quot;AM&quot;, // Amazonas
+&nbsp;    &quot;BA&quot;, // Bahia
+&nbsp;    &quot;CE&quot;, // Ceará
+&nbsp;    &quot;DF&quot;, // Distrito Federal
+&nbsp;    &quot;ES&quot;, // Espírito Santo
+&nbsp;    &quot;GO&quot;, // Goiás
+&nbsp;    &quot;MA&quot;, // Maranhão
+&nbsp;    &quot;MT&quot;, // Mato Grosso
+&nbsp;    &quot;MS&quot;, // Mato Grosso do Sul
+&nbsp;    &quot;MG&quot;, // Minas Gerais
+&nbsp;    &quot;PA&quot;, // Pará
+&nbsp;    &quot;PB&quot;, // Paraíba
+&nbsp;    &quot;PR&quot;, // Paraná
+&nbsp;    &quot;PE&quot;, // Pernambuco
+&nbsp;    &quot;PI&quot;, // Piauí
+&nbsp;    &quot;RJ&quot;, // Rio de Janeiro
+&nbsp;    &quot;RN&quot;, // Rio Grande do Norte
+&nbsp;    &quot;RS&quot;, // Rio Grande do Sul
+&nbsp;    &quot;RO&quot;, // Rondônia
+&nbsp;    &quot;RR&quot;, // Roraima
+&nbsp;    &quot;SC&quot;, // Santa Catarina
+&nbsp;    &quot;SP&quot;, // São Paulo
+&nbsp;    &quot;SE&quot;, // Sergipe
+&nbsp;    &quot;TO&quot;  // Tocantins
+&nbsp;  );
+&nbsp;
+<b class="nc">&nbsp;  BrazilianToponymMapLoader() {</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private List&lt;String&gt; getToponymsFromState(String state) {
+<b class="nc">&nbsp;    List&lt;String&gt; toponyms = getDataBroker().getFromResourceDirAsLines(toponymFilepath + &quot;/&quot; + state + &quot;.tsv&quot;);</b>
+<b class="nc">&nbsp;    return toponyms.stream()</b>
+<b class="nc">&nbsp;      .map(toponym -&gt; toponym.replace(&#39;-&#39;, &#39; &#39;).toLowerCase())</b>
+<b class="nc">&nbsp;      .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Map&lt;String, List&lt;String&gt;&gt; buildMap() {
+<b class="nc">&nbsp;    Map&lt;String, List&lt;String&gt;&gt; map = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    for (String state : states) {</b>
+<b class="nc">&nbsp;      map.put(state, getToponymsFromState(state));</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return map;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:45</div>
+</div>
+</body>
+</html>

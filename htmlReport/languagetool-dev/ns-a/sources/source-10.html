@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WikipediaSentenceExtractor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.dumpcheck</a>
+</div>
+
+<h1>Coverage Summary for Class: WikipediaSentenceExtractor (org.languagetool.dev.dumpcheck)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WikipediaSentenceExtractor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.dumpcheck;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;
+&nbsp;import org.apache.commons.compress.compressors.CompressorException;
+&nbsp;import org.apache.commons.compress.compressors.CompressorStreamFactory;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;
+&nbsp;import java.io.BufferedInputStream;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * Command line tool to extract sentences from a (optionally bz2-compressed) Wikipedia XML dump.
+&nbsp; * @since 2.6
+&nbsp; */
+<b class="nc">&nbsp;class WikipediaSentenceExtractor {</b>
+&nbsp;
+&nbsp;  private void extract(Language language, String xmlDumpPath, String outputFile) throws IOException, CompressorException {
+<b class="nc">&nbsp;    try (FileInputStream fis = new FileInputStream(xmlDumpPath);</b>
+<b class="nc">&nbsp;         BufferedInputStream bis = new BufferedInputStream(fis);</b>
+<b class="nc">&nbsp;         FileWriter fw = new FileWriter(outputFile)) {</b>
+&nbsp;      InputStream input;
+<b class="nc">&nbsp;      if (xmlDumpPath.endsWith(&quot;.bz2&quot;)) {</b>
+<b class="nc">&nbsp;        input = new CompressorStreamFactory().createCompressorInputStream(bis);</b>
+<b class="nc">&nbsp;      } else if (xmlDumpPath.endsWith(&quot;.xml&quot;)) {</b>
+<b class="nc">&nbsp;        input = bis;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;Unknown file name, expected &#39;.xml&#39; or &#39;.bz2&#39;: &quot; + xmlDumpPath);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      int sentenceCount = 0;</b>
+<b class="nc">&nbsp;      WikipediaSentenceSource source = new WikipediaSentenceSource(input, language);</b>
+<b class="nc">&nbsp;      while (source.hasNext()) {</b>
+<b class="nc">&nbsp;        String sentence = source.next().getText();</b>
+<b class="nc">&nbsp;        if (skipSentence(sentence)) {</b>
+&nbsp;          continue;
+&nbsp;        }
+&nbsp;        //System.out.println(sentence);
+<b class="nc">&nbsp;        fw.write(sentence);</b>
+<b class="nc">&nbsp;        fw.write(&#39;\n&#39;);</b>
+<b class="nc">&nbsp;        sentenceCount++;</b>
+<b class="nc">&nbsp;        if (sentenceCount % 1000 == 0) {</b>
+<b class="nc">&nbsp;          System.err.println(&quot;Exporting sentence #&quot; + sentenceCount + &quot;...&quot;);</b>
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean skipSentence(String sentence) {
+<b class="nc">&nbsp;    return sentence.trim().length() == 0 || Character.isLowerCase(sentence.trim().charAt(0));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws IOException, CompressorException {
+<b class="nc">&nbsp;    if (args.length != 3) {</b>
+<b class="nc">&nbsp;      System.out.println(&quot;Usage: &quot; + WikipediaSentenceExtractor.class.getSimpleName() + &quot; &lt;langCode&gt; &lt;wikipediaXmlDump&gt; &lt;output&gt;&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    WikipediaSentenceExtractor extractor = new WikipediaSentenceExtractor();</b>
+<b class="nc">&nbsp;    extractor.extract(Languages.getLanguageForShortCode(args[0]), args[1], args[2]);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:51</div>
+</div>
+</body>
+</html>

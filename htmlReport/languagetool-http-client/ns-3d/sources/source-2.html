@@ -1,0 +1,311 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BitextPatternRuleHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.patterns.bitext</a>
+</div>
+
+<h1>Coverage Summary for Class: BitextPatternRuleHandler (org.languagetool.rules.patterns.bitext)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BitextPatternRuleHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/77)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.patterns.bitext;
+&nbsp;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.bitext.StringPair;
+&nbsp;import org.languagetool.rules.IncorrectExample;
+&nbsp;import org.languagetool.rules.bitext.IncorrectBitextExample;
+&nbsp;import org.languagetool.rules.patterns.PatternToken;
+&nbsp;import org.languagetool.rules.patterns.Match;
+&nbsp;import org.languagetool.rules.patterns.PatternRule;
+&nbsp;import org.languagetool.rules.patterns.PatternRuleHandler;
+&nbsp;import org.xml.sax.Attributes;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;class BitextPatternRuleHandler extends PatternRuleHandler {</b>
+&nbsp;
+&nbsp;  private static final String SOURCE = &quot;source&quot;;
+&nbsp;  private static final String TARGET = &quot;target&quot;;
+&nbsp;  private static final String SRC_EXAMPLE = &quot;srcExample&quot;;
+&nbsp;  private static final String TRG_EXAMPLE = &quot;trgExample&quot;;
+&nbsp;
+<b class="nc">&nbsp;  private final List&lt;BitextPatternRule&gt; rules = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  private PatternRule srcRule;
+&nbsp;  private PatternRule trgRule;
+&nbsp;
+&nbsp;  private IncorrectExample trgExample;
+&nbsp;  private IncorrectExample srcExample;
+&nbsp;
+&nbsp;  private Language srcLang;
+&nbsp;
+<b class="nc">&nbsp;  private List&lt;StringPair&gt; correctExamples = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;  private List&lt;IncorrectBitextExample&gt; incorrectExamples = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;  List&lt;BitextPatternRule&gt; getBitextRules() {
+<b class="nc">&nbsp;    return rules;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  // ===========================================================
+&nbsp;  // SAX DocumentHandler methods
+&nbsp;  // ===========================================================
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void startElement(String namespaceURI, String lName,
+&nbsp;      String qName, Attributes attrs) throws SAXException {
+<b class="nc">&nbsp;    switch (qName) {</b>
+&nbsp;      case RULES:
+<b class="nc">&nbsp;        String languageStr = attrs.getValue(&quot;targetLang&quot;);</b>
+<b class="nc">&nbsp;        language = Languages.getLanguageForShortCode(languageStr);</b>
+&nbsp;        break;
+&nbsp;      case RULE:
+<b class="nc">&nbsp;        super.startElement(namespaceURI, lName, qName, attrs);</b>
+<b class="nc">&nbsp;        correctExamples = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        incorrectExamples = new ArrayList&lt;&gt;();</b>
+&nbsp;        break;
+&nbsp;      case TARGET:
+<b class="nc">&nbsp;        startPattern(attrs);</b>
+&nbsp;        break;
+&nbsp;      case SOURCE:
+<b class="nc">&nbsp;        srcLang = Languages.getLanguageForShortCode(attrs.getValue(&quot;lang&quot;));</b>
+&nbsp;        break;
+&nbsp;      default:
+<b class="nc">&nbsp;        super.startElement(namespaceURI, lName, qName, attrs);</b>
+&nbsp;        break;
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void endElement(String namespaceURI, String sName,
+&nbsp;      String qName) throws SAXException {
+<b class="nc">&nbsp;    switch (qName) {</b>
+&nbsp;      case RULE:
+<b class="nc">&nbsp;        trgRule.setMessage(message.toString());</b>
+<b class="nc">&nbsp;        for (Match m : suggestionMatches) {</b>
+<b class="nc">&nbsp;          trgRule.addSuggestionMatch(m);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (phrasePatternTokens.size() &lt;= 1) {</b>
+<b class="nc">&nbsp;          suggestionMatches.clear();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);</b>
+<b class="nc">&nbsp;        bRule.setCorrectBitextExamples(correctExamples);</b>
+<b class="nc">&nbsp;        bRule.setIncorrectBitextExamples(incorrectExamples);</b>
+<b class="nc">&nbsp;        bRule.setSourceLanguage(srcLang);</b>
+<b class="nc">&nbsp;        rules.add(bRule);</b>
+&nbsp;        break;
+&nbsp;      case SRC_EXAMPLE:
+<b class="nc">&nbsp;        srcExample = setExample();</b>
+&nbsp;        break;
+&nbsp;      case TRG_EXAMPLE:
+<b class="nc">&nbsp;        trgExample = setExample();</b>
+&nbsp;        break;
+&nbsp;      case SOURCE:
+<b class="nc">&nbsp;        srcRule = finalizeRule();</b>
+&nbsp;        break;
+&nbsp;      case TARGET:
+<b class="nc">&nbsp;        trgRule = finalizeRule();</b>
+&nbsp;        break;
+&nbsp;      case EXAMPLE:
+<b class="nc">&nbsp;        if (inCorrectExample) {</b>
+<b class="nc">&nbsp;          correctExamples.add(new StringPair(srcExample.getExample(), trgExample.getExample()));</b>
+<b class="nc">&nbsp;        } else if (inIncorrectExample) {</b>
+<b class="nc">&nbsp;          StringPair examplePair = new StringPair(srcExample.getExample(), trgExample.getExample());</b>
+<b class="nc">&nbsp;          if (trgExample.getCorrections().isEmpty()) {</b>
+<b class="nc">&nbsp;            incorrectExamples.add(new IncorrectBitextExample(examplePair));</b>
+&nbsp;          } else {
+<b class="nc">&nbsp;            List&lt;String&gt; corrections = trgExample.getCorrections();</b>
+<b class="nc">&nbsp;            incorrectExamples.add(new IncorrectBitextExample(examplePair, corrections));</b>
+&nbsp;          }
+&nbsp;        }
+<b class="nc">&nbsp;        inCorrectExample = false;</b>
+<b class="nc">&nbsp;        inIncorrectExample = false;</b>
+<b class="nc">&nbsp;        inErrorTriggerExample = false;</b>
+&nbsp;        break;
+&nbsp;      default:
+<b class="nc">&nbsp;        super.endElement(namespaceURI, sName, qName);</b>
+&nbsp;        break;
+&nbsp;    }
+&nbsp;
+&nbsp;  }
+&nbsp;
+&nbsp;  private IncorrectExample setExample() {
+<b class="nc">&nbsp;    IncorrectExample example = null;</b>
+<b class="nc">&nbsp;    if (inCorrectExample) {</b>
+<b class="nc">&nbsp;      example = new IncorrectExample(correctExample.toString());</b>
+<b class="nc">&nbsp;    } else if (inIncorrectExample) {</b>
+<b class="nc">&nbsp;      if (exampleCorrection != null) {</b>
+<b class="nc">&nbsp;        List&lt;String&gt; corrections = new ArrayList&lt;&gt;(Arrays.asList(exampleCorrection.toString().split(&quot;\\|&quot;)));</b>
+<b class="nc">&nbsp;        if (exampleCorrection.toString().endsWith(&quot;|&quot;)) {  // suggestions plus an empty suggestion (split() will ignore trailing empty items)</b>
+<b class="nc">&nbsp;          corrections.add(&quot;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        example = new IncorrectExample(incorrectExample.toString(), corrections);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        example = new IncorrectExample(incorrectExample.toString());</b>
+&nbsp;      }
+<b class="nc">&nbsp;    } else if (inErrorTriggerExample) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;&#39;triggers_error&#39; is not supported for bitext XML&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    correctExample = new StringBuilder();</b>
+<b class="nc">&nbsp;    incorrectExample = new StringBuilder();</b>
+<b class="nc">&nbsp;    exampleCorrection = null;</b>
+<b class="nc">&nbsp;    return example;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private PatternRule finalizeRule() {
+<b class="nc">&nbsp;    PatternRule rule = null;</b>
+<b class="nc">&nbsp;    if (phrasePatternTokens.isEmpty()) {</b>
+<b class="nc">&nbsp;      rule = new PatternRule(id, language, patternTokens,</b>
+<b class="nc">&nbsp;          name, &quot;&quot;, shortMessage.toString());</b>
+<b class="nc">&nbsp;      prepareRule(rule);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      if (!patternTokens.isEmpty()) {</b>
+<b class="nc">&nbsp;        for (List&lt;PatternToken&gt; ph : phrasePatternTokens) {</b>
+<b class="nc">&nbsp;          ph.addAll(new ArrayList&lt;&gt;(patternTokens));</b>
+&nbsp;        }
+&nbsp;      }
+<b class="nc">&nbsp;      for (List&lt;PatternToken&gt; phrasePatternToken : phrasePatternTokens) {</b>
+<b class="nc">&nbsp;        processElement(phrasePatternToken);</b>
+<b class="nc">&nbsp;        rule = new PatternRule(id, language, phrasePatternToken,</b>
+<b class="nc">&nbsp;            name, message.toString(), shortMessage.toString(), &quot;&quot;,</b>
+<b class="nc">&nbsp;            phrasePatternTokens.size() &gt; 1);</b>
+<b class="nc">&nbsp;        prepareRule(rule);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    patternTokens.clear();</b>
+<b class="nc">&nbsp;    if (phrasePatternTokens != null) {</b>
+<b class="nc">&nbsp;      phrasePatternTokens.clear();</b>
+&nbsp;    }
+<b class="nc">&nbsp;    startPositionCorrection = 0;</b>
+<b class="nc">&nbsp;    endPositionCorrection = 0;</b>
+<b class="nc">&nbsp;    return rule;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

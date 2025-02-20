@@ -1,0 +1,305 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ArabicMasdarToVerbFilter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.ar.filters</a>
+</div>
+
+<h1>Coverage Summary for Class: ArabicMasdarToVerbFilter (org.languagetool.rules.ar.filters)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArabicMasdarToVerbFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ArabicMasdarToVerbFilter$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ArabicMasdarToVerbFilter$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2022 Sohaib Afifi, Taha Zerrouki
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.ar.filters;
+&nbsp;
+&nbsp;import org.jetbrains.annotations.Nullable;
+&nbsp;import org.languagetool.AnalyzedToken;
+&nbsp;import org.languagetool.AnalyzedTokenReadings;
+&nbsp;import org.languagetool.language.Arabic;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.SimpleReplaceDataLoader;
+&nbsp;import org.languagetool.rules.patterns.RuleFilter;
+&nbsp;import org.languagetool.synthesis.ar.ArabicSynthesizer;
+&nbsp;import org.languagetool.tagging.ar.ArabicTagger;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Filter that maps suggestion from adverb to adjective.
+&nbsp; * Also see https://www.ef.com/wwen/english-resources/english-grammar/forming-adverbs-adjectives/
+&nbsp; *
+&nbsp; * @since 6.2
+&nbsp; */
+&nbsp;public class ArabicMasdarToVerbFilter extends RuleFilter {
+&nbsp;
+<b class="nc">&nbsp;  public ArabicMasdarToVerbFilter() {</b>
+<b class="nc">&nbsp;    this.masdar2verbList = loadFromPath(FILE_NAME);</b>
+&nbsp;  }
+<b class="nc">&nbsp;  private final ArabicTagger tagger = new ArabicTagger();</b>
+&nbsp;  private static final String FILE_NAME = &quot;/ar/arabic_masdar_verb.txt&quot;;
+&nbsp;  private Map&lt;String, List&lt;String&gt;&gt; masdar2verbList;
+<b class="nc">&nbsp;  private final ArabicSynthesizer synthesizer = new ArabicSynthesizer(new Arabic());</b>
+&nbsp;
+<b class="nc">&nbsp;  final List&lt;String&gt; authorizeLemma = new ArrayList() {{</b>
+<b class="nc">&nbsp;    add(&quot;قَامَ&quot;);</b>
+&nbsp;  }};
+&nbsp;
+<b class="nc">&nbsp;  private final Map&lt;String, String&gt; masdar2verb = new HashMap&lt;String, String&gt;() {{</b>
+&nbsp;    // tri letters verb:
+<b class="nc">&nbsp;    put(&quot;عمل&quot;, &quot;عَمِلَ&quot;);</b>
+<b class="nc">&nbsp;    put(&quot;إعمال&quot;, &quot;أَعْمَلَ&quot;);</b>
+<b class="nc">&nbsp;    put(&quot;تعميل&quot;, &quot;عَمَّلَ&quot;);</b>
+<b class="nc">&nbsp;    put(&quot;ضرب&quot;, &quot;ضَرَبَ&quot;);</b>
+<b class="nc">&nbsp;    put(&quot;أكل&quot;, &quot;أَكَلَ&quot;);</b>
+&nbsp;    // regular ones:
+&nbsp;    // non tri letters verb
+<b class="nc">&nbsp;    put(&quot;إجابة&quot;, &quot;أَجَابَ&quot;);</b>
+&nbsp;  }};
+&nbsp;
+&nbsp;
+&nbsp;  @Nullable
+&nbsp;  @Override
+&nbsp;  public RuleMatch acceptRuleMatch(RuleMatch match, Map&lt;String, String&gt; arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List&lt;Integer&gt; tokenPositions) {
+&nbsp;
+&nbsp;    //  The pattern is composed of the words
+&nbsp;    // قام بالأكل
+&nbsp;    // يقوم بالأكل
+&nbsp;    // يقومون بالأكل
+&nbsp;    // first token: auxialliary  verb Qam
+&nbsp;    // second token: Noun as Masdar
+&nbsp;    // replace the Masdar by its verb
+&nbsp;    // inflect the verb according the auxilaiary verb inflection
+&nbsp;
+<b class="nc">&nbsp;    String auxVerb = arguments.get(&quot;verb&quot;); // الفعل قام أو ما شابهه</b>
+<b class="nc">&nbsp;    String masdar = arguments.get(&quot;noun&quot;);  // masdar</b>
+&nbsp;
+&nbsp;    // filter tokens which have a lemma
+&nbsp;    // some cases can have multiple lemmas, but only auxilliry lemma are used
+<b class="nc">&nbsp;    List&lt;String&gt; auxVerbLemmasAll = tagger.getLemmas(patternTokens[0], &quot;verb&quot;);</b>
+<b class="nc">&nbsp;    List&lt;String&gt; auxVerbLemmas = filterLemmas(auxVerbLemmasAll);</b>
+&nbsp;
+&nbsp;    // get all lemmas of the given masdar
+<b class="nc">&nbsp;    List&lt;String&gt; masdarLemmas = tagger.getLemmas(patternTokens[1], &quot;masdar&quot;);</b>
+&nbsp;
+&nbsp;    // generate multiple verb from masdar lemmas list
+<b class="nc">&nbsp;    List&lt;String&gt; verbList = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    // if the auxiliary verb has many lemmas, filter authorized lemma only
+&nbsp;    // the first token: auxiliary verb
+<b class="nc">&nbsp;    for (AnalyzedToken auxVerbToken : patternTokens[0]) {</b>
+&nbsp;      // if the token has an authorized lemma
+<b class="nc">&nbsp;      if (auxVerbLemmas.contains(auxVerbToken.getLemma())) {</b>
+&nbsp;        // for all masdar lemmas
+<b class="nc">&nbsp;        for (String lemma : masdarLemmas) {</b>
+<b class="nc">&nbsp;          List&lt;String&gt; verbLemmaList = masdar2verbList.get(lemma);</b>
+<b class="nc">&nbsp;          if (verbLemmaList != null) {</b>
+&nbsp;            // if verb, inflect verd according to auxialiary verb inlfection
+<b class="nc">&nbsp;            for (String vrbLem : verbLemmaList) {</b>
+<b class="nc">&nbsp;              List&lt;String&gt; inflectedverbList = synthesizer.inflectLemmaLike(vrbLem, auxVerbToken);</b>
+<b class="nc">&nbsp;              verbList.addAll(inflectedverbList);</b>
+&nbsp;            }
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    // remove duplicates
+<b class="nc">&nbsp;    verbList = new ArrayList&lt;&gt;(new HashSet&lt;&gt;(verbList));</b>
+<b class="nc">&nbsp;    RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());</b>
+&nbsp;    // generate suggestion
+<b class="nc">&nbsp;    for (String verb : verbList) {</b>
+<b class="nc">&nbsp;      newMatch.addSuggestedReplacement(verb);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return newMatch;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;String&gt; filterLemmas(List&lt;String&gt; lemmas) {
+<b class="nc">&nbsp;    List&lt;String&gt; filtred = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;    for (String lem : authorizeLemma) {</b>
+<b class="nc">&nbsp;      if (lemmas.contains(lem)) {</b>
+<b class="nc">&nbsp;        filtred.add(lem);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return filtred;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  protected static Map&lt;String, List&lt;String&gt;&gt; loadFromPath(String path) {
+<b class="nc">&nbsp;    return new SimpleReplaceDataLoader().loadWords(path);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-17 23:53</div>
+</div>
+</body>
+</html>

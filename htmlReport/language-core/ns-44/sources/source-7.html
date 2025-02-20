@@ -1,0 +1,283 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > VagueSpellChecker</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.rules.spelling</a>
+</div>
+
+<h1>Coverage Summary for Class: VagueSpellChecker (org.languagetool.rules.spelling)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VagueSpellChecker</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">VagueSpellChecker$NonThreadSafeSpellRule</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2020 Daniel Naber (http://danielnaber.de)
+&nbsp; *
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.rules.spelling;
+&nbsp;
+&nbsp;import morfologik.speller.Speller;
+&nbsp;import morfologik.stemming.Dictionary;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.UserConfig;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.spelling.hunspell.HunspellRule;
+&nbsp;import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+&nbsp;/**
+&nbsp; * A spell checker that&#39;s fast but not guaranteed to always agree with the
+&nbsp; * &quot;real&quot; spell checker used in LT. Doesn&#39;t offer corrections.
+&nbsp; * Can be used for guessing the language of shorts texts where ngram
+&nbsp; * or AI-based language identification isn&#39;t exact enough.
+&nbsp; */
+<b class="nc">&nbsp;public class VagueSpellChecker {</b>
+&nbsp;
+<b class="nc">&nbsp;  private final static Map&lt;Language, Rule&gt; langToRule = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;  private final static Map&lt;Language, Dictionary&gt; langToDict = new HashMap&lt;&gt;();</b>
+&nbsp;  
+&nbsp;  public boolean isValidWord(String word, Language lang) {
+<b class="nc">&nbsp;    Rule rule = langToRule.get(lang);</b>
+<b class="nc">&nbsp;    if (rule == null) {</b>
+<b class="nc">&nbsp;      Rule tempRule = getSpellingCheckRule(lang);</b>
+<b class="nc">&nbsp;      if (tempRule instanceof HunspellRule) {</b>
+<b class="nc">&nbsp;        rule = tempRule;</b>
+<b class="nc">&nbsp;      } else if (tempRule instanceof MorfologikSpellerRule) {</b>
+<b class="nc">&nbsp;        rule = new NonThreadSafeSpellRule(JLanguageTool.getMessageBundle(), lang, null);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      langToRule.put(lang, rule);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (rule instanceof NonThreadSafeSpellRule) {</b>
+&nbsp;      // indicates a Morfologik-based speller - it&#39;s not thread-safe, so re-create Speller in isMisspelled():
+<b class="nc">&nbsp;      return ((NonThreadSafeSpellRule) rule).isMisspelled(word);</b>
+<b class="nc">&nbsp;    } else if (rule instanceof HunspellRule) {</b>
+&nbsp;      // it&#39;s okay to use a cached rule, as hunspell-based &quot;isMisspelled()&quot; is thread-safe
+<b class="nc">&nbsp;      return !((HunspellRule) rule).isMisspelled(word);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;Unknown rule type for language &quot; + lang.getShortCodeWithCountryAndVariant() + &quot;: &quot; + rule);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private SpellingCheckRule getSpellingCheckRule(Language lang) {
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;    SpellingCheckRule spellRule = null;</b>
+<b class="nc">&nbsp;    for (Rule r : lt.getAllActiveRules()) {</b>
+<b class="nc">&nbsp;      if (r instanceof HunspellRule || r instanceof MorfologikSpellerRule) {</b>
+<b class="nc">&nbsp;        spellRule = (SpellingCheckRule) r;</b>
+&nbsp;        // TODO: what if there&#39;s more than one spell rule?
+&nbsp;        break;
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (spellRule == null) {</b>
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;No spelling rule found for language &quot; + lang.getShortCodeWithCountryAndVariant() +</b>
+&nbsp;        &quot; - make sure to set &#39;preferredVariants&#39; so a variant with a spell checker can be selected&quot;);
+&nbsp;    }
+<b class="nc">&nbsp;    return spellRule;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private class NonThreadSafeSpellRule extends SpellingCheckRule {
+&nbsp;
+<b class="nc">&nbsp;    private NonThreadSafeSpellRule(ResourceBundle messages, Language language, UserConfig userConfig) {</b>
+<b class="nc">&nbsp;      super(messages, language, userConfig);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getId() {
+<b class="nc">&nbsp;      return &quot;FAKE_FOR_VAGUE_SPELL_CHECKER&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="nc">&nbsp;      return &quot;internal&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;not implemented&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean isMisspelled(String word) {
+&nbsp;      try {
+<b class="nc">&nbsp;        Dictionary dict = langToDict.get(language);  // Dictionary itself is thread-safe, so it can be cached and re-used</b>
+<b class="nc">&nbsp;        if (dict == null) {</b>
+<b class="nc">&nbsp;          SpellingCheckRule spellingRule = getSpellingCheckRule(language);</b>
+<b class="nc">&nbsp;          dict = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(((MorfologikSpellerRule)spellingRule).getFileName()));</b>
+<b class="nc">&nbsp;          langToDict.put(language, dict);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Speller speller = new Speller(dict, 1);</b>
+<b class="nc">&nbsp;        return !speller.isMisspelled(word);</b>
+&nbsp;      } catch (IOException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(e);</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-16 23:14</div>
+</div>
+</body>
+</html>

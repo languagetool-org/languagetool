@@ -1,0 +1,682 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Searcher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.languagetool.dev.index</a>
+</div>
+
+<h1>Coverage Summary for Class: Searcher (org.languagetool.dev.index)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Searcher</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/56)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/147)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Searcher$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Searcher$MatchingSentencesResult</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Searcher$PossiblyLimitedTopDocs</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Searcher$SearchRunnable</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/60)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/187)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/* LanguageTool, a natural language style checker
+&nbsp; * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+&nbsp; * 
+&nbsp; * This library is free software; you can redistribute it and/or
+&nbsp; * modify it under the terms of the GNU Lesser General Public
+&nbsp; * License as published by the Free Software Foundation; either
+&nbsp; * version 2.1 of the License, or (at your option) any later version.
+&nbsp; *
+&nbsp; * This library is distributed in the hope that it will be useful,
+&nbsp; * but WITHOUT ANY WARRANTY; without even the implied warranty of
+&nbsp; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+&nbsp; * Lesser General Public License for more details.
+&nbsp; *
+&nbsp; * You should have received a copy of the GNU Lesser General Public
+&nbsp; * License along with this library; if not, write to the Free Software
+&nbsp; * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+&nbsp; * USA
+&nbsp; */
+&nbsp;package org.languagetool.dev.index;
+&nbsp;
+&nbsp;import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_FIELD;
+&nbsp;import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_FIELD_VAL;
+&nbsp;import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_VALUE;
+&nbsp;import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
+&nbsp;import static org.languagetool.dev.index.Lucene.SOURCE_FIELD_NAME;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.apache.lucene.document.Document;
+&nbsp;import org.apache.lucene.index.DirectoryReader;
+&nbsp;import org.apache.lucene.index.Term;
+&nbsp;import org.apache.lucene.search.*;
+&nbsp;import org.apache.lucene.store.Directory;
+&nbsp;import org.apache.lucene.store.SimpleFSDirectory;
+&nbsp;import org.apache.lucene.util.Counter;
+&nbsp;import org.languagetool.AnalyzedSentence;
+&nbsp;import org.languagetool.JLanguageTool;
+&nbsp;import org.languagetool.Language;
+&nbsp;import org.languagetool.Languages;
+&nbsp;import org.languagetool.rules.Rule;
+&nbsp;import org.languagetool.rules.RuleMatch;
+&nbsp;import org.languagetool.rules.patterns.PatternRule;
+&nbsp;import org.languagetool.tools.ContextTools;
+&nbsp;
+&nbsp;/**
+&nbsp; * A class with a main() method that takes a rule id  and the location of the
+&nbsp; * index that runs the query on that index and prints all matches.
+&nbsp; * Will transparently handle rules that are not supported, i.e. run on the candidate matches
+&nbsp; * up to a limit.
+&nbsp; * See {@link Indexer} for how to create the index.
+&nbsp; * 
+&nbsp; * @author Tao Lin
+&nbsp; * @author Daniel Naber
+&nbsp; */
+&nbsp;public class Searcher {
+&nbsp;
+&nbsp;  private static final boolean WIKITEXT_OUTPUT = false;
+&nbsp;  
+&nbsp;  private final Directory directory;
+&nbsp;  private final String fieldName;
+&nbsp;
+<b class="nc">&nbsp;  private int skipHits = 0;</b>
+<b class="nc">&nbsp;  private int maxHits = 1000;</b>
+<b class="nc">&nbsp;  private int maxSearchTimeMillis = 5000;</b>
+&nbsp;  private IndexSearcher indexSearcher;
+&nbsp;  private DirectoryReader reader;
+<b class="nc">&nbsp;  private boolean limitSearch = true;</b>
+&nbsp;
+&nbsp;  public Searcher(Directory directory) {
+<b class="nc">&nbsp;    this(directory, FIELD_NAME_LOWERCASE);</b>
+&nbsp;  }
+&nbsp;
+<b class="nc">&nbsp;  public Searcher(Directory directory, String fieldName) {</b>
+<b class="nc">&nbsp;    this.directory = directory;</b>
+<b class="nc">&nbsp;    this.fieldName = fieldName;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private void open() throws IOException {
+<b class="nc">&nbsp;    reader = DirectoryReader.open(directory);</b>
+<b class="nc">&nbsp;    indexSearcher = new IndexSearcher(reader);</b>
+&nbsp;    //System.out.println(&quot;Opened index &quot; + directory + &quot; with &quot; + indexSearcher.getIndexReader().numDocs() + &quot; docs&quot;);
+&nbsp;  }
+&nbsp;
+&nbsp;  private void close() throws IOException {
+<b class="nc">&nbsp;    if (reader != null) {</b>
+<b class="nc">&nbsp;      reader.close();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getDocCount() throws IOException {
+<b class="nc">&nbsp;    try (DirectoryReader reader = DirectoryReader.open(directory)) {</b>
+<b class="nc">&nbsp;      IndexSearcher indexSearcher = new IndexSearcher(reader);</b>
+<b class="nc">&nbsp;      return getDocCount(indexSearcher);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private int getDocCount(IndexSearcher indexSearcher) throws IOException {
+<b class="nc">&nbsp;    Term searchTerm = new Term(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL);</b>
+<b class="nc">&nbsp;    TopDocs search = indexSearcher.search(new TermQuery(searchTerm), 1);</b>
+<b class="nc">&nbsp;    if (search.totalHits != 1) {</b>
+<b class="nc">&nbsp;      return -1;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    ScoreDoc scoreDoc = search.scoreDocs[0];</b>
+<b class="nc">&nbsp;    Document doc = indexSearcher.doc(scoreDoc.doc);</b>
+<b class="nc">&nbsp;    return Integer.parseInt(doc.get(MAX_DOC_COUNT_VALUE));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getMaxHits() {
+<b class="nc">&nbsp;    return maxHits;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setMaxHits(int maxHits) {
+<b class="nc">&nbsp;    this.maxHits = maxHits;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getSkipHits() {
+<b class="nc">&nbsp;    return skipHits;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setSkipHits(int skipHits) {
+<b class="nc">&nbsp;    this.skipHits = skipHits;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public int getMaxSearchTimeMillis() {
+<b class="nc">&nbsp;    return maxSearchTimeMillis;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void setMaxSearchTimeMillis(int maxSearchTimeMillis) {
+<b class="nc">&nbsp;    this.maxSearchTimeMillis = maxSearchTimeMillis;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language) throws IOException, UnsupportedPatternRuleException {
+<b class="nc">&nbsp;    return findRuleMatchesOnIndex(rule, language, FIELD_NAME_LOWERCASE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @since 4.8
+&nbsp;   */
+&nbsp;  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, String fieldName) throws IOException, UnsupportedPatternRuleException {
+&nbsp;    // it seems wasteful to re-open the index every time, but I had strange problems (OOM, Array out of bounds, ...)
+&nbsp;    // when not doing so...
+<b class="nc">&nbsp;    open();</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, indexSearcher, fieldName);</b>
+<b class="nc">&nbsp;      Query query = patternRuleQueryBuilder.buildRelaxedQuery(rule);</b>
+<b class="nc">&nbsp;      if (query == null) {</b>
+<b class="nc">&nbsp;        throw new NullPointerException(&quot;Cannot search on null query for rule: &quot; + rule.getId());</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      System.out.println(&quot;Running query: &quot; + query);</b>
+<b class="nc">&nbsp;      SearchRunnable runnable = new SearchRunnable(indexSearcher, query, language, rule);</b>
+<b class="nc">&nbsp;      Thread searchThread = new Thread(runnable);</b>
+<b class="nc">&nbsp;      searchThread.start();</b>
+&nbsp;      try {
+&nbsp;        // using a TimeLimitingCollector is not enough, as it doesn&#39;t cover all time required to
+&nbsp;        // search for a complicated regex, so interrupt the whole thread instead:
+<b class="nc">&nbsp;        if (limitSearch) { // I don&#39;t know a simpler way to achieve this...</b>
+<b class="nc">&nbsp;          searchThread.join(maxSearchTimeMillis);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;          searchThread.join(Integer.MAX_VALUE);</b>
+&nbsp;        }
+&nbsp;        //searchThread.interrupt();
+&nbsp;      } catch (InterruptedException e) {
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Search thread got interrupted for query &quot; + query, e);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      if (searchThread.isInterrupted()) {</b>
+<b class="nc">&nbsp;        throw new SearchTimeoutException(&quot;Search timeout of &quot; + maxSearchTimeMillis + &quot;ms reached for query &quot; + query);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      Exception exception = runnable.getException();</b>
+<b class="nc">&nbsp;      if (exception != null) {</b>
+<b class="nc">&nbsp;        if (exception instanceof SearchTimeoutException) {</b>
+<b class="nc">&nbsp;          throw (SearchTimeoutException)exception;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;Exception during search for query &quot; + query + &quot; on rule &quot; + rule.getId(), exception);</b>
+&nbsp;      }
+&nbsp;
+<b class="nc">&nbsp;      List&lt;MatchingSentence&gt; matchingSentences = runnable.getMatchingSentences();</b>
+<b class="nc">&nbsp;      SearcherResult searcherResult = new SearcherResult(matchingSentences, runnable.docsChecked, query);</b>
+<b class="nc">&nbsp;      searcherResult.setMaxDocChecked(runnable.getMaxDocChecked());</b>
+<b class="nc">&nbsp;      searcherResult.setHasTooManyLuceneMatches(runnable.hasTooManyLuceneMatches());</b>
+<b class="nc">&nbsp;      searcherResult.setLuceneMatchCount(runnable.getLuceneMatchCount());</b>
+<b class="nc">&nbsp;      searcherResult.setSkipHits(skipHits);</b>
+<b class="nc">&nbsp;      searcherResult.setNumDocs(runnable.numDocs);</b>
+<b class="nc">&nbsp;      if (runnable.hasTooManyLuceneMatches()) {</b>
+&nbsp;        // more potential matches than we can check in an acceptable time :-(
+<b class="nc">&nbsp;        searcherResult.setDocCount(maxHits);</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        searcherResult.setDocCount(getDocCount(indexSearcher));</b>
+&nbsp;      }
+&nbsp;      //TODO: the search itself could also timeout, don&#39;t just ignore that:
+&nbsp;      //searcherResult.setResultIsTimeLimited(limitedTopDocs.resultIsTimeLimited);
+<b class="nc">&nbsp;      return searcherResult;</b>
+&nbsp;    } finally {
+&nbsp;      close();
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private PossiblyLimitedTopDocs getTopDocs(Query query) throws IOException {
+<b class="nc">&nbsp;    TopScoreDocCollector topCollector = TopScoreDocCollector.create(maxHits);</b>
+<b class="nc">&nbsp;    Counter clock = Counter.newCounter(true);</b>
+<b class="nc">&nbsp;    int waitMillis = 1000;</b>
+&nbsp;    // TODO: if we interrupt the whole thread anyway, do we still need the TimeLimitingCollector?
+<b class="nc">&nbsp;    TimeLimitingCollector collector = new TimeLimitingCollector(topCollector, clock, maxSearchTimeMillis / waitMillis);</b>
+<b class="nc">&nbsp;    collector.setBaseline(0);</b>
+<b class="nc">&nbsp;    Thread counterThread = new Thread() {</b>
+&nbsp;      @Override
+&nbsp;      public void run() {
+<b class="nc">&nbsp;        long startTime = System.currentTimeMillis();</b>
+&nbsp;        while (true) {
+<b class="nc">&nbsp;          long runTimeMillis = System.currentTimeMillis() - startTime;</b>
+<b class="nc">&nbsp;          if (runTimeMillis &gt; maxSearchTimeMillis) {</b>
+&nbsp;            // make sure there&#39;s no lingering thread for too long
+&nbsp;            return;
+&nbsp;          }
+<b class="nc">&nbsp;          clock.addAndGet(1);</b>
+&nbsp;          try {
+<b class="nc">&nbsp;            Thread.sleep(waitMillis);</b>
+&nbsp;          } catch (InterruptedException e) {
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;          }
+&nbsp;        }
+&nbsp;      }
+&nbsp;    };
+<b class="nc">&nbsp;    counterThread.setName(&quot;LuceneSearchTimeoutThread&quot;);</b>
+<b class="nc">&nbsp;    counterThread.start();</b>
+&nbsp;
+<b class="nc">&nbsp;    boolean timeLimitActivated = false;</b>
+&nbsp;    try {
+<b class="nc">&nbsp;      indexSearcher.search(query, collector);</b>
+&nbsp;    } catch (TimeLimitingCollector.TimeExceededException e) {
+<b class="nc">&nbsp;      timeLimitActivated = true;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    return new PossiblyLimitedTopDocs(topCollector.topDocs(), timeLimitActivated);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  List&lt;PatternRule&gt; getRuleById(String ruleId, Language language) throws IOException {
+<b class="nc">&nbsp;    List&lt;PatternRule&gt; rules = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(language);</b>
+<b class="nc">&nbsp;    for (Rule rule : lt.getAllRules()) {</b>
+<b class="nc">&nbsp;      if (rule.getId().equals(ruleId) &amp;&amp; rule instanceof PatternRule) {</b>
+<b class="nc">&nbsp;        rules.add((PatternRule) rule);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    if (rules.size() &gt; 0) {</b>
+<b class="nc">&nbsp;      return rules;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      throw new PatternRuleNotFoundException(ruleId, language);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private MatchingSentencesResult findMatchingSentences(IndexSearcher indexSearcher, TopDocs topDocs, JLanguageTool languageTool) throws IOException {
+<b class="nc">&nbsp;    List&lt;MatchingSentence&gt; matchingSentences = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    int i = 0;</b>
+<b class="nc">&nbsp;    int docsChecked = 0;</b>
+<b class="nc">&nbsp;    for (ScoreDoc match : topDocs.scoreDocs) {</b>
+<b class="nc">&nbsp;      i++;</b>
+<b class="nc">&nbsp;      if (i &lt; skipHits) {</b>
+&nbsp;        // needed for paging
+&nbsp;        continue;
+&nbsp;      }
+<b class="nc">&nbsp;      Document doc = indexSearcher.doc(match.doc);</b>
+<b class="nc">&nbsp;      String sentence = doc.get(fieldName);</b>
+<b class="nc">&nbsp;      if (sentence == null) {</b>
+<b class="nc">&nbsp;        throw new RuntimeException(&quot;No field &#39;&quot; + fieldName + &quot;&#39; found in doc &quot; + match.doc);</b>
+&nbsp;      }
+<b class="nc">&nbsp;      List&lt;RuleMatch&gt; ruleMatches = languageTool.check(sentence);</b>
+<b class="nc">&nbsp;      docsChecked++;</b>
+<b class="nc">&nbsp;      if (ruleMatches.size() &gt; 0) {</b>
+<b class="nc">&nbsp;        String source = doc.get(SOURCE_FIELD_NAME);</b>
+<b class="nc">&nbsp;        String title = doc.get(Indexer.TITLE_FIELD_NAME);</b>
+<b class="nc">&nbsp;        AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);</b>
+<b class="nc">&nbsp;        MatchingSentence matchingSentence = new MatchingSentence(sentence, source, title, analyzedSentence, ruleMatches);</b>
+<b class="nc">&nbsp;        matchingSentences.add(matchingSentence);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    return new MatchingSentencesResult(matchingSentences, i, docsChecked);</b>
+&nbsp;  }
+&nbsp;  
+&nbsp;  class MatchingSentencesResult {
+&nbsp;    List&lt;MatchingSentence&gt; matchingSentences;
+&nbsp;    int maxDocChecked;
+&nbsp;    int docsChecked;
+<b class="nc">&nbsp;    MatchingSentencesResult(List&lt;MatchingSentence&gt; matchingSentences, int maxDocChecked, int docsChecked) {</b>
+<b class="nc">&nbsp;      this.matchingSentences = matchingSentences;</b>
+<b class="nc">&nbsp;      this.maxDocChecked = maxDocChecked;</b>
+<b class="nc">&nbsp;      this.docsChecked = docsChecked;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) {
+<b class="nc">&nbsp;    JLanguageTool lt = new JLanguageTool(lang);</b>
+<b class="nc">&nbsp;    for (Rule rule : lt.getAllActiveRules()) {</b>
+<b class="nc">&nbsp;      if (!rule.getId().equals(patternRule.getId())) {</b>
+<b class="nc">&nbsp;        lt.disableRule(rule.getId());</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    lt.addRule(patternRule);</b>
+<b class="nc">&nbsp;    lt.enableRule(patternRule.getId()); // rule might be off by default</b>
+<b class="nc">&nbsp;    return lt;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  static class PossiblyLimitedTopDocs {
+&nbsp;    TopDocs topDocs;
+&nbsp;    boolean resultIsTimeLimited;
+&nbsp;
+<b class="nc">&nbsp;    PossiblyLimitedTopDocs(TopDocs topDocs, boolean resultIsTimeLimited) {</b>
+<b class="nc">&nbsp;      this.topDocs = topDocs;</b>
+<b class="nc">&nbsp;      this.resultIsTimeLimited = resultIsTimeLimited;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void ensureCorrectUsageOrExit(String[] args) {
+<b class="nc">&nbsp;    if (args.length &lt; 3 || (args.length == 4 &amp;&amp; !&quot;--no_limit&quot;.equals(args[3]))) {</b>
+<b class="nc">&nbsp;      System.err.println(&quot;Usage: Searcher &lt;ruleId&gt; &lt;languageCode&gt; &lt;indexDir&gt; [--no_limit]&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;\truleId       Id of the rule to search for (or comma-separated list of ids)&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;\tlanguageCode short language code, e.g. &#39;en&#39; for English&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;\tindexDir     path to a directory containing the index&quot;);</b>
+<b class="nc">&nbsp;      System.err.println(&quot;\t--no_limit   do not limit search time&quot;);</b>
+<b class="nc">&nbsp;      System.exit(1);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  class SearchRunnable implements Runnable {
+&nbsp;
+&nbsp;    private final IndexSearcher indexSearcher;
+&nbsp;    private final Query query;
+&nbsp;    private final Language language;
+&nbsp;    private final PatternRule rule;
+&nbsp;
+&nbsp;    private List&lt;MatchingSentence&gt; matchingSentences;
+&nbsp;    private Exception exception;
+&nbsp;    private boolean tooManyLuceneMatches;
+&nbsp;    private int luceneMatchCount;
+&nbsp;    private int maxDocChecked;
+&nbsp;    private int docsChecked;
+&nbsp;    private int numDocs;
+&nbsp;
+<b class="nc">&nbsp;    SearchRunnable(IndexSearcher indexSearcher, Query query, Language language, PatternRule rule) {</b>
+<b class="nc">&nbsp;      this.indexSearcher = indexSearcher;</b>
+<b class="nc">&nbsp;      this.query = query;</b>
+<b class="nc">&nbsp;      this.language = language;</b>
+<b class="nc">&nbsp;      this.rule = rule;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void run() {
+&nbsp;      try {
+<b class="nc">&nbsp;        long t1 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);</b>
+<b class="nc">&nbsp;        long langToolCreationTime = System.currentTimeMillis() - t1;</b>
+<b class="nc">&nbsp;        long t2 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query);</b>
+<b class="nc">&nbsp;        long luceneTime = System.currentTimeMillis() - t2;</b>
+<b class="nc">&nbsp;        long t3 = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;        luceneMatchCount = limitedTopDocs.topDocs.totalHits;</b>
+<b class="nc">&nbsp;        tooManyLuceneMatches = limitedTopDocs.topDocs.scoreDocs.length &gt;= maxHits;</b>
+<b class="nc">&nbsp;        MatchingSentencesResult res = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);</b>
+<b class="nc">&nbsp;        matchingSentences = res.matchingSentences;</b>
+<b class="nc">&nbsp;        maxDocChecked = res.maxDocChecked;</b>
+<b class="nc">&nbsp;        docsChecked = res.docsChecked;</b>
+<b class="nc">&nbsp;        numDocs = indexSearcher.getIndexReader().numDocs();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Check done in &quot; + langToolCreationTime + &quot;/&quot; + luceneTime + &quot;/&quot; + (System.currentTimeMillis() - t3)</b>
+&nbsp;            + &quot;ms (LT creation/Lucene/matching) for &quot; + limitedTopDocs.topDocs.scoreDocs.length + &quot; docs&quot;);
+&nbsp;      } catch (Exception e) {
+<b class="nc">&nbsp;        exception = e;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    Exception getException() {
+<b class="nc">&nbsp;      return exception;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * There were more Lucene matches than we can actually check with LanguageTool in
+&nbsp;     * an acceptable time, so real matches might be lost.
+&nbsp;     */
+&nbsp;    boolean hasTooManyLuceneMatches() {
+<b class="nc">&nbsp;      return tooManyLuceneMatches;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    int getLuceneMatchCount() {
+<b class="nc">&nbsp;      return luceneMatchCount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    List&lt;MatchingSentence&gt; getMatchingSentences() {
+<b class="nc">&nbsp;      return matchingSentences;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    int getMaxDocChecked() {
+<b class="nc">&nbsp;      return maxDocChecked;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private static ContextTools getContextTools(int contextSize) {
+<b class="nc">&nbsp;    ContextTools contextTools = new ContextTools();</b>
+<b class="nc">&nbsp;    contextTools.setEscapeHtml(false);</b>
+<b class="nc">&nbsp;    contextTools.setContextSize(contextSize);</b>
+<b class="nc">&nbsp;    contextTools.setErrorMarker(&quot;**&quot;, &quot;**&quot;);</b>
+<b class="nc">&nbsp;    return contextTools;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public static void main(String[] args) throws Exception {
+<b class="nc">&nbsp;    ensureCorrectUsageOrExit(args);</b>
+<b class="nc">&nbsp;    long startTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;    String[] ruleIds = args[0].split(&quot;,&quot;);</b>
+<b class="nc">&nbsp;    String languageCode = args[1];</b>
+<b class="nc">&nbsp;    Language language = Languages.getLanguageForShortCode(languageCode);</b>
+<b class="nc">&nbsp;    File indexDir = new File(args[2]);</b>
+<b class="nc">&nbsp;    boolean limitSearch = !(args.length &gt; 3 &amp;&amp; &quot;--no_limit&quot;.equals(args[3]));</b>
+<b class="nc">&nbsp;    Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir.toPath()));</b>
+<b class="nc">&nbsp;    if (!limitSearch) {</b>
+<b class="nc">&nbsp;      searcher.setMaxHits(100_000);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    searcher.limitSearch = limitSearch;</b>
+<b class="nc">&nbsp;    ContextTools contextTools = getContextTools(140);</b>
+<b class="nc">&nbsp;    int totalMatches = 0;</b>
+<b class="nc">&nbsp;    for (String ruleId : ruleIds) {</b>
+<b class="nc">&nbsp;      long ruleStartTime = System.currentTimeMillis();</b>
+<b class="nc">&nbsp;      for (PatternRule rule : searcher.getRuleById(ruleId, language)) {</b>
+<b class="nc">&nbsp;        System.out.println(&quot;===== &quot; + rule.getFullId() + &quot; =========================================================&quot;);</b>
+<b class="nc">&nbsp;        SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language);</b>
+<b class="nc">&nbsp;        int i = 1;</b>
+<b class="nc">&nbsp;        if (searcherResult.getMatchingSentences().isEmpty()) {</b>
+<b class="nc">&nbsp;          System.out.println(&quot;[no matches]&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {</b>
+<b class="nc">&nbsp;          for (RuleMatch match : ruleMatch.getRuleMatches()) {</b>
+<b class="nc">&nbsp;            String context = contextTools.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());</b>
+&nbsp;            if (WIKITEXT_OUTPUT) {
+&nbsp;              ContextTools contextTools2 = getContextTools(0);
+&nbsp;              String coveredText = contextTools2.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());
+&nbsp;              coveredText = coveredText.replaceFirst(&quot;^\\.\\.\\.&quot;, &quot;&quot;).replaceFirst(&quot;\\.\\.\\.$&quot;, &quot;&quot;);
+&nbsp;              coveredText = coveredText.replaceFirst(&quot;^\\*\\*&quot;, &quot;&quot;).replaceFirst(&quot;\\*\\*$&quot;, &quot;&quot;);
+&nbsp;              String encodedTextWithQuotes = URLEncoder.encode(&quot;\&quot;&quot; + coveredText + &quot;\&quot;&quot;, &quot;UTF-8&quot;);
+&nbsp;              String searchLink = &quot;https://de.wikipedia.org/w/index.php?search=&quot; + encodedTextWithQuotes + &quot;&amp;title=Spezial%3ASuche&amp;go=Artikel&quot;;
+&nbsp;              context = context.replaceAll(&quot;\\*\\*.*?\\*\\*&quot;, &quot;[&quot; + searchLink + &quot; &quot; + coveredText + &quot;]&quot;);
+&nbsp;              String encTitle = URLEncoder.encode(ruleMatch.getTitle(), &quot;UTF-8&quot;);
+&nbsp;              String encodedText = URLEncoder.encode(coveredText, &quot;UTF-8&quot;);
+&nbsp;              System.out.println(&quot;# [[&quot; + ruleMatch.getTitle() + &quot;]]: &quot; + context +
+&nbsp;                &quot; ([http://wikipedia.ramselehof.de/wikiblame.php?user_lang=de&amp;lang=de&amp;project=wikipedia&amp;article=&quot; + encTitle +
+&nbsp;                      &quot;&amp;needle=&quot; + encodedText + &quot;&amp;skipversions=0&amp;ignorefirst=0&amp;limit=500&amp;searchmethod=int&amp;order=desc&amp;start=Start WikiBlame])&quot;);
+&nbsp;            } else {
+<b class="nc">&nbsp;              System.out.println(i + &quot;: &quot; + context + &quot; [&quot; + ruleMatch.getSource() + &quot;]&quot;);</b>
+&nbsp;            }
+&nbsp;          }
+<b class="nc">&nbsp;          totalMatches += ruleMatch.getRuleMatches().size();</b>
+<b class="nc">&nbsp;          i++;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(&quot;Time: &quot; + (System.currentTimeMillis() - ruleStartTime) + &quot;ms&quot;);</b>
+&nbsp;      }
+&nbsp;    }
+<b class="nc">&nbsp;    System.out.println(&quot;Total time: &quot; + (System.currentTimeMillis() - startTime) + &quot;ms, &quot; + totalMatches + &quot; matches&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-18 00:02</div>
+</div>
+</body>
+</html>
