@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules;
+package org.languagetool.rules.de;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,6 +26,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 
 public class BorderNumberRuleTest {
   private JLanguageTool lt;

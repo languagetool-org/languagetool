@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.rules;
+package org.languagetool.rules.de;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +27,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
+import org.languagetool.tagging.de.GermanTagger;
 
 public class BorderNumberRule extends TextLevelRule {
 

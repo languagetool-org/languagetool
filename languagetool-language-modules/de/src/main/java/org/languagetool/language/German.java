@@ -18,7 +18,6 @@
  */
 package org.languagetool.language;
 
-import javax.swing.border.Border;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
