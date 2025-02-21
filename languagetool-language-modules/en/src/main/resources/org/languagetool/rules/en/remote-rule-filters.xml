@@ -318,6 +318,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Okay, it <marker>has</marker> changed my mind.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_EN_LECTOR_MISSING_DETERMINER" name="">
+            <rule>
+                <pattern>
+                    <token chunk="B-PP" />
+                    <token min="0" max="3" chunk_re="[BI]-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                    <token min="0">,</token>
+                    <marker>
+                        <token postag="VBN" chunk="B-VP" />
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token>as</token>
+                    <token><exception>expected</exception></token>
+                </pattern>
+                <example correction="">It happened also with this app, <marker>started</marker> as container:</example>
+                <example>In previous versions worked as expected</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_MISSING_DETERMINER_THE" name="">
             <rule>  <!-- incorrect capitalization -->
                 <antipattern>
