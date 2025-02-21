@@ -60,4 +60,13 @@ public class BorderNumberRuleTest {
 
     assertEquals(1, matches.size());
   }
+
+  @Test
+  public void testRule_allowedUppercase_forNouns() throws IOException {
+    List<RuleMatch> matches;
+
+    matches = lt.check("Das ist das 1000 Teller, dass ich sage es ist keine Randnummer.");
+
+    assertEquals(1, matches.size());
+  }
 }
