@@ -491,6 +491,7 @@ public class German extends LanguageWithModel {
     id2prio.put("TOO_LONG_PARAGRAPH", -15);
     id2prio.put("ALL_UPPERCASE", -15);
     id2prio.put("NUR_LEDIGLICH", -16); // lower prio than GERMAN_WORD_REPEAT_RULE
+    id2prio.put("STYLE_KEINE_AHNUNG", -16); // lower prio than MUSSTE_IHM_HELFEN
     id2prio.put("COMMA_BEHIND_RELATIVE_CLAUSE", -52); // less prio than AI_DE_HYDRA_LEO
     id2prio.put("DOPPELUNG_MODALVERB", -52); // prefer comma rules (DOPPELUNG_MODALVERB, AI)
     id2prio.put("VER_DOPPELUNG", -52); // prefer comma rules (including AI)
