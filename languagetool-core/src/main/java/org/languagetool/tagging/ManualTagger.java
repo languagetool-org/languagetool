@@ -93,7 +93,7 @@ public class ManualTagger implements WordTagger {
       int lineCount = 0;
       String separator = DEFAULT_SEPARATOR;
       while ((line = br.readLine()) != null) {
-        System.out.println("Raw line #" + lineCount + ": '" + line + "'");
+//        System.out.println("Raw line #" + lineCount + ": '" + line + "'");
         line = line.trim();
         lineCount++;
         if (line.startsWith("#separatorRegExp=")) {
