@@ -1,12 +1,30 @@
-name: 'Dependency Review'
+name: 'Java CI'
+
 on:
+  push: 
   pull_request:
-    paths-ignore: 
-      - '**pom.xml'
+    paths-ignore:
+      - '**pom.xml' 
+
 permissions:
   contents: read
+
 jobs:
-  dependency-review:
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-      - run: 'echo "No review required" '
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
+
+      - name: 'Set up JDK 17'
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 'Build with Maven'
+        run: mvn clean install
+
+      - name: 'Run Tests'
+        run: mvn test
