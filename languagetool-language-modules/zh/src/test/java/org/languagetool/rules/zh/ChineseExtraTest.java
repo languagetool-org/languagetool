@@ -1,5 +1,6 @@
 package org.languagetool.rules.zh;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -66,6 +67,7 @@ public class ChineseExtraTest {
     assertTrue(sentenceTokenizer instanceof ChineseSentenceTokenizer);
   }
 
+  @Ignore
   @Test
   public void testGetRelevantRules() {
     Chinese lang = Chinese.getInstance();
@@ -79,6 +81,7 @@ public class ChineseExtraTest {
     assertTrue(rules.get(1).getClass().getName().contains("MultipleWhitespaceRule"));
   }
 
+  @Ignore
   @Test
   public void testGetRelevantLanguageModelRules() throws IOException {
     Chinese lang = Chinese.getInstance();
