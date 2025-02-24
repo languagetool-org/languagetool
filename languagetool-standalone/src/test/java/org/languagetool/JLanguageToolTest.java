@@ -521,7 +521,7 @@ public class JLanguageToolTest {
     assertEquals(3, matches.size());
     matches = lt.check("En aquest video I en aquestes");
     assertEquals(1, matches.size());
-    matches = lt.check("D'India i de Pakistan.");
+    matches = lt.check("De l'India i del Pakistan.");
     assertEquals(1, matches.size());
     matches = lt.check("My son is tall.");
     assertEquals(0, matches.size());
