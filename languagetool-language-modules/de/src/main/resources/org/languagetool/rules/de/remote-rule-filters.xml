@@ -2473,8 +2473,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token>.</token>
                     </marker>
                     <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>Uhr</token>
                 </pattern>
                 <example correction="">Zwischen 18:00 und 20<marker>.</marker>00 Uhr bin ich zu Hause.</example>
+            </rule>
+            <rule><!--17--><!--loop in de-CH-->
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <marker>
+                        <token>.</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>und</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">:|\.</token>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>Uhr</token>
+                </pattern>
+                <example correction="">Zwischen 18<marker>.</marker>00 und 20:00 Uhr bin ich zu Hause.</example>
             </rule>
         </rulegroup>
 
