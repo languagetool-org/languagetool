@@ -930,6 +930,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Hehe", Arrays.asList("He-he"));
     s.put("defacto", Arrays.asList("de facto"));
     s.put("Defacto", Arrays.asList("De facto"));
+    s.put("rethoric", Arrays.asList("rhetoric"));
+    s.put("Rethoric", Arrays.asList("Rhetoric"));
     s.put("differently-abled", Arrays.asList("differently abled"));
     s.put("Differently-abled", Arrays.asList("Differently abled"));
     s.put("data-uri", Arrays.asList("data URI"));
