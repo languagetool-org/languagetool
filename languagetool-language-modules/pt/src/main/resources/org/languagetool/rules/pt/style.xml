@@ -3666,6 +3666,37 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='PARA_DENTRO_INTERIOR' name="Para 'dentro' → Para 'o interior'" tone_tags='formal' tags='picky' default='temp_off'>
+            <antipattern>
+                <token>para</token>
+                <token>dentro</token>
+                <token>de</token>
+                <token postag='NC.+|AQ.+|PP.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NP.+'/></token> <!-- NP="Amanhã viajaremos para dentro de Roma." -->
+                <example>"Queremos que a plateia olhe para dentro de si", explica o diretor.</example>
+                <example>Eh, menino, que é que isso lhe interessa, para estar você a olhar para dentro de casa?</example>
+                <example>Vá para dentro de casa, não convém que fique sozinha com um jovem.</example>
+                <example>A próxima descarga está prevista para dentro de instantes.</example>
+            </antipattern>
+            <pattern>
+                <token>para</token>
+                <marker>
+                    <token>dentro</token>
+                </marker>
+                <token regexp='yes' skip='2'>d[ao]s?|de</token>
+                <token postag='N.+|AQ.+' postag_regexp='yes'>
+                    <exception regexp='yes' inflected='yes'>água|brejo|cachoeira|enxurrada|lago|laguna|mar|oceano|pântano|piscina|poça|riacho|rio</exception> <!-- water related exceptions -->
+                </token>
+            </pattern>
+            <message>Num contexto formal empregue <suggestion>o interior</suggestion>.</message>
+            <example correction="o interior">Os computadores transferem os dados para <marker>dentro</marker> do telemóvel.</example>
+            <example>Ele foi para o interior da casa.</example>
+            <example>O Tom empurrou a Mary para dentro da piscina.</example>
+            <example>Tom empurrou a jangada para dentro da água.</example>
+            <example>Todos saltaram para dentro da piscina.</example>
+            <example>A semana passada ele arrojou o ferreiro local sobre um parapeito para dentro de um riacho.</example>
+        </rule>
+
+
         <rule id='AGORA_ATUAL' name="Agora → Atual" tone_tags='formal'>
             <pattern>
                 <token inflected='yes'>ter</token>
