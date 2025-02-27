@@ -22316,6 +22316,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="MATEMATIQUES" name="notació matemàtica">
         <rule>
             <pattern>
+                <token postag="DN.*" postag_regexp="yes"/>
+                <marker>
+                    <token>rpm</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd lemma="rpm" pos="NCFN000"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">[&#x2200;-&#x22FF;]</token>
                 <token regexp="yes">[a-z]</token>
             </pattern>
