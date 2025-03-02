@@ -36,7 +36,7 @@ public class EnglishUnpairedQuotesRule extends GenericUnpairedQuotesRule {
 
   public EnglishUnpairedQuotesRule(ResourceBundle messages, Language language) {
     super(messages, EN_START_SYMBOLS, EN_END_SYMBOLS);
-    setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-parentheses"));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-quotation-marks"));
       addExamplePair(Example.wrong("\"I'm over here,<marker></marker> she said."),
                      Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
   }
