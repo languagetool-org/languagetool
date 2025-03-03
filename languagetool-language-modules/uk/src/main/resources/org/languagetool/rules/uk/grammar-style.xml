@@ -4184,7 +4184,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="passive_predicate" name="Пасивний предикат">
       <rule>
         <pattern>
-          <token postag_regexp="yes" postag="(noun|numr).*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
+          <or>
+            <token postag_regexp="yes" postag="(noun|numr).*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
+            <token>далі</token>
+          </or>
           <marker>
             <token min="0">було</token>
             <token postag_regexp="yes" postag="verb.*:impers.*">
@@ -4215,6 +4218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="">Громадянство <marker>отримано ним</marker> законно.</example>
         <example correction="">Користувача <marker>авторизовано адміністратором</marker>.</example>
         <example correction="">15 тис. <marker>отримано фахівцями</marker>.</example>
+        <example correction="">тут і далі <marker>виділено мною</marker>.</example>
         <!-- TODO:
         <example correction="">про це <marker>було заявлено нашими міністрами </marker>.</example>
         -->

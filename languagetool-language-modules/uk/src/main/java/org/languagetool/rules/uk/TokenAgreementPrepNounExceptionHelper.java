@@ -35,7 +35,8 @@ public class TokenAgreementPrepNounExceptionHelper {
     // в тисяча шістсот якомусь році
     if( i < tokens.length - 1 
         && tokenReadings.getToken().equals("тисяча")
-        && PosTagHelper.hasPosTagPart(tokens[i+1], "numr")) {
+        && (PosTagHelper.hasPosTagPart(tokens[i+1], "numr")
+            || LemmaHelper.hasLemma(tokens[i+1], "якийсь"))) {
       return new RuleException(0);
     }
     // в дев'яносто восьмому
@@ -59,10 +60,6 @@ public class TokenAgreementPrepNounExceptionHelper {
 
       // handled by xml rule
       if( token.equals("манер") ) {
-        return new RuleException(Type.exception);
-      }
-      // на біс (TODO: можливо краще tag=intj?)
-      if( tokenLower.equals("біс") ) {
         return new RuleException(Type.exception);
       }
     }
@@ -234,10 +231,18 @@ public class TokenAgreementPrepNounExceptionHelper {
     
     // про чимало обмежень
     if( i < tokens.length - 1 
-        && LemmaHelper.ADV_QUANT_PATTERN.matcher(tokenLower).matches() ) {
+//        && LemmaHelper.ADV_QUANT_PATTERN.matcher(tokenLower).matches() ) {
+        && LemmaHelper.hasLemma(tokenReadings, LemmaHelper.ADV_QUANT_PATTERN, Pattern.compile("adv.*")) ) {
       return new RuleException(Type.exception);
     }
 
+    // лежить із сотня срібних
+    if( i < tokens.length - 1 
+        && TokenAgreementPrepNounRule.Z_ZI_IZ.contains(prep)
+        && LemmaHelper.hasLemma(tokens[i], LemmaHelper.PSEUDO_NUM_LEMMAS) ) {
+      return new RuleException(Type.exception);
+    }
+    
     // за цілком собі реалістичною соціальною
     if( PosTagHelper.hasPosTagAll(tokenReadings.getReadings(), Pattern.compile("adv(?!p).*"))) {
       if( i < tokens.length - 1 

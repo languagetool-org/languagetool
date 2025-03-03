@@ -118,6 +118,13 @@ public class GermanSRXSentenceTokenizerTest {
 
     testSplit("Dies ist ein Satz mit einer EMail.Addresse@example.com!");
     testSplit("Sonderbarerweise sind auch Beispiel!Eins@example.com und Foo?Bar@example.com valide.");
+
+    testSplit("Er kauft Obst, Gemüse, Brot, Milch, usw. ", "Danach geht er nach Hause.");
+    testSplit("Sie kaufte Bücher, Hefte, Stifte usw., weil sie sich auf das neue Schuljahr vorbereiten wollte.");
+    testSplit("Im Supermarkt gibt es viele Sorten von Käse, Wurst, Brot usw. und alle sind sehr lecker.");
+
+    testSplit("Im Büro gibt es Computer, Drucker, Telefone etc. ", "Die Mitarbeiter arbeiten den ganzen Tag an verschiedenen Projekten.");
+    testSplit("Die Ergebnisse sind in Tabellen, Grafiken, Diagrammen etc. dargestellt.");
   }
 
   private void testSplit(String... sentences) {

@@ -5334,7 +5334,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <!--avantatges (amb menys restriccions)-->
             <pattern>
-                <token><exception regexp="yes">tu|ens|m'</exception></token>
+                <token><exception regexp="yes">tu|ens|m'|que</exception></token>
                 <marker>
                     <and>
                         <token postag="V.[IS].2S0." postag_regexp="yes">avantatges</token>
@@ -5345,6 +5345,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="V.[IS].2S0."/>
             <!-- les ha vistes estenent la roba -->
             <example type="untouched">Ens avanatges en tot.</example>
+        </rule>
+        <rule>
+            <!--avantatges (amb menys restriccions)-->
+            <pattern>
+                <token postag="A.*|D.*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="VM...S0V" postag_regexp="yes">avantatge</token>
+                        <token postag="NCMS000" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VM...S0V"/>
         </rule>
     </rulegroup>
     <rule id="creus" name="creus (verb)">
@@ -5708,6 +5721,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="NCMS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">mare|pare</token>
+                <marker>
+                    <token>helicòpter</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
         </rule>
         <rule>
             <pattern>
@@ -22002,7 +22024,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token>(</token>
             <marker>
-                <token regexp="yes" spacebefore="no">des|dis|in|mal|anti|pro|tele|auto</token>
+                <token regexp="yes" spacebefore="no">des|dis|in|mal|anti|pro|tele|auto|re</token>
                 <token spacebefore="no">)</token>
             </marker>
             <token spacebefore="no"/>
@@ -22292,6 +22314,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup id="MATEMATIQUES" name="notació matemàtica">
+        <rule>
+            <pattern>
+                <token postag="DN.*" postag_regexp="yes"/>
+                <marker>
+                    <token>rpm</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd lemma="rpm" pos="NCFN000"></wd></disambig>
+        </rule>
         <rule>
             <pattern>
                 <token regexp="yes">[&#x2200;-&#x22FF;]</token>

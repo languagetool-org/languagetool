@@ -318,6 +318,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Okay, it <marker>has</marker> changed my mind.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_EN_LECTOR_MISSING_DETERMINER" name="">
+            <rule>
+                <pattern>
+                    <token chunk="B-PP" />
+                    <token min="0" max="3" chunk_re="[BI]-NP.*" />
+                    <token chunk_re="E-NP.*" />
+                    <token min="0">,</token>
+                    <marker>
+                        <token postag="VBN" chunk="B-VP" />
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token>as</token>
+                    <token><exception>expected</exception></token>
+                </pattern>
+                <example correction="">It happened also with this app, <marker>started</marker> as container:</example>
+                <example>In previous versions worked as expected</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_MISSING_DETERMINER_THE" name="">
             <rule>  <!-- incorrect capitalization -->
                 <antipattern>
@@ -3224,6 +3242,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">The combined area is known as the <marker>Øresund</marker> Region.</example>
                 <example correction="">1777 – Hans Christian <marker>Ørsted</marker>, Danish physicist and chemist (d. 1851)</example>
                 <example correction="">An <marker>ångström</marker> is smaller than a nanometer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>capitalizable</token>
+                    </marker>
+                </pattern>
+                <example correction="">It is <marker>capitalizable</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QB_EN_OTHER_ERROR_IDS_000044" name="">

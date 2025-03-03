@@ -3666,6 +3666,37 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='PARA_DENTRO_INTERIOR' name="Para 'dentro' → Para 'o interior'" tone_tags='formal' tags='picky'>
+            <antipattern>
+                <token>para</token>
+                <token>dentro</token>
+                <token>de</token>
+                <token postag='NC.+|AQ.+|PP.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NP.+'/></token> <!-- NP="Amanhã viajaremos para dentro de Roma." -->
+                <example>"Queremos que a plateia olhe para dentro de si", explica o diretor.</example>
+                <example>Eh, menino, que é que isso lhe interessa, para estar você a olhar para dentro de casa?</example>
+                <example>Vá para dentro de casa, não convém que fique sozinha com um jovem.</example>
+                <example>A próxima descarga está prevista para dentro de instantes.</example>
+            </antipattern>
+            <pattern>
+                <token>para</token>
+                <marker>
+                    <token>dentro</token>
+                </marker>
+                <token regexp='yes' skip='2'>d[ao]s?|de</token>
+                <token postag='N.+|AQ.+' postag_regexp='yes'>
+                    <exception regexp='yes' inflected='yes'>água|brejo|cachoeira|enxurrada|lago|laguna|mar|oceano|pântano|piscina|poça|riacho|rio</exception> <!-- water related exceptions -->
+                </token>
+            </pattern>
+            <message>Num contexto formal empregue <suggestion>o interior</suggestion>.</message>
+            <example correction="o interior">Os computadores transferem os dados para <marker>dentro</marker> do telemóvel.</example>
+            <example>Ele foi para o interior da casa.</example>
+            <example>O Tom empurrou a Mary para dentro da piscina.</example>
+            <example>Tom empurrou a jangada para dentro da água.</example>
+            <example>Todos saltaram para dentro da piscina.</example>
+            <example>A semana passada ele arrojou o ferreiro local sobre um parapeito para dentro de um riacho.</example>
+        </rule>
+
+
         <rule id='AGORA_ATUAL' name="Agora → Atual" tone_tags='formal'>
             <pattern>
                 <token inflected='yes'>ter</token>
@@ -3680,6 +3711,111 @@ USA
             <message>Num contexto formal empregue <suggestion><match no='3' postag='NC.(.)000' postag_replace='AQ0C$10'>atual</match></suggestion>.</message>
             <example correction="atual">Os computadores aprenderam a jogar xadrez há muitos anos, mas nem sempre tiveram a força <marker>que têm hoje</marker>.</example>
             <example correction="atuais">Nessa altura não tinha os conhecimentos <marker>que tenho agora</marker>.</example>
+        </rule>
+
+
+        <rule id='COISAS_FUNCIONALIDADES' name="Coisas → funcionalidades" tone_tags='formal'>
+            <pattern>
+                <token skip='4' inflected='yes' regexp='no'>implementar</token>
+                <marker>
+                    <token regexp='yes'>coisas?</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal empregue <suggestion><match no='2' postag='N.+' postag_regexp='yes'>funcionalidade</match></suggestion>.</message>
+            <example correction="funcionalidade">Vamos implementar uma <marker>coisa</marker> nova no software.</example>
+            <example correction="funcionalidades">Vamos implementar <marker>coisas</marker> novas no software.</example>
+            <example>Vou implementar funcionalidades na app.</example>
+        </rule>
+
+
+        <rule id='APENAS_SOMENTE' name="Apenas → Somente" tone_tags='formal' tags='picky'>
+            <!-- Used DeepSeek-V3 -->
+            <pattern>
+                <token regexp='no'>apenas</token>
+            </pattern>
+            <message>Entre &quot;apenas&quot; e &quot;somente&quot;, o segundo tende a soar mais formal, embora ambos sejam corretos e comuns.</message>
+            <suggestion>somente</suggestion>
+            <example correction="Somente"><marker>Apenas</marker> o Rui sabe a resposta.</example>
+            <example correction="somente">A Ana <marker>apenas</marker> escreveu a carta</example>
+            <example>Somente o diretor toma as decisões críticas.</example>
+        </rule>
+
+
+        <rule id='ATURAR_SUPORTAR_TOLERAR' name="Aturar → suportar/tolerar" tone_tags='formal' tags='picky'>
+            <!-- Used DeepSeek-V3 -->
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>aturar</token>
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>suportar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tolerar</match></suggestion>
+            <example correction="suportam-me|toleram-me">Os meus pais <marker>aturam-me</marker> há décadas.</example>
+            <example>O pai tolera o filho há décadas.</example>
+        </rule>
+
+
+        <rule id='CHATEAR_INCOMODAR_IMPORTUNAR' name="Chatear → incomodar/importunar" tone_tags='formal' tags='picky'>
+            <!-- Used DeepSeek-V3 -->
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>chatear</token>
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>incomodar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>importunar</match></suggestion>
+            <example correction="incomode|importune">Não <marker>chateie</marker> mais os visitantes.</example>
+            <example>O Rui importuna os visitantes abusivamente.</example>
+        </rule>
+
+
+        <rule id='DAR_ATRIBUIR_CONFERIR' name="Dar → atribuir/conferir" tone_tags='formal' tags='picky' default='temp_off'>
+            <!-- Used ChatGPT with Reason and DeepSeek-V3 -->
+            <!-- Later expand into two subrules to accept directly the list of words after the "DAR" verb -->
+
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>dar<exception postag_regexp='yes' postag='VMSP.+|VMP00.+'/></token>
+                </marker>
+                <token skip='1' regexp='yes'>[ao]s?|um|uns|umas?|&adverbios_de_intensidade;</token>
+                <token inflected='yes' regexp='yes'>acesso|atenção|autoridade|autorização|benefício|cargo|certificação|certificado|clareza|chance|competência|condecoração|credibilidade|designação|destaque|diploma|direito|distinção|distintivo|dom|emblema|ênfase|enfoque|forma|função|garantia|graduação|grau|habilitação|honra|honraria|importância|investidura|liberdade|licença|licitude|lugar|mandato|medalha|mérito|oportunidade|ordem|outorga|patente|permissão|poder|posição|possibilidade|pr[éê]mio|prerrogativa|prioridade|privilégio|propósito|realismo|reconhecimento|responsabilidade|sentido|seriedade|status|título|troféu|valor|vantagem</token>
+            </pattern>
+            <message>Use &quot;dar&quot; para casos gerais, &quot;conferir&quot; para concessões formais e &quot;atribuir&quot; para designações.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atribuir</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
+            <example correction="atribuiu|conferiu">O tribunal <marker>deu</marker> a responsabilidade da criança à mãe.</example>
+            <example>A comissão atribuiu a distinção ao melhor candidato.</example>
+            <example>Além disso, os dados fortemente tipados podem ser armazenados no registro.</example>
+            <example>Mas fomos dados uma segunda chance.</example>
+            <example>Dê o lugar, Milton.</example>
+            <example>Corte-o na linha reta, ou seja, dê uma forma quadrada.</example>
+            <example>Dada a oportunidade, você deve negociar ambas as direções</example>
+            <example>Nos dê uma chance.</example>
+            <example>- Todos teriamos dado as mesmas ordens.</example>
+            <example>Se quiser outro, me dê um título em português.</example>
+            <example>Espero que me dês mais atenção da próxima vez.</example>
+            <example>Dê-me uma outra chance.</example>
+            <example>Deem-me uma outra chance.</example>
+            <example>Foi-me dada a permissão de utilizar este carro.</example>
+            <example>Eu gostaria que desse uma chance aos dois.</example>
+        </rule>
+
+
+        <rule id='ESTAR_CONSTAR' name="Estar → constar" tone_tags='formal' tags='picky'>
+            <!-- Used DeepSeek-V3 -->
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>estar</token>
+                </marker>
+                <token regexp='yes'>n[ao]s?</token>
+                <token inflected='yes' regexp='yes'>anais|anexo|artigo|autos|bibliografia|biografia|carta|contrato|cr[óô]nica|currículo|CV|dissertação|documento|edital|ensaio|escritos|Europass|guia|licença|livro|manual|memorial|memórias|monografia|parecer|pesquisa|plano|projeto|publicação|referências|registo|relatório|revista|sentença|tese|texto|tratado</token>
+            </pattern>
+            <message>Substitua &quot;está&quot; por &quot;consta&quot; para indicar registo oficial ou dar um tom mais formal.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constar</match></suggestion>
+            <example correction="consta">O conteúdo que <marker>está</marker> na tese é relevante.</example>
+            <example>O que consta nos autos deve ser bastante levado em conta.</example>
         </rule>
 
 
@@ -13630,7 +13766,7 @@ USA
                         <token regexp='yes'>[ao]</token>
                         <and>
                             <token regexp="yes">.+ação
-                                <exception regexp='yes'>acumulação|colaboração|formação|correlação|notificação|aproximação|circulação|coração|decoração|implantação|internalização|relação|situação</exception> <!-- Verbal Nouns that cause issues -->
+                                <exception regexp='yes'>acumulação|colaboração|formação|correlação|notificação|aproximação|circulação|coração|decoração|implantação|interação|internalização|relação|situação</exception> <!-- Verbal Nouns that cause issues -->
                             </token>
                             <token postag='NC.+' postag_regexp='yes'/>
                         </and>
@@ -17421,6 +17557,15 @@ USA
             Pode ir ao PC e identificar o utilizador? → Pode ir ao PC identificar o utilizador?
             Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá marcar a consulta.
             -->
+
+            <antipattern>
+                <token regexp='yes'>e|para</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='SPS00|DA.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <example>Para reativar a funcionalidade vá às definições para voltar a ativá-la.</example>
+                <example>"Eles" [imprensa] "disseram que eu não jogaria por ele e que esperaria até ele ir embora para voltar a jogar.</example>
+            </antipattern>
 
             <antipattern>
                 <token inflected='yes'>ir</token>

@@ -69,6 +69,9 @@ USA
 
 <!ENTITY pontos_cardeais_capitalizados "Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste">
 
+<!-- The entity below is used for detection of formal/oficial contexts in sentences. We must use inflected='yes' -->
+<!ENTITY palavras_contexto_formal_e_oficial "acordo|ajuda|análise|apoio|autorização|certificado|circular|comando|comunicado|contrato|convenção|convénio|credenciação|credenciada|credenciado|credencial|credenciamento|decisão|declaração|decreto|despacho|determinação|diploma|directriz|documento|estudo|finança|formal|fundo|informação|iniciativa|instrução|lei|licença|medida|norma|nota|oficial|orçamento|ordem|orientação|parceria|parecer|pedido|permissão|plano|portaria|processo|programa|projeto|proposta|protocolo|recomendação|recurso|regulamento|relatório|requerimento|resolução|solicitação|subsídio|sugestão|título|tratado">
+
         ]>
 
 
@@ -926,10 +929,10 @@ USA
           <example>- Nosso colaborador?</example>
       </antipattern>
 
-<!-- In the three antipatterns below I need to add formal and oficial words as exception according to DeepSeek-V3: WIP -->
+      <!-- In the exclamation antipatterns, the article is only removed on non-formal and non-official sentences -->
       <antipattern> <!-- #1/3: Exclamations: DeepSeek-V3 -->
           <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
-          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
           <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
           <example>Seu cabelo lindo como sempre!</example>
           <example>Minha paixão nessa vida é viajar!</example>
@@ -946,9 +949,9 @@ USA
       </antipattern>
       <antipattern> <!-- #2/3: Exclamations for specific cases because of the exception above in #1 "DP.+": DeepSeek-V3 -->
           <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
-          <token skip='-1' postag='DP.+' postag_regexp='yes'/>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception></token>
           <token regexp='yes'>[àao]s?|d[ao]s?|n[ao]s?</token>  <!-- "n[ao]s?" on #3 would remove valid results because of "V.+" -->
-          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
           <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
           <example>Sua Beleza é a nossa satisfação!</example>
           <example>Nossos profissionais estão esperando a sua ligação!</example>
@@ -957,11 +960,11 @@ USA
       </antipattern>
       <antipattern> <!-- #3/3: Exclamations for specific cases because of the exception above in #1 "DP.+": DeepSeek-V3 -->
           <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
-          <token skip='-1' postag='DP.+' postag_regexp='yes'/>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception></token>
           <token regexp='yes'>[àao]s?|d[ao]s?</token>
-          <token skip='-1' postag='DP.+|V.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token skip='-1' postag='DP.+|V.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
           <token regexp='yes'>[àao]s?|d[ao]s?</token>
-          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
           <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
           <example>Sua resenha me ajudou a criar a minha opinião sobre esse livro!</example>
           <example>SEU COMENTÁRIO IRÁ NOS AJUDAR A MELHORAR A NOSSA LOJA!</example>

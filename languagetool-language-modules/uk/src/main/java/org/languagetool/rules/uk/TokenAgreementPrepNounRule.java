@@ -53,7 +53,8 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public class TokenAgreementPrepNounRule extends Rule {
   
-  private static final List<String> Z_ZI_IZ = Arrays.asList("з", "зі", "із");
+  static final List<String> QUOTES = Arrays.asList("«", "\"", "„", "“");
+  static final List<String> Z_ZI_IZ = Arrays.asList("з", "зі", "із");
   private static final List<String> Z_ZI_IZ_ZO = Arrays.asList("з", "зі", "із", "зо");
   private static final Pattern NOUN_ANIM_V_NAZ_PATTERN = Pattern.compile("noun:anim:.:v_naz.*");
   private static final String VIDMINOK_SUBSTR = ":v_";
@@ -113,8 +114,11 @@ public class TokenAgreementPrepNounRule extends Rule {
 //        }
 //      }
 
-      if (posTag == null
-          || posTag.contains(IPOSTag.unknown.getText()) ){
+      if( QUOTES.contains(tokens[i].getCleanToken()) ) {
+        continue;
+      }
+
+      if (posTag == null) {
         state = null;
         continue;
       }
@@ -161,12 +165,6 @@ public class TokenAgreementPrepNounRule extends Rule {
       if( posTag.startsWith(IPOSTag.prep.name()) ) {
         String prep = token.toLowerCase();
 
-        // що то була за людина
-        if( prep.equals("за") && LemmaHelper.reverseSearch(tokens, i, 4, Pattern.compile("що"), null) ) {
-          state = null;
-          continue;
-        }
-
         // з понад тисячі
         if( prep.equals("понад") )
           continue;
@@ -206,6 +204,25 @@ public class TokenAgreementPrepNounRule extends Rule {
       if( prep.equals("замість") ) {
         state.posTagsToFind.add("v_naz");
       }
+      // що за ганебна послідовність
+      else if( prep.equals("за") ) {
+        if( i > 1 
+            && tokens[state.prepPos-1].getCleanToken().equalsIgnoreCase("що") ) {
+          state.posTagsToFind.add("v_naz");
+        }
+      }
+
+      // писав про «Сновиди»
+      // замість «урані»
+      if( QUOTES.contains(tokens[i-1].getCleanToken()) ) {
+        if( LemmaHelper.isCapitalized(tokens[i].getCleanToken()) 
+            || state.prepTokenReadings.getCleanToken().equalsIgnoreCase("замість")) {
+          state = null;
+          continue;
+        }
+        
+        state.posTagsToFind.add("v_naz");
+      }
 
       Set<String> expectedCases = CaseGovernmentHelper.getCaseGovernments(state.prepTokenReadings, IPOSTag.prep.name());
 
@@ -225,12 +242,6 @@ public class TokenAgreementPrepNounRule extends Rule {
           state.ziZnaRemoved = true;
         }
       }
-
-      // we want to ignore «залежно» + noun, but we want to catch «незважаючи» без «на»
-//      if( expectedCases.isEmpty() ) {
-//        prepTokenReadings = null;
-//        continue;
-//      }
 
       expectedCases.remove("v_inf"); // we don't care about rv_inf here
       state.posTagsToFind.addAll(expectedCases);

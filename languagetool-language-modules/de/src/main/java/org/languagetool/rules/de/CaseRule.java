@@ -434,6 +434,12 @@ public class CaseRule extends Rule {
     "Plattdeutsch",
     "Wallet",
     "Str",
+    "Priest",
+    "Simple",
+    "Legend",
+    "Golden",
+    "Forward",
+    "Unverzagt", // österreichisches Adelsgeschlecht
     "Auszubildende",
     "Auszubildender",
     "Gelehrte",

@@ -239,6 +239,7 @@ public class Catalan extends Language {
       case "ESPAIS_SOBRANTS": return 40; // greater than L
       case "ELA_GEMINADA": return 35; // greater than agreement rules, pronoun rules
       case "CONFUSIONS_PRONOMS_FEBLES": return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
+      case "COMMA_PERO1": return 35; // greater than CA_SIMPLE_REPLACE
       case "CA_SPLIT_WORDS": return 30;
       case "PRONOMS_FEBLES_TEMPS_VERBAL": return 35;
       case "ET_AL": return 30; // greater than apostrophes and pronouns
@@ -499,7 +500,7 @@ public class Catalan extends Language {
   
   private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
     "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol", "Alexia Putellas",
-    "Mónica Randall", "Vicente Blasco Ibáñez", "Copa Sudamericana", "Série A");
+    "Mónica Randall", "Vicente Blasco Ibáñez", "Copa Sudamericana", "Série A", "Banco Sabadell");
 
   @Override
   public List<String> prepareLineForSpeller(String line) {

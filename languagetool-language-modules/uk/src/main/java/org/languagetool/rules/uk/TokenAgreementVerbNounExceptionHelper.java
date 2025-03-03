@@ -171,6 +171,13 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true; 
     }
 
+    // навіщо було город городити
+    if( tokens[nounAdjPos-1].getCleanToken().toLowerCase().equals("далі")
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*v_rod.*")) ) {     // may be not just for v_naz
+      logException();
+      return true; 
+    }
+
     // було всі 90-ті
     if( tokens[verbPos].getCleanToken().toLowerCase().matches("було|буде")
         && LemmaHelper.hasLemma(tokens[nounAdjPos], Arrays.asList("весь"), Pattern.compile(".*v_zna.*")) ) {

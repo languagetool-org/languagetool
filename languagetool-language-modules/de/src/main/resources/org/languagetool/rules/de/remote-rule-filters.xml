@@ -1966,6 +1966,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich mach<marker>’</marker>s heute nicht mehr fertig.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>sorry</token>
+                    <token>für</token>
+                </pattern>
+                <example correction=""><marker>sorry für</marker> die Unannehmlichkeit.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_UNNECESSARY.*">
@@ -2231,6 +2238,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup name="" id="AI_DE_GGEC_UNNECESSARY_VERB">
+            <rule>
+                <pattern>
+                    <token skip="-1">wird</token>
+                    <marker>
+                        <token>werden</token>
+                    </marker>
+                </pattern>
+                <example correction="">Der Samstag wird von der Detroit Sports Car Challenge dominiert <marker>werden</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_NOUN" name="">
             <rule><!--1-->
                 <pattern>
@@ -2442,6 +2461,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Außerdem hilft es, auf das <marker>Haareföhnen</marker> zu verzichten.</example>
+            </rule>
+            <rule><!--16--><!--loop in de-CH-->
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">:|\.</token>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>und</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <marker>
+                        <token>.</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>Uhr</token>
+                </pattern>
+                <example correction="">Zwischen 18:00 und 20<marker>.</marker>00 Uhr bin ich zu Hause.</example>
+            </rule>
+            <rule><!--17--><!--loop in de-CH-->
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <marker>
+                        <token>.</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>und</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">:|\.</token>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>Uhr</token>
+                </pattern>
+                <example correction="">Zwischen 18<marker>.</marker>00 und 20:00 Uhr bin ich zu Hause.</example>
             </rule>
         </rulegroup>
 

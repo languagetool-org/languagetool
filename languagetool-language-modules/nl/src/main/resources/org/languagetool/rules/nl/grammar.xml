@@ -555,6 +555,38 @@ regexp case-insensitive maken: (?i)
 				<example correction="prijs">Die heb ik voor een voordeligere <marker>prijzen</marker> op de kop getikt.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="VANDE" name="Vande/van de" default="temp_off">
+			<rule>
+				<antipattern><token>vande</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
+				<pattern>
+					<token>vande</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>van de</suggestion>.</message>
+				<example correction="van de">Hij baalt <marker>vande</marker> vele fouten.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TEN_GEHORE" name="ter/ten gehore" default="temp_off">
+			<rule>
+				<pattern>
+					<token negate="yes">ten</token>
+					<token>gehore</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>ten gehore</suggestion>.</message>
+				<example correction="ten gehore">Het zal die middag een aantal liedjes <marker>tegen gehore</marker> brengen.</example>
+				<example correction="ten gehore">Tijdens de Karaoke Night kun je aan iedereen je zangkunsten <marker>ter gehore</marker> brengen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="VAARDE_VOER" name="vaarde/voer" default="temp_off">
+			<rule>
+				<antipattern><token skip="-1">vaarde</token><token skip="-1">wel</token><token>bij</token></antipattern>
+				<pattern>
+					<token>vaarde</token>
+				</pattern>
+				<message>De verleden tijd van 'vaar' is meestal <suggestion>voer</suggestion>.</message>
+				<example correction="voer">Het schip <marker>vaarde</marker> uit.</example>
+				<example>Hij <marker>vaarde</marker> wel bij het verschijnsel.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="KOM_BIJ_ZIJN" name="kom(kon) er niet bij zijn">
 			<rule>
 				<pattern>
@@ -1166,7 +1198,7 @@ regexp case-insensitive maken: (?i)
 				<pattern>
 					<token skip="2">schuldig</token>
 					<marker>
-						<token regexp="yes">van</token>
+						<token>van</token>
 					</marker>
 				</pattern>
 				<message>Correct is <suggestion>aan</suggestion>.</message>
