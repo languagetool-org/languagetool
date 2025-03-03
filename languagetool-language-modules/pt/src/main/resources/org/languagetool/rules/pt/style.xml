@@ -3714,6 +3714,20 @@ USA
         </rule>
 
 
+        <rule id='CARRO_AUTOMOVEL_VEICULO' name="Carro → automóvel/veículo" tone_tags='formal' tags='picky' default='temp_off'>
+            <pattern>
+                <marker>
+                    <token regexp='yes'>carros?</token>
+                </marker>
+            </pattern>
+            <message>Use &quot;carro&quot; no cotidiano, &quot;automóvel&quot; em contextos técnicos e &quot;veículo&quot; para designar qualquer meio de transporte.</message>
+            <suggestion><match no='1' postag='N.+' postag_regexp='yes'>automóvel</match></suggestion>
+            <suggestion><match no='1' postag='N.+' postag_regexp='yes'>veículo</match></suggestion>
+            <example correction="automóveis|veículos">A rua tem imensos <marker>carros</marker>.</example>
+            <example>Tantos veículos na estrada, mal se consegue andar.</example>
+        </rule>
+
+
         <rule id='COISAS_FUNCIONALIDADES' name="Coisas → funcionalidades" tone_tags='formal'>
             <pattern>
                 <token skip='4' inflected='yes' regexp='no'>implementar</token>
