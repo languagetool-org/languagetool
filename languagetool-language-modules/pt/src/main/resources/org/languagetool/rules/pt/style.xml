@@ -3714,7 +3714,26 @@ USA
         </rule>
 
 
-        <rule id='CARRO_AUTOMOVEL_VEICULO' name="Carro → automóvel/veículo" tone_tags='formal' tags='picky' default='temp_off'>
+        <rule id='CARRO_AUTOMOVEL_VEICULO' name="Carro → automóvel/veículo" tone_tags='formal' tags='picky'>
+            <antipattern>
+                <token case_sensitive='yes'>Vila</token>
+                <token case_sensitive='yes'>Cova</token>
+                <token>de</token>
+                <token case_sensitive='yes'>Carros</token>
+                <example>No ano de 1892 foi colado como abade de Vila Cova de Carros, no concelho de Paredes.</example>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive='yes'>Carro</token>
+                <token>do</token>
+                <token case_sensitive='yes'>Ventilador</token>
+                <example>Ele também ficou conhecido como "Carro do Ventilador".</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>carros?</token>
+                <token>de</token>
+                <token regexp='yes'>bois?</token>
+                <example>Custou 5 contos que, em dinheiro actual, corresponde a 25 Euros, e foi transportada em carros de bois.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp='yes'>carros?</token>
