@@ -8,6 +8,10 @@
 
 LanguageTool requires Java 17 now.
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
 
 
 ## 6.5 (2024-09-27)
