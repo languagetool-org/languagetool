@@ -194,6 +194,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("висміювати такого роду забобони");
     assertEmptyMatch("вважається свого роду психологічним");
     assertEmptyMatch("хто мітингуватиме таким чином");
+    assertEmptyMatch("уникнувши тим самим");
     
     // 2nd verb
     assertEmptyMatch("міг хитрістю змусити");

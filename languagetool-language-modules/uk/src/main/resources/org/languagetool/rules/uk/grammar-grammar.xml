@@ -46,6 +46,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag_regexp="yes" postag="verb.*inf.*"/>
       </antipattern>
       <antipattern>
+        <token>справедливості</token>
+        <token>заради</token>
+      </antipattern>
+      <antipattern>
         <token case_sensitive="no">о</token>
         <token postag_regexp="yes" postag="verb.*impr.*"/>
       </antipattern>
@@ -224,6 +228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
               <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
               <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
+              <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:past.*">мати</exception>
             </token>
           </marker>
         </pattern>
@@ -233,9 +238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="писати">Повинен би був <marker>писатиме</marker>.</example>
         <example>Повинен їхати</example>
         <example>І вони на всьому готовому живуть.</example>
-        <!--  verb:inf:coll not in default dictionary
-        <example>суспільство повинно довірять не лише програмі дій</example>
-         -->
+        <example>у неї повинна мала бути сестра.</example>
       </rule>
     </rulegroup>
 
@@ -2295,6 +2298,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="graty_vs_hraty" name="Грати/ґрати">
       <rule>
         <pattern>
+          <token>за</token>
+          <marker>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:v_zna.*">грати</token>
+          </marker>
+        </pattern>
+        <message>Можливо, замість дієслова «грати» тут має бути іменник «ґрати»?</message>
+        <suggestion><match no="2" regexp_match="(?iu)г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
+        <example correction="ґрати">кинути за <marker>грати</marker>.</example>
+        <example>щоб просто грати</example>
+        <example>щоб добре грати</example>
+      </rule>
+
+      <rule>
+        <pattern>
           <token postag_regexp="yes" postag="prep.*">
             <exception postag_regexp="yes" postag="adv.*"/>
             <exception>проти</exception>
@@ -2305,7 +2322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Можливо, замість дієслова «грати» тут має бути іменник «ґрати»?</message>
         <suggestion><match no="2" regexp_match="(?iu)г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
-        <example correction="ґрати">кинути за <marker>грати</marker>.</example>
+        <example correction="ґрати">кинути під <marker>грати</marker>.</example>
         <example correction="ґратами">сидіти за <marker>гратами</marker>.</example>
         <example>щоб просто грати</example>
         <example>щоб добре грати</example>

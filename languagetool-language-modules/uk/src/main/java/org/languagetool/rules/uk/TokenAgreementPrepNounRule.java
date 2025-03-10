@@ -169,7 +169,7 @@ public class TokenAgreementPrepNounRule extends Rule {
         if( prep.equals("понад") )
           continue;
 
-        if( prep.equals("шляхом") || prep.equals("од") || prep.equals("поруч") ) {
+        if( prep.matches("шляхом|од|поруч|ради") ) {
           state = null;
           continue;
         }
@@ -184,12 +184,17 @@ public class TokenAgreementPrepNounRule extends Rule {
         continue;
 
       // з Ван Дамом
-      if( Arrays.asList("ван").contains(tokens[i].getCleanToken().toLowerCase()) ) {
+      if( Arrays.asList("ван").contains(thisToken.toLowerCase()) ) {
         // prepTokenReadings = null;
         continue;
       }
-      if( Arrays.asList("Фон").contains(tokens[i].getCleanToken()) ) {
+      if( Arrays.asList("Фон").contains(thisToken) ) {
         // prepTokenReadings = null;
+        continue;
+      }
+      // до та після
+      if( "та".equals(thisToken.toLowerCase()) ) {
+        state = null;
         continue;
       }
 

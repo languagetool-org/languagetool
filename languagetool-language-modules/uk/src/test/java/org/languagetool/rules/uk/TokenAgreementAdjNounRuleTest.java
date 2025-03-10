@@ -494,7 +494,6 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("дівоче Анна");
 
-    // <adv>
     assertEmptyMatch("В середньому тривалість курсів для отримання");
     assertEmptyMatch("в цілому результатом задоволені");
 

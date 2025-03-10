@@ -79,7 +79,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
       logException();
       return true; 
     }
-    
+
     // чим могла
     if( verbPos > 1
         && LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile("з?могти"))
@@ -904,6 +904,13 @@ public final class TokenAgreementVerbNounExceptionHelper {
     if( i < tokens.length - 1
         && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("(adj|numr):[mp]:v_oru.*"))
         && tokens[i+1].getCleanToken().matches("чином|способом|робом|ходом|шляхом|коштом") ) {
+          return 1;
+    }
+    // уникнувши тим самим
+    if( i < tokens.length - 1
+        && PosTagHelper.hasPosTagStart(state.verbTokenReadings, "advp")
+        && tokens[i].getCleanToken().equalsIgnoreCase("тим")
+        && tokens[i+1].getCleanToken().equalsIgnoreCase("самим") ) {
           return 1;
     }
     if( i < tokens.length - 1

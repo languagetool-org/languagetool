@@ -4541,6 +4541,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="машинними оливами|машинними мастилами">залити <marker>машинними маслами</marker>.</example>
          -->
       </rule>
+
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes">сивушний</token>
+            <token inflected="yes" regexp="yes">масло|олія</token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj):[nf]:(.*)" postag_replace="$1:f:$2(?!ranim).*"/> <match no="2" postag="(noun:inanim):[fn]:(.*)" postag_replace="$1:f:$2.*">олива</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(adj):[nf]:(.*)" postag_replace="$1:m:$2(?!ranim).*"/> <match no="2" postag="(noun:inanim):[fn]:(.*)" postag_replace="$1:m:$2">спирт</match></suggestion>
+        <example correction="сивушною оливою|сивушним спиртом"><marker>сивушним маслом</marker>.</example>
+      </rule>
     </rulegroup>
 
     <rule id="bozha_korivka" name="Божа корівка - сонечко">
