@@ -181,6 +181,23 @@
     <example type="untouched">Головна 45-а бригада</example>
   </rule>
 
+  <!-- spelling errors -->
+  
+  <rule name="ска - помилка" id="ska_mistake">
+    <pattern>
+      <marker>
+        <token>ска</token>
+      </marker>
+      <token regexp="yes">зав|зала|зали|зало|зати|жу|жемо|жеш|жуть|жи|жіть</token>
+    </pattern>
+    <disambig action="remove" postag=".*"/>
+    <example type="ambiguous"
+      inputform="ска[ска/intj:vulg,ска/noun:inanim:m:v_dav:nv,ска/noun:inanim:m:v_mis:nv,ска/noun:inanim:m:v_naz:nv,ска/noun:inanim:m:v_oru:nv,ска/noun:inanim:m:v_rod:nv,ска/noun:inanim:m:v_zna:nv,ска/noun:inanim:p:v_dav:nv,ска/noun:inanim:p:v_mis:nv,ска/noun:inanim:p:v_naz:nv,ска/noun:inanim:p:v_oru:nv,ска/noun:inanim:p:v_rod:nv,ска/noun:inanim:p:v_zna:nv]"
+      outputform="ска[ска]">і <marker>ска</marker> зав.
+    </example>
+    <example type="untouched">стилем ска</example>
+  </rule>
+
   <!-- category: subst, alt, arch -->
 
   <rule name="Паралельні погані форми -ій" id="parallel_bad_forms_iy">
@@ -287,398 +304,34 @@
     <example type="untouched">ква</example>
   </rule>
 
-  <!-- category: v_zna for anim -->
-
-  <rule name="Знахідний для осіб лише після в/у" id="anim_v_zna_rare">
-    <antipattern>
-      <token regexp="yes">[ву]|на|між|меж[іи]</token> 
-      <token regexp="yes" min="0">його|її|їх|[«"„“]</token>
-      <token postag_regexp="yes" postag="adj:p:v_zna:rinanim(?!.*pron).*" min="0" max="2">
-        <exception postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
+  <rule name="Метода - subst" id="metoda_subst_1">
+    <pattern>
+      <token postag_regexp="yes" postag="adj:m:v_rod.*">
+        <exception postag_regexp="yes" postag="adj:f:v_naz.*" />
       </token>
-      <token postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
-    </antipattern>
-    <pattern>
       <marker>
-        <token postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
+        <token>метода</token>
       </marker>
     </pattern>
-    <disambig action="remove" postag="noun:anim:p:v_zna.*:rare.*" />
+    <disambig action="filter" postag="noun.*subst" />
     <example type="ambiguous"
-        inputform="президенти[президент/noun:anim:p:v_kly,президент/noun:anim:p:v_naz,президент/noun:anim:p:v_zna:rare]"
-        outputform="президенти[президент/noun:anim:p:v_kly,президент/noun:anim:p:v_naz]">Отакі <marker>президенти</marker>.</example>
-    <example type="untouched">Записався в його шанувальники.</example>
-    <example type="untouched">Пішов в президенти.</example>
-    <example type="untouched">кандидат в народні депутати.</example>
-    <example type="untouched">потім в «чиновники»</example>
+        inputform="метода[метод/noun:inanim:m:v_rod:subst,метода/noun:inanim:f:v_naz]"
+        outputform="метода[метод/noun:inanim:m:v_rod:subst]">до вашого <marker>метода</marker>.</example>
+    <example type="untouched">така метода</example>
   </rule>
 
-<!--
-  <rule name="Точок і точка" id="tochok">
+  <rule name="Метода - subst" id="metoda_subst_2">
     <pattern>
+      <token inflected="yes" regexp="yes">основа|щодо|і?з|до|без|від|для|замість|крім|проти</token>
       <marker>
-        <and>
-          <token inflected="yes">точок</token>
-          <token inflected="yes">точка</token>
-        </and>
+        <token>метода</token>
       </marker>
     </pattern>
-    <disambig action="remove" postag="noun:inanim:m:.*" />
+    <disambig action="filter" postag="noun.*subst" />
     <example type="ambiguous"
-        inputform="точок[точка/noun:inanim:p:v_rod,точок/noun:inanim:m:v_naz,точок/noun:inanim:m:v_zna]"
-        outputform="точок[точка/noun:inanim:p:v_rod]">20 <marker>точок</marker>.</example>
-  </rule>
--->
-
-  <rule name="Ніж - conj" id="nizh_conj">
-    <pattern>
-      <token regexp="yes">менше?|більше?</token>
-      <token min="0">,</token>
-      <marker>
-        <token>ніж</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="conj:subord" />
-    <example type="ambiguous"
-        inputform="ніж[ніж/conj:subord,ніж/noun:inanim:m:v_naz,ніж/noun:inanim:m:v_zna]"
-        outputform="ніж[ніж/conj:subord]">менше <marker>ніж</marker> 1.</example>
-    <example type="untouched">сталевий ніж</example>
-  </rule>
-
-  <rule name="більше - adv" id="bilshe_adv_1">
-    <pattern>
-      <marker>
-        <token regexp="yes">менше|більше</token>
-      </marker>
-      <token postag_regexp="yes" postag="number.*|numr:.:v_rod.*">
-        <exception postag_regexp="yes" postag=".*:n:v_(naz|zna).*"/>
-      </token>
-    </pattern>
-    <disambig action="filter" postag="adv.*" />
-    <example type="ambiguous"
-        inputform="менше[менше/adv:compc:&amp;predic,менший/adj:n:v_kly:compc,менший/adj:n:v_naz:compc,менший/adj:n:v_zna:compc]"
-        outputform="менше[менше/adv:compc:&amp;predic]"><marker>менше</marker> 0.</example>
-    <example type="ambiguous"
-        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
-        outputform="більше[більше/adv:compc:&amp;predic]"><marker>більше</marker> двох.</example>
-    <example type="untouched">більше поняття</example>
-    <example type="untouched">більше колесо</example>
-    <example type="untouched">більше того</example>
-  </rule>
-
-  <rule name="більше - adv" id="bilshe_adv_2">
-    <pattern>
-      <marker>
-        <token regexp="yes">менше|більше</token>
-      </marker>
-      <token postag_regexp="yes" postag="noun.*:v_rod.*">
-        <exception postag_regexp="yes" postag=".*:n:v_(naz|zna).*"/>
-      </token>
-    </pattern>
-    <disambig action="filter" postag="adv.*" />
-    <example type="ambiguous"
-        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
-        outputform="більше[більше/adv:compc:&amp;predic]"><marker>більше</marker> ворогів.</example>
-    <example type="untouched">більше поняття</example>
-    <example type="untouched">більше колесо</example>
-  </rule>
-
-  <rule name="більше - adv" id="bilshe_adv_3">
-    <pattern>
-      <marker>
-        <token regexp="yes">менше|більше</token>
-      </marker>
-      <token min="0">,</token>
-      <token>ніж</token>
-    </pattern>
-    <disambig action="filter" postag="adv.*" />
-    <example type="ambiguous"
-        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
-        outputform="більше[більше/adv:compc:&amp;predic]"><marker>більше</marker>, ніж їх.</example>
-    <example type="untouched">більше поняття</example>
-    <example type="untouched">більше колесо</example>
-  </rule>
-
-  <rule name="більше - adv" id="bilshe_adv_4">
-    <pattern>
-      <marker>
-        <token regexp="yes">менше|більше</token>
-      </marker>
-      <token min="0">не</token>
-      <token postag_regexp="yes" postag="verb.*">
-        <exception postag_regexp="yes" postag=".*:n:v_(naz|zna).*"/>
-      </token>
-    </pattern>
-    <disambig action="filter" postag="adv.*" />
-    <example type="ambiguous"
-        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
-        outputform="більше[більше/adv:compc:&amp;predic]"><marker>більше</marker> пасувало</example>
-    <example type="untouched">більше поняття</example>
-    <example type="untouched">більше колесо</example>
-  </rule>
-
-  <rule name="рана - c.р." id="rana_n">
-    <pattern>
-      <token regexp="yes">від|до|і?з</token>
-      <!--
-      <token postag_regexp="yes" postag="adj:n:v_rod.*">
-        <exception negate_pos="yes" postag_regexp="yes" postag="adj:[mn]:v_rod.*">
-      </token>
-      -->
-      <token regexp="yes" min="0">раннього|самого|самісінького|білого</token>
-      <marker>
-        <token>рана</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:n:v_rod.*" />
-    <example type="ambiguous"
-        inputform="рана[рана/noun:inanim:f:v_naz,рано/noun:inanim:n:v_rod]"
-        outputform="рана[рано/noun:inanim:n:v_rod]">з самого <marker>рана</marker>.</example>
-    <example type="untouched">відкрита рана</example>
-  </rule>
-
-  <rule name="рана - ж.р." id="rana_f">
-    <pattern>
-      <marker>
-        <token>рана</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:f.*" />
-    <example type="ambiguous"
-        inputform="рана[рана/noun:inanim:f:v_naz,рано/noun:inanim:n:v_rod]"
-        outputform="рана[рана/noun:inanim:f:v_naz]">з ранку <marker>рана</marker>.</example>
-    <example type="untouched">відкрита рано</example>
-  </rule>
-
-  <rule name="Дуже і дужий" id="duzhe_adv">
-    <antipattern>
-      <token>дуже</token>
-      <token postag_regexp="yes" postag="noun:.*?:n:v_(naz|zna|kly).*">
-        <exception>його</exception>
-      </token>
-    </antipattern>
-    <pattern>
-      <marker>
-        <token postag_regexp="yes" postag="adj:n:.*">дуже</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="adj:n.*" />
-    <example type="ambiguous"
-        inputform="дуже[дуже/adv:compb,дужий/adj:n:v_kly:compb,дужий/adj:n:v_naz:compb,дужий/adj:n:v_zna:compb]"
-        outputform="дуже[дуже/adv:compb]">в <marker>дуже</marker> добре.</example>
-    <example type="untouched">дуже тіло</example>
-  </rule>
-
-  <rule name="сучасне - прикм." id="suchasne_adj">
-    <pattern>
-      <token>дуже</token>
-      <marker>
-        <token postag_regexp="yes" postag="noun:inanim:n:.*">сучасне</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:n.*" />
-    <example type="ambiguous"
-        inputform="сучасне[сучасне/noun:inanim:n:v_naz,сучасне/noun:inanim:n:v_zna,сучасний/adj:n:v_kly:compb,сучасний/adj:n:v_naz:compb,сучасний/adj:n:v_zna:compb]"
-        outputform="сучасне[сучасний/adj:n:v_kly:compb,сучасний/adj:n:v_naz:compb,сучасний/adj:n:v_zna:compb]">дуже <marker>сучасне</marker>.</example>
-    <example type="untouched">сучасне і старе</example>
-  </rule>
-
-  <rule name="добре - присл." id="dobre_adv_1">
-    <pattern>
-      <marker>
-        <token>добре</token>
-      </marker>
-      <token postag_regexp="yes" postag="verb.*">
-        <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
-      </token>
-    </pattern>
-    <disambig action="filter" postag="adv.*" />
-    <example type="ambiguous"
-        inputform="добре[добре/adv:compb:&amp;predic,добрий/adj:n:v_kly:compb,добрий/adj:n:v_naz:compb,добрий/adj:n:v_zna:compb]"
-        outputform="добре[добре/adv:compb:&amp;predic]">і <marker>добре</marker> усвідомлює.</example>
-    <example type="untouched">добре печиво</example>
-  </rule>
-
-  <rule name="добре - присл." id="dobre_adv_2">
-    <pattern>
-      <marker>
-        <token>добре</token>
-      </marker>
-      <token postag_regexp="yes" postag="adj.*pasv.*">
-        <exception negate_pos="yes" postag_regexp="yes" postag="adj.*pasv.*"/>
-      </token>
-    </pattern>
-    <disambig action="filter" postag="adv.*" />
-    <example type="ambiguous"
-        inputform="добре[добре/adv:compb:&amp;predic,добрий/adj:n:v_kly:compb,добрий/adj:n:v_naz:compb,добрий/adj:n:v_zna:compb]"
-        outputform="добре[добре/adv:compb:&amp;predic]">і <marker>добре</marker> організована праця.</example>
-    <example type="untouched">добре печиво</example>
-  </rule>
-
-  <rule name="Нове - прикм." id="nove_adj_1">
-    <pattern>
-      <marker>
-        <token inflected="yes" postag="noun:inanim:n:v_rod" regexp="yes">нове|перше|головне|друге|майбутнє|останнє|минуле|добре</token>
-      </marker>
-      <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim:m:v_(dav|rod).*">термінал|пакет|компонент|пік|вектор|диск|аватар|логотип|енергоблок|документ|елеватор|об'єкт|пласт|рецепт</token>
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:n.*" />
-    <example type="ambiguous"
-        inputform="нового[нове/noun:inanim:n:v_rod,новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"
-        outputform="нового[новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"><marker>нового</marker> вектора.</example>
-    <!-- frequent mistake v_dav instead of v_rod -->
-    <example type="ambiguous"
-        inputform="нового[нове/noun:inanim:n:v_rod,новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"
-        outputform="нового[новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"><marker>нового</marker> енергоблоку.</example>
-    <example type="untouched">нового студент навчатися не хоче</example>
-  </rule>
-
-  <rule name="Нове - прикм." id="nove_adj_2">
-    <pattern>
-      <marker>
-        <token inflected="yes" postag="noun:inanim:n:v_rod" regexp="yes">нове|перше|головне|друге|майбутнє|останнє|минуле|добре</token>
-      </marker>
-      <token postag_regexp="yes" postag="noun:.*:[mn]:v_rod.*" />
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:n.*" />
-    <example type="ambiguous"
-        inputform="нового[нове/noun:inanim:n:v_rod,новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"
-        outputform="нового[новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"><marker>нового</marker> шляху.</example>
-    <example type="ambiguous"
-        inputform="першого[перше/noun:inanim:n:v_rod,перший/adj:m:v_rod:&amp;numr,перший/adj:m:v_zna:ranim:&amp;numr,перший/adj:n:v_rod:&amp;numr]"
-        outputform="першого[перший/adj:m:v_rod:&amp;numr,перший/adj:m:v_zna:ranim:&amp;numr,перший/adj:n:v_rod:&amp;numr]"><marker>першого</marker> року.</example>
-    <example type="untouched">навчатися нового</example>
-  </rule>
-
-  <rule name="минуле - прикм" id="mynule_adj">
-    <antipattern>
-      <token inflected="yes">минуле</token>
-      <token regexp="yes">[йі]|та</token>
-      <token inflected="yes">сучасне</token>
-    </antipattern>
-    <pattern>
-      <marker>
-        <token inflected="yes">сучасне</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:n.*"/>
-    <example type="ambiguous"
-      inputform="сучасного[сучасне/noun:inanim:n:v_rod,сучасний/adj:m:v_rod:compb,сучасний/adj:m:v_zna:ranim:compb,сучасний/adj:n:v_rod:compb]"
-      outputform="сучасного[сучасний/adj:m:v_rod:compb,сучасний/adj:m:v_zna:ranim:compb,сучасний/adj:n:v_rod:compb]">до <marker>сучасного</marker> складу.
-    </example>
-    <example type="untouched">минулого і сучасного</example>
-  </rule>
-
-<!-- 
-  <rule name="Минулого - прикм" id="mynulogo_adj">
-    <pattern>
-      <marker>
-        <token>минулого</token>
-      </marker>
-      <token regexp="yes">року|тижня|століття|разу|літа|понеділка|четверга</token>
-    </pattern>
-    <disambig action="filter" postag="adj:.:.*"/>
-    <example type="ambiguous"
-        inputform="минулого[минуле/noun:inanim:n:v_rod,минулий/adj:m:v_rod:&amp;adjp:actv:perf,минулий/adj:m:v_zna:ranim:&amp;adjp:actv:perf,минулий/adj:n:v_rod:&amp;adjp:actv:perf]"
-        outputform="минулого[минулий/adj:m:v_rod:&amp;adjp:actv:perf,минулий/adj:m:v_zna:ranim:&amp;adjp:actv:perf,минулий/adj:n:v_rod:&amp;adjp:actv:perf]"
-        >і <marker>минулого</marker> року</example>
-    <example type="untouched">минулого і майбутнього</example>
-  </rule>
--->
-
-  <rule name="Рік: не ріка" id="rik_odn">
-    <antipattern>
-      <token postag_regexp="yes" postag="adj:p:v_rod.*"/>
-      <token regexp="yes">рік|вік|зараз</token>
-    </antipattern>
-    <antipattern>
-      <token>багато</token>
-      <token regexp="yes">рік|зараз</token>
-    </antipattern>
-    <antipattern>
-      <token regexp="yes">до|від</token>
-      <token>рік</token>
-    </antipattern>
-    <pattern>
-      <marker>
-        <token regexp="yes">рік|вік|зараз</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:p:v_rod.*" />
-    <example type="ambiguous"
-        inputform="рік[рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna,ріка/noun:inanim:p:v_rod]"
-        outputform="рік[рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna]">другий <marker>рік</marker>.</example>
-    <example type="ambiguous"
-        inputform="зараз[зараз/adv:&amp;pron:dem,зараза/noun:inanim:p:v_rod]"
-        outputform="зараз[зараз/adv:&amp;pron:dem]">вже <marker>зараз</marker>.</example>
-    <example type="untouched">різних рік</example>
-    <example type="untouched">багато рік</example>
-    <example type="untouched">багато зараз</example>
-    <example type="untouched">з-під важких вік</example>
-  </rule>
-
-  <rule name="Благочинний - прикм." id="blahochynnyi_adj">
-    <pattern>
-      <unify>
-        <feature id="gender"/>
-        <feature id="case"/>
-        <marker>
-          <token inflected="yes">благочинний</token>
-        </marker>
-        <token postag_regexp="yes" postag="noun:inanim.*"/>
-      </unify>
-    </pattern>
-    <disambig action="filter" postag="adj:.*" />
-    <example type="ambiguous"
-        inputform="благочинну[благочинна/noun:anim:f:v_zna:arch,благочинний/adj:f:v_zna:bad]"
-        outputform="благочинну[благочинний/adj:f:v_zna:bad]"><marker>благочинну</marker> акцію.</example>
-    <example type="untouched">глянув на благочинну</example>
-  </rule>
-
-  <rule name="Віку: не віко" id="viku_vik">
-    <pattern>
-      <marker>
-        <and>
-          <token>віку</token>
-          <token inflected="yes">віко</token>
-        </and>
-      </marker>
-    </pattern>
-    <disambig action="remove"><wd lemma="віко"/></disambig>
-    <example type="ambiguous"
-        inputform="віку[вік/noun:inanim:m:v_dav,вік/noun:inanim:m:v_mis,вік/noun:inanim:m:v_rod,віко/noun:inanim:n:v_dav,віко/noun:inanim:n:v_mis]"
-        outputform="віку[вік/noun:inanim:m:v_dav,вік/noun:inanim:m:v_mis,вік/noun:inanim:m:v_rod]">середнього <marker>віку</marker>.</example>
-    <example type="untouched">важке віко</example>
-  </rule>
-
-  <rule name="Загалом: adv" id="zagalom_adv">
-    <antipattern>
-      <token postag_regexp="yes" postag="adj:m:v_oru.*"/>
-      <token>загалом</token>
-    </antipattern>
-    <pattern>
-      <marker>
-        <token>загалом</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:m:v_oru.*" />
-    <example type="ambiguous"
-        inputform="загалом[загал/noun:inanim:m:v_oru,загалом/adv]"
-        outputform="загалом[загалом/adv]">і <marker>загалом</marker> мав успіх.</example>
-    <example type="untouched">широким загалом</example>
-  </rule>
-
-  <rule name="Свого - прикметник ч.р. 1" id="svogo_adj_m_1">
-    <pattern>
-      <marker>
-        <token regexp="yes">свого|такого|різного|одного|певного</token>
-      </marker>
-      <token regexp="yes">роду|разу|типу</token>
-    </pattern>
-    <disambig action="filter" postag="adj:m:v_rod.*"/>
-    <example type="ambiguous"
-        inputform="свого[свій/adj:m:v_rod:&amp;pron:pos,свій/adj:m:v_zna:ranim:&amp;pron:pos,свій/adj:n:v_rod:&amp;pron:pos]"
-        outputform="свого[свій/adj:m:v_rod:&amp;pron:pos]">А <marker>свого</marker> роду маніфест.</example>
+        inputform="метода[метод/noun:inanim:m:v_rod:subst,метода/noun:inanim:f:v_naz]"
+        outputform="метода[метод/noun:inanim:m:v_rod:subst]">в основі <marker>метода</marker>.</example>
+    <example type="untouched">своя метода</example>
   </rule>
 
   <!-- category: v_kly -->
@@ -914,6 +567,996 @@
     </rule>
   </rulegroup>
 
+  <!-- category: v_zna for anim -->
+
+  <rule name="Знахідний для осіб лише після в/у" id="anim_v_zna_rare">
+    <antipattern>
+      <token regexp="yes">[ву]|на|між|меж[іи]|поміж</token> 
+      <token regexp="yes" min="0">його|її|їх|[«"„“]</token>
+      <token postag_regexp="yes" postag="adj:p:v_zna:rinanim(?!.*pron).*" min="0" max="2">
+        <exception postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
+      </token>
+      <token postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
+    </antipattern>
+    <pattern>
+      <marker>
+        <token postag_regexp="yes" postag="noun:anim:p:v_zna.*:rare.*" />
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:p:v_zna.*:rare.*" />
+    <example type="ambiguous"
+        inputform="президенти[президент/noun:anim:p:v_naz,президент/noun:anim:p:v_zna:rare]"
+        outputform="президенти[президент/noun:anim:p:v_naz]">Отакі <marker>президенти</marker>.</example>
+    <example type="untouched">Записався в його шанувальники.</example>
+    <example type="untouched">Пішов в президенти.</example>
+    <example type="untouched">кандидат в народні депутати.</example>
+    <example type="untouched">потім в «чиновники»</example>
+    <example type="untouched">поміж люди</example>
+  </rule>
+
+<!--
+  <rule name="Точок і точка" id="tochok">
+    <pattern>
+      <marker>
+        <and>
+          <token inflected="yes">точок</token>
+          <token inflected="yes">точка</token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:m:.*" />
+    <example type="ambiguous"
+        inputform="точок[точка/noun:inanim:p:v_rod,точок/noun:inanim:m:v_naz,точок/noun:inanim:m:v_zna]"
+        outputform="точок[точка/noun:inanim:p:v_rod]">20 <marker>точок</marker>.</example>
+  </rule>
+-->
+
+  <!-- category: noun / adv-conj -->
+
+  <rule name="Ніж - conj" id="nizh_conj">
+    <pattern>
+      <token regexp="yes">менше?|більше?</token>
+      <token min="0">,</token>
+      <marker>
+        <token>ніж</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="conj:subord" />
+    <example type="ambiguous"
+        inputform="ніж[ніж/conj:subord,ніж/noun:inanim:m:v_naz,ніж/noun:inanim:m:v_zna]"
+        outputform="ніж[ніж/conj:subord]">менше <marker>ніж</marker> 1.</example>
+    <example type="untouched">сталевий ніж</example>
+  </rule>
+
+  <rule name="Загалом: adv" id="zagalom_adv">
+    <antipattern>
+      <token postag_regexp="yes" postag="adj:m:v_oru.*"/>
+      <token>загалом</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token>загалом</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:m:v_oru.*" />
+    <example type="ambiguous"
+        inputform="загалом[загал/noun:inanim:m:v_oru,загалом/adv]"
+        outputform="загалом[загалом/adv]">і <marker>загалом</marker> мав успіх.</example>
+    <example type="untouched">широким загалом</example>
+  </rule>
+
+  <rule name="Рада - іменник 01" id="rada_noun_01">
+    <pattern>
+      <token regexp="yes" inflected="yes">голова|член|немає?|дати</token>
+      <marker>
+        <token>ради</token>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="ради[рад/noun:inanim:p:v_naz,рад/noun:inanim:p:v_zna,рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna,ради/prep]"
+        outputform="ради[рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna]"
+            >голова <marker>ради</marker>.</example>
+    <example type="ambiguous"
+        inputform="ради[рад/noun:inanim:p:v_naz,рад/noun:inanim:p:v_zna,рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna,ради/prep]"
+        outputform="ради[рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna]">могли дати <marker>ради</marker>.</example>
+    <example type="untouched">сама рада.</example>
+  </rule>
+
+
+  <rule name="Рада - іменник 02" id="rada_noun_02">
+    <pattern>
+      <token regexp="yes" postag_regexp="yes" postag="adj:.*" inflected="yes">верховний|обласний|міський|сільський|селищний|районний|центральний|громадський|народний|вищий|місцевий|національний|наглядовий|конституційний|[ву]чений|студентський|Європейський</token>
+      <marker>
+        <token inflected="yes">рада</token>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >у Верховну <marker>Раду</marker>.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+    <example type="untouched">сама рада.</example>
+  </rule>
+
+  <rule name="Рада - іменник 1" id="rada_noun_1">
+    <pattern>
+      <marker>
+        <token inflected="yes">рада</token>
+      </marker>
+      <token regexp="yes">безпеки|національної|міністрів|керівників|директорів|членів|суддів|євро.*</token>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >у <marker>Раду</marker> Міністрів.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+    <example type="untouched">рада і весела</example>
+  </rule>
+
+  <rule name="Рада - іменник 1.2" id="rada_noun_12">
+    <pattern>
+      <marker>
+        <token inflected="yes">рада</token>
+      </marker>
+      <token regexp="yes" case_sensitive="yes">ЄС|[XVIХІ]+([-–][а-яіїєґ]+)?</token>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >у <marker>Раду</marker> І скликання.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+    <example type="untouched">рада і весела</example>
+  </rule>
+
+  <rule name="Рада - іменник 2" id="rada_noun_2">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <token postag_regexp="yes" postag="adj:f:.(?!.*pron).*"/>
+        <marker>
+          <token inflected="yes">рада</token>
+        </marker>
+      </unify>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="раду[рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="раду[рада/noun:inanim:f:v_zna]"
+            >таємну <marker>раду</marker>.</example>
+    <example type="untouched">вона й рада старатися</example>
+  </rule>
+
+  <rule name="Рада - іменник 3" id="rada_noun_3">
+    <pattern>
+      <token regexp="yes">[ву]</token>
+      <marker>
+        <token>раду</token>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >в <marker>Раду</marker>.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+    <example type="untouched">сама рада.</example>
+  </rule>
+
+  <rule name="ради: noun" id="rady_noun_4">
+    <pattern>
+      <token postag_regexp="yes" postag="prep.*" />
+      <marker>
+        <token>ради</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="prep" />
+    <example type="ambiguous"
+        inputform="ради[рад/noun:inanim:p:v_naz,рад/noun:inanim:p:v_zna,рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna,ради/prep]"
+        outputform="ради[рад/noun:inanim:p:v_naz,рад/noun:inanim:p:v_zna,рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna]">вибирати до <marker>ради</marker>.</example>
+    <example type="untouched">ради дітей</example>
+  </rule>
+
+  <rule name="ради: prep" id="rady_prep_1">
+    <pattern>
+      <token regexp="yes">бога|Христа|цікавост[іи]</token>
+      <marker>
+        <token>ради</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="prep" />
+    <example type="ambiguous"
+        inputform="ради[рад/noun:inanim:p:v_naz,рад/noun:inanim:p:v_zna,рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna,ради/prep]"
+        outputform="ради[ради/prep]">і Христа <marker>ради</marker>.</example>
+    <example type="untouched">ради колективу</example>
+    <example type="untouched">ради цього міста</example>
+  </rule>
+
+  <rule name="ради: prep" id="rady_prep_2">
+    <pattern>
+      <marker>
+        <token>ради</token>
+      </marker>
+      <token regexp="yes">бога|Христа|чого|тебе|цікавост[іи]|дати</token>
+    </pattern>
+    <disambig action="filter" postag="prep" />
+    <example type="ambiguous"
+        inputform="ради[рад/noun:inanim:p:v_naz,рад/noun:inanim:p:v_zna,рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna,ради/prep]"
+        outputform="ради[ради/prep]">і <marker>ради</marker> бога.</example>
+    <example type="untouched">ради колективу</example>
+    <example type="untouched">ради цього міста</example>
+  </rule>
+
+<!--
+  <rule name="ради: prep" id="rady_prep_3">
+    <pattern>
+      <marker>
+        <token>ради</token>
+      </marker>
+      <token postag_regexp="yes" postag="noun.*v_rod.*pron.*" >
+        <exception negate_pos="yes" postag_regexp="yes" postag="noun.*v_(rod|zna).*pron.*" />
+      </token>
+    </pattern>
+    <disambig action="filter" postag="prep" />
+    <example type="ambiguous"
+        inputform="ради[рад/noun:inanim:p:v_naz,рад/noun:inanim:p:v_zna,рада/noun:inanim:f:v_rod,рада/noun:inanim:p:v_naz,рада/noun:inanim:p:v_zna,ради/prep]"
+        outputform="ради[ради/prep]">і <marker>ради</marker> тебе це все.</example>
+    <example type="untouched">ради колективу</example>
+    <example type="untouched">ради цього міста</example>
+  </rule>
+-->
+
+  <!-- category: noun / noun -->
+
+  <rule name="рана - c.р." id="rana_n">
+    <pattern>
+      <token regexp="yes">від|до|і?з</token>
+      <!--
+      <token postag_regexp="yes" postag="adj:n:v_rod.*">
+        <exception negate_pos="yes" postag_regexp="yes" postag="adj:[mn]:v_rod.*">
+      </token>
+      -->
+      <token regexp="yes" min="0">раннього|самого|самісінького|білого</token>
+      <marker>
+        <token>рана</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:n:v_rod.*" />
+    <example type="ambiguous"
+        inputform="рана[рана/noun:inanim:f:v_naz,рано/noun:inanim:n:v_rod]"
+        outputform="рана[рано/noun:inanim:n:v_rod]">з самого <marker>рана</marker>.</example>
+    <example type="untouched">відкрита рана</example>
+  </rule>
+
+  <rule name="рана - ж.р." id="rana_f">
+    <pattern>
+      <marker>
+        <token>рана</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:f.*" />
+    <example type="ambiguous"
+        inputform="рана[рана/noun:inanim:f:v_naz,рано/noun:inanim:n:v_rod]"
+        outputform="рана[рана/noun:inanim:f:v_naz]">з ранку <marker>рана</marker>.</example>
+    <example type="untouched">відкрита рано</example>
+  </rule>
+
+  <rule name="Рік: не ріка" id="rik_odn">
+    <antipattern>
+      <token postag_regexp="yes" postag="adj:p:v_rod.*"/>
+      <token regexp="yes">рік|вік|зараз</token>
+    </antipattern>
+    <antipattern>
+      <token>багато</token>
+      <token regexp="yes">рік|зараз</token>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">до|від</token>
+      <token>рік</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token regexp="yes">рік|вік|зараз</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:p:v_rod.*" />
+    <example type="ambiguous"
+        inputform="рік[рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna,ріка/noun:inanim:p:v_rod]"
+        outputform="рік[рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna]">другий <marker>рік</marker>.</example>
+    <example type="ambiguous"
+        inputform="зараз[зараз/adv:&amp;pron:dem,зараза/noun:inanim:p:v_rod]"
+        outputform="зараз[зараз/adv:&amp;pron:dem]">вже <marker>зараз</marker>.</example>
+    <example type="untouched">різних рік</example>
+    <example type="untouched">багато рік</example>
+    <example type="untouched">багато зараз</example>
+    <example type="untouched">з-під важких вік</example>
+  </rule>
+
+  <!-- TODO: this rule may be a bit too greedy, but most of the time it's right -->
+  <rule name="Рік і рок 1" id="RIK_VS_ROK_1">
+    <pattern>
+      <token regexp="yes">[12][0-9]{3}</token>
+      <marker>
+        <token>року</token>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="1" postag="noun:inanim:m:v_rod">рік</match></disambig>
+    <example type="ambiguous"
+        inputform="року[рок/noun:inanim:m:v_dav,рок/noun:inanim:m:v_rod,рік/noun:inanim:m:v_dav,рік/noun:inanim:m:v_rod]"
+        outputform="року[рік/noun:inanim:m:v_rod]"
+            >з 2003 <marker>року</marker>.</example>
+    <example type="untouched">від класичної та етнічної до авангардного року.</example>
+    <example type="untouched">позаминулого року.</example>
+  </rule>
+
+  <rule name="Рік і рок 2" id="RIK_VS_ROK_2">
+    <pattern>
+      <token regexp="yes">(поза)?минулого|цього|наступного|того</token>
+      <marker>
+        <token>року</token>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="1" postag="noun:inanim:m:v_rod">рік</match></disambig>
+    <example type="ambiguous"
+        inputform="року[рок/noun:inanim:m:v_dav,рок/noun:inanim:m:v_rod,рік/noun:inanim:m:v_dav,рік/noun:inanim:m:v_rod]"
+        outputform="року[рік/noun:inanim:m:v_rod]"
+            >з грудня минулого <marker>року</marker>.</example>
+    <example type="untouched">від класичної та етнічної до авангардного року.</example>
+    <example type="untouched">з 2003 року.</example>
+  </rule>
+
+  <rule name="Віку: не віко" id="viku_vik">
+    <pattern>
+      <marker>
+        <and>
+          <token>віку</token>
+          <token inflected="yes">віко</token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove"><wd lemma="віко"/></disambig>
+    <example type="ambiguous"
+        inputform="віку[вік/noun:inanim:m:v_dav,вік/noun:inanim:m:v_mis,вік/noun:inanim:m:v_rod,віко/noun:inanim:n:v_dav,віко/noun:inanim:n:v_mis]"
+        outputform="віку[вік/noun:inanim:m:v_dav,вік/noun:inanim:m:v_mis,вік/noun:inanim:m:v_rod]">середнього <marker>віку</marker>.</example>
+    <example type="untouched">важке віко</example>
+  </rule>
+
+  <rule name="різні - прикм" id="rizni_adj">
+    <antipattern>
+      <token postag_regexp="yes" postag="adj:f:v_(dav|mis|rod).*" />
+      <token>різні</token>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">до|від|без|о?після</token>
+      <token>різні</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token>різні</token>
+        <token postag_regexp="yes" postag="noun:.*:p:v_naz.*|noun:inanim:p:v_zna.*" />
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="adj.*" />
+    <example type="ambiguous"
+        inputform="різні[різний/adj:p:v_naz:compb,різний/adj:p:v_zna:rinanim:compb,різня/noun:inanim:f:v_dav,різня/noun:inanim:f:v_mis,різня/noun:inanim:f:v_rod]"
+        outputform="різні[різний/adj:p:v_naz:compb,різний/adj:p:v_zna:rinanim:compb]">такі <marker>різні</marker> фактори.</example>
+    <example type="untouched">кривавої різні</example>
+    <example type="untouched">після тої кривавої різні грабіжники пішли далі</example>
+    <example type="untouched">до різні корів</example>
+  </rule>
+
+  <!-- category: adv / adj -->
+
+  <rule name="більше - adv" id="bilshe_adv_1">
+    <pattern>
+      <marker>
+        <token regexp="yes">менше|більше</token>
+      </marker>
+      <token postag_regexp="yes" postag="number.*|numr:.:v_rod.*">
+        <exception postag_regexp="yes" postag=".*:n:v_(naz|zna).*"/>
+      </token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="менше[менше/adv:compc:&amp;predic,менший/adj:n:v_kly:compc,менший/adj:n:v_naz:compc,менший/adj:n:v_zna:compc]"
+        outputform="менше[менше/adv:compc:&amp;predic]"><marker>менше</marker> 0.</example>
+    <example type="ambiguous"
+        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
+        outputform="більше[більше/adv:compc:&amp;predic]"><marker>більше</marker> двох.</example>
+    <example type="untouched">більше поняття</example>
+    <example type="untouched">більше колесо</example>
+    <example type="untouched">більше того</example>
+  </rule>
+
+  <rule name="більше - adv" id="bilshe_adv_2">
+    <pattern>
+      <marker>
+        <token regexp="yes">менше|більше</token>
+      </marker>
+      <token postag_regexp="yes" postag="noun.*:v_rod.*">
+        <exception postag_regexp="yes" postag=".*:n:v_(naz|zna).*"/>
+      </token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
+        outputform="більше[більше/adv:compc:&amp;predic]"><marker>більше</marker> ворогів.</example>
+    <example type="untouched">більше поняття</example>
+    <example type="untouched">більше колесо</example>
+  </rule>
+
+  <rule name="більше - adv" id="bilshe_adv_3">
+    <pattern>
+      <marker>
+        <token regexp="yes">менше|більше</token>
+      </marker>
+      <token min="0">,</token>
+      <token>ніж</token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
+        outputform="більше[більше/adv:compc:&amp;predic]"><marker>більше</marker>, ніж їх.</example>
+    <example type="untouched">більше поняття</example>
+    <example type="untouched">більше колесо</example>
+  </rule>
+
+  <rule name="більше - adv" id="bilshe_adv_4">
+    <pattern>
+      <marker>
+        <token regexp="yes">(най)?менше|(най)?більше</token>
+      </marker>
+      <token min="0">не</token>
+      <token postag_regexp="yes" postag="verb.*">
+        <exception postag_regexp="yes" postag=".*:n:v_(naz|zna).*"/>
+      </token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
+        outputform="більше[більше/adv:compc:&amp;predic]"><marker>більше</marker> пасувало</example>
+    <example type="untouched">більше поняття</example>
+    <example type="untouched">більше колесо</example>
+  </rule>
+
+  <rule name="більше - adv" id="bilshe_adv_5">
+    <pattern>
+      <token>ба</token>
+      <marker>
+        <token>більше</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="більше[більше/adv:compc:&amp;predic,більший/adj:n:v_kly:compc,більший/adj:n:v_naz:compc,більший/adj:n:v_zna:compc]"
+        outputform="більше[більше/adv:compc:&amp;predic]">Ба <marker>більше</marker>,</example>
+    <example type="untouched">більше поняття</example>
+    <example type="untouched">більше колесо</example>
+  </rule>
+
+  <rule name="швидше - adv" id="shvydshe_adv_1">
+    <pattern>
+      <marker>
+        <token>швидше</token>
+      </marker>
+      <token>за</token>
+      <token regexp="yes">[ву]се</token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="швидше[швидше/adv:compc,швидший/adj:n:v_kly:compc,швидший/adj:n:v_naz:compc,швидший/adj:n:v_zna:compc]"
+        outputform="швидше[швидше/adv:compc]"><marker>швидше</marker> за все</example>
+    <example type="untouched">швидше сходження</example>
+  </rule>
+
+  <rule name="краще - присл" id="krasche_adv">
+    <antipattern>
+      <token postag_regexp="yes" postag="prep.*"/>
+      <token postag_regexp="yes" postag="adj.*" regexp="yes">.*краще</token>
+    </antipattern>
+    <antipattern>
+      <token postag_regexp="yes" postag="noun:.*:n:v_naz.*"/>
+      <token>краще</token>
+      <token regexp="yes">є|було|буде</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <and>
+          <token postag_regexp="yes" postag="adv.*" regexp="yes">.*краще|швидше|пізніше</token>
+          <token postag_regexp="yes" postag="adj:n.*" inflected="yes" regexp="yes">.*кращий|швидший|пізніший</token>
+        </and>
+      </marker>
+      <token postag_regexp="yes" postag="verb.*"/>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="найкраще[найкраще/adv:comps:&amp;predic,найкращий/adj:n:v_kly:comps,найкращий/adj:n:v_naz:comps,найкращий/adj:n:v_zna:comps]"
+        outputform="найкраще[найкраще/adv:comps:&amp;predic]">І <marker>найкраще</marker> буде поїхати зараз.</example>
+    <example type="ambiguous"
+        inputform="швидше[швидше/adv:compc,швидший/adj:n:v_kly:compc,швидший/adj:n:v_naz:compc,швидший/adj:n:v_zna:compc]"
+        outputform="швидше[швидше/adv:compc]">І <marker>швидше</marker> поїде.</example>
+    <example type="untouched">найкраще село</example>
+    <example type="untouched">краще національне життя</example>
+    <example type="untouched">за краще брати</example>
+    <example type="untouched">життя краще буде</example>
+  </rule>
+
+  <rule name="раніше - прикм" id="ranishe_adj">
+    <antipattern>
+      <token regexp="yes">раніше|вище|дальше|пізніше</token>
+      <token postag_regexp="yes" postag="adj:n:v_(naz|zna:rinanim).*" min="0">
+        <exception postag_regexp="yes" postag=".*pron.*"/>
+      </token>
+      <token postag_regexp="yes" postag="noun:inanim:n:v_(naz|zna).*">
+        <exception postag_regexp="yes" postag=".*pron.*"/>
+      </token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <and>
+          <token postag_regexp="yes" postag="adv.*" regexp="yes">раніше|вище|дальше|пізніше</token>
+          <token postag_regexp="yes" postag="adj:n.*" inflected="yes" regexp="yes">раніший|вищий|дальший|пізніший</token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="adj:n:.*" />
+    <example type="ambiguous"
+        inputform="раніше[раніше/adv:compc:&amp;predic,раніше/prep,раніший/adj:n:v_kly:compc,раніший/adj:n:v_naz:compc,раніший/adj:n:v_zna:compc]"
+        outputform="раніше[раніше/adv:compc:&amp;predic,раніше/prep]">І <marker>раніше</marker> поїхати.</example>
+    <example type="ambiguous"
+        inputform="раніше[раніше/adv:compc:&amp;predic,раніше/prep,раніший/adj:n:v_kly:compc,раніший/adj:n:v_naz:compc,раніший/adj:n:v_zna:compc]"
+        outputform="раніше[раніше/adv:compc:&amp;predic,раніше/prep]">І <marker>раніше</marker> бозна-що було.</example>
+    <example type="ambiguous"
+        inputform="дальше[дальше/adv:compc:arch,дальший/adj:n:v_kly:compc,дальший/adj:n:v_naz:compc,дальший/adj:n:v_zna:compc]"
+        outputform="дальше[дальше/adv:compc:arch]">як жити <marker>дальше</marker>.</example>
+    <example type="untouched">а раніше заняття</example>
+    <example type="untouched">вище досягнення</example>
+    <example type="untouched">вище російське начальство</example>
+    <example type="untouched">дальше навчання</example>
+  </rule>
+
+  <rule name="Дуже і дужий" id="duzhe_adv">
+    <antipattern>
+      <token>дуже</token>
+      <token postag_regexp="yes" postag="noun:.*?:n:v_(naz|zna|kly).*">
+        <exception>його</exception>
+      </token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token postag_regexp="yes" postag="adj:n:.*">дуже</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="adj:n.*" />
+    <example type="ambiguous"
+        inputform="дуже[дуже/adv:compb,дужий/adj:n:v_naz:compb,дужий/adj:n:v_zna:compb]"
+        outputform="дуже[дуже/adv:compb]">в <marker>дуже</marker> добре.</example>
+    <example type="untouched">дуже тіло</example>
+  </rule>
+
+  <rule name="схоже - adv" id="skhozhe_adv_1">
+    <pattern>
+      <token>,</token>
+      <marker>
+        <token>схоже</token>
+      </marker>
+      <token>,</token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="схоже[схоже/adv:&amp;insert:&amp;predic:bad,схожий/adj:n:v_kly,схожий/adj:n:v_naz,схожий/adj:n:v_zna]"
+        outputform="схоже[схоже/adv:&amp;insert:&amp;predic:bad]">, <marker>схоже</marker>, він все знав</example>
+    <example type="untouched">схоже явище</example>
+  </rule>
+
+  <rule name="схоже - adv" id="skhozhe_adv_2">
+    <pattern>
+      <token postag="SENT_START" />
+      <token min="0">і</token>
+      <marker>
+        <token>схоже</token>
+      </marker>
+      <token>,</token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="схоже[схоже/adv:&amp;insert:&amp;predic:bad,схожий/adj:n:v_kly,схожий/adj:n:v_naz,схожий/adj:n:v_zna]"
+        outputform="схоже[схоже/adv:&amp;insert:&amp;predic:bad]">І <marker>схоже</marker>, він все знав</example>
+    <example type="untouched">схоже явище</example>
+  </rule>
+
+  <rule name="добре - присл." id="dobre_adv_1">
+    <pattern>
+      <marker>
+        <token>добре</token>
+      </marker>
+      <token postag_regexp="yes" postag="verb.*">
+        <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+      </token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="добре[добре/adv:compb:&amp;predic,добрий/adj:n:v_kly:compb,добрий/adj:n:v_naz:compb,добрий/adj:n:v_zna:compb]"
+        outputform="добре[добре/adv:compb:&amp;predic]">і <marker>добре</marker> усвідомлює.</example>
+    <example type="untouched">добре печиво</example>
+  </rule>
+
+  <rule name="добре - присл." id="dobre_adv_2">
+    <pattern>
+      <marker>
+        <token>добре</token>
+      </marker>
+      <token postag_regexp="yes" postag="adj.*pasv.*">
+        <exception negate_pos="yes" postag_regexp="yes" postag="adj.*pasv.*"/>
+      </token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="добре[добре/adv:compb:&amp;predic,добрий/adj:n:v_kly:compb,добрий/adj:n:v_naz:compb,добрий/adj:n:v_zna:compb]"
+        outputform="добре[добре/adv:compb:&amp;predic]">і <marker>добре</marker> організована праця.</example>
+    <example type="untouched">добре печиво</example>
+  </rule>
+
+  <rule name="добре - присл." id="dobre_adv_3">
+    <pattern>
+      <marker>
+        <token>добре</token>
+      </marker>
+      <token regexp="yes" inflected="yes">відомий|відомо|знайомий|знайомо|зрозумілий|зрозуміло|помітний|помітно|видно</token>
+    </pattern>
+    <disambig action="filter" postag="adv.*" />
+    <example type="ambiguous"
+        inputform="добре[добре/adv:compb:&amp;predic,добрий/adj:n:v_kly:compb,добрий/adj:n:v_naz:compb,добрий/adj:n:v_zna:compb]"
+        outputform="добре[добре/adv:compb:&amp;predic]">і <marker>добре</marker> відома праця.</example>
+    <example type="untouched">добре печиво</example>
+  </rule>
+
+
+  <!-- category: noun / adj -->
+
+  <rule name="Нове - прикм." id="nove_adj_1">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="noun:inanim:n:v_rod" regexp="yes">нове|перше|головне|друге|майбутнє|останнє|минуле|добре</token>
+      </marker>
+      <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim:m:v_(dav|rod).*">термінал|пакет|компонент|пік|вектор|диск|аватар|логотип|енергоблок|документ|елеватор|об'єкт|пласт|рецепт</token>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n.*" />
+    <example type="ambiguous"
+        inputform="нового[нове/noun:inanim:n:v_rod,новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"
+        outputform="нового[новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"><marker>нового</marker> вектора.</example>
+    <!-- frequent mistake v_dav instead of v_rod -->
+    <example type="ambiguous"
+        inputform="нового[нове/noun:inanim:n:v_rod,новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"
+        outputform="нового[новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"><marker>нового</marker> енергоблоку.</example>
+    <example type="untouched">нового студент навчатися не хоче</example>
+  </rule>
+
+  <rule name="Нове - прикм." id="nove_adj_2">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="noun:inanim:n:v_rod" regexp="yes">нове|перше|головне|друге|майбутнє|останнє|минуле|добре</token>
+      </marker>
+      <token postag_regexp="yes" postag="noun:.*:[mn]:v_rod.*" />
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n.*" />
+    <example type="ambiguous"
+        inputform="нового[нове/noun:inanim:n:v_rod,новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"
+        outputform="нового[новий/adj:m:v_rod:compb,новий/adj:m:v_zna:ranim:compb,новий/adj:n:v_rod:compb]"><marker>нового</marker> шляху.</example>
+    <example type="ambiguous"
+        inputform="першого[перше/noun:inanim:n:v_rod,перший/adj:m:v_rod:&amp;numr,перший/adj:m:v_zna:ranim:&amp;numr,перший/adj:n:v_rod:&amp;numr]"
+        outputform="першого[перший/adj:m:v_rod:&amp;numr,перший/adj:m:v_zna:ranim:&amp;numr,перший/adj:n:v_rod:&amp;numr]"><marker>першого</marker> року.</example>
+    <example type="untouched">навчатися нового</example>
+  </rule>
+
+  <rule name="Нове - прикм." id="nove_adj_3">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="noun:inanim:n:v_oru" regexp="yes">нове|перше|головне|друге|майбутнє|останнє|минуле|добре</token>
+      </marker>
+      <token postag_regexp="yes" postag="noun:.*:[mn]:v_oru.*" />
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n.*" />
+    <example type="ambiguous"
+        inputform="новим[нове/noun:inanim:n:v_oru,новий/adj:m:v_oru:compb,новий/adj:n:v_oru:compb,новий/adj:p:v_dav:compb]"
+        outputform="новим[новий/adj:m:v_oru:compb,новий/adj:n:v_oru:compb,новий/adj:p:v_dav:compb]"><marker>новим</marker> шляхом.</example>
+    <example type="ambiguous"
+        inputform="першим[перше/noun:inanim:n:v_oru,перший/adj:m:v_oru:&amp;numr,перший/adj:n:v_oru:&amp;numr,перший/adj:p:v_dav:&amp;numr]"
+        outputform="першим[перший/adj:m:v_oru:&amp;numr,перший/adj:n:v_oru:&amp;numr,перший/adj:p:v_dav:&amp;numr]"><marker>першим</marker> сонцем.</example>
+    <example type="untouched">навчатися нового</example>
+  </rule>
+
+  <rule name="Нове - прикм." id="nove_adj_4">
+    <pattern>
+      <token regexp="yes">[ву]|на</token>
+      <marker>
+        <token inflected="yes" postag="noun:inanim:n:v_mis" regexp="yes">нове|перше|друге|останнє</token>
+      </marker>
+      <token postag_regexp="yes" postag="noun:.*:[mn]:v_mis.*" />
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n.*" />
+    <example type="ambiguous"
+        inputform="першому[перше/noun:inanim:n:v_dav,перше/noun:inanim:n:v_mis,перший/adj:m:v_dav:&amp;numr,перший/adj:m:v_mis:&amp;numr,перший/adj:n:v_dav:&amp;numr,перший/adj:n:v_mis:&amp;numr]"
+        outputform="першому[перший/adj:m:v_dav:&amp;numr,перший/adj:m:v_mis:&amp;numr,перший/adj:n:v_dav:&amp;numr,перший/adj:n:v_mis:&amp;numr]">у <marker>першому</marker> ряду.</example>
+    <example type="untouched">навчатися нового</example>
+  </rule>
+
+  <rule name="Майбутнє - іменн." id="maybutnye_noun_1">
+    <pattern>
+      <token regexp="yes">[ву]</token>
+      <token postag_regexp="yes" postag="adj:n:v_mis.*" min="0">
+        <exception>майбутньому</exception>
+      </token>
+      <marker>
+        <token>майбутньому
+          <exception scope="next" postag_regexp="yes" postag="noun:inanim:[mn]:v_mis.*" />
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:n:v_mis.*" />
+    <example type="ambiguous"
+        inputform="майбутньому[майбутнє/noun:inanim:n:v_dav,майбутнє/noun:inanim:n:v_mis,майбутній/adj:m:v_dav,майбутній/adj:m:v_mis,майбутній/adj:n:v_dav,майбутній/adj:n:v_mis]"
+        outputform="майбутньому[майбутнє/noun:inanim:n:v_mis]">у <marker>майбутньому</marker>.</example>
+    <example type="ambiguous"
+        inputform="майбутньому[майбутнє/noun:inanim:n:v_dav,майбутнє/noun:inanim:n:v_mis,майбутній/adj:m:v_dav,майбутній/adj:m:v_mis,майбутній/adj:n:v_dav,майбутній/adj:n:v_mis]"
+        outputform="майбутньому[майбутнє/noun:inanim:n:v_mis]">у найближчому <marker>майбутньому</marker>.</example>
+    <example type="untouched">навчатися нового</example>
+  </rule>
+
+  <rule name="минуле - прикм" id="mynule_adj">
+    <antipattern>
+      <token inflected="yes">минуле</token>
+      <token regexp="yes">[йі]|та</token>
+      <token inflected="yes">сучасне</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes">сучасне</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n.*"/>
+    <example type="ambiguous"
+      inputform="сучасного[сучасне/noun:inanim:n:v_rod,сучасний/adj:m:v_rod:compb,сучасний/adj:m:v_zna:ranim:compb,сучасний/adj:n:v_rod:compb]"
+      outputform="сучасного[сучасний/adj:m:v_rod:compb,сучасний/adj:m:v_zna:ranim:compb,сучасний/adj:n:v_rod:compb]">до <marker>сучасного</marker> складу.
+    </example>
+    <example type="untouched">минулого і сучасного</example>
+  </rule>
+
+  <rule name="Місцеві - прикм." id="miscevi_adj">
+    <pattern>
+      <unify>
+        <feature id="case"/>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="adj:p:.*">місцевий</token>
+        </marker>
+        <token postag_regexp="yes" postag="noun:.*:p:.*" />
+      </unify>
+    </pattern>
+    <disambig action="filter" postag="adj:.*" />
+    <example type="ambiguous"
+        inputform="місцевим[місцевий/adj:m:v_oru,місцевий/adj:n:v_oru,місцевий/adj:p:v_dav,місцеві/noun:anim:p:v_dav:ns]"
+        outputform="місцевим[місцевий/adj:m:v_oru,місцевий/adj:n:v_oru,місцевий/adj:p:v_dav]"><marker>місцевим</marker> радам.</example>
+    <example type="untouched">дати на горіхи місцевим</example>
+  </rule>
+
+  <!-- TODO: this rule may be a bit too greedy, but most of the time it's right -->
+  <rule name="Іменник та прикметник «робочий»" id="NOUN_OR_ADJ_ROBOCHYI">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+
+        <marker>
+          <token inflected="yes">робочий</token>
+        </marker>
+        <token postag_regexp="yes" postag="noun:inanim.*"/>
+        <!-- stricter
+          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim.*">день|сила|група|місце|час|зустріч|рука</token>
+        -->
+      </unify>
+    </pattern>
+    <disambig action="filter" postag="adj.*"/>
+    <example type="ambiguous"
+        inputform="робочий[робочий/adj:m:v_naz,робочий/adj:m:v_zna:rinanim,робочий/noun:anim:m:v_naz]"
+        outputform="робочий[робочий/adj:m:v_naz,робочий/adj:m:v_zna:rinanim]"
+            >Прийшов у <marker>робочий</marker> кабінет.</example>
+    <example type="untouched">Робочий не хотів працювати.</example>
+  </rule>
+
+  <rule name="вчений - прикметник" id="vchenyi-adj">
+    <pattern>
+      <marker>
+        <token inflected="yes">вчений</token>
+      </marker>
+      <token inflected="yes" regexp="yes">секретар|ступінь|звання|рада|людина|чоловік</token>
+    </pattern>
+    <disambig action="filter" postag="adj.*"/>
+    <example type="ambiguous"
+        inputform="вчений[вчений/adj:m:v_kly:&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;adjp:pasv:imperf,вчений/noun:anim:m:v_kly,вчений/noun:anim:m:v_naz]"
+        outputform="вчений[вчений/adj:m:v_kly:&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;adjp:pasv:imperf]">отримав <marker>вчений</marker> ступінь.</example>
+    <example type="untouched">держав її в своїх руках.</example>
+  </rule>
+
+  <rule name="українська - прикметник" id="ukrainska-adj">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="adj:f:.*" regexp="yes">український|російський|англіський|німецький|польський|французький|білоруський|іспанський|японський|арабський|шведський</token>
+        </marker>
+        <token inflected="yes" postag_regexp="yes" postag="adj:f:.*" min="0" >
+          <exception postag_regexp="yes" postag="noun:.*?:f:.*" />
+        </token>
+        <token postag_regexp="yes" postag="noun:.*?:f:.*" />
+      </unify>
+    </pattern>
+    <disambig action="filter" postag="adj:f:.*"/>
+    <example type="ambiguous"
+        inputform="української[українська/noun:inanim:f:v_rod,український/adj:f:v_rod:compb]"
+        outputform="української[український/adj:f:v_rod:compb]">до <marker>української</marker> нації.</example>
+    <example type="ambiguous"
+        inputform="української[українська/noun:inanim:f:v_rod,український/adj:f:v_rod:compb]"
+        outputform="української[український/adj:f:v_rod:compb]">до <marker>української</marker> медичної системи.</example>
+    <example type="untouched">різними мовами, зокрема українською.</example>
+    <example type="untouched">англійською, українською дівчина говорила вільно.</example>
+  </rule>
+
+  <rule name="По п'яні - іменник" id="po_pyani_noun">
+    <pattern>
+      <token>по</token>
+      <marker>
+        <token>п'яні</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:f:v_mis:bad"/>
+    <example type="ambiguous"
+        inputform="п'яні[п'яний/adj:p:v_naz:compb,п'яний/adj:p:v_zna:rinanim:compb,п'яний/noun:anim:p:v_naz,п'янь/noun:inanim:f:v_dav:bad,п'янь/noun:inanim:f:v_mis:bad,п'янь/noun:inanim:f:v_rod:bad]"
+        outputform="п'яні[п'янь/noun:inanim:f:v_mis:bad]"
+        >втонув по <marker>п'яні</marker>.</example>
+    <example type="untouched">всі вони п'яні</example>
+  </rule>
+
+  <rule name="П'яні - прикметник" id="pyani_adj">
+    <pattern>
+      <marker>
+        <token>п'яні</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="adj.*"/>
+    <example type="ambiguous"
+        inputform="п'яні[п'яний/adj:p:v_naz:compb,п'яний/adj:p:v_zna:rinanim:compb,п'яний/noun:anim:p:v_naz,п'янь/noun:inanim:f:v_dav:bad,п'янь/noun:inanim:f:v_rod:bad]"
+        outputform="п'яні[п'яний/adj:p:v_naz:compb,п'яний/adj:p:v_zna:rinanim:compb]"
+        >всі <marker>п'яні</marker>.</example>
+  </rule>
+
+  <rule name="Благочинний - прикм." id="blahochynnyi_adj">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <marker>
+          <token inflected="yes">благочинний</token>
+        </marker>
+        <token postag_regexp="yes" postag="noun:inanim.*"/>
+      </unify>
+    </pattern>
+    <disambig action="filter" postag="adj:.*" />
+    <example type="ambiguous"
+        inputform="благочинну[благочинна/noun:anim:f:v_zna:arch,благочинний/adj:f:v_zna:bad]"
+        outputform="благочинну[благочинний/adj:f:v_zna:bad]"><marker>благочинну</marker> акцію.</example>
+    <example type="untouched">глянув на благочинну</example>
+  </rule>
+
+  <rule name="військових - прикм." id="viyskovyh_adj">
+    <pattern>
+      <marker>
+        <token>військових</token>
+        <token postag_regexp="yes" postag="noun:anim:p:v_(rod|zna).*|noun:inanim:p:v_rod.*" />
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="adj:p:.*" />
+    <example type="ambiguous"
+        inputform="військових[військовий/adj:p:v_mis,військовий/adj:p:v_rod,військовий/adj:p:v_zna:ranim,військовий/noun:anim:p:v_mis,військовий/noun:anim:p:v_rod,військовий/noun:anim:p:v_zna]"
+        outputform="військових[військовий/adj:p:v_mis,військовий/adj:p:v_rod,військовий/adj:p:v_zna:ranim]"><marker>військових</marker> частин.</example>
+    <example type="untouched">для наших військових.</example>
+  </rule>
+
+  <rule name="військових - імен." id="viyskovyh_noun">
+    <antipattern>
+      <token postag_regexp="yes" postag="adj:p:v_(rod|zna:ranim).*" />
+      <token postag_regexp="yes" postag="conj:coord.*" />
+      <token>військових</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token>військових</token>
+        <token>.</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:p:.*" />
+    <example type="ambiguous"
+        inputform="військових[військовий/adj:p:v_rod,військовий/adj:p:v_zna:ranim,військовий/noun:anim:p:v_rod,військовий/noun:anim:p:v_zna]"
+        outputform="військових[військовий/noun:anim:p:v_rod,військовий/noun:anim:p:v_zna]">для наших <marker>військових</marker>.</example>
+    <example type="untouched">цивільних та військових.</example>
+    <example type="untouched">для наших військових частин.</example>
+  </rule>
+
+  <rule name="Друга - іменник." id="druga_noun">
+    <pattern>
+      <token postag_regexp="yes" postag="adj:m:v_(rod|zna:ranim).*">
+        <exception postag_regexp="yes" postag="adj:f:v_naz.*|numr.*" />
+      </token>
+      <marker>
+        <token>друга
+          <exception scope="next" postag_regexp="yes" postag="noun.*:f:v_naz.*" />
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:.*" />
+    <example type="ambiguous"
+        inputform="друга[друг/noun:anim:m:v_rod,друг/noun:anim:m:v_zna,друг/noun:anim:p:v_naz:var,другий/adj:f:v_naz:&amp;numr]"
+        outputform="друга[друг/noun:anim:m:v_rod,друг/noun:anim:m:v_zna,друг/noun:anim:p:v_naz:var]">старого <marker>друга</marker>.</example>
+    <example type="untouched">інша друга.</example>
+    <example type="untouched">сорок друга.</example>
+    <example type="untouched">друга частина</example>
+    <example type="untouched">його друга дружина.</example>
+  </rule>
+
+  <rule name="Друга - прикм." id="druga_adj_1">
+    <pattern>
+      <marker>
+        <token>друга
+          <exception scope="previous" postag_regexp="yes" postag="adj:m:v_(rod|zna:ranim).*" />
+        </token>
+      </marker>
+      <token postag_regexp="yes" postag="noun.*:f:v_naz.*" />
+    </pattern>
+    <disambig action="filter" postag="adj:.*" />
+    <example type="ambiguous"
+        inputform="друга[друг/noun:anim:m:v_rod,друг/noun:anim:m:v_zna,друг/noun:anim:p:v_naz:var,другий/adj:f:v_naz:&amp;numr]"
+        outputform="друга[другий/adj:f:v_naz:&amp;numr]">сто <marker>друга</marker> частина.</example>
+    <example type="untouched">старого друга.</example>
+    <example type="untouched">до його друга.</example>
+  </rule>
+
+  <rule name="Друга - прикм." id="druga_adj_2">
+    <pattern>
+      <token>а</token>
+      <marker>
+        <token>друга
+          <exception scope="previous" postag_regexp="yes" postag="adj:m:v_(rod|zna:ranim).*" />
+        </token>
+      </marker>
+      <token regexp="yes">[-–—]</token>
+    </pattern>
+    <disambig action="filter" postag="adj:.*" />
+    <example type="ambiguous"
+        inputform="друга[друг/noun:anim:m:v_rod,друг/noun:anim:m:v_zna,друг/noun:anim:p:v_naz:var,другий/adj:f:v_kly:&amp;numr,другий/adj:f:v_naz:&amp;numr]"
+        outputform="друга[другий/adj:f:v_kly:&amp;numr,другий/adj:f:v_naz:&amp;numr]">а <marker>друга</marker> - в місті.</example>
+    <example type="untouched">старого друга.</example>
+  </rule>
+
+  <!-- category: adj - :m:v_rod -->
+
+  <rule name="Свого - прикметник ч.р. 1" id="svogo_adj_m_1">
+    <pattern>
+      <marker>
+        <token regexp="yes">свого|такого|різного|одного|певного</token>
+      </marker>
+      <token regexp="yes">роду|разу|типу</token>
+    </pattern>
+    <disambig action="filter" postag="adj:m:v_rod.*"/>
+    <example type="ambiguous"
+        inputform="свого[свій/adj:m:v_rod:&amp;pron:pos,свій/adj:m:v_zna:ranim:&amp;pron:pos,свій/adj:n:v_rod:&amp;pron:pos]"
+        outputform="свого[свій/adj:m:v_rod:&amp;pron:pos]">А <marker>свого</marker> роду маніфест.</example>
+  </rule>
+
+  <!-- category: noun - gender -->
 
   <rule name="Чоловік - множина" id="cholovik_plural_1">
     <antipattern>
@@ -969,34 +1612,6 @@
         >її <marker>чоловік</marker> не спав.</example>
   </rule>
 
-
-  <rule name="По п'яні - іменник" id="po_pyani_noun">
-    <pattern>
-      <token>по</token>
-      <marker>
-        <token>п'яні</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:f:v_mis:bad"/>
-    <example type="ambiguous"
-        inputform="п'яні[п'яний/adj:p:v_naz:compb,п'яний/adj:p:v_zna:rinanim:compb,п'яний/noun:anim:p:v_naz,п'янь/noun:inanim:f:v_dav:bad,п'янь/noun:inanim:f:v_mis:bad,п'янь/noun:inanim:f:v_rod:bad]"
-        outputform="п'яні[п'янь/noun:inanim:f:v_mis:bad]"
-        >втонув по <marker>п'яні</marker>.</example>
-    <example type="untouched">всі вони п'яні</example>
-  </rule>
-
-  <rule name="П'яні - прикник" id="pyani_adj">
-    <pattern>
-      <marker>
-        <token>п'яні</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="adj.*"/>
-    <example type="ambiguous"
-        inputform="п'яні[п'яний/adj:p:v_naz:compb,п'яний/adj:p:v_zna:rinanim:compb,п'яний/noun:anim:p:v_naz,п'янь/noun:inanim:f:v_dav:bad,п'янь/noun:inanim:f:v_rod:bad]"
-        outputform="п'яні[п'яний/adj:p:v_naz:compb,п'яний/adj:p:v_zna:rinanim:compb]"
-        >всі <marker>п'яні</marker>.</example>
-  </rule>
 
   <!-- category: verb -->
 
@@ -1092,6 +1707,20 @@
     <example type="untouched">Рви, ріж, коли!</example>
   </rule>
 
+  <rule name="держав - іменник" id="derzhav-noun">
+    <pattern>
+      <token postag_regexp="yes" postag="adj:p:v_rod.*|.*?num.*|prep"/>
+      <marker>
+        <token>держав</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:p:v_rod.*"/>
+    <example type="ambiguous"
+        inputform="держав[держава/noun:inanim:p:v_rod,держати/verb:imperf:past:m]"
+        outputform="держав[держава/noun:inanim:p:v_rod]">Двох незалежних <marker>держав</marker>.</example>
+    <example type="untouched">держав її в своїх руках.</example>
+  </rule>
+
   <rule name="коли - не іменник" id="koly_not_noun">
     <pattern>
       <marker>
@@ -1154,6 +1783,90 @@
         >побачили <marker>вживу</marker>.</example>
   </rule>
 
+  <rule name="Дієслово «дій»" id="VERB_DIY">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes">Дій</token>
+      </marker>
+      <token regexp="yes" min="0">["“»]</token>
+      <token regexp="yes">[!—-]</token>
+    </pattern>
+    <disambig action="filter" postag="verb.*"/>
+    <example type="ambiguous"
+        inputform="Дій[дія/noun:inanim:p:v_rod,діяти/verb:imperf:impr:s:2]"
+        outputform="Дій[діяти/verb:imperf:impr:s:2]"
+        >Йому кажуть: «<marker>Дій</marker>!».
+      </example>
+    <example type="untouched">З усіх дій, ці треба зробити.</example>
+  </rule>
+
+  <rule name="Іменник «дій»" id="NOUN_DIY">
+    <pattern>
+      <marker>
+        <token>дій
+          <exception scope="next">!</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+        inputform="дій[дія/noun:inanim:p:v_rod,діяти/verb:imperf:impr:s:2]"
+        outputform="дій[дія/noun:inanim:p:v_rod]"
+        >Сума <marker>дій</marker> дорівнює нулю.</example>
+    <example type="untouched">Йди і дій!</example>
+  </rule>
+
+  <rule name="Іменник «води»" id="NOUN_VODY">
+    <pattern>
+      <marker>
+        <token>води
+          <exception scope="next" postag_regexp="yes" postag="noun.*?v_rod.*?&amp;pron.*"/>
+        </token>
+      </marker>
+      <!-- we can now do scope="next" 
+      <token><exception postag_regexp="yes" postag="noun.*?v_rod.*?&amp;pron.*"/></token>
+       -->
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+        inputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
+        outputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
+        >Не стало <marker>води</marker> у річці.
+    </example>
+    <example type="ambiguous"
+        inputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
+        outputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
+        >Не стало <marker>води</marker>
+    </example>
+    <example type="untouched">не води мене колами.</example>
+  </rule>
+
+  <rule name="Став: дієслово" id="stav_verb">
+    <pattern>
+      <marker>
+        <token>став
+          <exception scope="previous" regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*ий</exception>
+          <exception scope="previous" regexp="yes">на|у|в|над|через</exception>
+          <exception scope="previous" postag_regexp="yes" postag="verb.*"/>
+          <exception scope="next" postag_regexp="yes" postag="verb(?!.*?inf).*"/>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:m:v_(naz|zna)"/>
+    <example type="ambiguous"
+        inputform="став[став/noun:inanim:m:v_naz,став/noun:inanim:m:v_zna,ставити/verb:imperf:impr:s:2,стати/verb:perf:past:m]"
+        outputform="став[ставити/verb:imperf:impr:s:2,стати/verb:perf:past:m]"
+            >він <marker>став</marker> найбагатшим.</example>
+    <example type="ambiguous"
+        inputform="став[став/noun:inanim:m:v_naz,став/noun:inanim:m:v_zna,ставити/verb:imperf:impr:s:2,стати/verb:perf:past:m]"
+        outputform="став[ставити/verb:imperf:impr:s:2,стати/verb:perf:past:m]"
+            >він <marker>став</marker> плювати в озеро.</example>
+    <example type="untouched">Тернопільський став</example>
+    <example type="untouched">немилосердно смердить став</example>
+    <example type="untouched">Окрім цього став замулювався</example>
+    <example type="untouched">чоловік подався на став</example>
+  </rule>
+
   <rule name="Розуміється - insert" id="rozumiyetsa-insert">
     <pattern>
       <token regexp="yes">[,—–-]</token>
@@ -1197,6 +1910,54 @@
         inputform="жив[живий/adj:m:v_naz:short,жити/verb:imperf:past:m]"
         outputform="жив[жити/verb:imperf:past:m]">він <marker>жив</marker> не бідно.</example>
     <example type="untouched">не віддам доки жив.</example>
+  </rule>
+
+  <rule name="пристрою - іменник" id="prystroyu-noun">
+    <pattern>
+      <token postag_regexp="yes" postag="adj:m:v_rod.*|prep.*"/>
+      <marker>
+        <token>пристрою</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.*"/>
+    <example type="ambiguous"
+        inputform="пристрою[пристроїти/verb:perf:futr:s:1,пристрій/noun:inanim:m:v_dav,пристрій/noun:inanim:m:v_rod]"
+        outputform="пристрою[пристрій/noun:inanim:m:v_dav,пристрій/noun:inanim:m:v_rod]">Із <marker>пристрою</marker>.</example>
+    <example type="untouched">я його десь пристрою.</example>
+  </rule>
+
+  <rule name="Іменник «чаю»" id="NOUN_VERB_CHAYU">
+    <pattern>
+      <marker>
+        <token regexp="yes">ча[юї]
+          <exception scope="previous">не</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+        inputform="чаю[&lt;/S&gt;,чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_rod,чаїти/verb:imperf:pres:s:1]"
+        outputform="чаю[&lt;/S&gt;,чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_rod]"
+        >Випити <marker>чаю</marker>
+    </example>
+    <example type="untouched">душі не чаю в доньці</example>
+  </rule>
+
+  <rule name="Прикметник «хворій»" id="ADJ_VERB_HVORIY">
+    <pattern>
+      <marker>
+        <token>хворій
+          <exception scope="previous">не</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="(noun|adj).*"/>
+    <example type="ambiguous"
+        inputform="хворій[&lt;/S&gt;,хвора/noun:anim:f:v_dav,хворий/adj:f:v_dav:compb,хворіти/verb:imperf:impr:s:2]"
+        outputform="хворій[&lt;/S&gt;,хвора/noun:anim:f:v_dav,хворий/adj:f:v_dav:compb]"
+        >Не допомогло <marker>хворій</marker>
+    </example>
+    <example type="untouched">Не хворій!</example>
   </rule>
 
   <rule id="uyavy_sobi" name="уяви собі">
@@ -1244,7 +2005,7 @@
     <example type="untouched">Давай! При в ту сторону!</example>
   </rule>
 
-  <rule name="Прийменник та дієслово 'просто'" id="PREP_OR_VERB_PROSTO">
+  <rule name="Прийменник та прислівник 'просто'" id="PREP_OR_ADV_PROSTO">
     <pattern>
       <marker>
         <token>просто
@@ -1294,6 +2055,90 @@
     </example>
     <example type="untouched">а хліб розділи</example>
     <example type="untouched">розділи 4 на 2</example>
+  </rule>
+
+  <rule name="Правила - іменник" id="pravyla_noun">
+    <pattern>
+      <token postag_regexp="yes" postag="prep.*|adj:p:v_(naZ|zna:rinanim).*|adj:n:v_rod.*|verb.*" />
+      <marker>
+        <token>правила
+          <exception scope="next" postag_regexp="yes" postag=".*v_oru.*" />
+          <exception scope="next">за</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.*" />
+    <example type="ambiguous"
+      inputform="правила[правило/noun:inanim:n:v_rod,правило/noun:inanim:p:v_naz,правило/noun:inanim:p:v_zna,правити/verb:imperf:past:f]"
+      outputform="правила[правило/noun:inanim:n:v_rod,правило/noun:inanim:p:v_naz,правило/noun:inanim:p:v_zna]">є власні <marker>правила</marker>.
+    </example>
+    <example type="untouched">правила світом</example>
+    <example type="untouched">тут правила династія Мін</example>
+    <example type="untouched">правила за нічний столик</example>
+    <example type="untouched">що правила у неї за опояску</example>
+  </rule>
+
+  <rule name="Правило - іменник" id="pravylo_noun">
+    <pattern>
+      <token postag_regexp="yes" postag="prep.*|adj:n:v_(naz|zna).*|verb.*" />
+      <marker>
+        <token>правило
+          <exception scope="next" postag_regexp="yes" postag=".*v_oru.*" />
+          <exception scope="next">за</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.*" />
+    <example type="ambiguous"
+      inputform="правило[правило/noun:inanim:n:v_naz,правило/noun:inanim:n:v_zna,правити/verb:imperf:past:n]"
+      outputform="правило[правило/noun:inanim:n:v_naz,правило/noun:inanim:n:v_zna]">і власне <marker>правило</marker>.
+    </example>
+    <example type="untouched">правило світом</example>
+    <example type="untouched">правило за нічний столик</example>
+    <example type="untouched">тут правило свавілля</example>
+    <example type="untouched">що правило у неї за опояску</example>
+  </rule>
+
+  <rule name="Мету - іменник" id="metu_noun">
+    <pattern>
+      <token>мету
+        <exception scope="previous">я</exception>
+      </token>
+    </pattern>
+    <disambig action="remove" postag="verb.*"/>
+    <example type="ambiguous" 
+        inputform="мету[мести/verb:imperf:pres:s:1,мета/noun:inanim:f:v_zna]" 
+        outputform="мету[мета/noun:inanim:f:v_zna]">за <marker>мету</marker>.</example>
+    <example type="untouched">Я мету.</example>
+  </rule>
+
+  <rule name="одяг - іменник" id="odyag_noun">
+    <pattern>
+      <token>одяг
+        <exception scope="previous">він</exception>
+        <exception scope="previous" postag_regexp="yes" postag="noun:anim:m:v_naz.*"/>
+      </token>
+    </pattern>
+    <disambig action="remove" postag="verb.*"/>
+    <example type="ambiguous" 
+        inputform="одяг[одяг/noun:inanim:m:v_naz,одяг/noun:inanim:m:v_zna,одягти/verb:perf:past:m]" 
+        outputform="одяг[одяг/noun:inanim:m:v_naz,одяг/noun:inanim:m:v_zna]">і <marker>одяг</marker>.</example>
+    <example type="untouched">Він одяг пальто.</example>
+  </rule>
+
+
+  <rule name="Назву - іменник" id="nazvu_noun">
+    <pattern>
+      <token postag_regexp="yes" postag="verb.*|adj:f:v_zna:rianim.*|prep.*"/>
+      <marker>
+        <token>назву</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:f:v_zna.*"/>
+    <example type="ambiguous" 
+        inputform="назву[назва/noun:inanim:f:v_zna,назвати/verb:perf:futr:s:1]" 
+        outputform="назву[назва/noun:inanim:f:v_zna]">мав <marker>назву</marker>.</example>
+    <example type="untouched">я назву два з них</example>
   </rule>
 
   <rule name="плати - іменник" id="platy_noun">
@@ -1438,9 +2283,9 @@
     <example type="untouched">в усі почалося запалення</example>
     -->
     <example type="untouched">тихо як в усі</example>
-    <example type="untouched">тихо як в усі.</example>
   </rule>
 
+<!--
   <rule name="Це - noun 1" id="ce_noun_1">
     <pattern>
       <token regexp="yes">[—–-]</token>
@@ -1455,8 +2300,15 @@
     <example type="untouched">а це сталося не вчора</example>
     <example type="untouched">— Це врятовано Юліаном</example>
   </rule>
+-->
 
-  <rule name="Тим - сполучник 1" id="tym_pron_1">
+  <rule name="Тим - іменник 1" id="tym_noun_1">
+    <antipattern>
+      <token>чим</token>
+      <token max="12"><exception>,</exception></token>
+      <token>,</token>
+      <token>тим</token>
+    </antipattern>
     <pattern>
       <marker>
         <token>тим</token>
@@ -1465,9 +2317,10 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:n:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
         outputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem]">І <marker>тим</marker> більше.</example>
     <example type="untouched">тим вечором</example>
+    <example type="untouched">чим більше навантаження, тим більше сила</example>
   </rule>
 
   <rule name="Тим - іменник с.р. 1" id="tym_noun_n_1">
@@ -1480,7 +2333,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:n:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
         outputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem]">Разом з <marker>тим</marker> університетам цього не дозволяють.</example>
     <example type="untouched">тим вечором</example>
   </rule>
@@ -1499,7 +2352,7 @@
     </pattern>
     <disambig action="filter" postag="adj:m:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
         outputform="тим[той/adj:m:v_oru:&amp;pron:dem]">А <marker>тим</marker> часом.</example>
     <example type="untouched">тим більше</example>
     <example type="untouched">тим сонцем</example>
@@ -1736,18 +2589,45 @@
   </rule>
 
   <rule name="протягом - прийменник" id="protyagom_prep">
+    <antipattern>
+      <token regexp="yes" inflected="yes">обда(ва)?ти|прониз(ув)?ати|виголосити|виголошувати|с?казати|віяти|(про)?мовити</token>
+      <token>протягом</token>
+    </antipattern>
+    <antipattern>
+      <token>протягом</token>
+      <token regexp="yes" inflected="yes">обда(ва)?ти|прониз(ув)?ати|виголосити|виголошувати|с?казати|віяти|(про)?мовити</token>
+    </antipattern>
+    <antipattern>
+      <token postag_regexp="yes" postag="prep.*" />
+      <token>протягом</token>
+    </antipattern>
+    <antipattern>
+      <token>протягом</token>
+      <token postag_regexp="yes" postag="prep.*" >
+        <exception>понад</exception>
+      </token>
+    </antipattern>
     <pattern>
       <marker>
         <token postag="prep">протягом</token>
       </marker>
-      <token postag_regexp="yes" postag="numr.*|.*v_rod(?!.*pron).*"/>
+      <token postag_regexp="yes" postag="adv(?!p).*" min="0" />
+      <token min="0" regexp="yes">[«„"]</token>
+      <token postag_regexp="yes" postag="num.*|.*v_rod.*"/>
     </pattern>
     <disambig action="filter" postag="prep"/>
     <example type="ambiguous"
         inputform="протягом[протяг/noun:inanim:m:v_oru,протягом/adv,протягом/prep]"
         outputform="протягом[протягом/prep]">стояти <marker>протягом</marker> доби.</example>
+    <example type="ambiguous"
+        inputform="протягом[протяг/noun:inanim:m:v_oru,протягом/adv,протягом/prep]"
+        outputform="протягом[протягом/prep]">стояти <marker>протягом</marker> майже двох діб.</example>
+    <example type="ambiguous"
+        inputform="протягом[протяг/noun:inanim:m:v_oru,протягом/adv,протягом/prep]"
+        outputform="протягом[протягом/prep]">стояти <marker>протягом</marker> усього року.</example>
     <example type="untouched">співати протягом</example>
     <example type="untouched">пройняло протягом</example>
+    <example type="untouched">над протягом гаю</example>
     <example type="untouched">обдають протягом її фігурку</example>
   </rule>
 
@@ -1812,53 +2692,6 @@
     <example type="untouched">От така за раза.</example>
   </rule>
 -->
-<!--
-  <rule name="Тому - сполучник" id="tomu_conj">
-    <pattern>
-      <marker>
-        <token>тому</token>
-      </marker>
-      <token min="0">,</token>
-      <token>що</token>
-    </pattern>
-    <disambig action="filter" postag="conj.*"/>
-    <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
-        outputform="тому[тому/conj:subord]">Це сталося <marker>тому</marker>, що.</example>
-    <example type="untouched">І тому і цьому.</example>
-    <example type="untouched">Дякуючи тому, що ...</example>
-  </rule>
-  <rule name="Тому - не сполучник 1" id="tomu_non_conj_1">
-    <pattern>
-      <marker>
-        <token>тому</token>
-      </marker>
-      <token><exception>,</exception></token>
-    </pattern>
-    <disambig action="remove" postag="conj:subord"/>
-    <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
-        outputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_rod,тому/adv]"
-        >Дали <marker>тому</marker> хлопцю</example>
-    <example type="untouched">І тому, що.</example>
-  </rule>
-
-  <rule name="Тому - не сполучник 2" id="tomu_non_conj_2">
-    <pattern>
-      <marker>
-        <token>тому</token>
-      </marker>
-      <token>,</token>
-      <token><exception>що</exception></token>
-    </pattern>
-    <disambig action="remove" postag="conj:subord"/>
-    <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
-        outputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_rod,тому/adv]"
-        >Відбулося саме <marker>тому</marker>, і </example>
-    <example type="untouched">І тому, що.</example>
-  </rule>
--->
 
   <!-- category: noun -->
 
@@ -1919,22 +2752,6 @@
         outputform="шолому[шолом/noun:inanim:m:v_rod]">Серія Великого <marker>шолому</marker>.</example>
     <example type="untouched">Такого великого шолома.</example>
   </rule>
-
-<!--
-  <rule name="Ловити вітра" id="LOVYTY_VITRA">
-    <pattern>
-      <token inflected="yes" regexp="yes">ловити|шукати|виглядати</token>
-      <marker>
-        <token>вітра</token>
-      </marker>
-    </pattern>
-    <disambig><wd lemma="вітер" pos="noun:inanim:m:v_rod"/></disambig>
-    <example type="ambiguous"
-        inputform="вітра[вітра]"
-        outputform="вітра[вітер/noun:inanim:m:v_rod]">шукай <marker>вітра</marker> в полі.</example>
-    <example type="untouched">Швидкого вітра.</example>
-  </rule>
--->
 
   <rule name="Дача - надання" id="dacha-giving">
     <pattern>
@@ -2213,70 +3030,9 @@
     <example type="untouched">ніде правди діти.</example>
   </rule>
 
-  <rule name="пристрою - іменник" id="prystroyu-noun">
-    <pattern>
-      <token postag_regexp="yes" postag="adj:m:v_rod.*|prep.*"/>
-      <marker>
-        <token>пристрою</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:.*"/>
-    <example type="ambiguous"
-        inputform="пристрою[пристроїти/verb:perf:futr:s:1,пристрій/noun:inanim:m:v_dav,пристрій/noun:inanim:m:v_rod]"
-        outputform="пристрою[пристрій/noun:inanim:m:v_dav,пристрій/noun:inanim:m:v_rod]">Із <marker>пристрою</marker>.</example>
-    <example type="untouched">я його десь пристрою.</example>
-  </rule>
-
-  <rule name="держав - іменник" id="derzhav-noun">
-    <pattern>
-      <token postag_regexp="yes" postag="adj:p:v_rod.*|.*?num.*|prep"/>
-      <marker>
-        <token>держав</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:p:v_rod.*"/>
-    <example type="ambiguous"
-        inputform="держав[держава/noun:inanim:p:v_rod,держати/verb:imperf:past:m]"
-        outputform="держав[держава/noun:inanim:p:v_rod]">Двох незалежних <marker>держав</marker>.</example>
-    <example type="untouched">держав її в своїх руках.</example>
-  </rule>
-
-  <rule name="вчений - прикметник" id="vchenyi-adj">
-    <pattern>
-      <marker>
-        <token inflected="yes">вчений</token>
-      </marker>
-      <token inflected="yes" regexp="yes">секретар|ступінь|звання|рада|людина|чоловік</token>
-    </pattern>
-    <disambig action="filter" postag="adj.*"/>
-    <example type="ambiguous"
-        inputform="вчений[вчений/adj:m:v_kly:&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;adjp:pasv:imperf,вчений/noun:anim:m:v_kly,вчений/noun:anim:m:v_naz]"
-        outputform="вчений[вчений/adj:m:v_kly:&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;adjp:pasv:imperf]">отримав <marker>вчений</marker> ступінь.</example>
-    <example type="untouched">держав її в своїх руках.</example>
-  </rule>
-
-  <rule name="українська - прикметник" id="ukrainska-adj">
-    <pattern>
-      <unify>
-        <feature id="gender"/>
-        <feature id="case"/>
-        <marker>
-          <token inflected="yes" postag_regexp="yes" postag="adj:f:.*" regexp="yes">український|російський|англіський|німецький|польський|французький|білоруський|іспанський|японський|арабський|шведський</token>
-        </marker>
-        <token postag_regexp="yes" postag="noun:.*?:f:.*"/>
-      </unify>
-    </pattern>
-    <disambig action="filter" postag="adj:f:.*"/>
-    <example type="ambiguous"
-        inputform="української[українська/noun:inanim:f:v_rod,український/adj:f:v_rod:compb]"
-        outputform="української[український/adj:f:v_rod:compb]">до <marker>української</marker> нації.</example>
-    <example type="untouched">різними мовами, зокрема українською.</example>
-    <example type="untouched">англійською, українською дівчина говорила вільно.</example>
-  </rule>
-
   <rule name="ласка - inanim" id="laska_inanim">
     <pattern>
-      <token>будь</token>
+      <token regexp="yes">будь|материнська|материна|жіноча|божа|господня</token>
       <marker>
         <token>ласка</token>
       </marker>
@@ -2285,6 +3041,10 @@
     <example type="ambiguous"
       inputform="ласка[ласка/noun:anim:f:v_naz,ласка/noun:inanim:f:v_naz]"
       outputform="ласка[ласка/noun:inanim:f:v_naz]">І будь <marker>ласка</marker>, завітайте.
+    </example>
+    <example type="ambiguous"
+      inputform="ласка[ласка/noun:anim:f:v_naz,ласка/noun:inanim:f:v_naz]"
+      outputform="ласка[ласка/noun:inanim:f:v_naz]">коли материнська <marker>ласка</marker>.
     </example>
     <example type="untouched">хитра ласка</example>
   </rule>
@@ -2305,21 +3065,6 @@
     <example type="untouched">хитра ласка</example>
   </rule>
 
-  <rule name="ласка - inanim" id="laska_inanim3">
-    <pattern>
-      <token regexp="yes">материнська|материна|жіноча|божа|господня</token>
-      <marker>
-        <token>ласка</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim.*"/>
-    <example type="ambiguous"
-      inputform="ласка[ласка/noun:anim:f:v_naz,ласка/noun:inanim:f:v_naz]"
-      outputform="ласка[ласка/noun:inanim:f:v_naz]">коли материнська <marker>ласка</marker>.
-    </example>
-    <example type="untouched">хитра ласка</example>
-  </rule>
-
   <rule name="піти - дієслово" id="pity_verb">
     <pattern>
       <token regexp="yes" inflected="yes">слід|варто|треба|потрібно|дозволити|з?мусити|з?могти|вирішити|довестися|змушений|повинний</token>
@@ -2335,37 +3080,49 @@
     <example type="untouched">гарячої піти</example>
   </rule>
 
-  <rule name="просторі - ім." id="prostori_noun_1">
+  <rule name="брати - дієслово" id="braty_verb_1">
     <pattern>
-      <token postag_regexp="yes" postag="adj:m:v_mis.*">
-        <exception postag_regexp="yes" postag="adj:p:v_(naz|zna).*"/>
-      </token>
+      <token regexp="yes" inflected="yes">слід|варто|треба|потрібно|довестися</token>
       <marker>
-        <token>просторі</token>
+        <token>брати</token>
       </marker>
     </pattern>
-    <disambig action="filter" postag="noun.*"/>
+    <disambig action="filter" postag="verb.*"/>
     <example type="ambiguous"
-      inputform="просторі[просторий/adj:p:v_naz:compb,просторий/adj:p:v_zna:rinanim:compb,простір/noun:inanim:m:v_mis]"
-      outputform="просторі[простір/noun:inanim:m:v_mis]">у викривленому <marker>просторі</marker>.
+      inputform="брати[брат/noun:anim:p:v_kly,брат/noun:anim:p:v_naz,брати/verb:imperf:inf]"
+      outputform="брати[брати/verb:imperf:inf]">варто <marker>брати</marker>.
     </example>
-    <example type="untouched">у просторі кімнати</example>
+    <example type="untouched">чи повинні брати йти</example>
   </rule>
 
-  <rule name="просторі - ім." id="prostori_noun_2">
+  <rule name="брати - дієслово" id="braty_verb_2">
     <pattern>
-      <token regexp="yes">[ув]|на</token>
       <marker>
-        <token>просторі</token>
+        <token>брати</token>
       </marker>
-      <token regexp="yes">[,.]|та|[ій]</token>
+      <token>участь</token>
+    </pattern>
+    <disambig action="filter" postag="verb.*"/>
+    <example type="ambiguous"
+      inputform="брати[брат/noun:anim:p:v_kly,брат/noun:anim:p:v_naz,брати/verb:imperf:inf]"
+      outputform="брати[брати/verb:imperf:inf]"><marker>брати</marker> участь.
+    </example>
+    <example type="untouched">чи повинні брати йти</example>
+  </rule>
+
+  <rule name="брати - іменник" id="braty_noun_1">
+    <pattern>
+      <marker>
+        <token>брати</token>
+      </marker>
+      <token postag="noun:anim:p:v_naz:prop:lname" />
     </pattern>
     <disambig action="filter" postag="noun.*"/>
     <example type="ambiguous"
-      inputform="просторі[просторий/adj:p:v_naz:compb,просторий/adj:p:v_zna:rinanim:compb,простір/noun:inanim:m:v_mis]"
-      outputform="просторі[простір/noun:inanim:m:v_mis]">у <marker>просторі</marker>.
+      inputform="брати[брат/noun:anim:p:v_kly,брат/noun:anim:p:v_naz,брати/verb:imperf:inf]"
+      outputform="брати[брат/noun:anim:p:v_kly,брат/noun:anim:p:v_naz]"><marker>брати</marker> Капранови.
     </example>
-    <example type="untouched">у просторі кімнати</example>
+    <example type="untouched">чи повинні брати йти</example>
   </rule>
 
   <rule name="мати - не з.в." id="maty_non_v_zna">
@@ -2472,8 +3229,11 @@
       <token postag_regexp="yes" postag="verb.*?:inf.*">
         <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:inf.*" />
       </token>
+      <token min="0" regexp="yes">би?</token>
       <marker>
-        <token>мало</token>
+        <token regexp="yes">мал[оа]
+          <exception scope="next" postag_regexp="yes" postag=".*v_rod.*" />
+        </token>
       </marker>
     </pattern>
     <disambig action="filter" postag="verb.*"/>
@@ -2481,14 +3241,20 @@
       inputform="мало[мало/adv:compb:&amp;predic,мати/verb:imperf:past:n]"
       outputform="мало[мати/verb:imperf:past:n]">влягтися <marker>мало</marker> саме.
     </example>
+    <example type="ambiguous"
+      inputform="мала[малий/adj:f:v_kly:compb,малий/adj:f:v_naz:compb,мати/verb:imperf:past:f]"
+      outputform="мала[мати/verb:imperf:past:f]">влягтися би <marker>мала</marker> сама.
+    </example>
     <example type="untouched">посунулося мало</example>
+    <example type="untouched">грати мало нот</example>
   </rule>
 
   <rule name="мало - verb" id="malo_verb_2">
     <pattern>
       <marker>
-        <token>мало</token>
+        <token regexp="yes">мал[оа]</token>
       </marker>
+      <token min="0">б</token>
       <token postag_regexp="yes" postag="verb.*?:inf.*">
         <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:inf.*" />
       </token>
@@ -2497,6 +3263,10 @@
     <example type="ambiguous"
       inputform="мало[мало/adv:compb:&amp;predic,мати/verb:imperf:past:n]"
       outputform="мало[мати/verb:imperf:past:n]"><marker>мало</marker> влягтися саме.
+    </example>
+    <example type="ambiguous"
+      inputform="мала[малий/adj:f:v_kly:compb,малий/adj:f:v_naz:compb,мати/verb:imperf:past:f]"
+      outputform="мала[мати/verb:imperf:past:f]"><marker>мала</marker> б влягтися сама.
     </example>
     <example type="untouched">зможемо мало проповідувати</example>
     <example type="untouched">буде він мало працювати</example>
@@ -2524,14 +3294,19 @@
       <marker>
         <token>їм</token>
       </marker>
-      <token postag_regexp="yes" postag="verb.*">
-        <exception negate_pos="yes" postag_regexp="yes" postag="verb.*" />
+      <token min="0">не</token>
+      <token postag_regexp="yes" postag="(verb|noninfl:&amp;predic).*">
+        <exception negate_pos="yes" postag_regexp="yes" postag="(verb|noninfl:&amp;predic).*" />
       </token>
     </pattern>
     <disambig action="filter" postag="noun.*"/>
     <example type="ambiguous"
       inputform="їм[вони/noun:unanim:p:v_dav:&amp;pron:pers:3,їсти/verb:imperf:pres:s:1]"
       outputform="їм[вони/noun:unanim:p:v_dav:&amp;pron:pers:3]">руки <marker>їм</marker> помити.
+    </example>
+    <example type="ambiguous"
+      inputform="їм[вони/noun:unanim:p:v_dav:&amp;pron:pers:3,їсти/verb:imperf:pres:s:1]"
+      outputform="їм[вони/noun:unanim:p:v_dav:&amp;pron:pers:3]"><marker>їм</marker> треба.
     </example>
     <example type="untouched">я їм собі</example>
   </rule>
@@ -2549,21 +3324,6 @@
       outputform="борзі[борг/noun:inanim:m:v_mis:subst]">в державному <marker>борзі</marker>.
     </example>
     <example type="untouched">на борзі коні</example>
-  </rule>
-
-  <rule name="ска - помилка" id="ska_mistake">
-    <pattern>
-      <marker>
-        <token>ска</token>
-      </marker>
-      <token regexp="yes">зав|зала|зали|зало|зати|жу|жемо|жеш|жуть|жи|жіть</token>
-    </pattern>
-    <disambig action="remove" postag=".*"/>
-    <example type="ambiguous"
-      inputform="ска[ска/intj:vulg,ска/noun:inanim:m:v_dav:nv,ска/noun:inanim:m:v_mis:nv,ска/noun:inanim:m:v_naz:nv,ска/noun:inanim:m:v_oru:nv,ска/noun:inanim:m:v_rod:nv,ска/noun:inanim:m:v_zna:nv,ска/noun:inanim:p:v_dav:nv,ска/noun:inanim:p:v_mis:nv,ска/noun:inanim:p:v_naz:nv,ска/noun:inanim:p:v_oru:nv,ска/noun:inanim:p:v_rod:nv,ска/noun:inanim:p:v_zna:nv]"
-      outputform="ска[ска]">і <marker>ска</marker> зав.
-    </example>
-    <example type="untouched">стилем ска</example>
   </rule>
 
   <rule name="справа - noun" id="sprava_noun">
@@ -2675,7 +3435,7 @@
     <example type="untouched">такого лютого морозу</example>
   </rule>
 
-  <rule name="Лютого2" id="LYUTYI2">
+  <rule name="Лютого" id="LYUTYI2">
     <pattern>
       <marker>
         <token inflected="yes">лютий</token>
@@ -2757,36 +3517,6 @@
     <example type="untouched">Ось на, і бувай здорова</example>
     <example type="untouched">І от тобі на, така метаморфоза</example>
     <example type="untouched">Ну, на, дурне, понюхай</example>
-  </rule>
--->
-
-<!-- 
-  <rule name="Згідно" id="DIS_PREP_ZGIDNO_Z1">
-    <pattern>
-      <marker>
-        <token>згідно</token>
-      </marker>
-      <token>з</token>
-    </pattern>
-    <disambig action="remove" postag="adv:compb"></disambig>
-    <example type="ambiguous"
-        inputform="Згідно[згідно/adv:compb]"
-        outputform="Згідно[Згідно]"><marker>Згідно</marker> з правилом.</example>
-    <example type="untouched">Вони жили згідно.</example>
-  </rule>
-
-  <rule name="Згідно" id="DIS_PREP_ZGIDNO_Z2">
-    <pattern>
-      <token>згідно</token>
-      <marker>
-        <token>з</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="prep"></disambig>
-    <example type="ambiguous" 
-        inputform="з[з/prep]"
-        outputform="з[з]">Згідно <marker>з</marker> правилом.</example>
-    <example type="untouched">Вони жили згідно.</example>
   </rule>
 -->
 
@@ -2938,6 +3668,55 @@
     <example type="untouched">50 тис грн кожному</example>
     <example type="untouched">він тис йому руку</example>
   </rule>
+
+  <rule name="фіг - сленг" id="fig_slang_1">
+    <pattern>
+      <token regexp="yes">на|по</token>
+      <marker>
+        <token regexp="yes">фіга?</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*(zna|rod).*slang"/>
+    <example type="ambiguous"
+        inputform="фіг[фіг/noun:inanim:m:v_naz:slang,фіг/noun:inanim:m:v_zna:slang,фіга/noun:inanim:p:v_rod]"
+        outputform="фіг[фіг/noun:inanim:m:v_zna:slang]"
+        >йому по <marker>фіг</marker>.
+    </example>
+    <example type="untouched">50 фіг</example>
+  </rule>
+
+  <rule name="фіг - сленг" id="fig_slang_2">
+    <pattern>
+      <token>по</token>
+      <marker>
+        <token>фігу</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*mis.*slang"/>
+    <example type="ambiguous"
+        inputform="фігу[фіг/noun:inanim:m:v_dav:slang,фіг/noun:inanim:m:v_mis:slang,фіга/noun:inanim:f:v_zna]"
+        outputform="фігу[фіг/noun:inanim:m:v_mis:slang]"
+        >йому по <marker>фігу</marker>.
+    </example>
+    <example type="untouched">одну фігу</example>
+  </rule>
+
+  <rule name="фіг - сленг" id="fig_slang_3">
+    <pattern>
+      <marker>
+        <token>фіг</token>
+      </marker>
+      <token regexp="yes">його|знає?</token>
+    </pattern>
+    <disambig action="filter" postag="noun.*(zna|rod).*slang"/>
+    <example type="ambiguous"
+        inputform="фіг[фіг/noun:inanim:m:v_naz:slang,фіг/noun:inanim:m:v_zna:slang,фіга/noun:inanim:p:v_rod]"
+        outputform="фіг[фіг/noun:inanim:m:v_zna:slang]"
+        >і <marker>фіг</marker> його зна.
+    </example>
+    <example type="untouched">10 фіг</example>
+  </rule>
+  
 <!--
   <rule name="Іменник «тис» (неправильне - тисяча)" id="NOUN_VERB_TYS_6">
     <pattern>
@@ -3078,6 +3857,21 @@
     </example>
   </rule>
 
+  <rule name="число + коп - копійок (не поліціянт)" id="num_kop">
+    <pattern>
+      <token regexp="yes">[0-9, –-]+</token>
+      <marker>
+        <token>коп</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:m:v_naz:slang"></disambig>
+    <example type="ambiguous"
+        inputform="коп[&lt;/S&gt;,коп/noun:anim:m:v_naz:slang]"
+        outputform="коп[&lt;/S&gt;]"
+            >ціною в 12,5 <marker>коп</marker></example>
+    <example type="untouched">солідний коп</example>
+  </rule>
+
 
   <!-- category: Великі літери в середині слова + власні назви  -->
   <!--  точніші правила: прізвища та імена -->
@@ -3203,23 +3997,29 @@
     <example type="untouched">Ігор Нескоренних</example>
   </rule>
 
-  <rule name="Ім'я перед прізвищем" id="first_name_before_last_name">
+  <!-- TODO:
+    новітні Жанни Д’Арк чи Мати Харі
+    потрібні нові Ангели Меркель в уряді
+    У школі були свої Клаудії Шиффер та Памели Андерсон  
+    Всі ці Кіри Рудик і Ярослави Железняки
+  -->
+  <rule name="Ім'я перед прізвищем" id="first_name_before_last_name_1">
     <pattern>
       <unify>
         <feature id="gender"/>
         <feature id="case"/>
           <marker>
-            <token postag_regexp="yes" postag="noun:anim:.*?fname.*">
-              <exception inflected="yes" regexp="yes">білий|Ізраїль</exception>
+            <token postag_regexp="yes" postag="noun:anim:[fm].*?fname.*">
+              <exception inflected="yes" regexp="yes">білий|Ізраїль|Рада|Роман[иу]</exception>
               <!--
               <exception postag_regexp="yes" postag="noun:inanim.*:prop:geo.*"/>
               -->
             </token>
           </marker>
-          <token postag_regexp="yes" postag="noun:anim:.*?lname.*"/>
+          <token postag_regexp="yes" postag="noun:anim:[fm].*?lname.*"/>
       </unify>
     </pattern>
-    <disambig action="filter" postag="noun:.*?prop:fname.*"></disambig>
+    <disambig action="filter" postag="noun:anim:[fm].*?prop:fname.*"></disambig>
     <!-- shall we ignore beginning of the sentence where capital for common noun is often? -->
     <!--
     <example type="ambiguous"
@@ -3240,12 +4040,13 @@
     <example type="untouched">захопили Білу Гору</example>
     <example type="untouched">в Ізраїль Зеленський</example>
     <example type="untouched">сказав Джуліані Єрмаку</example>
+    <example type="untouched">Рада Ліги мала складатися</example>
   </rule>
 
   <rule name="Ім'я перед прізвищем 2" id="first_name_before_last_name_2">
     <pattern case_sensitive="yes">
       <marker>
-        <token postag_regexp="yes" postag="noun:anim:.*?fname.*" regexp="yes">Ігор|Мона
+        <token postag_regexp="yes" postag="noun:anim:[fm].*?fname.*" regexp="yes">Ігор|Мона
           <exception scope="previous" postag_regexp="yes" postag="adj:p:v_rod.*"/>
         </token>
       </marker>
@@ -3504,7 +4305,7 @@
       <marker>
         <token case_sensitive="yes" regexp="yes">України|УКРАЇНИ
           <!-- 3 України - часта помилка 3 замість З -->
-          <exception scope="previous" regexp="yes">дві|три|чотири|[24]|ці|сильні</exception>
+          <exception scope="previous" regexp="yes">дві|три|чотири|[24]|ці|сильні|різні</exception>
         </token>
       </marker>
     </pattern>
@@ -3514,6 +4315,7 @@
         outputform="України[Україна/noun:inanim:f:v_rod:prop:geo]"
             >З <marker>України</marker>.</example>
     <example type="untouched">дві України.</example>
+    <example type="untouched">говорили про різні України.</example>
   </rule>
 
   <rule name="в Досі - іменник" id="dosi_noun">
@@ -3581,172 +4383,6 @@
     <example type="untouched">в Досі не виграли</example>
   </rule>
 
-  <rule name="Мені - займенник" id="meni_pron">
-    <pattern>
-      <token postag="SENT_START"/>
-      <marker>
-        <token case_sensitive="yes">Мені</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag=".*pron.*"/>
-    <example type="ambiguous"
-      inputform="Мені[Мена/noun:inanim:f:v_dav:prop:geo,я/noun:anim:s:v_dav:&amp;pron:pers:1]"
-      outputform="Мені[я/noun:anim:s:v_dav:&amp;pron:pers:1]"><marker>Мені</marker> однаково.
-    </example>
-    <example type="untouched">в Мені виборів не було</example>
-  </rule>
-
-  <rule name="раз - іменник" id="raz_noun_1">
-    <pattern>
-      <token regexp="yes">за|ще|іще|хоч|тільки</token>
-      <marker>
-        <token>раз</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun.*"/>
-    <example type="ambiguous"
-      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
-      outputform="раз[раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]">всю за <marker>раз</marker>.
-    </example>
-    <example type="untouched">раз - і все</example>
-    <example type="untouched">раз прийшов я додому</example>
-  </rule>
-
-  <rule name="раз - іменник" id="raz_noun_2">
-    <pattern>
-      <token postag_regexp="yes" postag="adj:m:v_(naz|zna).*|number" />
-      <marker>
-        <token>раз</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun.*"/>
-    <example type="ambiguous"
-      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
-      outputform="раз[раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]">перший <marker>раз</marker>.
-    </example>
-    <example type="ambiguous"
-      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
-      outputform="раз[раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]">21 <marker>раз</marker>.
-    </example>
-    <example type="untouched">раз - і все</example>
-  </rule>
-
-  <rule name="раз - іменник" id="raz_noun_3">
-    <pattern>
-      <marker>
-        <token>раз</token>
-      </marker>
-      <token>!</token>
-    </pattern>
-    <disambig action="filter" postag="noun.*"/>
-    <example type="ambiguous"
-      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
-      outputform="раз[раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]">і <marker>раз</marker>!
-    </example>
-    <example type="untouched">раз пішов, то вже пішов</example>
-  </rule>
-
-  <rule name="Раз: не спол." id="raz_not_conj">
-    <pattern>
-      <marker>
-        <token>раз
-          <exception scope="previous">,</exception>
-          <exception scope="previous" postag="SENT_START"/>
-        </token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="conj.*"/>
-    <example type="ambiguous"
-        inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
-        outputform="раз[раз/adv,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
-            >і <marker>раз</marker> і два</example>
-    <example type="untouched">щось прочули, раз дозори оце порозсилали</example>
-    <example type="untouched">Раз просила, то чому не взяти?</example>
-  </rule>
-
-  <rule name="Рада - іменник 0" id="rada_noun_0">
-    <pattern>
-      <token regexp="yes" postag_regexp="yes" postag="adj:.*" inflected="yes">верховний|обласний|міський|сільський|районний|центральний|громадський|народний|[ву]чений|студентський</token>
-      <marker>
-        <token inflected="yes">рада</token>
-      </marker>
-    </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="Раду[рада/noun:inanim:f:v_zna]"
-            >у Верховну <marker>Раду</marker>.</example>
-    <example type="untouched">не міг дати собі ради.</example>
-    <example type="untouched">сама рада.</example>
-  </rule>
-
-  <rule name="Рада - іменник 1" id="rada_noun_1">
-    <pattern>
-      <marker>
-        <token inflected="yes">рада</token>
-      </marker>
-      <token regexp="yes">безпеки|національної|міністрів|керівників|директорів|суддів|євро.*</token>
-    </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="Раду[рада/noun:inanim:f:v_zna]"
-            >у <marker>Раду</marker> Міністрів.</example>
-    <example type="untouched">не міг дати собі ради.</example>
-    <example type="untouched">рада і весела</example>
-  </rule>
-
-  <rule name="Рада - іменник 1.2" id="rada_noun_12">
-    <pattern>
-      <marker>
-        <token inflected="yes">рада</token>
-      </marker>
-      <token regexp="yes" case_sensitive="yes">ЄС|[XVIХІ]+([-–][а-яіїєґ]+)?</token>
-    </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="Раду[рада/noun:inanim:f:v_zna]"
-            >у <marker>Раду</marker> І скликання.</example>
-    <example type="untouched">не міг дати собі ради.</example>
-    <example type="untouched">рада і весела</example>
-  </rule>
-
-  <rule name="Рада - іменник 2" id="rada_noun_2">
-    <pattern>
-      <unify>
-        <feature id="gender"/>
-        <feature id="case"/>
-        <token postag_regexp="yes" postag="adj:f:.(?!.*pron).*"/>
-        <marker>
-          <token inflected="yes">рада</token>
-        </marker>
-      </unify>
-    </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="раду[рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="раду[рада/noun:inanim:f:v_zna]"
-            >таємну <marker>раду</marker>.</example>
-    <example type="untouched">вона й рада старатися</example>
-  </rule>
-
-  <rule name="Рада - іменник 3" id="rada_noun_3">
-    <pattern>
-      <token regexp="yes">[ву]</token>
-      <marker>
-        <token>раду</token>
-      </marker>
-    </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="Раду[рада/noun:inanim:f:v_zna]"
-            >в <marker>Раду</marker>.</example>
-    <example type="untouched">не міг дати собі ради.</example>
-    <example type="untouched">сама рада.</example>
-  </rule>
-
   <rule name="Сена" id="sena">
     <pattern>
       <marker>
@@ -3800,10 +4436,12 @@
     <example type="untouched">Буки і Сосни</example>
   </rule>
 
-  <rule name="село/місто 2" id="selo_misto_geo_3">
+  <rule name="село/місто 3" id="selo_misto_geo_3">
     <pattern>
       <marker>
-        <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim.*prop:geo.*">[А-ЯІЇЄҐ]'?[а-яіїєґ'-]+</token>
+        <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim.*prop:geo.*">[А-ЯІЇЄҐ]'?[а-яіїєґ'-]+
+          <exception scope="previous" regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ]\.</exception>
+        </token>
       </marker>
       <token min="0">(</token>
       <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+</token>
@@ -3825,6 +4463,7 @@
     <example type="untouched">Шептицький жив там.</example>
     <example type="untouched">Буки і Сосни</example>
     <example type="untouched">ходять Вуглегірська (Донецька область)</example>
+    <example type="untouched">ПОСП ім. І. Франка Горохівського району</example>
   </rule>
 
   <!-- Загальне правило не працює, бо часто загальні іменники можуть вживатися з великої: «але для Ігор у Турині зробили виняток»
@@ -4009,6 +4648,107 @@
         category end: Великі літери в середині слова + власні назви
   -->
 
+  <!-- category: pron etc -->
+
+  <rule name="Мені - займенник" id="meni_pron">
+    <pattern>
+      <token postag="SENT_START"/>
+      <marker>
+        <token case_sensitive="yes">Мені</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag=".*pron.*"/>
+    <example type="ambiguous"
+      inputform="Мені[Мена/noun:inanim:f:v_dav:prop:geo,я/noun:anim:s:v_dav:&amp;pron:pers:1]"
+      outputform="Мені[я/noun:anim:s:v_dav:&amp;pron:pers:1]"><marker>Мені</marker> однаково.
+    </example>
+    <example type="untouched">в Мені виборів не було</example>
+  </rule>
+
+  <rule name="раз - іменник" id="raz_noun_1">
+    <pattern>
+      <token regexp="yes">за|ще|іще|хоч|тільки|не</token>
+      <marker>
+        <token>раз</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_zna.*"/>
+    <example type="ambiguous"
+      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
+      outputform="раз[раз/noun:inanim:m:v_zna]">всю за <marker>раз</marker>.
+    </example>
+    <example type="untouched">раз - і все</example>
+    <example type="untouched">раз прийшов я додому</example>
+  </rule>
+
+  <rule name="раз - іменник" id="raz_noun_2">
+    <pattern>
+      <token postag_regexp="yes" postag="(adj|numr):m:v_(naz|zna).*|number" />
+      <marker>
+        <token>раз</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
+      outputform="раз[раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]">перший <marker>раз</marker>.
+    </example>
+    <example type="ambiguous"
+      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
+      outputform="раз[раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]">21 <marker>раз</marker>.
+    </example>
+    <example type="untouched">раз - і все</example>
+  </rule>
+
+  <rule name="раз - іменник" id="raz_noun_3">
+    <pattern>
+      <marker>
+        <token>раз</token>
+      </marker>
+      <token>на</token>
+      <token postag_regexp="yes" postag=".*zna.*"/>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
+      outputform="раз[раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"><marker>раз</marker> на рік!
+    </example>
+    <example type="untouched">раз пішов, то вже пішов</example>
+  </rule>
+
+  <rule name="раз - іменник" id="raz_noun_4">
+    <pattern>
+      <marker>
+        <token>раз</token>
+      </marker>
+      <token>!</token>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+      inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
+      outputform="раз[раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]">і <marker>раз</marker>!
+    </example>
+    <example type="untouched">раз пішов, то вже пішов</example>
+  </rule>
+
+  <rule name="Раз: не спол." id="raz_not_conj">
+    <pattern>
+      <marker>
+        <token>раз
+          <exception scope="previous" regexp="yes">,|що</exception>
+          <exception scope="previous" postag="SENT_START"/>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="conj.*"/>
+    <example type="ambiguous"
+        inputform="раз[раз/adv,раз/conj:subord,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
+        outputform="раз[раз/adv,раз/noun:inanim:m:v_naz,раз/noun:inanim:m:v_zna,раз/noun:inanim:p:v_rod]"
+            >і <marker>раз</marker> і два</example>
+    <example type="untouched">щось прочули, раз дозори оце порозсилали</example>
+    <example type="untouched">Раз просила, то чому не взяти?</example>
+  </rule>
+
   <!--
   <rule name="Прикметники без порівняльного ступеня" id="NON_COMPARATIVE">
     <pattern>
@@ -4045,10 +4785,13 @@
      -->
   </rule>
 
-  <rule name="Займенник та і сполучник/частка та" id="PRON_OR_CONJ_TA">
+<!--
+  <rule name="та - сполучник або частка" id="ta_conj_part">
     <pattern>
       <marker>
-        <token>та</token>
+        <token>та
+          <exception scope="previous">не</exception>
+        </token>
       </marker>
       <token>
         <exception postag_regexp="yes" postag="(noun.*?|adj):f:v_naz.*"/>
@@ -4063,9 +4806,10 @@
     <example type="untouched">та й інша</example>
     <example type="untouched">та сама фігура</example>
     <example type="untouched">та зелена спідниця</example>
+    <example type="untouched">ба й річка вже не та.</example>
   </rule>
-
-  <rulegroup name="Прийменник та вигук о" id="DIS_PREP_AND_INTJ_O">
+-->
+  <rulegroup name="о - noninfl/prep" id="o_noninfl_prep_intj">
     <rule>
       <pattern>
         <token>/</token>
@@ -4082,29 +4826,13 @@
       <example type="untouched">о, люди!</example>
       <example type="untouched">о двері</example>
     </rule>
-    
-    <rule>
-      <pattern>
-        <marker>
-          <token>о</token>
-        </marker>
-        <token postag_regexp="yes" postag=".*(v_zna|v_mis).*"/>
-      </pattern>
-      <disambig action="filter" postag="prep.*"/>
-      <example type="ambiguous"
-          inputform="о[о/intj,о/prep]"
-          outputform="о[о/prep]"
-              >шарпнув <marker>о</marker> двері</example>
-      <example type="untouched">о, люди!</example>
-      <example type="untouched">о мамо!</example>
-    </rule>
 
     <rule>
       <pattern>
         <marker>
           <token>о</token>
         </marker>
-        <token regexp="yes">[,!]|ти|ви|ні</token>
+        <token regexp="yes">[,!…]|\.\.\.|ти|ви|ні|так|боже|диво</token>
       </pattern>
       <disambig postag="intj"/>
       <example type="ambiguous"
@@ -4117,13 +4845,36 @@
               ><marker>о</marker> ти!</example>
       <example type="untouched">грюкнув о двері</example>
     </rule>
+    
+    <rule>
+      <pattern>
+        <marker>
+          <token postag="prep">о</token>
+        </marker>
+        <token postag_regexp="yes" postag=".*v_(zna|mis).*">
+          <exception postag_regexp="yes" postag="noun:anim:.:v_kly.*" />
+        </token>
+      </pattern>
+      <disambig action="filter" postag="prep"/>
+      <example type="ambiguous"
+          inputform="о[о/intj,о/prep]"
+          outputform="о[о/prep]"
+              >шарпнув <marker>о</marker> двері</example>
+      <example type="ambiguous"
+          inputform="о[о/intj,о/prep]"
+          outputform="о[о/prep]"
+              >ще <marker>о</marker> пів на п'яту</example>
+      <example type="untouched">о, люди!</example>
+      <example type="untouched">о мамо!</example>
+      <example type="untouched">, о Свароже!</example>
+    </rule>
 
     <rule>
       <pattern>
         <marker>
-          <token>о</token>
+          <token postag="intj">о</token>
         </marker>
-        <token postag_regexp="yes" postag="adj.*" min="0"/>
+        <token postag_regexp="yes" postag="adj:.:v_kly.*" min="0" />
         <token postag_regexp="yes" postag=".*v_kly.*"/>
       </pattern>
       <disambig postag="intj"/>
@@ -4135,6 +4886,10 @@
           inputform="о[о/intj,о/prep]"
           outputform="о[о/intj]"
               ><marker>о</marker> бідні люди!</example>
+      <example type="ambiguous"
+          inputform="о[о/intj,о/prep]"
+          outputform="о[о/intj]"
+              ><marker>о</marker> Свароже!</example>
       <example type="untouched">грюкнув о двері</example>
     </rule>
 
@@ -4143,7 +4898,7 @@
         <marker>
           <and>
             <token postag="intj">о</token>
-            <token postag_regexp="yes" postag="prep.*">о</token>
+            <token postag="prep">о</token>
           </and>
         </marker>
         <!--
@@ -4163,37 +4918,6 @@
   </rulegroup>
 
 
-  <!--
-  <rule name="Прийменник/прислівник перед дієсловом — прислівник" id="DIS_PREP_ADV_BEFORE_VERB">
-    <pattern>
-          <and>
-      <token postag_regexp="yes" postag="adv.*"/>
-      <token postag_regexp="yes" postag="prep.*"/>
-          </and>
-      <token postag_regexp="yes" postag="verb.*"/>
-    </pattern>
-    <disambig><match no="1" postag="adv.*" postag_regexp="yes" /></disambig>
-    <example type="ambiguous" 
-        inputform="попереду[попереду/adv,попереду/prep]" 
-        outputform="попереду[попереду/adv]"><marker>попереду</marker> поїхав</example>
-    <example type="untouched">попереду поїзда</example>
-  </rule>
-  <rule name="Прийменник/прислівник перед іменником — прийменник" id="DIS_PREP_ADV_BEFORE_NOUN">
-    <pattern>
-          <and>
-      <token postag_regexp="yes" postag="adv.*"/>
-      <token postag_regexp="yes" postag="prep.*"/>
-          </and>
-      <token postag_regexp="yes" postag="noun.*"/>
-    </pattern>
-    <disambig><match no="1" postag="prep.*" postag_regexp="yes" /></disambig>
-    <example type="ambiguous" 
-        inputform="попереду[попереду/adv,попереду/prep]" 
-        outputform="попереду[попереду/prep]"><marker>попереду</marker> поїзда</example>
-    <example type="untouched">попереду поїхав</example>
-  </rule>
-  -->
-
   <rule name="Прийменник та прислівник 'після'" id="PREP_OR_ADV_PISLIA">
     <pattern>
       <marker>
@@ -4212,7 +4936,7 @@
 
 
   <!-- TODO: need to handle rare поруч[поруччя/noun:inanim:p:v_rod] -->
-  <rule name="Прийменник та прислівник 'поруч'" id="PREP_OR_ADV_PORUCH_1">
+  <rule name="Прислівник 'поруч'" id="poruch_adv_1">
     <pattern>
       <marker>
         <token>поруч</token>
@@ -4221,15 +4945,16 @@
       <token postag_regexp="yes" postag="adj:.:v_oru*" min="0"/>
       <token postag_regexp="yes" postag="(noun|numr).*:v_oru.*"/>
     </pattern>
-    <disambig action="filter" postag="prep.*"/>
+    <disambig action="filter" postag="adv.*"/>
     <example type="ambiguous"
         inputform="поруч[поруч/adv,поруч/prep]"
-        outputform="поруч[поруч/prep]"
+        outputform="поруч[поруч/adv]"
             >пливти <marker>поруч</marker> із судном</example>
     <example type="untouched">пливти поруч</example>
   </rule>
 
-  <rule name="Прийменник та прислівник 'поруч'" id="PREP_OR_ADV_PORUCH_2">
+<!--
+  <rule name="Прийменник 'поруч'" id="poruch_prep">
     <pattern>
       <marker>
         <token>поруч</token>
@@ -4244,8 +4969,9 @@
             >поставив відро <marker>поруч</marker> стільця</example>
     <example type="untouched">пливти поруч</example>
   </rule>
+-->
 
-  <rule name="Прийменник та прислівник 'відповідно'" id="PREP_OR_ADV_VIDPOVIDNO_1">
+  <rule name="Прийменник та прислівник 'відповідно'" id="vidpovidno_adv_1">
     <pattern>
       <marker>
         <token>відповідно</token>
@@ -4260,7 +4986,7 @@
     <example type="untouched">відповідно до тих обставин</example>
   </rule>
 
-  <rule name="Прийменник та прислівник 'відповідно'" id="PREP_OR_ADV_VIDPOVIDNO_2">
+  <rule name="Прийменник та прислівник 'відповідно'" id="vidpovidno_prep_1">
     <pattern>
       <marker>
         <token>відповідно</token>
@@ -4277,7 +5003,8 @@
     <example type="untouched">Він налягав, щоб вона й одяглася відповідно.</example>
   </rule>
 
-  <rule name="Прийменник 'відповідно'" id="PREP_VIDPOVIDNO_3">
+<!--
+  <rule name="Прийменник 'відповідно'" id="vidpovidno_prep_2">
     <pattern>
       <marker>
         <token>відповідно</token>
@@ -4292,6 +5019,7 @@
             >Переписав <marker>відповідно</marker> словам</example>
     <example type="untouched">Він налягав, щоб вона й одяглася відповідно.</example>
   </rule>
+-->
 
   <rule name="Частка 'за'" id="ZA_PART_1">
     <pattern>
@@ -4376,14 +5104,74 @@
     <example type="untouched">що за гриби.</example>
   </rule>
 
-  <rule name="Прийменник та прислівник 'за'" id="PREP_OR_ADV_ZA">
+  <rule name="той - не частка" id="toi_not_part">
+    <pattern>
+      <marker>
+        <token regexp="yes">той(-таки)?</token>
+      </marker>
+      <token negate="yes" regexp="yes">\.\.\.|…</token>
+    </pattern>
+    <disambig action="remove" postag="part"/>
+    <example type="ambiguous"
+        inputform="той[той/adj:m:v_naz:&amp;pron:dem,той/adj:m:v_zna:rinanim:&amp;pron:dem,той/part]"
+        outputform="той[той/adj:m:v_naz:&amp;pron:dem,той/adj:m:v_zna:rinanim:&amp;pron:dem]"
+        >Що у вас <marker>той</marker> хлопака.
+      </example>
+    <example type="ambiguous"
+        inputform="той-таки[той/adj:m:v_naz:&amp;pron:dem,той/adj:m:v_zna:rinanim:&amp;pron:dem,той/part]"
+        outputform="той-таки[той/adj:m:v_naz:&amp;pron:dem,той/adj:m:v_zna:rinanim:&amp;pron:dem]"
+        >Що у вас <marker>той-таки</marker> хлопака.
+      </example>
+    <example type="untouched">ти той... не ходи туди</example>
+  </rule>
+
+  <rule name="того - не частка" id="togo_not_part">
+    <pattern>
+      <marker>
+        <token regexp="yes">того(-таки)?</token>
+      </marker>
+      <token negate="yes" regexp="yes">\.\.\.|…|\.</token>
+    </pattern>
+    <disambig action="remove" postag="part:&amp;predic"/>
+    <example type="ambiguous"
+        inputform="того[те/noun:inanim:n:v_rod:&amp;pron:dem,того/adv,того/part:&amp;predic,той/adj:m:v_rod:&amp;pron:dem,той/adj:m:v_zna:ranim:&amp;pron:dem,той/adj:n:v_rod:&amp;pron:dem]"
+        outputform="того[те/noun:inanim:n:v_rod:&amp;pron:dem,того/adv,той/adj:m:v_rod:&amp;pron:dem,той/adj:m:v_zna:ranim:&amp;pron:dem,той/adj:n:v_rod:&amp;pron:dem]"
+        >Спитай <marker>того</marker> хлопака.
+      </example>
+    <example type="untouched">ти того... не ходи туди</example>
+  </rule>
+
+  <rule name="того - не прислівник" id="togo_not_adv">
+    <antipattern>
+      <token>того</token>
+      <token>,</token>
+      <token>що</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token regexp="yes">того(-таки)?</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="adv"/>
+    <example type="ambiguous"
+        inputform="того[те/noun:inanim:n:v_rod:&amp;pron:dem,того/adv,той/adj:m:v_rod:&amp;pron:dem,той/adj:m:v_zna:ranim:&amp;pron:dem,той/adj:n:v_rod:&amp;pron:dem]"
+        outputform="того[те/noun:inanim:n:v_rod:&amp;pron:dem,той/adj:m:v_rod:&amp;pron:dem,той/adj:m:v_zna:ranim:&amp;pron:dem,той/adj:n:v_rod:&amp;pron:dem]"
+        >Спитай <marker>того</marker> хлопака.
+      </example>
+    <example type="untouched">Чого? того, що не варто</example>
+  </rule>
+
+  <rule name="Прийменник та прислівник 'за'" id="za_prev_adv">
     <antipattern>
       <token>що</token>
-      <token min="0" max="3">
+      <token min="0" max="3" regexp="yes">[а-яіїєґ].*
         <exception>за</exception>
       </token>
       <token>за</token>
+      <!--
       <token postag_regexp="yes" postag=".*v_naz.*"/>
+      -->
+      <token postag_regexp="yes" postag="(noun|adj)(?!.*v_mis).*"/>
     </antipattern>
     <pattern>
       <marker>
@@ -4398,9 +5186,20 @@
       </example>
     <example type="untouched">що за гриби.</example>
     <example type="untouched">Що це ще за вікова дискримінація.</example>
+    <example type="untouched">Що за хворобу підчепили хлопці.</example>
   </rule>
 
-  <rule name="Прийменник 'за'" id="PREP_ZA">
+  <rule name="Прийменник 'за'" id="za_prep">
+    <antipattern>
+      <token>що</token>
+      <token min="0" max="3" regexp="yes">[а-яіїєґ].*
+        <exception>за</exception>
+      </token>
+      <token>за</token>
+      <token postag_regexp="yes" postag="(noun|adj)(?!.*v_mis).*">
+        <exception regexp="yes">його|її|їх</exception>
+      </token>
+    </antipattern>
     <pattern>
       <marker>
         <token>за</token>
@@ -4417,10 +5216,18 @@
         outputform="за[за/prep]"
         >Потрапляти <marker>за</marker> грати.
       </example>
+    <example type="ambiguous"
+        inputform="за[за/adv:&amp;predic,за/part,за/prep]"
+        outputform="за[за/prep]"
+        >що <marker>за</marker> його ладна вийти.
+      </example>
     <example type="untouched">Всі проголосували за.</example>
     <example type="untouched">Тетяна розуміла, чому Малий не виступає ні за, ні проти.</example>
     <example type="untouched">Зважити, обдумати всі за і всі проти.</example>
     <example type="untouched">Що у вас за звичка</example>
+    <example type="untouched">Що за маячня!</example>
+    <example type="untouched">Що б це вийшла за збірка!</example>
+    <example type="untouched">Що за хворобу підчепили хлопці.</example>
   </rule>
 
   <rule name="Прийменник та іменник 'серед'" id="PREP_OR_NOUN_SERED_2">
@@ -4438,11 +5245,11 @@
     <example type="untouched">Валько боявся тих серед.</example>
   </rule>
 
-  <rule name="Прислівник та іменник 'разом'" id="PREP_OR_NOUN_RAZOM2">
+  <rule name="Прислівник 'разом'" id="razom_adv">
     <pattern>
       <marker>
         <token>разом
-          <exception scope="previous" postag_regexp="yes" postag="adj:m:v_oru.*"/>
+          <exception scope="previous" postag_regexp="yes" postag="(adj|numr):m:v_oru.*"/>
           <exception scope="previous">за</exception>
         </token>
       </marker>
@@ -4454,6 +5261,7 @@
             ><marker>разом</marker> з іншими</example>
     <example type="untouched">першим разом</example>
     <example type="untouched">Раз за разом</example>
+    <example type="untouched">за одним разом </example>
   </rule>
 
   <rule name="Прислівник та іменник 'далі'" id="PREP_OR_NOUN_DALI">
@@ -4621,6 +5429,22 @@
     <example type="untouched">до арте.</example>
   </rule>
 
+  <rule name="швах - noninfl" id="shvah_noninfl">
+    <pattern>
+      <token regexp="yes">повний|зовсім|діл[оа]|справ[аи]</token>
+      <token regexp="yes" min="0" >[—–-]</token>
+      <marker>
+        <token>швах</token>
+      </marker>
+    </pattern>
+    <disambig><wd lemma="швах" pos="noninfl:slang"/></disambig>
+    <example type="ambiguous"
+        inputform="швах[шов/noun:inanim:p:v_mis]"
+        outputform="швах[швах/noninfl:slang]"
+            >справи <marker>швах</marker>!</example>
+    <example type="untouched">на швах</example>
+  </rule>
+
   <rule name="Сполучник та частка 'да'" id="conj_or_part_da">
     <pattern>
       <marker>
@@ -4634,63 +5458,6 @@
         outputform="да[да/part:pers]"
             >Васко <marker>да</marker> Гамма</example>
     <example type="untouched">відповів йому «да».</example>
-  </rule>
-
-  <!-- TODO: this rule may be a bit too greedy, but most of the time it's right -->
-  <rule name="Іменник та прикметник «робочий»" id="NOUN_OR_ADJ_ROBOCHYI">
-    <pattern>
-      <unify>
-        <feature id="gender"/>
-        <feature id="case"/>
-
-        <marker>
-          <token inflected="yes">робочий</token>
-        </marker>
-        <token postag_regexp="yes" postag="noun:inanim.*"/>
-        <!-- stricter
-          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim.*">день|сила|група|місце|час|зустріч|рука</token>
-        -->
-      </unify>
-    </pattern>
-    <disambig action="filter" postag="adj.*"/>
-    <example type="ambiguous"
-        inputform="робочий[робочий/adj:m:v_naz,робочий/adj:m:v_zna:rinanim,робочий/noun:anim:m:v_naz]"
-        outputform="робочий[робочий/adj:m:v_naz,робочий/adj:m:v_zna:rinanim]"
-            >Прийшов у <marker>робочий</marker> кабінет.</example>
-    <example type="untouched">Робочий не хотів працювати.</example>
-  </rule>
-
-  <!-- TODO: this rule may be a bit too greedy, but most of the time it's right -->
-  <rule name="Рік і рок 1" id="RIK_VS_ROK_1">
-    <pattern>
-      <token regexp="yes">[12][0-9]{3}</token>
-      <marker>
-        <token>року</token>
-      </marker>
-    </pattern>
-    <disambig action="filter"><match no="1" postag="noun:inanim:m:v_rod">рік</match></disambig>
-    <example type="ambiguous"
-        inputform="року[рок/noun:inanim:m:v_dav,рок/noun:inanim:m:v_rod,рік/noun:inanim:m:v_dav,рік/noun:inanim:m:v_rod]"
-        outputform="року[рік/noun:inanim:m:v_rod]"
-            >з 2003 <marker>року</marker>.</example>
-    <example type="untouched">від класичної та етнічної до авангардного року.</example>
-    <example type="untouched">позаминулого року.</example>
-  </rule>
-
-  <rule name="Рік і рок 2" id="RIK_VS_ROK_2">
-    <pattern>
-      <token regexp="yes">(поза)?минулого|цього|наступного|того</token>
-      <marker>
-        <token>року</token>
-      </marker>
-    </pattern>
-    <disambig action="filter"><match no="1" postag="noun:inanim:m:v_rod">рік</match></disambig>
-    <example type="ambiguous"
-        inputform="року[рок/noun:inanim:m:v_dav,рок/noun:inanim:m:v_rod,рік/noun:inanim:m:v_dav,рік/noun:inanim:m:v_rod]"
-        outputform="року[рік/noun:inanim:m:v_rod]"
-            >з грудня минулого <marker>року</marker>.</example>
-    <example type="untouched">від класичної та етнічної до авангардного року.</example>
-    <example type="untouched">з 2003 року.</example>
   </rule>
 
   <rule name="Як" id="JAK">
@@ -4792,64 +5559,6 @@
     <example type="untouched">без мого відома.</example>
   </rule>
 
-  <rule name="Дієслово «дій»" id="VERB_DIY">
-    <pattern>
-      <marker>
-        <token case_sensitive="yes">Дій</token>
-      </marker>
-      <token regexp="yes" min="0">["“»]</token>
-      <token regexp="yes">[!—-]</token>
-    </pattern>
-    <disambig action="filter" postag="verb.*"/>
-    <example type="ambiguous"
-        inputform="Дій[дія/noun:inanim:p:v_rod,діяти/verb:imperf:impr:s:2]"
-        outputform="Дій[діяти/verb:imperf:impr:s:2]"
-        >Йому кажуть: «<marker>Дій</marker>!».
-      </example>
-    <example type="untouched">З усіх дій, ці треба зробити.</example>
-  </rule>
-
-  <rule name="Іменник «дій»" id="NOUN_DIY">
-    <pattern>
-      <marker>
-        <token>дій
-          <exception scope="next">!</exception>
-        </token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun.*"/>
-    <example type="ambiguous"
-        inputform="дій[дія/noun:inanim:p:v_rod,діяти/verb:imperf:impr:s:2]"
-        outputform="дій[дія/noun:inanim:p:v_rod]"
-        >Сума <marker>дій</marker> дорівнює нулю.</example>
-    <example type="untouched">Йди і дій!</example>
-  </rule>
-
-  <rule name="Іменник «води»" id="NOUN_VODY">
-    <pattern>
-      <marker>
-        <token>води
-          <exception scope="next" postag_regexp="yes" postag="noun.*?v_rod.*?&amp;pron.*"/>
-        </token>
-      </marker>
-      <!-- we can now do scope="next" 
-      <token><exception postag_regexp="yes" postag="noun.*?v_rod.*?&amp;pron.*"/></token>
-       -->
-    </pattern>
-    <disambig action="filter" postag="noun.*"/>
-    <example type="ambiguous"
-        inputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
-        outputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
-        >Не стало <marker>води</marker> у річці.
-    </example>
-    <example type="ambiguous"
-        inputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
-        outputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
-        >Не стало <marker>води</marker>
-    </example>
-    <example type="untouched">не води мене колами.</example>
-  </rule>
-
       <!-- we can now do scope="next" 
   <rule name="Іменник «води» 2" id="NOUN_VODY_2">
     <pattern>
@@ -4867,40 +5576,6 @@
   </rule>
   -->
 
-
-  <rule name="Іменник «чаю»" id="NOUN_VERB_CHAYU">
-    <pattern>
-      <marker>
-        <token regexp="yes">ча[юї]
-          <exception scope="previous">не</exception>
-        </token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun.*"/>
-    <example type="ambiguous"
-        inputform="чаю[&lt;/S&gt;,чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_rod,чаїти/verb:imperf:pres:s:1]"
-        outputform="чаю[&lt;/S&gt;,чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_rod]"
-        >Випити <marker>чаю</marker>
-    </example>
-    <example type="untouched">душі не чаю в доньці</example>
-  </rule>
-
-  <rule name="Прикметник «хворій»" id="ADJ_VERB_HVORIY">
-    <pattern>
-      <marker>
-        <token>хворій
-          <exception scope="previous">не</exception>
-        </token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="(noun|adj).*"/>
-    <example type="ambiguous"
-        inputform="хворій[&lt;/S&gt;,хвора/noun:anim:f:v_dav,хворий/adj:f:v_dav:compb,хворіти/verb:imperf:impr:s:2]"
-        outputform="хворій[&lt;/S&gt;,хвора/noun:anim:f:v_dav,хворий/adj:f:v_dav:compb]"
-        >Не допомогло <marker>хворій</marker>
-    </example>
-    <example type="untouched">Не хворій!</example>
-  </rule>
 
   <rule name="Іменник чи присвійний прикметник 1" id="NOUN_OR_POSSESSIVE_ADJ_1">
     <pattern>
@@ -4964,32 +5639,6 @@
     -->
   </rule>
 
-  <rule name="Став: дієслово" id="stav_verb">
-    <pattern>
-      <marker>
-        <token>став
-          <exception scope="previous" regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*ий</exception>
-          <exception scope="previous" regexp="yes">на|у|в|над|через</exception>
-          <exception scope="previous" postag_regexp="yes" postag="verb.*"/>
-          <exception scope="next" postag_regexp="yes" postag="verb(?!.*?inf).*"/>
-        </token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:m:v_(naz|zna)"/>
-    <example type="ambiguous"
-        inputform="став[став/noun:inanim:m:v_naz,став/noun:inanim:m:v_zna,ставити/verb:imperf:impr:s:2,стати/verb:perf:past:m]"
-        outputform="став[ставити/verb:imperf:impr:s:2,стати/verb:perf:past:m]"
-            >він <marker>став</marker> найбагатшим.</example>
-    <example type="ambiguous"
-        inputform="став[став/noun:inanim:m:v_naz,став/noun:inanim:m:v_zna,ставити/verb:imperf:impr:s:2,стати/verb:perf:past:m]"
-        outputform="став[ставити/verb:imperf:impr:s:2,стати/verb:perf:past:m]"
-            >він <marker>став</marker> плювати в озеро.</example>
-    <example type="untouched">Тернопільський став</example>
-    <example type="untouched">немилосердно смердить став</example>
-    <example type="untouched">Окрім цього став замулювався</example>
-    <example type="untouched">чоловік подався на став</example>
-  </rule>
-
 
   <rule name="Рівня: не від «рівня»" id="rivnya_not_lemma_rivnya">
     <pattern>
@@ -5039,6 +5688,7 @@
     <example type="untouched">вважатимуть за рівню.</example>
   </rule>
 
+
   <rule name="Рівні: не від «рівня»" id="rivni_not_lemma_rivnya">
     <pattern>
       <marker>
@@ -5059,7 +5709,7 @@
   <rule name="Рівні: рівень" id="rivni_noun_1">
     <pattern>
       <token>на</token>
-      <token postag_regexp="yes" postag="adj:m:v_mis.*" />
+      <token postag_regexp="yes" postag="(adj|numr):m:v_mis.*" />
       <marker>
         <token>рівні</token>
       </marker>
@@ -5090,6 +5740,75 @@
     <example type="untouched">на рівні частини.</example>
   </rule>
 
+  <rule name="Рівні: рівень" id="rivni_noun_3">
+    <pattern>
+      <token>на</token>
+      <marker>
+        <token>рівні</token>
+      </marker>
+      <token postag_regexp="yes" postag="adj:.:v_rod(?!.*pron).*" />
+      <token postag_regexp="yes" postag="noun:.*:v_rod(?!.*pron).*" />
+    </pattern>
+    <disambig action="filter" postag="noun.*"></disambig>
+    <example type="ambiguous"
+        inputform="рівні[рівень/noun:inanim:m:v_mis,рівень/noun:inanim:p:v_naz,рівень/noun:inanim:p:v_zna,рівний/adj:p:v_naz:compb,рівний/adj:p:v_zna:rinanim:compb]"
+        outputform="рівні[рівень/noun:inanim:m:v_mis,рівень/noun:inanim:p:v_naz,рівень/noun:inanim:p:v_zna]"
+            >на <marker>рівні</marker> окремих атомів.</example>
+    <example type="untouched">на рівні частини.</example>
+  </rule>
+
+  <rule name="Рівні: рівень" id="rivni_noun_4">
+    <pattern>
+      <token>на</token>
+      <marker>
+        <token>рівні</token>
+      </marker>
+      <token min="0">$</token>
+      <token postag_regexp="yes" postag="number.*">
+        <exception scope="next" inflected="yes" regexp="yes">частка|частина</exception>
+      </token>
+    </pattern>
+    <disambig action="filter" postag="noun.*"></disambig>
+    <example type="ambiguous"
+        inputform="рівні[рівень/noun:inanim:m:v_mis,рівень/noun:inanim:p:v_naz,рівень/noun:inanim:p:v_zna,рівний/adj:p:v_naz:compb,рівний/adj:p:v_zna:rinanim:compb]"
+        outputform="рівні[рівень/noun:inanim:m:v_mis,рівень/noun:inanim:p:v_naz,рівень/noun:inanim:p:v_zna]"
+            >на <marker>рівні</marker> $10.</example>
+    <example type="untouched">на рівні 10 часток.</example>
+  </rule>
+
+  <rule name="просторі - ім." id="prostori_noun_1">
+    <pattern>
+      <token postag_regexp="yes" postag="adj:m:v_mis.*">
+        <exception postag_regexp="yes" postag="adj:p:v_(naz|zna).*"/>
+      </token>
+      <marker>
+        <token>просторі</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+      inputform="просторі[просторий/adj:p:v_naz:compb,просторий/adj:p:v_zna:rinanim:compb,простір/noun:inanim:m:v_mis]"
+      outputform="просторі[простір/noun:inanim:m:v_mis]">у викривленому <marker>просторі</marker>.
+    </example>
+    <example type="untouched">у просторі кімнати</example>
+  </rule>
+
+  <rule name="просторі - ім." id="prostori_noun_2">
+    <pattern>
+      <token regexp="yes">[ув]|на</token>
+      <marker>
+        <token>просторі</token>
+      </marker>
+      <token regexp="yes">[,.]|та|[ій]</token>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+      inputform="просторі[просторий/adj:p:v_naz:compb,просторий/adj:p:v_zna:rinanim:compb,простір/noun:inanim:m:v_mis]"
+      outputform="просторі[простір/noun:inanim:m:v_mis]">у <marker>просторі</marker>.
+    </example>
+    <example type="untouched">у просторі кімнати</example>
+  </rule>
+
 
   <rule name="Прав: іменник" id="prav_noun">
     <pattern>
@@ -5107,6 +5826,48 @@
     -->
   </rule>
 
+  <rule name="Дані: іменник" id="dani_noun_1">
+    <antipattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+          <token inflected="yes" postag_regexp="yes" postag="adj:.*">даний</token>
+          <token postag_regexp="yes" postag="(noun|adj):.*" />
+      </unify>
+    </antipattern>
+    <antipattern>
+      <token inflected="yes" postag_regexp="yes" postag="adj:p:.*">даний</token>
+      <token postag_regexp="yes" postag="noun:.*v_dav.*pron:pers.*" />
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes">дані</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+        inputform="даними[даний/adj:p:v_oru:&amp;adjp:pasv:perf,дані/noun:inanim:p:v_oru:ns]"
+        outputform="даними[дані/noun:inanim:p:v_oru:ns]"
+            >за іншими <marker>даними</marker>.</example>
+    <example type="ambiguous"
+        inputform="даними[даний/adj:p:v_oru:&amp;adjp:pasv:perf,дані/noun:inanim:p:v_oru:ns]"
+        outputform="даними[дані/noun:inanim:p:v_oru:ns]"
+            >За <marker>даними</marker> досліджень,</example>
+    <example type="ambiguous"
+        inputform="Дані[Дана/noun:anim:f:v_dav:prop:fname,Даня/noun:anim:m:v_dav:prop:fname,Даня/noun:anim:m:v_rod:prop:fname,даний/adj:p:v_naz:&amp;adjp:pasv:perf,даний/adj:p:v_zna:rinanim:&amp;adjp:pasv:perf,дані/noun:inanim:p:v_naz:ns,дані/noun:inanim:p:v_zna:ns]"
+        outputform="Дані[Дана/noun:anim:f:v_dav:prop:fname,Даня/noun:anim:m:v_dav:prop:fname,Даня/noun:anim:m:v_rod:prop:fname,дані/noun:inanim:p:v_naz:ns,дані/noun:inanim:p:v_zna:ns]"
+            >Я пояснюю моєму <marker>Дані</marker>.</example>
+    <example type="untouched">з даними обіцянками</example>
+    <example type="untouched">з даними нам обіцянками</example>
+    <example type="untouched">з даними йому технічними характеристиками</example>
+    <example type="untouched">над даним об’єктом</example>
+    <example type="untouched">із даним клінічним випадком</example>
+    <!-- TODO: not easy to ignore quotes with unify
+    <example type="untouched">в ситуації з даним «конкурсом»</example>
+    -->
+  </rule>
+
+<!--
   <rule name="Дані: іменник" id="dani_noun_1">
     <pattern>
       <token postag_regexp="yes" postag="adj:p:v_oru.*" />
@@ -5138,6 +5899,7 @@
             >за <marker>даними</marker> хроністів.</example>
     <example type="untouched">даними ректору</example>
   </rule>
+-->
 
   <rule name="Днями: іменник" id="dnyamy_noun">
     <pattern>
@@ -5171,21 +5933,6 @@
         outputform="накладним[накладний/adj:m:v_oru:compb:bad:xp2,накладний/adj:n:v_oru:compb:bad:xp2,накладний/adj:p:v_dav:compb:bad:xp2]"
             >йде <marker>накладним</marker> платежем</example>
     <example type="untouched">накладні нігті</example>
-  </rule>
-
-  <rule name="число + коп - копійок (не поліціянт)" id="num_kop">
-    <pattern>
-      <token regexp="yes">[0-9, –-]+</token>
-      <marker>
-        <token>коп</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:anim:m:v_naz:slang"></disambig>
-    <example type="ambiguous"
-        inputform="коп[&lt;/S&gt;,коп/noun:anim:m:v_naz:slang]"
-        outputform="коп[&lt;/S&gt;]"
-            >ціною в 12,5 <marker>коп</marker></example>
-    <example type="untouched">солідний коп</example>
   </rule>
 
   <rule name="Відокремлені форманти з дефісом" id="words_cut_with_hyphen">
@@ -5317,6 +6064,10 @@
 
   <rule name="Розмовні форми інфінітиву" id="verb_inf_short_1">
     <antipattern>
+      <token regexp="yes">для|заради|ради</token>
+      <token postag_regexp="yes" postag="verb.*?:inf.*:short.*"/>
+    </antipattern>
+    <antipattern>
       <token regexp="yes" inflected="yes" postag_regexp="yes" postag="verb.*|.*predic.*|adj:.:v_naz.*">треба|можна|повинно|мусити|мати|з?могти|с?хотіти|довестися|бажати|стати|наважитися|довестися|повинний|ладний|бути|варто|годі</token>
       <token min="0"/>
       <token postag_regexp="yes" postag="verb.*?:inf.*:short.*"/>
@@ -5345,6 +6096,7 @@
     <example type="untouched">має знаходиться</example>
     <example type="untouched">повинні знаходиться</example>
     <example type="untouched">писать</example>
+    <example type="untouched">для годиться</example>
   </rule>
 
   <rule name="Права - іменник" id="prava_noun">
@@ -5416,48 +6168,6 @@
         inputform="1.14[1.14/time]" 
         outputform="1.14[1.14]">Рис. <marker>1.14</marker>.</example>
     <example type="untouched">о 1.15</example>
-  </rule>
-
-  <rule name="Мету - іменник" id="metu_noun">
-    <pattern>
-      <token>мету
-        <exception scope="previous">я</exception>
-      </token>
-    </pattern>
-    <disambig action="remove" postag="verb.*"/>
-    <example type="ambiguous" 
-        inputform="мету[мести/verb:imperf:pres:s:1,мета/noun:inanim:f:v_zna]" 
-        outputform="мету[мета/noun:inanim:f:v_zna]">за <marker>мету</marker>.</example>
-    <example type="untouched">Я мету.</example>
-  </rule>
-
-  <rule name="одяг - іменник" id="odyag_noun">
-    <pattern>
-      <token>одяг
-        <exception scope="previous">він</exception>
-        <exception scope="previous" postag_regexp="yes" postag="noun:anim:m:v_naz.*"/>
-      </token>
-    </pattern>
-    <disambig action="remove" postag="verb.*"/>
-    <example type="ambiguous" 
-        inputform="одяг[одяг/noun:inanim:m:v_naz,одяг/noun:inanim:m:v_zna,одягти/verb:perf:past:m]" 
-        outputform="одяг[одяг/noun:inanim:m:v_naz,одяг/noun:inanim:m:v_zna]">і <marker>одяг</marker>.</example>
-    <example type="untouched">Він одяг пальто.</example>
-  </rule>
-
-
-  <rule name="Назву - іменник" id="nazvu_noun">
-    <pattern>
-      <token postag_regexp="yes" postag="verb.*|adj:f:v_zna:rianim.*|prep.*"/>
-      <marker>
-        <token>назву</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:f:v_zna.*"/>
-    <example type="ambiguous" 
-        inputform="назву[назва/noun:inanim:f:v_zna,назвати/verb:perf:futr:s:1]" 
-        outputform="назву[назва/noun:inanim:f:v_zna]">мав <marker>назву</marker>.</example>
-    <example type="untouched">я назву два з них</example>
   </rule>
 
 
@@ -5701,63 +6411,6 @@
     <example type="untouched">податкова накладна</example>
   </rule>
 
-  <rule name="присл і прикм с.р." id="adv_adj_n_krasche">
-    <antipattern>
-      <token postag_regexp="yes" postag="prep.*"/>
-      <token postag_regexp="yes" postag="adj.*" regexp="yes">.*краще</token>
-    </antipattern>
-    <pattern>
-      <marker>
-        <and>
-          <token postag_regexp="yes" postag="adv.*" regexp="yes">.*краще</token>
-          <token postag_regexp="yes" postag="adj:n.*" inflected="yes" regexp="yes">.*кращий</token>
-        </and>
-      </marker>
-      <token postag_regexp="yes" postag="verb.*"/>
-    </pattern>
-    <disambig action="filter" postag="adv.*" />
-    <example type="ambiguous"
-        inputform="найкраще[найкраще/adv:comps:&amp;predic,найкращий/adj:n:v_kly:comps,найкращий/adj:n:v_naz:comps,найкращий/adj:n:v_zna:comps]"
-        outputform="найкраще[найкраще/adv:comps:&amp;predic]">І <marker>найкраще</marker> буде поїхати зараз.</example>
-    <example type="untouched">найкраще село</example>
-    <example type="untouched">краще національне життя</example>
-    <example type="untouched">за краще брати</example>
-  </rule>
-
-  <rule name="присл і прикм с.р." id="adv_adj_n_ranishe">
-    <antipattern>
-      <token regexp="yes">раніше|вище|дальше</token>
-      <token postag_regexp="yes" postag="adj:n:v_(naz|zna:rinanim).*" min="0">
-        <exception postag_regexp="yes" postag=".*pron.*"/>
-      </token>
-      <token postag_regexp="yes" postag="noun:inanim:n:v_(naz|zna).*">
-        <exception postag_regexp="yes" postag=".*pron.*"/>
-      </token>
-    </antipattern>
-    <pattern>
-      <marker>
-        <and>
-          <token postag_regexp="yes" postag="adv.*" regexp="yes">раніше|вище|дальше</token>
-          <token postag_regexp="yes" postag="adj:n.*" inflected="yes" regexp="yes">раніший|вищий|дальший</token>
-        </and>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="adj:n:.*" />
-    <example type="ambiguous"
-        inputform="раніше[раніше/adv:compc:&amp;predic,раніше/prep,раніший/adj:n:v_kly:compc,раніший/adj:n:v_naz:compc,раніший/adj:n:v_zna:compc]"
-        outputform="раніше[раніше/adv:compc:&amp;predic,раніше/prep]">І <marker>раніше</marker> поїхати.</example>
-    <example type="ambiguous"
-        inputform="раніше[раніше/adv:compc:&amp;predic,раніше/prep,раніший/adj:n:v_kly:compc,раніший/adj:n:v_naz:compc,раніший/adj:n:v_zna:compc]"
-        outputform="раніше[раніше/adv:compc:&amp;predic,раніше/prep]">І <marker>раніше</marker> бозна-що було.</example>
-    <example type="ambiguous"
-        inputform="дальше[дальше/adv:compc:arch,дальший/adj:n:v_kly:compc,дальший/adj:n:v_naz:compc,дальший/adj:n:v_zna:compc]"
-        outputform="дальше[дальше/adv:compc:arch]">як жити <marker>дальше</marker>.</example>
-    <example type="untouched">а раніше заняття</example>
-    <example type="untouched">вище досягнення</example>
-    <example type="untouched">вище російське начальство</example>
-    <example type="untouched">дальше навчання</example>
-  </rule>
-
   <rule name="Візит" id="vizyt">
     <pattern>
       <unify>
@@ -5930,6 +6583,7 @@
     <example type="untouched">суворо оглядів</example>
   </rule>
 
+<!--
   <rule name="так - conj" id="tak_conj">
     <pattern>
       <token>,</token>
@@ -5944,7 +6598,9 @@
       outputform="так[так/conj:coord]">, <marker>так</marker> і для нього.
     </example>
     <example type="untouched">Так тобі й треба</example>
+    <example type="untouched">помер, так і не приходячи до тями</example>
   </rule>
+-->
 
   <rule name="так - adv" id="tak_adv">
     <pattern>
@@ -6112,9 +6768,46 @@
     <example type="untouched">і буду стало тут проживати</example>
   </rule>
 
+  <rule name="стала - іменник" id="stalа_noun">
+    <pattern>
+      <marker>
+        <token>стала</token>
+      </marker>
+      <token regexp="yes">Планка|Больцмана|Ейлера</token>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+      inputform="стала[стала/noun:inanim:f:v_naz,сталий/adj:f:v_kly:compb,сталий/adj:f:v_naz:compb,стати/verb:perf:past:f]"
+      outputform="стала[стала/noun:inanim:f:v_naz]">є <marker>стала</marker> Планка
+    </example>
+    <example type="untouched">змінна коефіцієнту стала.</example>
+  </rule>
+
   <rule name="стала - дієслово" id="stalа_verb1">
     <pattern>
-      <token postag_regexp="yes" postag="noun.*v_naz.*"/>
+      <token postag_regexp="yes" postag="noun.*:f:v_naz.*"/>
+      <marker>
+        <token>стала</token>
+      </marker>
+      <token min="0">б</token>
+      <token min="0" postag_regexp="yes" postag="adv.*"/>
+      <token postag_regexp="yes" postag=".*v_oru.*|adj:f:v_naz.*"/>
+    </pattern>
+    <disambig action="filter" postag="verb.*"/>
+    <example type="ambiguous"
+      inputform="стала[стала/noun:inanim:f:v_naz,сталий/adj:f:v_naz:compb,стати/verb:perf:past:f]"
+      outputform="стала[стати/verb:perf:past:f]">Українізація <marker>стала</marker> б дуже українським
+    </example>
+    <example type="ambiguous"
+      inputform="стала[стала/noun:inanim:f:v_naz,сталий/adj:f:v_naz:compb,стати/verb:perf:past:f]"
+      outputform="стала[стати/verb:perf:past:f]">галузь <marker>стала</marker> політизована
+    </example>
+    <example type="untouched">змінна коефіцієнту стала.</example>
+  </rule>
+
+  <rule name="стала - дієслово" id="stalа_verb2">
+    <pattern>
+      <token regexp="yes">,|яка|що|і|й|та</token>
       <marker>
         <token>стала</token>
       </marker>
@@ -6124,10 +6817,10 @@
     </pattern>
     <disambig action="filter" postag="verb.*"/>
     <example type="ambiguous"
-      inputform="стала[стала/noun:inanim:f:v_naz,сталий/adj:f:v_naz:compb,стати/verb:perf:past:f]"
-      outputform="стала[стати/verb:perf:past:f]">Українізація <marker>стала</marker> б дуже українським
+      inputform="стала[стала/noun:inanim:f:v_naz,сталий/adj:f:v_kly:compb,сталий/adj:f:v_naz:compb,стати/verb:perf:past:f]"
+      outputform="стала[стати/verb:perf:past:f]">, <marker>стала</marker> найперспективнішим джерелом
     </example>
-    <example type="untouched">змінна коефіцієнту стала.</example>
+    <example type="untouched">змінна коефіцієнту - стала.</example>
   </rule>
 
   <rule name="уряд - іменник" id="uryad_noun1">
@@ -6318,7 +7011,9 @@
           <exception scope="previous" postag_regexp="yes" postag="adj:f:v_rod.*|prep.*"/>
         </token>
       </marker>
-      <token postag_regexp="yes" postag="noun:anim:p:v_naz(?!.*(pron|prop)).*" />
+      <token postag_regexp="yes" postag="noun:anim:p:v_naz(?!.*(pron|prop)).*" >
+        <exception postag_regexp="yes" postag="verb.*:p(:.*|$)" />
+      </token>
     </pattern>
     <disambig action="filter" postag="adj:p:v_naz.*"/>
     <example type="ambiguous"
@@ -6327,6 +7022,7 @@
     </example>
     <example type="untouched">до такої молоді чоловіки</example>
     <example type="untouched">На II Безпековому форумі для молоді експерти</example>
+    <example type="untouched">щоб молоді жили щасливо</example>
   </rule>
 
   <rule name="молоді - іменник ж.р." id="molodi_noun_f_1">
@@ -6409,56 +7105,5 @@
     <example type="untouched">качка і холод</example>
   </rule>
  -->
-<!--
-  <rule name="займ: прикметник+іменник" id="pronoun_adj_noun">
-    <pattern>
-      <marker>
-        <and>
-          <token postag_regexp="yes" postag="noun.*pron.*"/>
-          <token postag_regexp="yes" postag="adj.*pron.*"/>
-        </and>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun.*pron.*"></disambig>
-    <example type="ambiguous"
-        inputform="1"
-        outputform="2">і <marker>усі</marker> майдани.</example>
-    <example type="untouched">весь</example>
-  </rule>
--->
 
-  <!--
-  <rule name="Розмовні форми інфінітиву (лишити)" id="VERB_INF_COLL_LEAVE">
-    <pattern>
-      <token></token>
-      <marker>
-          <and>
-      <token postag_regexp="yes" postag="verb.*:inf.*:short.*"/>
-      <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf.*:short.*"/>
-          </and>
-      </marker>
-    </pattern>
-    <disambig postag="verb.*:inf.*:short.*"/>
-    <example type="ambiguous" 
-        inputform="довірять[довіряти/verb:imperf:inf:short,довірити verb:perf:futr:p:3]" 
-        outputform="довірять[довіряти/verb:imperf:inf:short]">воно повинно <marker>довірять</marker>.</example>
-    <example type="untouched">Він поїхав гулять.</example>
-    <example type="untouched">Дурити не гарно.</example>
-  </rule>
-
-  <rule name="Розмовні форми інфінітиву (прибрати)" id="VERB_INF_COLL_REMOVE">
-    <pattern>
-          <and>
-      <token postag_regexp="yes" postag="verb.*:inf.*:short.*"/>
-      <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf.*:short.*"/>
-          </and>
-    </pattern>
-    <disambig action="remove" postag="verb.*:inf.*:short.*"/>
-    <example type="ambiguous" 
-        inputform="бурить[бурити/verb:imperf:inf:short,бурити/verb:imperf:pres:s:3]" 
-        outputform="бурить[бурити/verb:imperf:pres:s:3]">Він <marker>бурить</marker>.</example>
-    <example type="untouched">Він поїхав гулять.</example>
-    <example type="untouched">Дурити не гарно.</example>
-  </rule>
-  -->
 </rules>

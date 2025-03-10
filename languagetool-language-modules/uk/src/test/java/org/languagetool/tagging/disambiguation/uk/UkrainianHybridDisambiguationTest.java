@@ -66,8 +66,8 @@ public class UkrainianHybridDisambiguationTest {
   public void testDisambiguator() throws IOException {
 
     TestTools.myAssert("Танцювати до впаду", 
-      "/[null]SENT_START Танцювати/[танцювати]verb:imperf:inf  /[null]null до/[до впаду]<adv>|до/[до]prep  /[null]null " +
-      "впаду/[впад]noun:inanim:m:v_dav|впаду/[впад]noun:inanim:m:v_rod|впаду/[впасти]verb:perf:futr:s:1:xp2|впаду/[до впаду]<adv>",
+      "/[null]SENT_START Танцювати/[танцювати]verb:imperf:inf  /[null]null до/[до]prep  /[null]null " +
+      "впаду/[впад]noun:inanim:m:v_dav|впаду/[впад]noun:inanim:m:v_rod|впаду/[впасти]verb:perf:futr:s:1:xp2",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     TestTools.myAssert("Прийшла Люба додому.", 
@@ -238,10 +238,11 @@ public class UkrainianHybridDisambiguationTest {
         + "  /[null]null Андрії/[Андрій]noun:anim:p:v_naz:prop:fname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
-    TestTools.myAssert("Юріїв Луценків",
-        "/[null]SENT_START Юріїв/[Юрій]noun:anim:p:v_rod:prop:fname|Юріїв/[Юрій]noun:anim:p:v_zna:prop:fname"
-        + "  /[null]null Луценків/[Луценки]noun:inanim:p:v_rod:ns:prop:geo|Луценків/[Луценко]noun:anim:p:v_rod:prop:lname|Луценків/[Луценко]noun:anim:p:v_zna:prop:lname",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
+// pluarl names are rare and create FP for "Романи Крісті наповнені інтригою"
+//    TestTools.myAssert("Юріїв Луценків",
+//        "/[null]SENT_START Юріїв/[Юрій]noun:anim:p:v_rod:prop:fname|Юріїв/[Юрій]noun:anim:p:v_zna:prop:fname"
+//        + "  /[null]null Луценків/[Луценки]noun:inanim:p:v_rod:ns:prop:geo|Луценків/[Луценко]noun:anim:p:v_rod:prop:lname|Луценків/[Луценко]noun:anim:p:v_zna:prop:lname",
+//        tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("Всіляких Фрейдів",
         "/[null]SENT_START Всіляких/[всілякий]adj:p:v_rod:&pron:gen|Всіляких/[всілякий]adj:p:v_zna:ranim:&pron:gen"
@@ -264,7 +265,7 @@ public class UkrainianHybridDisambiguationTest {
     TestTools.myAssert("Леонідів Кравчука та Кучму",
         "/[null]SENT_START Леонідів/[Леонід]noun:anim:p:v_rod:prop:fname|Леонідів/[Леонід]noun:anim:p:v_zna:prop:fname|Леонідів/[Леонідів]adj:m:v_kly|Леонідів/[Леонідів]adj:m:v_naz|Леонідів/[Леонідів]adj:m:v_zna:rinanim"
         + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname|Кравчука/[кравчук]noun:anim:m:v_rod|Кравчука/[кравчук]noun:anim:m:v_zna"
-        + "  /[null]null та/[та]conj:coord|та/[та]part  /[null]null Кучму/[Кучма]noun:anim:m:v_zna:prop:lname",
+        + "  /[null]null та/[та]conj:coord|та/[та]part|та/[той]adj:f:v_naz:&pron:dem  /[null]null Кучму/[Кучма]noun:anim:m:v_zna:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("молодшого з Вікторів",
@@ -594,14 +595,6 @@ public class UkrainianHybridDisambiguationTest {
     
     assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
     assertTrue(tokens[4].getReadings().toString().contains("<adv>"));
-
-    analyzedSentence = lt.getAnalyzedSentence("на його думку");
-    disambiguated = chunker.disambiguate(analyzedSentence);
-    tokens = disambiguated.getTokens();
-    
-    assertTrue(tokens[1].getReadings().toString().contains("<insert>"));
-    assertTrue(tokens[3].getReadings().toString().contains("<insert>"));
-    assertTrue(tokens[5].getReadings().toString().contains("<insert>"));
   }
 
   
