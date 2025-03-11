@@ -122,6 +122,7 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("станом на зараз виконавча влада");
 
     assertEmptyMatch("в тисяча шістсот якомусь році");
+    assertEmptyMatch("на Піп Іван");
 
 //    assertEmptyMatch("Імена від Андрій до Юрій");  // називний між від і до рідко зустрічається але такий виняток ховає багато помилок 
 
@@ -380,6 +381,8 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     assertHasError("це нас для дуже велика сума");
 
     assertEmptyMatch("для якої з мов воно первинне");
+
+    assertEmptyMatch("об'єктивності заради слід зазначити");
 
     assertHasError("у дуже обмеженим рамках");
 

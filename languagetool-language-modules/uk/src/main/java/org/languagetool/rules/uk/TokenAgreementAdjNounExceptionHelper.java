@@ -97,6 +97,13 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    if( adjPos > 1
+        && tokens[adjPos].getCleanToken().matches("(?iu)середньому|цілому|основному|подальшому")
+        && tokens[adjPos-1].getCleanToken().matches("(?iu)[ву]") ) {
+      logException();
+      return true;
+    }
+
     if( LemmaHelper.hasLemma(tokens[adjPos], Arrays.asList("бережений"), Pattern.compile("adj:m:v_rod.*") )
         && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("бог"), Pattern.compile("noun:anim:m:v_naz.*") )) {
       logException();

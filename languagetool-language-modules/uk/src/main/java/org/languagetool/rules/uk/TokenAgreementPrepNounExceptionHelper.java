@@ -58,11 +58,30 @@ public class TokenAgreementPrepNounExceptionHelper {
         return new RuleException(Type.exception);
       }
 
+      if( tokenLower.matches("ти|ви") ) {
+        return new RuleException(Type.exception);
+      }
+
+      // на Піп Іван
+      if( i < tokens.length - 1
+          && token.equals("Піп")
+          && tokens[i+1].getCleanToken().equals("Іван") ) {
+        return new RuleException(Type.exception);
+      }
+
       // handled by xml rule
-      if( token.equals("манер") ) {
+      if( tokenLower.equals("манер") ) {
         return new RuleException(Type.exception);
       }
     }
+
+    // справедливості заради слід зазначити
+    if( state.prepPos > 1 && prep.equals("заради") ) {
+      if( tokens[state.prepPos-1].getCleanToken().matches("(?iu)справедливості|об.єктивності") ) {
+        return new RuleException(Type.exception);
+      }
+    }
+
 
     // TODO: temporary until we have better logic - skip
     // при їх виборі

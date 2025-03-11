@@ -298,7 +298,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("хай-но", "хай-но/[хай]part", tokenizer, tagger);
     TestTools.myAssert("бачиш-но", "бачиш-но/[бачити]verb:imperf:pres:s:2:&insert", tokenizer, tagger);
     
-    TestTools.myAssert("той-таки", "той-таки/[той]adj:m:v_naz:&pron:dem|той-таки/[той]adj:m:v_zna:rinanim:&pron:dem", tokenizer, tagger);
+    TestTools.myAssert("той-таки", "той-таки/[той]adj:m:v_naz:&pron:dem|той-таки/[той]adj:m:v_zna:rinanim:&pron:dem|той-таки/[той]part", tokenizer, tagger);
     TestTools.myAssert("буде-таки", "буде-таки/[бути]verb:imperf:futr:s:3", tokenizer, tagger);
     TestTools.myAssert("там-таки", "там-таки/[там]adv:&pron:dem|там-таки/[там]part", tokenizer, tagger);
     TestTools.myAssert("зразу-таки", "зразу-таки/[зразу]adv", tokenizer, tagger);
