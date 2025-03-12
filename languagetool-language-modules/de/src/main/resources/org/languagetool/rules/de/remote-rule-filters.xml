@@ -2447,7 +2447,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token regexp="yes">[0-9]+</token>
                         <token>.</token>
-                        <token regexp="yes">[0-9]{2}|–</token>
+                        <token regexp="yes">[0-9]{1,2}|–</token>
                     </marker>
                     <token regexp="yes">CHF|s?Fr\.?|Franken?|Schweizerfranken?|Schwiizerfranken?|Rappen?|Rp\.?|JPY|Yen|¥</token>
                 </pattern>
@@ -2602,7 +2602,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" />
                     <token>
-                        <exception regexp="yes">.*[a-z0-9].*</token>
+                        <exception regexp="yes">.*[a-z0-9].*</exception>
                     </token>
                     <marker>
                         <token regexp="yes">[a-z][A-Z]{2,6}|[a-z][A-Z]{2,6}\-[A-Z].*</token>
