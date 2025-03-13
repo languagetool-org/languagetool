@@ -198,8 +198,7 @@ public class German extends LanguageWithModel {
             new GermanRepeatedWordsRule(messages),
             new StyleTooOftenUsedVerbRule(messages, this, userConfig),
             new StyleTooOftenUsedNounRule(messages, this, userConfig),
-            new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig),
-            new BorderNumberRule(messages, this)
+            new StyleTooOftenUsedAdjectiveRule(messages, this, userConfig)
     );
   }
 
