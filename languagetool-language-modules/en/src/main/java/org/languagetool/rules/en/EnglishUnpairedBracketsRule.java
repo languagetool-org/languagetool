@@ -42,12 +42,8 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   public EnglishUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, EN_START_SYMBOLS, EN_END_SYMBOLS);
     setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-parentheses"));
-/*
-    addExamplePair(Example.wrong("\"I'm over here,<marker></marker> she said."),
-        Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
-*/
     addExamplePair(Example.wrong("He lived in a <marker>(</marker>large house."),
-        Example.fixed("He lived in a <marker>(</marker>large) house."));
+        Example.fixed("He lived in a <marker>(</marker>large<marker>)</marker> house."));
   }
 
   @Override
