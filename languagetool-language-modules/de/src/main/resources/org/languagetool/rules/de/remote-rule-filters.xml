@@ -2987,7 +2987,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION_COMMA" name="">
-            <rule>
+            <rule><!--gGEC wants to remove the comma-->
                 <pattern>
                     <token regexp="yes">Gerne?</token>
                     <marker>
@@ -2998,9 +2998,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes">freu[e'’´`]?n</token>
                 </pattern>
                 <example correction="">Gerne<marker>,</marker> würde mich freuen.</example>
-                <!--gGEC wants to remove the comma-->
             </rule>
-            <rule>
+            <rule><!--gGEC wants to remove the comma-->
                 <pattern>
                     <token postag="SUB.*" postag_regexp="yes" />
                     <marker>
@@ -3010,7 +3009,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes">und|sowie|,</token>
                 </pattern>
                 <example correction="">Schnell und unkompliziert lassen sich Kinder<marker>,</marker> Einkäufe und sperrige Gegenstände befördern, ohne auch nur einen Pfennig für Sprit auszugeben.</example>
-                <!--gGEC wants to remove the comma-->
+            </rule>
+            <rule><!--gGEC wants to remove the comma-->
+                <pattern>
+                    <token spacebefore="no">,</token>
+                    <token skip="-1">um</token>
+                    <token postag="VER:EIZ:SFT|VER:INF:SFT" postag_regexp="yes" />
+                    <marker>
+                        <token spacebefore="no">,</token>
+                    </marker>
+                    <token regexp="yes">und|oder</token>
+                    <token postag="VER:3:PLU.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Sie sind notwendig, um den Text logisch zu strukturieren<marker>,</marker> und helfen dem Leser, deiner Handlung zu folgen.</example>
             </rule>
         </rulegroup>
 
