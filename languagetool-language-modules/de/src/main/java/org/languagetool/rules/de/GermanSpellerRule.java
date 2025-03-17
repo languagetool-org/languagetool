@@ -1372,6 +1372,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("unterscheid", "Unterschied");
     put("mags", "mag es");
     put("abzügl", "abzgl");
+    put("as", "das");
     put("gefielts", "gefielt es");
     put("gefiels", "gefielt es");
     put("gefällts", "gefällt es");

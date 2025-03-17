@@ -2445,13 +2445,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule><!--14-->
                 <pattern>
                     <marker>
-                        <token regexp="yes">[0-9].+</token>
+                        <token regexp="yes">[0-9]+</token>
                         <token>.</token>
-                        <token regexp="yes">[0-9]{2}|–</token>
+                        <token regexp="yes">[0-9]{1,2}|–</token>
                     </marker>
                     <token regexp="yes">CHF|s?Fr\.?|Franken?|Schweizerfranken?|Schwiizerfranken?|Rappen?|Rp\.?|JPY|Yen|¥</token>
                 </pattern>
                 <example correction="">Es kostet <marker>11.90</marker> Franken pro Jahr.</example>
+                <example correction="">Es kostet <marker>5.50</marker> Fr. pro Jahr.</example>
             </rule>
             <rule><!--15-->
                 <pattern>
@@ -2596,6 +2597,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction=""><marker>mRNA-Impfstoffe</marker> sind wichtig.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <token>
+                        <exception regexp="yes">.*[a-z0-9].*</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">[a-z][A-Z]{2,6}|[a-z][A-Z]{2,6}\-[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">* <marker>mRNA-Impfstoffe</marker> sind wichtig.</example>
             </rule>
         </rulegroup>
 
