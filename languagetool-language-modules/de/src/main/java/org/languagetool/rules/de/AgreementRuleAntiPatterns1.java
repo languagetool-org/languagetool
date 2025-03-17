@@ -114,6 +114,11 @@ class AgreementRuleAntiPatterns1 {
       token("Grund")
     ),
     asList(
+      token("bisschen"),   // "Für schwangere Frauen gelten wohl ein bisschen strengere Einschränkungen."
+      posRegex("ADJ.*"),
+      posRegex("SUB.*PLU.*")
+      ),
+    asList(
       tokenRegex("der|die|den"),   // "Ein Haus für die weniger Glücklichen."
       tokenRegex("weniger|besser|mehr|schlechter"),
       posRegex("SUB:.*PLU:.*:ADJ")
