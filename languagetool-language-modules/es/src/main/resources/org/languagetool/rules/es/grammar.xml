@@ -26751,6 +26751,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="ASIENDO_HACIENDO" name="asiendo -> haciendo" default="temp_off">
+            <pattern>
+                <token postag="V.G.*" postag_regexp="yes" inflected="yes">asir</token>
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="1" postag_regexp="yes" postag="(V.G.*)" postag_replace="$1">hacer</match></suggestion> (del verbo 'hacer')? "<match no="1" case_conversion="firstupper"/>" es una forma del verbo 'asir'.</message>
+            <example correction="haciendo">Estoy <marker>asiendo</marker> los deberes.</example>
+            <example correction="haciéndolos">Me divierto mucho <marker>asiéndolos</marker>.</example>
+        </rule>
         <rule id="ETA_ESTA" name="eta -> esta, esa">
             <pattern>
                 <marker>
