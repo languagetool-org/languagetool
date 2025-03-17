@@ -11085,6 +11085,34 @@ USA
     <category id='OBJECTIVE' name='Linguagem objetiva' type='style' tone_tags="objective">
 
 
+        <rule id='MAGOADO_RESSENTIDO' name="Magoado → ressentido" tone_tags='objective' default='temp_off'>
+            <!-- Used ChatGPT 4.5 with Deep research -->
+
+            <antipattern> <!-- Removes sentences that don't match ChatGPT's suggested words but keeps proper names -->
+                <token inflected='yes'>magoar</token>
+                <token regexp='yes'>com|em|contra|da</token>
+                <token min='0' max='1'>relação</token>
+                <token skip='2' regexp='yes'>às?|aos?|[ao]s?</token>
+                <token postag_regexp='yes' postag='NC.+'>
+                    <exception regexp='yes' inflected='yes'>pai|irmão|filho|marido|namorado|amigo|chefe|patrão|colega|professor|sogro|vizinho|governo|sistema|mundo|país|destino|passado|resultado|desfecho|acontecimento|acidente|incidente|problema|fracasso|erro|tratamento|comportamento|descaso|desprezo|abandono|silêncio|racismo|preconceito|trabalho|time|desrespeito|egoísmo|desdém|vida|situação|decisão|escolha|atitude|conduta|injustiça|humilhação|traição|mentira|ofensa|provocação|piada|brincadeira|ingratidão|indiferença|negligência|demora|rejeição|exclusão|discriminação|violência|guerra|corrupção|sociedade|política|família|empresa|instituição|organização|escola|faculdade|cidade|infância|juventude|criação|perda|morte|demissão|punição|chefia|torcida|hipocrisia|falsidade|grosseria|justiça|imprensa</exception>
+                </token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected='yes'>magoar</token>
+                </marker>
+                <token regexp='yes'>com|em|contra|da</token>
+                <token min='0' max='1'>relação</token>
+                <token skip='2' regexp='yes'>às?|aos?|[ao]s?</token>
+                <token postag_regexp='yes' postag='N.+'/>
+            </pattern>
+            <message>Prefira &quot;ressentido&quot; (rancor duradouro) em vez de &quot;magoado&quot; (dor momentânea).</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ressentir</match></suggestion>
+            <example correction="ressentido">Estou <marker>magoado</marker> com a Ana.</example>
+            <example>Estou ressentido com a vida.</example>
+        </rule>
+
+
         <rule id='PAÍSES_DO_TERCEIRO_MUNDO' name="'aos/os países do terceiro mundo' → 'ao/o Terceiro Mundo'" tone_tags="objective">
             <pattern>
                 <marker>
