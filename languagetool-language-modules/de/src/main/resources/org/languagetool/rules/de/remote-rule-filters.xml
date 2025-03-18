@@ -3026,14 +3026,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_VERB_FORM" name="">
-            <rule>
+            <rule><!-- gGEC doesn't recognize conjunctive 1 and wants to change the verb form to indicative-->
                 <pattern>
                     <marker>
                         <token postag="VER:3:SIN:KJ1:NON"/>
                     </marker>
-                        <token postag="PRO:PER:NOM:SIN:FEM"/>
                 </pattern>
                 <example correction="">Selten <marker>nehme</marker> sie sich dafür Zeit, sagte sie.</example>
+                <example correction="">Es <marker>gehe</marker> darum, den Dax-Konzern „als feste Größe unter den erfolgreichen europäischen Banken zu etablieren“, sagte Commerzbank-Chefin Bettina Orlopp bei der Vorstellung der Strategie bis 2028 in Frankfurt.</example>
+                <example correction=""> Ohne eindeutigen Nachweis über eine vertragliche Zusatzvereinbarung zu den weiteren Arbeiten <marker>habe</marker> der Handwerksbetrieb keinen Anspruch auf weitere Vergütung.</example>
             </rule>
         </rulegroup>
 
