@@ -5244,7 +5244,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <marker>
                 <and>
                     <token postag="JJ|VBG" postag_regexp="yes">
-                        <exception regexp="yes">animal|woman|head|body|work|material|business|power|mainline|through|mean|frontline|center|centre|state|runtime|size|budget|regulation|turnover|utility|key|assault</exception>
+                        <exception regexp="yes">animal|woman|head|assistant|body|work|material|business|power|mainline|through|mean|frontline|center|centre|state|runtime|size|budget|regulation|turnover|utility|key|assault</exception>
                         <exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"/>
                     </token>
                     <token postag_regexp="yes" postag="VBP"/>
@@ -5499,7 +5499,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception postag="RB"/>
                 <exception regexp="yes">trading|training|meeting</exception>
                 <exception regexp="yes">being|one</exception>
-                <exception regexp="yes">animal|woman|head|business|work|power|material|body|mainline|through|mean|frontline|center|centre|state|runtime|size|budget|regulation|turnover|utility|key|assault|time|cavalier</exception>
+                <exception regexp="yes">animal|woman|head|business|assistant|work|power|material|body|mainline|through|mean|frontline|center|centre|state|runtime|size|budget|regulation|turnover|utility|key|assault|time|cavalier</exception>
             </token>
             <marker>
                 <and>
@@ -7469,6 +7469,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
+        <antipattern>
+            <token>what</token>
+            <token postag="VBP" />
+            <token postag="PRP_O.*" postag_regexp="yes" />
+        </antipattern>
         <antipattern> <!-- It sound's too good -->
             <token regexp="yes" case_sensitive="yes">[Ii]t|[Ss]he|[Hh]e</token>
             <token postag="RB" min="0" />
@@ -10387,12 +10392,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN|NN:UN?" postag_regexp="yes" />
             <token>demands</token>
         </antipattern>
+        <antipattern>
+            <token postag="NN|NN:UN?" postag_regexp="yes" chunk_re=".-NP.*" />
+            <token postag="NN|NN:UN?" postag_regexp="yes" chunk_re=".-NP.*" />
+            <token postag="VBZ" />
+            <token postag="PRP_O.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="JJ">
                 <exception scope="previous" regexp="yes">s?he|it</exception>
                 <exception postag_regexp="yes" postag="RB|NNP|ORD|UH"/>
                 <exception scope="previous" postag="JJ.*" postag_regexp="yes"/>
-                <exception regexp="yes">body|woman|summer|work</exception>
+                <exception regexp="yes">body|woman|business|assistant|head|summer|work</exception>
             </token>
             <marker>
                 <and>
@@ -10417,6 +10428,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Tom wishes that were true.</example>
         <example type="untouched">The public demands answers.</example>
         <example type="untouched">That all sounds reasonable.</example>
+        <example type="untouched">Click Pay offers you a free and easy way to pay your NextCard bill online 24 hours a day.</example>
         <example type="untouched">In fact, on several occasions, he suggested that capping energy prices might result in even more blackouts as summer approaches.</example>
         <example type="untouched">The life of an ant starts from an egg.</example>
         <example type="untouched">Verb. This component<marker>parts</marker> the wires automatically.</example>
