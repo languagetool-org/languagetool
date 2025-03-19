@@ -3005,6 +3005,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
+    } else if (word.contains("farbend")) { //steinfarbenden, schwarzfarbenden, kupferfarbenden etc.
+      suggestion = word.replace("farbend", "farben");
+      if (hunspell.spell(suggestion)) {
+        return singletonList(suggestion);
+      }
     } else if (word.contains("uess")) {
       suggestion = word.replace("uess", "üß");
       if (hunspell.spell(suggestion)) {

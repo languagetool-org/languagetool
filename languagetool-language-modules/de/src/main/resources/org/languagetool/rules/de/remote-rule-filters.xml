@@ -2782,6 +2782,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Wir haben so <marker>eine</marker> Art Chicken-Egg-Problem.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                    <token min="0" postag_regexp="yes" postag="ADJ.*|PA[12].*"/>
+                    <token>Osterei</token>
+                </pattern>
+                <example correction="">Die kleine Maria legt <marker>das</marker> gefundene Osterei in ihren Korb.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION__" name="">
@@ -3029,7 +3039,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule><!-- gGEC doesn't recognize conjunctive 1 and wants to change the verb form to indicative-->
                 <pattern>
                     <marker>
-                        <token postag="VER:3:SIN:KJ1:NON"/>
+                        <token postag="VER:3:SIN:KJ1:NON|VER:AUX:1:SIN:KJ1|VER:AUX:1:SIN:PRÄ|VER:AUX:3:SIN:KJ1|VER:AUX:IMP:SIN|VER:IMP:SIN:NON" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <example correction="">Selten <marker>nehme</marker> sie sich dafür Zeit, sagte sie.</example>
