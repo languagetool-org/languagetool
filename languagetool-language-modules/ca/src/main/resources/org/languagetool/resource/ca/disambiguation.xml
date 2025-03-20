@@ -8812,6 +8812,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rule id="nous_nomsing" name="nous + nom singular (error!)">
+        <pattern>
+            <marker>
+                <token postag="AQ0MP0">nous</token>
+            </marker>
+            <token postag="N..S.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="AQ0MP0"/>
+    </rule>
     <rule id="les_nou" name="les nou i">
         <pattern>
             <token>les</token>
@@ -18192,6 +18201,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <!-- Durant el període medieval gremis d'artesans -->
         <rule>
+            <antipattern>
+                <!-- adjectiu anteposat amb certesa, amb possible error de concordança -->
+                <token inflected="yes" regexp="yes">nou|bo|gran</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <unify>
                     <feature id="genere"/>
