@@ -142,7 +142,9 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
   public void testRuleTN() throws IOException {
 
     assertEmptyMatch("вкрадено державою");
-    
+
+    assertEmptyMatch("я буду каву");
+
     // case govt
 
     assertEmptyMatch("спроєктувати проект");

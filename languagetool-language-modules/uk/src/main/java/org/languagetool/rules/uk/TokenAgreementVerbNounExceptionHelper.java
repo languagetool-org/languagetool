@@ -95,6 +95,15 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true; 
     }
 
+    // я буду каву
+    if( verbPos > 1
+        && tokens[verbPos-1].getCleanToken().toLowerCase().equals("я")
+        && tokens[verbPos].getCleanToken().toLowerCase().equals("буду")
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun:inanim:.:v_zna.*|adj:.:v_zna(?!:ranim).*")) ) {
+      logException();
+      return true; 
+    }
+
     // хоче маляром
     if( LemmaHelper.hasLemma(tokens[verbPos], "хотіти") 
         && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_oru") ) {
