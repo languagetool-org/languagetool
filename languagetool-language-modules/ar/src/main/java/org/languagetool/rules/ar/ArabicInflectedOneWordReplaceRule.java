@@ -55,7 +55,7 @@ public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule
                    Example.fixed("أجريت <marker>بحوثا</marker> في المخبر."));
 
     // get wrong words from resource file
-    wrongWords = getWrongWords();
+    wrongWords = getWrongWords(false);
   }
 
   @Override

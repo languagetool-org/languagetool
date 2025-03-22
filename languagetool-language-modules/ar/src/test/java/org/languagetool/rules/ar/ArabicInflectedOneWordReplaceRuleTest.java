@@ -10,7 +10,7 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+
 
 public class ArabicInflectedOneWordReplaceRuleTest {
   private ArabicInflectedOneWordReplaceRule rule;
@@ -29,8 +29,8 @@ public class ArabicInflectedOneWordReplaceRuleTest {
     assertCorrect("وجعل لكم من أزواجكم بنين وحفدة");
 
     // errors:
-    assertIncorrect("أجريت أبحاثا في المخبر");
-    assertIncorrect("وجعل لكم من أزواجكم بنين وأحفاد");
+    assertIncorrect("أجريت أبحاثا في المخبر", 2);
+    assertIncorrect("وجعل لكم من أزواجكم بنين وأحفاد", 5);
   }
 
   private void assertCorrect(String sentence) throws IOException {
@@ -38,9 +38,9 @@ public class ArabicInflectedOneWordReplaceRuleTest {
     assertEquals(0, matches.length);
   }
 
-  private void assertIncorrect(String sentence) throws IOException {
+  private void assertIncorrect(String sentence, int index) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
-    assertNotEquals(matches.length, 0);
+    assertEquals(index, matches.length);
   }
 
 }

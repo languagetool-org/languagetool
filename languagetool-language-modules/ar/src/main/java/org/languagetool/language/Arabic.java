@@ -125,11 +125,8 @@ public class Arabic extends LanguageWithModel {
       new ArabicRedundancyRule(messages),
       new ArabicWordCoherencyRule(messages),
       new ArabicWordinessRule(messages),
-      new ArabicWrongWordInContextRule(messages, this),
+      new ArabicWrongWordInContextRule(messages),
       new ArabicTransVerbRule(messages),
-      new ArabicTransVerbDirectToIndirectRule(messages),
-      new ArabicTransVerbIndirectToDirectRule(messages),
-      new ArabicTransVerbIndirectToIndirectRule(messages),
       new ArabicInflectedOneWordReplaceRule(messages)
     );
   }
