@@ -125,7 +125,6 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
 
   /* correct tags  */
-
   public String correctTag(String postag) {
     String mypostag = postag;
     if (postag == null) {
@@ -172,6 +171,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     }
     return correctStem;
   }
+  
 
   /**
    * @return set a new enclitic for the given word,
@@ -180,6 +180,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     List<String> wordlist = setEncliticMultiple(token, suffix);
     return wordlist.get(0);
   }
+  
 
   public List<String> setEncliticMultiple(AnalyzedToken token, String suffix) {
     // if the suffix is not empty
@@ -250,9 +251,10 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     }
     return wordlist;
   }
-
-  /**
-   * @return set a new procletic for the given word,
+  
+  
+  /* 
+   * generate a new form according to a specific postag, this form is Attached
    */
   public String setJarProcletic(AnalyzedToken token, String prefix) {
     // if the preffix is not empty
@@ -279,6 +281,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     }
     return setProcletic(token, prefix);
   }
+  
 
   /**
    * @return set a new procletic for the given word,
@@ -319,7 +322,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     }
     return prefix + stem + enclitic;
   }
-
+  
   /* generate a new form according to a specific postag, this form is Attached*/
   public List<String> inflectLemmaLike(String targetLemma, AnalyzedToken sourcetoken) {
     // make a token with the lemma
@@ -364,7 +367,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     List<String> resultWordlist = new ArrayList<String>(new HashSet<>(wordlist));
     return resultWordlist;
   }
-
+  
 
   /* genarate Mafoul Mutlaq from masdar */
   public static String inflectMafoulMutlq(String word) {
@@ -401,6 +404,77 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     }
     return newword;
   }
+  
+  
+  /**
+   * @return set a new procletic for the given word,
+   */
+  public String setJarProcletic(AnalyzedToken token, String prefix) {
+    // if the preffix is not empty
+    // save enclitic
+    // ajust postag to get synthesed words
+    // set procletic flags
+    // synthesis => lookup for stems with similar postag
+    // Add procletic and enclitic to stem
+    // return new word
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty())
+      return word;
+    // case of definate word:
+    // إضافة الجار إلى أل التعريف
+    if (tagmanager.isDefinite(postag)) {
+      if (prefix.equals("ل")) {
+        prefix += "ل";
+      } else {
+        //  if(prefprefix.equals("ب")||prefix.equals("ك"))
+        // case of Beh Jar, Kaf Jar, empty Jar
+        prefix += "ال";
+      }
+    }
+    return setProcletic(token, prefix);
+  }
+  
+
+  /**
+   * @return set a new procletic for the given word,
+   */
+  public String setProcletic(AnalyzedToken token, String prefix) {
+    // if the preffix is not empty
+    // save enclitic
+    // ajust postag to get synthesed words
+    // set procletic flags
+    // synthesis => lookup for stems with similar postag
+    // Add procletic and enclitic to stem
+    // return new word
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty()) {
+      return word;
+    }
+    // save enclitic
+    String enclitic = tagger.getEnclitic(token);
+    String newposTag = postag;
+    //remove procletics
+    newposTag = tagmanager.setProcleticFlags(newposTag);
+
+    // synthesis => lookup for stems with similar postag and has enclitic flag
+    String lemma = token.getLemma();
+    AnalyzedToken newToken = new AnalyzedToken(lemma, newposTag, lemma);
+    String[] newwordList = synthesize(newToken, newposTag);
+
+    String stem = "";
+    if (newwordList.length != 0) {
+      stem = newwordList[0];
+      if (tagmanager.hasPronoun(newposTag)) {
+        stem = stem.replaceAll("ه$", "");
+      }
+    } else {
+      // no word generated
+      stem = "(" + word + ")";
+    }
+    String newWord = prefix + stem + enclitic;
+    return newWord;
+  }
+
 }
-
-
