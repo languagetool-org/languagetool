@@ -23,6 +23,8 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PasswordAuthenticator;
 import org.languagetool.rules.patterns.bitext.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,6 +35,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 public final class Tools {
+  private static final Logger logger = LoggerFactory.getLogger(Tools.class); 
 
   private static LinguServices linguServices = null;
   
@@ -446,6 +449,13 @@ public final class Tools {
    */
   public static LinguServices getLinguisticServices() {
     return linguServices;
+  }
+
+  public static void setXmlLimits() {
+    logger.debug("Setting xml entity limits");
+    System.setProperty("jdk.xml.totalEntitySizeLimit", "0");
+    System.setProperty("jdk.xml.maxGeneralEntitySizeLimit", "0");
+    System.setProperty("jdk.xml.entityExpansionLimit", "0");
   }
   
 }

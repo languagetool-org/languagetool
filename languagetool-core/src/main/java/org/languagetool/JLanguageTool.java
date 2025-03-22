@@ -37,6 +37,7 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.LoggingTools;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.TelemetryProvider;
+import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -222,6 +223,10 @@ public class JLanguageTool {
 
   private static final List<File> temporaryFiles = new ArrayList<>();
 
+  static {
+    Tools.setXmlLimits();
+  }
+  
   /**
    * Create a JLanguageTool and setup the built-in rules for the
    * given language and false friend rules for the text language / mother tongue pair.

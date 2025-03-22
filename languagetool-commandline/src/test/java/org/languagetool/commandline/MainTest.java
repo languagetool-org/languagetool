@@ -23,15 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -42,7 +34,7 @@ import static org.junit.Assert.*;
  *
  * @author Marcin Miłkowski
  */
-public class MainTest extends AbstractSecurityTestCase {
+public class MainTest {
 
   private final File enTestFile;
   private final File xxRuleFile;
@@ -113,8 +105,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   @Before
-  public void setUp() throws Exception {
-    super.setUp();
+  public void setUp() {
     this.stdout = System.out;
     this.stderr = System.err;
     this.out = new ByteArrayOutputStream();
@@ -124,38 +115,33 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     System.setOut(this.stdout);
     System.setErr(this.stderr);
-    super.tearDown();
   }
 
   @Test
   public void testUsageMessage() throws Exception {
-    try {
-      String[] args = {"-h"};
-      Main.main(args);
-      fail("LT should have exited with status 0!");
-    } catch (ExitException e) {
-      String output = new String(this.out.toByteArray());
-      assertTrue(output.contains("Usage: java -jar languagetool-commandline.jar"));
-      assertEquals("Exit status", 1, e.status);
-    }
+    Process process = new ProcessBuilder(
+      "java", "-cp", System.getProperty("java.class.path"), "org.languagetool.commandline.Main", "-h"
+    ).start();
+    int exitCode = process.waitFor();
+    String output = readProcessOutput(process);
+    assertTrue(output.contains("Usage: java -jar languagetool-commandline.jar"));
+    assertEquals("Exit status", 1, exitCode);
   }
 
   @Test
   public void testPrintLanguages() throws Exception {
-    try {
-      String[] args = {"--list"};
-      Main.main(args);
-      fail("LT should have exited with status 0!");
-    } catch (ExitException e) {
-      String output = new String(this.out.toByteArray());
-      assertTrue(output.contains("German"));
-      assertTrue(output.contains("de-DE"));
-      assertTrue(output.contains("English"));
-      assertEquals("Exit status", 0, e.status);
-    }
+    Process process = new ProcessBuilder(
+      "java", "-cp", System.getProperty("java.class.path"), "org.languagetool.commandline.Main", "--list"
+    ).start();
+    int exitCode = process.waitFor();
+    String output = readProcessOutput(process);
+    assertTrue(output.contains("German"));
+    assertTrue(output.contains("de-DE"));
+    assertTrue(output.contains("English"));
+    assertEquals("Exit status", 0, exitCode);
   }
 
   @Test
@@ -670,4 +656,14 @@ public class MainTest extends AbstractSecurityTestCase {
     return xxFalseFriendFile.getAbsolutePath();
   }
 
+  private String readProcessOutput(Process process) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+      StringBuilder output = new StringBuilder();
+      String line;
+      while ((line = reader.readLine()) != null) {
+        output.append(line).append(System.lineSeparator());
+      }
+      return output.toString();
+    }
+  }
 }

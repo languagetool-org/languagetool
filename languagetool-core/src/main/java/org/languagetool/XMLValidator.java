@@ -46,6 +46,7 @@ public final class XMLValidator {
 
   public XMLValidator() {
     Tools.setPasswordAuthenticator();
+    Tools.setXmlLimits();
   }
 
   /**
