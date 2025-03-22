@@ -84,7 +84,7 @@ class DatabaseLogger {
             batchSize++;
             session.insert(entry.getMappingIdentifier(), entry.getMapping());
             DatabaseLogEntry followup = entry.followup();
-            if (followup != null) { // followup statements need to be inserted directly afterwards, dependant on e.g. generated primary keys
+            if (followup != null) { // followup statements need to be inserted directly afterwards, dependent on e.g. generated primary keys
               session.insert(followup.getMappingIdentifier(), followup.getMapping());
               batchSize++;
             }

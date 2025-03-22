@@ -19,6 +19,7 @@
 package org.languagetool.tagging.disambiguation.rules;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -38,11 +39,15 @@ import java.util.List;
  */
 public class DisambiguationRuleLoader extends DefaultHandler {
 
-  public final List<DisambiguationPatternRule> getRules(InputStream stream)
+  public final List<DisambiguationPatternRule> getRules(InputStream stream, Language language, String xmlPath)
       throws ParserConfigurationException, SAXException, IOException {
-    DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
+    DisambiguationRuleHandler handler = new DisambiguationRuleHandler(language, xmlPath);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
+    saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+    saxParser.getXMLReader().setProperty("jdk.xml.maxGeneralEntitySizeLimit", 0);
+    saxParser.getXMLReader().setProperty("jdk.xml.totalEntitySizeLimit", 0);
+    saxParser.getXMLReader().setProperty("jdk.xml.entityExpansionLimit", 0);
 
     if (JLanguageTool.isCustomPasswordAuthenticatorUsed()) {
       Tools.setPasswordAuthenticator();

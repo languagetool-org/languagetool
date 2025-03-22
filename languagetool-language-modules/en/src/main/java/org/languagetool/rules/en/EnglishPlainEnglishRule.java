@@ -54,7 +54,7 @@ public class EnglishPlainEnglishRule extends AbstractSimpleReplaceRule2 {
   public EnglishPlainEnglishRule(ResourceBundle messages) throws IOException {
     super(messages, new English());
     setDefaultOff();  // reactivate after feature freeze
-    super.setCategory(Categories.PLAIN_ENGLISH.getCategory(messages));
+    setCategory(Categories.PLAIN_ENGLISH.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>fatal outcome</marker>"),
                    Example.fixed("<marker>death</marker>"));

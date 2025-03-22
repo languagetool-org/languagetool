@@ -73,8 +73,9 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("doublecheck", "double-check");
     assertAllMatches(lt, rule, "campaignt", "campaign", "campaigns");
     assertAllMatches(lt, rule, "campaignd", "campaign", "campaigns", "campaigned");
-    assertAllMatches(lt, rule, "campaignll");
+    assertAllMatches(lt, rule, "campaignll", "campaign", "campaigns", "campaigned", "campaigner");
     assertAllMatches(lt, rule, "spreaded", "spread", "spreader");
+    assertAllMatches(lt, rule, "slimiar", "similar", "slimier");
     //assertFirstMatch("vehical", "medical", "vehicle"); // suggests vesical now, medical term
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
     
@@ -95,7 +96,14 @@ public class AbstractEnglishSpellerRuleTest {
     // http://grammar.yourdictionary.com/spelling-and-word-lists/misspelled.html
     // https://en.wikipedia.org/wiki/Commonly_misspelled_English_words#cite_note-YD-4
   }
+  public void testHyphenatedWordSuggestions(Rule rule, Language language) throws IOException {
+    this.lt = new JLanguageTool(language);
+    this.rule = rule;
 
+    assertFirstMatch("long-trem", "long-term");
+    assertFirstMatch("self-sefficient", "self-sufficient");
+    assertFirstMatch("parple-people-eater", "purple-people-eater");
+  }
   private void assertFirstMatch(String text, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(text));
     assertTrue("Expected 1 match for '" + text + "', got " + matches.length, matches.length == 1);

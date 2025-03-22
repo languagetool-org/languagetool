@@ -24,12 +24,15 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Evaluates a {@link RuleFilter}.
  * @since 2.7 (public since 3.2)
  */
 public class RuleFilterEvaluator {
+
+  private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
   private final RuleFilter filter;
 
@@ -40,7 +43,7 @@ public class RuleFilterEvaluator {
   @Nullable
   public RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, int patternTokenPos, List<Integer> tokenPositions) throws IOException {
     Map<String,String> args = getResolvedArguments(filterArgs, patternTokens, patternTokenPos, tokenPositions);
-    return filter.acceptRuleMatch(ruleMatch, args, patternTokenPos, patternTokens);
+    return filter.acceptRuleMatch(ruleMatch, args, patternTokenPos, patternTokens, tokenPositions);
   }
 
   /**
@@ -48,7 +51,7 @@ public class RuleFilterEvaluator {
    */
   public Map<String,String> getResolvedArguments(String filterArgs, AnalyzedTokenReadings[] patternTokens, int patternTokenPos, List<Integer> tokenPositions) {
     Map<String,String> result = new HashMap<>();
-    String[] arguments = filterArgs.split("\\s+");
+    String[] arguments = WHITESPACE.split(filterArgs);
     for (String arg : arguments) {
       int delimPos = arg.indexOf(':');
       if (delimPos == -1) {

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +38,7 @@ public class ShortenedYearRangeChecker extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     try {
       int x = Integer.parseInt(arguments.get("x"));
       String centuryPrefix = arguments.get("x").substring(0, 2);

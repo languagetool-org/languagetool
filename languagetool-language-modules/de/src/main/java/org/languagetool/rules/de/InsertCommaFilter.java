@@ -29,8 +29,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static java.util.Collections.singletonList;
+import static java.util.regex.Pattern.compile;
 
 /**
  * Specific to {@code KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ} - helps setting the comma suggestion, if easily possible.
@@ -38,13 +40,20 @@ import static java.util.Collections.singletonList;
  */
 public class InsertCommaFilter extends RuleFilter {
 
+  private static final Pattern WHITESPACE = compile("\\s");
+  private static final Pattern SAGT = compile("[Ss]agt?");
+  private static final Pattern DER_ETC = compile("der|die|das|seine|ihre|deine|unsere|meine|folgender|dieser");
+  private static final Pattern DENKE_ETC = compile("denke|dachte|glaube|schätze|vermute|behaupte");
+  private static final Pattern BEI_FUER_MIT = compile("bei|für|mit");
+  private static final Pattern DIR_ETC = compile("[Di]ir|[Dd]ich|[Ee]uer|[Ee]uch");
+
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
     List<String> suggestions = new ArrayList<>();
     for (String replacement : match.getSuggestedReplacements()) {
-      String[] parts = replacement.split("\\s");
+      String[] parts = WHITESPACE.split(replacement);
       try {
         if (parts.length == 2) {
           suggestions.add(parts[0] + ", " + parts[1]);
@@ -55,7 +64,7 @@ public class InsertCommaFilter extends RuleFilter {
           if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:PER:")) {
             // "Ich hoffe(,) es geht Ihnen gut."
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
-          } else if (parts[0].matches("[Ss]agt?") && parts[1].matches("mal") && hasTag(tags3, "VER:")) {
+          } else if (SAGT.matcher(parts[0]).matches() && parts[1].equals("mal") && hasTag(tags3, "VER:")) {
             // "Sag mal(,) hast du"
             suggestions.add(parts[0] + " " + parts[1] + ", " + parts[2]);
           } else if (hasTag(tags1, "VER:") && hasTag(tags2, "ADV:") && hasTag(tags3, "VER:")) {
@@ -74,7 +83,7 @@ public class InsertCommaFilter extends RuleFilter {
               suggestions.add(parts[0] + " " + parts[1] + " " + parts[2] + " " + parts[3] + ",");
             } else if (parts.length == 4 &&
               patternTokens[0].hasPosTagStartingWith("VER:") &&
-              patternTokens[1].getToken().matches("der|die|das|seine|ihre|deine|unsere|meine|folgender|dieser")) {
+              DER_ETC.matcher(patternTokens[1].getToken()).matches()) {
               // "Aristoteles meint(,) das Genussleben führe nicht zum Glück."
               suggestions.add(parts[0] + ", " + rest1);
             } else if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:POS:") && hasTag(tags3, "SUB:")) {
@@ -87,10 +96,11 @@ public class InsertCommaFilter extends RuleFilter {
             } else if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:POS:") && hasTag(tags3, "ADJ:")) {
               // "Ich glaube(,) eure individuellen Premium-Accounts sind noch aktiv."
               suggestions.add(parts[0] + ", " + rest1);
-            } else if (parts[0].matches("denke|dachte|glaube|schätze|vermute|behaupte") && hasTag(tags2, "PRO:DEM:") && hasTag(tags3, "SUB:")) {
+            } else if (DENKE_ETC.matcher(parts[0]).matches() && hasTag(tags2, "PRO:DEM:") && hasTag(tags3, "SUB:")) {
               // "Ich schätze(,) diese Krawatte passt gut zum Anzug."
               suggestions.add(parts[0] + ", " + rest1);
-            } else if (patternTokenPos == 1 && parts[1].matches("bei|für|mit") && parts[2].matches("[Di]ir|[Dd]ich|[Ee]uer|[Ee]uch") && hasTag(tags4, "VER:")) {
+            } else if (patternTokenPos == 1 && BEI_FUER_MIT.matcher(parts[1]).matches() &&
+                       DIR_ETC.matcher(parts[2]).matches() && hasTag(tags4, "VER:")) {
               // "Hoffe(,) bei euch ist alles gut."
               suggestions.add(parts[0] + ", " + rest1);
             }

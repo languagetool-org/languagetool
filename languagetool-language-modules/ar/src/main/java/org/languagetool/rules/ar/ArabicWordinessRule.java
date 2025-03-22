@@ -48,10 +48,10 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
 
   public ArabicWordinessRule(ResourceBundle messages) {
     super(messages, new Arabic());
-    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
+    setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>هناك خطأ في العبارة</marker>"),
-      Example.fixed("<marker>في العبارة خطأ</marker>"));
+                   Example.fixed("<marker>في العبارة خطأ</marker>"));
   }
 
   @Override

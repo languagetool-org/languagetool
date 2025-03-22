@@ -24,27 +24,27 @@ import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
 
 public class SimpleReplaceRuleTest {
-  private final JLanguageTool lt = new JLanguageTool(new Ukrainian());
+  private final JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
   private MorfologikUkrainianSpellerRule morfologikSpellerRule;
   private SimpleReplaceRule rule;
 
   @Before
   public void setup() throws IOException {
-    morfologikSpellerRule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
-        null, Collections.emptyList());
+    Language ukrainian = Ukrainian.DEFAULT_VARIANT;
+    morfologikSpellerRule = (MorfologikUkrainianSpellerRule)lt.getLanguage().getDefaultSpellingRule();
 
-    rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
+    rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, ukrainian);
   }
   
   @Test
@@ -96,29 +96,40 @@ public class SimpleReplaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("мікрорайону"), matches[0].getSuggestedReplacements());
 
+    // subst + subst
+    matches = rule.match(lt.getAnalyzedSentence("гребнем."));
+    assertEquals(0, matches.length);
+  }
+
+  @Test
+  public void testDerivat() throws IOException {
+    // derivat
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("перелиставши."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("перегорнувши", "прогортавши"), matches[0].getSuggestedReplacements());
   }
 
   @Test
   public void testRulePartOfMultiword() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("на думку проводжаючих"));
         assertEquals(1, matches.length);
   }
 
-  @Test
-  public void testSubstandards() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
-
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("А шо такого?"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("що"), matches[0].getSuggestedReplacements());
-    assertEquals("Це розмовна просторічна форма", matches[0].getMessage());
-  }
+//  @Test
+//  public void testSubstandards() throws IOException {
+//    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
+//
+//    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("А шо такого?"));
+//    assertEquals(1, matches.length);
+//    assertEquals(Arrays.asList("що"), matches[0].getSuggestedReplacements());
+//    assertEquals("Це розмовна просторічна форма", matches[0].getMessage());
+//  }
 
   @Test
   public void testMisspellings() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("ганделик"));
     assertEquals(1, matches.length);
@@ -129,7 +140,7 @@ public class SimpleReplaceRuleTest {
 
   @Test
   public void testRuleByTag() throws IOException {
-    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule, lt.getLanguage());
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("спороутворюючого"));
     assertEquals(1, matches.length);

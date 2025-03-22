@@ -56,6 +56,7 @@ public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule
 
     // get wrong words from resource file
     wrongWords = getWrongWords(false);
+
   }
 
   @Override

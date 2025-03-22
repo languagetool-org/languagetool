@@ -18,7 +18,9 @@
  */
 package org.languagetool.dev;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.synthesis.Synthesizer;
 
@@ -35,7 +37,7 @@ import java.util.List;
 public class GermanOldSpellingFinder {
 
   public static void main(String[] args) throws IOException {
-    GermanyGerman lang = new GermanyGerman();
+    German lang = GermanyGerman.getInstance();
     Synthesizer synth = lang.getSynthesizer();
     List<String> words = Files.readAllLines(Paths.get(args[0]));
     int i = 0;
@@ -49,7 +51,7 @@ public class GermanOldSpellingFinder {
       String[] formsAr = synth.synthesize(new AnalyzedToken(word, "FAKE", word), ".*", true);
       List<String> forms = Arrays.asList(formsAr);
       for (String form : forms) {
-        if (form.matches(".*oß") && !forms.contains(form.replaceFirst("ß", "ss"))) {
+        if (form.matches(".*oß") && !forms.contains(StringUtils.replaceOnce(form, "ß", "ss"))) {
           System.out.println("No 'ss' form found: " + form);
         }
       }
@@ -57,7 +59,7 @@ public class GermanOldSpellingFinder {
   }
 
   public static void main2(String[] args) throws IOException {
-    GermanyGerman lang = new GermanyGerman();
+    German lang = GermanyGerman.getInstance();
     Synthesizer synth = lang.getSynthesizer();
     String tmpWord = "hintergießen";
     String[] formsAr = synth.synthesize(new AnalyzedToken(tmpWord, "FAKE", tmpWord), ".*", true);

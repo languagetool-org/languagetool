@@ -143,7 +143,8 @@ public class MixedAlphabetsRule extends Rule {
         if(!LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
           replacements.add( toCyrillic(tokenString) );
         }
-        if(!CYRILLIC_ONLY.matcher(tokenString).matches() || LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
+        if( (tokenString.length() > 2 && ! CYRILLIC_ONLY.matcher(tokenString).matches()) 
+            || LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
           String converted = toLatinLeftOnly(tokenString);
           converted = adjustForInvalidSuffix(converted);
           replacements.add( converted );
@@ -170,7 +171,7 @@ public class MixedAlphabetsRule extends Rule {
 
       if( tokenString.indexOf('\u0306') > 0 || tokenString.indexOf('\u0308') > 0 ) {
         if( tokenString.matches(".*(и\u0306|і\u0308).*") ) {
-          String fix = tokenString.replaceAll("и\u0306", "й").replaceAll("і\u0308", "ї");
+          String fix = tokenString.replace("и\u0306", "й").replace("і\u0308", "ї");
 
           String msg = "Вжито комбіновані символи замість українських літер";
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(fix), msg, sentence);

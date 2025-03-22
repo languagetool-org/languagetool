@@ -108,7 +108,7 @@ USA
                     </marker>
                     <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
                 </pattern>
-                <message>In American English, "take a look" is more commonly used.</message>
+                <message>In British English, "have a look" is more commonly used.</message>
                 <suggestion><match no="1" postag="VB.*" postag_regexp="yes">have</match> \2 \3 \4</suggestion>
                 <example correction="have a look">I promise that I will <marker>take a look</marker> later.</example>
             </rule>
@@ -166,16 +166,32 @@ USA
             <example correction="postcode">Please enter your <marker>zip code</marker>.</example>
             <example correction="Postcodes"><marker>Zip codes</marker> are not always necessary.</example>
         </rule>
-        <rule id="APARTMENT-FLAT" name="apartment/flat">
-            <pattern>
-                <token inflected="yes">apartment</token>
-            </pattern>
-            <message>The word '\1' is common for American English. Did you mean <suggestion><match no="1" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
-            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <short>AmE/BrE: apartment/flat</short>
-            <example correction="flats">These <marker>apartments</marker> are expensive.</example>
-            <example correction="flat">I just bought an <marker>apartment</marker>.</example>
-        </rule>
+        <rulegroup id="APARTMENT-FLAT" name="apartment/flat">
+            <rule>
+                <pattern>
+                    <token><exception>an</exception></token>
+                    <marker>
+                        <token inflected="yes">apartment</token>
+                    </marker>
+                </pattern>
+                <message>The word '\2' is common for American English. Did you mean <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
+                <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+                <short>AmE/BrE: apartment/flat</short>
+                <example correction="flats">These <marker>apartments</marker> are expensive.</example>
+                <example correction="flat">I just bought the <marker>apartment</marker>.</example>
+                <example>I just bought an apartment.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>apartment</token>
+                </pattern>
+                <message>The word 'apartment' is common for American English. Did you mean <suggestion>a flat</suggestion>?</message>
+                <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+                <short>AmE/BrE: apartment/flat</short>
+                <example correction="a flat">I just bought <marker>an apartment</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BAND-AID_PLASTER" name="band-aid/plaster">
             <rule><!-- 'Band-Aid' is a trademark according to Merriam Webster's dictionary. Thus, it must not have postags NN or NNS. -->
                 <pattern>
@@ -211,7 +227,7 @@ USA
                 <token>movie</token>
                 <token inflected="yes">theater</token>
             </pattern>
-            <message>The term '\1 \2' is common for American English. Did you mean <suggestion><match no="2" postag="NN|NN(S)" postag_replace="NN$1(:UN)?">cinema</match></suggestion>?</message>
+            <message>The term '\1 \2' is common for American English. Did you mean <suggestion><match no="2" postag="(NN|NNS)(:UN)?" postag_replace="$1">cinema</match></suggestion>?</message>
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
             <short>AmE/BrE: movie theater/cinema</short>
             <example correction="cinema">Let's go to a <marker>movie theater</marker>.</example>
@@ -252,6 +268,12 @@ USA
             <example correction="licence">Please show me your <marker>license</marker>.</example>
         </rule>
         <rule id="LICENCE_LICENSE_NOUN_PLURAL" name="Licenses/Licences (noun)">
+            <antipattern>
+                <token chunk_re=".-NP-.*"/>
+                <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">licenses</token>
+                <token chunk_re=".-NP-.*"/>
+            <example>The verb licenses a bare infinitive.</example>
+            </antipattern>
             <pattern>
                 <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">licenses</token>
             </pattern>
@@ -351,7 +373,7 @@ USA
         </rule>
         <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_AME" name="1-liter/1-litre">
             <pattern>
-                <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deka|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?(liter|meter)<exception postag="NNP"/></token>
+                <token regexp="yes">([0-9]+-)(quetta|ronna|yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deka|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto|ronto|quecto)?(liter|meter)<exception postag="NNP"/></token>
             </pattern>
             <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct British English.</message>
             <short>AmE/BrE: SI units (adjectives)</short>

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Swedish Disambiguation Rules for LanguageTool
+2023 ljo@fps_gbg
+-->
+
+<rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <unification feature="number">
+        <!-- NON = indet -->
+        <equivalence type="sg">
+            <token postag=".*:(SIN|NON):.*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="pl">
+            <token postag=".*:(PLU|NON):.*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <unification feature="case">
+        <!-- NM = no_masc, M = masc, NON = indet -->
+        <equivalence type="nom">
+            <token postag=".*:(NOM|ANOM|MNNOM|MNOM):.*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="ack">
+            <token postag=".*:(ACK|ANOM|AGEN):.*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="gen">
+            <token postag=".*:(GEN|AGEN|NMGEN|MGEN):.*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <unification feature="gender">
+        <!-- NM = no_masc, M = masc, NON = indet -->
+        <equivalence type="masc">
+            <token postag=".*:(M|MNOM|MGEN).*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="no_masc">
+            <token postag=".*:(NM|NMNOM|NMGEN).*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="neu">
+            <token postag=".*:(NEU|NON).*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="utr">
+            <token postag=".*:(UTR|NON).*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <rule name="pièce de résistance" id="RESISTANCE">
+        <pattern>
+            <token>pièce</token>
+            <token>de</token>
+            <token>résistance</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+   <rule name="Ignore words with -sekunder or -minuter" id="SEKUNDERMINUTER">
+        <pattern><!-- 60-sekunder, 30-minuters -->
+            <token regexp="yes">[\d]{1,2}-(sekunder|minuter)[s]?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Sambal Oelek" id="SAMBAL_OELEK">
+        <pattern case_sensitive="yes">
+            <token>Sambal</token>
+            <token>Oelek</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule name="Pulled Pork" id="PULLED_PORK">
+        <pattern case_sensitive="yes">
+            <token>Pulled</token>
+            <token>Pork</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule name="Earl Grey" id="EARL_GREY">
+        <pattern case_sensitive="yes">
+            <token>Earl</token>
+            <token>Grey</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+     <rule name="Los Angeles" id="LOS_ANGELES">
+        <pattern>
+            <token>Los</token>
+            <token regexp="yes">A(lamo|ngele)s</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule name="Las Vegas" id="LAS_VEGAS">
+        <pattern case_sensitive="yes">
+            <token>Las</token>
+            <token regexp="yes">Ramblas|Vegas</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+ 
+    <rule name="Rhythm and Blues" id="RHYTHM_AND_BLUES">
+        <pattern>
+            <token>Rhythm</token>
+            <token>and</token>
+            <token>Blues</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="World of Warcraft" id="WOW">
+        <pattern case_sensitive="yes">
+            <token>World</token>
+            <token>of</token>
+            <token>Warcraft</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="World Trade Center" id="WTC">
+        <pattern case_sensitive="yes">
+            <token>World</token>
+            <token>Trade</token>
+            <token regexp="yes">Centers?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Rock and Roll" id="ROCK_AND_ROLL">
+        <pattern>
+            <token>Rock</token>
+            <token>and</token>
+            <token>Roll</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="São Paulo" id="SAO_PAULO">
+        <pattern>
+            <token>São</token>
+            <token regexp="yes">(Paulo|Vicente|Miguel|José)s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Addis Abeba" id="ADDIS_ABEBA">
+        <pattern>
+            <token>Addis</token>
+            <token>Abeba</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="La Paz" id="LA_PAZ">
+        <pattern case_sensitive="yes">
+            <token>La</token>
+            <token regexp="yes">Paz|[Tt]raviata|Sapienza|Spezia|Rambla</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Santo Domingo" id="SANTO_DOMINGO">
+        <pattern>
+            <token>Santo</token>
+            <token>Domingo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="San Bernardino" id="SAN_BERNARDINO">
+        <pattern case_sensitive="yes">
+            <token>San</token>
+            <token regexp="yes">Bernardino|Gottardo|Remo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+
+
+    <rule name="quid pro quo" id="QUID_PRO_QUO">
+        <pattern>
+            <token>quid</token>
+            <token>pro</token>
+            <token>quo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="rigor mortis" id="RIGOR_MORTIS">
+        <pattern>
+            <token>rigor</token>
+            <token>mortis</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="carpe diem" id="CARPE_DIEM">
+        <pattern>
+            <token>carpe</token>
+            <token>diem</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="tabula rasa" id="TABULA_RASA">
+        <pattern>
+            <token>tabula</token>
+            <token>rasa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="vox populi" id="VOX_POPULI">
+        <pattern>
+            <token>vox</token>
+            <token>populi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="coitus interruptus" id="COITUS_INTERRUPTUS">
+        <pattern>
+            <token>coitus</token>
+            <token>interruptus</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Delirium tremens" id="DELIRIUM_TREMENS">
+        <pattern case_sensitive="yes">
+            <token>Delirium</token>
+            <token>tremens</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="ius primae noctis" id="IUS_PRIMAE_NOCTIS">
+        <pattern>
+            <token>ius</token>
+            <token>primae</token>
+            <token>noctis</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="argumentum ad ..." id="ARGUMENTUM_AD">
+        <pattern>
+            <token>argumentum</token>
+            <token>ad</token>
+            <token regexp="yes">antiquitatem|misericordiam|passiones|hominem|veritatem|personam|populum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+ 
+    <rule name="summa summarum" id="SUMMARUM">
+        <pattern>
+            <token>summa</token>
+            <token>summarum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="modus operandi" id="MODUS_OPERANDI">
+        <pattern>
+            <token>modus</token>
+            <token>operandi</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+ 
+    <rule name="Terra incognita" id="TERRA_INCOGNITA">
+        <pattern>
+            <token>terra</token>
+            <token regexp="yes">incognita|nova|preta</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="ad hoc" id="AD_HOC"> 
+        <pattern>
+            <token>ad</token>
+            <token regexp='yes'>ho(c|minem)|infinitum|libitum|nauseam</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Persona non grata" id="PERSONA_NON_GRATA">
+        <pattern>
+            <token>Persona</token>
+            <token min="0">non</token>
+            <token regexp="yes">(in)?grata</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Enfant terrible" id="ENFANT_TERRIBLE">
+        <pattern>
+            <token>Enfant</token>
+            <token>terrible</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+ 
+    <rule name="El Niño" id="EL_NINO">
+        <pattern>
+            <token>El</token>
+            <token regexp="yes">Niño|Salvador|Paso</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+</rules>

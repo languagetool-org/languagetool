@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
@@ -64,12 +65,12 @@ public abstract class RemoteRule extends Rule {
   protected final JLanguageTool lt;
   protected final Pattern suppressMisspelledMatch;
   protected final Pattern suppressMisspelledSuggestions;
-
+  
   public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
     super(messages);
     serviceConfiguration = config;
     this.ruleLanguage = language;
-    this.lt = new JLanguageTool(ruleLanguage);
+    this.lt = this.ruleLanguage.createDefaultJLanguageTool();
     this.inputLogging = inputLogging;
     if (ruleId == null) { // allow both providing rule ID in constructor or overriding getId
       ruleId = getId();
@@ -78,6 +79,8 @@ public abstract class RemoteRule extends Rule {
     whitespaceNormalisation = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("whitespaceNormalisation", "true"));
     fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
     premium = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("premium", "false"));
+    boolean includedInHiddenMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("includedInHiddenMatches", "true"));
+    setIncludedInHiddenMatches(includedInHiddenMatches);
     try {
       if (serviceConfiguration.getOptions().containsKey("suppressMisspelledMatch")) {
         suppressMisspelledMatch = Pattern.compile(serviceConfiguration.getOptions().get("suppressMisspelledMatch"));
@@ -259,21 +262,44 @@ public abstract class RemoteRule extends Rule {
     };
 
     for (RuleMatch m : sentenceMatches) {
-        String id = m.getRule().getId();
-        if (suppressMisspelledMatch != null && suppressMisspelledMatch.matcher(id).matches()) {
-          if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
+      String id = m.getRule().getId();
+      m.setOriginalErrorStr();
+      if ((suppressMisspelledMatch != null && suppressMisspelledMatch.matcher(id).matches())
+        || id.matches("AI_.._GGEC_.*")) {
+        if (!m.getSuggestedReplacementObjects().stream().allMatch(checkSpelling)) {
+          SimpleDateFormat sdf = new SimpleDateFormat("HH");
+          System.out.println(sdf.format(new Date()) + " - ignored AI suggestion " + id +": " + m.getSuggestedReplacements().toString()
+            + "; original: " + m.getOriginalErrorStr());
+          continue;
+        }
+      }
+      if ((suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches())
+        || id.matches("AI_.._GGEC_.*")) {
+        List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
+          .filter(checkSpelling).collect(Collectors.toList());
+        if (suggestedReplacements.isEmpty()) {
+          SimpleDateFormat sdf = new SimpleDateFormat("HH");
+          System.out.println(sdf.format(new Date()) + " - ignored AI suggestion " + id +": " + m.getSuggestedReplacements().toString()
+            + "; original: " + m.getOriginalErrorStr());
+          continue;
+        }
+        m.setSuggestedReplacementObjects(suggestedReplacements);
+      }
+      // TODO: make configurable
+      if (ruleLanguage.getShortCodeWithCountryAndVariant().matches("de-(AT|CH)") && id.matches("AI_DE_GGEC_.*ORTHOGRAPHY.*")) {
+        try {
+          AnalyzedSentence sentence = lt.getAnalyzedSentence(m.getOriginalErrorStr());
+          RuleMatch[] matches = speller.match(sentence);
+          if (matches.length == 0) {
+            //System.out.println("3) skipping for " + ruleLanguage.getShortCodeWithCountryAndVariant() + ": " + m.getOriginalErrorStr());
             continue;
           }
+          //System.out.println("3) not skipping for " + ruleLanguage.getShortCodeWithCountryAndVariant() + ": " + m.getOriginalErrorStr());
+        } catch (IOException e) {
+          throw new RuntimeException(e);
         }
-        if (suppressMisspelledSuggestions != null && suppressMisspelledSuggestions.matcher(id).matches()) {
-          List<SuggestedReplacement> suggestedReplacements = m.getSuggestedReplacementObjects().stream()
-            .filter(checkSpelling).collect(Collectors.toList());
-          if (suggestedReplacements.isEmpty()) {
-            continue;
-          }
-          m.setSuggestedReplacementObjects(suggestedReplacements);
-        }
-        result.add(m);
+      }
+      result.add(m);
     }
     return result;
   }

@@ -18,12 +18,12 @@
  */
 package org.languagetool.rules.ru;
 
-import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,7 +40,7 @@ public class INNNumberFilter extends RuleFilter {
 
 
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
 
   String INNNumberString = getRequired("inn", args);
 

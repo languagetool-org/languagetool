@@ -19,10 +19,7 @@
 
 package org.languagetool.rules.es;
 
-
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.es.SpanishSynthesizer;
 
 /*
  * Synthesize suggestions using the lemma from one token (lemma_from) 
@@ -32,10 +29,5 @@ import org.languagetool.synthesis.es.SpanishSynthesizer;
  * to choose one among several possible readings.
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
-
-  @Override
-  protected Synthesizer getSynthesizer() {
-    return SpanishSynthesizer.INSTANCE;
-  }
 
 }

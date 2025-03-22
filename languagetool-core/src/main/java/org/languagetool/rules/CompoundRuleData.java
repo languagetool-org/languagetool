@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules;
 
-import gnu.trove.THashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
@@ -31,10 +31,10 @@ import java.util.*;
  */
 public class CompoundRuleData {
 
-  private final Set<String> incorrectCompounds = new THashSet<>();
-  private final Set<String> joinedSuggestion = new THashSet<>();
-  private final Set<String> joinedLowerCaseSuggestion = new THashSet<>();
-  private final Set<String> dashSuggestion = new THashSet<>();
+  private final Set<String> incorrectCompounds = new ObjectOpenHashSet<>();
+  private final Set<String> joinedSuggestion = new ObjectOpenHashSet<>();
+  private final Set<String> joinedLowerCaseSuggestion = new ObjectOpenHashSet<>();
+  private final Set<String> dashSuggestion = new ObjectOpenHashSet<>();
   private final LineExpander expander;
 
   public CompoundRuleData(String path) {

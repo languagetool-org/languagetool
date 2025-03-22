@@ -73,6 +73,7 @@ public class HTTPServerConfig {
   protected int textCheckerQueueSize = 8;
   protected Mode mode;
   protected File languageModelDir = null;
+  protected File ruleIdToConfidenceFile = null;
   protected boolean pipelineCaching = false;
   protected boolean pipelinePrewarming = false;
 
@@ -96,8 +97,10 @@ public class HTTPServerConfig {
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
+  protected Pattern trustedSources = null;
   protected boolean premiumAlways;
   protected boolean premiumOnly;
+  protected String requestLimitAccessToken = null;
 
   public void setPremiumOnly(boolean premiumOnly) {
     this.premiumOnly = premiumOnly;
@@ -126,6 +129,7 @@ public class HTTPServerConfig {
   protected String dbUsername = null;
   protected String dbPassword = null;
   protected long dbTimeoutSeconds = 10;
+  protected int dbMaxConnections = 10;
   protected int databaseTimeoutRateThreshold = 100;
   protected int databaseErrorRateThreshold = 50;
   protected int databaseDownIntervalSeconds = 10;
@@ -166,7 +170,7 @@ public class HTTPServerConfig {
 
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
 
-  protected String abTest = null;
+  protected List<String> abTest = Collections.emptyList();
   protected Pattern abTestClients = null;
   protected int abTestRollout = 100; // percentage [0,100]
   protected File ngramLangIdentData;
@@ -194,15 +198,16 @@ public class HTTPServerConfig {
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
-    "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
+    "dbTimeoutSeconds", "dbMaxConnections", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
     "redisDatabase", "redisUseSSL", "redisTimeoutMilliseconds", "redisConnectionTimeoutMilliseconds",
     "anonymousAccessAllowed",
-    "premiumAlways",
+    "premiumAlways", "trustedSource",
     "redisPassword", "redisHost", "redisCertificate", "redisKey", "redisKeyPassword",
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
-    "passwortLoginAccessListPath", "redisDictTTLSeconds");
+    "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken", "trustedSources",
+    "ruleIdToConfidenceFile");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -335,6 +340,10 @@ public class HTTPServerConfig {
         maxPort = Integer.parseInt(getOptionalProperty(props, "maxPort", "0"));
         String url = getOptionalProperty(props, "serverURL", null);
         setServerURL(url);
+        String ruleIdToConfidence = getOptionalProperty(props, "ruleIdToConfidenceFile", null);
+        if (ruleIdToConfidence != null) {
+          ruleIdToConfidenceFile = new File(ruleIdToConfidence);
+        }
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
@@ -387,6 +396,7 @@ public class HTTPServerConfig {
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
+        setTrustedSources(getOptionalProperty(props, "trustedSources", null));
         String premiumAlwaysValue = props.getProperty("premiumAlways");
         if (premiumAlwaysValue != null) {
           premiumAlways = Boolean.parseBoolean(premiumAlwaysValue.trim());
@@ -431,6 +441,7 @@ public class HTTPServerConfig {
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
         dbTimeoutSeconds = Integer.parseInt(getOptionalProperty(props, "dbTimeoutSeconds", "10"));
+        dbMaxConnections = Integer.parseInt(getOptionalProperty(props, "dbMaxConnections", "10"));
         databaseErrorRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbErrorRateThreshold", "50"));
         databaseTimeoutRateThreshold = Integer.parseInt(getOptionalProperty(props, "dbTimeoutRateThreshold", "100"));
         databaseDownIntervalSeconds = Integer.parseInt(getOptionalProperty(props, "dbDownIntervalSeconds", "10"));
@@ -455,6 +466,7 @@ public class HTTPServerConfig {
         dictLimitTeam = Integer.valueOf(getOptionalProperty(props, "dictLimitTeam", "0"));
         styleGuideLimitUser = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitUser", "0"));
         styleGuideLimitTeam = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitTeam", "0"));
+        requestLimitAccessToken = getOptionalProperty(props, "requestLimitAccessToken", null);
         
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
@@ -705,6 +717,30 @@ public class HTTPServerConfig {
 
   int getRequestLimitPeriodInSeconds() {
     return requestLimitPeriodInSeconds;
+  }
+
+  /** @since 6.3 */
+  public void setRequestLimit(int requestLimit) {
+    this.requestLimit = requestLimit;
+  }
+
+  /** @since 6.3 */
+  public void setRequestLimitPeriodInSeconds(int requestLimitPeriodInSeconds) {
+    this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;
+  }
+
+
+  /** 
+   * @since 6.3
+   * Can configure a secret value for the Header X-Request-Limit-Access-Token that allows skipping limtis
+   */
+  public String getRequestLimitAccessToken() {
+    return requestLimitAccessToken;
+  }
+
+  /** @since 6.3 */
+  public void setRequestLimitAccessToken(String requestLimitAccessToken) {
+    this.requestLimitAccessToken = requestLimitAccessToken;
   }
 
   /** since 4.4
@@ -980,7 +1016,20 @@ public class HTTPServerConfig {
   void setBlockedReferrers(List<String> blockedReferrers) {
     this.blockedReferrers = Objects.requireNonNull(blockedReferrers);
   }
-  
+
+  @Nullable
+  public Pattern getTrustedSources() {
+    return this.trustedSources;
+  }
+
+  public void setTrustedSources(String pattern) {
+    if (pattern == null) {
+      this.trustedSources = null;
+    } else {
+      this.trustedSources = Pattern.compile(pattern);
+    }
+  }
+
   /**
    * @return the file from which server rules configuration should be loaded, or {@code null}
    * @since 3.0
@@ -1248,22 +1297,21 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.4
-   * See if a specific A/B-Test is to be run
+   * Get a list of active A/B-Tests
    */
-  @Nullable
-  public String getAbTest() {
+  public List<String> getAbTest() {
     return abTest;
   }
 
   /**
    * @since 4.4
-   * Enable a specific A/B-Test to be run (or null to disable all tests)
+   * Enable A/B-Tests to be run (comma seperated for a list or null to disable all tests)
    */
   public void setAbTest(@Nullable String abTest) {
-    if (abTest != null && abTest.trim().isEmpty()) {
-      this.abTest = null;
+    if (abTest != null && !abTest.trim().isEmpty()) {
+      this.abTest = new ArrayList<>(Arrays.asList(abTest.trim().split(",")));
     } else {
-      this.abTest = abTest;
+      this.abTest = Collections.emptyList();
     }
   }
 
@@ -1447,5 +1495,29 @@ public class HTTPServerConfig {
 
   public int getStyleGuideLimitTeam() {
     return styleGuideLimitTeam;
+  }
+
+  /**
+   * @since 6.2
+   * @return max number of active connections in DB connection pool
+   */ 
+  public int getDbMaxConnections() {
+    return dbMaxConnections;
+  }
+
+  /**
+   * @since 6.2
+   * @param dbMaxConnections max number of active connections in DB connection pool
+   */ 
+  public void setDbMaxConnections(int dbMaxConnections) {
+    this.dbMaxConnections = dbMaxConnections;
+  }
+
+  /**
+   * @since 6.4
+   */
+  @Nullable
+  public File getRuleIdToConfidenceFile() {
+    return ruleIdToConfidenceFile;
   }
 }

@@ -1,0 +1,64 @@
+syntax = "proto3";
+package lt_ml_server;
+option java_package = "org.languagetool.tools.Cache";
+option java_outer_classname = "ProtoResultCache";
+import "ml_server.proto";
+
+message CachedResultMatch {
+  CachedRule rule = 1;
+  string message = 2;
+  string shortMessage = 3;
+  //dont need the analyzed sentence here
+  MatchPosition patternPosition = 4;
+  MatchPosition offsetPosition = 5;
+  MatchPosition sentencePosition = 6;
+  repeated SuggestedReplacement suggestedReplacements = 7;
+  string url = 8;
+  enum MatchType {
+    /** Spelling errors, typically red. */
+    UnknownWord = 0;
+    /** Style errors, typically light blue. */
+    Hint = 1;
+    /** Other errors (including grammar), typically yellow/orange. */
+    Other = 2;
+  }
+  MatchType type = 9;
+  bool autoCorrect = 10;
+  repeated NewLanguageMatch newLanguageMatches = 11;
+  string specificRuleId = 12;
+  string originalErrorString = 13;
+}
+
+message MatchPosition {
+    uint32 start = 1;
+    uint32 end = 2;
+}
+
+message NewLanguageMatch {
+  string languageCode = 1;
+  float confidence = 2;
+}
+
+message CachedRule {
+  string id = 1;
+  string subId = 2;
+  string description = 3;
+  uint32 estimateContextForSureMatch = 4;
+  string sourceFile = 5;
+  string issueType = 6;
+  bool tempOff = 7;
+  RuleCategory category = 8;
+  bool isPremium = 9;
+  enum Tag {
+    picky = 0;
+    academic = 1;
+    clarity = 2;
+    professional = 3;
+    creative = 4;
+    customer = 5;
+    jobapp = 6;
+    objective = 7;
+    elegant = 8;
+  }
+  repeated Tag tags = 10;
+}

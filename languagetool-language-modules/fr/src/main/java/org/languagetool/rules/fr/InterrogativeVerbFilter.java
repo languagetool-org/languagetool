@@ -21,15 +21,18 @@ package org.languagetool.rules.fr;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tagging.fr.FrenchTagger;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /*
  * Get appropriate suggestions for French verbs in interrogative form (prérères-tu)
@@ -41,28 +44,24 @@ public class InterrogativeVerbFilter extends RuleFilter {
   // private static final Pattern PronounSubject = Pattern.compile("R pers suj
   // ([123] [sp])");
 
-  private MorfologikFrenchSpellerRule morfologikRule;
+  private final SpellingCheckRule morfologikRule;
 
   public InterrogativeVerbFilter() throws IOException {
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
-        new Locale("fr"));
-    morfologikRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
+    morfologikRule = French.getInstance().getDefaultSpellingRule();
   }
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
-    
-    if (match.getSentence().getText().contains("repondit-on")) {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
+    /*if (match.getSentence().getText().contains("Peut je")) {
       int ii=0;
       ii++;
-    }
-
+    }*/
     List<String> replacements = new ArrayList<>();
     String pronounFrom = getRequired("PronounFrom", arguments);
     String verbFrom = getRequired("VerbFrom", arguments);
     String desiredPostag = null;
-    String[] extraSuggestions = new String[0];
+    List<String> extraSuggestions = new ArrayList<>();
     if (pronounFrom != null && verbFrom != null) {
       int posPronoun = Integer.parseInt(pronounFrom);
       if (posPronoun < 1 || posPronoun > patternTokens.length) {
@@ -93,12 +92,16 @@ public class InterrogativeVerbFilter extends RuleFilter {
       else if (atrPronoun.matchesPosTagRegex(".* 1 s")) {
         desiredPostag = "V .*(ind|cond).* 1 s";
         AnalyzedTokenReadings atrVerb = patternTokens[posVerb - 1];
-        AnalyzedToken reading = atrVerb.readingWithTagRegex("V ind pres 1 s");
+        AnalyzedToken reading = atrVerb.readingWithTagRegex("V .*");
         if (reading!=null) {
-          desiredPostag="V ind pres 1 s";
-          if (atrVerb.getToken().endsWith("e")) {
-            extraSuggestions = FrenchSynthesizer.INSTANCE.synthesize(reading, "V ppa [me] sp?|V ind pres 1 s", true);
+          String[] participles = FrenchSynthesizer.INSTANCE.synthesize(reading, "V ppa [me] sp?", true);
+          if (participles.length > 0) {
+            if (participles[0].endsWith("é")) {
+              extraSuggestions.add(participles[0]);
+              extraSuggestions.add(participles[0].substring(0, participles[0].length()-1)+ "è");
+            }
           }
+          //desiredPostag="V ind pres 1 s";
         }
       }
       else if (atrPronoun.matchesPosTagRegex(".* 2 s")) {
@@ -118,9 +121,10 @@ public class InterrogativeVerbFilter extends RuleFilter {
       }
       
       // add: trompè-je and trompé-je for original sentence "trompe-je"
-      if (extraSuggestions.length > 0) {
+      if (extraSuggestions.size() > 0) {
         for (String extraSuggestion : extraSuggestions) {
-          String completeSuggestion = extraSuggestion + atrPronoun.getToken();
+          String separator = (atrPronoun.getToken().startsWith("-") ? "" : "-");
+          String completeSuggestion = extraSuggestion + separator + atrPronoun.getToken();
           if (!replacements.contains(completeSuggestion) 
               && !completeSuggestion.endsWith("e-je")) { // exclude trompe-je
             replacements.add(completeSuggestion);
@@ -142,9 +146,22 @@ public class InterrogativeVerbFilter extends RuleFilter {
           List<AnalyzedTokenReadings> analyzedSuggestions = FrenchTagger.INSTANCE.tag(suggestions);
           for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
             if (analyzedSuggestion.matchesPosTagRegex(desiredPostag)) {
-              String completeSuggestion = analyzedSuggestion.getToken() + atrPronoun.getToken();
-              if (!replacements.contains(completeSuggestion) 
-                  && !completeSuggestion.endsWith("e-je")) { // exclude trompe-je
+              String separator = (atrPronoun.getToken().startsWith("-") ? "" : "-");
+              String completeSuggestion = analyzedSuggestion.getToken() + separator + atrPronoun.getToken();
+              if (completeSuggestion.equalsIgnoreCase("peux-je")) {
+                completeSuggestion = StringTools.preserveCase("puis-je", completeSuggestion);
+              }
+              if (completeSuggestion.endsWith("e-je")) {// exclude trompe-je -> trompé-je, trompè-je
+                completeSuggestion = completeSuggestion.substring(0, completeSuggestion.length()-4) + "é-je";
+                if (!replacements.contains(completeSuggestion)) {
+                  replacements.add(completeSuggestion);
+                }
+                completeSuggestion = completeSuggestion.substring(0, completeSuggestion.length()-4) + "è-je";
+                if (!replacements.contains(completeSuggestion)) {
+                  replacements.add(completeSuggestion);
+                }
+              }
+              else if (!replacements.contains(completeSuggestion)) {
                 replacements.add(completeSuggestion);
               }
             }

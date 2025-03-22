@@ -35,6 +35,7 @@ public class LongParagraphRule extends TextLevelRule {
 
   private static final boolean DEFAULT_ACTIVATION = false;
   private static final int DEFAULT_MAX_WORDS = 220;
+  private static final int LIMIT_MAX_WORDS = 300;
 
   private final Language lang;
 
@@ -45,13 +46,14 @@ public class LongParagraphRule extends TextLevelRule {
     super.setCategory(Categories.STYLE.getCategory(messages));
     this.lang = lang;
     setDefaultOff();
+    setOfficeDefaultOn();  // Default for LO/OO is always On
     if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }
     if (userConfig != null) {
-      int confWords = userConfig.getConfigValueByID(getId());
-      if (confWords > 0) {
-        this.maxWords = confWords;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        this.maxWords = (int) cf[0];
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
@@ -77,28 +79,14 @@ public class LongParagraphRule extends TextLevelRule {
     return RULE_ID;
   }
 
+  /**
+   *  give the user the possibility to configure the function
+   */
   @Override
-  public int getDefaultValue() {
-    return maxWords;
-  }
-
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 5;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 300;
-  }
-
-  public String getConfigureText() {
-    return messages.getString("guiLongParagraphsText");
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(maxWords, MessageFormat.format(
+        messages.getString("guiLongParagraphsText"), LIMIT_MAX_WORDS), 5, LIMIT_MAX_WORDS) };
+    return ruleOptions;
   }
 
   public String getMessage() {
@@ -125,8 +113,9 @@ public class LongParagraphRule extends TextLevelRule {
         if (!token.isWhitespace() && !token.isSentenceStart() && !token.isNonWord()) {
           wordCount++;
           if (wordCount == maxWords) {
-            startPos = token.getStartPos() + pos;
             endPos = token.getEndPos() + pos;
+          } else if (wordCount == maxWords - 1) {
+            startPos = token.getStartPos() + pos;
           }
         }
       }

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Milkowski (http://www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,7 +19,7 @@
 package org.languagetool.rules.spelling;
 
 import com.google.common.base.Strings;
-import gnu.trove.THashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -76,13 +76,13 @@ public abstract class SpellingCheckRule extends Rule {
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
-  private static final String CUSTOM_SPELLING_FILE = "/hunspell/spelling_custom.txt";
-  private static final String GLOBAL_SPELLING_FILE = "spelling_global.txt";
+  protected static final String CUSTOM_SPELLING_FILE = "/hunspell/spelling_custom.txt";
+  public static final String GLOBAL_SPELLING_FILE = "spelling_global.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
   private static final String CUSTOM_SPELLING_PROHIBIT_FILE = "/hunspell/prohibit_custom.txt";
   private static final String SPELLING_FILE_VARIANT = null;
 
-  private final Set<String> wordsToBeProhibited = new THashSet<>();
+  private final Set<String> wordsToBeProhibited = new ObjectOpenHashSet<>();
 
   private volatile String[] wordsToBeIgnoredDictionary = null;
   private volatile String[] wordsToBeIgnoredDictionaryIgnoreCase = null;
@@ -90,11 +90,11 @@ public abstract class SpellingCheckRule extends Rule {
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
-  protected final Set<String> wordsToBeIgnored = new THashSet<>();
+  protected final Set<String> wordsToBeIgnored = new ObjectOpenHashSet<>();
   protected int ignoreWordsWithLength = 0;
-  
-  private final Pattern pHasNoLetterLatin = Pattern.compile("^[^\\p{script=latin}]+$");
-  private final Pattern pHasNoLetter = Pattern.compile("^[^\\p{L}]+$");
+
+  private final static Pattern pHasNoLetterLatin = Pattern.compile("^[^\\p{script=latin}]+$");
+  private final static Pattern pHasNoLetter = Pattern.compile("^[^\\p{L}]+$");
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -280,6 +280,8 @@ public abstract class SpellingCheckRule extends Rule {
 
   /**
    * Returns true iff the token at the given position should be ignored by the spell checker.
+   * Use {@link #ignorePotentiallyMisspelledWord(String)} if the check you want to implement is slightly
+   * computationally expensive.
    */
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
     List<String> words = new ArrayList<>();
@@ -299,8 +301,8 @@ public abstract class SpellingCheckRule extends Rule {
     }
     if (!considerIgnoreWords) {
       return false;
-    } 
-    // Tokens with no letters cannot have spelling errors. So ignore them. 
+    }
+    // Tokens with no letters cannot have spelling errors. So ignore them.
     Matcher mHasNoLetter;
     if (isLatinScript()) {
       mHasNoLetter = pHasNoLetterLatin.matcher(word);
@@ -322,7 +324,7 @@ public abstract class SpellingCheckRule extends Rule {
 
   protected boolean isIgnoredNoCase(String word) {
     return isInIgnoredSet(word) ||
-           (convertsCase && isInIgnoredSet(word.toLowerCase(language.getLocale()))) ||
+           (!StringTools.isMixedCase(word) && convertsCase && isInIgnoredSet(word.toLowerCase(language.getLocale()))) ||
            (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 
@@ -333,6 +335,15 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     return ignoreWord(words.get(idx));
+  }
+
+  /**
+   * Like {@link #ignoreWord(String)}, but will only be called after the standard spell
+   * check has run and considered this word to be incorrect. This way, tests run here
+   * can be a bit more computationally expensive.
+   */
+  protected boolean ignorePotentiallyMisspelledWord(String words) throws IOException {
+    return false;
   }
 
   /**
@@ -415,8 +426,8 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   * 
-   * Get the name of the spelling file for a language variant (e.g., en-US or de-AT), 
+   *
+   * Get the name of the spelling file for a language variant (e.g., en-US or de-AT),
    * which lists words to be accepted and used for suggestions, even when the spell
    * checker would not accept them.
    * @since 4.3
@@ -501,8 +512,7 @@ public abstract class SpellingCheckRule extends Rule {
   protected void addIgnoreWords(String line) {
     if (!tokenizeNewWords()) {
       wordsToBeIgnored.add(line);
-    }
-    else {
+    } else {
       // if line consists of several words (separated by " "), a DisambiguationPatternRule
       // will be created where each words serves as a case-sensitive and non-inflected PatternToken
       // so that the entire multi-word entry is ignored by the spell checker
@@ -510,7 +520,7 @@ public abstract class SpellingCheckRule extends Rule {
       if (tokens.size() > 1) {
         //System.out.println("Tokenized multi-token: " + line);
         List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
-        for(String token : tokens) {
+        for (String token : tokens) {
           if (token.trim().isEmpty()) {
             continue;
           }
@@ -594,7 +604,7 @@ public abstract class SpellingCheckRule extends Rule {
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return antiPatterns;
   }
-  
+
   /**
    * Checks whether a <code>word</code> starts with an ignored word.
    * Note that a minimum <code>word</code>-length of 4 characters is expected.
@@ -635,7 +645,7 @@ public abstract class SpellingCheckRule extends Rule {
     }
     return word.length();
   }
-  
+
   // tokenize words from files spelling.txt, prohibit.txt...
   protected boolean tokenizeNewWords() {
     return true;

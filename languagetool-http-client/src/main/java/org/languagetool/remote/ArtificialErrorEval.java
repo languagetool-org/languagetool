@@ -207,8 +207,8 @@ public class ArtificialErrorEval {
     }
     else {
       String[] parts = fileName.split("~");
-      words[0] = parts[0].replaceAll("_", " ");
-      words[1] = parts[1].replaceAll("_", " ");
+      words[0] = parts[0].replace("_", " ");
+      words[1] = parts[1].replace("_", " ");
       if (parts.length > 2) {
         unidirectional = parts[2].equals("u");
         if (parts[2].equals("u_notwholeword")) {
@@ -283,8 +283,8 @@ public class ArtificialErrorEval {
           }
           else {
             String[] parts = fileName.split("~");
-            words[0] = parts[0].replaceAll("_", " ");
-            words[1] = parts[1].replaceAll("_", " ");
+            words[0] = parts[0].replace("_", " ");
+            words[1] = parts[1].replace("_", " ");
             if (parts.length > 2) {
               unidirectional = parts[2].equals("u");
               if (parts[2].equals("u_notwholeword")) {
@@ -324,7 +324,7 @@ public class ArtificialErrorEval {
     fakeRuleIDs[1] = "rules_" + words[1] + "->" + words[0]; // rules in the other direction
     CheckConfiguration config;
     CheckConfigurationBuilder cfgBuilder = new CheckConfigurationBuilder(langCode);
-    cfgBuilder.textSessionID("-2");
+    //cfgBuilder.textSessionID("-2");
     if (enabledOnlyRules.isEmpty()) {
       cfgBuilder.disabledRuleIds("WHITESPACE_RULE");
       if (!disabledRules.isEmpty()) {
@@ -414,8 +414,8 @@ public class ArtificialErrorEval {
           correctSentence = mCorrect.group(1) + mCorrect.group(2) + mCorrect.group(3);
           posError = mCorrect.group(1).length();
         }*/
-        String correctSentence = correctSource.replaceAll("__", "");
-        String incorrectSentence = incorrectSource.replaceAll("__", "");
+        String correctSentence = correctSource.replace("__", "");
+        String incorrectSentence = incorrectSource.replace("__", "");
         if (correctSentence.equals(incorrectSentence)) {
           printSentenceOutput("IGNORED LINE: sentences are identical!", correctSource, 0, "");
           ignoredLines++;

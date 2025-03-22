@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
 /**

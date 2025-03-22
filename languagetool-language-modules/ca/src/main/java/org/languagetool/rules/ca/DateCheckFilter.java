@@ -18,16 +18,15 @@
  */
 package org.languagetool.rules.ca;
 
-import org.languagetool.rules.AbstractDateCheckFilter;
-
+import org.languagetool.rules.AbstractDateCheckWithSuggestionsFilter;
 import java.util.Calendar;
 
 /**
- * Catalan localization of {@link AbstractDateCheckFilter}.
+ * Catalan localization of {@link AbstractDateCheckWithSuggestionsFilter}.
  * @since 2.7
  */
-public class DateCheckFilter extends AbstractDateCheckFilter {
-  
+public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
+
   private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
 
   @Override
@@ -39,7 +38,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   protected Calendar getCalendar() {
     return dateFilterHelper.getCalendar();
   }
-  
+
   protected int getDayOfWeek(String dayStr) {
     return dateFilterHelper.getDayOfWeek(dayStr);
   }
@@ -48,4 +47,10 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   protected String getDayOfWeek(Calendar date) {
     return dateFilterHelper.getDayOfWeek(date);
   }
+
+  @Override
+  protected String getErrorMessageWrongYear() {
+    return "Aquesta data no és correcta. ¿Us referiu a l'any \"{currentYear}\"?";
+  }
+
 }

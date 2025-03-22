@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -43,12 +44,13 @@ public class EnglishDisambiguationRuleTest {
   
   @Before
   public void setUp() {
+    Language lang = new English();
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();
-    sentenceTokenizer = new SRXSentenceTokenizer(new English());
-    disambiguator = new XmlRuleDisambiguator(new English());
+    sentenceTokenizer = new SRXSentenceTokenizer(lang);
+    disambiguator = new XmlRuleDisambiguator(lang);
     disamb2 = new DemoDisambiguator(); 
-    hybridDisam = new EnglishHybridDisambiguator();
+    hybridDisam = new EnglishHybridDisambiguator(lang);
   }
 
   @Test

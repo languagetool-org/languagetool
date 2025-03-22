@@ -18,7 +18,7 @@
  */
 package org.languagetool.tools;
 
-import java.text.Normalizer;
+import java.util.regex.Pattern;
 
 /**
  * Tools for working with arabic strings.
@@ -41,15 +41,13 @@ public class ArabicStringTools {
     + "\u0655"  // Hamza Below
     + "\u0656"  // Subscript Alef
     + "\u0640"; // Tatweel
+  private static final Pattern TASHKEEL_PATTERN = Pattern.compile("[" + TASHKEEL_CHARS + "]");
 
   /**
    * Return <code>str</code> without tashkeel characters
    * @param str input str
    */
   public static String removeTashkeel(String str) {
-     String striped = str.replaceAll("["
-      + TASHKEEL_CHARS
-      + "]", "");
-     return striped;
+     return TASHKEEL_PATTERN.matcher(str).replaceAll("");
    }
 }

@@ -40,8 +40,8 @@ public class CatalanUnpairedBracketsRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), new Catalan());
-    lt = new JLanguageTool(new Catalan());
+    rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), Catalan.getInstance());
+    lt = new JLanguageTool(Catalan.getInstance());
   }
 
   @Test
@@ -146,7 +146,7 @@ public class CatalanUnpairedBracketsRuleTest {
 
   @Test
   public void testMultipleSentences() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new Catalan());
+    final JLanguageTool tool = new JLanguageTool(Catalan.getInstance());
     tool.enableRule("CA_UNPAIRED_BRACKETS");
 
     List<RuleMatch> matches;
@@ -173,6 +173,29 @@ public class CatalanUnpairedBracketsRuleTest {
         .check("Aquesta és una sentència múltiple amb parèntesis "
             + "(Ací hi ha un parèntesi. \n\n Amb algun text.) i ací continua.");
     assertEquals(0, matches.size());
+  }
+  
+  @Test
+  public void testQuestionExclamation() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Catalan.getInstance());
+    tool.enableRule("CA_UNPAIRED_QUESTION");
+    tool.enableRule("CA_UNPAIRED_EXCLAMATION");
+
+    List<RuleMatch> matches;
+    matches = tool
+        .check("-Com estàs?\n");
+    assertEquals(1, matches.size());
+    assertEquals("[¿Com]", matches.get(0).getSuggestedReplacements().toString());
+    
+    matches = tool
+        .check("-Benvinguda!\n");
+    assertEquals(1, matches.size());
+    assertEquals("[¡Benvinguda]", matches.get(0).getSuggestedReplacements().toString());
+
+    matches = tool.check("-Tinc raó, oi?\n");
+    assertEquals(1, matches.size());
+    assertEquals("[¿oi]", matches.get(0).getSuggestedReplacements().toString());
+    
   }
 
 }

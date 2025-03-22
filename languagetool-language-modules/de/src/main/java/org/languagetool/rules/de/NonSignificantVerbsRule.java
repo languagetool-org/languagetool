@@ -43,7 +43,7 @@ public class NonSignificantVerbsRule extends AbstractStatisticStyleRule {
   public NonSignificantVerbsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig, DEFAULT_MIN_PER_MILL);
     addExamplePair(Example.wrong("Er <marker>machte</marker> einen Kuchen."),
-        Example.fixed("Das macht mir Angst."));
+                   Example.fixed("Das macht mir Angst."));
   }
 
   /*
@@ -138,8 +138,13 @@ public class NonSignificantVerbsRule extends AbstractStatisticStyleRule {
   }
 
   @Override
-  public String getConfigureText() {
+  public String getConfigurePercentText() {
     return "Anzeigen wenn mehr als ...‰ eines Kapitels wenig aussagekräftige Verben sind:";
+  }
+
+  @Override
+  public String getConfigureWithoutDirectSpeachText() {
+    return "Keine direkte Rede und Zitate berücksichtigen";
   }
 
 }

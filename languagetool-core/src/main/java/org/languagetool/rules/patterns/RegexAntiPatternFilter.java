@@ -44,7 +44,7 @@ public class RegexAntiPatternFilter extends RegexRuleFilter {
     for (String antiPattern : antiPatterns) {
       Pattern p = Pattern.compile(antiPattern);
       Matcher matcher = p.matcher(sentenceObj.getText());
-      if (matcher.find()) {
+      while (matcher.find()) {
         // partial overlap is enough to filter out a match:
         if (matcher.start() <= match.getToPos() && matcher.end() >= match.getToPos() ||
             matcher.start() <= match.getFromPos() && matcher.end() >= match.getFromPos()) {

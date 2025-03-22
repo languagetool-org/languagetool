@@ -1,8 +1,163 @@
 # LanguageTool Change Log
 
-## 6.2-SNAPSHOT (release planned for 2023-06-28)
+## 6.6-SNAPSHOT (release planned for 2025-03-27)
 
 ...
+
+#### General
+
+LanguageTool requires Java 17 now.
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
+
+## 6.5 (2024-09-27)
+
+The add-on for LibreOffice/OpenOffice is not part of this repository
+anymore. Find it at https://github.com/languagetool-org/languagetool-for-libreoffice.
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.26)
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * extended dictionary
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Portuguese
+  * added and improved rules
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.3)
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
+
+## 6.4 (2024-03-28)
+
+#### Asturian
+  * tagger and spelling dictionaries have been moved to an external dependency (asturian-pos-dict v 0.1)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.25)
+
+### Crimean Tatar
+  * initial support
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * tagger and spelling dictionaries have been moved to an external dependency (english-pos-dict v 0.3)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Polish
+  * small rule improvements
+
+#### Portuguese
+  * added and improved rules
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.2)
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
+
+## 6.3 (2023-10-06)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
+  * tagger and spelling dictionaries have been moved to an external dependency (dutch-pos-dict v 0.1)
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2023.06.01, v.3.2.1)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Portuguese
+  * added and improved rules
+
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
+
+
+## 6.2 (2023-07-02)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2023.06.01, v.3.2.1)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+
+There were also minor rule improvements for Galician, Belarusian, Esperanto, Arabic,
+and Russian.
+
 
 
 ## 6.1 (2023-03-28)

@@ -100,6 +100,22 @@ USA
 <rules lang="en-US" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <category id="GRAMMAR" name="Grammar" type="grammar">
+            <rule id="ON_A_WHOLE_ANOTHER" name="on a whole another (nother/different)">
+                <pattern>
+                    <token regexp="yes">[oi]n|at</token>
+                    <token>a</token>
+                    <marker>
+                        <token>whole</token>
+                        <token>another</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </pattern>
+                <message>The correct spelling of this idiom is <suggestion>whole nother</suggestion>. However, "whole nother" is often considered informal and is inappropriate in most business and academic contexts.</message>
+                <suggestion>whole other</suggestion>
+                <suggestion>whole different</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/whole%20nother</url>
+                <example correction="whole nother|whole other|whole different">This is on a <marker>whole another</marker> level.</example>
+            </rule>
             <rulegroup id="US_ONE_ENTITY" name="The United States are (is) 246 years old">
                 <rule>  <!-- 'United States' -->
                     <antipattern>
@@ -355,6 +371,36 @@ USA
         </category>
 
         <category id="PUNCTUATION" name="Punctuation" type="typographical">
+            <rule id="PERIOD_QUOTE_PERIOD" name="spell checker.”. (checker.”)">
+            <!-- Fix outcome of QB rule -->
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]</token>
+                    <token>.</token>
+                    <token regexp="yes">["”]</token>
+                    <token postag="SENT_END">.</token>
+                    <example>Oh, and the term "jewfro" definitely predates "The O.C.".</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">co(rp)?|cyc|etc|inc|ste</token>
+                    <token>.</token>
+                    <token regexp="yes">["”]</token>
+                    <token postag="SENT_END">.</token>
+                    <example>Adchem Corp. ". </example>
+                    <example>"An Introduction to the Syntax and Content of Cyc.".</example>
+                    <example>The Church of Denmark still uses the phrase "We renounce the devil and all his doings and all his beings" as the beginning of this creed, before the line "We believe in God etc.". </example>
+                </antipattern>
+                <pattern>
+                    <token><exception>.</exception></token>
+                    <token>.</token>
+                    <token regexp="yes">["”]</token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Unless punctuating an abbreviation or acronym, periods should not appear both inside and outside of a quote.</message>
+                <suggestion>\1\2\3</suggestion>
+                <short>Potential error</short>
+                <example correction="checker.”">It turned out that Google was promoting this app every time someone searched for a “spell <marker>checker.”.</marker></example>
+                <example>My boss was like "ohhh sh.....".</example>
+            </rule>
             <rulegroup id="MISSING_PERIOD_AFTER_ABBREVIATION" name="Missing period after an abbreviation" tags="picky">
                 <url>https://www.quickanddirtytips.com/education/grammar/when-you-need-periods-after-abbreviations</url>
                 <short>Missing period</short>
@@ -575,7 +621,7 @@ USA
         </rule>
         <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_BRE" name="1-litre/1-liter">
             <pattern>
-                <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deca|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?(gramme|litre|metre)<exception postag="NNP"/></token>
+                <token regexp="yes">([0-9]+-)(quetta|ronna|yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deca|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto|ronto|quecto)?(gramme|litre|metre)<exception postag="NNP"/></token>
             </pattern>
             <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct American English.</message>
             <short>AmE/BrE: SI units (adjectives)</short>
@@ -584,7 +630,7 @@ USA
             <example>Do not find incorrect English: use a <marker>10-millimetres</marker> bolt.</example>
             <example correction="">Use a <marker>10-metre</marker> rope.</example>
             <example correction="">The 4.<marker>6-centigramme</marker> difference is not a problem.</example>
-            <example correction="">Also find typgoraphic errors: a 5.7.<marker>8-femtogramme</marker> difference is not important.</example>
+            <example correction="">Also find typographic errors: a 5.7.<marker>8-femtogramme</marker> difference is not important.</example>
        </rule>
 
     <rule id="AT_THE_WEEKEND" name="Collocation: at the weekend"><!-- Premium #983 -->

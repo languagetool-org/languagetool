@@ -25,12 +25,18 @@ import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PreReformPortugueseDashRule;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * @since 3.6
  */
 public class MozambiquePortuguese extends Portuguese {
+
+  public MozambiquePortuguese() {
+    super(true);
+  }
 
   @Override
   public String[] getCountries() {

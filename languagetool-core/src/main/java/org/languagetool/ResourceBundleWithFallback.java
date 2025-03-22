@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -49,4 +50,18 @@ public class ResourceBundleWithFallback extends ResourceBundle {
     return bundle.getKeys();
   }
 
+  @Override
+  public final boolean equals(Object o) {
+    if (o == this) return true;
+    if (!(o instanceof ResourceBundleWithFallback that)) return false;
+
+    return Objects.equals(bundle, that.bundle) && Objects.equals(fallbackBundle, that.fallbackBundle);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hashCode(bundle);
+    result = 31 * result + Objects.hashCode(fallbackBundle);
+    return result;
+  }
 }

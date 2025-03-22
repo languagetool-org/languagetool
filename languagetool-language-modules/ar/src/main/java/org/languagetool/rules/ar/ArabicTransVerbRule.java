@@ -53,7 +53,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
       Example.fixed("The train arrived <marker>an hour</marker> ago."));
 
     // get wrong words from resource file
-    wrongWords = getWrongWords(false);
+    wrongWords = getWrongWords();
   }
 
   @Override

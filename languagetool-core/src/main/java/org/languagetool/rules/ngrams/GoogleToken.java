@@ -21,7 +21,6 @@ package org.languagetool.rules.ngrams;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;

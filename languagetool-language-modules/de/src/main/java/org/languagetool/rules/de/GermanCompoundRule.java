@@ -19,7 +19,6 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.AbstractCompoundRule;
@@ -45,7 +44,6 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRege
  */
 public class GermanCompoundRule extends AbstractCompoundRule {
 
-  private static final Language GERMAN = Languages.getLanguageForShortCode("de-DE");
   private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
     Arrays.asList(  // "Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen."
       tokenRegex("an|um"),
@@ -65,8 +63,28 @@ public class GermanCompoundRule extends AbstractCompoundRule {
       token("ca"),
       token("."),
       tokenRegex("\\d+")
+    ),
+    Arrays.asList(  // Eigenname
+      token("Kung"),
+      token("Fu"),
+      tokenRegex("Panda|Fighting")
+    ),
+    Arrays.asList(  // Eigenname
+      token("Harlem"),
+      token("Gospel"),
+      token("Singers")
+    ),
+    Arrays.asList(  // Englisch
+      token("Always"),
+      token("on"),
+      tokenRegex("my|your|the|an?|their")
+    ),
+    Arrays.asList(  // sich selbst gerecht werden
+      tokenRegex("sich|uns|ihm|ihr|mir|euch"),
+      token("selbst"),
+      tokenRegex("gerecht.*")
     )
-  ), GERMAN);
+  ), GermanyGerman.getInstance());
 
   private static volatile CompoundRuleData compoundData;
   
@@ -107,7 +125,7 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   
   @Override
   public boolean isMisspelled(String word) throws IOException {
-    return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
+    return GermanyGerman.getInstance().getDefaultSpellingRule().isMisspelled(word);
   }
 
   @Override

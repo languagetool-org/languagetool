@@ -55,6 +55,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "weist bei interesse auf",
+    "weist bei bedarf auf",
     "wir bei der",
     "seht ihr",
     "seht zu, dass",
@@ -143,6 +145,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "voll viel", // vs fiel
     "fasst nichts an", // vs fast
     "fasst mit an", // vs fast
+    "kann das wer bestätigen", // vs wär
     "fasst keiner an", // vs fast
     "fasst keine mehr an", // vs fast
     "fasst keiner mehr an", // vs fast
@@ -213,6 +216,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     )
   );
 
+  private static final Pattern COMMON_WORD = Pattern.compile("[\\wöäüßÖÄÜ]+");
+
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
   }
@@ -235,7 +240,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
 
   protected boolean isCommonWord(String token) {
-    return token.matches("[\\wöäüßÖÄÜ]+");
+    return COMMON_WORD.matcher(token).matches();
   }
 
 }

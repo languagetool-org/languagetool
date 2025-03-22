@@ -126,6 +126,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("відбулася 17.8.1245");
     assertEquals(Arrays.asList("відбулася", " ", "17.8.1245"), testList);
+    
+    testList = w.tokenize("1814.03.09");
+    assertEquals(Arrays.asList("1814.03.09"), testList);
   }
 
   @Test
@@ -299,6 +302,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("найважчого жанру— оповідання");
     assertEquals(Arrays.asList("найважчого", " ", "жанру", "—", " ", "оповідання"), testList);
 
+    testList = w.tokenize("\u2015оповідання");
+    assertEquals(Arrays.asList("\u2015", "оповідання"), testList);
+    
     testList = w.tokenize("проф. Артюхов");
     assertEquals(Arrays.asList("проф.", " ", "Артюхов"), testList);
 
@@ -356,6 +362,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("ам. долл");
     assertEquals(Arrays.asList("ам.", " ", "долл"), testList);
+
+    testList = w.tokenize("4 дол.");
+    assertEquals(Arrays.asList("4", " ", "дол."), testList);
 
     testList = w.tokenize("св. ап. Петра");
     assertEquals(Arrays.asList("св.", " ", "ап.", " ", "Петра"), testList);
@@ -437,6 +446,12 @@ public class UkrainianWordTokenizerTest {
  
     testList = w.tokenize("Fair trade [«Справедлива торгівля». –    Авт.], який стежить за тим, щоб у країнах");
     assertTrue(testList.toString(), testList.contains("Авт."));
+
+    testList = w.tokenize("яку авт. устиг");
+    assertEquals(Arrays.asList("яку", " ", "авт.", " ", "устиг"), testList);
+    
+    testList = w.tokenize("пише ред. Бойків");
+    assertEquals(Arrays.asList("пише", " ", "ред.", " ", "Бойків"), testList);
     
     testList = w.tokenize("диво з див.");
     assertEquals(Arrays.asList("диво", " ", "з", " ", "див", "."), testList);
@@ -531,6 +546,9 @@ public class UkrainianWordTokenizerTest {
     
     testList = w.tokenize("поч. 1945 - кін. 1946");
     assertEquals(Arrays.asList("поч.", " ", "1945", " ", "-", " ", "кін.", " ", "1946"), testList);
+
+    testList = w.tokenize("Поч. XX ст.");
+    assertEquals(Arrays.asList("Поч.", " ", "XX", " ", "ст."), testList);
   }
 
   @Test

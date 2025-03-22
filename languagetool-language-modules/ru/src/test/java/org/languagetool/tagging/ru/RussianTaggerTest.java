@@ -29,7 +29,7 @@ public class RussianTaggerTest {
 
   @Test
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(RussianTagger.INSTANCE, new Russian());
+    TestTools.testDictionary(RussianTagger.INSTANCE, Russian.getInstance());
   }
 
   @Test
@@ -44,7 +44,6 @@ public class RussianTaggerTest {
         "Абдуллаевы/[абдуллаев]NN:Fam:PL:Nom", tokenizer, tagger);
     TestTools.myAssert("блукать",
         "блукать/[блукать]VB:INF:", tokenizer, tagger);
-
   }
 
 }

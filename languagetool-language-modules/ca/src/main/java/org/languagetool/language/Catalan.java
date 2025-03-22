@@ -21,9 +21,11 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -39,10 +41,36 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
+
 public class Catalan extends Language {
 
-  private static final Language DEFAULT_CATALAN = new Catalan();
-  
+  private static final String LANGUAGE_SHORT_CODE = "ca-ES";
+
+  private static volatile Throwable instantiationTrace;
+
+  public Catalan() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected Catalan(boolean fakeValue) {
+  }
+
+  public static @NotNull Catalan getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Catalan catalan) {
+      return catalan;
+    }
+    throw new RuntimeException("Catalan language expected, got " + language);
+  }
+
   @Override
   public String getName() {
     return "Catalan";
@@ -60,7 +88,7 @@ public class Catalan extends Language {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return DEFAULT_CATALAN;
+    return Languages.getLanguageForShortCode("ca-ES");
   }
   
   @Override
@@ -86,23 +114,25 @@ public class Catalan extends Language {
             new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
-            new CatalanWrongWordInContextRule(messages),
+            new CatalanWrongWordInContextRule(messages, this),
             new SimpleReplaceVerbsRule(messages, this),
-            new SimpleReplaceBalearicRule(messages),
-            new SimpleReplaceRule(messages),
+            new SimpleReplaceBalearicRule(messages, this),
+            new SimpleReplaceRule(messages, this),
             new SimpleReplaceMultiwordsRule(messages),
             new ReplaceOperationNamesRule(messages, this),
-            new SimpleReplaceDiacriticsIEC(messages),
+            new SimpleReplaceDiacriticsIEC(messages, this),
             new SimpleReplaceAnglicism(messages), 
             new PronomFebleDuplicateRule(messages),
             new CheckCaseRule(messages, this),
             new SimpleReplaceAdverbsMent(messages),
             new CatalanWordRepeatBeginningRule(messages, this),
             new CompoundRule(messages, this, userConfig),
-            new CatalanRepeatedWordsRule(messages), 
+            //new CatalanRepeatedWordsRule(messages, this),
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),
-            new SimpleReplaceDNVSecondaryRule(messages, this)
+            new SimpleReplaceDNVSecondaryRule(messages, this),
+            new WordCoherencyRule(messages),
+            new PunctuationMarkAtParagraphEnd(messages, this)
     );
   }
 
@@ -115,7 +145,7 @@ public class Catalan extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return CatalanSynthesizer.INSTANCE;
+    return CatalanSynthesizer.INSTANCE_CAT;
   }
 
   @Override
@@ -125,12 +155,12 @@ public class Catalan extends Language {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new CatalanHybridDisambiguator();
+    return new CatalanHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
   public Tokenizer createDefaultWordTokenizer() {
-    return new CatalanWordTokenizer();
+    return CatalanWordTokenizer.INSTANCE;
   }
   
   /** @since 5.1 */
@@ -162,15 +192,19 @@ public class Catalan extends Language {
   public boolean isAdvancedTypographyEnabled() {
     return true;
   }
-  
+
+  private static final Pattern PATTERN_1 = compile("(\\b[lmnstdLMNSTD])'");
+  private static final Pattern PATTERN_2 = compile("(\\b[lmnstdLMNSTD])’\"");
+  private static final Pattern PATTERN_3 = compile("(\\b[lmnstdLMNSTD])’'");
+
   @Override
   public String toAdvancedTypography (String input) {
     String output = super.toAdvancedTypography(input);
     
     // special cases: apostrophe + quotation marks
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])'", "$1’");
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])’\"", "$1’" + getOpeningDoubleQuote());
-    output = output.replaceAll("(\\b[lmnstdLMNSTD])’'", "$1’" + getOpeningSingleQuote());
+    output = PATTERN_1.matcher(output).replaceAll("$1’");
+    output = PATTERN_2.matcher(output).replaceAll("$1’" + getOpeningDoubleQuote());
+    output = PATTERN_3.matcher(output).replaceAll("$1’" + getOpeningSingleQuote());
     
     return output;
   }
@@ -181,59 +215,52 @@ public class Catalan extends Language {
   }
   
   @Override
-  public int getRulePriority(Rule rule) {
-    int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
-    int rulePriority = this.getPriorityForId(rule.getId());
-    // if there is a priority defined for the rule,
-    // it takes precedence over category priority
-    if (rulePriority != 0) {
-      return rulePriority;
-    }
-    if (categoryPriority != 0) {
-      return categoryPriority;
-    }
-    if (rule.getLocQualityIssueType().equals(ITSIssueType.Style)) {
-      // don't let style issues hide more important errors
-      return -50;
-    }
-    return 0;
+  protected int getDefaultRulePriorityForStyle() {
+    return -50;
   }
 
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
       case "CONFUSIONS2": return 80;
-      case "CA_SIMPLE_REPLACE_MULTIWORDS": return 70;
-      case "CA_SIMPLE_REPLACE_BALEARIC": return 60;
-      case "CA_COMPOUNDS": return 50;
+      case "DEU_NI_DO": return 80; // greater than rules about pronouns
+      case "FER_LOGIN": return 70; // greater than anglicisms
+      case "L_OK": return 70; // greater than anglicisms
       case "INCORRECT_EXPRESSIONS": return 50;
       case "PERSONATGES_FAMOSOS": return 50;
       case "CONEIXO_CONEC": return 50;
+      case "COMETES_INCORRECTES": return 50; // greater than PRONOMS_FEBLES
       case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
       case "DESDE_UN": return 40;
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPERANT_US_AGRADI": return 40;
+      case "LO_NEUTRE": return 40; // lower than other INCORRECT_EXPRESSIONS
       case "ESPAIS_SOBRANTS": return 40; // greater than L
+      case "PER_A_QUE_PERQUE": return 40;
       case "ELA_GEMINADA": return 35; // greater than agreement rules, pronoun rules
+      case "CONFUSIONS_PRONOMS_FEBLES": return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
+      case "COMMA_PERO1": return 35; // greater than CA_SIMPLE_REPLACE
       case "CA_SPLIT_WORDS": return 30;
       case "PRONOMS_FEBLES_TEMPS_VERBAL": return 35;
       case "ET_AL": return 30; // greater than apostrophes and pronouns
       case "PRONOMS_FEBLES_COLLOQUIALS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
-      case "CONFUSIONS_PRONOMS_FEBLES": return 30; // greater than ES (DIACRITICS)
       case "GERUNDI_PERD_T": return 30;
       case "CONFUSIONS": return 30;
       case "PRONOMS_FEBLES_DARRERE_VERB": return 30; // greater than PRONOMS_FEBLES_SOLTS2
-      case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
-      case "CA_SIMPLE_REPLACE_VERBS": return 28; // greater than PRONOMS_FEBLES_SOLTS2
-      case "HAVER_SENSE_HAC": return 28; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
+      case "VERBS_NO_INCOATIUS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
+      case "ARRIBAN_ARRIBANT": return 30;
+      case "PUNT_LLETRA": return 30; // greater than CONCORDANCES_DET_NOM
       case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN
       case "PRONOMS_FEBLES_SOLTS2": return 26;  // greater than PRONOMS_FEBLES_SOLTS, ES, HAVER_SENSE_HAC
       case "ES_UNKNOWN": return 25;
+      case "HAVER_SENSE_HAC": return 25; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
+      case "HA_A": return 25; //  lower than CA_SIMPLE_REPLACE_VERBS
       case "PASSAT_PERIFRASTIC": return 25; // greater than CONFUSIONS_ACCENT
       case "CONFUSIONS_ACCENT": return 20;
+      case "CONFUSIO_PASSAT_INFINITIU": return 20; // greater than ACCENTUATION_CHECK
       case "DIACRITICS": return 20;
       case "CAP_GENS": return 20; //greater than CAP_ELS_CAP_ALS, CONCORDANCES_DET_NOM
       case "MOTS_SENSE_GUIONETS": return 20; // greater than CONCORDANCES_NUMERALS
@@ -244,6 +271,8 @@ public class Catalan extends Language {
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
       case "ACCENTUATION_CHECK": return 10;
+      case "CONCORDANCA_GRIS": return 10;
+      case "A_PER": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
       case "COMMA_IJ": return 10;
       case "AVIS": return 10;
@@ -252,38 +281,87 @@ public class Catalan extends Language {
       case "DOS_ARTICLES": return 10; // greater than apostrophation rules
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
       case "SELS_EN_VA": return 10;
-      case "CA_SIMPLE_REPLACE_ANGLICISM": return 10;
+      case "CONCORDANCES_NOUNS_PRIORITY": return 10;
+      case "PREFIXOS_SENSE_GUIONET_EN_DICCIONARI": return 10; // greater than SPELLING
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
-      case "CONCORDANCES_DET_NOM": return 5;
+      case "CONCORDANCES_DET_NOM": return 5; // greater than DE_EL_S_APOSTROFEN
+      case "CONCORDANCES_DET_ADJ": return 5; // greater than DE_EL_S_APOSTROFEN
+      case "CONCORDANCES_DET_POSSESSIU": return 5; // greater than CONCORDANCES_ADJECTIUS_NEUTRES
+      case "PASSAR_SE": return 5; // greater than OBLIDARSE
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
+      case "APOSTROF_ANYS": return 5; // greater than typography options
       case "VENIR_NO_REFLEXIU": return 5;
+      case "DEUS_SEUS": return 5;
+      case "SON_BONIC": return 5;
+      case "ACCENTUACIO": return 5;
+      case "FIDEUA": return 5; // la cremà
+      case "L_NO_APOSTROFA": return 5;
+      case "L_D_N_NO_S_APOSTROFEN": return 5;
       case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
+      case "CA_WORD_COHERENCY": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
+      case "CA_WORD_COHERENCY_VALENCIA": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
+    // TA_DEMOSTRATIUS_ESTE
+      case "QUAN_PREPOSICIO": return -10; // lesser than QUANT_MES_MES
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
       case "COMMA_LOCUTION": return -10;
       case "REGIONAL_VERBS": return -10;
       case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
+      case "CONCORDANCA_PRONOMS_CATCHALL": return -10;
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
       case "VERBS_NOMSPROPIS": return -20;
       case "VERBS_PRONOMINALS": return -25;
+      case "PORTO_LLEGINT": return -30;
+      case "PORTA_UNA_HORA": return -40;
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
+      case "TASCAS_TASQUES": return -97;
+      case "PREPOSICIONS_MINUSCULA": return -97; // less than CA_MULTITOKEN_SPELLING
+      case "SUGGERIMENTS_LE": return -97; // less than CA_MULTITOKEN_SPELLING
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
       //case "APOSTROFACIO_MOT_DESCONEGUT": return -120; // lesser than MORFOLOGIK_RULE_CA_ES
       case "PHRASE_REPETITION": return -150;
       case "SUBSTANTIUS_JUNTS": return -150;
+      case "REPETITION_ADJ_N_ADJ": return -155;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "PUNT_FINAL": return -200;
+      case "PUNCTUATION_PARAGRAPH_END": return -200;
+      case "CA_END_PARAGRAPH_PUNCTUATION": return -250;
+      case "DICENDI_QUE": return -250;
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
-      case "ELA_GEMINADA_WIKI": return -200;
+      case "ELA_GEMINADA_WIKI": return -500;
+    }
+    if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
+      return -95;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_MULTIWORDS")) {
+      return 70;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_ANGLICISM")) {
+      return 65; // greater than CA_SIMPLE_REPLACE_BALEARIC
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_BALEARIC")) {
+      return 60;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_VERBS")) {
+      return 28;
+    }
+    if (id.startsWith("CA_COMPOUNDS")) {
+      return 50;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE_DIACRITICS_IEC")) {
+      return 0;
+    }
+    if (id.startsWith("CA_SIMPLE_REPLACE")) {
+      return 30;
     }
     return super.getPriorityForId(id);
   }
@@ -297,53 +375,67 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
-  @Override
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    List<RuleMatch> newRuleMatches = new ArrayList<>();
-    for (RuleMatch rm : ruleMatches) {
-      String errorStr = rm.getUnderlinedStr();
-      List<SuggestedReplacement> suggestedReplacements = rm.getSuggestedReplacementObjects();
-      List<SuggestedReplacement> newReplacements = new ArrayList<>();
-      for (SuggestedReplacement suggestedReplacement : suggestedReplacements) {
-        String newReplStr = suggestedReplacement.getReplacement();
-        if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
-          newReplStr = newReplStr + " ";
+  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+  private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set<String> enabledRules) {
+    String errorStr = ruleMatch.getOriginalErrorStr();
+    List<String> suggestedReplacements = ruleMatch.getSuggestedReplacements();
+    List<SuggestedReplacement> newReplacements = new ArrayList<>();
+    for (String suggestedReplacement : suggestedReplacements) {
+      String newReplStr = suggestedReplacement;
+      if (errorStr.length() > 2 && errorStr.endsWith("'") && !newReplStr.endsWith("'") && !newReplStr.endsWith("’")) {
+        newReplStr = newReplStr + " ";
+      }
+      if (!newReplStr.equalsIgnoreCase("després") && enabledRules.contains("EXIGEIX_ACCENTUACIO_GENERAL")) {
+        if (newReplStr.contains("é") && suggestedReplacements.contains(newReplStr.replace("é", "è"))) {
+          continue;
         }
-        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
-          newReplStr = newReplStr.replace("'", "’");
+        if (newReplStr.contains("É") && suggestedReplacements.contains(newReplStr.replace("É", "È"))) {
+          continue;
         }
-        if (enabledRules.contains("EXIGEIX_POSSESSIUS_U") && newReplStr.length() > 3) {
-          Matcher m = POSSESSIUS_v.matcher(newReplStr);
-          newReplStr = m.replaceAll("$1u$2");
-          Matcher m2 = POSSESSIUS_V.matcher(newReplStr);
-          newReplStr = m2.replaceAll("$1U$2");
+      } else if (enabledRules.contains("EXIGEIX_ACCENTUACIO_VALENCIANA")) {
+        if (newReplStr.contains("è") && suggestedReplacements.contains(newReplStr.replace("è", "é"))) {
+          continue;
         }
-        // s = adaptContractionsApostrophes(s);
-        Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
-        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
-          SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
-          newSuggestedReplacement.setReplacement(removeOldDiacritics(newReplStr));
-          if (!newReplacements.contains(newSuggestedReplacement)) {
-            newReplacements.add(newSuggestedReplacement);
-          }
-        } else {
-          SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
-          newSuggestedReplacement.setReplacement(newReplStr);
-          if (!newReplacements.contains(newSuggestedReplacement)) {
-            newReplacements.add(newSuggestedReplacement);
-          }
+        if (newReplStr.contains("È") && suggestedReplacements.contains(newReplStr.replace("È", "É"))) {
+          continue;
         }
       }
-      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-      newRuleMatches.add(newMatch);
+      if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
+        newReplStr = newReplStr.replace("'", "’");
+      }
+      if (enabledRules.contains("EXIGEIX_POSSESSIUS_U") && newReplStr.length() > 3) {
+        Matcher m = POSSESSIUS_v.matcher(newReplStr);
+        newReplStr = m.replaceAll("$1u$2");
+        Matcher m2 = POSSESSIUS_V.matcher(newReplStr);
+        newReplStr = m2.replaceAll("$1U$2");
+        newReplStr = newReplStr.replace("feina", "faena");
+        newReplStr = newReplStr.replace("feiner", "faener");
+        newReplStr = newReplStr.replace("feinera", "faenera");
+      }
+      // s = adaptContractionsApostrophes(s);
+      Matcher m5 = CA_OLD_DIACRITICS.matcher(newReplStr);
+      if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
+        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+        newSuggestedReplacement.setReplacement(removeOldDiacritics(newReplStr));
+        if (!newReplacements.contains(newSuggestedReplacement)) {
+          newReplacements.add(newSuggestedReplacement);
+        }
+      } else {
+        SuggestedReplacement newSuggestedReplacement = new SuggestedReplacement(suggestedReplacement);
+        newSuggestedReplacement.setReplacement(newReplStr);
+        if (!newReplacements.contains(newSuggestedReplacement)) {
+          newReplacements.add(newSuggestedReplacement);
+        }
+      }
     }
-    return newRuleMatches;
+    RuleMatch newRuleMatch = new RuleMatch(ruleMatch, newReplacements);
+    return newRuleMatch;
   }
   
   private String removeOldDiacritics(String s) {
-    return s.replace("dóna", "dona")
+    return s
+        .replace("dóna", "dona")
         .replace("dónes", "dones")
         .replace("sóc", "soc")
         .replace("vénen", "venen")
@@ -357,23 +449,27 @@ public class Catalan extends Language {
         .replace("Fóra", "Fora");
   }
   
-  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
-  private static final Pattern CA_APOSTROPHES1 = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
+  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ");
   // exceptions: l'FBI, l'statu quo
-  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
   // exceptions: el iogurt, la essa
-  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
+  private static final Pattern CA_APOSTROPHES3 = compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeoàúèéí][^ ])",
+  private static final Pattern CA_APOSTROPHES4 = compile("\\b(l)a ([aeoàúèéí][^ ])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES5 = Pattern.compile("\\b([mts]e) (['’])",
+  private static final Pattern CA_APOSTROPHES5 = compile("\\b([mts]e) (['’])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES6 = Pattern.compile("\\bs'e(ns|ls)\\b",
+  private static final Pattern CA_APOSTROPHES6 = compile("\\bs'e(ns|ls)\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern POSSESSIUS_v = Pattern.compile("\\b([mtsMTS]e)v(a|es)\\b",
+  private static final Pattern CA_APOSTROPHES7 = compile("\\b(de|a)l (h?[aeoàúèéí][^ ])",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
       Pattern.UNICODE_CASE);
-  private static final Pattern POSSESSIUS_V = Pattern.compile("\\b([MTS]E)V(A|ES)\\b",
+  private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
       Pattern.UNICODE_CASE);
+  private static final Pattern CA_REMOVE_SPACES = compile("\\b(a|de|pe) (ls? )",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   @Override
   public String adaptSuggestion(String s) {
@@ -393,11 +489,68 @@ public class Catalan extends Language {
     s = m5.replaceAll("$1$2");
     Matcher m6 = CA_APOSTROPHES6.matcher(s);
     s = m6.replaceAll("se'$1");
+    Matcher m7 = CA_APOSTROPHES7.matcher(s);
+    s = m7.replaceAll("$1 l'$2");
+    Matcher m8 = CA_REMOVE_SPACES.matcher(s);
+    s = m8.replaceAll("$1$2");
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }
+    s = s.replace(" ,", ",");
     return s;
   }
   
-  
+  private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
+    "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol", "Alexia Putellas",
+    "Mónica Randall", "Vicente Blasco Ibáñez", "Copa Sudamericana", "Série A", "Banco Sabadell");
+
+  @Override
+  public List<String> prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return Arrays.asList(line);
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (spellerExceptions.contains(form)) {
+      return Arrays.asList("");
+    }
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (tag.startsWith("N") || tag.equals("_Latin_")) {
+        return Arrays.asList(form);
+      } else {
+        return Arrays.asList("");
+      }
+    }
+    return Arrays.asList(line);
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return CatalanMultitokenSpeller.INSTANCE;
+  }
+
+  @Override
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
+    List<RuleMatch> results = new ArrayList<>();
+    for (int i=0; i<ruleMatches.size(); i++) {
+      RuleMatch ruleMatch = ruleMatches.get(i);
+      if (ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[3]") ||
+        ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[4]")) {
+        if (i+1 < ruleMatches.size()) {
+          if (ruleMatches.get(i+1).getFromPosSentence()>-1
+            && !ruleMatches.get(i+1).getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]")
+            && ruleMatches.get(i+1).getFromPosSentence() - ruleMatch.getToPosSentence()<20) {
+            continue;
+          }
+        }
+      }
+      if (i>0 && ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]") &&
+        ruleMatches.get(i-1).getRule().getId().equals("FALTA_ELEMENT_ENTRE_VERBS")) {
+      continue;
+      }
+      results.add(adjustCatalanMatch(ruleMatch, enabledRules));
+    }
+    return results;
+  }
 }
