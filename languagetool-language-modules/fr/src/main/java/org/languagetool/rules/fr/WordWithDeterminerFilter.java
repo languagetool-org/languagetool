@@ -18,11 +18,7 @@
  */
 package org.languagetool.rules.fr;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.language.French;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -42,30 +38,22 @@ import java.util.regex.Pattern;
  */
 public class WordWithDeterminerFilter extends RuleFilter {
 
-  private static final String determinerRegexp = "(P.)?D .*|J .*|V.* ppa .*";
-  private static final Pattern DETERMINER = Pattern.compile(determinerRegexp);
-  private static final String wordRegexp = "[ZNJ] .*|V.* ppa .*";
-  private static final Pattern WORD = Pattern.compile(wordRegexp);
-
+  private static final Pattern detPattern = Pattern.compile("(P.)?D .*|J .*|V.* ppa .*");
+  private static final Pattern wordPattern = Pattern.compile("[ZNJ] .*|V.* ppa .*");
   // 0=MS, 1=FS, 2=MP, 3=FP
-  private static final String[] GenderNumber = { "([me]) (s|sp)", "([fe]) (s|sp)", "([me]) (p|sp)", "([fe]) (p|sp)" };
+  private static final String[] genderNumber = { "([me]) (s|sp)", "([fe]) (s|sp)", "([me]) (p|sp)", "([fe]) (p|sp)" };
   private static final String determiner = "((P.)?D |J |V.* ppa )";
 
   private static final List<String> exceptionsDeterminer =
     Arrays.asList("bels", "fols", "mols", "nouvels");
 
+  private static final String categoryToCheck = "CAT_ELISION";
+  private static final List<String> rulesToCheck = Arrays.asList("CET_CE", "CE_CET", "MA_VOYELLE", "MON_NFS", "VIEUX");
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {  
-    
-//    if (match.getSentence().getText().contains("plein Londres")) {
-//      int ii=0;
-//      ii++;
-//    }
-    
-    Language lang = new French();
-    JLanguageTool lt = lang.createDefaultJLanguageTool(); 
-    
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
+    JLanguageTool lt = Languages.getLanguageForShortCode("fr").createDefaultJLanguageTool();
     String wordFrom = getRequired("wordFrom", arguments);
     String determinerFrom = getRequired("determinerFrom", arguments);
     int posWord = 0;
@@ -92,8 +80,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
     boolean isDeterminerAllupper = StringTools.isAllUppercase(atrDeterminer.getToken())
         && !atrDeterminer.getToken().equalsIgnoreCase("L'");
     boolean isWordAllupper = StringTools.isAllUppercase(atrWord.getToken());
-    AnalyzedToken atDeterminer = getAnalyzedToken(atrDeterminer, DETERMINER);
-    AnalyzedToken atWord = getAnalyzedToken(atrWord, WORD);
+    AnalyzedToken atDeterminer = getAnalyzedToken(atrDeterminer, detPattern);
+    AnalyzedToken atWord = getAnalyzedToken(atrWord, wordPattern);
     if (atWord == null || atDeterminer == null) {
       throw new RuntimeException(
           "Error analyzing sentence: '" + match.getSentence().getText() + "' with rule " + match.getRule().getFullId());
@@ -113,30 +101,17 @@ public class WordWithDeterminerFilter extends RuleFilter {
     String[][] determinerForms = new String[4][];
     String[][] wordForms = new String[4][];
     for (int i = 0; i < 4; i++) {
-      determinerForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atDeterminer, determiner + GenderNumber[i], true);
-      wordForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atWord, prefix + GenderNumber[i], true);
+      determinerForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atDeterminer, determiner + genderNumber[i], true);
+      wordForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atWord, prefix + genderNumber[i], true);
       // if it cannot be synthesyzed, keep the original determiner
-      if (determinerForms[i].length == 0 && atDeterminer.getPOSTag().matches(".+" + GenderNumber[i])) {
+      if (determinerForms[i].length == 0 && atDeterminer.getPOSTag().matches(".+" + genderNumber[i])) {
         determinerForms[i] = new String[] { atDeterminer.getToken() };
       }
       // if it cannot be synthesyzed, keep the original word
-      if (wordForms[i].length == 0 && atWord.getPOSTag().matches(".+" + GenderNumber[i])) {
+      if (wordForms[i].length == 0 && atWord.getPOSTag().matches(".+" + genderNumber[i])) {
         wordForms[i] = new String[] { atWord.getToken() };
       }
     }
-
-    //FIXME: enabling and disabling rules is not a good solution 
-    // if several filters use the same JLanguageTool instance 
-    for (Rule r : lt.getAllRules()) {
-      if (r.getCategory().getId().toString().equals("CAT_ELISION") || r.getId().equals("CET_CE")
-          || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE") || r.getId().equals("MON_NFS")
-          || r.getId().equals("VIEUX")) {
-        lt.enableRule(r.getId());
-      } else {
-        lt.disableRule(r.getId());
-      }
-    }
-
     // generate suggestions
     List<String> replacements = new ArrayList<>();
     for (int i = 0; i < 4; i++) {
@@ -163,8 +138,7 @@ public class WordWithDeterminerFilter extends RuleFilter {
             String r = determiner + " " + word;
             r = r.replace("' ", "'");
             // remove suggestions with errors
-            List<RuleMatch> matches = lt.check(r);
-            if (matches.size() == 0 && !replacements.contains(r)) {
+            if (suggestionHasNoErrors(r, lt) && !replacements.contains(r)) {
               if (r.endsWith(atWord.getToken())) {
                 replacements.add(0, r);
               } else {
@@ -175,7 +149,6 @@ public class WordWithDeterminerFilter extends RuleFilter {
         }
       }
     }
-
     String message = match.getMessage();
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
         message, match.getShortMessage());
@@ -186,6 +159,19 @@ public class WordWithDeterminerFilter extends RuleFilter {
       ruleMatch.setSuggestedReplacements(replacements);
     }
     return ruleMatch;
+  }
+
+  private boolean suggestionHasNoErrors(String newSuggestion, JLanguageTool lt) throws IOException {
+    AnalyzedSentence analyzedSentence = lt.analyzeText(newSuggestion).get(0);
+    for (Rule r: lt.getAllActiveRules()) {
+      if (r.getCategory().getId().toString().equals(categoryToCheck) || rulesToCheck.contains(r.getId())) {
+        RuleMatch[] matches = r.match(analyzedSentence);
+        if (matches.length > 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   private AnalyzedToken getAnalyzedToken(AnalyzedTokenReadings aToken, Pattern pattern) {

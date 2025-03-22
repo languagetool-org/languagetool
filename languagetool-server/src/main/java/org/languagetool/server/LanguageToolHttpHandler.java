@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import io.opentelemetry.api.common.Attributes;
@@ -60,6 +61,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private static final Logger logger = LoggerFactory.getLogger(LanguageToolHttpHandler.class);
 
   static final String API_DOC_URL = "https://languagetool.org/http-api/swagger-ui/#/default";
+  static final String REQUEST_LIMIT_ACCESS_TOKEN_HEADER  = "X-Request-Limit-Access-Token";
   
   private static final String ENCODING = "utf-8";
 
@@ -99,6 +101,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     MDC.MDCCloseable mdcRequestID = MDC.putCloseable("rID", requestId);
     Attributes attributes = Attributes.builder()
                   .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
+                  .put(SemanticAttributes.HTTP_ROUTE, httpExchange.getRequestURI().getRawPath())
+                  .put("http.path_group", httpExchange.getRequestURI().getRawPath())
                   .put("request.id", requestId)
                   .build();
     Span globalSpan = TelemetryProvider.INSTANCE.createSpan("handle-http-request", attributes);
@@ -121,14 +125,23 @@ class LanguageToolHttpHandler implements HttpHandler {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
         String pathWithoutVersion = path.substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
-          if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.")) {
+          String message = "Healthcheck failed: There are currently too many parallel requests.";
+          if (workQueueFull(httpExchange, parameters, message) || textCheckerQueueFull(httpExchange, message)) {
             ServerMetricsCollector.getInstance().logFailedHealthcheck();
             return;
           } else {
-            String ok = "OK";
             httpExchange.getResponseHeaders().set("Content-Type", "text/plain");
-            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
-            httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+
+            String requestMethod = httpExchange.getRequestMethod();
+            if ("HEAD".equalsIgnoreCase(requestMethod)) {
+              // Send HTTP 200 without content
+              httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, -1);
+            } else {
+              String ok = "OK";
+              httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
+              httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+            }
+
             ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
             return;
           }
@@ -139,9 +152,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       for (String ref : config.getBlockedReferrers()) {
         String errorMessage = null;
         if (ref != null && !ref.isEmpty()) {
-          if (referrer != null && siteMatches(referrer, ref)) {
+          if (referrer != null && ServerTools.siteMatches(referrer, ref)) {
             errorMessage = "Error: Access with referrer " + referrer + " denied.";
-          } else if (origin != null && siteMatches(origin, ref)) {
+          } else if (origin != null && ServerTools.siteMatches(origin, ref)) {
             errorMessage = "Error: Access with origin " + origin + " denied.";
           }
         }
@@ -161,7 +174,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
       parameters = getRequestQuery(httpExchange, requestedUri);
-      if (requestLimiter != null && limitPath(path)) {
+      if (requestLimiter != null && limitPath(path) && !allowSkipRequestLimit(httpExchange.getRequestHeaders())) {
         try {
           UserLimits userLimits = ServerTools.getUserLimits(parameters, config);
           requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);
@@ -174,7 +187,9 @@ class LanguageToolHttpHandler implements HttpHandler {
           return;
         }
       }
-      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, parameters, httpExchange.getRequestHeaders())) {
+      if (errorRequestLimiter != null &&
+          !allowSkipRequestLimit(httpExchange.getRequestHeaders()) &&
+          !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, parameters, httpExchange.getRequestHeaders())) {
         String textSizeMessage = getTextOrDataSizeMessage(parameters);
         String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts. " +
                 textSizeMessage +
@@ -268,6 +283,16 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
+  private boolean allowSkipRequestLimit(Headers requestHeaders) {
+    if (config.getRequestLimitAccessToken() == null) {
+      return false;
+    }
+    if (!requestHeaders.containsKey(REQUEST_LIMIT_ACCESS_TOKEN_HEADER)) {
+      return false;
+    }
+    return config.getRequestLimitAccessToken().equals(requestHeaders.getFirst(REQUEST_LIMIT_ACCESS_TOKEN_HEADER));
+  }
+
   /**
    * whitelist paths from request limiting
    */
@@ -293,16 +318,18 @@ class LanguageToolHttpHandler implements HttpHandler {
     return false;
   }
 
-  private boolean siteMatches(String referrer, String blockedRef) {
-    return referrer.startsWith(blockedRef) || 
-           referrer.startsWith("http://" + blockedRef) || referrer.startsWith("https://" + blockedRef) ||
-           referrer.startsWith("http://www." + blockedRef) || referrer.startsWith("https://www." + blockedRef);
-  }
-
   private boolean workQueueFull(HttpExchange httpExchange, Map<String, String> parameters, String response) throws IOException {
     if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
       String message = response + " queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize();
       logError(message, HTTP_UNAVAILABLE, parameters, httpExchange);
+      sendError(httpExchange, HTTP_UNAVAILABLE, "Error: " + response);
+      return true;
+    }
+    return false;
+  }
+
+  private boolean textCheckerQueueFull(HttpExchange httpExchange, String response) throws IOException {
+    if(textCheckerV2.checkerQueueAlmostFull()) {
       sendError(httpExchange, HTTP_UNAVAILABLE, "Error: " + response);
       return true;
     }
@@ -455,7 +482,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Map<String, String> getParameterMap(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
-    String[] pairs = query.split("[&]");
+    String[] pairs = StringUtils.split(query, '&');
     Map<String, String> parameters = new HashMap<>();
     for (String pair : pairs) {
       int delimPos = pair.indexOf('=');

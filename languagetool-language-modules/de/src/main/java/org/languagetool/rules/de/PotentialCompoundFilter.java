@@ -32,11 +32,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
+/*
+ * This filter creates a compound word from two tokens. 
+ * If the joined word is a valid word and its length is less than 20 characters, 
+ * the rule provides the joined word as a suggestion. 
+ * Otherwise, it provides the hyphenated word.
+ */
+
 public class PotentialCompoundFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String part1 = arguments.get("part1");
     String part2 = arguments.get("part2");
     String part1capitalized = part1;
@@ -54,7 +62,7 @@ public class PotentialCompoundFilter extends RuleFilter {
     List<String> replacements = new ArrayList<>();
     // create an AnalyzedSentence without instantiating a new JLanguageTool
     List<String> tokens =  Collections.singletonList(joinedWord);
-    List<AnalyzedTokenReadings> tokensList = GermanyGerman.INSTANCE.getTagger().tag(tokens);
+    List<AnalyzedTokenReadings> tokensList = GermanyGerman.getInstance().getTagger().tag(tokens);
     AnalyzedTokenReadings[] tokensArray = new AnalyzedTokenReadings[2];
     AnalyzedToken sentenceStartToken = new AnalyzedToken("", "SENT_START", null);
     AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
@@ -63,7 +71,7 @@ public class PotentialCompoundFilter extends RuleFilter {
     tokensArray[1] = tokensList.get(0);
     AnalyzedSentence analyzedSentence = new AnalyzedSentence(tokensArray);
     // check with the spelling rule
-    RuleMatch[] matches = GermanyGerman.INSTANCE.getDefaultSpellingRule().match(analyzedSentence);
+    RuleMatch[] matches = GermanyGerman.getInstance().getDefaultSpellingRule().match(analyzedSentence);
     if (matches.length == 0) {
       if (joinedWord.length() > 20) {
         replacements.add(hyphenatedWord);

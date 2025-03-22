@@ -28,6 +28,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -45,7 +46,8 @@ public class EnglishNumberInWordFilterTest {
     RuleMatch match = new RuleMatch(new FakeRule(), sentence, fromPos, toPos, "fake msg");
     HashMap<String, String> args = new HashMap<>();
     args.put("word", arg);
-    RuleMatch matchTmp = filter.acceptRuleMatch(match, args, patternTokenPos, sentence.getTokensWithoutWhitespace());
+    List<Integer> tokenPositions = null;
+    RuleMatch matchTmp = filter.acceptRuleMatch(match, args, patternTokenPos, sentence.getTokensWithoutWhitespace(), tokenPositions);
     assertNotNull(matchTmp);
     assertTrue(matchTmp.getSuggestedReplacements().contains(newRepl));
   }

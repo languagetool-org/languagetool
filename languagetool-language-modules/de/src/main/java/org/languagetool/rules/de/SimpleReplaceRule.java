@@ -52,7 +52,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Prüft auf bestimmte falsche Wörter/Phrasen";
+    return "Prüft auf bestimmte falsche Wörter/Phrasen: $match";
   }
 
   @Override
@@ -63,12 +63,6 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   @Override
   public String getMessage() {
     return "Meinten Sie vielleicht $suggestions?";
-    //return "Dieses Wort steht in der Liste der nicht erlaubten Wörter.";
-  }
-
-  @Override
-  public String getSuggestionsSeparator() {
-    return ", ";
   }
 
   @Override

@@ -4,7 +4,7 @@
 Portuguese, Polish, Dutch, and [more than 20 other languages](https://languagetool.org/languages/).
 It finds many errors that a simple spell checker cannot detect.
 
-* **[Jobs at LanguageTool](https://languagetool.org/careers)**
+* [LanguageTool Forum](https://forum.languagetool.org)
 * [How to run your own LanguageTool server](https://dev.languagetool.org/http-server)
 * [HTTP API documentation](https://languagetool.org/http-api/swagger-ui/#!/default/post_check)
 * [How to use our public server via HTTP](https://dev.languagetool.org/public-http-api)
@@ -20,6 +20,7 @@ The LanguageTool core (this repo) is freely available under the LGPL 2.1 or late
 
 Try one of the following projects for a community-contributed Docker file:
 
+- https://github.com/meyayl/docker-languagetool ([Docker Hub](https://hub.docker.com/r/meyay/languagetool))
 - https://github.com/Erikvl87/docker-languagetool ([Docker Hub](https://hub.docker.com/r/erikvl87/languagetool))
 - https://github.com/silvio/docker-languagetool ([Docker Hub](https://hub.docker.com/r/silviof/docker-languagetool))
 
@@ -32,13 +33,13 @@ For more technical details, see [our dev pages](https://dev.languagetool.org).
 
 ## Scripted installation and building
 To install or build using a script, simply type:
-```
+```bash
 curl -L https://raw.githubusercontent.com/languagetool-org/languagetool/master/install.sh | sudo bash <options>
 ```
 
 If you wish to have more options, download the `install.sh` script. Usage options follow:
 
-```
+```bash
 sudo bash install.sh <options>
 
 Usage: install.sh <option> <package>
@@ -67,7 +68,7 @@ Commands:
 
 ## Alternate way to build from source
 
-Before start: you will need to clone from GitHub and install Java 8 and Apache Maven.
+Before start: you will need to clone from GitHub and install Java 17 and Apache Maven.
 
 Warning: a complete clone requires downloading more than 500 MB and needs more than 1500 MB on disk.
 This can be reduced if you only need the last few revisions of the master branch
@@ -90,10 +91,6 @@ Test the result in `languagetool-standalone/target/`.
     ./build.sh languagetool-wikipedia package -DskipTests
 
 Test the result in `languagetool-wikipedia/target`.
-
-    ./build.sh languagetool-office-extension package -DskipTests
-
-Test the result in `languagetool-office-extension/target`, rename the `*.zip` to `*.oxt` to install it in LibreOffice/OpenOffice.
 
 Now you can use the bleeding edge development copy of LanguageTool `*.jar` files, be aware that it might contain regressions.
 

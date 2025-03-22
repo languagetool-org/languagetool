@@ -46,6 +46,9 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("een bisschop")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Een bisschop")).length);
 
+    // ignored sentence:
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("EEN BISSCHOP")).length);
+
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Een Bisschop"));
     assertEquals(1, matches.length);
@@ -54,6 +57,15 @@ public class CheckCaseRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Hij is een Bisschop."));
     assertEquals(1, matches.length);
     assertEquals("een bisschop", matches[0].getSuggestedReplacements().get(0));
+
+    // less than 5chars:
+    matches = rule.match(lt.getAnalyzedSentence("Mag ik die DVD lenen?"));
+    assertEquals(1, matches.length);
+    assertEquals("dvd", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("Heb je de nieuwe IPAD al gezien?"));
+    assertEquals(1, matches.length);
+    assertEquals("iPad", matches[0].getSuggestedReplacements().get(0));
 
   }
 }

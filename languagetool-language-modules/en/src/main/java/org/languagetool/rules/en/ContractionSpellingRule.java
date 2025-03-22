@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.tools.Tools;
 
@@ -41,12 +42,12 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
   private static final Locale EN_LOCALE = new Locale("en");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public ContractionSpellingRule(ResourceBundle messages) {
-    super(messages);
+  public ContractionSpellingRule(ResourceBundle messages, Language language) {
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("We <marker>havent</marker> earned anything."),

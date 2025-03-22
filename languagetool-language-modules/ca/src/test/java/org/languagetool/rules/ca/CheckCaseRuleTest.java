@@ -35,14 +35,17 @@ public class CheckCaseRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new CheckCaseRule(TestTools.getMessages("ca"), new Catalan());
-    lt = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(Catalan.getInstance());
+    rule = new CheckCaseRule(TestTools.getMessages("ca"), lt.getLanguage());
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Sap que tinc dos bons amics?")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("La seua millor amiga no sap què passa amb l'avi, però en parla en YouTube.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("El país necessita tecnologia més moderna.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("'Da Vinci'")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ 'Da Vinci'")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("‒ ¡'Da Vinci'!")).length);
@@ -52,19 +55,18 @@ public class CheckCaseRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Da Vinci")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Amb Joan Pau i Josep Maria.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("ESTAT D'ALARMA")).length);
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("educació secundària")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'educació secundària")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació Secundària Obligatòria")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Educació Secundària obligatòria")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
-    
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Educació secundària obligatòria")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("d'educació secundària obligatòria")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("\\u2022 Intel·ligència artificial")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("● Intel·ligència artificial")).length);
-    
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Els drets humans")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Declaració Universal dels Drets Humans")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("El codi Da Vinci")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Declaració Universal dels drets humans")).length);
-    
+
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Joan pau"));
     assertEquals(1, matches.length);
@@ -75,15 +77,23 @@ public class CheckCaseRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Em vaig entrevistar amb Joan maria"));
     assertEquals(1, matches.length);
     assertEquals("Joan Maria", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(lt.getAnalyzedSentence("Em vaig entrevistar amb Leonardo Da Vinci"));
+    matches = rule.match(lt.getAnalyzedSentence("Em vaig entrevistar amb Da Vinci"));
     assertEquals(1, matches.length);
     assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("-\"Leonardo Da Vinci\""));
     assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Leonardo da Vinci", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(lt.getAnalyzedSentence("-\"¿Leonardo Da Vinci?\""));
     assertEquals(1, matches.length);
-    assertEquals("da Vinci", matches[0].getSuggestedReplacements().get(0));
-        
+    assertEquals("Leonardo da Vinci", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(lt.getAnalyzedSentence("Baixar Al-Assad"));
+    assertEquals(1, matches.length);
+    assertEquals("Baixar al-Assad", matches[0].getSuggestedReplacements().get(0));
+
+    /* FIXME
+    matches = rule.match(lt.getAnalyzedSentence("El president al-Assad"));
+    assertEquals(1, matches.length);
+    assertEquals("Al-Assad", matches[0].getSuggestedReplacements().get(0));*/
+
   }
 }

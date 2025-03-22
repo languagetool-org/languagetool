@@ -50,6 +50,9 @@ TEST_COMMAND=""
 
 if grep -q -e "languagetool-core/.*" /home/circleci/git_diffs.txt; then
   TEST_COMMAND=(mvn clean --also-make -fae test)
+elif grep -q -e "pom.xml" /home/circleci/git_diffs.txt; then
+  echo "Change in pom file detected, deploy all."
+  TEST_COMMAND=(mvn clean --also-make -fae test);
 else
   if grep -q -e "languagetool-commandline/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-commandline,$PROJECTS"; fi
   if grep -q -e "languagetool-dev/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-dev,$PROJECTS"; fi
@@ -88,7 +91,6 @@ else
   if grep -q -e "languagetool-language-modules/tl/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/tl,$PROJECTS"; fi
   if grep -q -e "languagetool-language-modules/uk/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/uk,$PROJECTS"; fi
   if grep -q -e "languagetool-language-modules/zh/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/zh,$PROJECTS"; fi
-  if grep -q -e "languagetool-office-extension/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-office-extension,$PROJECTS"; fi
   if grep -q -e "languagetool-server/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-server,$PROJECTS"; fi
   if grep -q -e "languagetool-standalone/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-standalone,$PROJECTS"; fi
   if grep -q -e "languagetool-tools/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-tools,$PROJECTS"; fi

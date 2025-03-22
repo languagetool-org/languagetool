@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ga;
 
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -51,12 +52,12 @@ public class DativePluralStandardReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public DativePluralStandardReplaceRule(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public DativePluralStandardReplaceRule(ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("Dá mba thruamhéalach é cás an sclábhaí fir, ba mheasa fós do na <marker>mnáibh</marker> a gcás siúd."),

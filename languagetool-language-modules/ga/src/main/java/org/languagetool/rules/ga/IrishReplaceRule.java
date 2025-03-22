@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ga;
 
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -44,12 +45,12 @@ public class IrishReplaceRule extends AbstractSimpleReplaceRule {
   private static final Locale GA_LOCALE = new Locale("GA");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public IrishReplaceRule(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public IrishReplaceRule(ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Níl beann agam oraibh, ar <marker>bhúr</marker> gcuid cainte."),

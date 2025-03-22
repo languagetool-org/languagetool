@@ -49,7 +49,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Checks for wrong words/phrases";
+    return "Check for wrong words/phrases: $match";
   }
 
   @Override
@@ -60,11 +60,6 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   @Override
   public String getMessage() {
     return "Did you mean $suggestions?";
-  }
-
-  @Override
-  public String getSuggestionsSeparator() {
-    return ", ";
   }
 
   @Override

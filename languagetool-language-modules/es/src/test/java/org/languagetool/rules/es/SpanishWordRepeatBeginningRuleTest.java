@@ -47,6 +47,11 @@ public class SpanishWordRepeatBeginningRuleTest {
     // three successive sentences that start with the same exception word ("the").
     assertEquals(0, getRuleMatches(lt, "El coche. El profesor. El tercer elemento.").size());
 
+    assertEquals(0, getRuleMatches(lt, "Por un lado, confirmó que la palabra solo no debe llevar tilde, "
+      + "según las reglas generales de acentuación, ni cuando es adverbio, ni cuando es adjetivo. Por otro lado, y este "
+      + "es el tema que hoy nos interesa, confirmó que los demostrativos este, ese o aquel, y sus formas femeninas y "
+      + "plurales, no llevarán tampoco tilde funcionando tanto como pronombres como determinantes.").size());
+
     // =================== errors =============================
     assertEquals(2, getRuleMatches(lt, "Mañana me voy. Mañana vuelvo. Mañana se acabó todo.").size());
 

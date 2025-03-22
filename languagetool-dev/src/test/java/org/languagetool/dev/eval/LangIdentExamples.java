@@ -191,7 +191,7 @@ class LangIdentExamples {
       System.out.print("BAD  ");
     }
     System.out.printf(Locale.ENGLISH, "%s (expected: %s) with confidence %.2f for: %s\n", bestLang, expectedLang, max,
-            input.replaceAll("\n", "\\\\n"));
+            input.replace("\n", "\\\\n"));
   }
 
   private void printSummary() {

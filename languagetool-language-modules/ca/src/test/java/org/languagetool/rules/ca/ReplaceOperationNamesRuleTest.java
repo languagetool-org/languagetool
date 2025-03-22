@@ -39,8 +39,8 @@ public class ReplaceOperationNamesRuleTest {
 
   @Before
   public void setUp() throws IOException {
-    rule = new ReplaceOperationNamesRule(TestTools.getEnglishMessages(), new Catalan());
-    lt = new JLanguageTool(new Catalan());
+    rule = new ReplaceOperationNamesRule(TestTools.getEnglishMessages(), Catalan.getInstance());
+    lt = new JLanguageTool(Catalan.getInstance());
   }
 
   @Test

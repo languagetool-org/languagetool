@@ -42,6 +42,8 @@ public class JLanguageToolTest {
      */
     // Dutch rule has no effect with English error but they are spelling mistakes:
     assertEquals(1, tool.check("Hier staat een spelvout voor testdoeleinden.").size());
+    // do not use simple replace rule: ok=ook|OK|oké
+    assertEquals(0, tool.check("'Ok Google, zet de nachtlamp naar warm wit' - Veranderd de nachtlamp kleur naar warm wit.").size());
   }
   
   @Test

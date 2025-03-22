@@ -28,16 +28,18 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.UserConfig;
 import org.languagetool.language.Demo;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class RemoteRuleTest {
 
@@ -171,6 +173,54 @@ public class RemoteRuleTest {
   public void testFailedRequests() throws IOException {
     fail = true;
     assertMatches("no matches for failing requests", 0);
+  }
+
+  private UserConfig getUserConfigWithAbTest(List<String> abTest) {
+    UserConfig userConfig = new UserConfig(Collections.emptyList(), Collections.emptyList(), Collections.emptyMap(),
+      5, null, null, null, null, false, abTest, null, false, null);
+    return userConfig;
+  }
+
+  @Test
+  public void testAbFlags() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new Demo());
+    assertFalse(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    RemoteRuleConfig c1 = new RemoteRuleConfig(config);
+    c1.options.put("abtest", "foo");
+    lt = new JLanguageTool(new Demo());
+    lt.activateRemoteRules(Arrays.asList(c1));
+
+    assertFalse(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    UserConfig u1 = getUserConfigWithAbTest(Arrays.asList("foo"));
+    lt = new JLanguageTool(new Demo(), null, u1);
+    lt.activateRemoteRules(Arrays.asList(c1));
+
+    assertTrue(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    UserConfig u2 = getUserConfigWithAbTest(Arrays.asList("foo", "bar"));
+    RemoteRuleConfig c2 = new RemoteRuleConfig(config);
+    c2.options.put("abtest", "bar");
+    c2.options.put("excludeABTest", "fo.");
+    lt = new JLanguageTool(new Demo(), null, u2);
+    lt.activateRemoteRules(Arrays.asList(c2));
+
+    assertFalse(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    UserConfig u3 = getUserConfigWithAbTest(Arrays.asList("bar"));
+    lt = new JLanguageTool(new Demo(), null, u3);
+    lt.activateRemoteRules(Arrays.asList(c2));
+
+    assertTrue(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    RemoteRuleConfig c3 = new RemoteRuleConfig(config);
+    UserConfig u4 = getUserConfigWithAbTest(Arrays.asList());
+    c3.options.put("excludeABTest", "foo");
+    lt = new JLanguageTool(new Demo(), null, u4);
+    lt.activateRemoteRules(Arrays.asList(c3));
+
+    assertTrue(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
   }
 
 }

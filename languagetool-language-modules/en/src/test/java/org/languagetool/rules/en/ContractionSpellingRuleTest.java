@@ -37,8 +37,8 @@ public class ContractionSpellingRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new ContractionSpellingRule(TestTools.getMessages("en"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    rule = new ContractionSpellingRule(TestTools.getMessages("en"), lt.getLanguage());
   }
 
   @Test
@@ -49,6 +49,7 @@ public class ContractionSpellingRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("I'm ill.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Staatszerfall im südlichen Afrika.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("by IVE")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Never mind the whys and wherefores.")).length);
     
     // incorrect sentences:
 

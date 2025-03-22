@@ -28,15 +28,15 @@ public class LanguageTest {
   @Test
   public void testRuleFileName() {
     if (Premium.isPremiumVersion()) {
-      assertTrue(new BritishEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/grammar.xml"));
-      assertTrue(new BritishEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/en-GB/grammar.xml"));
-      assertTrue(new AmericanEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/grammar.xml"));
-      assertTrue(new AmericanEnglish().getRuleFileNames().contains("/org/languagetool/rules/en/en-US/grammar.xml"));
-      assertTrue(new BritishEnglish().getRuleFileNames().contains("/src/main/resources/org/languagetool/rules/en/grammar-premium.xml"));
-      assertTrue(new AmericanEnglish().getRuleFileNames().contains("/src/main/resources/org/languagetool/rules/en/grammar-premium.xml"));
+      assertTrue(BritishEnglish.getInstance().getRuleFileNames().contains("/org/languagetool/rules/en/grammar.xml"));
+      assertTrue(BritishEnglish.getInstance().getRuleFileNames().contains("/org/languagetool/rules/en/en-GB/grammar.xml"));
+      assertTrue(AmericanEnglish.getInstance().getRuleFileNames().contains("/org/languagetool/rules/en/grammar.xml"));
+      assertTrue(AmericanEnglish.getInstance().getRuleFileNames().contains("/org/languagetool/rules/en/en-US/grammar.xml"));
+      assertTrue(BritishEnglish.getInstance().getRuleFileNames().contains("/src/main/resources/org/languagetool/rules/en/grammar-premium.xml"));
+      assertTrue(AmericanEnglish.getInstance().getRuleFileNames().contains("/src/main/resources/org/languagetool/rules/en/grammar-premium.xml"));
     } else {
-      assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/style.xml, /org/languagetool/rules/en/en-GB/grammar.xml, /org/languagetool/rules/en/en-GB/style.xml]", new BritishEnglish().getRuleFileNames().toString());
-      assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/style.xml, /org/languagetool/rules/en/en-US/grammar.xml, /org/languagetool/rules/en/en-US/style.xml]", new AmericanEnglish().getRuleFileNames().toString());
+      assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/style.xml, /org/languagetool/rules/en/en-GB/grammar.xml, /org/languagetool/rules/en/en-GB/style.xml]", BritishEnglish.getInstance().getRuleFileNames().toString());
+      assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/style.xml, /org/languagetool/rules/en/en-US/grammar.xml, /org/languagetool/rules/en/en-US/style.xml]", AmericanEnglish.getInstance().getRuleFileNames().toString());
       assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/style.xml]", new English().getRuleFileNames().toString());
       assertEquals("[/org/languagetool/rules/de/grammar.xml, /org/languagetool/rules/de/style.xml]", new German().getRuleFileNames().toString());
     }
@@ -45,24 +45,24 @@ public class LanguageTest {
   @Test
   public void testGetTranslatedName() {
     assertEquals("English", new English().getTranslatedName(TestTools.getMessages("en")));
-    assertEquals("English (British)", new BritishEnglish().getTranslatedName(TestTools.getMessages("en")));
+    assertEquals("English (British)", BritishEnglish.getInstance().getTranslatedName(TestTools.getMessages("en")));
 
     assertEquals("Englisch", new English().getTranslatedName(TestTools.getMessages("de")));
-    assertEquals("Englisch (Großbritannien)", new BritishEnglish().getTranslatedName(TestTools.getMessages("de")));
+    assertEquals("Englisch (Großbritannien)", BritishEnglish.getInstance().getTranslatedName(TestTools.getMessages("de")));
     assertEquals("Deutsch", new German().getTranslatedName(TestTools.getMessages("de")));
     assertEquals("Deutsch (Schweiz)", new SwissGerman().getTranslatedName(TestTools.getMessages("de")));
   }
 
   @Test
   public void testGetShortNameWithVariant() {
-    assertEquals("en-US", new AmericanEnglish().getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", AmericanEnglish.getInstance().getShortCodeWithCountryAndVariant());
     assertEquals("de", new German().getShortCodeWithCountryAndVariant());
   }
 
   @Test
   public void testEquals() {
-    assertEquals(new GermanyGerman(), new GermanyGerman());
-    assertNotEquals(new AustrianGerman(), new GermanyGerman());
+    assertEquals(GermanyGerman.getInstance(), GermanyGerman.getInstance());
+    assertNotEquals(new AustrianGerman(), GermanyGerman.getInstance());
     assertNotEquals(new AustrianGerman(), new German());
   }
 
@@ -70,27 +70,27 @@ public class LanguageTest {
   public void testEqualsConsiderVariantIfSpecified() {
     // every language equals itself:
     assertTrue(new German().equalsConsiderVariantsIfSpecified(new German()));
-    assertTrue(new GermanyGerman().equalsConsiderVariantsIfSpecified(new GermanyGerman()));
+    assertTrue(GermanyGerman.getInstance().equalsConsiderVariantsIfSpecified(GermanyGerman.getInstance()));
     assertTrue(new English().equalsConsiderVariantsIfSpecified(new English()));
-    assertTrue(new AmericanEnglish().equalsConsiderVariantsIfSpecified(new AmericanEnglish()));
+    assertTrue(AmericanEnglish.getInstance().equalsConsiderVariantsIfSpecified(AmericanEnglish.getInstance()));
     // equal if variant is the same, but only if specified:
-    assertTrue(new AmericanEnglish().equalsConsiderVariantsIfSpecified(new English()));
-    assertTrue(new English().equalsConsiderVariantsIfSpecified(new AmericanEnglish()));
+    assertTrue(AmericanEnglish.getInstance().equalsConsiderVariantsIfSpecified(new English()));
+    assertTrue(new English().equalsConsiderVariantsIfSpecified(AmericanEnglish.getInstance()));
 
-    assertFalse(new AmericanEnglish().equalsConsiderVariantsIfSpecified(new BritishEnglish()));
+    assertFalse(AmericanEnglish.getInstance().equalsConsiderVariantsIfSpecified(BritishEnglish.getInstance()));
     assertFalse(new English().equalsConsiderVariantsIfSpecified(new German()));
   }
 
   @Test
   public void testCreateDefaultJLanguageTool() {
     Language german = new German();
-    Language germanyGerman = new GermanyGerman();
+    Language germanyGerman = GermanyGerman.getInstance();
     JLanguageTool ltGerman = german.createDefaultJLanguageTool();
     JLanguageTool ltGerman2 = german.createDefaultJLanguageTool();
     JLanguageTool ltGermanyGerman = germanyGerman.createDefaultJLanguageTool();
     JLanguageTool ltEnglish = new English().createDefaultJLanguageTool();
-    assertFalse(ltGermanyGerman == ltGerman);
-    assertTrue(ltGerman2 == ltGerman);
+    assertNotSame(ltGermanyGerman, ltGerman);
+    assertSame(ltGerman2, ltGerman);
     assertEquals(ltGerman.getLanguage(), german);
     assertEquals(ltGermanyGerman.getLanguage(), germanyGerman);
     assertEquals(ltEnglish.getLanguage(), new English());

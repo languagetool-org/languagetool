@@ -57,11 +57,11 @@ public class ExportGermanNouns {
     FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
     Set<String> set = new HashSet<>();
     for (ByteBuffer buffer : fsa) {
-      byte [] sequence = new byte [buffer.remaining()];
+      byte[] sequence = new byte[buffer.remaining()];
       buffer.get(sequence);
-      String output = new String(sequence, StandardCharsets.UTF_8/*"iso-8859-1"*/);
+      String output = new String(sequence, StandardCharsets.UTF_8);
       if (isRelevantNoun(output)) {
-        String[] parts = output.split("\\+");
+        String[] parts = output.split("_");
         String term = parts[0].toLowerCase();
         set.add(term);
       }
@@ -95,7 +95,7 @@ public class ExportGermanNouns {
     System.out.println("# Export date: " + new Date());
     System.out.println("# LanguageTool: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
     System.out.println("# Potential German compound parts.");
-    System.out.println("# Data from Morphy (http://www.wolfganglezius.de/doku.php?id=cl:morphy)");
+    System.out.println("# Data from Morphy (https://danielnaber.de/download/wklassen.pdf)");
     System.out.println("# with extensions by LanguageTool (https://languagetool.org)");
     System.out.println("# License: Creative Commons Attribution-Share Alike 4.0, http://creativecommons.org/licenses/by-sa/4.0/");
     for (String word : words) {

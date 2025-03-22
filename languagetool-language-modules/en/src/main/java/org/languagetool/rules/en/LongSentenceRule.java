@@ -27,7 +27,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
     super(messages, userConfig, defaultWords);
-    setUrl(Tools.getUrl("https://languagetool.org/insights/post/sentence-length/"));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/splitting-long-sentences/"));
   }
 
   public String getShortMessage() {

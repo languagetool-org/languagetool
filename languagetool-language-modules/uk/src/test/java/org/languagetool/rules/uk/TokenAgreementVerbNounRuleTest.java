@@ -18,23 +18,43 @@
  */
 package org.languagetool.rules.uk;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.rules.RuleMatch;
 
 public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
 
-
   @Before
   public void setUp() throws IOException {
-    rule = new TokenAgreementVerbNounRule(TestTools.getMessages("uk"));
+    rule = new TokenAgreementVerbNounRule(TestTools.getMessages("uk"), lt.getLanguage());
   }
 
+  @Test
+  public void testRuleTPSuggestions() throws IOException {
+    String text = "перераховувати причин";
+    AnalyzedSentence sent = lt.getAnalyzedSentence(text);
+    RuleMatch[] match = rule.match(sent);
+    assertEquals(1, match.length);
+    assertEquals("перераховувати причин", text.substring(match[0].getFromPos(), match[0].getToPos()));
+    assertEquals(Arrays.asList("перераховувати причинам", "перераховувати причинами", "перераховувати причини"), match[0].getSuggestedReplacements());
+    
+    assertHasError("зазнавати глибоке", "зазнавати глибокого");
+  }
+  
+  
   @Test
   public void testRuleTP() throws IOException {
 
@@ -48,6 +68,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertHasError("почався справжнісінькій абстинентний синдром");
     assertHasError("досягнув піку");
     assertHasError("сягне піку");
+    assertHasError("сягнувши піку");
     assertHasError("побачив озброєнні формування");
     assertHasError("втрапили халепу");
     assertHasError("доведено світовім досвідом");
@@ -80,21 +101,50 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertHasError("стався також вибув метану");
     assertHasError("від спати єдиного податку");
     assertHasError("прочитати сааме цю книжку");
-    assertHasError("сиплять дуст");
+    assertHasError("сиплять дуст", "сипати дуст");
     assertHasError("Охочих навчитися цьому ремеслу");
     assertHasError("поступилася португальці");
+    assertHasError("прориваються скрізь стару стріху");
+
+    assertHasError("за будь яку ціну");
+    assertHasError("також було велика непевність");
+
+    // має бути мелють
+    assertHasError("мелять їхні українські папуги");
+    
+    // complicated case with понад
+//    assertHasError("зайнявся понад двісті справ");
+    assertEmptyMatch("сидять понад міру");
+    assertEmptyMatch("стало відомо точну дату");
+    assertEmptyMatch("стало видно тільки оранжеві щоки");
+//    assertEmptyMatch("тягнуться понад воду");
+//    assertEmptyMatch("прибуло понад мільйон");
+    
     //TODO:
 //    assertHasError("планується провесні церемонію");
 //    assertHasError("Відчувається, що тримаєте рук на пульсі часу");
     // ADJ + PLURAL
 //      assertEmptyMatch("повинні складати нежирна їжа, білкові продукти");
   }
+
+  @Test
+  public void testRuleWithPart() throws IOException {
+    assertHasError("сягнув би піку", "сягнув би піка");
+    assertHasError("це не відбувається не державному рівні");
+    
+    assertEmptyMatch("Вінні прощалася й охоронці виводили їх");
+    assertEmptyMatch("Але працювати не те щоб складно");
+    assertEmptyMatch("не піднявся не те що Київ");
+    assertEmptyMatch("не піднявся не те, що Київ");
+  }
   
   @Test
   public void testRuleTN() throws IOException {
 
     assertEmptyMatch("вкрадено державою");
-    
+
+    assertEmptyMatch("я буду каву");
+
     // case govt
 
     assertEmptyMatch("спроєктувати проект");
@@ -107,8 +157,14 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("належати людині");
     assertEmptyMatch("належати руку");
     assertEmptyMatch("забракло вмінь");
+    assertEmptyMatch("Може поменшати ентузіазму");
     assertEmptyMatch("Може видатися парадоксальним твердження");
 
+    assertEmptyMatch("розподілятиметься пропорційно вкладеній праці");
+    assertEmptyMatch("зростатимуть прямо пропорційно україноненависництву");
+    
+    assertEmptyMatch("рухатися далі власної історії");
+    
     // impr + oru
     assertEmptyMatch("запропоновано урядом");
 
@@ -140,6 +196,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("висміювати такого роду забобони");
     assertEmptyMatch("вважається свого роду психологічним");
     assertEmptyMatch("хто мітингуватиме таким чином");
+    assertEmptyMatch("уникнувши тим самим");
     
     // 2nd verb
     assertEmptyMatch("міг хитрістю змусити");
@@ -185,6 +242,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     
     // називатися + н.в.
     assertEmptyMatch("вона називалася Оперативний злам");
+    assertEmptyMatch("мене звати Ігор");
     
     assertEmptyMatch("підклали дров");
     
@@ -194,6 +252,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("тривав довгих десять раундів");
     
     assertEmptyMatch("лежали всю дорогу");
+    assertEmptyMatch("мріяли все життя");
     
     // v:n + inf
     assertEmptyMatch("сподобалося гуляти");
@@ -205,6 +264,43 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("ні сіло ні впало Комітет держбезпеки");
     
     assertEmptyMatch("звичайна, якщо не сказати слабка, людина");
+    
+    assertEmptyMatch("займаючись кожен своїми справами");
+    
+    assertEmptyMatch("підстрахуватися не зайве");
+    
+    assertEmptyMatch("поназбиравши купу обіцянок");
+    
+    assertEmptyMatch("пішов світ за очі");
+    assertEmptyMatch("тікати куди очі бачать");
+    
+    assertEmptyMatch("Видно було також великий");
+    assertEmptyMatch("буде видно тільки супутники");
+    assertEmptyMatch("чути було лише стукіт");
+    assertEmptyMatch("було дуже чутно стукіт");
+    
+    // homonym: adj/verb
+    assertEmptyMatch("зеленій частині");
+    
+    assertEmptyMatch("будь то буряки чи малина");
+    assertEmptyMatch("поліклініці не було де амбулаторні");
+    assertEmptyMatch("чесніше було б державний фонд");
+    
+    assertEmptyMatch("Процвітати буде лише бізнес");
+    
+    // special case gov for бути і мати
+    assertEmptyMatch("були б іншої думки");
+    assertEmptyMatch("має своїм неодмінним наслідком");
+    assertEmptyMatch("що є сил");
+    
+    assertEmptyMatch("Конкурс був десь шість");
+
+    // ADJ + бути + v_rod
+    assertEmptyMatch("повна була образів");
+    // IMPERS + бути + N
+    assertEmptyMatch("відкрито було журнал");
+    
+    assertEmptyMatch("треба буде ще склянку");
   }
 
   @Test
@@ -227,13 +323,17 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("Жити родині нема де.");
     assertEmptyMatch("Евакуюватися нам не було куди");
 
-    assertHasError("жити селянам");
-
     assertEmptyMatch("нічим пишатися жителям");
     assertEmptyMatch("куди подітися селянам");
+    
+    assertEmptyMatch("у таких будиночках жити мешканцям");
+    assertEmptyMatch("як тепер жити нам");
+    assertEmptyMatch("сидіти б панові");
+
+    assertEmptyMatch("не було де амбулаторні карточки ставити");
+    
     //TODO:
 //    assertHasError("не вчить нічому поганому");
-//    assertEmptyMatch("як тепер жити нам");
 //    assertEmptyMatch("у разі неможливості зібратися і працювати Верховній Раді");
   }
 
@@ -242,10 +342,9 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("маю тобі щось підказати");
     assertEmptyMatch("вміємо цим зазвичай користуватися");
     assertHasError("вміємо цьому зазвичай користуватися");
-//    assertHasError("заскрегоіти цим зазвичай користуватися");
     assertEmptyMatch("вони воліли мені якнайбільш ефективно допомогти");
     assertEmptyMatch("воліли заворушень не допускати");
-//    assertEmptyMatch("не втомлюються десятиріччями боротися Берлін і Венеція");
+    assertEmptyMatch("не втомлюються десятиріччями боротися Берлін і Венеція");
     assertEmptyMatch("постарається таку двозначність усунути");
     assertEmptyMatch("розпорядився частину зарплати примусово видавати");
     assertEmptyMatch("не схотіли нам про це казати");
@@ -255,9 +354,23 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("довелося план «Б» застосовувати");
     
+    assertEmptyMatch("сподіваючися щось розтлумачити");
+    assertEmptyMatch("Резюмуючи політик наголосив");
+    //TODO:
+    assertEmptyMatch("пригадує посміхаючись Аскольд");
+    assertHasError("неопізнаний літаючи об’єкт");
+    assertHasError("знищила існуючи бази даних");
+
+    assertEmptyMatch("сидячи ціле життя");
+    assertEmptyMatch("Не претендуючи жодною мірою");
+    
+    assertEmptyMatch("є кого згадувати");
+    
     //TODO: too long
 //    assertEmptyMatch("уміє одним жестом, одним нюансом інтонації сказати");
   }
+  
+  
 
   @Test
   public void testRuleTn_V_Vinf_N() throws IOException {
@@ -274,21 +387,26 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("Почав різко зростати курс долара");
     assertEmptyMatch("пропонує «об’єднатися патріотам»");
     assertEmptyMatch("став формуватися прошарок");
+    
+    assertEmptyMatch("ставимо розварюватися легко відтиснену");
+    
     // advp
     assertEmptyMatch("не даючи виїхати ванатжівці");
     assertEmptyMatch("даючи можливість висловлюватися радикалам");
     assertEmptyMatch("дозволяючи рухатися російському");
     
+    assertEmptyMatch("готувала їсти хлопцям");
+    assertEmptyMatch("вкласти спати Маринку");
+    assertEmptyMatch("поклавши спати старого Якима");
+    
     // plural
     assertEmptyMatch("заважають розвиватися погане управління, війна");
-    // TODO: 2 verbs
-//    assertEmptyMatch(" починає швидко жовтіти й опадати листя");
-    // TODO: advp ending is not straight
-//    assertEmptyMatch("поклавши спати старого Якима");
-//    assertEmptyMatch("став все частіше згадуватися незвичайний наслідок");
+    assertEmptyMatch("став все частіше згадуватися незвичайний наслідок");
+    assertEmptyMatch(" починає швидко жовтіти й опадати листя");
+    assertEmptyMatch("перестають діяти й розвиватися демократичні");
+    
+    //TODO:
 //    assertHasError("не має змоги на сто відсотків реалізуватися себе в ролі");
-    // TODO: 2 inf verbs
-//    assertEmptyMatch("перестають діяти й розвиватися демократичні");
   }
 
   @Test
@@ -350,6 +468,9 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     // не -> v_rod
     assertEmptyMatch("Робити прогнозів не буду");
     assertEmptyMatch("панькатися наміру не має");
+    
+    // було -> v_rod
+    assertEmptyMatch("було ввезено тракторів");
     
     //TODO:
 //    assertEmptyMatch("вижити шансів у нього не було");
@@ -423,10 +544,11 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("потребувала мільйон");
     assertEmptyMatch("нарубав неймовірну кількість вугілля");
     assertEmptyMatch("відбувся чверть століття тому");
-    //TODO:
-    //  assertEmptyMatch("нарубав лісу"); // v_rod
-//    assertHasError("Про це повідомляє Української правди із посланням на співрозмовників");
-//    assertEmptyMatch("не виїхало більшість автобусів");
+    
+    assertEmptyMatch("слідкувало майже мільйон людей");
+    assertEmptyMatch("не виїхало більшість автобусів");
+    
+    assertEmptyMatch("буде лежати двоє хворих");
   }
   
   @Test
@@ -436,7 +558,9 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("було пасмо");
     assertEmptyMatch("сміялися смішні гієни");
     assertEmptyMatch("в мені наростали впевненість і сила");
-    
+    assertEmptyMatch("де є якість");
+    assertEmptyMatch("в усіх країнах є міфи");
+
     // зватися + prop
     assertEmptyMatch("звалося Подєбради");
   }
@@ -453,6 +577,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("спостерігається останнім часом");
     assertEmptyMatch("відійшли метрів п'ять");
     assertEmptyMatch("публікується кожні два роки");
+    assertEmptyMatch("зірватися всі ці 27 років");
     assertEmptyMatch("відбувся минулої неділі");
     assertEmptyMatch("закінчилося 18-го ввечері");
     assertEmptyMatch("не знімався останні 10 років");
@@ -460,15 +585,19 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("помер цього вересня");
     assertEmptyMatch("з’являться наступного ранку на суд");
     assertEmptyMatch("мучитися три з половиною роки");
+    assertEmptyMatch("буде стояти двадцять і три роки");
     assertEmptyMatch("попрацювала місяць-півтора");
+    assertEmptyMatch("сніг не тане всю зиму");
 
     assertEmptyMatch("вщухнуть протягом кількох днів");
     
+    assertEmptyMatch("побутувала одночасно двома чи трьома мовами");
+    
     // TODO: noun inside
 //  assertEmptyMatch("мучитися довжелезних три з половиною роки");
-//    assertEmptyMatch("працює більшу частину часу");
+    assertEmptyMatch("працює більшу частину часу");
 //    assertEmptyMatch("доведеться наступні 6−8 років");
-//    assertEmptyMatch("які стартували цього та минулого року");
+    assertEmptyMatch("які стартували цього та минулого року");
   }
   
   @Test
@@ -500,6 +629,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("не стане сили");
     //TODO:
 //    assertHasError("не відбувалися якихось серйозних");
+    assertEmptyMatch("нарубав лісу"); // v_rod
   }
 
   
@@ -508,8 +638,24 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("змалював дивовижної краси церкву");
     assertEmptyMatch("Піднявся страшенної сили крижаний шторм");
     assertEmptyMatch("поводиться дивним чином");
+    assertEmptyMatch("триває повним ходом.");
     //TODO:
-//    assertEmptyMatch("триває повним ходом.");
 //    assertEmptyMatch("скоюються незнайомими жертві злочинцями");
   }
+
+  @Test
+  public void testRuleDisambigNazInf() throws IOException {
+    ArrayList<AnalyzedTokenReadings> readings = new ArrayList<>();
+    
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("повинен", "adj:m:v_naz:short:&predic", "повинний"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("був", "verb:imperf:past:m", "бути"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("випадок", "noun:inanim:m:v_zna", "випадок"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("передбачити", "verb:perf:inf", "передбачити"), 0));
+    
+    AnalyzedSentence sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
+
+    assertEquals(0, rule.match(sent).length);
+  }
+
 }

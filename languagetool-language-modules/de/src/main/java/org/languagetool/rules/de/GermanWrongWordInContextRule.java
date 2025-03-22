@@ -20,15 +20,16 @@ package org.languagetool.rules.de;
 
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WrongWordInContextRule;
 
 public class GermanWrongWordInContextRule extends WrongWordInContextRule {
   
-  public GermanWrongWordInContextRule(ResourceBundle messages) {
-    super(messages);
-    addExamplePair(Example.wrong("Eine Gitarre hat sechs <marker>Seiten</marker>."),
-                   Example.fixed("Eine Gitarre hat sechs <marker>Saiten</marker>."));
+  public GermanWrongWordInContextRule(ResourceBundle messages, Language lang) {
+    super(messages, lang);
+    addExamplePair(Example.wrong("Die <marker>Miene</marker> vom Kugelschreiber ist leer."),
+                   Example.fixed("Die <marker>Mine</marker> vom Kugelschreiber ist leer."));
   }
   
   @Override
@@ -43,7 +44,7 @@ public class GermanWrongWordInContextRule extends WrongWordInContextRule {
   
   @Override
   public String getDescription() {
-    return "Wortverwechslungen (Mine/Miene, Saite/Seite etc.)";
+    return "Mögliche Wortverwechslungen: $match";
   }
   
   @Override

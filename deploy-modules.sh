@@ -51,6 +51,7 @@ BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 if [[ "$BRANCH" != "master" ]]; then
   echo "No deployment for $BRANCH."
   exit 0
+elif grep -q -e "pom.xml" /home/circleci/git_diffs.txt; then PROJECTS="ALL"; # Deploy full if pom files change
 else
   if grep -q -e "languagetool-core/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-core",$PROJECTS; fi
   if grep -q -e "languagetool-commandline/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-commandline,$PROJECTS"; fi
@@ -90,15 +91,16 @@ else
   if grep -q -e "languagetool-language-modules/tl/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/tl,$PROJECTS"; fi
   if grep -q -e "languagetool-language-modules/uk/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/uk,$PROJECTS"; fi
   if grep -q -e "languagetool-language-modules/zh/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/zh,$PROJECTS"; fi
-  #if grep -q -e "languagetool-office-extension/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-office-extension,$PROJECTS"; fi
   if grep -q -e "languagetool-server/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-server,$PROJECTS"; fi
-  #if grep -q -e "languagetool-standalone/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-standalone,$PROJECTS"; fi
   if grep -q -e "languagetool-tools/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-tools,$PROJECTS"; fi
   if grep -q -e "languagetool-wikipedia/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-wikipedia,$PROJECTS"; fi
 fi
 if [ -z "$PROJECTS" ]; then
   echo "No changes in any module detected"
   exit 0
+elif [ "$PROJECTS" == "ALL" ]; then
+  echo "Change in pom file detected, deploy all."
+  DEPLOY_COMMAND=(mvn -s .circleci.settings.xml -DskipTests deploy); 
 else
   PROJECTS=${PROJECTS::-1}
   DEPLOY_COMMAND=(mvn -s .circleci.settings.xml --projects "$PROJECTS" -DskipTests deploy)

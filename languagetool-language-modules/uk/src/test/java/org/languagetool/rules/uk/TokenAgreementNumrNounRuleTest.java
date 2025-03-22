@@ -81,6 +81,9 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("2 лютого їжака забрали");
     assertEmptyMatch("Ту-154 президента");
     
+    // prep
+    assertEmptyMatch("до 4 секунд");
+    
     // двоїна
     assertEmptyMatch("2 сонця");
     // different apostrophes
@@ -88,12 +91,20 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     
 
     assertEmptyMatch("багато часу");
+    assertEmptyMatch("Минуло багато-багато часу");
     assertEmptyMatch("багато заліза");
     assertHasError("як багато білку", "багато білка", "багато білки", "багато білок", "багато білків");
 
     assertEmptyMatch("пів ковбаси");
     
     assertEmptyMatch("Вісімдесят Геннадію Терентійовичу");
+
+    assertEmptyMatch("3 подолянина");
+    assertEmptyMatch("два подолянина");
+    assertEmptyMatch("три рабини");
+    // обидва (є) волиняни
+    assertEmptyMatch("Обидва волиняни");
+    assertEmptyMatch("Обидва волинянина");
 
 
     // odd plurals
@@ -173,6 +184,9 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("сьома вода на киселі");
     assertEmptyMatch("років п'ять люди");
     assertEmptyMatch("років через десять Литва");
+    
+    assertEmptyMatch("у 2020 мати надійний фундамент");
+    assertEmptyMatch("тижнів зо два мати горшком воду носила");
   }
 
   @Test
@@ -191,6 +205,17 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("один-два громадянини");
     assertEmptyMatch("Обидві ходи");
     assertEmptyMatch("обидва атентати");
+    
+    assertHasError("два подоляни", "два подолянина");
+    assertHasError("33 подоляни", "33 подолянина");
+    assertHasError("три рабина");
+
+    // може бути як adj "до 3-ї секунди"
+//    assertHasError("до 3 секунди");
+    
+    //TODO:
+//    assertHasError("3 Механістична");
+    
     // TOOD:
 //  assertEmptyMatch("місяців зо два заготовки для них роблять");
     // по гектарів два капусти
@@ -367,11 +392,31 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEquals(0, rule.match(sent).length);
 
     readings.clear();
-    
+
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("три", "numr:p:v_zna", "три"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("основні", "adj:p:v_zna:rinanim:compb", "основний"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("села", "noun:inanim:p:v_zna", "село"), 0));
+    
+    sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
+
+    assertEquals(0, rule.match(sent).length);
+
+    readings.clear();
+
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("три", "numr:p:v_zna", "три"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("золоті", "adj:p:v_zna:rinanim:compb", "золотий"), 0));
+    
+    sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
+
+    assertEquals(0, rule.match(sent).length);
+
+    readings.clear();
+
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("три", "numr:p:v_zna", "три"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("мільйони", "мільйон/noun:inanim:p:v_zna:&numr", "мільйон"), 0));
     
     sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
 

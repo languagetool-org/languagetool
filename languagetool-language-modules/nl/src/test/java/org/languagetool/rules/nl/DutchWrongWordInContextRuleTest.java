@@ -33,8 +33,9 @@ public class DutchWrongWordInContextRuleTest {
   @Test
   @Ignore("no tests yet")
   public void testRule() throws IOException {
-    DutchWrongWordInContextRule rule = new DutchWrongWordInContextRule(null);
-    JLanguageTool lt = new JLanguageTool(new Dutch());
+    Dutch dutch = new Dutch();
+    DutchWrongWordInContextRule rule = new DutchWrongWordInContextRule(null, dutch);
+    JLanguageTool lt = new JLanguageTool(dutch);
 
     // Mine/Miene (example, can be removed)
 //     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Explosion der Mine.")).length); // correct sentence

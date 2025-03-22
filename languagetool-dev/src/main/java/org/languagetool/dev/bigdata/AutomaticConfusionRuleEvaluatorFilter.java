@@ -69,7 +69,7 @@ final class AutomaticConfusionRuleEvaluatorFilter {
       if (!line.startsWith("=>")) {
         continue;
       }
-      String cleanLine = line.replaceFirst("=> ", "").replaceFirst("; \\d.*", "");
+      String cleanLine = StringUtils.replaceOnce(line, "=> ", "").replaceFirst("; \\d.*", "");
       String[] parts;
       boolean bothDirections;
       if (cleanLine.contains("->")) {
@@ -81,7 +81,7 @@ final class AutomaticConfusionRuleEvaluatorFilter {
       }
       String key = parts[0] + ";" + parts[1];
       Pattern data = Pattern.compile("^(.+?)(?:;| ->) (.+?);.*p=(\\d\\.\\d+), r=(\\d\\.\\d+), f0.5=\\d\\.\\d+, (\\d+)\\+(\\d+),.*");
-      Matcher m = data.matcher(line.replaceFirst("=> ", ""));
+      Matcher m = data.matcher(StringUtils.replaceOnce(line, "=> ", ""));
       m.find();
       String word1 = m.group(1);
       String word2 = m.group(2);

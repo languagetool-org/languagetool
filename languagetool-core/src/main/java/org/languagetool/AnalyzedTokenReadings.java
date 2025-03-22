@@ -106,23 +106,23 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public AnalyzedTokenReadings(AnalyzedTokenReadings oldAtr, List<AnalyzedToken> newReadings, String ruleApplied) {
     this(newReadings, oldAtr.getStartPos());
     if (oldAtr.isSentenceEnd()) {
-      this.setSentEnd();
+      setSentEnd();
     }
     if (oldAtr.isParagraphEnd()) {
-      this.setParagraphEnd();
+      setParagraphEnd();
     }
-    this.setWhitespaceBefore(oldAtr.getWhitespaceBefore());
-    this.setChunkTags(oldAtr.getChunkTags());
+    setWhitespaceBefore(oldAtr.getWhitespaceBefore());
+    setChunkTags(oldAtr.getChunkTags());
     if (oldAtr.isImmunized()) {
-      this.immunize(oldAtr.getImmunizationSourceLine());
+      immunize(oldAtr.getImmunizationSourceLine());
     }
     if (oldAtr.isIgnoredBySpeller()) {
-      this.ignoreSpelling();
+      ignoreSpelling();
     }
     if (oldAtr.hasTypographicApostrophe()) {
-      this.setTypographicApostrophe();
+      setTypographicApostrophe();
     }
-    this.setHistoricalAnnotations(oldAtr.getHistoricalAnnotations());
+    setHistoricalAnnotations(oldAtr.getHistoricalAnnotations());
     addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
   }
 
@@ -147,14 +147,12 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param posTag POS tag to look for
    */
   public boolean hasPosTag(String posTag) {
-    boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      found = posTag.equals(reading.getPOSTag());
-      if (found) {
-        break;
+      if (posTag.equals(reading.getPOSTag())) {
+        return true;
       }
     }
-    return found;
+    return false;
   }
   
   /**
@@ -162,14 +160,12 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param posTag POS tag and lemma to look for
    */
   public boolean hasPosTagAndLemma(String posTag, String lemma) {
-    boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      found = posTag.equals(reading.getPOSTag()) && lemma.equals(reading.getLemma());
-      if (found) {
-        break;
+      if (posTag.equals(reading.getPOSTag()) && lemma.equals(reading.getLemma())) {
+        return true;
       }
     }
-    return found;
+    return false;
   }
 
   /**
@@ -187,11 +183,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public boolean hasLemma(String lemma) {
     boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getLemma() != null) {
-        found = lemma.equals(reading.getLemma());
-        if (found) {
-          break;
-        }
+      if (reading.getLemma() != null && lemma.equals(reading.getLemma())) {
+        return true;
       }
     }
     return found;
@@ -202,16 +195,14 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param lemmas lemmas to look for
    */
   public boolean hasAnyLemma(String... lemmas) {
-    boolean found = false;
     for(String lemma : lemmas) {
       for (AnalyzedToken reading : anTokReadings) {
-        found = lemma.equals(reading.getLemma());
-        if (found) {
-          return found;
+        if (lemma.equals(reading.getLemma())) {
+          return true;
         }
       }
     }
-    return found;
+    return false;
   }
 
   /**
@@ -221,16 +212,12 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @since 1.8
    */
   public boolean hasPartialPosTag(String posTag) {
-    boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getPOSTag() != null) {
-        found = reading.getPOSTag().contains(posTag);
-        if (found) {
-          break;
-        }
+      if (reading.getPOSTag() != null && reading.getPOSTag().contains(posTag)) {
+        return true;
       }
     }
-    return found;
+    return false;
   }
 
  /**
@@ -255,67 +242,66 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @since 4.0
    */
   public boolean hasPosTagStartingWith(String posTag) {
-    boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getPOSTag() != null) {
-        found = reading.getPOSTag().startsWith(posTag);
-        if (found) {
-          break;
-        }
+      if (reading.getPOSTag() != null && reading.getPOSTag().startsWith(posTag)) {
+        return true;
       }
     }
-    return found;
+    return false;
   }
 
   /**
    * Checks if at least one of the readings matches a given POS tag regex.
-   *
    * @param posTagRegex POS tag regular expression to look for
    * @since 2.9
    */
   public boolean matchesPosTagRegex(String posTagRegex) {
     Pattern pattern = Pattern.compile(posTagRegex);
-    boolean found = false;
+    return matchesPosTagRegex(pattern);
+  }
+
+  /**
+   * Checks if at least one of the readings matches a given POS tag pattern.
+   * @since 6.4
+   */
+  public boolean matchesPosTagRegex(Pattern pattern) {
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getPOSTag() != null) {
-        found = pattern.matcher(reading.getPOSTag()).matches();
-        if (found) {
-          break;
-        }
+      if (reading.getPOSTag() != null && pattern.matcher(reading.getPOSTag()).matches()) {
+        return true;
       }
     }
-    return found;
+    return false;
   }
-  
+
   public boolean matchesChunkRegex(String chunkRegex) {
     Pattern pattern = Pattern.compile(chunkRegex);
-    boolean found = false;
-    for ( ChunkTag chunk : getChunkTags()) {
-      if (chunk != null) {
-        found = pattern.matcher(chunk.getChunkTag()).matches();
-        if (found) {
-          break;
-        }
+    for (ChunkTag chunk : getChunkTags()) {
+      if (chunk != null && pattern.matcher(chunk.getChunkTag()).matches()) {
+        return true;
       }
     }
-    return found;
+    return false;
   }
   
   /**
    * Returns the first reading that matches a given POS tag regex.
-   *
    * @param posTagRegex POS tag regular expression to look for
    * @since 5.5
    */
   public AnalyzedToken readingWithTagRegex(String posTagRegex) {
     Pattern pattern = Pattern.compile(posTagRegex);
-    boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getPOSTag() != null) {
-        found = pattern.matcher(reading.getPOSTag()).matches();
-        if (found) {
-          return reading;
-        }
+      if (reading.getPOSTag() != null && pattern.matcher(reading.getPOSTag()).matches()) {
+        return reading;
+      }
+    }
+    return null;
+  }
+
+  public AnalyzedToken readingWithTagRegex(Pattern pattern) {
+    for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null && pattern.matcher(reading.getPOSTag()).matches()) {
+        return reading;
       }
     }
     return null;
@@ -326,13 +312,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @since 5.8
    */
   public AnalyzedToken readingWithLemma(String lemma) {
-    boolean found;
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getLemma() != null) {
-        found = reading.getLemma().equals(lemma);
-        if (found) {
-          return reading;
-        }
+      if (reading.getLemma() != null && reading.getLemma().equals(lemma)) {
+        return reading;
       }
     }
     return null;
@@ -619,16 +601,17 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param historicalAnnotations the historicalAnnotations to set
    */
   private void setHistoricalAnnotations(String historicalAnnotations) {
-    this.historicalAnnotations = historicalAnnotations;
+    if (GlobalConfig.isVerbose()) {
+      this.historicalAnnotations = historicalAnnotations;
+    }
   }
   
   private void addHistoricalAnnotations(String oldValue, String ruleApplied) {
-    if (!ruleApplied.isEmpty()) {
+    if (!ruleApplied.isEmpty() && GlobalConfig.isVerbose()) {
       this.historicalAnnotations = this.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldValue + " -> "
           + this;
     }
   }
-  
 
   /**
    * @since 2.3

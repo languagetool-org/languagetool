@@ -536,6 +536,15 @@
         <example type="untouched">Co ty robisz?</example>
     </rule>
 
+    <rule id="NA_CHRUPKO" name="na chrupko">
+        <pattern>
+            <token>na</token>
+            <marker><token>chrupko</token></marker>
+        </pattern>
+        <disambig><wd lemma="chrupki" pos="adjp"/></disambig>
+        <example type="ambiguous" inputform="chrupko[chrupka/subst:sg:voc:f,chrupki/adja]" outputform="chrupko[chrupki/adjp]">Wysmażył świerszcze na <marker>chrupko</marker>.</example>
+    </rule>
+
     <rule id="ADJA_WON" name="adja to zła interpretacja bez dywizu">
         <pattern>
             <marker>
@@ -3276,7 +3285,9 @@
     <rule name="pact/adj + acc > pact" id="pact_acc">
         <pattern>
             <marker>
-                <token postag="pact:sg:nom.voc:f:imperf:aff.*" postag_regexp="yes"/>
+                <token postag="pact:sg:nom.voc:f:imperf:aff.*" postag_regexp="yes">
+                        <exception inflected="yes">używać</exception>
+                </token>
                 <token postag="subst.*acc.*" postag_regexp="yes"><exception postag="subst:sg:nom:f"/></token>
             </marker>
         </pattern>
@@ -4991,6 +5002,19 @@
                  outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Oto <marker>jedna</marker> ze sztuk, jakiej karzełka gdzieś w cyrku wyuczono.
         </example>
         <example type="untouched">Tyran jedna się z narodem.</example>
+    </rule>
+
+    <rule id="JEDEN_Z_DRUGIM" name="jeden z drugim -> prep:">
+        <pattern>
+            <marker>
+                <token inflected="yes" postag="adj.*" postag_regexp="yes">jeden</token>
+                <token inflected="yes" postag="prep:inst.*" postag_regexp="yes">z</token>
+                <token inflected="yes" postag="adj.*" postag_regexp="yes">drugi</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">W ciągu jednego z górą dziesięcioleci.</example>
+        <example type="ambiguous" inputform="z[z/prep:acc:nwok,z/prep:gen:nwok,z/prep:inst:nwok]" outputform="z[z/prep:inst:nwok]">Jeden <marker>z</marker> drugim nie pogada.</example>
     </rule>
 
     <rule id="JEDEN_Z" name="jeden z -> prep:gen">
@@ -7431,10 +7455,10 @@
 
     <rule id="Burzy_subst_2" name="burzy jako genetiwus">
         <pattern>
-            <marker><token>burzy</token></marker>
+            <marker><token postag="verb.*" postag_regexp="yes">burzy</token></marker>
             <token regexp="yes">mózgów|oklasków|Szekspira</token>
         </pattern>
-        <disambig postag="subst:sg:gen:f"/>
+        <disambig action="filter" postag="subst:sg:.*:f"/>
     </rule>
     
     <rule id="CIAZY_SUBST" name="ciąży jako genetiwus">
@@ -9593,6 +9617,16 @@
             <disambig action="filter" postag="(subst|ppron[1-3]|adj):.*:gen.*"></disambig>
             <example type="ambiguous" inputform="przekornego[przekorny/adj:sg:acc:m1.m2:pos,przekorny/adj:sg:gen:m1.m2.m3.n1.n2:pos]"
                      outputform="przekornego[przekorny/adj:sg:gen:m1.m2.m3.n1.n2:pos]">Nie należy brać <marker>przekornego</marker> chłopaka.</example>
+        </rule>
+
+        <rule>
+            <pattern>
+                <token postag="pact:.*:neg.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag=".*gen.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
         </rule>
 
         <rule> <!-- SKŁADNIA NEGACJI: nie + było/ma + subst/nom|gen -->
@@ -12319,6 +12353,20 @@
         <example type="untouched">Tu mamy piękny przykład.</example>
         <example type="untouched">Łaciny używamy na co dzień.</example>
         <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
+    </rule>
+
+    <rule name="Przyimek z przymiotnikiem i rzeczownikiem po unifikacji" id="PREP_SUBST_3">
+        <pattern>
+            <unify> <feature id="case"/>
+                <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">co|temu</exception></token>
+                <token postag="(?:adj|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/><exception>trochę</exception><exception>dużo</exception></token>
+                <token postag="(?:adj|subst|ger|ppas|pact|num):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/><exception>trochę</exception><exception>dużo</exception></token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Tu mamy piękny przykład.</example>
+        <example type="untouched">Łaciny używamy na co dzień.</example>
+        <example type="ambiguous" inputform="części[częsty/adj:pl:nom.voc:m1.p1:pos,część/subst:pl:acc:f,część/subst:pl:gen:f,część/subst:pl:nom:f,część/subst:pl:voc:f,część/subst:sg:dat:f,część/subst:sg:gen:f,część/subst:sg:loc:f,część/subst:sg:voc:f]" outputform="części[część/subst:sg:loc:f]">To było w górnej <marker>części</marker> lodowca górskiego.</example>
     </rule>
 
     <rule name="PREP_ACC_JAKIS_CZAS" id="PREP_JAKIS_CZAS">

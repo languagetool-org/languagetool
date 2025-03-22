@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.languagetool.TestTools.getEnglishMessages;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,12 +30,9 @@ import java.util.*;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 
@@ -51,8 +49,9 @@ public class ProhibitedCompoundRuleTest {
     map.put("Eisensande",100);
     map.put("Eisenstange",101);
   }
-  private final ProhibitedCompoundRule testRule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
   private final JLanguageTool testLt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+  private final ProhibitedCompoundRule testRule = new ProhibitedCompoundRule(getEnglishMessages(),
+    new FakeLanguageModel(map), null, testLt.getLanguage());
 
   @Test
   @Ignore("for interactive use, e.g. after extending the list of pairs")
@@ -61,7 +60,8 @@ public class ProhibitedCompoundRuleTest {
     File input = new File("/tmp/words.txt");
     LuceneLanguageModel lm = new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de/"));
     System.out.println("Words matched by rule:");
-    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), lm, null);
+    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(getEnglishMessages(), lm, null,
+      testLt.getLanguage());
     int i = 0;
     try (Scanner sc = new Scanner(input)) {
       while (sc.hasNextLine()) {
@@ -85,7 +85,6 @@ public class ProhibitedCompoundRuleTest {
     assertMatches("Er ist Uhr-Berliner.", "Uhr-Berliner", "Urberliner");
     assertMatches("Das ist ein Mitauto.", "Mitauto", "Mietauto");
     assertMatches("Das ist ein Mit-Auto.", "Mit-Auto", "Mietauto");
-    assertMatches("Das ist Petra Mitauto.", 0);
     assertMatches("Das ist Herr Mitauto.", 0);
     assertMatches("Hier leben die Uhreinwohner.", "Uhreinwohner", "Ureinwohner");
     assertMatches("Hier leben die Uhr-Einwohner.", "Uhr-Einwohner", "Ureinwohner");
@@ -111,14 +110,23 @@ public class ProhibitedCompoundRuleTest {
   }
 
   @Test
+  @Ignore("turn off now that eis/reis is commented out")
   public void testMoreThanOneCandidate() throws IOException {
-    assertMatches("Die Eisenstande.", "Eisenstande", "Eisenstange");
-    Map<String, Integer> map = new HashMap<>();
-    map.put("Eisensande", 101);
-    map.put("Eisenstange", 100);
-    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
-    RuleMatch[] matches = rule.match(testLt.getAnalyzedSentence("Die Eisenstande"));
-    assertThat(matches[0].getSuggestedReplacements().toString(), is("[Eisensande]"));
+    String input = "Das ist Testreis";
+
+    Map<String, Integer> map1 = new HashMap<>();
+    map1.put("Testreise", 1000);
+    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(getEnglishMessages(), new FakeLanguageModel(map1),
+      null, testLt.getLanguage());
+    RuleMatch[] matches = rule.match(testLt.getAnalyzedSentence(input));
+    assertThat(matches[0].getSuggestedReplacements().toString(), is("[Testreise]"));
+
+    Map<String, Integer> map2 = new HashMap<>();
+    map2.put("Testeis", 1000);
+    ProhibitedCompoundRule rule2 = new ProhibitedCompoundRule(getEnglishMessages(), new FakeLanguageModel(map2),
+      null, testLt.getLanguage());
+    RuleMatch[] matches2 = rule2.match(testLt.getAnalyzedSentence(input));
+    assertThat(matches2[0].getSuggestedReplacements().toString(), is("[Testeis]"));
   }
 
   @Test
@@ -146,27 +154,6 @@ public class ProhibitedCompoundRuleTest {
     String markedText = input.substring(matches[0].getFromPos(), matches[0].getToPos());
     assertThat(markedText, is(expectedMarkedText));
     assertThat(matches[0].getSuggestedReplacements().toString(), is("[" + expectedSuggestions + "]"));
-  }
-
-  ProhibitedCompoundRule getRule(String languageModelPath) throws IOException {
-    return getRule(languageModelPath, ProhibitedCompoundRule.RULE_ID);
-  }
-
-  ProhibitedCompoundRule getRule(String languageModelPath, String ruleId) throws IOException {
-    Language lang = Languages.getLanguageForShortCode("de");
-    LanguageModel languageModel = new LuceneLanguageModel(new File(languageModelPath, lang.getShortCode()));
-    List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel, null);
-    if (rules == null) {
-      throw new RuntimeException("Language " + lang + " doesn't seem to support a language model");
-    }
-    ProhibitedCompoundRule foundRule = null;
-    for (Rule rule : rules) {
-      if (rule.getId().equals(ruleId)) {
-        foundRule = (ProhibitedCompoundRule) rule;
-        break;
-      }
-    }
-    return foundRule;
   }
 
 }

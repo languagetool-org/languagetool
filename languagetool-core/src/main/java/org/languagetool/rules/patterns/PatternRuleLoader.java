@@ -19,15 +19,16 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.tools.Tools;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -42,10 +43,10 @@ public class PatternRuleLoader extends DefaultHandler {
   /**
    * @param file XML file with pattern rules
    */
-  public final List<AbstractPatternRule> getRules(File file) throws IOException {
-    try (InputStream inputStream = new FileInputStream(file)) {
+  public final List<AbstractPatternRule> getRules(File file, Language lang) throws IOException {
+    try (InputStream inputStream = Files.newInputStream(file.toPath())) {
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
-      return ruleLoader.getRules(inputStream, file.getAbsolutePath());
+      return ruleLoader.getRules(inputStream, file.getAbsolutePath(), lang);
     }
   }
 
@@ -62,9 +63,9 @@ public class PatternRuleLoader extends DefaultHandler {
    * @param is stream with the XML rules
    * @param filename used only for verbose exception message - should refer to where the stream comes from
    */
-  public final List<AbstractPatternRule> getRules(InputStream is, String filename) throws IOException {
+  public final List<AbstractPatternRule> getRules(InputStream is, String filename, Language lang) throws IOException {
     try {
-      PatternRuleHandler handler = new PatternRuleHandler(filename);
+      PatternRuleHandler handler = new PatternRuleHandler(filename, lang);
       handler.setRelaxedMode(relaxedMode);
       SAXParserFactory factory = SAXParserFactory.newInstance();
       SAXParser saxParser = factory.newSAXParser();
@@ -72,6 +73,9 @@ public class PatternRuleLoader extends DefaultHandler {
         Tools.setPasswordAuthenticator();
       }
       saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+      saxParser.getXMLReader().setProperty("jdk.xml.maxGeneralEntitySizeLimit", 0);
+      saxParser.getXMLReader().setProperty("jdk.xml.totalEntitySizeLimit", 0);
+      saxParser.getXMLReader().setProperty("jdk.xml.entityExpansionLimit", 0);
       saxParser.parse(is, handler);
       return handler.getRules();
     } catch (Exception e) {

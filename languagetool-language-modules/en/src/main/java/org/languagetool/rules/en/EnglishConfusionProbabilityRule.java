@@ -23,10 +23,12 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
@@ -40,6 +42,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
       // Use all-lowercase, matches will be case-insensitive.
       // See https://github.com/languagetool-org/languagetool/issues/1678
+      "he messages",   // vs the
+      "your invite",   // vs you
       "on a bye",   // vs buy
       "your (",   // ... so your (English) signature gets ...
       "your slack profile",
@@ -303,6 +307,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "make a hire",
       "on the news",
       "brown plane",
+      "impeccable brows",
       "news politics",
       "organic reach",
       "out bid",
@@ -523,6 +528,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "where, when, and who" // vs were
     );
 
+  private static final Pattern CONTRACTION = Pattern.compile("['’`´‘]t .*");
+
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
       // "Those wee changes made a big difference"
@@ -703,6 +710,31 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       tokenRegex("and|&"),
       posRegex("NNP"),
       token("do") // vs 'to'
+    ),
+    Arrays.asList(
+      //...responded quickly to Mustaf Sheikh's request to wear his religious head gear, use break time for prayer, and combine his breaks for Friday attendance...
+      token("break"),
+      new PatternTokenBuilder().tokenRegex("times?").setSkip(10).build(),
+      token("breaks")
+    ),
+    Arrays.asList(
+      // The language added in 3.5 was an attempt to show how much EEFT does vs. EnronOnline.
+      tokenRegex("how|what"),
+      new PatternTokenBuilder().tokenRegex("much|many").min(0).setSkip(3).build(),
+      token("does")
+    ),
+    Arrays.asList(
+      // Maybe we should pull over and dose him.
+      posRegex("MD"),
+      posRegex("VB"),
+      posRegex("IN|RP"),
+      token("and"),
+      token("dose")
+    ),
+    Arrays.asList(
+      // But your Mother's constant implications that your some big victim and I'm a very big asshole has worn very thin and it's inappropriate and rude.
+      token("your"),
+      posRegex("DT")
     )
   );
 
@@ -723,7 +755,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       // the Google ngram data expands negated contractions like this: "Negations (n't) are normalized so
       // that >don't< becomes >do not<." (Source: https://books.google.com/ngrams/info)
       // We don't deal with that yet (see GoogleStyleWordTokenizer), so ignore for now:
-      if (covered.matches("['’`´‘]t .*")) {
+      if (CONTRACTION.matcher(covered).matches()) {
         return true;
       }
     }

@@ -36,6 +36,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import static java.util.Arrays.*;
 import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
@@ -127,6 +128,37 @@ public class VerbAgreementRule extends TextLevelRule {
       token("gehe")
     ),
     asList(
+      // Ich bin du
+      token("ich"),
+      tokenRegex("bin|war"),
+      token("du")
+    ),
+    asList(
+      // Dann beende du den Auftrag und bring sie ihrem Vater.
+      tokenRegex("darum|deswegen|dann|bitte|so|,|-"),
+      posRegex("VER:IMP:SIN.*"),
+      token("du")
+    ),
+    asList(
+      // - Wirst du ausflippen?
+      tokenRegex("[-–]"),
+      posRegex("VER:.*(AUX|MOD).*"),
+      token("du"),
+      posRegex("VER:INF.*")
+    ),
+    asList(
+      tokenRegex("-(du|ich|er|sie|wir|ihr)"),
+      posRegex("VER.*")
+    ),
+    asList(
+      tokenRegex("bin|war|wär"),
+      tokenRegex("i|icke?")
+    ),
+    asList(
+      tokenRegex("i|icke?"),
+      tokenRegex("bin|war|wär")
+    ),
+    asList(
       token("du"),
       token("schlafen"),
       token("gehst")
@@ -163,6 +195,20 @@ public class VerbAgreementRule extends TextLevelRule {
       tokenRegex("ich|wir|sie|er|es")
     ),
     asList(
+      tokenRegex("ich|wir|sie|er|es"),
+      posRegex("VER.*INF.*"),
+      tokenRegex("muß|mußten?|müßt?en?") // alte rechtschreibung (andere fehler)
+    ),
+    asList(
+      tokenRegex("mußt|müßtest|mußtest"), // alte rechtschreibung (andere fehler)
+      token("du")
+    ),
+    asList(
+      token("du"),
+      posRegex("VER.*INF.*"),
+      tokenRegex("mußt|müßtest|mußtest") // alte rechtschreibung (andere fehler)
+    ),
+    asList(
       token("ich"),
       tokenRegex("würd|könnt|werd|wollt|sollt|müsst|fürcht"),
       tokenRegex("['’`´‘]")
@@ -186,8 +232,11 @@ public class VerbAgreementRule extends TextLevelRule {
       // wie du war ich auch
       token("wie"),
       tokenRegex("du|ihr|er|es|sie"),
-      tokenRegex("bin|war"),
-      token("ich")
+      posRegex("VER.*")
+    ),
+    asList(
+      tokenRegex("[-:]"),
+      posRegex("VER.*(MOD|AUX).*")
     ),
     asList(
       // Arabic names: Aryat Abraha bin Sabah Kaaba
@@ -219,6 +268,20 @@ public class VerbAgreementRule extends TextLevelRule {
        // Ich will nicht so wie er enden.
        new PatternTokenBuilder().tokenRegex("so|genauso|ähnlich").matchInflectedForms().setSkip(2).build(),
        token("wie"),
+       tokenRegex("er|sie|du|ihr|ich"),
+       posRegex("VER.*")
+     ),
+     asList(
+       // Ich will wie er aussehen
+       posRegex("VER.*(MOD|AUX).*"),
+       token("wie"),
+       tokenRegex("er|sie|du|ihr|ich"),
+       posRegex("VER.*INF.*")
+     ),
+     asList(
+       // Ich will wie er aussehen
+       token("wie"),
+       posRegex("ADJ:PRD:GRU.*"),
        tokenRegex("er|sie|du|ihr|ich"),
        posRegex("VER.*")
      ),
@@ -369,6 +432,11 @@ public class VerbAgreementRule extends TextLevelRule {
       posRegex("VER:.*")
     ),
     asList(
+      tokenRegex("glaube?|denke?|hoffe?|vermute?|behaupte?|wette?"),  // "Wir haben da ein monatliches Limit, in das wir glaube ich schon für September reingelaufen sind."
+      token("ich"),
+      posRegex("ADV.*|SUB.*|UNKNOWN|ADJ.*|PA[12].*|ART.*|PRP.*|PRO.*")
+    ),
+    asList(
       tokenRegex("ich"),  // "Ich weiß, was ich tun werde, falls etwas geschehen sollte."
       pos("VER:INF:NON"),
       token("werde")
@@ -387,6 +455,10 @@ public class VerbAgreementRule extends TextLevelRule {
       token("sei"),
       token("du"),
       token("selbst")
+    ),
+    asList(
+      token("bin"),
+      tokenRegex("dran|dabei")
     ),
     asList(
       token("als"),  // "Du bist in dem Moment angekommen, als ich gegangen bin."
@@ -557,7 +629,8 @@ public class VerbAgreementRule extends TextLevelRule {
   private static final Set<String> QUOTATION_MARKS = new HashSet<>(asList(
     "\"", "„"
   ));
-  
+  private static final Pattern COMMA = Pattern.compile("‚", Pattern.LITERAL);
+
   private final German language;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
@@ -631,7 +704,7 @@ public class VerbAgreementRule extends TextLevelRule {
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
 
       String strToken = tokens[i].getToken().toLowerCase();
-      strToken = strToken.replace("‚", "");
+      strToken = COMMA.matcher(strToken).replaceAll("");
 
       switch (strToken) {
         case "ich":

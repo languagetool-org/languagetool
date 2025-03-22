@@ -132,8 +132,13 @@ public class UnnecessaryPhraseRule extends AbstractStatisticStyleRule {
   }
 
   @Override
-  public String getConfigureText() {
+  public String getConfigurePercentText() {
     return "Anzeigen wenn mehr als ...‱ eines Kapitels potenzielle Phrasen sind:";
+  }
+
+  @Override
+  public String getConfigureWithoutDirectSpeachText() {
+    return "Keine direkte Rede und Zitate berücksichtigen";
   }
 
 }

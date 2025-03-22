@@ -95,6 +95,11 @@ public class EnglishWordTokenizerTest {
     final List <String> tokens20 = wordTokenizer.tokenize("I'm a cool test\u000Bwith a line");
     assertEquals("[I, 'm,  , a,  , cool,  , test, \u000B, with,  , a,  , line]", tokens20.toString());
     assertEquals(tokens20.size(), 14);
+
+    final List <String> tokens21 = wordTokenizer.tokenize("fast⇿superfast");
+    assertEquals("[fast, ⇿, superfast]", tokens21.toString());
+    assertEquals(tokens21.size(), 3);
+
     
   }
 }

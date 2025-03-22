@@ -111,7 +111,7 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
         offsetChars += s.getText().length();
         offsetTokens += sentenceLenghtTokens - 1; // -1 -> not counting SENT_START
       }
-      return matches.toArray(new RuleMatch[0]); 
+      return matches.toArray(RuleMatch.EMPTY_ARRAY);
     }
 
     @Override

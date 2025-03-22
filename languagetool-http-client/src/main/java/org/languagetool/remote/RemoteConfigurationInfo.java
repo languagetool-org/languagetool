@@ -49,7 +49,7 @@ public class RemoteConfigurationInfo {
     return softwareInfo;
   }
   
-  public int getMaxTextLength () {
+  public int getMaxTextLength() {
     return maxTextLength;
   }
   

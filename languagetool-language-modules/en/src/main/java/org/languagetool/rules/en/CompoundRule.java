@@ -57,6 +57,11 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().posRegex("VB.*").build()
       ),
       Arrays.asList(
+        token("how"),
+        token("well"),
+        new PatternTokenBuilder().posRegex("VB.*").build()
+      ),
+      Arrays.asList(
         tokenRegex("and|&"),
         token("co")
       ),
@@ -130,6 +135,7 @@ public class CompoundRule extends AbstractCompoundRule {
             "This expression is normally spelled as one or with a hyphen.",
             "Compound");
     this.english = english;
+    super.useSubRuleSpecificIds();
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
     setUrl(Tools.getUrl("https://languagetool.org/insights/post/hyphen/"));
@@ -142,7 +148,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Hyphenated words, e.g., 'case-sensitive' instead of 'case sensitive'";
+    return "Hyphenated words: $match";
   }
 
   @Override

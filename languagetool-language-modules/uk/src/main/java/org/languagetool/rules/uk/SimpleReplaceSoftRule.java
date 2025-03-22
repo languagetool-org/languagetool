@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.ITSIssueType;
 
@@ -48,12 +49,12 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
   private static final Map<String, List<String>> WRONG_WORDS = loadFromPath("/uk/replace_soft.txt");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return WRONG_WORDS;
   }
 
-  public SimpleReplaceSoftRule(ResourceBundle messages) throws IOException {
-    super(messages);
+  public SimpleReplaceSoftRule(ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
     setLocQualityIssueType(ITSIssueType.Style);
   }
 

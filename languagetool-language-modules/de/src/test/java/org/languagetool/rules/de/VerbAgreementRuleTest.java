@@ -103,6 +103,8 @@ public class VerbAgreementRuleTest {
     assertGood("Max und ich sollten das machen.");
     assertGood("Osama bin Laden stammt aus Saudi-Arabien.");
     assertGood("Solltet ihr das machen?");
+    assertGood("Dann beende du den Auftrag und bring sie ihrem Vater.");
+    assertGood("- Wirst du ausflippen?");
     assertGood("Ein Geschenk, das er einst von Aphrodite erhalten hatte.");
     assertGood("Wenn ich sterben sollte, wer würde sich dann um die Katze kümmern?");
     assertGood("Wenn er sterben sollte, wer würde sich dann um die Katze kümmern?");

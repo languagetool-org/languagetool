@@ -585,49 +585,43 @@ public class GermanTaggerTest {
     assertThat(result1.size(), is(1));
     assertThat(result1.get(0).getReadings().size(), is(1));
     String res1 = result1.toString();
-    assertTrue(res1.contains(""));
     assertFalse(res1.contains("VER"));
 
     List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("bereich"));
     assertThat(result2.size(), is(1));
     assertThat(result2.get(0).getReadings().size(), is(1));
     String res2 = result2.toString();
-    assertTrue(res2.contains(""));
     assertFalse(res2.contains("VER"));
 
     List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("beispiel"));
     assertThat(result3.size(), is(1));
     assertThat(result3.get(0).getReadings().size(), is(1));
     String res3 = result3.toString();
-    assertTrue(res3.contains(""));
     assertFalse(res3.contains("VER"));
 
     List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("keksdose"));
     assertThat(result4.size(), is(1));
     assertThat(result4.get(0).getReadings().size(), is(1));
     String res4 = result4.toString();
-    assertTrue(res4.contains(""));
     assertFalse(res4.contains("VER"));
 
     List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("aktienarten"));
     assertThat(result5.size(), is(1));
     assertThat(result5.get(0).getReadings().size(), is(1));
     String res5 = result5.toString();
-    assertTrue(res5.contains(""));
     assertFalse(res5.contains("VER"));
 
     List<AnalyzedTokenReadings> result6 = tagger.tag(Collections.singletonList("schwarzgrau"));
     assertThat(result6.size(), is(1));
-    assertThat(result6.get(0).getReadings().size(), is(1));
+    assertThat(result6.get(0).getReadings().size(), is(2));
     String res6 = result6.toString();
-    assertTrue(res6.contains(""));
-    assertFalse(res6.contains("VER"));
+    assertTrue(res6.contains("ADJ"));
+    assertTrue(res6.contains("VER"));
 
     List<AnalyzedTokenReadings> result7 = tagger.tag(Collections.singletonList("unmenge"));
     assertThat(result7.size(), is(1));
     assertThat(result7.get(0).getReadings().size(), is(1));
     String res7 = result7.toString();
-    assertTrue(res7.contains(""));
     assertFalse(res7.contains("VER"));
 
     List<AnalyzedTokenReadings> result8 = tagger.tag(Collections.singletonList("entlang"));

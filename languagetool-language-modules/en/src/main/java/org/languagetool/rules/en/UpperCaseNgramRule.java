@@ -36,6 +36,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
@@ -49,14 +50,22 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
 public class UpperCaseNgramRule extends Rule {
 
   public static final int THRESHOLD = 50;
-  private static MorfologikAmericanSpellerRule spellerRule;
+
+  private static MorfologikAmericanSpellerRule spellerRule = null;
   private static LinguServices linguServices = null;
+
+  private static final Pattern PUNCT_PATTERN = Pattern.compile("[.!?:]");
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Bin", "Spot",  // names
     "Go",           // common usage, as in "Go/No Go decision"
-    "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied"
+    "French", "Roman", "Hawking", "Square", "Japan", "Premier", "Allied",
+    "Counsel", // legal
+    "Act", "Acts", "Associate", "Associates", "Bill", "Bills", "Board",
+    "Center", "Channel", "Fantasy", "Judge", "Mass", "Staff", "Trust"
   ));
-  private static final AhoCorasickDoubleArrayTrie<String> exceptionTrie = new AhoCorasickDoubleArrayTrie<>();
+  private static final Pattern TYPICAL_LOWERCASE = Pattern.compile("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into|&|/");
+
+  private static AhoCorasickDoubleArrayTrie<String> exceptionTrie = null;
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
       token("Hugs"), token("and"), token("Kisses")
@@ -430,7 +439,7 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("js")
     ),
     Arrays.asList( // And mine is Wed.
-      csRegex("Wed")
+      csRegex("Wed|Mar")
     ),
     Arrays.asList( // Ender's Game
       new PatternTokenBuilder().posRegex("NN.*").csTokenRegex("[A-Z].+").build(),
@@ -476,7 +485,7 @@ public class UpperCaseNgramRule extends Rule {
       token("="),
       csRegex("[A-Z].+")
     ),
-    Arrays.asList(
+    Arrays.asList( // Misc. exceptions
       csRegex("Peters")
     ),
     Arrays.asList( // What Does an Effective Cover Letter Look Like?
@@ -516,31 +525,43 @@ public class UpperCaseNgramRule extends Rule {
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
     antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
 
+    initTrie();
+    initSpeller();
     if (userConfig != null && linguServices == null) {
       linguServices = userConfig.getLinguServices();
-      initTrie();
     }
+  }
+
+  private void initSpeller() {
     if (spellerRule == null) {
-      initTrie();
-      try {
-        spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+      synchronized (UpperCaseNgramRule.class) {
+        if (spellerRule == null) {
+          try {
+            spellerRule = new MorfologikAmericanSpellerRule(messages, lang);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        }
       }
     }
   }
 
   private void initTrie() {
-    CachingWordListLoader cachingWordListLoader = new CachingWordListLoader();
-    List<String> words = new ArrayList<>();
-    words.addAll(cachingWordListLoader.loadWords("en/specific_case.txt"));
-    words.addAll(cachingWordListLoader.loadWords("spelling_global.txt"));
-    Map<String,String> map = new HashMap<>();
-    for (String word : words) {
-      map.put(word, word);
-    }
-    synchronized (exceptionTrie) {
-      exceptionTrie.build(map);
+    if (exceptionTrie == null) {
+      synchronized (UpperCaseNgramRule.class) {
+        if (exceptionTrie == null) {
+          exceptionTrie = new AhoCorasickDoubleArrayTrie<>();
+          CachingWordListLoader cachingWordListLoader = new CachingWordListLoader();
+          List<String> words = new ArrayList<>();
+          words.addAll(cachingWordListLoader.loadWords("en/specific_case.txt"));
+          words.addAll(cachingWordListLoader.loadWords("spelling_global.txt"));
+          Map<String,String> map = new HashMap<>();
+          for (String word : words) {
+            map.put(word, word);
+          }
+          exceptionTrie.build(map);
+        }
+      }
     }
   }
 
@@ -648,7 +669,7 @@ public class UpperCaseNgramRule extends Rule {
 
   private boolean isShortWord(AnalyzedTokenReadings token) {
     // ignore words typically spelled lowercase even in titles
-    return token.getToken().trim().isEmpty() || token.getToken().matches("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into|&|/");
+    return token.getToken().trim().isEmpty() || TYPICAL_LOWERCASE.matcher(token.getToken()).matches();
   }
 
   private boolean trieMatches(String text, AnalyzedTokenReadings token) {
@@ -682,7 +703,7 @@ public class UpperCaseNgramRule extends Rule {
   private boolean isSentence(AnalyzedTokenReadings[] tokens) {
     boolean isSentence = false;
     for (int i = tokens.length - 1; i > 0; i--) {
-      if (tokens[i].getToken().matches("[.!?:]")) {
+      if (PUNCT_PATTERN.matcher(tokens[i].getToken()).matches()) {
         isSentence = true;
         break;
       }

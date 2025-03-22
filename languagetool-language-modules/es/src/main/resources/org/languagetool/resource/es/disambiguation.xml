@@ -19,22 +19,9 @@ Copyright (C) 2011 Juan Martorell
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
-
-  <!DOCTYPE rules [
-    
-    <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
-    <!ENTITY nombre_fem_el "Ática|abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
-    <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
-    <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
-    <!ENTITY nombre_seguidode_nombrepropio "navegador|calle|copa|casa|abad|informe|señor|señora|estándar|tipo|dirección|imperio|profeta|balneario|proyecto|corriente|lago|monte|padre|premio|caso|carrera|concurso|cuadro|mesa|novela|obra|río|estilo|programa|orquesta|escuela|registro|finca|sonda|rosa|tema|playa">
-    <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
-    <!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
-    <!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
-    <!ENTITY meses_ano_abrv "ene|feb|mar|abr|may|jun|jul|ago|sep|set|oct|nov|dic">
-    <!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
-    <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
-    <!ENTITY ordinales_decenas "décimo|vigésimo|trigésimo|cuadragésimo|quincuagésimo|sexagésimo|septuagésimo|nonagésimo">
-    <!ENTITY ordinales_unidades "primero|segundo|tercero|cuarto|quinto|sexto|séptimo|octavo|noveno">
+<!DOCTYPE rules [
+    <!ENTITY % entities  SYSTEM "../../resource/es/entities.ent" >
+    %entities;
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -64,8 +51,246 @@ Copyright (C) 2011 Juan Martorell
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
-    <!--<rulegroup id="DICT_FIXES" name="dictionary fixes">
-    </rulegroup>-->
+    <rule id="SER_LA_REPERA" name="ser la repera">
+        <pattern>
+            <token skip="4" postag="VS.*" postag_regexp="yes" inflected="yes">ser</token>
+            <token>la</token>
+            <marker>
+                <token>repera</token>
+            </marker>
+        </pattern>
+        <disambig action="add">
+            <wd pos="NCFS000"/>
+        </disambig>
+    </rule>
+    <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta palabras inglesas para ignorarlas">
+        <antipattern>
+            <token regexp="yes">the|than</token>
+            <token postag="V.P.*" postag_regexp="yes"/>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN" regexp="yes">&english_common;</token>
+                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+                <token postag="UNKNOWN" regexp="yes">&english_common;<exception>in</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                    <token>'</token>
+                    <token>s</token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>to</token>
+                <token regexp="yes">[a-z]+</token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2 postags:VB"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token case_sensitive="yes">I</token>
+                <token regexp="yes">[a-z]+<exception>buffet</exception><exception regexp="yes">&english_no;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2 postags:VB[PD]"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <!-- TODO: The Sino-Russian (change in tokenization) -->
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+                <token spacebefore="no">-</token>
+                <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">a|to</token>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:3"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">a|to</token>
+                </marker>
+                <token postag="_english_ignore_"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>from</token>
+                <token/>
+                <marker>
+                    <token>to</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="IGNORE_ENGLISH_WORDS2" name="etiqueta paraules angleses">
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">[a-z]+|'s<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+|,<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+|,<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+|,<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z]+|,<exception regexp="yes">&english_no;</exception><exception postag="_english_ignore_"/></token>
+                </marker>
+                <token postag="_english_ignore_|allow_saxon_genitive" postag_regexp="yes"/>
+            </pattern>
+            <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="fix_dict" name="fix dictionary">
         <rule>
             <pattern>
@@ -150,6 +375,19 @@ Copyright (C) 2011 Juan Martorell
             <token postag="V.*" postag_regexp="yes">estáis</token>
         </pattern>
         <disambig action="remove" postag="NCMP000"/>
+    </rule>
+    <rule id="HAS" name="has, estás (voseo)">
+        <pattern>
+            <token postag="VAIP2V0" regexp="yes">has|estás</token>
+        </pattern>
+        <disambig action="remove" postag="VAIP2V0"/>
+    </rule>
+    <rule id="pagar_impuestos" name="pagar impuestos">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes" inflected="yes">pagar</token>
+            <token postag="NCMP000">impuestos</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
     <rulegroup id="PUNCT" name="puntuación">
         <rule>
@@ -323,7 +561,35 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="LOC_PREP"/>
             </disambig>
         </rule>
+        <rule id="en_pos_del" name="en pos del">
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token>pos</token>
+                </marker>
+                <token>del</token>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_PREP"/>
+                <wd pos="LOC_PREP"/>
+            </disambig>
+        </rule>
     </rulegroup>
+    <rule id="CARA_A_CARA" name="cara a cara (noun)">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token>cara</token>
+                <token>a</token>
+                <token>cara</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="cara a cara" pos="NCMN000"/>
+            <wd lemma="cara a cara" pos="AQ0MN0"/>
+            <wd lemma="cara a cara" pos="AQ0MN0"/>
+        </disambig>
+    </rule>
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
         <rule id="CADA_VEZ_MAS" name="cada vez más">
             <pattern>
@@ -472,6 +738,24 @@ Copyright (C) 2011 Juan Martorell
                 <token regexp="yes">a|al</token>
             </pattern>
             <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule id="cualquieras" name="unos cualquieras">
+            <pattern>
+                <token regexp="yes">unos|unas|un|una</token>
+                <marker>
+                    <token>cualquieras</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="cualquiera" pos="NCCP000"/></disambig>
+        </rule>
+        <rule id="cualquiera" name="unos cualquieras">
+            <pattern>
+                <token regexp="yes">unos|unas|un|una</token>
+                <marker>
+                    <token>cualquiera</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="cualquiera" pos="NCCS000"/></disambig>
         </rule>
         <rule id="dado_que" name="dado que">
             <pattern>
@@ -697,10 +981,38 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">paleo|histórico|hispano|anglo</token>
+                    <token regexp="yes">paleo|histórico|hispano|anglo|pos|bio</token>
                 </marker>
                 <token spacebefore="no">-</token>
                 <token postag="[NA].*" postag_regexp="yes" spacebefore="no"/>
+            </pattern>
+            <disambig action="replace" postag="RG"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>fito</token>
+                <token spacebefore="no">-</token>
+                <token postag="CC"/>
+                <token inflected="yes">zoosanitario</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>zoo</token>
+                <token spacebefore="no">-</token>
+                <token postag="CC"/>
+                <token inflected="yes">fitosanitario</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">pre|pos|post|co</token>
+                </marker>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">[\p{Lu}\d].*</token>
             </pattern>
             <disambig action="replace" postag="RG"/>
         </rule>
@@ -1166,6 +1478,17 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
         <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+                </marker>
+                <token>)</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="AO0CN0"/>
+            </disambig>
+        </rule>
+        <rule>
             <pattern>
                 <token>omega</token>
                 <token>3</token>
@@ -1518,20 +1841,35 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-    <rule id="habemos" name="habemos">
-        <pattern>
-            <token>nos</token>
-            <token>las</token>
-            <marker>
-                <token>habemos</token>
-            </marker>
-            <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-            <token>con</token>
-        </pattern>
-        <disambig action="add">
-            <wd lemma="haber" pos="VMIP1P0"/>
-        </disambig>
-    </rule>
+    <rulegroup id="habemos" name="habemos">
+        <rule>
+            <pattern>
+                <token>nos</token>
+                <token>las</token>
+                <marker>
+                    <token>habemos</token>
+                </marker>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token>con</token>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="haber" pos="VMIP1P0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="3">con</token>
+                <token>nos</token>
+                <token>las</token>
+                <marker>
+                    <token>habemos</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="haber" pos="VMIP1P0"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="ser_infinitive" name="ser (infinitivo)">
         <pattern>
             <token><exception postag="D[^R].[MC]S." postag_regexp="yes"/></token>
@@ -1695,6 +2033,30 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="N.*"/>
         </rule>
     </rulegroup>
+    <rule id="nublado_no_nombre" name="nublado (no nombre)">
+        <pattern>
+            <marker>
+                <token postag="VMP.*" postag_regexp="yes" inflected="yes">nublar</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NC.*"/>
+    </rule>
+    <rule id="lleno_no_nombre" name="lleno, llena (no nombre)">
+        <!--<antipattern>
+            <unify>
+                <feature id="genero"></feature>
+                <feature id="numero"></feature>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">lleno|llena</token>
+            </unify>
+        </antipattern>-->
+        <pattern>
+            <marker>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes">lleno</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NC.*"/>
+    </rule>
     <rule id="este_no_nombre" name="este (no nombre)">
         <pattern>
             <marker>
@@ -1815,6 +2177,16 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rule id="annual" name="desastre de Annual">
+        <pattern>
+            <token regexp="yes" inflected="yes">desastre|batalla|ocupación|victoria|derrota</token>
+            <token regexp="yes">de|en</token>
+            <marker>
+                <token case_sensitive="yes">Annual</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="NPCSG00"/>
+    </rule>
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
         <rule>
             <pattern>
@@ -4460,6 +4832,17 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.*"/>
         </rule>
     </rulegroup>
+    <rule id="FUERA_DE_JUEGO" name="fuera de juego">
+        <pattern>
+            <token postag="D..MP." postag_regexp="yes"/>
+            <marker>
+                <token>fuera</token>
+            </marker>
+            <token>de</token>
+            <token>juego</token>
+        </pattern>
+        <disambig action="replace" postag="NCMP000"/>
+    </rule>
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
         <antipattern>
             <token postag="A.*|NC.*" postag_regexp="yes" regexp="yes">\p{Lu}+<exception>IRA</exception></token>
@@ -4520,6 +4903,26 @@ Copyright (C) 2011 Juan Martorell
                     <token>uno</token>
                 </marker>
                 <token regexp="yes">del?</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>una</token>
+                </marker>
+                <token>de</token>
+                <token postag="D.*|PP.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">una|uno</token>
+                </marker>
+                <token postag="CC"/>
+                <token inflected="yes">otro</token>
             </pattern>
             <disambig action="remove" postag="V.*"/>
         </rule>
@@ -5598,9 +6001,9 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rule id="la_not_noun" name="la not noun">
         <pattern>
-            <token>la<exception postag="_GN_MS"/></token>
+            <token postag="[DP].*" postag_regexp="yes">la<exception postag="_GN_MS"/></token>
         </pattern>
-        <disambig action="remove" postag="N.*"/>
+        <disambig action="remove" postag="NC.*"/>
     </rule>
     <rule id="la_dejo" name="la dejo (verb)">
         <antipattern>
@@ -5625,6 +6028,10 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="filterall"/>
     </rule>
     <rulegroup id="not_noun_no_agreement0" name="not noun if no agreement">
+        <antipattern>
+            <token regexp="yes">del|al</token>
+            <token postag="NC[MC]S000" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
@@ -5703,6 +6110,15 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="adj_antepuesto_improbable" name="adjetivo antepuesto improbable">
+        <pattern>
+            <marker>
+                <token postag="V.N.*" postag_regexp="yes">escalar</token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="AQ0CS0"/>
+    </rule>
     <rulegroup id="AdjNom" name="adj + nom">
         <antipattern>
             <!-- adjetivo improbable antepuesto -->
@@ -5773,6 +6189,10 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="N.*|V.[SI].*"/>
     </rule>
     <rulegroup id="not_noun_no_agreement1" name="not noun if no agreement">
+        <antipattern>
+            <token regexp="yes">del|al</token>
+            <token postag="NC[MC]S000" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
@@ -6391,6 +6811,38 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.M.*"/>
         </rule>
     </rulegroup>
+    <rulegroup id="imperative_not_indicative" name="imperativo, no indicativo">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="3" regexp="yes">\p{P}</token>
+                <marker>
+                    <and>
+                        <token postag="V.[SI].*" postag_regexp="yes" skip="7"/>
+                        <token postag="V.M.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <!--<token>o</token>-->
+                <token>si</token>
+                <token>no</token>
+            </pattern>
+            <disambig action="remove" postag="V.[SI].*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>por</token>
+                <token>favor</token>
+                <token min="0" max="1" regexp="yes">\p{P}</token>
+                <marker>
+                    <and>
+                        <token postag="V.[SI].*" postag_regexp="yes"/>
+                        <token postag="V.M.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[SI].*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="allowed_repetitions" name="allowed repetitions">
         <rule>
             <pattern>
@@ -6417,9 +6869,9 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">sapiens|muy</token>
+                    <token regexp="yes">sapiens|muy|bunga</token>
                 </marker>
-                <token><match no="1"/></token>
+                <token><match no="0"/></token>
             </pattern>
             <disambig action="add">
                 <wd pos="_allow_repeat"/>
@@ -7432,6 +7884,36 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <token min="0" regexp="yes">-|/</token>
+                <marker>
+                    <token regexp="yes">&meses_ano_abrv;</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">&meses_ano_abrv;</token>
+                </marker>
+                <token min="0" max="2" regexp="yes">-|/|\.</token>
+                <token regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">&meses_ano_abrv;</token>
+                    <token min="0" max="2" regexp="yes">-|/|\.</token>
+                    <token regexp="yes">&meses_ano_abrv;</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
     </rulegroup>
     <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
         <rule>
@@ -7588,6 +8070,23 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="ignore_pp" name="ignorar pp (puntos porcentuales">
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d \.,]+\dpp</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d \.,]+\d</token>
+                <marker>
+                    <token>pp</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="onomatopeyas" name="algunas onomatopeyas">
         <rule>
             <pattern>
@@ -7602,7 +8101,81 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="MADE_IN" name="made in">
+        <pattern>
+            <marker>
+                <token>made</token>
+                <token>in</token>
+                <token regexp="yes" case_sensitive="yes">USA|China|Europe|Taiwan|Spain|France|Germany|Italy</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="APOSTROPHE" name="apóstrofo, no comillas">
+        <pattern>
+            <token regexp="yes">\p{L}+<exception regexp="yes">[\(«“]</exception><exception postag="SENT_START"/></token>
+            <marker>
+                <token spacebefore="no" regexp="yes">['’]</token>
+            </marker>
+            <token spacebefore="no" regexp="yes">\p{L}+</token>
+        </pattern>
+        <disambig action="add">
+            <wd pos="_allow_apostrophe"/>
+        </disambig>
+    </rule>
+    <rulegroup id="jura_y_recontrajura" name="jura y recontrajura">
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token>re<match no="0"/></token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token><match no="0"/></token>
+                    <token>re<match no="1"/></token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token>recontra<match no="0"/></token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>y</token>
+                <marker>
+                    <token><match no="0"/></token>
+                    <token>recontra<match no="1"/></token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+xx?|x\d+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
         <rule>
             <!-- lowercase word + abbreviation with no vowels -->
             <pattern case_sensitive="yes">
@@ -7622,6 +8195,15 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token min="0">)</token>
                 <token regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START" />
+                <marker>
+                    <token regexp="yes" postag="SENT_END">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
+                </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -7651,6 +8233,38 @@ Copyright (C) 2011 Juan Martorell
                     <token regexp="yes">&meses_ano_abrv;</token>
                 </marker>
                 <token regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d\d?(&meses_ano_abrv;)\d\d(\d\d)?</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d\d?</token>
+                    <token>-</token>
+                    <token regexp="yes">&meses_ano_abrv;</token>
+                    <token>-</token>
+                    <token regexp="yes">\d\d(\d\d)?</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d\d?</token>
+                    <token>/</token>
+                    <token regexp="yes">&meses_ano_abrv;</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d(\d\d)?</token>
+                </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -7694,6 +8308,116 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="immunize"/>
         </rule>
     </rulegroup>
+    <rulegroup id="MATEMATICAS" name="notación matemática">
+        <rule>
+            <pattern>
+                <token regexp="yes">[&#x2200;-&#x22FF;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[=&gt;&lt;\+]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[=&gt;&lt;]</token>
+                <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z][⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[⁰ⁱ²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&math_operators;</token>
+                <token regexp="yes" case_sensitive="yes">[a-zA-Z]|[A-Z][A-Z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[a-zA-Z]|[A-Z][A-Z]</token>
+                <token regexp="yes">&math_operators;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="1" inflected="yes" regexp="yes">lado|recta|semirrecta|hipotenusa|base|altura|diagonal|segmento|distancia|triángulo|rectángulo|cuadrado|polígono|pentágono|hexágono</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]+</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="1" inflected="yes" regexp="yes">lado|recta|semirrecta|hipotenusa|base|altura|diagonal|segmento|distancia|triángulo|rectángulo|cuadrado|polígono|pentágono|hexágono</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]+</token>
+                <token postag="_PUNT_CONT|CC" postag_regexp="yes"/>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z]+</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rule id="HEXADECIMAL_NOTATION" name="notación hexadecimal">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">0x[0-9A-Fa-f]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="OCTAL_NOTATION" name="notación octal">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">0o[0-7]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rulegroup id="ignore_spelling_on_off" name="ignorar ortografía on/off">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">estado|fase|posición</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <marker>
+                    <token regexp="yes">on|off</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>on</token>
+                <token regexp="yes">[\-/]</token>
+                <token>off</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>off</token>
+                <token regexp="yes">[\-/]</token>
+                <token>on</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="nombres_persona" name="nombres de persona abreviados">
         <rule>
             <pattern case_sensitive="yes">
@@ -7716,6 +8440,119 @@ Copyright (C) 2011 Juan Martorell
                 <token regexp="yes">\p{Lu}.*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rule id="ignore_uppercase_letters" name="A a Z">
+        <antipattern case_sensitive="yes">
+            <token>y</token>
+            <token>Y</token>
+        </antipattern>
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[A-Z]</token>
+            <token regexp="yes">[aoy]</token>
+            <token regexp="yes">[A-Z]</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="prefijo_entre_parentesis" name="prefijo entre parèntesis">
+        <!-- (mal)gastar -->
+        <pattern>
+            <token>(</token>
+            <marker>
+                <token regexp="yes" spacebefore="no">des|de|dis|in|mal|anti|pro</token>
+                <token spacebefore="no">)</token>
+            </marker>
+            <token spacebefore="no"/>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="ABREVIATURAS_CON_PUNTO" name="abreviaturas con punto">
+        <pattern>
+            <marker>
+                <token regexp="yes" case_sensitive="yes">&abreviaturas;</token>
+            </marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <!-- CHUNKER -->
+    <rulegroup id="PERIFRASIS_VERBALES" name="perífrasis verbales">
+        <rule>
+            <pattern>
+                <token inflected="yes">tener</token>
+                <token>que</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">haber</token>
+                <token postag="V.P.*" postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">continuar|seguir|estar|ir|proseguir</token>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">poder|querer|desear|deber|saber</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">deber</token>
+                <token>de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">ir</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">volver|comenzar|empezar</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+                <wd pos="GV"/>
+            </disambig>
         </rule>
     </rulegroup>
 </rules>

@@ -102,7 +102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception postag="SENT_START"/>
           </token>
           <marker>
-            <token regexp="yes">взагалі|загалом|власне|щиро|інакше|м'яко|образнопросто|правду|коротко|коротше</token>
+            <token regexp="yes">взагалі|загалом|власне|щиро|інакше|м'яко|образно|просто|правду|коротко|коротше</token>
             <token>кажучи</token>
           </marker>
         </pattern>
@@ -115,7 +115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- «Більше того» є росіянізмом - handled in grammar-barbarism.xml
 
-    <rulegroup id="comma_bilshe_togo" name="Кома: більше того">
+    <rulegroup id="comma_bilshe_togo" name="Кома: більше того" default="off">
       <rule>
         <pattern>
           <marker>
@@ -823,7 +823,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <!-- 
-    <rulegroup id="comma_navpaky" name="Кома: навпаки">
+    <rulegroup id="comma_navpaky" name="Кома: навпаки" default="off">
       <rule>
         <pattern>
           <marker>
@@ -1355,7 +1355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>не те щоб зовсім</example>
         <example>і щоб йому</example>
         <example>або щоб передав жінкам</example>
-        <example>акцинації від гепатиту В. Щоб запобігти</example>
+        <example>вакцинації від гепатиту В. Щоб запобігти</example>
       </rule>
      </rulegroup>
 
@@ -1718,7 +1718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>У звороті «\1 \2 ... \4» перед «\4» ставиться кома</message>
         <suggestion>, \4</suggestion>
-        <example correction=", як">тільки но він підвіся<marker> як</marker> його забрали</example>
+        <example correction=", як">тільки но він підвівся<marker> як</marker> його забрали</example>
       </rule>
     </rulegroup>
 
@@ -1998,6 +1998,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   
       <rule>
         <pattern>
+          <token>,</token>
+          <token>принаймні</token>
+          <token>,</token>
+        </pattern>
+        <message>Слово «\2» не буває вставним словом і комами не відокремлюється (хоча кому можуть диктувати інші конструкції)</message>
+        <suggestion> \2</suggestion>
+        <example correction=" принаймні">і<marker>, принаймні,</marker> не сподобалося</example>
+      </rule>
+  
+      <rule>
+        <pattern>
           <token regexp="yes">[ій]</token>
           <marker>
             <token regexp="yes">[ву]се-таки</token>
@@ -2148,7 +2159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <!-- Too many FP:
       Коли «тоді як» вжито в ролі сполучного засобу (Він помилявся, тоді як вона мала рацію.) ставимо кому перед «тоді» і не ставимо перед «як». Однак коли в реченні можна поставити запитання (коли? тоді), ставимо лише одну кому перед «як» (Вони прийдуть тоді, як звільняться.)
-      <rule>
+      <rule name="Тоді, як" default="off">
         <pattern>
           <token>тоді</token>
           <token>,</token>
@@ -2190,6 +2201,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>У цій сталій сполуці кома перед «скільки» не ставиться: </message>
         <suggestion> \2 \3</suggestion>
         <example correction=" скільки завгодно">і кричи <marker>, скільки завгодно</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="no_comma_za_tradiciyeyu" name="Зайва кома: за традицією">
+      <rule>
+        <pattern>
+          <token>,</token>
+          <token>за</token>
+          <token>традицією</token>
+          <token>,</token>
+        </pattern>
+        <message>Фраза «\2 \3» вствною не є і комами не виділяється</message>
+        <suggestion> \2 \3</suggestion>
+        <example correction=" за традицією"><marker>, за традицією,</marker> ...</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker>
+            <token>за</token>
+            <token>традицією</token>
+            <token>,</token>
+          </marker>
+        </pattern>
+        <message>Фраза «\2 \3» вствною не є і комами не виділяється</message>
+        <suggestion>\2 \3</suggestion>
+        <example correction="За традицією"><marker>За традицією,</marker> ...</example>
       </rule>
     </rulegroup>
 
@@ -2372,7 +2411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>тому
-            <exception scope="previous">,</exception>
+            <exception scope="previous" regexp="yes">[,;:—–-]</exception>
             <exception scope="previous" postag="SENT_START"/>
           </token>
           <token>що</token>
@@ -2390,7 +2429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>чи</token>
-          <token max="5"><exception regexp="yes">[,;:-]|чи</exception></token>
+          <token max="5"><exception regexp="yes">[,;:-—–]|чи</exception></token>
           <marker>
             <token>чи</token>
           </marker>
@@ -2403,8 +2442,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="na_chyyus_dumku" name="На чиюсь думку">
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>на</token>
+          <token regexp="yes">мою|нашу|його|її|їхню</token>
+          <token>думку</token>
+        </marker>
+        <token>
+          <exception regexp="yes">&punct_std;</exception>
+        </token>
+      </pattern>
+      <message>Після вставного звороту має йти кома</message>
+      <suggestion>\2 \3 \4,</suggestion>
+      <example>пристав на його думку</example>
+      <example correction="На мою думку,"><marker>На мою думку</marker> це марнотратство.</example>
+    </rule>
+
   <!-- 
-      <rule>
+      <rule name="А саме" default="off">
         <pattern>
           <marker>
             <token>а</token>
@@ -2426,7 +2483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
      -->
 
 <!--
-    <rulegroup id="VOCATIVE_NO_COMMA" name="Кличний без коми">
+    <rulegroup id="VOCATIVE_NO_COMMA" name="Кличний без коми" default="off">
       <rule>
         <pattern>
           <token postag_regexp="yes" postag="noun:inanim.*v_kly.*">

@@ -191,7 +191,6 @@ build () {
     else
         ./build.sh languagetool-standalone package
         ./build.sh languagetool-wikipedia package -DskipTests
-        ./build.sh languagetool-office-extension package -DskipTests
     fi
 }
 
@@ -215,7 +214,6 @@ build_quiet () {
     else
         ./build.sh languagetool-standalone package
         ./build.sh languagetool-wikipedia package -DskipTests
-        ./build.sh languagetool-office-extension package -DskipTests
     fi
 }
 

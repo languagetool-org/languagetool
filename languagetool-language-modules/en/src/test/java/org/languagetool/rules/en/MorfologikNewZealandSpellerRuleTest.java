@@ -80,6 +80,11 @@ public class MorfologikNewZealandSpellerRuleTest extends AbstractEnglishSpellerR
     assertEquals(3, matches2[0].getFromPos());
     assertEquals(10, matches2[0].getToPos());
     assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
+
+    // test words with diacritics in the spelling dictionary
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("émigré or émigrés")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("tête-à-tête")).length);
+
   }
 
 }

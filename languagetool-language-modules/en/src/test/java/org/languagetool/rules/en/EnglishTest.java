@@ -42,7 +42,7 @@ public class EnglishTest extends LanguageSpecificTest {
     String s = "Write or paste your text here too have it checked continuously. Errors will be underlined in different colours: we will mark seplling errors with red underilnes. Furthermore grammar error's are highlighted in yellow. LanguageTool also marks style issues in a reliable manner by underlining them in blue. did you know that you can sea synonyms by double clicking a word? Its a impressively versatile tool, e.g. if youd like to tell a colleague from over sea's about what happened at 5 PM in the afternoon on Monday, 27 May 2007.";
     Language lang = Languages.getLanguageForShortCode("en-US");
     testDemoText(lang, s,
-      Arrays.asList("TOO_TO", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA", "APOS_ARE", "IN_A_X_MANNER", "UPPERCASE_SENTENCE_START", "DOUBLE_HYPHEN", "IT_IS", "EN_A_VS_AN", "EN_CONTRACTION_SPELLING", "OVER_SEAS", "PM_IN_THE_EVENING", "DATE_WEEKDAY")
+      Arrays.asList("TOO_TO", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "MORFOLOGIK_RULE_EN_US", "SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA", "APOS_ARE", "IN_A_X_MANNER", "UPPERCASE_SENTENCE_START", "DOUBLE_HYPHEN", "IT_IS", "EN_A_VS_AN", "EN_CONTRACTION_SPELLING", "OVER_SEAS", "PM_IN_THE_EVENING", "EN_DATE_WEEKDAY")
     );
     runTests(lang, null, "ÆæāýÅåøšùçıčćö");
   }

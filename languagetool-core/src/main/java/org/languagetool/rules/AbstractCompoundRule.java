@@ -30,6 +30,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -41,6 +42,10 @@ public abstract class AbstractCompoundRule extends Rule {
 
   static final int MAX_TERMS = 5;
 
+  private static final Pattern WHITESPACE = Pattern.compile("\\s+");
+  private static final Pattern DIGIT = Pattern.compile("\\d+");
+  private static final Pattern DASHES = Pattern.compile("--+");
+
   private final String withHyphenMessage;
   private final String withoutHyphenMessage;
   private final String withOrWithoutHyphenMessage;
@@ -49,6 +54,7 @@ public abstract class AbstractCompoundRule extends Rule {
   protected final Language lang;                 // used by LO/OO Linguistic Service 
   // if true, the first word will be uncapitalized before compared to the entries in CompoundRuleData
   protected boolean sentenceStartsWithUpperCase = true;
+  protected boolean subRuleSpecificIds;
 
   @Override
   public abstract String getId();
@@ -59,6 +65,10 @@ public abstract class AbstractCompoundRule extends Rule {
   @Override
   public int estimateContextForSureMatch() {
     return 1;
+  }
+
+  public void useSubRuleSpecificIds() {
+    subRuleSpecificIds = true;
   }
 
   /** @since 3.0 */
@@ -130,7 +140,7 @@ public abstract class AbstractCompoundRule extends Rule {
             containsDigits = true;
         }
         if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck) ||
-            (containsDigits && getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp = stringToCheck.replaceAll("\\d+", "\\\\d+")))) {
+            (containsDigits && getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp = DIGIT.matcher(stringToCheck).replaceAll("\\\\d+")))) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
           List<String> replacement = new ArrayList<>();
@@ -160,7 +170,16 @@ public abstract class AbstractCompoundRule extends Rule {
           if (replacement.isEmpty()) {
             break;
           }
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
+          int startPos = firstMatchToken.getStartPos();
+          int endPos = atr.getEndPos();
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, shortDesc);
+          if (subRuleSpecificIds) {
+            String id = StringTools.toId(getId() + "_" + stringToCheck, lang);
+            String description = getDescription().replace("$match", origStringToCheck);
+            SpecificIdRule subRuleId = new SpecificIdRule(id, description, isPremium(), getCategory(),
+              getLocQualityIssueType(), getTags());
+            ruleMatch = new RuleMatch(subRuleId, sentence, startPos, endPos, msg, shortDesc);
+          }
           ruleMatch.setSuggestedReplacements(replacement);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
@@ -178,9 +197,9 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   protected List<String> filterReplacements(List<String> replacements, String original) throws IOException {
-    List<String> newReplacements = new ArrayList<String>();
+    List<String> newReplacements = new ArrayList<>();
     for (String replacement : replacements) {
-      String newReplacement = replacement.replaceAll("\\-\\-+", "-");
+      String newReplacement = DASHES.matcher(replacement).replaceAll("-");
       if (!newReplacement.equals(original) && isCorrectSpell(newReplacement)) {
         newReplacements.add(newReplacement);
       }
@@ -222,7 +241,7 @@ public abstract class AbstractCompoundRule extends Rule {
     String str = inStr.trim();
     str = str.replace(" - ", " ");
     str = str.replace('-', ' ');
-    str = str.replaceAll("\\s+", " ");
+    str = WHITESPACE.matcher(str).replaceAll(" ");
     return str;
   }
 
@@ -239,7 +258,7 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   public String mergeCompound(String str, boolean uncapitalizeMidWords) {
-    String[] stringParts = str.replaceAll("-", " ").split(" ");
+    String[] stringParts = str.replace("-", " ").split(" ");
     StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {  
       if (k == 0) {

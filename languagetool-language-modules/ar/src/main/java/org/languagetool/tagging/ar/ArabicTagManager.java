@@ -351,6 +351,7 @@ public class ArabicTagManager {
     return postag != null && postag.startsWith("NM");
   }
 
+
   /**
    * @return true if have flag is noun and definite
    */

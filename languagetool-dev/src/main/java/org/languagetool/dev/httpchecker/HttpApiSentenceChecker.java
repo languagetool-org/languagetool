@@ -50,6 +50,10 @@ class HttpApiSentenceChecker {
   @Nullable
   private final String password;
 
+  @Nullable
+  private final String parameters;
+
+
   public HttpApiSentenceChecker(CommandLine cmd) {
     baseUrl = cmd.hasOption("url") ? cmd.getOptionValue("url") : "https://api.languagetool.org";
     if (baseUrl.endsWith("/")) {
@@ -60,6 +64,7 @@ class HttpApiSentenceChecker {
     token = cmd.hasOption("token") ? cmd.getOptionValue("token") : null;
     user = cmd.hasOption("user") ? cmd.getOptionValue("user") : null;
     password = cmd.hasOption("password") ? cmd.getOptionValue("password") : null;
+    parameters = cmd.hasOption("parameters") ? cmd.getOptionValue("parameters") : null;
   }
 
   private void run(File input, File output) throws IOException, InterruptedException, ExecutionException {
@@ -134,13 +139,13 @@ class HttpApiSentenceChecker {
         }
         tmpTexts.add(texts.remove(0));
       }
-      callables.add(new CheckCallable(count, baseUrl, token, tmpTexts, langCode, user, password));
+      callables.add(new CheckCallable(count, baseUrl, token, tmpTexts, langCode, user, password, parameters));
       System.out.println("Created thread " + count + " with " + tmpTexts.size() + " texts");
       count++;
     }
     if (texts.size() > 0) {
       System.out.println(texts.size() + " texts remaining, creating another thread for them");
-      callables.add(new CheckCallable(count, baseUrl, token, texts, langCode, user, password));
+      callables.add(new CheckCallable(count, baseUrl, token, texts, langCode, user, password, parameters));
     } else {
       System.out.println("No texts remaining");
     }
@@ -202,6 +207,7 @@ class HttpApiSentenceChecker {
     options.addOption(null, "user", true, "User name for authentication (Basic Auth)");
     // TODO: read from file instead of command line
     options.addOption(null, "password", true, "Password for authentication (Basic Auth)");
+    options.addOption(null, "parameters", true, "Additional parameters to send with HTTP requests as form-encoded POST data");
     CommandLine cmd = new DefaultParser().parse(options, args);
     HttpApiSentenceChecker checker = new HttpApiSentenceChecker(cmd);
     checker.run(new File(cmd.getOptionValue("input")), new File(cmd.getOptionValue("output")));

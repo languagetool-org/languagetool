@@ -18,19 +18,16 @@
  */
 package org.languagetool.tagging.disambiguation.pt;
 
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Portuguese;
-//import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
-//import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
 
 public class PortugueseDisambiguationRuleTest {
   
@@ -45,10 +42,10 @@ public class PortugueseDisambiguationRuleTest {
   public void setUp() {
     tagger = new PortugueseTagger();
     tokenizer = new WordTokenizer();
-    sentenceTokenizer = new SRXSentenceTokenizer(new Portuguese());
-    //disambiguator = new XmlRuleDisambiguator(new Portuguese());
+    sentenceTokenizer = new SRXSentenceTokenizer(Portuguese.getInstance());
+    //disambiguator = new XmlRuleDisambiguator(Portuguese.getInstance());
     //disamb2 = new DemoDisambiguator(); 
-    hybridDisam = new PortugueseHybridDisambiguator();
+    hybridDisam = new PortugueseHybridDisambiguator(Portuguese.getInstance());
   }
 
   @Test
@@ -61,7 +58,19 @@ public class PortugueseDisambiguationRuleTest {
             + "/[null]null são/[ser]VMIP3P0|são/[são]AQ0MS0|são/[são]NCMS000  "
             + "/[null]null os/[o]DA0MP0  /[null]null meus/[meu]DP1MPS  "
             + "/[null]null amigos/[amigo]NCMP000 ./[.]_PUNCT|./[.]_PUNCT_PERIOD", tokenizer, sentenceTokenizer, tagger, hybridDisam);
-    
+
+    // https://github.com/languagetool-org/languagetool/issues/9063
+    String inputSentence = "Foi iniciado eficiente e rapidamente.";
+    String outputSentence = "/[null]SENT_START Foi/[ser]VMIS3S0  /[null]null iniciado/[iniciar]VMP00SM  " +
+      "/[null]null eficiente/[eficiente]RM  /[null]null e/[e]CC  /[null]null rapidamente/[rapidamente]RM " +
+      "./[.]_PUNCT|./[.]_PUNCT_PERIOD";
+    TestTools.myAssert(inputSentence, outputSentence, tokenizer, sentenceTokenizer, tagger, hybridDisam);
+    String inputSentence2 = "Foi iniciado na China e rapidamente disseminado.";
+    String outputSentence2 = "/[null]SENT_START Foi/[ser]VMIS3S0  /[null]null iniciado/[iniciar]VMP00SM  " +
+      "/[null]null na/[em:o]SPS00:DA0FS0  /[null]null China/[China]NPFSG00|China/[china]NCCS000  " +
+      "/[null]null e/[e]CC  /[null]null rapidamente/[rapidamente]RM  /[null]null disseminado/[disseminar]VMP00SM " +
+      "./[.]_PUNCT|./[.]_PUNCT_PERIOD";
+    TestTools.myAssert(inputSentence2, outputSentence2, tokenizer, sentenceTokenizer, tagger, hybridDisam);
   }
 
 }

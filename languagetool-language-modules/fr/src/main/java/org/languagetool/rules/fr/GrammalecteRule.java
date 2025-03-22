@@ -53,7 +53,7 @@ public class GrammalecteRule extends Rule {
   private final GlobalConfig globalConfig;
 
   // https://github.com/languagetooler-gmbh/languagetool-premium/issues/197:
-  private final Set<String> ignoreRules = new HashSet<>(Arrays.asList(
+  static final Set<String> ignoreRules = new HashSet<>(Arrays.asList(
     "tab_fin_ligne",
     "apostrophe_typographique",
     "typo_guillemets_typographiques_doubles_ouvrants",
@@ -86,6 +86,8 @@ public class GrammalecteRule extends Rule {
     "esp_avant_après_tiret", // picky
     "nbsp_après_tiret1", // picky
     "nbsp_après_tiret2", // picky
+    "nbsp_après_tiret3", // picky
+    "nbsp_après_chevrons_fermants", // picky
     "esp_mélangés1", // picky
     "esp_mélangés2", // picky
     "tab_début_ligne",
@@ -96,14 +98,21 @@ public class GrammalecteRule extends Rule {
     "typo_espace_manquant_après2", // false alarm in urls (e.g. '&rk=...')
     "typo_espace_manquant_après3", // false alarm in file names (e.g. 'La teaser.zip')
     "typo_tiret_incise2",  // picky
-    "eepi_écriture_épicène_singulier",
     "g1__bs_vidéoprotection__b1_a1_1",
+    "g2__bs_avoir_été_chez__b1_a1_1",
+    "g2__bs_pour_ne_pas_que__b1_a1_1",
+    "g2__bs_silence_assourdissant__b1_a1_1",
     "g1__eleu_élisions_manquantes__b1_a1_1", // picky
     "typo_tiret_incise1", // picky
+    "majuscule_après_point",
     "p_sigle2", // picky
     "g0__imp_verbes_composés_impératifs__b12_a2_1",
     "g0__imp_verbes_composés_impératifs__b12_a3_1",
     "g0__imp_verbes_composés_impératifs__b5_a2_1",
+    "g0__virg_virgule_après_point__b1_a1_1",
+    "g2__date_journée_jour_mois_année_",
+    "g2__date_journée_jour_mois_année__b1_a1_2",
+    "g2__date_journée_jour_mois_année__b1_a1_1",
     "g2__gn_tous_det_nom__b1_a2_1",
     "g2__gn_tous_det_nom__b2_a2_1",
     "g2__gn_tous_nom__b2_a1_1",
@@ -115,7 +124,6 @@ public class GrammalecteRule extends Rule {
     "g2__gn_toutes_nom__b1_a1_1",
     "g2__gn_toutes_nom__b2_a1_1",
     "g2__gn_toutes_nom__b2_a2_1",
-    "g2__maj_Dieu__b1_a1_1",
     "g3__gn_2m_et_ou__b1_a1_1",
     "g3__gn_2m_et_ou__b1_a2_1",
     "g3__gn_adverbe_fort__b1_a1_1",
@@ -197,6 +205,9 @@ public class GrammalecteRule extends Rule {
     "g3__gn_det_nom_de_det_nom_adj_sing_plur__b2_a1_1",
     "g3__gn_det_nom_de_det_nom_adj_sing_plur__b6_a1_1",
     "g3__gn_det_nom_et_det_nom__b1_a1_1",
+    "g3__gn_det_fem_plur_2m__b1_a2_1",
+    "g3__gn_det_epi_plur_3m_et__b2_a2_1",
+    "g3__gn_det_les_3m_et__b2_a2_1",
     "g3__gn_du_1m__b1_a1_1",
     "g3__gn_du_1m__b1_a2_1",
     "g3__gn_du_1m__b1_a3_1",
@@ -258,8 +269,10 @@ public class GrammalecteRule extends Rule {
     "g3__gn_les_1m__b3_a1_1",
     "g3__gn_les_2m__b1_a2_1",
     "g3__gn_les_2m__b1_a3_1",
+    "g3__gn_les_2m__b2_a3_1",
     "g3__gn_les_2m__b1_a4_1",
     "g3__gn_les_2m__b2_a4_1",
+    "g3__gn_les_2m_virg__b2_a1_1",
     "g3__gn_leur_1m__b1_a1_1",
     "g3__gn_leur_1m__b1_a2_1",
     "g3__gn_leur_1m__b2_a1_1",
@@ -380,8 +393,10 @@ public class GrammalecteRule extends Rule {
     "gv1__ppas_le_verbe_pensée__b1_a1_1",
     "gv1__ppas_nous_verbe_état__b2_a1_1",
     "gv1__ppas_être_accord_plur__b2_a1_1",
+    "gv1__ppas_être_accord_plur__b1_a1_1",
     "gv1__ppas_être_accord_sing__b1_a1_1",
     "gv2__conf_ait_confiance_été_faim_tort__b1_a2_1",
+    "gv1__conf_suj_verbe_det_verbe_nom__b5_a1_1",
     "gv2__conj_les_nom__b1_a2_1",
     "gv2__conj_quiconque__b1_a1_1",
     "g2__conf_a_à_substantifs__b1_a1_1",
@@ -403,6 +418,10 @@ public class GrammalecteRule extends Rule {
     "g3__conf_à_a_après_verbes__b2_a1_1",
     "g3__infi_à_verbe__b2_a1_1",
     "g3__infi_à_verbe__b3_a1_1",
+    "g3__infi_de_verbe__b4_a1_1",
+    "g3__infi_de_verbe__b5_a1_1",
+    "g3__infi_de_verbe__b6_a1_1",
+    "g3__infi_savoir__b2_a1_1",
     "gv1__ppas_avoir__b2_a1_1",
     "gv1__ppas_avoir__b3_a1_1",
     "gv1__ppas_avoir__b4_a1_1",
@@ -419,8 +438,153 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b4_a1_1",
     "g2__conf_a_à_verbe__b7_a1_1",
     "g2__conf_a_à_verbe__b8_a1_1",
+    "g2__conf_quand_quant_qu_en__b1_a1_1",
+    "g3__gn_de_manière_façon_1m",
+    "g3__gn_de_manière_façon_1m__b1_a2_1",
     "g3__gn_la_3m__b1_a1_1",
-    "gv1__imp_verbe_groupe3_d__b2_a1_1"//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
+    "gv1__imp_verbe_groupe3_d__b2_a1_1",//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
+    "typo_guillemets_perdus",
+    "g2__conj_2p_sans_sujet__b1_a1_1",
+    "g2__conj_se_incohérence__b1_a4_1",
+    "typo_signe_multiplication",
+    "typo_écriture_invariable",
+    "gv1__ppas_avoir_été__b2_a3_1",
+    "gv1__ppas_sujet_être_accord_singulier__b2_a1_1",
+    "num_grand_nombre_avec_points",
+    "g2__conj_tu__b1_a1_1",
+    "typo_guillemets_doubles_ouvrants_non_fermé",
+    "g2__maj_gentilés__b3_a1_1",
+    "g2__maj_gentilés__b3_a2_1",
+    "g2__maj_Dieu__b1_a1_1",
+    "g2__maj_jours_semaine__b1_a1_1",
+    "typo_signe_moins",
+    "g3__conf_numérique_digital__b1_a1_1",
+    "g2__conf_start_nom_ppas__b1_a1_1",
+    "typo_guillemets_fin",
+    "g2__conf_non_verbe_après_préverbes__b2_a1_1",
+    "g2__typo_ordinaux_chiffres_romains_exposants__b9_a1_1",
+    "g3__gn_pfx_de_2m__b1_a1_1",
+    "eepi_écriture_épicène_singulier",
+    "eepi_écriture_épicène_pluriel_e",
+    "eepi_écriture_épicène_pluriel_er_ère",
+    "eepi_écriture_épicène_tous_toutes",
+    "eepi_écriture_épicène_pluriel_eux_euses",
+    "eepi_écriture_épicène_pluriel_eur_divers",
+    "g2__chim_molécules__b1_a1_1",
+    "g3__conf_numérique_digital__b2_a1_1",
+    "doublon",
+    "typo_guillemets_doubles_fermants_non_ouverts",
+    "g2__conf_non_verbe_après_préverbes__b5_a3_1",
+    "gv1__imp_verbe_groupe2_groupe3_t__b2_a1_1",
+    "gv2__conj_les_nom__b1_a3_1",
+    "gv2__vmode_verbe_que_subjonctif__b1_a1_1",
+    "g2__conj_1p_sans_sujet__b1_a1_1",
+    "typo_points_suspension_après_espace",
+    "typo_guillemets_doubles_ouvrants_non_fermés",
+    "g2__conf_de_vconj__b1_a1_1",
+    "g2__conf_déterminant_mas_sing_verbe__b1_a1_1",
+    "g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_",
+    "typo_points_superflus",
+    "g2__conf_la_là__b2_a1_1",
+    "g2__conj_2s_sans_sujet_xxxas_xxxes__b4_a1_1",
+    "g2__conf_non_verbe_après_préverbes__b5_a2_1",
+    "g2__conj_je__b2_a1_1",
+    "gv1__conf_vc_int_imp_verbe__b1_a1_1",
+    "gv1__conf_le_la_leur_les_verbe_nom__b1_a1_1",
+    "date_nombres",
+    "gv1__imp_confusion_2e_pers_pluriel__b5_a1_1",
+    "g2__conf_tu_non_verbe__b1_a3_1",
+    "g2__conf_si_vconj__b2_a1_1",
+    "g2__conf_on_non_verbe__b1_a3_1",
+    "g2__conf_on_non_verbe__b2_a3_1",
+    "g2__conj_on__b1_a1_1",
+    "g3__gn_start_prn_1m__b1_a1_1",
+    "gv2__conj_vinfi_suj__b1_a1_1",
+    "g2__conf_plus_plu__b5_a1_1",
+    "g3__gn_det_epi_plur_3m__b1_a2_1",
+    "g3__gn_det_epi_sing_3m__b1_a3_1",
+    "g2__conf_sur_vconj__b1_a1_1",
+    "typo_guillemets_ouvrants_inverses1",
+    "typo_guillemets_ouvrants_inverses2",
+    "typo_guillemets_ouvrants_inverses3",
+    "typo_guillemets_fermants_inverses",
+    "typo_commencement_guillemets",
+    "typo_guillemets_typographiques_simples_doubles_fermants",
+    "typo_guillemets_typographiques_simples_doubles_ouvrants",
+    "typo_guillemets_ouvrants_perdus",
+    "typo_guillemets_fermants_perdus",
+    "typo_guillemet_simple_fermant_non_ouvert",
+    "typo_guillemet_simple_ouvrant_non_fermé",
+    "typo_cohérence_guillemets_chevrons_fermants",
+    "typo_cohérence_guillemets_chevrons_ouvrants",
+    "typo_cohérence_guillemets_doubles_fermants",
+    "typo_cohérence_guillemets_doubles_ouvrants",
+    "g2__conf_par_vconj__b1_a1_1",
+    "g2__conf_a_à_verbe__b15_a7_1",
+    "typo_espace_avant_signe_fermant",
+    "g2__date_journée_jour_mois_année__b1_a1_4",
+    "g2__conf_incohérences_globales__b3_a1_1",
+    "g2__typo_ordinaux_chiffres_incorrects__b9_a1_1",
+    "g2__conj_1s_sans_sujet_xxxai__b4_a1_1",
+    "g2__conf_dès_des_dés__b3_a2_1",
+    "g2__pleo_substantifs__b11_a1_1",
+    "g2__pleo_substantifs__b12_a1_1",
+    "g2__pleo_substantifs__b1_a1_1",
+    "g2__pleo_verbes__b4_a1_1",
+    "g2__pleo_verbes__b8_a1_1",
+    "g2__pleo_locutions__b7_a1_1",
+    "g2__pleo_verbes__b7_a1_1",
+    "g2__conf_de_du_d__b1_a1_1",
+    "g2__conf_faux_faut__b1_a1_1",
+    "g2__conf_poing_point__b1_a1_1",
+    "g3__conf_foi_fois_foie__b3_a1_1",
+    "g3__conf_faim_fin__b1_a1_1t",
+    "gv2__conf_et_est2__b9_a1_1",
+    "g3__conf_est_et__b4_a1_1",
+    "g2__conf_près_prêt_pré__b3_a1_1",
+    "g3__conf_panser_penser__b1_a1_1",
+    "g3__conf_tache_tâche__b1_a1_1",
+    "g2__conf_de_vconj__b6_a1_1",
+    "g2__conf_à_vconj__b3_a1_1",
+    "gv1__ppas_être_confusion__b4_a4_1",
+    "gv2__conj_moi_qui__b1_a1_1",
+    "gv2__conj_3sg_misc__b1_a1_1",
+    "g3__gn_leur_2m__b1_a3_1",
+    "g2__tu_pronoms_dits__b2_a1_1",
+    "g2__conf_tu_non_verbe__b1_a2_1",
+    "g2__conf_il_non_verbe__b2_a2_1",
+    "g2__conf_il_non_verbe__b2_a3_1",
+    "g2__conf_non_verbe_après_préverbes__b2_a2_1",
+    "g2__conf_non_verbe_après_préverbes__b3_a2_1",
+    "g2__conf_non_verbe_après_préverbes__b6_a3_1",
+    "g2__conf_incohérences_globales__b1_a1_1",
+    "g2__conf_incohérences_globales__b2_a1_1",
+    "g2__conj_ce__b3_a1_1",
+    "g2__conf_de_vconj__b3_a1_1",
+    "g2__conf_a_à_incohérences__b2_a1_1",
+    "g2__conj_il__b1_a1_1",
+    "g2__conf_déterminant_plur_verbe__b3_a3_1",
+    "g2__bs_vidéoprotection__b1_a1_1",
+    "g0__inte_verbes_composés_interrogatifs__b8_a2_1",
+    "gv2__conj_que_où_comment_verbe_sans_sujet__b1_a2_1",
+    "gv2__conf_et_est2__b1_a1_1",
+    "g2__conf_dès_des_dés__b9_a1_1",
+    "g2__conf_se_être_avoir__b5_a2_1",
+    "g2__conf_préverbes__b4_a1_1",
+    "gv2__conj_des_nom__b1_a3_1",
+    "gv1__ppas_être_confusion__b4_a2_1",
+    "gv1__conf_verbes_det_verbe_nom__b1_a1_1",
+    "g2__typo_ordinaux_chiffres_exposants__b5_a1_1",
+    "g2__conf_dès_des_dés__b5_a1_1",
+    "g3__infi_faire__b2_a1_1",
+    "g3__infi_verbes__b4_a1_1",
+    "gv2__vmode_verbe_que_subjonctif__b6_a1_1",
+    "gv2__conj_le_la_leur_nom__b3_a3_1",
+    "gv1__ppas_pron_pluriel_se_être_ppas__b1_a1_1",
+    "g2__conf_si_vconj__b1_a1_1",
+    "g2__conf_à_vconj__b2_a1_1",
+    "g3__conf_pris_prix__b1_a1_1",
+    "g2__tu_locutions__b12_a1_1"
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
@@ -445,7 +609,7 @@ public class GrammalecteRule extends Rule {
     // very basic health check -> mark server as down after an error for given interval
     if (System.currentTimeMillis() - lastRequestError < DOWN_INTERVAL_MILLISECONDS) {
       logger.warn("Warn: Temporarily disabled Grammalecte server because of recent error.");
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
 
     URL serverUrl = new URL(globalConfig.getGrammalecteServer());
@@ -474,12 +638,11 @@ public class GrammalecteRule extends Rule {
       lastRequestError = System.currentTimeMillis();
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl + ": " + e.getClass() + ": " + e.getMessage());
-      e.printStackTrace();
+      logger.warn("Warn: Failed to query Grammalecte server at " + serverUrl, e);
     } finally {
       huc.disconnect();
     }
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
   @NotNull

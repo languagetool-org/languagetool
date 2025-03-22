@@ -28,7 +28,6 @@ import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
@@ -71,8 +70,8 @@ public class NERService {
     this.urlStr = urlStr;
   }
 
-  public List<Span> runNER(String text) throws IOException {
-    String joined = text.replace("\n", " ");
+  public List<Span> runNER(String text) {
+    String joined = text.replace('\n', ' ');
     String result;
     try {
       result = circuitBreaker.executeCallable(() -> postTo(Tools.getUrl(urlStr), "input=" + URLEncoder.encode(joined, "utf-8"), new HashMap<>()));

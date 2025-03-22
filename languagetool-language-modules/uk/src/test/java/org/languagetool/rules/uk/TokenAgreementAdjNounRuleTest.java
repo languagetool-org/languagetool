@@ -147,6 +147,14 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_rod/v_dav -у/ю", matches[0].getMessage().contains("Можливо"));
 
+    // false кількисний числівник з v_rod
+    matches = rule.match(lt.getAnalyzedSentence("до 7-ми відсотків ВВП"));
+    assertEquals(1, matches.length);
+    assertTrue("Missing message for кількисний числівник", matches[0].getMessage().contains("Можливо"));
+    assertTrue(matches[0].getSuggestedReplacements().contains("7 відсотків"));
+
+//    assertHasError("використати 25-ю бригаду");
+    
     matches = rule.match(lt.getAnalyzedSentence("Та пахових ділянках"));
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_mis", matches[0].getMessage().contains("Можливо"));
@@ -196,6 +204,9 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertHasError("символічною акцію стало складання");
     assertHasError("в будь–яким момент");
     assertHasError("хронічними порушення торговельних угод");
+
+    // 148-ми правильно лише adj (восьмими), а numr (восьми) - є помилкою
+    assertHasError("вбивство 148-ми селян");
   }
   
   
@@ -224,7 +235,6 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     // skip adv after adjp
     assertEmptyMatch("прикрита швидко рука");
     assertHasError("прикрита швидко руку");
-    assertEmptyMatch("надана як раз");
     assertEmptyMatch("прикрита отруйливо гарячим");
     assertEmptyMatch("після короткого резюме справи");
     assertEmptyMatch("білий як полотно");
@@ -237,6 +247,11 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("опублікований увечері понеділка");
     
     assertEmptyMatch("зареєстровані зокрема БЮТівець Микола Булатецький та самовисуванець");
+    
+    assertEmptyMatch("схований всередині номера");
+
+    assertEmptyMatch("надана як раз");
+    assertEmptyMatch("підірваною ще раз");
     
     // from real examples
     
@@ -268,8 +283,9 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("писав про щось подібне Юрій");
 
     assertEmptyMatch("з 11-ма годинами");
-    assertEmptyMatch("вбивство 148-ми селян");
 
+    // нічого нового
+    assertEmptyMatch("ще чого доброго ціна впаде");
     
     // площею, об'ємом...
     assertEmptyMatch("чотирициліндровий об’ємом 1000 куб. см.");
@@ -478,7 +494,6 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("дівоче Анна");
 
-    // <adv>
     assertEmptyMatch("В середньому тривалість курсів для отримання");
     assertEmptyMatch("в цілому результатом задоволені");
 
@@ -523,6 +538,7 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("не перевищував кількох десятих відсотка");
 
+    assertEmptyMatch("Береженого Бог береже");
   }
   
   @Test
@@ -588,6 +604,7 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("будуть вдячні державі Україна");
     assertEmptyMatch("мають бути підпорядковані служінню чоловікові");
     assertEmptyMatch("більше відомої загалу як");   //TODO: теоретично має бути кома перед «як»
+    assertEmptyMatch("одержимі суверенітетом");
     
     assertHasError("Нав’язаний Австрії нейтралітеті");
     //TODO:
@@ -707,6 +724,8 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("експозиція, присвячена Леоніду Іллічу");
     assertEmptyMatch("печаткою та вручене платнику");
 
+    assertEmptyMatch("і кожна масою 10 кг");
+
     assertHasError("жадібна землею");
 
     // adj + (case government) adj + noun (case match 1st adj)
@@ -774,7 +793,10 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("чотири подібних до естонських звіти.");
     
     assertEmptyMatch("порівняно з попереднім результат");
-    assertEmptyMatch("порівняно із 1999-им доходи автопідприємств");
+    assertEmptyMatch("порівняно з російським рівень");
+    
+    // mistake 1999-им is not noun
+//    assertEmptyMatch("порівняно із 1999-им доходи автопідприємств");
 
     assertHasError("він є одним із найстаріший амфітеатрів");
     assertHasError("подібний до попереднього закони");

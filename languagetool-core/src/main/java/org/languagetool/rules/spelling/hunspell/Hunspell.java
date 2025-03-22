@@ -40,7 +40,7 @@ public final class Hunspell {
   public static synchronized HunspellDictionary getDictionary(Path dictionary, Path affix) {
     LanguageAndPath key = new LanguageAndPath(dictionary, affix);
     HunspellDictionary hunspell = map.get(key);
-    if (hunspell != null) {
+    if (hunspell != null && !hunspell.isClosed()) {
       return hunspell;
     }
     HunspellDictionary newHunspell = hunspellDictionaryFactory.apply(dictionary, affix);

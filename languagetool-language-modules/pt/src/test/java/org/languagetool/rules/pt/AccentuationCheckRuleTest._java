@@ -40,7 +40,7 @@ public class PortugueseAccentuationCheckRuleTest {
   @Before
   public void setUp() throws IOException {
     rule = new PortugueseAccentuationCheckRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(new Catalan());
+    langTool = new JLanguageTool(Catalan.getInstance());
   }
 
   @Test
@@ -148,7 +148,7 @@ public class PortugueseAccentuationCheckRuleTest {
   public void testPositions() throws IOException {
     final AccentuationCheckRule rule = new AccentuationCheckRule(TestTools.getEnglishMessages());
     final RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(new Catalan());
+    final JLanguageTool langTool = new JLanguageTool(Catalan.getInstance());
 
     matches = rule.match(langTool
         .getAnalyzedSentence("Són circumstancies extraordinàries."));

@@ -19,6 +19,7 @@
  */
 package org.languagetool.rules.ar;
 
+import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WrongWordInContextRule;
 
@@ -34,8 +35,8 @@ public class ArabicWrongWordInContextRule extends WrongWordInContextRule {
 
   private static final String FILE_NAME = "/ar/wrongWordInContext.txt";
 
-  public ArabicWrongWordInContextRule(ResourceBundle messages) {
-    super(messages);
+  public ArabicWrongWordInContextRule(ResourceBundle messages, Language lang) {
+    super(messages, lang);
     addExamplePair(Example.wrong("من سوء <marker>الضن</marker> بالله ترك الأمر بالمعروف."),
       Example.fixed("من سوء <marker>الظن</marker> بالله ترك الأمر بالمعروف."));
   }

@@ -21,8 +21,6 @@ package org.languagetool.rules.fr;
 
 
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
-import org.languagetool.synthesis.FrenchSynthesizer;
-import org.languagetool.synthesis.Synthesizer;
 
 /*
  * Synthesize suggestions using the lemma from one token (lemma_from) 
@@ -32,10 +30,5 @@ import org.languagetool.synthesis.Synthesizer;
  * to choose one among several possible readings.
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
-
-  @Override
-  protected Synthesizer getSynthesizer() {
-    return FrenchSynthesizer.INSTANCE;
-  }
 
 }

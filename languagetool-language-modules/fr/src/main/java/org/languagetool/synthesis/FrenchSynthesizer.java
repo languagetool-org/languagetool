@@ -20,12 +20,17 @@ package org.languagetool.synthesis;
 
 import org.languagetool.Language;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * French word form synthesizer.
  */
 public class FrenchSynthesizer extends BaseSynthesizer {
 
   public static final FrenchSynthesizer INSTANCE = new FrenchSynthesizer();
+
+  private static final List<String> exceptionsEgrave = Arrays.asList(new String[]{"burkinabè", "koinè", "épistémè"});
 
   /** @deprecated use {@link #INSTANCE} */
   public FrenchSynthesizer(Language lang) {
@@ -39,6 +44,13 @@ public class FrenchSynthesizer extends BaseSynthesizer {
   @Override
   protected boolean isException(String w) {
     // remove: qq, qqe...
-    return w.startsWith("qq");  
+    if (w.startsWith("qq")) {
+      return true;
+    }
+    // informè V ind pres 1 s
+    if (w.endsWith("è") && !exceptionsEgrave.contains(w.toLowerCase())) {
+      return true;
+    }
+    return false;
   }
 }
