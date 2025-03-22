@@ -9,7 +9,7 @@ if [ ! -d "$1" ]; then
 	exit 1
 fi
 
-# Check if requred files exits
+# Check if required files exits
 if [ ! -f "$1"/privkey1.pem ]; then
 	echo "Private key file \"$1\"/privkey1.pem does not exist, aborting ..."
 	exit 1

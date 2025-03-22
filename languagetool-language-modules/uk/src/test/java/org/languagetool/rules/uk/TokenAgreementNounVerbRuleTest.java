@@ -21,9 +21,14 @@ package org.languagetool.rules.uk;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
@@ -87,6 +92,10 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     assertEmptyMatch("а вона візьми і зроби");
     
     assertEmptyMatch("Збережені Я позбудуться необхідності");
+
+    // geo qualifier
+    assertEmptyMatch("У місті Біла Церква було сформовано");
+    assertHasError("із містом юності Ви очікувала");
 
     // unknown name
     assertEmptyMatch("Андрій Качала");
@@ -213,9 +222,10 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     assertEmptyMatch("Ті, хто зрозуміли");
     assertEmptyMatch("ті, хто сповідує");
     assertEmptyMatch("ті, хто не сповідують");
-    assertHasError("всі хто зрозуміли"); // пропущена кома
+    assertEmptyMatch("Ті, хто просто зрозуміли");
+    assertEmptyMatch("всі хто зрозуміли"); // пропущена кома
     assertEmptyMatch("про те, хто була ця клята Пандора");
-
+    
     assertEmptyMatch("що можна було й інший пошукати");
   }
   
@@ -378,6 +388,8 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     
     // пара
 //    assertEmptyMatch("зіркова пара Пишняк — Толстой вирішили вивести");
+    assertEmptyMatch("матч Туреччина — Україна зіграють");
+    assertEmptyMatch("у смузі Піски—Авдіївка оперують");
     
     // latin/cyr mix
 //  assertEmptyMatch("Дівчата та їхнiй брат належать до касти");
@@ -398,6 +410,8 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("Що пачка цигарок, що ковбаса коштують");
     assertEmptyMatch("не вулична злочинність, не корупція відлякували");
+    
+    assertEmptyMatch("з Василем Кричевським Оскар Германович разом брали участь");
     
     // very long
     assertEmptyMatch("Леонід Новохатько й керівник головного управління з питань гуманітарного розвитку адміністрації\n" + 
@@ -504,6 +518,22 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     assertEquals(1, matches.length);
   }
 
+  @Test
+  public void testRuleDisambigNazInf() throws IOException {
+    ArrayList<AnalyzedTokenReadings> readings = new ArrayList<>();
+    
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("намагання", "noun:inanim:p:v_naz", "намагання"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("спам'ятати", "verb:perf:inf", "спам'ятати"), 0));
+    
+    AnalyzedSentence sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
+
+    assertEquals(0, rule.match(sent).length);
+
+//    readings.clear();
+  }
+
+  
   
   private static final String GOOD_TEXT = "Хоча упродовж десятиліть ширилися численні історії про те, що я був у ряду наступників трону Тембу, щойно наведений простий генеалогічний екскурс викриває міфічність таких тверджень."
       + " Я був членом королівської родини, проте не належав до небагатьох привілейованих, що їх виховували на правителів."

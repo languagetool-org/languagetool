@@ -52,7 +52,7 @@ public class GalicianWordinessRule extends AbstractSimpleReplaceRule2 {
 
   public GalicianWordinessRule(ResourceBundle messages) throws IOException {
     super(messages, new Galician());
-    super.setCategory(Categories.REDUNDANCY.getCategory(messages));
+    setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Raramente é o caso en que acontece</marker> isto."),
                    Example.fixed("<marker>Raramente acontece</marker> isto."));

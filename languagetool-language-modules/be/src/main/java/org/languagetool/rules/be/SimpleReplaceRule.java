@@ -79,7 +79,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getMessage() {
-    return "«$match» — памылка або прастамоўе, правільна: $suggestions";
+    return "«$match» — памылка, нелітаратурны выраз або прастамоўе, правільна: $suggestions";
   }
 
   @Override

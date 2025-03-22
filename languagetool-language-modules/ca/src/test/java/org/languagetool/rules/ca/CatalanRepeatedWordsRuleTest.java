@@ -25,6 +25,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.markup.AnnotatedText;
@@ -36,11 +37,14 @@ public class CatalanRepeatedWordsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool lt;
+  private Language lang;
 
   @Before
   public void setUp() {
-    rule = new CatalanRepeatedWordsRule(TestTools.getMessages("ca"));
-    lt = new JLanguageTool(Languages.getLanguageForShortCode("ca"));
+    lang = Languages.getLanguageForShortCode("ca");
+    lt = new JLanguageTool(lang);
+    rule = new CatalanRepeatedWordsRule(TestTools.getMessages("ca"), lang);
+
   }
 
   @Test

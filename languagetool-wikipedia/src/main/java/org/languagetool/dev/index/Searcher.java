@@ -280,7 +280,7 @@ public class Searcher {
     return new MatchingSentencesResult(matchingSentences, i, docsChecked);
   }
   
-  class MatchingSentencesResult {
+  static class MatchingSentencesResult {
     List<MatchingSentence> matchingSentences;
     int maxDocChecked;
     int docsChecked;

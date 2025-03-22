@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.ca;
 
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
@@ -43,26 +45,27 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
   
-  public SimpleReplaceDiacriticsIEC(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public SimpleReplaceDiacriticsIEC(ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
     super.setCategory(new Category(new CategoryId("DIACRITICS_IEC"), "Z) Accents diacrítics segons l'IEC"));
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    super.setLocQualityIssueType(ITSIssueType.Grammar);
     super.setDefaultOn();
     this.setCheckLemmas(false);
+    super.useSubRuleSpecificIds();
   }  
 
   @Override
   public final String getId() {
-    return "CA_SIMPLEREPLACE_DIACRITICS_IEC";
+    return "CA_SIMPLE_REPLACE_DIACRITICS_IEC";
   }
 
  @Override
   public String getDescription() {
-    return "Accents diacrítics segons les normes noves (2017)";
+    return "Accents diacrítics segons les normes noves (2017): $match";
   }
 
   @Override
@@ -72,17 +75,21 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Hi sobra l'accent diacrític (segons les normes noves; desactiveu la regla si voleu les normes tradicionals).";
+    return "Hi sobra l'accent diacrític (segons les normes noves).";
   }
   
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
-  
+
   @Override
   public Locale getLocale() {
     return CA_LOCALE;
   }
 
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    return atr.hasPosTagStartingWith("NP");
+  }
 }

@@ -22,17 +22,34 @@ package org.languagetool.tagging.disambiguation.rules.de;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 import java.io.IOException;
 
 public class GermanRuleDisambiguator extends AbstractDisambiguator {
   
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(GermanyGerman.INSTANCE, true);
+  private final Disambiguator disambiguator;
 
+  private final MultiWordChunker multitokenSpeller = MultiWordChunker.getInstance(
+    "/de/multitoken-ignore.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
+
+  private final MultiWordChunker multitokenSpeller2 = MultiWordChunker.getInstance(
+    "/de/multitoken-suggest.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
+
+  private final MultiWordChunker multitokenSpeller3 = MultiWordChunker.getInstance(
+    "/spelling_global.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
+
+  public GermanRuleDisambiguator(Language lang) {
+    disambiguator = new XmlRuleDisambiguator(lang, true);
+    //TODO: merge in one disambiguator:
+    multitokenSpeller.setIgnoreSpelling(true);
+    multitokenSpeller2.setIgnoreSpelling(true);
+    multitokenSpeller3.setIgnoreSpelling(true);
+  }
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
       throws IOException {
@@ -41,6 +58,8 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
 
   @Override
   public AnalyzedSentence disambiguate(AnalyzedSentence input, @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(input, checkCanceled);
+    return disambiguator.disambiguate(multitokenSpeller2.disambiguate(multitokenSpeller3.disambiguate(
+      multitokenSpeller.disambiguate(input, checkCanceled), checkCanceled), checkCanceled), checkCanceled
+    );
   }
 }

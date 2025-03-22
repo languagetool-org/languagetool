@@ -1,6 +1,7 @@
 package org.languagetool.server;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
@@ -42,8 +43,7 @@ public class RemoteSynthesizerTest {
         "[extrañado]");
     assertEquals(remoteSynth.synthesize("es", atrs2, true, "(VM)IP1S0", "$1G....", "").toString(), "[extrañando]");
     // catched error
-    assertEquals(remoteSynth.synthesize("es", atrs2, true, "(VM)IP1S0", "$2G....", ""), null);
-
+    assertNull(remoteSynth.synthesize("es", atrs2, true, "(VM)IP1S0", "$2G....", ""));
   }
 
 }

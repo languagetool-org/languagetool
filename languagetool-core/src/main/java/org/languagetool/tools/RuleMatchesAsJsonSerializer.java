@@ -20,6 +20,7 @@ package org.languagetool.tools;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
@@ -30,6 +31,8 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Write rule matches and some meta information as JSON.
@@ -42,9 +45,13 @@ public class RuleMatchesAsJsonSerializer {
   private static final String PREMIUM_HINT = "You might be missing errors only the Premium version can find. Contact us at support<at>languagetoolplus.com.";
   private static final String START_MARKER = "__languagetool_start_marker";
   private static final JsonFactory factory = new JsonFactory();
-  
+  private static final String SUGGESTION = "<suggestion>";
+  private static final String SUGGESTION_END = "</suggestion>";
+  private static final Pattern ANYTHING_SLASH_PATTERN = Pattern.compile(".*/");
+
   private final int compactMode;
   private final Language lang;
+  private Map<ConfidenceKey,Float> confidenceMap;
 
   public RuleMatchesAsJsonSerializer() {
     this(0, null);
@@ -90,11 +97,11 @@ public class RuleMatchesAsJsonSerializer {
             hiddenMatches, text, contextSize, detectedLang, incompleteResultsReason, showPremiumHint, null);
   }
 
-    /**
-     * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
-     *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
-     * @since 5.3
-     */
+  /**
+   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+   *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
+   * @since 5.3
+   */
   public String ruleMatchesToJson2(List<CheckResults> res, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
                                    DetectedLanguage detectedLang, String incompleteResultsReason, boolean showPremiumHint, JLanguageTool.Mode mode) {
     ContextTools contextTools = new ContextTools();
@@ -114,6 +121,7 @@ public class RuleMatchesAsJsonSerializer {
         }
         writeIgnoreRanges(g, res);
         writeSentenceRanges(g, res);
+        writeExtendedSentenceRanges(g, res);
         g.writeEndObject();
       }
     } catch (IOException e) {
@@ -185,11 +193,9 @@ public class RuleMatchesAsJsonSerializer {
         g.writeNumberField("offset", match.getFromPos());
         g.writeNumberField("length", match.getToPos()-match.getFromPos());
         writeContext(g, match, text, contextTools);
-        if (compactMode != 1) {
-          g.writeObjectFieldStart("type");
-          g.writeStringField("typeName", match.getType().toString());
-          g.writeEndObject();
-        }
+        g.writeObjectFieldStart("type");
+        g.writeStringField("typeName", match.getType().toString());
+        g.writeEndObject();
         writeRule(g, match);
         // 3 is a guess - key 'ignoreForIncompleteSentence' isn't official and can hopefully be removed in the future
         // now that we have 'contextForSureMatch':
@@ -234,11 +240,34 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndArray();
   }
 
+  private void writeExtendedSentenceRanges(JsonGenerator g, List<CheckResults> res) throws IOException{
+    g.writeArrayFieldStart("extendedSentenceRanges");
+    for (CheckResults r : res) {
+      for (ExtendedSentenceRange range : r.getExtendedSentenceRanges()) {
+        g.writeStartObject();
+        g.writeNumberField("from", range.getFromPos());
+        g.writeNumberField("to", range.getToPos());
+        g.writeArrayFieldStart("detectedLanguages");
+        for (Map.Entry<String, Float> entry : range.getLanguageConfidenceRates().entrySet()) {
+          String language = entry.getKey();
+          Float rate = entry.getValue();
+          g.writeStartObject();
+          g.writeStringField("language", language);
+          g.writeNumberField("rate", rate);
+          g.writeEndObject();
+        }
+        g.writeEndArray();
+        g.writeEndObject();
+      }
+    }
+    g.writeEndArray();
+  }
+
   private String cleanSuggestion(String s) {
     if (lang != null) {
       return lang.toAdvancedTypography(s); //.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote())
     } else {
-      return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
+      return s.replace(SUGGESTION, "\"").replace(SUGGESTION_END, "\"");
     }
   }
   
@@ -275,10 +304,10 @@ public class RuleMatchesAsJsonSerializer {
   }
 
   private void writeContext(JsonGenerator g, RuleMatch match, AnnotatedText text, ContextTools contextTools) throws IOException {
-    String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
-    int contextOffset = context.indexOf(START_MARKER);
-    context = context.replaceFirst(START_MARKER, "");
     if (compactMode != 1) {
+      String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
+      int contextOffset = context.indexOf(START_MARKER);
+      context = StringUtils.replaceOnce(context, START_MARKER, "");
       g.writeObjectFieldStart("context");
       g.writeStringField("text", context);
       g.writeNumberField("offset", contextOffset);
@@ -298,7 +327,7 @@ public class RuleMatchesAsJsonSerializer {
       g.writeStringField("subId", rule.getSubId());
     }
     if (rule.getSourceFile() != null && compactMode != 1) {
-      g.writeStringField("sourceFile", rule.getSourceFile().replaceFirst(".*/", ""));
+      g.writeStringField("sourceFile", ANYTHING_SLASH_PATTERN.matcher(rule.getSourceFile()).replaceFirst(""));
     }
     g.writeStringField("description", rule.getDescription());
     g.writeStringField("issueType", rule.getLocQualityIssueType().toString());
@@ -327,6 +356,12 @@ public class RuleMatchesAsJsonSerializer {
       }
       g.writeEndArray();
     }
+    if (confidenceMap != null) {
+      Float confidence = confidenceMap.get(new ConfidenceKey(lang, rule.getId()));
+      if (confidence != null) {
+        g.writeNumberField("confidence", confidence);
+      }
+    }
     g.writeEndObject();
   }
 
@@ -338,4 +373,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
+  public void setRuleIdToConfidenceMap(Map<ConfidenceKey,Float> confidenceMap) {
+    this.confidenceMap = confidenceMap;
+  }
 }

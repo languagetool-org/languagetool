@@ -35,7 +35,7 @@ public class RussianWordRepeatRuleTest {
   public void testRule() throws IOException {
     final RussianWordRepeatRule rule = new RussianWordRepeatRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Russian());
+    JLanguageTool lt = new JLanguageTool(Russian.getInstance());
     //correct
     matches = rule.match(lt.getAnalyzedSentence("Повтор слов в предложении."));
     assertEquals(0, matches.length);

@@ -18,15 +18,43 @@
  */
 package org.languagetool.language;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.UserConfig;
+import org.languagetool.rules.*;
+import org.languagetool.rules.ca.*;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
 
 public class ValencianCatalan extends Catalan {
+
+  private static final String LANGUAGE_SHORT_CODE = "ca-ES-valencia";
+
+  private static volatile Throwable instantiationTraceValecian;
+
+  public ValencianCatalan() {
+    super(true);
+    Throwable trace = instantiationTraceValecian;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTraceValecian = new Throwable();
+  }
+
+  public static @NotNull ValencianCatalan getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof ValencianCatalan catalan) {
+      return catalan;
+    }
+    throw new RuntimeException("ValencianCatalan language expected, got " + language);
+  }
 
   @Override
   public String getName() {
@@ -49,10 +77,23 @@ public class ValencianCatalan extends Catalan {
     return CatalanTagger.INSTANCE_VAL;
   }
 
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return CatalanSynthesizer.INSTANCE_VAL;
+  }
+
+  @Override
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> relevantRules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue,altLanguages));
+    relevantRules.add(new WordCoherencyValencianRule(messages));
+    return relevantRules;
+  }
+
   @Override
   public List<String> getDefaultEnabledRulesForVariant() {
     List<String> rules = Arrays.asList("EXIGEIX_VERBS_VALENCIANS", "EXIGEIX_ACCENTUACIO_VALENCIANA",
-        "EXIGEIX_POSSESSIUS_U", "EXIGEIX_VERBS_EIX", "EXIGEIX_VERBS_ISC", "PER_PER_A_INFINITIU", "FINS_EL_AVL");
+        "EXIGEIX_POSSESSIUS_U", "EXIGEIX_VERBS_EIX", "EXIGEIX_VERBS_ISC", "PER_PER_A_INFINITIU", "FINS_EL_AVL", "LES_HA_FETES");
     return Collections.unmodifiableList(rules);
   }
 
@@ -60,7 +101,8 @@ public class ValencianCatalan extends Catalan {
   public List<String> getDefaultDisabledRulesForVariant() {
     // Important: Java rules are not disabled here
     List<String> rules = Arrays.asList("EXIGEIX_VERBS_CENTRAL", "EXIGEIX_ACCENTUACIO_GENERAL", "EXIGEIX_POSSESSIUS_V",
-        "EVITA_PRONOMS_VALENCIANS", "EVITA_DEMOSTRATIUS_EIXE", "VOCABULARI_VALENCIA", "EXIGEIX_US", "FINS_EL_GENERAL");
+        "EVITA_PRONOMS_VALENCIANS", "EVITA_DEMOSTRATIUS_EIXE", "VOCABULARI_VALENCIA", "EXIGEIX_US", "FINS_EL_GENERAL", 
+        "EVITA_INFINITIUS_INDRE", "EVITA_DEMOSTRATIUS_ESTE");
     return Collections.unmodifiableList(rules);
   }
   

@@ -24,6 +24,7 @@ import org.languagetool.language.Chinese;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class ChineseTest extends LanguageSpecificTest {
   
@@ -31,9 +32,9 @@ public class ChineseTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "将文本粘贴在此，或者检测以下文本：我和她去看了二部电影。";
-    Chinese lang = new Chinese();
+    Chinese lang = Chinese.getInstance();
     testDemoText(lang, s,
-      Arrays.asList("wa5")
+      Collections.singletonList("wa5")
     );
     runTests(lang);
   }

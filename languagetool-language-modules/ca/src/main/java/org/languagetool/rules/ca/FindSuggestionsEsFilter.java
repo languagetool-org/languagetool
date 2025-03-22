@@ -49,7 +49,7 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
 
     List<String> replacements = new ArrayList<>();
     int posWord = 0;

@@ -22,33 +22,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 /**
  * Information about premium-only rules.
  */
 public abstract class Premium {
-  
-  private Optional<Properties> gitPremiumProps;
-
-  public Premium() {
-    try {
-      InputStream in = JLanguageTool.getDataBroker().getAsStream("/git-premium.properties");
-      if (in != null) {
-        Properties props = new Properties();
-        props.load(in);
-        gitPremiumProps = Optional.of(props);
-      } else {
-        gitPremiumProps = Optional.empty();       
-      }
-    } catch (IOException e) {
-      log.warn("Failed to read git-premium.properties file.", e);
-    }
-  }
 
   private static final List<String> tempNotPremiumRules = Arrays.asList();
 
@@ -92,17 +74,32 @@ public abstract class Premium {
   }
 
   public abstract boolean isPremiumRule(Rule rule);
-  
+
+  /**
+   * @deprecated Please use LtBuildInfo.PREMIUM.getBuildDate() instead.
+   * @return premium build date
+   */
+  @Deprecated
   public String getBuildDate() {
-    return gitPremiumProps.map(properties -> properties.getProperty("git.build.time")).orElse(null);
+    return LtBuildInfo.PREMIUM.getBuildDate();
   }
-  
+
+  /**
+   * @deprecated Please use LtBuildInfo.PREMIUM.getShortGitId() instead.
+   * @return short git ID
+   */
+  @Deprecated
   public String getShortGitId() {
-    return gitPremiumProps.map(properties -> properties.getProperty("git.commit.id.abbrev")).orElse(null);
+    return LtBuildInfo.PREMIUM.getShortGitId();
   }
-  
+
+  /**
+   * @deprecated Please use LtBuildInfo.PREMIUM.getVersion() instead.
+   * @return premium version
+   */
+  @Deprecated
   public String getVersion() {
-    return gitPremiumProps.map(properties -> properties.getProperty("git.build.version")).orElse(null);
+    return LtBuildInfo.PREMIUM.getVersion();
   }
 
 }

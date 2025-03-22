@@ -34,37 +34,77 @@ public class LongSentenceRuleTest {
   public void testMatch() throws Exception {
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     
-    LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig(), 50);
+    LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig(), 40);
     assertNoMatch(" is a rather short text.", rule, lt);
     assertMatch("Now this is not " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
-            "rather that short text.", 0, 126, rule, lt);
+            "rather that short text.", 0, 127, rule, lt);
     
     assertMatch("Now this is not " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
-            "rather that short text", 0, 125, rule, lt);
+            "rather that short text", 0, 126, rule, lt);
+    
+    assertMatch("The sun slowly set behind the majestic mountains, " +
+      "casting a warm golden glow over the tranquil valley below, where a " +
+      "gentle breeze rustled the leaves of the trees, and the sound of a " +
+      "distant stream provided a soothing backdrop to the peaceful scene.", 0, 249, rule, lt);
+
+    // test quotes
+    assertNoMatch("The quote “When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+      "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+      "sunlit pathways of hope and fulfillment” (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
+    assertNoMatch("The quote \"When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment\" (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
+    assertNoMatch("The quote «When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment» (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
+    assertNoMatch("The quote „When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment“ (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
+
+    assertMatch("The quote \"When days\" grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope \"and fulfillment\" (p. 9) refers to God’s nature as a combination of love and justice.",
+      0, 253, rule, lt);
+
+    // no quotes
+    assertMatch("The quote When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment (p. 9) refers to God’s nature as a combination of love and justice.",
+      0, 249, rule, lt);
+
+    // wrong or mismatched quotes: opening quote, with no closing quote
+    assertNoMatch("The quote “When days grow dark and nights grow dreary, we can be thankful that our God combines in " +
+        "his nature a creative synthesis of love and justice which will lead us through life’s dark valleys and into " +
+        "sunlit pathways of hope and fulfillment» (p. 9) refers to God’s nature as a combination of love and justice.",
+      rule, lt);
     
     LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig(), 6);
 //    shortRule.setDefaultValue(6);
     assertNoMatch("This is a rather short text.", shortRule, lt);
-    assertMatch("This is also a rather short text.", 0, 32, shortRule, lt);
+    assertMatch("This is also a rather short text.", 0, 33, shortRule, lt);
     assertNoMatch("These ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ don't count.", shortRule, lt);
     assertNoMatch("one two three four five six.", shortRule, lt);
     assertNoMatch("one two three (four) five six.", shortRule, lt);
-    assertMatch("one two three four five six seven.", 0, 33, shortRule, lt);
+    assertMatch("one two three four five six seven.", 0, 34, shortRule, lt);
     assertNoMatch("Eins zwei drei vier fünf sechs.", shortRule, lt);
-    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven", 3, 38, shortRule, lt);
-    assertMatch("Eins zwei drei vier fünf sechs seven\n\n\n", 0, 35, shortRule, lt);
-    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven\n\n\n", 3, 38, shortRule, lt);
-    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven.", 3, 39, shortRule, lt);
-    assertMatch("Eins zwei drei vier fünf sechs seven.\n\n\n", 0, 36, shortRule, lt);
-    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven.\n\n\n", 3, 39, shortRule, lt);
+    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven", 3, 39, shortRule, lt);
+    assertMatch("Eins zwei drei vier fünf sechs seven\n\n\n", 0, 36, shortRule, lt);
+    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven\n\n\n", 3, 39, shortRule, lt);
+    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven.", 3, 40, shortRule, lt);
+    assertMatch("Eins zwei drei vier fünf sechs seven.\n\n\n", 0, 37, shortRule, lt);
+    assertMatch("\n\n\nEins zwei drei vier fünf sechs seven.\n\n\n", 3, 40, shortRule, lt);
 
   }
 
@@ -78,4 +118,6 @@ public class LongSentenceRuleTest {
     assertThat(matches[0].getFromPos(), is(from));
     assertThat(matches[0].getToPos(), is(to));
   }
+
+
 }

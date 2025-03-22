@@ -18,6 +18,9 @@ public class InflectionHelper {
   }
 
   public static class Inflection implements Comparable<Inflection> {
+
+    private static final Pattern MFN = Pattern.compile("[mfn]");
+
     final String gender;
     final String _case;
     final String animTag;
@@ -58,8 +61,8 @@ public class InflectionHelper {
       if( gender1.equals(gender2) )
         return true;
       
-      if( gender1.equals("s") && gender2.matches("[mfn]") 
-          || gender2.equals("s") && gender1.matches("[mfn]") )
+      if( gender1.equals("s") && MFN.matcher(gender2).matches()
+          || gender2.equals("s") && MFN.matcher(gender1).matches())
         return true;
 
       return false;

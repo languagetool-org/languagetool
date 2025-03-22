@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -44,15 +45,16 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
   
-  public SimpleReplaceBalearicRule(final ResourceBundle messages) throws IOException {
-    super(messages);
+  public SimpleReplaceBalearicRule(ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    super.setLocQualityIssueType(ITSIssueType.Grammar);
     this.setCheckLemmas(false);
+    super.useSubRuleSpecificIds();
     //this.setIgnoreTaggedWords();
   }  
 
@@ -63,7 +65,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Suggeriments per a formes balears (autentic/autèntic)";
+    return "Suggeriments per a formes balears: $match";
   }
 
   @Override
@@ -89,7 +91,8 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
   @Override
   protected boolean isTokenException(AnalyzedTokenReadings atr) {
     // proper nouns tagged in multiwords are exceptions
-    return atr.hasPosTagStartingWith("NP") || atr.isImmunized() || atr.isIgnoredBySpeller();
+    return atr.hasPosTagStartingWith("NP") || atr.isImmunized() || atr.isIgnoredBySpeller()
+      || atr.hasPosTag("_english_ignore_");
   }
 
 }

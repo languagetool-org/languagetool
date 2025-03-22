@@ -19,6 +19,7 @@
 package org.languagetool.rules.en;
 
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -29,6 +30,8 @@ import org.languagetool.rules.WordRepeatRule;
  * Word repeat rule for English, to avoid false alarms in the generic word repetition rule.
  */
 public class EnglishWordRepeatRule extends WordRepeatRule {
+
+  private static final Pattern SINGLE_CHAR = Pattern.compile("(?i)^[a-z]$");
 
   public EnglishWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
@@ -58,6 +61,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
         || repetitionOf("does", tokens, position)) && (position + 1 < tokens.length)
         && tokens[position + 1].getToken().equalsIgnoreCase("n't")) {
       return true;
+    } else if (repetitionOf("her", tokens, position) && posIsIn(tokens, position - 2, "VB", "VBP", "VBZ", "VBG", "VBD", "VBN") && posIsIn(tokens, position + 1, "NN", "NNS", "NN:U", "NN:UN", "NNP")) {
+      return true;   // "Please pass her her phone."
     } else if (repetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."
     } else if (repetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "MD", "NN", "PRP$", "JJ", "VBZ", "VBD")) {
@@ -89,13 +94,17 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     } else if (tokens[position - 1].getToken().equalsIgnoreCase(word) && (((position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase(word)) || (position > 1 && tokens[position - 2].getToken().equalsIgnoreCase(word)))) {
       // three time word repetition
       return true;
-    } else if (tokens[position].getToken().matches("(?i)^[a-z]$") && position > 1 && tokens[position - 2].getToken().matches("(?i)^[a-z]$") && (position + 1 < tokens.length) && tokens[position + 1].getToken().matches("(?i)^[a-z]$")) {
+    } else if (SINGLE_CHAR.matcher(tokens[position].getToken()).matches() && position > 1 &&
+        SINGLE_CHAR.matcher(tokens[position - 2].getToken()).matches() &&
+        (position + 1 < tokens.length) && SINGLE_CHAR.matcher(tokens[position + 1].getToken()).matches()) {
       // spelling with spaces in between: "b a s i c a l l y"
       return true;
+    } else if (repetitionOf("aye", tokens, position)) {
+      return true;   // "aye aye"
     } else if (repetitionOf("blah", tokens, position)) {
       return true;   // "blah blah"
     } else if (repetitionOf("mau", tokens, position)) {
-      return true;   // "blah blah"
+      return true;   // "mau mau"
     } else if (repetitionOf("uh", tokens, position)) {
       return true;   // "uh uh"
     } else if (repetitionOf("paw", tokens, position)) {
@@ -159,6 +168,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     } else if (repetitionOf("bleep", tokens, position)) {
       return true;
     } else if (repetitionOf("yeah", tokens, position)) {
+      return true;
+    } else if (repetitionOf("gout", tokens, position)) {
       return true;
     } else if (repetitionOf("wait", tokens, position) && position == 2) {
       return true;

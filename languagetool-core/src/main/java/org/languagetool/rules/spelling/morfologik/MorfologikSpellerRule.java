@@ -20,7 +20,6 @@ package org.languagetool.rules.spelling.morfologik;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.vdurmont.emoji.EmojiManager;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -69,9 +68,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
   static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
   
-  private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
-  private final Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
-
+  private final static Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
+  private final static Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -205,10 +203,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         isFirstWord = false;
       }
       if (foreignLanguageChecker != null && !gotResultsFromForeignLanguageChecker) {
-        String langCode = foreignLanguageChecker.check(ruleMatches.size());
-        if (langCode != null) {
-          if (!langCode.equals(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED)) {
-            ruleMatches.get(0).setErrorLimitLang(langCode);
+        Map<String, Float> langCodesScoring = foreignLanguageChecker.check(ruleMatches.size());
+        if (!langCodesScoring.isEmpty()) {
+          if (langCodesScoring.get(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED) == null) {
+            ruleMatches.get(0).setNewLanguageMatches(langCodesScoring);
           }
           gotResultsFromForeignLanguageChecker = true;
         }
@@ -233,7 +231,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
-        return true;
+        throw new RuntimeException("Cannot find dictionary file " + getFileName());
       }
     }
     return false;
@@ -253,9 +251,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (getLanguageVariantSpellingFileName() != null && getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
       languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
     }
-    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 1);
-    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 2);
-    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 3);
+    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 1, language);
+    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 2, language);
+    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDicts, languageVariantPlainTextDict, userConfig, 3, language);
     setConvertsCase(speller1.convertsCase());
   }
 
@@ -265,7 +263,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
            token.isIgnoredBySpeller() ||
            isUrl(token.getToken()) ||
            isEMail(token.getToken()) ||
-           (ignoreTaggedWords && token.isTagged() ) || // && !isProhibited(token.getToken())
+           (ignoreTaggedWords && token.isTagged() && !isProhibited(token.getToken())) ||
            ignoreToken(tokens, idx);
   }
 
@@ -323,6 +321,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     RuleMatch ruleMatch = null;
     
     if (!isMisspelled(speller1, word) && !isProhibited(word)) {
+      return ruleMatches;
+    }
+
+    if (ignorePotentiallyMisspelledWord(word)) {
       return ruleMatches;
     }
     
@@ -434,7 +436,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int translationSuggestionCount = 0;
     boolean preventFurtherSuggestions = false;
     
-    Translator translator = getTranslator(globalConfig);
+    //Translator translator = getTranslator(globalConfig);
+    Translator translator = null;
     if (translator != null && ruleMatch == null && motherTongue != null &&
         language.getShortCode().equals("en") && motherTongue.getShortCode().equals("de")) {
       List<PhraseToTranslate> phrasesToTranslate = new ArrayList<>();
@@ -493,7 +496,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (!mStartsWithNumbersBulletsExceptions.matches()) {
         firstPart = mStartsWithNumbersBullets.group(1);
         secondPart = mStartsWithNumbersBullets.group(2);
-        if ((!isMisspelled(speller1, secondPart) || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
+        List<String> secondPartTokens = this.language.getWordTokenizer().tokenize(secondPart);
+        boolean multitokenIsMisspeled = secondPartTokens.stream().anyMatch(str -> isMisspelled(speller1, str));;
+        if ((!multitokenIsMisspeled || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
           ruleMatch.addSuggestedReplacement(firstPart + " " + secondPart);
           preventFurtherSuggestions = true;
         } else {
@@ -569,7 +574,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
     //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-    List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
+    List<SuggestedReplacement> topSuggestions = new ArrayList<>();
+    if (defaultSuggestions.size() == 0 && userSuggestions.size() == 0 && word.contains("-"))  {
+      addHyphenSuggestions(word.split("-"), topSuggestions);
+    }
+    topSuggestions.addAll(getAdditionalTopSuggestions(defaultSuggestions, word));
     topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
     defaultSuggestions.addAll(0, topSuggestions);
     //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
@@ -583,7 +592,16 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     userSuggestions = filterDupes(userSuggestions);
     defaultSuggestions = orderSuggestions(defaultSuggestions, word);
 
-    return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+    if (word.length()>4) {
+      return Lists.newArrayList(Iterables.concat(userSuggestions, defaultSuggestions));
+    } else {
+      // Don't use short words from user dictionaries because they usually hide the best suggestions
+      return Lists.newArrayList(Iterables.concat(defaultSuggestions, userSuggestions));
+    }
+
+  }
+
+  protected void addHyphenSuggestions(String[] split, List<SuggestedReplacement> topSuggestions) throws IOException {
   }
 
   @NotNull
@@ -646,26 +664,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   /**
-   * Checks whether a given String is an Emoji with a string length larger 1.
-   * @param word to be checked
-   * @since 4.2
-   */
-  protected static boolean isEmoji(String word) {
-    if (word.length() > 1 && word.codePointCount(0, word.length()) != word.length()) {
-      // some symbols such as emojis (😂) have a string length that equals 2
-      return EmojiManager.isOnlyEmojis(word);
-    }
-    return false;
-  }
-
-  /**
    * Ignore surrogate pairs (emojis) 
    * @since 4.3 
    * @see org.languagetool.rules.spelling.SpellingCheckRule#ignoreWord(java.lang.String)
    */
   @Override
   protected boolean ignoreWord(String word) throws IOException {
-    return super.ignoreWord(word) || isEmoji(word);
+    return super.ignoreWord(word) || StringTools.isEmoji(word);
   }
   
   /**

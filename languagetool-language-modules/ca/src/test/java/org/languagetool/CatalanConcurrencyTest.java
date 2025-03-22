@@ -24,7 +24,7 @@ import org.languagetool.language.Catalan;
 public class CatalanConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override
   protected Language createLanguage() {
-    return new Catalan();
+    return Catalan.getInstance();
   }
 
   @Override

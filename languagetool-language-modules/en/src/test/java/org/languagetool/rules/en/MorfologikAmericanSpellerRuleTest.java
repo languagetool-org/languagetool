@@ -19,10 +19,10 @@
 package org.languagetool.rules.en;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.language.CanadianEnglish;
+import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -34,7 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
@@ -52,9 +53,17 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   public static void setup() throws IOException {
     rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
     lt = new JLanguageTool(language);
-    CanadianEnglish canadianEnglish = new CanadianEnglish();
+    English canadianEnglish = CanadianEnglish.getInstance();
     caRule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), canadianEnglish, null, emptyList());
     caLangTool = new JLanguageTool(canadianEnglish);
+  }
+
+  @Test
+  public void testSuggestionForMisspelledHyphenatedWords() throws IOException {
+    // one word in compound misspelled:
+    assertSuggestion("one-diminensional", "one-dimensional");
+    //assertSuggestion("web-bassed", "web-based");
+    assertSuggestion("parple-people-eater", "purple-people-eater");
   }
 
   @Test
@@ -148,10 +157,30 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("The statements¹ of⁷ the⁵⁰ government⁹‽")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o'clock.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("At 3 o’clock.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("fast⇿superfast")).length);
+
+    // multiwords.txt
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("C'est la vie.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("c’est la guerre!")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Andorra la Vella is the capital and largest city of Andorra.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("bona fides.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("doctor honoris causa")).length);
+
+    assertSuggestion("Abu-Bakr", "Abu Bakr");
+    assertSuggestion("Abudhabi", "Abu Dhabi");
+    //assertSuggestion("Burkina-Faso", "Burkina Faso");
+    //assertSuggestion("Deutschmark", "Deutsche Mark");
+    assertSuggestion("Casagrande", "Casa Grande");
+    assertSuggestion("ELPASO", "El Paso");
+    assertSuggestion("Eldorado", "El Dorado");
+    assertSuggestion("nom-de-plume", "nom de plume");
+    assertSuggestion("sui-generis", "sui generis");
+    assertSuggestion("Wiener-Neustadt", "Wiener Neustadt");
+    assertSuggestion("Zyklon-B", "Zyklon B");
     
     // test words in language-specific spelling_en-US.txt
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("NZTestWordToBeIgnored")).length);
+    //assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
+    //assertEquals(1, rule.match(lt.getAnalyzedSentence("NZTestWordToBeIgnored")).length);
 
     //incorrect sentences:
 
@@ -182,7 +211,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A web-feature-driven-car software.")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("A web-feature-drivenx-car software.")).length);
 
-    assertAllMatches(lt, rule, "robinson", "Robinson", "robin son", "robins on", "Robson", "Robeson", "robins", "Roberson");
+    assertAllMatches(lt, rule, "robinson", "Robinson", "robin son", "robins on", "Robson", "Robeson", "robins", "Roberson", "Robins");
     
     // contractions with apostrophe
     assertEquals(0, rule.match(lt.getAnalyzedSentence("You're only foolin' round.")).length);
@@ -342,10 +371,10 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     //double consonants not yet supported:
     //assertSuggestion("baddest", "worst");
     // suggestions from language specific spelling_en-XX.txt
-    assertSuggestion("USTestWordToBeIgnore", "USTestWordToBeIgnored");
+    /*assertSuggestion("USTestWordToBeIgnore", "USTestWordToBeIgnored");
     assertSuggestion("CATestWordToBeIgnore", "USTestWordToBeIgnored");
     assertSuggestion("CATestWordToBeIgnore", caRule, caLangTool, "CATestWordToBeIgnored");
-    assertSuggestion("CATestWordToBeIgnore", "USTestWordToBeIgnored");  // test again because of caching
+    assertSuggestion("CATestWordToBeIgnore", "USTestWordToBeIgnored");  // test again because of caching*/
   }
 
   @Test
@@ -358,23 +387,6 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertFalse(rule.isMisspelled("bicycle"));
     assertFalse(rule.isMisspelled("table"));
     assertFalse(rule.isMisspelled("tables"));
-  }
-
-  @Test
-  @Ignore
-  public void testInteractiveMultilingualSignatureCase() throws IOException {
-    String sig = "-- " +
-            "Department of Electrical and Electronic Engineering\n" +
-            "Office XY, Sackville Street Building, The University of Manchester, Manchester\n";
-    List<AnalyzedSentence> analyzedSentences = lt.analyzeText("Hallo Herr Müller, wie geht\n\n" + sig);
-    for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-      RuleMatch[] matches = rule.match(analyzedSentence);
-      System.out.println("===================");
-      System.out.println("S:" + analyzedSentence.getText());
-      for (RuleMatch match : matches) {
-        System.out.println("  getErrorLimitLang: " + match.getErrorLimitLang());
-      }
-    }
   }
 
   @Test

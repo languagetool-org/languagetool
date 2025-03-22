@@ -31,7 +31,7 @@ public class MultiWordChunkerTest {
 
   @Test
   public void testDisambiguate() throws Exception {
-    Disambiguator chunker = new MultiWordChunker("/pl/multiwords.txt");
+    Disambiguator chunker = MultiWordChunker.getInstance("/pl/multiwords.txt");
     JLanguageTool lt = new JLanguageTool(new English());
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("A test... More.");
     AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
@@ -42,7 +42,7 @@ public class MultiWordChunkerTest {
 
   @Test
   public void testDisambiguateMultiSpace() throws Exception {
-    Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
+    Disambiguator chunker = MultiWordChunker.getInstance("/uk/multiwords.txt");
     JLanguageTool lt = new JLanguageTool(new Ukrainian());
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
     AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);

@@ -18,23 +18,19 @@
  */
 package org.languagetool.rules.fr;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
 
 public class FrenchNumberInWordFilter extends AbstractNumberInWordFilter {
 
-  private static MorfologikFrenchSpellerRule frenchSpellerRule;
+  private final MorfologikFrenchSpellerRule frenchSpellerRule;
 
   public FrenchNumberInWordFilter() throws IOException {
-    super(new French());
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(language.getShortCode()));
-    if (frenchSpellerRule == null) {
-      frenchSpellerRule = new MorfologikFrenchSpellerRule(messages, new French(), null, Collections.emptyList());
-    }
+    super(French.getInstance());
+    frenchSpellerRule = (MorfologikFrenchSpellerRule) French.getInstance().getDefaultSpellingRule();
   }
   
   @Override

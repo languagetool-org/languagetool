@@ -32,6 +32,13 @@ class AgreementRuleAntiPatterns3 {
 
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
+      // "Mit dem Tod von Rabin und der kurze Zeit später erfolgenden Wahl..."
+      token("der"),
+      token("kurze"),
+      token("Zeit"),
+      tokenRegex("später|früher|darauf|danach|vorher")
+    ),
+    asList(
       // "Was in aller Welt soll das denn für ein Satz sein?"
       token("was"),
       token("in"),
@@ -580,6 +587,21 @@ class AgreementRuleAntiPatterns3 {
       token("vieles"),
       tokenRegex("Lust|Bock")
     ),
+    asList( // die Französisch Polizei deportiert mich.
+      tokenRegex("die(se)?|der|das|[msdk]?ein(en?)?|ihren?|euren?|euer|unser(er)?|viele|einige|sonstige"),
+      csRegex("Deutsch|Französisch|Arabisch|Katalanisch|Spanisch|Türkisch|Holländisch|Tschechisch|Griechisch|Kurdisch|Indisch|Schweizerisch|Österreichisch|Pakistanisch|Belgisch|Baye?risch|Serbisch|Kroatisch|Portugiesisch|Italienisch|Dänisch|Schwedisch|Irisch|Norwegisch|Russisch|Polnisch|Chinesisch"),
+      posRegex("SUB.*")
+    ),
+    asList( // ob die Bock haben
+      token("die"),
+      token("Bock"),
+      tokenRegex("haben|hatten")
+    ),
+    asList( // dann haben die Bock
+      tokenRegex("haben|hatten"),
+      token("die"),
+      token("Bock")
+    ),
     asList( // Ich habe für vieles Zeit
       token("für"),
       token("vieles"),
@@ -724,11 +746,44 @@ class AgreementRuleAntiPatterns3 {
       posRegex("VER.*INF:.*")
     ),
     asList(
+      // beides staatliche Organe
+      token("beides"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").csTokenRegex("[a-z0-9äöüß\\-]+e").build(),
+      posRegex("SUB.*NOM.*PLU.*")
+    ),
+    asList(
       // 1944 eroberte diese weite Teile von Südosteuropa.
       posRegex("VER.*"),
       tokenRegex("diese[sr]?"),
       token("weite"),
       token("Teile")
+    ),
+    asList(
+      // Laut Charlie XCX selbst sind das Personen, die vielleicht eine ...
+      tokenRegex("sind|w[äa]ren"),
+      token("das"),
+      posRegex("SUB.*PLU.*"),
+      tokenRegex("die|welche|ohne|mit")
+    ),
+    asList(
+      // Laut Charlie XCX selbst sind das Personen, die vielleicht eine ...
+      tokenRegex("sind|w[äa]ren"),
+      token("das"),
+      posRegex("SUB.*PLU.*"),
+      token(","),
+      tokenRegex("die|welche|ohne|mit")
+    ),
+    asList(
+      // an unseren amerikanischen Commercial Lawyer geschickt
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").csTokenRegex("[a-z0-9äöüß\\-]+e[snmr]?").build(),
+      posRegex("SUB.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-Z][a-zäöüß\\-]+").build()
+    ),
+    asList(
+      // … an unseren Commercial Lawyer geschickt
+      posRegex("PRO.*|ART.*"),
+      posRegex("SUB.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-Z][a-zäöüß\\-]+").build()
     )
   );
 

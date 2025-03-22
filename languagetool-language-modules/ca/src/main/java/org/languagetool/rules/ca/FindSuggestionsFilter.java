@@ -20,13 +20,12 @@ package org.languagetool.rules.ca;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
 
@@ -61,6 +60,15 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   protected boolean isSuggestionException(AnalyzedTokenReadings analyzedSuggestion) {
     return analyzedSuggestion.hasAnyLemma(LemmasToIgnore) && !analyzedSuggestion.hasAnyLemma(LemmasToAllow);
   };
+
+  private static final Pattern ELA_GEMINADA = Pattern.compile("(l)[\\.\u2022\u22C5\u2219\uF0D7\\-](l)",Pattern.CASE_INSENSITIVE);
+
+  @Override
+  protected String preProcessWrongWord (String word) {
+    word = word.replace(" ","");
+    word = ELA_GEMINADA.matcher(word).replaceAll("$1·$2");
+    return word;
+  }
   
 //  @Override
 //  protected Synthesizer getSynthesizer() {

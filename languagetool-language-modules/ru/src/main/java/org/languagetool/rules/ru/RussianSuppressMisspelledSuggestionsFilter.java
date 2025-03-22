@@ -20,13 +20,12 @@
 package org.languagetool.rules.ru;
 
 import java.io.IOException;
-import org.languagetool.language.Russian;
+
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
 public class RussianSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public RussianSuppressMisspelledSuggestionsFilter() throws IOException {
-    super(new Russian());
   }
 
 }

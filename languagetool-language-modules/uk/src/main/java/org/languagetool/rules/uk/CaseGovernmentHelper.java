@@ -1,11 +1,13 @@
 package org.languagetool.rules.uk;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -17,12 +19,22 @@ import org.languagetool.tagging.uk.PosTagHelper;
 public class CaseGovernmentHelper {
 
   public static final Map<String, Set<String>> CASE_GOVERNMENT_MAP = loadMap("/uk/case_government.txt");
+  public static final Map<String, Set<String>> DERIVATIVES_MAP = loadMap("/uk/derivats.txt");
 
   static {
     CASE_GOVERNMENT_MAP.put("згідно з", new HashSet<>(Arrays.asList("v_oru")));
+    
+    for(Entry<String, Set<String>> entry: DERIVATIVES_MAP.entrySet()) {
+      HashSet<String> set = new HashSet<>();
+      CASE_GOVERNMENT_MAP.put(entry.getKey(), set);
+      for(String verb: entry.getValue()) {
+        Set<String> rvs = CASE_GOVERNMENT_MAP.get(verb);
+        if( rvs != null ) {
+          set.addAll(rvs);
+        }
+      }
+    }
   }
-  
-
   
   private static Map<String, Set<String>> loadMap(String path) {
     Map<String, Set<String>> result = new HashMap<>();
@@ -48,45 +60,17 @@ public class CaseGovernmentHelper {
   
   public static boolean hasCaseGovernment(AnalyzedTokenReadings analyzedTokenReadings, Pattern startPosTag, String rvCase) {
     return getCaseGovernments(analyzedTokenReadings, startPosTag).contains(rvCase);
-  /*
-    // special case - only some inflections of мати
-    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) 
-        && rvCase.equals("v_inf")  )
-      return true;
-    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:(futr).*")) 
-        && rvCase.equals("v_inf")  )
-      return true;
-    
-    for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
-      if( token.getPOSTag() == null )
-        continue;
-      if( startPosTag != null && ! startPosTag.matcher(token.getPOSTag()).matches() )
-        continue;
-      
-      if( rvCase.equals("v_oru") && PosTagHelper.hasPosTagPart(token, "adjp:pasv") )
-        return true;
-      
-      if( CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) 
-            && CASE_GOVERNMENT_MAP.get(token.getLemma()).contains(rvCase) ) {
-          return true;
-      }
-
-      // TODO: more universal advp -> verb conversion
-      if( token.getPOSTag().startsWith("advp") ) {
-        String vLemma = getAdvpVerbLemma(token);
-        
-        if( CASE_GOVERNMENT_MAP.containsKey(vLemma)
-            && CASE_GOVERNMENT_MAP.get(vLemma).contains(rvCase) )
-          return true;
-      }
-      
-    }
-    return false;
-    */
   }
 
   public static Set<String> getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, String startPosTag) {
+    if( "verb".equals(startPosTag) && PosTagHelper.hasPosTagStart(analyzedTokenReadings.getReadings().get(0), "advp") ) {
+      startPosTag = "advp";
+    }
+    
     LinkedHashSet<String> list = new LinkedHashSet<>();
+    
+    list.addAll(getCustomGovs(analyzedTokenReadings));
+
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( ! token.hasNoTag()
           && (token.getPOSTag() != null && token.getPOSTag().startsWith(startPosTag)
@@ -105,26 +89,13 @@ public class CaseGovernmentHelper {
   }
 
   public static Set<String> getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, Pattern posTag) {
+//    if( "verb".equals(startPosTag) && PosTagHelper.hasPosTagStart(analyzedTokenReadings.getReadings().get(0), "advp") ) {
+//      startPosTag = "advp";
+//    }
+
     LinkedHashSet<String> list = new LinkedHashSet<>();
 
-    // special case - only some inflections of мати
-    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) ) {
-      list.add("v_inf");
-    }
-    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:futr.*")) ) {
-      list.add("v_inf");
-    }
-    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(
-        "вимагатися", "випадати", "випасти", "личити", "належати", "тягнути", "щастити",
-        "плануватися", "рекомендуватися", "пропонуватися", "сподобатися", "плануватися", "прийтися",
-        "удатися", "годитися", "доводитися"), 
-        Pattern.compile("verb(:rev)?:(im)?perf:(pres:s:3|futr:s:3|past:n).*")) ) {
-      list.add("v_inf");
-    }
-    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("належить"), 
-        Pattern.compile("verb:imperf:inf.*")) ) {
-      list.add("v_inf");
-    }
+    list.addAll(getCustomGovs(analyzedTokenReadings));
     
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( token.hasNoTag() )
@@ -151,6 +122,33 @@ public class CaseGovernmentHelper {
       }
     }
 
+    return list;
+  }
+
+  private static ArrayList<String> getCustomGovs(AnalyzedTokenReadings analyzedTokenReadings) {
+    ArrayList<String> list = new ArrayList<>();
+    // special case - only some inflections of the verbs
+    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) ) {
+      list.add("v_inf");
+    } // є, буде, було
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:(futr|past:n|pres:s:3).*")) ) {
+      list.add("v_inf");
+    }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(
+        "вимагатися", "випадати", "випасти", "личити", "належати", "тягнути", "щастити",
+        "плануватися", "рекомендуватися", "пропонуватися", "сподобатися", "плануватися", "прийтися",
+        "удатися", "годитися", "доводитися"), 
+        Pattern.compile("verb.*(pres:s:3|futr:s:3|past:n).*")) ) {
+      list.add("v_inf");
+    }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("належить"), 
+        Pattern.compile("verb:imperf:inf.*")) ) {
+      list.add("v_inf");
+    }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Pattern.compile("(по)?більшати|(по)?меншати"), 
+        Pattern.compile("verb.*(inf|pres:s:3|futr:s:3|past:n).*")) ) {
+      list.add("v_rod");
+    }
     return list;
   }
 

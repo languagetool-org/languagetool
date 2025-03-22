@@ -126,6 +126,29 @@ public class WordTokenizerTest {
     assertEquals("foo| |http://|?| |bar", tokenize("foo http://? bar"));
   }
 
+  @Test
+  public void testCheckCurrencyExpression() {
+    assertTrue(wordTokenizer.isCurrencyExpression("US$45"));
+    assertTrue(wordTokenizer.isCurrencyExpression("5,000€"));
+    assertTrue(wordTokenizer.isCurrencyExpression("£1.50"));
+    assertTrue(wordTokenizer.isCurrencyExpression("R$1.999.99"));
+    assertFalse(wordTokenizer.isCurrencyExpression("US$"));
+    assertFalse(wordTokenizer.isCurrencyExpression("X€"));
+    assertFalse(wordTokenizer.isCurrencyExpression(".50£"));
+    assertFalse(wordTokenizer.isCurrencyExpression("5R$5"));
+  }
+
+  @Test
+  public void testSplitCurrencyExpression() {
+    assertArrayEquals(wordTokenizer.splitCurrencyExpression("US$45").toArray(), new String[]{"US$", "45"});
+    assertArrayEquals(wordTokenizer.splitCurrencyExpression("5,000€").toArray(), new String[]{"5,000", "€"});
+    assertArrayEquals(wordTokenizer.splitCurrencyExpression("£1.50").toArray(), new String[]{"£", "1.50"});
+    assertArrayEquals(wordTokenizer.splitCurrencyExpression("R$1.999.99").toArray(), new String[]{"R$", "1.999.99"});
+    // not currency expr
+    assertArrayEquals(wordTokenizer.splitCurrencyExpression("US$X").toArray(), new String[]{"US$X"});
+    assertArrayEquals(wordTokenizer.splitCurrencyExpression("foobar").toArray(), new String[]{"foobar"});
+  }
+
   private String tokenize(String text) {
     List<String> tokens = wordTokenizer.tokenize(text);
     return String.join("|", tokens);

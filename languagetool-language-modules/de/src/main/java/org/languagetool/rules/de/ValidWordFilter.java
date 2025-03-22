@@ -25,6 +25,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,10 +36,10 @@ public class ValidWordFilter extends RuleFilter {
 
   @Nullable
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) throws IOException {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String word1 = arguments.get("word1") + arguments.get("word2");
     String word2 = arguments.get("word1") + arguments.get("word2").toLowerCase();
-    GermanSpellerRule speller = GermanyGerman.INSTANCE.getDefaultSpellingRule();
+    GermanSpellerRule speller = GermanyGerman.getInstance().getDefaultSpellingRule();
     if (!speller.isMisspelled(word1) || !speller.isMisspelled(word2)) {
       // e.g. "(Promotions)Studierende" -> "Promotionsstudierende" is ok, so no match
       return null;

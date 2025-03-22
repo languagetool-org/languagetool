@@ -20,13 +20,12 @@
 package org.languagetool.rules.pt;
 
 import java.io.IOException;
-import org.languagetool.language.BrazilianPortuguese;
+
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 
 public class PortugueseSuppressMisspelledSuggestionsFilter extends AbstractSuppressMisspelledSuggestionsFilter {
 
   public PortugueseSuppressMisspelledSuggestionsFilter() throws IOException {
-    super(new BrazilianPortuguese());
   }
 
 }

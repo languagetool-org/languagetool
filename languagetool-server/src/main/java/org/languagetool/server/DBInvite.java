@@ -36,8 +36,8 @@ public class DBInvite {
   public DBInvite(long userId, DBGroup group) {
     user_id = userId;
     group_id = group.id;
-    String randomToken1 = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 32);
-    String randomToken2 = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 32);
+    String randomToken1 = UUID.randomUUID().toString().replace("-", "").substring(0, 32);
+    String randomToken2 = UUID.randomUUID().toString().replace("-", "").substring(0, 32);
     token = randomToken1 + randomToken2;
   }
 }

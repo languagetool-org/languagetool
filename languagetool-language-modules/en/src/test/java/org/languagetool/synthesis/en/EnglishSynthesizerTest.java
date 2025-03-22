@@ -72,6 +72,8 @@ public class EnglishSynthesizerTest {
 
     assertEquals("[I]", Arrays.toString(synth.synthesize(dummyToken("myself", "I"), "PRP_S1S", true)));
 
+    assertEquals("[my]", Arrays.toString(synth.synthesize(dummyToken("myself", "I"), "PRP\\$_A1S", true)));
+
     assertEquals("[mixed]", Arrays.toString(synth.synthesize(dummyToken("mix"), "VBD")));
     assertEquals("[mixed]", Arrays.toString(synth.synthesize(dummyToken("mix"), "VBN")));
   }

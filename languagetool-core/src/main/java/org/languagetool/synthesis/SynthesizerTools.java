@@ -19,9 +19,12 @@
 package org.languagetool.synthesis;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static org.languagetool.tools.StringInterner.intern;
 
 public final class SynthesizerTools {
   
@@ -31,13 +34,13 @@ public final class SynthesizerTools {
 
   public static List<String> loadWords(InputStream stream) {
     List<String> result = new ArrayList<>();
-    try (Scanner scanner = new Scanner(stream, "UTF-8")) {
+    try (Scanner scanner = new Scanner(stream, StandardCharsets.UTF_8)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine().trim();
         if (line.isEmpty() || line.charAt(0) == '#') {  // ignore empty lines and comments
           continue;
         }
-        result.add(line);
+        result.add(intern(line));
       }
     }
     return result;

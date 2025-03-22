@@ -37,7 +37,7 @@ public class LanguageAnnotatorTest {
   public void testGetTokensWithPotentialLanguages() {
     LanguageAnnotator annotator = new LanguageAnnotator();
     List<LanguageAnnotator.TokenWithLanguages> tokens = annotator.getTokensWithPotentialLanguages("Der große Haus.", en, deList);
-    assertThat(tokens.toString(), is("[Der/de-DE,  , große,  , Haus/de-DE, .]"));   // TODO: why no lang for 'große'?
+    assertThat(tokens.toString(), is("[Der/en-US/de-DE,  , große,  , Haus/de-DE, .]"));   // TODO: why no lang for 'große'?
     List<LanguageAnnotator.TokenWithLanguages> tokens2 = annotator.getTokensWithPotentialLanguages("This is a new bicycle.", en, deList);
     assertThat(tokens2.toString(), is("[This/en-US,  , is/en-US,  , a/en-US/de-DE,  , new/en-US,  , bicycle/en-US, .]"));
   }

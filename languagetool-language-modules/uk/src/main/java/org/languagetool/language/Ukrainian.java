@@ -164,7 +164,7 @@ public class Ukrainian extends Language {
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
 
-        new TokenAgreementVerbNounRule(messages),
+        new TokenAgreementVerbNounRule(messages, this),
         new TokenAgreementNounVerbRule(messages),
         new TokenAgreementAdjNounRule(messages, this),
         new TokenAgreementPrepNounRule(messages, this),
@@ -172,15 +172,15 @@ public class Ukrainian extends Language {
 
         new MixedAlphabetsRule(messages),
 
-        new SimpleReplaceSoftRule(messages),
+        new SimpleReplaceSoftRule(messages, this),
         new SimpleReplaceRenamedRule(messages),
         getSpellingReplacementRule(messages),
-        new SimpleReplaceRule(messages, morfologikSpellerRule)
+        new SimpleReplaceRule(messages, morfologikSpellerRule, this)
     );
   }
 
   protected Rule getSpellingReplacementRule(ResourceBundle messages) throws IOException {
-    return new SimpleReplaceSpelling1992Rule(messages);
+    return new SimpleReplaceSpelling1992Rule(messages, this);
   }
 
   @Override
@@ -199,11 +199,6 @@ public class Ukrainian extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
-  @Override
-  public List<String> getDefaultDisabledRulesForVariant() {
-    return Arrays.asList("piv_before_iotized_1992", "piv_with_proper_noun_1992");
-  }
-  
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {

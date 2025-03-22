@@ -25,13 +25,16 @@ import org.languagetool.rules.patterns.RuleFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static org.languagetool.rules.nl.Tools.glueParts;
 
 public class CompoundFilter extends RuleFilter {
 
+  private static final Pattern SUGGESTION_ELEM = Pattern.compile("<suggestion>.*?</suggestion>");
+
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     List<String> words = new ArrayList<>();
     for (int i = 1; i < 6; i++) {
       String arg = arguments.get("word" + i);
@@ -41,8 +44,8 @@ public class CompoundFilter extends RuleFilter {
       words.add(arguments.get("word" + i));
     }
     String repl = glueParts(words);
-    String message = match.getMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + repl + "</suggestion>");
-    String shortMessage = match.getShortMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + repl + "</suggestion>");
+    String message = SUGGESTION_ELEM.matcher(match.getMessage()).replaceAll("<suggestion>" + repl + "</suggestion>");
+    String shortMessage = SUGGESTION_ELEM.matcher(match.getShortMessage()).replaceAll("<suggestion>" + repl + "</suggestion>");
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
     newMatch.setSuggestedReplacement(repl);
     return newMatch;

@@ -40,8 +40,8 @@ public class SimpleReplaceBalearicRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new SimpleReplaceBalearicRule(TestTools.getMessages("ca"));
-    lt = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(Catalan.getInstance());
+    rule = new SimpleReplaceBalearicRule(TestTools.getMessages("ca"), lt.getLanguage());
   }
 
   @Test

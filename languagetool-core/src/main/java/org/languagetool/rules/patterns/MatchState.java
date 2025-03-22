@@ -86,11 +86,11 @@ public class MatchState {
     }
     setToken(tokens[idx]);
     IncludeRange includeSkipped = match.getIncludeSkipped();
+    if (includeSkipped == IncludeRange.FOLLOWING) {
+      formattedToken = null;
+    }
     if (next > 1 && includeSkipped != IncludeRange.NONE) {
       StringBuilder sb = new StringBuilder();
-      if (includeSkipped == IncludeRange.FOLLOWING) {
-        formattedToken = null;
-      }
       for (int k = index + 1; k < index + next; k++) {
         if (tokens[k].isWhitespaceBefore()
             && !(k == index + 1 && includeSkipped == IncludeRange.FOLLOWING)) {
@@ -288,7 +288,7 @@ public class MatchState {
       original = formattedToken != null ? formattedToken.getToken() : "";
     }
     for (int i = 0; i < formattedString.length; i++) {
-      formattedString[i] = convertCase(formattedString[i], original, lang);
+      formattedString[i] = convertCase((formattedString[i] != null ? formattedString[i] : ""), original, lang);
     }
     // TODO should case conversion happen before or after including skipped tokens?
     IncludeRange includeSkipped = match.getIncludeSkipped();

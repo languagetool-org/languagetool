@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en.translation;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Languages;
@@ -42,7 +43,7 @@ class Inflector {
    * @param enToken base form of English token (from BeoLingus)
    */
   List<String> inflect(String enToken, String dePosTag) {
-    List<String> parts = Arrays.asList(enToken.replaceFirst("to ", "").split(" "));
+    List<String> parts = Arrays.asList(StringUtils.replaceOnce(enToken, "to ", "").split(" "));
     List<String> lastPartForms = inflectSingleWord(parts.get(parts.size() - 1), dePosTag);
     String startParts = parts.size() > 1 ? String.join(" ", parts.subList(0, parts.size()-1)) : "";
     ArrayList<String> result = new ArrayList<>();

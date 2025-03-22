@@ -18,12 +18,12 @@
  */
 package org.languagetool.rules;
 
-final class TestHackHelper {
+public final class TestHackHelper {
 
   private TestHackHelper() {
   }
 
-  static boolean isJUnitTest() {
+  public static boolean isJUnitTest() {
     StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
     for (StackTraceElement element : stackTrace) {
       if (element.getClassName().startsWith("org.junit.") ||

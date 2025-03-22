@@ -33,9 +33,9 @@ public class MorfologikRussianSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     MorfologikRussianSpellerRule rule =
-      new MorfologikRussianSpellerRule(TestTools.getMessages("ru"), new Russian(), null, Collections.emptyList());
+      new MorfologikRussianSpellerRule(TestTools.getMessages("ru"), Russian.getInstance(), null, Collections.emptyList());
 
-    JLanguageTool lt = new JLanguageTool(new Russian());
+    JLanguageTool lt = new JLanguageTool(Russian.getInstance());
 
     // correct word
     assertEquals(0, rule.match(lt.getAnalyzedSentence("русский")).length);

@@ -123,11 +123,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;
@@ -1040,6 +1036,8 @@ public final class Main {
   }
 
   private void tagTextAndDisplayResults() {
+    // make sure we track stats like the disambiguation log to be able to show them
+    GlobalConfig.setVerbose(true);
     JLanguageTool lt = ltSupport.getLanguageTool();
     // tag text
     List<String> sentences = lt.sentenceTokenize(textArea.getText());
@@ -1659,7 +1657,7 @@ public final class Main {
    *  on the Java Tips Weblog without restriction. A credit in the code comments
    *  would be nice, but not in any way mandatory.
    */
-  public class TextLineNumber extends JPanel
+  public static class TextLineNumber extends JPanel
     implements CaretListener, DocumentListener, ComponentListener, PropertyChangeListener
   {
     private static final long serialVersionUID = 1L;

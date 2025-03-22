@@ -25,9 +25,10 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.tools.StringTools;
+
+import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
 
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets their own tokens.
@@ -44,11 +45,26 @@ public class WordTokenizer implements Tokenizer {
   private static final Pattern DOMAIN_CHARS = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9-]+");
   private static final Pattern NO_PROTOCOL_URL = Pattern.compile("([a-zA-Z0-9][a-zA-Z0-9-]+\\.)?([a-zA-Z0-9][a-zA-Z0-9-]+)\\.([a-zA-Z0-9][a-zA-Z0-9-]+)/.*");
   private static final Pattern E_MAIL = Pattern.compile("(?<!:)@?\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b");
+  // For now, to prevent very aggressive tokenisation, we're limiting this to symbols that are coterminous with or
+  // end in a *special* currency glyph, like "$" or "US$", respectively.
+  //
+  // Not contemplated:
+  // - currency symbols made up only of regular alphabetic glyphs, e.g. "Bs", "zł";
+  // - official, ASCII-only, three-letter currency symbols, e.g. "USD", "EUR";
+  // - glyphs from right-to-left writing scripts.
+  private static final Pattern CURRENCY_SYMBOLS = Pattern.compile("[A-Z]*[฿₿₵¢₡$₫֏€ƒ₲₴₭₾₺₼₦₱£៛₽₹₪৳₸₮₩¥¤]");
+  // Really loose, but will only be used in conjunction with CURRENCY_SYMBOLS above, and we actually want to catch
+  // potentially incorrect number formats, so that we tokenise them properly and are able to correct them more easily.
+  private static final Pattern CURRENCY_VALUE =  Pattern.compile("\\d+(?:[.,]\\d+)*");
+  private static final Pattern CURRENCY_EXPRESSION = Pattern.compile(String.format("(?:(%s)(%s)|(%s)(%s))",
+    CURRENCY_SYMBOLS, CURRENCY_VALUE, CURRENCY_VALUE, CURRENCY_SYMBOLS));
+
 
   /*
    * Possibly problematic characters for tokenization:
    * \u00ad soft hyphen (not included) 
-   * \u002d hyphen (-) (not included): needs special processing in different languages
+   * \u002d hyphen-minus, usual hyphen (-) (not included): needs special processing in different languages
+   * \u2010 hyphen (not usual, not included): similar to hyphen-minus
    * \u2011 non-breaking hyphen (not included): similar to hyphen 
    * \u2013 en dash (included): it can be used sometimes as hyphen (not included) and rules need changes in some languages 
    * \u00b7 middle dot (·) (included): excluded in Catalan because it is a word character
@@ -241,6 +257,74 @@ public class WordTokenizer implements Tokenizer {
       }
     }
     return false;
+  }
+
+  public boolean isCurrencyExpression(String token) {
+    return CURRENCY_EXPRESSION.matcher(token).matches();
+  }
+
+  public List<String> splitCurrencyExpression(String token) {
+    List<String> newList = new ArrayList<>();
+    Matcher matcher = CURRENCY_EXPRESSION.matcher(token);
+    while (matcher.find()) {
+      if (matcher.group(1) != null && matcher.group(2) != null) {
+        newList.add(matcher.group(1));
+        newList.add(matcher.group(2));
+      } else if (matcher.group(3) != null && matcher.group(4) != null) {
+        newList.add(matcher.group(3));
+        newList.add(matcher.group(4));
+      }
+    }
+    if (newList.size() == 0) {
+      newList.add(token);
+    }
+    return newList;
+  }
+
+  /*
+    Removes emojis from a string.
+    Output: a list with the cleaned string in position 0, the next elements are the removed emojis in order
+   */
+  final protected String REMOVED_EMOJI = "MyReMoVeDeMoJi";
+  public List<String> replaceEmojis(String s) {
+    List<String> removedEmojis = new ArrayList<>();
+    if (s.length() > 1 && s.codePointCount(0, s.length()) != s.length()) {
+      Matcher matcher = CHARS_NOT_FOR_SPELLING.matcher(s);
+      while (matcher.find()) {
+        String found = matcher.group(0);
+        // emojis (😂) have a string length larger than 1
+        if (found.length() > 1) {
+          s = s.replace(found, ","+REMOVED_EMOJI+",");
+          removedEmojis.add(found);
+        }
+      }
+    }
+    removedEmojis.add(0, s);
+    return removedEmojis;
+  }
+
+  /*
+    Restore emojis in the tokenized sentence.
+   */
+  public List<String> restoreEmojis(List<String> tokens, List<String> removedEmojis) {
+    if (removedEmojis.size() < 2) {
+      return tokens;
+    }
+    List<String> results = new ArrayList<>();
+    int i = 0;
+    int emojiCount = 1;
+    while (i < tokens.size()) {
+      if (i + 2 < tokens.size() && tokens.get(i).equals(",")
+        && tokens.get(i + 1).equals(REMOVED_EMOJI) && tokens.get(i + 2).equals(",")) {
+        results.add(removedEmojis.get(emojiCount));
+        emojiCount++;
+        i = i + 3;
+      } else {
+        results.add(tokens.get(i));
+        i = i + 1;
+      }
+    }
+    return results;
   }
 
 }

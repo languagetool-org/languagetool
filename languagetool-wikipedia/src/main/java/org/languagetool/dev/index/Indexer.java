@@ -153,7 +153,7 @@ public class Indexer implements AutoCloseable {
             if (++addCount % 1000 == 0) {
               System.out.println("(1) Adding item " + addCount);
             }
-            add(sentence.replaceAll(" \n"," "), null, null, -1);
+            add(sentence.replace(" \n"," "), null, null, -1);
           }
         }
         if (paragraph.length() + line.length() >= Integer.MAX_VALUE) {

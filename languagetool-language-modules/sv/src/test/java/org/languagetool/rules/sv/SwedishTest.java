@@ -40,4 +40,16 @@ public class SwedishTest extends LanguageSpecificTest {
     JLanguageTool lt = new JLanguageTool(new Swedish());
     assertThat(lt.check("Arbeta med var:").size(), is(0));
   }
+  
+  @Test
+  public void testWeekdayAndMonthNames() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new Swedish());
+    assertThat(lt.check("På måndag är alla lediga.").size(), is(0));
+    assertThat(lt.check("På Måndag är alla lediga.").size(), is(1));
+    assertThat(lt.check("Onsdag är lillördag på många håll.").size(), is(0));
+    assertThat(lt.check("I oktober kommer ofta den första snön.").size(), is(0));
+    assertThat(lt.check("I Oktober kommer ofta den första snön.").size(), is(1));
+    assertThat(lt.check("Septembers färger är sköna.").size(), is(0));
+  }
+
 }

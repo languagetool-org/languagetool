@@ -28,12 +28,14 @@ import com.github.difflib.text.DiffRowGenerator;
 
 public class DiffsAsMatches {
 
-  static public List<PseudoMatch> getPseudoMatches(String original, String revised) {
+  public List<PseudoMatch> getPseudoMatches(String original, String revised) {
     List<PseudoMatch> matches = new ArrayList<>();
     List<String> origList = DiffRowGenerator.SPLITTER_BY_WORD.apply(original);
     List<String> revList = DiffRowGenerator.SPLITTER_BY_WORD.apply(revised);
     List<AbstractDelta<String>> inlineDeltas = DiffUtils.diff(origList, revList, DiffRowGenerator.DEFAULT_EQUALIZER)
         .getDeltas();
+    PseudoMatch lastMatch = null;
+    AbstractDelta<String> lastInlineDelta = null;
     for (AbstractDelta<String> inlineDelta : inlineDeltas) {
       String replacement = String.join("", inlineDelta.getTarget().getLines());
       int fromPos = 0;
@@ -42,12 +44,24 @@ public class DiffsAsMatches {
       if (inlineDelta.getType() == DeltaType.INSERT) {
         indexCorrection = 2;
         if (errorIndex - indexCorrection < 0) {
+          indexCorrection = 1;
+        }
+        if (errorIndex - indexCorrection < 0) {
           indexCorrection = 0;
         }
       }
       for (int i = 0; i < errorIndex - indexCorrection; i++) {
         fromPos += origList.get(i).length();
       }
+      boolean wasLastWhitespace = false;
+      String lastPunctuationStr = "";
+      if (errorIndex - 1 < origList.size() && errorIndex - 1 > -1) {
+        wasLastWhitespace = StringTools.isWhitespace(origList.get(errorIndex - 1));
+        if (StringTools.isPunctuationMark(origList.get(errorIndex - 1))) {
+          lastPunctuationStr = origList.get(errorIndex - 1);
+        };
+      }
+
       String underlinedError = String.join("", inlineDelta.getSource().getLines());
       int toPos = fromPos + underlinedError.length();
 
@@ -57,44 +71,50 @@ public class DiffsAsMatches {
         prefixReplacement = prefixReplacement + origList.get(i);
       }
       replacement = prefixReplacement + replacement;
+      underlinedError = original.substring(fromPos, toPos);
+      while (underlinedError.length()>0 && replacement.length()>0
+        && underlinedError.substring(0,1).equals(" ") && replacement.substring(0,1).equals(" ")) {
+        fromPos++;
+        underlinedError = underlinedError.substring(1);
+        replacement = replacement.substring(1);
+      }
       // INSERT at the sentence start
       if (fromPos == 0 && toPos == 0) {
         toPos = origList.get(0).length();
         replacement = replacement + origList.get(0);
       }
       // remove unnecessary whitespace at the end in INSERT
-      if (inlineDelta.getType() == DeltaType.INSERT && replacement.endsWith(" ") && replacement.length() > 2) {
+      if (inlineDelta.getType() == DeltaType.INSERT && replacement.endsWith(" ") && replacement.length() > 2
+          && wasLastWhitespace) {
         replacement = replacement.substring(0, replacement.length() - 1);
         toPos--;
       }
-      PseudoMatch match = new PseudoMatch(replacement, fromPos, toPos);
+      PseudoMatch match;
+      // serealiza -> se realiza CHANGE + INSERT -> 1 match
+      if (lastMatch != null && lastInlineDelta.getType() == DeltaType.CHANGE
+          && inlineDelta.getType() == DeltaType.INSERT
+          //&& origList.get(inlineDelta.getSource().getPosition() - 1).equals(" ")
+          && (wasLastWhitespace || !lastPunctuationStr.isEmpty())
+          && inlineDelta.getSource().getPosition() - 1 == lastInlineDelta.getSource().getPosition()
+              + lastInlineDelta.getSource().getLines().size()) {
+        String newReplacement = lastMatch.getReplacements().get(0) + lastPunctuationStr + replacement.substring(toPos - fromPos);
+        match = new PseudoMatch(newReplacement, lastMatch.getFromPos(), toPos);
+        matches.remove(matches.size() - 1);
+        // CHANGE + DELETE
+      } else if (lastMatch != null && inlineDelta.getType() == DeltaType.DELETE && wasLastWhitespace
+          && lastMatch.getToPos() + 1 == fromPos) {
+        String newReplacement = lastMatch.getReplacements().get(0);
+        match = new PseudoMatch(newReplacement, lastMatch.getFromPos(), toPos - 1);
+        matches.remove(matches.size() - 1);
+      } else {
+        match = new PseudoMatch(replacement, fromPos, toPos);
+      }
       matches.add(match);
+      lastMatch = match;
+      lastInlineDelta = inlineDelta;
+
     }
     return matches;
-  }
-  
-  static class PseudoMatch {
-    private final String replacement;
-    private final int fromPos;
-    private final int toPos;
-    
-    PseudoMatch (String replacement, int fromPos, int toPos) {
-      this.replacement = replacement;
-      this.fromPos = fromPos;
-      this.toPos = toPos;
-    }
-    
-    public String getReplacement () {
-      return this.replacement;
-    }
-    
-    public int getFromPos() {
-      return this.fromPos;
-    }
-    
-    public int getToPos() {
-      return this.toPos;
-    }
   }
 
 }

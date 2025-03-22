@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
@@ -42,7 +43,36 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
  */
 public class GermanWordRepeatRule extends WordRepeatRule {
 
+  private static final Pattern SINGLE_CHAR = Pattern.compile("(?i)^[a-z]$");
+
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      csToken("please"),
+      csToken("please"),
+      csToken("please")
+    ),
+    Arrays.asList(
+      csToken("Late"),
+      csToken("Late"),
+      csToken("Show")
+    ),
+    Arrays.asList(
+      csToken("Wenn"),
+      csToken("hinter"),
+      csToken("Robben"),
+      csToken("Robben"),
+      csToken("robben"),
+      csToken(","),
+      csToken("robben"),
+      csToken("Robben"),
+      csToken("Robben"),
+      csToken("hinterher")
+    ),
+    Arrays.asList(
+      tokenRegex("tägliche(n|m|s)?"),
+      csToken("klein"),
+      csToken("klein")
+    ),
     Arrays.asList(
       csToken("Bora"),
       csToken("Bora")
@@ -91,6 +121,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(
       token("möp"),
       token("möp")
+    ),
+    Arrays.asList(
+      token("gout"),
+      token("gout")
     ),
     Arrays.asList(
       token("piep"),
@@ -142,6 +176,13 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("man")
     ),
     Arrays.asList(
+      tokenRegex("wenn|falls"),
+      token("das"),
+      token("das"),
+      token("nächste"),
+      token("mal")
+    ),
+    Arrays.asList(
       token("Arbeit"),
       token("Arbeit"),
       token("Arbeit")
@@ -180,6 +221,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("nicht"),
       token("nicht"),
       token("kommunizieren")
+    ),
+    Arrays.asList( // Dee Dee Ramone
+      token("Dee"),
+      tokenRegex("Dees?")
     ),
     Arrays.asList( // Phi Phi Islands
       token("Phi"),
@@ -336,12 +381,14 @@ public class GermanWordRepeatRule extends WordRepeatRule {
           return true;
       }
     }
-
-    if (tokens[position].getToken().matches("(?i)^[a-z]$") && position > 1 && tokens[position - 2].getToken().matches("(?i)^[a-z]$") && (position + 1 < tokens.length) && tokens[position + 1].getToken().matches("(?i)^[a-z]$")) {
+    if (SINGLE_CHAR.matcher(tokens[position].getToken()).matches() &&
+          position > 1 &&
+          SINGLE_CHAR.matcher(tokens[position - 2].getToken()).matches() &&
+          (position + 1 < tokens.length) &&
+          SINGLE_CHAR.matcher(tokens[position + 1].getToken()).matches()) {
       // spelling with spaces in between: "A B B A"
       return true;
     }
-
     return super.ignore(tokens, position);
   }
 
