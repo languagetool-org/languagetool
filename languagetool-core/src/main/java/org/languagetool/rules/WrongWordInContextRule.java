@@ -31,6 +31,8 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.tools.StringTools;
 
 /**
  * Check if there is a confusion of two words (which might have a similar spelling) depending on the context.
@@ -62,13 +64,15 @@ public abstract class WrongWordInContextRule extends Rule {
           });
 
   private final List<ContextWords> contextWordsSet;
-  
+  private final Language lang;
+
   private boolean matchLemmas = false;
 
-  public WrongWordInContextRule(ResourceBundle messages) {
+  public WrongWordInContextRule(ResourceBundle messages, Language lang) {
     super.setCategory(new Category(CategoryIds.CONFUSED_WORDS, getCategoryString()));
     contextWordsSet = cache.getUnchecked(getFilename());
     setLocQualityIssueType(ITSIssueType.Misspelling);
+    this.lang = lang;
   }
 
   protected abstract String getFilename();
@@ -108,16 +112,19 @@ public abstract class WrongWordInContextRule extends Rule {
       int i;
       String token1 = "";
       for (i = 1; i < tokens.length && !matchedWord[0]; i++) {
-        token1 = tokens[i].getToken();
-        matchedWord[0] = matchers[0].reset(token1).find();
+        if (!tokens[i].hasPartialPosTag("IS_URL")) {
+          token1 = tokens[i].getToken();
+          matchedWord[0] = matchers[0].reset(token1).find();
+        }
       }
       int j;
       String token2 = "";
       for (j = 1; j < tokens.length && !matchedWord[1]; j++) {
-        token2 = tokens[j].getToken();
-        matchedWord[1] = matchers[1].reset(token2).find();
+        if (!tokens[j].hasPartialPosTag("IS_URL")) {
+          token2 = tokens[j].getToken();
+          matchedWord[1] = matchers[1].reset(token2).find();
+        }
       }
-      
       int foundWord = -1;
       int notFoundWord = -1;
       int startPos = 0;
@@ -174,9 +181,12 @@ public abstract class WrongWordInContextRule extends Rule {
           }
         }
         if (matchedContext[notFoundWord] && !matchedContext[foundWord]) {
-          String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]),
-                  contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShortMessageString());
+          String repl = matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]);
+          String msg = getMessage(matchedToken, repl, contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
+          String id = StringTools.toId(getId() + "_" + matchedToken + "_" + repl, lang);
+          String desc = getDescription().replace("$match", matchedToken + "/" + repl);
+          SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
+          RuleMatch ruleMatch = new RuleMatch(specificIdRule, sentence, startPos, endPos, msg, getShortMessageString());
           ruleMatches.add(ruleMatch);
         }
       } // if foundWord != -1

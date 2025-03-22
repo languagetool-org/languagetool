@@ -45,6 +45,8 @@ public class PortugueseSynthesizerTest {
     
     assertEquals("[resolver]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("resolver"), "VMN0000", true))));
     assertEquals("[resolveu]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("resolver"), "VMIS3S0", true))));
+    // as of dict v1.0.1: issues with 'mesmíssimo' assigned to 'mesmo' lemma
+    assertEquals("[mesmas]", Arrays.toString(getSortedArray(synth.synthesize(dummyToken("mesmo"), "DD0FP0", true))));
   }
 
   private String[] getSortedArray(String... ar) {

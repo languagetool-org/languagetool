@@ -25,7 +25,6 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.km.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;

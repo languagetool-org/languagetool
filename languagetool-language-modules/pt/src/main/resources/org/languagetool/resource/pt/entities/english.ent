@@ -1,0 +1,285 @@
+<!ENTITY english_no "(n?[oa]s?|t[oa]s?|dos?|vi|pela|favor|por|tod[oa]s?|outros?|mor[ea]s?|
+                     cliques?|mas|disco|um)">
+
+<!ENTITY english_wh_words "what|when|where|whom?|whose|why|how|which">
+<!ENTITY english_prepositions "in|on|after|behind|before|off?|from|with|without|out|
+                               by|over|under|above|below|between|among|through|about">
+<!ENTITY english_pronouns "I|you|s?he|him|it|we|us|the[ym]|yours|hers|ours|theirs">
+<!ENTITY english_adverbs "here|there|again|back|more|most|very|not">
+<!ENTITY english_determiners "the|an|my|your|his|her|its|our|their|this|these|that|those">
+<!ENTITY english_common_verbs "be|am|are|is|was|were|been|being|have|has|had|
+                               having|did|does|done|doing|can|cannot|should|must|
+                               ought|will|could|would|shall">
+<!ENTITY english_conjunctions "and|but|if|or">
+
+<!-- copied from French and adapted -->
+<!ENTITY english_forward "(as?|no|[cs]ome|for|[td]o|(?-i)I)">
+
+<!-- Portuguese-specific -->
+<!ENTITY english_suffixes "((ing|hood|ship|ction|land)s?|(ness)(es)?|ed|ly|ity|ary|ish|logy|nomy|cracy|shire|less|ful)">
+<!ENTITY english_suffixed_word "\p{L}{3}\p{L}*&english_suffixes;">
+
+<!ENTITY english_prefixes "(over|under|out|after|with|through)">
+<!ENTITY english_prefixed_word "&english_prefixes;\p{L}{3}\p{L}*">
+
+<!ENTITY english_contracted_not "don|doesn|isn|aren|wasn|weren|ain|hasn|haven|hadn|
+                                 can|shouldn|shan|wouldn|won|mustn|didn|couldn|needn">
+<!ENTITY english_contracted_is "that|it|s?he|what|when|where|who|why|how|let">
+<!ENTITY english_contracted_are "you|they|we">
+<!ENTITY english_contracted_have "I|you|we|they|who|would|could">
+<!ENTITY english_contracted_will "I|you|s?he|we|they|who|what">
+<!ENTITY english_contracted_would "I|you|s?he|we|they|who|that|what">
+
+<!-- Uses Portuguese-language names if they exist, since otherwise we are dealing with a misspelling. -->
+<!-- <!ENTITY state_abbrev_us "AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY"> -->
+<!ENTITY us_states
+  "Alabama|Alasca|Arizona|Arkansas|Califórnia|Colorado|Connecticut|Delaware|Flórida|
+   Geórgia|Havaí|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Luisiana|Maine|Maryland|
+   Massachussetts|Michigan|Minnesota|Missouri|Mississippi|Montana|Nebraska|Nevada|
+   Ohio|Oklahoma|Oregon|Pensivâlnia|Tennessee|Texas|Utah|Vermont|Virgínia|Washington|
+   Wisconsin|Wyoming
+  ">
+
+<!-- multi-token: Nova Hamsphire, Nova Jersey, Novo México, Nova Iorque, Rhode Island,
+     Carolinas, Dakotas, Virgínia Ocidental -->
+
+<!-- Canadian provinces -->
+<!ENTITY canadian_provinces "Yukon|Nunavut|Alberta|Saskatchewan|Ontário|Quebec|Manitoba">
+
+<!-- multi-token: Nova Escócia, Novo Brunswick, Colúmbia Birtânica, Ilha do Príncipe Eduardo, Terra Nova e Labrador -->
+
+<!-- Austrialian states -->
+<!ENTITY australian_states "Vitória|Tasmânia|Queensland">
+
+<!-- multi-token: Nova Gales do Sul, Austrália Meridional/Ocidental, Território do Norte -->
+
+<!-- UK counties; only 'Cornualha' has a PT name; either way, all of these must be accepted by the speller! -->
+<!-- This list contains Scottish council areas and other toponyms that are not really technically counties and whatnot; -->
+<!-- for the purposes of what this entity is for as of 21 Jun 2024, that's not an issue... If someone needs to -->
+<!-- make this more *accurately* reflect current counties, council areas, ceremonial counties, and whatnot, be my guest. -->
+<!-- Also the Welsh ones are in English, not Welsh. And a bunch of them might be historical only. -->
+<!ENTITY uk_counties
+  "Avon|Bedfordshire|Berkshire|Buckinghamshire|Cambridgeshire|Cheshire|Cornualha|Cumberland|Cumbria|
+   Derbyshire|Devon|Dorset|Durham|Sussex|Essex|Gloucestershire|Hampshire|Herefordshire|
+   Hertfordshire|Huntingdonshire|Kent|Lancashire|Leicestershire|Lincolnshire|Merseyside|Middlesex|
+   Norfolk|Northamptonshire|Northumberland|Nottinghamshire|Oxfordshire|Rutland|Shropshire|Somerset|
+   Staffordshire|Suffolk|Surrey|Yorkshire|Warwickshire|Westmorland|Wiltshire|Worcestershire|
+   Inverclyde|Dunbartonshire|Glasgow|Renfrewshire|Lanarkshire|Falkirk|Edimburgo|Midlothian|Lothian
+   Clackmannanshire|Fife|Dundee|Angus|Monmouthshire|Glamorgan|Carmarthenshire|Pembrokeshire|
+   Cardiganshire|Brecknockshire|Radnorshire|Montgomeryshire|Denbighshire|Flintshire|Merionethshire|
+   Caernarvonshire|Anglesey|Borders|Strathclyde|Dumfries|Galloway|Grampian|Highland|Shetland|
+   Caithness|Ross|Cromarty|Aberdeenshire|Banffshire|Kincardineshire|Forfarshire|Perthshire|
+   Argyll|Ayrshire|Stirlingshire|Clackmannanshire|Kinross|Peeblesshire|Selkirkshire|Berwickshire|
+   Roxburghshire|Kirkcudbrightshire|Wigtownshire|Orkney
+">
+
+<!-- I'm not including here those that actually begin with "North/South/East/West" even in their customary Portuguese names, -->
+<!-- since those words are already english_ignore triggers. Here we have only the ones that are single-token or whose -->
+<!-- names in PT are entirely translated or contain Portuguese terms (e.g. "do Sul", "Meridional", etc.). -->
+
+<!ENTITY english_subnational_toponyms "(&us_states;|&canadian_provinces;|&australian_states;|&uk_counties;)">
+<!ENTITY english_subnational_toponyms_new "(Hampshire|Jersey|Jérsia|México|Iorque|Escócia|Brunswick|Gales)">
+<!ENTITY english_subnational_toponyms_north_south "(Carolina|Dakota|Território)">
+<!ENTITY english_subnational_toponyms_with_adj "(Virgínia|Austrália)">
+<!ENTITY english_subnational_toponyms_with_pt_equiv "
+  California|Pennsylvania|Alaska|Tasmania|Victoria|Ontario|
+  Florida|Georgia|Hawaii|Louisiana
+">
+
+
+<!-- Largely taken from French, but some words have been removed and others added -->
+<!ENTITY english_word_list "
+  first|any|two|get|other|into|time|all|only|years|used|look|
+  during|going|such|many|then|year|became|later|well|including|area|both|make|name|
+  called|until|while|against|may|number|season|several|teams?|work|born|
+  earl(y|ie(r|st))|family|now|based|life|released|since|began|century|each|end|
+  following|found|located|towns?|around|government|named|
+  often|three|too|up|along|built|career|include|left|own|still|
+  took|held|last|members|much|than|within|another|company|death|
+  down|even|five|however|published|received|served|become|best|died|history|
+  included|near|old|order|play|power|side|students|third|way|among|
+  average|book|children|every|few|given|got|moved|period|south|using|various|
+  wait|went|although|created|established|games|law|next|political|
+  produced|species|started|take|title|written|appeared|community|
+  considered|continued|himself|level|married|military|player|returned|
+  right|run|though|together|amount|available|common|days|east|
+  formed|founded|half|head|income|making|men|never|others|result|see([ns]|ing)?|
+  thou|usually|works|wrote|character|current|currently|developed|
+  elected|families|field|further|joined|largest|less|opened|party|playing|
+  recorded|seen|size|story|worked|away|church|either|eventually|meet|originally|
+  release|sorry|taken|throughout|wife|working|above|across|announced|
+  described|designed|featured|features|followed|help|includes|lead|months|
+  remained|research|return|road|songs|upon|wins?|aircraft|almost|appointed|brothers?|
+  completed|countries|daughters?|especially|famous|females|involved|itself|killed|
+  leading|older|performed|players|project|rather|replaced|signed|sometimes|
+  success|successful|tracks?|units|white|added|attack|below|brought|census|changed|
+  decided|ever|fact|generally|hand|households?|instead|introduced|least|
+  mid|mother|outside|private|professional|provide|provided|saw|seven|soon|space|
+  study|systems?|thus|women|september|allowed|battle|beginning|
+  books|director|eight|female|find|ground|higher|industry|interest|
+  league|lived|market|k?nights?|owned|place(d|s)?|previous|primary|reached|related|
+  report(ed|s|ing)?|runs|strong|winning|august|january|july|march|always|approximately|
+  army|campaign|characters|earlier|finished|lower|maybe|money|
+  natural|network|north|northern|numerous|particularly|past|practice|referred|
+  required|rights|southern|start|stated|student|taking|ten|six|nine|
+  today|told|wide|world|writing|english|according|activities|already|
+  also|appearance|appears|associated|attended|better|caused|closed|coming|
+  companies|contains|defeated|density|directed|economic|ended|energy|
+  food|forced|four(th)?|give|highest|individuals|known|larger|length|limited|
+  lines|majority|mostly|movie|municipality|names|previously|
+  programs|remains|shown|spent|themselves|theory|thought|towards|want|week|
+  february|access|additional|attempt|becoming|believed|board|child|claimed|
+  create|effect|entered|feature|finally|forms|healthy?|hence|hours|houses?|
+  housing|husbands?|increased|individual|mainly|material|meaning|might|nearly|
+  need|noted|offered|opening|operated|park|passed|personal|plays|problems|
+  property|provides|railway|ran|recently|red|relationship|religious|room|
+  scored|sea|separate|sounds?|takes|trade|turn|turned|variety|view|german|
+  london|actually|allow|alone|annual|appear|artists|author|call|carried|
+  cities|consists|cost|directly|eastern|enough|failed|friend|helped|highly|
+  hold|increase|launched|loss(es)?|makes|mean|middle|month|numbers|policy|quickly|
+  recording|represented|results|spread|studies|subject|supported|troops|
+  university|victor(y|ies)|weeks|whole|words|england|arrived|artist|asked|
+  broadcast|commonly|covered|cut|despite|discovered|fight|financial|
+  foreign|friends|function|historical|initially|leave|levels|listed|managed|
+  nearby|presented|primarily|produce|products|raised|remaining|responsible|
+  retired|rule|seasons|serving|ships|sisters?|society|studied|
+  subsequently|technology|typically|whether|widely|yet|ability|basis|
+  cast|chief|coast|composed|constructed|destroyed|divided|earned|
+  effects|except|facilities|growth|hear|immediately|intended|issued|
+  keep|largely|leaving|likely|mentioned|needed|offers|officer|please|
+  prior|probably|proposed|quality|response|selected|simply|starting|stories|
+  thee|therefore|true|wanted|war|accepted|acquired|actor|adopted|becomes|
+  championship|channels?|clear|council|defined|difficult|equipment|
+  extended|feet|flight|follows|formerly|gained|giving|greater|grew|host|
+  inside|lack|minor|models|moving|newspaper|officers|officially|operating|
+  ordered|overall|paper|pass|physical|poor|producer|product|projects|
+  purpose|remain|removed|revealed|soldiers|someone|tournament|upper|voice|
+  european|accounts?|activity|agreed|allows|appearances|approach|
+  arms|assigned|begins|blood|blue|capacity|captured|claims|colou?r|combined|
+  communities|completely|crew|declared|dedicated|defeat|featuring|fell|
+  fifth|frequently|gives|graduated|growing|heart|kept|know|knowledge|little|
+  mass|offer|planned|potential|powerful|purchased|reach|reason|recognized|
+  relatively|renamed|resulted|resulting|rules|scale|secondary|
+  security|situated|suffered|surrounding|territory|things|titles|transferred|
+  treatment|tried|wing|workers|america|australia|india|academic|acting|
+  agreement|allowing|applied|attacks|ball|bank(s|ing|ers?)?|birth|claim|compared|
+  conducted|connected|critical|dead|designated|develop|enemy|
+  entitled|estate|estimated|existing|expanded|expected|fellow|fighting|
+  floor|follow|forward|founder|fully?|goes|granted|hands|hour|
+  ice|leaves|literature|necessary|newly|occupied|occur|occurred|
+  oldest|organizations|organized|owner|paid|parish|powers|promoted|providing|
+  read|receive|reduced|refers|refused|respectively|say(s|ing)?|said|settled|settlement|
+  share|something|spring|stone|succeeded|suggested|taught|titled|towns|
+  travel|twenty|twice|website|worldwide|japanese|achieved|advanced|
+  airport|alongside|analysis|animals|attempted|attempts|authority|award(s|ed|ing)?|
+  believe|bought|bring|broke|buried|cell|cells|chosen|contemporary|derived|
+  disease|dropped|economy|employed|facility|felt|fish|fought|functions|
+  gun|headquarters|highway|holds|hosted|identified|kind|laws|letters|
+  losing|marked|materials|matter|memory|methods|mixed|mornings?|mountain|
+  opposed|performing|politics|poverty|prevent|programming|proved|ranked|
+  scientific|sector|showed|sides|sign|tax|teachers?|teach(ing|es)|tree|urban|
+  ways|winter|younger|youth|australian|germany|acts|attacked|authorities|
+  beyond|choices?|citizens?|classical|comedy|contained|containing|
+  creating|daily|deep|drugs?|easily|ending|ends|entirely|exchange|firm|fleet|
+  gift|guest|heard|heavily|historic|hope|incorporated|increasing|
+  influenced|inspired|knew|lake|library|medal|murders?|needs|nominated|
+  notably|nuclear|obtained|officials|online|onto|participated|peace|
+  perhaps|platform|politician|rank|reasons|regarded|returning|
+  rise|risk|safety|scoring|screen|search|seats|seems|selling|serious|
+  setting|silver|slightly|supply|toward|tower|trees|unable|unknown|
+  vehicles|visited|weapons|weight|winners?|wr[io]te|yeah|canadian|indian|japan|
+  abandoned|actress|aired|arrested|avoid|bands?|block|calls|captain|
+  castle|closely|commission(ed)?|consisted|contain|contributed|converted|
+  determined|developing|display|duty|educational|equal|extremely|
+  failure|finds|governor|greatest|herself|honor|horse|ideas|identity|
+  independence|inhabitants|injury|internal|kill|learning|maintained|
+  minister|occurs|orders|passing|possibly|price|producing|refer|
+  resources|review|shape|shared|sought|speaking|specifically|stay|
+  strength|successfully?|technical|trying|typical|african|chinese|spanish|
+  approved|argued|armed|boat|brief|briefly|businesses|
+  causing|chain|chairman|committee|competed|confirmed|critics|describes|
+  device|door|drawn|earliest|edge|educated|expressed|farm|flat|flow|
+  founding|genus|getting|graduate|guns|headed|height|hoping|
+  humans|hundred|improved|islands|key|launch|literary|looking|maintain|
+  makeup|merged|mind|nothing|operate|opportunity|painting|partner|
+  passenger|peak|philosophy|popularity|properties|protect|racing|reaching|
+  really|rear|receiving|require|residential|retained|reviews|rooms|
+  separated|shaped|significantly|stood|stopped|sub|subjects|talk|tho|
+  translated|universities|wins|wood|greek|irish|navy|accompanied|achieve|
+  amongst|anything|appearing|behaviou?r|calling|category|celebrated|
+  charts|coal|components|criticism|crossing|damaged|delivered|
+  depending|driven|effectively|ensure|equipped|evenings?|existed|exists|
+  experienced|faculty|fall(s|ing)?|fashion|fathers?|finishing|fishing|forests|
+  forming|greatly|grow|hill|hosts|influential|injured|interested|
+  landing|loved|markets|meets|meters|modified|mountains|movies|offering|
+  participate|presidential|railroad|rapidly|recordings|registered|
+  request|requirements|responsibility|restored|returns|rivers|scholars|ship|
+  song|southeast|southwest|speak|squad|stayed|storm|strongly|
+  suggests|task|testing|threat|threatened|understanding|unusual|
+  visitors|wave|weekly|whereas|wind|wounded|congress|god|jewish|
+  actors|adapted|adding|agency|ahead|arranged|authors|beautiful|
+  benefit|birds?|borders|boundary|bringing|broad|changing|coastal|cold|
+  concerns|concluded|constituency|continuing|coverage|covering|
+  crisis|critici[sz]ed?|dating|declined|distinguished|dogs?|dominated|earth|
+  easy|edited|engineer|enjoyed|entering|extent|feel|finding|flows|
+  formally|happened|historian|hundreds|investment|kingdom|lasted|
+  learn|leg|longest|manufacturing|measures|medicine|mining|missing|
+  mounted|mouth|movements|music|musician|narrow|ownership|painted|paintings|
+  partnership|powered|practices|print(ers?|ed|ing)?|prize|produces|progress|ranks|
+  rarely|ready|remainder|replacing|rescue|roots|secretary|sees|
+  settlers|shares|shooting|signs|snow|soundtrack|steam|substantial|suburb|
+  surviving|tail|temporary|thing|thirty|thousand|throne|tied|tools|
+  treated|tribes|turning|vessels|viewed|walk|weapon|wearing|whilst|
+  widespread|window|wooden|worthy?|britain|wales|acted|
+  advertising|animated|anyone|appeal|apply|appointment|artillery|
+  asks|assault|assembly|attributed|benefits|blocks|buy|championships|
+  chapter|circumstances|claiming|closer|colony|colors|continuous|corporate|
+  crowd|crown|customers?|dated|debuted|defeating|departure|
+  destroy(s|ing|ed)?|detailed|draw(ing|n)?|electrical|eleven|else|encouraged|
+  essentially|everyone|evil|expensive|facing|fighter|generated|governments|
+  identical|infantry|integrated|journey|junction|latest|lawyer|
+  limits|locally|mathematics|matters|municipalities|networks|opportunities|
+  origins|partly|percentage|perfect|personality|picked|poems|
+  possibility|practical|priest|producers|proposal|qualified|ranking|
+  relationships|riding|row|schools?|scientists|seek|seem|shore|struggle|
+  suffering|territories|toured|traditionally|traveled|tribe|truth|
+  understand|unlike|unsuccessful|victims|wants|wings|writes|asian|democratic|
+  dutch|ncaa|polish|scotland|spain|abilities|abroad|advice|affiliated|
+  answer|arrest|attending|bear|bed|believes|belonged|boundaries|ceased|
+  chamber|characteri[sz]ed?|circle|civilians?|command(ed)?|convention(al)?|cop(y|ied)|
+  country|dangerous|deaths|devoted|diameter|displayed|dynasty|eighth|
+  elsewhere|emperor|employment|erected|essential|evolved|exactly|
+  exclusively|exposed|false|fear|feed|filed|fled|flights|fund|
+  funded|hearing|hunting|identify|inch|increases|indeed|innings|
+  insurance|landed|lists|literally|looked|lose|manufactured|
+  mechanical|merger|minority|operational|operator|originated|outer|
+  painter|parliamentary|partially|prices|publicly|ranging|rebuilt|
+  recommended|recovered|renowned|repeated|retail|ruling|sailed|
+  schedule|seeing|seeking|seemed|settlements|shall|signing|
+  spending|spoke|stream|studying|submarine|sufficient|suggest|suitable|
+  supposed|surgery|survey|swimming|anyway|anyhow|anywhere|
+  somewhere|somebody|somehow|whatever|whoever|whosever|whomever|
+  whichever|whenever|wherever|however|miss|mister|whats|theyre|
+  weve|theyve|shes|im|Im|youre|whos|wouldve|couldve|whens|wheres|hows|
+  dictionary|cards?|services?|kids?|groups?|skills?|news?|
+  tomorrow|yesterday|(sun|mon|tues|wednes|thurs|fri|satur)?days?|
+  thanks?|welcome|black|yellow|orange|green|purple|gr[ae]y|blue|express|
+  coffee|academy|gold|golden|tech|clean|dirty|users?|sellers?|buyers?|
+  release|headlines?|points?|transfers?|foot|feet|kings?|queens?|folks?|
+  peoples?|persons?|celebrit(y|ies)|forks?|spoons?|kni(fe|ves)|dish(es)?|
+  kitchen|(bath|bed)room|survivors?|catch(es)?|caught|tells?|told|forbid(den)?|
+  prohibit(ed|s|ing)?|cats?|strikes?|afternoons?|soldiers?|troops?|
+  count(y|ies|s)?|earls?|viscounts?|hells?|heavens?|damn|[fs]uck(ing|s|ed|ers?)|
+  stupid|good|bad|wors[et]|fast(er|est)?|royal(ty)?|defen[sc]es?|defend(ed|s|ers?)?|
+  chemistry|chemical|chemist|grew|grow([sn]|ing)?|blew|blow([sn]|ing)?|
+  boys?|girls?|ugl(y|ie(r|st))|beaut(y|ies)|robbers?|forever|big(ge(r|st))?|
+  small(er|est)?|slow(er|est|ly)?|tall(er|est)?|short(ly|er|est)?|
+  live[sd]|living|die[sd]|dying|free|gardens?|televisions?|pictures?|
+  entertainment|theat(re|er)s?|centers?|bridges?|pack(s|ing|ages?)?|
+  associations?|institutes?|(con)?federations?|harm(s|ing|ed)?|improvements?|
+  apologi[sz](e[sd]|ing)|apolog(y|ies)|excus(e[sd]|ing)|strings?|
+  theor(y|ies|etical)|dut(y|ies)|keyboards?|helmets?|avenues?|streets?|
+  cit(y|ies)|alley(way)?s?|doctors?
+">
+
+<!ENTITY english_common "&english_wh_words;|&english_prepositions;|&english_adverbs;|&english_pronouns;|&english_determiners;|&english_common_verbs;|&english_conjunctions;|&english_word_list;|&english_suffixed_word;|&english_prefixed_word;">

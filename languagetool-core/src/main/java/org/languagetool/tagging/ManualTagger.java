@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,7 +18,8 @@
  */
 package org.languagetool.tagging;
 
-import gnu.trove.TObjectIntHashMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
@@ -29,15 +30,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.Function;
+
+import static org.languagetool.tools.StringInterner.intern;
 
 /**
  * A tagger that reads the POS information from a plain (UTF-8) text file. This
  * makes it possible for the user to edit the text file to let the system know
  * about new words or missing readings in the *.dict file.
- * 
+ *
  * <p>File Format: <tt>fullform baseform postags</tt> (tab separated)
- * 
+ *
  * @author Daniel Naber
  * @see ManualSynthesizer
  */
@@ -51,7 +53,7 @@ public class ManualTagger implements WordTagger {
   private final String[] data;
 
   /** A map from inflected forms to encoded lemma+POS pair offsets in {@link #data} */
-  private final TObjectIntHashMap<String> map;
+  private final Object2IntMap<String> map;
 
   public ManualTagger(InputStream inputStream) throws IOException {
     this(inputStream, false);
@@ -59,7 +61,7 @@ public class ManualTagger implements WordTagger {
 
   public ManualTagger(InputStream inputStream, boolean internTags) throws IOException {
     Map<String, List<TaggedWord>> mapping = loadMapping(inputStream, internTags);
-    map = new TObjectIntHashMap<>(mapping.size());
+    map = new Object2IntOpenHashMap<>(mapping.size());
     int valueCount = mapping.values().stream().mapToInt(v -> v.size()).sum();
     int firstIndex = ENTRY_SIZE; // skip an entry, as 0 means an absent value in TObjectIntHashMap
     data = new String[valueCount * ENTRY_SIZE + firstIndex];
@@ -75,15 +77,14 @@ public class ManualTagger implements WordTagger {
       }
       map.put(entry.getKey(), ((index / ENTRY_SIZE) << OFFSET_SHIFT) | value.size());
       for (TaggedWord tw : value) {
-        data[index++] = tw.getLemma();
-        data[index++] = tw.getPosTag();
+        data[index++] = intern(tw.getLemma());
+        data[index++] = intern(tw.getPosTag());
       }
     }
   }
 
   private static Map<String, List<TaggedWord>> loadMapping(InputStream inputStream, boolean internTags) throws IOException {
     Map<String, List<TaggedWord>> map = new HashMap<>();
-    Map<String, String> interned = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(reader)
@@ -113,10 +114,10 @@ public class ManualTagger implements WordTagger {
 
         String lemma = parts[1];
         if (lemma.equals(form)) lemma = form;
-        lemma = interned.computeIfAbsent(lemma, Function.identity());
+        lemma = intern(lemma);
 
         String tag = parts[2].trim();
-        String internedTag = internTags ? tag.intern() : interned.computeIfAbsent(tag, Function.identity());
+        String internedTag = internTags ? tag.intern() : intern(tag);
         map.computeIfAbsent(form, __ -> new ArrayList<>()).add(new TaggedWord(lemma, internedTag));
       }
     }
@@ -128,7 +129,7 @@ public class ManualTagger implements WordTagger {
    */
   @Override
   public List<TaggedWord> tag(String word) {
-    int value = map.get(word);
+    int value = map.getInt(word);
     if (value == 0) {
       return Collections.emptyList();
     }

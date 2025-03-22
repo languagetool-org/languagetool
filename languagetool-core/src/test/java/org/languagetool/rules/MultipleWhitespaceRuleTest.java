@@ -51,7 +51,7 @@ public class MultipleWhitespaceRuleTest {
     assertGood("Multiple tabs\t\tare okay", lt);
     assertGood("\n This is a test sentence...", lt);
     assertGood("\n    This is a test sentence...", lt);
-    // Needs isParagraphStart creation. Excluding i = 1 will make the rule ignore multiple white spaces in middle senteces.
+    // Needs isParagraphStart creation. Excluding i = 1 will make the rule ignore multiple white spaces in middle sentences.
     // matches = rule.match(langTool.getAnalyzedSentence("    This is a test sentence..."));
     // assertEquals(0, matches.length);
 

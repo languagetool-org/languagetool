@@ -27,6 +27,7 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;
 import org.languagetool.tagging.ar.ArabicTagger;
+
 import org.languagetool.tools.ArabicNumbersWords;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class ArabicNumberPhraseFilter extends RuleFilter {
   @Nullable
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+
 
     // get the previous word
     String previousWord = arguments.getOrDefault("previous", "");

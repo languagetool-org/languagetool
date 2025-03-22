@@ -313,7 +313,7 @@ public class ArabicTagManager {
    * @return test if word has stopword tagging
    */
   public boolean isStopWord(String postag) {
-    return postag.startsWith("P");
+    return (postag != null && postag.startsWith("P"));
   }
 
   /**
@@ -349,7 +349,23 @@ public class ArabicTagManager {
    */
   public boolean isMasdar(String postag) {
     return postag != null && postag.startsWith("NM");
+
   }
+
+  /**
+   * @return true if have flag Adj
+   */
+  public boolean isAdj(String postag) {
+    return postag != null && postag.startsWith("NA");
+  }
+
+  /**
+   * @return true if have flag Adj
+   */
+  public boolean isMasdar(String postag) {
+    return postag != null && postag.startsWith("NM");
+  }
+
 
   /**
    * @return true if have flag is noun and definite
@@ -512,7 +528,6 @@ public class ArabicTagManager {
     } else if (isVerb(postag)) {
       key = "VERB_FLAG_POS_" + flagType;
     }
-    // TODO : find a better way to convert key to pos
     if (key.equals("NOUN_TAG_LENGTH")) {
       pos = NOUN_TAG_LENGTH;
     } else if (key.equals("NOUN_FLAG_POS_WORDTYPE")) {
@@ -694,7 +709,7 @@ public class ArabicTagManager {
       return postag;
     }
     return newposTag;
-
+    
   }
 
 

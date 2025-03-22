@@ -18,17 +18,17 @@
  */
 package org.languagetool.tagging.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.GermanyGerman;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class GermanDisambiguationTest {
 
@@ -41,10 +41,10 @@ public class GermanDisambiguationTest {
 
   @Before
   public void setUp() throws IOException {
-    language = new GermanyGerman();
+    language = GermanyGerman.getInstance();
 //    tagger = new GermanTagger();
 //    tokenizer = language.getWordTokenizer();
-//    sentenceTokenizer = new SRXSentenceTokenizer(new GermanyGerman());
+//    sentenceTokenizer = new SRXSentenceTokenizer(GermanyGerman.getInstance());
 //    disambiguator = new GermanRuleDisambiguator();
     lt = new JLanguageTool(language);
   }
@@ -64,5 +64,28 @@ public class GermanDisambiguationTest {
         "[<S> Wir[ich/PRO:PER:NOM:PLU:ALG,O] entwickeln[entwickeln/VER:1:PLU:KJ1:SFT,entwickeln/VER:1:PLU:PRÄ:SFT,entwickeln/VER:3:PLU:KJ1:SFT,entwickeln/VER:3:PLU:PRÄ:SFT,entwickeln/VER:INF:SFT,O] ein[ein/ART:IND:AKK:SIN:NEU,ein/ART:IND:NOM:SIN:NEU,B-NP|NPS] Konzept[Konzept/SUB:AKK:SIN:NEU,Konzept/SUB:NOM:SIN:NEU,I-NP|NPS] für[für/PRP:TMP+MOD+CAU:AKK,PP] Ihrer[Ihr/PRO:POS:DAT:SIN:FEM:BEG,Ihr/PRO:POS:DAT:SIN:FEM:STV,Ihr/PRO:POS:GEN:SIN:FEM:BEG,Ihr/PRO:POS:GEN:SIN:FEM:STV,B-NP|NPS|PP] Sicherheit[Sicherheit/SUB:DAT:SIN:FEM,Sicherheit/SUB:GEN:SIN:FEM,I-NP|NPS|PP].[</S>./PKT,<P/>,O]]",
         tokens.toString());
 
+    tokens = lt.analyzeText("3-adische System");
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+
+    tokens = lt.analyzeText("3-adische Systeme");
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+
+    tokens = lt.analyzeText("3-adischen Systems");
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+
+    tokens = lt.analyzeText("Kelassurier Mauer");
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+
+    tokens = lt.analyzeText("Kelassurier Mauern");
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+
+    tokens = lt.analyzeText("Kelassurier Mauers");
+    assertFalse(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertFalse(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
   }
 }

@@ -25,7 +25,6 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.File;
@@ -165,6 +164,7 @@ public class SentenceSourceChecker {
     Language lang = Languages.getLanguageForShortCode(langCode);
     Language motherTongue = motherTongueCode != null ? Languages.getLanguageForShortCode(motherTongueCode) : null;
     GlobalConfig globalConfig = new GlobalConfig();
+    System.out.println("Premium: " + Premium.isPremiumVersion());
     if (options.hasOption("nerUrl")) {
       System.out.println("Using NER service: " + options.getOptionValue("nerUrl"));
       globalConfig.setNERUrl(options.getOptionValue("nerUrl"));
@@ -255,20 +255,20 @@ public class SentenceSourceChecker {
         }
         try {
           AnnotatedText annotatedText = new AnnotatedTextBuilder().addText(sentence.getText()).build();
-          List<RuleMatch> matches = lt.check(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL, null,
-            JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY);
+          CheckResults matches = lt.check2(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL, null,
+            JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY, new HashSet<>(Arrays.asList(ToneTag.values())), null);
           if (options.hasOption("print-correct")) {
-            if (matches.size() == 0) {
+            if (matches.getRuleMatches().size() == 0) {
               System.out.println(sentence.getText());
             }
           } else {
-            resultHandler.handleResult(sentence, matches, lang);
+            resultHandler.handleResult(sentence, matches.getRuleMatches(), lang);
           }
           sentenceCount++;
           if (sentenceCount % 5000 == 0) {
             System.err.printf("%s sentences checked...\n", NumberFormat.getNumberInstance(Locale.US).format(sentenceCount));
           }
-          ruleMatchCount += matches.size();
+          ruleMatchCount += matches.getRuleMatches().size();
         } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
           throw e;
         } catch (Exception e) {

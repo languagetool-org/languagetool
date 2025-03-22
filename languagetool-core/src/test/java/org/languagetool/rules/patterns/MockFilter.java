@@ -21,6 +21,7 @@ package org.languagetool.rules.patterns;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 
+import java.util.List;
 import java.util.Map;
 
 public class MockFilter extends RuleFilter {
@@ -29,7 +30,7 @@ public class MockFilter extends RuleFilter {
   }
 
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     return match;
   }
 

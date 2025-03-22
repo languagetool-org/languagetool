@@ -58,16 +58,16 @@
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.hankcs</groupId>
             <artifactId>aho-corasick-double-array-trie</artifactId>
         </dependency>
         <dependency>
             <groupId>com.optimaize.languagedetector</groupId>
             <artifactId>language-detector</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.vdurmont</groupId>
-            <artifactId>emoji-java</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -99,6 +99,14 @@
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-micrometer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-semconv</artifactId>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
@@ -200,8 +208,8 @@
             <artifactId>annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains.intellij.deps</groupId>
-            <artifactId>trove4j</artifactId>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -244,6 +252,10 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.java-diff-utils</groupId>
+            <artifactId>java-diff-utils</artifactId>
         </dependency>
     </dependencies>
 
@@ -299,20 +311,6 @@
                     <plugin>
                         <groupId>io.github.git-commit-id</groupId>
                         <artifactId>git-commit-id-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>jdk8</id>
-            <activation>
-                <jdk>(,8)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>pl.project13.maven</groupId>
-                        <artifactId>git-commit-id-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>

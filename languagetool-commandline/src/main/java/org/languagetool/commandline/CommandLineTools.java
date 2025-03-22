@@ -179,7 +179,7 @@ public final class CommandLineTools {
       }
       if (verbose && rule instanceof AbstractPatternRule) {
         AbstractPatternRule pRule = (AbstractPatternRule) rule;
-        output += " line=" + pRule.getXmlLineNumber();
+        output += " (line " + pRule.getXmlLineNumber()+")";
       }
       System.out.println(output);
       String msg = lang.toAdvancedTypography(match.getMessage()); //.replaceAll("<suggestion>", lang.getOpeningDoubleQuote()).replaceAll("</suggestion>", lang.getClosingDoubleQuote())
@@ -328,7 +328,7 @@ public final class CommandLineTools {
       float timeInSeconds = time / 1000.0f;
       float sentencesPerSecond = sentences.size() / timeInSeconds;
       System.out.printf(Locale.ENGLISH,
-              "%-40s%10d%10d%10d%15.1f\n", rule.getId(),
+              "%-40s%10d%10d%10d%15.1f\n", rule.getFullId(),
               time, sentences.size(), matchCount, sentencesPerSecond);
     }
     

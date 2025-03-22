@@ -24,7 +24,7 @@ import org.languagetool.language.BritishEnglish;
 public class BritishEnglishConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override
   protected Language createLanguage() {
-    return new BritishEnglish();
+    return BritishEnglish.getInstance();
   }
 
   @Override

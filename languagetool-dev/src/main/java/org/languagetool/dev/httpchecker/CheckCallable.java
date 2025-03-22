@@ -61,7 +61,9 @@ class CheckCallable implements Callable<File> {
   @Nullable
   private final String password;
 
-  CheckCallable(int count, String baseUrl, String token, List<String> texts, String langCode, @Nullable String user, @Nullable String password) {
+  private final String parameters;
+
+  CheckCallable(int count, String baseUrl, String token, List<String> texts, String langCode, @Nullable String user, @Nullable String password, @Nullable String parameters) {
     this.count = count;
     this.baseUrl = Objects.requireNonNull(baseUrl);
     this.token = token;
@@ -69,6 +71,7 @@ class CheckCallable implements Callable<File> {
     this.langCode = Objects.requireNonNull(langCode);
     this.user = user;
     this.password = password;
+    this.parameters = parameters;
   }
 
   @Override
@@ -86,10 +89,16 @@ class CheckCallable implements Callable<File> {
       for (String text : texts) {
         URL url = Tools.getUrl(baseUrl + "/v2/check");
         String postData = "language=" + langCode +
-            "&text=" + URLEncoder.encode(text, "UTF-8") +
+            "&text=" + URLEncoder.encode(text, "UTF-8");
+        postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
+        if (parameters != null) {
+          postData += "&" + parameters;
+        } else {
+          // default values
+          postData += "&toneTags=" + ToneTag.ALL_TONE_RULES.name() +
             "&level=picky" +
             "&enableTempOffRules=true";
-        postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
+        }
         String tokenInfo = token != null ? " with token" : " without token";
         float progress = (float)i++ / texts.size() * 100.0f;
         printOut(String.format(Locale.ENGLISH, threadName + " - Posting text with " + text.length() +
@@ -210,7 +219,7 @@ class CheckCallable implements Callable<File> {
     }
     @Override
     public RuleMatch[] match(AnalyzedSentence sentence) {
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
   }
 

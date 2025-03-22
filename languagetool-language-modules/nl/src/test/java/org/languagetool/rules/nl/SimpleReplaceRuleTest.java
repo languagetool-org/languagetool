@@ -48,12 +48,12 @@ public class SimpleReplaceRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("De Kudde eigenschappen")).length);  // no match b/c case-sensitivity
     // edit by R. Baars 19-11-2022 to make routine case sensitive
     // incorrect sentences:
-    checkSimpleReplaceRule("klaa", "klaar");
+    checkSimpleReplaceRule("klaa", "Klaar");
 
     //checkSimpleReplaceRule("Kudde eigenschappen.", "Kudde-eigenschappen");
     checkSimpleReplaceRule("een BTW nummer", "btw-nummer");
-    checkSimpleReplaceRule("kudde eigenschappen.", "kudde-eigenschappen");
-    checkSimpleReplaceRule("De kudde eigenschappen.", "kudde-eigenschappen");
+    checkSimpleReplaceRule("kleurweergave eigenschappen.", "Kleurweergave-eigenschappen");
+    checkSimpleReplaceRule("De kleurweergave eigenschappen.", "kleurweergave-eigenschappen");
   }
   private void checkSimpleReplaceRule(String sentence, String suggestion) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));

@@ -153,7 +153,7 @@ public final class Tools {
    * @return String UI element string without mnemonics.
    */
   public static String getLabel(String label) {
-    return label.replaceAll("&([^&])", "$1").replaceAll("&&", "&");
+    return label.replaceAll("&([^&])", "$1").replace("&&", "&");
   }
 
   /**
@@ -278,7 +278,7 @@ public final class Tools {
     textPane.setBackground(new Color(0, 0, 0, 0));
     Tools.addHyperlinkListener(textPane);
     textPane.setSize(dialogWidth, Short.MAX_VALUE);
-    String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
+    String messageWithBold = message.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>");
     String exampleSentences = getExampleSentences(rule, messages);
     String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
             + "?lang=" + lang + "&amp;ref=standalone-gui";
@@ -300,7 +300,7 @@ public final class Tools {
             JOptionPane.INFORMATION_MESSAGE);
   }
 
-  private static String encodeUrl(Rule rule) {
+  public static String encodeUrl(Rule rule) {
     try {
       return URLEncoder.encode(rule.getId(), "utf-8");
     } catch (UnsupportedEncodingException e) {
@@ -308,7 +308,7 @@ public final class Tools {
     }
   }
 
-  private static String getExampleSentences(Rule rule, ResourceBundle messages) {
+  public static String getExampleSentences(Rule rule, ResourceBundle messages) {
     StringBuilder examples = new StringBuilder(200);
     List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
     if (incorrectExamples.size() > 0) {
@@ -337,7 +337,7 @@ public final class Tools {
     return examples.toString();
   }
 
-  private static String formatURL(URL url) {
+  public static String formatURL(URL url) {
     if (url == null) {
       return "";
     }

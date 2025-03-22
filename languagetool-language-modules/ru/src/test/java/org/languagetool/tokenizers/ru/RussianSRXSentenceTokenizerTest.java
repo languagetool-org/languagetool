@@ -27,7 +27,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class RussianSRXSentenceTokenizerTest {
 
-  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Russian());
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Russian.getInstance());
 
   @Test
   public final void testTokenize() {

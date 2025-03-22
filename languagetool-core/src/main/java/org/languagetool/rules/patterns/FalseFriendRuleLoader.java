@@ -39,16 +39,23 @@ public class FalseFriendRuleLoader extends DefaultHandler {
 
   private final String falseFriendHint;
   private final String falseFriendSugg;
+  private final boolean inTestMode;
 
   public FalseFriendRuleLoader(Language motherTongue) {
+    this(motherTongue, false);
+  }
+
+  public FalseFriendRuleLoader(Language motherTongue, boolean inTestMode) {
     ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
     this.falseFriendHint =  messages.getString("false_friend_hint");
     this.falseFriendSugg =  messages.getString("false_friend_suggestion");
+    this.inTestMode = inTestMode;
   }
 
   public FalseFriendRuleLoader(String falseFriendHint, String falseFriendSugg) {
     this.falseFriendHint = Objects.requireNonNull(falseFriendHint);
     this.falseFriendSugg = Objects.requireNonNull(falseFriendSugg);
+    this.inTestMode = false;
   }
 
   /**
@@ -67,7 +74,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
       Language textLanguage, Language motherTongue)
       throws ParserConfigurationException, SAXException, IOException {
     FalseFriendRuleHandler handler = new FalseFriendRuleHandler(
-        textLanguage, motherTongue, falseFriendHint);
+        textLanguage, motherTongue, falseFriendHint, inTestMode);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
     saxParser.getXMLReader().setFeature(

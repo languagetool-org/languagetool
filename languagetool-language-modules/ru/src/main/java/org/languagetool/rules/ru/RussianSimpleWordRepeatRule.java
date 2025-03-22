@@ -19,6 +19,7 @@
 package org.languagetool.rules.ru;
 
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -30,13 +31,10 @@ import org.languagetool.rules.WordRepeatRule;
  */
 public class RussianSimpleWordRepeatRule extends WordRepeatRule {
 
+  private static final Pattern PATTERN = Pattern.compile("[a-zA-Zа-яёА-ЯЁ]");
+
   public RussianSimpleWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
-  }
-
-  @Override
-  public String getId() {
-    return "WORD_REPEAT_RULE";
   }
 
   @Override
@@ -59,12 +57,12 @@ public class RussianSimpleWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("что", tokens, position)) {
       return true;
     }
-
-    if (tokens[position].getToken().matches("[a-zA-Zа-яёА-ЯЁ]") && position > 1 && tokens[position - 1].getToken().matches("[a-zA-Zа-яёА-ЯЁ]") ) {
+    if (PATTERN.matcher(tokens[position].getToken()).matches() &&
+          position > 1 &&
+          PATTERN.matcher(tokens[position-1].getToken()).matches()) {
       // spelling with spaces in between: "L L"
       return true;
     }
-
     return super.ignore(tokens, position);
   }
 

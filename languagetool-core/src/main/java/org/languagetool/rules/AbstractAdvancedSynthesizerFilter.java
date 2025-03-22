@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
@@ -44,13 +43,11 @@ import org.languagetool.tools.StringTools;
  */
 public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
 
-  abstract protected Synthesizer getSynthesizer();
-
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     
-//    if (match.getSentence().getText().contains("C'est une ville")) {
+//    if (match.getSentence().getText().contains("Jo pensem")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -59,6 +56,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String lemmaSelect = getRequired("lemmaSelect", arguments);
     String postagFromStr = getRequired("postagFrom", arguments);
     String lemmaFromStr = getRequired("lemmaFrom", arguments);
+    String newLemma = getOptional("newLemma", arguments, "");
     
     int postagFrom = 0;
     if (postagFromStr.startsWith("marker")) {
@@ -98,6 +96,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String desiredLemma = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getLemma();
     String originalPostag = getAnalyzedToken(patternTokens[lemmaFrom - 1], lemmaSelect).getPOSTag();
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
+    if (!newLemma.isEmpty()) {
+      desiredLemma = newLemma;
+    }
     
     if (desiredPostag == null) {
       throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag for rule " +
@@ -112,8 +113,9 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     boolean isWordCapitalized = StringTools.isCapitalizedWord(patternTokens[lemmaFrom - 1].getToken());
     boolean isWordAllupper = StringTools.isAllUppercase(patternTokens[lemmaFrom - 1].getToken());
     AnalyzedToken token = new AnalyzedToken("", desiredPostag, desiredLemma);
-    String[] replacements = getSynthesizer().synthesize(token, desiredPostag, true);
-    
+    Language language = getLanguageFromRuleMatch(match);
+    Synthesizer synth = language.getSynthesizer();
+    String[] replacements = synth.synthesize(token, desiredPostag, true);
     if (replacements.length > 0) {
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           match.getMessage(), match.getShortMessage());
@@ -126,7 +128,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           if (isSuggestionException(nr, desiredPostag)) {
             continue;
           }
-          if (r.contains("{suggestion}") || r.contains("{Suggestion}")) {
+          if (r.contains("{suggestion}") || r.contains("{Suggestion}") || r.contains("{SUGGESTION}")) {
             suggestionUsed = true;
           }
           if (isWordCapitalized) {
@@ -137,22 +139,18 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           }
           String completeSuggestion = r.replace("{suggestion}", nr);
           completeSuggestion = completeSuggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(nr));
-          replacementsList.add(completeSuggestion);
+          completeSuggestion = completeSuggestion.replace("{SUGGESTION}", nr.toUpperCase());
+          if (!replacementsList.contains(completeSuggestion)) {
+            replacementsList.add(completeSuggestion);
+          }
         }
       }
       if (!suggestionUsed) {
         replacementsList.addAll(Arrays.asList(replacements));
       }
-      
       List<String> adjustedReplacementsList = new ArrayList<>();
-      Rule rule = match.getRule();
-      if (rule instanceof AbstractPatternRule) {  
-        Language lang = ((AbstractPatternRule) rule).getLanguage();
-        for (String replacement : replacementsList) {
-          adjustedReplacementsList.add(lang.adaptSuggestion(replacement));  
-        }
-      } else {
-        adjustedReplacementsList = replacementsList;
+      for (String replacement : replacementsList) {
+        adjustedReplacementsList.add(language.adaptSuggestion(replacement));
       }
       newMatch.setSuggestedReplacements(adjustedReplacementsList);
       return newMatch;
@@ -160,7 +158,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     return match;
   }
 
-  private String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
+  public String getCompositePostag(String lemmaSelect, String postagSelect, String originalPostag,
       String desiredPostag, String postagReplace) {
     Pattern aPattern = Pattern.compile(lemmaSelect, Pattern.UNICODE_CASE);
     Pattern bPattern = Pattern.compile(postagSelect, Pattern.UNICODE_CASE);
@@ -170,13 +168,17 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     if (aMatcher.matches() && bMatcher.matches()) {
       for (int i = 1; i <= aMatcher.groupCount(); i++) {
         String groupStr = aMatcher.group(i);
-        String toReplace = "\\\\a" + i;
-        result = result.replaceAll(toReplace, groupStr);
+        if( groupStr != null){
+          String toReplace = "\\a" + i;
+          result = result.replace(toReplace, groupStr);
+        }
       }
       for (int i = 1; i <= bMatcher.groupCount(); i++) {
         String groupStr = bMatcher.group(i);
-        String toReplace = "\\\\b" + i;
-        result = result.replaceAll(toReplace, groupStr);
+        if( groupStr != null){
+          String toReplace = "\\b" + i;
+          result = result.replace(toReplace, groupStr);
+        }
       }
     }
     return result;

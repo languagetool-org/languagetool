@@ -76,6 +76,10 @@ public class SentenceRangeTest {
   }
 
   private class NoRulesEnglish extends AmericanEnglish {
+    public NoRulesEnglish() {
+      super(true);
+    }
+
     @Override
     public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
       return new ArrayList<>();

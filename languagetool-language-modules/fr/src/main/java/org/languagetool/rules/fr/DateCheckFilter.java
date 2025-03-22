@@ -19,13 +19,15 @@
 package org.languagetool.rules.fr;
 
 import org.languagetool.rules.AbstractDateCheckFilter;
+import org.languagetool.rules.AbstractDateCheckWithSuggestionsFilter;
+
 import java.util.Calendar;
 
 /**
  * French localization of {@link AbstractDateCheckFilter}.
  * @since 2.7
  */
-public class DateCheckFilter extends AbstractDateCheckFilter {
+public class DateCheckFilter extends AbstractDateCheckWithSuggestionsFilter {
 
   private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
 
@@ -48,4 +50,8 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     return dateFilterHelper.getDayOfWeek(date);
   }
 
+  @Override
+  protected String getErrorMessageWrongYear() {
+    return "Cette date est incorrecte. Faites-vous référence à l'année \"{currentYear}\" ?";
+  }
 }

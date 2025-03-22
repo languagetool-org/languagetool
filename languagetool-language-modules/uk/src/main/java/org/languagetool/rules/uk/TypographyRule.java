@@ -37,6 +37,8 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public class TypographyRule extends Rule {
 
+  private static final Pattern PATTERN = Pattern.compile(".*[а-яїієґА-ЯІЇЄҐ].*");
+
   public TypographyRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
   }
@@ -90,8 +92,8 @@ public class TypographyRule extends Rule {
           List<String> replacements = new ArrayList<>();
           
           if( i > 1 && i < tokens.length - 1
-              && tokens[i-1].getToken().matches(".*[а-яїієґА-ЯІЇЄҐ].*")
-              && tokens[i+1].getToken().matches(".*[а-яїієґА-ЯІЇЄҐ].*")) {
+              && PATTERN.matcher(tokens[i-1].getToken()).matches()
+              && PATTERN.matcher(tokens[i+1].getToken()).matches()) {
             replacements.add(tokens[i-1].getToken() + "-" + tokens[i+1].getToken());
           }
           
@@ -135,6 +137,7 @@ public class TypographyRule extends Rule {
 
   private static final Pattern SHORT_DASH_WORD = Pattern.compile("[а-яіїєґ']{2,}([\u2013\u2014][а-яіїєґ']{2,})+", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern BAD_LATIN = Pattern.compile("[ХІXIV]+[\u2013\u2014][ХІXIV]+");
+
   private String shortDashToken(AnalyzedTokenReadings tokenReadings) {
     List<AnalyzedToken> readings = tokenReadings.getReadings();
     if( readings.size() == 0 || tokenReadings.getToken() == null )

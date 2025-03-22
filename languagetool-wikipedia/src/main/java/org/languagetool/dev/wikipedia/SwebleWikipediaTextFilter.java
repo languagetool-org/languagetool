@@ -18,11 +18,9 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import org.apache.commons.lang3.StringUtils;
 //import org.sweble.wikitext.engine.CompiledPage;
 //import org.sweble.wikitext.engine.Compiler;
-import org.sweble.wikitext.engine.PageId;
-import org.sweble.wikitext.engine.PageTitle;
+
 //import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
 
 /**

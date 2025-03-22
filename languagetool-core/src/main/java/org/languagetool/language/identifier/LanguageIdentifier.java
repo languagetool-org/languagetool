@@ -22,6 +22,7 @@ package org.languagetool.language.identifier;
 
 import com.optimaize.langdetect.text.TextFilter;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
@@ -36,8 +37,9 @@ import java.util.stream.Collectors;
 public abstract class LanguageIdentifier {
   private static final Pattern URL_REGEX = Pattern.compile("https?://[-_.?&~;+=/#%0-9A-Za-z]+");   // '%' has been added
   private static final Pattern MAIL_REGEX = Pattern.compile("[-_.0-9A-Za-z]+@[-_0-9A-Za-z]+[-_.0-9A-Za-z]+");
-  private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
+  private static final Pattern SIGNATURE = Pattern.compile("\n--[ \u00A0]\n.*", Pattern.DOTALL);
   private static final Pattern MENTION = Pattern.compile("@[A-Za-z0-9_]+");
+  private static final Pattern NBSP_INVIS_SEPARATOR = Pattern.compile("[\uFEFF\u2063]+");
   protected static final float SCORE_THRESHOLD = 0.85f;
   protected static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
   protected static final List<String> NON_LATIN_CHARS_LANGUAGES = Arrays.asList("ar", "fa", "ru", "uk", "be", "zh", "ja", "km", "ta", "el", "hi", "mr", "th", "he", "ko");
@@ -75,6 +77,12 @@ public abstract class LanguageIdentifier {
    */
   @Nullable
   public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp);
+  
+  @Nullable 
+  public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs);
+
+  @NotNull
+  public abstract List<DetectedLanguage> getDetectedLanguageScores(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs, int count);
 
   /**
    * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
@@ -89,7 +97,7 @@ public abstract class LanguageIdentifier {
    */
   public String cleanAndShortenText(String text) {
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
-    shortText = shortText.replaceAll("[\uFEFF\u2063]+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
+    shortText = NBSP_INVIS_SEPARATOR.matcher(shortText).replaceAll(" ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
     shortText = REMOVE_URL_FILTER.filter(shortText);
     shortText = REMOVE_EMAIL_SIGNATURE_FILTER.filter(shortText);
     shortText = REMOVE_MENTION_FILTER.filter(shortText);
@@ -97,6 +105,7 @@ public abstract class LanguageIdentifier {
     return shortText;
   }
 
+  @Nullable
   protected ParsedLanguageLists prepareDetectLanguage(String text, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
     Objects.requireNonNull(noopLangsTmp);
     Objects.requireNonNull(preferredLangsTmp);
@@ -132,7 +141,17 @@ public abstract class LanguageIdentifier {
         result = entry.getKey();
       }
     }
-    return new AbstractMap.SimpleImmutableEntry<>(result, max);
+    return new AbstractMap.SimpleImmutableEntry<>(result, max);  
+  }
+
+  protected Map<String, Double> getOrderedScores(Map<String, Double> scores, int count) {
+    ArrayList<Map.Entry<String, Double>> entries = new ArrayList<>(scores.entrySet());
+    entries.sort(Map.Entry.comparingByValue(Collections.reverseOrder()));
+    Map<String, Double> sortedScores = new LinkedHashMap<>();
+    for (int i = 0; i < entries.size() && i < count; i++) {
+      sortedScores.put(entries.get(i).getKey(), entries.get(i).getValue());
+    }
+    return sortedScores;
   }
 
   protected static class ParsedLanguageLists {

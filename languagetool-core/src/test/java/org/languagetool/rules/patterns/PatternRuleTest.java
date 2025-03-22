@@ -187,6 +187,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   public void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
+    validateRemoteRulesFile(lang);
     System.out.println("Running pattern rule tests for " + lang.getName() + " (" + lang.getClass().getName() + ")... ");
     MultiThreadedJLanguageTool lt = createToolForTesting(lang);
     MultiThreadedJLanguageTool allRulesLt = new MultiThreadedJLanguageTool(lang);
@@ -241,6 +242,17 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           validator.validateWithXmlSchema(ruleFilePath, rulesDir + "/rules.xsd");
         }
       }
+    }
+  }
+
+  protected void validateRemoteRulesFile(Language lang) throws IOException {
+    XMLValidator validator = new XMLValidator();
+    String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
+    String remoteRulesFile = rulesDir + "/" + lang.getShortCode() + "/remote-rule-filters.xml";
+    InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(remoteRulesFile);
+    if (xmlStream != null) {
+      System.out.println("Running XML validation for " + remoteRulesFile + "...");
+      validator.validateWithXmlSchema(remoteRulesFile, remoteRulesFile, rulesDir + "/remote-rules.xsd");
     }
   }
 
@@ -458,6 +470,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       }
       if (msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
         fail("Unfinished message ('todo' or 'lorem ipsum') of rule " + rule.getFullId() + ": '" + msg + "'");
+      }
+      if (!lang.getShortCode().matches("xx|en|km") && msg.toLowerCase().contains("did you mean")) {
+        System.err.println("*** WARNING: Non-English message with 'did you mean' for rule " + rule.getFullId() + ": '" + msg + "'");
       }
       if (msg.toLowerCase().contains("tbd")) {
         fail("Unfinished message (contains 'tbd') of rule " + rule.getFullId() + ": '" + msg + "'");

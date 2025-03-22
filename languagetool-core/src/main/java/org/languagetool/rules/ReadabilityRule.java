@@ -47,6 +47,9 @@ public class ReadabilityRule extends TextLevelRule {
   private final Language lang;
   private final int level;
   private final boolean tooEasyTest;
+  private int nAllSentences = 0;
+  private int nAllWords = 0;
+  private int nAllSyllables = 0;
 
   public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest) {
     this(messages, lang, userConfig, tooEasyTest, -1, false);
@@ -73,7 +76,10 @@ public class ReadabilityRule extends TextLevelRule {
     int tmpLevel = -1;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
-      tmpLevel = userConfig.getConfigValueByID(getId(tooEasyTest));
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        tmpLevel = (int) cf[0];
+      }
     } else {
       linguServices = null;
     }
@@ -108,34 +114,30 @@ public class ReadabilityRule extends TextLevelRule {
       return "Readability: Too difficult text";
     }
   }
-
-  @Override
-  public int getDefaultValue() {
-//    return (tooEasyTest ? 4 : 2);
-    return (3);
-  }
   
-  @Override
-  public boolean hasConfigurableValue() {
-    return true;
-  }
-
-  @Override
-  public int getMinConfigurableValue() {
-    return 0;
-  }
-
-  @Override
-  public int getMaxConfigurableValue() {
-    return 6;
-  }
-  
-  @Override
   public String getConfigureText() {
     return "Level of readability 0 (very difficult) to 6 (very easy):";
   }
+
+  @Override
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(3, getConfigureText(), 0, 6) };
+    return ruleOptions;
+  }
+
+  public int getAllSentences() {
+    return nAllSentences;
+  }
   
-  private static String printMessageLevel(int level) {
+  public int getAllWords() {
+    return nAllWords;
+  }
+  
+  public int getAllSyllables() {
+    return this.nAllSyllables;
+  }
+  
+  public String printMessageLevel(int level) {
     String sLevel = null;
     if (level == 0) {
       sLevel = "Very difficult";
@@ -197,7 +199,7 @@ public class ReadabilityRule extends TextLevelRule {
    * get Flesch-Reading-Ease (Formula for readability) for English
    * the formula dependence on the language and has to be overridden for every supported language
    */
-  protected double getFleschReadingEase(double asl, double asw) {
+  public double getFleschReadingEase(double asl, double asw) {
     return 206.835 - ( 1.015 * asl ) - ( 84.6 * asw );
   }
   
@@ -256,9 +258,9 @@ public class ReadabilityRule extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int nParagraph = 0;
-    int nAllSentences = 0;
-    int nAllWords = 0;
-    int nAllSyllables = 0;
+    nAllSentences = 0;
+    nAllWords = 0;
+    nAllSyllables = 0;
     int nSentences = 0;
     int nWords = 0;
     int nSyllables = 0;

@@ -1,5 +1,7 @@
 package org.languagetool.rules;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -32,7 +34,7 @@ public final class Categories {
   
   public static final Categories REDUNDANCY = make("REDUNDANCY", "category_redundancy");
   
-  public static final Categories REPETITIONS_STYLE = make("STYLE", "cateogry_repetitions_style");
+  public static final Categories REPETITIONS_STYLE = make("REPETITIONS_STYLE", "cateogry_repetitions_style");
 
   /** General style issues not covered by other categories, like overly verbose wording. */
   public static final Categories STYLE = make("STYLE", "category_style");
@@ -60,6 +62,11 @@ public final class Categories {
 
   /** Miscellaneous rules that don't fit elsewhere. */
   public static final Categories MISC = make("MISC", "category_misc");
+
+  // *** NOTE: keep in sync when making changes above ***
+  public static final List<Categories> ALL = Arrays.asList(STYLE, REPETITIONS_STYLE, REPETITIONS, CASING, COMPOUNDING,
+    COLLOQUIALISMS, CONFUSED_WORDS, FALSE_FRIENDS, GENDER_NEUTRALITY, GRAMMAR, MISC, PLAIN_ENGLISH,
+    REDUNDANCY, REGIONALISMS, PUNCTUATION, TYPOGRAPHY, WIKIPEDIA, TYPOS);
 
   private static Categories make(String id, String message) {
     return new Categories(id, message);

@@ -19,9 +19,6 @@
 
 package org.languagetool.rules.pt;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -31,14 +28,18 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.tools.StringTools;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 public class RegularIrregularParticipleFilter extends RuleFilter {
 
-  private Language language = new Portuguese();
-  private PortugueseSynthesizer synth = (PortugueseSynthesizer) language.getSynthesizer();
+  private final Language language = Portuguese.getInstance();
+  private final PortugueseSynthesizer synth = (PortugueseSynthesizer) language.getSynthesizer();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
 
     String direction = getRequired("direction", arguments); // RegularToIrregular or IrregularToRegular
     AnalyzedTokenReadings atr = null;
@@ -93,6 +94,7 @@ public class RegularIrregularParticipleFilter extends RuleFilter {
           ruleMatch.setType(match.getType());
           String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
           suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
+          suggestion = suggestion.replace("{SUGGESTION}", replacement.toUpperCase());
           ruleMatch.setSuggestedReplacement(suggestion);
           return ruleMatch;
         }

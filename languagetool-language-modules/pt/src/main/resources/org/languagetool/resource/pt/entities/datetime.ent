@@ -1,0 +1,78 @@
+<!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
+<!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
+<!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
+<!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]u[ia]|[Tt]er)">
+
+<!ENTITY ambiguous_date "
+  <token regexp='yes'>0?[1-9]|1[0-2]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>0?[1-9]|1[0-2]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>\d\d\d\d</token>
+">
+<!-- "7 Outubro 2014" -->
+<!ENTITY date_dmy "
+  <token regexp='yes'>\d\d?</token>
+  <token min='0'>de</token>
+  <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+  <token min='0' regexp='yes'>de|\,</token>
+  <token regexp='yes'>\d\d\d\d</token>
+">
+<!ENTITY date_dmy_skip "
+  <token regexp='yes'>\d\d?</token>
+  <token min='0'>de</token>
+  <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+  <token regexp='yes' skip='-1'>\d\d\d\d</token>
+  ">
+<!-- "Outubro 7, 2014" -->
+<!ENTITY date_mdy "
+  <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+  <token regexp='yes'>\d\d?</token>
+  <token>,</token>
+  <token regexp='yes'>\d\d\d\d</token>
+">
+<!ENTITY date_mdy_skip "
+  <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+  <token regexp='yes'>\d\d?</token>
+  <token>,</token>
+  <token regexp='yes' skip='-1'>\d\d\d\d</token>
+">
+<!-- "31/10/2014" -->
+<!ENTITY date_dmy_numbers "
+  <token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>0?[1-9]|1[0-2]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>\d\d\d\d</token>
+">
+<!ENTITY date_dmy_numbers_skip "
+  <token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>0?[1-9]|1[0-2]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes' skip='-1'>\d\d\d\d</token>
+">
+<!-- "10/31/2014" -->
+<!ENTITY date_mdy_numbers "
+  <token regexp='yes'>0?[1-9]|1[0-2]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>\d\d\d\d</token>
+">
+<!ENTITY date_mdy_numbers_skip "
+  <token regexp='yes'>0?[1-9]|1[0-2]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes' skip='-1'>\d\d\d\d</token>
+">
+<!-- "2014/10/31" -->
+<!ENTITY date_ymd_numbers "
+  <token regexp='yes'>\d\d\d\d</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>0?[1-9]|1[0-2]</token>
+  <token regexp='yes'>/|&hifen;</token>
+  <token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
+">
+

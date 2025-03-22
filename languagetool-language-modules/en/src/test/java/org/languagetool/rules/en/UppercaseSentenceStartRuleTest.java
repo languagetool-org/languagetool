@@ -30,6 +30,7 @@ public class UppercaseSentenceStartRuleTest {
   @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en"));
+    assertEquals(0, lt.check("v8.2.0 has been released").size());
     assertEquals(0, lt.check("In Nov. next year.").size());
     assertEquals(0, lt.check("www.languagetool.org is a website.").size());
     assertEquals(0, lt.check("Languagetool.org is a website.").size());
@@ -37,11 +38,15 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(0, lt.check("This is a sentence. microRNA is the start of another sentence.").size());
     assertEquals(0, lt.check("This is a sentence. mRNA is the start of another sentence.").size());
     assertEquals(0, lt.check("This is a sentence. iDeal is the start of another sentence.").size());
-    assertEquals(1, lt.check("languagetool.org is a website.").size());
+    assertEquals(0, lt.check("languagetool.org is a website.").size()); // questionable
     assertEquals(1, lt.check("a sentence.").size());
     assertEquals(1, lt.check("a sentence!").size());
+    assertEquals(0, lt.check("— Dash introducing enumeration item!").size());
+    assertEquals(0, lt.check("— dash introducing enumeration item!").size());
     lt.disableRule("EN_CASE_AFTER_SALUTATION");
     assertEquals(0, lt.check("Hi Mr. Miller,\n\n\u00A0\n\nhow are you?").size());  // special case for paste from e.g. Outlook
+    assertEquals(0, lt.check("ℹ\uFE0F Tree Structure.").size());
+    assertEquals(0, lt.check("ℹ Tree Structure.").size());
   }
 
 }

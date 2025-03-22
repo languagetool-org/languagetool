@@ -1,17 +1,17 @@
 /*
- * LanguageTool, a natural language style checker 
+ * LanguageTool, a natural language style checker
  * Copyright (c) 2022.  Stefan Viol (https://stevio.de)
- *  
+ *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
  *  License as published by the Free Software Foundation; either
  *  version 2.1 of the License, or (at your option) any later version.
- *  
+ *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *  Lesser General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
@@ -21,6 +21,7 @@
 package org.languagetool.language.identifier;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
@@ -31,11 +32,14 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.languagetool.JLanguageTool.getDataBroker;
 
 @Slf4j
 public class SimpleLanguageIdentifier extends LanguageIdentifier {
+
+  private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
   private final Map<String, SpellingCheckRule> spellingCheckRules = new HashMap<>();
 
@@ -86,7 +90,7 @@ public class SimpleLanguageIdentifier extends LanguageIdentifier {
     List<String> additionalLangs = parsedLanguageLists.getAdditionalLangs();
     List<String> preferredLangs = parsedLanguageLists.getPreferredLangs();
 
-    String[] words = cleanText.split("\\s+");
+    String[] words = WHITESPACE.split(cleanText);
     List<String> dominantLangCodes = UNICODE_BASED_LANG_IDENTIFIER.getDominantLangCodes(cleanText);
     Map<String, Double> scores = new HashMap<>();
     String detectionSource = "spellchecker";
@@ -159,6 +163,18 @@ public class SimpleLanguageIdentifier extends LanguageIdentifier {
     } else {
       return null;
     }
+  }
+
+  @Nullable
+  @Override
+  public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs) {
+    return this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp);
+  }
+
+  @NotNull
+  @Override
+  public List<DetectedLanguage> getDetectedLanguageScores(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs, int count) {
+    return Collections.singletonList(this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp, limitOnPreferredLangs));
   }
 
   @Nullable

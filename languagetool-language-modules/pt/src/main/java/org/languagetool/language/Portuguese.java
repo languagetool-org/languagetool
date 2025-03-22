@@ -24,28 +24,44 @@ import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.*;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 /**
  * Post-spelling-reform Portuguese.
  */
-public class Portuguese extends Language implements AutoCloseable {
+public class Portuguese extends LanguageWithModel {
+  private static final String LANGUAGE_SHORT_CODE = "pt";
 
-  private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
+  private static volatile Throwable instantiationTrace;
 
-  private LanguageModel languageModel;
+  public Portuguese() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected Portuguese(boolean fakeValue) {
+  }
+
 
   @Override
   public String getName() {
@@ -64,7 +80,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return PORTUGAL_PORTUGUESE;
+    return Languages.getLanguageForShortCode("pt-PT");
   }
 
   @Override
@@ -85,7 +101,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   @Override
   public Disambiguator createDefaultDisambiguator() {
-    return new PortugueseHybridDisambiguator();
+    return new PortugueseHybridDisambiguator(getDefaultLanguageVariant());
   }
 
   @Override
@@ -104,6 +120,12 @@ public class Portuguese extends Language implements AutoCloseable {
     return new SRXSentenceTokenizer(this);
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikPortugueseSpellerRule(messages, this, null, null);
+  }
+
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
@@ -113,7 +135,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
-            new HunspellRule(messages, this, userConfig, altLanguages),
+            new MorfologikPortugueseSpellerRule(messages, this, userConfig, altLanguages),
             new LongSentenceRule(messages, userConfig, 50),
             new LongParagraphRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this,
@@ -128,25 +150,28 @@ public class Portuguese extends Language implements AutoCloseable {
             new PunctuationMarkAtParagraphEnd(messages, this, true),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages, this, userConfig),
-            new PortugueseReplaceRule(messages),
-            new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt.txt"),
+            new PortugueseColourHyphenationRule(messages, this, userConfig),
+            new PortugueseOrthographyReplaceRule(messages, this),
+            new PortugueseReplaceRule(messages, this),
+            new PortugueseBarbarismsRule(messages, "/pt/barbarisms.txt", this),
             //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
-            new PortugueseClicheRule(messages),
+            new PortugueseClicheRule(messages, "/pt/cliches.txt", this),
             new PortugueseFillerWordsRule(messages, this, userConfig),
-            new PortugueseRedundancyRule(messages),
-            new PortugueseWordinessRule(messages),
+            new PortugueseRedundancyRule(messages, "/pt/redundancies.txt", this),
+            new PortugueseWordinessRule(messages, "/pt/wordiness.txt", this),
             //new PortugueseWeaselWordsRule(messages),
-            new PortugueseWikipediaRule(messages),
+            new PortugueseWikipediaRule(messages, "/pt/wikipedia.txt", this),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),
             new PortugueseDiacriticsRule(messages),
-            new PortugueseWrongWordInContextRule(messages),
+            new PortugueseWrongWordInContextRule(messages, this),
             new PortugueseWordCoherencyRule(messages),
             new PortugueseUnitConversionRule(messages),
             new PortugueseReadabilityRule(messages, this, userConfig, true),
             new PortugueseReadabilityRule(messages, this, userConfig, false),
-            new DoublePunctuationRule(messages)
+            new DoublePunctuationRule(messages),
+            new EnglishContractionSpellingRule(messages, this)
     );
   }
 
@@ -157,25 +182,10 @@ public class Portuguese extends Language implements AutoCloseable {
 
   /** @since 3.6 */
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
-  /** @since 3.6 */
-  @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
-            new PortugueseConfusionProbabilityRule(messages, languageModel, this)
+    return Collections.singletonList(
+      new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
-
-  /** @since 3.6 */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   /** @since 5.1 */
@@ -208,68 +218,113 @@ public class Portuguese extends Language implements AutoCloseable {
     return true;
   }
   
+  private final static Map<String, Integer> id2prio = new HashMap<>();
+  static {
+    id2prio.put("FRAGMENT_TWO_ARTICLES", 50);
+    id2prio.put("DEGREE_MINUTES_SECONDS", 30);
+    id2prio.put("INTERJECTIONS_PUNTUATION", 20);
+    id2prio.put("CONFUSION_POR_PÔR_V2", 10);
+    id2prio.put("PARONYM_POLITICA_523", 10);
+    id2prio.put("PARONYM_PRONUNCIA_262", 10);
+    id2prio.put("PARONYM_CRITICA_397", 10);
+    id2prio.put("PARONYM_INICIO_169", 10);
+    id2prio.put("LP_PARONYMS", 10);
+    id2prio.put("PARONYM_MUSICO_499_bis", 10);
+    id2prio.put("NA_NÃO", 10);
+    id2prio.put("VERB_COMMA_CONJUNCTION", 10); // greater than PORTUGUESE_WORD_REPEAT_RULE
+    id2prio.put("HOMOPHONE_AS_CARD", 5);
+    id2prio.put("TODOS_FOLLOWED_BY_NOUN_PLURAL", 3);
+    id2prio.put("TODOS_FOLLOWED_BY_NOUN_SINGULAR", 2);
+    id2prio.put("AUSENCIA_VIRGULA", 1);
+    id2prio.put("EMAIL", 1);
+    id2prio.put("UNPAIRED_BRACKETS", -5);
+    id2prio.put("PROFANITY", -6);
+    id2prio.put("PT_BARBARISMS_REPLACE", -10);
+    id2prio.put("BARBARISMS_PT_PT_V3", -10);
+    id2prio.put("PT_PT_SIMPLE_REPLACE", -11);  // for pt-PT, not lower than speller, not sure why
+    id2prio.put("PT_REDUNDANCY_REPLACE", -12);
+    id2prio.put("PT_WORDINESS_REPLACE", -13);
+    id2prio.put("PT_CLICHE_REPLACE", -17);
+    id2prio.put("INTERNET_ABBREVIATIONS", -24);
+    id2prio.put("CHILDISH_LANGUAGE", -25);
+    id2prio.put("ARCHAISMS", -26);
+    id2prio.put("INFORMALITIES", -27);
+    id2prio.put("BIASED_OPINION_WORDS", -31);
+    id2prio.put("PT_AGREEMENT_REPLACE", -35);
+    id2prio.put("CONTA_TO", -44);
+    id2prio.put("PT_DIACRITICS_REPLACE", -45);  // prefer over spell checker
+    id2prio.put("DIACRITICS", -45);
+    id2prio.put("PT_COMPOUNDS_POST_REFORM", -45);
+    id2prio.put("AUX_VERBO", -45);
+    id2prio.put("ENSINO_A_DISTANCIA", -45);
+    id2prio.put("OQ_O_QUE_ORTHOGRAPHY", -45);
+    id2prio.put("PT_ENGLISH_CONTRACTION_ORTHOGRAPHY", -45);
+    id2prio.put("EMAIL_SEM_HIFEN", -45); // HIGHER THAN SPELLER
+    // MORFOLOGIK SPELLER FITS HERE AT -50 ---------------------  // SPELLER (-50)
+    id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER
+    id2prio.put("PT_BR_SIMPLE_REPLACE", -51);
+    id2prio.put("CRASE_CONFUSION", -54);
+    id2prio.put("NAO_MILITARES", -54);
+    id2prio.put("NA_QUELE", -54);
+    id2prio.put("NOTAS_FICAIS", -54);
+    id2prio.put("GENERAL_VERB_AGREEMENT_ERRORS", -55);
+    id2prio.put("GENERAL_NUMBER_AGREEMENT_ERRORS", -56);
+    id2prio.put("GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS", -56);
+    id2prio.put("FINAL_STOPS", -75);
+    id2prio.put("EU_NÓS_REMOVAL", -90);
+    id2prio.put("COLOCAÇÃO_ADVÉRBIO", -90);
+    id2prio.put("FAZER_USO_DE-USAR-RECORRER", -90);
+    id2prio.put("FORMAL_T-V_DISTINCTION", -100);
+    id2prio.put("FORMAL_T-V_DISTINCTION_ALL", -101);
+    id2prio.put("REPEATED_WORDS", -210);
+    id2prio.put("PT_WIKIPEDIA_COMMON_ERRORS", -500);
+    id2prio.put("UPPERCASE_SENTENCE_START", -600);
+    id2prio.put("FILLER_WORDS_PT", -990);
+    id2prio.put(LongSentenceRule.RULE_ID, -997);
+    id2prio.put(LongParagraphRule.RULE_ID, -998);
+    id2prio.put("READABILITY_RULE_SIMPLE_PT", -1100);
+    id2prio.put("READABILITY_RULE_DIFFICULT_PT", -1101);
+    id2prio.put("UNKNOWN_WORD", -2000);
+  }
+
+  @Override
+  public Map<String, Integer> getPriorityMap() {
+    return id2prio;
+  }
+  
   @Override
   protected int getPriorityForId(String id) {
-    switch (id) {
-      case "FRAGMENT_TWO_ARTICLES":     return 50;
-      case "DEGREE_MINUTES_SECONDS":    return 30;
-      case "INTERJECTIONS_PUNTUATION":  return 20;
-      case "CONFUSION_POR":             return 10;
-      case "PARONYM_POLITICA_523":             return 10;
-      case "PARONYM_PRONUNCIA_262":             return 10;
-      case "PARONYM_CRITICA_397":             return 10;
-      case "PARONYM_INICIO_169":             return 10;
-      case "LP_PARONYMS":             return 10;
-      case "PARONYM_MUSICO_499_bis":             return 10;
-      case "NA_NÃO":             return 10;
-      case "VERB_COMMA_CONJUNCTION":    return 10; // greater than PORTUGUESE_WORD_REPEAT_RULE
-      case "HOMOPHONE_AS_CARD":         return  5;
-      case "TODOS_FOLLOWED_BY_NOUN_PLURAL":    return  3;
-      case "TODOS_FOLLOWED_BY_NOUN_SINGULAR":  return  2;
-      case "AUSENCIA_VIRGULA":  return  1;
-      case "EMAIL":                     return  1;
-      case "UNPAIRED_BRACKETS":         return -5;
-      case "PROFANITY":                 return -6;
-      case "PT_BARBARISMS_REPLACE":     return -10;
-      case "BARBARISMS_PT_PT_V2":       return -10;
-      case "PT_PT_SIMPLE_REPLACE":      return -11;
-      case "PT_REDUNDANCY_REPLACE":     return -12;
-      case "PT_WORDINESS_REPLACE":      return -13;
-      case "PT_CLICHE_REPLACE":         return -17;
-      case "INTERNET_ABBREVIATIONS":    return -24;
-      case "CHILDISH_LANGUAGE":         return -25;
-      case "ARCHAISMS":                 return -26;
-      case "INFORMALITIES":             return -27;
-      case "PUFFERY":                   return -30;
-      case "BIASED_OPINION_WORDS":      return -31;
-      case "WEAK_WORDS":                return -32;
-      case "PT_AGREEMENT_REPLACE":      return -35;
-      case "PT_DIACRITICS_REPLACE":     return -45;   // prefer over spell checker
-      case "DIACRITICS":     return -45;
-      case "PT_COMPOUNDS_POST_REFORM":     return -45;
-      case "AUX_VERBO":     return -45;
-      case "HUNSPELL_RULE":             return -50;
-      case "CRASE_CONFUSION":           return -54;
-      case "NAO_MILITARES":           return -54;
-      case "GENERAL_VERB_AGREEMENT_ERRORS":           return -55;
-      case "GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS":           return -56;
-      case "FINAL_STOPS":               return -75;
-      case "EU_NÓS_REMOVAL":            return -90;
-      case "FAZER_USO_DE-USAR-RECORRER":            return -90;
-      case "T-V_DISTINCTION":           return -100;
-      case "T-V_DISTINCTION_ALL":       return -101;
-      case "REPEATED_WORDS":            return -210;
-      case "REPEATED_WORDS_3X":         return -211;
-      case "PT_WIKIPEDIA_COMMON_ERRORS":return -500;
-      case "FILLER_WORDS_PT":           return -990;
-      case LongSentenceRule.RULE_ID:    return -997;
-      case LongParagraphRule.RULE_ID:   return -998;
-      case "READABILITY_RULE_SIMPLE_PT":       return -1100;
-      case "READABILITY_RULE_DIFFICULT_PT":    return -1101;
-      case "CACOPHONY":                 return -1500;
-      case "UNKNOWN_WORD":              return -2000;
-      case "NO_VERB":                   return -2100;
+    // generic spelling rule
+    if (id.startsWith("MORFOLOGIK_RULE")) {
+      return -50;
     }
+    // simple replace spelling rule
+    if (id.startsWith("PT_SIMPLE_REPLACE_ORTHOGRAPHY")) {
+      return -49;
+    }
+    // AI spelling rule
+    if (id.startsWith("AI_PT_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL")) {
+      return -48;
+    }
+    if (id.startsWith("PT_MULTITOKEN_SPELLING")) {
+      return -48;
+    }
+    if (id.startsWith("AI_PT_GGEC_REPLACEMENT_OTHER")) {
+      return -4;
+    }
+    // enclitic diacritics always take precedence over pronoun placement
+    if (id.startsWith("ACENTUAÇÃO_VOGAL_ÊNCLISE")) {
+      return -51;
+    }
+    if (id.startsWith("COLOCACAO_PRONOMINAL_COM_ATRATOR")) {
+      return -52;
+    }
+
+    Integer prio = id2prio.get(id);
+    if (prio != null) {
+      return prio;
+    }
+
     if (id.startsWith("AI_PT_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_PT_HYDRA_LEO_MISSING_COMMA")) {
         return -51; // prefer comma style rules.
@@ -277,5 +332,36 @@ public class Portuguese extends Language implements AutoCloseable {
       return -51;
     }
     return super.getPriorityForId(id);
+  }
+
+  @Override
+  public List<String> prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return Collections.singletonList(line);
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (tag.startsWith("N") || tag.equals("_Latin_")) {
+        return Collections.singletonList(form);
+      } else {
+        return Collections.singletonList("");
+      }
+    }
+    return Collections.singletonList(line);
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return PortugueseMultitokenSpeller.INSTANCE;
+  }
+
+  public static @NotNull Portuguese getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Portuguese portuguese) {
+      return portuguese;
+    }
+    throw new RuntimeException("Portuguese language expected, got " + language);
   }
 }

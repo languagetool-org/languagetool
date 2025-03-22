@@ -39,6 +39,8 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import static org.languagetool.tools.StringInterner.intern;
+
 public class BaseSynthesizer implements Synthesizer {
 
   public final String SPELLNUMBER_TAG = "_spell_number_";
@@ -59,6 +61,8 @@ public class BaseSynthesizer implements Synthesizer {
   
   private volatile Dictionary dictionary;
 
+  protected Language language = null;
+
   /**
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
@@ -66,6 +70,7 @@ public class BaseSynthesizer implements Synthesizer {
    */
   public BaseSynthesizer(String sorosFileName, String resourceFileName, String tagFileName, Language lang) {
     this(sorosFileName, resourceFileName, tagFileName, lang.getShortCode());
+    this.language = lang;
   }
 
   /**
@@ -116,6 +121,7 @@ public class BaseSynthesizer implements Synthesizer {
    */
   public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
     this(resourceFileName, tagFileName, lang.getShortCode());
+    this.language = lang;
   }
 
   public BaseSynthesizer(String resourceFileName, String tagFileName, String langShortCode) {
@@ -305,7 +311,7 @@ public class BaseSynthesizer implements Synthesizer {
     if (manualSynthesizer != null) {
       for (String tag : manualSynthesizer.getPossibleTags()) {
         if (!tags.contains(tag)) {
-          tags.add(tag);
+          tags.add(intern(tag));
         }
       }
     }

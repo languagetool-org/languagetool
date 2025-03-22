@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,10 +53,10 @@ public abstract class AbstractFutureDateFilter extends RuleFilter {
   protected abstract Calendar getCalendar();
 
   /**
-   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
+   * @param args           a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     Calendar dateFromDate = getDate(args);
     Calendar currentDate = getCalendar();
     if (TestHackHelper.isJUnitTest()) {

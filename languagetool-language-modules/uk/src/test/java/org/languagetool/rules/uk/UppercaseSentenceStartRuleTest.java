@@ -34,7 +34,7 @@ public class UppercaseSentenceStartRuleTest {
 
   @Test
   public void testUkrainian() throws IOException {
-    Ukrainian ukrainian = new Ukrainian();
+    Ukrainian ukrainian = Ukrainian.DEFAULT_VARIANT;
     UkrainianUppercaseSentenceStartRule rule = new UkrainianUppercaseSentenceStartRule(TestTools.getEnglishMessages(), ukrainian,
         Example.wrong("<marker>речення</marker> має починатися з великої."),
         Example.fixed("<marker>Речення</marker> має починатися з великої"));

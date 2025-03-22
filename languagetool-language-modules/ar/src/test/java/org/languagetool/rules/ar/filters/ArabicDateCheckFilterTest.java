@@ -23,6 +23,7 @@ import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ar.ArabicWordinessRule;
 
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class ArabicDateCheckFilterTest {
     Map<String, String> map = makeMap("2022", "3", "12", "السبت");
     map.remove("weekDay");
     filter.acceptRuleMatch(match, map, -1, null);
+
   }
 
   @Test

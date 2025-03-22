@@ -18,15 +18,24 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 
 import java.lang.reflect.Constructor;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Create a {@link RuleFilter}.
  * @since 2.7 (public since 3.2)
  */
 public class RuleFilterCreator {
+  private static final RuleFilterCreator INSTANCE = new RuleFilterCreator();
+
+  private final Map<Class<?>, RuleFilter> myFilterCache = new ConcurrentHashMap<>();
+
+  private RuleFilterCreator() {
+  }
 
   /**
    * @param className fully qualified class Name of a class implementing {@link RuleFilter}
@@ -34,29 +43,34 @@ public class RuleFilterCreator {
   public RuleFilter getFilter(String className) {
     try {
       Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
-      Constructor<?>[] constructors = aClass.getConstructors();
-      if (constructors.length != 1) {
-        throw new RuntimeException("Constructor of filter class '"
-                + className + "' must have exactly one constructor, but it has " + constructors.length);
-      }
-      Constructor<?> constructor = constructors[0];
-      try {
-        if (constructor.getParameterTypes().length != 0) {
-          throw new RuntimeException("Constructor of filter class '" + className + "' must not have arguments: " + constructor);
+      return myFilterCache.computeIfAbsent(aClass, clazz -> {
+        Constructor<?>[] constructors = clazz.getConstructors();
+        if (constructors.length != 1) {
+          throw new RuntimeException("Constructor of filter class '"
+            + className + "' must have exactly one constructor, but it has " + constructors.length);
         }
-        Object filter = constructor.newInstance();
-        if (filter instanceof RuleFilter) {
-          return (RuleFilter) filter;
-        } else {
-          throw new RuntimeException("Filter class '" + className + "' must implement interface " + RuleFilter.class.getSimpleName());
+        Constructor<?> constructor = constructors[0];
+        try {
+          if (constructor.getParameterTypes().length != 0) {
+            throw new RuntimeException("Constructor of filter class '" + className + "' must not have arguments: " + constructor);
+          }
+          Object filter = constructor.newInstance();
+          if (filter instanceof RuleFilter) {
+            return (RuleFilter) filter;
+          } else {
+            throw new RuntimeException("Filter class '" + className + "' must implement interface " + RuleFilter.class.getSimpleName());
+          }
+        } catch (Exception e) {
+          throw new RuntimeException("Could not create filter class using constructor " + constructor, e);
         }
-      } catch (Exception e) {
-        throw new RuntimeException("Could not create filter class using constructor " + constructor, e);
-      }
+      });
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Could not find filter class: '"
               + className + "' - make sure to use a fully qualified class name like 'org.languagetool.rules.MyFilter'");
     }
   }
- 
+
+  public static @NotNull RuleFilterCreator getInstance() {
+    return INSTANCE;
+  }
 }

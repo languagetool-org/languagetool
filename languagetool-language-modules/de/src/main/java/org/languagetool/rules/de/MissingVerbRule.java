@@ -76,7 +76,7 @@ public class MissingVerbRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     if (!isRealSentence(sentence) || isSpecialCase(sentence)) {
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
     boolean verbFound = false;
     AnalyzedTokenReadings lastToken = null;
@@ -95,7 +95,7 @@ public class MissingVerbRule extends Rule {
       RuleMatch match = new RuleMatch(this, sentence, 0, lastToken.getStartPos() + lastToken.getToken().length(), "Dieser Satz scheint kein Verb zu enthalten");
       return new RuleMatch[]{ match };
     }
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
   // we want to ignore headlines, and these usually don't end with [.?!]

@@ -48,6 +48,10 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
   private static final boolean DEFAULT_ACTIVATION = false;
 
   private final int minPercent;
+  private final int defaultMinPercent;
+  private int sentenceCount = 0;
+  private int numMatches = 0;
+  private boolean withoutDirectSpeech = false;
 
   /**
    * Condition to generate a hint (possibly including all exceptions)
@@ -67,7 +71,6 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
    */
   protected abstract String getLimitMessage(int limit, double percent);
   
-  @Override
   public abstract String getConfigureText();
 
   public AbstractStatisticSentenceStyleRule(ResourceBundle messages, Language lang, UserConfig userConfig, int minPercent, boolean defaultActive) {
@@ -77,15 +80,16 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
     if (!defaultActive) {
       setDefaultOff();
     }
+    defaultMinPercent = minPercent;
     this.minPercent = getMinPercent(userConfig, minPercent);
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
   private int getMinPercent(UserConfig userConfig, int minPercentDefault) {
     if (userConfig != null) {
-      int confPercent = userConfig.getConfigValueByID(getId());
-      if (confPercent >= 0) {
-        return confPercent;
+      Object[] cf = userConfig.getConfigValueByID(getId());
+      if (cf != null) {
+        return (int) cf[0];
       }
     }
     return minPercentDefault;
@@ -110,24 +114,25 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
     return 100.0;
   }
   
+  /**
+   *  give the user the possibility to configure the function
+   */
   @Override
-  public boolean hasConfigurableValue() {
-    return true;
+  public RuleOption[] getRuleOptions() {
+    RuleOption[] ruleOptions = { new RuleOption(defaultMinPercent, getConfigureText(), 0, 100) };
+    return ruleOptions;
   }
 
-  @Override
-  public int getDefaultValue() {
-    return minPercent;
+  public int getSentenceCount() {
+    return sentenceCount;
   }
 
-  @Override
-  public int getMinConfigurableValue() {
-    return 0;
+  public int getNumberOfMatches() {
+    return numMatches;
   }
 
-  @Override
-  public int getMaxConfigurableValue() {
-    return 100;
+  public void setWithoutDirectSpeech(boolean withoutDirectSpeech) {
+    this.withoutDirectSpeech = withoutDirectSpeech;
   }
 
   /* (non-Javadoc)
@@ -141,7 +146,7 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
     List<AnalyzedSentence> relevantSentences = new ArrayList<>();
     double percent;
     int pos = 0;
-    int sentenceCount = 0;
+    sentenceCount = 0;
     boolean excludeDirectSpeech = excludeDirectSpeech();
     boolean isDirectSpeech = false;
     for (AnalyzedSentence sentence : sentences) {
@@ -164,7 +169,7 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
         } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
           relevantSentencePart = new ArrayList<AnalyzedTokenReadings>();
-        } else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace()) {
+        } else if ((!isDirectSpeech || (minPercent == 0 && !withoutDirectSpeech)) && !token.isWhitespace()) {
           relevantSentencePart.add(token);
         }
         if (n == tokens.length - 1 && !relevantSentencePart.isEmpty()) {
@@ -182,8 +187,9 @@ public abstract class AbstractStatisticSentenceStyleRule extends TextLevelRule {
       }
       pos += sentence.getCorrectedTextLength();
     }
+    numMatches = startPos.size();
     if (sentenceCount > 0) {
-      percent = (startPos.size() * denominator()) / sentenceCount;
+      percent = (numMatches * denominator()) / sentenceCount;
     } else {
       percent = 0;
     }

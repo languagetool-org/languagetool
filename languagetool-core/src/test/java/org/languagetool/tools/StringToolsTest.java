@@ -54,6 +54,16 @@ public class StringToolsTest {
   }
 
   @Test
+  public void testToId() {
+    assertEquals("SS", "ß".toUpperCase());
+    FakeLanguage german = new FakeLanguage("de");
+    FakeLanguage portuguese = new FakeLanguage("pt");
+    assertEquals("BL_Q_A__UEBEL_OEAESSOE", StringTools.toId(" Bl'a (übel öäßÖ ", german));
+    assertEquals("ÜSS_ÇÃÔ_OÙ_Ñ", StringTools.toId("üß çãÔ-où Ñ", portuguese));
+    assertEquals("FOOÓÉÉ", StringTools.toId("fooóéÉ", german));
+  }
+
+  @Test
   public void testReadStream() throws IOException {
     String content = StringTools.readStream(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
     assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
@@ -249,6 +259,38 @@ public class StringToolsTest {
     assertTrue(StringTools.isCamelCase("microRNA"));
     assertTrue(StringTools.isCamelCase("microSomething"));
     assertTrue(StringTools.isCamelCase("iSomeTHING"));
+  }
+
+  @Test
+  public void testStringForSpeller() {
+    String arabicChars = "\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0670";
+    assertTrue(StringTools.stringForSpeller(arabicChars).equals(arabicChars));
+
+    String russianChars = "а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я";
+    assertTrue(StringTools.stringForSpeller(russianChars).equals(russianChars));
+
+    String emojiStr = "🧡 Prueva";
+    assertTrue(StringTools.stringForSpeller(emojiStr).equals("   Prueva"));
+
+    emojiStr = "\uD83E\uDDE1\uD83D\uDEB4\uD83C\uDFFD♂\uFE0F Prueva";
+    assertTrue(StringTools.stringForSpeller(emojiStr).equals("         Prueva"));
+  }
+
+  @Test
+  public void testTitlecaseGlobal() {
+    assertEquals("The Lord of the Rings", StringTools.titlecaseGlobal("the lord of the rings"));
+    assertEquals("Rhythm and Blues", StringTools.titlecaseGlobal("rhythm And blues"));
+    assertEquals("Memória de Leitura", StringTools.titlecaseGlobal("memória de leitura"));
+    assertEquals("Fond du Lac", StringTools.titlecaseGlobal("fond du lac"));
+    assertEquals("El Niño de las Islas", StringTools.titlecaseGlobal("el niño de Las islas"));
+  }
+
+  @Test
+  public void testAllStartWithLowercase() {
+    assertTrue(StringTools.allStartWithLowercase("the lord of the rings"));
+    assertFalse(StringTools.allStartWithLowercase("the Fellowship of the Ring"));
+    assertTrue(StringTools.allStartWithLowercase("bilbo"));
+    assertFalse(StringTools.allStartWithLowercase("Baggins"));
   }
 
 }

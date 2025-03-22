@@ -33,7 +33,7 @@ import org.languagetool.tagging.uk.UkrainianTagger;
 
 
 public class MissingHyphenRuleTest {
-  private final JLanguageTool lt = new JLanguageTool(new Ukrainian());
+  private final JLanguageTool lt = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
 
   @Test
   public void testRule() throws IOException {
@@ -63,6 +63,13 @@ public class MissingHyphenRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Арт проект вийшов провальним."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Артпроект"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(lt.getAnalyzedSentence("Шоу бізнес - не моє."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("Шоубізнес"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(lt.getAnalyzedSentence("на шоу поп–діви"));
+    assertEquals(0, matches.length);
 
     // TODO: hard - two errors, should be "ексвіцепрезидент"
     matches = rule.match(lt.getAnalyzedSentence("екс віце-президент"));

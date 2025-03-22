@@ -44,6 +44,14 @@ public class AvsAnRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("It must be an xml name.");
+    assertCorrect("analyze an hprof file");
+    assertCorrect("This is an sbt project.");
+    assertCorrect("Import an Xcode project.");
+    assertCorrect("This is a oncer.");
+    assertCorrect("She was a Oaxacan chef.");
+    assertCorrect("The doctor requested a urinalysis.");
+    assertCorrect("She brought a Ouija board.");
     assertCorrect("This is a test sentence.");
     assertCorrect("It was an hour ago.");
     assertCorrect("A university is ...");
@@ -64,6 +72,8 @@ public class AvsAnRuleTest {
     assertCorrect("See http://www.an.com");
     assertCorrect("Station A equals station B.");
     assertCorrect("e.g., the case endings -a -i -u and mood endings -u -a");
+    assertCorrect("A'ight, y'all.");
+    assertCorrect("He also wrote the comic strips Abbie an' Slats.");
 
     // errors:
     assertIncorrect("It was a hour ago.");
@@ -166,6 +176,14 @@ public class AvsAnRuleTest {
 
     // quotes..
     matches = rule.match(lt.getAnalyzedSentence("a \"industry standard\"."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("a “industry standard”."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+
+    matches = rule.match(lt.getAnalyzedSentence("a ‘industry standard’."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
 

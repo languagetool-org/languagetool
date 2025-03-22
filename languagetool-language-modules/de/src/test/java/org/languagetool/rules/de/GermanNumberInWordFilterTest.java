@@ -47,7 +47,7 @@ public class GermanNumberInWordFilterTest {
     RuleMatch match = new RuleMatch(new FakeRule(), sentence, fromPos, toPos, "fake msg");
     HashMap<String, String> args = new HashMap<>();
     args.put("word", arg);
-    RuleMatch matchTmp = filter.acceptRuleMatch(match, args, patternTokenPos, sentence.getTokensWithoutWhitespace());
+    RuleMatch matchTmp = filter.acceptRuleMatch(match, args, patternTokenPos, sentence.getTokensWithoutWhitespace(), null);
     assertNotNull(matchTmp);
     assertTrue(matchTmp.getSuggestedReplacements().contains(newRepl));
   }

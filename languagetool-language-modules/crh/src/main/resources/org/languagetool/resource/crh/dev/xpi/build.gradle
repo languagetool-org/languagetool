@@ -1,0 +1,41 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+version="0.4"
+def hunspellDir="${projectDir}/../oxt/hunspell"
+
+println "Version: $version"
+
+task prepareFiles {
+
+  doLast() {
+    new File("build/xpi/dictionaries").mkdirs()
+
+    copy {
+        from("$hunspellDir/crh_UA.aff") {
+            rename "crh_UA", "crh-UA"
+        }
+        from("$hunspellDir/crh_UA.dic") {
+            rename "crh_UA", "crh-UA"
+        }
+//        from "meta-xpi/README_crh_UA.txt"
+        into "build/xpi/dictionaries"
+    }
+
+    copy {
+        from("meta-xpi/manifest.json") {
+            filter(ReplaceTokens, tokens: [VERSION: project.version])
+        }
+        from("meta-xpi/") {
+            include "*.png"
+        }
+        into "build/xpi"
+    }
+  }
+}
+
+task xpi (type: Zip, dependsOn: prepareFiles) {
+    from 'build/xpi'
+    archiveBaseName = "crimean_tatar_dictionary-$project.version-mozilla"
+    archiveExtension = "xpi"
+    destinationDirectory = file("build")
+}

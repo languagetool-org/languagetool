@@ -1,0 +1,893 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Spanish Style Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2001-2023 Daniel Naber (http://www.danielnaber.de),
+  Marcin Miłkowski, and the LanguageTool contributors
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+
+<!--
+⚠️ ¡Atención - Contribuidores Open-Source! ⚠️
+        A partir de junio de 2023, las reglas de estilo llevarán TONE TAGS.
+        Estas etiquetas nos proporcionarán un control más preciso sobre los contextos en los que se activan nuestras reglas de estilo.
+        Esta función se encuentra todavía en fase de desarrollo. Por ello, nos gustaría pediros que añadáis a @jaumeortola o @tatigf20 como revisor(es) a las pull requests siempre que creéis reglas que hagan uso de tone tags.
+        Los tone tags actualmente disponibles son los siguientes: clarity, formal, professional, confident, academic, povrem, scientific, objective, persuasive, povadd y positive.
+        Para más información, así como para revisar las definiciones de dichos tone tags, consultad nuestra documentación (en inglés): https://dev.languagetool.org/style_tone_tags.
+-->
+
+<!DOCTYPE rules [
+    <!ENTITY msg_repeated_pattern "Esta expresión ya ha aparecido antes. Puede sustituirla por otra para hacer más variado el texto.">
+    <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
+    <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
+]>
+<rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <category name="Repeticiones (estilo)" id="REPETITIONS_STYLE" type="style" tags="picky">
+        <!--missing_toneTag-->
+        <rule id="REP_REVISAR" name="repetición: revisar" min_prev_matches="2">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">revisar</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">comprobar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">verificar</match></suggestion>
+            <example correction="comprobar|verificar">En primer lugar, se deben <marker>revisar</marker> los documentos manualmente.</example>
+        </rule>
+        <rule id="REP_COMPROBAR" name="repetición: comprobar" min_prev_matches="2">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">comprobar</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">revisar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">verificar</match></suggestion>
+            <example correction="revisar|verificar">En primer lugar, se deben <marker>comprobar</marker> los documentos manualmente.</example>
+        </rule>
+        <rule id="REP_VERIFICAR" name="repetición: verificar" min_prev_matches="2">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">verificar</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">revisar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">comprobar</match></suggestion>
+            <example correction="revisar|comprobar">En primer lugar, se deben <marker>verificar</marker> los documentos manualmente.</example>
+        </rule>
+        <rule id="REP_USO" name="repetición: uso" min_prev_matches="2">
+            <antipattern>
+                <token regexp="yes">en|sin</token>
+                <token>uso</token>
+                <example>Se encuentra actualmente en uso.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">condiciones|reglamentos?|consejos?|facilidad|tiempos?|patrón|patrones</token>
+                <token>de</token>
+                <token>uso</token>
+                <example>Te hablan de los tiempos de uso recomendados.</example>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token regexp="yes">primer|segundo|solo</token>
+                <token>uso</token>
+                <example>Esa cámara es de un solo uso.</example>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token postag="AQ.*" postag_regexp="yes"/>
+                <token>uso</token>
+                <example>Guía de buen uso para tus dispositivos móviles.</example>
+            </antipattern>
+            <antipattern>
+                <token>un</token>
+                <token>uso</token>
+                <token>por</token>
+                <example>Limitado a un uso por persona.</example>
+            </antipattern>
+            <antipattern>
+                <token>uso</token>
+                <token regexp="yes">actual|descrito|compartido|inmobiliario|exclusivo|común|descriptivo|coloquial|médico</token>
+                <example>Se trata de un contrato de uso exclusivo.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">hacer</token>
+                <token>uso</token>
+                <example>El usuario no podrá hacer uso del sitio.</example>
+            </antipattern>
+            <antipattern>
+                <token>uso</token>
+                <token postag="D.*|N.*" postag_regexp="yes"/>
+                <example>Uso el perfume que me regaló mi madre el año pasado.</example>
+                <example>Solo uso lentes para verme bien.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>uso</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>utilización</suggestion>
+            <suggestion>empleo</suggestion>
+            <example correction="utilización|empleo">Están tratando de fomentar el <marker>uso</marker> del transporte público.</example>
+        </rule>
+        <rule id="REP_CREER" name="repetición: creer" min_prev_matches="2">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Cre[ea]|CREA<exception scope="previous" postag="SENT_START"/></token>
+                <example>Corpus de Referencia del Español Actual (CREA).</example>
+            </antipattern>
+            <antipattern>
+                <token postag="AQ.*" postag_regexp="yes"/>
+                <token>de</token>
+                <token>creer</token>
+                <example>Es difícil de creer.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">creer</token>
+                <token>en</token>
+                <example>Siempre creyó en mí.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*:PP.*" postag_regexp="yes" inflected="yes">creer</token>
+                <example>Créeme cuando te digo que quiero que seas feliz.</example>
+                <example>Quiero creerte, pero me cuesta mucho.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[mts]e|n?os</token>
+                <token skip="2" min="0">lo</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">creer<exception scope="next">que</exception></token>
+                <example>Se lo cree demasiado.</example>
+                <example>Se cree con el derecho de opinar.</example>
+                <example>No me lo puedo creer.</example>
+                <example>No se lo va a creer.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">ver</token>
+                <token>creer</token>
+                <example>Ver para creer.</example>
+            </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token regexp="yes">[mts]e|n?os</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">creer</token>
+                <example>No me creyó cuando se lo dije.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">no</token>
+                <token inflected="yes">poder</token>
+                <token postag="VMN.*" postag_regexp="yes" inflected="yes">creer</token>
+                <example>No me puedo creer que seas así.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">creer</token>
+                <token min="0" postag="D.*|AQ.*" postag_regexp="yes"/>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <example>Crean artículos de lujo.</example>
+            </antipattern>
+            <antipattern>
+                <token>lo</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">creer</token>
+                <token>cuando</token>
+                <example>Lo creeré cuando lo vea.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">creer</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">pensar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">opinar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">suponer</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">reflexionar</match></suggestion>
+            <example correction="Pienso|Opino|Supongo|Reflexiono"><marker>Creo</marker> que tienes razón.</example>
+        </rule>
+        <rulegroup id="REP_PENSAR" name="repetición: pensar" min_prev_matches="2">
+            <rule>
+                <antipattern>
+                    <token postag="VAIP3[SP]0" postag_regexp="yes" inflected="yes">estar</token>
+                    <token regexp="yes">pensad[oa]s?</token>
+                    <example>Está pensada para estudiantes.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">pensad[oa]s?</token>
+                    </marker>
+                    <token>para</token>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion><match no="1" regexp_match="(?iu)pensad" regexp_replace="desarrollad" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)pensad" regexp_replace="idead" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)pensad" regexp_replace="concebid" case_conversion="preserve"/></suggestion>
+                <example correction="Desarrollado|Ideado|Concebido"><marker>Pensado</marker> para todo el mundo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VAIP3[SP]0" postag_regexp="yes" inflected="yes">estar</token>
+                    <token regexp="yes">pensad[oa]s?</token>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(VAIP3[SP]0)" postag_replace="$1" case_conversion="preserve">haber</match> sido <match no="2" regexp_match="(?iu)pensad" regexp_replace="desarrollad" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(VAIP3[SP]0)" postag_replace="$1" case_conversion="preserve">haber</match> sido <match no="2" regexp_match="(?iu)pensad" regexp_replace="idead" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(VAIP3[SP]0)" postag_replace="$1" case_conversion="preserve">haber</match> sido <match no="2" regexp_match="(?iu)pensad" regexp_replace="concebid" case_conversion="alllower"/></suggestion>
+                <example correction="Ha sido desarrollado|Ha sido ideado|Ha sido concebido"><marker>Está pensado</marker> para todo el mundo.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <example>No pienso perdonarle.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="2" postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <token>en</token>
+                    <example>Piensa constantemente en ella.</example>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token skip="1">qué</token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <example>¿En qué piensas?</example>
+                    <example>¿Qué estás pensando?</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">maneras?|formas?|modos?</token>
+                    <token>de</token>
+                    <token>pensar</token>
+                    <example>Tenemos distintas formas de pensar.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">estar</token>
+                    <token postag="VMG.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <example>Estoy pensándomelo.</example>
+                </antipattern>
+                <antipattern>
+                    <token>sin</token>
+                    <token postag="VMN.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <example>Hazlo sin pensar.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <token>de</token>
+                    <token regexp="yes">manera|forma|modo</token>
+                    <example>Piensa de forma retorcida.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="1" postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <token>las</token>
+                    <token>cosas</token>
+                    <example>No pienses tanto las cosas y hazlas.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">estar</token>
+                    <token regexp="yes">pensad[oa]s?</token>
+                    <example>Está pensado para todo el mundo.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">pensad[oa]s?<exception scope="previous" inflected="yes">haber</exception></token>
+                    <example>Pensado para la nieve.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <token postag="RG|_PUNCT.*|CC" postag_regexp="yes"/>
+                    <example>Pensáis demasiado.</example>
+                    <example>Pienso, luego existo.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*:PP.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    <example>No puedo parar de pensarlo.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">pensar</token>
+                    </marker>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">creer</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">opinar</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">suponer</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">reflexionar</match></suggestion>
+                <example correction="Creo|Opino|Supongo|Reflexiono"><marker>Pienso</marker> que tienes razón.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="REP_LUGAR" name="repetición: lugar" min_prev_matches="2">
+            <rule>
+                <pattern>
+                    <token>el</token>
+                    <token postag="AO0MS0"/>
+                    <token>lugar</token>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(DA.)M(.*)" postag_replace="$1F$2"/> <match no="2" postag_regexp="yes" postag="(AO.)M(.*)" postag_replace="$1F$2"/> <match no="3" postag_regexp="yes" postag="(NC)M(.*)" postag_replace="$1F$2">posición</match></suggestion>
+                <example correction="la primera posición">La hermosa ciudad ocupa <marker>el primer lugar</marker> en la lista.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">poner</token>
+                    <token>en</token>
+                    <marker>
+                        <token>el</token>
+                        <token>lugar</token>
+                    </marker>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(DA.)M(.*)" postag_replace="$1F$2"/> <match no="4" postag_regexp="yes" postag="(NC)M(.*)" postag_replace="$1F$2">posición</match></suggestion>
+                <example correction="la posición">Es importante ponerse en <marker>el lugar</marker> del otro.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <marker>
+                        <token>lugar</token>
+                    </marker>
+                    <token>de</token>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion>vez</suggestion>
+                <example correction="vez">En <marker>lugar</marker> de venir a casa después del trabajo, decidió ir a dar un paseo.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">dar|tener</token>
+                    <token inflected="yes">lugar</token>
+                    <example>Lamentablemente, debido a las inclemencias del tiempo, no tendrá lugar la excursión este fin de semana.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">e[nl]</token>
+                    <token postag="AO0MS0"/>
+                    <token>lugar</token>
+                    <example>En primer lugar, me gustaría dar las gracias a mis padres.</example>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token>lugar</token>
+                    <token regexp="yes">del?</token>
+                    <example>En lugar de venir a casa después del trabajo, decidió ir a dar un paseo.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">lugar</token>
+                    <token>de</token>
+                    <token>trabajo</token>
+                    <example>Me llamó desde su lugar de trabajo.</example>
+                </antipattern>
+                <antipattern>
+                    <token>fuera</token>
+                    <token>de</token>
+                    <token>lugar</token>
+                    <example>Se sentía fuera de lugar.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">lugar</token>
+                    </marker>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(N.*)" postag_replace="$1">sitio</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(N.*)" postag_replace="$1">espacio</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(N.*)" postag_replace="$1">punto</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(NC)M(.*)" postag_replace="$1F$2">ubicación</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(NC)M(.*)" postag_replace="$1C$2">parte</match></suggestion>
+                <example correction="sitio|espacio|punto|ubicación|parte">Propongo que hoy vayamos a otro <marker>lugar</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="REP_CREAR" name="repetición: crear" min_prev_matches="2">
+            <antipattern>
+                <token regexp="yes">cre[oe]|cre[ae][sn]?|creamos|creéis</token>
+                <token regexp="yes">en|que|(ferviente|rotunda|ciega|firme|ingenua|honesta|absoluta|sincera|vehemente|seria)mente</token>
+                <example>Creen ciegamente en ti.</example>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Cre[ea]|CREA<exception scope="previous" postag="SENT_START"/></token>
+                <example>Corpus de Referencia del Español Actual (CREA).</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <token regexp="yes">al?</token>
+                <token min="0" regexp="yes">l[oa]s?</token>
+                <token regexp="yes">hombres?|mujer(es)?</token>
+                <example>Y Dios creó al hombre a su imagen.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="2" postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <token regexp="yes">cielo|tierra</token>
+                <example>Y Dios creó el cielo y la tierra.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <token>conciencia</token>
+                <example>Ayuda a crear conciencia sobre el medio ambiente.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="3" postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <token regexp="yes">vínculos?|experiencias?|espacio|ambiente|atmósfera|armonía|cursos?|blogs?|spots?|anuncios?|programas?|proyectos?|cuentas?|páginas?|hogar|platos?|platillos?</token>
+                <example>Eso ayudó a crear un buen ambiente.</example>
+            </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token min="0" regexp="yes">[mts]e|n?os</token>
+                <token>creas</token>
+                <example>No te creas todo lo que te cuenta.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[mts]e|n?os</token>
+                <token>lo</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                <example>Me lo creo.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">crear</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">generar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">producir</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">inventar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">originar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">ocasionar</match></suggestion>
+            <example correction="generar|producir|inventar|originar|ocasionar">Estas son algunas ideas para <marker>crear</marker> tu primera campaña.</example>
+        </rule>
+        <rulegroup id="REP_IMPORTANTE" name="repetición: importante" min_prev_matches="1">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">más|muy</token>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
+                    <example>Es un paso muy importante.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">aviso</token>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
+                    <example>¡Aviso importante!</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">hacer</token>
+                    <token regexp="yes">el|las?|los</token>
+                    <token regexp="yes">importantes?</token>
+                    <example>No para de hacerse el importante.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
+                    </marker>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">relevante</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">fundamental</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">crucial</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.)C(.*)" postag_replace="$1M$2">significativo</match></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">considerable</match></suggestion>
+                <example correction="relevantes|fundamentales|cruciales|significativos|considerables">Son pasos pequeños, pero <marker>importantes</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">más|muy</token>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">importante</token>
+                </pattern>
+                <message>&msg_repeated_pattern;</message>
+                <suggestion>\1 <match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">relevante</match></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">fundamental</match></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">crucial</match></suggestion>
+                <suggestion>\1 <match no="2" postag_regexp="yes" postag="(AQ.)C(.*)" postag_replace="$1M$2">significativo</match></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="(AQ.*)" postag_replace="$1">considerable</match></suggestion>
+                <example correction="muy relevantes|fundamentales|cruciales|muy significativos|considerables">Son pasos pequeños, pero <marker>muy importantes</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="REP_POR_LO_TANTO" name="repetición: por lo tanto" min_prev_matches="2">
+            <antipattern>
+                <token>por</token>
+                <token>tanto</token>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <example>Quedó aislada por tanto tiempo sin una reconstrucción.</example>
+            </antipattern>
+            <antipattern>
+                <token>gracias</token>
+                <token>por</token>
+                <token>tanto</token>
+                <example>Gracias por tanto.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="_QM_OPEN"/>
+                <token>por</token>
+                <token>tanto</token>
+                <token postag="_QM_CLOSE"/>
+                <example>¿Sabes lo que significa "por tanto"?</example>
+            </antipattern>
+            <pattern>
+                <token>por</token>
+                <token min="0">lo</token>
+                <token>tanto</token>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>en consecuencia</suggestion>
+            <suggestion>pues</suggestion>
+            <suggestion>como resultado</suggestion>
+            <example correction="En consecuencia|Pues|Como resultado"><marker>Por lo tanto</marker>, ganó el partido.</example>
+        </rule>
+        <rule id="REP_YA_QUE" name="repetición: ya que" min_prev_matches="1">
+            <pattern>
+                <token>ya</token>
+                <token>que</token>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>porque</suggestion>
+            <suggestion>puesto que</suggestion>
+            <suggestion>por el hecho de que</suggestion>
+            <suggestion>pues</suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/uso-correcto-de-porque-o-por-que/</url>
+            <example correction="porque|puesto que|por el hecho de que|pues">La solución era buena, <marker>ya que</marker> gustaba a todos.</example>
+        </rule>
+        <rule id="REP_DESPUES" name="repetición: después" min_prev_matches="1" distance_tokens="20">
+            <antipattern>
+                <token>después</token>
+                <token regexp="yes">de|del|que</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;|tiempo|instante|momento|rato</token>
+                <token>después</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">un|el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>antes</token>
+                <token min="0" postag="_QM_CLOSE"/>
+                <token>y</token>
+                <token regexp="yes">un|el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>después</token>
+                <example>Hubo un "antes" y un "después".</example>
+                <example>Hubo un antes y un después.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">d?el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>después</token>
+                <example>El después no existe.</example>
+                <example>La espera del "después".</example>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Después</token>
+                <token>:</token>
+                <example>Después: 50.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">antes</token>
+                <token>después</token>
+                <example>Es una opción ideal si se pretende dormir antes/después de tomar un ferry.</example>
+                <example>Él, antes y después de trabajar, se toma un café.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">antes</token>
+                <token skip="1">durante</token>
+                <token>después</token>
+                <example>Qué hacer antes, durante y después de tu viaje.</example>
+            </antipattern>
+            <antipattern>
+                <token>después</token>
+                <token postag="RG" regexp="yes">.*mente</token>
+                <example>Hay que enfriarlo después rápidamente.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="RG" regexp="yes">.*mente</token>
+                <token>después</token>
+                <example>Hay que enfriarlo inmediatamente después.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>después</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>posteriormente</suggestion>
+            <suggestion>más tarde</suggestion>
+            <example correction="Posteriormente|Más tarde"><marker>Después</marker> lo arreglaremos.</example>
+            <example>Pocos días después, todo estaba resuelto.</example>
+            <example>Después del descanso, siguió la reunión.</example>
+        </rule>
+        <rule id="REP_ANTES" name="repetición: antes" min_prev_matches="2">
+            <antipattern>
+                <token regexp="yes">cuanto|nunca</token>
+                <token>antes</token>
+                <example>Admitió que nunca antes le había pasado algo así.</example>
+            </antipattern>
+            <antipattern>
+                <token>lo</token>
+                <token>antes</token>
+            </antipattern>
+            <antipattern>
+                <token>antes</token>
+                <token regexp="yes">de|del|que</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&unidades_tiempo;|tiempo|instante|momento|rato</token>
+                <token>antes</token>
+            </antipattern>
+            <antipattern>
+                <token>antes</token>
+                <token min="0" regexp="yes">[mts]e|n?os</token>
+                <token postag="NC.*|AQ.*|V.*" postag_regexp="yes"/>
+                <token>que</token>
+                <example>Antes muerta que sencilla.</example>
+                <example>Antes me cuelgo que hacerme verdugo.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">d?el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>antes</token>
+                <example>No debes pensar en el antes.</example>
+                <example>No debes pensar en el "antes".</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">un|el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>antes</token>
+                <token min="0" postag="_QM_CLOSE"/>
+                <token>y</token>
+                <token regexp="yes">un|el</token>
+                <token min="0" postag="_QM_OPEN"/>
+                <token>después</token>
+                <example>Hubo un "antes" y un "después".</example>
+                <example>Hubo un antes y un después.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="V.P.*" postag_regexp="yes"/>
+                <token>de</token>
+                <token>antes</token>
+                <example>Incorporamos todo a la patata que teníamos reservada de antes.</example>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Antes</token>
+                <token>:</token>
+                <example>Antes: 50.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">antes</token>
+                <token>después</token>
+                <example>Es una opción ideal si se pretende dormir antes/después de tomar un ferry.</example>
+                <example>Él, antes y después de trabajar, se toma un café.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">antes</token>
+                <token skip="1">durante</token>
+                <token>después</token>
+                <example>Qué hacer antes, durante y después de tu viaje.</example>
+            </antipattern>
+            <antipattern>
+                <token>haber</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
+                <token min="0" postag="V.N.*" postag_regexp="yes"/>
+                <token>antes</token>
+                <example>Me gustaría haber podido venir antes.</example>
+                <example>Debería haber llegado antes.</example>
+            </antipattern>
+            <antipattern>
+                <token>antes</token>
+                <token postag="RG" regexp="yes">.*mente</token>
+                <example>Se habían ayudado antes mutuamente.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="RG" regexp="yes">.*mente</token>
+                <token>antes</token>
+                <example>Se habían ayudado mutuamente antes.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+                <token>no</token>
+                <token>antes</token>
+                <example>Ven aquí a las 6, no antes.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>antes</token>
+                </marker>
+            </pattern>
+            <message>&msg_repeated_pattern;</message>
+            <suggestion>previamente</suggestion>
+            <suggestion>anteriormente</suggestion>
+            <suggestion>antiguamente</suggestion>
+            <suggestion>con antelación</suggestion>
+            <suggestion>con anterioridad</suggestion>
+            <example correction="Previamente|Anteriormente|Antiguamente|Con antelación|Con anterioridad"><marker>Antes</marker> lo arreglaremos.</example>
+            <example>Pocos días antes, todo estaba tranquilo.</example>
+            <example>Antes de descansar, hay que trabajar.</example>
+        </rule>
+        <rulegroup id="REPEATED_WORDS" name="palabras repetidas (test)" default="off">
+            <rule>
+                <pattern>
+                    <token postag="VM.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="VM.*" postag_regexp="yes" inflected="yes"><match no="0" postag="VM.*" postag_regexp="yes" postag_replace="VMN...."/></token>
+                    </marker>
+                </pattern>
+                <message>Verbo repetido.</message>
+                <example correction="">Cantaba muy bien, pero desafinó cuando <marker>cantó</marker> la última.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NC.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes"><match no="0" postag="NC.*" postag_regexp="yes" postag_replace="NC.[SN]..."/></token>
+                    </marker>
+                </pattern>
+                <message>Nombre repetido.</message>
+                <example correction="">Las casas eran rojas, pero aquella <marker>casa</marker> era verde.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="A.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token postag="A.*" postag_regexp="yes" inflected="yes"><match no="0" postag="A.*" postag_regexp="yes" postag_replace="A..[MC][SN]."/></token>
+                    </marker>
+                </pattern>
+                <message>Adjetivo repetido.</message>
+                <example correction="">Las casas eran rojas, pero aquel árbol también era <marker>rojo</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="PREFERABLE_EXPRESSIONS" name="expresiones preferibles" type="style" tone_tags="general">
+        <rulegroup id="MAS_BUENO_MALO" name="más + bueno/malo (mejor/peor)" tags="picky">
+            <antipattern>
+                <token>más</token>
+                <token inflected="yes" regexp="yes">bueno|malo</token>
+                <token>!</token>
+            </antipattern>
+            <antipattern>
+                <token>más</token>
+                <token regexp="yes">buen[oa]s?</token>
+                <token>que</token>
+                <token>el</token>
+                <token>pan</token>
+                <example>Madre mía, ¡está más bueno que el pan!</example>
+            </antipattern>
+            <antipattern>
+                <token>más</token>
+                <token regexp="yes">buen[oa]s?</token>
+                <token regexp="yes">,|y|e|que</token>
+                <token min="0">más</token>
+                <token postag="AQ.*" postag_regexp="yes"/>
+                <example>Es el monstruo más bueno y adorable que conozco.</example>
+                <example>Es el monstruo más bueno, más adorable que conozco.</example>
+                <example>Es más bueno que sabio.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="AQ.*" postag_regexp="yes"/>
+                <token regexp="yes">,|y</token>
+                <token>más</token>
+                <token regexp="yes">buen[oa]s?</token>
+                <example>Es la chica más amable y más buena del mundo.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">mal[oa]s?</token>
+                <token>más</token>
+                <token regexp="yes">buen[oa]s?</token>
+                <example>El malo más bueno.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">buen[oa]s?</token>
+                <token>que</token>
+                <token regexp="yes">mal[oa]s?</token>
+                <example>Obtuvo más buenos resultados que malos.</example>
+            </antipattern>
+            <!--MAS_BUENA más buena = mejor-->
+            <rule id="MAS_BUENA">
+                <pattern>
+                    <token>más</token>
+                    <token inflected="yes" postag="AQ.*" postag_regexp="yes">bueno</token>
+                </pattern>
+                <message>Es preferible usar <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">mejor</match></suggestion>, excepto cuando se alude a la bondad de una persona o a un sabor.</message>
+                <url>https://www.rae.es/dpd/buena</url>
+                <example correction="mejor">Este pan está <marker>más bueno</marker> que el otro</example>
+                <example>Cuando una solución es la más simple es mejor que cualquier otra.</example>
+                <example>¡Qué cosa más buena!</example>
+            </rule>
+            <!--MAS_MALA más mala = peor-->
+            <rule id="MAS_MALA">
+                <antipattern>
+                    <token>mala</token>
+                    <token>leche</token>
+                </antipattern>
+                <pattern>
+                    <token>más</token>
+                    <token inflected="yes" postag="AQ.*" postag_regexp="yes">malo</token>
+                </pattern>
+                <message>Es preferible usar <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">peor</match></suggestion>, excepto cuando se alude a la maldad de una persona o a un sabor.</message>
+                <url>https://www.rae.es/dpd/mala</url>
+                <example correction="peor">Este pan está <marker>más malo</marker> que el otro</example>
+                <example>Cuando una solución es la más complicada es peor que cualquier otra.</example>
+                <example>¡Qué cosa más mala!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PER_CAPITA" name="per cápita">
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>capita</token>
+                </pattern>
+                <message>Esta expresión latina se suele escribir adaptada (sin comillas ni cursiva).</message>
+                <suggestion>per cápita</suggestion>
+                <example correction="per cápita">La renta <marker>per capita</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>por</token>
+                    <token regexp="yes">capita|cápita</token>
+                </pattern>
+                <message>Esta expresión latina se suele escribir adaptada (sin comillas ni cursiva).</message>
+                <suggestion>per cápita</suggestion>
+                <example correction="per cápita">La renta <marker>por capita</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="COMPLEJIZAR" name="complejizar/complicar">
+            <pattern>
+                <token inflected="yes">complejizar</token>
+            </pattern>
+            <message>Excepto en usos especializados, es preferible utilizar otro verbo.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">complicar</match></suggestion>
+            <url>https://www.fundeu.es/recomendacion/complicar-complejizar/</url>
+            <example correction="complicó">Se <marker>complejizó</marker>.</example>
+        </rule>
+        <rule id="MEXICO" name="México/Méjico" default="on">
+            <antipattern case_sensitive="yes">
+                <token>Tejas</token>
+                <token>Verdes</token>
+                <example>Ana de las Tejas Verdes.</example>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">.*mejic.*|Méjico|Tejas<exception postag="NCFP000">tejas</exception></token>
+            </pattern>
+            <message>Grafía recomendada.</message>
+            <suggestion><match no="1" regexp_match="(?iu)(.*)j(.*)" regexp_replace="$1x$2" case_conversion="preserve"/></suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/mexico-o-mejico/</url>
+            <!--<url>https://www.rae.es/dpd/M%C3%A9xico</url>-->
+            <example correction="México">Soy de <marker>Méjico</marker>.</example>
+            <example correction="mexicanas">Son <marker>mejicanas</marker>.</example>
+            <example>No me quedan tejas.</example>
+            <example>Me compré unos tejanos.</example>
+        </rule>
+        <rule id="ASI" name="así/asín/asina">
+            <pattern>
+                <token regexp="yes">asín|asina<exception postag="_possible_NP"/></token>
+            </pattern>
+            <message>Forma coloquial del adverbio <suggestion>así</suggestion>.</message>
+            <example correction="así">Hazlo <marker>asín</marker>.</example>
+            <example correction="Así"><marker>Asín</marker> no puede ser.</example>
+            <example>Fernando Asín.</example>
+        </rule>
+        <rule id="PA_PARA" name="pa -> para">
+            <pattern>
+                <marker>
+                    <token>pa</token>
+                </marker>
+                <token postag="V.N.*|[DP][TE].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Forma coloquial de <suggestion>para</suggestion>.</message>
+            <example correction="Para">¿<marker>Pa</marker> qué lo quieres?</example>
+            <example correction="Para"><marker>Pa</marker> preparar la sopa, necesitas cebollas.</example>
+        </rule>
+        <rule id="NADIE" name="nadie/naide">
+            <pattern>
+                <token regexp="yes">naide|naiden|nadien|nadies</token>
+            </pattern>
+            <message>Forma vulgar.</message>
+            <suggestion>nadie</suggestion>
+            <example correction="nadie"><marker>naide</marker></example>
+        </rule>
+    </category>
+</rules>

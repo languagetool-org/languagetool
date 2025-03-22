@@ -424,11 +424,49 @@ public class SubjectVerbAgreementRule extends Rule {
       posRegex("(ADJ|PA[12]).*"),
       posRegex("SUB.*SIN.*"),
       posRegex("VER.*PLU.*")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("sie").setSkip(-1).build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      tokenRegex("weder"),
+      tokenRegex("er|es|sie"),
+      new PatternTokenBuilder().token("noch").setSkip(-1).build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().posRegex("SUB.*PLU.*").setSkip(5).build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      // Halte ich für unwahrscheinlich, dass es Spannungsspitzen sind.
+      new PatternTokenBuilder().posRegex("SUB.*INF|SUB.*PLU.*").build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      tokenRegex("Teile"),
+      tokenRegex("de[rs]|diese[sr]|[msd]?eine[rs]"),
+      new PatternTokenBuilder().posRegex("SUB.*|EIG.*|UNKNOWN").setSkip(-1).build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      tokenRegex("viele|alle"),
+      new PatternTokenBuilder().posRegex("SUB.*ADJ").tokenRegex(".+e").build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      // Sinn und Zweck dieser Prüfung ist, herauszufinden, ob der Druck
+      tokenRegex("Sinn"),
+      tokenRegex("und"),
+      new PatternTokenBuilder().tokenRegex("Zweck").setSkip(-1).build(),
+      tokenRegex("ist|war")
+
     )
   );
 
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
-  private German language;
+  private final German language;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
     this.language = language;

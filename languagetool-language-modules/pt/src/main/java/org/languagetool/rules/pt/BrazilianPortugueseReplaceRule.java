@@ -19,7 +19,7 @@
 package org.languagetool.rules.pt;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Portuguese;
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -48,13 +48,14 @@ public class BrazilianPortugueseReplaceRule extends AbstractSimpleReplaceRule2 {
     return Collections.singletonList(path);
   }
 
-  public BrazilianPortugueseReplaceRule(ResourceBundle messages, String path) {
-    super(messages, new Portuguese());
+  public BrazilianPortugueseReplaceRule(ResourceBundle messages, String path, Language language) {
+    super(messages, language);
     this.path = Objects.requireNonNull(path);
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>hospedeira de bordo</marker>"),
                    Example.fixed("<marker>aeromoça</marker>"));
+    this.useSubRuleSpecificIds();
   }
 
   @Override
@@ -69,23 +70,18 @@ public class BrazilianPortugueseReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getShort() {
-    return "Palavra de português de Portugal";
+    return "Palavra do português de Portugal";
   }
 
   @Override
   public String getMessage() {
-    return "'$match' é uma expressão de Portugal, em português do Brasil utiliza-se: $suggestions";
+    return "\"$match\" é uma expressão usada sobretudo em Portugal. No português brasileiro diz-se $suggestions";
   }
 
   @Override
   public String getSuggestionsSeparator() {
     return " ou ";
   }
-
-//  @Override
-//  public URL getUrl() {
-//    return Tools.getUrl("https://pt.wikipedia.org/wiki/Estrangeirismo");
-//  }
 
   @Override
   public Locale getLocale() {

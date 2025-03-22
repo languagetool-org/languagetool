@@ -30,7 +30,7 @@ public abstract class AbstractMakeContractionsFilter extends RuleFilter {
   
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
+                                   AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     RuleMatch newMatch = match;
     List<String> newSugestions = new ArrayList<>();
     for (String suggestion: match.getSuggestedReplacements()) {

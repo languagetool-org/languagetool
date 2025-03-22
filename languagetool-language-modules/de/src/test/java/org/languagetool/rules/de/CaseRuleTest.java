@@ -196,6 +196,7 @@ public class CaseRuleTest {
     assertGood("Klar, dass wir das brauchen.");
     assertGood("Das wird Scholz' engster Vertrauter Wolfgang Schmidt übernehmen.");
     assertGood("Bei der Fülle an Vorgaben kann das schnell vergessen werden.");
+    assertGood("Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...");
 
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
@@ -209,8 +210,10 @@ public class CaseRuleTest {
     assertGood("Während Besagtes Probleme verursachte.");
     assertGood("Während der Befragte Geschichten erzählte.");
     assertGood("Während ein Befragter Geschichten erzählte.");
+    assertGood("... für welche ein Befragter Geld ausgegeben hat.");
     assertGood("Während die Befragte Geld verdiente.");
     assertGood("Während die Besagte Geschichten erzählte.");
+    assertGood("Sind dem Zahlungspflichtigen Kosten entstanden?");
     assertGood("Jetzt, wo Protestierende und Politiker sich streiten");
     assertGood("Während die Besagte Geld verdiente.");
     assertGood("Die Nacht, die Liebe, dazu der Wein — zu nichts Gutem Ratgeber sein.");
@@ -532,6 +535,7 @@ public class CaseRuleTest {
     assertGood("Das lesen Sie doch sicher in einer Minute durch!");
     assertGood("Formationswasser, das oxidiert war.");
     assertGood("Um das herauszubekommen diskutieren zwei Experten.");
+    assertGood("Ich würde ihn dann mal nach München schicken, damit die beiden das planen/entwickeln können.");
 
     // Source of the following examples: https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Amtlich/GrossKlein/pgf57-58.html
     assertGood("Das Lesen fällt mir schwer.");

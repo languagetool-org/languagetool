@@ -24,7 +24,7 @@ import org.languagetool.language.CanadianEnglish;
 public class CanadianEnglishConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override
   protected Language createLanguage() {
-    return new CanadianEnglish();
+    return CanadianEnglish.getInstance();
   }
 
   @Override

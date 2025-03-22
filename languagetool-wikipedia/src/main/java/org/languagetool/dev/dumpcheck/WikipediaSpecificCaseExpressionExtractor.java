@@ -34,11 +34,6 @@ import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 /**
  * Command line tool to extract <strong>Greek</strong> expressions, that 
  * their words are starting with capital letter, 

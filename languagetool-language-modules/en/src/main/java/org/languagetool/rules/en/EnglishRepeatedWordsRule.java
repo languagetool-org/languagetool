@@ -28,6 +28,7 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tools.Tools;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -181,9 +182,16 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   }
 
   public EnglishRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, new AmericanEnglish());
+    super(messages, AmericanEnglish.getInstance());
     setTags(Collections.singletonList(Tag.picky));
-    antiPatterns = cacheAntiPatterns(new AmericanEnglish(), ANTI_PATTERNS);
+    antiPatterns = cacheAntiPatterns(AmericanEnglish.getInstance(), ANTI_PATTERNS);
+    String id = this.getId();
+    if (id.equals("EN_REPEATEDWORDS_DEFINITELY")){
+      this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/i-agree-synonyms/"));
+    }
+    if (id.equals("EN_REPEATEDWORDS_CHOOSE")){
+      this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/choose-vs-chose/"));
+    }
     //super.setDefaultTempOff();
   }
   
@@ -220,10 +228,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     if (isAllUppercase || (isCapitalized && !sentStart)) {
       return true;
     }
-    if (tokens[i].hasPosTagStartingWith("NNP")) {
-      return true;
-    }
-    return false;
+    return tokens[i].hasPosTagStartingWith("NNP");
   }
 
 }

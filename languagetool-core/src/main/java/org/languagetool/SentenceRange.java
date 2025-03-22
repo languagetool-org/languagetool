@@ -18,17 +18,22 @@
  */
 package org.languagetool;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.markup.AnnotatedText;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * A range in a text that makes up a sentence.
  * @since 5.8
  */
-public class SentenceRange {
+public class SentenceRange implements Comparable<SentenceRange>{
+
+  private static final Pattern BEGINS_WITH_SPACE = Pattern.compile("^\\s*");
+  private static final Pattern ENDS_WITH_SPACE = Pattern.compile("\\s+$");
 
   private final int fromPos;
   private final int toPos;
@@ -41,7 +46,8 @@ public class SentenceRange {
   public static List<SentenceRange> getRangesFromSentences(AnnotatedText annotatedText, List<String> sentences) {
     List<SentenceRange> sentenceRanges = new ArrayList<>();
     int pos = 0;
-    int diff = annotatedText.getTextWithMarkup().length() - annotatedText.getPlainText().length();
+    int markupTextLength = annotatedText.getTextWithMarkup().length();
+    int diff = markupTextLength - annotatedText.getPlainText().length();
     for (String sentence : sentences) {
       if (sentence.trim().isEmpty()) {
         //No content no sentence
@@ -49,18 +55,18 @@ public class SentenceRange {
         continue;
       }
       //trim whitespaces
-      String sentenceNoBeginnWhitespace = sentence.replaceFirst("^\\s*", "");
-      String sentenceNoEndWhitespace = sentence.replaceFirst("\\s++$", "");
+      String sentenceNoBeginWhitespace = BEGINS_WITH_SPACE.matcher(sentence).replaceFirst("");
+      String sentenceNoEndWhitespace = ENDS_WITH_SPACE.matcher(sentence).replaceFirst("");
       //Get position without tailing and leading whitespace
-      int fromPos = pos + (sentence.length() - sentenceNoBeginnWhitespace.length());
+      int fromPos = pos + (sentence.length() - sentenceNoBeginWhitespace.length());
       int toPos = pos + sentenceNoEndWhitespace.length();
 
       int fromPosOrig = fromPos + diff;
       int toPosOrig = toPos + diff;
-      if (fromPosOrig != annotatedText.getTextWithMarkup().length()) {
+      if (fromPosOrig != markupTextLength) {
         fromPosOrig = annotatedText.getOriginalTextPositionFor(fromPos, false);
       }
-      if (toPosOrig != annotatedText.getTextWithMarkup().length()) {
+      if (toPosOrig != markupTextLength) {
         toPosOrig = annotatedText.getOriginalTextPositionFor(toPos, true);
       }
       sentenceRanges.add(new SentenceRange(fromPosOrig, toPosOrig));
@@ -93,5 +99,10 @@ public class SentenceRange {
   @Override
   public int hashCode() {
     return Objects.hash(fromPos, toPos);
+  }
+
+  @Override
+  public int compareTo(@NotNull SentenceRange o) {
+    return Integer.compare(this.fromPos, o.fromPos);
   }
 }

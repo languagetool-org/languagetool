@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+English Style Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2001-2023 Daniel Naber (http://www.danielnaber.de),
+  Marcin Miłkowski, and the LanguageTool contributors
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+<!--suppress CheckTagEmptyBody -->
+
+<!DOCTYPE rules [
+        <!ENTITY apostrophe "['’`´‘ʻ]">
+
+        <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday">
+        <!ENTITY abbrevWeekdays "Mon|Mo|Tue|Tu|Wed|We|Thu|Th|Fri|Fr|Sat|Sa|Sun|Su">
+        <!ENTITY months "January|February|March|April|May|June|July|August|September|October|November|December">
+        <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec">
+
+        <!ENTITY hyphen "(?:[-‑])">
+        <!ENTITY subordinating_conjunctions "after|although|as|because|before|if|lest|like|once|since|than|that|though|unless|until|whenever|where|whereas|wherever|whether|while|why"><!-- #2988 -->
+        <!ENTITY ambiguous_date '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!-- "7 October 2014" and "7th October 2014" -->
+        <!ENTITY date_dmy '
+        <token regexp="yes">\d\d?(th)?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!ENTITY date_dmy_skip '
+        <token regexp="yes">\d\d?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        '>
+        <!-- "October 7, 2014" -->
+        <!ENTITY date_mdy '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!ENTITY date_mdy_skip '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        '>
+        <!-- "31/10/2014" -->
+        <!ENTITY date_dmy_numbers '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!ENTITY date_dmy_numbers_skip '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        '>
+        <!-- "10/31/2014" -->
+        <!ENTITY date_mdy_numbers '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!ENTITY date_mdy_numbers_skip '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        '>
+]>
+
+<rules lang="en" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <category id="STYLE" name="Style" type="style">
+        <rule id="HAPPY_CHRISTMAS" name="Happy (Merry) Christmas" tags="picky">
+            <antipattern>
+                <token>christmas</token>
+                <token regexp="yes">holidays?|days?|birthday|eve</token>
+            </antipattern>
+            <pattern>
+                <token>happy</token>
+                <token>christmas</token>
+            </pattern>
+            <message>It's more common to wish someone <suggestion>Merry Christmas</suggestion>.</message>
+            <url>https://www.countryliving.com/life/a37128/origin-of-merry-christmas/</url>
+            <example correction="Merry Christmas">I wish you a <marker>happy christmas</marker>.</example>
+            <example>Happy Christmas Days!</example>
+        </rule>
+        <rule id="THRU" name="thru / through">
+            <antipattern>
+                <token>thru</token>
+                <token regexp="yes">axles?</token>
+            </antipattern>
+            <pattern>
+                <token>thru</token>
+            </pattern>
+            <message>The word 'thru' is informal. Consider replacing it with <suggestion>through</suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/thru</url>
+           <example correction="through">I'm going <marker>thru</marker> hell.</example>
+           <example>A thru axle (TA) is a wheel attachment system that secures a wheel on a hub between a pair of dropouts on a bicycle frame or fork.</example>
+        </rule>
+    </category>
+    <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">
+        <rulegroup id="EG_NO_COMMA" name="'e.g.' without a comma" tags="picky">
+            <rule>
+                <antipattern>
+                    <token>e</token>
+                    <token>.</token>
+                    <token>g</token>
+                    <token>.</token>
+                    <token regexp="yes" spacebefore="no">[a-z]{1,2}</token>
+                </antipattern>
+                <antipattern>
+                    <token>.</token>
+                    <token spacebefore="no">e</token>
+                    <token>.</token>
+                    <token>g</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>e</token>
+                        <token>.</token>
+                        <token spacebefore="no">g</token>
+                        <token>.</token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>A comma is missing here.</message>
+                <suggestion>e.g.,</suggestion>
+                <short>Punctuation error</short>
+                <example>There are several grammar checkers for English, e.g., LanguageTool.</example>
+                <example correction="e.g.,">There are several grammar checkers for English, <marker>e.g.</marker> LanguageTool.</example>
+                <example>Davies, R.E.G. Delta - An Airline and Its Aircraft.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>eg</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">,|\.</token>
+                </pattern>
+                <message>A comma and a dot are missing here.</message>
+                <suggestion>e.g.,</suggestion>
+                <short>Punctuation error</short>
+                <example>There are several grammar checkers for English, e.g., LanguageTool.</example>
+                <example correction="e.g.,">There are several grammar checkers for English, <marker>eg</marker> LanguageTool.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IE_NO_COMMA" name="'i.e.' without a comma" tags="picky">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>i</token>
+                        <token>.</token>
+                        <token spacebefore="no">e</token>
+                        <token>.</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">,|-|–|:|;|\.|\/</token>
+                </pattern>
+                <message>A comma is missing here.</message>
+                <suggestion>i.e.,</suggestion>
+                <short>Punctuation error</short>
+                <example>Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+                <example correction="i.e.,">Who's responsible for providing public facilities, <marker>i.e.</marker> a post office, library, etc. for the Northwest?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ie</token>
+                    <token>:</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">IE</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">the|in</token>
+                    <token case_sensitive="yes">IE</token>
+                </antipattern>
+                <antipattern>
+                    <token>.</token>
+                    <token spacebefore="no">ie</token>
+                </antipattern>
+                <antipattern>
+                    <token>ie</token>
+                    <token>'s</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>IE</token>
+                    <token regexp="yes">[a-z].*</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>ie</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">,|-|–|:|;|\.|\/</token>
+                </pattern>
+                <message>The comma and dots are missing here:<suggestion>i.e.,</suggestion>.</message>
+                <short>Punctuation error</short>
+                <example>Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+                <example correction="i.e.,">Who's responsible for providing public facilities, <marker>ie</marker> a post office, library, etc. for the Northwest?</example>
+                <example>Atlantipedia.ie: Encyclopedic collection of information on Atlantis.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>.</token>
+                    <token spacebefore="no">ie</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>ie</token>
+                        <token>.</token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>The comma and dots are missing here.</message>
+                <suggestion>i.e.,</suggestion>
+                <short>Punctuation error</short>
+                <example>Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+                <example correction="i.e.,">Who's responsible for providing public facilities, <marker>ie.</marker> a post office, library, etc. for the Northwest?</example>
+            </rule>
+        </rulegroup>
+        <rule id="ETC_PERIOD" name="period after abbreviation 'etc.'">
+            <antipattern>
+                <token>etc</token>
+                <token regexp="yes">/|_|…|#</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[/\\]</token>
+                <token spacebefore="no">etc</token>
+            </antipattern>
+            <antipattern>
+                <token>the</token>
+                <token>etc</token>
+            </antipattern>
+            <antipattern>
+                <token>etc</token>
+                <token regexp="yes">folders?|director(y|ies)</token>
+            </antipattern>
+            <antipattern>
+                <token>etc</token>
+                <token regexp="yes" spacebefore="no">[/\\]</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">etc</token>
+                </marker>
+                <token><exception>.</exception></token>
+            </pattern>
+            <message>In American English, abbreviations like "etc." require a period.</message>
+            <suggestion>etc.</suggestion>
+            <url>https://languagetool.org/insights/post/spelling-etc-or-ect/</url>
+            <short>Abbreviation</short>
+            <example correction="etc.">Tennis, soccer, baseball, <marker>etc</marker> are outdoor games.</example>
+            <example correction="etc.">I use things like Java, Microsoft, Unix, <marker>etc</marker> at work.</example>
+            <example correction="etc.">Make sure you bring your fishing pole, tackle, bait, <marker>etc</marker> as we will not make any stops.</example>
+            <example correction="etc.">No check engine lights <marker>etc</marker>?</example>
+            <example correction="etc.">Removed the alarm listener and replaced with lights, <marker>etc</marker>, etc.</example>
+            <example>Process: 4264 ExecStart=/etc/rc.d/init.d/newrelic-daemon start (code=exited, status=0/SUCCESS)</example>
+            <example>DND_ETC__List1</example>
+            <example>Device Handlers, etc…</example>
+            <example>root@de1lvapp098p:/etc# ls -l /dev/disk/by-uuid</example>
+            <example>Diversity Dick Liebert reported that questions for the ETC survey are currently being developed.</example>
+        </rule>
+        <rule id="MISSING_COMMA_AFTER_YEAR" name="Potentially missing comma after year">
+            <pattern>
+                <token regexp="yes">&months;</token>
+                <token regexp="yes">[0123]?[0-9]</token>
+                <token min="0">,</token>
+                <marker>
+                    <token regexp="yes">[0-9]{4}</token>
+                </marker>
+                <token regexp="yes">[a-z]+</token>
+            </pattern>
+            <message>Some style guides suggest that commas should set off the year in a month-day-year date.</message>
+            <suggestion>\4,</suggestion>
+            <url>http://www.thepunctuationguide.com/comma.html#dates</url>
+            <short>Potentially missing comma</short>
+            <example correction="2011,">The meeting scheduled for July 10, <marker>2011</marker> was canceled.</example>
+            <example>My birthday is October 8, <marker>1983,</marker> but I usually do not celebrate.</example>
+        </rule>
+
+        <rulegroup id="TOILET" name="offensive word 'toilet'">
+            <rule>
+                <pattern>
+                    <token>toilet</token>
+                    <token regexp='yes' min="0">rooms?</token>
+                </pattern>
+                <message>This expression can be considered mildly offensive (especially in Canadian and American English).</message>
+                <suggestion>rest\2</suggestion>
+                <suggestion>wash\2</suggestion>
+                <suggestion>bath\2</suggestion>
+                <suggestion>powder \2</suggestion>
+                <url>http://www.englishteachermelanie.com/vocabulary-do-not-call-it-toilet/</url>
+                <example correction="restrooms|washrooms|bathrooms|powder rooms">Have you seen the <marker>toilet rooms</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">go|visit|on|use</token>
+                    <token min="0">to</token>
+                    <token regexp="yes">the|a</token>
+                    <marker>
+                        <token>
+                            toilet
+                            <exception scope="next" regexp="yes">game|song|paper|bowls?|bar|store|seat|plunger|flange|water</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>This expression can be considered mildly offensive (especially in Canadian and American English).</message>
+                <suggestion>restroom</suggestion>
+                <suggestion>washroom</suggestion>
+                <suggestion>bathroom</suggestion>
+                <suggestion>powder room</suggestion>
+                <url>http://www.englishteachermelanie.com/vocabulary-do-not-call-it-toilet/</url>
+                <example correction="restroom|washroom|bathroom|powder room">I need to go to the <marker>toilet</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="IVE_I_HAVE_AMERICAN_STYLE" name="I've (I have) two tickets to see the Dodgers tonight">
+            <antipattern>
+                <token>'ve</token>
+                <token>at</token>
+                <token>least</token>
+                <token postag="VBN" />
+                <example>Until now, everything that's come out I've at least heard of or had some idea of what they were from the company's filings or discussions.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="1">'ve</token>
+                <token postag="VBN" />
+                <example>I've fact checked the IM and have a couple of questions for you and some language suggestions.</example>
+                <example>I've hand selected these 10 matches below with you in mind.</example>
+            </antipattern>
+            <antipattern>
+                <token>'ve</token>
+                <token regexp="yes" postag="NN:UN">.+e</token>  <!-- because they're not tagged as VB -->
+                <example>I've place electronic copies of the Desert Sky warranty agreement on the service2 network under the TSA_and_aggreement folder for Desert Sky.</example>
+                <example>In addition, I've note "Other Risks/Opportunities" for the quarter that could have significant impacts on our ultimate results.</example>
+                <example>I've place another call into David and let him know that the information we received included most points except for Tomcat.</example>
+                <example>As I am sure you've notice, this is not a textbook.</example>
+            </antipattern>
+            <antipattern>
+                <token>'ve</token>
+                <token min="0" postag="DT" />
+                <token min="0" postag="J.*|RB" postag_regexp="yes" />
+                <token postag="VBN" />
+                <example>I've clean forgotten.</example>
+                <example>You've all underestimated Tom.</example>
+                <example>I've already seen it.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">I|you|we|they</token>
+                    <token>'ve</token>
+                </marker>
+                <token chunk_re="B-NP.*" />
+                <token><exception>'d</exception></token>
+            </pattern>
+            <message>In American English, "\1" and "have" do not usually form a contraction unless they're followed by a past participle.</message>
+            <suggestion>\1 have</suggestion>
+            <suggestion>\1\2 got</suggestion>
+            <url>https://languagetool.org/insights/post/grammar-contractions/</url>
+            <example correction="I have|I've got"><marker>I've</marker> two tickets to see the Dodgers tonight.</example>
+            <example correction="you have|you've got">I've got more pounds to my name than <marker>you've</marker> hairs on your head.</example>
+            <example correction="We have|We've got"><marker>We've</marker> a lot to thank Tom for.</example>
+            <example correction="they have|they've got">Seeing as they're poor, <marker>they've</marker> no choice but to work their hardest.</example>
+            <example>Off photos he took we've ID'd six possible locations for Blankfein's safe house.</example>
+        </rule>
+        <rule id="SAY_SORRY" name="say sorry (apologize)">
+            <antipattern>
+                <token postag="PCT|SENT_START" postag_regexp="yes" />
+                <token>say</token>
+                <token>sorry</token>
+                <token>!</token>
+            </antipattern>
+            <antipattern>
+                <token>wanna</token>
+                <token>say</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected="yes">say</token>
+                    <token>sorry</token>
+                </marker>
+            </pattern>
+            <message>Consider using <suggestion><match no="1" postag=".*" postag_regexp="yes">apologize</match></suggestion> to improve your wording.</message>
+            <example correction="apologize">I just wanted to <marker>say sorry</marker> for everything I did.</example>
+        </rule>
+        <rulegroup id="THANKS_FOR_CONTACTING_ME" name="Thanks for contacting us (reaching out to us)">
+            <!-- TODO: maybe picky -->
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">thanks?</token>
+                    <token>for</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">contacting|e-?mailing</token>
+                        <token regexp="yes">us|me</token>
+                    </marker>
+                    <token>
+                        <exception regexp="yes">about|with</exception>
+                    </token>
+                </pattern>
+                <message>Consider an alternative to improve your overall wording. The verb "\4" is considered neutral, while "reach out" is about seeking a positive relationship.</message>
+                <suggestion>reaching out to \5</suggestion>
+                <example correction="reaching out to us">Thank you for <marker>contacting us</marker>.</example>
+                <example>Anne, Thanks for contacting me about this.</example>
+            </rule>
+            <rule default="off">
+                <pattern>
+                    <token regexp="yes" skip="3">thanks?</token>
+                    <token>for</token>
+                    <marker>
+                        <token>your</token>
+                        <token regexp="yes">e-?mail|message</token>
+                    </marker>
+                    <token postag="CC|PCT|TO" postag_regexp="yes" />
+                </pattern>
+                <message>Consider an alternative to improve your overall wording.</message>
+                <suggestion>reaching out</suggestion>
+                <suggestion>reaching out to us</suggestion>
+                <example correction="reaching out|reaching out to us">Thank you for <marker>your email</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">thanks?</token>
+                    <token>for</token>
+                    <marker>
+                        <token regexp="yes">getting|stepping</token>
+                        <token>in</token>
+                        <token>contact</token>
+                        <token>with</token>
+                        <token regexp="yes">us|me</token>
+                    </marker>
+                </pattern>
+                <message>Consider an alternative to improve your overall wording.</message>
+                <suggestion>reaching out to \7</suggestion>
+                <example correction="reaching out to us">Thank you for <marker>getting in contact with us</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">thanks?</token>
+                    <token>for</token>
+                    <marker>
+                        <token regexp="yes">getting|stepping</token>
+                        <token>in</token>
+                        <token>contact</token>
+                    </marker>
+                    <token postag="CC|PCT|TO" postag_regexp="yes" />
+                </pattern>
+                <message>Consider an alternative to improve your overall wording.</message>
+                <suggestion>reaching out</suggestion>
+                <example correction="reaching out">Thank you for <marker>getting in contact</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">will|'ll</token>
+                    <marker>
+                        <token>contact</token>
+                        <token regexp="yes">you|me</token>
+                    </marker>
+                    <token regexp="yes">regarding|to|\.</token>
+                </pattern>
+                <message>Consider an alternative to improve your overall wording. The verb "\2" is considered neutral, while "reach out" is about seeking a positive relationship.</message>
+                <suggestion>reach out to \3</suggestion>
+                <suggestion>inform \3</suggestion>
+                <suggestion>let \3 know</suggestion>
+                <example correction="reach out to you|inform you|let you know">I will <marker>contact you</marker> regarding next week's meeting.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">can|could</token>
+                    <token>you</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>contact</token>
+                        <token regexp="yes">him|her|you|them|my|y?our|their|his</token>
+                    </marker>
+                </pattern>
+                <message>Consider an alternative to improve your overall wording. The verb "contact" is considered neutral, while "reach out" is about seeking a positive relationship.</message>
+                <suggestion>reach out to \5</suggestion>
+                <suggestion>inform \5</suggestion>
+                <example correction="reach out to our|inform our">Could you please <marker>contact our</marker> lawyer?</example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>

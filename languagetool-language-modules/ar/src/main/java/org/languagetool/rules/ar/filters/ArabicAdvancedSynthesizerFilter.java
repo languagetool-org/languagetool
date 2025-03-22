@@ -24,7 +24,6 @@ import org.languagetool.language.Arabic;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
-
 /*
  * Synthesize suggestions using the lemma from one token (lemma_from)
  * and the POS tag from another one (postag_from).

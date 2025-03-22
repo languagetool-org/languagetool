@@ -21,13 +21,10 @@ package org.languagetool.dev;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.ru.RussianTagger;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Russian: Fast hack to find words which have no POS tagging (note: does not consider the disambiguator).

@@ -23,10 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
@@ -46,8 +43,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   private static final Logger logger = LoggerFactory.getLogger(AbstractSimpleReplaceRule.class);
   private boolean checkLemmas = true;
+  private final Language language;
 
-  protected abstract Map<String, List<String>> getWrongWords();
+  public abstract Map<String, List<String>> getWrongWords();
 
   protected static Map<String, List<String>> loadFromPath(String path) {
     return new SimpleReplaceDataLoader().loadWords(path);
@@ -91,8 +89,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     ignoreTaggedWords = true;
   }
 
-  public AbstractSimpleReplaceRule(ResourceBundle messages) {
+  public AbstractSimpleReplaceRule(ResourceBundle messages, Language language) {
     super(messages);
+    this.language = language;
     super.setCategory(Categories.MISC.getCategory(messages));
   }
 
@@ -219,10 +218,16 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     int pos = tokenReadings.getStartPos();
     
     RuleMatch potentialRuleMatch = null;
-    potentialRuleMatch = new RuleMatch(this, sentence, pos, pos
-        + tokenString.length(), getMessage(tokenString, replacements), getShort());
+
     if (subRuleSpecificIds) {
-      potentialRuleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + originalTokenStr));
+      String id = StringTools.toId(getId() + "_" + originalTokenStr, language);
+      String desc = getDescription().replace("$match", originalTokenStr);
+      SpecificIdRule specificIdRule = new SpecificIdRule(id, desc, isPremium(), getCategory(), getLocQualityIssueType(), getTags());
+      potentialRuleMatch = new RuleMatch(specificIdRule, sentence, pos, pos
+        + tokenString.length(), getMessage(tokenString, replacements), getShort());
+    } else {
+      potentialRuleMatch = new RuleMatch(this, sentence, pos, pos
+        + tokenString.length(), getMessage(tokenString, replacements), getShort());
     }
     if (!isCaseSensitive() && StringTools.startsWithUppercase(tokenString)) {
       for (int i = 0; i < replacements.size(); i++) {

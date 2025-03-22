@@ -153,6 +153,7 @@ public class AgreementRuleTest {
     assertGood("Er verspricht jedem hohe Gewinne.");
     assertGood("Er versprach allen Renditen jenseits von 15 Prozent.");
     assertGood("Sind das Eier aus Bodenhaltung?");
+    assertGood("Sie sind sehr gute Kameraden, auf die Verlass ist.");
     assertGood("Dir macht doch irgendwas Sorgen.");
     assertGood("Sie fragte, ob das wirklich Kunst sei.");
     assertGood("Für ihn ist das Alltag.");
@@ -432,6 +433,8 @@ public class AgreementRuleTest {
     assertGood("Was ist, wenn ein Projekt bei den Berliner Type Awards mit einem Diplom ausgezeichnet wird?");
     assertGood("Was ist mit dem Liechtensteiner Kulturleben los?");
     assertGood("Das ist der Mann den Präsident Xi Jinping verurteilte.");
+    assertGood("Wie viele Kolleg/-innen haben sie?");
+    assertGood("Die Ideen der neuen Kolleg/-innen sind gut!");
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");
@@ -647,6 +650,7 @@ public class AgreementRuleTest {
     assertGood("Die Organe eines gerade Verstorbenen");
     assertGood("Da wusste keiner Bescheid bezüglich dieser Sache.");
     assertGood("Es braucht keiner Bescheid wissen.");
+    assertGood("Das sind auch beides staatliche Organe.");
     assertGood("Ein Haus für die weniger Glücklichen.");
     assertGood("Wir können sowas Mittwoch machen.");
     assertGood("Den schlechter Verdienenden geht es schlecht.");
@@ -656,13 +660,16 @@ public class AgreementRuleTest {
     assertBad("Die Idee des Werbekaufmann kam gut an.");
     assertGood("Die Idee des Werbekaufmanns kam gut an.");
     assertGood("Solch harte Worte!");
+    assertGood("Ich habe es an unseren amerikanischen Commercial Lawyer geschickt.");
     assertGood("Dieser eine Schritt hat gedauert.");
     assertGood("Es besteht durchaus die Gefahr, dass die Telekom eine solch starke monopolistische Stellung auf dem Markt hat, dass sich kaum Wettbewerb entfalten kann.");
     assertBad("Ich habe keine Zeit für solche kleinlichen Belangen.");
     assertGood("Wenn ein Tiger einen Menschen tötet, ist das Grausamkeit.");
+    assertGood("Kombinieren Sie diese zu ganzen Bewegungsprogrammen");
     assertBad("Einen Dämonen wird er nicht aufhalten.");
     assertBad("Das versetzte den Kronprinz in Schrecken.");
     assertGood("Erst später wurde Kritik hauptsächlich an den Plänen zu einem Patriot Act II laut.");
+    assertGood("Laut Charlie XCX selbst sind das Personen, die vielleicht eine ...");
     // TODO:
     // assertBad("Solch hartes Worte!");
     // unsure:

@@ -35,7 +35,7 @@ public class SuggestionStage {
         nodes = new ChunkArray<>(initialCapacity * 2);
     }
 
-    public class Node {
+    public static class Node {
         public String suggestion;
         public int next;
         public Node(String suggestion, int next) {
@@ -43,7 +43,7 @@ public class SuggestionStage {
             this.next = next;
         }
     }
-    public class Entry {
+    public static class Entry {
         public int count;
         public int first;
         Entry(int count, int first) {
@@ -55,7 +55,7 @@ public class SuggestionStage {
     public ChunkArray<Node> nodes;
     /// <summary>Create a new instance of SymSpell.SuggestionStage.</summary>
     /// <remarks>Specifying ann accurate initialCapacity is not essential,
-    /// but it can help speed up processing by aleviating the need for
+    /// but it can help speed up processing by alleviating the need for
     /// data restructuring as the size grows.</remarks>
     /// <param name="initialCapacity">The expected number of words that will be added.</param>
 

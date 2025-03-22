@@ -42,7 +42,7 @@ public class SpanishWikipediaRuleTest {
   @Before
   public void setUp() throws Exception {
     rule = new SpanishWikipediaRule(TestTools.getMessages("es"));
-    lt = new JLanguageTool(new Spanish());
+    lt = new JLanguageTool(Spanish.getInstance());
   }
 
   @Test
@@ -55,6 +55,7 @@ public class SpanishWikipediaRuleTest {
 
     // at the beginning of a sentence (replace rule is case-sensitive)
     checkSimpleReplaceRule("Sucedió ayer. Murio sin que nadie lo esperase.", "Murió");
+    checkSimpleReplaceRule("Murio sin que nadie lo esperase.", "Murió");
     // inside sentence
     checkSimpleReplaceRule("Ayer murio sin que nadie lo esperase.", "murió");
   }

@@ -403,4 +403,3 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   }
 }
 
-

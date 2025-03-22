@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
@@ -45,12 +46,12 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
   private static final Locale GL_LOCALE = new Locale("gl");
 
   @Override
-  protected Map<String, List<String>> getWrongWords() {
+  public Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
 
-  public CastWordsRule(ResourceBundle messages) throws IOException {
-    super(messages);
+  public CastWordsRule(ResourceBundle messages, Language language) throws IOException {
+    super(messages, language);
   }
 
   @Override

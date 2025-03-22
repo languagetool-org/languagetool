@@ -80,7 +80,8 @@ public class GermanReadabilityRule extends ReadabilityRule {
     }
   }
 
-  private static String printMessageLevel(int level) {
+  @Override
+  public String printMessageLevel(int level) {
     String sLevel = null;
     if (level == 0) {
       sLevel = "Sehr schwer";
@@ -124,14 +125,8 @@ public class GermanReadabilityRule extends ReadabilityRule {
   }
 
   @Override
-  protected double getFleschReadingEase(double asl, double asw) {
+  public double getFleschReadingEase(double asl, double asw) {
     return 180 - asl - ( 58.5 * asw );  //  German
-  }
-  
-  private static boolean isVowel(char c) {
-    return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y' ||
-        c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' || c == 'Y' ||
-        c == 'ä' || c == 'ö' || c == 'ü' || c == 'Ä' || c == 'Ö' || c == 'Ü');
   }
   
   @Override
@@ -140,13 +135,13 @@ public class GermanReadabilityRule extends ReadabilityRule {
       return 0;
     }
     int nSyllables = 0;
-    if (isVowel(word.charAt(0))) {
+    if (GermanTools.isVowel(word.charAt(0))) {
       nSyllables++;
     }
     boolean lastDouble = false;
     for (int i = 1; i < word.length(); i++) {
       char c = word.charAt(i);
-      if (isVowel(c)) {
+      if (GermanTools.isVowel(c)) {
         char cl = word.charAt(i - 1);
         if (lastDouble) {
           nSyllables++;

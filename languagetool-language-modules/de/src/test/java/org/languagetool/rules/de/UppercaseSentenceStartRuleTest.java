@@ -47,6 +47,7 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(0, lt.check("Dies ist ein Satz. \"Aber der hier auch!\".").size());
     assertEquals(0, lt.check("\"Dies ist ein Satz!\"").size());
     assertEquals(0, lt.check("'Dies ist ein Satz!'").size());
+    assertEquals(0, lt.check("mRNA-Impfstoffe sind wichtig.").size());
     
     assertEquals(0, lt.check("Sehr geehrte Frau Merkel,\nwie wir Ihnen schon früher mitgeteilt haben...").size());
     //assertEquals(0, lt.check("Dies ist ein Satz. aber das hier noch nicht").size());

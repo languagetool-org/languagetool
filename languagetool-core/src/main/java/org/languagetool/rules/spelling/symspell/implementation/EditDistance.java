@@ -76,7 +76,7 @@ public class EditDistance {
         } else {
             string1 = baseString;
         }
-        int sLen = string1.length(); // this is also the minimun length of the two strings
+        int sLen = string1.length(); // this is also the minimum length of the two strings
         int tLen = string2.length();
 
         // suffix common to both strings can be ignored

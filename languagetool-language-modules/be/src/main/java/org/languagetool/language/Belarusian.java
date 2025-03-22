@@ -21,9 +21,12 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
+import org.languagetool.LanguageWithModel;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
+import org.languagetool.rules.be.BelarusianSpecificCaseRule;
 import org.languagetool.rules.be.MorfologikBelarusianSpellerRule;
+import org.languagetool.rules.be.SimpleReplaceRule;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
@@ -33,7 +36,10 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.be.BelarusianWordTokenizer;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * Belarusian language declarations.
@@ -42,7 +48,12 @@ import java.util.*;
  * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
 @Deprecated
-public class Belarusian extends Language {
+public class Belarusian extends LanguageWithModel {
+
+  @Override
+  public Pattern getIgnoredCharactersRegex() {
+    return Pattern.compile("[\u00AD\u0301\u0300]");
+  }
 
   @Override
   public String getName() {
@@ -79,6 +90,36 @@ public class Belarusian extends Language {
   public Contributor[] getMaintainers() {
     return new Contributor[] { new Contributor("Alex Buloichik") };
   }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningDoubleQuote() {
+    return "«";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingDoubleQuote() {
+    return "»";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public String getOpeningSingleQuote() {
+    return "‘";
+  }
+
+  /** @since 5.1 */
+  @Override
+  public String getClosingSingleQuote() {
+    return "’";
+  }
+  
+  /** @since 5.1 */
+  @Override
+  public boolean isAdvancedTypographyEnabled() {
+    return true;
+  }
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
@@ -87,8 +128,31 @@ public class Belarusian extends Language {
             new DoublePunctuationRule(messages),
             new MorfologikBelarusianSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
-            new MultipleWhitespaceRule(messages, this)
+            new MultipleWhitespaceRule(messages, this),
+	          new SentenceWhitespaceRule(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages, this),  
+            new WhiteSpaceAtBeginOfParagraph(messages),
+            new LongSentenceRule(messages, userConfig, 50),
+            new LongParagraphRule(messages, this, userConfig),
+            new ParagraphRepeatBeginningRule(messages, this),   //re-activate rule, issue #3509
+            //  new PunctuationMarkAtParagraphEnd(messages, this),
+            new PunctuationMarkAtParagraphEnd2(messages, this),
+            new SimpleReplaceRule(messages),
+            new BelarusianSpecificCaseRule(messages)
     );
+  }
+
+  @Override
+  protected int getPriorityForId(String id) {
+    switch (id) {
+      case "RUSSIAN_SIMPLE_REPLACE_RULE":   return 10;  // higher prio than spell checker
+      case "BELARUSIAN_SPECIFIC_CASE":      return 9;   // higher prio than spell checker
+
+      case "Word_root_repeat":              return -1;
+      case "PUNCT_DPT_2":                   return -2;
+      case "TOO_LONG_PARAGRAPH":            return -15;
+    }
+    return super.getPriorityForId(id);
   }
 
   @Nullable

@@ -37,6 +37,8 @@ public class ItalianWordRepeatRuleTest {
     JLanguageTool lt = new JLanguageTool(lang);
     assertThat(rule.match(lt.getAnalyzedSentence("Mi è sembrato così così")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Duran Duran")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Devi mescolare piano piano")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Seguo passo passo")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Mi mi è sembrato così")).length, is(1));
   }
 
