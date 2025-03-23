@@ -12340,6 +12340,23 @@ USA
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
 
 
+        <rule id='TOTALIZAR' name="Simplificar: 'perfazer um total de' → totalizar" default='temp_off'>
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='yes'>alcançar|contabilizar|perfazer|somar|totalizar</token>
+                    <token>um</token>
+                    <token>total</token>
+                    <token>de</token>
+                </marker>
+                <token postag='Z0.+|NC.+' postag_regexp='yes'/>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>totalizar</match></suggestion>
+            <example correction="totaliza">Isto <marker>perfaz um total de</marker> 10 equações</example>
+            <example>Estiveram presentes 20 clubes que totalizaram 275 atletas.</example>
+        </rule>
+
+
         <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
             <antipattern>
                 <token postag="V.+|NC.+" postag_regexp='yes'/>
