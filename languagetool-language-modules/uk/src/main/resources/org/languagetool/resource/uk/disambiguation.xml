@@ -816,29 +816,6 @@ category: symbols -->
     -->
   </rule>
 
-  <rule name="словом - ім." id="slovom_noun">
-    <antipattern>
-      <token postag="SENT_START" />
-      <token>словом</token>
-      <token>,</token>
-    </antipattern>
-    <antipattern>
-      <token>,</token>
-      <token>словом</token>
-      <token regexp="yes">[,.]</token>
-    </antipattern>
-    <pattern>
-      <marker>
-        <token>словом</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun.*" />
-    <example type="ambiguous"
-        inputform="словом[слово/noun:inanim:n:v_oru,словом/adv:&amp;insert]"
-        outputform="словом[слово/noun:inanim:n:v_oru]">і добрим <marker>словом</marker> згадати.</example>
-    <example type="untouched">живе собі, словом, як може</example>
-  </rule>
-
 <!--
   <rule name="ради: prep" id="rady_prep_3">
     <pattern>
@@ -3168,25 +3145,6 @@ category: symbols -->
         inputform="часом[час/noun:inanim:m:v_oru,часом/adv]"
         outputform="часом[час/noun:inanim:m:v_oru]">а тим <marker>часом</marker> візьмуть.</example>
     <example type="untouched">люди часом заходили</example>
-  </rule>
-
-  <rule name="Днями: іменник" id="dnyamy_noun">
-    <pattern>
-      <token postag_regexp="yes" postag="(adj|numr):p:v_oru.*|prep.*" />
-      <marker>
-        <token>днями</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:p:v_oru.*"/>
-    <example type="ambiguous"
-        inputform="днями[день/noun:inanim:p:v_oru,днями/adv]"
-        outputform="днями[день/noun:inanim:p:v_oru]"
-            >дні за <marker>днями</marker>.</example>
-    <example type="ambiguous"
-        inputform="днями[день/noun:inanim:p:v_oru,днями/adv]"
-        outputform="днями[день/noun:inanim:p:v_oru]"
-            >цілими <marker>днями</marker>.</example>
-    <example type="untouched">днями зайшов у гості</example>
   </rule>
 
   <rule name="Проти - прислівник" id="proty_adv_1">
