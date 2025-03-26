@@ -2,11 +2,25 @@
 
 ## 6.6-SNAPSHOT (release planned for 2025-03-27)
 
-...
-
 #### General
 
-LanguageTool requires Java 17 now.
+  * LanguageTool requires Java 17 now
+
+#### Catalan
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Portuguese
+  * added and improved rules
+
+#### Spanish
+  * added and improved rules
 
 #### Ukrainian
   * new words in the POS dictionary
