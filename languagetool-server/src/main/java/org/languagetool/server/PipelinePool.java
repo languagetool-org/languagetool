@@ -41,6 +41,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -202,6 +206,8 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
           }
         }
       }
+
+      TextChecker.AB_TEST_SERVICE.configureLTForTreatment(userConfig.getAbTest(), lt, lang, params, userConfig);
 
       if (pool != null) {
         lt.setupFinished();

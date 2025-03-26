@@ -36,8 +36,6 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
-import org.languagetool.server.tools.AbTestService;
-import org.languagetool.server.tools.LocalAbTestService;
 import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
@@ -67,7 +65,7 @@ abstract class TextChecker {
   private static final int PINGS_MAX_SIZE = 5000;
   private static final String SPAN_NAME_PREFIX = "/v2/check-";
   private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
-  private static final AbTestService AB_TEST_SERVICE = new LocalAbTestService();
+  static final AbTestService AB_TEST_SERVICE = LocalAbTestService.getAbTestService();
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
