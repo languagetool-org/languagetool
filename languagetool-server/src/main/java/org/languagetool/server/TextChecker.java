@@ -327,7 +327,7 @@ abstract class TextChecker {
     if (limits.getAccount() != null) {
       optInThirdPartyAI = limits.getAccount().isOpt_in_3rd_party_ai_grammar_checker();
     } else if (params.containsKey("optInThirdPartyAI")) {
-      optInThirdPartyAI = "true".equals(params.get(optInThirdPartyAI));
+      optInThirdPartyAI = "true".equals(params.get("optInThirdPartyAI"));
     } else {
       optInThirdPartyAI = config.getDefaultThirdPartyAI();
     }
