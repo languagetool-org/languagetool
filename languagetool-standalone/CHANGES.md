@@ -4,6 +4,9 @@
 
 #### General
 
+  * This is the last non-snapshot release of LT, i.e. there won't be a 6.7 release
+    as a ZIP file. We're switching to daily snapshot releases, which are available
+    at https://languagetool.org/download/snapshots/.
   * LanguageTool requires Java 17 now
 
 #### Catalan
