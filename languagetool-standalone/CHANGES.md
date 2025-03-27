@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 6.6-SNAPSHOT (release planned for 2025-03-27)
+## 6.6 (2025-03-27)
 
 #### General
 
