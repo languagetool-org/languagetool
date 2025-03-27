@@ -226,7 +226,7 @@ public class HTTPServerConfig {
 
   /**
    * @param serverPort the port to bind to
-   * @param verbose when set to <tt>true</tt>, the input text will be logged in case there is an exception
+   * @param verbose when set to <code>true</code>, the input text will be logged in case there is an exception
    */
   public HTTPServerConfig(int serverPort, boolean verbose) {
     this.port = serverPort;
