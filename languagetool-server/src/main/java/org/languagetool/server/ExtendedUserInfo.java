@@ -20,6 +20,8 @@ package org.languagetool.server;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import lombok.Getter;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -44,13 +46,19 @@ public class ExtendedUserInfo {
   public UUID groupId;
   public String groupRole;
 
+  @Getter
+  public boolean opt_in_3rd_party_ai_grammar_checker;
+
+  @Getter
+  public boolean opt_in_3rd_party_ai_paraphraser;
+
 
   // for jackson-databind deserialization
   public ExtendedUserInfo() {}
 
   // for myBatis deserialization
   public ExtendedUserInfo(String addon_token, String api_key, String email, String name, Date premium_from, Date premium_to, Timestamp cancel_date, Long subscription_months, String geo_ip_country,
-   Long managed_accounts, UUID groupId, String groupRole) {
+   Long managed_accounts, UUID groupId, String groupRole, boolean opt_in_3rd_party_ai_grammar_checker, boolean opt_in_3rd_party_ai_paraphraser) {
 
     this.addon_token = addon_token;
     this.api_key = api_key;
@@ -64,6 +72,8 @@ public class ExtendedUserInfo {
     this.managed_accounts = managed_accounts;
     this.groupId = groupId;
     this.groupRole = groupRole;
+    this.opt_in_3rd_party_ai_grammar_checker = opt_in_3rd_party_ai_grammar_checker;
+    this.opt_in_3rd_party_ai_paraphraser = opt_in_3rd_party_ai_paraphraser;
   }
 
   @Override
@@ -82,6 +92,8 @@ public class ExtendedUserInfo {
       .append("managed_accounts", managed_accounts)
       .append("groupId", groupId)
       .append("groupRole", groupRole)
+      .append("opt_in_3rd_party_ai_grammar_checker", opt_in_3rd_party_ai_grammar_checker)
+      .append("opt_in_3rd_party_ai_paraphraser", opt_in_3rd_party_ai_paraphraser)
       .toString();
   }
 
@@ -140,5 +152,5 @@ public class ExtendedUserInfo {
     return groupRole;
   }
 
-  
+
 }
