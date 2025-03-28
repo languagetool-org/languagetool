@@ -3957,7 +3957,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="replace" postag="NCCP000"/>
     </rule>
-    <rulegroup id="nom_seguitde_nompropi" name="nom seguit de nom propi: el mont Or">
+    <rulegroup id="nom_seguit_de_nompropi" name="nom seguit de nom propi: el mont Or">
         <antipattern>
             <token regexp="yes">el|els|les</token>
             <token>marca</token>
@@ -3972,7 +3972,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </antipattern>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">&nom_seguitde_nompropi;</token>
+                <token inflected="yes" regexp="yes">&nom_seguit_de_nompropi;</token>
                 <marker>
                     <and>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
@@ -3986,7 +3986,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_seguitde_nompropi;</token>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_seguit_de_nompropi;</token>
                 </marker>
                 <token regexp="yes">\p{Lu}.+</token>
             </pattern>
@@ -3995,7 +3995,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- igual però amb cometes -->
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">&nom_seguitde_nompropi;</token>
+                <token inflected="yes" regexp="yes">&nom_seguit_de_nompropi;</token>
                 <token regexp="yes">['"‘“«]</token>
                 <marker>
                     <and>
@@ -4009,7 +4009,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_seguitde_nompropi;</token>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_seguit_de_nompropi;</token>
                 </marker>
                 <token regexp="yes">['"‘“«]</token>
                 <token regexp="yes">\p{Lu}.+</token>
