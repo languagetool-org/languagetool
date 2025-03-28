@@ -58,6 +58,8 @@ public class RemoteRuleConfig {
   private static final int DEFAULT_SLIDING_WINDOW_SIZE = 60;
   private static final int DEFAULT_MINIMUM_NUMBER_OF_CALLS = 10;
 
+  public static final String THIRD_PARTY_AI = "thirdPartyAI";
+
 
   private static final LoadingCache<File, List<RemoteRuleConfig>> configCache = CacheBuilder.newBuilder()
     .expireAfterWrite(15, TimeUnit.MINUTES)
@@ -184,6 +186,14 @@ public class RemoteRuleConfig {
    */
   public String getType() {
     return type;
+  }
+
+  /**
+   * based on options
+   * @return whether the RemoteRule sends data to a third-party AI model
+   */
+  public boolean isUsingThirdPartyAI() {
+    return options.getOrDefault(THIRD_PARTY_AI, "false").equals("true");
   }
 
   @Override

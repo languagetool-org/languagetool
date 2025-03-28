@@ -181,6 +181,12 @@ public class RemoteRuleTest {
     return userConfig;
   }
 
+  private UserConfig getUserConfigWithThirdPartyAI(boolean thirdPartyAI) {
+    UserConfig userConfig = new UserConfig(Collections.emptyList(), Collections.emptyList(), Collections.emptyMap(),
+      5, null, null, null, null, false, null, null, false, null, true, thirdPartyAI);
+    return userConfig;
+  }
+
   @Test
   public void testAbFlags() throws IOException {
     JLanguageTool lt = new JLanguageTool(new Demo());
@@ -219,6 +225,53 @@ public class RemoteRuleTest {
     c3.options.put("excludeABTest", "foo");
     lt = new JLanguageTool(new Demo(), null, u4);
     lt.activateRemoteRules(Arrays.asList(c3));
+
+    assertTrue(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+  }
+
+  @Test
+  public void testThirdPartyAI() throws IOException {
+
+    JLanguageTool lt = new JLanguageTool(new Demo());
+    assertFalse(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    // opt-in, third-party AI is active
+    RemoteRuleConfig c1 = new RemoteRuleConfig(config);
+    c1.options.put(RemoteRuleConfig.THIRD_PARTY_AI, "true");
+
+    UserConfig config1 = getUserConfigWithThirdPartyAI(true);
+    lt = new JLanguageTool(new Demo(), null, config1);
+    lt.activateRemoteRules(Arrays.asList(c1));
+
+    assertTrue(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    // no third party AI (default), opt-out, rule active
+    UserConfig config2 = getUserConfigWithThirdPartyAI(false);
+    RemoteRuleConfig c2 = new RemoteRuleConfig(config);
+    lt = new JLanguageTool(new Demo(), null, config2);
+    lt.activateRemoteRules(Arrays.asList(c2));
+
+    assertTrue(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    // third-party AI, opt out, rule not active
+
+    RemoteRuleConfig c3 = new RemoteRuleConfig(config);
+    c3.options.put(RemoteRuleConfig.THIRD_PARTY_AI, "true");
+
+    UserConfig config3 = getUserConfigWithThirdPartyAI(false);
+    lt = new JLanguageTool(new Demo(), null, config3);
+    lt.activateRemoteRules(Arrays.asList(c3));
+
+    assertFalse(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+
+    // no third-party AI, opt in, rule active
+
+    RemoteRuleConfig c4 = new RemoteRuleConfig(config);
+    c4.options.put(RemoteRuleConfig.THIRD_PARTY_AI, "false");
+
+    UserConfig config4 = getUserConfigWithThirdPartyAI(true);
+    lt = new JLanguageTool(new Demo(), null, config4);
+    lt.activateRemoteRules(Arrays.asList(c4));
 
     assertTrue(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
   }
