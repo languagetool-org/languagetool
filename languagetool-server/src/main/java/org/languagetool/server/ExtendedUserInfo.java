@@ -47,7 +47,6 @@ public class ExtendedUserInfo {
   public String groupRole;
 
   @Getter
-
   public boolean opt_in_3rd_party_ai_grammar_checker;
 
   @Getter
