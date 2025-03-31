@@ -3985,7 +3985,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"><exception postag="PX.*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_seguit_de_nompropi;</token>
                 </marker>
@@ -4018,7 +4018,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"><exception postag="PX.*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">&nom_seguit_de_nompropi;</token>
                 </marker>
@@ -22349,6 +22349,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="OCTAL_NOTATION" name="notació octal">
         <pattern>
             <token regexp="yes" case_sensitive="yes">0o[0-7]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="ignora_algunes_sigles" name="algunes sigles">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">NY</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
