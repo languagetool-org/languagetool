@@ -12298,6 +12298,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!-- La característica mitja canya
         problema: la part superior esquerra -->
     <rule id="DAAN" name="det + adj + adj + nom">
+        <antipattern>
+            <token>recent</token>
+            <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes"/>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="nombre"/>
@@ -22354,7 +22358,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="ignora_algunes_sigles" name="algunes sigles">
         <pattern>
-            <token regexp="yes" case_sensitive="yes">NY</token>
+            <token case_sensitive="yes">NY</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
