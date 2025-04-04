@@ -535,13 +535,14 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private static Pattern computNonWordPattern(InputStream stream) {
-    Scanner sc = new Scanner(stream);
-    while (sc.hasNextLine()) {
-      String line = sc.nextLine();
-      if (line.startsWith("WORDCHARS ")) {
-        String wordCharsFromAff = line.substring("WORDCHARS ".length());
-        //System.out.println("#" + wordCharsFromAff+ "#");
-        return Pattern.compile("(?![" + wordCharsFromAff.replace("-", "\\-") + "])" + NON_ALPHABETIC);
+    try (Scanner sc = new Scanner(stream)) {
+      while (sc.hasNextLine()) {
+        String line = sc.nextLine();
+        if (line.startsWith("WORDCHARS ")) {
+          String wordCharsFromAff = line.substring("WORDCHARS ".length());
+          //System.out.println("#" + wordCharsFromAff+ "#");
+          return Pattern.compile("(?![" + wordCharsFromAff.replace("-", "\\-") + "])" + NON_ALPHABETIC);
+        }
       }
     }
     return NON_ALPHABETIC_PATTERN;

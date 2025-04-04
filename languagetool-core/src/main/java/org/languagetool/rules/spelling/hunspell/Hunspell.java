@@ -67,11 +67,9 @@ public final class Hunspell {
     if (hunspell != null && !hunspell.isClosed()) {
       return hunspell;
     }
-    try {
-      HunspellDictionary newHunspell = hunspellDictionaryFactory.create(
-        dictionary.getFileName().toString(),
-        Files.newInputStream(dictionary),
-        Files.newInputStream(affix));
+    try(var dic = Files.newInputStream(dictionary); var aff = Files.newInputStream(affix)) {
+      HunspellDictionary newHunspell = hunspellDictionaryFactory
+        .create(dictionary.getFileName().toString(), dic, aff);
       map.put(key, newHunspell);
       return newHunspell;
     } catch (IOException e) {
@@ -84,14 +82,12 @@ public final class Hunspell {
   }
 
   public static HunspellDictionary forDictionaryInResources(String language, String dicPath, String affPath) {
-    try {
-      ResourceDataBroker broker = JLanguageTool.getDataBroker();
-      InputStream dictionaryStream = broker.getFromResourceDirAsStream(dicPath);
-      InputStream affixStream = broker.getFromResourceDirAsStream(affPath);
-      if (dictionaryStream == null || affixStream == null) {
+    ResourceDataBroker broker = JLanguageTool.getDataBroker();
+    try (var dic = broker.getFromResourceDirAsStream(dicPath); var aff = broker.getFromResourceDirAsStream(affPath)) {
+      if (dic == null || aff == null) {
         throw new RuntimeException("Could not find the dictionary for language \"" + language + "\" in the classpath");
       }
-      return hunspellDictionaryFactory.create(language, dictionaryStream, affixStream);
+      return hunspellDictionaryFactory.create(language, dic, aff);
     } catch (IOException e) {
       throw new RuntimeException("Could not create temporary dictionaries for language \"" + language + "\"", e);
     }
