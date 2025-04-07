@@ -10346,6 +10346,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="VM.*|_GV_"/>
     </rule>
+    <rule id="Ves" name="Verb anar seguit de participi i gerundi">
+        <pattern>
+            <marker>
+                <token postag="VMM02S00">ves</token>
+            </marker>
+            <token postag="V.G.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="anar" pos="VMM02S00"/>
+        </disambig>
+    </rule>
     <rule id="Anar2" name="Verb anar seguit de participi i gerundi">
         <pattern>
             <token postag="VA.*" postag_regexp="yes" inflected="yes">anar</token>
