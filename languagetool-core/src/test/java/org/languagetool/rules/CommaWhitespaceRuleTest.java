@@ -43,6 +43,8 @@ public class CommaWhitespaceRuleTest {
   @Test
   public void testRule() throws IOException {
     assertMatches("This is a test sentence.", 0);
+    assertMatches("I work with the technology .Net and Azure.", 0);
+    assertMatches("I work with the technology .NET and Azure.", 0);
     assertMatches("I use .MP3 or .WAV file suffix", 0);
     assertMatches("This, is, a test sentence.", 0);
     assertMatches("This (foo bar) is a test!.", 0);

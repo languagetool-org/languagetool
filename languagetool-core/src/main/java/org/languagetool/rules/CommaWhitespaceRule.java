@@ -191,7 +191,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   private boolean isDomain(AnalyzedTokenReadings[] tokens, int i) {
-    return i < tokens.length && tokens[i].getToken().matches("(com|org|net|int|edu|gov|mil|[a-z]{2})");
+    return i < tokens.length && tokens[i].getToken().matches("(?i)(com|org|net|int|edu|gov|mil|[a-z]{2})");
   }
 
   private boolean isFileExtension(AnalyzedTokenReadings[] tokens, int i) {
