@@ -986,6 +986,11 @@ class AgreementRuleAntiPatterns1 {
       csRegex("Bowls?")
     ),
     asList(
+      // Ein Teil der Communauté Française schloss sich zur Westafrikanischen Zollunion (UDAO) zusammen.
+      csRegex("Westafrikanischen?"),
+      token("Zollunion")
+    ),
+    asList(
       // Die Zeit begann mit der Gründung der englischen Football Association.
       csRegex("[Ee]nglischen?"),
       token("Football"),
