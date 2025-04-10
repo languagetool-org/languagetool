@@ -13592,23 +13592,6 @@ USA
         </rule>
 
 
-        <!-- ESTAR À ESPERA esperar -->
-        <rule id='ESTAR_A_ESPERA' name="[Simplificar] Estar à espera → Esperar" type="style">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
-            <pattern>
-                <token inflected='yes'>estar</token>
-                <token regexp="yes">nas?|nos?|em</token>
-                <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
-                <token>à</token>
-                <token inflected='yes'>esperar</token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esperar</match> \2 \3</suggestion>
-            <example correction="esperar na fila">O Rui optou por <marker>estar na fila à espera</marker>.</example>
-        </rule>
-
-
         <!-- ESTAR A VERB_INFINITIVE verb (verb1 person)-->
         <rulegroup id='ESTAR_A_VERB-INFINITIVE' name="[Simplificar] Estar a + V.Inf. → V.1.ªPessoa" type="style">
             <!--IDEA shorten_it-->
