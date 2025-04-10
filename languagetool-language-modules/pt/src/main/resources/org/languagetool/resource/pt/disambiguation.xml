@@ -4372,6 +4372,28 @@ USA
     -->
   </rule>
 
+  <rule id="REMOVE_VERBS_À_IN_NC_VERBS_RARE" name="Remove verbs in nouns">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+      <token regexp='yes'>às?</token>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Alerta sobre risco à saúde.
+             Império à Deriva.
+             do Declínio Europeu à Era Global.
+             Todos os valores incluem IVA à taxa legal em vigor e podem ser alterados sem aviso prévio.
+    -->
+  </rule>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
