@@ -190,8 +190,14 @@ public class CommaWhitespaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  /**
+   * Case Insensitive check if the token at index i is a valid domain name (e.g. "com", "org", "net", etc.)
+   * @param tokens
+   * @param i
+   * @return true if the token at index i is a domain name, false otherwise
+   */
   private boolean isDomain(AnalyzedTokenReadings[] tokens, int i) {
-    return i < tokens.length && tokens[i].getToken().matches("(com|org|net|int|edu|gov|mil|[a-z]{2})");
+    return i < tokens.length && tokens[i].getToken().matches("(?i)(com|org|net|int|edu|gov|mil|[a-z]{2})");
   }
 
   private boolean isFileExtension(AnalyzedTokenReadings[] tokens, int i) {
