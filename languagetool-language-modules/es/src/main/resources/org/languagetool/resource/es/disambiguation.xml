@@ -6110,6 +6110,15 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="adj_antepuesto_improbable_adjunto" name="adjetivo antepuesto improbable">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" regexp="yes">adjunto|conteste</token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="AQ.*"/>
+    </rule>
     <rule id="adj_antepuesto_improbable" name="adjetivo antepuesto improbable">
         <pattern>
             <marker>
@@ -8442,6 +8451,12 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="ignora_algunas_siglas" name="algunas siglas">
+        <pattern>
+            <token case_sensitive="yes">NY</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule id="ignore_uppercase_letters" name="A a Z">
         <antipattern case_sensitive="yes">
             <token>y</token>
