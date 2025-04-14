@@ -10762,6 +10762,22 @@ USA
         </rule>
 
 
+        <rule id='EVIDENCIAR_COMPROVAR_DEMONSTRAR' name="[Universitário] Mostrar → evidenciar/comprovar/demonstrar" type='style' tags='picky' tone_tags='academic'>
+            <pattern>
+                <token regexp='yes' inflected='yes' skip='1'>abordagem|achado|amostra|análise|artigo|avaliação|caso|cenário|coleta|comparação|conceito|consulta|contexto|critério|dado|diagnóstico|dissertação|documento|enquadramento|ensaio|entrevista|equação|estratégia|estudo|evidência|exemplo|experiência|experimento|fen[óô]meno|ferramenta|fórmula|framework|gráfico|hipótese|indicador|inquérito|instrumento|investigação|levantamento|mapa|mecanismo|método|métrica|modelo|monografia|observação|padrão|paradigma|parâmetro|pesquisa|prática|pressuposto|princípio|procedimento|processo|projeto|protocolo|relatório|resultado|revisão|simulação|sistema|sondagem|tabela|técnica|tecnologia|tendência|teoria|tese|teste|trabalho|variável</token>
+                <marker>
+                    <token regexp='no' inflected='yes'>mostrar</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/universitário, é preferível escrever &quot;evidenciar&quot;, &quot;comprovar&quot; ou &quot;demonstrar&quot;.</message>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>evidenciar</match></suggestion>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>comprovar</match></suggestion>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>demonstrar</match></suggestion>
+            <example correction="evidencia|comprova|demonstra">A pesquisa <marker>mostra</marker> que os resultados são os esperados.</example>
+            <example>O estudo evidencia um enorme grau de sucesso.</example>
+        </rule>
+
+
         <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[Universitário] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
@@ -11085,7 +11101,7 @@ USA
     <category id='OBJECTIVE' name='Linguagem objetiva' type='style' tone_tags="objective">
 
 
-        <rule id='MAGOADO_RESSENTIDO' name="Magoado → ressentido" tone_tags='objective' default='temp_off'>
+        <rule id='MAGOADO_RESSENTIDO' name="Magoado → ressentido" tone_tags='objective'>
             <!-- Used ChatGPT 4.5 with Deep research -->
 
             <antipattern> <!-- Removes sentences that don't match ChatGPT's suggested words but keeps proper names -->
@@ -12340,6 +12356,23 @@ USA
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
 
 
+        <rule id='TOTALIZAR' name="Simplificar: 'perfazer um total de' → totalizar">
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='yes'>alcançar|contabilizar|perfazer|somar|totalizar</token>
+                    <token>um</token>
+                    <token>total</token>
+                    <token>de</token>
+                </marker>
+                <token postag='Z0.+|NC.+' postag_regexp='yes'/>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>totalizar</match></suggestion>
+            <example correction="totaliza">Isto <marker>perfaz um total de</marker> 10 equações</example>
+            <example>Estiveram presentes 20 clubes que totalizaram 275 atletas.</example>
+        </rule>
+
+
         <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
             <antipattern>
                 <token postag="V.+|NC.+" postag_regexp='yes'/>
@@ -13556,23 +13589,6 @@ USA
             <message>&simplify_msg;</message>
             <suggestion>sem \5</suggestion>
             <example correction="sem qualquer">Temos um período <marker>em que não há qualquer</marker> registo histórico.</example>
-        </rule>
-
-
-        <!-- ESTAR À ESPERA esperar -->
-        <rule id='ESTAR_A_ESPERA' name="[Simplificar] Estar à espera → Esperar" type="style">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
-            <pattern>
-                <token inflected='yes'>estar</token>
-                <token regexp="yes">nas?|nos?|em</token>
-                <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
-                <token>à</token>
-                <token inflected='yes'>esperar</token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esperar</match> \2 \3</suggestion>
-            <example correction="esperar na fila">O Rui optou por <marker>estar na fila à espera</marker>.</example>
         </rule>
 
 
@@ -16580,6 +16596,7 @@ USA
             <example>E assim <marker>impossibilitando</marker> falhar.</example>
         </rule>
 
+
         <!-- QUE [NÃO] HÁ [não] haver -->
         <rulegroup id='QUE_HÁ_QUE_NÃO_HÁ' name="Que [não] há → [Não] haver" type="style" tags="picky">
             <!--IDEA shorten_it-->
@@ -16588,16 +16605,28 @@ USA
             É assumido que há substituição de jogadores durante a partida. → É assumido haver substituição de jogadores durante a partida.
             É assumido que não há substituição de jogadores durante a partida. → É assumido não haver substituição de jogadores durante a partida.
             -->
+
+            <antipattern>
+                <token regexp='no' inflected='no'>é</token>
+                <token>que</token>
+                <token>há</token>
+                <example>O fato é que há títulos do governo sendo rejeitados às taxas de juros vigentes.</example>
+                <example>O que é que há de novo nesse projeto?</example>
+                <example>Tudo o que sei é que há algo mais acontecendo.</example>
+                <example>O que eu quero dizer é que há limites que precisam ser estabelecidos e respeitados.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token min='0' max='1'>não</token>
+                <token skip='4'>há</token>
+                <token postag='Z0.+' postag_regexp='yes'/>
+                <token regexp='yes'>&expressoes_de_tempo_simples;</token>
+                <example>Jamais esquecerei que há uns vinte anos me disseste isso.</example>
+            </antipattern>
+
             <rule>
-
-                <antipattern>
-                    <token postag='VMIF1S0' postag_regexp='no'/>
-                    <token>que</token>
-                    <token>há</token>
-                    <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                    <example>Jamais esquecerei que há uns vinte anos me disseste isso.</example>
-                </antipattern>
-
                 <antipattern>
                     <token postag='VMIP1S0' postag_regexp='no'/>
                     <token>que</token>

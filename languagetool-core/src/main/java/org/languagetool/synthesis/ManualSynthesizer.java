@@ -44,7 +44,7 @@ import static org.languagetool.tools.StringInterner.intern;
  * This makes it possible for the user to edit the text file to let the system know
  * about new words or missing readings in the synthesizer *.dict file.
  * <p>
- * File Format: <tt>fullform baseform postags</tt> (tab separated)
+ * File Format: <code>fullform baseform postags</code> (tab separated)
  *
  * @author Ionuț Păduraru
  * @see ManualTagger

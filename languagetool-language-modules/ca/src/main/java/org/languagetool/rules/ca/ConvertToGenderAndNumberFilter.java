@@ -56,6 +56,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
     String desiredGenderStr = getOptional("gender", arguments, "");
     String desiredNumberStr = getOptional("number", arguments, "");
     String lemmaSelect = getRequired("lemmaSelect", arguments);
+    String newLemma = getOptional("newLemma", arguments, "");
     boolean keepOriginal = getOptional("keepOriginal", arguments, "false").equalsIgnoreCase("true");
 
     AnalyzedToken atrNoun = tokens[posWord].readingWithTagRegex(lemmaSelect);
@@ -65,6 +66,9 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
     }
     if (desiredNumberStr.isEmpty()) {
       desiredNumberStr = splitPostag[3];
+    }
+    if (!newLemma.isEmpty()) {
+      atrNoun = new AnalyzedToken(atrNoun.getToken(), atrNoun.getPOSTag(), newLemma);
     }
     int startPos = posWord;
     int endPos = posWord;

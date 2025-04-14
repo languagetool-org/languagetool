@@ -72,7 +72,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private final static Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
 
   /**
-   * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
+   * Get the filename, e.g., <code>/resource/pl/spelling.dict</code>.
    */
   public abstract String getFileName();
 

@@ -429,9 +429,9 @@ public abstract class Rule {
    * >http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues</a>.
    *
    * <p>Note that not all languages nor all rules actually map yet to a type yet. In those
-   * cases, <tt>uncategorized</tt> is returned.
+   * cases, <code>uncategorized</code> is returned.
    *
-   * @return the Localization Quality Issue Type - <tt>uncategorized</tt> if no type has been assigned
+   * @return the Localization Quality Issue Type - <code>uncategorized</code> if no type has been assigned
    * @since 2.5
    */
   public ITSIssueType getLocQualityIssueType() {

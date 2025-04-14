@@ -1096,7 +1096,8 @@ class CompoundTagger {
 
         if( rightPosTag == null
 //            || rightPosTag.contains("v_kly")
-            || rightPosTag.contains(IPOSTag.abbr.getText()) )
+            || rightPosTag.contains(IPOSTag.abbr.getText())
+            || rightPosTag.contains("v_zna:var") )
           continue;
 
         if( rightPosTag.startsWith("noun:inanim") ) {

@@ -114,6 +114,11 @@ class AgreementRuleAntiPatterns1 {
       token("Grund")
     ),
     asList(
+      token("bisschen"),   // "Für schwangere Frauen gelten wohl ein bisschen strengere Einschränkungen."
+      posRegex("ADJ.*"),
+      posRegex("SUB.*PLU.*")
+      ),
+    asList(
       tokenRegex("der|die|den"),   // "Ein Haus für die weniger Glücklichen."
       tokenRegex("weniger|besser|mehr|schlechter"),
       posRegex("SUB:.*PLU:.*:ADJ")
@@ -979,6 +984,11 @@ class AgreementRuleAntiPatterns1 {
       // Es war Teil von Madonnas Performance während des Super Bowls 2012.
       token("Super"),
       csRegex("Bowls?")
+    ),
+    asList(
+      // Ein Teil der Communauté Française schloss sich zur Westafrikanischen Zollunion (UDAO) zusammen.
+      csRegex("Westafrikanischen?"),
+      token("Zollunion")
     ),
     asList(
       // Die Zeit begann mit der Gründung der englischen Football Association.

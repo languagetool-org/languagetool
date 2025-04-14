@@ -278,6 +278,7 @@ public class Portuguese extends LanguageWithModel {
     id2prio.put("FORMAL_T-V_DISTINCTION_ALL", -101);
     id2prio.put("REPEATED_WORDS", -210);
     id2prio.put("PT_WIKIPEDIA_COMMON_ERRORS", -500);
+    id2prio.put("UPPERCASE_SENTENCE_START", -600);
     id2prio.put("FILLER_WORDS_PT", -990);
     id2prio.put(LongSentenceRule.RULE_ID, -997);
     id2prio.put(LongParagraphRule.RULE_ID, -998);

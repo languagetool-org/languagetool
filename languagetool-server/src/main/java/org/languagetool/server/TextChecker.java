@@ -36,8 +36,6 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
-import org.languagetool.server.tools.AbTestService;
-import org.languagetool.server.tools.LocalAbTestService;
 import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
@@ -67,7 +65,7 @@ abstract class TextChecker {
   private static final int PINGS_MAX_SIZE = 5000;
   private static final String SPAN_NAME_PREFIX = "/v2/check-";
   private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
-  private static final AbTestService AB_TEST_SERVICE = new LocalAbTestService();
+  static final AbTestService AB_TEST_SERVICE = LocalAbTestService.getAbTestService();
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -324,6 +322,18 @@ abstract class TextChecker {
     RemoteRule.shutdown();
   }
 
+  private boolean isOptInThirdPartyAI(UserLimits limits, Map<String, String> params, HTTPServerConfig config) {
+    boolean optInThirdPartyAI = false;
+    if (limits.getAccount() != null) {
+      optInThirdPartyAI = limits.getAccount().isOpt_in_3rd_party_ai_grammar_checker();
+    } else if (params.containsKey("optInThirdPartyAI")) {
+      optInThirdPartyAI = "true".equals(params.get("optInThirdPartyAI"));
+    } else {
+      optInThirdPartyAI = config.getDefaultThirdPartyAI();
+    }
+    return optInThirdPartyAI;
+  }
+
   private boolean shouldRunRestrictedRulesTest(Map<String, String> params, String agent, Language lang, List<String> abTest) {
     String username = params.getOrDefault("username", "");
     return (onlyTestUsers.contains(username) || (abTest != null && abTest.contains("only"))) &&
@@ -496,12 +506,14 @@ abstract class TextChecker {
     String ltAgent = params.getOrDefault("useragent", "unknown");
     Pattern trustedSourcesPattern = config.getTrustedSources();
     boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
+    boolean optInThirdPartyAI = isOptInThirdPartyAI(limits, params, config);
+
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource, optInThirdPartyAI);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
