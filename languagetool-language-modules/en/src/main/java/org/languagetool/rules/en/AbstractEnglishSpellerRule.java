@@ -196,6 +196,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern JETLAGGED = compile("jetlagged");
   private static final Pattern MACBOOK = compile("[Mm]acbooks?");
   private static final Pattern LIKELYHOOD = compile("[Ll]ikelyhood");
+  private static final Pattern FORSEEABLE = compile("[Ff]orseeable");
+  private static final Pattern UNFORSEEABLE = compile("[Uu]nforseeable");
+  private static final Pattern FORSEEABLY = compile("[Ff]orseeably");
+  private static final Pattern UNFORSEEABLY = compile("[Uu]nforseeably");
   private static final Pattern UNECESSARY = compile("[Uu]necessary");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
   private static final Pattern URL = compile("[Uu]rl");
@@ -1563,6 +1567,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (MACBOOK.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "acbook", "acBook"));
     if (LIKELYHOOD.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ikelyhood", "ikelihood"));
     if (UNECESSARY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "necessary", "nnecessary"));
+    if (FORSEEABLE.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "orseeable", "oreseeable"));
+    if (UNFORSEEABLE.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "orseeable", "oreseeable"));
+    if (FORSEEABLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "orseeably", "oreseeably"));
+    if (UNFORSEEABLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "orseeably", "oreseeably"));
     if (QUILLBOT1.matcher(word).matches() || QUILLBOT2.matcher(word).matches()) return topMatch("QuillBot");
     if (QUILLBOT_POS.matcher(word).matches() || QUILLBOT1_POS.matcher(word).matches() ||
       QUILLBOT2_POS.matcher(word).matches()) {
