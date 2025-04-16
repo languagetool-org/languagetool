@@ -1798,6 +1798,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Hier kann man <marker>bestimmt</marker> was Besseres vorschlagen.<marker>ein hohes Tier</marker> in der Branche.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">maß</token>
+                    </marker>
+                </pattern>
+                <example correction="">Die Fenix 5X Plus <marker>maß</marker> Herzfrequenz und Bewegungen, und so weiter.</example>
+            </rule>
         </rulegroup>
         <rule id="AI_DE_HYDRA_LEO_CP_EINEN_EINEM" name="">
             <pattern>
@@ -1909,6 +1917,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das ist im <marker>Welten</marker> besser als vorher.</example>
             </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token>U-Haft</token>
+                    </marker>
+                </pattern>
+                <example correction="">Fünf Deutsche kamen in <marker>U-Haft</marker>.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADPOSITION">
@@ -1956,6 +1973,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>vorstellen</token>
                 </pattern>
                 <example correction="">Darf ich <marker>mich</marker> vorstellen, mein Name ist Müller.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_PRONOUN_WER_DER">
+            <rule>
+                <pattern>
+                    <token>ein</token>
+                    <token>Schelm</token>
+                    <token>,</token>
+                    <marker>
+                        <token>wer</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ein Schelm, <marker>wer</marker> dabei an das Baby denkt.</example>
             </rule>
         </rulegroup>
 
@@ -2150,7 +2180,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*|isländisch.+|ungeduscht.*</token>
+                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*|isländisch.+|ungeduscht.*|kopulierend.*</token>
                 </pattern>
                 <example correction="">Das ist doch echt <marker>asbachuralt</marker>!</example>
                 <example correction="">Ist <marker>gelingsicher</marker>, kann nicht anbrennen, ist immer saftig und zart!!</example>
@@ -3015,6 +3045,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token case_sensitive="yes" postag="ADJ.*" postag_regexp="yes">indikativ</token>
                 </pattern>
                 <example correction="">Aktien, die <marker>indikativ</marker> nicht mindestens ein Prozent Dividendenrendite abwerfen, werden deshalb aussortiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ist|war|wäre?</token>
+                    <token regexp="yes">mir|ihr|dir|ihm|uns|ihnen</token>
+                    <token>das</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">recht</token>
+                    </marker>
+                </pattern>
+                <example correction="">Wenn du morgens lieber zum Sport gehst und um 2 Uhr nachts arbeitest oder nur mit Pina Colada am Strand arbeiten kannst, so ist mir das <marker>recht</marker>, solange du die Ergebnisse erzielst.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ma(ß|ss)(zu)?halten</token>
+                    </marker>
+                </pattern>
+                <example correction="">Er versuchte <marker>maßzuhalten</marker>.</example>
             </rule>
         </rulegroup>
 
