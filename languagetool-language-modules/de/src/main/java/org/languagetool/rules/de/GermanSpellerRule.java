@@ -3094,6 +3094,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("paar");
     } else if (word.equals("iwie")) {
       return singletonList("irgendwie");
+    } else if (word.equals("schwarzfarbenden")) {
+      return singletonList("schwarzfarbenen");
     } else if (word.equals("bzgl")) {
       return singletonList("bzgl.");
     } else if (word.equals("bau")) {
