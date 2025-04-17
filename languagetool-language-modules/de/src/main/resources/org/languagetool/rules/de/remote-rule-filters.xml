@@ -2003,6 +2003,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""><marker>sorry für</marker> die Unannehmlichkeit.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>musstet</token>
+                </pattern>
+                <example correction="">Ihr <marker>musstet</marker> mich auch hierherbringen, obwohl ich in der Schule so viel zu tun habe.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_UNNECESSARY.*">
@@ -2841,6 +2847,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Es scheint <marker>sich</marker> offensichtlich, um einen Bug in unserer Wörterbuch-Logik zu handeln.</example>
             </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token>führt</token>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                    <token>darauf</token>
+                    <token>zurück</token>
+                </pattern>
+                <example correction="">Die Bildungswissenschaftlerin führt <marker>das</marker> darauf zurück, dass viele Eltern mit der Förderung mathematischer Fähigkeiten das Kennen der Zahlen assoziierten.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ADVERB" name="">
@@ -2918,6 +2935,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Osterei</token>
                 </pattern>
                 <example correction="">Die kleine Maria legt <marker>das</marker> gefundene Osterei in ihren Korb.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">beharren</token>
+                    <token>auf</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="PRO:POS:DAT.*"/>
+                    </marker>
+                </pattern>
+                <example correction="">Mein Vater aber beharrte auf <marker>seinem</marker> Entschluss.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                        <token skip="-1" postag_regexp="yes" postag="PRO:POS:DAT.*"/>
+                    </marker>
+                    <token inflected="yes">beharren</token>
+                </pattern>
+                <example correction="">Mein Vater wollte auf <marker>seinem</marker> Entschluss beharren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="SUB.*" />
+                    <marker>
+                        <token>einer</token>
+                    </marker>
+                    <token>Gans</token>
+                </pattern>
+                <example correction="">Es war der Schnabel eines Adlers und der Hals <marker>einer</marker> Gans.</example>
             </rule>
         </rulegroup>
 
@@ -3202,6 +3249,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Es <marker>gehe</marker> darum, den Dax-Konzern „als feste Größe unter den erfolgreichen europäischen Banken zu etablieren“, sagte Commerzbank-Chefin Bettina Orlopp bei der Vorstellung der Strategie bis 2028 in Frankfurt.</example>
                 <example correction="">Ohne eindeutigen Nachweis über eine vertragliche Zusatzvereinbarung zu den weiteren Arbeiten <marker>habe</marker> der Handwerksbetrieb keinen Anspruch auf weitere Vergütung.</example>
                 <example correction="">Davon werden ca. 10 % <marker>durchgewunken</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_VERB_FORM" name="">
+            <rule>
+                <pattern>
+                    <token>Teeberge</token>
+                    <marker>
+                        <token>sind</token>
+                    </marker>
+                </pattern>
+                <example correction="">Die Teeberge <marker>sind</marker> alle verlassen.</example>
             </rule>
         </rulegroup>
 
