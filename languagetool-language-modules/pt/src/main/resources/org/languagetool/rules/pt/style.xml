@@ -11447,73 +11447,65 @@ USA
         </rule>
 
 
-        <rule id='TORNAR_MAIS_DIFICIL' name="Tornar mais difícil → Dificultar" tone_tags="objective">
+        <rulegroup id='TORNAR_MAIS_DIFICIL_FACIL' name='Tornar mais difícil/fácil → dificultar/facilitar' tone_tags='objective' default='temp_off'>
             <!--IDEA shorten_it-->
             <antipattern>
-                <token postag='V.+:.+' postag_regexp='yes' inflected='yes'>tornar</token>
+                <token postag='V.+:.+|VMP00.+' postag_regexp='yes' inflected='yes'>tornar</token>
                 <token min='0' max='1'>mais</token>
-                <token regexp='yes'>difíc(il|eis)</token>
+                <token regexp='yes'>difíc(il|eis)|fác(il|eis)</token>
                 <token postag='V.+' postag_regexp='yes'/>
                 <example>Consequentemente, torna-se difícil prever os resultados.</example>
                 <example>Consequentemente, torna-se difícil obter equipamento de equitação que sirva ao animal.</example>
                 <example>Com o cancelamento de shows, tornou-se difícil manter a estrutura de funcionamento do grupo.</example>
+                <example>A iniciativa obteve um certo sucesso pela Alemanha, também por ter se tornado mais fácil instalar o firmware.</example>
             </antipattern>
             <antipattern>
                 <token inflected='yes'>tornar</token>
                 <token min='0' max='1'>mais</token>
-                <token regexp='yes'>difíc(il|eis)</token>
+                <token regexp='yes'>difíc(il|eis)|fác(il|eis)</token>
                 <token postag='SPS00' postag_regexp='no'><exception regexp='no'>a</exception></token>
                 <example>Seu sotaque torna difícil para mim acreditar no que ele está dizendo.</example>
                 <example>Seus deltoides grandes tornam difícil para ele encontrar camisas que encaixam.</example>
                 <example>À medida que o campo da genética se desenvolvia, essas visões se tornavam mais difíceis de manter.</example>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token inflected='yes'>tornar</token>
-                    <token min='0' max='1'>mais</token>
-                    <token regexp='yes'>difíc(il|eis)</token>
-                </marker>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
-            <example correction="dificultar">As regras vão <marker>tornar mais difícil</marker> o jogo.</example>
-            <example>Está dificultando todo o processo.</example>
-        </rule>
-
-
-        <rule id='TORNAR_MAIS_FACIL' name="Tornar mais fácil → Facilitar" tone_tags="objective">
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      As regras vão tornar mais fácil o jogo. → As regras vão facilitar o jogo.
-      -->
             <antipattern>
                 <token inflected='yes'>tornar</token>
-                <token min="0" max="1">mais</token>
-                <token regexp='yes'>fácil|fáceis</token>
-                <token regexp='yes'>,|e|ou</token>
-                <token postag='A.+' postag_regexp='yes'/>
-                <example>Torna mais fácil e acessível a todos.</example>
+                <token min='0' max='1'>mais</token>
+                <token regexp='yes'>difíc(il|eis)|fác(il|eis)</token>
+                <token postag='CC' postag_regexp='no'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <example>Nós o ajudaremos a tornar fácil e econômico reduzir seu impacto de CO2.</example>
+                <example>O movimento de três eixos da cabeça de luz torna fácil e simples a posição e o braço excepcionalmente longo.</example>
             </antipattern>
-            <antipattern>
-                <token>se</token>
-                <token inflected='yes'>tornar</token>
-                <token min="0" max="1">mais</token>
-                <token regexp='yes'>fácil|fáceis</token>
-                <example>Assim, tudo se torna mais fácil.</example>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token inflected='yes'>tornar</token>
-                    <token min="0" max="1">mais</token>
-                    <token regexp='yes'>fácil|fáceis</token>
-                </marker>
-                <token><exception postag_regexp='no' postag='SPS00'/></token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>facilitar</match></suggestion>
-            <example correction="facilitar">As regras vão <marker>tornar mais fácil</marker> o jogo.</example>
-        </rule>
+
+            <rule> <!-- #1: dificultar -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar</token>
+                        <token min='0' max='1'>mais</token>
+                        <token regexp='yes'>difíc(il|eis)</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
+                <example correction="dificultar">As regras vão <marker>tornar mais difícil</marker> o jogo.</example>
+                <example>Está dificultando todo o processo.</example>
+            </rule>
+
+            <rule> <!-- #2: facilitar -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar</token>
+                        <token min='0' max='1'>mais</token>
+                        <token regexp='yes'>fác(il|eis)</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>facilitar</match></suggestion>
+                <example correction="facilitar">As regras vão <marker>tornar mais fácil</marker> o jogo.</example>
+                <example>Está facilitando todo o processo.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='TORNAR_MAIS_FORTE' name="Tornar mais forte → Fortalecer" tone_tags="objective">
