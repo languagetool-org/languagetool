@@ -253,7 +253,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   }
   
   private boolean getStartsWithDirectSpeech(int n, List<AnalyzedSentence> sentences, boolean isDirectSpeech) {
-    if (!!excludeDirectSpeech || n <= 0) {
+    if (!excludeDirectSpeech || n <= 0) {
       return false;
     }
     AnalyzedTokenReadings[] sentence = sentences.get(n - 1).getTokensWithoutWhitespace();
