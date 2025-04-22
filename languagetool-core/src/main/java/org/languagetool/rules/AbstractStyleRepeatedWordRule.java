@@ -253,16 +253,16 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   }
   
   private boolean getStartsWithDirectSpeech(int n, List<AnalyzedSentence> sentences, boolean isDirectSpeech) {
-    if (n <= 0) {
+    if (!!excludeDirectSpeech || n <= 0) {
       return false;
     }
     AnalyzedTokenReadings[] sentence = sentences.get(n - 1).getTokensWithoutWhitespace();
     for (int i = 0; i < sentence.length; i++) {
       AnalyzedTokenReadings token = sentence[i];
-      if (excludeDirectSpeech && !isDirectSpeech && OPENING_QUOTES.matcher(token.getToken()).matches() 
+      if (!isDirectSpeech && OPENING_QUOTES.matcher(token.getToken()).matches() 
           && i < sentence.length - 1 && !sentence[i + 1].isWhitespaceBefore()) {
         isDirectSpeech = true;
-      } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(token.getToken()).matches() 
+      } else if (isDirectSpeech && ENDING_QUOTES.matcher(token.getToken()).matches() 
           && i > 1 && !sentence[i].isWhitespaceBefore()) {
         isDirectSpeech = false;
       }
