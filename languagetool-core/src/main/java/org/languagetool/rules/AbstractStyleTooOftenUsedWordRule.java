@@ -71,7 +71,7 @@ public abstract class AbstractStyleTooOftenUsedWordRule extends TextLevelRule {
   /**
    * An exception is defined for the token
    */
-  protected abstract boolean isException(AnalyzedTokenReadings token);
+  protected abstract boolean isException(AnalyzedTokenReadings[] tokens, int n);
   
   /**
    * Gives back the lemma that should be added to the word map
@@ -130,7 +130,7 @@ public abstract class AbstractStyleTooOftenUsedWordRule extends TextLevelRule {
         } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
         } else if (!isDirectSpeech && !token.isWhitespace() && !token.isNonWord() &&
-            isToCountedWord(token) && !isException(token)) {
+            isToCountedWord(token) && !isException(tokens, n)) {
           String lemma = toAddedLemma(token);
           if (lemma != null) {
             if (wordMap.containsKey(lemma)) {
@@ -191,7 +191,7 @@ public abstract class AbstractStyleTooOftenUsedWordRule extends TextLevelRule {
         } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
         } else if (!isDirectSpeech && !token.isWhitespace() && !token.isNonWord() &&
-            isToCountedWord(token) && !isException(token)) {
+            isToCountedWord(token) && !isException(tokens, n)) {
           String lemma = toAddedLemma(token);
           if (lemma != null) {
             for (String word : tooOftenUsedWords) {
