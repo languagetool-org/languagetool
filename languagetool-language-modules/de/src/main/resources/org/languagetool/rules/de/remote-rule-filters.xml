@@ -2217,10 +2217,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">landen</token>
+                    <token inflected="yes" skip="7">landen</token>
                     <marker>
-                        <token>einen</token>
+                        <token skip="2">einen</token>
                     </marker>
+                    <token postag="SUB.*MAS.*" postag_regexp="yes" />
                 </pattern>
                 <example correction="">Mit „Live is life“ landete die Band Opus 1985 <marker>einen</marker> weltweiten Hit.</example>
             </rule>
@@ -2252,6 +2253,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="SUB:NOM:SIN:NEU"/>
                 </pattern>
                 <example correction="">Für uns alle hier ist das <marker>heiliges</marker> Gebiet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP.*DAT.*" postag_regexp="yes" />
+                    <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-zäöüß]+em</token>
+                    <marker>
+                        <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-zäöüß]+en</token>
+                    </marker>
+                    <token postag="SUB.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">In starkem <marker>bayerischen</marker> Dialekt.</example>
             </rule>
         </rulegroup>
 
@@ -2595,7 +2607,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--3-->
                 <pattern>
-                    <token regexp="yes">Reflexvisiere?|Glefe|Patin|Bistum|Kerr-de-Sitter-Lösung|Balbus-Hawley-Instabilität(en)?|AGN-Entwicklung(en)?|Feuchtsavanne|Reparationen|Rotrutheniens?|Mährerreichs?|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?|Gegröle|Internship|Vögeln|Brosamen</token>
+                    <token regexp="yes">Reflexvisiere?|Glefe|Patin|Bistum|Kerr-de-Sitter-Lösung|Balbus-Hawley-Instabilität(en)?|AGN-Entwicklung(en)?|Feuchtsavanne|Reparationen|Rotrutheniens?|Mährerreichs?|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?|Gegröle|Internship|Vögeln|Brosamen|Schläger</token>
                 </pattern>
                 <example correction="">Wirfst du gleich den <marker>Fehdehandschuh</marker>?</example>
             </rule>
@@ -2742,6 +2754,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">* <marker>mRNA-Impfstoffe</marker> sind wichtig.</example>
             </rule>
+            <rule><!--5-->
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">(Nato|NATO)(-[A-ZÄÖÜ][a-zäöüß].*)?</token>
+                </pattern>
+                <example correction="">Die <marker>Nato</marker>.</example>
+                <example correction="">Die <marker>Nato-Soldaten</marker>.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE" name="">
@@ -2867,6 +2886,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Die Bildungswissenschaftlerin führt <marker>das</marker> darauf zurück, dass viele Eltern mit der Förderung mathematischer Fähigkeiten das Kennen der Zahlen assoziierten.</example>
             </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token inflected="yes">haben</token>
+                    <marker>
+                        <token skip="3">es</token>
+                    </marker>
+                    <token skip="6">auf</token>
+                    <token>abgesehen</token>
+                </pattern>
+                <example correction="">Die Täter hatten <marker>es</marker> vor allem auf Geldtresore abgesehen.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ADVERB" name="">
@@ -2985,6 +3015,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Alltag</token>
                 </pattern>
                 <example correction="">Für Menschen mit exekutiven Störungen ist <marker>das</marker> Alltag.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token skip="4">einen</token>
+                    </marker>
+                    <token postag="SUB.*MAS.*" postag_regexp="yes" skip="4" />
+                    <token>gekleidet</token>
+                </pattern>
+                <example correction="">Er war in einfacher Priesterhose und in <marker>einen</marker> argentinischen Poncho mit Streifen gekleidet.</example>
             </rule>
         </rulegroup>
 
@@ -3142,6 +3183,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Um 15.15 Uhr ist Schluss mit <marker>lustig</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>gegen</token>
+                    <marker>
+                        <token case_sensitive="yes">unbekannt</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ermittlungen gegen <marker>unbekannt</marker>.</example>
             </rule>
         </rulegroup>
 
