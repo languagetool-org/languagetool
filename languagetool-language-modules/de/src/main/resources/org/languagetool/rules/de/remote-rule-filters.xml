@@ -1798,6 +1798,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Hier kann man <marker>bestimmt</marker> was Besseres vorschlagen.<marker>ein hohes Tier</marker> in der Branche.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">maß</token>
+                    </marker>
+                </pattern>
+                <example correction="">Die Fenix 5X Plus <marker>maß</marker> Herzfrequenz und Bewegungen, und so weiter.</example>
+            </rule>
         </rulegroup>
         <rule id="AI_DE_HYDRA_LEO_CP_EINEN_EINEM" name="">
             <pattern>
@@ -1909,6 +1917,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das ist im <marker>Welten</marker> besser als vorher.</example>
             </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token>U-Haft</token>
+                    </marker>
+                </pattern>
+                <example correction="">Fünf Deutsche kamen in <marker>U-Haft</marker>.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADPOSITION">
@@ -1958,6 +1975,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Darf ich <marker>mich</marker> vorstellen, mein Name ist Müller.</example>
             </rule>
         </rulegroup>
+        <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_PRONOUN_WER_DER">
+            <rule>
+                <pattern>
+                    <token>ein</token>
+                    <token>Schelm</token>
+                    <token>,</token>
+                    <marker>
+                        <token>wer</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ein Schelm, <marker>wer</marker> dabei an das Baby denkt.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC.*">
             <rule>
@@ -1972,6 +2002,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>für</token>
                 </pattern>
                 <example correction=""><marker>sorry für</marker> die Unannehmlichkeit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>musstet</token>
+                </pattern>
+                <example correction="">Ihr <marker>musstet</marker> mich auch hierherbringen, obwohl ich in der Schule so viel zu tun habe.</example>
             </rule>
         </rulegroup>
 
@@ -2051,7 +2087,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL.*">
             <rule><!--1 single words that should be ignored by gGEC can be added here-->
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">Lieschens?|kleenesche[rn]?|bekifft(e[rsnm]?)?|Stratokratien?|Handstreiche?|Buchstabieralphabets?|Zaineisens?|Villmergerkrieg(en?)?|Schwangerenberatung|Oration|Schönstattbewegung|Soteriologie|Ursünden?|Patrozinium|Pontifikalien|Altardiener|papperlapapp|Lemongrass|Sommeliere|Sergey|Spüli|Sträflingskolonien?|Neoromanik|Tonfunkensender(s|n)?|Traktrix|Unärsystem(e|s)?|Heptarchie|Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten|Gegröle|Polyethylenterephthalats?|Mocktails?|billionenschwer(e[rsnm]?)?</token>
+                    <token case_sensitive="yes" regexp="yes">gemehrt|Lieschens?|kleenesche[rn]?|bekifft(e[rsnm]?)?|Stratokratien?|Handstreiche?|Buchstabieralphabets?|Zaineisens?|Villmergerkrieg(en?)?|Schwangerenberatung|Oration|Schönstattbewegung|Soteriologie|Ursünden?|Patrozinium|Pontifikalien|Altardiener|papperlapapp|Lemongrass|Sommeliere|Sergey|Spüli|Sträflingskolonien?|Neoromanik|Tonfunkensender(s|n)?|Traktrix|Unärsystem(e|s)?|Heptarchie|Applikaten?|Chaldäer|Seminolenkriege?|Kopialbuch|Daleminzier|Entkulakisierung|Awarenmark|Hammelbeine?|Aaltreppe|Aasinsekt|Aasseite|Abartigkeit|Abartung|Abbedingung|Abdampf(heizung|rohr|schale|turbine|(vor)?wärmer?|rückstand|leitung|verwertung|ung|apparat|austritt)|Abfallsackgebühr|Abfahrtshang|Abendgeselligkeit|Abdachung|Abgeordneten(diäten|hauswahl)|Abgunst|Abitur(aufgabe|aufsatz)|Absolutiva|Abteufung|Abtreppung|Abtrift|Gallseife|Mikwe|Minoriten|Gegröle|Polyethylenterephthalats?|Mocktails?|billionenschwer(e[rsnm]?)?</token>
                 </pattern>
                 <example correction="">Das ist doch <marker>papperlapapp</marker></example>
                 <example correction=""><marker>Lemongrass</marker> ist ein aromatisches Gras, das als traditionelles Gewürz in der asiatischen Küche bekannt ist.</example>
@@ -2150,7 +2186,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*|isländisch.+|ungeduscht.*</token>
+                    <token regexp="yes">asbachuralt.*|gelingsicher.*|auskultatorisch.*|isländisch.+|ungeduscht.*|kopulierend.*</token>
                 </pattern>
                 <example correction="">Das ist doch echt <marker>asbachuralt</marker>!</example>
                 <example correction="">Ist <marker>gelingsicher</marker>, kann nicht anbrennen, ist immer saftig und zart!!</example>
@@ -2742,6 +2778,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich glaube, <marker>Die</marker> Linke hat keine Chance bei der nächsten Wahl.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Ersten?</token>
+                    </marker>
+                    <token regexp="yes">Juristischen?</token>
+                    <token regexp="yes">Staatsprüfung(en)?</token>
+                </pattern>
+                <example correction="">Bei der <marker>Ersten</marker> Juristischen Staatsprüfung</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Ersten?</token>
+                    <marker>
+                        <token regexp="yes">Juristischen?</token>
+                    </marker>
+                    <token regexp="yes">Staatsprüfung(en)?</token>
+                </pattern>
+                <example correction="">Bei der Ersten <marker>Juristischen</marker> Staatsprüfung</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN_FORM" name="">
@@ -2790,6 +2846,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Es scheint <marker>sich</marker> offensichtlich, um einen Bug in unserer Wörterbuch-Logik zu handeln.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token>führt</token>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                    <token>darauf</token>
+                    <token>zurück</token>
+                </pattern>
+                <example correction="">Die Bildungswissenschaftlerin führt <marker>das</marker> darauf zurück, dass viele Eltern mit der Förderung mathematischer Fähigkeiten das Kennen der Zahlen assoziierten.</example>
             </rule>
         </rulegroup>
 
@@ -2868,6 +2935,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>Osterei</token>
                 </pattern>
                 <example correction="">Die kleine Maria legt <marker>das</marker> gefundene Osterei in ihren Korb.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">beharren</token>
+                    <token>auf</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="PRO:POS:DAT.*"/>
+                    </marker>
+                </pattern>
+                <example correction="">Mein Vater aber beharrte auf <marker>seinem</marker> Entschluss.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                        <token skip="-1" postag_regexp="yes" postag="PRO:POS:DAT.*"/>
+                    </marker>
+                    <token inflected="yes">beharren</token>
+                </pattern>
+                <example correction="">Mein Vater wollte auf <marker>seinem</marker> Entschluss beharren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="SUB.*" />
+                    <marker>
+                        <token>einer</token>
+                    </marker>
+                    <token>Gans</token>
+                </pattern>
+                <example correction="">Es war der Schnabel eines Adlers und der Hals <marker>einer</marker> Gans.</example>
             </rule>
         </rulegroup>
 
@@ -2995,6 +3092,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token case_sensitive="yes" postag="ADJ.*" postag_regexp="yes">indikativ</token>
                 </pattern>
                 <example correction="">Aktien, die <marker>indikativ</marker> nicht mindestens ein Prozent Dividendenrendite abwerfen, werden deshalb aussortiert.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ist|war|wäre?</token>
+                    <token regexp="yes">mir|ihr|dir|ihm|uns|ihnen</token>
+                    <token>das</token>
+                    <token postag="ADV.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">recht</token>
+                    </marker>
+                </pattern>
+                <example correction="">Wenn du morgens lieber zum Sport gehst und um 2 Uhr nachts arbeitest oder nur mit Pina Colada am Strand arbeiten kannst, so ist mir das <marker>recht</marker>, solange du die Ergebnisse erzielst.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ma(ß|ss)(zu)?halten</token>
+                    </marker>
+                </pattern>
+                <example correction="">Er versuchte <marker>maßzuhalten</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -3126,11 +3243,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">habe|gehe</token>
+                        <token regexp="yes">habe|gehe|.*gewunken</token>
                     </marker>
                 </pattern>
                 <example correction="">Es <marker>gehe</marker> darum, den Dax-Konzern „als feste Größe unter den erfolgreichen europäischen Banken zu etablieren“, sagte Commerzbank-Chefin Bettina Orlopp bei der Vorstellung der Strategie bis 2028 in Frankfurt.</example>
                 <example correction="">Ohne eindeutigen Nachweis über eine vertragliche Zusatzvereinbarung zu den weiteren Arbeiten <marker>habe</marker> der Handwerksbetrieb keinen Anspruch auf weitere Vergütung.</example>
+                <example correction="">Davon werden ca. 10 % <marker>durchgewunken</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="AI_DE_GGEC_REPLACEMENT_VERB_FORM" name="">
+            <rule>
+                <pattern>
+                    <token>Teeberge</token>
+                    <marker>
+                        <token>sind</token>
+                    </marker>
+                </pattern>
+                <example correction="">Die Teeberge <marker>sind</marker> alle verlassen.</example>
             </rule>
         </rulegroup>
 
