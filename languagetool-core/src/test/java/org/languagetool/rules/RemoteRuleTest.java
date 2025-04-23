@@ -32,9 +32,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.language.Demo;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -274,6 +272,61 @@ public class RemoteRuleTest {
     lt.activateRemoteRules(Arrays.asList(c4));
 
     assertTrue(lt.getAllActiveRules().stream().anyMatch(r -> r.getId().equals(config.ruleId)));
+  }
+
+
+  @Test
+  public void testThirdPartyAIFallback() throws IOException {
+    // Setup third-party rule
+    RemoteRuleConfig thirdPartyRule = new RemoteRuleConfig();
+    thirdPartyRule.ruleId = "TEST_THIRD_PARTY_RULE";
+    thirdPartyRule.url = "http://example.com";
+    thirdPartyRule.options = new HashMap<>();
+    thirdPartyRule.options.put(RemoteRuleConfig.THIRD_PARTY_AI, "true");
+    thirdPartyRule.options.put(RemoteRuleConfig.FALLBACK_RULE_ID, "TEST_FALLBACK_RULE");
+  
+    // Setup fallback rule
+    RemoteRuleConfig fallbackRule = new RemoteRuleConfig();
+    fallbackRule.ruleId = "TEST_FALLBACK_RULE";
+    fallbackRule.url = "http://localhost";
+    fallbackRule.options = new HashMap<>();
+  
+    // Setup another rule (not related to third-party/fallback)
+    RemoteRuleConfig anotherRule = new RemoteRuleConfig();
+    anotherRule.ruleId = "TEST_ANOTHER_RULE";
+    anotherRule.url = "http://localhost";
+    anotherRule.options = new HashMap<>();
+  
+    List<RemoteRuleConfig> configs = new ArrayList<>();
+    configs.add(thirdPartyRule);
+    configs.add(fallbackRule);
+    configs.add(anotherRule);
+  
+    // Test with opt-in to third-party AI
+    UserConfig optInConfig = getUserConfigWithThirdPartyAI(true);
+    JLanguageTool ltOptIn = new JLanguageTool(new Demo(), null, optInConfig);
+    ltOptIn.activateRemoteRules(configs);
+  
+    // Verify that with opt-in, third-party rule is active and fallback is not
+    assertTrue("Third-party rule should be active when opted in", 
+      ltOptIn.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_THIRD_PARTY_RULE")));
+    assertFalse("Fallback rule should not be active when opted in", 
+      ltOptIn.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_FALLBACK_RULE")));
+    assertTrue("Unrelated rule should be active", 
+      ltOptIn.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_ANOTHER_RULE")));
+  
+    // Test with opt-out of third-party AI
+    UserConfig optOutConfig = getUserConfigWithThirdPartyAI(false);
+    JLanguageTool ltOptOut = new JLanguageTool(new Demo(), null, optOutConfig);
+    ltOptOut.activateRemoteRules(configs);
+  
+    // Verify that with opt-out, third-party rule is not active and fallback is active
+    assertFalse("Third-party rule should not be active when opted out", 
+      ltOptOut.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_THIRD_PARTY_RULE")));
+    assertTrue("Fallback rule should be active when opted out", 
+      ltOptOut.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_FALLBACK_RULE")));
+    assertTrue("Unrelated rule should be active", 
+      ltOptOut.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_ANOTHER_RULE")));
   }
 
 }
