@@ -74,7 +74,8 @@ public class StyleTooOftenUsedAdjectiveRule extends AbstractStyleTooOftenUsedWor
   }
 
   @Override
-  protected boolean isException(AnalyzedTokenReadings token) {
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int n) {
+    AnalyzedTokenReadings token = tokens[n];
     return token.hasPosTagStartingWith("RB") || token.hasPosTagStartingWith("IN") ||
         token.hasPosTagStartingWith("CD") || token.hasPosTagStartingWith("DT") ||
         token.hasPosTagStartingWith("NN");

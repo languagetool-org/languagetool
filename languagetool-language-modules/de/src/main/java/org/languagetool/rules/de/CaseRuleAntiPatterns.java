@@ -1896,6 +1896,12 @@ class CaseRuleAntiPatterns {
       csToken("Bunte"),
       csToken("Republik"),
       csToken("Deutschland")
+    ),
+    Arrays.asList(
+      //
+      //Das bestätigen andere Praktikanten, die ihre Erfahrungen im Internet weitergeben.
+      csToken("das"),
+      posRegex("VER:3:PLU.*")
     )
     );
 }
