@@ -2215,6 +2215,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Frohe Ostern <marker>euch</marker>!</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">landen</token>
+                    <marker>
+                        <token>einen</token>
+                    </marker>
+                </pattern>
+                <example correction="">Mit „Live is life“ landete die Band Opus 1985 <marker>einen</marker> weltweiten Hit.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_ADJECTIVE_FORM">
@@ -2586,7 +2595,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--3-->
                 <pattern>
-                    <token regexp="yes">Reflexvisiere?|Glefe|Patin|Bistum|Kerr-de-Sitter-Lösung|Balbus-Hawley-Instabilität(en)?|AGN-Entwicklung(en)?|Feuchtsavanne|Reparationen|Rotrutheniens?|Mährerreichs?|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?|Gegröle|Internship|Vögeln</token>
+                    <token regexp="yes">Reflexvisiere?|Glefe|Patin|Bistum|Kerr-de-Sitter-Lösung|Balbus-Hawley-Instabilität(en)?|AGN-Entwicklung(en)?|Feuchtsavanne|Reparationen|Rotrutheniens?|Mährerreichs?|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?|Gegröle|Internship|Vögeln|Brosamen</token>
                 </pattern>
                 <example correction="">Wirfst du gleich den <marker>Fehdehandschuh</marker>?</example>
             </rule>
@@ -2966,6 +2975,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Es war der Schnabel eines Adlers und der Hals <marker>einer</marker> Gans.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">für</token>
+                    <token regexp="yes">ist|war</token>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                    <token>Alltag</token>
+                </pattern>
+                <example correction="">Für Menschen mit exekutiven Störungen ist <marker>das</marker> Alltag.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION__" name="">
@@ -3113,6 +3133,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Er versuchte <marker>maßzuhalten</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Schlu(ß|ss)</token>
+                    <token>mit</token>
+                    <marker>
+                        <token case_sensitive="yes">lustig</token>
+                    </marker>
+                </pattern>
+                <example correction="">Um 15.15 Uhr ist Schluss mit <marker>lustig</marker>.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE" name="">
@@ -3173,6 +3203,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+
+        <rule id="AI_DE_GGEC_REPLACEMENT_CONFUSION.*" name="">
+            <pattern>
+                <marker>
+                    <token skip="3">verbreitet</token>
+                </marker>
+                <token>auftreten</token>
+            </pattern>
+            <example correction="">Es kann <marker>verbreitet</marker> Frost auftreten.</example>
+        </rule>
         <rulegroup id="AI_DE_GGEC_MISSING_PRONOUN" name="">
             <rule><!--1-->
                 <pattern>
