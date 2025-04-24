@@ -1898,10 +1898,15 @@ class CaseRuleAntiPatterns {
       csToken("Deutschland")
     ),
     Arrays.asList(
-      //
-      //Das bestätigen andere Praktikanten, die ihre Erfahrungen im Internet weitergeben.
+      //Jedenfalls schien das einigen völlig neu.
       csToken("das"),
-      posRegex("VER:3:PLU.*")
-    )
+      csToken("einigen")
+    ),
+    Arrays.asList(
+      //Das bestätigen andere Praktikanten, die ihre Erfahrungen im Internet weitergeben.
+      csRegex("Das|das"),
+      posRegex("VER:[13]:PLU.*"),
+      posRegex("(PRO|SUB).*")
+      )
     );
 }
