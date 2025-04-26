@@ -3789,6 +3789,26 @@ USA
         </rule>
 
 
+        <rule id='ESTAR_LIXADO_ZANGADO' name="Lixado → zangado" tone_tags='formal' default='temp_off'>
+            <pattern>
+                <token skip='2' inflected='yes' regexp='no'>estar</token>
+                <marker>
+                    <token skip='1' regexp='yes'>lixad[ao]s?</token>
+                </marker>
+                <token postag='SPS00' postag_regexp='no'/> <!-- com|para|por -->
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>zangar</match></suggestion>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>irritar</match></suggestion>
+            <suggestion><match no='2' postag='VMP00(.).' postag_replace='AQ0C$10'>descontente</match></suggestion>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>aborrecer</match></suggestion>
+            <example correction="zangado|irritado|descontente|aborrecido">Estou <marker>lixado</marker> com o meu chefe.</example>
+            <example>O Rui está zangado com a Ana.</example>
+            <example>O Rui está mais que aborrecido com a Ana.</example>
+            <example>O Rui está bastante descontente com a Ana.</example>
+        </rule>
+
+
         <rule id='CHATEAR_INCOMODAR_IMPORTUNAR' name="Chatear → incomodar/importunar" tone_tags='formal' tags='picky'>
             <!-- Used DeepSeek-V3 -->
             <pattern>
