@@ -8603,6 +8603,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="RN"/>
     </rule>
+    <rule id="tenir_que_infinitiu" name="tenir que + infinitiu">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">tenir</token>
+            </marker>
+            <token regexp="yes">que|q|què|qué|qu|k</token>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rulegroup id="haver_de_infinitiu" name="haver de + infinitiu">
         <rule>
             <pattern>
