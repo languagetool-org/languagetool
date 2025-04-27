@@ -3789,7 +3789,7 @@ USA
         </rule>
 
 
-        <rule id='ESTAR_LIXADO_ZANGADO' name="Lixado → zangado" tone_tags='formal' default='temp_off'>
+        <rule id='ESTAR_LIXADO_ZANGADO_COM_PROBLEMAS' name="Lixado → zangado/'com problemas'" tone_tags='formal'>
             <pattern>
                 <token skip='2' inflected='yes' regexp='no'>estar</token>
                 <marker>
@@ -3802,10 +3802,12 @@ USA
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>irritar</match></suggestion>
             <suggestion><match no='2' postag='VMP00(.).' postag_replace='AQ0C$10'>descontente</match></suggestion>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>aborrecer</match></suggestion>
-            <example correction="zangado|irritado|descontente|aborrecido">Estou <marker>lixado</marker> com o meu chefe.</example>
+            <suggestion>com problemas</suggestion>
+            <example correction="zangado|irritado|descontente|aborrecido|com problemas">Estou <marker>lixado</marker> com o meu chefe.</example>
             <example>O Rui está zangado com a Ana.</example>
-            <example>O Rui está mais que aborrecido com a Ana.</example>
+            <example>A Ana está mais que aborrecida com a Rute.</example>
             <example>O Rui está bastante descontente com a Ana.</example>
+            <example>Estou com problemas com o meu PC novo.</example>
         </rule>
 
 
