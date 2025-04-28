@@ -1804,11 +1804,6 @@ class CaseRuleAntiPatterns {
       csRegex("Kranken(spitale?s?|haus(es)?)?")
     ),
     Arrays.asList(
-      // "Die bei der Katholischen Spitalstiftung angesiedelte Vermittlungsstelle informiert über Hilfsangebote."
-      csRegex("Katholischen?"),
-      csRegex("Spitalstiftung?")
-    ),
-    Arrays.asList(
       csRegex("[A-ZÄÖÜ].+stereotypen?")
     ),
     Arrays.asList(
@@ -1822,85 +1817,26 @@ class CaseRuleAntiPatterns {
       csRegex("Eiben?")
     ),
     Arrays.asList(
-      // unter dem Motto Music Released
-      csToken("Music"),
-      csToken("Released")
-    ),
-    Arrays.asList(
       // für sein Werk Die Nächte des großen Jägers
       csRegex("sein(e[nrs]?)?|ihr(e[nrs]?)?|das|des|die|den|der"),
       csRegex(".*werks?|.*werke[sn]?|.*films?|.*filme[sn]?"),
       csRegex("Der|Die|Das")
     ),
     Arrays.asList(
-      // beim Internationalen Bund
-      csRegex("Internationale[nr]?"),
-      csRegex("Bund(e?s)?")
-    ),
-    Arrays.asList(
-      // Leistungen nach dem Zweiten Sozialgesetzbuch
-      csRegex("Zweite[sn]?"),
-      csRegex("Sozialgesetzbuch(e?s)?")
-    ),
-    Arrays.asList(
-      // Ein Blauer Riese ist ein Riesenstern.
-      csRegex("Blaue[rn]?"),
-      csRegex("Riese(ns?)?")
-    ),
-    Arrays.asList(
-      // ..., die als blaue Überriesen bezeichnet werden.
-      csRegex("Blaue[rn]?"),
-      csRegex("Überriese(ns?)?")
-    ),
-    Arrays.asList(
-      // Der Olympische Fechtclub Bonn wurde 1949 gegründet.
-      csRegex("Olympische[nr]?"),
-      csRegex("Fechtclubs?")
-    ),
-    Arrays.asList(
-      // Die Organisation für Islamische Zusammenarbeit
-      csToken("Organisation"),
-      csToken("für"),
-      csToken("Islamische"),
-      csToken("Zusammenarbeit")
-    ),
-    Arrays.asList(
-      // Die Internationale Organisation für Migration
-      csRegex("Internationalen?"),
-      csToken("Organisation"),
-      csToken("für"),
-      csToken("Migration")
-    ),
-    Arrays.asList(
-      // Die Flämische Region ist eine der drei Regionen des Königreichs Belgien.
-      csRegex("Flämischen?"),
-      csToken("Region")
-    ),
-    Arrays.asList(
-      // Die Raumstation Mir war zu ihrer Zeit das größte künstliche Objekt im Erdorbit.
-      csToken("Raumstation"),
-      csToken("Mir")
-    ),
-    Arrays.asList(
-      // Die Stadt ist Sitz des Kirchenbezirks Freudenstadt der Evangelischen Landeskirche in Württemberg.
-      csRegex("Evangelischen?"),
-      csToken("Landeskirche")
-    ),
-    Arrays.asList(
-      // Der Unabhängige Finanzsenat hat über die Berufung entschieden.
-      csRegex("Unabhängige[mnrs]?"),
-      csRegex("Finanzsenate?s?")
-    ),
-    Arrays.asList(
-      // Udo Lindenberg - Bunte Republik Deutschland.
-      csToken("Bunte"),
-      csToken("Republik"),
-      csToken("Deutschland")
-    ),
-    Arrays.asList(
       //Jedenfalls schien das einigen völlig neu.
       csToken("das"),
       csToken("einigen")
+    ),
+    Arrays.asList(
+      //... schon gar nicht für Investorenträume das finden gerade die jüngeren, ...
+      csRegex("das|Das"),
+      csToken("finden")
+    ),
+    Arrays.asList(
+      //Ich habe Tom das machen sehen.
+      csToken("das"),
+      csToken("machen"),
+      csRegex("sehen|gesehen")
     ),
     Arrays.asList(
       //Das bestätigen andere Praktikanten, die ihre Erfahrungen im Internet weitergeben.

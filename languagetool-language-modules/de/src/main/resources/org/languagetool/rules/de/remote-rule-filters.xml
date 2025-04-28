@@ -2826,6 +2826,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Bei der Ersten <marker>Juristischen</marker> Staatsprüfung</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Neuen?</token>
+                    <marker>
+                        <token regexp="yes">Sozialen?</token>
+                    </marker>
+                    <token regexp="yes">Marktwirtschaft</token>
+                </pattern>
+                <example correction="">Als Ministerpräsident war Stoiber Kurator der Initiative Neue <marker>Soziale</marker> Marktwirtschaft.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_REPLACEMENT_NOUN_FORM" name="">
@@ -3192,6 +3202,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Ermittlungen gegen <marker>unbekannt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <marker>
+                        <token case_sensitive="yes">sagen</token>
+                    </marker>
+                    <token>höre</token>
+                </pattern>
+                <example correction="">Mir wird schwindlig, wenn ich Sie das <marker>sagen</marker> höre.</example>
             </rule>
         </rulegroup>
 
