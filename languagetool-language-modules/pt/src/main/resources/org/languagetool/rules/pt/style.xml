@@ -128,7 +128,7 @@ USA
 
 
 
-        <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags="clarity">
+        <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags='clarity'>
         <!-- TO-DO: DI.+ ; It will require messing with the antipattern since DI.+ is more than a mere "[ao]s?" from DA.+ -->
             <antipattern>
                 <token postag='RM'>
@@ -161,6 +161,14 @@ USA
                 <example>Em francês, raramente omitimos o sujeito.</example>
                 <example>Eu realmente detesto a escrita formal!</example>
                 <example>Nós realmente vimos o acidente.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='RM' postag_regexp='no'/>
+                <token postag='AQ.+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <example>A equipa obtém sistematicamente melhores resultados no jogo.</example>
             </antipattern>
 
             <pattern>
