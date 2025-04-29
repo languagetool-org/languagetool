@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -59,7 +59,7 @@ import static java.util.regex.Pattern.*;
  * are detected at runtime by searching the classpath for files named
  * {@code META-INF/org/languagetool/language-module.properties}. Those file(s)
  * need to contain a key {@code languageClasses} which specifies the fully qualified
- * class name(s), e.g. {@code org.languagetool.language.English}. Use commas to specify 
+ * class name(s), e.g. {@code org.languagetool.language.English}. Use commas to specify
  * more than one class.
  *
  * <p>Sub classes should typically use lazy init for anything that's costly to set up.
@@ -94,7 +94,7 @@ public abstract class Language {
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
 
   private final Pattern ignoredCharactersRegex = compile("[\u00AD]");  // soft hyphen
-  
+
   private List<AbstractPatternRule> patternRules;
 
   private Disambiguator disambiguator;
@@ -153,9 +153,9 @@ public abstract class Language {
    * @since 4.5
    */
   public String getCommonWordsPath() {
-    return getShortCode() + "/common_words.txt";     
+    return getShortCode() + "/common_words.txt";
   }
-  
+
   /**
    * Get this language's variant, e.g. <code>valencia</code> (as in <code>ca-ES-valencia</code>)
    * or <code>null</code>.
@@ -167,10 +167,10 @@ public abstract class Language {
   public String getVariant() {
     return null;
   }
-  
+
   /**
-   * Get enabled rules different from the default ones for this language variant. 
-   * 
+   * Get enabled rules different from the default ones for this language variant.
+   *
    * @return enabled rules for the language variant.
    * @since 2.4
    */
@@ -179,8 +179,8 @@ public abstract class Language {
   }
 
   /**
-   * Get disabled rules different from the default ones for this language variant. 
-   * 
+   * Get disabled rules different from the default ones for this language variant.
+   *
    * @return disabled rules for the language variant.
    * @since 2.4
    */
@@ -246,7 +246,7 @@ public abstract class Language {
         if (activeAbTestsForUser == null) {
           return true; // No A/B-Tests are not active for user
         }
-        return !activeAbTestsForUser.contains(activeRemoteRuleAbTest); // A/B-Test an active remote rule A/B-Test is active for this user
+        return !activeAbTestsForUser.stream().anyMatch(test -> test.matches(activeRemoteRuleAbTest)); // A/B-Test an active remote rule A/B-Test is active for this user
       } else {
         return false; // No A/B-Test active for remote rule
       }
@@ -595,7 +595,7 @@ public abstract class Language {
   public Unifier getUnifier() {
     return unifierConfig.createUnifier();
   }
-  
+
   /**
    * Get this language's feature unifier used for disambiguation.
    * Note: it might be different from the normal rule unifier.
@@ -618,7 +618,7 @@ public abstract class Language {
   public UnifierConfiguration getDisambiguationUnifierConfiguration() {
     return disambiguationUnifierConfig;
   }
-  
+
   /**
    * Get the name of the language translated to the current locale,
    * if available. Otherwise, get the untranslated name.
@@ -634,7 +634,7 @@ public abstract class Language {
       }
     }
   }
-  
+
   /**
    * Get the short name of the language with country and variant (if any), if it is
    * a single-country language. For generic language classes, get only a two- or
@@ -662,7 +662,7 @@ public abstract class Language {
     }
     return name;
   }
-  
+
   /**
    * Get the pattern rules as defined in the files returned by {@link #getRuleFileNames()}.
    * @since 2.7
@@ -703,7 +703,7 @@ public abstract class Language {
     }
     return patternRules;
   }
-  
+
   @Override
   public final String toString() {
     return getName();
@@ -783,9 +783,9 @@ public abstract class Language {
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.LookingForNewMaintainer;
   }
-  
+
   /*
-   * True if language should be hidden on GUI (i.e. en, de, pt, 
+   * True if language should be hidden on GUI (i.e. en, de, pt,
    * instead of en-US, de-DE, pt-PT)
    * @since 3.3
    */
@@ -799,7 +799,7 @@ public abstract class Language {
     }
     return false;
   }
-  
+
   /**
    * Returns a priority for Rule or Category Id (default: 0).
    * Positive integers have higher priority.
@@ -818,7 +818,7 @@ public abstract class Language {
     }
     return 0;
   }
-  
+
   /**
    * Returns a priority for Rule (default: 0).
    * Positive integers have higher priority.
@@ -872,7 +872,7 @@ public abstract class Language {
   public String getClosingDoubleQuote() {
     return "\"";
   }
-  
+
   /** @since 5.1 */
   public String getOpeningSingleQuote() {
     return "'";
@@ -882,12 +882,12 @@ public abstract class Language {
   public String getClosingSingleQuote() {
     return "'";
   }
-  
+
   /** @since 5.1 */
   public boolean isAdvancedTypographyEnabled() {
     return false;
   }
-  
+
   /** @since 5.1 */
   public String toAdvancedTypography(String input) {
     if (!isAdvancedTypographyEnabled()) {
@@ -895,10 +895,10 @@ public abstract class Language {
         .replace(SUGGESTION_CLOSE_TAG, getClosingDoubleQuote());
     }
     String output = input;
-   
+
     //Preserve content inside <suggestion></suggestion>
     List<String> preservedStrings = new ArrayList<>();
-    int countPreserved = 0; 
+    int countPreserved = 0;
     Matcher m = INSIDE_SUGGESTION.matcher(output);
     int offset = 0;
     while (m.find(offset)) {
@@ -908,39 +908,39 @@ public abstract class Language {
       countPreserved++;
       offset = m.end();
     }
-    
+
     // Ellipsis (for all languages?)
     output = output.replace("...", "…");
-    
+
     // non-breaking space
     output = NBSPACE1.matcher(output).replaceAll("$1\u00a0$2");
     output = NBSPACE2.matcher(output).replaceAll("$1\u00a0");
-    
+
     Matcher matcher = APOSTROPHE.matcher(output);
     output = matcher.replaceAll("$1’$2");
-    
+
     // single quotes
-    if (output.startsWith("'")) { 
+    if (output.startsWith("'")) {
       output = getOpeningSingleQuote() + output.substring(1);
     }
-    if (output.endsWith("'")) { 
+    if (output.endsWith("'")) {
       output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
     }
     output = QUOTED_CHAR_PATTERN.matcher(output).replaceAll(" " + getOpeningSingleQuote() + "$1" + getClosingSingleQuote()); //exception single character
     output = TYPOGRAPHY_PATTERN_1.matcher(output).replaceAll("$1" + getOpeningSingleQuote());
     output = TYPOGRAPHY_PATTERN_2.matcher(output).replaceAll(getClosingSingleQuote() + "$1");
     output = TYPOGRAPHY_PATTERN_3.matcher(output).replaceAll("’s$1"); // exception genitive
-    
+
     // double quotes
-    if (output.startsWith("\"")) { 
+    if (output.startsWith("\"")) {
       output = getOpeningDoubleQuote() + output.substring(1);
     }
-    if (output.endsWith("\"")) { 
+    if (output.endsWith("\"")) {
       output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();
     }
     output = TYPOGRAPHY_PATTERN_4.matcher(output).replaceAll("$1" + getOpeningDoubleQuote());
     output = TYPOGRAPHY_PATTERN_5.matcher(output).replaceAll(getClosingDoubleQuote() + "$1");
-    
+
     //restore suggestions
     for (int i = 0; i < preservedStrings.size(); i++) {
       output = StringUtils.replaceOnce(output, "\\" + i, getOpeningDoubleQuote() + preservedStrings.get(i) + getClosingDoubleQuote() );
@@ -965,18 +965,18 @@ public abstract class Language {
   public int hashCode() {
     return getShortCodeWithCountryAndVariant().hashCode();
   }
-  
+
   /**
-   * @since 5.1 
-   * Some rules contain the field min_matches to check repeated patterns 
+   * @since 5.1
+   * Some rules contain the field min_matches to check repeated patterns
    */
   public boolean hasMinMatchesRules() {
     return false;
   }
 
   /**
-   * @since 6.0 
-   * Adjust suggestion 
+   * @since 6.0
+   * Adjust suggestion
    */
   public String adaptSuggestion(String s) {
     return s;

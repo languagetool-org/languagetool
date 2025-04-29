@@ -128,7 +128,7 @@ USA
 
 
 
-        <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags="clarity">
+        <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio" tone_tags='clarity'>
         <!-- TO-DO: DI.+ ; It will require messing with the antipattern since DI.+ is more than a mere "[ao]s?" from DA.+ -->
             <antipattern>
                 <token postag='RM'>
@@ -161,6 +161,14 @@ USA
                 <example>Em francês, raramente omitimos o sujeito.</example>
                 <example>Eu realmente detesto a escrita formal!</example>
                 <example>Nós realmente vimos o acidente.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='RM' postag_regexp='no'/>
+                <token postag='AQ.+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <example>A equipa obtém sistematicamente melhores resultados no jogo.</example>
             </antipattern>
 
             <pattern>
@@ -3786,6 +3794,28 @@ USA
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tolerar</match></suggestion>
             <example correction="suportam-me|toleram-me">Os meus pais <marker>aturam-me</marker> há décadas.</example>
             <example>O pai tolera o filho há décadas.</example>
+        </rule>
+
+
+        <rule id='ESTAR_LIXADO_ZANGADO_COM_PROBLEMAS' name="Lixado → zangado/'com problemas'" tone_tags='formal'>
+            <pattern>
+                <token skip='2' inflected='yes' regexp='no'>estar</token>
+                <marker>
+                    <token skip='1' regexp='yes'>lixad[ao]s?</token>
+                </marker>
+                <token postag='SPS00' postag_regexp='no'/> <!-- com|para|por -->
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>zangar</match></suggestion>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>irritar</match></suggestion>
+            <suggestion><match no='2' postag='VMP00(.).' postag_replace='AQ0C$10'>descontente</match></suggestion>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>aborrecer</match></suggestion>
+            <suggestion>com problemas</suggestion>
+            <example correction="zangado|irritado|descontente|aborrecido|com problemas">Estou <marker>lixado</marker> com o meu chefe.</example>
+            <example>O Rui está zangado com a Ana.</example>
+            <example>A Ana está mais que aborrecida com a Rute.</example>
+            <example>O Rui está bastante descontente com a Ana.</example>
+            <example>Estou com problemas com o meu PC novo.</example>
         </rule>
 
 

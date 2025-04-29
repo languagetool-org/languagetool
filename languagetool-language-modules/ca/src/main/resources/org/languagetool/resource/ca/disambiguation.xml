@@ -2399,6 +2399,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!-- caldria concordança-->
             <pattern>
                 <token postag="N.*" postag_regexp="yes"/>
+                <token min="0">,</token>
                 <marker>
                     <token>un</token>
                     <token>punt</token>
@@ -7987,7 +7988,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <token inflected="yes">fer</token>
-                    <token>falta</token>
+                    <token regexp="yes">falta|punyetes</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -8602,6 +8603,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="RN"/>
+    </rule>
+    <rule id="tenir_que_infinitiu" name="tenir que + infinitiu">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">tenir</token>
+            </marker>
+            <token regexp="yes">que|q|què|qué|qu|k</token>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
     </rule>
     <rulegroup id="haver_de_infinitiu" name="haver de + infinitiu">
         <rule>
@@ -16412,7 +16423,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="no_GV" name="neteja GV">
         <rule>
             <pattern>
-                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">acord|banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta|funcionament</exception></token>
+                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">punyetes|acord|banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta|funcionament</exception></token>
             </pattern>
             <disambig action="remove">
                 <wd pos="_GV_"/>
@@ -21017,7 +21028,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">seguit|bunga</token>
+                    <token regexp="yes">seguit|bunga|jugant</token>
                     <token><match no="0"/></token>
                 </marker>
             </pattern>

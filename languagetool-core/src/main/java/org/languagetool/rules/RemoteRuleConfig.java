@@ -59,6 +59,7 @@ public class RemoteRuleConfig {
   private static final int DEFAULT_MINIMUM_NUMBER_OF_CALLS = 10;
 
   public static final String THIRD_PARTY_AI = "thirdPartyAI";
+  public static final String FALLBACK_RULE_ID = "fallbackRuleId";
 
 
   private static final LoadingCache<File, List<RemoteRuleConfig>> configCache = CacheBuilder.newBuilder()
@@ -194,6 +195,15 @@ public class RemoteRuleConfig {
    */
   public boolean isUsingThirdPartyAI() {
     return options.getOrDefault(THIRD_PARTY_AI, "false").equals("true");
+  }
+
+  /**
+   * Gets the ID of the fallback rule to use when this rule is not available
+   * (e.g., if this is a third-party AI rule and user has opted out)
+   * @return the ID of the fallback rule, or null if no fallback is configured
+   */
+  public String getFallbackRuleId() {
+    return options.get(FALLBACK_RULE_ID);
   }
 
   @Override
