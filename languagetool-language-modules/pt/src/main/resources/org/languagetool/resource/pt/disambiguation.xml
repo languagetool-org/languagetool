@@ -4394,6 +4394,31 @@ USA
     -->
   </rule>
 
+  <rule id="VERBO_RM_AQ_NCAQ_RARE" name="Remove verbs in adjectives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token postag='RM' postag_regexp='no'/>
+      <marker>
+        <and>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token postag='AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='N.+|AQ.+|(SPS00:)?[DP].+|RG|CS' postag_regexp='yes'><exception scope='previous' postag_regexp='yes' postag='VMIP3P0|VMP00.+'/></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Os melhores prognósticos foram inversamente proporcionais a idade e ao tempo até o atendimento (p<0,001).
+             Não se torna desagradavelmente amarga como algumas IIPAs norte-americanas.
+             A funcionalidade poderá ser habilitada novamente conforme necessário.
+             Só pinte se você estiver realmente certa do que quer.
+             Ela está seriamente enferma do coração.
+             Ela é completamente surda da orelha esquerda.
+    -->
+  </rule>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
