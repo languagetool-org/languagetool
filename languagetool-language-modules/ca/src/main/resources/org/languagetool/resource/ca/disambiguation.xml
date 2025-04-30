@@ -22384,6 +22384,31 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="ENEL" name="ENEL">
+        <rule>
+            <pattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">Enel|ENEL</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Enel" pos="NPCNO00"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">Enel|ENEL</token>
+                </marker>
+                <token postag_regexp="yes" postag="&pronom_feble;" min="0" max="3"/>
+                <token postag="V...3S.." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Enel" pos="NPCNO00"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="HORES" name="hores">
         <rule>
             <pattern>
