@@ -3598,16 +3598,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="UN_SOCA" name="ser un soca">
         <rule>
-        <pattern>
-            <token skip="3" postag="VS.*" postag_regexp="yes" inflected="yes">ser</token>
-            <token>un</token>
-            <marker>
-                <token>soca</token>
-            </marker>
-        </pattern>
-        <disambig action="replace">
-            <wd pos="NCMS000"/>
-        </disambig>
+            <pattern>
+                <token skip="3" postag="VS.*" postag_regexp="yes" inflected="yes">ser</token>
+                <token>un</token>
+                <marker>
+                    <token>soca</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="NCMS000"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -5613,7 +5613,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes">tret</token>
         </antipattern>
         <antipattern>
-            <token inflected="yes" regexp="yes">adjudicar|adjudicació|assignar|assignació|nomenament|nomenar|escollir|seleccionar|selecció|triar|tria|elegir|elecció|contractar|contracte|designar|designació|anomenar|posar|col·locar|col·locació</token>
+            <token inflected="yes" regexp="yes">adjudicar|adjudicació|assignar|assignació|nomenament|nomenar|escollir|seleccionar|selecció|triar|tria|elegir|elecció|contractar|contracte|designar|designació|anomenar|posar|col·locar|col·locació|diner|subvenció|càrrec|prebenda|beca</token>
             <token>a</token>
             <token>dit</token>
         </antipattern>
@@ -7542,6 +7542,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="NCMS.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCFS000">te</token>
+                </marker>
+                <token regexp="yes">majúscula|minúscula|versaleta|cursiva|redona|rodona|petita|gran|xicoteta|menuda</token>
+            </pattern>
+            <disambig action="filter" postag="NCFS000"> </disambig>
         </rule>
         <rule>
             <pattern>
@@ -11397,6 +11406,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="N.*" postag_regexp="yes" inflected="yes">moral</token>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="sota" name="sota preposició">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="RG"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="SPS00"/>
+                </and>
+            </marker>
+            <token postag="D.*" postag_regexp="yes"><exception inflected="yes">es</exception></token>
+            <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="S.*"/>
     </rule>
     <rule id="pobre_adj" name="pobre adjectiu">
         <pattern>
@@ -15869,19 +15891,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="SP.*|RG.*"/>
-    </rule>
-    <rule id="sota" name="sota preposició">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="RG"><exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="SPS00"/>
-                </and>
-            </marker>
-            <token postag="D.*" postag_regexp="yes"><exception inflected="yes">es</exception></token>
-            <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="S.*"/>
     </rule>
     <rule id="PREP_VERBbis" name="no Verb conjugat darrere de preposició">
         <!-- "de sumes": "sumes" no és verb. Mogut per "En forma part". Mogut amunt per "d'escriptura comú" -->
@@ -22142,7 +22151,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token>(</token>
             <marker>
-                <token regexp="yes" spacebefore="no">des|dis|in|mal|anti|pro|tele|auto|re</token>
+                <token regexp="yes" spacebefore="no">des|dis|in|mal|anti|pro|tele|auto|re|post|pre</token>
                 <token spacebefore="no">)</token>
             </marker>
             <token spacebefore="no"/>
