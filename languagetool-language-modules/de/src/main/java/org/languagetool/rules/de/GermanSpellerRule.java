@@ -3005,6 +3005,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
+    } else if (word.contains("Akkupressur")) {
+      suggestion = word.replace("Akkupressur", "Akupressur");
+      if (hunspell.spell(suggestion)) {
+        return singletonList(suggestion);
+      }
     } else if (word.contains("farbend")) { //steinfarbenden, schwarzfarbenden, kupferfarbenden etc.
       suggestion = word.replace("farbend", "farben");
       if (hunspell.spell(suggestion)) {
@@ -3496,6 +3501,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Akkupressur": return topMatch("Akupressur");
       case "EmailleOfen": return topMatch("Emailleofen");
       case "Lollies": return topMatch("Lollis");
       case "Mazeltov": return topMatch("Masel tov");
