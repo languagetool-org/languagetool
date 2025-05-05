@@ -622,23 +622,41 @@ public class JLanguageTool {
   }
 
   public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
-    List<RemoteRuleConfig> remoteRuleConfigs = new ArrayList<>(configs);
-    
-    // First, determine effective configurations based on user opt-in for third-party AI
+    // Apply A/B test filtering first - can affect which rules get enabled and thus disabled because of fallback settings
+    List<String> activeAbTestsForUser = userConfig.getAbTest();
+    List<RemoteRuleConfig> selectedConfigsByABTest = configs.stream()
+      .filter(config -> {
+        String excludeABTest = config.getOptions().get("excludeABTest");
+        if (excludeABTest != null && activeAbTestsForUser != null &&
+          activeAbTestsForUser.stream().anyMatch(flag -> flag.matches(excludeABTest))) {
+          return false;
+        }
+        String activeRemoteRuleAbTest = config.getOptions().get("abtest");
+        if (activeRemoteRuleAbTest != null && !activeRemoteRuleAbTest.trim().isEmpty()) {
+          if (activeAbTestsForUser == null) {
+            return false;
+          }
+          return activeAbTestsForUser.stream().anyMatch(test -> test.matches(activeRemoteRuleAbTest));
+        }
+        return true;
+      })
+      .collect(Collectors.toList());
     List<RemoteRuleConfig> effectiveConfigs = new ArrayList<>();
+
+    // Then, determine effective configurations based on user opt-in for third-party AI
     if (!userConfig.isOptInThirdPartyAI()) {
       // User has opted out of third-party AI - exclude third-party AI rules and include their fallbacks
       Map<String, RemoteRuleConfig> fallbackRules = new HashMap<>();
       
       // Collect all possible fallback rules
-      for (RemoteRuleConfig config : remoteRuleConfigs) {
+      for (RemoteRuleConfig config : selectedConfigsByABTest) {
         if (!config.isUsingThirdPartyAI()) {
           fallbackRules.put(config.getRuleId(), config);
         }
       }
       
       // Add non-third-party AI rules and fallbacks for third-party AI rules
-      for (RemoteRuleConfig config : remoteRuleConfigs) {
+      for (RemoteRuleConfig config : selectedConfigsByABTest) {
         if (config.isUsingThirdPartyAI()) {
           String fallbackId = config.getFallbackRuleId();
           if (fallbackId != null && fallbackRules.containsKey(fallbackId)) {
@@ -653,14 +671,14 @@ public class JLanguageTool {
       Set<String> excludedFallbacks = new HashSet<>();
       
       // Collect fallback rule IDs to exclude
-      for (RemoteRuleConfig config : remoteRuleConfigs) {
+      for (RemoteRuleConfig config : selectedConfigsByABTest) {
         if (config.isUsingThirdPartyAI() && config.getFallbackRuleId() != null) {
           excludedFallbacks.add(config.getFallbackRuleId());
         }
       }
       
       // Add all rules except excluded fallbacks
-      for (RemoteRuleConfig config : remoteRuleConfigs) {
+      for (RemoteRuleConfig config : selectedConfigsByABTest) {
         if (!excludedFallbacks.contains(config.getRuleId())) {
           effectiveConfigs.add(config);
         }
