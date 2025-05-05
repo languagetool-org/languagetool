@@ -3039,7 +3039,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
-        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION__" name="">
+        <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION.*" name="">
             <rule>
                 <pattern>
                     <token>In</token>
@@ -3050,6 +3050,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes">Ex.+|Aus.+</token>
                 </pattern>
                 <example correction="">In <marker>–</marker> und Export</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <marker>
+                        <token>“</token>
+                    </marker>
+                </pattern>
+                <example correction="">„Frydo hat uns Bescheid gesagt, dass du dich nicht aus der Simulation lösen willst. Wir machen uns Sorgen.<marker>“</marker></example>
             </rule>
         </rulegroup>
 
