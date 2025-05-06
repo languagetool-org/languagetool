@@ -47,7 +47,12 @@ public final class Hunspell {
       Path affix = Files.createTempFile(language, ".aff");
       Files.copy(dictionaryStream, dictionary, StandardCopyOption.REPLACE_EXISTING);
       Files.copy(affixStream, affix, StandardCopyOption.REPLACE_EXISTING);
-      return factory.apply(dictionary, affix);
+      try {
+        return factory.apply(dictionary, affix);
+      } finally {
+        Files.deleteIfExists(dictionary);
+        Files.deleteIfExists(affix);
+      }
     };
   }
 
