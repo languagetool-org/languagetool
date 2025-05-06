@@ -31,33 +31,9 @@ public final class Hunspell {
   }
 
   private static final Map<LanguageAndPath, HunspellDictionary> map = new HashMap<>();
-  private static Factory hunspellDictionaryFactory = viaTempFiles(DumontsHunspellDictionary::new);
+  private static BiFunction<Path, Path, HunspellDictionary> hunspellDictionaryFactory = DumontsHunspellDictionary::new;
 
-  /**
-   * @deprecated Use {@link #setHunspellStreamFactory}
-   */
-  @Deprecated
   public static void setHunspellDictionaryFactory(BiFunction<Path, Path, HunspellDictionary> factory) {
-    hunspellDictionaryFactory = viaTempFiles(factory);
-  }
-
-  private static Factory viaTempFiles(BiFunction<Path, Path, HunspellDictionary> factory) {
-    return (language, dictionaryStream, affixStream) -> {
-      Path dictionary = Files.createTempFile(language, ".dic");
-      Path affix = Files.createTempFile(language, ".aff");
-      Files.copy(dictionaryStream, dictionary, StandardCopyOption.REPLACE_EXISTING);
-      Files.copy(affixStream, affix, StandardCopyOption.REPLACE_EXISTING);
-      return factory.apply(dictionary, affix);
-    };
-  }
-
-  /**
-   * Set a custom way to create Hunspell dictionaries,
-   * e.g., more efficient or portable than the default, possibly via Apache Lucene.
-   * The default one is to use a native wrapper over the real Hunspell binary,
-   * creating temporary files from the streams.
-   */
-  public static void setHunspellStreamFactory(Factory factory) {
     hunspellDictionaryFactory = factory;
   }
 
@@ -67,27 +43,24 @@ public final class Hunspell {
     if (hunspell != null && !hunspell.isClosed()) {
       return hunspell;
     }
-    try(var dic = Files.newInputStream(dictionary); var aff = Files.newInputStream(affix)) {
-      HunspellDictionary newHunspell = hunspellDictionaryFactory
-        .create(dictionary.getFileName().toString(), dic, aff);
-      map.put(key, newHunspell);
-      return newHunspell;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    HunspellDictionary newHunspell = hunspellDictionaryFactory.apply(dictionary, affix);
+    map.put(key, newHunspell);
+    return newHunspell;
   }
 
   public static HunspellDictionary forDictionaryInResources(String language, String resourcePath) {
-    return forDictionaryInResources(language, resourcePath + language + ".dic", resourcePath + language + ".aff");
-  }
-
-  public static HunspellDictionary forDictionaryInResources(String language, String dicPath, String affPath) {
-    ResourceDataBroker broker = JLanguageTool.getDataBroker();
-    try (var dic = broker.getFromResourceDirAsStream(dicPath); var aff = broker.getFromResourceDirAsStream(affPath)) {
-      if (dic == null || aff == null) {
-        throw new RuntimeException("Could not find the dictionary for language \"" + language + "\" in the classpath");
+    try {
+      ResourceDataBroker broker = JLanguageTool.getDataBroker();
+      InputStream dictionaryStream = broker.getAsStream(resourcePath + language + ".dic");
+      InputStream affixStream = broker.getAsStream(resourcePath + language + ".aff");
+      if (dictionaryStream == null || affixStream == null) {
+        throw new RuntimeException("Could not find dictionary for language \"" + language + "\" in classpath");
       }
-      return hunspellDictionaryFactory.create(language, dic, aff);
+      Path dictionary = Files.createTempFile(language, ".dic");
+      Path affix = Files.createTempFile(language, ".aff");
+      Files.copy(dictionaryStream, dictionary, StandardCopyOption.REPLACE_EXISTING);
+      Files.copy(affixStream, affix, StandardCopyOption.REPLACE_EXISTING);
+      return hunspellDictionaryFactory.apply(dictionary, affix);
     } catch (IOException e) {
       throw new RuntimeException("Could not create temporary dictionaries for language \"" + language + "\"", e);
     }
@@ -95,9 +68,5 @@ public final class Hunspell {
 
   public static HunspellDictionary forDictionaryInResources(String language) {
     return forDictionaryInResources(language, "");
-  }
-
-  public interface Factory {
-    HunspellDictionary create(String languageCode, InputStream dictionary, InputStream affix) throws IOException;
   }
 }
