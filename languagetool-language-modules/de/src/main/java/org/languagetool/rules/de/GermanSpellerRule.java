@@ -4453,6 +4453,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "quillbot": return topMatch("QuillBot");
       case "quilbot": return topMatch("QuillBot");
       case "Quilbot": return topMatch("QuillBot");
+      case "HeyLogin": return topMatch("heylogin");
       case "steinfarbenden": return topMatch("steinfarbenen");
       case "steinfarbende": return topMatch("steinfarbene");
       case "steinfarbender": return topMatch("steinfarbener");
