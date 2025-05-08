@@ -79,14 +79,14 @@ public abstract class Language {
   private static final String SUGGESTION_OPEN_TAG = "<suggestion>";
   private static final String SUGGESTION_CLOSE_TAG = "</suggestion>";
 
-  private static final Pattern NBSPACE1 = compile("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)");
-  private static final Pattern NBSPACE2 = compile("\\b([a-zA-Z]\\.) ");
+  private static final Pattern NBSPACE1 = compile("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern NBSPACE2 = compile("\\b([a-zA-Z]\\.) ", Pattern.UNICODE_CHARACTER_CLASS);
 
   private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
   private static final Pattern QUOTED_CHAR_PATTERN = compile(" '(.)'");
   private static final Pattern TYPOGRAPHY_PATTERN_1 = compile("([\\u202f\\u00a0 «\"\\(])'");
   private static final Pattern TYPOGRAPHY_PATTERN_2 = compile("'([\u202f\u00a0 !\\?,\\.;:\"\\)])");
-  private static final Pattern TYPOGRAPHY_PATTERN_3 = compile("‘s\\b([^’])");
+  private static final Pattern TYPOGRAPHY_PATTERN_3 = compile("‘s\\b([^’])", Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern TYPOGRAPHY_PATTERN_4 = compile("([ \\(])\"");
   private static final Pattern TYPOGRAPHY_PATTERN_5 = compile("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])");
 

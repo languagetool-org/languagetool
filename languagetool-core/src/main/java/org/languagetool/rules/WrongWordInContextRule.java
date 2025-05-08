@@ -288,7 +288,7 @@ public abstract class WrongWordInContextRule extends Rule {
     }
     
     void setContext(int i, String context) {
-      contexts[i] = Pattern.compile(addBoundaries(context));
+      contexts[i] = Pattern.compile(addBoundaries(context), Pattern.UNICODE_CHARACTER_CLASS);
     }
     
   }
