@@ -426,6 +426,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     if (suggestions.contains(tokens[patternTokenPos].getToken().toLowerCase())) {
       suggestions.remove(tokens[patternTokenPos].getToken().toLowerCase());
     }
+    if (suggestions.isEmpty()) {
+      return null;
+    }
     List<String> definitiveSugestions = new ArrayList<>();
     if (addComma) {
       definitiveSugestions.add(", " + tokens[patternTokenPos].getToken());
