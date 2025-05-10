@@ -16614,23 +16614,20 @@ USA
 
         </rulegroup>
 
-        <!-- TORNAR IMPOSSÍVEL impossibilitar -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)      -->
-        <!--
-        Vamos impossibilitar os erros gramaticais.
-        E assim impossibilitando falhar.
-        -->
-        <rule id='TORNAR_IMPOSSÍVEL_impossibilitar' name="Tornar Impossível → Impossibilitar">
+
+        <rule id='TORNAR_IMPOSSÍVEL_IMPOSSIBILITAR' name="Tornar Impossível → Impossibilitar">
             <!--IDEA shorten_it-->
             <pattern>
-                <token inflected='yes'>tornar</token>
+                <token inflected='yes'>tornar<exception postag_regexp='yes' postag='V.+:PP3CNO00'/></token>
                 <token>impossível</token>
             </pattern>
-            <message>Substitua por</message>
+            <message>&simplify_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>impossibilitar</match></suggestion>
             <example correction="impossibilitar">Vamos <marker>tornar impossível</marker> os erros gramaticais.</example>
             <example>Vamos <marker>impossibilitar</marker> os erros gramaticais.</example>
             <example>E assim <marker>impossibilitando</marker> falhar.</example>
+            <example>Assim, torna-se impossível determinar com exatidão o resultado.</example>
+            <example>A compreensão do presente torna-se impossível sem um bom entendimento do passado.</example>
         </rule>
 
 
