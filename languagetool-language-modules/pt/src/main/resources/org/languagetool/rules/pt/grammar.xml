@@ -3463,8 +3463,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>A vaca está no pasto.</example>
         </rule>
 
-        <rulegroup default='on' id='A_WORD' name="Concordância: A + palavra">
+
+        <rulegroup id='A_WORD' name="Concordância: A + palavra">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+
+            <antipattern>
+                <token postag='RM' postag_regexp='no'/>
+                <token>a</token>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <token postag='SPS00:D...S.+' postag_regexp='yes'/>
+                <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+                <example>Isto descreve funções matemáticas, analogamente a situações do quotidiano.</example>
+            </antipattern>
 
             <antipattern> <!-- "batatas a murro" (Portuguese food) -->
                 <token>a</token>
