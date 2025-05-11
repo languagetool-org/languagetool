@@ -13521,6 +13521,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="RG.*"/>
         </rule>
+        <rule id="aa2c" name="aa1: una persona molt agraïda i molt estimada">
+            <pattern>
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <!--<token postag="NC.*|_GN_.*" postag_regexp="yes"><exception postag="CC"/></token>
+                    <token postag="RG_anteposat"/>-->
+                    <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="CC"/>
+                    </unify-ignore>
+                    <marker>
+                        <token postag="RG_anteposat"/>
+                    </marker>
+                    <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="RG.*"/>
+        </rule>
     </rulegroup>
     <!-- adverbis seguits d'adj i participi. REVISAR: tant català, tant catalana -->
     <rulegroup id="adv_adj" name="adverbi + adjectiu">
