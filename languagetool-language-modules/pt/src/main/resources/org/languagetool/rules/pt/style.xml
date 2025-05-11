@@ -3797,6 +3797,40 @@ USA
         </rule>
 
 
+        <rule id='PEDIR_SOLICITAR' name="Pedir → solicitar" tone_tags='formal' tags='picky' default='temp_off'>
+            <antipattern>
+                <token regexp='yes'>[ao]s?</token>
+                <token regexp='yes'>pedidos?</token>
+                <example>Ela solicitou o pedido do livro a Londres.</example>
+                <example>A pedido da ONG Conectas Direitos Humanos, a Justiça Federal suspendeu a nomeação em junho de 2020.</example>
+                <example>Em 2016 a pedido da Premier Guitar Magazine ele construiu uma guitarra para Thurston Moore.</example>
+                <example>Se o pedido dos ISBNs tiverem sido feitos sob o nome de outro editor, será difícil.</example>
+                <example>O Ministério do Interior (MOI) aprovou o pedido no dia 31 de dezembro.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes' regexp='no'>pedir</token>
+                <token regexp='yes'>[ao]s?</token> <!-- Used also o/os if required in the future for more exceptions. -->
+                <token regexp='yes'>mão|palavra</token>
+                <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
+                <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
+                <example>O aluno pediu a palavra.</example>
+                <example>Tom vai pedir a mão de Mary.</example>
+                <example>De todas as partes vieram pretendentes pedir-lhe a mão.</example>
+                <example>Não peça a mão da filha deles para seu filho.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>pedir</token>
+                </marker>
+                <token postag='(SPS00:)?D[AI].+|NP.+' postag_regexp='yes'/>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>solicitar</match></suggestion>
+            <example correction="solicita">Durante um mês <marker>pede</marker> aos funcionários para analisarem as vendas.</example>
+            <example>O Rui solicitou a devolução do produto.</example>
+        </rule>
+
+
         <rule id='ESTAR_LIXADO_ZANGADO_COM_PROBLEMAS' name="Lixado → zangado/'com problemas'" tone_tags='formal'>
             <pattern>
                 <token skip='2' inflected='yes' regexp='no'>estar</token>
