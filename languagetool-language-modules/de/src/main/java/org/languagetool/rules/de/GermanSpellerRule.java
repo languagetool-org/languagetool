@@ -4459,6 +4459,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "steinfarbender": return topMatch("steinfarbener");
       case "steinfarbendes": return topMatch("steinfarbenes");
       case "steinfarbendem": return topMatch("steinfarbenem");
+      case "schwarzfarbenden": return topMatch("schwarzfarbenen");
+      case "schwarzfarbende": return topMatch("schwarzfarbene");
+      case "schwarzfarbender": return topMatch("schwarzfarbener");
+      case "schwarzfarbendes": return topMatch("schwarzfarbenes");
+      case "schwarzfarbendem": return topMatch("schwarzfarbenem");
+      case "kupferfarbenden": return topMatch("kupferfarbenen");
+      case "kupferfarbende": return topMatch("kupferfarbene");
+      case "kupferfarbender": return topMatch("kupferfarbener");
+      case "kupferfarbendes": return topMatch("kupferfarbenes");
+      case "kupferfarbendem": return topMatch("kupferfarbenem");
     }
     return Collections.emptyList();
   }

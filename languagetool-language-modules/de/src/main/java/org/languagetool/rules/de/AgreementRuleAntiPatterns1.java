@@ -995,6 +995,12 @@ class AgreementRuleAntiPatterns1 {
       csRegex("[Ee]nglischen?"),
       token("Football"),
       token("Assosiation")
+    ),
+    asList(
+      // die neu geschaffene Position des Head of Men’s Tennis
+      token("des"),
+      token("Head"),
+      token("of")
     )
   );
 
