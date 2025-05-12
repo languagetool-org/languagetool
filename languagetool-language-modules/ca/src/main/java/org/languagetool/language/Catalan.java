@@ -301,6 +301,7 @@ public class Catalan extends Language {
       case "FIDEUA": return 5; // la cremà
       case "L_NO_APOSTROFA": return 5;
       case "L_D_N_NO_S_APOSTROFEN": return 5;
+      case "AMB_EM": return 5;
       case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "CA_WORD_COHERENCY": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
