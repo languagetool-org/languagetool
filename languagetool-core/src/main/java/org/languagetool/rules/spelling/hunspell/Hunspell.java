@@ -4,6 +4,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.broker.ResourceDataBroker;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.file.*;
 import java.util.*;
 import java.util.function.BiFunction;
@@ -42,16 +43,24 @@ public final class Hunspell {
   }
 
   private static Factory viaTempFiles(BiFunction<Path, Path, HunspellDictionary> factory) {
-    return (language, dictionaryStream, affixStream) -> {
-      Path dictionary = Files.createTempFile(language, ".dic");
-      Path affix = Files.createTempFile(language, ".aff");
-      Files.copy(dictionaryStream, dictionary, StandardCopyOption.REPLACE_EXISTING);
-      Files.copy(affixStream, affix, StandardCopyOption.REPLACE_EXISTING);
-      try {
+    return new Factory() {
+      @Override
+      public HunspellDictionary createFromLocalFiles(String languageCode, Path dictionary, Path affix) {
         return factory.apply(dictionary, affix);
-      } finally {
-        Files.deleteIfExists(dictionary);
-        Files.deleteIfExists(affix);
+      }
+
+      @Override
+      public HunspellDictionary createFromStreams(String language, InputStream dictionaryStream, InputStream affixStream) throws IOException {
+        Path dictionary = Files.createTempFile(language, ".dic");
+        Path affix = Files.createTempFile(language, ".aff");
+        Files.copy(dictionaryStream, dictionary, StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(affixStream, affix, StandardCopyOption.REPLACE_EXISTING);
+        try {
+          return factory.apply(dictionary, affix);
+        } finally {
+          Files.deleteIfExists(dictionary);
+          Files.deleteIfExists(affix);
+        }
       }
     };
   }
@@ -72,9 +81,9 @@ public final class Hunspell {
     if (hunspell != null && !hunspell.isClosed()) {
       return hunspell;
     }
-    try(var dic = Files.newInputStream(dictionary); var aff = Files.newInputStream(affix)) {
+    try {
       HunspellDictionary newHunspell = hunspellDictionaryFactory
-        .create(dictionary.getFileName().toString(), dic, aff);
+        .createFromLocalFiles(dictionary.getFileName().toString(), dictionary, affix);
       map.put(key, newHunspell);
       return newHunspell;
     } catch (IOException e) {
@@ -88,11 +97,22 @@ public final class Hunspell {
 
   public static HunspellDictionary forDictionaryInResources(String language, String dicPath, String affPath) {
     ResourceDataBroker broker = JLanguageTool.getDataBroker();
+    URL dicUrl = broker.getFromResourceDirAsUrl(dicPath);
+    URL affUrl = broker.getFromResourceDirAsUrl(affPath);
+    if (dicUrl != null && affUrl != null &&
+      dicUrl.getProtocol().equals("file") && affUrl.getProtocol().equals("file")) {
+      try {
+        return hunspellDictionaryFactory.createFromLocalFiles(language, Path.of(dicUrl.getPath()), Path.of(affUrl.getPath()));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
     try (var dic = broker.getFromResourceDirAsStream(dicPath); var aff = broker.getFromResourceDirAsStream(affPath)) {
       if (dic == null || aff == null) {
         throw new RuntimeException("Could not find the dictionary for language \"" + language + "\" in the classpath");
       }
-      return hunspellDictionaryFactory.create(language, dic, aff);
+      return hunspellDictionaryFactory.createFromStreams(language, dic, aff);
     } catch (IOException e) {
       throw new RuntimeException("Could not create temporary dictionaries for language \"" + language + "\"", e);
     }
@@ -103,6 +123,22 @@ public final class Hunspell {
   }
 
   public interface Factory {
-    HunspellDictionary create(String languageCode, InputStream dictionary, InputStream affix) throws IOException;
+    /**
+     * An equivalent of {@link #createFromStreams(String, InputStream, InputStream)} that can be used
+     * if the caller is sure that the Hunspell dictionaries are located in the files in the local file system.
+     * This allows for more efficient implementation.
+     */
+    default HunspellDictionary createFromLocalFiles(String languageCode, Path dictionary, Path affix) throws IOException {
+      try (InputStream dic = Files.newInputStream(dictionary); InputStream aff = Files.newInputStream(affix)) {
+        return createFromStreams(languageCode, dic, aff);
+      }
+    }
+
+    /**
+     * Create a Hunspell dictionary from the given streams.
+     * All necessary information should be extracted from both streams by the time this method returns.
+     * Closing the streams is not necessary in the implementation of this method, as the caller will close them itself.
+     */
+    HunspellDictionary createFromStreams(String languageCode, InputStream dictionary, InputStream affix) throws IOException;
   }
 }
