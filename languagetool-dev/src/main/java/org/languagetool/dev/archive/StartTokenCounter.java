@@ -47,32 +47,33 @@ final class StartTokenCounter {
     try (FSDirectory directory = FSDirectory.open(dir.toPath());
          IndexReader reader = DirectoryReader.open(directory)) {
       IndexSearcher searcher = new IndexSearcher(reader);
-      Fields fields = MultiFields.getFields(reader);
-      Terms ngrams = fields.terms("ngram");
-      TermsEnum iterator = ngrams.iterator();
-      BytesRef next;
-      int i = 0;
-      while ((next = iterator.next()) != null) {
-        String term = next.utf8ToString();
-        if (term.startsWith(LanguageModel.GOOGLE_SENTENCE_START)) {
-          if (term.matches(".*_(ADJ|ADV|NUM|VERB|ADP|NOUN|PRON|CONJ|DET|PRT)$")) {
-            //System.out.println("ignore: " + term);
-            continue;
-          }
-          TopDocs topDocs = searcher.search(new TermQuery(new Term("ngram", term)), 3);
-          if (topDocs.totalHits == 0) {
-            throw new RuntimeException("No hits for " + term + ": " + topDocs.totalHits);
-          } else if (topDocs.totalHits == 1) {
-            int docId = topDocs.scoreDocs[0].doc;
-            Document document = reader.document(docId);
-            Long count = Long.parseLong(document.get("count"));
-            //System.out.println(term + " -> " + count);
-            totalCount += count;
-            if (++i % 10_000 == 0) {
-              System.out.println(i + " ... " + totalCount);
+      for (String field : FieldInfos.getIndexedFields(reader)) {
+        Terms ngrams = MultiTerms.getTerms(reader, field);
+        TermsEnum iterator = ngrams.iterator();
+        BytesRef next;
+        int i = 0;
+        while ((next = iterator.next()) != null) {
+          String term = next.utf8ToString();
+          if (term.startsWith(LanguageModel.GOOGLE_SENTENCE_START)) {
+            if (term.matches(".*_(ADJ|ADV|NUM|VERB|ADP|NOUN|PRON|CONJ|DET|PRT)$")) {
+              //System.out.println("ignore: " + term);
+              continue;
             }
-          } else {
-            throw new RuntimeException("More hits than expected for " + term + ": " + topDocs.totalHits);
+            TopDocs topDocs = searcher.search(new TermQuery(new Term("ngram", term)), 3);
+            if (topDocs.totalHits.value == 0) {
+              throw new RuntimeException("No hits for " + term + ": " + topDocs.totalHits.value);
+            } else if (topDocs.totalHits.value == 1) {
+              int docId = topDocs.scoreDocs[0].doc;
+              Document document = reader.document(docId);
+              Long count = Long.parseLong(document.get("count"));
+              //System.out.println(term + " -> " + count);
+              totalCount += count;
+              if (++i % 10_000 == 0) {
+                System.out.println(i + " ... " + totalCount);
+              }
+            } else {
+              throw new RuntimeException("More hits than expected for " + term + ": " + topDocs.totalHits);
+            }
           }
         }
       }
