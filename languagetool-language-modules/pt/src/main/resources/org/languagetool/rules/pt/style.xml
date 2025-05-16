@@ -3797,29 +3797,37 @@ USA
         </rule>
 
 
-        <rule id='PEDIR_SOLICITAR_V2' name="Pedir → solicitar" tone_tags='formal' tags='picky' default='temp_off'>
+        <rule id='PEDIR_SOLICITAR_V3' name="Pedir → solicitar" tone_tags='formal' tags='picky' default='temp_off'>
             <antipattern>
-                <token postag='SENT_START|Z0.+|DI.+' postag_regexp='yes'/>
+                <token postag='SENT_START|Z0.+|DI.+|_PUNCT|VMN0000|VMG0000|_QUOT' postag_regexp='yes'>
+                    <exception regexp='yes' inflected='yes'>estar|ter|ser</exception>
+                    <exception scope='previous' regexp='yes' inflected='yes'>estar|ter|ser</exception></token>
                 <token skip='1' regexp='yes'>pedidos?</token>
-                <token postag='VMP00.+|NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='VMP00.+|NC.+|AQ.+|_PUNCT|_QUOT|VMN0000|VMG0000' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='SPS.+'/></token>
                 <example>Pedido negado!</example>
                 <example>De lá pra cá, vários pedidos foram protocolados na Casa com o mesmo objetivo.</example>
                 <example>PEDIDOS PELO SITE: Em dinheiro na porta ou Cartão de Crédito.</example>
                 <example>Pedido de oração - Bom dia meus queridos amigos, tudo bem com vcs?...</example>
                 <example>Pedidos de ajuda individual serão respondidos conforme o meu tempo e disponibilidade permitirem.</example>
                 <example>Pedidos e Promessas de Maria.</example>
+                <example>Endereço: Não há loja física, pedidos via encomenda.</example>
+                <example>- pedido negado.</example>
+                <example>"Finalizar Pedido":"Visualizar e finalizar compra".</example>
+                <example>Fazer pedido às estrelas cadentes é besteira.</example>
+                <example>Os clientes costumam ser fiéis e fazer pedidos periódicos.</example>
             </antipattern>
             <antipattern>
-                <token postag='SPS00:.+' postag_regexp='yes'><exception scope='previous' postag_regexp='no' postag='VMIP1S0'/></token>
+                <token regexp='yes' inflected='yes'>estar|ter|ser</token>
+                <token postag='DI0M.+' postag_regexp='yes'/>
                 <token regexp='yes'>pedidos?</token>
-                <example>Essa ferramenta funciona apenas para transações avulsas e não é possível editar os itens do pedido.</example>
-                <example>Para realizar o pagamento imprima o boleto após a conclusão do pedido.</example>
-                <example>O distribuidor, então, fatura e realiza a entrega do pedido.</example>
-                <example>Riram dele por causa do pedido por ele feito.</example>
+                <example>Tenho um pedido a fazer-lhes, amigos.</example>
+                <example>A parte queixosa tem um pedido a fazer?</example>
             </antipattern>
             <antipattern>
-                <token postag='D[ADIP].+|SPS00|SPS00:DD.+|Z0.+' postag_regexp='yes'>
-                    <exception scope='previous' regexp='no'>por</exception></token>
+                <token postag='D[ADIP].+|SPS.+|Z0.+' postag_regexp='yes'>
+                    <exception scope='previous' regexp='yes' inflected='yes'>estar|ter|ser</exception>
+                    <exception scope='previous' regexp='yes'>por|pel[ao]s?|abaixo</exception></token>
                 <token regexp='yes'>pedidos?</token>
                 <example>Ela solicitou o pedido do livro a Londres.</example>
                 <example>A pedido da ONG Conectas Direitos Humanos, a Justiça Federal suspendeu a nomeação em junho de 2020.</example>
@@ -3834,27 +3842,29 @@ USA
                 <example>Nós recebemos muitos pedidos todos os dias.</example>
                 <example>Não é provável que nenhum agostinho tenha feito antes tal pedido".</example>
                 <example>Do contrário teremos que cancelar esse pedido.</example>
+                <example>Essa ferramenta funciona apenas para transações avulsas e não é possível editar os itens do pedido.</example>
+                <example>Para realizar o pagamento imprima o boleto após a conclusão do pedido.</example>
+                <example>O distribuidor, então, fatura e realiza a entrega do pedido.</example>
+                <example>Riram dele por causa do pedido por ele feito.</example>
             </antipattern>
             <antipattern>
-                <token inflected='yes' regexp='no'>pedir</token>
-                <token skip='1' regexp='yes'>[ao]s?|d[ao]s?|de|em</token>
-                <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|mãos?|namoro|palavra|perdão</token> <!-- The same words below -->
-                <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
-                <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
-                <example>O aluno pediu a palavra.</example>
-                <example>Tom vai pedir a mão de Mary.</example>
-                <example>De todas as partes vieram pretendentes pedir-lhe a mão.</example>
-                <example>Não peça a mão da filha deles para seu filho.</example>
-                <example>Não quero pedir a sua mão!</example>
-                <example>Ministra Marina Silva entrega pedido de demissão a...</example>
-                <example>Temas do primeiro pedido de desculpas.</example>
+                <token postag='Z0.+|DI.+' postag_regexp='yes'/>
+                <token regexp='yes'>peças?</token>
+                <example>EMBALAGEM COM 100 PEÇAS (1 CENTO).</example>
+                <example>A poltrona tem série limitada de 13 peças.</example>
+                <example>O atendimento pelo whatsapp é para mínimo de 250 peças.</example>
+                <example>Juntas, produzem cerca de 200 peças por mês, todas feitas em 100% algodão.</example>
+                <example>Estou a montar um quebra-cabeça de 750 peças.</example>
+                <example>Existem 144 centros móveis, consistindo de seis conjuntos de 24 peças cada.</example>
+                <example>Escreveu também cerca de 20 peças, das quais 14 foram encenadas.</example>
+                <example>Como o processo de impressão era complexo, ele imprimiu apenas 40 peças.</example>
             </antipattern>
             <antipattern>
                 <token regexp='yes'>peças?</token>
                 <token min='0' max='1' regexp='yes'>d[ao]s?|de</token>
                 <token postag='NC.+|AQ.+|RN' postag_regexp='yes'>
                    <exception regexp='yes' >ajudas?</exception>
-                   <exception postag_regexp='yes' postag='SPS00.+'/></token>
+                   <exception postag_regexp='yes' postag='SPS.+'/></token>
                 <example>Peças adultas contam ainda com costura reforçada nos ombros.</example>
                 <example>Para cada jogo, há uma extensa e trabalhada peça musical de longa duração.</example>
                 <example>São peças confortáveis e super práticas, pra usar o ano inteiro!</example>
@@ -3867,9 +3877,24 @@ USA
                 <example>Siga as instruções para obter descontos em tattoo machine, peças de bobinas da máquina de tatuagem.</example>
                 <example>Onde é que esta peça de teatro está a ser apresentada?</example>
             </antipattern>
+            <antipattern>
+                <token inflected='yes' regexp='no'>pedir</token>
+                <token skip='1' regexp='yes'>[ao]s?|d[ao]s?|de|em</token>
+                <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão</token> <!-- The same words below -->
+                <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
+                <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
+                <example>O aluno pediu a palavra.</example>
+                <example>Tom vai pedir a mão de Mary.</example>
+                <example>De todas as partes vieram pretendentes pedir-lhe a mão.</example>
+                <example>Não peça a mão da filha deles para seu filho.</example>
+                <example>Não quero pedir a sua mão!</example>
+                <example>Ministra Marina Silva entrega pedido de demissão a...</example>
+                <example>Temas do primeiro pedido de desculpas.</example>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token inflected='yes' regexp='no'>pedir<exception scope='next' regexp='yes'>casamento|conselhos?|desculpas?|demissão|mãos?|namoro|palavra|perdão</exception></token>
+                    <token inflected='yes' regexp='no'>pedir
+                        <exception scope='next' regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão</exception></token>
                 </marker>
             </pattern>
             <message>&informal_msg;</message>
