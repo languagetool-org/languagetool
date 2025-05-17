@@ -3797,7 +3797,7 @@ USA
         </rule>
 
 
-        <rule id='PEDIR_SOLICITAR_V3' name="Pedir → solicitar" tone_tags='formal' tags='picky' default='temp_off'>
+        <rule id='PEDIR_SOLICITAR_V3' name="Pedir → solicitar" tone_tags='formal' tags='picky'>
             <antipattern>
                 <token postag='SENT_START|Z0.+|DI.+|_PUNCT|VMN0000|VMG0000|_QUOT' postag_regexp='yes'>
                     <exception regexp='yes' inflected='yes'>estar|ter|ser</exception>
@@ -3858,10 +3858,12 @@ USA
                 <example>Existem 144 centros móveis, consistindo de seis conjuntos de 24 peças cada.</example>
                 <example>Escreveu também cerca de 20 peças, das quais 14 foram encenadas.</example>
                 <example>Como o processo de impressão era complexo, ele imprimiu apenas 40 peças.</example>
+                <example>A poltrona tem série limitada de 13 peças.</example>
             </antipattern>
             <antipattern>
                 <token regexp='yes'>peças?</token>
                 <token min='0' max='1' regexp='yes'>d[ao]s?|de</token>
+                <token min='0' max='1' postag='RG' postag_regexp='no'/>
                 <token postag='NC.+|AQ.+|RN' postag_regexp='yes'>
                    <exception regexp='yes' >ajudas?</exception>
                    <exception postag_regexp='yes' postag='SPS.+'/></token>
@@ -3876,11 +3878,13 @@ USA
                 <example>Nesse caso, recomendamos, as peças de aço, aço folheado ou ouro.</example>
                 <example>Siga as instruções para obter descontos em tattoo machine, peças de bobinas da máquina de tatuagem.</example>
                 <example>Onde é que esta peça de teatro está a ser apresentada?</example>
+                <example>Diria mesmo que a peça mais importante a levar é a “mentalização”.</example>
+                <example>Ao menos já adiante as peças mais delicadas e levinhas.</example>
             </antipattern>
             <antipattern>
                 <token inflected='yes' regexp='no'>pedir</token>
                 <token skip='1' regexp='yes'>[ao]s?|d[ao]s?|de|em</token>
-                <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão</token> <!-- The same words below -->
+                <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</token> <!-- The same words below -->
                 <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
                 <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
                 <example>O aluno pediu a palavra.</example>
@@ -3894,7 +3898,7 @@ USA
             <pattern>
                 <marker>
                     <token inflected='yes' regexp='no'>pedir
-                        <exception scope='next' regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão</exception></token>
+                        <exception scope='next' regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</exception></token>
                 </marker>
             </pattern>
             <message>&informal_msg;</message>
