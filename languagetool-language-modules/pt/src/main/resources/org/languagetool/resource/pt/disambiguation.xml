@@ -4445,7 +4445,7 @@ USA
   <rule id="PPPLURAL_SUBSTANTIVE_SUBSTANTIVEADJECTIVE_RARE" name="Remove verbs in substantives">
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
-      <token postag='(V.+:)?PP..P.+' postag_regexp='yes'/>
+      <token postag='(V.+:)?PP..P.+' postag_regexp='yes'><exception scope='previous' regexp='yes' inflected='yes'>estar|ter|ser</exception></token>
       <marker>
         <and>
             <token postag='V.+' postag_regexp='yes'/>
