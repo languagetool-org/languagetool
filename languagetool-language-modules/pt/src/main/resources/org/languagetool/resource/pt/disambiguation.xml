@@ -4442,6 +4442,32 @@ USA
     -->
   </rule>
 
+  <rule id="PPPLURAL_SUBSTANTIVE_SUBSTANTIVEADJECTIVE_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='(V.+:)?PP..P.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='N.+|AQ.+' postag_regexp='yes'>
+        <exception scope='previous' postag_regexp='yes' postag='VMI.+|VMN0000'/>
+        <exception postag_regexp='yes' postag='V.+'/></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Insira os dados completos na lista bônus e concorra a prêmios!
+             Qual a opinião de vcs sobre Moro no MJ?
+             Ver ao vivo deve ser super borbulhante nos melhores sentidos.
+             Quais os cuidados necessário com o ar-condicionado?
+             Até o dia 30 de março serão enviados por e-mail os pareceres sobre os resumos.
+             Alguns casos mais raros são diferenciados por não seguirem as medidas padrão.
+    -->
+  </rule>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
