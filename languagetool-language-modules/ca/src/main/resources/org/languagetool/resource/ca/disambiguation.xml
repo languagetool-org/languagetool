@@ -2109,13 +2109,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="UN_POC" name="un poc">
         <antipattern>
-            <token regexp="yes">poc|poquet|pèl|xic</token>
+            <token regexp="yes">poc|poquet|pelet|peliu|pèl|xic</token>
             <token regexp="yes">de|d'</token>
         </antipattern>
         <pattern>
             <marker>
                 <token>un</token>
-                <token regexp="yes">poc|poquet|pèl|xic</token>
+                <token regexp="yes">poc|poquet|pèl|xic|pelet|peliu</token>
             </marker>
         </pattern>
         <disambig action="replace">
@@ -5613,7 +5613,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes">tret</token>
         </antipattern>
         <antipattern>
-            <token inflected="yes" regexp="yes">adjudicar|adjudicació|assignar|assignació|nomenament|nomenar|escollir|seleccionar|selecció|triar|tria|elegir|elecció|contractar|contracte|designar|designació|anomenar|posar|col·locar|col·locació|diner|subvenció|càrrec|prebenda|beca|ascendir|ascens</token>
+            <token inflected="yes" regexp="yes">&exceptions_A_DIT_HA_DIT;</token>
             <token>a</token>
             <token>dit</token>
         </antipattern>
@@ -12638,6 +12638,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </unify>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="hi_trobes" name="hi trobes">
+        <pattern>
+            <token>hi</token>
+            <marker>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="[NA].*"/>
     </rule>
     <rule id="en_preposicio" name="en preposició, no article">
         <pattern>
