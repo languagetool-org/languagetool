@@ -9169,6 +9169,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- tracta la variant valenciana: jo vist| tu vistes, ell vista -->
         <rule>
             <pattern>
+                <token inflected="yes" regexp="yes">girar|voltar|canviar|dirigir|adreçar|capgirar</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">vista|vistes</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token>vist</token>
                 </marker>
