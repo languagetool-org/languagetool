@@ -3674,6 +3674,42 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='PRESO_RETIDO' name="Preso → retido" tone_tags='formal' tags='picky' default='temp_off'>
+            <antipattern>
+                <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
+                <token regexp='yes'>pres[ao]s?</token>
+                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+                <token min='0' max='1' regexp='yes'>após|como|com|devido|durante|em|enquanto|n[ao]s?|para|pel[ao]s?|por|porqu[eê]|quando|que|sob</token>
+                <token min='0' max='1' regexp='yes'>[àao]s?|aos?|e|ou</token>
+                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+                <token inflected='yes' regexp='yes'>acusação|acusado|advogado|assassinar|autoridade|cela|custódia|enganar|engano|esfaquear|estuprar|furtar|furto|GNR|juiz|julgamento|lapso|matar|molestar|PJ|polícia|político|posse|prisão|PSP|reincidência|roubar|roubo|torturado|torturar|tribunal|usurpação|usurpar</token>
+                <example>Depois de quatro anos de pregação, foi preso pelas autoridades pagãs.</example>
+                <example>Ela foi presa pela polícia.</example>
+                <example>Ele foi preso sob a acusação de conspirar contra a monarquia, mas foi liberado por falta de provas.</example>
+                <example>Rosso é posteriormente preso sob custódia da A.R.G.U.S.</example>
+                <example>Malvo foi inicialmente preso sob acusações federais, mas elas foram retiradas.</example>
+                <example>Ele foi preso acusado por evasão fiscal.</example>
+                <example>Tom foi preso por engano.</example>
+                <example>Luís XVI e Maria foram presos, acusados de traição ao país por colaborarem com os invasores.</example>
+                <example>Elemento mão de visgo é preso após furtar aparelho...</example>
+                <example>Nessa época, ele ainda não cantava, e chegou a ser preso e torturado.</example>
+                <example>Ele foi preso e assassinado durante a Revolução.</example>
+                <example>Ele foi preso porque roubou dinheiro. </example>
+            </antipattern>
+            <pattern>
+                <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
+                <marker>
+                    <token regexp='yes'>pres[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>Empregue &quot;retido&quot; em textos formais, salvo ao referir-se a prisão de liberdade.</message>
+            <suggestion>retid<match no='2' regexp_match='(pres)(.)(s?)' regexp_replace='$2$3'/></suggestion>
+            <example correction="retido">Estou <marker>preso</marker> no trânsito.</example>
+            <example>A Ana está retida no congestionamento a caminho do trabalho.</example>
+            <example>O documento foi retido na alfândega.</example>
+        </rule>
+
+
         <rule id='PARA_DENTRO_INTERIOR' name="Para 'dentro' → Para 'o interior'" tone_tags='formal' tags='picky'>
             <antipattern>
                 <token>para</token>
