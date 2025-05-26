@@ -8391,6 +8391,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="ÜBERFAHRENWERDEN" name="ignore spelling of substantivized verbs + 'werden'">
+        <pattern>
+            <token postag="ART.+" postag_regexp="yes" />
+            <marker>
+                <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].+(en|t)werden</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+        <example type="untouched">Der alte Mann entging nur knapp dem Überfahrenwerden und Ermordetwerden durch ein Auto.</example>
+    </rule>
+
     <rule id="HOLST_KEIN_VERB" name="'Holst' kein Verb">
         <!-- https://de.wikipedia.org/wiki/Holst_(Familienname) -->
         <!-- https://de.wikipedia.org/wiki/Holt -->
