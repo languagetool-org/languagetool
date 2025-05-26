@@ -16408,7 +16408,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">.*[a-z0-9].*</token>
                 <token min="0" regexp="yes">[\)\(,\/:]</token>
                 <marker>
-                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
+                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!-- plural form of abbreviations -->
+            <pattern case_sensitive="yes">
+                <token regexp="yes">.*[a-z0-9].*</token>
+                <token min="0" regexp="yes">[\)\(,\/:]</token>
+                <marker>
+                    <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{2,6}s</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
