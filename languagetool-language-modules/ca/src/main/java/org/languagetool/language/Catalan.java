@@ -252,6 +252,7 @@ public class Catalan extends Language {
       case "PRONOMS_FEBLES_DARRERE_VERB": return 30; // greater than PRONOMS_FEBLES_SOLTS2
       case "VERBS_NO_INCOATIUS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
       case "ARRIBAN_ARRIBANT": return 30;
+      case "PERO_PERO": return 30; // lower than COMMA_PERO1
       case "PUNT_LLETRA": return 30; // greater than CONCORDANCES_DET_NOM
       case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN
@@ -273,6 +274,7 @@ public class Catalan extends Language {
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCA_GRIS": return 10;
+      case "SELS_EN_VA_DE_LES_MANS": return 10;
       case "A_PER": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
       case "COMMA_IJ": return 10;
@@ -300,6 +302,7 @@ public class Catalan extends Language {
       case "FIDEUA": return 5; // la cremà
       case "L_NO_APOSTROFA": return 5;
       case "L_D_N_NO_S_APOSTROFEN": return 5;
+      case "AMB_EM": return 5;
       case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "CA_WORD_COHERENCY": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE

@@ -139,6 +139,10 @@ public class PronomsFeblesHelper {
     addEnApostrophe.put("m'", "me n'");
     addEnApostrophe.put("t'", "te n'");
     addEnApostrophe.put("s'", "se n'");
+    addEnApostrophe.put("em", "me n'");
+    addEnApostrophe.put("et", "te n'");
+    addEnApostrophe.put("es", "se n'");
+    addEnApostrophe.put("se", "se n'");
     addEnApostrophe.put("ens", "ens n'");
     addEnApostrophe.put("us", "us n'");
     addEnApostrophe.put("vos", "vos n'");
@@ -146,6 +150,8 @@ public class PronomsFeblesHelper {
     addEnApostrophe.put("els", "els n'");
     addEnApostrophe.put("se m'", "se me n'");
     addEnApostrophe.put("se t'", "se te n'");
+    addEnApostrophe.put("se'm", "se me n'");
+    addEnApostrophe.put("se't", "se te n'");
     addEnApostrophe.put("se li", "se li n'");
     addEnApostrophe.put("se'ns", "se'ns n'");
     addEnApostrophe.put("se us", "se us n'");
@@ -157,16 +163,22 @@ public class PronomsFeblesHelper {
 
   private static Map<String, String> addEn = new HashMap<>();
   static {
+    addEn.put("m'", "me'n ");
+    addEn.put("t'", "te'n ");
+    addEn.put("s'", "se'n ");
     addEn.put("em", "me'n ");
     addEn.put("et", "te'n ");
     addEn.put("es", "se'n ");
     addEn.put("se", "se'n ");
     addEn.put("ens", "ens en ");
     addEn.put("us", "us en ");
+    addEn.put("vos", "vos en ");
     addEn.put("li", "li'n ");
     addEn.put("els", "els en ");
     addEn.put("se'm", "se me'n ");
     addEn.put("se't", "se te'n ");
+    addEn.put("se m'", "se me'n ");
+    addEn.put("se t'", "se te'n ");
     addEn.put("se li", "se li'n ");
     addEn.put("se'ns", "se'ns en ");
     addEn.put("se us", "se us en ");
@@ -531,6 +543,20 @@ public class PronomsFeblesHelper {
   public static String doReplaceEmEn(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
     String replacement = "";
     if (pronounsStr.equalsIgnoreCase("em")) {
+      replacement = "en"+ " " + verbStr;
+    }
+    if (pronounsStr.equalsIgnoreCase("m'")) {
+      replacement = "n'" + verbStr;
+    }
+    if (pronounsStr.equalsIgnoreCase("m'hi")) {
+      replacement = "n'hi " + verbStr;
+    }
+    return replacement;
+  }
+
+  public static String doReplaceHiEn(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
+    String replacement = "";
+    if (pronounsStr.equalsIgnoreCase("hi")) {
       replacement = "en"+ " " + verbStr;
     }
     if (pronounsStr.equalsIgnoreCase("m'")) {

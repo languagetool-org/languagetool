@@ -125,6 +125,9 @@ public class GermanSRXSentenceTokenizerTest {
 
     testSplit("Im Büro gibt es Computer, Drucker, Telefone etc. ", "Die Mitarbeiter arbeiten den ganzen Tag an verschiedenen Projekten.");
     testSplit("Die Ergebnisse sind in Tabellen, Grafiken, Diagrammen etc. dargestellt.");
+
+    testSplit("Master of Law (LL.B.)");
+    testSplit("Master of Law (LL. B.)");
   }
 
   private void testSplit(String... sentences) {

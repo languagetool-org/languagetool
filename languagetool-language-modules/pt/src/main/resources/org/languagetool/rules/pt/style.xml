@@ -698,7 +698,7 @@ USA
             <example>Vou honrar os meus compromissos.</example>
         </rule>
 
-        <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite -> Imagem de satélite" tags="picky">
+        <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite → Imagem de satélite" tags="picky">
             <!--      Created by Tiago F. Santos, 2019-09-07      -->
             <pattern>
                 <token regexp="yes">image(?:m|ns)</token>
@@ -3674,6 +3674,42 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='PRESO_RETIDO' name="Preso → retido" tone_tags='formal' tags='picky' default='temp_off'>
+            <antipattern>
+                <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
+                <token regexp='yes'>pres[ao]s?</token>
+                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+                <token min='0' max='1' regexp='yes'>após|como|com|devido|durante|em|enquanto|n[ao]s?|para|pel[ao]s?|por|porqu[eê]|quando|que|sob</token>
+                <token min='0' max='1' regexp='yes'>[àao]s?|aos?|e|ou</token>
+                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+                <token inflected='yes' regexp='yes'>acusação|acusado|advogado|assassinar|autoridade|cela|custódia|enganar|engano|esfaquear|estuprar|furtar|furto|GNR|juiz|julgamento|lapso|matar|molestar|PJ|polícia|político|posse|prisão|PSP|reincidência|roubar|roubo|torturado|torturar|tribunal|usurpação|usurpar</token>
+                <example>Depois de quatro anos de pregação, foi preso pelas autoridades pagãs.</example>
+                <example>Ela foi presa pela polícia.</example>
+                <example>Ele foi preso sob a acusação de conspirar contra a monarquia, mas foi liberado por falta de provas.</example>
+                <example>Rosso é posteriormente preso sob custódia da A.R.G.U.S.</example>
+                <example>Malvo foi inicialmente preso sob acusações federais, mas elas foram retiradas.</example>
+                <example>Ele foi preso acusado por evasão fiscal.</example>
+                <example>Tom foi preso por engano.</example>
+                <example>Luís XVI e Maria foram presos, acusados de traição ao país por colaborarem com os invasores.</example>
+                <example>Elemento mão de visgo é preso após furtar aparelho...</example>
+                <example>Nessa época, ele ainda não cantava, e chegou a ser preso e torturado.</example>
+                <example>Ele foi preso e assassinado durante a Revolução.</example>
+                <example>Ele foi preso porque roubou dinheiro. </example>
+            </antipattern>
+            <pattern>
+                <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
+                <marker>
+                    <token regexp='yes'>pres[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>Empregue &quot;retido&quot; em textos formais, salvo ao referir-se a prisão de liberdade.</message>
+            <suggestion>retid<match no='2' regexp_match='(pres)(.)(s?)' regexp_replace='$2$3'/></suggestion>
+            <example correction="retido">Estou <marker>preso</marker> no trânsito.</example>
+            <example>A Ana está retida no congestionamento a caminho do trabalho.</example>
+            <example>O documento foi retido na alfândega.</example>
+        </rule>
+
+
         <rule id='PARA_DENTRO_INTERIOR' name="Para 'dentro' → Para 'o interior'" tone_tags='formal' tags='picky'>
             <antipattern>
                 <token>para</token>
@@ -3794,6 +3830,126 @@ USA
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tolerar</match></suggestion>
             <example correction="suportam-me|toleram-me">Os meus pais <marker>aturam-me</marker> há décadas.</example>
             <example>O pai tolera o filho há décadas.</example>
+        </rule>
+
+
+        <rule id='PEDIR_SOLICITAR_V3' name="Pedir → solicitar" tone_tags='formal' tags='picky'>
+            <antipattern>
+                <token postag='SENT_START|Z0.+|DI.+|_PUNCT|VMN0000|VMG0000|_QUOT' postag_regexp='yes'>
+                    <exception regexp='yes' inflected='yes'>estar|ter|ser</exception>
+                    <exception scope='previous' regexp='yes' inflected='yes'>estar|ter|ser</exception></token>
+                <token skip='1' regexp='yes'>pedidos?</token>
+                <token postag='VMP00.+|NC.+|AQ.+|_PUNCT|_QUOT|VMN0000|VMG0000' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='SPS.+'/></token>
+                <example>Pedido negado!</example>
+                <example>De lá pra cá, vários pedidos foram protocolados na Casa com o mesmo objetivo.</example>
+                <example>PEDIDOS PELO SITE: Em dinheiro na porta ou Cartão de Crédito.</example>
+                <example>Pedido de oração - Bom dia meus queridos amigos, tudo bem com vcs?...</example>
+                <example>Pedidos de ajuda individual serão respondidos conforme o meu tempo e disponibilidade permitirem.</example>
+                <example>Pedidos e Promessas de Maria.</example>
+                <example>Endereço: Não há loja física, pedidos via encomenda.</example>
+                <example>- pedido negado.</example>
+                <example>"Finalizar Pedido":"Visualizar e finalizar compra".</example>
+                <example>Fazer pedido às estrelas cadentes é besteira.</example>
+                <example>Os clientes costumam ser fiéis e fazer pedidos periódicos.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes' inflected='yes'>estar|ter|ser</token>
+                <token postag='DI0M.+' postag_regexp='yes'/>
+                <token regexp='yes'>pedidos?</token>
+                <example>Tenho um pedido a fazer-lhes, amigos.</example>
+                <example>A parte queixosa tem um pedido a fazer?</example>
+            </antipattern>
+            <antipattern>
+                <token postag='D[ADIP].+|SPS.+|Z0.+' postag_regexp='yes'>
+                    <exception scope='previous' regexp='yes' inflected='yes'>estar|ter|ser</exception>
+                    <exception scope='previous' regexp='yes'>por|pel[ao]s?|abaixo</exception></token>
+                <token regexp='yes'>pedidos?</token>
+                <example>Ela solicitou o pedido do livro a Londres.</example>
+                <example>A pedido da ONG Conectas Direitos Humanos, a Justiça Federal suspendeu a nomeação em junho de 2020.</example>
+                <example>Em 2016 a pedido da Premier Guitar Magazine ele construiu uma guitarra para Thurston Moore.</example>
+                <example>Se o pedido dos ISBNs tiverem sido feitos sob o nome de outro editor, será difícil.</example>
+                <example>O Ministério do Interior (MOI) aprovou o pedido no dia 31 de dezembro.</example>
+                <example>A Prefeitura pode rejeitar seu pedido caso o imóvel não esteja adequado para a sua atividade.</example>
+                <example>Após pedidos do público, a operadora incluiu o canal em sua versão padrão no final de 2012.</example>
+                <example>Quanto mais cedo você fizer um pedido, quanto mais cedo começar a preparar o seu vestido.</example>
+                <example>Mais um pedido de desculpa que já poucos toleram e ainda menos compreendem.</example>
+                <example>Você tem direito a três pedidos.</example>
+                <example>Nós recebemos muitos pedidos todos os dias.</example>
+                <example>Não é provável que nenhum agostinho tenha feito antes tal pedido".</example>
+                <example>Do contrário teremos que cancelar esse pedido.</example>
+                <example>Essa ferramenta funciona apenas para transações avulsas e não é possível editar os itens do pedido.</example>
+                <example>Para realizar o pagamento imprima o boleto após a conclusão do pedido.</example>
+                <example>O distribuidor, então, fatura e realiza a entrega do pedido.</example>
+                <example>Riram dele por causa do pedido por ele feito.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='Z0.+|DI.+' postag_regexp='yes'/>
+                <token regexp='yes'>peças?</token>
+                <example>EMBALAGEM COM 100 PEÇAS (1 CENTO).</example>
+                <example>A poltrona tem série limitada de 13 peças.</example>
+                <example>O atendimento pelo whatsapp é para mínimo de 250 peças.</example>
+                <example>Juntas, produzem cerca de 200 peças por mês, todas feitas em 100% algodão.</example>
+                <example>Estou a montar um quebra-cabeça de 750 peças.</example>
+                <example>Existem 144 centros móveis, consistindo de seis conjuntos de 24 peças cada.</example>
+                <example>Escreveu também cerca de 20 peças, das quais 14 foram encenadas.</example>
+                <example>Como o processo de impressão era complexo, ele imprimiu apenas 40 peças.</example>
+                <example>A poltrona tem série limitada de 13 peças.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>peças?</token>
+                <token min='0' max='1' regexp='yes'>d[ao]s?|de</token>
+                <token min='0' max='1' postag='RG' postag_regexp='no'/>
+                <token postag='NC.+|AQ.+|RN' postag_regexp='yes'>
+                   <exception regexp='yes' >ajudas?</exception>
+                   <exception postag_regexp='yes' postag='SPS.+'/></token>
+                <example>Peças adultas contam ainda com costura reforçada nos ombros.</example>
+                <example>Para cada jogo, há uma extensa e trabalhada peça musical de longa duração.</example>
+                <example>São peças confortáveis e super práticas, pra usar o ano inteiro!</example>
+                <example>Trabalhamos com freezer Viking, dentro e fora de garantia e só usamos; e vendemos peças originais.</example>
+                <example>Peças conceituais ganham a aplicação de camurça recortada, trazendo jovialidade e sofisticação.</example>
+                <example>A fabricante italiana é a única fornecedora de chassis e peças da categoria.</example>
+                <example>Detalhes que só as peças da Loop Jeans tem!</example>
+                <example>Você acha que as peças do quebra-cabeça um dia se encaixarão?</example>
+                <example>Nesse caso, recomendamos, as peças de aço, aço folheado ou ouro.</example>
+                <example>Siga as instruções para obter descontos em tattoo machine, peças de bobinas da máquina de tatuagem.</example>
+                <example>Onde é que esta peça de teatro está a ser apresentada?</example>
+                <example>Diria mesmo que a peça mais importante a levar é a “mentalização”.</example>
+                <example>Ao menos já adiante as peças mais delicadas e levinhas.</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes' regexp='no'>pedir</token>
+                <token skip='1' regexp='yes'>[ao]s?|d[ao]s?|de|em</token>
+                <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</token> <!-- The same words below -->
+                <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
+                <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
+                <example>O aluno pediu a palavra.</example>
+                <example>Tom vai pedir a mão de Mary.</example>
+                <example>De todas as partes vieram pretendentes pedir-lhe a mão.</example>
+                <example>Não peça a mão da filha deles para seu filho.</example>
+                <example>Não quero pedir a sua mão!</example>
+                <example>Ministra Marina Silva entrega pedido de demissão a...</example>
+                <example>Temas do primeiro pedido de desculpas.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected='yes' regexp='no'>pedir
+                        <exception scope='next' regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</exception></token>
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>solicitar</match></suggestion>
+            <example correction="solicita">Durante um mês <marker>pede</marker> aos funcionários para analisarem as vendas.</example>
+            <example>O Rui solicitou a devolução do produto.</example>
+            <example>O Rui solicitou dinheiro como moeda de troca.</example>
+            <example>Vocês deviam pedir desculpas.</example>
+            <example>Ele pediu desculpas pela sua grosseria, mas ela não o perdoaria.</example>
+            <example>Agora peça desculpas.</example>
+            <example>João explodiu com o chefe e pediu demissão.</example>
+            <example>É melhor você pedir demissão.</example>
+            <example>Tom pediu demissão.</example>
+            <example>Não vai esperar a mágoa para pedir perdão.</example>
+            <example>Peço-vos perdão por nossa distracção.</example>
         </rule>
 
 
@@ -11048,7 +11204,7 @@ USA
     </category>
 
     <category id="SCIENTIFIC" name="Linguagem científica" type="style" tone_tags="scientific">
-        <rulegroup id="NUMERO_DE_MOLS" name="Número de mols -> massa molecular" tags="picky" is_goal_specific="true">
+        <rulegroup id="NUMERO_DE_MOLS" name="Número de mols → massa molecular" tags="picky" is_goal_specific="true">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
@@ -11076,7 +11232,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id="PESO_MOLECULAR" name="Peso molecular -> massa molecular" tags="picky" is_goal_specific="true">
+        <rulegroup id="PESO_MOLECULAR" name="Peso molecular → massa molecular" tags="picky" is_goal_specific="true">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
@@ -11103,7 +11259,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro -> constante" tags="picky" is_goal_specific="true">
+        <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro → constante" tags="picky" is_goal_specific="true">
             <pattern>
                 <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
                 <token>número</token>
@@ -11730,7 +11886,7 @@ USA
                     <token regexp='yes'>e|ou|nem</token>
                     <token postag="RM" regexp="yes">.+mente</token>
                 </pattern>
-                <!-- FIXME: create correct form: diariamente -> diária -->
+                <!-- FIXME: create correct form: diariamente → diária -->
                 <!--<filter class="org.languagetool.rules.pt.PortugueseSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>-->
                 <message>Quando os advérbio de modo aparecem em sequência, só o último deve ser afixado com -mente.</message>
                 <suggestion ><match no='1' regexp_match="(.+)mente" regexp_replace="$1"/></suggestion>
@@ -13763,7 +13919,7 @@ USA
 
             Subrule 1.3:
              -mento → ir
-            Vimos O SURGIMENTO DE uma fórmula. -> Vimos SURGIR uma fórmula.
+            Vimos O SURGIMENTO DE uma fórmula. → Vimos SURGIR uma fórmula.
 
             Subrule 2.1:
              -ação → ar
@@ -16614,23 +16770,20 @@ USA
 
         </rulegroup>
 
-        <!-- TORNAR IMPOSSÍVEL impossibilitar -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)      -->
-        <!--
-        Vamos impossibilitar os erros gramaticais.
-        E assim impossibilitando falhar.
-        -->
-        <rule id='TORNAR_IMPOSSÍVEL_impossibilitar' name="Tornar Impossível → Impossibilitar">
+
+        <rule id='TORNAR_IMPOSSÍVEL_IMPOSSIBILITAR' name="Tornar Impossível → Impossibilitar">
             <!--IDEA shorten_it-->
             <pattern>
-                <token inflected='yes'>tornar</token>
+                <token inflected='yes'>tornar<exception postag_regexp='yes' postag='V.+:PP3CNO00'/></token>
                 <token>impossível</token>
             </pattern>
-            <message>Substitua por</message>
+            <message>&simplify_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>impossibilitar</match></suggestion>
             <example correction="impossibilitar">Vamos <marker>tornar impossível</marker> os erros gramaticais.</example>
             <example>Vamos <marker>impossibilitar</marker> os erros gramaticais.</example>
             <example>E assim <marker>impossibilitando</marker> falhar.</example>
+            <example>Assim, torna-se impossível determinar com exatidão o resultado.</example>
+            <example>A compreensão do presente torna-se impossível sem um bom entendimento do passado.</example>
         </rule>
 
 
@@ -16805,7 +16958,7 @@ USA
                 <example correction='ser'>Afirmei a minha inocência alegando <marker>que era</marker> canhoto.</example>
             </rule>
 
-            <!-- TU -> QUE ERAS -->
+            <!-- TU → QUE ERAS -->
             <rule>
                 <antipattern>
                     <token>que</token>
@@ -16831,7 +16984,7 @@ USA
                 <example correction='seres'>Afirmaste a tua inocência alegando <marker>que eras</marker> canhoto.</example>
             </rule>
 
-            <!-- NÓS -> QUE ÉRAMOS -->
+            <!-- NÓS → QUE ÉRAMOS -->
             <rule>
                 <antipattern>
                     <token>que</token>
@@ -16857,7 +17010,7 @@ USA
                 <example correction='sermos'>Afirmámos a nossa inocência alegando <marker>que éramos</marker> canhotos.</example>
             </rule>
 
-            <!-- VÓS/VOCÊS/ELES -> QUE ERAM -->
+            <!-- VÓS/VOCÊS/ELES → QUE ERAM -->
             <rule>
                 <antipattern>
                     <token>que</token>

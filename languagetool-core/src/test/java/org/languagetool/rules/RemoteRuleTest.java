@@ -185,6 +185,12 @@ public class RemoteRuleTest {
     return userConfig;
   }
 
+  private UserConfig getUserConfigWithThirdPartyAIAndABTest(boolean thirdPartyAI, List<String> abTest) {
+    UserConfig userConfig = new UserConfig(Collections.emptyList(), Collections.emptyList(), Collections.emptyMap(),
+      5, null, null, null, null, false, abTest, null, false, null, true, thirdPartyAI);
+    return userConfig;
+  }
+
   @Test
   public void testAbFlags() throws IOException {
     JLanguageTool lt = new JLanguageTool(new Demo());
@@ -327,6 +333,43 @@ public class RemoteRuleTest {
       ltOptOut.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_FALLBACK_RULE")));
     assertTrue("Unrelated rule should be active", 
       ltOptOut.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_ANOTHER_RULE")));
+
+    // test with A/B test
+    RemoteRuleConfig thirdPartyRuleAB = new RemoteRuleConfig();
+    thirdPartyRuleAB.ruleId = "TEST_THIRD_PARTY_RULE_AB";
+    thirdPartyRuleAB.url = "http://example.com";
+    thirdPartyRuleAB.options = new HashMap<>();
+    thirdPartyRuleAB.options.put(RemoteRuleConfig.THIRD_PARTY_AI, "true");
+    thirdPartyRuleAB.options.put(RemoteRuleConfig.FALLBACK_RULE_ID, "TEST_FALLBACK_RULE");
+    thirdPartyRuleAB.options.put("abtest", "test_third_party");
+
+    configs = new ArrayList<>();
+    configs.add(thirdPartyRuleAB);
+    configs.add(fallbackRule);
+    configs.add(anotherRule);
+
+    UserConfig optInConfigABEnabled = getUserConfigWithThirdPartyAIAndABTest(true, Arrays.asList("test_third_party"));
+    JLanguageTool ltOptInABEnabled = new JLanguageTool(new Demo(), null, optInConfigABEnabled);
+    ltOptInABEnabled.activateRemoteRules(configs);
+
+    // Verify that with opt-in and A/B test enabled, third-party rule is active and fallback is not
+    assertTrue("Third-party rule should be active when opted in",
+      ltOptInABEnabled.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_THIRD_PARTY_RULE_AB")));
+    assertFalse("Fallback rule should not be active when opted in",
+      ltOptInABEnabled.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_FALLBACK_RULE")));
+    assertTrue("Unrelated rule should be active",
+      ltOptInABEnabled.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_ANOTHER_RULE")));
+
+    UserConfig optInConfigABDisabled = getUserConfigWithThirdPartyAIAndABTest(true, Arrays.asList());
+    JLanguageTool ltOptInABDisabled = new JLanguageTool(new Demo(), null, optInConfigABDisabled);
+    ltOptInABDisabled.activateRemoteRules(configs);
+
+    assertFalse("Third-party rule should not be active when opted in but no A/B test enabled",
+      ltOptInABDisabled.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_THIRD_PARTY_RULE_AB")));
+    assertTrue("Fallback rule should be active when opted in but A/B test not enabled",
+      ltOptInABDisabled.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_FALLBACK_RULE")));
+    assertTrue("Unrelated rule should be active",
+      ltOptInABDisabled.getAllActiveRules().stream().anyMatch(r -> r.getId().equals("TEST_ANOTHER_RULE")));
   }
 
 }

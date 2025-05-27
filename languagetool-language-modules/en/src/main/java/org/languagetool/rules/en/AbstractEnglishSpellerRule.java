@@ -182,6 +182,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern HONGKONG = compile("[hH]on[kg]kong");
   private static final Pattern AFAIK = compile("afaik");
   private static final Pattern JANUARY = compile("january");
+  private static final Pattern ADMITTINGLY = compile("[Aa]dmittingly");
   private static final Pattern APRIL = compile("april");
   private static final Pattern SEPTEMBER = compile("september");
   private static final Pattern OCTOBER = compile("october");
@@ -806,6 +807,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("transcripting", Arrays.asList("transcribing"));
     s.put("incase", Arrays.asList("in case"));
     s.put("Incase", Arrays.asList("In case"));
+    s.put("admittably", Arrays.asList("admittedly"));
+    s.put("Admittably", Arrays.asList("Admittedly"));
     s.put("fam", Arrays.asList("family", "fame"));
     s.put("awnser", Arrays.asList("answer"));
     s.put("Awnser", Arrays.asList("Answer"));
@@ -1550,6 +1553,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (APRIL.matcher(word).matches()) return topMatch("April");
     if (AFAIK.matcher(word).matches()) return topMatch("AFAIK");
     if (JANUARY.matcher(word).matches()) return topMatch("January");
+    if (ADMITTINGLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "dmittingly", "dmittedly"));
     if (ENGLISH.matcher(word).matches()) return topMatch("English");
     if (SPANISH.matcher(word).matches()) return topMatch("Spanish");
     if (UNDETERMINISTIC.matcher(word).matches()) return topMatch("nondeterministic");

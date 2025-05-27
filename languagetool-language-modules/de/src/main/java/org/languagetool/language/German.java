@@ -407,6 +407,7 @@ public class German extends LanguageWithModel {
     id2prio.put("AKZENT_STATT_APOSTROPH", -1);  // lower prio than PLURAL_APOSTROPH
     id2prio.put("BEENDE_IST_SENTEND", -1); // prefer more specific rules
     id2prio.put("VER_ADJ_ZU_SCHLAFEN", -1); // prefer ETWAS_GUTES
+    id2prio.put("LT_RECOMMENDATION", -1);  // prefer over AI_DE_GGEC_MISSING_ORTHOGRAPHY_SPACE
     id2prio.put("MIO_PUNKT", -1); // higher prio than spell checker
     id2prio.put("AUSLASSUNGSPUNKTE_LEERZEICHEN", -1); // higher prio than spell checker
     id2prio.put("IM_ERSCHEINUNG_SPELLING_RULE", -1); // prefer ZUM_FEM_NOMEN
@@ -574,6 +575,11 @@ public class German extends LanguageWithModel {
         case "AI_DE_GGEC_UNNECESSARY_SPACE":
           return -1;
       }
+
+      if (id.startsWith("AI_DE_GGEC_MISSING_ORTHOGRAPHY_SPACE")) {
+        return -2; // lower prio than LT_RECOMMENDATION but higher prio than GERMAN_SPELLER_RULE
+      }
+
       if (id.startsWith("AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD")) {  // less prio than spell checker
         return -4;
       }

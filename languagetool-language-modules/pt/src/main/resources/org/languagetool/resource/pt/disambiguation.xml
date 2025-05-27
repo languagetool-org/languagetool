@@ -4419,6 +4419,66 @@ USA
     -->
   </rule>
 
+  <rule id="VERBO_PARA_DE_PARTPASS_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token regexp='yes'>para|de|com</token>
+      <marker>
+        <and>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Theo correu para junto do irmão no dia seguinte, encontrando-o de bom humor.
+             Não acredito na tese de "se armar para defesa".
+             Tem escrito para revistas musicais especializadas, enciclopédias reputadas e jornais.
+             Não se preocupe, nós oferecemos entrega agendada para pedidos com móveis!
+             A oferta é valida para retiradas entre 17/03/2018 e 30/04/2018.
+    -->
+  </rule>
+
+  <rule id="PPPLURAL_SUBSTANTIVE_SUBSTANTIVEADJECTIVE_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <antipattern>
+      <token postag='SPS00'/>
+      <token postag='(V.+:)?PP..P.+' postag_regexp='yes'/>
+      <token postag='NCMP000'/>
+      <token postag='VMP00.+' postag_regexp='yes'/>
+      <!--
+      Examples:
+               Até tentava achar que mamãe estava feliz por nos termos casado.
+               Depois de nós termos trabalhado tanto para capturá-los.
+      -->
+    </antipattern>
+    <pattern>
+      <token postag='(V.+:)?PP..P.+' postag_regexp='yes'>
+        <exception scope='previous' regexp='yes' inflected='yes'>estar|ter|ser</exception></token>
+      <marker>
+        <and>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='N.+|AQ.+|V.+' postag_regexp='yes'>
+        <exception scope='previous' postag_regexp='yes' postag='VMI.+|VMN0000|VMG0000|VMP00SM|VMSP3S0'/></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Insira os dados completos na lista bônus e concorra a prêmios!
+             Qual a opinião de vcs sobre Moro no MJ?
+             Ver ao vivo deve ser super borbulhante nos melhores sentidos.
+             Quais os cuidados necessário com o ar-condicionado?
+             Até o dia 30 de março serão enviados por e-mail os pareceres sobre os resumos.
+             Alguns casos mais raros são diferenciados por não seguirem as medidas padrão.
+    -->
+  </rule>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>

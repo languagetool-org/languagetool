@@ -3005,6 +3005,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
+    } else if (word.contains("Akkupressur")) {
+      suggestion = word.replace("Akkupressur", "Akupressur");
+      if (hunspell.spell(suggestion)) {
+        return singletonList(suggestion);
+      }
     } else if (word.contains("farbend")) { //steinfarbenden, schwarzfarbenden, kupferfarbenden etc.
       suggestion = word.replace("farbend", "farben");
       if (hunspell.spell(suggestion)) {
@@ -3496,6 +3501,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
+      case "Akkupressur": return topMatch("Akupressur");
       case "EmailleOfen": return topMatch("Emailleofen");
       case "Lollies": return topMatch("Lollis");
       case "Mazeltov": return topMatch("Masel tov");
@@ -4447,11 +4453,22 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "quillbot": return topMatch("QuillBot");
       case "quilbot": return topMatch("QuillBot");
       case "Quilbot": return topMatch("QuillBot");
+      case "HeyLogin": return topMatch("heylogin");
       case "steinfarbenden": return topMatch("steinfarbenen");
       case "steinfarbende": return topMatch("steinfarbene");
       case "steinfarbender": return topMatch("steinfarbener");
       case "steinfarbendes": return topMatch("steinfarbenes");
       case "steinfarbendem": return topMatch("steinfarbenem");
+      case "schwarzfarbenden": return topMatch("schwarzfarbenen");
+      case "schwarzfarbende": return topMatch("schwarzfarbene");
+      case "schwarzfarbender": return topMatch("schwarzfarbener");
+      case "schwarzfarbendes": return topMatch("schwarzfarbenes");
+      case "schwarzfarbendem": return topMatch("schwarzfarbenem");
+      case "kupferfarbenden": return topMatch("kupferfarbenen");
+      case "kupferfarbende": return topMatch("kupferfarbene");
+      case "kupferfarbender": return topMatch("kupferfarbener");
+      case "kupferfarbendes": return topMatch("kupferfarbenes");
+      case "kupferfarbendem": return topMatch("kupferfarbenem");
     }
     return Collections.emptyList();
   }
