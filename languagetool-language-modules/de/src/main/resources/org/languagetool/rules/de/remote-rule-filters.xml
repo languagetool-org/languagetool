@@ -2607,7 +2607,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--3-->
                 <pattern>
-                    <token regexp="yes">Reflexvisiere?|Glefe|Patin|Bistum|Kerr-de-Sitter-Lösung|Balbus-Hawley-Instabilität(en)?|AGN-Entwicklung(en)?|Feuchtsavanne|Reparationen|Rotrutheniens?|Mährerreichs?|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?|Gegröle|Internship|Vögeln|Brosamen|Schläger</token>
+                    <token regexp="yes">Reflexvisiere?|Glefe|Patin|Bistum|Kerr-de-Sitter-Lösung|Balbus-Hawley-Instabilität(en)?|AGN-Entwicklung(en)?|Feuchtsavanne|Reparationen|Rotrutheniens?|Mährerreichs?|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?|Gegröle|Internship|Vögeln|Brosamen|Schläger|Linken-Abgeordneten?</token>
                 </pattern>
                 <example correction="">Wirfst du gleich den <marker>Fehdehandschuh</marker>?</example>
             </rule>
@@ -3046,6 +3046,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>gekleidet</token>
                 </pattern>
                 <example correction="">Er war in einfacher Priesterhose und in <marker>einen</marker> argentinischen Poncho mit Streifen gekleidet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="4">wie</token>
+                    <token regexp="yes">vielen|einigen|wenigen</token>
+                    <marker>
+                        <token>solcher</token>
+                    </marker>
+                    <token postag="SUB.*PLU.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Wie bei vielen <marker>solcher</marker> Situationen gibt es unterschiedliche Perspektiven und Meinungen darüber, was genau passiert ist.</example>
             </rule>
         </rulegroup>
 
