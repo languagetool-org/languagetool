@@ -46,7 +46,7 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
 
   static {
     dashPrefixes1992 = ExtraDictionaryLoader.loadMap("/uk/dash_prefixes.txt");
-    dashPrefixes1992.entrySet().removeIf(entry -> ! entry.getValue().equals(":ua_1992") );
+    dashPrefixes1992.entrySet().removeIf(entry -> ! entry.getValue().equals(":up92") );
   }
   
   @Override
@@ -90,7 +90,7 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
 
-      if( PosTagHelper.hasPosTagPartAll(tokenReadings, "ua_1992") ) {
+      if( PosTagHelper.hasPosTagPartAll(tokenReadings, "up92") ) {
         RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), 
             getShort(), getShort());
         

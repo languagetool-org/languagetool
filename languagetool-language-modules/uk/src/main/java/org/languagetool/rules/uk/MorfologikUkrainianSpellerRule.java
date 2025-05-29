@@ -50,7 +50,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
 
   static {
     dashPrefixes2019 = ExtraDictionaryLoader.loadMap("/uk/dash_prefixes.txt");
-    dashPrefixes2019.entrySet().removeIf(entry -> entry.getValue().matches(":(ua_1992|bad|alt|slang)") || ! entry.getKey().matches("[а-яіїєґ]{3,}") );
+    dashPrefixes2019.entrySet().removeIf(entry -> entry.getValue().matches(":(up92|bad|alt|slang)") || ! entry.getKey().matches("[а-яіїєґ]{3,}") );
   }
 
   public MorfologikUkrainianSpellerRule(ResourceBundle messages,

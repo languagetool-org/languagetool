@@ -64,7 +64,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   private static final Pattern PATTERN_1 = compile("[а-яіїєґa-z0-9].*");
   private static final Pattern PATTERN_2 = compile("[0-9]+([.,–—-][0-9]+)?");
   private static final Pattern PATTERN_3 = compile("два|дві|три|чотири");
-  private static final Pattern PATTERN_4 = compile(":(alt|nv|ua_\\d{4}|xp\\d)");
+  private static final Pattern PATTERN_4 = compile(":(alt|nv|up\\d{2}|xp\\d)");
   private static final Pattern PATTERN_5 = compile(":[mfn]:v_rod");
 
   private final Disambiguator chunker = new UkrainianMultiwordChunker("/uk/multiwords.txt", true);
