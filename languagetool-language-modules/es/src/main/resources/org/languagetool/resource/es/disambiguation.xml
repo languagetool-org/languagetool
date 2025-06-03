@@ -746,7 +746,9 @@ Copyright (C) 2011 Juan Martorell
                     <token>cualquieras</token>
                 </marker>
             </pattern>
-            <disambig action="replace"><wd lemma="cualquiera" pos="NCCP000"/></disambig>
+            <disambig action="replace">
+                <wd lemma="cualquiera" pos="NCCP000"/>
+            </disambig>
         </rule>
         <rule id="cualquiera" name="unos cualquieras">
             <pattern>
@@ -755,7 +757,9 @@ Copyright (C) 2011 Juan Martorell
                     <token>cualquiera</token>
                 </marker>
             </pattern>
-            <disambig action="replace"><wd lemma="cualquiera" pos="NCCS000"/></disambig>
+            <disambig action="replace">
+                <wd lemma="cualquiera" pos="NCCS000"/>
+            </disambig>
         </rule>
         <rule id="dado_que" name="dado que">
             <pattern>
@@ -8209,7 +8213,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token postag="SENT_START" />
+                <token postag="SENT_START"/>
                 <marker>
                     <token regexp="yes" postag="SENT_END">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
                 </marker>
@@ -8385,6 +8389,29 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Mach</token>
+                </marker>
+                <token regexp="yes">\d.*</token>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Mach" pos="NPCNSP0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">cono|número|velocidad</token>
+                <token min="0">de</token>
+                <marker>
+                    <token case_sensitive="yes">Mach</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Mach" pos="NPCNSP0"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rule id="HEXADECIMAL_NOTATION" name="notación hexadecimal">

@@ -22589,5 +22589,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Mach</token>
+                </marker>
+                <token regexp="yes">\d.*</token>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Mach" pos="NPCNSP0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">con|nombre|velocitat</token>
+                <token min="0">de</token>
+                <marker>
+                    <token case_sensitive="yes">Mach</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Mach" pos="NPCNSP0"/>
+            </disambig>
+        </rule>
     </rulegroup>
 </rules>
