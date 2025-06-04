@@ -78,7 +78,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     "auschwitzmythos",
     "judensippe", "judensippen",
     "judensippschaft", "judensippschaften",
-    "nigger", "niggern", "niggers",
+    "nigger", "niggern", "niggers", "neger", "negers", "negern",
     "rassejude", "rassejuden", "rassejüdin", "rassejüdinnen",
     "möse", "mösen", "fotze", "fotzen",
     "judenfrei", "judenfreie", "judenfreier", "judenfreies", "judenfreien", "judenfreiem",
@@ -3509,6 +3509,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Weisglut": return topMatch("Weißglut");
       case "SuperGAU": return topMatch("Super-GAU");
       case "SuperGau": return topMatch("Super-Gau");
+      case "Besenstil": return topMatch("Besenstiel");
       case "Vorbescheidverfahren": return topMatch("Vorbescheidsverfahren");
       case "Türahmen": return topMatch("Türrahmen");
       case "Unglückzahl": return topMatch("Unglückszahl");
