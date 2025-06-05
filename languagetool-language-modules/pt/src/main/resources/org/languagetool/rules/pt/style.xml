@@ -3674,6 +3674,25 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='TAMANHO_DIMENSÃO' name="Tamanho → dimensão" type='style' tone_tags='formal' tags='picky' default='temp_off'>
+            <pattern>
+                <marker>
+                    <token regexp='yes'>os?|dos?|nos?</token>
+                    <token regexp='yes'>tamanhos?</token>
+                </marker>
+                <token regexp='yes'>de|d[ao]s?
+                    <!-- The exception list below includes common daily words -->
+                    <exception scope='next' regexp='yes' inflected='yes'>alfinete|alicate|anel|avião|balão|balde|banco|banheiro|banquinho|barco|barril|baú|bloco|bolo|boneco|botão|brinco|buraco|cabide|cabo|caderno|caixa|calça|caminhão|caminho|camisa|canudo|carro|cartão|cartaz|cartucho|celular|cesto|chão|chapéu|chuveiro|cinto|cofre|colchão|colher|computador|copo|dente|edifício|escada|escorregador|espelho|estojo|ferro|filme|filtro|fio|foguete|garfo|guarda-chuva|janela|lenço|lençol|livrete|livro|martelo|mesa|microfone|navio|olho|ônibus|painel|pano|pão|papel|parafuso|pé|pedaço|pilar|piso|pneu|porta|pote|prato|prego|quadro|quarto|ralo|relógio|rolo|saco|sapato|selo|sofá|tábua|tapete|tecido|tela|telefone|telhado|teto|tijolo|travesseiro|trilho|tubo|túnel|varal|vaso|vídeo</exception>
+                </token>
+            </pattern>
+            <message>Em linguagem formal, prefira &quot;dimensão&quot; a &quot;tamanho&quot; para indicar grandeza ou aspecto abstrato.</message>
+            <suggestion><match no='1' regexp_match='(d?n?)(.)(s?)' regexp_replace='$1a$3'/> <match no='2' postag='NCM(.)000' postag_replace='NCF$1000'>dimensão</match></suggestion>
+            <example correction="A dimensão"><marker>O tamanho</marker> dos batalhões é irrelevante.</example>
+            <example correction="da dimensão">Isso é independente <marker>do tamanho</marker> dos batalhões.</example>
+            <example>Não está a ver a dimensão do problema.</example>
+        </rule>
+
+
         <rule id='PRESO_RETIDO' name="Preso → retido" tone_tags='formal' tags='picky' default='temp_off'>
             <antipattern>
                 <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
