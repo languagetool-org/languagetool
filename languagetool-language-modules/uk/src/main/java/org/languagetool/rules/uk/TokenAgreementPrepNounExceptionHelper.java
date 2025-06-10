@@ -158,7 +158,7 @@ public class TokenAgreementPrepNounExceptionHelper {
 //        return new RuleException(0);
 //      }
       if( //(token.equals("собі") || token.equals("йому") || token.equals("їм"))
-          PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("noun.*v_dav:&pron:(refl|pers).*"))
+          PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("noun.*v_dav.*:pron:(refl|pers).*"))
           && tokens[i+1].getCleanToken().startsWith("подібн") ) {
         return new RuleException(0);
       }
@@ -189,7 +189,7 @@ public class TokenAgreementPrepNounExceptionHelper {
         }
 
         if( // (token.equals("нікому") || token.equals("ніким") || token.equals("нічим") || token.equals("нічому"))
-          PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("noun.*v_(dav|oru):&pron:neg.*"))
+          PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("noun.*v_(dav|oru).*:pron:neg.*"))
             && tokens[i+1].getCleanToken().equals("не")) {
           //          reqTokenReadings = null;
           return new RuleException(Type.skip);
@@ -328,7 +328,7 @@ public class TokenAgreementPrepNounExceptionHelper {
     if( tokens.length > i+1 ) {
       // на лише їм відомому ...
       // на вже всім відомому ...
-      if ( PosTagHelper.hasPosTag(tokens[i], Pattern.compile("noun:(un)?anim:.:v_dav:&pron.*")) ) {
+      if ( PosTagHelper.hasPosTag(tokens[i], Pattern.compile("noun:(un)?anim:.:v_dav.*:pron.*")) ) {
           if( PosTagHelper.hasPosTagStart(tokens[i+1], "adj")
               && CaseGovernmentHelper.hasCaseGovernment(tokens[i+1], "v_dav") )
           return new RuleException(1);

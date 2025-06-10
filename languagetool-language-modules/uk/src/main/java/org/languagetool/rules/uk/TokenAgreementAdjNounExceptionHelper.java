@@ -26,7 +26,7 @@ final class TokenAgreementAdjNounExceptionHelper {
   private static final Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounExceptionHelper.class);
 
   private static final Pattern VERB_ADVP_PATTERN = Pattern.compile("(verb|advp).*");
-  private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
+  private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz.*:numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences
   static final List<String> CONJ_FOR_PLURAL_WITH_COMMA = Arrays.asList("і", "а", "й", "та", "чи", "або", "ані", "також", "плюс", "то", "a", "i", ",");
   static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "а", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
@@ -188,9 +188,9 @@ final class TokenAgreementAdjNounExceptionHelper {
     // абзац другий частини першої
     // пункт третій рішення міськради
     if( adjPos > 1 && nounPos < tokens.length -1
-        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, Pattern.compile("adj:[mf]:.*&numr.*|number.*")) 
+        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, Pattern.compile("adj:[mf]:.*numr.*|number.*")) 
         && PosTagHelper.hasPosTag(slaveTokenReadings, Pattern.compile("noun:inanim:.:v_rod.*"))
-//        && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj:.:v_rod.*&numr.*|number.*"))
+//        && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj:.:v_rod.*numr.*|number.*"))
         && LemmaHelper.hasLemma(tokens[adjPos-1], Arrays.asList("абзац", "розділ", "пункт", "підпункт", "частина", "стаття"))
 //        && LemmaHelper.hasLemma(tokens[i], Arrays.asList("абзац", "розділ", "пункт", "підпункт", "частина", "стаття"))
         ) { 
@@ -614,7 +614,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // разів (у) десять
     if( nounPos < tokens.length-1
         && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("раз"), Pattern.compile(".*p:v_(naz|rod).*"))
-        && (PosTagHelper.hasPosTag(tokens[nounPos+1], "number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*")
+        && (PosTagHelper.hasPosTag(tokens[nounPos+1], "number|numr:p:v_naz|noun.*?:p:v_naz.*:numr.*")
             || PosTagHelper.hasPosTagPart(tokens[nounPos+1], "prep")) ) {
       logException();
       return true;
@@ -704,7 +704,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // на сьомому–восьмому поверхах
     if( (adjAnalyzedTokenReadings.getCleanToken().matches("[0-9]+[\u2014\u2013-][0-9]+[\u2013-][а-яіїєґ]{1,3}")
         || (adjAnalyzedTokenReadings.getCleanToken().matches(".*[а-яїієґ][\u2014\u2013-].*")
-            && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "&numr"))) 
+            && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "numr"))) 
         && PosTagHelper.hasPosTagPart(slaveTokenReadings, ":p:")
         && hasOverlapIgnoreGender(masterInflections, slaveInflections) ) {
       logException();
@@ -791,7 +791,7 @@ final class TokenAgreementAdjNounExceptionHelper {
 //    }
     
     // dates
-    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, ":&numr") ) {
+    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, ":numr") ) {
       String adjToken = adjAnalyzedTokenReadings.getToken();
 
       // Ставши 2003-го прем’єром
@@ -1213,7 +1213,7 @@ final class TokenAgreementAdjNounExceptionHelper {
           return false;
 
         if( i < 2
-            || ( (! tokens[i-1].hasPosTag("number") || ! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj.*?&numr.*"))) // 1, 2 та 3-й 
+            || ( (! tokens[i-1].hasPosTag("number") || ! PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj.*?numr.*"))) // 1, 2 та 3-й 
                 && ! tokens[i-1].getToken().equals(",") )
                 && ! tokens[i-1].getToken().matches(".*[–-]")   // дво- і тривимірний формати
                 && ! tokens[i-1].getToken().matches("[)»”]")   // 1-й (...) та 2-й ряди

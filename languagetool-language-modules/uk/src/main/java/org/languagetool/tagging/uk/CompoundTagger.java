@@ -49,8 +49,8 @@ class CompoundTagger {
   private static final String TAG_ANIM = ":anim";
   private static final String TAG_INANIM = ":inanim";
   private static final Pattern EXTRA_TAGS = Pattern.compile(":bad");
-  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(comp.|np|ns|slang|xp[1-9]|&predic|&insert)");
-  private static final Pattern EXTRA_TAGS_DROP_NONINFL = Pattern.compile(":(comp.|np|ns|slang|xp[1-9]|&insert)");
+  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(comp.|np|ns|slang|xp[1-9]|predic|insert)");
+  private static final Pattern EXTRA_TAGS_DROP_NONINFL = Pattern.compile(":(comp.|np|ns|slang|xp[1-9]|insert)");
   private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun.*?:[mfn]:v_rod.*");
 //  private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun.*?:.:v_naz.*");
   private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
@@ -90,7 +90,7 @@ class CompoundTagger {
   private static final Set<String> noDashPrefixes;
   private static final String ADJ_TAG_FOR_PO_ADV_MIS = "adj:m:v_mis";
   private static final String ADJ_TAG_FOR_PO_ADV_NAZ = "adj:m:v_naz";
-  private static final Pattern PREFIX_NO_DASH_POSTAG_PATTERN = Pattern.compile("(noun|adj|adv)(?!.*&pron).*");
+  private static final Pattern PREFIX_NO_DASH_POSTAG_PATTERN = Pattern.compile("(noun|adj|adv)(?!.*pron).*");
 
   // додаткові вкорочені прикметникові ліві частини, що не мають відповідного прикметника
   private static final List<String> LEFT_O_ADJ = Arrays.asList(
@@ -123,11 +123,11 @@ class CompoundTagger {
   // http://www.pravopys.net/sections/33/
   static {
     rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb|.*?pron|noun|adv|intj|part).*"));
-    rightPartsWithLeftTagMap.put("но", Pattern.compile("((verb(?!.*bad).*?:(impr|futr|&insert))|intj|adv|part|conj).*")); 
+    rightPartsWithLeftTagMap.put("но", Pattern.compile("((verb(?!.*bad).*?:(impr|futr|insert))|intj|adv|part|conj).*")); 
     rightPartsWithLeftTagMap.put("от", Pattern.compile("(.*?pron|adv|part|verb).*"));
     rightPartsWithLeftTagMap.put("то", Pattern.compile("(.*?pron|verb|noun|adj|adv|conj).*")); // part|conj
     // noun gives false on зразу-таки
-    rightPartsWithLeftTagMap.put("таки", Pattern.compile("(verb|adv|adj|.*?pron|part|noninfl:&predic).*")); 
+    rightPartsWithLeftTagMap.put("таки", Pattern.compile("(verb|adv|adj|.*?pron|part|noninfl:predic).*")); 
 
     dashPrefixes = ExtraDictionaryLoader.loadMap("/uk/dash_prefixes.txt");
     dashPrefixesInvalid = ExtraDictionaryLoader.loadSet("/uk/dash_prefixes_invalid.txt");
@@ -338,7 +338,7 @@ class CompoundTagger {
       }
     }
 
-    Pattern TAGS_TO_REMOVE = Pattern.compile(":comp.|:&predic|:&insert");
+    Pattern TAGS_TO_REMOVE = Pattern.compile(":comp.|:predic|:insert");
     List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
     
     // гірко-прегірко
@@ -462,11 +462,11 @@ class CompoundTagger {
     }
 
     
-    if( PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "&pron")
+    if( PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "pron")
         && ! PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "numr") )
       return null;
 
-    if( ! leftWord.equalsIgnoreCase(rightWord) && PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile("(part|conj).*|.*?:&pron.*")) 
+    if( ! leftWord.equalsIgnoreCase(rightWord) && PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile("(part|conj).*|.*?:pron.*")) 
         && ! (PosTagHelper.hasPosTagStart(leftAnalyzedTokens, "numr") && PosTagHelper.hasPosTagStart(rightAnalyzedTokens, "numr")) )
       return null;
 
@@ -959,7 +959,7 @@ class CompoundTagger {
       if( tags != null ) {
         for (String tag: tags) {
           String lemma = leftWord + "-" + "й";  // lemma is approximate here, we mostly care about the tag
-          tag = tag.contains(":bad") ? tag.replace(":bad", ":&numr:bad") : tag + ":&numr";
+          tag = tag.contains(":bad") ? tag.replace(":bad", ":numr:bad") : tag + ":numr";
           newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag, lemma));
         }
 
@@ -1140,7 +1140,7 @@ class CompoundTagger {
 
           if( (leftPosTag.contains("adjp") && ! rightPosTag.contains("adjp"))
               || (! leftPosTag.contains("adjp") && rightPosTag.contains("adjp")) ) {
-            newPosTag = newPosTag.replaceFirst(":&adjp:(actv|pasv):(im)?perf", "");
+            newPosTag = newPosTag.replaceFirst(":adjp:(actv|pasv):(im)?perf", "");
           }
           
           String newLemma = leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma();
@@ -1274,7 +1274,7 @@ class CompoundTagger {
 
 
   private static String stripPerfImperf(String leftPosTag) {
-    return leftPosTag.replaceAll(":(im)?perf|:&adjp:(actv|pasv)", "");
+    return leftPosTag.replaceAll(":(im)?perf|:adjp:(actv|pasv)", "");
   }
 
 

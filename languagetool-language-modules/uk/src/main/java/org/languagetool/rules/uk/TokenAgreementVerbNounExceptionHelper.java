@@ -26,7 +26,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
   private static final Logger logger = LoggerFactory.getLogger(TokenAgreementVerbNounExceptionHelper.class);
 
   private static final Pattern VCHYTY_PATTERN = Pattern.compile(".*вч[аи]ти(ся)?");
-  private static final Pattern ADV_PREDICT_PATTERN = Pattern.compile("(adv|noninfl:&predic).*");
+  private static final Pattern ADV_PREDICT_PATTERN = Pattern.compile("(adv|noninfl:predic).*");
 
   private static final Pattern MODALS_ADJ = Pattern.compile("змушений|вимушений|повинний|здатний|готовий|ладний|радий");
   private static final Pattern V_ROD_DRIVER_PATTERN = Pattern.compile("не|(на)?с[кт]ільки|(най)?більше|(най)?менше|(не|за)?багато|(не|чи|за)?мало|трохи|годі|неможливо|а?ніж|вдосталь|купу", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -168,7 +168,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
     if( verbPos > 1
         && tokens[verbPos].getCleanToken().toLowerCase().equals("було")
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*v_naz.*"))      // may be not just for v_naz
-        && PosTagHelper.hasPosTag(tokens[verbPos-1], "adj:.:v_naz:&adjp:.*:perf.*") ) { // may be not just for v_naz
+        && PosTagHelper.hasPosTag(tokens[verbPos-1], "adj:.:v_naz.*:adjp:.*:perf.*") ) { // may be not just for v_naz
       logException();
       return true; 
     }
@@ -421,7 +421,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
 
       // закружляли мені десь у тьмі
       if( nounAdjPos < tokens.length - 2
-          && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun.*?v_dav:&pron:(pers|refl).*"))) {
+          && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun.*?v_dav.*:pron:(pers|refl).*"))) {
         logException();
         return true;
       }
@@ -697,7 +697,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
         ) {
       int v2pos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, ADV_PREDICT_PATTERN, null, Pattern.compile("[a-z].*"), Dir.REVERSE);
       while( v2pos >= 0 && v2pos >= state.verbPos-3 ) {
-        if( PosTagHelper.hasPosTag(tokens[v2pos], Pattern.compile("noninfl.&predic.*")) 
+        if( PosTagHelper.hasPosTag(tokens[v2pos], Pattern.compile("noninfl:predic.*")) 
             && PosTagHelper.hasPosTagPart(tokens[state.nounPos], "v_naz") 
            ){
           logException();

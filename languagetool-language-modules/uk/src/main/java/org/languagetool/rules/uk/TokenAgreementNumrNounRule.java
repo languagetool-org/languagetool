@@ -54,7 +54,7 @@ public class TokenAgreementNumrNounRule extends Rule {
 
   private static final Pattern NOUN_IGNORE_PATTERN = Pattern.compile(".*(prop|noun.*pron|v_oru).*");
   private static final Pattern NUMR_PATTERN = Pattern.compile("numr(?!.*abbr).*");
-  private static final Pattern NOUN_NUMR_ALL_PATTERN = Pattern.compile("noun:inanim:([mf]:v_naz|p:v_(naz|rod)):&numr.*|numr.*abbr.*|number");
+  private static final Pattern NOUN_NUMR_ALL_PATTERN = Pattern.compile("noun:inanim:([mf]:v_naz|p:v_(naz|rod)).*:numr.*|numr.*abbr.*|number");
   static final Pattern DVA_3_4_PATTERN = Pattern.compile("оби(два|дві)|(.+-)?((два|дві)|три|чотири)");
   private static final Pattern DVA_PATTERN = Pattern.compile("(оби)?два|.+-два", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern DVI_PATTERN = Pattern.compile("(оби)?дві|.+-дві", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
