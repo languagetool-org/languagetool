@@ -3596,10 +3596,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="NCMS000"/>
         </disambig>
     </rule>
-    <rulegroup id="UN_SOCA" name="ser un soca">
+    <rulegroup id="UN_SOCA" name="ser un soca, un galtes">
         <rule>
             <pattern>
-                <token skip="3" postag="VS.*" postag_regexp="yes" inflected="yes">ser</token>
+                <token skip="3" postag="VS.*" postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer|comportar|actuar</token>
                 <token>un</token>
                 <marker>
                     <token>soca</token>
@@ -3619,6 +3619,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace">
                 <wd pos="NCMS000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="3" postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">ser|semblar|parèixer|comportar|actuar</token>
+                <token regexp="yes">un|una|unes|uns</token>
+                <marker>
+                    <token>galtes</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="NCCN000"/>
             </disambig>
         </rule>
     </rulegroup>
@@ -22588,6 +22600,29 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Mach</token>
+                </marker>
+                <token regexp="yes">\d.*</token>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Mach" pos="NPCNSP0"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">con|nombre|velocitat</token>
+                <token min="0">de</token>
+                <marker>
+                    <token case_sensitive="yes">Mach</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd lemma="Mach" pos="NPCNSP0"/>
+            </disambig>
         </rule>
     </rulegroup>
 </rules>

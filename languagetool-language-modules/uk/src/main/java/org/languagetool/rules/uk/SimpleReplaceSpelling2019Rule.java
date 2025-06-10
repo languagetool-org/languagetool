@@ -65,7 +65,7 @@ public class SimpleReplaceSpelling2019Rule extends Rule {
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
 
-      if( PosTagHelper.hasPosTagPart(tokenReadings, "ua_2019") ) {
+      if( PosTagHelper.hasPosTagPart(tokenReadings, "up19") ) {
         RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), 
             "Слово, написане за правописом 2019.", getShort());
 //        potentialRuleMatch.setSuggestedReplacements(replacements);

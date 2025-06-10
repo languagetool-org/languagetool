@@ -40,7 +40,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public class MissingHyphenRule extends Rule {
 
-  private static final String UA_1992_TAG_PART = ":ua_1992";
+  private static final String UA_1992_TAG_PART = ":up92";
   private static final Map<String, String> dashPrefixes = ExtraDictionaryLoader.loadMap("/uk/dash_prefixes.txt");
   private static final Pattern ALL_LOWER = Pattern.compile("[а-яіїєґ'-]+");
   private WordTagger wordTagger;

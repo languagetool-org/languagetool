@@ -3674,6 +3674,41 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='TAMANHO_DIMENSÃO' name="Tamanho → dimensão" type='style' tone_tags='formal' tags='picky'>
+        <!-- It is impossible to add all the possible exceptions to the rule, thus the 'picky' tag -->
+            <pattern>
+                <marker>
+                    <token regexp='yes'>os?|dos?|nos?</token>
+                    <token regexp='yes'>tamanhos?</token>
+                </marker>
+                <token skip='1' regexp='yes'>de|d[ao]s?</token>
+                <token postag='AQ.+|N.+' postag_regexp='yes'>
+                    <!-- The exception list below includes common daily words -->
+                    <exception regexp='yes' inflected='yes'>anel|áudio|balão|baú|bloco|bolo|boneco|botão|brinco|buraco|caixa|calça|caminho|camisa|canudo|cartão|cartaz|cartucho|celular|chão|chapéu|cinto|cofre|colher|computador|edifício|escada|escorregador|estojo|filme|foguete|guarda-chuva|janela|lenço|livrete|livro|mesa|microfone|painel|pão|papel|pedaço|pilar|pneu|porta|quarto|sapato|selo|tábua|tecido|tela|telefone|telhado|tesoura|trilho|túnel|vídeo</exception>
+                    <!-- The exception list below includes parts of the body -->
+                    <exception regexp='yes' inflected='yes'>braço|dedo|pé|olho|ouvido|pulmão|rim|coração|osso|músculo|joelho|cotovelo|ombro|tornozelo|nariz|dente|calcanhar|punho|polegar|mindinho|cabelo|pescoço|tronco|pulso|peito|queixo|maxilar|sangue|úmero|f[êé]mur</exception>
+                    <!-- The exception list below includes domestic objects -->
+                    <exception regexp='yes' inflected='yes'>sofá|quadro|pano|copo|prato|garfo|fogo|fogão|balde|banco|travesseiro|colchão|edredom|lençol|tapete|abajur|espelho|cobertor|relógio|cesto|banquinho|rodo|barril|forno|micro-ondas|control[oe]|varal|pote|vaso|saco|escorredor|ralo|banheiro|chuveiro|teto|piso|soquete|cabide|caderno</exception>
+                    <!-- The exception list below includes animals -->
+                    <exception regexp='yes' inflected='yes'>cão|gato|cavalo|boi|leão|tigre|macaco|urso|lobo|coelho|rato|elefante|rinoceronte|touro|camelo|porco|jacaré|crocodilo|morcego|burro|carneiro|veado|galo|sapo|golfinho|peixe|papagaio|pato|ganso|corvo|pavão|falcão|gavião|tubarão|salmão|atuns|pinguim|pardal|canário|beija-flor|búfalo|camaleão|lagarto|lagostim|lagosta|gafanhoto|grilo|escorpião</exception>
+                    <!-- The exception list below includes vehicles -->
+                    <exception regexp='yes' inflected='yes'>autocarro|carro|ônibus|caminhão|avião|barco|navio|trem|metr[oô]|bonde|triciclo|biciclo|trator|vagão|helicóptero|ferry|veículo|guincho|iate|canoa|caminhete|jet-ski|limusine|furgão|táxi|motociclo|patinete|patins|esqui</exception>
+                    <!-- The exception list below includes tools/instruments -->
+                    <exception regexp='yes' inflected='yes'>martelo|serrote|alicate|parafuso|prego|formão|compasso|alavanca|machado|escopro|furador|arco|tubo|cabo|grampo|torno|alfinete|trinco|filtro|estilete|cortador|ferro|nivelador|pincel|rolo|bastão|espátula|tijolo|fio|gancho|macho|morsa|raspador|medidor|saca-rolhas|clipe|carrinho</exception>
+                    <!-- The exception list below includes people and human beings -->
+                    <exception regexp='yes' inflected='yes'>filho|pai|mãe|irmão|avô|tio|sobrinho|neto|amigo|vizinho|colega|chefe|aluno|professor|médico|dentista|advogado|engenheiro|polícia|juiz|motorista|cantor|ac?tor|pintor|escritor|padre|pastor|diretor|empregado|gerente|cozinheiro|garçom|bombeiro|soldado|enfermeiro|cientista|estudante|artista|atleta|treinador|jogador</exception>
+                    <!-- The exception list below is for proper names -->
+                    <exception postag_regexp='yes' postag='NP.+'/>
+                </token>
+            </pattern>
+            <message>Em linguagem formal, prefira &quot;dimensão&quot; a &quot;tamanho&quot; para indicar grandeza ou aspecto abstrato.</message>
+            <suggestion><match no='1' regexp_match='(d?n?)(.)(s?)' regexp_replace='$1a$3'/> <match no='2' postag='NCM(.)000' postag_replace='NCF$1000'>dimensão</match></suggestion>
+            <example correction="A dimensão"><marker>O tamanho</marker> dos batalhões é irrelevante.</example>
+            <example correction="da dimensão">Isso é independente <marker>do tamanho</marker> dos batalhões.</example>
+            <example>Não está a ver a dimensão do problema.</example>
+        </rule>
+
+
         <rule id='PRESO_RETIDO' name="Preso → retido" tone_tags='formal' tags='picky' default='temp_off'>
             <antipattern>
                 <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
