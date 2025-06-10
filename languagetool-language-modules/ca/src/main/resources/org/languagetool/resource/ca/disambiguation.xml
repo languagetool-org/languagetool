@@ -4675,6 +4675,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="_loc_nosequi"/>
         </disambig>
     </rule>
+    <rulegroup id="TOTS_EIXOS" name="tots eixos partits">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DI0MP0">tots</token>
+                    <token postag="DD0MP0">eixos</token>
+                </marker>
+                <token postag="N.[MC]P.*|A..[MC]P.*|V.P..PM." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DI0MP0">tots</token>
+                    <token postag="PD0MP000">eixos</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="nDet" name="no Determinant">
         <!--  paraules comunes que no solen ser determinants gairebé mai -->
         <rule>
