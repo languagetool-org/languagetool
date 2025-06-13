@@ -113,8 +113,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final Pattern START_WITH_NEGER = compile("neger.*");
   private static final Pattern CONTAINS_NEGER = compile(".+neger(s|n|in|innen)?");
-  private static final Pattern CONTAINS_NEGER_2 = compile(".+-Neger(s|n|in|innen)?-.+");
-  private static final Pattern CONTAINS_NEGER_3 = compile(".+-Neger(s|n|in|innen)");
+  private static final Pattern CONTAINS_NEGER_2 = compile(".+-neger(s|n|in|innen)?-.+");
   private static final Pattern CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING = compile("^(hunger|zeit|käse|zwiebel|kommoden?|lager|angst|freund|feind)\\s.+");
   private static final Pattern CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END = compile(".+\\s(hunger|zeit|käse|zwiebel|kommoden?|lager|angst|freund|feind)$");
   private static final Pattern ENDS_WITH_IBELKEIT_IBLICHKEIT= compile(".*ibel[hk]eit$");
@@ -3460,7 +3459,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       .filter(k -> !START_WITH_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
       .filter(k -> !CONTAINS_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
       .filter(k -> !CONTAINS_NEGER_2.matcher(k.getReplacement().toLowerCase()).matches())
-      .filter(k -> !CONTAINS_NEGER_3.matcher(k.getReplacement().toLowerCase()).matches())
       .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END.matcher(k.getReplacement()).matches())
       .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING.matcher(k.getReplacement()).matches())
       .collect(Collectors.toList());
