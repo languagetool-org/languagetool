@@ -767,6 +767,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("playstation", Arrays.asList("PlayStation"));
     s.put("iam", Arrays.asList("I am", "I'm"));
     s.put("kpop", Arrays.asList("K-pop"));
+    s.put("defenate", Arrays.asList("definite"));
+    s.put("defenately", Arrays.asList("definitely"));
     s.put("trumpian", Arrays.asList("Trumpist"));
     s.put("trumpians", Arrays.asList("Trumpists"));
     s.put("UberEats", Arrays.asList("Uber Eats"));
