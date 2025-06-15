@@ -5660,6 +5660,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>a</token>
             <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">esborrat|dificultat</exception></token>
         </antipattern>
+        <antipattern>
+            <token>tret</token>
+            <token>de</token>
+            <token regexp="yes" inflected="yes">canó|pistola|fusell</token>
+        </antipattern>
         <pattern>
             <token regexp="yes">&formes_HAVER_sense_hac;</token>
             <token min="0" regexp="yes">&particula_entre_auxiliar_participi;</token>
@@ -7599,7 +7604,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token inflected="yes" regexp="yes">&exceptions_TE;</token>
-                <token regexp="yes">,|i|o|ni</token>
+                <token regexp="yes">,|i|o|ni|com</token>
                 <marker>
                     <token>te</token>
                 </marker>
@@ -11710,6 +11715,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token postag="DN.*" postag_regexp="yes"><exception>es</exception></token>
                 <token postag="NC[FC]P000" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">un</token>
+                <marker>
+                    <token>vora</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token inflected="yes">altre</token>
             </pattern>
             <disambig action="filter" postag="SPS00"/>
         </rule>
