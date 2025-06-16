@@ -81,7 +81,6 @@ abstract class TextChecker {
   protected abstract List<String> getDisabledRuleIds(Map<String, String> parameters);
     
   protected static final int CONTEXT_SIZE = 40; // characters
-  protected static final int NUM_PIPELINES_PER_SETTING = 3; // for prewarming
 
   protected final HTTPServerConfig config;
 
@@ -241,8 +240,10 @@ abstract class TextChecker {
     pipelinePool = new PipelinePool(config, cache, internalServer);
     if (config.isPipelinePrewarmingEnabled()) {
       log.info("Prewarming pipelines...");
+      long start = System.currentTimeMillis();
       prewarmPipelinePool();
-      log.info("Prewarming finished.");
+      long end = System.currentTimeMillis();
+      log.info("Prewarming finished in {} seconds.", (end - start) / 1000.0);
     }
     if (config.getAbTest() != null) {
       UserConfig.enableABTests();
@@ -264,57 +265,40 @@ abstract class TextChecker {
   private void prewarmPipelinePool() {
     // setting + number of pipelines
     // typical addon settings at the moment (2018-11-05)
-    Map<PipelineSettings, Integer> prewarmSettings = new HashMap<>();
+    List<PipelineSettings> prewarmSettings = new ArrayList<>();
     List<Language> prewarmLanguages = new ArrayList<>();
     if (config.preferredLanguages.isEmpty()) {
       prewarmLanguages.addAll(Stream.of(
                       "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
               .map(Languages::getLanguageForShortCode)
-              .collect(Collectors.toList()));
+              .toList());
     } else {
-      config.preferredLanguages.forEach(s -> {
-        prewarmLanguages.add(Languages.getLanguageForShortCode(s));
-      });
+      config.preferredLanguages.forEach(s -> prewarmLanguages.add(Languages.getLanguageForShortCode(s)));
     }
 
-    List<String> addonDisabledRules = Collections.singletonList("WHITESPACE_RULE");
-    List<JLanguageTool.Mode> addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);
     UserConfig user = new UserConfig();
+
     for (Language language : prewarmLanguages) {
-      // add-on uses picky mode since 2021-01-20
-      for (JLanguageTool.Mode mode : addonModes) {
-        QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
+        QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
           Collections.emptyList(), Collections.emptyList(), false, true,
-          true, true, Premium.isPremiumVersion(), false, mode, JLanguageTool.Level.PICKY, null);
-        PipelineSettings settings = new PipelineSettings(language, null, params, config.globalConfig, user);
-        prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
-
-        PipelineSettings settingsMotherTongueEqual = new PipelineSettings(language, language, params, config.globalConfig, user);
-        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language,
-          Languages.getLanguageForName("English"), params, config.globalConfig, user);
-        prewarmSettings.put(settingsMotherTongueEqual, NUM_PIPELINES_PER_SETTING);
-        prewarmSettings.put(settingsMotherTongueEnglish, NUM_PIPELINES_PER_SETTING);
-      }
+          true, true, Premium.isPremiumVersion(), false, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY, null);
+        PipelineSettings settingsEnglishWithMotherTongue = new PipelineSettings(Languages.getLanguageForShortCode("en-US"), language, params, config.globalConfig, user);
+        prewarmSettings.add(settingsEnglishWithMotherTongue);
+        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language, Languages.getLanguageForName("English"), params, config.globalConfig, user);
+        prewarmSettings.add(settingsMotherTongueEnglish);
     }
-    try {
-      for (Map.Entry<PipelineSettings, Integer> prewarmSetting : prewarmSettings.entrySet()) {
-          int numPipelines = prewarmSetting.getValue();
-          PipelineSettings setting = prewarmSetting.getKey();
 
-          // request n pipelines first, return all afterwards -> creates multiple for same setting
-          List<Pipeline> pipelines = new ArrayList<>();
-          for (int i = 0; i < numPipelines; i++) {
-            Pipeline p = pipelinePool.getPipeline(setting);
-            p.check("LanguageTool");
-            pipelines.add(p);
-          }
-          for (Pipeline p : pipelines) {
-            pipelinePool.returnPipeline(setting, p);
-          }
+    log.info("Prewarming {} pipelines", prewarmSettings.size());
+
+    prewarmSettings.parallelStream().forEach(setting -> {
+      try {
+        Pipeline pipeline = pipelinePool.getPipeline(setting);
+        pipeline.check("LanguageTool");
+        pipelinePool.returnPipeline(setting, pipeline);
+      } catch (Exception e) {
+        throw new RuntimeException("Error while prewarming pipeline", e);
       }
-    } catch (Exception e) {
-      throw new RuntimeException("Error while prewarming pipelines", e);
-    }
+    });
   }
 
   void shutdownNow() {
