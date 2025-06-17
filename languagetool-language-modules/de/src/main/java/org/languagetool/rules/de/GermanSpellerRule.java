@@ -3505,7 +3505,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "do": return topMatch("so");
       case "Akkupressur": return topMatch("Akupressur");
       case "EmailleOfen": return topMatch("Emailleofen");
-      case "Lollies": return topMatch("Lollis");
       case "Mazeltov": return topMatch("Masel tov");
       case "Mazel tov": return topMatch("Masel tov");
       case "Weisglut": return topMatch("Weißglut");
@@ -4472,6 +4471,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "kupferfarbender": return topMatch("kupferfarbener");
       case "kupferfarbendes": return topMatch("kupferfarbenes");
       case "kupferfarbendem": return topMatch("kupferfarbenem");
+      case "Lolly": return topMatch("Lolli");
+      case "Lollys": return topMatch("Lollis");
+      case "Lollies": return topMatch("Lollis");
     }
     return Collections.emptyList();
   }

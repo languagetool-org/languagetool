@@ -3422,12 +3422,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+<!--QuillBot Grammar Checker antipatterns below-->
+
         <rulegroup id="QB_NEW_DE_OTHER_ERROR_IDS_MISSING_PUNCTUATION.*" name="">
             <rule>
                 <pattern>
                     <token>3D</token>
                 </pattern>
                 <example correction="">Der Film wurde komplett in <marker>3D</marker> produziert.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="QB_NEW_DE_OTHER_ERROR_IDS_REPLACEMENT_PUNCTUATION.*" name="">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">\d{1,3}‑%-[A-ZÄÖÜ].+</token>
+                </pattern>
+                <example correction="">Die <marker>1‑%-Regel</marker> gilt für privat genutzte Dienstwagen.</example>
+                <example correction="">Die <marker>5‑%-Hürde</marker> wurde erreicht.</example>
             </rule>
         </rulegroup>
 
