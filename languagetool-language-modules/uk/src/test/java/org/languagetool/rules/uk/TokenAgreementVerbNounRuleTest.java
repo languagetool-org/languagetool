@@ -648,7 +648,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     ArrayList<AnalyzedTokenReadings> readings = new ArrayList<>();
     
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
-    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("повинен", "adj:m:v_naz:short:&predic", "повинний"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("повинен", "adj:m:v_naz:short:predic", "повинний"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("був", "verb:imperf:past:m", "бути"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("випадок", "noun:inanim:m:v_zna", "випадок"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("передбачити", "verb:perf:inf", "передбачити"), 0));

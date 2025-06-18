@@ -4675,6 +4675,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="_loc_nosequi"/>
         </disambig>
     </rule>
+    <rulegroup id="TOTS_EIXOS" name="tots eixos partits">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DI0MP0">tots</token>
+                    <token postag="DD0MP0">eixos</token>
+                </marker>
+                <token postag="N.[MC]P.*|A..[MC]P.*|V.P..PM." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="DI0MP0">tots</token>
+                    <token postag="PD0MP000">eixos</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="nDet" name="no Determinant">
         <!--  paraules comunes que no solen ser determinants gairebé mai -->
         <rule>
@@ -5639,6 +5660,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>a</token>
             <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">esborrat|dificultat</exception></token>
         </antipattern>
+        <antipattern>
+            <token>tret</token>
+            <token>de</token>
+            <token regexp="yes" inflected="yes">canó|pistola|fusell</token>
+        </antipattern>
         <pattern>
             <token regexp="yes">&formes_HAVER_sense_hac;</token>
             <token min="0" regexp="yes">&particula_entre_auxiliar_participi;</token>
@@ -6282,7 +6308,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">pel·lícula|film|obra|director|llibre|actor|actriu|autor|escriptor|equip|jugador|entrenador|davanter|golejador</token>
+                <token inflected="yes" regexp="yes">pel·lícula|film|obra|director|llibre|actor|actriu|autor|escriptor|equip|jugador|entrenador|davanter|golejador|èxit</token>
                 <marker>
                     <token>revelació</token>
                 </marker>
@@ -6465,7 +6491,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">factor|efecte|convidat|convidada|invitat|invitada|festa|celebració|atac|membre|regal|element|retorn|tornada|regrés|viatge|examen|ingredient</token>
+                <token inflected="yes" regexp="yes">factor|efecte|convidat|convidada|invitat|invitada|festa|celebració|atac|membre|regal|element|retorn|tornada|regrés|viatge|examen|ingredient|èxit</token>
                 <marker>
                     <token>sorpresa</token>
                 </marker>
@@ -7578,7 +7604,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token inflected="yes" regexp="yes">&exceptions_TE;</token>
-                <token regexp="yes">,|i|o|ni</token>
+                <token regexp="yes">,|i|o|ni|com</token>
                 <marker>
                     <token>te</token>
                 </marker>
@@ -11689,6 +11715,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token postag="DN.*" postag_regexp="yes"><exception>es</exception></token>
                 <token postag="NC[FC]P000" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">un</token>
+                <marker>
+                    <token>vora</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token inflected="yes">altre</token>
             </pattern>
             <disambig action="filter" postag="SPS00"/>
         </rule>

@@ -79,7 +79,7 @@ public class MissingHyphenRule extends Rule {
       
 
       if( PosTagHelper.hasPosTagStart(nextTokenReadings, "noun")
-          && ! PosTagHelper.hasPosTagPart(nextTokenReadings, "&pron")
+          && ! PosTagHelper.hasPosTagPart(nextTokenReadings, "pron")
           //    && ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile("^(?!noun).*"))
           && ALL_LOWER.matcher(nextTokenReadings.getCleanToken()).matches() ) {
 

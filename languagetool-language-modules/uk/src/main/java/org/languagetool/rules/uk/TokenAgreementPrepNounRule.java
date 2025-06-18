@@ -544,7 +544,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       msg += ". Можливо, тут потрібно присвійний займенник «їхній» або нормативна форма р.в. «них»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
-        String[] synthesized = synthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
+        String[] synthesized = synthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz.*:pron:pos", "їхній"), newYihPostag, true);
         suggestions.addAll( Arrays.asList(synthesized) );
       } catch (IOException e) {
         throw new RuntimeException(e);
@@ -555,7 +555,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       msg += ". Можливо, тут потрібно присвійний займенник «" + repl + "»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
-        String[] synthesized = synthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
+        String[] synthesized = synthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz.*:pron:pos", "їхній"), newYihPostag, true);
         suggestions.addAll( Arrays.asList(synthesized) );
         suggestions.add(repl);
       } catch (IOException e) {
