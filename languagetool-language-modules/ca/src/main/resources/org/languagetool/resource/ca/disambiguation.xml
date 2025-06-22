@@ -37,17 +37,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
-    <rule id="genitiu_saxo" name="permet el genitiu saxó">
-        <pattern>
-            <token regexp="yes">\p{Lu}.+</token>
-            <marker>
-                <token spacebefore="no" regexp="yes">[’']s</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="allow_saxon_genitive"/>
-        </disambig>
-    </rule>
+    <rulegroup id="genitiu_saxo" name="permet el genitiu saxó">
+        <rule>
+            <pattern>
+                <token regexp="yes">\p{Lu}.+</token>
+                <marker>
+                    <token spacebefore="no" regexp="yes">[’']s</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="allow_saxon_genitive"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\p{Lu}.+<exception postag="V.[MN].*" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="allow_saxon_genitive" spacebefore="no" regexp="yes">[’']s</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="P0300000"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta paraules angleses">
         <antipattern>
             <token regexp="yes">the|than</token>
