@@ -3710,6 +3710,26 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='MEDO_RECEIO' name="Medo → receio" type='style' tone_tags='formal' tags='picky' default='temp_off'>
+            <pattern>
+                <token skip='2' regexp='yes' inflected='yes'>estar|ficar|ter
+                    <exception scope='next' postag_regexp='yes' postag='VMP00.+|V.+:.+'/></token>
+                <marker>
+                    <token regexp='yes'>medos?</token>
+                </marker>
+            </pattern>
+            <message>Pode substituir &quot;medo&quot; por &quot;receio&quot; sem mudar a gramática, mas &quot;receio&quot; é mais formal e menos intenso.</message>
+            <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCM$1000'>receio</match></suggestion>
+            <example correction="receio">Estou com <marker>medo</marker> de perder o Rui.</example>
+            <example correction="receio">Não fique com <marker>medo</marker> do que possa surgir.</example>
+            <example correction="receio">Tenho <marker>medo</marker> do resultado do exame.</example>
+            <example>Estou com receio de aparecer na festa.</example>
+            <example>Ele ficou paralisado de medo.</example>
+            <example>Ficar sozinho mete-me medo.</example>
+            <example>O Tom está morto de medo.</example>
+        </rule>
+
+
         <rule id='TAMANHO_DIMENSÃO' name="Tamanho → dimensão" type='style' tone_tags='formal' tags='picky'>
         <!-- It is impossible to add all the possible exceptions to the rule, thus the 'picky' tag -->
             <pattern>
