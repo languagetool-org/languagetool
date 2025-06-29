@@ -181,13 +181,13 @@ public class RemoteRuleTest {
 
   private UserConfig getUserConfigWithThirdPartyAI(boolean thirdPartyAI) {
     UserConfig userConfig = new UserConfig(Collections.emptyList(), Collections.emptyList(), Collections.emptyMap(),
-      5, null, null, null, null, false, null, null, false, null, true, thirdPartyAI);
+      5, null, null, null, null, false, null, null, false, null, true, thirdPartyAI, false);
     return userConfig;
   }
 
   private UserConfig getUserConfigWithThirdPartyAIAndABTest(boolean thirdPartyAI, List<String> abTest) {
     UserConfig userConfig = new UserConfig(Collections.emptyList(), Collections.emptyList(), Collections.emptyMap(),
-      5, null, null, null, null, false, abTest, null, false, null, true, thirdPartyAI);
+      5, null, null, null, null, false, abTest, null, false, null, true, thirdPartyAI, false);
     return userConfig;
   }
 

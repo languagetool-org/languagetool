@@ -60,6 +60,7 @@ public class RemoteRuleConfig {
 
   public static final String THIRD_PARTY_AI = "thirdPartyAI";
   public static final String FALLBACK_RULE_ID = "fallbackRuleId";
+  public static final String PREMIUM = "premium";
 
 
   private static final LoadingCache<File, List<RemoteRuleConfig>> configCache = CacheBuilder.newBuilder()
@@ -195,6 +196,14 @@ public class RemoteRuleConfig {
    */
   public boolean isUsingThirdPartyAI() {
     return options.getOrDefault(THIRD_PARTY_AI, "false").equals("true");
+  }
+
+  /**
+   * based on options
+   * @return whether the RemoteRule sends data to a third-party AI model
+   */
+  public boolean isPremium() {
+    return options.getOrDefault(PREMIUM, "false").equals("true");
   }
 
   /**

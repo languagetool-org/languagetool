@@ -626,6 +626,9 @@ public class JLanguageTool {
     List<String> activeAbTestsForUser = userConfig.getAbTest();
     List<RemoteRuleConfig> selectedConfigsByABTest = configs.stream()
       .filter(config -> {
+        if (!userConfig.isPremium() && config.isPremium()) {
+          return false;
+        }
         String excludeABTest = config.getOptions().get("excludeABTest");
         if (excludeABTest != null && activeAbTestsForUser != null &&
           activeAbTestsForUser.stream().anyMatch(flag -> flag.matches(excludeABTest))) {
@@ -649,7 +652,8 @@ public class JLanguageTool {
       Map<String, RemoteRuleConfig> fallbackRules = new HashMap<>();
       
       // Collect all possible fallback rules
-      for (RemoteRuleConfig config : selectedConfigsByABTest) {
+      // use raw configs here, not filtered list to allow fallback activation independently of A/B test parameters
+      for (RemoteRuleConfig config : configs) {
         if (!config.isUsingThirdPartyAI()) {
           fallbackRules.put(config.getRuleId(), config);
         }
