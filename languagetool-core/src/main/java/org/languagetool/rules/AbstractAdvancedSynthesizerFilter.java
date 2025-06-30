@@ -150,7 +150,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       }
       List<String> adjustedReplacementsList = new ArrayList<>();
       for (String replacement : replacementsList) {
-        adjustedReplacementsList.add(language.adaptSuggestion(replacement));
+        adjustedReplacementsList.add(language.adaptSuggestion(replacement, ""));
       }
       newMatch.setSuggestedReplacements(adjustedReplacementsList);
       return newMatch;

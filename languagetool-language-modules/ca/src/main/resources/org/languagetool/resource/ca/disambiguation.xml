@@ -2102,6 +2102,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="a tocar" pos="LOC_ADV"/>
         </disambig>
     </rule>
+    <rule id="A_PENES" name="a penes">
+        <antipattern>
+            <token>penes</token>
+            <token>de</token>
+            <token>presó</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">condemnar</token>
+            <token>penes</token>
+            <token regexp="yes">de|d'</token>
+        </antipattern>
+        <pattern>
+            <token>a</token>
+            <token>penes</token>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="a penes" pos="LOC_ADV"/>
+            <wd lemma="a penes" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
     <rule id="UNA_MICA" name="una mica">
         <antipattern>
             <token regexp="yes">mica|miqueta</token>
@@ -5164,6 +5184,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.[IS]P1S0.?"/>
+        </rule>
+        <rule id="ELS_PAS" name="els pas informació">
+            <pattern>
+                <token>els</token>
+                <marker>
+                    <token postag="VMIP1S0B">pas</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes" inflected="yes">informació|telèfon|dada|missatge</token>
+            </pattern>
+            <disambig action="filter" postag="VMIP1S0B"/>
         </rule>
         <rule id="improbable_verb_balear" name="verb balear improbable">
             <pattern>
@@ -8643,6 +8674,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="VS.*|_GV_|.*LOC.*"/>
     </rule>
     <rule id="fes_no_fendre" name="fes no participi del verb fendre">
+        <antipattern>
+            <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+            <token postag="DA.*" postag_regexp="yes"/>
+            <token>fes</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="V.*" postag_regexp="yes">fes<exception postag="_GV_"/></token>
@@ -11084,7 +11120,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="A..[FC]S." postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
         </antipattern>
         <pattern>
-            <token><exception postag="D[^D].FS.|SPS00|LOC_PREP" postag_regexp="yes"/></token>
+            <token><exception postag="D[^D].FS.|SPS00|LOC_PREP" postag_regexp="yes"/><exception>bona</exception></token>
             <marker>
                 <token>mostra</token>
             </marker>
@@ -22528,7 +22564,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="ignora_algunes_sigles" name="algunes sigles">
         <pattern>
-            <token case_sensitive="yes" regexp="yes">NY|NGC|IgG|CHX|Tass|TASS</token>
+            <token case_sensitive="yes" regexp="yes">NY|NGC|IgG|CHX|Tass|TASS|PiS|HDM|ES\d\d+|AUPAC</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

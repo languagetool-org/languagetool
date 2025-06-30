@@ -960,7 +960,7 @@ public abstract class Language {
    * @since 6.0
    * Adjust suggestion
    */
-  public String adaptSuggestion(String s) {
+  public String adaptSuggestion(String s, String originalErrorStr) {
     return s;
   }
 

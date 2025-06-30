@@ -40,7 +40,8 @@ public class AdaptSuggestionsFilter extends RuleFilter {
       List<String> adjustedSuggestions = new ArrayList<>();
       Language lang = ((AbstractPatternRule) rule).getLanguage();
       for (String replacement : match.getSuggestedReplacements()) {
-        adjustedSuggestions.add(lang.adaptSuggestion(replacement));  
+        match.setOriginalErrorStr();
+        adjustedSuggestions.add(lang.adaptSuggestion(replacement, match.getOriginalErrorStr()));
       }
       match.setSuggestedReplacements(adjustedSuggestions);
       return match;
