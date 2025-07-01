@@ -74,6 +74,8 @@ public class AvsAnRuleTest {
     assertCorrect("e.g., the case endings -a -i -u and mood endings -u -a");
     assertCorrect("A'ight, y'all.");
     assertCorrect("He also wrote the comic strips Abbie an' Slats.");
+    assertCorrect("Do an ngram tokenization fix.");
+    assertCorrect("A car with a unibody construction.");
 
     // errors:
     assertIncorrect("It was a hour ago.");
