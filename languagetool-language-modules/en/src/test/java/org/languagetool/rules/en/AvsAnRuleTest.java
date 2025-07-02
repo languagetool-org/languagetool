@@ -76,6 +76,7 @@ public class AvsAnRuleTest {
     assertCorrect("He also wrote the comic strips Abbie an' Slats.");
     assertCorrect("Do an ngram tokenization fix.");
     assertCorrect("A car with a unibody construction.");
+    assertCorrect("Given a Userset, create and return a matching PrincipalModel.");
 
     // errors:
     assertIncorrect("It was a hour ago.");
@@ -85,6 +86,7 @@ public class AvsAnRuleTest {
     assertIncorrect("A unintersting ...");
     assertIncorrect("A hour's work ...");
     assertIncorrect("Going to a \"industry party\".");
+    assertIncorrect("It was a unidentifiable object.");
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
     assertEquals(2, matches.length);
 

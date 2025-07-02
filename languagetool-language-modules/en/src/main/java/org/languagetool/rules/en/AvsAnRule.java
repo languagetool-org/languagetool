@@ -24,6 +24,7 @@ import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.regex.Pattern.*;
@@ -50,6 +51,8 @@ public class AvsAnRule extends Rule {
   private static final Pattern cleanupPattern = compile("[^αa-zA-Z0-9.;,:']");
   private static final Pattern delimPattern = compile("[-\"“'‘()\\[\\]]+");
   private static final Pattern dashQuotePattern = compile("[-']");
+  private static final Pattern anExceptionPrefixes = compile("^(eu|one|uni|u[rst][aeiou])[a-z]*$", Pattern.CASE_INSENSITIVE);
+  private static final Pattern anPrefixes = compile("^(unidentif|unimagin|unimport|unimpress|uninh[ai]bit|uninitiat|uninsur|unintellig|uninten[dt]|uninte?re?st|uninterrupt|uninvit|uninvolv)[a-z]*$", Pattern.CASE_INSENSITIVE);
 
   public AvsAnRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -149,6 +152,8 @@ public class AvsAnRule extends Rule {
     String word = token.getToken();
     Determiner determiner = Determiner.UNKNOWN;
     String[] parts = dashQuotePattern.split(word);  // for example, in "one-way" only "one" is relevant
+    Matcher anExceptionPrefix = anExceptionPrefixes.matcher(token.getToken());
+    Matcher anPrefix = anPrefixes.matcher(token.getToken());
     if (parts.length >= 1 && !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
       word = parts[0];
     }
@@ -174,7 +179,9 @@ public class AvsAnRule extends Rule {
         // we don't know how all-uppercase words (often abbreviations) are pronounced,
         // so never complain about these
         determiner = Determiner.UNKNOWN;
-      } else if (isVowel(tokenFirstChar)) {
+      } else if (anPrefix.find()) {
+        determiner = Determiner.AN;
+      } else if (isVowel(tokenFirstChar) && !anExceptionPrefix.find()) {
         determiner = Determiner.AN;
       } else {
         determiner = Determiner.A;
