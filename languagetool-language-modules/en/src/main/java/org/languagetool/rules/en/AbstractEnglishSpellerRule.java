@@ -234,13 +234,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern CONTAINS_TOKEN = compile(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)");
   static  {
     wordPatterns[0] = compile(".*[yi][zs]e([sd])?|.*[yi][zs]ings?|.*i[zs]ations?", CASE_INSENSITIVE | UNICODE_CASE);
-    blogLinks[0] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
+    blogLinks[0] = "https://quillbot.com/blog/category/uk-vs-us/";
 
     wordPatterns[1] = compile(".*(defen[cs]e|offen[sc]e|preten[sc]e).*", CASE_INSENSITIVE | UNICODE_CASE);
-    blogLinks[1] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
+    blogLinks[1] = "https://quillbot.com/blog/category/uk-vs-us/";
 
     wordPatterns[2] = compile(".*og|.*ogue", CASE_INSENSITIVE | UNICODE_CASE);
-    blogLinks[2] = "https://languagetool.org/insights/post/ise-ize/#another-difference-because-of-foreign-words-%E2%80%9C-og%E2%80%9D-vs-%E2%80%9C-ogue%E2%80%9D";
+    blogLinks[2] = "https://quillbot.com/blog/category/uk-vs-us/";
     
     wordPatterns[3] = compile(".*(or|our).*", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[3] = "https://languagetool.org/insights/post/our-or/#colour-or-color%E2%80%94colourise-or-colorize";

@@ -476,7 +476,7 @@ public class Catalan extends Language {
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   @Override
-  public String adaptSuggestion(String s) {
+  public String adaptSuggestion(String s, String originalErrorStr) {
     // Exceptions: Digues-me alguna cosa, urbi et orbi, Guns N' Roses
     boolean capitalized = StringTools.isCapitalizedWord(s);
     Matcher m = CA_CONTRACTIONS.matcher(s);
@@ -501,7 +501,7 @@ public class Catalan extends Language {
       s = StringTools.uppercaseFirstChar(s);
     }
     s = s.replace(" ,", ",");
-    return s;
+    return StringTools.preserveCase(s, originalErrorStr);
   }
   
   private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",

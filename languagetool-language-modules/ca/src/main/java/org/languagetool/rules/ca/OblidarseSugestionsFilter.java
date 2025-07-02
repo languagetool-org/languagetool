@@ -163,7 +163,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       if (charactersAfterCorrection == 1) {
         s = s + " ";
       }
-      replacements.add(lang.adaptSuggestion(s));
+      replacements.add(lang.adaptSuggestion(s, tokens[posWord].getToken()));
     }
     if (replacements.isEmpty()) {
       return null;

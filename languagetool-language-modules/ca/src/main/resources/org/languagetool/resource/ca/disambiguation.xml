@@ -37,17 +37,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
-    <rule id="genitiu_saxo" name="permet el genitiu saxó">
-        <pattern>
-            <token regexp="yes">\p{Lu}.+</token>
-            <marker>
-                <token spacebefore="no" regexp="yes">[’']s</token>
-            </marker>
-        </pattern>
-        <disambig action="add">
-            <wd pos="allow_saxon_genitive"/>
-        </disambig>
-    </rule>
+    <rulegroup id="genitiu_saxo" name="permet el genitiu saxó">
+        <rule>
+            <pattern>
+                <token regexp="yes">\p{Lu}.+</token>
+                <marker>
+                    <token spacebefore="no" regexp="yes">[’']s</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="allow_saxon_genitive"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\p{Lu}.+<exception postag="V.[MN].*" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="allow_saxon_genitive" spacebefore="no" regexp="yes">[’']s</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="P0300000"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="IGNORE_ENGLISH_WORDS" name="etiqueta paraules angleses">
         <antipattern>
             <token regexp="yes">the|than</token>
@@ -2089,6 +2100,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="replace">
             <wd lemma="a tocar" pos="LOC_ADV"/>
             <wd lemma="a tocar" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
+    <rule id="A_PENES" name="a penes">
+        <antipattern>
+            <token>penes</token>
+            <token>de</token>
+            <token>presó</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">condemnar</token>
+            <token>penes</token>
+            <token regexp="yes">de|d'</token>
+        </antipattern>
+        <pattern>
+            <token>a</token>
+            <token>penes</token>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="a penes" pos="LOC_ADV"/>
+            <wd lemma="a penes" pos="LOC_ADV"/>
         </disambig>
     </rule>
     <rule id="UNA_MICA" name="una mica">
@@ -5154,6 +5185,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="V.[IS]P1S0.?"/>
         </rule>
+        <rule id="ELS_PAS" name="els pas informació">
+            <pattern>
+                <token>els</token>
+                <marker>
+                    <token postag="VMIP1S0B">pas</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes" inflected="yes">informació|telèfon|dada|missatge</token>
+            </pattern>
+            <disambig action="filter" postag="VMIP1S0B"/>
+        </rule>
         <rule id="improbable_verb_balear" name="verb balear improbable">
             <pattern>
                 <marker>
@@ -5320,6 +5362,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="V.*" postag_regexp="yes" inflected="yes">calçar</token>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="cru_substantiu" name="cru substantiu">
+        <pattern>
+            <token inflected="yes" regexp="yes">barril|litre</token>
+            <token>de</token>
+            <marker>
+                <token>cru</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="NCMS000"/>
     </rule>
     <rule id="la_torna" name="la torna">
         <pattern>
@@ -5932,7 +5984,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">TV|monitor|pantalla|televisió|televisor|bombeta|llum|llumeta|llumet</token>
+                <token regexp="yes" inflected="yes">TV|monitor|pantalla|televisió|televisor|bombeta|llum|llumeta|llumet|lluminària</token>
                 <marker>
                     <token>led</token>
                 </marker>
@@ -8622,6 +8674,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="VS.*|_GV_|.*LOC.*"/>
     </rule>
     <rule id="fes_no_fendre" name="fes no participi del verb fendre">
+        <antipattern>
+            <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+            <token postag="DA.*" postag_regexp="yes"/>
+            <token>fes</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="V.*" postag_regexp="yes">fes<exception postag="_GV_"/></token>
@@ -11063,7 +11120,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="A..[FC]S." postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
         </antipattern>
         <pattern>
-            <token><exception postag="D[^D].FS.|SPS00|LOC_PREP" postag_regexp="yes"/></token>
+            <token><exception postag="D[^D].FS.|SPS00|LOC_PREP" postag_regexp="yes"/><exception>bona</exception></token>
             <marker>
                 <token>mostra</token>
             </marker>
@@ -22507,7 +22564,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="ignora_algunes_sigles" name="algunes sigles">
         <pattern>
-            <token case_sensitive="yes" regexp="yes">NY|NGC|IgG|CHX</token>
+            <token case_sensitive="yes" regexp="yes">NY|NGC|IgG|CHX|Tass|TASS|PiS|HDM|ES\d\d+|AUPAC</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

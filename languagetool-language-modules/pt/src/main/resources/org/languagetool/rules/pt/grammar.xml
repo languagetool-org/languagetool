@@ -3905,6 +3905,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordância: SER + adjetivo + nome">
             <!--      Created by Tiago F. Santos, 2017-09-06      -->
             <short>Erro de concordância</short>
+             <antipattern>
+                 <token postag_regexp='yes' postag='(SPS00:)?[DP]..[CM].+'/>
+                 <token postag_regexp='yes' postag='AQ.[CM].+|NC[CM].+'/>
+                 <token postag_regexp='yes' postag='AQ.[CM].+|NC[CM].+'/>
+                 <token postag_regexp='yes' postag='(SPS00:)?[DP]..[CF].+'/>
+                 <token postag_regexp='yes' postag='AQ.[CF].+|NC[CF].+'/>
+                 <example>Nos seres biológicos as oportunidades são ocultadas e as desgraças são divulgadas.</example>
+             </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes">ser</token>

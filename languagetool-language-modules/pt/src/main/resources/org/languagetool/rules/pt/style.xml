@@ -164,6 +164,26 @@ USA
             </antipattern>
 
             <antipattern>
+                <token postag='N.+|AQ.+|[DP].+' postag_regexp='yes'/>
+                <token postag='RM'/>
+                <token postag='VMIS1.+|VMIP3.+' postag_regexp='yes'/>
+                <token postag='SPS00|DA.+' postag_regexp='yes'/>
+                <token postag='[DP].+' postag_regexp='yes'/>
+                <example>Nestes últimos anos raramente estive com eles.</example>
+                <example>Ela atualmente ignora as minhas mensagens.</example>
+                <example>Quantos se dão bem em agir insensatamente e ao dar sorte realmente alcançam o que buscam?</example>
+                <example>Eles realmente precisam de nós.</example>
+                <example>Como é que você normalmente decide o que comer?</example>
+                <example>Eu finalmente descobri o que havia de errado com a minha TV.</example>
+                <example>Tom realmente precisa de você.</example>
+                <example>Eu finalmente terminei a minha dissertação.</example>
+                <example>Os golfinhos realmente dormem com um olho aberto? </example>
+                <example>Pela primeira vez na vida, alguém finalmente aprecia o que eu faço.</example>
+                <example>Eu finalmente atingi o meu limite.</example>
+                <example>A escolha da estrutura de dados normalmente começa com a escolha do tipo de dado abstrato.</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='RM'/>
                 <token postag='VMN0000|VMN03.+' postag_regexp='yes'/>
                 <token regexp='yes'>[ao]s?</token>
@@ -190,7 +210,7 @@ USA
             <pattern>
                 <marker>
                     <token postag='RM'>
-                        <exception scope='previous' postag_regexp='yes' postag='SENT_START|VMIP1.+|VMN0000|VMP00.+|VMIS.+|VMN0000X'/>
+                        <exception scope='previous' postag_regexp='yes' postag='SENT_START|VMIP1.+|VMN0000|VMP00.+|VMIS.+|VMN0000:.+'/>
                         <exception scope='previous' regexp='yes'>agora|apenas|após|aqui|assim|até|bem|cá|como|depois|embora|enquanto|esquerda|hoje|lá|mais|manhã|mesmo|modo|muito|onde|ontem|pois|quando|quase|só|também|tão|tarde</exception> <!-- RG -->
                         <exception scope='previous' regexp='yes'>es[st][ae]s?|is[st]o|para|por|porque|quanto|quem?|sem?</exception> <!-- Force specific words to avoid false positives-->
                         <exception scope='previous' regexp='yes' inflected='yes'>estar|ir|poder|ser</exception> <!-- Force specific verbs to avoid false positives-->
@@ -3688,6 +3708,26 @@ USA
         </rule>
     </category>
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
+
+
+        <rule id='MEDO_RECEIO' name="Medo → receio" type='style' tone_tags='formal' tags='picky'>
+            <pattern>
+                <token skip='2' regexp='yes' inflected='yes'>estar|ficar|ter
+                    <exception scope='next' postag_regexp='yes' postag='VMP00.+|V.+:.+'/></token>
+                <marker>
+                    <token regexp='yes'>medos?</token>
+                </marker>
+            </pattern>
+            <message>Pode substituir &quot;medo&quot; por &quot;receio&quot; sem mudar a gramática, mas &quot;receio&quot; é mais formal e menos intenso.</message>
+            <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCM$1000'>receio</match></suggestion>
+            <example correction="receio">Estou com <marker>medo</marker> de perder o Rui.</example>
+            <example correction="receio">Não fique com <marker>medo</marker> do que possa surgir.</example>
+            <example correction="receio">Tenho <marker>medo</marker> do resultado do exame.</example>
+            <example>Estou com receio de aparecer na festa.</example>
+            <example>Ele ficou paralisado de medo.</example>
+            <example>Ficar sozinho mete-me medo.</example>
+            <example>O Tom está morto de medo.</example>
+        </rule>
 
 
         <rule id='TAMANHO_DIMENSÃO' name="Tamanho → dimensão" type='style' tone_tags='formal' tags='picky'>
