@@ -143,7 +143,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, int patternFromPos, int patternToPos,
                    String message, String shortMessage, boolean startWithUppercase, String suggestionsOutMsg) {
-    this(rule, sentence, fromPos, toPos, fromPos, toPos, message, shortMessage, startWithUppercase, false, suggestionsOutMsg, false);
+    this(rule, sentence, fromPos, toPos, patternFromPos, patternToPos, message, shortMessage, startWithUppercase, false, suggestionsOutMsg, false);
   }
 
   /**
