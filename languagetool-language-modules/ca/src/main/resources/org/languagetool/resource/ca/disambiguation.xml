@@ -848,6 +848,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
+                    <and>
+                        <!-- quart, quint, setè... -->
+                        <token postag="AO0MS0" postag_regexp="yes"/>
+                        <token postag="NP.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="NC[MC][SN]000" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="AO0MS0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
                     <token>mil</token>
                     <token>i</token>
                     <token>un</token>
