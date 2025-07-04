@@ -45,7 +45,7 @@ public class NewLineMatchFilter implements RuleMatchFilter {
       var matchText = text.getOriginalText().substring(from, to);
 
       // remove tailing and leading \n and \u2063 from the matchText and update the from and to positions of the match
-      while (matchText.endsWith("\n") || matchText.endsWith(INVISIBLE_SEPERATOR)) {
+      while (matchText.endsWith("\n") || matchText.endsWith(INVISIBLE_SEPARATOR)) {
         matchText = matchText.substring(0, matchText.length() - 1);
         to--;
         if (to < from) {
@@ -53,17 +53,17 @@ public class NewLineMatchFilter implements RuleMatchFilter {
           return false;
         }
       }
-      while (matchText.startsWith("\n") || matchText.startsWith(INVISIBLE_SEPERATOR)) {
+      while (matchText.startsWith("\n") || matchText.startsWith(INVISIBLE_SEPARATOR)) {
         matchText = matchText.substring(1);
         from++;
       }
       var newSuggestionReplacements = new ArrayList<String>();
       ruleMatch.getSuggestedReplacements().forEach(replacement -> {
         var newReplacement = replacement;
-        while (newReplacement.endsWith("\n") || newReplacement.endsWith("\u2063")) {
+        while (newReplacement.endsWith("\n") || newReplacement.endsWith(INVISIBLE_SEPARATOR)) {
           newReplacement = newReplacement.substring(0, newReplacement.length() - 1);
         }
-        while (newReplacement.startsWith("\n") || newReplacement.startsWith("\u2063")) {
+        while (newReplacement.startsWith("\n") || newReplacement.startsWith(INVISIBLE_SEPARATOR)) {
           newReplacement = newReplacement.substring(1);
         }
         newSuggestionReplacements.add(newReplacement);
