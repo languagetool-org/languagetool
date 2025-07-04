@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 public class NewLineMatchFilter implements RuleMatchFilter {
 
-  private static final String INVISIBLE_SEPERATOR = "\u2063";
+  private static final String INVISIBLE_SEPARATOR = "\u2063";
 
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches, AnnotatedText text) {
