@@ -59,14 +59,14 @@ public class NewLineMatchFilter implements RuleMatchFilter {
       }
       var newSuggestionReplacements = new ArrayList<String>();
       ruleMatch.getSuggestedReplacements().forEach(replacement -> {
-        var newRepacement = replacement;
-        while (newRepacement.endsWith("\n") || newRepacement.endsWith("\u2063")) {
-          newRepacement = newRepacement.substring(0, newRepacement.length() - 1);
+        var newReplacement = replacement;
+        while (newReplacement.endsWith("\n") || newReplacement.endsWith("\u2063")) {
+          newReplacement = newReplacement.substring(0, newReplacement.length() - 1);
         }
-        while (newRepacement.startsWith("\n") || newRepacement.startsWith("\u2063")) {
-          newRepacement = newRepacement.substring(1);
+        while (newReplacement.startsWith("\n") || newReplacement.startsWith("\u2063")) {
+          newReplacement = newReplacement.substring(1);
         }
-        newSuggestionReplacements.add(newRepacement);
+        newSuggestionReplacements.add(newReplacement);
       });
       if (newSuggestionReplacements.size() == 1 && newSuggestionReplacements.get(0).equals(matchText)) {
         return false;
