@@ -11512,16 +11512,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
     </rule>
-    <rule id="sere" name="seré">
-        <pattern>
-            <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="V.*" postag_regexp="yes">seré</token>
-            </marker>
-            <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="V.*"/>
-    </rule>
+    <rulegroup id="sere" name="seré">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">seré</token>
+                </marker>
+                <token regexp="yes">a|en</token>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">seré</token>
+                </marker>
+                <token><exception postag="V.[MSI].*|_GV_" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+    </rulegroup>
     <rule id="poc" name="poc (no nom)">
         <pattern>
             <token><exception postag="D[^R].MS.*" postag_regexp="yes"/></token>
