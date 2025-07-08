@@ -207,6 +207,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern TV = compile("tv");
   private static final Pattern HTTP = compile("[Hh]ttp");
   private static final Pattern HTTPS = compile("[Hh]ttps");
+  private static final Pattern EUROPEAN = compile("european");
+  private static final Pattern EUROPEANS = compile("europeans");
   private static final Pattern FYI = compile("[Ff]yi");
   private static final Pattern MICROSOFT = compile("microsoft");
   private static final Pattern DEVOPS = compile("[Dd]evops");
@@ -1544,6 +1546,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (HTTP.matcher(word).matches()) return topMatch("HTTP");
     if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
     if (FYI.matcher(word).matches()) return topMatch("FYI");
+    if (EUROPEAN.matcher(word).matches()) return topMatch("European");
+    if (EUROPEANS.matcher(word).matches()) return topMatch("Europeans");
     if (DEVOPS.matcher(word).matches()) return topMatch("DevOps");
     if (MICROSOFT.matcher(word).matches()) return topMatch("Microsoft");
     if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
