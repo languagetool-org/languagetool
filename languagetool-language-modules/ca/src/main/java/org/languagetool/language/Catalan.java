@@ -238,6 +238,7 @@ public class Catalan extends Language {
       case "LO_NEUTRE": return 40; // lower than other INCORRECT_EXPRESSIONS
       case "ESPAIS_SOBRANTS": return 40; // greater than L
       case "PER_A_QUE_PERQUE": return 40;
+      case "PRONOMS_FEBLES_COMBINACIONS_SE": return 40;
       case "ELA_GEMINADA": return 35; // greater than agreement rules, pronoun rules
       case "TENIR_QUE": return 35; // greater than CA_SIMPLE_REPLACE
       case "CONFUSIONS_PRONOMS_FEBLES": return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
