@@ -3210,6 +3210,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <!-- ====================================================================== -->
         <!-- QuillBot Antipatterns -->
         <!-- ====================================================================== -->
+        <rulegroup id="QB_NEW_EN_OTHER" name="">
+            <rule>
+                <pattern>
+                    <marker><token regexp="yes">.*(https?://|www\.).+</token></marker>
+                </pattern>
+                <example correction="">It’s the storage policy <marker>https://quillbot.slack.com/archives/D084BE5DY0M/p1744109799019819</marker> It's a real-time policy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token regexp="yes">.+\.com.*</token></marker>
+                </pattern>
+                <example correction="">It’s the storage policy <marker>quillbot.slack.com/archives/D084BE5DY0M/p1744109799019819</marker> It's a real-time policy.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QB_EN_OTHER" name="">
             <rule>
                 <pattern>
