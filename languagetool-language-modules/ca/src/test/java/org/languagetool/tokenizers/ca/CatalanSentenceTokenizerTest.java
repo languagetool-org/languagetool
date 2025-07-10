@@ -131,6 +131,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Hi vivien 50 h. ", "Després el poble va créixer.");
     testSplit("L'acte serà a les 15.30 h. de la vesprada.");
     testSplit("De 9:00 a 17:00 h. (aproximadament).");
+    testSplit("Aquesta és la resolució No. 2 de les Corts.");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("s'hi enfrontà quan G.Oueddei n'esdevingué líder");
