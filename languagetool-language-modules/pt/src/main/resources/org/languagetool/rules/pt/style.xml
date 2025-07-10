@@ -3707,7 +3707,51 @@ USA
             <example>Os dados não <marker>confirmam</marker> essa afirmação…</example>
         </rule>
     </category>
+
+
+
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
+
+
+        <rule id='FAZER_TRAÇAR_DELINEAR_ELABORAR_V2' name="Fazer/traçar → delinear/elaborar" type='style' tone_tags='formal' default='temp_off'>
+            <pattern>
+                <marker>
+                    <token regexp='yes' inflected='yes'>fazer|traçar</token>
+                </marker>
+                <token min='0' max='1' regexp='yes'>qual|como|quando|onde|porquê|quanto|quem|se|que</token>
+                <token skip='1' regexp='yes'>[ao]s?|u(m|ns)|umas?</token>
+                <token regexp='yes' inflected='yes'>abordagem|ac?ção|agenda|arranjo|configuração|cronograma|designação|diretriz|esquema|estratégia|estrutura|formulação|intenção|meta|método|modelo|objec?tivo|organização|planej?amento|plano|política|procedimento|processo|projec?to|protocolo|roteiro|solução|tác?tica</token>
+            </pattern>
+            <message>Num contexto formal, empregue o verbo &quot;delinear&quot; ou &quot;elaborar&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>delinear</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
+            <example correction="delinear|elaborar">Vamos <marker>fazer</marker> um plano.</example>
+            <example correction="delinear|elaborar">Vamos <marker>traçar</marker> o objetivo a alcançar.</example>
+            <example>Vamos delinear a estratégia a seguir.</example>
+            <example>Temos de delinear qual o melhor plano.</example>
+            <example>Vou elaborar um cronograma com toda a informação pertinente.</example>
+        </rule>
+
+
+        <rule id='QUANTO_FOR' name="Quanto + intensidade + 'a' → 'for a'" type='style' tone_tags='formal'>
+            <pattern>
+                <token skip='1'>quanto</token>
+                <token regexp='yes' inflected='yes'>maior|menor|melhor|pior|maioria|minoria|alto|baixo|denso|rápido|lento|forte|fraco|elevado|reduzido</token>
+                <marker>
+                    <token skip='1' regexp='yes'>[ao]s?</token>
+                </marker>
+                <token postag='N.+' postag_regexp='yes'/>
+                <token><exception postag_regexp='yes' postag='VMSF.+|VMIP.+|VMN0000'/></token>
+            </pattern>
+            <message>Num contexto formal, adicione &quot;for&quot;/&quot;forem&quot; para explicitar a condição.</message>
+            <suggestion><match no='4' postag='NC(.)(.)000' postag_replace='VMSF3$20'>ser</match> \3</suggestion>
+            <example correction="for a">Quanto maior <marker>a</marker> entropia, mais difícil é organizar o sistema.</example>
+            <example correction="forem as">Quanto maiores <marker>as</marker> entropias, mais difícil é organizar os sistemas.</example>
+            <example>Quanto maior for a informação, mais variáveis ficam disponíveis.</example>
+            <example>Quanto maior for a sua informação, mais variáveis ficam disponíveis.</example>
+            <example>Quanto mais denso for o vidro menor são as chances dele quebrar.</example>
+            <example>Quanto mais rápido a gente começar a fazer isso, mais rápido a gente termina.</example>
+        </rule>
 
 
         <rule id='MEDO_RECEIO' name="Medo → receio" type='style' tone_tags='formal' tags='picky'>

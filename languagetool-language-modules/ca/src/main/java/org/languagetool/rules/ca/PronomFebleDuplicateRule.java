@@ -157,6 +157,15 @@ public class PronomFebleDuplicateRule extends Rule {
     if (tokens[i].getToken().equals("poder") && tokens[i - 1].hasPosTagStartingWith("V")) {
       return true;
     }
+    if (i>3 && i+3<tokens.length
+      // l'oportunitat que hi ha de donar-los
+      && (tokens[i].getToken().equals("ha") || tokens[i].getToken().equals("havia"))
+      && tokens[i-2].getToken().equals("que") && tokens[i-1].getToken().equals("hi")
+      && tokens[i+1].hasLemma("de")
+      && !(tokens[i+2].hasLemma("haver") && tokens[i+3].hasLemma("hi"))
+    ) {
+      return true;
+    }
     return false;
   }
 

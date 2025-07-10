@@ -40,8 +40,10 @@ public class PronomFebleDuplicateRuleTest {
   }
 
   @Test
-  public void testRule() throws IOException { 
-    
+  public void testRule() throws IOException {
+
+    assertCorrect("És l'última oportunitat que hi ha de donar-los la paraula.");
+    assertCorrect("És l'última oportunitat que hi ha d'anar-hi.");
     assertCorrect("N'hi ha d'haver.");
     assertCorrect("Hi podria haver un error.");
     assertCorrect("Es divertien llançant-se pedres.");
@@ -226,6 +228,12 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals(1, matches.length);
     assertEquals("vaig ser-ho", matches[0].getSuggestedReplacements().get(0));
     assertEquals("hi vaig ser", matches[0].getSuggestedReplacements().get(1));
+
+    matches = rule.match(lt.getAnalyzedSentence("És l'última oportunitat que hi ha d'haver-hi."));
+    assertEquals(1, matches.length);
+    assertEquals("ha d'haver-hi", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("hi ha d'haver", matches[0].getSuggestedReplacements().get(1));
+
   }
     
     private void assertCorrect(String sentence) throws IOException {
