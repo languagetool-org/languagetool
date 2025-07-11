@@ -1593,35 +1593,6 @@ USA
                 <example correction='tentar|esforçar'>Vamos <marker>fazer um esforço</marker> mais tarde?</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token regexp='yes'>planos?</token>
-                    <token>de</token>
-                    <token regexp='yes'>(?:negócio|trabelho)s?</token>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>fazer</token>
-                    <token regexp='yes'>u(m|ns)</token>
-                    <token regexp='yes'>planos?</token>
-                    <token min='0' max='1' regexp='yes'>de|para</token>
-                    <token postag='N.+|AQ.+|VMP00.+' postag_regexp='yes'/>
-                    <example>Vamos fazer um plano de ataque.</example>
-                    <example>Vamos fazer um plano para ataque.</example>
-                    <example>Vamos fazer um plano articulado.</example>
-                    <example>Vamos fazer um plano tramado.</example>
-                    <example>Separe as menos importantes para delegar e faça um plano de ação de “Como” e “Quando” delegar.</example>
-                    <example>Pratique todos os dias. Faça um plano de estudo.</example>
-                </antipattern>
-                <pattern>
-                    <token inflected='yes'>fazer</token>
-                    <token min='0' regexp='yes'>u(m|ns)</token>
-                    <token regexp='yes'>planos?</token>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>planear</match></suggestion>
-                <example correction='planear'>Vamos <marker>fazer um plano</marker>.</example>
-                <example correction='planear'>Vamos <marker>fazer uns planos</marker>.</example>
-            </rule>
-            <rule>
                 <pattern>
                     <token inflected='yes'>fazer</token>
                     <token min='0'>uma</token>
@@ -3713,14 +3684,14 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
-        <rule id='FAZER_TRAÇAR_DELINEAR_ELABORAR_V2' name="Fazer/traçar → delinear/elaborar" type='style' tone_tags='formal' default='temp_off'>
+        <rule id='FAZER_TRAÇAR_DELINEAR_ELABORAR_V2' name="Fazer/traçar → delinear/elaborar" type='style' tone_tags='formal'>
             <pattern>
                 <marker>
                     <token regexp='yes' inflected='yes'>fazer|traçar</token>
                 </marker>
                 <token min='0' max='1' regexp='yes'>qual|como|quando|onde|porquê|quanto|quem|se|que</token>
                 <token skip='1' regexp='yes'>[ao]s?|u(m|ns)|umas?</token>
-                <token regexp='yes' inflected='yes'>abordagem|ac?ção|agenda|arranjo|configuração|cronograma|designação|diretriz|esquema|estratégia|estrutura|formulação|intenção|meta|método|modelo|objec?tivo|organização|planej?amento|plano|política|procedimento|processo|projec?to|protocolo|roteiro|solução|tác?tica</token>
+                <token regexp='yes' inflected='yes'>abordagem|ac?ção|agenda|arranjo|configuração|cronograma|designação|diretriz|esquema|estratégia|estrutura|formulação|intenção|meta|método|modelo|objec?tivo|planej?amento|plano|processo|projec?to|protocolo|roteiro|solução|tác?tica</token>
             </pattern>
             <message>Num contexto formal, empregue o verbo &quot;delinear&quot; ou &quot;elaborar&quot;.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>delinear</match></suggestion>
