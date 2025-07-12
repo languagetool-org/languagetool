@@ -3684,6 +3684,40 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rulegroup id='RECURSO_À_FORÇA_COERCIVAMENTE' name="Recurso à força → coercivamente" type='style' tone_tags='formal' default='temp_off'>
+            <rule> <!-- com recurso à força -->
+                <pattern>
+                    <marker>
+                        <token>com</token>
+                        <token>recurso</token>
+                        <token>à</token>
+                        <token>força<exception scope='next' postag_regexp='yes' postag='N.+|AQ.+'/></token>
+                    </marker>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;coercivamente&quot;.</message>
+                <suggestion>coercivamente</suggestion>
+                <example correction="coercivamente">A lei é aplicada <marker>com recurso à força</marker>.</example>
+                <example>O Estado aplica a lei coercivamente.</example>
+                <example>O Estado aplica a lei com recurso à força pública.</example>
+            </rule>
+
+            <rule> <!-- recorrendo à força -->
+                <pattern>
+                    <marker>
+                        <token>recorrendo</token>
+                        <token>à</token>
+                        <token>força<exception scope='next' postag_regexp='yes' postag='N.+|AQ.+'/></token>
+                    </marker>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;coercivamente&quot;.</message>
+                <suggestion>coercivamente</suggestion>
+                <example correction="coercivamente">A lei é aplicada <marker>recorrendo à força</marker>.</example>
+                <example>O Estado aplica essa lei coercivamente.</example>
+                <example>O Estado aplica essa lei recorrendo à força pública.</example>
+            </rule>
+        </rulegroup>
+
+
         <rule id='FAZER_TRAÇAR_DELINEAR_ELABORAR_V2' name="Fazer/traçar → delinear/elaborar" type='style' tone_tags='formal'>
             <pattern>
                 <marker>
