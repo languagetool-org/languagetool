@@ -2460,7 +2460,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!-- caldria concordança-->
             <pattern>
                 <token postag="N.*" postag_regexp="yes"/>
-                <token min="0">,</token>
+                <marker>
+                    <token>un</token>
+                    <token>punt</token>
+                </marker>
+                <token min="0" regexp="yes">més|menys</token>
+                <token postag="A.*" postag_regexp="yes"><exception>estratègic</exception></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="un punt" pos="LOC_ADV"/>
+                <wd lemma="un punt" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
+        <rule id="un_punt2" name="un punt (locució adverbial)">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token>,</token>
                 <marker>
                     <token>un</token>
                     <token>punt</token>
@@ -22620,7 +22635,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="ignora_algunes_sigles" name="algunes sigles">
         <pattern>
-            <token case_sensitive="yes" regexp="yes">NY|NGC|IgG|CHX|Tass|TASS|PiS|HDM|ES\d\d+|AUPAC</token>
+            <token case_sensitive="yes" regexp="yes">NY|NGC|IgG|CHX|Tass|TASS|PiS|HDM|ES\d\d+|AUPAC|FTC</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
