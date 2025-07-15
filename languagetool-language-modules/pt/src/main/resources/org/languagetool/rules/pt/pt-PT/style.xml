@@ -2229,6 +2229,49 @@ USA
         </rule>
 
 
+        <rule id='CHUMBAR_REPROVAR_PT_PT' name="[pt-PT][Formal] Chumbar → reprovar" type='style' tone_tags='formal' tags='picky' default='temp_off'>
+            <antipattern>
+                <token skip='2' inflected='yes'>chumbar</token>
+                <token regexp='yes' inflected='yes'>buraco|cano|carro|cimento|concreto|dente|estrutura|legislação|lei|obra|orçamento|parede|proposta|tinta</token>
+                <example>O toquinho de madeira chumbado na parede.</example>
+                <example>O Partido Socialista não deixou que isso acontecesse, tendo chumbado a nossa proposta.</example>
+            </antipattern>
+            <antipattern>
+                <token skip='1' postag_regexp='yes' postag='V.+|SPS00'/>
+                <token regexp='yes'>chumbos?</token>
+                <example>Que ia colocar chumbo na raquete?</example>
+                <example>Quando meu pai me chama para conversar, aí vem chumbo grosso.</example>
+                <example>Isto pesa como chumbo.</example>
+                <example>Minhas pernas pesavam como chumbo.</example>
+                <example>Estas baterias contêm chumbo.</example>
+                <example>É possível que a água encanada contenha cloro, chumbo, ou outros poluentes que tais.</example>
+                <example>A arma foi definida apenas para cartuchos de espingarda calibre 12 e apenas para chumbo.</example>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp='yes' postag='N.+|AQ.+|PI.+'><exception postag_regexp='yes' postag='V.+'/></token>
+                <token min='0' max='2' postag_regexp='yes' postag='CC|_PUNCT|DA.+|SPS.+'/>
+                <token regexp='yes'>chumbos?</token>
+                <example>O elemento chumbo, quando exposto diretamente ao bico de Bunsen, confere à chama uma coloração branco-azulada.</example>
+                <example>Minhas pernas estão tão pesadas quanto o chumbo.</example>
+                <example>O queijo é ouro de manhã, prata ao meio-dia e chumbo à noite.</example>
+                <example>Ninguém pode conhecê-los, nenhum caçador pode atirar neles com pólvora ou chumbo - Os pensamentos são livres!</example>
+                <example>Qual é o mais pesado, o chumbo ou o ouro?</example>
+                <example>Na mão dele, chumbo se transformava em ouro.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected='yes'>chumbar<exception scope='next' regexp='yes' inflected='yes'>grosso</exception></token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal, empregue o verbo &quot;reprovar&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>reprovar</match></suggestion>
+            <example correction="reprova">Ele <marker>chumba</marker> a matemática.</example>
+            <example correction="reprovou">O Rui <marker>chumbou</marker> no exame de português.</example>
+            <example>Elas reprovaram no exame nacional.</example>
+            <example>Os bandidos levaram com chumbo grosso.</example>
+        </rule>
+
+
     <rule id='PÔR_FIM_TERMO' name="[pt-PT][Formal] pôr 'fim' → 'termo/término'" tags="picky" tone_tags="formal">
         <pattern>
             <token skip='4' inflected='yes'>pôr</token>
