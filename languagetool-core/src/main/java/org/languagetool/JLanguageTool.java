@@ -624,11 +624,13 @@ public class JLanguageTool {
   public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
     // Apply A/B test filtering first - can affect which rules get enabled and thus disabled because of fallback settings
     List<String> activeAbTestsForUser = userConfig.getAbTest();
-    List<RemoteRuleConfig> selectedConfigsByABTest = configs.stream()
+    List<RemoteRuleConfig> selectedConfigsByUserSettings = configs.stream()
       .filter(config -> {
+        // if user is not premium but the remote rule is, the user will not get the rule
         if (!userConfig.isPremium() && config.isPremium()) {
           return false;
         }
+        // we currently have 2 for ggec configs per remote rule and with this we make sure a user did not have a rule twice when in abtest (exclude a rule when a/b test is active)
         String excludeABTest = config.getOptions().get("excludeABTest");
         if (excludeABTest != null && activeAbTestsForUser != null &&
           activeAbTestsForUser.stream().anyMatch(flag -> flag.matches(excludeABTest))) {
@@ -643,50 +645,29 @@ public class JLanguageTool {
         }
         return true;
       })
-      .collect(Collectors.toList());
+      .toList();
+
     List<RemoteRuleConfig> effectiveConfigs = new ArrayList<>();
 
     // Then, determine effective configurations based on user opt-in for third-party AI
     if (!userConfig.isOptInThirdPartyAI()) {
-      // User has opted out of third-party AI - exclude third-party AI rules and include their fallbacks
-      Map<String, RemoteRuleConfig> fallbackRules = new HashMap<>();
-      
-      // Collect all possible fallback rules
-      // use raw configs here, not filtered list to allow fallback activation independently of A/B test parameters
-      for (RemoteRuleConfig config : configs) {
-        if (!config.isUsingThirdPartyAI()) {
-          fallbackRules.put(config.getRuleId(), config);
-        }
-      }
-      
-      // Add non-third-party AI rules and fallbacks for third-party AI rules
-      for (RemoteRuleConfig config : selectedConfigsByABTest) {
+      for (RemoteRuleConfig config : selectedConfigsByUserSettings) {
         if (config.isUsingThirdPartyAI()) {
-          String fallbackId = config.getFallbackRuleId();
-          if (fallbackId != null && fallbackRules.containsKey(fallbackId)) {
-            effectiveConfigs.add(fallbackRules.get(fallbackId));
+          RemoteRuleConfig remoteRuleConfig = RemoteRuleFallbackManager.INSTANCE.getInhouseFallback(config.getFallbackRuleId());
+          if (remoteRuleConfig != null) {
+            effectiveConfigs.add(remoteRuleConfig);
           }
         } else {
           effectiveConfigs.add(config);
         }
       }
     } else {
-      // User has opted in to third-party AI - include third-party AI rules and exclude their fallbacks
-      Set<String> excludedFallbacks = new HashSet<>();
-      
-      // Collect fallback rule IDs to exclude
-      for (RemoteRuleConfig config : selectedConfigsByABTest) {
+      for (RemoteRuleConfig config : selectedConfigsByUserSettings) {
         if (config.isUsingThirdPartyAI() && config.getFallbackRuleId() != null) {
-          excludedFallbacks.add(config.getFallbackRuleId());
+          disableRule(config.getFallbackRuleId());
         }
       }
-      
-      // Add all rules except excluded fallbacks
-      for (RemoteRuleConfig config : selectedConfigsByABTest) {
-        if (!excludedFallbacks.contains(config.getRuleId())) {
-          effectiveConfigs.add(config);
-        }
-      }
+      effectiveConfigs.addAll(selectedConfigsByUserSettings);
     }
     
     // Apply trusted source filtering

@@ -165,7 +165,7 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
           config.baseTimeoutMilliseconds = timeout;
           config.timeoutPerCharacterMilliseconds = 0f;
           return config;
-        }).collect(Collectors.toList());
+        }).toList();
         lt.activateRemoteRules(rules);
       } else {
         lt.activateRemoteRules(config.getRemoteRulesConfigFile());
