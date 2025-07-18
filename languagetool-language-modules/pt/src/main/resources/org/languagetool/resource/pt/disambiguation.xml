@@ -3917,6 +3917,36 @@ USA
 
   </rulegroup>
 
+
+<!-- Fix words CHUMBO, etc. In special cases they should appear as nouns -->
+<!-- In the first rule it adds NOUN to it and in the second rule it makes it a NOUN only by removing the VERB -->
+  <rule id="VERB_CHUMBO_ETC_TO_NOUN_1_RARE" name="Word 'chumbo' was appearing only as verb">
+    <pattern>
+      <token regexp='yes' inflected='yes'>ser|estar</token>
+      <token min='1' max='2' postag='RG'><exception regexp='no'>assim</exception></token> <!-- "É assim que anuncio que vou embora." -->
+      <token regexp='yes'>que|para</token>
+      <marker>
+        <token postag='VMIP1S0' postag_regexp='no'/>
+      </marker>
+    </pattern>
+    <disambig action="add"><wd pos='NCMS000'/></disambig>
+  </rule>
+  <rule id="VERB_CHUMBO_ETC_TO_NOUN_2_RARE" name="Word 'chumbo' was appearing as verb, convert to noun only now">
+    <pattern>
+      <token regexp='yes' inflected='yes'>ser|estar</token>
+      <token min='1' max='2' postag='RG'><exception regexp='no'>assim</exception></token> <!-- "É assim que anuncio que vou embora." -->
+      <token regexp='yes'>que|para</token>
+      <marker>
+        <and>
+          <token postag='VMIP1S0'/>
+          <token postag='NCMS000'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+  </rule>
+
+
   <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
