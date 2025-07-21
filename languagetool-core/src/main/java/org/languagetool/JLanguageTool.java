@@ -626,11 +626,9 @@ public class JLanguageTool {
     List<String> activeAbTestsForUser = userConfig.getAbTest();
     List<RemoteRuleConfig> selectedConfigsByUserSettings = configs.stream()
       .filter(config -> {
-        // if user is not premium but the remote rule is, the user will not get the rule
         if (!userConfig.isPremium() && config.isPremium()) {
           return false;
         }
-        // we currently have 2 for ggec configs per remote rule and with this we make sure a user did not have a rule twice when in abtest (exclude a rule when a/b test is active)
         String excludeABTest = config.getOptions().get("excludeABTest");
         if (excludeABTest != null && activeAbTestsForUser != null &&
           activeAbTestsForUser.stream().anyMatch(flag -> flag.matches(excludeABTest))) {
