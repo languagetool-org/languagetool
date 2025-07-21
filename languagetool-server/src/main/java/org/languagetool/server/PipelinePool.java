@@ -36,16 +36,12 @@ import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
@@ -76,6 +72,9 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       this.pool = new GenericKeyedObjectPool<>(this, poolConfig);
     } else {
       this.pool = null;
+    }
+    if (config.getRemoteRulesConfigFile() != null) {
+      RemoteRuleFallbackManager.INSTANCE.init(config.getRemoteRulesConfigFile());
     }
   }
 
@@ -146,11 +145,13 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       } else {
         configureFromGUI(lt, lang);
       }
+      File remoteRulesConfigFile = config.getRemoteRulesConfigFile();
+
       if (params.regressionTestMode) {
         List<RemoteRuleConfig> rules = Collections.emptyList();
         try {
-          if (config.getRemoteRulesConfigFile() != null) {
-            rules = RemoteRuleConfig.load(config.getRemoteRulesConfigFile());
+          if (remoteRulesConfigFile != null) {
+            rules = RemoteRuleConfig.load(remoteRulesConfigFile);
           }
         } catch (Exception e) {
           logger.error("Could not load remote rule configuration", e);
@@ -168,7 +169,7 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
         }).toList();
         lt.activateRemoteRules(rules);
       } else {
-        lt.activateRemoteRules(config.getRemoteRulesConfigFile());
+        lt.activateRemoteRules(remoteRulesConfigFile);
       }
       if (params.useQuerySettings) {
         Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),

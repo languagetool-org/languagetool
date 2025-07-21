@@ -20,12 +20,16 @@
 
 package org.languagetool;
 
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
+import org.languagetool.rules.RemoteRule;
 import org.languagetool.rules.RemoteRuleConfig;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
@@ -40,30 +44,62 @@ public enum RemoteRuleFallbackManager {
 
   private final Map<String, RemoteRuleConfig> fallbackConfigs = new ConcurrentHashMap<>();
 
-  public void init(@NotNull File remoteRuleConfigFile) throws ExecutionException {
-    initCalled.set(true);
+  /***
+   * Initialize RemoteRuleFallbackManager from remoteRuleConfigFile, can only been called once
+   * @param remoteRuleConfigFile
+   */
+  public void init(@NotNull File remoteRuleConfigFile) {
     if (initCalled.get()) {
       return;
     }
-    var config = RemoteRuleConfig.load(remoteRuleConfigFile);
-
-    config.forEach(remoteRuleConfig -> {
-      String fallbackRuleId = remoteRuleConfig.getFallbackRuleId();
-      if (fallbackRuleId != null && !fallbackRuleId.isEmpty()) {
-        var fallbackRulesFor = config.stream().filter(rc -> rc.getRuleId().equals(fallbackRuleId)).toList();
-        if (fallbackRulesFor.size() != 1) {
-          log.warn("Fallback rule {} for remote rule {} not found or not unique, skipping fallback configuration.", fallbackRuleId, remoteRuleConfig.ruleId);
-          return;
-        }
-        fallbackConfigs.put(remoteRuleConfig.ruleId, fallbackRulesFor.get(0));
-      }
-    });
+    List<RemoteRuleConfig> config = null;
+    try {
+      config = RemoteRuleConfig.load(remoteRuleConfigFile);
+    } catch (ExecutionException e) {
+      log.error("Could not load remote rule configuration at {}", remoteRuleConfigFile.getAbsolutePath(), e);
+    }
+    if (config != null) {
+      setup(config);
+    }
   }
 
+  /***
+   * This method is only for internal tests and must not been called from production code
+   * @param config
+   */
+  @TestOnly
+  public void init_for_tests_only(@NotNull List<RemoteRuleConfig> config) {
+    this.fallbackConfigs.clear();
+    setup(config);
+  }
+
+  private void setup(@NotNull List<RemoteRuleConfig> finalConfig) {
+    initCalled.set(true);
+    finalConfig.forEach(remoteRuleConfig -> {
+      String fallbackRuleId = remoteRuleConfig.getFallbackRuleId();
+      log.info("Found remote rule {} with fallback rule {}", remoteRuleConfig.ruleId, fallbackRuleId);
+      if (fallbackRuleId != null && !fallbackRuleId.isEmpty()) {
+        var fallbackRulesFor = finalConfig.stream().filter(rc -> rc.getRuleId().equals(fallbackRuleId)).toList();
+        if (fallbackRulesFor.size() != 1) {
+          //TODO: decide if this is what we want!
+          log.warn("Fallback rule {} for remote rule {} not found or not unique, skipping fallback configuration.", fallbackRuleId, remoteRuleConfig.ruleId);
+        } else {
+          fallbackConfigs.put(remoteRuleConfig.ruleId, fallbackRulesFor.get(0));
+        }
+      }
+    });
+    log.info("Loaded {} fallback rules: {}", fallbackConfigs.size(), fallbackConfigs.keySet());
+  }
+
+  /***
+   *
+   * @param ruleId a remote RuleId
+   * @return the RemoteRuleConfig for the given RuleId
+   */
   @Nullable
   public RemoteRuleConfig getInhouseFallback(@NotNull String ruleId) {
     if (!initCalled.get()) {
-      log.warn("RemoteRuleFallbackManager not initialized, cannot find fallback for rule {}", ruleId);
+      log.warn("RemoteRuleFallbackManager not initialized cannot find fallback for rule {}", ruleId);
       return null;
     }
     if (fallbackConfigs.isEmpty()) {
@@ -76,5 +112,28 @@ public enum RemoteRuleFallbackManager {
       return null;
     }
     return fallbackConfig;
+  }
+
+  /***
+   * Check the current status of the circuitBreaker of a remoteRule, and get the fallback option if not available
+   * @param rule
+   * @param remoteRules
+   * @return A RuleId:
+   *         1. Same RuleID as rule.getId() -> The rule is available
+   *         2. Other RuleID as rule.getId() -> The rule is not available, and you get the fallbackID
+   *         3. Null -> The rule is not available and has no available fallbacks
+   */
+  @Nullable
+  public String isRuleOrFallbackAvailable(@NotNull RemoteRule rule, @NotNull Map<String, RemoteRule> remoteRules) {
+    var isOpen = rule.circuitBreaker().getState() == CircuitBreaker.State.OPEN;
+    if (isOpen) {
+      var fallbackRuleId = rule.getServiceConfiguration().getFallbackRuleId();
+      if (fallbackRuleId != null && !fallbackRuleId.isEmpty()) {
+        return isRuleOrFallbackAvailable(remoteRules.get(fallbackRuleId), remoteRules);
+      }
+      return null;
+    } else {
+      return rule.getId();
+    }
   }
 }

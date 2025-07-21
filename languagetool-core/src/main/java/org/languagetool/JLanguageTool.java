@@ -653,7 +653,7 @@ public class JLanguageTool {
     if (!userConfig.isOptInThirdPartyAI()) {
       for (RemoteRuleConfig config : selectedConfigsByUserSettings) {
         if (config.isUsingThirdPartyAI()) {
-          RemoteRuleConfig remoteRuleConfig = RemoteRuleFallbackManager.INSTANCE.getInhouseFallback(config.getFallbackRuleId());
+          RemoteRuleConfig remoteRuleConfig = RemoteRuleFallbackManager.INSTANCE.getInhouseFallback(config.getRuleId());
           if (remoteRuleConfig != null) {
             effectiveConfigs.add(remoteRuleConfig);
           }
