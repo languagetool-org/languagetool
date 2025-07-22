@@ -441,12 +441,16 @@ public class Catalan extends Language {
   
   private String removeOldDiacritics(String s) {
     return s
+        .replace("féu", "feu")
+        .replace("adéu", "adeu")
         .replace("dóna", "dona")
         .replace("dónes", "dones")
         .replace("sóc", "soc")
         .replace("vénen", "venen")
         .replace("véns", "véns")
         .replace("fóra", "fora")
+        .replace("Féu", "Feu")
+        .replace("Adéu", "Adeu")
         .replace("Dóna", "Dona")
         .replace("Dónes", "Dones")
         .replace("Sóc", "Soc")
