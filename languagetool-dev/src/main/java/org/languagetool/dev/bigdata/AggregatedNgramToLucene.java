@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -90,18 +90,9 @@ class AggregatedNgramToLucene implements AutoCloseable {
   private Document getDoc(String ngram, long count) {
     Document doc = new Document();
     doc.add(new Field("ngram", ngram, StringField.TYPE_NOT_STORED));  // use StringField.TYPE_STORED for easier debugging with e.g. Luke
-    doc.add(getCountField(count));
+    doc.add(new LongPoint("count", count));
+    doc.add(new StoredField("count", count));
     return doc;
-  }
-
-  @NotNull
-  private LongField getCountField(long count) {
-    FieldType fieldType = new FieldType();
-    fieldType.setStored(true);
-    fieldType.setOmitNorms(true);
-    fieldType.setNumericType(FieldType.NumericType.LONG);
-    fieldType.setDocValuesType(DocValuesType.NUMERIC);
-    return new LongField("count", count, fieldType);
   }
 
   private void addTotalTokenCountDoc(long totalTokenCount, IndexWriter writer) throws IOException {

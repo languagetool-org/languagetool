@@ -18,8 +18,7 @@
  */
 package org.languagetool.dev;
 
-import org.apache.lucene.index.Fields;
-import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
@@ -112,8 +111,7 @@ class HomophoneOccurrenceDumper extends LuceneSingleIndexLanguageModel {
 
   private TermsEnum getIterator() throws IOException {
     LuceneSearcher luceneSearcher = getLuceneSearcher(3);
-    Fields fields = MultiFields.getFields(luceneSearcher.getReader());
-    Terms terms = fields.terms("ngram");
+    Terms terms = MultiTerms.getTerms(luceneSearcher.getReader(), "ngram");
     return terms.iterator();
   }
 
