@@ -19694,6 +19694,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove" postag="V.S.*"/>
         </rule>
+        <rule id="subj_valencia" name="verb subjuntiu (valencià): procurarem que no hi tornen.">
+            <pattern>
+                <token postag="V.IF...." postag_regexp="yes"/>
+                <token>que</token>
+                <token postag="&pronom_feble;|RN" postag_regexp="yes" min="0" max="2"/>
+                <marker>
+                    <!-- tornen: VMIP3P00,tornar/VMM03P0V,tornar/VMSP3P0V-->
+                    <and>
+                        <token postag="V.S.[32]..V" postag_regexp="yes"/>
+                        <token postag="V.I.[32]..0" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[IM].*"/>
+        </rule>
         <rule id="subj_imp_valencia" name="verb subjuntiu (valencià) i imperatiu (general): digues, sigues">
             <pattern>
                 <token postag="PR.*" postag_regexp="yes" skip="2"><exception scope="next" postag="&pronom_feble;|SENT_END|V.*|_GV_" postag_regexp="yes" negate_pos="yes"/></token>
