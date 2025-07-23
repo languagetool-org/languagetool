@@ -265,6 +265,7 @@ public class Catalan extends Language {
       case "CONFUSIONS_ACCENT": return 20;
       case "CONFUSIO_PASSAT_INFINITIU": return 20; // greater than ACCENTUATION_CHECK
       case "DIACRITICS": return 20;
+      case "COMMA_ENTRE_DALTRES": return 20; //greater than CONCORDANCES_DET_NOM
       case "CAP_GENS": return 20; //greater than CAP_ELS_CAP_ALS, CONCORDANCES_DET_NOM
       case "MOTS_SENSE_GUIONETS": return 20; // greater than CONCORDANCES_NUMERALS
       case "ORDINALS": return 20; // greater than SEPARAT
@@ -380,7 +381,7 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra|adéu|féu)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set<String> enabledRules) {
     String errorStr = ruleMatch.getOriginalErrorStr();
@@ -440,12 +441,16 @@ public class Catalan extends Language {
   
   private String removeOldDiacritics(String s) {
     return s
+        .replace("féu", "feu")
+        .replace("adéu", "adeu")
         .replace("dóna", "dona")
         .replace("dónes", "dones")
         .replace("sóc", "soc")
         .replace("vénen", "venen")
         .replace("véns", "véns")
         .replace("fóra", "fora")
+        .replace("Féu", "Feu")
+        .replace("Adéu", "Adeu")
         .replace("Dóna", "Dona")
         .replace("Dónes", "Dones")
         .replace("Sóc", "Soc")

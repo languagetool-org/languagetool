@@ -2460,6 +2460,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="На мою думку,"><marker>На мою думку</marker> це марнотратство.</example>
     </rule>
 
+    <rule id="no_comma_compound_conj" name="Зайва кома у складному сполучнику">
+        <regexp>^\h*(відтоді, як|внаслідок того, що|для того, щоб|з огляду на те, що|завдяки тому, що|замість того, щоб|незважаючи на те, що|перед тим, як|перш, ніж|після того, як|так само, як|так, що|тому, що|через те, що)</regexp>
+        <message>Якщо підрядне речення зі складеним сполучником підрядності стоїть перед головним (найчастіше на початку речення), то сполучник комою не розділяється</message>
+        <suggestion><match no="0" regexp_match=", " regexp_replace=" "/></suggestion>
+        <example correction="Замість того щоб"><marker>Замість того, щоб</marker> закликати своїх клієнтів до шоурумів</example>
+        <example correction="Перед тим як"><marker>Перед тим, як</marker> зробити щеплення, фахівці радять проконсультуватися із сімейним лікарем.</example>
+        <!--
+        <example correction="перед тим як">і все гаразд, <marker>перед тим, як</marker> зробити щеплення...</example>
+        -->
+    </rule>
+
   <!-- 
       <rule name="А саме" default="off">
         <pattern>

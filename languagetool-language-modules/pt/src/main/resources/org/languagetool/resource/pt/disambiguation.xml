@@ -4442,6 +4442,30 @@ USA
     -->
   </rule>
 
+  <rule id="VERBO_RG_PARA_VMIP1S0_VMP00_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RG'/>
+      <token>para</token>
+      <marker>
+        <and>
+            <token postag='VMIP1S0|VMP00.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Ele é destinado apenas para uso privado.
+             Detalhes do modelo : Este alvo é feito apenas para uso com armas de pressão.
+             Por que o Thomas tem estado tão para baixo ultimamente?
+             Tom e outros digitalizaram cerca de 200 livros e os colocaram online para acesso gratuito.
+             Ela estava mais para morta do que para viva.
+    -->
+  </rule>
+
   <rule id="PPPLURAL_SUBSTANTIVE_SUBSTANTIVEADJECTIVE_RARE" name="Remove verbs in substantives">
     <!-- Moved the rule down to assure it works correctly. -->
     <antipattern>
@@ -4476,6 +4500,36 @@ USA
              Quais os cuidados necessário com o ar-condicionado?
              Até o dia 30 de março serão enviados por e-mail os pareceres sobre os resumos.
              Alguns casos mais raros são diferenciados por não seguirem as medidas padrão.
+    -->
+  </rule>
+
+  <rule id="VERBO_PARA_PARTPASS_20250720_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token regexp='no'>para</token>
+      <marker>
+        <and>
+            <token postag='VMP00.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='N.+|AQ.+|VMP00.+|CS|CC|RM|RG|SPS.+|[DP].+|VMG0000' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Bebedeiras, pronúncia falha, assessores que usam o dinheiro público para gastos pessoais.
+             Já para deputado federal será das 12h25 às 12h50 e das 19h55 às 20h20.
+             1ª e 2ª via para naturalizados maiores de 18 anos.
+             Para ouvido virtuoso não é perigoso um termo feio.
+             Em 2018, apoiou a ex-jornalista da TV Tribuna, Rosana Valle, para deputada Federal, eleita com 106 mil votos.
+             Os vegetais possuem grupos de células especializadas para determinados tipos de ações.
+             Se você acha que acessórios são apenas para balada e/ou festa?
+             Para surpresa dos fãs, os shows tiveram a participação especial de Andrew Ridgeley, seu ex-parceiro no Wham!
+             Estoques com Momento de Lucro Alto são uma opção preferida para jogadas de momentum.
+             Para ganho de massa, Dianabol ou Anadrol combinam perfeitamente com Parabolan.
+             A praia é pouco apetecível para idas a banhos e quase nunca frequentada.
+             E disseram: Não! Nós vamos contigo para junto de teu povo!
     -->
   </rule>
 
