@@ -3684,6 +3684,50 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rulegroup id='PERTO_PRÓXIMO' name="Perto → próximo" type='style' tone_tags='formal' default='temp_off'>
+            <rule> <!-- Sentence ends with "PERTO" -->
+                <pattern>
+                    <token skip='4' regexp='yes' inflected='yes'>estar|ficar|morar|residir|encontrar|permanecer|chegar|localizar|situar</token>
+                    <marker>
+                        <token>perto<exception scope='previous' regexp='yes'>de|por</exception></token>
+                    </marker>
+                    <token postag='SENT_END' postag_regexp='no'/>
+                </pattern>
+                <message>Num contexto formal, substitua &quot;perto&quot; por &quot;próximo&quot;, escolhendo a forma que concorda com o sujeito:</message>
+                <suggestion>próxima</suggestion>
+                <suggestion>próximas</suggestion>
+                <suggestion>próximo</suggestion>
+                <suggestion>próximos</suggestion>
+                <example correction="próxima|próximas|próximo|próximos">Estou muito <marker>perto</marker>.</example>
+                <example>A Ana está muito próxima.</example>
+                <example>O Rui e a Ana estão muito próximos.</example>
+                <example>Ninguém está por perto.</example>
+                <example>O pai do Tom nunca estava por perto.</example>
+                <example>Ainda bem que ele caiu quando você estava por perto.</example>
+            </rule>
+
+            <rule> <!-- Sentence uses specific keywords -->
+                <pattern>
+                    <token skip='4' regexp='yes' inflected='yes'>estar|ficar|morar|residir|encontrar|permanecer|chegar|localizar|situar</token>
+                    <marker>
+                        <token>perto<exception scope='previous' regexp='yes'>de|por</exception></token>
+                    </marker>
+                    <token skip='4' regexp='yes'>[ao]s?|d[ao]s?|de|aos?|às?</token>
+                    <token regexp='yes' inflected='yes'>acordo|aeroporto|alvo|aniversário|apartamento|apresentação|atingimento|banco|biblioteca|casa|casamento|completo|conclusão|cumprimento|data|decisão|desfecho|edifício|emprego|entrada|entrega|escola|estação|evento|exame|faculdade|farmácia|fecho|feriado|festa|fim|final|habitação|hospital|igreja|início|lançamento|liceu|local|localização|loja|mercado|meta|metr[oô]|metropolitano|objec?tivo|padaria|ponto|porta|praça|prazo|prédio|prova|quarto|resolução|resposta|restaurante|resultado|reunião|sala|solução|superação|supermercado|talho|término|trabalho|universidade|viagem</token>
+                </pattern>
+                <message>Num contexto formal, substitua &quot;perto&quot; por &quot;próximo&quot;, escolhendo a forma que concorda com o sujeito:</message>
+                <suggestion>próxima</suggestion>
+                <suggestion>próximas</suggestion>
+                <suggestion>próximo</suggestion>
+                <suggestion>próximos</suggestion>
+                <example correction="próxima|próximas|próximo|próximos">Estou muito <marker>perto</marker> da escola.</example>
+                <example>A Ana está muito próxima da escola.</example>
+                <example>O Rui e a Ana estão muito próximos do supermercado.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rulegroup id='RECURSO_À_FORÇA_COERCIVAMENTE' name="Recurso à força → coercivamente" type='style' tone_tags='formal'>
             <rule> <!-- com recurso à força -->
                 <pattern>
