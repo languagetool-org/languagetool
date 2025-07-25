@@ -29,8 +29,10 @@ import org.languagetool.rules.RemoteRule;
 import org.languagetool.rules.RemoteRuleConfig;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -49,7 +51,7 @@ public enum RemoteRuleFallbackManager {
    * @param remoteRuleConfigFile
    */
   public void init(@NotNull File remoteRuleConfigFile) {
-    if (initCalled.get()) {
+    if (initCalled.compareAndSet(false, true)) {
       return;
     }
     List<RemoteRuleConfig> config = null;
@@ -60,6 +62,8 @@ public enum RemoteRuleFallbackManager {
     }
     if (config != null) {
       setup(config);
+    } else {
+      initCalled.set(false);
     }
   }
 
@@ -74,7 +78,6 @@ public enum RemoteRuleFallbackManager {
   }
 
   private void setup(@NotNull List<RemoteRuleConfig> finalConfig) {
-    initCalled.set(true);
     finalConfig.forEach(remoteRuleConfig -> {
       String fallbackRuleId = remoteRuleConfig.getFallbackRuleId();
       log.info("Found remote rule {} with fallback rule {}", remoteRuleConfig.ruleId, fallbackRuleId);
@@ -125,11 +128,23 @@ public enum RemoteRuleFallbackManager {
    */
   @Nullable
   public String isRuleOrFallbackAvailable(@NotNull RemoteRule rule, @NotNull Map<String, RemoteRule> remoteRules) {
+    return isRuleOrFallbackAvailable(rule, remoteRules, new HashSet<>());
+  }
+
+  @Nullable
+  private String isRuleOrFallbackAvailable(@NotNull RemoteRule rule, @NotNull Map<String, RemoteRule> remoteRules, Set<String> visited) {
+    if (!visited.add(rule.getId())) {
+      log.warn("Circular fallback chain detected for rule {}", rule.getId());
+      return null;
+    }
     var isOpen = rule.circuitBreaker().getState() == CircuitBreaker.State.OPEN;
     if (isOpen) {
       var fallbackRuleId = rule.getServiceConfiguration().getFallbackRuleId();
       if (fallbackRuleId != null && !fallbackRuleId.isEmpty()) {
-        return isRuleOrFallbackAvailable(remoteRules.get(fallbackRuleId), remoteRules);
+        RemoteRule fallbackRule = remoteRules.get(fallbackRuleId);
+        if (fallbackRule != null) {
+          return isRuleOrFallbackAvailable(fallbackRule, remoteRules, visited);
+        }
       }
       return null;
     } else {
