@@ -652,9 +652,9 @@ public class JLanguageTool {
       for (RemoteRuleConfig config : selectedConfigsByUserSettings) {
         if (config.isUsingThirdPartyAI()) {
           RemoteRuleConfig remoteRuleConfig = RemoteRuleFallbackManager.INSTANCE.getInhouseFallback(config.getRuleId());
-          if (remoteRuleConfig != null) {
-            effectiveConfigs.add(remoteRuleConfig);
-          }
+          if (remoteRuleConfig != null && !effectiveConfigs.contains(remoteRuleConfig)) {
+              effectiveConfigs.add(remoteRuleConfig);
+            }
         } else {
           effectiveConfigs.add(config);
         }
@@ -667,7 +667,7 @@ public class JLanguageTool {
       }
       effectiveConfigs.addAll(selectedConfigsByUserSettings);
     }
-    
+
     // Apply trusted source filtering
     if (!userConfig.isTrustedSource()) {
       effectiveConfigs = effectiveConfigs.stream()
