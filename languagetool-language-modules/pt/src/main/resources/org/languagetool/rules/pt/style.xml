@@ -3684,14 +3684,35 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
-        <rulegroup id='PERTO_PRÓXIMO' name="Perto → próximo" type='style' tone_tags='formal' default='temp_off'>
+        <rulegroup id='PERTO_PRÓXIMO' name="Perto → próximo" type='style' tone_tags='formal'>
+
+            <antipattern>
+                <token skip='4' regexp='yes' inflected='yes'>chegar|morar</token>
+                <token>perto</token>
+                <token><exception regexp='yes'>[ao]s?|d[ao]s?|de|aos?|às?|daqui</exception></token>
+                <example>Para poder ver essa imagem melhor, eu quero chegar um pouco mais perto.</example>
+                <example>Cheguem mais perto.</example>
+                <example>Pode chegar mais perto; eu não mordo.</example>
+                <example>Vamos chegar um pouco mais perto.</example>
+                <example>Estou chegando mais perto.</example>
+                <example>Nós simplesmente precisamos chegar mais perto.</example>
+                <example>Só que não consegui nem chegar perto, tava lotado de gente.</example>
+                <example>Francisco chegou cedo porque morava perto.</example>
+                <example>Estamos chegando perto.</example>
+                <example>Ninguém pensou que ela chegaria tão perto, nem mesmo você.</example>
+                <example>Ele mora aqui perto.</example>
+                <example>Eles são os homens que moram perto.</example>
+                <example>Você mora aqui perto, não mora?</example>
+                <example>Ela mora bem perto.</example>
+            </antipattern>
+
             <rule> <!-- Sentence ends with "PERTO" -->
                 <pattern>
                     <token skip='4' regexp='yes' inflected='yes'>estar|ficar|morar|residir|encontrar|permanecer|chegar|localizar|situar</token>
                     <marker>
                         <token>perto<exception scope='previous' regexp='yes'>de|por</exception></token>
                     </marker>
-                    <token postag='SENT_END' postag_regexp='no'/>
+                    <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
                 </pattern>
                 <message>Num contexto formal, substitua &quot;perto&quot; por &quot;próximo&quot;, escolhendo a forma que concorda com o sujeito:</message>
                 <suggestion>próxima</suggestion>
