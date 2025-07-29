@@ -51,7 +51,7 @@ public enum RemoteRuleFallbackManager {
    * @param remoteRuleConfigFile
    */
   public void init(@NotNull File remoteRuleConfigFile) {
-    if (initCalled.compareAndSet(false, true)) {
+    if (!initCalled.compareAndSet(false, true)) {
       return;
     }
     List<RemoteRuleConfig> config = null;
