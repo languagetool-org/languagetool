@@ -2607,7 +2607,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule><!--3-->
                 <pattern>
-                    <token regexp="yes">Reflexvisiere?|Glefe|Patin|Bistum|Kerr-de-Sitter-Lösung|Balbus-Hawley-Instabilität(en)?|AGN-Entwicklung(en)?|Feuchtsavanne|Reparationen|Rotrutheniens?|Mährerreichs?|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?|Gegröle|Internship|Vögeln|Brosamen|Schläger|Linken-Abgeordneten?</token>
+                    <token regexp="yes">Personenstandsregister|Reflexvisiere?|Glefe|Patin|Bistum|Kerr-de-Sitter-Lösung|Balbus-Hawley-Instabilität(en)?|AGN-Entwicklung(en)?|Feuchtsavanne|Reparationen|Rotrutheniens?|Mährerreichs?|Manuelinik|Galeasse|Fehdehandschuh|Lehe?nsgericht(e?s|en?)?|Gegröle|Internship|Vögeln|Brosamen|Schläger|Linken-Abgeordneten?</token>
                 </pattern>
                 <example correction="">Wirfst du gleich den <marker>Fehdehandschuh</marker>?</example>
             </rule>
@@ -3433,6 +3433,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup id="QB_NEW_DE_OTHER_ERROR_IDS_UNNECESSARY_PUNCTUATION.*" name="">
+            <rule>
+                <pattern>
+                    <token spacebefore="no" postag="SENT_END">,</token>
+                </pattern>
+                <example correction="">Liebes High-Mobile-Team<marker>,</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no" postag="PKT">,</token>
+                </pattern>
+                <example correction="">Liebes High-Mobile-Team<marker>,</marker></example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="QB_NEW_DE_OTHER_ERROR_IDS_REPLACEMENT_PUNCTUATION.*" name="">
             <rule>
                 <pattern case_sensitive="yes">
@@ -3451,7 +3466,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Hallo, wie <marker>gehts</marker>?</example>
             </rule>
         </rulegroup>
-
 
     </category>
 </rules>
