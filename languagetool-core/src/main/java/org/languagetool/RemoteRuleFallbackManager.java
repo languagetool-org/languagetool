@@ -74,6 +74,7 @@ public enum RemoteRuleFallbackManager {
   @TestOnly
   public void init_for_tests_only(@NotNull List<RemoteRuleConfig> config) {
     this.fallbackConfigs.clear();
+    this.initCalled.set(true);
     setup(config);
   }
 
