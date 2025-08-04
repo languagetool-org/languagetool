@@ -459,7 +459,7 @@ public class Catalan extends Language {
         .replace("Fóra", "Fora");
   }
   
-  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[DdPp]e)r? e(ls?)\\b");
   private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ");
   // exceptions: l'FBI, l'statu quo
   private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");

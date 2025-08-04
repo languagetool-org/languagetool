@@ -16976,6 +16976,39 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rulegroup id="secar2" name="secar (no verb)">
+        <rule>
+            <antipattern>
+                <token postag="_GN_.*|NP.*" postag_regexp="yes"/>
+                <token inflected="yes">secar</token>
+                <token postag="_GN_.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <and>
+                        <token inflected="yes">secar<exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+                        <token negate="yes" inflected="yes">secar</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="secar"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token inflected="yes">secar<exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+                        <token postag="_GN_.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="secar"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="VerbNomAdj" name="verb i adjectiu i nom: verb">
         <pattern>
             <token postag="R.*|.*LOC_ADV.*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">["“«'‘-]</exception></token>
@@ -18348,39 +18381,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="LOC_ADV"/>
                 <wd pos="LOC_ADV"/>
                 <wd pos="LOC_ADV"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-    <rulegroup id="secar2" name="secar (no verb)">
-        <rule>
-            <antipattern>
-                <token postag="_GN_.*" postag_regexp="yes"/>
-                <token inflected="yes">secar</token>
-                <token postag="_GN_.*" postag_regexp="yes"/>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <and>
-                        <token inflected="yes">secar<exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
-                        <token negate="yes" inflected="yes">secar</token>
-                    </and>
-                </marker>
-            </pattern>
-            <disambig action="remove">
-                <wd lemma="secar"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <and>
-                        <token inflected="yes">secar<exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
-                        <token postag="_GN_.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-            </pattern>
-            <disambig action="remove">
-                <wd lemma="secar"/>
             </disambig>
         </rule>
     </rulegroup>
