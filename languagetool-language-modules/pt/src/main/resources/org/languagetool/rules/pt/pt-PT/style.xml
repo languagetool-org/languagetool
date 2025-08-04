@@ -231,7 +231,7 @@ USA
 
 
         <!-- EM RELAÇÃO À SITUAÇÃO relativamente à situação -->
-        <rulegroup id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="[pt-PT][Simplificar] Em relação a/à(s)/ao(s) → relativamente a/à(s)/ao(s)" type='style' tone_tags="objective">
+        <rulegroup id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="[pt-PT][Simplificar] Em relação → relativamente" type='style' tone_tags='objective'>
         <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-25 + 2023-02-14 (25-JUL-2022+) -->
         <!--
             O que fazer em relação a esta situação? → O que fazer relativamente a esta situação?
@@ -241,6 +241,15 @@ USA
 
             Preposition "a" was the one causing the problems because of the crasis issue.
         -->
+
+        <antipattern> <!-- "em relação à média" is a statistical term -->
+            <token>em</token>
+            <token>relação</token>
+            <token>à</token>
+            <token>média</token>
+            <example>Isto é feito em relação à média.</example>
+            <example>Daqueles que têm capacidade e potencial superior em relação à média da população.</example>
+        </antipattern>
 
         <!-- A -->
             <rule>
@@ -291,9 +300,7 @@ USA
 </rulegroup>
 
 
-    <!-- VELHA ESCOLA velha guarda -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-27 (21-OCT-2020+)     -->
-    <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="[pt-PT] Velha escola → Velha guarda" tone_tags="formal">
+    <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="[pt-PT] Velha 'escola' → guarda" tone_tags='formal'>
         <pattern>
             <token inflected='yes'>ser</token>
             <token>da</token>
@@ -302,9 +309,11 @@ USA
                 <token>escola</token>
             </marker>
         </pattern>
-        <message>Se for uma frase idiomática, utilize <suggestion>guarda</suggestion>.</message>
+        <message>Se for uma expressão idiomática, utilize <suggestion>guarda</suggestion>.</message>
         <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
     </rule>
+
+
     <rulegroup id="PORTUGUESE_ADDRESSES" name="[pt-PT] Formato de endereços em Portugal" type="style" tone_tags="formal">
         <!--  Localized from French, by Tiago F. Santos, 2017-10-01      -->
         <rule>
