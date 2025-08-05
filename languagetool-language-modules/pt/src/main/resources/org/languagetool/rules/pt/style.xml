@@ -3853,6 +3853,16 @@ USA
 
         <rule id='TAMANHO_DIMENSÃO' name="Tamanho → dimensão" type='style' tone_tags='formal' tags='picky'>
         <!-- It is impossible to add all the possible exceptions to the rule, thus the 'picky' tag -->
+            <antipattern> <!-- Frase feita/expressão consagrada pelo uso popular -->
+                <token regexp='yes'>uma?</token>
+                <token min='1' max='2' postag='AQ..S.+|N..S.+' postag_regexp='yes'/>
+                <token>do</token>
+                <token>tamanho</token>
+                <token>do</token>
+                <token>mundo</token>
+                <example>Um abraço do tamanho do mundo.</example>
+                <example>Sua meia está com um buraco do tamanho do mundo.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp='yes'>os?|dos?|nos?</token>
