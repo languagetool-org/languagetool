@@ -1873,7 +1873,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-               <!-- <token regexp="yes">el|mig|l</token>-->
+                <!-- <token regexp="yes">el|mig|l</token>-->
                 <marker>
                     <token>sec</token>
                 </marker>
@@ -6874,6 +6874,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace" postag="AQ0FP0"/>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">llenguatge|codi</token>
+                <marker>
+                    <token>màquina</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
     </rulegroup>
     <rulegroup id="CAP" name="cap">
         <rule>
@@ -11168,6 +11177,41 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rulegroup id="es_mostra" name="es/és mostra (verb o nom)">
+        <rule>
+            <antipattern>
+                <token regexp="yes">de|d'</token>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes" inflected="yes">manera|forma</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes" inflected="yes">&parts_dia;|pet</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes">mostra</token>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token regexp="yes">de|d'<exception postag_regexp="yes" postag="LOC_.*"/></token>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">es|és</token>
+                <marker>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes">mostra</token>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+    </rulegroup>
     <rule id="mostra" name="mostra (no nom)">
         <antipattern>
             <token postag="D..[FC]S." postag_regexp="yes"/>
