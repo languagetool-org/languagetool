@@ -12788,9 +12788,60 @@ USA
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>totalizar</match></suggestion>
-            <example correction="totaliza">Isto <marker>perfaz um total de</marker> 10 equações</example>
+            <example correction="totaliza">Isto <marker>perfaz um total de</marker> 10 equações.</example>
             <example>Estiveram presentes 20 clubes que totalizaram 275 atletas.</example>
         </rule>
+
+
+        <rulegroup id='QUE_SE_V_PRESENTE' name="Simplificar: 'que se + V. presente' → V. part. passado" default='temp_off'>
+
+            <antipattern>
+                <token regexp='yes'>[ao]|uma?</token>
+                <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token>se</token>
+                <token postag='V.+' postag_regexp='yes'><exception scope='next' regexp='yes'>como|de|pela|agora</exception></token>
+                <token min='0' max='1' regexp='yes'>a|à</token>
+                <token postag='AQ.[CF].+|NC[CF].+|VMN0000|VMP00SF|RG' postag_regexp='yes'/>
+                <example>Não importa o horário que se faz a compra que vcs estão sempre atentos aos nossos pedidos.</example>
+                <example>Agora resta saber quem é o sax que se faz passar por “Claude Taylor”.</example>
+                <example>O macaco é um animal arborícola que se sente à vontade em árvores genealógicas.</example>
+                <example>Durante o casting, vemos uma personagem que se diz atriz e ‘engole cobras’.</example>
+                <example>O que esperar de um país onde a maior emissora que se julga a melhor, boicota a imagem da pesquisa científica.</example>
+                <example>Uma lésbica é uma mulher biológica que se sente atraída por outra mulher biológica.</example>
+            </antipattern>
+
+            <rule> <!-- Female -->
+                <pattern>
+                    <token regexp='yes'>a|uma</token>
+                    <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>que</token>
+                        <token>se</token>
+                        <token postag='VMM02S0' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
+                    </marker>
+                </pattern>
+                <message>Use presente para o que acontece agora e particípio para o que já ocorreu ou é formal.</message>
+                <suggestion><match no='5' postag='VMM02S0' postag_regexp="yes" postag_replace='VMP00SF'/></suggestion>
+                <example correction="observada">A tensão <marker>que se observa</marker> na empresa é péssima.</example>
+                <example>A tensão sentida é do pior que há.</example>
+            </rule>
+            <rule> <!-- Male -->
+                <pattern>
+                    <token regexp='yes'>o|um</token>
+                    <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>que</token>
+                        <token>se</token>
+                        <token postag='VMM02S0' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
+                    </marker>
+                </pattern>
+                <message>Use presente para o que acontece agora e particípio para o que já ocorreu ou é formal.</message>
+                <suggestion><match no='5' postag='VMM02S0' postag_regexp="yes" postag_replace='VMP00SM'/></suggestion>
+                <example correction="observado">O ambiente <marker>que se observa</marker> na empresa é péssimo.</example>
+                <example>O clima sentido é do pior que há.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
