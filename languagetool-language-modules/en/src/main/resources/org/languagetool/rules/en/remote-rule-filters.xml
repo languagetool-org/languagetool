@@ -40,6 +40,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <category name="Machine learning rules" id="AI_RULES">
         <rulegroup id="QB_NEW_EN_OTHER.*" name="">
             <rule>
+                <pattern>
+                    <marker>
+                        <token>(</token>
+                        <token spacebefore="no" skip="-1">=</token>
+                    </marker>
+                    <token>)</token>
+                </pattern>
+                <example correction="">Remove test setup and roll out test2 to all users <marker>(=</marker> make it the default).</example>
+            </rule>
+            <rule>
                 <!-- # No commas after twitter handles e.g. @jack -->
                 <pattern>
                     <token regexp="yes">@[a-z0-9_-]+</token>
