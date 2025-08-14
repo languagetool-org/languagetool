@@ -52,6 +52,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <!-- # No commas after twitter handles e.g. @jack -->
                 <pattern>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                    <marker>
+                        <token regexp="yes">@[a-z0-9_-]+</token>
+                    </marker>
+                    <token regexp="yes">.*[a-z0-9].*</token>
+                </pattern>
+                <example correction=""><marker>@jack</marker> you are right.</example>
+            </rule>
+            <rule>
+                <!-- # No commas after twitter handles e.g. @jack -->
+                <pattern>
                     <token regexp="yes">@[a-z0-9_-]+</token>
                     <token regexp="yes">.*[a-z0-9].*</token>
                 </pattern>
@@ -65,6 +76,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes" spacebefore="no">'[a-z]+</token>
                 </pattern>
                 <example correction=""><marker>@jack I'm</marker> here.</example>
+            </rule>
+            <rule>
+                <!-- # No commas after twitter handles e.g. @jack -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">@[a-z0-9_-]+</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">[a-z0-9_-]+</token>
+                    </marker>
+                    <token regexp="yes">.*[a-z0-9].*</token>
+                </pattern>
+                <example correction=""><marker>@jack.smith</marker> you are right.</example>
             </rule>
             <rule>
                 <!-- # No commas after twitter handles e.g. @jack -->
@@ -90,7 +113,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <!-- # No commas after twitter handles e.g. @Jessia Schwarz -->
                 <pattern>
-                    <token postag="SENT_START" />
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <marker>
                         <token regexp="yes" case_sensitive="yes">@[A-Z].+</token>
                         <token regexp="yes" case_sensitive="yes">[A-Z].+</token>
@@ -102,7 +125,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <!-- # No commas after twitter handles e.g. @Jessia Schwarz -->
                 <pattern>
-                    <token postag="SENT_START" />
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <marker>
                         <token regexp="yes" case_sensitive="yes">@[A-Z].+</token>
                         <token regexp="yes" case_sensitive="yes">[A-Z].+</token>
@@ -115,7 +138,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <!-- # No commas after twitter handles e.g. @Jessia Schwarz -->
                 <pattern>
-                    <token postag="SENT_START" />
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <token regexp="yes" case_sensitive="yes">@[A-Z].+</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[A-Z].+</token>
@@ -126,7 +149,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <!-- # No commas after twitter handles e.g. @Jessia Schwarz -->
                 <pattern>
-                    <token postag="SENT_START" />
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <marker>
                         <token regexp="yes" case_sensitive="yes">@[A-Z].+</token>
                         <token regexp="yes">v[oa]n|del</token>
