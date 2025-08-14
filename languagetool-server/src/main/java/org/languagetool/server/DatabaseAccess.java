@@ -134,6 +134,8 @@ abstract class DatabaseAccess {
 
   abstract UserInfoEntry getUserInfoWithAddonToken(String username, String apiKey);
 
+  abstract boolean validateAuthHeader(String authHeader);
+
   abstract void invalidateUserInfoCache(String user);
 
   abstract Long getUserRequestCount(Long userId);

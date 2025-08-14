@@ -152,6 +152,11 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   }
 
   @Override
+  boolean validateAuthHeader(String authHeader) {
+    return false;
+  }
+
+  @Override
   void invalidateUserInfoCache(String user) {
     throw new NotImplementedException(NON_PREMIUM_MSG);
   }
