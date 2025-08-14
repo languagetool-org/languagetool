@@ -12794,14 +12794,14 @@ USA
 
 
         <rulegroup id='QUE_SE_V_PRESENTE' name="Simplificar: 'que se + V. presente' → V. part. passado">
-<!-- TO DO: support also plural of present -->
+
             <antipattern>
-                <token regexp='yes'>[ao]|uma?</token>
+                <token regexp='yes'>[ao]s?|u(m|ns)|umas?</token>
                 <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
                 <token>que</token>
                 <token>se</token>
                 <token postag='V.+' postag_regexp='yes'><exception scope='next' regexp='yes'>como|de|pela|agora</exception></token>
-                <token min='0' max='1' regexp='yes'>a|à</token>
+                <token min='0' max='1' regexp='yes'>as?|às?</token>
                 <token postag='AQ.[CF].+|NC[CF].+|VMN0000|VMP00SF|RG' postag_regexp='yes'/>
                 <example>Não importa o horário que se faz a compra que vcs estão sempre atentos aos nossos pedidos.</example>
                 <example>Agora resta saber quem é o sax que se faz passar por “Claude Taylor”.</example>
@@ -12813,33 +12813,37 @@ USA
 
             <rule> <!-- Female -->
                 <pattern>
-                    <token regexp='yes'>a|uma</token>
+                    <token regexp='yes'>as?|umas?</token>
                     <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
                     <marker>
                         <token>que</token>
                         <token>se</token>
-                        <token postag='VMM02S0' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
+                        <token postag='VMIP3.+' postag_regexp='yes' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
                     </marker>
                 </pattern>
                 <message>Use presente para o que acontece agora e particípio para o que já ocorreu ou é formal.</message>
-                <suggestion><match no='5' postag='VMM02S0' postag_regexp="yes" postag_replace='VMP00SF'/></suggestion>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_regexp='yes' postag_replace='VMP00$1F'/></suggestion>
                 <example correction="observada">A tensão <marker>que se observa</marker> na empresa é péssima.</example>
+                <example correction="observadas">As tensões <marker>que se observam</marker> na empresa são péssimas.</example>
                 <example>A tensão sentida é do pior que há.</example>
+                <example>As tensões sentidas são do pior que há.</example>
             </rule>
             <rule> <!-- Male -->
                 <pattern>
-                    <token regexp='yes'>o|um</token>
+                    <token regexp='yes'>os?|u(m|ns)</token>
                     <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
                     <marker>
                         <token>que</token>
                         <token>se</token>
-                        <token postag='VMM02S0' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
+                        <token postag='VMIP3.+' postag_regexp='yes' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
                     </marker>
                 </pattern>
                 <message>Use presente para o que acontece agora e particípio para o que já ocorreu ou é formal.</message>
-                <suggestion><match no='5' postag='VMM02S0' postag_regexp="yes" postag_replace='VMP00SM'/></suggestion>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_regexp='yes' postag_replace='VMP00$1M'/></suggestion>
                 <example correction="observado">O ambiente <marker>que se observa</marker> na empresa é péssimo.</example>
+                <example correction="observados">Os ambientes <marker>que se observam</marker> na empresa são péssimos.</example>
                 <example>O clima sentido é do pior que há.</example>
+                <example>Os climas sentidos são do pior que há.</example>
             </rule>
         </rulegroup>
 
