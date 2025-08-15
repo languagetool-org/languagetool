@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -135,6 +136,15 @@ final class ServerTools {
   }
 
   static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config) {
+    return getUserLimits(params, config, null);
+  }
+
+  static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config, Headers headers) {
+    String authHeader = null;
+    if (headers != null && headers.get("authorization") != null) {
+      authHeader = headers.get("authorization").toString();
+    }
+
     if (params.get("username") != null) {
       if (params.get("apiKey") != null && params.get("password") != null) {
         throw new BadRequestException("apiKey AND password was set, set only apiKey");
@@ -144,6 +154,9 @@ final class ServerTools {
       } else if (params.get("password") != null) {
         return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
       } else if (params.get("tokenV2") != null) {
+        if (authHeader != null) {
+          return UserLimits.getLimitsWithJwtToken(config, authHeader, params.get("username"), params.get("tokenV2"));
+        }
         return UserLimits.getLimitsByAddonToken(config, params.get("username"), params.get("tokenV2"));
       } else {
         throw new BadRequestException("With 'username' set, you also need to specify 'apiKey'");
@@ -154,6 +167,9 @@ final class ServerTools {
       }
       if (params.get("password") != null) {
         throw new BadRequestException("password was set, but username was not");
+      }
+      if (authHeader != null) {
+        return UserLimits.getLimitsWithJwtToken(config, authHeader, params.get("username"), params.get("tokenV2"));
       }
       return UserLimits.getDefaultLimits(config);
     }

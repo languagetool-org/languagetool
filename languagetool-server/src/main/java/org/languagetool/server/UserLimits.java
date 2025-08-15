@@ -102,6 +102,28 @@ class UserLimits {
     }
   }
 
+  public static UserLimits getLimitsWithJwtToken(HTTPServerConfig config, String authHeader, String username, String addonToken) {
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    UserInfoEntry data = null;
+    if (username != null && addonToken != null) {
+     data = db.getUserInfoWithAddonToken(username, addonToken);
+    }
+    boolean hasValidAuthToken = db.validateAuthHeader(authHeader);
+    // DB down and token is invalid -> fallback to anonymous
+    if (data == null && !hasValidAuthToken) {
+      return getUserLimitsFromWhitelistOrDefault(config, username);
+    }
+    // User already has premium -> ignore token
+    if (data != null && (data.hasPremium() || config.isPremiumAlways())) {
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+    }
+    if (hasValidAuthToken) {
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), 1L, true);
+    } else {
+      return new UserLimits(config.getMaxTextLengthAnonymous(), config.getMaxCheckTimeMillisPremium(), null, false);
+    }
+  }
+
   private static UserLimits getUserLimitsFromWhitelistOrDefault(HTTPServerConfig config, String username) {
     if (config.getRequestLimitWhitelistUsers() == null) {
       return getDefaultLimits(config);

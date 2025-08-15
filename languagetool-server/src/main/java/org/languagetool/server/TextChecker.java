@@ -329,7 +329,7 @@ abstract class TextChecker {
                  String remoteAddress) throws Exception {
     checkParams(params);
     long timeStart = System.currentTimeMillis();
-    UserLimits limits = ServerTools.getUserLimits(params, config);
+    UserLimits limits = ServerTools.getUserLimits(params, config, httpExchange.getRequestHeaders());
 
     if (Premium.isPremiumStatusCheck(aText)) {
       Language premiumStatusCheckLang = Languages.getLanguageForShortCode("en-US");
