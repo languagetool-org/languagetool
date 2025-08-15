@@ -12848,6 +12848,179 @@ USA
         </rulegroup>
 
 
+        <rulegroup id='DOBRO_DUAS_VEZES_MAIS' name="Simplificar: 'duas vezes mais' → 'o dobro'" default='temp_off'>
+
+            <antipattern> <!-- "do que" was too complex to handle, so it is better to remove problematic cases -->
+                <token>duas</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <token min='0' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token min='0' max='1'>do</token>
+                <token>que</token>
+                <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+                <example>O computador consome duas vezes mais energia do que o outro.</example>
+                <example>Tom tem duas vezes mais livros do que eu.</example>
+                <example>Quando Tom se casou com Mary, ela era duas vezes mais jovem do que ele.</example>
+                <example>Tom bebe duas vezes mais do que Mary.</example>
+                <example>Meu amigo Tom tem duas vezes mais selos que eu.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>duas</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token>em</token>
+                <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+                <example>É duas vezes mais comuns em homens.</example>
+            </antipattern>
+
+            <rule> <!-- #1: Without noun/adjective -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais<exception scope='next' postag_regexp='yes' postag='N.+|AQ.+'/></token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro</suggestion>
+                <example correction="o dobro">Quero <marker>duas vezes mais</marker> do que propõe.</example>
+                <example>Quero o dobro do oferecido.</example>
+            </rule>
+
+            <rule> <!-- #2: Noun male/C -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NC[CM].+' postag_regexp='yes'><exception postag_regexp='no' postag='RG'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0M$20'>de:o</match></suggestion>
+                <example correction="o dobro do">Quero <marker>duas vezes mais</marker> dinheiro por isso.</example>
+                <example correction="o dobro dos">Coloquem <marker>duas vezes mais</marker> agentes na rua.</example>
+                <example>Quero o dobro do valor da casa.</example>
+                <example>Quero o dobro dos agentes a patrulhar a rua.</example>
+                <example>Ele é duas vezes mais velho que ela.</example>
+                <example>Você é duas vezes mais forte que eu.</example>
+            </rule>
+
+            <rule> <!-- #3: Noun female -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NCF.+' postag_regexp='yes'><exception postag_regexp='no' postag='RG'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0F$20'>de:o</match></suggestion>
+                <example correction="o dobro da">Quero <marker>duas vezes mais</marker> velocidade no PC.</example>
+                <example correction="o dobro das">Coloquem <marker>duas vezes mais</marker> mulheres a patrulhar.</example>
+                <example>Quero o dobro da quantia oferecida.</example>
+                <example>Quero o dobro das mulheres a gerir a empresa.</example>
+                <example>A Ana é duas vezes mais velha que ela.</example>
+                <example>Você é duas vezes mais fraca que eu.</example>
+            </rule>
+
+        </rulegroup>
+
+
+        <rulegroup id='TRIPLO_TRÊS_VEZES_MAIS' name="Simplificar: 'três vezes mais' → 'o triplo'" default='temp_off'>
+
+            <antipattern> <!-- "do que" was too complex to handle, so it is better to remove problematic cases -->
+                <token>três</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <token min='0' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token min='0' max='1'>do</token>
+                <token>que</token>
+                <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+                <example>O computador consome três vezes mais energia do que o outro.</example>
+                <example>Tom tem três vezes mais livros do que eu.</example>
+                <example>Quando Tom se casou com Mary, ela era três vezes mais jovem do que ele.</example>
+                <example>Tom bebe três vezes mais do que Mary.</example>
+                <example>Meu amigo Tom tem três vezes mais selos que eu.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>três</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token>em</token>
+                <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+                <example>É três vezes mais comuns em homens.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>duas</token>
+                <token regexp='yes'>e|ou</token>
+                <token>três</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <example>Armas de implosão linear usam duas ou três vezes mais plutônio e são consideravelmente mais caras.</example>
+            </antipattern>
+
+            <rule> <!-- #1: Without noun/adjective -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais<exception scope='next' postag_regexp='yes' postag='N.+|AQ.+'/></token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo</suggestion>
+                <example correction="o triplo">Quero <marker>três vezes mais</marker> do que propõe.</example>
+                <example>Quero o triplo do oferecido.</example>
+            </rule>
+
+            <rule> <!-- #2: Noun male/C -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NC[CM].+' postag_regexp='yes'><exception postag_regexp='no' postag='RG'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0M$20'>de:o</match></suggestion>
+                <example correction="o triplo do">Quero <marker>três vezes mais</marker> dinheiro por isso.</example>
+                <example correction="o triplo dos">Coloquem <marker>três vezes mais</marker> agentes na rua.</example>
+                <example>Quero o triplo do valor da casa.</example>
+                <example>Quero o triplo dos agentes a patrulhar a rua.</example>
+                <example>Ele é três vezes mais velho que ela.</example>
+                <example>Você é três vezes mais forte que eu.</example>
+            </rule>
+
+            <rule> <!-- #3: Noun female -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NCF.+' postag_regexp='yes'><exception postag_regexp='no' postag='RG'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0F$20'>de:o</match></suggestion>
+                <example correction="o triplo da">Quero <marker>três vezes mais</marker> velocidade no PC.</example>
+                <example correction="o triplo das">Coloquem <marker>três vezes mais</marker> mulheres a patrulhar.</example>
+                <example>Quero o triplo da quantia oferecida.</example>
+                <example>Quero o triplo das mulheres a gerir a empresa.</example>
+                <example>A Ana é três vezes mais velha que ela.</example>
+                <example>Você é três vezes mais fraca que eu.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
             <antipattern>
                 <token postag="V.+|NC.+" postag_regexp='yes'/>
