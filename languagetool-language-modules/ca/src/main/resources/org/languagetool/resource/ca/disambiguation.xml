@@ -5914,6 +5914,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token regexp="yes" inflected="yes">mite|mitologia|filosofia|ideologia|idea|acció|activitat</token>
+                <marker>
+                    <token>hacker</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes" inflected="yes">adreça|domini|pàgina|plana|lloc|aplicació</token>
                 <marker>
                     <token>web</token>
@@ -19838,6 +19847,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="V.S.*"/>
         </rule>
         <rule>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="4" regexp="yes">\p{P}</token>
+                <token>no</token>
+                <token postag="VMSP..0V" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="CS|PR.*" postag_regexp="yes"/></token>
                 <marker>
@@ -19860,6 +19875,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="V.I.*"/>
         </rule>
     </rulegroup>
+    <!--<rule id="no_mires" name="no mires!">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token min="0" max="4" regexp="yes">\p{P}</token>
+            <token>no</token>
+            <marker>
+                <and>
+                <token postag="VMSP..0V" postag_regexp="yes"/>
+                <token postag="VMIP..00" postag_regexp="yes"/>
+                </and>
+            </marker>
+           <token>!</token>
+        </pattern>
+        <disambig action="remove" postag="VMIP..00"/>
+    </rule>-->
     <rulegroup id="primera_tercera_persona" name="verb primera o tercera persona">
         <rule>
             <pattern>
@@ -20094,6 +20124,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes">això|aço|allò|ell|ella</token>
                 <token regexp="yes">m'|em</token>
             </antipattern>-->
+            <antipattern>
+                <!-- És probablement impersonal: Se m'escolta -->
+                <!-- Ambigu: Se l'escolta, Se'ls escolta -->
+                <token regexp="yes">se|es|s'</token>
+                <!-- 'l|el|l'|la|'ls|els|les -->
+                <token regexp="yes">em|me|m'|'m|et|te|t'|'t|ens|'ns|us|vos</token>
+                <token postag="V...3S.." postag_regexp="yes"><exception regexp="yes" inflected="yes">endur|emportar|dur|portar</exception></token>
+            </antipattern>
             <pattern>
                 <unify>
                     <feature id="nombre"/>
