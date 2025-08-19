@@ -12848,7 +12848,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='DOBRO_DUAS_VEZES_MAIS_V2' name="Simplificar: 'duas vezes mais' → 'o dobro'">
+        <rulegroup id='DOBRO_DUAS_VEZES_MAIS_V2' name="Simplificar: 'duas vezes mais' → 'o dobro'" default='temp_off'>
 
             <antipattern>
                 <token>duas</token>
@@ -12920,10 +12920,97 @@ USA
                 <example>Você é duas vezes mais fraca que eu.</example>
             </rule>
 
+            <rule> <!-- #4: o(s)|a(s) -->
+                <!-- Specific antipatterns for #4 suggested by ChatGPT-5.
+                     Instead of placing the results in each AP, I placed them in the rule
+                     examples because all these APs were created and executed at the same time.
+                -->
+                <antipattern> <!-- AP #4.1a: Bloqueios por verbo de repetição/ocorrência (à esquerda) -->
+                    <token skip='3' inflected='yes' regexp='yes'>acontecer|alcançar|andar|arrebatar|atravessar|cometer|conquistar|correr|descer|entrar|enfrentar|erguer|executar|fazer|ganhar|levar|nadar|obter|ocorrer|passar|praticar|realizar|receber|repetir|retornar|sair|subir|suceder|vencer|viajar|visitar|voltar</token>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+                <antipattern> <!-- AP #4.1b: Bloquear gerúndio nas 1–3 palavras anteriores, que cobre muitos casos -->
+                    <token skip='3' postag='VMG0.+' postag_regexp='yes'/>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.2: Bloqueios por nome próprio/título (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token postag='NP.+' postag_regexp='yes'/>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.3: Bloqueios por domínio desportivo/competitivo (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>adversário|rival|equip[ae]|time|clube|selec?ção|jogador|jogo|partida|set|round|corrida|prova|etapa|golo|gol|ponto|placar|t[íi]tulo|taça|copa|liga|torneio|campeonato|troféu|trofeu|medalha|recorde|pr[éeê]mio|oscar|emmy|grammy|bafta|nobel</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.4: Bloqueios por deslocação/ocorrência física (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>rio|ponte|fronteira|estrada|maratona|ultramaratona|volta|rota|trajec?to|percurso|turno|turnos|viagem|visita|etapa</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.5: Bloqueios por adjetivos/itens idiomáticos (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>melhor|pior|maior|menor|máximo|minimo|superior|inferior|principal|primeiro|último|mesmo|próprio|mais</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.6: Bloqueia quando houver verbo de movimento nas 1–3 palavras anteriores a “(duas|três) vezes” -->
+                    <token skip='3' inflected='yes' regexp='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|viajar|visitar|atravessar|enfrentar|passar</token>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <pattern>
+                    <marker>
+                        <token>duas
+                            <exception scope='previous' postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|andar|correr|viajar|visitar|atravessar|percorrer|passar|nadar</exception> <!-- Movimento/deslocação -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>atacar|invadir|enfrentar|combater|lutar|batalhar|disputar|jogar|competir|conquistar|vencer|derrotar|ganhar</exception> <!-- Conflito/competição -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>fazer|realizar|executar|cumprir|cometer|praticar|repetir</exception> <!-- Execução de atos -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>obter|receber|alcançar|erguer|arrebatar|levar</exception> <!-- Aquisição/obtenção -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>acontecer|ocorrer|suceder</exception> <!-- Ocorrência/acontecimento -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>por|a</exception></token>
+                        <token>vezes</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token><exception postag='D[AI].+' postag_regexp='yes'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro d\3</suggestion>
+                <example correction="o dobro da">Quero <marker>duas vezes a</marker> quantia em dinheiro.</example>
+                <example correction="o dobro do">Quero <marker>duas vezes o</marker> valor pedido.</example>
+                <example>Quero o dobro da quantia oferecida.</example>
+                <example>Quero o dobro das mulheres a gerir a empresa.</example>
+                <example>Os molbos pagaram prontamente ao homem o que ele pediu, mesmo sendo aquilo duas vezes o que o fuzil valia.</example>
+                <example>Eu não gosto de repetir duas vezes a mesma coisa.</example>
+                <example>Não se pode atravessar duas vezes o mesmo rio.</example>
+                <example>No decorrer de sua vida, visitou duas vezes a cidade natal de seus pais.</example>
+                <example>Por esse trabalho, Sheen ganhou duas vezes o prêmio Emmy de Personalidade Mais Notável da Televisão.</example>
+                <example>Ele foi duas vezes o primeiro-ministro pelo partido "tory".</example>
+                <example>As equipes fazem 82 jogos na temporada regular, enfrentando duas vezes os rivais da outra Conferência.</example>
+                <example>Durante os dezoito anos seguintes, o Milan disputou apenas duas vezes a Copa dos Campeões.</example>
+                <example>Formidável explorador, além das quedas de Vitória, atravessou duas vezes o deserto do Kalahari.</example>
+                <example>Este valor de 7,8 % é igual a duas vezes o desvio padrão (2sigma) da distribuição dos resultados.</example>
+                <example>Em seu país, Kuffour é muito adorado, e foi nomeado por duas vezes o jogados do ano de Gana (1998 e 2002).</example>
+            </rule>
+
         </rulegroup>
 
 
-        <rulegroup id='TRIPLO_TRÊS_VEZES_MAIS_V2' name="Simplificar: 'três vezes mais' → 'o triplo'">
+        <rulegroup id='TRIPLO_TRÊS_VEZES_MAIS_V2' name="Simplificar: 'três vezes mais' → 'o triplo'" default='temp_off'>
 
             <antipattern>
                 <token>duas</token>
@@ -13002,6 +13089,93 @@ USA
                 <example>Quero o triplo das mulheres a gerir a empresa.</example>
                 <example>A Ana é três vezes mais velha que ela.</example>
                 <example>Você é três vezes mais fraca que eu.</example>
+            </rule>
+
+            <rule> <!-- #4: o(s)|a(s) -->
+                <!-- Specific antipatterns for #4 suggested by ChatGPT-5.
+                     Instead of placing the results in each AP, I placed them in the rule
+                     examples because all these APs were created and executed at the same time.
+                -->
+                <antipattern> <!-- AP #4.1a: Bloqueios por verbo de repetição/ocorrência (à esquerda) -->
+                    <token skip='3' inflected='yes' regexp='yes'>acontecer|alcançar|andar|arrebatar|atravessar|cometer|conquistar|correr|descer|entrar|enfrentar|erguer|executar|fazer|ganhar|levar|nadar|obter|ocorrer|passar|praticar|realizar|receber|repetir|retornar|sair|subir|suceder|vencer|viajar|visitar|voltar</token>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+                <antipattern> <!-- AP #4.1b: Bloquear gerúndio nas 1–3 palavras anteriores, que cobre muitos casos -->
+                    <token skip='3' postag='VMG0.+' postag_regexp='yes'/>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.2: Bloqueios por nome próprio/título (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token postag='NP.+' postag_regexp='yes'/>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.3: Bloqueios por domínio desportivo/competitivo (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>adversário|rival|equip[ae]|time|clube|selec?ção|jogador|jogo|partida|set|round|corrida|prova|etapa|golo|gol|ponto|placar|t[íi]tulo|taça|copa|liga|torneio|campeonato|troféu|trofeu|medalha|recorde|pr[éeê]mio|oscar|emmy|grammy|bafta|nobel</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.4: Bloqueios por deslocação/ocorrência física (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>rio|ponte|fronteira|estrada|maratona|ultramaratona|volta|rota|trajec?to|percurso|turno|turnos|viagem|visita|etapa</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.5: Bloqueios por adjetivos/itens idiomáticos (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>melhor|pior|maior|menor|máximo|minimo|superior|inferior|principal|primeiro|último|mesmo|próprio|mais</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.6: Bloqueia quando houver verbo de movimento nas 1–3 palavras anteriores a “(duas|três) vezes” -->
+                    <token skip='3' inflected='yes' regexp='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|viajar|visitar|atravessar|enfrentar|passar</token>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <pattern>
+                    <marker>
+                        <token>três
+                            <exception scope='previous' postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|andar|correr|viajar|visitar|atravessar|percorrer|passar|nadar</exception> <!-- Movimento/deslocação -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>atacar|invadir|enfrentar|combater|lutar|batalhar|disputar|jogar|competir|conquistar|vencer|derrotar|ganhar</exception> <!-- Conflito/competição -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>fazer|realizar|executar|cumprir|cometer|praticar|repetir</exception> <!-- Execução de atos -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>obter|receber|alcançar|erguer|arrebatar|levar</exception> <!-- Aquisição/obtenção -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>acontecer|ocorrer|suceder</exception> <!-- Ocorrência/acontecimento -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>por|a</exception></token>
+                        <token>vezes</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token><exception postag='D[AI].+' postag_regexp='yes'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo d\3</suggestion>
+                <example correction="o triplo da">Quero <marker>três vezes a</marker> quantia em dinheiro.</example>
+                <example correction="o triplo do">Quero <marker>três vezes o</marker> valor pedido.</example>
+                <example>Quero o triplo da quantia oferecida.</example>
+                <example>Quero o triplo das mulheres a gerir a empresa.</example>
+                <example>Eu já fui três vezes a Boston.</example>
+                <example>Três vezes a mesma posição significa empate.</example>
+                <example>Além disso conquistaram por três vezes o Campeonato Mundial de Voleibol Feminino em 1962 na União Soviética.</example>
+                <example>Exerceu por três vezes as funções de Governador Civil do Distrito de Viana do Castelo.</example>
+                <example>Com o Real, faturou três vezes a Liga dos Campeões da UEFA: 1997–98, 1999–00 e 2001–02.</example>
+                <example>Fui três vezes a sua casa.</example>
+                <example>Três vezes o gato malhado miou. Quatro vezes o ouriço ganiu. A harpia grita "É hora, é hora".</example>
+                <example>Sami cobrou a conta três vezes a um freguês bêbado.</example>
+                <example>Três vezes a cabeça, descontente.</example>
+                <example>Os espartanos invadiram três vezes a zona nos anos seguintes.</example>
+                <example>Ela está a voar por cima de mim, duas, três vezes a velocidades que não consegui identificar.</example>
             </rule>
 
         </rulegroup>
