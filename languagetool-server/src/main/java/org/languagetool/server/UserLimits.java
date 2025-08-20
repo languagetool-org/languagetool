@@ -104,23 +104,20 @@ class UserLimits {
 
   public static UserLimits getLimitsWithJwtToken(HTTPServerConfig config, String authHeader, String username, String addonToken) {
     DatabaseAccess db = DatabaseAccess.getInstance();
-    UserInfoEntry data = null;
-    if (username != null && addonToken != null) {
-     data = db.getUserInfoWithAddonToken(username, addonToken);
-    }
+    UserInfoEntry data = (username != null && addonToken != null) ? db.getUserInfoWithAddonToken(username, addonToken) : null;
     boolean hasValidAuthToken = db.validateAuthHeader(authHeader);
-    // DB down and token is invalid -> fallback to anonymous
-    if (data == null && !hasValidAuthToken) {
-      return getUserLimitsFromWhitelistOrDefault(config, username);
-    }
-    // User already has premium -> ignore token
-    if (data != null && (data.hasPremium() || config.isPremiumAlways())) {
-      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+
+    if (data != null) {
+      if (data.hasPremium() || config.isPremiumAlways()) {
+        return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+      } else {
+        return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), hasValidAuthToken, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+      }
     }
     if (hasValidAuthToken) {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), 1L, true);
     } else {
-      return new UserLimits(config.getMaxTextLengthAnonymous(), config.getMaxCheckTimeMillisPremium(), null, false);
+      return username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
     }
   }
 

@@ -141,8 +141,11 @@ final class ServerTools {
 
   static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config, Headers headers) {
     String authHeader = null;
-    if (headers != null && headers.get("authorization") != null) {
-      authHeader = headers.get("authorization").toString();
+    if (headers != null) {
+      authHeader = headers.getFirst("Authorization");
+      if (authHeader != null && authHeader.isBlank()) {
+        authHeader = null;
+      }
     }
 
     if (params.get("username") != null) {
