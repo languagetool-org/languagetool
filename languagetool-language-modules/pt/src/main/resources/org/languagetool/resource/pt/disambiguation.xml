@@ -4533,6 +4533,27 @@ USA
     -->
   </rule>
 
+  <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
+    <pattern>
+      <marker>
+        <and>
+            <token>porta</token>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token regexp='yes'>[-]</token>
+      <token postag_regexp='yes' postag='NC.P.+'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O porta-carros.
+             Os porta-carros.
+             O porta-paletes.
+             Os porta-paletes.
+    -->
+  </rule>
+
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>
           <pattern>
