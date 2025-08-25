@@ -40660,10 +40660,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
 
-        <rule id="PORTA_SUBSTANTIVO_PLURAL" name="Composição de porta-substantivo_plural" default='temp_off'>
+        <rule id="PORTA_SUBSTANTIVO_PLURAL" name="Composição de porta-substantivo_plural">
             <pattern>
                 <token>porta<exception postag_regexp='yes' postag='NP.+'/></token>
-                <token postag_regexp='yes' postag='NC.P.+'/>
+                <token postag_regexp='yes' postag='NC.P.+'><exception postag_regexp='yes' postag='NP.+'/></token>
             </pattern>
             <message>A palavra <suggestion>\1-\2</suggestion> é hifenizada.</message>
             <example correction="porta-carros">Os <marker>porta carros</marker> são úteis.</example>
