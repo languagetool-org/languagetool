@@ -1528,6 +1528,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
 
+            <antipattern> <!-- no(s) porta NCP - triggered by rule id:PORTA_SUBSTANTIVO_PLURAL -->
+                <token regexp='yes'>nos?</token>
+                <token>porta</token>
+                <token postag_regexp='yes' postag='NC.P.+'><exception postag_regexp='yes' postag='NP.+'/></token>
+                <example>Lily Mash, ela esteve no porta malas?</example>
+                <example>Mas, ele tinha maconha no porta luvas.</example>
+            </antipattern>
+
             <antipattern> <!-- outros/outras #1 -->
                 <token postag='V.+' postag_regexp='yes'/>
                 <token regexp='yes'>aos?</token>
@@ -14489,6 +14497,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <!-- It seems that all these words I placed here appear as nouns in the disambiguator -->
+
+            <antipattern>
+                <token postag='V....P.+' postag_regexp='yes'/>
+                <token regexp='yes'>tod[ao]s</token>
+                <token regexp='yes'>amostra|categoria|classe|elemento|espécie|espécime|exemplo|faixa|fatia|grupo|indivíduo|intervalo|lote|membro|metade|modalidade|opção|parcela|parte|pessoa|porção|p[eo]rcentagem|proporção|quantidade|sec?ção|segmento|subgrupo|tipo|unidade|variedade|versão</token>
+                <token postag='SPS00:DA0.S.+' postag_regexp='yes'/>
+                <example>Ainda somos todos parte da família.</example>
+            </antipattern>
 
             <antipattern>
                 <token inflected='yes' regexp='yes'>acabar|adaptar-se|adiantar-se|afirmar-se|andar|apresentar-se|cair|chegar|começar|considerar|continuar|crescer|deixar|desenvolver-se|estar|evoluir|existir|expressar-se|ficar|fluir|identificar-se|inclinar-se|ir|manifestar-se|manter-se|morrer|mostrar-se|mudar|nascer|ocultar-se|opor-se|parecer|permanecer|provar-se|questionar-se|reduzir-se|regressar|renascer|renegar|retornar|revelar-se|seguir|sentir-se|ser|superar-se|terminar|tornar-se|transformar-se|virar|voltar<exception scope='previous' postag_regexp='no' postag='RG'/></token> <!-- ChatGPT 4o -->
@@ -40651,6 +40667,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
+
+        <rule id="PORTA_SUBSTANTIVO_PLURAL" name="Composição de porta-substantivo_plural">
+            <pattern>
+                <token>porta
+                    <exception scope='previous' regexp="yes">el[ea]</exception>
+                    <exception postag_regexp='yes' postag='NP.+'/></token>
+                <token postag_regexp='yes' postag='NC.P.+'><exception postag_regexp='yes' postag='NP.+'/></token>
+            </pattern>
+            <message>A palavra <suggestion>\1-\2</suggestion> é hifenizada.</message>
+            <example correction="porta-carros">Os <marker>porta carros</marker> são úteis.</example>
+            <example correction="porta-carros">O <marker>porta carros</marker> é útil.</example>
+            <example>Quero um porta-chaves.</example>
+            <example>Quero uns porta-chaves.</example>
+            <example>Quero um porta-paletes.</example>
+            <example>Quero uns porta-paletes.</example>
+            <example>Ele porta armas ilegais.</example>
+        </rule>
+
         <rule id="SEM_ABRIGO" name="Composição de sem-abrigo">
             <pattern>
                 <token postag_regexp="yes" postag="[DP].+M[SP].+|Z.+|SENT_START|SP.+"></token>

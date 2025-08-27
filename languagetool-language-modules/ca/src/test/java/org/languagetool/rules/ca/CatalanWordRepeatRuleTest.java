@@ -68,6 +68,12 @@ public class CatalanWordRepeatRuleTest {
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("obrim inscripcions\uD83D\uDC4D\uD83D\uDC9A\uD83C\uDF32\uD83C\uDF32"));
     assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("Anirem del punt A al punt B."));
+    assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("La grip A a l'abril repunta."));
+    assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("L'apartat A a la part final."));
+    assertEquals(0, matches.length);
         
     //incorrect
     matches = rule.match(lt.getAnalyzedSentence("Tots els els homes són iguals."));

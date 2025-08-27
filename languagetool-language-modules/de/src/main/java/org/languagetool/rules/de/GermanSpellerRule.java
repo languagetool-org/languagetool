@@ -4471,6 +4471,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "kupferfarbender": return topMatch("kupferfarbener");
       case "kupferfarbendes": return topMatch("kupferfarbenes");
       case "kupferfarbendem": return topMatch("kupferfarbenem");
+      case "Außenriss": return topMatch("Außenrist");
+      case "Innenriss": return topMatch("Innenrist");
       case "Lolly": return topMatch("Lolli");
       case "Lollys": return topMatch("Lollis");
       case "Lollies": return topMatch("Lollis");

@@ -1585,12 +1585,19 @@ USA
                 <pattern>
                     <token inflected='yes'>fazer</token>
                     <token min='0'>um</token>
-                    <token regexp='yes'>esforços?</token>
+                    <token regexp='yes'>esforços?<exception scope='next' postag_regexp='yes' postag='N.+|AQ.+'/></token>
                 </pattern>
                 <message>&simplify_msg;</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tentar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esforçar</match></suggestion>
                 <example correction='tentar|esforçar'>Vamos <marker>fazer um esforço</marker> mais tarde?</example>
+                <example>Bastando para tal fazer um esforço mínimo.</example>
+                <example>Consigo fazer esforço físico, sem exageros, e está sendo tudo muito tranquilo.”.</example>
+                <example>Fiz um esforço sobre-humano para aprender esta língua.</example>
+                <example>Tom está fazendo um esforço extremo.</example>
+                <example>Você não está fazendo esforço suficiente.</example>
+                <example>Eles não estão fazendo esforço suficiente.</example>
+                <example>Tom fez um esforço excepcional para ajudar Mary.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3783,7 +3790,7 @@ USA
         </rulegroup>
 
 
-        <rule id='FAZER_TRAÇAR_DELINEAR_ELABORAR_V2' name="Fazer/traçar → delinear/elaborar" type='style' tone_tags='formal'>
+        <rule id='FAZER_TRAÇAR_DELINEAR_ELABORAR_V3' name="Fazer/traçar → delinear/elaborar" type='style' tone_tags='formal'>
             <pattern>
                 <marker>
                     <token regexp='yes' inflected='yes'>fazer|traçar</token>
@@ -3846,6 +3853,16 @@ USA
 
         <rule id='TAMANHO_DIMENSÃO' name="Tamanho → dimensão" type='style' tone_tags='formal' tags='picky'>
         <!-- It is impossible to add all the possible exceptions to the rule, thus the 'picky' tag -->
+            <antipattern> <!-- Frase feita/expressão consagrada pelo uso popular -->
+                <token regexp='yes'>uma?</token>
+                <token min='1' max='2' postag='AQ..S.+|N..S.+' postag_regexp='yes'/>
+                <token>do</token>
+                <token>tamanho</token>
+                <token>do</token>
+                <token>mundo</token>
+                <example>Um abraço do tamanho do mundo.</example>
+                <example>Sua meia está com um buraco do tamanho do mundo.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp='yes'>os?|dos?|nos?</token>
@@ -4646,32 +4663,6 @@ USA
 
             <example>Kullervo abriu a arca que continha seus tesouros, deixando ver galas soberbas, vestidos esplêndidos, meias bordadas com fios de ouro, cintos e broches de prata.</example>
             <example>Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores vestidos, sapatos, acessórios, publicados exaustivamente pela imprensa internacional e, claro, repercutidos aqui no Brasil.</example>
-        </rule>
-
-        <!-- 	DEPOIS DE após -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-16 (Enhanced) (17-MAR-2021+)     -->
-        <rule id='DEPOIS_DE_APÓS' name="Depois de > após">
-            <pattern>
-                <marker>
-                    <token>depois</token>
-                    <token>de</token>
-                </marker>
-                <token min="0" max="1" postag='DA.+|PD.+|PP.+' postag_regexp='yes'>
-                    <exception regexp='yes'>&pronomes_tonicos;</exception>
-                </token>
-                <token postag='V.+|NC.+|AQ0.+' postag_regexp='yes'>
-                    <exception postag_regexp="yes" postag='NP.+'/>
-                    <exception regexp="yes">amanhã|hoje</exception>
-                </token>
-            </pattern>
-            <message>Substitua por <suggestion>após</suggestion>.</message>
-            <example correction="após">Isto tudo <marker>depois de</marker> saber os resultados.</example>
-            <example>A maior parte deles tornou-se independente nos últimos vinte anos, após séculos de colonização europeia.</example>
-            <example>Após tantas brigas, a situação chegou a tal ponto que não podiam nem se ver.</example>
-            <example>Após dois anos de serviço militar, acabaria por ser dispensado.</example>
-            <example>As crianças pequenas costumam tirar uma soneca após comer.</example>
-            <example>Eu encontrei o seu casaco após você ter saído da casa.</example>
-            <example>Ele chegou após eu sair.</example>
         </rule>
 
 
@@ -12754,6 +12745,37 @@ USA
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
 
 
+        <rule id='DEPOIS_DE_APÓS' name="Simplificar: Depois de → após">
+            <antipattern>
+                <token>depois</token>
+                <token>de</token>
+                <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token postag='PI.+' postag_regexp='yes'/>
+                <example>Talvez depois de morto alguém reconheça a excelência da minha obra.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>depois</token>
+                    <token>de</token>
+                </marker>
+                <token min='0' max='1' postag='[DP].+' postag_regexp='yes'><exception postag_regexp='yes' postag='PE.+'/></token>
+                <token postag='V.+|NC.+|AQ.+|Z0.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='NP.+'/>
+                    <exception regexp="yes">amanhã|hoje|ontem</exception></token>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>após</suggestion>
+            <example correction="após">Isto tudo <marker>depois de</marker> saber os resultados.</example>
+            <example>A maior parte deles tornou-se independente nos últimos vinte anos, após séculos de colonização europeia.</example>
+            <example>Após tantas brigas, a situação chegou a tal ponto que não podiam nem se ver.</example>
+            <example>Após dois anos de serviço militar, acabaria por ser dispensado.</example>
+            <example>As crianças pequenas costumam tirar uma soneca após comer.</example>
+            <example>Eu encontrei o seu casaco após você ter saído da casa.</example>
+            <example>Ele chegou após eu sair.</example>
+            <example>Não adianta agora mudar o discurso de que Lula os traiu 3 anos depois de que todos já sabiam.</example>
+        </rule>
+
+
         <rule id='TOTALIZAR' name="Simplificar: 'perfazer um total de' → totalizar">
             <pattern>
                 <marker>
@@ -12766,9 +12788,397 @@ USA
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>totalizar</match></suggestion>
-            <example correction="totaliza">Isto <marker>perfaz um total de</marker> 10 equações</example>
+            <example correction="totaliza">Isto <marker>perfaz um total de</marker> 10 equações.</example>
             <example>Estiveram presentes 20 clubes que totalizaram 275 atletas.</example>
         </rule>
+
+
+        <rulegroup id='QUE_SE_V_PRESENTE' name="Simplificar: 'que se + V. presente' → V. part. passado">
+
+            <antipattern>
+                <token regexp='yes'>[ao]s?|u(m|ns)|umas?</token>
+                <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token>se</token>
+                <token postag='V.+' postag_regexp='yes'><exception scope='next' regexp='yes'>como|de|pela|agora</exception></token>
+                <token min='0' max='1' regexp='yes'>as?|às?</token>
+                <token postag='AQ.[CF].+|NC[CF].+|VMN0000|VMP00SF|RG' postag_regexp='yes'/>
+                <example>Não importa o horário que se faz a compra que vcs estão sempre atentos aos nossos pedidos.</example>
+                <example>Agora resta saber quem é o sax que se faz passar por “Claude Taylor”.</example>
+                <example>O macaco é um animal arborícola que se sente à vontade em árvores genealógicas.</example>
+                <example>Durante o casting, vemos uma personagem que se diz atriz e ‘engole cobras’.</example>
+                <example>O que esperar de um país onde a maior emissora que se julga a melhor, boicota a imagem da pesquisa científica.</example>
+                <example>Uma lésbica é uma mulher biológica que se sente atraída por outra mulher biológica.</example>
+            </antipattern>
+
+            <rule> <!-- Female -->
+                <pattern>
+                    <token regexp='yes'>as?|umas?</token>
+                    <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>que</token>
+                        <token>se</token>
+                        <token postag='VMIP3.+' postag_regexp='yes' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
+                    </marker>
+                </pattern>
+                <message>Use presente para o que acontece agora e particípio para o que já ocorreu ou é formal.</message>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_regexp='yes' postag_replace='VMP00$1F'/></suggestion>
+                <example correction="observada">A tensão <marker>que se observa</marker> na empresa é péssima.</example>
+                <example correction="observadas">As tensões <marker>que se observam</marker> na empresa são péssimas.</example>
+                <example>A tensão sentida é do pior que há.</example>
+                <example>As tensões sentidas são do pior que há.</example>
+            </rule>
+            <rule> <!-- Male -->
+                <pattern>
+                    <token regexp='yes'>os?|u(m|ns)</token>
+                    <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>que</token>
+                        <token>se</token>
+                        <token postag='VMIP3.+' postag_regexp='yes' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
+                    </marker>
+                </pattern>
+                <message>Use presente para o que acontece agora e particípio para o que já ocorreu ou é formal.</message>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_regexp='yes' postag_replace='VMP00$1M'/></suggestion>
+                <example correction="observado">O ambiente <marker>que se observa</marker> na empresa é péssimo.</example>
+                <example correction="observados">Os ambientes <marker>que se observam</marker> na empresa são péssimos.</example>
+                <example>O clima sentido é do pior que há.</example>
+                <example>Os climas sentidos são do pior que há.</example>
+            </rule>
+        </rulegroup>
+
+
+        <rulegroup id='DOBRO_DUAS_VEZES_MAIS_V3' name="Simplificar: 'duas vezes mais' → 'o dobro'">
+
+            <antipattern>
+                <token>duas</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <token skip='-1' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>em|que|do</token>
+                <token min='0' max='1'>que</token> <!-- do que -->
+                <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+                <example>Destacando que há cerca de duas vezes mais topônimos com Grim na Inglaterra do que topônimos com Odim.</example>
+            </antipattern>
+
+            <rule> <!-- #1: Without noun/adjective -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='_PUNCT|SENT_END|RG' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='N.+|AQ.+'/>
+                        <exception regexp='yes'>abaixo|acima|acolá|adiante|aí|além|algures|amanhã|aquém|aqui|atrás|cedo|dentro|embaixo|fora|lá|longe|nenhures|off-?line|on-?line|ontem|perto|tarde</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro</suggestion>
+                <example correction="o dobro">Quero <marker>duas vezes mais</marker>.</example>
+                <example>Ele produz o dobro agora.</example>
+            </rule>
+
+            <rule> <!-- #2: Noun male/C -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NC[CM].+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                        <exception scope='next' regexp='yes'>em|que|do</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0M$20'>de:o</match></suggestion>
+                <example correction="o dobro do">Quero <marker>duas vezes mais</marker> dinheiro por isso.</example>
+                <example correction="o dobro dos">Coloquem <marker>duas vezes mais</marker> agentes na rua.</example>
+                <example>Quero o dobro do valor da casa.</example>
+                <example>Quero o dobro dos agentes a patrulhar a rua.</example>
+                <example>Ele é duas vezes mais velho que ela.</example>
+                <example>Você é duas vezes mais forte que eu.</example>
+            </rule>
+
+            <rule> <!-- #3: Noun female -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NCF.+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                        <exception scope='next' regexp='yes'>em|que|do</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0F$20'>de:o</match></suggestion>
+                <example correction="o dobro da">Quero <marker>duas vezes mais</marker> velocidade no PC.</example>
+                <example correction="o dobro das">Coloquem <marker>duas vezes mais</marker> mulheres a patrulhar.</example>
+                <example>Quero o dobro da quantia oferecida.</example>
+                <example>Quero o dobro das mulheres a gerir a empresa.</example>
+                <example>A Ana é duas vezes mais velha que ela.</example>
+                <example>Você é duas vezes mais fraca que eu.</example>
+            </rule>
+
+            <rule> <!-- #4: o(s)|a(s) -->
+                <!-- Specific antipatterns for #4 suggested by ChatGPT-5.
+                     Instead of placing the results in each AP, I placed them in the rule
+                     examples because all these APs were created and executed at the same time.
+                -->
+                <antipattern> <!-- AP #4.1a: Bloqueios por verbo de repetição/ocorrência (à esquerda) -->
+                    <token skip='3' inflected='yes' regexp='yes'>acontecer|alcançar|andar|arrebatar|atravessar|cometer|conquistar|correr|descer|entrar|enfrentar|erguer|executar|fazer|ganhar|levar|nadar|obter|ocorrer|passar|praticar|realizar|receber|repetir|retornar|sair|subir|suceder|vencer|viajar|visitar|voltar</token>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+                <antipattern> <!-- AP #4.1b: Bloquear gerúndio nas 1–3 palavras anteriores, que cobre muitos casos -->
+                    <token skip='3' postag='VMG0.+' postag_regexp='yes'/>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.2: Bloqueios por nome próprio/título (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token postag='NP.+' postag_regexp='yes'/>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.3: Bloqueios por domínio desportivo/competitivo (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>adversário|rival|equip[ae]|time|clube|selec?ção|jogador|jogo|partida|set|round|corrida|prova|etapa|golo|gol|ponto|placar|t[íi]tulo|taça|copa|liga|torneio|campeonato|troféu|trofeu|medalha|recorde|pr[éeê]mio|oscar|emmy|grammy|bafta|nobel</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.4: Bloqueios por deslocação/ocorrência física (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>rio|ponte|fronteira|estrada|maratona|ultramaratona|volta|rota|trajec?to|percurso|turno|turnos|viagem|visita|etapa</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.5: Bloqueios por adjetivos/itens idiomáticos (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>melhor|pior|maior|menor|máximo|minimo|superior|inferior|principal|primeiro|último|mesmo|próprio|mais</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.6: Bloqueia quando houver verbo de movimento nas 1–3 palavras anteriores a “(duas|três) vezes” -->
+                    <token skip='3' inflected='yes' regexp='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|viajar|visitar|atravessar|enfrentar|passar</token>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <pattern>
+                    <marker>
+                        <token>duas
+                            <exception scope='previous' postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|andar|correr|viajar|visitar|atravessar|percorrer|passar|nadar</exception> <!-- Movimento/deslocação -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>atacar|invadir|enfrentar|combater|lutar|batalhar|disputar|jogar|competir|conquistar|vencer|derrotar|ganhar</exception> <!-- Conflito/competição -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>fazer|realizar|executar|cumprir|cometer|praticar|repetir</exception> <!-- Execução de atos -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>obter|receber|alcançar|erguer|arrebatar|levar</exception> <!-- Aquisição/obtenção -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>acontecer|ocorrer|suceder</exception> <!-- Ocorrência/acontecimento -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>por|a</exception></token>
+                        <token>vezes</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token><exception postag='D[AI].+' postag_regexp='yes'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro d\3</suggestion>
+                <example correction="o dobro da">Quero <marker>duas vezes a</marker> quantia em dinheiro.</example>
+                <example correction="o dobro do">Quero <marker>duas vezes o</marker> valor pedido.</example>
+                <example>Quero o dobro da quantia oferecida.</example>
+                <example>Quero o dobro das mulheres a gerir a empresa.</example>
+                <example>Os molbos pagaram prontamente ao homem o que ele pediu, mesmo sendo aquilo duas vezes o que o fuzil valia.</example>
+                <example>Eu não gosto de repetir duas vezes a mesma coisa.</example>
+                <example>Não se pode atravessar duas vezes o mesmo rio.</example>
+                <example>No decorrer de sua vida, visitou duas vezes a cidade natal de seus pais.</example>
+                <example>Por esse trabalho, Sheen ganhou duas vezes o prêmio Emmy de Personalidade Mais Notável da Televisão.</example>
+                <example>Ele foi duas vezes o primeiro-ministro pelo partido "tory".</example>
+                <example>As equipes fazem 82 jogos na temporada regular, enfrentando duas vezes os rivais da outra Conferência.</example>
+                <example>Durante os dezoito anos seguintes, o Milan disputou apenas duas vezes a Copa dos Campeões.</example>
+                <example>Formidável explorador, além das quedas de Vitória, atravessou duas vezes o deserto do Kalahari.</example>
+                <example>Este valor de 7,8 % é igual a duas vezes o desvio padrão (2sigma) da distribuição dos resultados.</example>
+                <example>Em seu país, Kuffour é muito adorado, e foi nomeado por duas vezes o jogados do ano de Gana (1998 e 2002).</example>
+            </rule>
+
+        </rulegroup>
+
+
+        <rulegroup id='TRIPLO_TRÊS_VEZES_MAIS_V3' name="Simplificar: 'três vezes mais' → 'o triplo'">
+
+            <antipattern>
+                <token>duas</token>
+                <token regexp='yes'>e|ou</token>
+                <token>três</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <example>Armas de implosão linear usam duas ou três vezes mais plutônio e são consideravelmente mais caras.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>três</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <token skip='-1' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>em|que|do</token>
+                <token min='0' max='1'>que</token> <!-- do que -->
+                <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+                <example>Destacando que há cerca de três vezes mais topônimos com Grim na Inglaterra do que topônimos com Odim.</example>
+            </antipattern>
+
+            <rule> <!-- #1: Without noun/adjective -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='_PUNCT|SENT_END|RG' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='N.+|AQ.+'/>
+                        <exception regexp='yes'>abaixo|acima|acolá|adiante|aí|além|algures|amanhã|aquém|aqui|atrás|cedo|dentro|embaixo|fora|lá|longe|nenhures|off-?line|on-?line|ontem|perto|tarde</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo</suggestion>
+                <example correction="o triplo">Quero <marker>três vezes mais</marker>.</example>
+                <example>Ele produz o triplo agora.</example>
+            </rule>
+
+            <rule> <!-- #2: Noun male/C -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NC[CM].+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                        <exception scope='next' regexp='yes'>em|que|do</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0M$20'>de:o</match></suggestion>
+                <example correction="o triplo do">Quero <marker>três vezes mais</marker> dinheiro por isso.</example>
+                <example correction="o triplo dos">Coloquem <marker>três vezes mais</marker> agentes na rua.</example>
+                <example>Quero o triplo do valor da casa.</example>
+                <example>Quero o triplo dos agentes a patrulhar a rua.</example>
+                <example>Ele é três vezes mais velho que ela.</example>
+                <example>Você é três vezes mais forte que eu.</example>
+            </rule>
+
+            <rule> <!-- #3: Noun female -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NCF.+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                        <exception scope='next' regexp='yes'>em|que|do</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0F$20'>de:o</match></suggestion>
+                <example correction="o triplo da">Quero <marker>três vezes mais</marker> velocidade no PC.</example>
+                <example correction="o triplo das">Coloquem <marker>três vezes mais</marker> mulheres a patrulhar.</example>
+                <example>Quero o triplo da quantia oferecida.</example>
+                <example>Quero o triplo das mulheres a gerir a empresa.</example>
+                <example>A Ana é três vezes mais velha que ela.</example>
+                <example>Você é três vezes mais fraca que eu.</example>
+            </rule>
+
+            <rule> <!-- #4: o(s)|a(s) -->
+                <!-- Specific antipatterns for #4 suggested by ChatGPT-5.
+                     Instead of placing the results in each AP, I placed them in the rule
+                     examples because all these APs were created and executed at the same time.
+                -->
+                <antipattern> <!-- AP #4.1a: Bloqueios por verbo de repetição/ocorrência (à esquerda) -->
+                    <token skip='3' inflected='yes' regexp='yes'>acontecer|alcançar|andar|arrebatar|atravessar|cometer|conquistar|correr|descer|entrar|enfrentar|erguer|executar|fazer|ganhar|levar|nadar|obter|ocorrer|passar|praticar|realizar|receber|repetir|retornar|sair|subir|suceder|vencer|viajar|visitar|voltar</token>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+                <antipattern> <!-- AP #4.1b: Bloquear gerúndio nas 1–3 palavras anteriores, que cobre muitos casos -->
+                    <token skip='3' postag='VMG0.+' postag_regexp='yes'/>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.2: Bloqueios por nome próprio/título (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token postag='NP.+' postag_regexp='yes'/>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.3: Bloqueios por domínio desportivo/competitivo (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>adversário|rival|equip[ae]|time|clube|selec?ção|jogador|jogo|partida|set|round|corrida|prova|etapa|golo|gol|ponto|placar|t[íi]tulo|taça|copa|liga|torneio|campeonato|troféu|trofeu|medalha|recorde|pr[éeê]mio|oscar|emmy|grammy|bafta|nobel</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.4: Bloqueios por deslocação/ocorrência física (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>rio|ponte|fronteira|estrada|maratona|ultramaratona|volta|rota|trajec?to|percurso|turno|turnos|viagem|visita|etapa</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.5: Bloqueios por adjetivos/itens idiomáticos (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>melhor|pior|maior|menor|máximo|minimo|superior|inferior|principal|primeiro|último|mesmo|próprio|mais</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.6: Bloqueia quando houver verbo de movimento nas 1–3 palavras anteriores a “(duas|três) vezes” -->
+                    <token skip='3' inflected='yes' regexp='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|viajar|visitar|atravessar|enfrentar|passar</token>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <pattern>
+                    <marker>
+                        <token>três
+                            <exception scope='previous' postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|andar|correr|viajar|visitar|atravessar|percorrer|passar|nadar</exception> <!-- Movimento/deslocação -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>atacar|invadir|enfrentar|combater|lutar|batalhar|disputar|jogar|competir|conquistar|vencer|derrotar|ganhar</exception> <!-- Conflito/competição -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>fazer|realizar|executar|cumprir|cometer|praticar|repetir</exception> <!-- Execução de atos -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>obter|receber|alcançar|erguer|arrebatar|levar</exception> <!-- Aquisição/obtenção -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>acontecer|ocorrer|suceder</exception> <!-- Ocorrência/acontecimento -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>por|a</exception></token>
+                        <token>vezes</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token><exception postag='D[AI].+' postag_regexp='yes'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo d\3</suggestion>
+                <example correction="o triplo da">Quero <marker>três vezes a</marker> quantia em dinheiro.</example>
+                <example correction="o triplo do">Quero <marker>três vezes o</marker> valor pedido.</example>
+                <example>Quero o triplo da quantia oferecida.</example>
+                <example>Quero o triplo das mulheres a gerir a empresa.</example>
+                <example>Eu já fui três vezes a Boston.</example>
+                <example>Três vezes a mesma posição significa empate.</example>
+                <example>Além disso conquistaram por três vezes o Campeonato Mundial de Voleibol Feminino em 1962 na União Soviética.</example>
+                <example>Exerceu por três vezes as funções de Governador Civil do Distrito de Viana do Castelo.</example>
+                <example>Com o Real, faturou três vezes a Liga dos Campeões da UEFA: 1997–98, 1999–00 e 2001–02.</example>
+                <example>Fui três vezes a sua casa.</example>
+                <example>Três vezes o gato malhado miou. Quatro vezes o ouriço ganiu. A harpia grita "É hora, é hora".</example>
+                <example>Sami cobrou a conta três vezes a um freguês bêbado.</example>
+                <example>Três vezes a cabeça, descontente.</example>
+                <example>Os espartanos invadiram três vezes a zona nos anos seguintes.</example>
+                <example>Ela está a voar por cima de mim, duas, três vezes a velocidades que não consegui identificar.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
@@ -13400,6 +13810,15 @@ USA
         <rulegroup id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="[Simplificar] 'do inimigo/adversário/aliado/oponente' → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style" tags='picky'>
             <!--IDEA shorten_it-->
 
+            <antipattern> <!-- Later use this AP for specific fixes, removing exceptions from the rules below -->
+                <token regexp='yes' inflected='yes'>eliminação|neutralização|captura|destruição|supressão|amigo|inimigo|adversário|aliado|oponente</token>
+                <token regexp='yes'>d[ao]s?</token>
+                <token regexp='yes' inflected='yes'>inimigo|adversário|aliado|oponente</token>
+                <example>Assim facilitando a neutralização dos inimigos.</example>
+                <example>Ele é amigo dos inimigos.</example>
+                <example>Ele é inimigo dos inimigos.</example>
+            </antipattern>
+
             <!-- #1: Number/gender agreement depends on using "às?|[ao]s?" -->
             <rule>
                 <pattern>
@@ -13408,7 +13827,6 @@ USA
                     </token>
                     <token postag='NC.[^N].+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
-                        <exception regexp='yes' inflected='yes'>amigo|inimigo|adversário|aliado|oponente</exception> <!-- "amigo dos inimigos", etc. -->
                     </token>
                     <marker>
                         <token regexp='yes'>d[ao]s?</token>
@@ -13433,8 +13851,6 @@ USA
                 <example>Enquanto isso, os representantes dos Aliados em Viena, sem o apoio de seus respectivos governos, tentaram derrubar o governo de Kun e substituí-...</example>
                 <example>Para ceifarem as vidas dos inimigos deles e do seu mestre.</example>
                 <example>Para ceifarem as vidas dos inimigos destes e do seu mestre.</example>
-                <example>Ele é amigo dos inimigos.</example>
-                <example>Ele é inimigo dos inimigos.</example>
             </rule>
 
             <!-- #2: Number/gender agreement depends on using "de|d[ao]s?" -->
@@ -13444,8 +13860,8 @@ USA
                     <token postag='SPS00:DA0F.+' postag_regexp='yes'/>
                     <token postag='NCF.+' postag_regexp='yes'/>
                     <token regexp='yes'>de|d[ao]s?</token>
-                    <example>...iras polaco-lituanas no período entre-guerras, embora reconhecidas pela Conferência de Embaixadores dos Aliados da Primeira Guerra Mundial e pela Liga das Nações, </example>
-                    <example>...hola, a qual ao virar-se à procura dos navios britânicos deixaram-no situado na vanguarda do ataque dos Aliados.</example>
+                    <example>Reconhecidas pela Conferência de Embaixadores dos Aliados da Primeira Guerra Mundial e pela Liga das Nações.</example>
+                    <example>Ao virar-se à procura dos navios britânicos deixaram-no situado na vanguarda do ataque dos Aliados.</example>
                 </antipattern>
                 <antipattern>
                     <token postag='VMN0000' postag_regexp='no'/>
@@ -13455,7 +13871,7 @@ USA
                     <token postag='NC.+' postag_regexp='yes'/>
                     <token regexp='yes'>d[ao]s</token>
                     <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
-                <example>...ou este plano de invasão óbvio para os japoneses; eles foram capazes de prever os planos de invasão dos Aliados com precisão e, assim, ajustar o seu plano defensivo, a Operação Ketsugō, em conformidade.</example>
+                <example>Eles foram capazes de prever os planos de invasão dos Aliados com precisão e ajustar o seu plano defensivo.</example>
                 <example>A retomada das ofensivas por parte da Rússia deveria facilitar a concessão de créditos dos Aliados.</example>
                 </antipattern>
                 <pattern>
@@ -13465,7 +13881,6 @@ USA
                     <token regexp='yes'>de|d[ao]s?</token>
                     <token postag='NC.+' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='RG|DI.+|Z0.+|VMIP3S0'/>
-                        <exception regexp="yes">amig[ao]s?</exception> <!-- "amigo dos inimigos" -->
                     </token>
                     <marker>
                         <token regexp='yes'>d[ao]s?</token>
@@ -15052,49 +15467,6 @@ USA
             <example>No local, funciona um consulado móvel para atender os colombianos que estão no Rio para as competições.</example>
             <example>Só se abre a porta que está nos corações com amor.</example>
             <example>Tom tem um amigo que está na prisão.</example>
-        </rule>
-
-
-        <!-- AMBIENTE QUE SE VIVE ambiente vivido -->
-        <rule id='QUE_SE_VERBO_TIPO_VIVE_PART_PASSADO' name="[Simplificar] 'Que se V.Tipo.Vive(m)' → 'V.Part.Pass.'" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-03/14 (2-MAR-2023+) -->
-            <!--
-      O ambiente que se vive na escola é péssimo. → O ambiente vivido na escola é péssimo.
-      Os ambientes que se vivem na escola são péssimos. → Os ambientes vividos na escola são péssimos.
-      -->
-
-            <antipattern>
-                <token>que</token>
-                <token>se</token>
-                <token postag='VMIP3.+' postag_regexp='yes'/>
-                <token regexp='yes'>às?</token>
-                <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-                <token postag='V.+' postag_regexp='yes'/>
-<!--                <example>Temos as leoas que se movem à procura de alimento.</example> -->
-            </antipattern>
-
-            <pattern>
-                <token postag='DA.+|DI.+|CC' postag_regexp='yes'>
-                    <exception postag_regexp='no' postag='SPS00'/>
-                </token>
-                <token postag='NC[FM][SP].+' postag_regexp='yes'/>
-                <marker>
-                    <token>que</token>
-                    <token>se</token>
-                    <token postag='VMIP3.+' postag_regexp='yes'/>
-                </marker>
-                <token postag='SPS00:DA.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='V.+'/>
-                </token>
-                <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-                <token postag='NC.+|AQ.+|NP.+|DI.+' postag_regexp='yes'/>
-            </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:5 lemmaSelect:V.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:VMP00[\b2N][\b1C]" />
-            <message>&simplify_msg;</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="vivido">O ambiente <marker>que se vive</marker> na escola é péssimo.</example>
-            <example correction="vividos">Os ambientes <marker>que se vivem</marker> na escola são péssimos.</example>
         </rule>
 
 

@@ -381,7 +381,7 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra|adéu|féu)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra|adéu|féu|vés)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set<String> enabledRules) {
     String errorStr = ruleMatch.getOriginalErrorStr();
@@ -441,6 +441,7 @@ public class Catalan extends Language {
   
   private String removeOldDiacritics(String s) {
     return s
+        .replace("vés", "ves")
         .replace("féu", "feu")
         .replace("adéu", "adeu")
         .replace("dóna", "dona")
@@ -449,6 +450,7 @@ public class Catalan extends Language {
         .replace("vénen", "venen")
         .replace("véns", "véns")
         .replace("fóra", "fora")
+        .replace("Vés", "Ves")
         .replace("Féu", "Feu")
         .replace("Adéu", "Adeu")
         .replace("Dóna", "Dona")
@@ -459,7 +461,7 @@ public class Catalan extends Language {
         .replace("Fóra", "Fora");
   }
   
-  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[DdPp]e)r? e(ls?)\\b");
   private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ");
   // exceptions: l'FBI, l'statu quo
   private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
