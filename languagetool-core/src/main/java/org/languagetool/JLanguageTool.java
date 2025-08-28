@@ -340,7 +340,6 @@ public class JLanguageTool {
     this.cache = cache;
     descProvider = new ShortDescriptionProvider();
     this.inputLogging = inputLogging;
-    this.matchFilters.add(new NewLineMatchFilter());
   }
 
   /**
