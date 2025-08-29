@@ -329,7 +329,7 @@ abstract class TextChecker {
                  String remoteAddress) throws Exception {
     checkParams(params);
     long timeStart = System.currentTimeMillis();
-    UserLimits limits = ServerTools.getUserLimits(params, config);
+    UserLimits limits = ServerTools.getUserLimits(params, config, httpExchange.getRequestHeaders());
 
     if (Premium.isPremiumStatusCheck(aText)) {
       Language premiumStatusCheckLang = Languages.getLanguageForShortCode("en-US");
@@ -497,7 +497,7 @@ abstract class TextChecker {
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource, optInThirdPartyAI, limits.hasPremium());
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource, optInThirdPartyAI, limits.hasPremium(), limits.getJwtContent().claims());
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
