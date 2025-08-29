@@ -152,8 +152,8 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   }
 
   @Override
-  boolean validateAuthHeader(String authHeader) {
-    return false;
+  JwtContent validateAuthHeader(String authHeader) {
+    return new JwtContent(false, false, Collections.emptyMap());
   }
 
   @Override
