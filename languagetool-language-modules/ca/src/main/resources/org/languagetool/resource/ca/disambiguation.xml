@@ -18290,16 +18290,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="SPS.*"/>
     </rule>
     <rulegroup id="confusio_les_els" name="aplicar les filtres -> els filtres">
+        <!-- Alternativament pot ser: PP3FPA00 VMIP2S00 -->
         <rule>
             <pattern>
                 <token postag="V.[NGIS].*|_GV_" postag_regexp="yes"/>
                 <marker>
-                    <!-- Alternativament pot ser: PP3FPA00 VMIP2S00 -->
                     <token postag="DA0FP0">les<exception postag="_GN_FP"/></token>
+                </marker>
+                <token postag="NCMP000"/>
+            </pattern>
+            <disambig action="remove" postag="PP3FPA00|_GV_"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[NGIS].*|_GV_" postag_regexp="yes"/>
+                <token postag="DA0FP0">les<exception postag="_GN_FP"/></token>
+                <marker>
                     <token postag="NCMP000"/>
                 </marker>
             </pattern>
-            <disambig action="filterall"/>
+            <disambig action="remove" postag="V.[IS].*|_GV_"/>
         </rule>
     </rulegroup>
     <rulegroup id="interjeccio" name="interjeccions">
