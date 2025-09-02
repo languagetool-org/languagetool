@@ -3217,6 +3217,27 @@ USA
       </rule>
 
 
+     <rule id='BRASILEIRISMO_ESTAR_DE_SACO_CHEIO' name="[pt-PT][Brasileirismo] estar 'de saco cheio' → farto/saturado" default='temp_off'>
+          <pattern>
+              <token skip='1' postag='VM.+' postag_regexp='yes' inflected='yes' regexp='no'>estar</token>
+              <marker>
+                  <token>de</token>
+                  <token>saco</token>
+                  <token>cheio</token>
+              </marker>
+          </pattern>
+          <message>Grafia do Brasil. Substitua por:</message>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0M$10'>farto</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0F$10'>farto</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0M$10'>saturado</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0F$10'>saturado</match></suggestion>
+          <example correction='farto|farta|saturado|saturada'>Estou <marker>de saco cheio</marker>.</example>
+          <example correction='fartos|fartas|saturados|saturadas'>Estamos <marker>de saco cheio</marker>.</example>
+          <example>Estamos completamente saturados disto tudo.</example>
+          <example>A Ana está farta.</example>
+      </rule>
+
+
      <rule id='BRASILEIRISMO_MACHUCAR' name="[pt-PT][Brasileirismo] machucar → magoar/aleijar/ferir">
           <pattern>
               <token inflected='yes' regexp='no'>machucar</token>
