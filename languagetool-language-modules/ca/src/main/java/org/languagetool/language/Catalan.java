@@ -231,6 +231,7 @@ public class Catalan extends Language {
       case "CONEIXO_CONEC": return 50;
       case "COMETES_INCORRECTES": return 50; // greater than PRONOMS_FEBLES
       case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
+      case "PREGUEM_DISCULPIN": return 45; // greater than ESPERANT_US_AGRADI
       case "DESDE_UN": return 40;
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
@@ -262,6 +263,7 @@ public class Catalan extends Language {
       case "HAVER_SENSE_HAC": return 25; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
       case "HA_A": return 25; //  lower than CA_SIMPLE_REPLACE_VERBS
       case "PASSAT_PERIFRASTIC": return 25; // greater than CONFUSIONS_ACCENT
+      case "PREPOSITIONS": return 25;
       case "CONFUSIONS_ACCENT": return 20;
       case "CONFUSIO_PASSAT_INFINITIU": return 20; // greater than ACCENTUATION_CHECK
       case "DIACRITICS": return 20;
