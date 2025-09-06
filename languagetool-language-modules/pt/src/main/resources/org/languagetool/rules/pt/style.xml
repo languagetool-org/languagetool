@@ -3691,6 +3691,26 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='MAIORES_PRINCIPAIS' name="Maiores → principais (plural apenas)" type='style' tone_tags='formal' tags='picky' default='temp_off'>
+            <!-- ChatGPT 5 -->
+            <!-- Atenção: esta regra aplica-se apenas a "maiores" (plural).
+                          Não utilizar com "maior" (singular), pois o sentido muda
+                          e a substituição por "principal" nem sempre é válida. -->
+            <pattern>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <marker>
+                    <token>maiores</token>
+                </marker>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Use &quot;principais&quot; para importância/relevância, e &quot;maiores&quot; apenas para tamanho, quantidade ou idade.</message>
+            <suggestion>principais</suggestion>
+            <example correction="principais">O Marco é um dos <marker>maiores</marker> contribuidores lexicográficos.</example>
+            <example>Conheci alguns dos principais escritores da atualidade.</example>
+            <example>Ele é um dos principais responsáveis pela decisão.</example>
+        </rule>
+
+
         <rulegroup id='PERTO_PRÓXIMO' name="Perto → próximo" type='style' tone_tags='formal'>
 
             <antipattern>
