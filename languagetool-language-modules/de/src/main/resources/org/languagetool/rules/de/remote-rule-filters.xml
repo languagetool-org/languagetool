@@ -3058,6 +3058,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Wie bei vielen <marker>solcher</marker> Situationen gibt es unterschiedliche Perspektiven und Meinungen darüber, was genau passiert ist.</example>
             </rule>
+            <rule>
+                <pattern><!--correct according to grammis: https://grammis.ids-mannheim.de/fragen/3185-->
+                    <token>am</token>
+                    <token regexp="yes">Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag</token>
+                    <token min="0">,</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                </pattern>
+                <example correction="">Das war am Mittwoch, <marker>den</marker> 10. September 2025.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="AI_DE_GGEC_UNNECESSARY_PUNCTUATION.*" name="">
@@ -3431,6 +3442,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Der Film wurde komplett in <marker>3D</marker> produziert.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>gehts</token>
+                </pattern>
+                <example correction="">Hallo, wie <marker>gehts</marker>?</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="QB_NEW_DE_OTHER_ERROR_IDS_UNNECESSARY_PUNCTUATION.*" name="">
@@ -3455,15 +3472,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Die <marker>1‑%-Regel</marker> gilt für privat genutzte Dienstwagen.</example>
                 <example correction="">Die <marker>5‑%-Hürde</marker> wurde erreicht.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="QB_NEW_DE_OTHER_ERROR_IDS_MISSING_PUNCTUATION.*" name="">
-            <rule>
-                <pattern>
-                    <token>gehts</token>
-                </pattern>
-                <example correction="">Hallo, wie <marker>gehts</marker>?</example>
             </rule>
         </rulegroup>
 
