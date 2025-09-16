@@ -379,6 +379,40 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="rato_analisi" name="rato">
+        <rule>
+            <pattern>
+                <token>rato</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="rato" pos="NCMS000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>ratos</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="rato" pos="NCMP000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>ratet</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="ratet" pos="NCMS000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>ratets</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="ratet" pos="NCMP000"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
         <rule>
             <pattern>
@@ -2360,12 +2394,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule id="en_va1" name="en va (locució adverbial)">
             <pattern>
-                <token><exception regexp="yes">'ls|'ns|us|hi|'t|'m</exception></token>
+                <token><exception regexp="yes">'ls|'ns|us|hi|'t|'m|mi</exception></token>
                 <marker>
                     <token>en</token>
                     <token>va</token>
                 </marker>
-                <token><exception postag="V.[NG].*|A.*|V.P.*SM.?" postag_regexp="yes"/></token>
+                <token><exception postag="V.[NG].*|A.*|V.P.*SM.?" postag_regexp="yes"/><exception regexp="yes">bé|malament|fatal|pitjor</exception></token>
             </pattern>
             <disambig action="replace">
                 <wd lemma="en va" pos="LOC_ADV"/>
@@ -5902,6 +5936,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="NCMS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">xec</token>
+                <marker>
+                    <token regexp="yes">nadó|bebè|bebé</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
         </rule>
         <rule>
             <pattern>
@@ -16375,13 +16418,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>en</token>
                 <token>dona</token>
             </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>mi</token>
+                <token>en</token>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">que|què|si</exception></token>
                 <token>en</token>
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception regexp="yes">surt|parla|paga|saps|pren|passa|trama|porta|treu|trau|faig</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception regexp="yes">surt|parla|paga|saps|pren|passa|trama|porta|treu|trau|faig|toca</exception></token>
                     </and>
                 </marker>
             </pattern>

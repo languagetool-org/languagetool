@@ -3711,6 +3711,70 @@ USA
         </rule>
 
 
+        <rulegroup id='FALAR_DE_ABORDAR' name="Falar de → abordar" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 -->
+
+            <rule> <!-- #1: da(s)/do(s) -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>falar
+                            <exception postag='V.+:.+' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes'>me|te|se|nos|vos|lhes?</exception>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ouvir|escutar|ver|sentir</exception></token>
+                        <token skip='1' regexp='yes'>d[ao]s?</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>coisa|questão|assunto|tema|problema|matéria|tópico|ponto|pauta|conteúdo|temática|discussão|análise|argumento|perspetiva|abordagem|conceito|aspecto|dimensão|âmbito|categoria|critério|parâmetro|questionalidade|fundamento|princípio|noção</token>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;abordar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>abordar</match> <match no='2' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <example correction="aborda as">A forma como ele <marker>fala das</marker> questões é excelente.</example>
+                <example>O Rui aborda as questões muito sensíveis.</example>
+                <example>Vocês já ouviram falar do Princípio de Peter?</example>
+                <example>Falaram-te do problema?</example>
+            </rule>
+
+            <rule> <!-- #2: de -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>falar
+                            <exception postag='V.+:.+' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes'>me|te|se|nos|vos|lhes?</exception>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ouvir|escutar|ver|sentir</exception></token>
+                        <token skip='1'>de</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>coisa|questão|assunto|tema|problema|matéria|tópico|ponto|pauta|conteúdo|temática|discussão|análise|argumento|perspetiva|abordagem|conceito|aspecto|dimensão|âmbito|categoria|critério|parâmetro|questionalidade|fundamento|princípio|noção</token>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;abordar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>abordar</match></suggestion>
+                <example correction="aborda">A forma como ela <marker>fala de</marker> questões relevantes é perfeita.</example>
+                <example>O Rui aborda questões muito sensíveis.</example>
+                <example>Você já ouviu falar de tal coisa?</example>
+                <example>Não se fala de outra coisa na TV.</example>
+                <example>Não se fala de outra coisa além disso.</example>
+                <example>O meu avô nos fala de coisas passadas.</example>
+                <example>Liguei para Tom e lhe falei de meu problema.</example>
+            </rule>
+
+            <rule> <!-- #3: dessa(s)/desse(s) -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>falar
+                            <exception postag='V.+:.+' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes'>me|te|se|nos|vos|lhes?</exception>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ouvir|escutar|ver|sentir</exception></token>
+                        <token skip='1' regexp='yes'>dess[ae]s?</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>coisa|questão|assunto|tema|problema|matéria|tópico|ponto|pauta|conteúdo|temática|discussão|análise|argumento|perspetiva|abordagem|conceito|aspecto|dimensão|âmbito|categoria|critério|parâmetro|questionalidade|fundamento|princípio|noção</token>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;abordar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>abordar</match> <match no='2' postag='SPS00:DD0(..)0' postag_replace='DD0$10'>esse</match></suggestion>
+                <example correction="aborda essa">A forma como ele <marker>fala dessa</marker> questão é excelente.</example>
+                <example>O Rui aborda essas questões muito sensíveis.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rulegroup id='PERTO_PRÓXIMO' name="Perto → próximo" type='style' tone_tags='formal'>
 
             <antipattern>
