@@ -3691,6 +3691,36 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='CERTO_INDICADO_PARA' name="'Certo' para → indicado/adequado/qualificado/apropriado" type='style' tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 -->
+
+            <antipattern> <!-- ChatGPT5 : Versão média (10–12 lemas), que dá mais cobertura sem ficar tão extensa como a lista longa -->
+                <token regexp='yes' inflected='yes'>resposta|solução|resultado|alternativa|opção|decisão|afirmação|proposta|hipótese|estratégia|número|valor</token>
+                <token min='0' max='1'>mais</token>
+                <token regexp='yes'>cert[ao]s?</token>
+                <token>para</token>
+                <example>Cada vez mais inconteste no guarda-roupa, salutar as opções certas para começo das temperaturas amenas.</example>
+                <example>Não há uma resposta certa para isto.</example>
+            </antipattern>
+            <pattern>
+                <token postag='N.+' postag_regexp='yes'/>
+                <token min='0' max='1'>mais</token>
+                <marker>
+                    <token regexp='yes'>cert[ao]s?</token>
+                </marker>
+                <token>para</token>
+            </pattern>
+            <message>&quot;Certo&quot; é aceitável em registos informais. Em registos formais, prefira &quot;indicado&quot;, &quot;adequado&quot;, &quot;qualificado&quot; ou &quot;apropriado&quot;.</message>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>indicado</match></suggestion>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>adequado</match></suggestion>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>qualificado</match></suggestion>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>apropriado</match></suggestion>
+            <example correction="indicado|adequado|qualificado|apropriado">O Rui é o professor mais <marker>certo</marker> para dar as aulas.</example>
+            <example>O Rui é a pessoa mais adequada para a função.</example>
+            <example>A Ana e a Rita são as utilizadoras mais indicadas para escrever o documento.</example>
+        </rule>
+
+
         <rule id='MAIORES_PRINCIPAIS' name="Maiores → principais (plural apenas)" type='style' tone_tags='formal' tags='picky'>
             <!-- ChatGPT 5 -->
             <!-- Atenção: esta regra aplica-se apenas a "maiores" (plural).
