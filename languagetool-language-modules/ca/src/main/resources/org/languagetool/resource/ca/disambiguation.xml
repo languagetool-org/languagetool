@@ -11842,7 +11842,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <unify>
                 <feature id="nombre"/>
                 <token postag="D[^R].*" postag_regexp="yes"/>
-                <token inflected="yes" regexp="yes">suau|diferent</token>
+                <token inflected="yes" regexp="yes">suau|diferent|creixent|decreixent</token>
                 <!--<exception postag="N.*" postag_regexp="yes"/></token>-->
                 <marker>
                     <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">vessant|corrent|pendent</token>
@@ -12775,7 +12775,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="D[^R].*" postag_regexp="yes"><exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
                     <token postag="A.*|V.P.*|DN.*" postag_regexp="yes"><exception postag="AQ0CN0"/></token>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="AQ0CN0"/></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="AQ0CN0"/><exception>corrent</exception></token>
                     <token postag="N.*" postag_regexp="yes"><exception postag="DN.*|V.G.*" postag_regexp="yes"/><exception regexp="yes">si|passa|dins|era|quina|però|fou</exception></token>
                 </marker>
             </unify>
@@ -21675,6 +21675,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token regexp="yes">\p{P}\p{P}+</token>
                 </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>Lang</token>
+                </marker>
+                <token>Lang</token>
             </pattern>
             <disambig action="add">
                 <wd pos="_allow_repeat"/>
