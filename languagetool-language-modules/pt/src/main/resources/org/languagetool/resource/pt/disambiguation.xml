@@ -669,6 +669,12 @@ USA
 
   <rulegroup id="ADVERB_VERB_NOUN" name="Via: Advérbio + Verbo/Nome">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-02-27 -->
+    <antipattern> <!-- It can be both a verb and a non-verb -->
+      <token postag='RG'/>
+      <token postag='VMIP2S0'/>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+      <!-- "inclusive certas organizações" -->
+    </antipattern>
     <rule>
       <pattern>
         <token postag="N.+" postag_regexp="yes"/>
