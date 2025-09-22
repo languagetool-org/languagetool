@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.google.common.base.Strings;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -108,9 +109,10 @@ class UserLimits {
   }
 
   public static UserLimits getLimitsWithJwtToken(HTTPServerConfig config, String authHeader, String username, String addonToken) {
-    DatabaseAccess db = DatabaseAccess.getInstance();
-    UserInfoEntry data = (username != null && addonToken != null) ? db.getUserInfoWithAddonToken(username, addonToken) : null;
-    JwtContent jwtContent = db.validateAuthHeader(authHeader);
+
+    DatabaseAccess db = DatabaseAccess.isReady() ? DatabaseAccess.getInstance() : null;
+    UserInfoEntry data = (db != null && !Strings.isNullOrEmpty(username) && !Strings.isNullOrEmpty(addonToken)) ? db.getUserInfoWithAddonToken(username, addonToken) : null;
+    JwtContent jwtContent = db != null ? db.validateAuthHeader(authHeader) : JwtContent.NONE;
 
     // User is premium
     if (data != null && (data.hasPremium() || config.isPremiumAlways())) {
@@ -120,23 +122,29 @@ class UserLimits {
     // User send an invalid premium-token
     if (!jwtContent.isValid() && jwtContent.isPremium()) {
       Long userId = (data != null) ? data.getUserId() : 0L;
+      if (userId == 0) {
+        return username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
+      }
       return new UserLimits(0, 0, userId, false, 0L, 0L, LimitEnforcementMode.PER_DAY, data, jwtContent);
     }
 
     // At this point we already know
     // 1. User is not premium in our DB
-    // 2. User has not send an invalid premium token
+    // 2. User has not sent an invalid premium token
 
     // User is not premium in our DB but has a token that decides if user is premium
     if (data != null) {
-      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), jwtContent.isPremium(), data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
+      if (jwtContent.isPremium()) {
+        return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
+      } else {
+        return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
+      }
     }
 
     // Anonymous user with valid token
     if (jwtContent.isValid()) {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), 1L, jwtContent.isPremium(), null, null, null, null, jwtContent);
     }
-
     return username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
   }
 
