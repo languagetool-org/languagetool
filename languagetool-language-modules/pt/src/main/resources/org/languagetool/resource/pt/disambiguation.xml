@@ -3935,6 +3935,32 @@ USA
 
   </rulegroup>
 
+  <rule id="DP_VPARTPASS_NCAQ_20250925" name="Remove rare verbs from appearing as verbs">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='[DP].+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMP00PM' postag_regexp='no'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Em Roma dividiam-se os partidos mas a maioria estava contra os intentos da rainha.
+             Muito conhecidos são os mercados e socos cairotas.
+             Sendo assim, Bênlio assumiu os teclados, mais continuou a tocar guitarra em algumas ocasiões.
+             Normalmente são alaranjados, alguns esverdeados, quando em boas condições.
+             «Reforma trabalhista: como votaram os deputados».
+             Mas juntos somos fortes e conseguiremos chegar onde queremos e merecemos.
+             Esses resultados definiram os classificados ao quadrangular semifinal da competição.
+             Às vezes, os opostos não estão preparados para se atrair.
+             Tal música fere os ouvidos.
+    -->
+  </rule>
+
   <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
