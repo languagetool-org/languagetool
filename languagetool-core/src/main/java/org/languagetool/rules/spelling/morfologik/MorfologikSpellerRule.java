@@ -64,6 +64,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private boolean checkCompound = false;
   private Pattern compoundRegex = Pattern.compile("-");
   private final UserConfig userConfig;
+  private final Object lock = new Object();
  
   //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
   static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
@@ -123,8 +124,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
+    initSpellers();
+
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
-    if (initSpellers()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
     boolean isFirstWord = true;
     boolean gotResultsFromForeignLanguageChecker = false;
@@ -220,8 +222,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return null;
   }
 
-  private boolean initSpellers() throws IOException {
-    if (speller1 == null) {
+  private void initSpellers() throws IOException {
+    synchronized (lock) {
+      if (speller1 != null) return;
       String binaryDict = null;
       if (getDataBroker().resourceExists(getFileName()) || Paths.get(getFileName()).toFile().exists()) {
         binaryDict = getFileName();
@@ -234,7 +237,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         throw new RuntimeException("Cannot find dictionary file " + getFileName());
       }
     }
-    return false;
   }
 
   private void initSpeller(String binaryDict) throws IOException {
