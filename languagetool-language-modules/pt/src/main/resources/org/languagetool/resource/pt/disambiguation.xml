@@ -3935,6 +3935,60 @@ USA
 
   </rulegroup>
 
+  <rule id="DP_VPARTPASS_NCAQ_20250925" name="Remove rare verbs from appearing as verbs">
+    <pattern>
+      <token postag='[DP].+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMP00PM' postag_regexp='no'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Em Roma dividiam-se os partidos mas a maioria estava contra os intentos da rainha.
+             Muito conhecidos são os mercados e socos cairotas.
+             Sendo assim, Bênlio assumiu os teclados, mais continuou a tocar guitarra em algumas ocasiões.
+             Normalmente são alaranjados, alguns esverdeados, quando em boas condições.
+             «Reforma trabalhista: como votaram os deputados».
+             Mas juntos somos fortes e conseguiremos chegar onde queremos e merecemos.
+             Esses resultados definiram os classificados ao quadrangular semifinal da competição.
+             Às vezes, os opostos não estão preparados para se atrair.
+             Tal música fere os ouvidos.
+    -->
+  </rule>
+
+  <rule id="DA_DI_NC_AQ_VPARTPASS_20250926" name="Make verb appear as 3rd person singular">
+    <pattern>
+      <token postag='D[AIP].+' postag_regexp='yes'/>
+      <token postag='NCM.+|AQ0M.+|NP.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='VMP00SF'/>
+        </and>
+      </marker>
+      <token postag='D[AIP].+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+    <!--
+    Examples:
+             O sujeito ganha uma medalha de ouro, critica a burocracia cuba..digo, brasileira, e leva uma bronca.
+             Já o Aécio oculta o patrimônio e não quer esclarecer.
+             Como o sal resseca o cabelo, é preciso fazer uma hidratação semanal.
+             O aplicativo pega cada trecho e monta aleatoriamente uma frase perfeita para incrementar sua reunião.
+             "Ou o Parlamento aceita as nossas condições, ou não aprovaremos qualquer pagamento", diz Cristas.
+             O cão desperta muito amor e é modelo de fidelidade.
+             Um Picasso estuda um objeto como um cirurgião disseca um cadáver.
+             Ao utilizar os nossos serviços aceita a sua utilização.
+             Meu pai pega o metrô às 7 da manhã para ir ao trabalho.
+             Teu sorriso desperta meu sorriso, e o duelo do amor já recomeça.
+             Fazendo isso, você ajudará o site a manter-se sempre ativo, pois a Amazon paga uma comissão por cada venda.
+    -->
+  </rule>
+
   <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
     <pattern>
