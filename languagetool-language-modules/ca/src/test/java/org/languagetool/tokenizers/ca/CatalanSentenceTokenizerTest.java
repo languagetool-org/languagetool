@@ -107,6 +107,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("la projectada Sta. Ma. de Gàllecs");
     testSplit("El fruit té de 6 a 8 cm de long. i 4 a 6 cm d'ample.");
     testSplit("Geiger (Proc. Roy. Soc. 1 de febrer de 1910).");
+    testSplit("El poble tenia 50 hab. a finals de segle XX.");
     
     // Unknown abbreviations inside parentheses
     testSplit("(Impren. Disss)");
