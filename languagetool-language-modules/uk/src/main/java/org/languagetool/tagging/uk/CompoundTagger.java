@@ -128,6 +128,7 @@ class CompoundTagger {
     rightPartsWithLeftTagMap.put("то", Pattern.compile("(.*?pron|verb|noun|adj|adv|conj).*")); // part|conj
     // noun gives false on зразу-таки
     rightPartsWithLeftTagMap.put("таки", Pattern.compile("(verb|adv|adj|.*?pron|part|noninfl:predic).*")); 
+    rightPartsWithLeftTagMap.put("єм", Pattern.compile("(verb).*")); 
 
     dashPrefixes = ExtraDictionaryLoader.loadMap("/uk/dash_prefixes.txt");
     dashPrefixesInvalid = ExtraDictionaryLoader.loadSet("/uk/dash_prefixes_invalid.txt");
@@ -257,7 +258,7 @@ class CompoundTagger {
     List<TaggedWord> leftWdList = tagAsIsAndWithLowerCase(leftWord);
 
 
-    // стривай-бо, чекай-но, прийшов-таки, такий-от, такий-то
+    // стривай-бо, чекай-но, прийшов-таки, такий-от, такий-то, ішов-єм (arch)
 
     String rightWordLowerCase = rightWord.toLowerCase();
     if( rightPartsWithLeftTagMap.containsKey(rightWordLowerCase) 
@@ -284,6 +285,10 @@ class CompoundTagger {
         if( posTag != null
             && (leftWordLowerCase.equals("дуже") && posTag.contains("adv")) 
              || (leftTagRegex.matcher(posTag).matches()) ) {
+          
+          if( rightWord.equals("єм") ) {
+            posTag = PosTagHelper.addIfNotContains(posTag, ":arch");
+          }
           
           newAnalyzedTokens.add(new AnalyzedToken(word, posTag, analyzedToken.getLemma()));
         }

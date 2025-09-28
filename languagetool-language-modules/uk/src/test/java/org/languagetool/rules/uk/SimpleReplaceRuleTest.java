@@ -106,7 +106,7 @@ public class SimpleReplaceRuleTest {
     // derivat
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("перелиставши."));
     assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("перегорнувши", "прогортавши"), matches[0].getSuggestedReplacements());
+    assertEquals(Arrays.asList("перегорнувши", "прогортаючи"), matches[0].getSuggestedReplacements());
   }
 
   @Test

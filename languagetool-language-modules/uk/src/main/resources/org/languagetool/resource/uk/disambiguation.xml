@@ -2855,6 +2855,28 @@ category: symbols -->
     <example type="untouched">хоч голий ходи</example>
     <example type="untouched">Ори, сій, жни</example>
   </rule>
+  
+  <rule name="Заміть - помилка" id="zamit_error">
+    <antipattern>
+      <token postag="SENT_START"/>
+      <token>заміть</token>
+      <token>,</token>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes">[—–-]</token>
+      <token>заміть</token>
+      <token>,</token>
+    </antipattern>
+    <pattern>
+      <token>заміть</token>
+    </pattern>
+    <disambig action="remove" postag="verb:perf:impr:s:2:arch"/>
+    <example type="ambiguous" 
+        inputform="Заміть[замітити/verb:perf:impr:s:2:arch]" 
+        outputform="Заміть[Заміть]"><marker>Заміть</marker> сказати «дякую»</example>
+    <example type="untouched">- Заміть, не я це почав.</example>
+  </rule>
+
 
   <!-- done in Java as we need to unify on first part of "and"
   <rule name="Не наказова форма дієслова 2" id="not_an_imperative_2">
@@ -4406,25 +4428,6 @@ category: symbols -->
     </example>
     <example type="untouched">10 фіг</example>
   </rule>
-  
-<!--
-  <rule name="Іменник «тис» (неправильне - тисяча)" id="NOUN_VERB_TYS_6">
-    <pattern>
-      <token postag="number"/>
-      <marker>
-        <token>тис</token>
-      </marker>
-    </pattern>
-    <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
-    <example type="ambiguous"
-        inputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2,тиснути/verb:imperf:past:m]"
-        outputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2]"
-        >60 <marker>тис</marker> грн
-    </example>
-    <example type="untouched">довго тис руку директору</example>
-    <example type="untouched">тис, бук, ялиця</example>
-  </rule>
--->
 
   <rule name="Іменник «тис.» - тисячоліття" id="NOUN_VERB_TYS_DOT_ERA_1">
     <pattern>
