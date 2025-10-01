@@ -4652,6 +4652,30 @@ USA
     -->
   </rule>
 
+  <rule id="VERB_NCAQ_VERBINFORMAL_TO_NOUN_20251001" name="Remove rare verbs from appearing as verbs">
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <token postag='AQ0P.+|NC.P.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMN02S0' postag_regexp='no'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O Comitê de Salvação Pública, liderado por Robespierre, assumiu plenos poderes.
+             Essas adaptações podem ser pregas circulares, vilosidades, microvilosidades e criptas de Lieberkühn.
+             Fica a 3.759 km de Santiago, Chile (SCL), havendo voos regulares entre esses pontos.
+             Hoje existe a OTAN – que é formada pela maioria dos países que possuem bombas nucleares.
+             Rolando é um central alto (1,89m) e rápido, jogando bem na antecipação e fazendo exibições regulares.
+             Ele sempre usa palavras vulgares quando fica nervoso.
+             Sua nave tem velas solares.
+    -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
