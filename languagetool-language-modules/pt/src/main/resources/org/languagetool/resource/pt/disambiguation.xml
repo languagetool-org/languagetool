@@ -4652,14 +4652,14 @@ USA
     -->
   </rule>
 
-  <rule id="VERB_NCAQ_VERBINFORMAL_TO_NOUN_20251001" name="Remove rare verbs from appearing as verbs">
+  <rule id="VERB_NCAQ_VERBINFORMAL_TO_NOUN_20251001_RARE" name="Remove rare verbs from appearing as verbs">
     <pattern>
       <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
       <token postag='AQ0P.+|NC.P.+' postag_regexp='yes'/>
       <marker>
         <and>
           <token postag='VMN02S0' postag_regexp='no'/>
-          <token postag='NC.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
         </and>
       </marker>
     </pattern>
