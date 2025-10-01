@@ -4,6 +4,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.broker.ResourceDataBroker;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.*;
 import java.util.*;
@@ -134,8 +135,8 @@ public final class Hunspell {
     if (dicUrl != null && affUrl != null &&
       dicUrl.getProtocol().equals("file") && affUrl.getProtocol().equals("file")) {
       try {
-        return hunspellDictionaryStreamFactory.createFromLocalFiles(language, Path.of(dicUrl.getPath()), Path.of(affUrl.getPath()));
-      } catch (IOException e) {
+        return hunspellDictionaryStreamFactory.createFromLocalFiles(language, Path.of(dicUrl.toURI()), Path.of(affUrl.toURI()));
+      } catch (IOException | URISyntaxException e) {
         throw new RuntimeException(e);
       }
     }
