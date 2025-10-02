@@ -28,11 +28,9 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
-import static org.languagetool.JLanguageTool.getDataBroker;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 

@@ -31,6 +31,46 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rule id="AI_ES_GGEC_REPLACEMENT_CASING_LOWERCASE" name="">
+            <pattern>
+                <token case_sensitive="yes">lama</token>
+            </pattern>
+            <example correction="">El dalái <marker>lama</marker>.</example>
+        </rule>
+        <rule id="AI_ES_GGEC_MISSING_ORTHOGRAPHY_SPACE" name="">
+            <pattern>
+                <token regexp="yes">[\d\.,]+%</token>
+            </pattern>
+            <example correction="">Es una resultado del <marker>50%</marker>.</example>
+            <example correction="">Es una resultado del <marker>50,3%</marker>.</example>
+        </rule>
+        <rule id="AI_ES_GGEC_REPLACEMENT_CASING_UPPERCASE" name="">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Capilla</token>
+                </marker>
+                <token>Sixtina</token>
+            </pattern>
+            <example correction="">Una visita a la <marker>Capilla</marker> Sixtina.</example>
+        </rule>
+        <rule id="AI_ES_GGEC_REPLACEMENT_OTHER" name="">
+            <pattern>
+                <token>bádminton</token>
+            </pattern>
+            <example correction="">Queremos jugar a <marker>bádminton</marker>.</example>
+        </rule>
+        <rule id="AI_ES_GGEC_REPLACEMENT_NOUN" name="">
+            <pattern>
+                <token>bádminton</token>
+            </pattern>
+            <example correction="">Queremos jugar a <marker>bádminton</marker>.</example>
+        </rule>
+        <rule id="AI_ES_GGEC_REPLACEMENT_CONFUSION" name="">
+            <pattern>
+                <token>bádminton</token>
+            </pattern>
+            <example correction="">Queremos jugar a <marker>bádminton</marker>.</example>
+        </rule>
         <rule id="AI_ES_GGEC_REPLACEMENT_ORTHOGRAPHY_UPPERCASE" name="">
             <pattern>
                 <token postag="SENT_START"/>
@@ -1072,9 +1112,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
         <rulegroup name="formas de voseo correctas" id="AI_ES_GGEC_REPLACEMENT_CONFUSION">
             <rule>
+                <!-- all voseo forms -->
                 <pattern>
                     <marker>
-                        <token postag="V...2[PV]." postag_regexp="yes"/>
+                        <token postag="V...2V.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>Gestionalo</marker> como puedas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V...2[PV].*" postag_regexp="yes"/>
                     </marker>
                     <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
                     <token>vos</token>
@@ -1087,7 +1136,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>vos</token>
                     <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
                     <marker>
-                        <token postag="V...2[PV]." postag_regexp="yes"/>
+                        <token postag="V...2[PV].*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
                 <example correction="">Vos siempre <marker>peleás</marker>.</example>
@@ -1110,6 +1159,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">El efecto <marker>capitalidad</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VMP..PM" postag_regexp="yes"/>
+                    <token>y</token>
+                    <marker>
+                        <token postag="VMP..PF" postag_regexp="yes" inflected="yes"><match no="0" postag="VMP..PM" postag_regexp="yes" postag_replace="V.N...."/></token>
+                    </marker>
+                </pattern>
+                <example correction="">Estaremos encantados y <marker>encantadas</marker> de volverlos a ver.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="AQ.MP." postag_regexp="yes"/>
+                    <token>y</token>
+                    <marker>
+                        <token postag="AQ.FP." postag_regexp="yes" inflected="yes"><match no="0" postag="AQ.MP." postag_regexp="yes" postag_replace="AQ.MS."/></token>
+                    </marker>
+                </pattern>
+                <example correction="">Estaremos contentos y <marker>contentas</marker> de volverlos a ver.</example>
             </rule>
         </rulegroup>
         <rule id="AI_ES_GGEC_MISSING_ADPOSITION" name="">

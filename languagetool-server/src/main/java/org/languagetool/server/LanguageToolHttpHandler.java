@@ -51,7 +51,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeoutException;
-import java.util.regex.Pattern;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.getHttpReferrer;
@@ -131,10 +130,18 @@ class LanguageToolHttpHandler implements HttpHandler {
             ServerMetricsCollector.getInstance().logFailedHealthcheck();
             return;
           } else {
-            String ok = "OK";
             httpExchange.getResponseHeaders().set("Content-Type", "text/plain");
-            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
-            httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+
+            String requestMethod = httpExchange.getRequestMethod();
+            if ("HEAD".equalsIgnoreCase(requestMethod)) {
+              // Send HTTP 200 without content
+              httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, -1);
+            } else {
+              String ok = "OK";
+              httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
+              httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+            }
+
             ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
             return;
           }
@@ -159,7 +166,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         }
       }
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
-      String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
+      String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange, config);
       remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
       reqCounter.incrementHandleCount(remoteAddress, reqId);
       incrementHandleCount = true;
@@ -413,7 +420,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    * server to the load balancer, which should add the header originally with the user's own IP.
    */
   @Nullable
-  private String getRealRemoteAddressOrNull(HttpExchange httpExchange) {
+  static String getRealRemoteAddressOrNull(HttpExchange httpExchange, HTTPServerConfig config) {
     if (config.getTrustXForwardForHeader()) {
       List<String> forwardedIpsStr = httpExchange.getRequestHeaders().get("X-forwarded-for");
       if (forwardedIpsStr != null && forwardedIpsStr.size() > 0) {

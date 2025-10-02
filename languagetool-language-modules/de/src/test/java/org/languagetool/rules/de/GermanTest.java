@@ -59,8 +59,7 @@ public class GermanTest extends LanguageSpecificTest {
     Language lang = Languages.getLanguageForShortCode("de-DE");
     JLanguageTool lt = new JLanguageTool(lang);
     for (Rule rule : lt.getAllRules()) {
-      if (rule instanceof AbstractPatternRule) {
-        AbstractPatternRule patternRule = (AbstractPatternRule) rule;
+      if (rule instanceof AbstractPatternRule patternRule) {
         String message = patternRule.getMessage();
         String origWord = null;
         String suggWord = null;
@@ -106,7 +105,7 @@ public class GermanTest extends LanguageSpecificTest {
         }
         if (message.contains("auseinandergeschrieben")) {
           origWord = "auseinandergeschrieben";
-          suggWord = "getrennt geschrieben";
+          suggWord = "auseinander geschrieben";
         }
         if (message.contains("getrenntgeschrieben")) {
           origWord = "getrenntgeschrieben";

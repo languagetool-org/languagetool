@@ -35,7 +35,8 @@ public class TokenAgreementPrepNounExceptionHelper {
     // в тисяча шістсот якомусь році
     if( i < tokens.length - 1 
         && tokenReadings.getToken().equals("тисяча")
-        && PosTagHelper.hasPosTagPart(tokens[i+1], "numr")) {
+        && (PosTagHelper.hasPosTagPart(tokens[i+1], "numr")
+            || LemmaHelper.hasLemma(tokens[i+1], "якийсь"))) {
       return new RuleException(0);
     }
     // в дев'яносто восьмому
@@ -57,15 +58,30 @@ public class TokenAgreementPrepNounExceptionHelper {
         return new RuleException(Type.exception);
       }
 
-      // handled by xml rule
-      if( token.equals("манер") ) {
+      if( tokenLower.matches("ти|ви") ) {
         return new RuleException(Type.exception);
       }
-      // на біс (TODO: можливо краще tag=intj?)
-      if( tokenLower.equals("біс") ) {
+
+      // на Піп Іван
+      if( i < tokens.length - 1
+          && token.equals("Піп")
+          && tokens[i+1].getCleanToken().equals("Іван") ) {
+        return new RuleException(Type.exception);
+      }
+
+      // handled by xml rule
+      if( tokenLower.equals("манер") ) {
         return new RuleException(Type.exception);
       }
     }
+
+    // справедливості заради слід зазначити
+    if( state.prepPos > 1 && prep.equals("заради") ) {
+      if( tokens[state.prepPos-1].getCleanToken().matches("(?iu)справедливості|об.єктивності") ) {
+        return new RuleException(Type.exception);
+      }
+    }
+
 
     // TODO: temporary until we have better logic - skip
     // при їх виборі
@@ -142,7 +158,7 @@ public class TokenAgreementPrepNounExceptionHelper {
 //        return new RuleException(0);
 //      }
       if( //(token.equals("собі") || token.equals("йому") || token.equals("їм"))
-          PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("noun.*v_dav:&pron:(refl|pers).*"))
+          PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("noun.*v_dav.*:pron:(refl|pers).*"))
           && tokens[i+1].getCleanToken().startsWith("подібн") ) {
         return new RuleException(0);
       }
@@ -173,7 +189,7 @@ public class TokenAgreementPrepNounExceptionHelper {
         }
 
         if( // (token.equals("нікому") || token.equals("ніким") || token.equals("нічим") || token.equals("нічому"))
-          PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("noun.*v_(dav|oru):&pron:neg.*"))
+          PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("noun.*v_(dav|oru).*:pron:neg.*"))
             && tokens[i+1].getCleanToken().equals("не")) {
           //          reqTokenReadings = null;
           return new RuleException(Type.skip);
@@ -234,10 +250,18 @@ public class TokenAgreementPrepNounExceptionHelper {
     
     // про чимало обмежень
     if( i < tokens.length - 1 
-        && LemmaHelper.ADV_QUANT_PATTERN.matcher(tokenLower).matches() ) {
+//        && LemmaHelper.ADV_QUANT_PATTERN.matcher(tokenLower).matches() ) {
+        && LemmaHelper.hasLemma(tokenReadings, LemmaHelper.ADV_QUANT_PATTERN, Pattern.compile("adv.*")) ) {
       return new RuleException(Type.exception);
     }
 
+    // лежить із сотня срібних
+    if( i < tokens.length - 1 
+        && TokenAgreementPrepNounRule.Z_ZI_IZ.contains(prep)
+        && LemmaHelper.hasLemma(tokens[i], LemmaHelper.PSEUDO_NUM_LEMMAS) ) {
+      return new RuleException(Type.exception);
+    }
+    
     // за цілком собі реалістичною соціальною
     if( PosTagHelper.hasPosTagAll(tokenReadings.getReadings(), Pattern.compile("adv(?!p).*"))) {
       if( i < tokens.length - 1 
@@ -304,7 +328,7 @@ public class TokenAgreementPrepNounExceptionHelper {
     if( tokens.length > i+1 ) {
       // на лише їм відомому ...
       // на вже всім відомому ...
-      if ( PosTagHelper.hasPosTag(tokens[i], Pattern.compile("noun:(un)?anim:.:v_dav:&pron.*")) ) {
+      if ( PosTagHelper.hasPosTag(tokens[i], Pattern.compile("noun:(un)?anim:.:v_dav.*:pron.*")) ) {
           if( PosTagHelper.hasPosTagStart(tokens[i+1], "adj")
               && CaseGovernmentHelper.hasCaseGovernment(tokens[i+1], "v_dav") )
           return new RuleException(1);

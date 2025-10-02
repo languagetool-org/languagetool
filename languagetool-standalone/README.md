@@ -4,14 +4,14 @@
 French, Portuguese, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
-Version 6.6-SNAPSHOT (2025-xx-xx)  
-Copyright (C) 2005-2024 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
+Version 6.6 (2025-03-27)  
+Copyright (C) 2005-2025 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://languagetool.org
 
 
 ## Requirements
 
-* Java 8 or later
+* Java 17 or later
 
 
 ## Usage

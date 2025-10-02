@@ -90,6 +90,12 @@ public class SpanishSentenceTokenizerTest {
     testSplit("LanguageTooler GmbH recaudará de tu cuenta a través de GoCardless Ltd. la cantidad debajo mencionada.");
     testSplit("El fruto es una nuez de 6 a 8 cm de long. y 4 a 6 cm de ancho");
     testSplit("Geiger (Proc. Roy. Soc. 1 de febrero de 1910).");
+    testSplit("Es la resolución No. 2 del parlamento,");
+    testSplit("Con un dto. del 50 %");
+    testSplit("DTO. 50%");
+    testSplit("DTO. DEL 50%");
+    testSplit("Ayto. del Ferrol");
+    testSplit("En el ayto. del municipio.");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");

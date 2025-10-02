@@ -69,7 +69,7 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("що то була за людина");
     assertEmptyMatch("що за людина");
-    assertEmptyMatch("що балотувався за цім округом");
+    assertHasError("що балотувався за цім округом");
 
     assertEmptyMatch("на дому");
     assertEmptyMatch("на біс");
@@ -85,6 +85,11 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("А шляхом тим була");
 
     assertHasError("що, незважаючи стислі терміни візиту");
+
+    // numr
+    assertHasError("до понад трьома");
+    assertHasError("до тисяча трьома");
+    assertEmptyMatch("лежить із сотня срібних");
 
     assertEmptyMatch("залежно що вважати перемогою");
 
@@ -117,6 +122,7 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("станом на зараз виконавча влада");
 
     assertEmptyMatch("в тисяча шістсот якомусь році");
+    assertEmptyMatch("на Піп Іван");
 
 //    assertEmptyMatch("Імена від Андрій до Юрій");  // називний між від і до рідко зустрічається але такий виняток ховає багато помилок 
 
@@ -146,6 +152,14 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     // check match positions:
     assertEquals(1, matches.length);
 
+    matches = ruleMatch("по «нервам»");
+    assertEquals(1, matches.length);
+
+    assertEmptyMatch("про «справжній футбол»");
+
+    assertEmptyMatch("на «ти»");
+    assertEmptyMatch("писав про «Сновиди»");
+
     matches = ruleMatch("до не властиву");
     assertEquals(1, matches.length);
 
@@ -154,8 +168,10 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("На сьогодні рослинна їжа");
     
+    // numr
     assertHasError("в п'ятьом людям");
     assertHasError("в понад п'ятьом людям");
+    assertEmptyMatch("у тисяча якомусь");
 
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("О дівчина!");
     RuleMatch[] match = rule.match(analyzedSentence);
@@ -365,6 +381,8 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     assertHasError("це нас для дуже велика сума");
 
     assertEmptyMatch("для якої з мов воно первинне");
+
+    assertEmptyMatch("об'єктивності заради слід зазначити");
 
     assertHasError("у дуже обмеженим рамках");
 

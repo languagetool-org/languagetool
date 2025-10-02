@@ -658,7 +658,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
     // кандидат у губернатори штату Аризона їхав
     if( nounPos > 1 ) {
       if( PosTagHelper.hasPosTag(tokens[nounPos], Pattern.compile("noun:inanim:[mnf]:v_naz:prop:geo.*"))
-          && PosTagHelper.hasPosTag(tokens[nounPos-1], Pattern.compile("noun:inanim:[mnf]:v_(?!naz)(?!.*&pron).*")) ) {
+          && PosTagHelper.hasPosTag(tokens[nounPos-1], Pattern.compile("noun:inanim:[mnf]:v_(?!naz)(?!.*pron).*")) ) {
       
 //      Condition condition = new Condition() {
 //        @Override
@@ -760,7 +760,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
     // TODO: do not ignore: вибори Київрада не завадили
     if( nounPos > 1
         && PosTagHelper.hasPosTag(tokens[nounPos-1], Pattern.compile("noun:inanim:.:v_naz.*"))
-        && ! PosTagHelper.hasPosTagPart(tokens[nounPos-1], ":&pron")
+        && ! PosTagHelper.hasPosTagPart(tokens[nounPos-1], ":pron")
         && ! PosTagHelper.hasPosTag(tokens[nounPos], "noun.*pron.*")
         && (! Collections.disjoint(VerbInflectionHelper.getNounInflections(tokens[nounPos-1].getReadings()), verbInflections)) ) {
       logException();
@@ -786,6 +786,13 @@ public final class TokenAgreementNounVerbExceptionHelper {
     List<String> pseudoPluralNouns = Arrays.asList("решта", "частина", "частка", "половина", "третина", "чверть");
     if( pseudoPluralNouns.contains(tokens[nounPos].getCleanToken().toLowerCase())
         && PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(".*:[pn](:.*|$)")) ) {
+      logException();
+      return true;
+    }
+    
+    // з Василем Кричевським Оскар Германович разом брали участь
+    if( tokens[nounPos+1].getCleanToken().equalsIgnoreCase("разом")
+        && PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile(".*:p(:.*|$)")) ) {
       logException();
       return true;
     }

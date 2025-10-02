@@ -31,7 +31,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 import org.languagetool.tools.DiffsAsMatches;
 import org.languagetool.tools.PseudoMatch;
@@ -269,10 +268,10 @@ public class SentenceAnnotator {
             }
           }
         }
-
+        String suggestionGolden = ""; // TODO
         if (!errorType.isEmpty()) {
           printOutputLine(cfg, sentenceHash, sentenceID, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
-              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
+              suggestionApplied, suggestionGolden, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
           if (errorType.equals("OK") || errorType.equals("IG")) {
@@ -334,6 +333,7 @@ public class SentenceAnnotator {
         String formattedCorrectSentence = "";
         String detectedErrorStr = "";
         String replacement = "";
+        String replacementGolden = "";
         if (iGMatch == null) {
           errorType = "FP";
           iEval++;
@@ -365,12 +365,14 @@ public class SentenceAnnotator {
           formattedCorrectSentence = formattedOriginalSentence;
           detectedErrorStr = sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos());
           replacement = iEMatch.getReplacements().get(0);
+          replacementGolden = ""; //iGMatch.getReplacements().get(0);
           break;
         case "FN":
           formattedOriginalSentence = formatedSentence2(sentence, iGMatch);
           formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
           detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
           replacement = "";
+          replacementGolden = iGMatch.getReplacements().get(0);
           break;
         case "TP":
         case "TPns":
@@ -379,10 +381,11 @@ public class SentenceAnnotator {
           formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
           detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
           replacement = iEMatch.getReplacements().get(0);
+          replacementGolden = iGMatch.getReplacements().get(0);
           break;
         }
         printOutputLine(cfg, sentenceHash, "N/A", formattedOriginalSentence, formattedCorrectSentence, errorType,
-            detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
+            detectedErrorStr, replacement, replacementGolden, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
     }
@@ -421,7 +424,7 @@ public class SentenceAnnotator {
 
   private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash, String sentenceID,
                                       String errorSentence, String correctedSentence, String errorType,
-                                      String detectedErrorStr, String suggestion, int suggestionPos,
+                                      String detectedErrorStr, String suggestion, String suggestionGolden, int suggestionPos,
                                       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
     String[] rowFields = {
       sentenceHash,
@@ -433,6 +436,7 @@ public class SentenceAnnotator {
       errorType,
       detectedErrorStr,
       suggestion,
+      suggestionGolden,
       ruleId,
       String.valueOf(suggestionPos),
       String.valueOf(suggestionsTotal),

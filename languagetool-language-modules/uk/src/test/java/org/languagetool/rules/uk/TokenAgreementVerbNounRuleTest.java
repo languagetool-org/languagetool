@@ -115,6 +115,8 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     // complicated case with понад
 //    assertHasError("зайнявся понад двісті справ");
     assertEmptyMatch("сидять понад міру");
+    assertEmptyMatch("стало відомо точну дату");
+    assertEmptyMatch("стало видно тільки оранжеві щоки");
 //    assertEmptyMatch("тягнуться понад воду");
 //    assertEmptyMatch("прибуло понад мільйон");
     
@@ -140,7 +142,9 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
   public void testRuleTN() throws IOException {
 
     assertEmptyMatch("вкрадено державою");
-    
+
+    assertEmptyMatch("я буду каву");
+
     // case govt
 
     assertEmptyMatch("спроєктувати проект");
@@ -158,6 +162,8 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("розподілятиметься пропорційно вкладеній праці");
     assertEmptyMatch("зростатимуть прямо пропорційно україноненависництву");
+    
+    assertEmptyMatch("рухатися далі власної історії");
     
     // impr + oru
     assertEmptyMatch("запропоновано урядом");
@@ -190,6 +196,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("висміювати такого роду забобони");
     assertEmptyMatch("вважається свого роду психологічним");
     assertEmptyMatch("хто мітингуватиме таким чином");
+    assertEmptyMatch("уникнувши тим самим");
     
     // 2nd verb
     assertEmptyMatch("міг хитрістю змусити");
@@ -641,7 +648,7 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     ArrayList<AnalyzedTokenReadings> readings = new ArrayList<>();
     
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
-    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("повинен", "adj:m:v_naz:short:&predic", "повинний"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("повинен", "adj:m:v_naz:short:predic", "повинний"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("був", "verb:imperf:past:m", "бути"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("випадок", "noun:inanim:m:v_zna", "випадок"), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("передбачити", "verb:perf:inf", "передбачити"), 0));

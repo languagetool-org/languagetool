@@ -46,6 +46,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag_regexp="yes" postag="verb.*inf.*"/>
       </antipattern>
       <antipattern>
+        <token>справедливості</token>
+        <token>заради</token>
+      </antipattern>
+      <antipattern>
         <token case_sensitive="no">о</token>
         <token postag_regexp="yes" postag="verb.*impr.*"/>
       </antipattern>
@@ -58,7 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception negate_pos="yes" postag_regexp="yes" postag="prep.*" />
         </token>
         <token postag_regexp="yes" postag="verb.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|noninfl:&amp;(p|i).*|SENT_END|PARA_END" />
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|noninfl:(p|i).*|SENT_END|PARA_END" />
         </token>
       </pattern>
       <message>Прийменник \1 перед дієсловом <suggestion>\2</suggestion></message>
@@ -104,7 +108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
               <exception regexp="yes">було(-би?)?|буде</exception>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|noninfl:&amp;(i|p).*|SENT_END|PARA_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|noninfl:(i|p).*|SENT_END|PARA_END"/>
             </token>
           </marker>
         </pattern>
@@ -224,6 +228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
               <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
               <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
+              <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:past.*">мати</exception>
             </token>
           </marker>
         </pattern>
@@ -233,9 +238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="писати">Повинен би був <marker>писатиме</marker>.</example>
         <example>Повинен їхати</example>
         <example>І вони на всьому готовому живуть.</example>
-        <!--  verb:inf:coll not in default dictionary
-        <example>суспільство повинно довірять не лише програмі дій</example>
-         -->
+        <example>у неї повинна мала бути сестра.</example>
       </rule>
     </rulegroup>
 
@@ -1880,6 +1883,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="найкращий">там <marker>кращий</marker> поет революції</example>
         <example correction="найкращий">спочатку <marker>кращий</marker> голеадор чемпіонату</example>
         <example correction="найкращий"><marker>кращий</marker> гравець цього матчу</example>
+        <!--
+        <example correction="найкращий">«<marker>Кращий</marker> актор другого плану»</example>
+        -->
         <example>значно кращий гравець команди</example>
         <example>куди кращий гравець команди</example>
         <example>кращий стан здоров'я</example>
@@ -2189,7 +2195,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Можливо, іменник має бути у кличному відмінку?</message>
         <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:.:)(v_naz|v_zna|v_dav)(.*)" postag_replace="$1v_kly$3"/>, <match no="4"/></suggestion>
         <example correction="Олено, ходім"><marker>Олена, ходім</marker> додому.</example>
+        <!--
         <example correction="Христе, ходім"><marker>Христю, ходім</marker> додому.</example>
+        -->
         <example correction="Відьмаче, ходім"><marker>Відьмаку, ходім</marker> додому.</example>
         <!--
         <example correction="Насте, ходім"><marker>Настю ходім</marker> додому.</example>
@@ -2292,6 +2300,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="graty_vs_hraty" name="Грати/ґрати">
       <rule>
         <pattern>
+          <token>за</token>
+          <marker>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:v_zna.*">грати</token>
+          </marker>
+        </pattern>
+        <message>Можливо, замість дієслова «грати» тут має бути іменник «ґрати»?</message>
+        <suggestion><match no="2" regexp_match="(?iu)г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
+        <example correction="ґрати">кинути за <marker>грати</marker>.</example>
+        <example>щоб просто грати</example>
+        <example>щоб добре грати</example>
+      </rule>
+
+      <rule>
+        <pattern>
           <token postag_regexp="yes" postag="prep.*">
             <exception postag_regexp="yes" postag="adv.*"/>
             <exception>проти</exception>
@@ -2302,7 +2324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Можливо, замість дієслова «грати» тут має бути іменник «ґрати»?</message>
         <suggestion><match no="2" regexp_match="(?iu)г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
-        <example correction="ґрати">кинути за <marker>грати</marker>.</example>
+        <example correction="ґрати">кинути під <marker>грати</marker>.</example>
         <example correction="ґратами">сидіти за <marker>гратами</marker>.</example>
         <example>щоб просто грати</example>
         <example>щоб добре грати</example>
@@ -2442,7 +2464,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <or>
-            <token inflected="yes" regexp="yes">(не)?великий|(не)?високий|малий|низький|(най)?більший|(най)?вищий|(най)?менший|(най)?нижчий|гарантований</token>
+            <token inflected="yes" regexp="yes">(не)?великий|(не)?високий|малий|низький|(най)?більш(ий|е)|(най)?менш(ий|е)|(най)?вищий|(най)?нижчий|гарантований</token>
             <token inflected="yes" regexp="yes">збільшувати|збільшити|підвищувати|підвищити</token>
           </or>
           <marker>
@@ -2451,6 +2473,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Правильно: <suggestion>ймовірність</suggestion></message>
         <example correction="ймовірність">Є висока <marker>вірогідність</marker> дощу.</example>
+        <example correction="ймовірність">Є більше <marker>вірогідності</marker> дощу.</example>
         <example>Є висока ймовірність дощу.</example>
       </rule>
 

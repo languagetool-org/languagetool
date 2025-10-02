@@ -25,12 +25,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.Languages;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
-import org.languagetool.tools.StringTools;
-
-import static org.languagetool.tools.StringTools.CHARS_NOT_FOR_SPELLING;
 
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.

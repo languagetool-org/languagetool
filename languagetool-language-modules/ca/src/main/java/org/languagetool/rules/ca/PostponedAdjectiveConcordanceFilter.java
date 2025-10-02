@@ -23,7 +23,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -426,6 +425,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     // avoid the original token as suggestion 
     if (suggestions.contains(tokens[patternTokenPos].getToken().toLowerCase())) {
       suggestions.remove(tokens[patternTokenPos].getToken().toLowerCase());
+    }
+    if (suggestions.isEmpty()) {
+      return null;
     }
     List<String> definitiveSugestions = new ArrayList<>();
     if (addComma) {

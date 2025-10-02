@@ -34,7 +34,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
 
 /*
@@ -164,7 +163,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       if (charactersAfterCorrection == 1) {
         s = s + " ";
       }
-      replacements.add(lang.adaptSuggestion(s));
+      replacements.add(lang.adaptSuggestion(s, tokens[posWord].getToken()));
     }
     if (replacements.isEmpty()) {
       return null;

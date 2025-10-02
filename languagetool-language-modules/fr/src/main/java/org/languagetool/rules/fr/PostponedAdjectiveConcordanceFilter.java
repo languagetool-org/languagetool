@@ -458,8 +458,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
     if (suggestions.contains(tokens[patternTokenPos].getToken().toLowerCase())) {
       suggestions.remove(tokens[patternTokenPos].getToken().toLowerCase());
     }
+    if (suggestions.isEmpty()) {
+      return null;
+    }
     match.setSuggestedReplacements(suggestions);
-
     return match;
 
   }

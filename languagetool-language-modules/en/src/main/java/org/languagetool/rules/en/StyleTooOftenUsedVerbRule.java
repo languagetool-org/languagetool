@@ -74,7 +74,8 @@ public class StyleTooOftenUsedVerbRule extends AbstractStyleTooOftenUsedWordRule
   }
 
   @Override
-  protected boolean isException(AnalyzedTokenReadings token) {
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int n) {
+    AnalyzedTokenReadings token = tokens[n];
     return token.hasAnyLemma("be", "have", "do") || token.hasPosTagStartingWith("IN") ||
         token.hasPosTagStartingWith("NN");
   }

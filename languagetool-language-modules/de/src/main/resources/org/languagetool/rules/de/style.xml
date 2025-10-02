@@ -3080,9 +3080,7 @@ USA
                 <pattern>
                     <token postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">ran.+
                       <exception postag="SUB.*(MAS|FEM|NEU)" postag_regexp="yes"/>
-                      <exception inflected="yes" regexp="yes">rangehen|ranhängen|ranklotzen</exception>
-                      <exception inflected="yes" regexp="yes">randalieren|rangeln|rangieren|ranken|ranzen</exception>
-                      <exception inflected="yes" regexp="yes">rennen|ringen|rinnen</exception>
+                      <exception inflected="yes" regexp="yes">randalieren|rangeln|rangieren|ranken|ranzen|rangehen|ranhängen|ranklotzen|rausvögeln|rennen|ringen|rinnen</exception>
                     </token>
                 </pattern>
                 <message>'\1' wirkt umgangssprachlich. Je nach Situation klingt <suggestion><match no="1" regexp_match="^[Rr]an" regexp_replace="heran"/></suggestion> evtl. besser.</message>
@@ -3141,7 +3139,7 @@ USA
             <rule><!-- RAN_RUM_RAUF_REIN_RAUS_RUNTER[6] -->
                 <pattern>
                     <token inflected="yes" postag="SUB.*INF|VER.*" postag_regexp="yes" regexp="yes">rum.+
-                        <exception inflected="yes" regexp="yes">rumoren|rumpeln|rumsen</exception>
+                        <exception inflected="yes" regexp="yes">rumoren|rumpeln|rumsen|rummurksen</exception>
                         <exception>rumpfheben</exception>
                     </token>
                 </pattern>
@@ -3374,13 +3372,13 @@ USA
                 <example correction="">Jetzt hör schon auf, an dem Ding <marker>herumzumurksen</marker>!</example>
                 <example>Jetzt hör schon auf, daran <marker>herumzubasteln</marker>!</example>
             </rule>
-            <rule><!--7-->
+            <rule  default="off"><!--7-->
                 <regexp>\b((ab|herum)?(murks|knutsch|wichs)(t|te|ten))\b</regexp>
                 <message>'\1' ist umgangssprachlich.</message>
                 <example correction="">Widerlich, wie sie ihn <marker>abknutscht</marker>!</example>
                 <example>Sie küsste <marker>ihn</marker>.</example>
             </rule>
-            <rule><!--8-->
+            <rule default="off"><!--8-->
                 <regexp>\b((abge|herumge)(murkst|knutscht|wichst))\b</regexp>
                 <message>'\1' ist umgangssprachlich.</message>
                 <example correction="">Widerlich, sie hat ihn <marker>abgeknutscht</marker>!</example>
@@ -3484,7 +3482,7 @@ USA
                     <token>drauf</token>
                 </antipattern>
                 <antipattern><!-- TO DO: Auch umgangssprachlich, braucht aber anderer suggestion ("hinauf") -->
-                    <token inflected="yes" regexp="yes" skip="-1">springen|klettern|schauen|blicken</token>
+                    <token inflected="yes" regexp="yes" skip="-1">springen|klettern|schauen|blicken|klicken|drücken|tippen|hauen</token>
                     <token>drauf</token>
                 </antipattern>
                 <antipattern><!-- TO DO: Auch umgangssprachlich, braucht aber anderer suggestion ("worauf") -->
@@ -5941,7 +5939,7 @@ USA
     <!-- ====================================================================== -->
     <!-- Geschlechtergerechte Sprache -->
     <!-- ====================================================================== -->
-    <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style"><!--inclusive (user option)-->
+    <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style" tags="picky"><!--inclusive (user option)-->
         <rule id="ERSTSEMESTERIN" name="die Erstsemesterin (das Erstsemester)">
             <pattern>
                 <marker>
@@ -6157,7 +6155,7 @@ USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]eremixed|[Gg]escreened|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced|[Ii]nterviewed|[Gg]efixed|[Gg]eflashed|[Gg]ehyped|[Gg]eshopped|[Gg]elabeled|[Gg]edoped
+                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]eremixed|[Gg]escreened|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced|[Ii]nterviewed|[Gg]efixed|[Gg]eflashed|[Gg]ehyped|[Gg]eshopped|[Gg]elabeled|[Gg]edoped|[Gg]ecatfished
                         <exception case_sensitive="yes" regexp="yes">[Gg]ebiked|[Gg]eteased|[Gg]eshuffeled|[Gg]eskyped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]efaked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Gg]etuned|[Gg]egoogled|[Gg]eswiped|[Oo]utgesourced|[Gg]ehyped|[Gg]edoped</exception>    
                     </token>
                 </pattern>

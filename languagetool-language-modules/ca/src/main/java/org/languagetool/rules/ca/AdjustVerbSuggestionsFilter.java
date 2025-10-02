@@ -31,11 +31,8 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
 
@@ -44,13 +41,14 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    /*if (match.getSentence().getText().contains("-se el gat a l'aigua")) {
+    /*if (match.getSentence().getText().contains("Demà es compliran")) {
       int ii=0;
       ii++;
     }*/
     JLanguageTool lt = ((PatternRule) match.getRule()).getLanguage().createDefaultJLanguageTool();
     List<String> replacements = new ArrayList<>();
     boolean numberFromNextWords = getOptional("numberFromNextWords", arguments, "false").equalsIgnoreCase("true");
+    String forceNumber = getOptional("forceNumber", arguments, "");
     Synthesizer synth = getSynthesizerFromRuleMatch(match);
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
@@ -127,6 +125,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       }
       if (newLemma.equals("haver")) {
         desiredNumber = "S";
+      }
+      if (!forceNumber.isEmpty()) {
+        desiredNumber = forceNumber;
       }
       String action = "removePronounReflexive";
       if (newLemma.endsWith("-se'n")) {

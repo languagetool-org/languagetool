@@ -60,7 +60,7 @@ public abstract class RuleFilter {
   private static class FakeRule extends Rule {
     @Override public String getId() { return "FAKE-RULE-FOR-FILTER"; }
     @Override public String getDescription() { return "<none>"; }
-    @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return new RuleMatch[0]; }
+    @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return RuleMatch.EMPTY_ARRAY; }
   }
 
   protected String getRequired(String key, Map<String, String> map) {

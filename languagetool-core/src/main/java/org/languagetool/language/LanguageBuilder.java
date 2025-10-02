@@ -47,8 +47,8 @@ public final class LanguageBuilder {
   }
 
   /**
-   * Takes an XML file named <tt>rules-xx-language.xml</tt>,
-   * e.g. <tt>rules-de-German.xml</tt> and builds
+   * Takes an XML file named <code>rules-xx-language.xml</code>,
+   * e.g. <code>rules-de-German.xml</code> and builds
    * a Language object for that language.
    */
   private static Language makeLanguage(File file, boolean isAdditional) throws IllegalAccessException, InstantiationException {

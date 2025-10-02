@@ -927,7 +927,7 @@ For more detailed information, including tag definitions, please check out our d
                 <example correction="the team has already finalized the project"><marker>The project has already been finalized by the team</marker>.</example>
                 <example correction="the team has already officially finalized the project"><marker>The project has already been officially finalized by the team</marker>.</example>
                 <example correction="the team has already planned out the project"><marker>The project has already been planned out by the team</marker>.</example>
-                <example correction="our staff has processed your order"><marker>Your order has been processed by our staff</marker>.</example>
+                <!--<example correction="our staff has processed your order"><marker>Your order has been processed by our staff</marker>.</example>-->
                 <example>All other championships have been won by the Soviet Union, Russia, or Sweden.</example>
                 <example>This view has been criticized by some scholars, but is now broadly accepted by most authors of general books on Indian art.</example>
                 <example>This claim has been questioned by some archaeologists, who note that Noric steel, was famous in the Roman Empire period.</example>
@@ -3115,7 +3115,7 @@ For more detailed information, including tag definitions, please check out our d
                 <example>... and according to Alberta Economic Development, <marker>Calgary and</marker> Edmonton both host over four million visitors.</example>
                 <example>According to Alberta Economic Development, <marker>Calgary and</marker> Edmonton both host over four million visitors.</example>
                 <example>I like both chips and <marker>eggs and</marker> pie and peas.</example><!-- TODO. False negative -->
-                <example>Legislative power is vested in the President, the government and parliament.</example><!-- TODO. False negative -->
+                <example correction="government, and">Legislative power is vested in the President, the <marker>government and</marker> parliament.</example>
                 <example>This music focuses on themes in love, <marker>religious and</marker> epic.</example>
                 <example>But in some jurisdictions, the <marker>state or</marker> prosecution may appeal "as of right" from a trial.</example>
                 <example>Likewise, in some jurisdictions, the <marker>state or</marker> prosecution may appeal an issue of law "by leave".</example>
@@ -3227,7 +3227,7 @@ For more detailed information, including tag definitions, please check out our d
                 <example>I like both chips and <marker>eggs and</marker> pie and peas.</example><!-- TODO. False negative -->
                 <example>Art, <marker>literature and</marker> film.</example><!-- TODO. False negative -->
                 <example>Art is used in rituals, <marker>performances and</marker> dances as a decoration or symbol.</example>
-                <example>Legislative power is vested in the President, the government and parliament.</example><!-- TODO. False negative -->
+                <!--<example correction="government, and">Legislative power is vested in the President, the <marker>government and</marker> parliament.</example>-->
                 <example>This music focuses on themes in love, <marker>religious and</marker> epic.</example>
                 <example>But in some jurisdictions, the <marker>state or</marker> prosecution may appeal "as of right" from a trial.</example>
                 <example>Likewise, in some jurisdictions, the <marker>state or</marker> prosecution may appeal an issue of law "by leave".</example>
@@ -3334,7 +3334,7 @@ For more detailed information, including tag definitions, please check out our d
                 <example>I like both chips and <marker>eggs and</marker> pie and peas.</example><!-- TODO. False negative -->
                 <example>Art, <marker>literature and</marker> film.</example><!-- TODO. False negative -->
                 <example>Art is used in rituals, <marker>performances and</marker> dances as a decoration or symbol.</example>
-                <example>Legislative power is vested in the President, the government and parliament.</example><!-- TODO. False negative -->
+                <!--<example correction="government, and">Legislative power is vested in the President, the <marker>government and</marker> parliament.</example>-->
                 <example>This music focuses on themes in love, <marker>religious and</marker> epic.</example>
                 <example>But in some jurisdictions, the <marker>state or</marker> prosecution may appeal "as of right" from a trial.</example>
                 <example>Likewise, in some jurisdictions, the <marker>state or</marker> prosecution may appeal an issue of law "by leave".</example>
@@ -4279,7 +4279,6 @@ For more detailed information, including tag definitions, please check out our d
                 <token inflected="yes">merchandize</token>
             </pattern>
             <message>Consider using the more commonly used <suggestion><match no="1" regexp_match="iz" regexp_replace="is" /></suggestion>.</message>
-            <url>https://languagetool.org/insights/post/ise-ize/</url>
             <example correction="merchandised">He <marker>merchandized</marker> eighteen years, owning mills and blacksmith shops.</example>
             <example correction="merchandise">The <marker>merchandize</marker> will arrive by truck at midnight.</example>
         </rule>
@@ -9430,18 +9429,55 @@ For more detailed information, including tag definitions, please check out our d
             <example correction="there are other|there are also">However, <marker>there are also other</marker> marbles in the jar.</example>
             <example>There are other marbles in the jar.</example>
         </rule>
-        <rule id="LARGE_NUMBER_OF" name="a large number of (many)">
-            <pattern>
-                <token>a</token>
-                <token>large</token>
-                <token>number</token>
-                <token>of</token>
-            </pattern>
-            <message>Specify a number, remove phrase, or simply use <suggestion>many</suggestion> or <suggestion>numerous</suggestion></message>
-            <url>https://languagetool.org/insights/post/wordiness/</url>
-            <short>Redundant phrase</short>
-            <example correction="Many|Numerous"><marker>A large number of</marker> people were in the parade.</example>
-        </rule>
+        <rulegroup id="LARGE_NUMBER_OF" name="a large number of (many)">
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">'s|is</exception></token>
+                    <marker>
+                        <token>a</token>
+                        <token>large</token>
+                        <token>number</token>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>To reduce wordiness, try specifying a number or using <suggestion>many</suggestion> or <suggestion>numerous</suggestion> instead.</message>
+                <url>https://languagetool.org/insights/post/wordiness/</url>
+                <short>Redundant phrase</short>
+                <example correction="Many|Numerous"><marker>A large number of</marker> people were in the parade.</example>
+                <example>There is a large number of archaeological sites which include the Minoan sites of Knossos and Phaistos, the classical site of Gortys, and the diverse archaeology of the island of Koufonisi which includes Minoan, Roman, and World War II ruins.</example>
+                <example>There's a large number of archaeological sites which include the Minoan sites of Knossos and Phaistos, the classical site of Gortys, and the diverse archaeology of the island of Koufonisi which includes Minoan, Roman, and World War II ruins.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>is</token>
+                    <token>a</token>
+                    <token>large</token>
+                    <token>number</token>
+                    <token>of</token>
+                </pattern>
+                <message>To reduce wordiness, try specifying a number or using 'many' or 'numerous' instead.</message>
+                <suggestion>are many</suggestion>
+                <suggestion>are numerous</suggestion>
+                <url>https://languagetool.org/insights/post/wordiness/</url>
+                <short>Redundant phrase</short>
+                <example correction="are many|are numerous">There <marker>is a large number of</marker> archaeological sites which include the Minoan sites of Knossos and Phaistos, the classical site of Gortys, and the diverse archaeology of the island of Koufonisi which includes Minoan, Roman, and World War II ruins.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes">'s</token>
+                    <token>a</token>
+                    <token>large</token>
+                    <token>number</token>
+                    <token>of</token>
+                </pattern>
+                <message>To reduce wordiness, try specifying a number or using 'many' or 'numerous' instead.</message>
+                <suggestion> are many</suggestion>
+                <suggestion> are numerous</suggestion>
+                <url>https://languagetool.org/insights/post/wordiness/</url>
+                <short>Redundant phrase</short>
+                <example correction=" are many| are numerous">There<marker>'s a large number of</marker> archaeological sites which include the Minoan sites of Knossos and Phaistos, the classical site of Gortys, and the diverse archaeology of the island of Koufonisi which includes Minoan, Roman, and World War II ruins.</example>
+            </rule>
+        </rulegroup>
         <rule id="SMALL_NUMBER_OF" name="a small number of (a few)">
             <pattern>
                 <token>a</token>

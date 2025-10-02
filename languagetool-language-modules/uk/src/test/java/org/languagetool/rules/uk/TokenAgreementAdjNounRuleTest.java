@@ -235,7 +235,6 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     // skip adv after adjp
     assertEmptyMatch("прикрита швидко рука");
     assertHasError("прикрита швидко руку");
-    assertEmptyMatch("надана як раз");
     assertEmptyMatch("прикрита отруйливо гарячим");
     assertEmptyMatch("після короткого резюме справи");
     assertEmptyMatch("білий як полотно");
@@ -251,6 +250,8 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("схований всередині номера");
 
+    assertEmptyMatch("надана як раз");
+    assertEmptyMatch("підірваною ще раз");
     
     // from real examples
     
@@ -493,7 +494,6 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
 
     assertEmptyMatch("дівоче Анна");
 
-    // <adv>
     assertEmptyMatch("В середньому тривалість курсів для отримання");
     assertEmptyMatch("в цілому результатом задоволені");
 
@@ -793,7 +793,10 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("чотири подібних до естонських звіти.");
     
     assertEmptyMatch("порівняно з попереднім результат");
-    assertEmptyMatch("порівняно із 1999-им доходи автопідприємств");
+    assertEmptyMatch("порівняно з російським рівень");
+    
+    // mistake 1999-им is not noun
+//    assertEmptyMatch("порівняно із 1999-им доходи автопідприємств");
 
     assertHasError("він є одним із найстаріший амфітеатрів");
     assertHasError("подібний до попереднього закони");

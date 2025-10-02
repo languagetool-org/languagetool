@@ -1,13 +1,41 @@
 # LanguageTool Change Log
 
-## 6.6-SNAPSHOT (release planned for 2025-03-27)
+## 6.7 (2025-10-01)
 
-...
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
+## 6.6 (2025-03-27)
 
 #### General
 
-LanguageTool requires Java 17 now.
+  * This is the last non-snapshot release of LT, i.e. there won't be a 6.7 release
+    as a ZIP file. We're switching to daily snapshot releases, which are available
+    at https://languagetool.org/download/snapshots/.
+  * LanguageTool requires Java 17 now
 
+#### Catalan
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Portuguese
+  * added and improved rules
+
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
 
 
 ## 6.5 (2024-09-27)

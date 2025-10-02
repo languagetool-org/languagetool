@@ -24,7 +24,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;

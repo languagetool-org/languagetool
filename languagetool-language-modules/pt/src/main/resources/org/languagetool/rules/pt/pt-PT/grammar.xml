@@ -63,11 +63,14 @@ USA
 <!ENTITY pronomes_nao_ambiguos_pt_pt "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
 <!ENTITY pronomes_informais_pt_pt "contigo|t[ao]s?|teus?|tuas?|t[uie]|vocês?">
 <!ENTITY pronomes_possessivos_pt_pt "del[ae]s?|meus?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?">
-
+<!ENTITY pronomes_possessivos_excecoes_a_o_pt_pt "adepto|administrador|adversário|advogado|agente|agricultor|aliado|almirante|aluno|amigo|anão|anjo|antropólogo|arqueólogo|arquiteto|artesão|artista|assaltante|assessor|astronauta|astrónomo|ator|aviador|bandido|banqueiro|barão|baronesa|biólogo|bobo|bombeiro|cabo|cantor|capitão|cavaleiro|chefão|chefe|cientista|cliente|coach|colega|comandante|comerciante|companheiro|comprador|conde|condessa|condutor|conhecido|conquistador|cônsul|consultor|consumidor|contabilista|coordenador|coronel|criminoso|crítico|dama|dançarino|defensor|delegado|demónio|dentista|deputado|desconhecido|desempregado|detetive|Deus|diabo|diplomata|diretor|dissidente|ditador|doutor|duque|duquesa|economista|editor|educador|embaixador|emigrante|empreendedor|empregado|empresário|enfermeiro|engenheiro|escravo|escritor|espectador|espião|espírito|estrangeiro|estudante|executivo|exilado|explorador|fã|fantasma|farmacêutico|feudal|filho|filósofo|financista|físico|fora-da-lei|formador|fornecedor|fugitivo|funcionário|general|génio|geólogo|gerente|gestor|gigante|governador|guardião|guerrilheiro|guru|herói|historiador|idiota|imigrante|industrial|infiltrado|influenciador|inimigo|inspetor|insurgente|intérprete|investidor|investigador|irmão|jornalista|juiz|jurista|ladrão|legislador|leitor|libertador|liberto|líder|louco|major|maluco|marido|marinheiro|marquês|marquesa|matemático|médico|mendigo|mentor|mestre|ministro|monarca|monstro|motorista|músico|namorado|nobre|nómada|oficial|operário|oponente|opressor|ouvinte|pai|palhaço|parceiro|pensionista|perdedor|pescador|piloto|pintor|plebeu|poeta|polícia|politólogo|prefeito|presidente|princesa|príncipe|prisioneiro|procurador|professor|promotor|protetor|psicólogo|psiquiatra|querido|químico|rainha|rebelde|reformado|refugiado|rei|repórter|revisor|revolucionário|rival|sábio|sabotador|salvador|santo|sargento|secretário|seguidor|senador|senhor|servo|simpatizante|sobrevivente|sócio|sociólogo|soldado|supervisor|suserano|tenente|teólogo|terapeuta|terrorista|tesoureiro|tirano|tolo|trabalhador|tradutor|traidor|treinador|turista|utilizador|vagabundo|vassalo|vencedor|vendedor|vereador|veterinário|viajante|vice-presidente|visconde|viscondessa|vizinho">
 
 <!ENTITY expressoes_invariaveis_pt_pt "algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|núpcia|óculo|olheira|pantalona|parabén|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere">
 
 <!ENTITY pontos_cardeais_capitalizados "Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste">
+
+<!-- The entity below is used for detection of formal/oficial contexts in sentences. We must use inflected='yes' -->
+<!ENTITY palavras_contexto_formal_e_oficial "acordo|ajuda|análise|apoio|autorização|certificado|circular|comando|comunicado|contrato|convenção|convénio|credenciação|credenciada|credenciado|credencial|credenciamento|decisão|declaração|decreto|despacho|determinação|diploma|directriz|documento|estudo|finança|formal|fundo|informação|iniciativa|instrução|lei|licença|medida|norma|nota|oficial|orçamento|ordem|orientação|parceria|parecer|pedido|permissão|plano|portaria|processo|programa|projeto|proposta|protocolo|recomendação|recurso|regulamento|relatório|requerimento|resolução|solicitação|subsídio|sugestão|título|tratado">
 
         ]>
 
@@ -864,14 +867,38 @@ USA
           <token regexp='yes'>residentes?|morad(?:as?|or(?:es)?)</token>
           <token postag_regexp='yes' postag='A.+'/>
       </antipattern>
-      <!-- MARCOAGPINTO 2020-10-06 + 2020-10-27 (21-OCT-2020+) *START* -->
-      <!-- "No núcleo reside a força imprescindível dos modelos." -->
       <antipattern>
-          <token regexp="yes">residem?</token>
-          <token regexp="yes">as?|os?|um|uns|umas?</token>
-          <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+          <token regexp='yes'>moram?|residem?</token>
+          <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+          <example>No núcleo reside a força imprescindível dos modelos.</example>
+          <example>Em que tipo de casa mora o Tom?</example>
+          <example>É aqui que mora o senhor Pedro?</example>
+          <example>Onde mora seu sogro? - Na casa que está situada junto da casa do meu cunhado.</example>
+          <example>Ele mora um andar acima do meu.</example>
+          <example>Vocês devem ter errado de endereço. Aqui não mora nenhum Wagner.</example>
+          <example>Onde mora teu avô?</example>
+          <example>Dentro de todos os adultos mora o desejo secreto de voltar à infância.</example>
+          <example>Onde moram tuas filhas?</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2020-10-06 + 2020-10-27 (21-OCT-2020+) *END* -->
+      <antipattern>
+          <token regexp='yes'>residentes?|moradora?|morador[ae]s</token>
+          <token regexp='yes'>loca(l|is)</token>
+          <example>Circulam histórias entre os moradores locais sobre a faculdade.</example>
+          <example>Alguns moradores locais não quiseram comentar.</example>
+          <example>As taxas de admissão são reduzidas para os residentes locais durante o inverno.</example>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>residentes?|moradora?|morador[ae]s</token>
+          <token postag='SPS.+|NP..[^G].+' postag_regexp='yes'/>
+          <example>Hoje, para evitar reação hostil de moradores contra os guardas, a Polícia Civil contou com o apoio da PM.</example>
+          <example>O prefeito Rafael Greca (PMN) relatou uma série de reclamações de moradores contra o mau comportamento dos invasores.</example>
+          <example>Eles viajam para Burkittsville, Maryland (anteriormente Blair) e entrevistam os moradores sobre a lenda da Bruxa de Blair.</example>
+          <example>O prefeito Rafael Greca (PMN) relatou uma série de reclamações de moradores contra o mau comportamento dos invasores.</example>
+          <example>O morador Henrique Gonçalves, 35, destacou que a maior preocupação, é que diante do período chuvoso esses locais estão...</example>
+          <example>Já para o morador Fábio Santos, que também esteve acompanhando a manifestação, é lamentável a situação ao qual se enco...</example>
+          <example>“É a melhor notícia que eu poderia ter recebido”, comemora a moradora Madalena, que vive no Camanducaia há 8 anos.</example>
+      </antipattern>
       <pattern>
           <token inflected='yes' regexp='yes'>residir|morar|residente|morador</token>
           <token postag_regexp='yes' postag='[DN].+'>
@@ -904,6 +931,118 @@ USA
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
 
+      <antipattern> <!-- Greeting people related: DeepSeek-V3 -->
+          <token postag='SENT_START|_QUOT|_PUNCT|SPS00:DA.+|RG|I' postag_regexp='yes'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token regexp='yes' inflected='yes'>adorado|amado|amigo|avó|avô|bem-amado|bem-querido|caríssimo|caro|chefe|colaborador|colega|companheiro|digno|doutor|estimado|excelentíssimo|filho|ilustríssimo|irmão|mãe|mestre|nobre|pai|prezado|professor|querido|respeitado|saudoso|senhor|senhorita|vosso</token>
+          <example>Meu caro irmão imortal, até quando viverá na ilha da ilusão. </example>
+          <example>Meus caros músicos, se achar que é necessário uma música ungida para tocar, componha uma.</example>
+          <example>Minha mãe me deu dois copos de suco normal de uva.</example>
+          <example>– Minha mãe coloca um guardanapo ao lado de cada prato da mesa.</example>
+          <example>E agora... meu estimado Sr. Hickey, não tem algo para dizer?</example>
+          <example>Até minha avó pode mandar um SMS.</example>
+          <example>Como minha mãe estava doente, não pude ir lá.</example>
+          <example>Quando minha mãe era jovem, era muito bela.</example>
+          <example>Liguei pra minha mãe, chorei, disse que não queria uma cesárea.</example>
+          <example>Sua mãe, a conhecida Madame Sophie Gay , criou-a no meio de uma brilhante sociedade literária.</example>
+          <example>Marc conta como sua mãe se apaixonou por outra mulher, como uma adolescente, mas que isso só aconteceu uma vez.</example>
+          <example>Seu avô de 81 anos está orgulhoso dele.</example>
+          <example>Ele ainda lembra do dia no qual sua mãe descobriu que ele estava fumando.</example>
+          <example>Ele morreu deixando para trás seus amados filhos.</example>
+          <example>Tatoeba ajuda não apenas os estudantes, mas também seus colaboradores, a aprender um novo idioma.</example>
+          <example>- Nosso colaborador?</example>
+      </antipattern>
+
+      <!-- In the exclamation antipatterns, the article is only removed on non-formal and non-official sentences -->
+      <antipattern> <!-- #1/3: Exclamations: DeepSeek-V3 -->
+          <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
+          <example>Seu cabelo lindo como sempre!</example>
+          <example>Minha paixão nessa vida é viajar!</example>
+          <example>Nossa... que descoberta!</example>
+          <example>Minha vida se tornou uma incógnita graças a vocês, juízes justiceiros, heróis!</example>
+          <example>Meu... que papagaiada!!</example>
+          <example>E a Marina, minha enteada de 16 anos, foi uma babysitter perfeita!</example>
+          <example>Confira entrevista com a banda, que recentemente lançou "Wine of Gods", seu trabalho mais maduro e poderoso!</example>
+          <example>Faz parte do meu show, meu amorrrrrr!!!!</example>
+          <example>A camiseta dele é de marca, sua lambisgóia!</example>
+          <example>Escolha seu predileto e boa degustação!</example>
+          <example>Adorei a resenha, mas não é muito minha praia!</example>
+          <example>O Mascu das 14:32, porque tá comentando aqui então seu parasita?!</example>
+      </antipattern>
+      <antipattern> <!-- #2/3: Exclamations for specific cases because of the exception above in #1 "DP.+": DeepSeek-V3 -->
+          <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception></token>
+          <token regexp='yes'>[àao]s?|d[ao]s?|n[ao]s?</token>  <!-- "n[ao]s?" on #3 would remove valid results because of "V.+" -->
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
+          <example>Sua Beleza é a nossa satisfação!</example>
+          <example>Nossos profissionais estão esperando a sua ligação!</example>
+          <example>Seu material básico e o seu Smash Book!</example>
+          <example>Durante 6 meses Eu falei sobre minha mãe, meu pai, e até mesmo a minha irmã!</example>
+      </antipattern>
+      <antipattern> <!-- #3/3: Exclamations for specific cases because of the exception above in #1 "DP.+": DeepSeek-V3 -->
+          <token postag='SENT_START|_PUNCT_COMMA|N.+|AQ.+|I' postag_regexp='yes'/>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception></token>
+          <token regexp='yes'>[àao]s?|d[ao]s?</token>
+          <token skip='-1' postag='DP.+|V.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token regexp='yes'>[àao]s?|d[ao]s?</token>
+          <token skip='-1' postag='DP.+' postag_regexp='yes'><exception scope='next' regexp='yes' inflected='yes'>&palavras_contexto_formal_e_oficial;</exception><exception scope='next' postag='DP.+' postag_regexp='yes'/></token>
+          <token postag='_PUNCT_EXCLAMATION' postag_regexp='no'/>
+          <example>Sua resenha me ajudou a criar a minha opinião sobre esse livro!</example>
+          <example>SEU COMENTÁRIO IRÁ NOS AJUDAR A MELHORAR A NOSSA LOJA!</example>
+          <example>nossa equipe está à sua disposição!</example>
+          <example>Que coincidência! Minha gravata é igual à sua!</example>
+      </antipattern>
+
+      <antipattern> <!-- DeepSeek-V3 -->
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token regexp='yes' inflected='yes'>&pronomes_possessivos_excecoes_a_o_pt_pt;</token>
+          <example>Apesar de ter limitado os poderes do rei, este tinha ainda o direito de designar seus ministros.</example>
+          <example>Mestre Masamichi NORO se dá o dever de transmitir ao âmago da técnica o âmago de seu mestre.</example>
+          <example>Assim, cada variação abre uma porta na direção de seus parceiros.</example>
+          <example>Seu irmão mais novo, Vladislau, sucedeu-o no trono da Sérvia.</example>
+          <example>Após o funeral, Catarina nunca mais mencionou sua filha morta, sempre preferindo filhos do sexo masculino.</example>
+          <example>Em 1981 formou o duo Wham!, com seu colega de escola, Andrew Ridgeley.</example>
+          <example>Uda deixou um testamento com preceitos para a orientação de seu filho.</example>
+          <example>Nos jogos restantes que faltavam para decidir o campeonato, o Palestra Itália goleou seus adversários.</example>
+          <example>Nos anos 1920, Bushman contratou Harry Reichenbach como seu agente.</example>
+          <example>O poeta pode ter sabido que seus heróis eram pagãos, mas ele não sabia muito sobre o paganismo.</example>
+          <example>A ideia de lançar o produto partiu dos fãs da cantora que, fazem coreografias de sua música usando guarda-chuvas.</example>
+          <example>O Sultão Iscandar Xá faleceu em 1424, sucedendo-lhe seu filho.</example>
+          <example>Van Gogh continuou a desenhar, frequentemente usando seus vizinhos como temas.</example>
+          <example>O pintor dinamarquês Christian Mourier-Petersen tornou-se seu companheiro por dois meses.</example>
+      </antipattern>
+
+      <antipattern> <!-- Tried with "V.+" but it only worked with verb "SER" -->
+          <token regexp='no' inflected='yes'>ser</token>
+          <token postag='RG' postag_regexp='no'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token postag='_PUNCT|SEND_END' postag_regexp='yes'/>
+          <example>«Não seria lógico verem-me em dois trabalhos em simultâneo mas custa-me muito porque a série era mesmo minha».</example>
+          <example>A casa nem é mais minha.</example>
+      </antipattern>
+
+      <antipattern> <!-- Thanking someone -->
+          <token>de</token>
+          <token>nada</token>
+          <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <example>De nada meu irmão.</example>
+          <example>De nada, meu irmão.</example>
+      </antipattern>
+
+      <antipattern>
+          <token postag_regexp='yes' postag='V.+:PP.+'/>
+          <token regexp='yes'>comigo|con[st]igo|con[nv]osco</token>
+          <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <example>Vou levar-te comigo meu irmão.</example>
+          <example>Vou levar-te comigo, meu irmão.</example>
+          <example>Quero levar-vos connosco meus irmãos.</example>
+      </antipattern>
+
       <antipattern>
           <token>nada</token>
           <token>de</token>
@@ -913,17 +1052,6 @@ USA
           <example>Não possuia nada de meu.</example>
           <example>O Rui nada de meu tinha.</example>
           <example>Não queria nada de meu.</example>
-      </antipattern>
-
-      <antipattern>
-          <token postag_regexp="yes" postag="V.+:PP.+"/>
-          <token regexp='yes'>comigo|con[st]igo|con[nv]osco</token>
-          <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
-          <token postag='DP1..S' postag_regexp='yes'/>
-          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <example>Vou levar-te comigo meu irmão.</example>
-          <example>Vou levar-te comigo, meu irmão.</example>
-          <example>Quero levar-vos connosco meus irmãos.</example>
       </antipattern>
 
       <!-- MARCOAGPINTO 2023-04-11 (Checked/Enhanced) (2-MAR-2023+) *START* -->
@@ -1390,28 +1518,6 @@ USA
           <!-- MARCOAGPINTO 2022-08-03 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
           <antipattern>
-              <token postag='SENT_START|_PUNCT|I|SPS00:DA.+' postag_regexp='yes'>
-                  <exception regexp='yes'>como|já|mas|também</exception> <!-- Used specific words because POSes remove valid entries -->
-              </token>
-              <token postag='DP1.+' postag_regexp='yes'/>
-              <token regexp='yes' inflected='yes'>adorável|amante|amigo|caro|cliente|colaborador|colega|companheiro|empregado|estimado|excelente|excelentíssimo|filho|funcionário|inimigo|irmão|mãe|médico|pai|primo|professor|querido</token>
-              <token min='0' max='2' postag='NC.+|AQ.+|NP.+|UNKNOWN' postag_regexp='yes'>
-                  <exception postag_regexp='yes' postag='V.+|RG'/>
-              </token>
-              <token postag='_QUOT|_PUNCT|CC|SENT_END' postag_regexp='yes'>
-                  <exception postag_regexp='yes' postag='V.+|RG'/>
-                  <exception scope='next' postag_regexp='yes' postag='[DP]P.+'/>
-              </token>
-              <example>Meus caros músicos, se achar que é necessário uma música ungida para tocar, componha uma.</example>
-              <example>E eles dizem a ela com amor: “Minha querida criança”.</example>
-              <example>Obrigado por tudo, meu caro Joshua!</example>
-              <example>Olá, meus amigos e amigas de longa data.</example>
-              <example>Não iria antes ligar pro meu pai.</example>
-              <example>Valeu minha querida amiga, beijinhos!!!</example>
-              <example>Então meu caro Kotscho, somente Deus sabe a hora e quanto tempo de vida ainda teremos.</example>
-          </antipattern>
-
-          <antipattern>
               <unify>
                   <feature id="number"/>
                   <feature id="gender"/>
@@ -1693,7 +1799,7 @@ USA
     <short>Erro de colocação pronominal</short>
 
     <!-- I must create an AP just with exception verbs, to do in 2025+ KEEP THIS AP ABOVE ALL OTHERS FOR AN EASY VIEW-->
-    <antipattern>
+    <antipattern> <!-- #1: se -->
         <token postag='CC' postag_regexp='no'/>
         <token>se</token>
         <token regexp='yes' inflected='yes'>acontecer|correr|estar|faltar|haver|ser</token>
@@ -1706,12 +1812,47 @@ USA
         <example>Vão até lá, vejam se foi vista com alguém ou se aconteceu algo incomum.</example>
     </antipattern>
 
+    <antipattern> <!-- #2: se -->
+        <token postag='N.+|AQ.+|(SPS00:)?PP.+|_PUNCT' postag_regexp='yes'/>
+        <token>se</token>
+        <token postag='VMSF.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMN.+'/></token>
+        <example>O interior é uma Ilha de Resiliência se houver uma simplicidade de dados.</example>
+        <example>Poderá deixar uma nota em minha página de discussão se tiver quaisquer perguntas sobre o assunto.</example>
+        <example>*acresce portes de envio se tiver de ser enviado.</example>
+        <example>Este trabalho só ficará benfeito se houver separação de funções.</example>
+        <example>“A minha opinião é: tire você mesma água se quiser beber”.</example>
+        <example>Você pode comprar esse cachorro se quiser. Ele está à venda.</example>
+        <example>Você será bem-vindo se quiser vir conosco.</example>
+        <example>Você deve assistir a esse filme se tiver oportunidade.</example>
+        <example>Você pode vir conosco se quiser.</example>
+        <example>Entre em contato com ela se tiver alguma pergunta.</example>
+        <example>Eu irei com você se for necessário.</example>
+        <example>As pessoas vão rir de você se disser isso.</example>
+        <example>Se tiver algum problema, propomos-lhe vários canais através dos quais poderá entrar em contacto.</example>
+    </antipattern>
 
-    <antipattern>
+    <antipattern> <!-- #3: se -->
         <token>se</token>
         <token postag='V......:.+' postag_regexp='yes'/>
         <example>O Cruzeiro venceu o Olimpia por 1 a 0 com gol de Marcelo Ramos e se sagrou-se campeão.</example>
         <example>É comum se denominá-los como enrolamento primário e secundário,</example>
+    </antipattern>
+
+    <antipattern> <!-- #4: se é -->
+        <token postag='N.+|AQ.+|V.+' postag_regexp='yes'/>
+        <token>se</token>
+        <token>é</token>
+        <example>Cada um decide por si próprio se é importante ou não.</example>
+        <example>Um inteiro n é par se é da forma n = 2k, onde k é um inteiro.</example>
+    </antipattern>
+
+    <antipattern> <!-- #5: se + singular second person informal verb -->
+        <token>se</token>
+        <token postag='VMSF2S0' postag_regexp='no'/>
+        <token postag='SPS.+|[DP].+|N.+|AQ.+|RG|RM|CS|V.+|Z0.+|_PUNCT|SENT_END' postag_regexp='yes'/>
+        <example>Verifica o texto e, se tiveres de alterar alguma coisa, diz.</example>
+        <example>Se quiseres te levo.</example>
+        <example>"E se encontrares apenas quarenta?", insistiu Abraão.</example>
     </antipattern>
 
     <antipattern>
@@ -1795,7 +1936,6 @@ USA
         <example>Lady Danbury é uma das minhas queridinhas desde que a conheci na série Os Bridgertons e aqui me peguei apaixonada por Malcom, seu gato, também.</example>
         <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
         <example>Eu quase me tornei carpinteiro.</example>
-        <example>Quanto mais você fala, menos lhe dão ouvidos.</example>
         <example>Alguma vez te sentiste enganado?</example>
         <example>Alguma vez te sentiste traído por um amigo?</example>
         <example>Então lhe foi dirigida esta palavra do Senhor: "Não será esse o herdeiro, mas alguém saído do teu sangue."</example>
@@ -3097,6 +3237,27 @@ USA
           <message>Grafia do Brasil. Substitua por <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCF$1000'>experiência</match></suggestion>.</message>
           <example correction='experiência'>Vai começar o <marker>experimento</marker>.</example>
           <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
+      </rule>
+
+
+     <rule id='BRASILEIRISMO_ESTAR_DE_SACO_CHEIO' name="[pt-PT][Brasileirismo] estar 'de saco cheio' → farto/saturado">
+          <pattern>
+              <token skip='2' postag='VM.+' postag_regexp='yes' inflected='yes' regexp='no'>estar</token>
+              <marker>
+                  <token>de</token>
+                  <token>saco</token>
+                  <token>cheio</token>
+              </marker>
+          </pattern>
+          <message>Grafia do Brasil. Substitua por:</message>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0M$10'>farto</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0F$10'>farto</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0M$10'>saturado</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0F$10'>saturado</match></suggestion>
+          <example correction='farto|farta|saturado|saturada'>Estou <marker>de saco cheio</marker>.</example>
+          <example correction='fartos|fartas|saturados|saturadas'>Estamos <marker>de saco cheio</marker>.</example>
+          <example>Estamos completamente saturados disto tudo.</example>
+          <example>A Ana está farta.</example>
       </rule>
 
 

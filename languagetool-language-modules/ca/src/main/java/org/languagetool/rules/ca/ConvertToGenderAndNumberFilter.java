@@ -56,6 +56,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
     String desiredGenderStr = getOptional("gender", arguments, "");
     String desiredNumberStr = getOptional("number", arguments, "");
     String lemmaSelect = getRequired("lemmaSelect", arguments);
+    String newLemma = getOptional("newLemma", arguments, "");
     boolean keepOriginal = getOptional("keepOriginal", arguments, "false").equalsIgnoreCase("true");
 
     AnalyzedToken atrNoun = tokens[posWord].readingWithTagRegex(lemmaSelect);
@@ -65,6 +66,9 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
     }
     if (desiredNumberStr.isEmpty()) {
       desiredNumberStr = splitPostag[3];
+    }
+    if (!newLemma.isEmpty()) {
+      atrNoun = new AnalyzedToken(atrNoun.getToken(), atrNoun.getPOSTag(), newLemma);
     }
     int startPos = posWord;
     int endPos = posWord;
@@ -90,6 +94,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         int i = posWord;
         String prepositionToAdd = "";
         boolean addDeterminer = false;
+        boolean addedDemostrative = false;
         StringBuilder conditionalAddedString = new StringBuilder();
         String addTot = "";
         while (!stop && i > 1) {
@@ -103,7 +108,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
               addDeterminer = true;
               startPos = i;
             } else {
-              if (!addDeterminer) {
+              if (!addDeterminer && !addedDemostrative) {
                 String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
                 if (s.isEmpty()) {
                   ignoreThisSuggestion=true;
@@ -118,10 +123,14 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
                 }
                 suggestionBuilder.insert(0, s);
                 startPos = i;
-                if (atr.getPOSTag().startsWith("D") && !atr.getPOSTag().startsWith("DN")) {
+                if (atr.getPOSTag().startsWith("DD")) {
+                  addedDemostrative = true;
+                }
+                if (atr.getPOSTag().startsWith("D") && !atr.getPOSTag().startsWith("DN") && !addedDemostrative) {
                   stop = true;
                 }
               } else {
+                // only before "el/aquest/aquell...": tota l'estona, tota aquella estona
                 if (atr.getLemma().equals("tot")) {
                   String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
                   if (!s.isEmpty()) {

@@ -85,6 +85,11 @@ public class CompoundInfinitivRule extends Rule {
       token("zu"),
       token("machen")
     ),
+    Arrays.asList( //Da Frauen keine Gelegenheit übersehen, sich schön zu machen, pflückte sie eine Orchidee und steckte sie in ihr Haar. (compounding optional)
+      token("schön"),
+      token("zu"),
+      token("machen")
+    ),
     Arrays.asList(
       token("kurz"),
       token("davor"),

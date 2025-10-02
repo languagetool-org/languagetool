@@ -63,7 +63,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(affin|basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|fremd|liebend|hassend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig|resistent|verachtend)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlich|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet|berechtigt|sicher|süchtig|resistent|verachtend|schädigend)";
   private static final Pattern missingAdjPattern =
     compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
   private static final Pattern compoundPatternWithHeit = compile(".*(heit|keit|ion|ität|schaft|ung|tät)s");
@@ -78,7 +78,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     "auschwitzmythos",
     "judensippe", "judensippen",
     "judensippschaft", "judensippschaften",
-    "nigger", "niggern", "niggers",
+    "nigger", "niggern", "niggers", "neger", "negers", "negern",
     "rassejude", "rassejuden", "rassejüdin", "rassejüdinnen",
     "möse", "mösen", "fotze", "fotzen",
     "judenfrei", "judenfreie", "judenfreier", "judenfreies", "judenfreien", "judenfreiem",
@@ -113,6 +113,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final Pattern START_WITH_NEGER = compile("neger.*");
   private static final Pattern CONTAINS_NEGER = compile(".+neger(s|n|in|innen)?");
+  private static final Pattern CONTAINS_NEGER_2 = compile(".+-neger(s|n|in|innen)?-.+");
   private static final Pattern CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING = compile("^(hunger|zeit|käse|zwiebel|kommoden?|lager|angst|freund|feind)\\s.+");
   private static final Pattern CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END = compile(".+\\s(hunger|zeit|käse|zwiebel|kommoden?|lager|angst|freund|feind)$");
   private static final Pattern ENDS_WITH_IBELKEIT_IBLICHKEIT= compile(".*ibel[hk]eit$");
@@ -216,7 +217,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Filterbubbles", "Filterblasen");
     put("Telefones", "Telefons");
     putRepl(".+telefones", "telefones", "telefons");
-    putRepl(".+portrait.*", "portrait", "porträt");
     putRepl(".+tips", "tip", "tipp");
     putRepl("Hifi-.+", "Hifi", "HiFi");
     putRepl("Analgen.*", "Analgen", "Anlagen");
@@ -328,6 +328,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Soda-Stream", "SodaStream");
     put("Sodastreams", "SodaStreams");
     put("Soda-Streams", "SodaStreams");
+    put("Motor-Flugzeug", "Motorflugzeug");
+    put("Motor-Flugzeugs", "Motorflugzeugs");
+    put("Motor-Flugzeuge", "Motorflugzeuge");
+    put("Motor-Flugzeugen", "Motorflugzeugen");
     putRepl("Germanistikerin(nen)?", "Germanistiker", "Germanist");
     putRepl("[iI]ns?z[ie]nie?rung(en)?", "[iI]ns?z[ie]nie?", "Inszenie");
     putRepl("[eE]rhöherung(en)?", "[eE]rhöherung", "Erhöhung");
@@ -1369,6 +1373,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("unterscheid", "Unterschied");
     put("mags", "mag es");
     put("abzügl", "abzgl");
+    put("as", "das");
     put("gefielts", "gefielt es");
     put("gefiels", "gefielt es");
     put("gefällts", "gefällt es");
@@ -3001,6 +3006,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (hunspell.spell(suggestion)) {
         return singletonList(suggestion);
       }
+    } else if (word.contains("Akkupressur")) {
+      suggestion = word.replace("Akkupressur", "Akupressur");
+      if (hunspell.spell(suggestion)) {
+        return singletonList(suggestion);
+      }
+    } else if (word.contains("farbend")) { //steinfarbenden, schwarzfarbenden, kupferfarbenden etc.
+      suggestion = word.replace("farbend", "farben");
+      if (hunspell.spell(suggestion)) {
+        return singletonList(suggestion);
+      }
     } else if (word.contains("uess")) {
       suggestion = word.replace("uess", "üß");
       if (hunspell.spell(suggestion)) {
@@ -3085,6 +3100,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("paar");
     } else if (word.equals("iwie")) {
       return singletonList("irgendwie");
+    } else if (word.equals("schwarzfarbenden")) {
+      return singletonList("schwarzfarbenen");
     } else if (word.equals("bzgl")) {
       return singletonList("bzgl.");
     } else if (word.equals("bau")) {
@@ -3441,6 +3458,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       .filter(k -> !lcDoNotSuggestWords.contains(k.getReplacement().toLowerCase()))
       .filter(k -> !START_WITH_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
       .filter(k -> !CONTAINS_NEGER.matcher(k.getReplacement().toLowerCase()).matches())
+      .filter(k -> !CONTAINS_NEGER_2.matcher(k.getReplacement().toLowerCase()).matches())
       .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END.matcher(k.getReplacement()).matches())
       .filter(k -> !CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING.matcher(k.getReplacement()).matches())
       .collect(Collectors.toList());
@@ -3485,12 +3503,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
         }
       case "do": return topMatch("so");
-      case "Lollies": return topMatch("Lollis");
+      case "Akkupressur": return topMatch("Akupressur");
+      case "EmailleOfen": return topMatch("Emailleofen");
       case "Mazeltov": return topMatch("Masel tov");
       case "Mazel tov": return topMatch("Masel tov");
       case "Weisglut": return topMatch("Weißglut");
       case "SuperGAU": return topMatch("Super-GAU");
       case "SuperGau": return topMatch("Super-Gau");
+      case "Besenstil": return topMatch("Besenstiel");
       case "Vorbescheidverfahren": return topMatch("Vorbescheidsverfahren");
       case "Türahmen": return topMatch("Türrahmen");
       case "Unglückzahl": return topMatch("Unglückszahl");
@@ -3921,8 +3941,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Gespraechs": return topMatch("Gesprächs");
       case "Aussenbereich": return topMatch("Außenbereich");
       case "Aussenbereichs": return topMatch("Außenbereichs");
-      case "Portrait": return topMatch("Porträt");
-      case "Portraits": return topMatch("Porträts");
+      //case "Portrait": return topMatch("Porträt"); --nach neuer Rechtschreibung 2024 akzeptiert (Amtl. Regelwerk, S. 282)
+      //case "Portraits": return topMatch("Porträts"); --nach neuer Rechtschreibung 2024 akzeptiert (Amtl. Regelwerk, S. 282)
       case "weinachten": return topMatch("Weihnachten");
       case "Weinachten": return topMatch("Weihnachten");
       case "unterstüzt": return topMatch("unterstützt");
@@ -4432,6 +4452,30 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Bautenzuges": return topMatch("Bowdenzuges");
       case "Bautenzüge": return topMatch("Bowdenzüge");
       case "Bautenzügen": return topMatch("Bowdenzügen");
+      case "quillbot": return topMatch("QuillBot");
+      case "quilbot": return topMatch("QuillBot");
+      case "Quilbot": return topMatch("QuillBot");
+      case "HeyLogin": return topMatch("heylogin");
+      case "steinfarbenden": return topMatch("steinfarbenen");
+      case "steinfarbende": return topMatch("steinfarbene");
+      case "steinfarbender": return topMatch("steinfarbener");
+      case "steinfarbendes": return topMatch("steinfarbenes");
+      case "steinfarbendem": return topMatch("steinfarbenem");
+      case "schwarzfarbenden": return topMatch("schwarzfarbenen");
+      case "schwarzfarbende": return topMatch("schwarzfarbene");
+      case "schwarzfarbender": return topMatch("schwarzfarbener");
+      case "schwarzfarbendes": return topMatch("schwarzfarbenes");
+      case "schwarzfarbendem": return topMatch("schwarzfarbenem");
+      case "kupferfarbenden": return topMatch("kupferfarbenen");
+      case "kupferfarbende": return topMatch("kupferfarbene");
+      case "kupferfarbender": return topMatch("kupferfarbener");
+      case "kupferfarbendes": return topMatch("kupferfarbenes");
+      case "kupferfarbendem": return topMatch("kupferfarbenem");
+      case "Außenriss": return topMatch("Außenrist");
+      case "Innenriss": return topMatch("Innenrist");
+      case "Lolly": return topMatch("Lolli");
+      case "Lollys": return topMatch("Lollis");
+      case "Lollies": return topMatch("Lollis");
     }
     return Collections.emptyList();
   }

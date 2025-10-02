@@ -64,6 +64,13 @@ public class MissingHyphenRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Артпроект"), matches[0].getSuggestedReplacements());
 
+    matches = rule.match(lt.getAnalyzedSentence("Шоу бізнес - не моє."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("Шоубізнес"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(lt.getAnalyzedSentence("на шоу поп–діви"));
+    assertEquals(0, matches.length);
+
     // TODO: hard - two errors, should be "ексвіцепрезидент"
     matches = rule.match(lt.getAnalyzedSentence("екс віце-президент"));
     assertEquals(1, matches.length);

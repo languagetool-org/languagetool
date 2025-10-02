@@ -74,6 +74,17 @@ public class AvsAnRuleTest {
     assertCorrect("e.g., the case endings -a -i -u and mood endings -u -a");
     assertCorrect("A'ight, y'all.");
     assertCorrect("He also wrote the comic strips Abbie an' Slats.");
+    assertCorrect("Do an ngram tokenization fix.");
+    assertCorrect("A car with a unibody construction.");
+    assertCorrect("Given a Userset, create and return a matching PrincipalModel.");
+    assertCorrect("An uninterpreted dream is like an unopened letter.");
+    assertCorrect("Here ζ refers to the Riemann zeta function, the identity relating the product over primes to ζ(2) is an example of an Euler product, and the evaluation of ζ(2) as π2/6 is the Basel problem, solved by Leonhard Euler in 1735.");
+    assertCorrect("In more technical terms, a navigation is in part made of a series of channels nearly parallel to the valley gradient and stream bed of an unimproved river, and which always shares the drainage basin of the river.");
+    assertCorrect("This approach both allows the trial court to perform its gatekeeping function at the summary judgment stage of the proceedings and avoids placing an onerous burden upon the nonmoving party,\" the court said.");
+    assertCorrect("The Queen travelled through the tunnel to Calais on a Eurostar train, which stopped nose to nose with the train that carried President Mitterrand from Paris.");
+    assertCorrect("He has been a utilities lawyer for over 30 years.");
+    assertCorrect("He has a unibrow.");
+    assertCorrect("When compensated for temperature, the forward voltage drop of a transistor's base-emitter junction can provide a usably accurate logarithmic or exponential function.");
 
     // errors:
     assertIncorrect("It was a hour ago.");
@@ -83,6 +94,8 @@ public class AvsAnRuleTest {
     assertIncorrect("A unintersting ...");
     assertIncorrect("A hour's work ...");
     assertIncorrect("Going to a \"industry party\".");
+    assertIncorrect("It was a unidentifiable object.");
+    assertIncorrect(" I'll set you up with an userid and password so you can pick the...");
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
     assertEquals(2, matches.length);
 

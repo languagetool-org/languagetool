@@ -190,6 +190,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+
+        <rule id='AO_QUANDO' name='Ao → quando'>
+            <pattern>
+                <marker>
+                    <token case_sensitive='no'>ao</token>
+                </marker>
+                <token postag='DA.+' postag_regexp='yes'/>
+                <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'><exception postag_regexp='no' postag='VMN0000'/></token>
+                <token postag='VMN0000' postag_regexp='no'/>
+            </pattern>
+            <message>Use &quot;quando&quot; em vez de &quot;ao&quot; antes de artigo, substantivo e verbo, pois &quot;ao&quot; só se usa antes de verbo no infinitivo.</message>
+            <suggestion>quando</suggestion>
+            <example correction='quando'>Isto acontece <marker>ao</marker> o parâmetro variar ligeiramente.</example>
+            <example correction='Quando'><marker>Ao</marker> o parâmetro variar ligeiramente.</example>
+            <example>Quando os parâmetros variam é quando está tudo correto.</example>
+        </rule>
+
+
         <rulegroup id="EM_CASE_EM_CASO_CONFUSAO" name="Confusão entre 'case' e 'caso'">
             <!-- If annoying marketing execs get annoyed as they're trying to use 'case', GOOD 😈. What an obnoxious word. They did... paring it back. -->
             <rule id="EM_CASE_DE">
@@ -399,7 +417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- </rule> -->
         <!-- </rulegroup> -->
 
-        <rulegroup id="MELHOR_EDUCADO" name="Melhor educado -> mais bem-educado">
+        <rulegroup id="MELHOR_EDUCADO" name="Melhor educado → mais bem-educado">
             <rule>
                 <pattern>
                     <token regexp="yes">melhor(es)?</token>
@@ -437,7 +455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="MAIS_BEM_MELHORES" name="Melhores colocados -> melhor/mais bem colocados">
+        <rulegroup id="MAIS_BEM_MELHORES" name="Melhores colocados → melhor/mais bem colocados">
             <antipattern> <!-- TODO: list of adjectives that cannot be compared (or don't make sense in the comparative) -->
                 <token regexp="yes">(pior|melhor)es</token>
                 <token>causados</token>
@@ -514,7 +532,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="PARA_MIM_FAZER" name="Para mim fazer -> para eu fazer">
+        <rulegroup id="PARA_MIM_FAZER" name="Para mim fazer → para eu fazer">
             <rule id="PARA_MIM_FAZER_SENT_START">
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START|_PUNCT"/>
@@ -1509,6 +1527,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+
+            <antipattern> <!-- no(s) porta NCP - triggered by rule id:PORTA_SUBSTANTIVO_PLURAL -->
+                <token regexp='yes'>nos?</token>
+                <token>porta</token>
+                <token postag_regexp='yes' postag='NC.P.+'><exception postag_regexp='yes' postag='NP.+'/></token>
+                <example>Lily Mash, ela esteve no porta malas?</example>
+                <example>Mas, ele tinha maconha no porta luvas.</example>
+            </antipattern>
 
             <antipattern> <!-- outros/outras #1 -->
                 <token postag='V.+' postag_regexp='yes'/>
@@ -3463,8 +3489,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>A vaca está no pasto.</example>
         </rule>
 
-        <rulegroup default='on' id='A_WORD' name="Concordância: A + palavra">
+
+        <rulegroup id='A_WORD' name="Concordância: A + palavra">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+
+            <antipattern>
+                <token postag='RM' postag_regexp='no'/>
+                <token>a</token>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <token postag='SPS00:D...S.+' postag_regexp='yes'/>
+                <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+                <example>Isto descreve funções matemáticas, analogamente a situações do quotidiano.</example>
+            </antipattern>
 
             <antipattern> <!-- "batatas a murro" (Portuguese food) -->
                 <token>a</token>
@@ -3877,6 +3913,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordância: SER + adjetivo + nome">
             <!--      Created by Tiago F. Santos, 2017-09-06      -->
             <short>Erro de concordância</short>
+             <antipattern>
+                 <token postag_regexp='yes' postag='(SPS00:)?[DP]..[CM].+'/>
+                 <token postag_regexp='yes' postag='AQ.[CM].+|NC[CM].+'/>
+                 <token postag_regexp='yes' postag='AQ.[CM].+|NC[CM].+'/>
+                 <token postag_regexp='yes' postag='(SPS00:)?[DP]..[CF].+'/>
+                 <token postag_regexp='yes' postag='AQ.[CF].+|NC[CF].+'/>
+                 <example>Nos seres biológicos as oportunidades são ocultadas e as desgraças são divulgadas.</example>
+             </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes">ser</token>
@@ -4384,9 +4428,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
 
             <antipattern>
+                <token postag='VMG0000' postag_regexp='no'/>
+                <token postag='AQ..[PN].+|N..[PN].+|Z0.[PN].+' postag_regexp='yes'/>
+                <token postag='AQ..[PN].+|N..[PN].+|Z0.[PN].+' postag_regexp='yes'/>
+                <example>As políticas influenciam o desenvolvimento das cidades, considerando fatores naturais e outros.</example>
+                <example>Aprenda a simular montagens, aplicando contatos globais, específicos e conectores do tipo pino.</example>
+                <example>Tem até uma proteção em todos os porta-trecos, evitando barulhos desnecessários de objetos largados.</example>
+            </antipattern>
+
+            <antipattern>
+                <token regexp='no'>tira</token>
+                <token regexp='no'>moncos</token>
+                <example>Grande coisa seu tira moncos!</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='RG' postag_regexp='no'/>
+                <token postag='VMP00S.+' postag_regexp='yes'/>
+                <example>Parece-me teres bem compreendido as regras da gramática desta útil língua, o esperanto.</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='AQ..[PN].+|N..[PN].+|Z0.[PN].+' postag_regexp='yes'/>
                 <token regexp='yes'>coup[éê]|cup[éê]</token>
-                <example>Isso permitiu com que esse carro competisse contra carros Cupê importados como, o Toyota Celica japonês.</example>
+                <example>Isso permitiu com que esse carro competisse contra carros Cupê importados como, o Toyota Celica.</example>
             </antipattern>
 
             <antipattern>
@@ -7847,10 +7913,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância Verbal: Complementos com o verbo copulativo' default='on'>
             <!-- TODO Low Prority - Check regression and add enumeration tests and exceptions -->
             <!-- Created by Tiago F. Santos, 2017-01-17 -->
-            <!--
-           MARCOAGPINTO started adding antipatterns at the top to affect all subrules - 2022-09-24
-      -->
+
             <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
+
+            <antipattern> <!-- DeepSeek-V3 -->
+                <token>que</token>
+                <token regexp='yes' inflected='yes'>andar|continuar|estar|ficar|parecer|permanecer|ser|tornar-se|virar|viver</token> <!-- "linking verbs". Later replace with the entity after checking if these verbs are all there -->
+                <token regexp='yes'>fen[ôó]meno|sensação|moda|hit|referência|mania|sucesso</token>
+                <example>Tudo isso sempre alinhado com as tendências que são sucesso nas passarelas do mundo.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
@@ -9122,6 +9193,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
+
+            <antipattern>
+                <token min='2' postag='(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
+                <token postag='AQ..[SN].+|N..[SN].+' postag_regexp='yes'/>
+                <token postag='RN' postag_regexp='no'/>
+                <token postag='VM...S.+' postag_regexp='yes'/>
+                <example>Meu coração, não batas tão depressa, do meu peito não saltes para fora!</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='(SPS00:)?[DP]...[PN].+' postag_regexp='yes'/>
+                <token postag='SPS00' postag_regexp='no'/>
+                <token>nós</token>
+                <token postag='VM.P3P.+' postag_regexp='yes'/>
+                <example>Muitos de nós substituem a gordura saturada, como leite integral com carboidratos refinados.</example>
+                <example>Estamos todos na sarjeta, mas alguns de nós contemplam as estrelas.</example>
+                <example>Muitos de nós podem estar recebendo mensagens diretamente no cérebro.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='N.+|AQ.+' postag_regexp='yes'/>
@@ -13032,8 +13121,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+
         <rulegroup id="MUITOS_MUITO" name="Advérbios: muitos/muito contentes">
             <!-- Based on Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
+
+            <antipattern>
+                <token regexp='yes'>muit[ao]s|pouc[ao]s</token>
+                <token postag='AQ..[PN].+' postag_regexp='yes'><exception postag='N.+' postag_regexp='yes'/></token>
+                <token postag='VM...P.+' postag_regexp='yes'/>
+                <example>Muitas vinícolas mantêm práticas artesanais.</example>
+                <example>Muitas famosas estão tuitaram mensagens se despedindo dos longos meses de gravação.</example>
+                <example>ESTADÃO: Muitos investigados têm tentado levar seus casos para a Justiça Eleitoral sob alegação de caixa 2.</example>
+            </antipattern>
+
             <antipattern>
                 <marker>
                     <token regexp="yes">muit[ao]s|pouc[ao]s</token>
@@ -13102,6 +13202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example type='triggers_error'>Também se construíram <marker>muitas novas</marker> igrejas e palácios, outros foram reformados…</example>
             </rule>
         </rulegroup>
+
 
         <rule id="MUITO_POUCOS" name="Advérbios: muitos poucos / muito poucos">
             <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
@@ -13605,7 +13706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id="MEIO_DIA_E_MEIO" name="Meio-dia e meio -> meia">
+        <rule id="MEIO_DIA_E_MEIO" name="Meio-dia e meio → meia">
             <pattern>
                 <token>meio</token>
                 <token regexp="yes" min="0" spacebefore="no">&hifen;</token>
@@ -13619,7 +13720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="meia">Chegamos meio-dia e <marker>meio</marker>.</example>
         </rule>
 
-        <rulegroup id="SAIR_AS_RUAS" name="Erro de crase em 'sair as ruas' -> 'às'">
+        <rulegroup id="SAIR_AS_RUAS" name="Erro de crase em 'sair as ruas' → 'às'">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="V.+" inflected="yes">sair</token>
@@ -14396,6 +14497,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
             <!-- It seems that all these words I placed here appear as nouns in the disambiguator -->
+
+            <antipattern>
+                <token postag='V....P.+' postag_regexp='yes'/>
+                <token regexp='yes'>tod[ao]s</token>
+                <token regexp='yes'>amostra|categoria|classe|elemento|espécie|espécime|exemplo|faixa|fatia|grupo|indivíduo|intervalo|lote|membro|metade|modalidade|opção|parcela|parte|pessoa|porção|p[eo]rcentagem|proporção|quantidade|sec?ção|segmento|subgrupo|tipo|unidade|variedade|versão</token>
+                <token postag='SPS00:DA0.S.+' postag_regexp='yes'/>
+                <example>Ainda somos todos parte da família.</example>
+            </antipattern>
 
             <antipattern>
                 <token inflected='yes' regexp='yes'>acabar|adaptar-se|adiantar-se|afirmar-se|andar|apresentar-se|cair|chegar|começar|considerar|continuar|crescer|deixar|desenvolver-se|estar|evoluir|existir|expressar-se|ficar|fluir|identificar-se|inclinar-se|ir|manifestar-se|manter-se|morrer|mostrar-se|mudar|nascer|ocultar-se|opor-se|parecer|permanecer|provar-se|questionar-se|reduzir-se|regressar|renascer|renegar|retornar|revelar-se|seguir|sentir-se|ser|superar-se|terminar|tornar-se|transformar-se|virar|voltar<exception scope='previous' postag_regexp='no' postag='RG'/></token> <!-- ChatGPT 4o -->
@@ -16154,7 +16263,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rulegroup id="ABREVIATIONS" name="Abreviaturas: p.ex. sr. -> Sr.">
+        <rulegroup id="ABREVIATIONS" name="Abreviaturas: p.ex. sr. → Sr.">
             <!--  Based on German gramar.xml rule, by Tiago F. Santos, 2018-07-13      -->
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-o-uso-de-maiusculas-e-de-minusculas/30160</url>
             <rule>
@@ -16177,7 +16286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <url>https://www.uc.pt/sibuc/Pdfs/ISBD3</url>
                 <example correction="Sra.">Exma <marker>sra.</marker> Costa,</example>
             </rule>
-            <rule id="ABREVIATIONS_DR" name="Abreviaturas: dr. -> Dr.">
+            <rule id="ABREVIATIONS_DR" name="Abreviaturas: dr. → Dr.">
                 <pattern>
                     <token case_sensitive='yes' regexp='yes'>dra?</token>
                     <token spacebefore='no'>.</token>
@@ -16305,7 +16414,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
 
     <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
-        <rulegroup id="EM_MEADO" name="Em meado -> meados">
+        <rulegroup id="EM_MEADO" name="Em meado → meados">
             <rule>
                 <pattern>
                     <token>em</token>
@@ -17605,7 +17714,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <!-- SE CASO caso -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-20 (2-JUL-2020+)     -->
-        <rule id='SE_CASO-CASO' name="Se caso -> caso">
+        <rule id='SE_CASO-CASO' name="Se caso → caso">
             <pattern>
                 <marker>
                     <token>se</token>
@@ -17736,7 +17845,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='VISANDO_A_EM_CONSEGUIR' name="Visando a/em conseguir -> Visando conseguir">
+        <rule id='VISANDO_A_EM_CONSEGUIR' name="Visando a/em conseguir → Visando conseguir">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       Ele assinou um documento visando a conseguir dividendos. → Ele assinou um documento visando conseguir dividendos.
@@ -17754,7 +17863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- RULES TU/TI -> EU/MIM *START* -->
+        <!-- RULES TU/TI → EU/MIM *START* -->
         <!-- ***************************** -->
         <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes oblíquos (eu, mim; tu, ti)'>
             <url>https://duvidas.dicio.com.br/entre-mim-e-ti-ou-entre-tu-e-eu/</url>
@@ -17892,7 +18001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         </rulegroup>
         <!-- *************************** -->
-        <!-- RULES TU/TI -> EU/MIM *END* -->
+        <!-- RULES TU/TI → EU/MIM *END* -->
 
 
         <rule id='VOTOS_BRANCOS' name="Votos em branco">
@@ -17915,6 +18024,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
             <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
+
+            <antipattern>
+                <token regexp='yes'>[ao]s?|d[ao]s?|n[ao]s?</token>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token case_sensitive='yes' regexp='yes'>A|E|O</token>
+                <token case_sensitive='yes' regexp='yes'>[ao]s?</token>
+                <example>Na manobra A os Blue atacaram de quatro frentes.</example>
+                <example>No lado A as faixas de "Whales and Sharks" de 2007, e uma música inédita.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
@@ -22585,7 +22703,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <!-- My assumption here is that these are mostly typos since they're pretty obviously ungrammatical,
              from the descriptive point of view. So it doesn't seem to be worthwhile to account for non-3SG
-             inflections. I mean, 'dever' -> 'deve' is pretty straightforward, but 'dever' -> 'devo' less so.  -->
+             inflections. I mean, 'dever' → 'deve' is pretty straightforward, but 'dever' → 'devo' less so.  -->
         <rulegroup id="DOUBLE_INFINITIVE" name="Infinitivo duplo">
             <short>Possível erro de digitação.</short>
             <!-- This contains the original structure as described in premium issue 5538
@@ -22647,7 +22765,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='CONFUSED_WORDS' name="Confusão de Palavras">
-        <rule id="NOTAS_FICAIS" name="Notas ficais -> fiscais">
+
+
+        <rule id='TEMOS_TERMOS' name="Temos → termos">
+            <pattern>
+                <token regexp='yes'>para|por</token>
+                <marker>
+                    <token>temos</token>
+                </marker>
+            </pattern>
+            <message>Possível erro de digitação. Provavelmente você quis escrever <suggestion>termos</suggestion>.</message>
+            <example correction="termos">Isso é ótimo por <marker>temos</marker> informação adicional.</example>
+            <example>O estudo foi elaborado para termos informação sobre a população do país.</example>
+        </rule>
+
+
+        <rule id='NOTAS_FICAIS' name="Notas ficais → fiscais">
             <pattern>
                 <token>notas</token>
                 <token>ficais</token>
@@ -22656,7 +22789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="notas fiscais">E as <marker>notas ficais</marker> de 2020?</example>
         </rule>
 
-        <rule id="PER_CAPTA" name="Per capta -> per capita">
+        <rule id='PER_CAPTA' name="Per capta → per capita">
             <pattern>
                 <token>per</token>
                 <token>capta</token>
@@ -30146,6 +30279,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <short>Nesta situação acentua-se a palavra.</short>
 
             <antipattern>
+                <token postag='N.+|AQ.+|RG|SPS.+' postag_regexp='yes'/>
+                <token postag='CS|PT.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='CS|PT.+' postag_regexp='yes'/>
+                <example>É com essa ideia que anuncio que vou abandonar as redes sociais.</example>
+                <example>É assim que anuncio que vou abandonar as redes sociais.</example>
+                <example>Para que anuncio que vou abandonar as redes sociais?</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='P[TR]|CS|SENT_START' postag_regexp='yes'>
                     <exception postag_regexp='yes' postag='AQ.+|NC.+|RG|V.+'/>
                 </token>
@@ -30154,7 +30297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                 <token postag='_PUNCT|RG|RM|CS|CC' postag_regexp='yes'/>
                 <example>É uma reação egoísta que magoa a malta, sempre.</example>
-                <example>E' no livro que copia da verdade, e castiga o crime que raras vezes a sociedade censura ?</example>
+                <example>É no livro que copia da verdade, e castiga o crime que raras vezes a sociedade censura?</example>
             </antipattern>
 
             <antipattern>
@@ -37049,7 +37192,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Você nos incomoda com sua música.</example>
             </rule>
 
-            <!-- Fix for "matricula" -> "matrícula" - https://github.com/languagetool-org/languagetool/issues/6492 - 2022-05-11 -->
+            <!-- Fix for "matricula" → "matrícula" - https://github.com/languagetool-org/languagetool/issues/6492 - 2022-05-11 -->
             <rule>
 
                 <!--
@@ -37523,7 +37666,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rule id='OLD_SPELLING_U' name="Acordo Ortográfico de 45: ü (uso de trema)" type="misspelling" default="off">
-            <!-- Disabled on 16 Nov 2023: the new Morfologik speller takes care of this. This rule introduces loops like Gmünd -> Gmund. -->
+            <!-- Disabled on 16 Nov 2023: the new Morfologik speller takes care of this. This rule introduces loops like Gmünd → Gmund. -->
             <pattern>
                 <token regexp="yes">.*ü.*
                     <exception regexp="yes">Atatürk|Hübner|hübneriano|Müller|mülleriano|ü|über.*|Württemberg|Zürich|Führer.*|Düsseldorf|München|Für</exception>
@@ -40533,6 +40676,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
+
+        <rule id="PORTA_SUBSTANTIVO_PLURAL" name="Composição de porta-substantivo_plural">
+            <pattern>
+                <token>porta
+                    <exception scope='previous' regexp="yes">el[ea]</exception>
+                    <exception postag_regexp='yes' postag='NP.+'/></token>
+                <token postag_regexp='yes' postag='NC.P.+'><exception postag_regexp='yes' postag='NP.+'/></token>
+            </pattern>
+            <message>A palavra <suggestion>\1-\2</suggestion> é hifenizada.</message>
+            <example correction="porta-carros">Os <marker>porta carros</marker> são úteis.</example>
+            <example correction="porta-carros">O <marker>porta carros</marker> é útil.</example>
+            <example>Quero um porta-chaves.</example>
+            <example>Quero uns porta-chaves.</example>
+            <example>Quero um porta-paletes.</example>
+            <example>Quero uns porta-paletes.</example>
+            <example>Ele porta armas ilegais.</example>
+        </rule>
+
         <rule id="SEM_ABRIGO" name="Composição de sem-abrigo">
             <pattern>
                 <token postag_regexp="yes" postag="[DP].+M[SP].+|Z.+|SENT_START|SP.+"></token>
@@ -41121,7 +41282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>2.a. Sistemas</example>
         </rule>
 
-        <rulegroup id="ORDINAL_ABBREVIATION" name="Abreviatura de ordinais: 1o -> 1º">
+        <rulegroup id="ORDINAL_ABBREVIATION" name="Abreviatura de ordinais: 1o → 1º">
             <antipattern> <!-- enumeration as 2a. -->
                 <token postag="SENT_START"/>
                 <token regexp="yes">\d+a</token>
@@ -43276,7 +43437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="…">Tenha um bom dia, Srta. <marker>...</marker>ele foi a caminho de se rebaixar numa…</example>
         </rule>
 
-        <rulegroup id='TIME_FORMAT' name="Tipografia de horas: 22.30 h -> 22:30h">
+        <rulegroup id='TIME_FORMAT' name="Tipografia de horas: 22.30 h → 22:30h">
             <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
             <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
             <short>Preferência tipográfica</short>

@@ -38,7 +38,6 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import static java.lang.Thread.currentThread;
 
@@ -220,7 +219,7 @@ class CheckCallable implements Callable<File> {
     }
     @Override
     public RuleMatch[] match(AnalyzedSentence sentence) {
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
   }
 

@@ -29,7 +29,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
 
 /*

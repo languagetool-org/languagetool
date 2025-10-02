@@ -36,8 +36,6 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
-import org.languagetool.server.tools.AbTestService;
-import org.languagetool.server.tools.LocalAbTestService;
 import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
@@ -67,7 +65,7 @@ abstract class TextChecker {
   private static final int PINGS_MAX_SIZE = 5000;
   private static final String SPAN_NAME_PREFIX = "/v2/check-";
   private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
-  private static final AbTestService AB_TEST_SERVICE = new LocalAbTestService();
+  static final AbTestService AB_TEST_SERVICE = LocalAbTestService.getAbTestService();
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -83,7 +81,6 @@ abstract class TextChecker {
   protected abstract List<String> getDisabledRuleIds(Map<String, String> parameters);
     
   protected static final int CONTEXT_SIZE = 40; // characters
-  protected static final int NUM_PIPELINES_PER_SETTING = 3; // for prewarming
 
   protected final HTTPServerConfig config;
 
@@ -243,8 +240,10 @@ abstract class TextChecker {
     pipelinePool = new PipelinePool(config, cache, internalServer);
     if (config.isPipelinePrewarmingEnabled()) {
       log.info("Prewarming pipelines...");
+      long start = System.currentTimeMillis();
       prewarmPipelinePool();
-      log.info("Prewarming finished.");
+      long end = System.currentTimeMillis();
+      log.info("Prewarming finished in {} seconds.", (end - start) / 1000.0);
     }
     if (config.getAbTest() != null) {
       UserConfig.enableABTests();
@@ -266,62 +265,57 @@ abstract class TextChecker {
   private void prewarmPipelinePool() {
     // setting + number of pipelines
     // typical addon settings at the moment (2018-11-05)
-    Map<PipelineSettings, Integer> prewarmSettings = new HashMap<>();
+    List<PipelineSettings> prewarmSettings = new ArrayList<>();
     List<Language> prewarmLanguages = new ArrayList<>();
     if (config.preferredLanguages.isEmpty()) {
       prewarmLanguages.addAll(Stream.of(
                       "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
               .map(Languages::getLanguageForShortCode)
-              .collect(Collectors.toList()));
+              .toList());
     } else {
-      config.preferredLanguages.forEach(s -> {
-        prewarmLanguages.add(Languages.getLanguageForShortCode(s));
-      });
+      config.preferredLanguages.forEach(s -> prewarmLanguages.add(Languages.getLanguageForShortCode(s)));
     }
 
-    List<String> addonDisabledRules = Collections.singletonList("WHITESPACE_RULE");
-    List<JLanguageTool.Mode> addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);
     UserConfig user = new UserConfig();
+
     for (Language language : prewarmLanguages) {
-      // add-on uses picky mode since 2021-01-20
-      for (JLanguageTool.Mode mode : addonModes) {
-        QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
+        QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
           Collections.emptyList(), Collections.emptyList(), false, true,
-          true, true, Premium.isPremiumVersion(), false, mode, JLanguageTool.Level.PICKY, null);
-        PipelineSettings settings = new PipelineSettings(language, null, params, config.globalConfig, user);
-        prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
-
-        PipelineSettings settingsMotherTongueEqual = new PipelineSettings(language, language, params, config.globalConfig, user);
-        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language,
-          Languages.getLanguageForName("English"), params, config.globalConfig, user);
-        prewarmSettings.put(settingsMotherTongueEqual, NUM_PIPELINES_PER_SETTING);
-        prewarmSettings.put(settingsMotherTongueEnglish, NUM_PIPELINES_PER_SETTING);
-      }
+          true, true, Premium.isPremiumVersion(), false, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY, null);
+        PipelineSettings settingsEnglishWithMotherTongue = new PipelineSettings(Languages.getLanguageForShortCode("en-US"), language, params, config.globalConfig, user);
+        prewarmSettings.add(settingsEnglishWithMotherTongue);
+        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language, Languages.getLanguageForName("English"), params, config.globalConfig, user);
+        prewarmSettings.add(settingsMotherTongueEnglish);
     }
-    try {
-      for (Map.Entry<PipelineSettings, Integer> prewarmSetting : prewarmSettings.entrySet()) {
-          int numPipelines = prewarmSetting.getValue();
-          PipelineSettings setting = prewarmSetting.getKey();
 
-          // request n pipelines first, return all afterwards -> creates multiple for same setting
-          List<Pipeline> pipelines = new ArrayList<>();
-          for (int i = 0; i < numPipelines; i++) {
-            Pipeline p = pipelinePool.getPipeline(setting);
-            p.check("LanguageTool");
-            pipelines.add(p);
-          }
-          for (Pipeline p : pipelines) {
-            pipelinePool.returnPipeline(setting, p);
-          }
+    log.info("Prewarming {} pipelines", prewarmSettings.size());
+
+    prewarmSettings.parallelStream().forEach(setting -> {
+      try {
+        Pipeline pipeline = pipelinePool.getPipeline(setting);
+        pipeline.check("LanguageTool");
+        pipelinePool.returnPipeline(setting, pipeline);
+      } catch (Exception e) {
+        throw new RuntimeException("Error while prewarming pipeline", e);
       }
-    } catch (Exception e) {
-      throw new RuntimeException("Error while prewarming pipelines", e);
-    }
+    });
   }
 
   void shutdownNow() {
     executorService.shutdownNow();
     RemoteRule.shutdown();
+  }
+
+  private boolean isOptInThirdPartyAI(UserLimits limits, Map<String, String> params, HTTPServerConfig config) {
+    boolean optInThirdPartyAI = false;
+    if (limits.getAccount() != null) {
+      optInThirdPartyAI = limits.getAccount().isOpt_in_3rd_party_ai_grammar_checker();
+    } else if (params.containsKey("optInThirdPartyAI")) {
+      optInThirdPartyAI = "true".equals(params.get("optInThirdPartyAI"));
+    } else {
+      optInThirdPartyAI = config.getDefaultThirdPartyAI();
+    }
+    return optInThirdPartyAI;
   }
 
   private boolean shouldRunRestrictedRulesTest(Map<String, String> params, String agent, Language lang, List<String> abTest) {
@@ -496,12 +490,14 @@ abstract class TextChecker {
     String ltAgent = params.getOrDefault("useragent", "unknown");
     Pattern trustedSourcesPattern = config.getTrustedSources();
     boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
+    boolean optInThirdPartyAI = isOptInThirdPartyAI(limits, params, config);
+
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource, optInThirdPartyAI, limits.hasPremium());
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
@@ -598,6 +594,12 @@ abstract class TextChecker {
     } else {
       toneTags.add(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC); //No toneTags param in request
     }
+
+    String rIp = LanguageToolHttpHandler.getRealRemoteAddressOrNull(httpExchange,config);
+    if (rIp != null && mode.equals(JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY)) {
+      log.info("L-IP{}:{}", lang.getShortCodeWithCountryAndVariant(), rIp);
+    }
+
     String callback = params.get("callback");
     // allowed to log input on errors?
     boolean inputLogging = !params.getOrDefault("inputLogging", "").equals("no");

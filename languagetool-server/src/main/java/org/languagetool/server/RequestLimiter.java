@@ -44,7 +44,7 @@ class RequestLimiter {
   private final int requestLimitPeriodInSeconds;
 
   /**
-   * @param requestLimit the maximum number of request per <tt>requestLimitPeriodInSeconds</tt>
+   * @param requestLimit the maximum number of request per <code>requestLimitPeriodInSeconds</code>
    * @param requestLimitPeriodInSeconds the time period over which requests are considered, in seconds
    * @param ipFingerprintFactor allow limits x times larger per ip when fingerprints differ
    *                            (i.e. assume there may be a maximum of x users behind the same ip)

@@ -1706,7 +1706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <!--TODO: як вловити правильний вжиток відміняти: змінювати??? -->
-    <rule id="VIDMINYTY_VS_SKASUVATY" name="Відмінити і скасувати">
+    <rulegroup id="VIDMINYTY_VS_SKASUVATY" name="Відмінити і скасувати">
       <antipattern>
         <token regexp="yes" inflected="yes" skip="-1">відміняти(ся)?|відмінити(ся)?|відміня(вши|ючи)(сь)?|відмінивши(сь)?|відміна|відмінений</token>
         <token regexp="yes" inflected="yes">дієслово|іменник|прикметник|речення|відмінок</token>
@@ -1715,34 +1715,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes" inflected="yes" skip="-1">дієслово|іменник|прикметник|речення|відмінок</token>
         <token regexp="yes" inflected="yes">відміняти(ся)?|відмінити(ся)?|відміня(вши|ючи)(сь)?|відмінивши(сь)?|відміна|відмінений</token>
       </antipattern>
-      <antipattern>
-        <token regexp="yes" inflected="yes">перший|другий|третій|четвертий|I+|IV|[1-4]</token>
-        <token inflected="yes">відміна</token>
-      </antipattern>
-      <antipattern>
-        <token postag_regexp="yes" postag="number:latin.*"/>
-        <token inflected="yes">відміна</token>
-      </antipattern>
-      <antipattern>
-        <token>на</token>
-        <token skip="3">відміну</token>
-        <token regexp="yes">від|од</token>
-      </antipattern>
-      <pattern>
-        <token regexp="yes" inflected="yes">відміняти(ся)?|відмінити(ся)?|відміня(вши|ючи)(сь)?|відмінивши(сь)?|відміна|відмінений</token>
-      </pattern>
-      <message>Правильно: <suggestion>скасовувати</suggestion>, <suggestion>касувати</suggestion>, <suggestion>зносити</suggestion>, <suggestion>анулювати</suggestion></message>
-      <example correction="скасовувати|касувати|зносити|анулювати">закон було <marker>відмінено</marker></example>
-      <example correction="скасовувати|касувати|зносити|анулювати"><marker>відмінили</marker> збори</example>
-      <example correction="скасовувати|касувати|зносити|анулювати"><marker>відміняються</marker> податки</example>
-      <example>до першої відміни відносяться</example>
-      <example>відміна в речення</example>
-      <example>дієслова відміняються</example>
-      <example>на відміну від</example>
-      <example>на відміну, скажімо, від них</example>
-      <example>на відміну хоча б від Ялти</example>
-      <example>II відміна</example>
-    </rule>
+      
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">відміняти(ся)?|відмінити(ся)?|відміня(вши|ючи)(сь)?|відмінивши(сь)?|відмінений</token>
+        </pattern>
+        <message>Правильно: <suggestion>скасовувати</suggestion>, <suggestion>касувати</suggestion>, <suggestion>зносити</suggestion>, <suggestion>анулювати</suggestion></message>
+        <example correction="скасовувати|касувати|зносити|анулювати">закон було <marker>відмінено</marker></example>
+        <example correction="скасовувати|касувати|зносити|анулювати"><marker>відмінили</marker> збори</example>
+        <example correction="скасовувати|касувати|зносити|анулювати"><marker>відміняються</marker> податки</example>
+        <example>дієслова відміняються</example>
+        <example>прикметник відмінений</example>
+      </rule>
+      
+      <rule>
+        <antipattern>
+          <token regexp="yes" inflected="yes">перший|другий|третій|четвертий|I+|IV|[1-4]</token>
+          <token inflected="yes">відміна</token>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp="yes" postag="number:latin.*"/>
+          <token inflected="yes">відміна</token>
+        </antipattern>
+        <antipattern>
+          <token>на</token>
+          <token skip="3">відміну</token>
+          <token regexp="yes">від|од</token>
+        </antipattern>
+        <pattern>
+          <token inflected="yes">відміна</token>
+        </pattern>
+        <message>Правильно: <suggestion>скасування</suggestion>, <suggestion>скасовування</suggestion>, <suggestion>касування</suggestion></message>
+        <example correction="скасування|скасовування|касування"><marker>відміною</marker> закону</example>
+        <example>до першої відміни відносяться</example>
+        <example>відміна в речення</example>
+        <example>на відміну від</example>
+        <example>на відміну, скажімо, від них</example>
+        <example>на відміну хоча б від Ялти</example>
+        <example>II відміна</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="NAVODYTY_DOVIDKY" name="Наводити довідки">
       <rule>
@@ -2066,7 +2078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">мішати</token>
           </marker>
           <token postag_regexp="yes" postag="part.*" min="0"/>
-          <token postag_regexp="yes" postag="noun.*v_dav:&amp;pron.*" min="0"/>
+          <token postag_regexp="yes" postag="noun.*v_dav:pron.*" min="0"/>
           <token postag_regexp="yes" postag="verb.*inf.*"/>
         </pattern>
         <message>Правильно: <suggestion>заважати</suggestion></message>
@@ -2548,6 +2560,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="погасив">і <marker>потушив</marker> вогні</example>
     </rule>
 -->
+
+    <rule id="zabuskyruvaty" name="Забуксирувати і забуксувати">
+      <pattern>
+        <marker>
+          <token inflected="yes">забуксирувати</token>
+        </marker>
+      </pattern>
+      <message>Це слово правильне стосовно застосування буксира, але хибне стосовно ситуації прокручування колесами в піску. Правильно: <suggestion><match no="1" postag_regexp="yes" postag="verb.*">забуксувати</match></suggestion></message>
+      <example correction="забуксувала">машина <marker>забуксирувала</marker> в піску.</example>
+    </rule>
 
 <!-- this error does not happen oftena and the rule does not work well -->
     <rulegroup id="lyshaty" name="Лишати і позбавляти">
@@ -4541,6 +4563,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="машинними оливами|машинними мастилами">залити <marker>машинними маслами</marker>.</example>
          -->
       </rule>
+
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes">сивушний</token>
+            <token inflected="yes" regexp="yes">масло|олія</token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(adj):[nf]:(.*)" postag_replace="$1:f:$2(?!ranim).*"/> <match no="2" postag="(noun:inanim):[fn]:(.*)" postag_replace="$1:f:$2.*">олива</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(adj):[nf]:(.*)" postag_replace="$1:m:$2(?!ranim).*"/> <match no="2" postag="(noun:inanim):[fn]:(.*)" postag_replace="$1:m:$2">спирт</match></suggestion>
+        <example correction="сивушною оливою|сивушним спиртом"><marker>сивушним маслом</marker>.</example>
+      </rule>
     </rulegroup>
 
     <rule id="bozha_korivka" name="Божа корівка - сонечко">
@@ -4797,6 +4833,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>попередні витоки</example>
       <example>витоки стаються</example>
       <example>4 694 витоків</example>
+    </rule>
+
+    <rule id="porohova_dizhka" name="Порохова діжка">
+      <pattern>
+        <token inflected="yes">пороховий</token>
+        <marker>
+          <token inflected="yes">діжка</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="noun:inanim:[fp]:.*">бочка</match></suggestion></message>
+      <example correction="бочку">потрапив у порохову <marker>діжку</marker>.</example>
+    </rule>
+
+    <rule id="obraz_zhyttya" name="Образ життя">
+      <pattern>
+        <marker>
+          <token inflected="yes">образ</token>
+        </marker>
+        <token regexp="yes">життя|мислення|дій|діяльності</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:[mp]:v_...):xp2" postag_replace="$1">спосіб</match></suggestion></message>
+      <example correction="спосіб">трансформувало <marker>образ</marker> життя.</example>
+      <example correction="способу">такого <marker>образу</marker> життя.</example>
     </rule>
 
 

@@ -316,7 +316,7 @@ public class Spanish extends LanguageWithModel {
   private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b");
   
   @Override
-  public String adaptSuggestion(String replacement) {
+  public String adaptSuggestion(String replacement, String originalErrorStr) {
     Matcher m = ES_CONTRACTIONS.matcher(replacement);
     String newReplacement = m.replaceAll("$1$2");
     return newReplacement;

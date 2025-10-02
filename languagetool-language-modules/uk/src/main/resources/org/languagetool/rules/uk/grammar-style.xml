@@ -137,22 +137,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Не більше 40</example>
         <example>Щонайбільше 40</example>
       </rule>
+      
       <rule>
         <pattern>
           <token regexp="yes">більше?</token>
-          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
+          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік|половина|третина</token>
         </pattern>
-        <message>З іменником часу замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
-        <suggestion>більше як <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
-        <suggestion>більше ніж <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
+        <message>З іменником часу/кількості замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
+        <suggestion>більше як <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_naz"/></suggestion>
+        <suggestion>більше ніж <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_naz"/></suggestion>
         <example>Більше галасу</example>
         <example>Більше одного</example>
         <example correction="понад тиждень|більше як тиждень|більше ніж тиждень"><marker>більше тижня</marker>.</example>
-        <example correction="понад хвилину|більше як хвилину|більше ніж хвилину"><marker>більше хвилини</marker>.</example>
-        <example correction="понад добу|більше як добу|більше ніж добу"><marker>більше доби</marker>.</example>
+        <example correction="понад хвилину|більше як хвилина|більше ніж хвилина"><marker>більше хвилини</marker>.</example>
+        <example correction="понад добу|більше як доба|більше ніж доба"><marker>більше доби</marker>.</example>
+        <example correction="понад половину|більше як половина|більше ніж половина"><marker>більше половини</marker>.</example>
         <!-- TODO: fix the correction
             <example correction="понад рік|більше як рік"><marker>більше року</marker>.</example>
         -->
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>більше</token>
+          <marker>
+            <token regexp="yes" >половин[аі]</token>
+          </marker>
+        </pattern>
+        <message>Можливо ви мали на увазі: <suggestion>половини</suggestion>?</message>
+        <example correction="половини">більше <marker>половині</marker>.</example>
       </rule>
 
       <!-- загальне правило: прикметник вищого ступеня + іменник в р.в. — забагато фальшивих помилок -->
@@ -175,6 +188,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example correction="від узгодження|ніж/як узгодження">Оперативне реагування стало зараз потрібніше <marker>узгодження</marker> тактики.</example>
           </rule>
       -->
+
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes">більший</token>
+            <token inflected="yes">половина</token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
+        <example correction="Більша частина|Більш ніж половина"><marker>Більшої половини</marker> класу</example>
+        <example>Більш ніж половина</example>
+        <example>Більше половини населення</example>
+      </rule>
+
     </rulegroup>
 
     <rulegroup id="MENSHE_WITH_TIME_NOUNS" name="Менше з числівниками та іменниками часу">
@@ -962,16 +991,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Правильно «пріоритет»</short>
         <example correction="пріоритет">На сьогодні це <marker>головний пріоритет</marker>.</example>
         <example>На сьогодні це пріоритет.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token inflected="yes" postag_regexp="yes">більший</token>
-          <token inflected="yes">половина</token>
-        </pattern>
-        <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
-        <example correction="Більша частина|Більш ніж половина"><marker>Більшої половини</marker> класу</example>
-        <example>Більш ніж половина</example>
       </rule>
 
       <rule>
@@ -2375,7 +2394,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Слово «освідчений» вживають у сенсі «обстежений» (Водій освідчений у поліції), а в значенні «обізнаний», «культурний» правильним є «освічений».</message>
       <suggestion><match no="1" postag_regexp="yes" postag="(adj.*)" postag_replace="$1.*">освічений</match></suggestion>
-      <suggestion><match no="1" postag_regexp="yes" postag="(adj:.*?):&amp;adjp.*" postag_replace="$1.*">обізнаний</match></suggestion>
+      <suggestion><match no="1" postag_regexp="yes" postag="(adj:.*?):adjp.*" postag_replace="$1.*">обізнаний</match></suggestion>
       <example correction="освічений|обізнаний"><marker>освідчений</marker> політик</example>
     </rule>
 
@@ -3112,7 +3131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes" inflected="yes">задавати|задати|задаючи|задавання|заданий</token>
           <token regexp="yes" min="0">би?</token>
-          <token postag_regexp="yes" postag="noun:(un)?anim:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:(un)?anim:.:v_dav:pron:pers.*" min="0"/>
           <token postag_regexp="yes" postag="(adj|numr):[np]:v_(rod|zna).*" min="0"/>
           <token inflected="yes" postag_regexp="yes" postag="noun:inanim:[np].*" regexp="yes">(за)?питання</token>
         </pattern>
@@ -3138,7 +3157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes" inflected="yes">(за)?питання</token>
-          <token postag_regexp="yes" postag="noun:(un)?anim:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:(un)?anim:.:v_dav:pron:pers.*" min="0"/>
           <token regexp="yes" min="0">би?</token>
           <token min="0">не</token>
           <token regexp="yes" inflected="yes">(задавати|задати|задаючи)(ся)?|задавання|заданий</token>
@@ -3245,7 +3264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="(noun|adj|numr).*" min="0" max="3" />
         <!--
           <token postag_regexp="yes" postag="noun:inanim:.:v_zna.*" min="0"/>
-          <token postag_regexp="yes" postag="noun:anim:.:v_dav.*|noun:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim:.:v_dav.*|noun:.:v_dav:pron:pers.*" min="0"/>
         -->
           <marker>
             <token regexp="yes">[ву]</token>
@@ -3452,7 +3471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Щоб висловити заклик до спільної дії, рекомендують вживати наказову форму дієслова</message>
-        <suggestion><match no="2" postag_regexp="yes" postag="(verb.*?):inf(?::&amp;insert)?(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
+        <suggestion><match no="2" postag_regexp="yes" postag="(verb.*?):inf(?::insert)?(.*?)" postag_replace="$1:impr:p:1$2(?!.*:(coll|bad)).*"/></suggestion>
         <suggestion>нумо <match no="3"/></suggestion>
         <url>http://r2u.org.ua/node/216</url>
         <example correction="Граймо|Нумо грати"><marker>Давай грати</marker> чесно...</example>
@@ -3676,6 +3695,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>на</token>
           <token postag_regexp="yes" postag="noun:.*:v_naz.*"/>
         </antipattern>
+        <antipattern>
+          <token>права</token>
+          <token regexp="yes">[ій]|та</token>
+          <token postag_regexp="yes" postag="noun:inanim:p:v_naz.*"/>
+        </antipattern>
         <pattern>
           <marker>
             <unify>
@@ -3712,6 +3736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>завтра не буде права нарікати</example>
         <example>у них не було права на смерть</example>
         <example>найважливішими є права людини</example>
+        <example>в якої є права та обов'язки</example>
       </rule>
     </rulegroup>
 
@@ -4165,7 +4190,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="passive_predicate" name="Пасивний предикат">
       <rule>
         <pattern>
-          <token postag_regexp="yes" postag="(noun|numr).*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
+          <or>
+            <token postag_regexp="yes" postag="(noun|numr).*v_zna.*|adj:n:v_zna:pron:(gen|dem).*"/>
+            <token>далі</token>
+          </or>
           <marker>
             <token min="0">було</token>
             <token postag_regexp="yes" postag="verb.*:impers.*">
@@ -4180,7 +4208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
               <token postag_regexp="yes" postag="noun:anim:.:v_oru.*">
                 <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim:.:v_oru.*.*|SENT_END|PARA_END"/>
-                <exception postag_regexp="yes" postag="noun.*?v_oru:&amp;pron.*"/>
+                <exception postag_regexp="yes" postag="noun.*?v_oru:pron.*"/>
                 <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
                 <exception>персоною</exception>
               </token>
@@ -4196,6 +4224,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="">Громадянство <marker>отримано ним</marker> законно.</example>
         <example correction="">Користувача <marker>авторизовано адміністратором</marker>.</example>
         <example correction="">15 тис. <marker>отримано фахівцями</marker>.</example>
+        <example correction="">тут і далі <marker>виділено мною</marker>.</example>
         <!-- TODO:
         <example correction="">про це <marker>було заявлено нашими міністрами </marker>.</example>
         -->
@@ -4229,7 +4258,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">з|із|зі|за|над|переді?|під</token>
           <token postag_regexp="yes" postag="adj:.:v_oru.*|numr.*" min="0" max="2"/>
           <token postag_regexp="yes" postag="noun:anim:.:v_oru.*">
-            <exception postag_regexp="yes" postag="adj:.:v_oru:&amp;pron.*"/>
+            <exception postag_regexp="yes" postag="adj:.:v_oru:pron.*"/>
           </token>
         </antipattern>
         <antipattern>

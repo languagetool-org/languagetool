@@ -18,14 +18,11 @@
  */
 package org.languagetool.rules;
 
-import io.micrometer.core.instrument.Tags;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Tag;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class FakeRule extends Rule {
 
@@ -54,7 +51,7 @@ public class FakeRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
 }

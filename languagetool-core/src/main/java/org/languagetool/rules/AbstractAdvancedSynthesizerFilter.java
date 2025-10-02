@@ -30,8 +30,6 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
@@ -152,7 +150,7 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       }
       List<String> adjustedReplacementsList = new ArrayList<>();
       for (String replacement : replacementsList) {
-        adjustedReplacementsList.add(language.adaptSuggestion(replacement));
+        adjustedReplacementsList.add(language.adaptSuggestion(replacement, ""));
       }
       newMatch.setSuggestedReplacements(adjustedReplacementsList);
       return newMatch;
