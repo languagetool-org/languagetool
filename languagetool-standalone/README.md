@@ -33,8 +33,7 @@ or less, depending on your file size and memory available).
 
 ### Stand-alone version
 
-To use the stand-alone version, double-click on the `languagetool.jar` file
-or call `java -jar languagetool.jar` from the command line.
+To use the stand-alone version, call `java -jar languagetool.jar` from the command line.
 
 ### HTTP API
 
