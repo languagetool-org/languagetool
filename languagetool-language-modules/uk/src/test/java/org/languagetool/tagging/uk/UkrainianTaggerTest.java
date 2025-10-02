@@ -324,6 +324,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("були-б", "були-б/[бути]verb:imperf:past:p:bad", tokenizer, tagger);
     assertNotTagged("м-б");
 
+    TestTools.myAssert("був-єм", "був-єм/[бути]verb:imperf:past:m:arch", tokenizer, tagger);
+
     assertNotTagged("хто-то");
     assertNotTagged("що-то");
 //    assertNotTagged("чи-то");

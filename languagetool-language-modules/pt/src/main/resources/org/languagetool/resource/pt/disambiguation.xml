@@ -3935,9 +3935,9 @@ USA
 
   </rulegroup>
 
-  <rule id="DP_VPARTPASS_NCAQ_20250925" name="Remove rare verbs from appearing as verbs">
+  <rule id="DP_V_VPARTPASS_NC_20250927" name="Remove rare verbs from appearing as verbs">
     <pattern>
-      <token postag='[DP].+' postag_regexp='yes'/>
+      <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
       <marker>
         <and>
           <token postag='VMP00PM' postag_regexp='no'/>
@@ -3960,34 +3960,81 @@ USA
     -->
   </rule>
 
-  <rule id="DA_DI_NC_AQ_VPARTPASS_20250926" name="Make verb appear as 3rd person singular">
-    <pattern>
-      <token postag='D[AIP].+' postag_regexp='yes'/>
-      <token postag='NCM.+|AQ0M.+|NP.+' postag_regexp='yes'/>
-      <marker>
-        <and>
-          <token postag='VMIP3S0'/>
-          <token postag='VMP00SF'/>
-        </and>
-      </marker>
-      <token postag='D[AIP].+' postag_regexp='yes'/>
-    </pattern>
-    <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
-    <!--
-    Examples:
-             O sujeito ganha uma medalha de ouro, critica a burocracia cuba..digo, brasileira, e leva uma bronca.
-             Já o Aécio oculta o patrimônio e não quer esclarecer.
-             Como o sal resseca o cabelo, é preciso fazer uma hidratação semanal.
-             O aplicativo pega cada trecho e monta aleatoriamente uma frase perfeita para incrementar sua reunião.
-             "Ou o Parlamento aceita as nossas condições, ou não aprovaremos qualquer pagamento", diz Cristas.
-             O cão desperta muito amor e é modelo de fidelidade.
-             Um Picasso estuda um objeto como um cirurgião disseca um cadáver.
-             Ao utilizar os nossos serviços aceita a sua utilização.
-             Meu pai pega o metrô às 7 da manhã para ir ao trabalho.
-             Teu sorriso desperta meu sorriso, e o duelo do amor já recomeça.
-             Fazendo isso, você ajudará o site a manter-se sempre ativo, pois a Amazon paga uma comissão por cada venda.
-    -->
-  </rule>
+  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251001" name="Make past participle verb appear as 3rd person singular">
+    <rule>
+      <pattern>
+        <token postag='D[AIP].+' postag_regexp='yes'/>
+        <token postag='NCM.+|AQ0M.+|NP.+' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMP00SF'/>
+          </and>
+        </marker>
+        <token postag='D[AIP].+' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <!--
+      Examples:
+               O sujeito ganha uma medalha de ouro, critica a burocracia cuba..digo, brasileira, e leva uma bronca.
+               Já o Aécio oculta o patrimônio e não quer esclarecer.
+               Como o sal resseca o cabelo, é preciso fazer uma hidratação semanal.
+               O aplicativo pega cada trecho e monta aleatoriamente uma frase perfeita para incrementar sua reunião.
+               "Ou o Parlamento aceita as nossas condições, ou não aprovaremos qualquer pagamento", diz Cristas.
+               O cão desperta muito amor e é modelo de fidelidade.
+               Um Picasso estuda um objeto como um cirurgião disseca um cadáver.
+               Ao utilizar os nossos serviços aceita a sua utilização.
+               Meu pai pega o metrô às 7 da manhã para ir ao trabalho.
+               Teu sorriso desperta meu sorriso, e o duelo do amor já recomeça.
+               Fazendo isso, você ajudará o site a manter-se sempre ativo, pois a Amazon paga uma comissão por cada venda.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='D[AI]0MS0' postag_regexp='yes'/>
+        <token postag='N.[CM].+|AQ0[CM].+' postag_regexp='yes'><exception scope='next' regexp='yes'>surpresa|assente</exception></token>
+        <token min='0' max='1' postag='RM'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMP00SF'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <!--
+      Examples:
+               O David ganha muito pouco com os livros, mas dá aulas.
+               Muitas pessoas comparam a renda do brasileiro com do europeu e conclui que o europeu ganha mais.
+               O Brasil desperta interesse.
+               A terceira etapa, é quando o arqueiro solta a flecha.
+               De um modo geral o carro agrada e têm um ótimo custo benefício.
+               Assim, o prazo finda apenas no dia 2 de maio (segunda-feira).
+               Com essas informações o avatar ganha vida na tela.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>el[ae]|você<exception scope='previous' regexp='yes'>por|de|com|em|a</exception></token>
+        <token min='0' max='1' postag='RM'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMP00SF'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <!--
+      Examples:
+               Eu vejo pelas coisas que ela posta, o desejo de ajudar o outro.
+               Bom, não sei como funciona a Ed da USP, se ela aceita livros por encomenda.
+               Ela expressa o ponto de vista dela e cabe ao governo, secular, ignora-la.
+               Ele ganha três vezes mais que eu.
+               Ele ganha a vida ensinando.
+      -->
+    </rule>
+  </rulegroup>
 
   <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
@@ -4602,6 +4649,30 @@ USA
              Para ganho de massa, Dianabol ou Anadrol combinam perfeitamente com Parabolan.
              A praia é pouco apetecível para idas a banhos e quase nunca frequentada.
              E disseram: Não! Nós vamos contigo para junto de teu povo!
+    -->
+  </rule>
+
+  <rule id="VERB_NCAQ_VERBINFORMAL_TO_NOUN_20251001_RARE" name="Remove rare verbs from appearing as verbs">
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <token postag='AQ0P.+|NC.P.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMN02S0' postag_regexp='no'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O Comitê de Salvação Pública, liderado por Robespierre, assumiu plenos poderes.
+             Essas adaptações podem ser pregas circulares, vilosidades, microvilosidades e criptas de Lieberkühn.
+             Fica a 3.759 km de Santiago, Chile (SCL), havendo voos regulares entre esses pontos.
+             Hoje existe a OTAN – que é formada pela maioria dos países que possuem bombas nucleares.
+             Rolando é um central alto (1,89m) e rápido, jogando bem na antecipação e fazendo exibições regulares.
+             Ele sempre usa palavras vulgares quando fica nervoso.
+             Sua nave tem velas solares.
     -->
   </rule>
 
