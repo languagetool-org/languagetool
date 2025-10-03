@@ -3960,11 +3960,38 @@ USA
     -->
   </rule>
 
-  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251001" name="Make past participle verb appear as 3rd person singular">
+  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251003" name="Make past participle verb appear as 3rd person singular">
+    <rule>
+      <pattern>
+        <token>a</token>
+        <token postag='NCF.+|AQ0F.+|NP.+' postag_regexp='yes'/>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMP00SF'/>
+          </and>
+        </marker>
+        <token postag='D[AIP].+' postag_regexp='yes'><exception regexp='yes'>ao?|às?</exception></token> <!-- It will remove valid verbs, but better this way -->
+      </pattern>
+      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <!--
+      Examples:
+               A tragédia completa um ano nesta data.
+               Quando estiver pronto para uma foto, a pessoa segura seus braços para sinalizar a aeronave.
+               A gente pega um táxi?
+               Por que a gente não pega nossas coisas e vai embora?
+               A água desgasta o leito dos rios.
+               A cultura liberta o homem.
+               A ignorância cega o ignorante.
+               A música desperta os sentimentos.
+      -->
+    </rule>
     <rule>
       <pattern>
         <token postag='D[AIP].+' postag_regexp='yes'/>
         <token postag='NCM.+|AQ0M.+|NP.+' postag_regexp='yes'/>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN'/>
         <marker>
           <and>
             <token postag='VMIP3S0'/>
