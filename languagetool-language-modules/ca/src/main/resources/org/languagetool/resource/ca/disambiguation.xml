@@ -21897,9 +21897,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token>Torres</token>
+                <token regexp="yes">Torres|Humbert</token>
                 <marker>
-                    <token>Torres</token>
+                    <token><match no="0"/></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -23030,6 +23030,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="OCTAL_NOTATION" name="notació octal">
         <pattern>
             <token regexp="yes" case_sensitive="yes">0o[0-7]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="IBAN" name="IBAN">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">[A-Z][A-Z][0-9][0-9].*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
