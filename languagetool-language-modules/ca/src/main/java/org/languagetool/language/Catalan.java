@@ -233,6 +233,8 @@ public class Catalan extends Language {
       case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
       case "PREGUEM_DISCULPIN": return 45; // greater than ESPERANT_US_AGRADI
       case "DESDE_UN": return 40;
+      case "CONEIXET": return 40;
+      case "CONEIXENTS": return 40;
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPERANT_US_AGRADI": return 40;
