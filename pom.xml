@@ -1417,18 +1417,25 @@
                     <nrOfIndentSpace>4</nrOfIndentSpace>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.9.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <publishingServerId>central</publishingServerId>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
     <profiles>
+        <profile>
+            <id>lt-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.9.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- taken from https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven -->
         <!--TODO: Is this needed anymore? Or is maybe an update possible -->
         <profile>
