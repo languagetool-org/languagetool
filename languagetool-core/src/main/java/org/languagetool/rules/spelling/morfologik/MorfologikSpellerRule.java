@@ -485,6 +485,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               messages.getString("desc_spelling_short"));
       ruleMatch.setType(RuleMatch.Type.UnknownWord);
     }
+
+    if (userConfig != null && !userConfig.isSuggestionsEnabled()){
+      ruleMatches.add(ruleMatch);
+      return ruleMatches;
+    }
     
     //word starting with numbers or bullets    
     String cleanWord = word;
@@ -507,7 +512,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }  
       }
     }
-    
+
     boolean fullResults = SuggestionsChanges.getInstance() != null &&
       SuggestionsChanges.getInstance().getCurrentExperiment() != null &&
       (boolean) SuggestionsChanges.getInstance().getCurrentExperiment()
