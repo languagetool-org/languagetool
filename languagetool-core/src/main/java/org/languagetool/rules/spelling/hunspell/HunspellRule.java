@@ -257,7 +257,7 @@ public class HunspellRule extends SpellingCheckRule {
           //  System.out.println(sdf.format(new Date()) + " - speller: " + cleanWord2);
           //}
           if (userConfig != null && !userConfig.isSuggestionsEnabled()) {
-            ruleMatch.setSuggestedReplacement(null);
+            ruleMatch.setSuggestedReplacement("");
           } else if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
             List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
             if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
