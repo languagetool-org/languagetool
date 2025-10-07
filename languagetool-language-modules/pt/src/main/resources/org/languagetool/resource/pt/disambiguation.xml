@@ -3960,7 +3960,7 @@ USA
     -->
   </rule>
 
-  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251006" name="Make past participle verbs appear as 3rd person singular">
+  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251007" name="Make past participle verbs appear as 3rd person singular">
     <rule>
       <pattern>
         <token>a</token>
@@ -4043,8 +4043,14 @@ USA
       -->
     </rule>
     <rule>
+      <antipattern>
+        <token>se</token>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'/>
+        <token postag='VMIP3S0'/>
+        <token regexp='yes'>por|de|com|em|a|às?|aos?</token>
+      </antipattern>
       <pattern>
-        <token regexp='yes'>el[ae]|você<exception scope='previous' regexp='yes'>por|de|com|em|a</exception></token>
+        <token regexp='yes'>el[ae]|você|se<exception scope='previous' regexp='yes'>por|de|com|em|a</exception></token>
         <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'/>
         <marker>
           <and>
