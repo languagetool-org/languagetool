@@ -4705,6 +4705,28 @@ USA
     -->
   </rule>
 
+  <rule id="VERB_VERBINFINITIVE_20251007_RARE" name="Remove infinitive verbs from appearing as nouns">
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="N.*"/>
+    <!--
+    Examples:
+             Ele precisa saber o que fazer com essas ferramentas.
+             No seu período de operação, provou ser altamente confiável e produtivo.
+             Páginas nesta categoria devem ser adicionadas pelo Módulo:Citação/CS1.
+             Mas superou tudo, e bastou cantar três músicas para que ela conquistasse o público revoltado.
+             Não deve haver nó distinto ou nós que assumam papéis especiais ou conjunto extra de responsabilidades.
+    -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
