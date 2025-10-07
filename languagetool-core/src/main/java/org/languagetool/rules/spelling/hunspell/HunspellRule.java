@@ -256,7 +256,9 @@ public class HunspellRule extends SpellingCheckRule {
           //  SimpleDateFormat sdf = new SimpleDateFormat("HH");
           //  System.out.println(sdf.format(new Date()) + " - speller: " + cleanWord2);
           //}
-          if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
+          if (userConfig != null && !userConfig.isSuggestionsEnabled()) {
+            ruleMatch.setSuggestedReplacements(List.of());
+          } else if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
             List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
             if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
               sugg.get(0).setConfidence(HIGH_CONFIDENCE);
