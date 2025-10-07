@@ -24,7 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.GermanSynthesizer;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +47,7 @@ class SpellingData {
   @NotNull
   private static Map<String, String> getCoherencyMap(String filePath, boolean sentStartMode) {
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
-    Map<String,String> coherencyMap = new HashMap<>();
+    Map<String, String> coherencyMap = new LinkedHashMap<>();
     for (String line : lines) {
       if (line.startsWith("#")) {
         continue;
