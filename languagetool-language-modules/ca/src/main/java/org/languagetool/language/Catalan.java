@@ -277,6 +277,7 @@ public class Catalan extends Language {
       case "PRONOM_FEBLE_HI": return 20; // greater than HAVER_PARTICIPI_HAVER_IMPERSONAL
       case "HAVER_PARTICIPI_HAVER_IMPERSONAL": return 15; // greater than ACCENTUATION_CHECK
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
+      case "POSTULARSE": return 10;
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCA_GRIS": return 10;
