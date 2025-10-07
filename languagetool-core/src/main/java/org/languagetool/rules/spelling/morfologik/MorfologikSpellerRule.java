@@ -64,7 +64,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private boolean checkCompound = false;
   private Pattern compoundRegex = Pattern.compile("-");
   private final UserConfig userConfig;
-  private final Object lock = new Object();
+  private final Object initLock = new Object();
+  private volatile boolean spellersInitialized = false;
  
   //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
   static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
@@ -223,19 +224,24 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   private void initSpellers() throws IOException {
-    synchronized (lock) {
-      if (speller1 != null) return;
+    if (spellersInitialized) {
+      return;
+    }
+    synchronized (initLock) {
+      if (spellersInitialized) {
+        return;
+      }
       String binaryDict = null;
       if (getDataBroker().resourceExists(getFileName()) || Paths.get(getFileName()).toFile().exists()) {
         binaryDict = getFileName();
       }
-      if (binaryDict != null) {
-        initSpeller(binaryDict);
-      } else {
+      if (binaryDict == null) {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
         throw new RuntimeException("Cannot find dictionary file " + getFileName());
       }
+      initSpeller(binaryDict);
+      spellersInitialized = true;
     }
   }
 
