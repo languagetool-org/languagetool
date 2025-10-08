@@ -102,6 +102,23 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
       if (prevRuleMatch.getRule().getTags().contains(Tag.picky) && prevPriority != Integer.MIN_VALUE) {
         prevPriority += negativeConstant;
       }
+      // If both matches only change punctuation,
+      // prefer the rule that participates in "correct all errors at once".
+      boolean currentIsPunctuationOnly = isPunctuationOnlyChange(ruleMatch);
+      boolean prevIsPunctuationOnly = isPunctuationOnlyChange(prevRuleMatch);
+      if (currentIsPunctuationOnly && prevIsPunctuationOnly) {
+        boolean currentIncludedAllAtOnce = ruleMatch.getRule().isIncludedInErrorsCorrectedAllAtOnce();
+        boolean prevIncludedAllAtOnce = prevRuleMatch.getRule().isIncludedInErrorsCorrectedAllAtOnce();
+        if (currentIncludedAllAtOnce != prevIncludedAllAtOnce) {
+          if (currentIncludedAllAtOnce) {
+            if (currentPriority < prevPriority) {
+              currentPriority = prevPriority + 1;
+            }
+          } else if (prevPriority < currentPriority) {
+            prevPriority = currentPriority + 1;
+          }
+        }
+      }
       if (currentPriority == prevPriority) {
         // take the longest error:
         currentPriority = ruleMatch.getToPos() - ruleMatch.getFromPos();
@@ -123,6 +140,58 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
 
   protected boolean isPremiumRule(RuleMatch ruleMatch) {
     return Premium.get().isPremiumRule(ruleMatch.getRule());
+  }
+
+  private boolean isPunctuationOnlyChange(RuleMatch match) {
+    if (match == null) {
+      return false;
+    }
+    List<String> suggestions = match.getSuggestedReplacements();
+    if (suggestions == null || suggestions.isEmpty()) {
+      return false;
+    }
+    String replacement = suggestions.get(0);
+    if (replacement == null) {
+      return false;
+    }
+    String original = match.getOriginalErrorStr();
+    if (original == null || original.isEmpty()) {
+      String sentenceStr = match.getSentence() != null ? match.getSentence().getText() : null;
+      if (sentenceStr == null || sentenceStr.isEmpty()) {
+        return false;
+      }
+      int from = match.getFromPosSentence();
+      int to = match.getToPosSentence();
+      if (from > -1 && to > -1 && to <= sentenceStr.length() && from < to) {
+        original = sentenceStr.substring(from, to);
+      } else {
+        from = match.getFromPos();
+        to = match.getToPos();
+        if (from > -1 && to > -1 && to <= sentenceStr.length() && from < to) {
+          original = sentenceStr.substring(from, to);
+        } else {
+          return false;
+        }
+      }
+    }
+    // if strings are identical, it's not a change at all
+    if (replacement.equals(original)) {
+      return false;
+    }
+    String normalizedOriginal = keepLettersAndDigits(original);
+    String normalizedReplacement = keepLettersAndDigits(replacement);
+    return normalizedOriginal.equals(normalizedReplacement);
+  }
+
+  private String keepLettersAndDigits(String s) {
+    StringBuilder sb = new StringBuilder(s.length());
+    for (int i = 0; i < s.length(); i++) {
+      char ch = s.charAt(i);
+      if (Character.isLetterOrDigit(ch)) {
+        sb.append(ch);
+      }
+    }
+    return sb.toString();
   }
 
 }
