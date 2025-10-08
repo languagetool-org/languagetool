@@ -104,7 +104,7 @@ public class DictionarySpellMatchFilter implements RuleMatchFilter {
     List<RuleMatch> collectedMatches = new ArrayList<>();
     List<String> collectedTerms = new ArrayList<>();
     for (RuleMatch match : ruleMatches) {
-      if (match.getRule().isDictionaryBasedSpellingRule()) {
+      if (match.getRule().useDictionaryBasedFilterForMatches()) {
         String covered = text.getPlainText().substring(match.getFromPos(), match.getToPos());
         if (match.getFromPos() == prevToPos + 1) {
           String key = String.join(" ", collectedTerms) + " " + covered;
