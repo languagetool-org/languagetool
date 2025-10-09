@@ -32537,6 +32537,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABREVIATURA_NUMERO" name="abreviatura de número">
             <rule>
                 <pattern>
+                    <token>n</token>
+                    <token>.</token>
+                    <token>°</token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion><match no="1"/>.º</suggestion>
+                <suggestion><match no="1"/>úm.</suggestion>
+                <suggestion><match no="1"/>ro.</suggestion>
+                <example correction="n.º|núm.|nro.">Diario de la República <marker>n.°</marker> 18</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">n.?°|nº</token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
