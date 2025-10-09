@@ -5930,6 +5930,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token inflected="yes">funció</token>
+                <marker>
+                    <token regexp="yes">(arc)?(sinus|cosinus|tangent|cotangent|secant|cosecant)</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0CS0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="NP..G.*" postag_regexp="yes"/>
                 <marker>
                     <token postag="NCMS000">centre</token>
