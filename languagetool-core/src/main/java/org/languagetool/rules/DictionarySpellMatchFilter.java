@@ -81,7 +81,7 @@ public class DictionarySpellMatchFilter implements RuleMatchFilter {
 
           while (iter.hasNext()) {
             RuleMatch match = iter.next();
-            if (match.getRule().isDictionaryBasedSpellingRule() &&
+            if (match.getRule().useDictionaryBasedFilterForMatches() &&
                 match.getFromPos() >= phrase.begin &&
                 match.getToPos() <= phrase.end) {
               // remove all spelling matches that are (subsets) of accepted phrases
