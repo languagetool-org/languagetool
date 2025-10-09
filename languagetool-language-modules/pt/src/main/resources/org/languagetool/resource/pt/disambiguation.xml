@@ -3960,18 +3960,48 @@ USA
     -->
   </rule>
 
-  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251001" name="Make past participle verb appear as 3rd person singular">
+  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251009" name="Make past participle verbs and others appear as 3rd person singular">
+    <!-- ChatGPT 5 -->
     <rule>
       <pattern>
-        <token postag='D[AIP].+' postag_regexp='yes'/>
-        <token postag='NCM.+|AQ0M.+|NP.+' postag_regexp='yes'/>
+        <token>a</token>
+        <token postag='NCF.+|AQ0F.+|NP.+' postag_regexp='yes'/>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'/>
         <marker>
           <and>
             <token postag='VMIP3S0'/>
             <token postag='VMP00SF'/>
           </and>
         </marker>
+        <token postag='D[AIP].+' postag_regexp='yes'>
+          <exception scope='previous' regexp='yes'>surpresa|assente</exception>
+          <exception regexp='yes'>ao?|às?</exception></token> <!-- It will remove valid verbs, but better this way -->
+      </pattern>
+      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <!--
+      Examples:
+               A tragédia completa um ano nesta data.
+               Quando estiver pronto para uma foto, a pessoa segura seus braços para sinalizar a aeronave.
+               A gente pega um táxi?
+               Por que a gente não pega nossas coisas e vai embora?
+               A água desgasta o leito dos rios.
+               A cultura liberta o homem.
+               A ignorância cega o ignorante.
+               A música desperta os sentimentos.
+      -->
+    </rule>
+    <rule>
+      <pattern>
         <token postag='D[AIP].+' postag_regexp='yes'/>
+        <token postag='NCM.+|AQ0M.+|NP.+' postag_regexp='yes'/>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMP00SF'/>
+          </and>
+        </marker>
+        <token postag='(SPS00:)?D[AIP].+|RG|CS' postag_regexp='yes'><exception scope='previous' regexp='yes'>surpresa|assente</exception></token>
       </pattern>
       <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
       <!--
@@ -3991,13 +4021,13 @@ USA
     </rule>
     <rule>
       <pattern>
-        <token postag='D[AI]0MS0' postag_regexp='yes'/>
-        <token postag='N.[CM].+|AQ0[CM].+' postag_regexp='yes'><exception scope='next' regexp='yes'>surpresa|assente</exception></token>
-        <token min='0' max='1' postag='RM'/>
+        <token postag='D[AI]0MS0|CS' postag_regexp='yes'/>
+        <token postag='N.[CM].+|AQ0[CM].+|CS' postag_regexp='yes'><exception scope='next' regexp='yes'>surpresa|assente</exception></token>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'><exception scope='next' regexp='yes'>surpresa|assente</exception></token>
         <marker>
           <and>
-            <token postag='VMIP3S0'/>
-            <token postag='VMP00SF'/>
+            <token postag='VMIP3S0'><exception scope='next' postag_regexp='yes' postag='V.+|PP3..N.+'/></token>
+            <token postag='VMP00SF'><exception scope='next' postag_regexp='yes' postag='V.+|PP3..N.+'/></token>
           </and>
         </marker>
       </pattern>
@@ -4015,8 +4045,8 @@ USA
     </rule>
     <rule>
       <pattern>
-        <token regexp='yes'>el[ae]|você<exception scope='previous' regexp='yes'>por|de|com|em|a</exception></token>
-        <token min='0' max='1' postag='RM'/>
+        <token regexp='yes'>el[ae]|você|se<exception scope='previous' regexp='yes'>por|de|com|em|a|às?|aos?</exception></token>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'/>
         <marker>
           <and>
             <token postag='VMIP3S0'/>
@@ -4032,6 +4062,29 @@ USA
                Ela expressa o ponto de vista dela e cabe ao governo, secular, ignora-la.
                Ele ganha três vezes mais que eu.
                Ele ganha a vida ensinando.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'><exception scope='previous' regexp='no'>a</exception></token>
+            <token postag='VMM02S0'><exception scope='previous' regexp='no'>a</exception></token>
+          </and>
+        </marker>
+        <token postag='VMN0000'/>
+        <token postag='VMP00S.+' postag_regexp='yes'><exception postag_regexp='yes' postag='AQ.+'/></token>
+      </pattern>
+      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <!--
+      Examples:
+               Esta tradição pode ser revivida no núcleo das charqueadas, por meio de visitas orientadas.
+               Isso nos permite detectar o que não pode ser removido ou alterado sem remover ou alterar o fenômeno em questão.
+               Necessita ser reciclada de acordo com o livro de estilo.
+               Parece estar escrita em formato publicitário.
+               No entanto, ele pode ser achado na internet.
+               Wile E. Coyote Um coiote rival do Papa Léguas, que costuma ser derrotado de formas inusitadas.
+               Jones passa a explicar que o seu maior objetivo é assumir o controle da OCP, e admite ter sido ele a encomendar o assassinato de Morton.
       -->
     </rule>
   </rulegroup>
@@ -4673,6 +4726,55 @@ USA
              Rolando é um central alto (1,89m) e rápido, jogando bem na antecipação e fazendo exibições regulares.
              Ele sempre usa palavras vulgares quando fica nervoso.
              Sua nave tem velas solares.
+    -->
+  </rule>
+
+  <rule id="VERB_VERBINFINITIVE_20251009_RARE" name="Remove infinitive verbs from appearing as nouns">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag='VMN0000'/>
+        <exception regexp='yes' inflected='yes'>ter|haver</exception>
+        <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="N.*"/>
+    <!--
+    Examples:
+             Ele precisa saber o que fazer com essas ferramentas.
+             No seu período de operação, provou ser altamente confiável e produtivo.
+             Páginas nesta categoria devem ser adicionadas pelo Módulo:Citação/CS1.
+             Mas superou tudo, e bastou cantar três músicas para que ela conquistasse o público revoltado.
+             Não deve haver nó distinto ou nós que assumam papéis especiais ou conjunto extra de responsabilidades.
+    -->
+  </rule>
+
+  <rule id="VERB_VERBINFINITIVE_REMOVEVERB_20251008_RARE" name="Convert infinitive verbs to nouns/adjectives">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token inflected='yes' regexp='yes'>ter|haver</token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Aquele que tem poder total sobre as tarefas e usuários do computador.
+             Quando o homem se sente respeitado pela esposa, ele naturalmente tem prazer em agradá-la.
+             Eu terei prazer em ajudá-la.
+             Você teve azar, eu voltei cinco minutos depois que você foi embora.
+             Dê a um homem um peixe e ele terá jantar por uma noite; ensine-o a pescar e ele terá jantar pela vida toda.
+             Eu tenho dever de casa.
+             Não há colher.
     -->
   </rule>
 

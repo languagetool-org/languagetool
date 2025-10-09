@@ -233,6 +233,8 @@ public class Catalan extends Language {
       case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
       case "PREGUEM_DISCULPIN": return 45; // greater than ESPERANT_US_AGRADI
       case "DESDE_UN": return 40;
+      case "CONEIXET": return 40;
+      case "CONEIXENTS": return 40;
       case "MOTS_NO_SEPARATS": return 40;
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPERANT_US_AGRADI": return 40;
@@ -275,6 +277,7 @@ public class Catalan extends Language {
       case "PRONOM_FEBLE_HI": return 20; // greater than HAVER_PARTICIPI_HAVER_IMPERSONAL
       case "HAVER_PARTICIPI_HAVER_IMPERSONAL": return 15; // greater than ACCENTUATION_CHECK
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
+      case "POSTULARSE": return 10;
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCA_GRIS": return 10;

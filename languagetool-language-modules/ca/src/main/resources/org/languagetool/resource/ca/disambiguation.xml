@@ -6633,7 +6633,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">factor|efecte|convidat|convidada|invitat|invitada|festa|celebració|atac|membre|regal|element|retorn|tornada|regrés|viatge|examen|ingredient|èxit|control|antidopatge</token>
+                <token inflected="yes" regexp="yes">factor|efecte|convidat|convidada|invitat|invitada|festa|celebració|atac|membre|regal|element|retorn|tornada|regrés|viatge|examen|ingredient|èxit|control|antidopatge|llançament|àlbum|concert</token>
                 <marker>
                     <token>sorpresa</token>
                 </marker>
@@ -18294,6 +18294,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="el_no_article" name="el no article">
         <!-- el feu cantar -->
+        <antipattern>
+            <token regexp="yes">la|les</token>
+            <token regexp="yes">tesis|tesi</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -21897,9 +21901,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token>Torres</token>
+                <token regexp="yes">Torres|Humbert</token>
                 <marker>
-                    <token>Torres</token>
+                    <token><match no="0"/></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -23030,6 +23034,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="OCTAL_NOTATION" name="notació octal">
         <pattern>
             <token regexp="yes" case_sensitive="yes">0o[0-7]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="IBAN" name="IBAN">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">[A-Z][A-Z][0-9][0-9].*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

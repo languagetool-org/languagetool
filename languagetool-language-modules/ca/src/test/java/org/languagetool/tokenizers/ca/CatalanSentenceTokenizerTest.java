@@ -108,6 +108,9 @@ public class CatalanSentenceTokenizerTest {
     testSplit("El fruit té de 6 a 8 cm de long. i 4 a 6 cm d'ample.");
     testSplit("Geiger (Proc. Roy. Soc. 1 de febrer de 1910).");
     testSplit("El poble tenia 50 hab. a finals de segle XX.");
+    testSplit("Vam veure un documental sobre Warner Bros. Cartoons.");
+    testSplit("Vam veure un documental sobre la Warner Bros. ", "Era boníssim.");
+    testSplit("La Warner Bros. feia coses que m'agradaven molt.");
     
     // Unknown abbreviations inside parentheses
     testSplit("(Impren. Disss)");
