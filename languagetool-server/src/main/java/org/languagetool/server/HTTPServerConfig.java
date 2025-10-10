@@ -186,6 +186,7 @@ public class HTTPServerConfig {
   protected int styleGuideLimitUser = 0;
   protected int styleGuideLimitTeam = 0;
 
+  protected String jwtSecret;
 
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
@@ -208,7 +209,7 @@ public class HTTPServerConfig {
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
     "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken", "trustedSources",
-    "ruleIdToConfidenceFile");
+    "ruleIdToConfidenceFile", "jwtSecret");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -468,6 +469,7 @@ public class HTTPServerConfig {
         styleGuideLimitUser = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitUser", "0"));
         styleGuideLimitTeam = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitTeam", "0"));
         requestLimitAccessToken = getOptionalProperty(props, "requestLimitAccessToken", null);
+        jwtSecret = getOptionalProperty(props, "jwtSecret", null);
 
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
@@ -1533,4 +1535,7 @@ public class HTTPServerConfig {
     this.defaultThirdPartyAI = defaultThirdPartyAI;
   }
 
+  public String getJwtSecret() {
+    return jwtSecret;
+  }
 }
