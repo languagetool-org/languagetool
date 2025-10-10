@@ -45,6 +45,7 @@ public class UserConfig {
   private final List<String> userSpecificSpellerWords;
   private final Set<String> acceptedPhrases;
   private final List<Rule> userSpecificRules;
+  private final boolean suggestionsEnabled;
   private final int maxSpellingSuggestions;
   private final Long userDictCacheSize;
   private final String userDictName;
@@ -92,7 +93,7 @@ public class UserConfig {
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Object[]> ruleValues,
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
-    this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
+    this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, true, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
       false, null, null, false, null, false, false, false);
   }
 
@@ -104,12 +105,13 @@ public class UserConfig {
                     LinguServices linguServices, boolean filterDictionaryMatches,
                     @Nullable List<String> abTest, @Nullable Long textSessionId,
                     boolean hidePremiumMatches, List<String> preferredLanguages) {
-    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, false, false, false);
+    this(userSpecificSpellerWords, userSpecificRules, ruleValues, true, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, false, false, false);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords,
                     List<Rule> userSpecificRules,
                     Map<String, Object[]> ruleValues,
+                    boolean suggestionsEnabled,
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
@@ -123,6 +125,7 @@ public class UserConfig {
     for (Map.Entry<String, Object[]> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
+    this.suggestionsEnabled = suggestionsEnabled;
     this.maxSpellingSuggestions = maxSpellingSuggestions;
     this.premiumUid = premiumUid;
     this.userDictName = userDictName == null ? "default" : userDictName;
@@ -178,6 +181,10 @@ public class UserConfig {
   @NotNull
   public List<Rule> getRules() {
     return userSpecificRules;
+  }
+
+  public boolean isSuggestionsEnabled() {
+    return suggestionsEnabled;
   }
 
   public int getMaxSpellingSuggestions() {
