@@ -1345,6 +1345,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="NUMERAL_MES" name="nou d'octubre">
+        <pattern>
+            <marker>
+                <token postag="DN.*" postag_regexp="yes"/>
+            </marker>
+            <token regexp="yes">de|d'</token>
+            <token regexp="yes">&mesos_any;</token>
+        </pattern>
+        <disambig action="filter" postag="DN.*"/>
+    </rule>
     <rule id="s_segle" name="s. > segle">
         <pattern>
             <marker>
@@ -8077,6 +8087,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <!-- ser + participi-->
     <rulegroup id="ser_participi" name="ser + participi">
+        <antipattern>
+            <unify>
+                <feature id="genere"/>
+                <feature id="nombre"/>
+                <token postag="V.P.*|A.*" postag_regexp="yes"><exception inflected="yes">ser</exception></token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </unify>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="V.[NISM].*" postag_regexp="yes" inflected="yes">ser</token>

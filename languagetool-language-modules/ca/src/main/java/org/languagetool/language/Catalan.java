@@ -320,6 +320,7 @@ public class Catalan extends Language {
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
       case "COMMA_LOCUTION": return -10;
       case "REGIONAL_VERBS": return -10;
+      case "UN_ALTRE_DISTRIBUTIVES": return -10; // no suggestions
       case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
       case "CONCORDANCA_PRONOMS_CATCHALL": return -10;
       case "AGREEMENT_POSTPONED_ADJ": return -15;
@@ -487,7 +488,7 @@ public class Catalan extends Language {
       Pattern.UNICODE_CASE);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
       Pattern.UNICODE_CASE);
-  private static final Pattern CA_REMOVE_SPACES = compile("\\b(a|de|pe) (ls? )",
+  private static final Pattern CA_REMOVE_SPACES = compile("\\b(a|de|pe) (ls?)(?!['’])\\b",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   @Override
