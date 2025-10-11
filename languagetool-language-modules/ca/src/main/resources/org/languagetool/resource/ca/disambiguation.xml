@@ -8087,14 +8087,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <!-- ser + participi-->
     <rulegroup id="ser_participi" name="ser + participi">
-        <antipattern>
+        <!--<antipattern>
+            <!-\- TODO: quin problema solucionem amb això? Exemple? -\->
             <unify>
                 <feature id="genere"/>
                 <feature id="nombre"/>
-                <token postag="V.P.*|A.*" postag_regexp="yes"><exception inflected="yes">ser</exception></token>
-                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="V.P..P..|V.P...F." postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|estar</exception></token>
+                <token postag="N.*" postag_regexp="yes"><exception inflected="yes">numeral</exception><exception>temps</exception><exception postag="DN.*" postag_regexp="yes"/></token>
             </unify>
-        </antipattern>
+        </antipattern>-->
         <rule>
             <pattern>
                 <token postag="V.[NISM].*" postag_regexp="yes" inflected="yes">ser</token>
