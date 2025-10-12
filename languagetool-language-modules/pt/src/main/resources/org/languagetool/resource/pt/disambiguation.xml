@@ -4778,6 +4778,32 @@ USA
     -->
   </rule>
 
+  <rule id="N_AQ_PUNCT_QUE_QUEM_ONDE_QUANTO_VM_NC_VMP_NCAQVMP00_20251012_RARE" name="This word isn't a noun/adjective/past_participle">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='_PUNCT_COMMA|N.+|AQ.+' postag_regexp='yes'/>
+      <token regexp='yes'>quem?|onde|quanto</token>
+      <token min='0' max='1' postag_regexp='yes' postag='RM|RN'/>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='VMIP3S0|VMM02S0'><exception postag_regexp='yes' postag='RG|SPS.+|[DP].+|Z0.+'/><exception regexp='no'>maravilha</exception></token>
+          <token postag_regexp='yes' postag='NC.+|AQ.+|VMP00.+'><exception postag_regexp='yes' postag='RG|SPS.+|[DP].+|Z0.+'/><exception regexp='no'>maravilha</exception></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="(NC.+|AQ.+|VMP00.+)"/>
+      <!--
+      Examples:
+               James Vane — o irmão de Sibyl, um marinheiro que parte para Austrália.
+               A pirâmide de culto tinha seu próprio recinto que corre ao longo do lado norte da pirâmide e por metade do lado oeste.
+               Na região descendente, também se encontra a papila duodenal menor, que forma a entrada do ducto pancreático acessório.
+               [1] Lá, há um time de futebol, o Tottenham Hotspur FC, que joga na Premier League.
+               É em Tonquim que conhece Gallieni, que volta a encontrar em Madagáscar, onde esteve destacado de 1897 a 1902.
+               Com a colher que tira de lá, faz café cheirar longe.
+               Localizado na charmosa vila de Arraial d'Ajuda (BA), um lugar mágico e acolhedor que agrada turistas do mundo inteiro.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
