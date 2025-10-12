@@ -484,6 +484,7 @@ public class Catalan extends Language {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES7 = compile("\\b(de|a)l (h?[aeoàúèéí][^ ])",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES8 = compile("\\b([MTLSN])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
   private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
       Pattern.UNICODE_CASE);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
@@ -495,6 +496,8 @@ public class Catalan extends Language {
   public String adaptSuggestion(String s, String originalErrorStr) {
     // Exceptions: Digues-me alguna cosa, urbi et orbi, Guns N' Roses
     boolean capitalized = StringTools.isCapitalizedWord(s);
+    s = s.replace("gens traça", "gens de traça");
+    s = s.replace("gens facilitat", "gens de facilitat");
     Matcher m = CA_CONTRACTIONS.matcher(s);
     s = m.replaceAll("$1$2");
     Matcher m1 = CA_APOSTROPHES1.matcher(s);
@@ -511,8 +514,18 @@ public class Catalan extends Language {
     s = m6.replaceAll("se'$1");
     Matcher m7 = CA_APOSTROPHES7.matcher(s);
     s = m7.replaceAll("$1 l'$2");
-    Matcher m8 = CA_REMOVE_SPACES.matcher(s);
-    s = m8.replaceAll("$1$2");
+    // T'comença -> Et comença
+    Matcher m8 = CA_APOSTROPHES8.matcher(s);
+    StringBuffer sb = new StringBuffer();
+    while (m8.find()) {
+      String group1 = m8.group(1).toLowerCase();
+      String group2 = m8.group(2);
+      m8.appendReplacement(sb, "E" + group1 + " " + group2);
+    }
+    m8.appendTail(sb);
+    s = sb.toString();
+    Matcher m9 = CA_REMOVE_SPACES.matcher(s);
+    s = m9.replaceAll("$1$2");
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }
