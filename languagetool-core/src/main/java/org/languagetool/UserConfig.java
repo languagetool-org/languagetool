@@ -45,7 +45,6 @@ public class UserConfig {
   private final List<String> userSpecificSpellerWords;
   private final Set<String> acceptedPhrases;
   private final List<Rule> userSpecificRules;
-  private final boolean suggestionsEnabled;
   private final int maxSpellingSuggestions;
   private final Long userDictCacheSize;
   private final String userDictName;
@@ -70,6 +69,8 @@ public class UserConfig {
   @Getter
   private boolean isPremium;
 
+  private final boolean suggestionsEnabled;
+
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
   }
@@ -93,7 +94,7 @@ public class UserConfig {
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Object[]> ruleValues,
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
-    this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, true, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
+    this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
       false, null, null, false, null, false, false, false);
   }
 
@@ -105,13 +106,13 @@ public class UserConfig {
                     LinguServices linguServices, boolean filterDictionaryMatches,
                     @Nullable List<String> abTest, @Nullable Long textSessionId,
                     boolean hidePremiumMatches, List<String> preferredLanguages) {
-    this(userSpecificSpellerWords, userSpecificRules, ruleValues, true, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, false, false, false);
+    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, false, false, false);
   }
+
 
   public UserConfig(List<String> userSpecificSpellerWords,
                     List<Rule> userSpecificRules,
                     Map<String, Object[]> ruleValues,
-                    boolean suggestionsEnabled,
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
@@ -120,12 +121,26 @@ public class UserConfig {
                     boolean trustedSource,
                     boolean optInThirdPartyAI,
                     boolean isPremium) {
+    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, trustedSource, optInThirdPartyAI, isPremium, true);
+  }
+
+  public UserConfig(List<String> userSpecificSpellerWords,
+                    List<Rule> userSpecificRules,
+                    Map<String, Object[]> ruleValues,
+                    int maxSpellingSuggestions, Long premiumUid, String userDictName,
+                    Long userDictCacheSize,
+                    LinguServices linguServices, boolean filterDictionaryMatches,
+                    @Nullable List<String> abTest, @Nullable Long textSessionId,
+                    boolean hidePremiumMatches, List<String> preferredLanguages,
+                    boolean trustedSource,
+                    boolean optInThirdPartyAI,
+                    boolean isPremium,
+                    boolean suggestionsEnabled) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Object[]> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
-    this.suggestionsEnabled = suggestionsEnabled;
     this.maxSpellingSuggestions = maxSpellingSuggestions;
     this.premiumUid = premiumUid;
     this.userDictName = userDictName == null ? "default" : userDictName;
@@ -140,6 +155,7 @@ public class UserConfig {
     this.trustedSource = trustedSource;
     this.optInThirdPartyAI = optInThirdPartyAI;
     this.isPremium = isPremium;
+    this.suggestionsEnabled = suggestionsEnabled;
   }
 
   private String removeAllButMainLanguagesAndSort(List<String> preferredLanguages) {
@@ -183,9 +199,6 @@ public class UserConfig {
     return userSpecificRules;
   }
 
-  public boolean isSuggestionsEnabled() {
-    return suggestionsEnabled;
-  }
 
   public int getMaxSpellingSuggestions() {
     return maxSpellingSuggestions;
@@ -239,6 +252,14 @@ public class UserConfig {
     return premiumUid;
   }
 
+  /**
+   * If the generation of suggestions should be enabled (default true)
+   * @since 6.7
+   */
+  public boolean isSuggestionsEnabled() {
+    return suggestionsEnabled;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -265,6 +286,7 @@ public class UserConfig {
       .append(trustedSource, other.trustedSource)
       .append(optInThirdPartyAI, other.optInThirdPartyAI)
       .append(isPremium, other.isPremium)
+      .append(suggestionsEnabled, other.suggestionsEnabled)
       .isEquals();
   }
 
@@ -286,6 +308,7 @@ public class UserConfig {
       .append(trustedSource)
       .append(optInThirdPartyAI)
       .append(isPremium)
+      .append(suggestionsEnabled)
       .toHashCode();
   }
 
@@ -302,6 +325,7 @@ public class UserConfig {
       ", hidePremiumMatches=" + hidePremiumMatches +
       ", abTest='" + abTest + '\'' +
       ", optInThirdPartyAI=" + optInThirdPartyAI +
+      ", suggestionsEnabled=" + suggestionsEnabled +
       '}';
   }
 
