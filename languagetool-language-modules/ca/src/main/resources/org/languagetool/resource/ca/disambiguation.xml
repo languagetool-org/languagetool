@@ -9266,7 +9266,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="&pronom_feble;" postag_regexp="yes"/>
             <token postag="V.[SI].*" postag_regexp="yes"/>
         </antipattern>
-        
         <rule>
             <pattern>
                 <unify>
@@ -12399,6 +12398,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="D.*"/>
         </rule>
     </rulegroup>
+    <rule id="es_obra" name="es obra (nome)">
+        <!-- en un cas extrem: es obra -> s'obre ! -->
+        <pattern>
+            <token>es</token>
+            <marker>
+                <token postag="NCFS000">obra</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="NCFS000"/>
+    </rule>
     <rule id="es_queda" name="es queda (verb)">
         <pattern>
             <token regexp="yes">es|se<exception scope="previous" postag="SPS00"/></token>

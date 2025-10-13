@@ -387,7 +387,7 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra|adéu|féu|vés|contrapèl)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra|adéu|féu|desféu|vés|contrapèl)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set<String> enabledRules) {
     String errorStr = ruleMatch.getOriginalErrorStr();
@@ -451,6 +451,7 @@ public class Catalan extends Language {
         .replace("Contrapèl", "Contrapel")
         .replace("vés", "ves")
         .replace("féu", "feu")
+        .replace("desféu", "desfeu")
         .replace("adéu", "adeu")
         .replace("dóna", "dona")
         .replace("dónes", "dones")
@@ -460,6 +461,7 @@ public class Catalan extends Language {
         .replace("fóra", "fora")
         .replace("Vés", "Ves")
         .replace("Féu", "Feu")
+        .replace("Desféu", "Desfeu")
         .replace("Adéu", "Adeu")
         .replace("Dóna", "Dona")
         .replace("Dónes", "Dones")
