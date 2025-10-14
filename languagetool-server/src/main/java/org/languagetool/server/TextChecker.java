@@ -494,7 +494,7 @@ abstract class TextChecker {
 
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
-                     getRuleValues(params), config.isSuggestionsEnabled(), config.getMaxSpellingSuggestions(),
+                     getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
                      !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource, optInThirdPartyAI, limits.hasPremium());
