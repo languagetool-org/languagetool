@@ -4066,6 +4066,29 @@ USA
     </rule>
     <rule>
       <pattern>
+        <token regexp='yes'>el[ae]|você|se<exception scope='previous' regexp='yes'>por|de|com|em|a|às?|aos?</exception></token>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMM02S0'/>
+          </and>
+        </marker>
+        <token postag='VMN0000'/>
+      </pattern>
+      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <!--
+      Examples:
+               Você pode ajudar a Wikipédia expandindo-o.
+               Ele precisa saber o que fazer com essas ferramentas.
+               No entanto, é nos pequenos gestos que se pode descobrir a capacidade de observação deste grande pintor.
+               Você pode ouvir o álbum inteiro.
+               O cognoscível é o que se pode conhecer.
+               Você deve ativar o Javascript no seu navegador para utilizar as funcionalidades deste site.
+      -->
+    </rule>
+    <rule>
+      <pattern>
         <marker>
           <and>
             <token postag='VMIP3S0'><exception scope='previous' regexp='no'>a</exception></token>
