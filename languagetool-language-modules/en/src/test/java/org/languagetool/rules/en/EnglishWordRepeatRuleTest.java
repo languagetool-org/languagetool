@@ -78,6 +78,7 @@ public class EnglishWordRepeatRuleTest {
     assertGood("Keep your chin up and whatever you do don't doubt yourself or your actions.");
     assertGood("I know that that can't really happen.");
     assertGood("Please pass her her phone.");
+    assertGood("I have visited Bora Bora.");
   }
 
   private void assertGood(String sentence) throws IOException {
