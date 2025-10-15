@@ -999,7 +999,7 @@ public class HTTPServerConfig {
 
   /**
    * If the generation of suggestions should be enabled (default true)
-   * @since 6.7
+   * @since 6.8
    */
   public boolean isSuggestionsEnabled() {
     return suggestionsEnabled;
