@@ -291,6 +291,7 @@ public class Catalan extends Language {
       case "DOS_ARTICLES": return 10; // greater than apostrophation rules
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
       case "SELS_EN_VA": return 10;
+      case "RECENT": return 10;
       case "CONCORDANCES_NOUNS_PRIORITY": return 10;
       case "PREFIXOS_SENSE_GUIONET_EN_DICCIONARI": return 10; // greater than SPELLING
       case "ZERO_O": return 10; //greater than SPELLING
@@ -588,4 +589,5 @@ public class Catalan extends Language {
     }
     return results;
   }
+
 }
