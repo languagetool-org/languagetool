@@ -18767,6 +18767,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
+                <token regexp="yes">a|al|de|del|en|con|sin|por</token>
+                <token regexp="yes">valgo|varo|valgos|varos</token>
+                <example>Este mecánico izquierdo conservado, el derecho muestra desviación en valgo.</example>
+            </antipattern>
+            <antipattern>
                 <token>por</token>
                 <token>hay</token>
             </antipattern>
@@ -20405,6 +20410,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural">
+            <antipattern>
+                <token regexp="yes">grado|estadio|fase|tipo|nivel|clase</token>
+                <token regexp="yes">\d{1,2}|[IVX]+</token>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">\d{1,3}</token>
@@ -23793,6 +23803,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <antipattern>
+               <token postag="AQ.M.*" postag_regexp="yes"/>
+               <token regexp="yes">litos?</token>
+               <example>Estudio tomográfico que muestra pequeño lito en el polo inferior del riñón derecho.</example>
+            </antipattern>
+            <antipattern>
+               <token postag="AQ.*|NC.*" postag_regexp="yes"/>
+               <token regexp="yes">areola|mama|vena</token>
+               <token spacebefore="no">-</token>
+               <token spacebefore="no" regexp="yes">pezón|ganglio|arteria</token>
+               <example>Complejo areola-pezón de adecuada morfología.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">\d+″</token>
             </antipattern>
             <antipattern>
@@ -27095,6 +27117,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MAMA" name="mama/mamá">
             <url>https://www.rae.es/dpd/mam%C3%A1</url>
+            <antipattern>
+                <token regexp="yes" skip="-1">cuadrante|cuadrantes|quiste|quistes|tumor|tumores|cáncer|glándula|tejido|nódulo|nódulos|pezón|areola|lóbulo|conducto|mastectomía|mamografía|ecografía|biopsia|calcificación|calcificaciones|lesión|lesiones|carcinoma|neoplasia|parénquima|estroma|ultrasonido|resonancia|radio</token>
+                <token regexp="yes">de|en|sobre|por|para|con|sin|a</token>
+                <token regexp="yes">la|las|el|los|su|sus|una|unas</token>
+                <token regexp="yes">mama|mamas</token>
+                <example>Ella tiene un quiste en la mama.</example>
+            </antipattern>>
             <antipattern>
                 <token>mama</token>
                 <token regexp="yes">izquierda|derecha</token>
@@ -32752,6 +32781,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">.</token>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">[.]{3}|…</token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*</token>
+                </antipattern>
                 <antipattern>
                     <token regexp="yes">.</token>
                     <token spacebefore="no">.</token>
