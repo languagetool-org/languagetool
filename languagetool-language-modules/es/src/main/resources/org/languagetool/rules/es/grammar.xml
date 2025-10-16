@@ -18767,11 +18767,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
-                <token regexp="yes">a|al|de|del|en|con|sin|por</token>
-                <token regexp="yes">valgo|varo|valgos|varos</token>
-                <example>Este mecánico izquierdo conservado, el derecho muestra desviación en valgo.</example>
-            </antipattern>
-            <antipattern>
                 <token>por</token>
                 <token>hay</token>
             </antipattern>
@@ -19050,6 +19045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Las de corte bajo son sus señas.</example>
                 <example>se ha observado que bajo pruebas genéticas poseen porcentajes pequeños</example>
                 <example>Organizadas bajo forma mercantil.</example>
+                <example>El derecho muestra desviación en valgo.</example>
             </rule>
             <rule>
                 <!-- catch-all rule without suggestions-->
@@ -23803,16 +23799,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <antipattern>
-               <token postag="AQ.M.*" postag_regexp="yes"/>
-               <token regexp="yes">litos?</token>
-               <example>Estudio tomográfico que muestra pequeño lito en el polo inferior del riñón derecho.</example>
-            </antipattern>
-            <antipattern>
-               <token postag="AQ.*|NC.*" postag_regexp="yes"/>
-               <token regexp="yes">areola|mama|vena</token>
-               <token spacebefore="no">-</token>
-               <token spacebefore="no" regexp="yes">pezón|ganglio|arteria</token>
-               <example>Complejo areola-pezón de adecuada morfología.</example>
+                <token postag="AQ.*|NC.*" postag_regexp="yes"/>
+                <token regexp="yes">areola|mama|vena</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">pezón|ganglio|arteria</token>
+                <example>Complejo areola-pezón de adecuada morfología.</example>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\d+″</token>
@@ -24133,6 +24124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Toman en serio cosas que nosotros no consideramos.</example>
                 <example>Campeón Eurocopa Sub-17.</example>
                 <example>Tom adora escalar montañas.</example>
+                <example>Estudio tomográfico que muestra pequeño lito en el polo inferior del riñón derecho.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27118,23 +27110,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MAMA" name="mama/mamá">
             <url>https://www.rae.es/dpd/mam%C3%A1</url>
             <antipattern>
-                <token regexp="yes" skip="-1">cuadrante|cuadrantes|quiste|quistes|tumor|tumores|cáncer|glándula|tejido|nódulo|nódulos|pezón|areola|lóbulo|conducto|mastectomía|mamografía|ecografía|biopsia|calcificación|calcificaciones|lesión|lesiones|carcinoma|neoplasia|parénquima|estroma|ultrasonido|resonancia|radio</token>
-                <token regexp="yes">de|en|sobre|por|para|con|sin|a</token>
-                <token regexp="yes">la|las|el|los|su|sus|una|unas</token>
-                <token regexp="yes">mama|mamas</token>
-                <example>Ella tiene un quiste en la mama.</example>
-            </antipattern>>
-            <antipattern>
                 <token>mama</token>
                 <token regexp="yes">izquierda|derecha</token>
             </antipattern>
             <antipattern>
                 <token skip="-1" inflected="yes" regexp="yes">&context_mama;</token>
                 <token regexp="yes">mama|mamas</token>
+                <example>Ella tiene un quiste en la mama.</example>
             </antipattern>
             <antipattern>
                 <token skip="-1" regexp="yes">mama|mamas</token>
                 <token inflected="yes" regexp="yes">&context_mama;</token>
+                <example>En la mama tiene un quiste.</example>
             </antipattern>
             <rule>
                 <pattern>
@@ -32782,16 +32769,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <antipattern>
-                    <token regexp="yes">[.]{3}|…</token>
-                    <token spacebefore="no" regexp="yes">\p{Ll}[\p{L}·'-]*</token>
-                </antipattern>
-                <antipattern>
                     <token regexp="yes">.</token>
                     <token spacebefore="no">.</token>
                     <token regexp="yes" spacebefore="no">.</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END|NP.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" spacebefore="no">[.!?]<exception postag="SENT_END|NP.*" postag_regexp="yes"/></token>
                     <token spacebefore="no" regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
                 </pattern>
                 <message>Falta un espacio tras el punto.</message>
@@ -32800,7 +32783,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=". Como">Ven<marker>.Como</marker> prefieras.</example>
                 <example correction=". ¿">Ven<marker>.¿</marker>Como te gusta?</example>
                 <example correction="? Siempre">Es así<marker>?Siempre</marker>.</example>
-                <example correction="… Siempre">Es así<marker>…Siempre</marker>!</example>
                 <example correction=". Čerenkov">con P.A<marker>.Čerenkov</marker></example>
                 <example correction=". Y">Una frase<marker>.Y</marker> otra.</example>
                 <example>Es así. Sempre.</example>
@@ -32827,6 +32809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>- LETRAS.COM. Recuperado 1-2-3.</example>
                 <example>- Letras.com. Recuperado 1-2-3.</example>
                 <example>En los EE.UU., es ilegal torturar a la gente.</example>
+                <example>Pues dice “…se practicará una liquidación provisional…”</example>
             </rule>
             <rule>
                 <pattern>
@@ -32872,6 +32855,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Falta un espacio después del punto.</message>
                 <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="… Siempre">Es así<marker>…Siempre</marker>.</example>
+                <example correction="… Siempre">Es así<marker>…Siempre</marker>!</example>
             </rule>
             <rule>
                 <pattern>
@@ -32892,6 +32876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1"/> <match no="2"/></suggestion>
                 <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="… siempre|… Siempre">Es así<marker>…siempre</marker>.</example>
+                <example correction="… se|… Se">Pues dice “<marker>…se</marker> practicará una liquidación provisional…”</example>
             </rule>
             <rule>
                 <pattern>
