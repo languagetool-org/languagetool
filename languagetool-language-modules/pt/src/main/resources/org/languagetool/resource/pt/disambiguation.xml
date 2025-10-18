@@ -4066,29 +4066,6 @@ USA
     </rule>
     <rule>
       <pattern>
-        <token regexp='yes'>el[ae]|você|se<exception scope='previous' regexp='yes'>por|de|com|em|a|às?|aos?</exception></token>
-        <token min='0' max='1' postag_regexp='yes' postag='RM|RN'/>
-        <marker>
-          <and>
-            <token postag='VMIP3S0'/>
-            <token postag='VMM02S0'/>
-          </and>
-        </marker>
-        <token postag='VMN0000'><exception scope='previous' postag_regexp='no' postag='CC'/></token>
-      </pattern>
-      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
-      <!--
-      Examples:
-               Você pode ajudar a Wikipédia expandindo-o.
-               Ele precisa saber o que fazer com essas ferramentas.
-               No entanto, é nos pequenos gestos que se pode descobrir a capacidade de observação deste grande pintor.
-               Você pode ouvir o álbum inteiro.
-               O cognoscível é o que se pode conhecer.
-               Você deve ativar o Javascript no seu navegador para utilizar as funcionalidades deste site.
-      -->
-    </rule>
-    <rule>
-      <pattern>
         <marker>
           <and>
             <token postag='VMIP3S0'><exception scope='previous' regexp='no'>a</exception></token>
@@ -4111,6 +4088,32 @@ USA
       -->
     </rule>
   </rulegroup>
+
+  <rule id="THIRD_PERSON_SINGULAR_FIX_20251018" name="Make verbs appear as 3rd person singular">
+    <!-- ChatGPT 5 -->
+    <!-- Had to move it from outside of the rulegroup above for it to be activated -->
+    <pattern>
+      <token regexp='yes'>el[ae]|você|se<exception scope='previous' regexp='yes'>por|de|com|em|a|às?|aos?</exception></token>
+      <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='VMM02S0'/>
+        </and>
+      </marker>
+      <token postag='VMN0000'><exception scope='previous' postag_regexp='no' postag='CC'/></token>
+    </pattern>
+    <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+    <!--
+    Examples:
+             Você pode ajudar a Wikipédia expandindo-o.
+             Ele precisa saber o que fazer com essas ferramentas.
+             No entanto, é nos pequenos gestos que se pode descobrir a capacidade de observação deste grande pintor.
+             Você pode ouvir o álbum inteiro.
+             O cognoscível é o que se pode conhecer.
+             Você deve ativar o Javascript no seu navegador para utilizar as funcionalidades deste site.
+    -->
+  </rule>
 
   <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- Moved the rule down to assure it works correctly. -->
