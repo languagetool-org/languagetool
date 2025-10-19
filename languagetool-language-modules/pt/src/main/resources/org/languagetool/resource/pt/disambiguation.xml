@@ -4852,17 +4852,24 @@ USA
     <pattern>
       <marker>
         <and>
-          <token postag='VMIS1S0:PP3CSD00'/>
-          <token postag='VMM02P0:PP3CSD00'/>
+          <token postag_regexp='yes' postag='VMIS1S0(:PP3CSD00)?'/>
+          <token postag_regexp='yes' postag='VMM02P0(:PP3CSD00)?'/>
         </and>
       </marker>
+      <token min='0' max='1'>lhe</token>
       <token>para</token>
+      <token min='0' max='1' postag='RN|RM' postag_regexp='yes'/>
       <token postag='VMN0000'/>
     </pattern>
-    <disambig action="remove" postag="VMM02P0:PP3CSD00"/>
+    <disambig action="remove" postag="VMM02P.*"/>
       <!--
       Examples:
                Num impulso agarrei-o, pedi-lhe para ter calma.
+               Abri o portão e pedi para falar com a diretora.
+               Pedi para não ficar brava comigo.
+               Eu te pedi para deixar o Tom em paz.
+               Eu saí para dar uma volta.
+               Onde está aquela garrafa de vinho que eu te pedi para comprar?
       -->
   </rule>
 
