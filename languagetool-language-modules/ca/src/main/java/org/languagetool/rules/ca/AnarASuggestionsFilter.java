@@ -55,32 +55,37 @@ public class AnarASuggestionsFilter extends RuleFilter {
     if (synthForms.length == 0) {
       return null;
     }
+
     int adjustEndPos = 0;
     String[] result = PronomsFeblesHelper.getTwoNextPronouns(tokens,initPos + 3);
     String pronomsDarrere = result[0];
     adjustEndPos += Integer.valueOf(result[1]);
+
+    int adjustStartPos = 0;
+    String[] result2 = PronomsFeblesHelper.getPreviousPronouns(tokens, initPos - 1);
+    String pronomsDavant = result2[0];
+    adjustStartPos += Integer.valueOf(result2[1]);
+
     List<String> replacements = new ArrayList<>();
     for (String verb : synthForms) {
       String suggestion = "";
       if (!pronomsDarrere.isEmpty()) {
         suggestion = PronomsFeblesHelper.transformDavant(pronomsDarrere, verb);
+      } else if (!pronomsDavant.isEmpty()) {
+        suggestion = PronomsFeblesHelper.transformDavant(pronomsDavant, verb);
       }
       suggestion += verb;
-      suggestion = StringTools.preserveCase(suggestion, tokens[initPos].getToken());
+      suggestion = StringTools.preserveCase(suggestion, tokens[initPos - adjustStartPos].getToken());
       replacements.add(suggestion);
     }
     if (replacements.isEmpty()) {
       return null;
     }
-    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[initPos].getStartPos(),
+    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[initPos - adjustStartPos].getStartPos(),
       tokens[initPos + 2 + adjustEndPos].getEndPos(), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacements(replacements);
     return ruleMatch;
   }
 
-  private String getLanguageVariantCode(RuleMatch match) {
-    PatternRule pr = (PatternRule) match.getRule();
-    return pr.getLanguage().getShortCodeWithCountryAndVariant();
-  }
 }
