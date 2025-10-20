@@ -5422,7 +5422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"><exception postag="C.*" postag_regexp="yes"/></token>
                     <marker>
                         <and>
-                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/></token>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/><exception>objeto</exception></token>
                             <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
                         </and>
                     </marker>
@@ -5459,6 +5459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Total envío:</example>
                 <example>Silencio mientras termino.</example>
                 <example>Justo acabo de ver que en el otro equipo tiene el mismo problema.</example>
+                <example>La consulta objeto de análisis por la DGT analiza lo que ocurre cuando se adquieren a título lucrativo una serie de inmuebles.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -34156,6 +34157,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 where users will prefer to turn it off.
                 The least bad solution (without language variants) is to leave it on.-->
             <antipattern>
+                <token>filum</token>
+                <token>terminale</token>
+                <example>condicionando efecto de masa con compresión de las raíces del filum terminale desplazándolas hacia la derecha.</example>
+            </antipattern>
+            <antipattern>
                 <token skip="-1">vos</token>
                 <token postag="V...2V0.*" postag_regexp="yes"/>
                 <example>Vos hacés siempre lo mismo.</example>
@@ -35344,6 +35350,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!--NUMBER_DAYS_MONTH[11]-->
+                <antipattern>
+                    <token regexp="yes">31[\.,]\d+</token>
+                    <token regexp="yes">x|×</token>
+                    <token regexp="yes">\d+[\.,]?\d*</token>
+                    <example>Se realizan mediciones de las amígdalas observando dimensiones de 31.6 x 18.4 x 18.9 mm.</example>
+                </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes">31\.(11|0?[469])</token>
