@@ -4847,7 +4847,7 @@ USA
       -->
   </rule>
 
-  <rulegroup id="VERBO_PARA_INFINITIVO_FIRST_PERSON_SINGULAR_20251019_RARE" name="This word is first person">
+  <rulegroup id="VERBO_PARA_INFINITIVO_FIRST_PERSON_SINGULAR_20251020_RARE" name="This word is first person">
     <rule>
       <!-- ChatGPT 5 -->
       <pattern>
@@ -4862,7 +4862,7 @@ USA
         <token min='0' max='1' postag='R.+' postag_regexp='yes'/>
         <token postag='VMN0000'/>
       </pattern>
-      <disambig action="remove" postag="VMM02P.*"/>
+      <disambig action="remove" postag="VMM.*"/>
         <!--
         Examples:
                  Num impulso agarrei-o, pedi-lhe para ter calma.
@@ -4875,15 +4875,15 @@ USA
     </rule>
     <rule>
       <pattern>
+        <token postag='PP.C.+|SENT_START|_PUNCT' postag_regexp='yes'/>
         <marker>
-          <token postag='PP.C.+' postag_regexp='yes'/>
           <and>
             <token postag_regexp='yes' postag='VMIS1S.+'/>
             <token postag_regexp='yes' postag='VMM02P.+'/>
           </and>
         </marker>
       </pattern>
-      <disambig action="remove" postag="VMM02P.*"/>
+      <disambig action="remove" postag="VMM.*"/>
         <!--
         Examples:
                  Eu assisti e ri muito.
