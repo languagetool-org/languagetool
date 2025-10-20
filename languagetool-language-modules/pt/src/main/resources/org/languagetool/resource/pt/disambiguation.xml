@@ -4896,6 +4896,31 @@ USA
     </rule>
   </rulegroup>
 
+  <rule id="DI_DP_VMP_20251020_RARE" name="This word is a noun/adjective">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='D[IP].+|Z0.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='VMP00.+'/>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+      <token regexp='yes'>a|para|por|de|sem</token>
+      <token postag='V.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="VMP00.*"/>
+    <!--
+    Examples:
+             A partida decisiva teve doses elevadas de emoção, já que contou com duas viradas de placar.
+             Muitíssimo obrigada por participarem conosco dessa brincadeira.
+             Me sinto muito honrado de ter tido este momento com ele.
+             Esse foi o único da coleção que não gostei, achei ele sem sal e foi preciso 3 camadas para cobrir, não usei extra brilho.
+             Tenho um pedido a fazer-lhes, amigos.
+             Precisaremos de vinte dados para jogar este jogo.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
