@@ -19045,6 +19045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Las de corte bajo son sus señas.</example>
                 <example>se ha observado que bajo pruebas genéticas poseen porcentajes pequeños</example>
                 <example>Organizadas bajo forma mercantil.</example>
+                <example>El derecho muestra desviación en valgo.</example>
             </rule>
             <rule>
                 <!-- catch-all rule without suggestions-->
@@ -20405,6 +20406,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural">
+            <antipattern>
+                <token regexp="yes">grado|estadio|fase|tipo|nivel|clase</token>
+                <token regexp="yes">\d{1,2}|[IVX]+</token>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">\d{1,3}</token>
@@ -22091,6 +22097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Saldremos de esta reforzadas.</example>
                 <!-- El más grande de estos encontrado en el universo -->
                 <example>Los problemas reales de los y las latinoamericanos/as.</example>
+                <example>En la pelvis crestas ilíacas presentan contorno regular.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23421,7 +23428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
+                    <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/><exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso|valgo|valga</exception><exception regexp="yes">\p{Lu}.*</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.PostponedAdjectiveConcordanceFilter" args="key:value"/>
                 <message>Revise la concordancia de «\1» con los nombres precedentes o revise la puntuación.</message>
@@ -23675,6 +23682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Los bereberes son en gran parte bilingües.</example>
                 <example>No es la primera vez que saco buena nota en el examen.</example>
                 <example>Pago media corona, y tengo entrada.</example>
+                <example>Que este momento valga, porque, francamente... es todo lo que tenemos.</example>
                 <!--
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
@@ -23792,6 +23800,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
+            <antipattern>
+                <token postag="AQ.*|NC.*" postag_regexp="yes"/>
+                <token regexp="yes">areola|mama|vena</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes">pezón|ganglio|arteria</token>
+                <example>Complejo areola-pezón de adecuada morfología.</example>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">\d+″</token>
             </antipattern>
@@ -24111,6 +24126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Toman en serio cosas que nosotros no consideramos.</example>
                 <example>Campeón Eurocopa Sub-17.</example>
                 <example>Tom adora escalar montañas.</example>
+                <example>Estudio tomográfico que muestra pequeño lito en el polo inferior del riñón derecho.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27102,10 +27118,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token skip="-1" inflected="yes" regexp="yes">&context_mama;</token>
                 <token regexp="yes">mama|mamas</token>
+                <example>Ella tiene un quiste en la mama.</example>
             </antipattern>
             <antipattern>
                 <token skip="-1" regexp="yes">mama|mamas</token>
                 <token inflected="yes" regexp="yes">&context_mama;</token>
+                <example>En la mama tiene un quiste.</example>
             </antipattern>
             <rule>
                 <pattern>
@@ -32537,6 +32555,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABREVIATURA_NUMERO" name="abreviatura de número">
             <rule>
                 <pattern>
+                    <token>n</token>
+                    <token>.</token>
+                    <token>°</token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion><match no="1"/>.º</suggestion>
+                <suggestion><match no="1"/>úm.</suggestion>
+                <suggestion><match no="1"/>ro.</suggestion>
+                <example correction="n.º|núm.|nro.">Diario de la República <marker>n.°</marker> 18</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">n.?°|nº</token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
@@ -32746,7 +32776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" spacebefore="no">.</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" spacebefore="no">[.!?…]<exception postag="SENT_END|NP.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" spacebefore="no">[.!?]<exception postag="SENT_END|NP.*" postag_regexp="yes"/></token>
                     <token spacebefore="no" regexp="yes">\p{L}[\p{L}·'-]*|[¿¡]<exception regexp="yes">von|[ºª]</exception></token>
                 </pattern>
                 <message>Falta un espacio tras el punto.</message>
@@ -32755,7 +32785,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=". Como">Ven<marker>.Como</marker> prefieras.</example>
                 <example correction=". ¿">Ven<marker>.¿</marker>Como te gusta?</example>
                 <example correction="? Siempre">Es así<marker>?Siempre</marker>.</example>
-                <example correction="… Siempre">Es así<marker>…Siempre</marker>!</example>
                 <example correction=". Čerenkov">con P.A<marker>.Čerenkov</marker></example>
                 <example correction=". Y">Una frase<marker>.Y</marker> otra.</example>
                 <example>Es así. Sempre.</example>
@@ -32782,6 +32811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>- LETRAS.COM. Recuperado 1-2-3.</example>
                 <example>- Letras.com. Recuperado 1-2-3.</example>
                 <example>En los EE.UU., es ilegal torturar a la gente.</example>
+                <example>Pues dice “…se practicará una liquidación provisional…”</example>
             </rule>
             <rule>
                 <pattern>
@@ -32827,6 +32857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Falta un espacio después del punto.</message>
                 <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="… Siempre">Es así<marker>…Siempre</marker>.</example>
+                <example correction="… Siempre">Es así<marker>…Siempre</marker>!</example>
             </rule>
             <rule>
                 <pattern>
@@ -32847,6 +32878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1"/> <match no="2"/></suggestion>
                 <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
                 <example correction="… siempre|… Siempre">Es así<marker>…siempre</marker>.</example>
+                <example correction="… se|… Se">Pues dice “<marker>…se</marker> practicará una liquidación provisional…”</example>
             </rule>
             <rule>
                 <pattern>

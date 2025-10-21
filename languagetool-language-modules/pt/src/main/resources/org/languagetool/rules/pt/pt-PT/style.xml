@@ -3148,17 +3148,6 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
 
     <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
     <antipattern>
-        <token postag='VMIP3S0:PP3CNO00' postag_regexp="no"/>
-        <example>Em amarelo representa-se o conhecimento como um conjunto de crenças verdadeiras, que foram provadas e justificadas.</example>
-        <example>Estende-se por uma área de 45,89 km².</example>
-        <example>Pode-se chegar lá depressa?</example>
-        <example>Diz-se isso.</example>
-        <example>Fala-se grego.</example>
-    </antipattern>
-    <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-    <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-    <antipattern>
         <token postag='NC.+|AQ.+|NP.+|[DP][ADIPR].[FM].+|SPS00:[DP][ADIPR].[FM].+' postag_regexp="yes"/>
         <token postag='VMIP3S0' postag_regexp="no"/>
         <token postag='SPS00|CC|CS|RG|I|RM|RN|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp="yes"/>
@@ -4892,14 +4881,15 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
     </rulegroup>
 
 
-    <rulegroup id='VERBO_PARA_PRONOME_PESSOAL_V2' name="[pt-PT][Simplificar] Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style" tone_tags="formal">
+    <rulegroup id='VERBO_PARA_PRONOME_PESSOAL_V2' name="[pt-PT][Simplificar] Verbo + para + pronome → verbo com pronome hifenizado" type='style' tone_tags='formal'>
         <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+        <!-- 2026: Replace the pronouns in the APs with PP.+ and test, also try to use all verbs after disambiguator is all fixed -->
 
         <antipattern> <!-- Limit the rule to specific verbs (ChatGPT 4o) -->
             <token postag='V.+' postag_regexp='yes'>
                 <exception inflected='yes' regexp='yes'>agradecer|anunciar|apresentar|atribuir|avisar|cobrar|comunicar|confessar|confiar|contar|dar|devolver|dizer|emprestar|ensinar|entregar|enviar|escrever|explicar|informar|ligar|mostrar|oferecer|pagar|pedir|perguntar|prometer|propor|recomendar|responder|telefonar</exception></token>
             <token>para</token>
-            <token regexp='yes'>mim|tu|ti|si|vocês?|el[ae]s?|nós|vós</token>
+            <token postag='PP.+' postag_regexp='yes'/>
         </antipattern>
 
         <antipattern> <!-- The gerund doesn't sound very fluid or natural in European Portuguese -->
@@ -4976,7 +4966,7 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
         </antipattern>
 
         <antipattern>
-            <token postag='VMP00.+|VMI[FS].+' postag_regexp='yes'/>
+            <token postag='VMP00.+|VMI[FS].+|N.+|AQ.+' postag_regexp='yes'/>
             <token postag='VMP00.+' postag_regexp='yes'/>
             <token>para</token>
             <token postag='PP.+' postag_regexp='yes'/>
@@ -4984,6 +4974,7 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
             <example>Essa canção parece ter sido escrita para nós dois.</example>
             <example>... em vez de um formulário regular da empresa de custódia (este formulário será enviado para você).</example>
             <example>A carta foi escrita para ela.</example>
+            <example>O senhor podia pedir uma chávena de chá emprestada para mim?</example>
         </antipattern>
 
         <rule> <!-- EU -->
@@ -5009,15 +5000,16 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
             <example correction="Telefonei-te|Telefonei-lhe"><marker>Telefonei para ti</marker>.</example>
         </rule>
 
-        <rule> <!-- ELE/ELA -->
+        <rule> <!-- ELE(S)/ELA(S) -->
             <pattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token>para</token>
-                <token regexp='yes'>el[ae]</token>
+                <token regexp='yes'>el[ae]s?</token>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion>\1-lhe</suggestion>
+            <suggestion>\1-<match no='3' postag='PP3(.)(.)N00' postag_replace='PP3C$2D00'>ele</match></suggestion>
             <example correction="Telefonei-lhe"><marker>Telefonei para ela</marker>.</example>
+            <example correction="Telefonei-lhes"><marker>Telefonei para elas</marker>.</example>
         </rule>
 
         <rule> <!-- NÓS -->
@@ -5040,17 +5032,6 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
             <message>&simplify_msg;</message>
             <suggestion>\1-vos</suggestion>
             <example correction="Telefonaram-vos"><marker>Telefonaram para vocês</marker>.</example>
-        </rule>
-
-        <rule> <!-- ELES/ELAS -->
-            <pattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token>para</token>
-                <token regexp='yes'>el[ae]s</token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>\1-lhes</suggestion>
-            <example correction="Telefonei-lhes"><marker>Telefonei para elas</marker>.</example>
         </rule>
 
     </rulegroup>

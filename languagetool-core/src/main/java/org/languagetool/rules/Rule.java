@@ -280,7 +280,15 @@ public abstract class Rule {
   public boolean isDictionaryBasedSpellingRule() {
     return false;
   }
-  
+
+  /**
+   * Whether results from this rule should be filtered using the users' personal dictionary.
+   * @since 6.7
+   */
+  public boolean useDictionaryBasedFilterForMatches() {
+    return isDictionaryBasedSpellingRule();
+  }
+
   /**
    * Whether this rule should be forced to be used in LO/OO extension.
    * Rules that return {@code true} will be enabled always in LO/OO extension

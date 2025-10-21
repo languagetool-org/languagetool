@@ -4066,6 +4066,29 @@ USA
     </rule>
     <rule>
       <pattern>
+        <token regexp='yes'>el[ae]|você|se<exception scope='previous' regexp='yes'>por|de|com|em|a|às?|aos?</exception></token>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMM02S0'/>
+          </and>
+        </marker>
+        <token postag='VMN0000'><exception scope='previous' postag_regexp='no' postag='CC'/></token>
+      </pattern>
+      <disambig action="remove" postag="VMM02S0"/>
+      <!--
+      Examples:
+               Você pode ajudar a Wikipédia expandindo-o.
+               Ele precisa saber o que fazer com essas ferramentas.
+               No entanto, é nos pequenos gestos que se pode descobrir a capacidade de observação deste grande pintor.
+               Você pode ouvir o álbum inteiro.
+               O cognoscível é o que se pode conhecer.
+               Você deve ativar o Javascript no seu navegador para utilizar as funcionalidades deste site.
+      -->
+    </rule>
+    <rule>
+      <pattern>
         <marker>
           <and>
             <token postag='VMIP3S0'><exception scope='previous' regexp='no'>a</exception></token>
@@ -4085,6 +4108,26 @@ USA
                No entanto, ele pode ser achado na internet.
                Wile E. Coyote Um coiote rival do Papa Léguas, que costuma ser derrotado de formas inusitadas.
                Jones passa a explicar que o seu maior objetivo é assumir o controle da OCP, e admite ter sido ele a encomendar o assassinato de Morton.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <and>
+            <token postag='VMIP3S0:PP3CNO00'/>
+            <token postag='VMM02S0:PP3CNO00'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMM02S0:PP3CNO00"/>
+      <!--
+      Examples:
+               A era moderna tem-se desdobrado na sombra dos ideais conquistados pela Revolução Francesa.
+               O Arroio Pelotas liga-se ao Canal São Gonçalo , um canal natural de ligação entre a Lagoa Mirim e a Lagoa dos Patos.
+               Deve-se sempre pesar os benefícios e os custos de prosseguir com um experimento.
+               Além disso, sabe-se que há incertezas intrínsecas aos experimentos.
+               Para uma experiência ser considerada rigorosa nas ciências humanas, leva-se muito em conta o fator da aleatoriedade.
+               A jota castelhana dança-se com os característicos passos saltados, um pouco repicada.
       -->
     </rule>
   </rulegroup>
@@ -4776,6 +4819,106 @@ USA
              Eu tenho dever de casa.
              Não há colher.
     -->
+  </rule>
+
+  <rule id="N_AQ_PUNCT_QUE_QUEM_ONDE_QUANTO_VM_NC_VMP_NCAQVMP00_20251018_RARE" name="This word isn't a noun/adjective/past_participle/third_person">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='_PUNCT_COMMA|N.+|AQ.+' postag_regexp='yes'/>
+      <token regexp='yes'>quem?|onde|quanto</token>
+      <token min='0' max='1' postag_regexp='yes' postag='RM|RN'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'><exception postag_regexp='yes' postag='RG|SPS.+|[DP].+|Z0.+'/><exception regexp='no'>maravilha</exception></token>
+          <token postag_regexp='yes' postag='NC.+|AQ.+|VMP00.+|VMM02S0'><exception postag_regexp='yes' postag='RG|SPS.+|[DP].+|Z0.+'/><exception regexp='no'>maravilha</exception></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="(NC.+|AQ.+|VMP00.+|VMM02S0)"/>
+      <!--
+      Examples:
+               James Vane — o irmão de Sibyl, um marinheiro que parte para Austrália.
+               A pirâmide de culto tinha seu próprio recinto que corre ao longo do lado norte da pirâmide e por metade do lado oeste.
+               Na região descendente, também se encontra a papila duodenal menor, que forma a entrada do ducto pancreático acessório.
+               [1] Lá, há um time de futebol, o Tottenham Hotspur FC, que joga na Premier League.
+               É em Tonquim que conhece Gallieni, que volta a encontrar em Madagáscar, onde esteve destacado de 1897 a 1902.
+               Com a colher que tira de lá, faz café cheirar longe.
+               Localizado na charmosa vila de Arraial d'Ajuda (BA), um lugar mágico e acolhedor que agrada turistas do mundo inteiro.
+      -->
+  </rule>
+
+  <rulegroup id="VERBO_PARA_INFINITIVO_FIRST_PERSON_SINGULAR_20251020_RARE" name="This word is first person">
+    <rule>
+      <!-- ChatGPT 5 -->
+      <pattern>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='VMIS1S.+'/>
+            <token postag_regexp='yes' postag='VMM02P.+'/>
+          </and>
+        </marker>
+        <token min='0' max='1' postag='PP.C.+' postag_regexp='yes'/>
+        <token>para</token>
+        <token min='0' max='1' postag='R.+' postag_regexp='yes'/>
+        <token postag='VMN0000'/>
+      </pattern>
+      <disambig action="remove" postag="VMM.*"/>
+        <!--
+        Examples:
+                 Num impulso agarrei-o, pedi-lhe para ter calma.
+                 Abri o portão e pedi para falar com a diretora.
+                 Pedi para não ficar brava comigo.
+                 Eu te pedi para deixar o Tom em paz.
+                 Eu saí para dar uma volta.
+                 Onde está aquela garrafa de vinho que eu te pedi para comprar?
+        -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='PP.C.+|SENT_START|_PUNCT' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='VMIS1S.+'/>
+            <token postag_regexp='yes' postag='VMM02P.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMM.*"/>
+        <!--
+        Examples:
+                 Eu assisti e ri muito.
+                 Eu me senti bem.
+                 Em relação a A lista negra, não me interessei pela trama, mas curti sua resenha e amei as fotos!
+                 Me senti muito grato pela acolhida de todos", diz Jesus, morador do bairro Anair.
+                 Eu me senti vingada aqui!
+                 Sério, esse livro me ensinou tanto nessas 463 páginas que até agora não sei se consegui explicar a forma de como ele conseguiu me sacudir.
+        -->
+    </rule>
+  </rulegroup>
+
+  <rule id="DI_DP_VMP_20251020_RARE" name="This word is a noun/adjective">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='D[IP].+|Z0.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='VMP00.+'/>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+      <token regexp='yes'>a|para|por|de|sem</token>
+      <token postag='V.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="VMP00.*"/>
+    <!--
+    Examples:
+             A partida decisiva teve doses elevadas de emoção, já que contou com duas viradas de placar.
+             Muitíssimo obrigada por participarem conosco dessa brincadeira.
+             Me sinto muito honrado de ter tido este momento com ele.
+             Esse foi o único da coleção que não gostei, achei ele sem sal e foi preciso 3 camadas para cobrir, não usei extra brilho.
+             Tenho um pedido a fazer-lhes, amigos.
+             Precisaremos de vinte dados para jogar este jogo.
+      -->
   </rule>
 
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
