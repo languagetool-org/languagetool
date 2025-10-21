@@ -1950,6 +1950,10 @@ USA
       <disambig action="remove" postag="V.[SI].*"></disambig>
     </rule>
     <rule>
+      <antipattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <token postag='PP3.PN.+' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
         <token postag="SP.*|SENT_START" postag_regexp="yes"/>
         <marker>
@@ -4920,6 +4924,46 @@ USA
              Precisaremos de vinte dados para jogar este jogo.
       -->
   </rule>
+
+
+  <rule id="TODOS_ELES_20251021_RARE" name="This word is a pronoun">
+    <!-- QUICK FIX: NOT TESTED IN DATABASE, GPT5 SUGGESTED, SEE NIGHTLY RESULTS: TODOS ELES/TODAS ELAS, TRY DI.+blah blah -->
+    <pattern>
+      <token regexp='yes'>tod[ao]s</token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='PP3.PN.+'/>
+          <token postag_regexp='yes' postag='VM[SI]P2S0'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="[NAV].*"/>
+    <!--
+    Examples:
+              
+      -->
+  </rule>
+
+
+  <rule id="TODOS_VERB_NOUN_ADJ_20251021_RARE" name="This word is a verb">
+    <!-- QUICK FIX: NOT TESTED IN DATABASE, GPT5 SUGGESTED, SEE NIGHTLY RESULTS: TODOS SÃO CAPAZES, LATER TRY DI.+blah blah TO SEE IF IT WORKS -->
+    <pattern>
+      <token regexp='yes'>tod[ao]s</token>
+      <marker>
+        <and>
+          <token postag='VMIP3P0'/>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+      <token postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+    </pattern>
+    <disambig action="remove" postag="[NA].*"/>
+    <!--
+    Examples:
+             
+      -->
+  </rule>
+
 
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
