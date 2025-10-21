@@ -15,4 +15,4 @@ COPY server.properties .
 
 EXPOSE 8181/tcp
 
-ENTRYPOINT [ "java", "-Xms3072m", "-Xmx3072m", "-cp", "languagetool-server.jar", "org.languagetool.server.HTTPServer", "--config", "server.properties", "--port", "8181", "--allow-origin", "--public" ]
+ENTRYPOINT [ "java", "-cp", "languagetool-server.jar", "org.languagetool.server.HTTPServer", "--config", "server.properties", "--port", "8181", "--allow-origin", "--public" ]
