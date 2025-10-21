@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2023 Jaume Ortolà
+ * Copyright (C) 2025 Jaume Ortolà
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.ca;
 
-import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
@@ -50,14 +49,9 @@ public class SynthesizeWithAnyDeterminerFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
 
-    if (match.getSentence().getText().contains("Aquells pis")) {
-      int ii=0;
-      ii++;
-    }
     CatalanSynthesizer synth = (CatalanSynthesizer) getSynthesizerFromRuleMatch(match);
     boolean synthAllForms = getOptional("synthAllForms", arguments, "false").equalsIgnoreCase("true")? true: false;
     String lemmaSelect = getRequired("lemmaSelect", arguments);
-    boolean isSentenceStart = isMatchAtSentenceStart(match.getSentence().getTokensWithoutWhitespace(), match);
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length
