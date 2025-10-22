@@ -1950,9 +1950,9 @@ USA
       <disambig action="remove" postag="V.[SI].*"></disambig>
     </rule>
     <rule>
-      <antipattern> <!-- Fix para tod[ao]s nós/elas/eles/particípio_passado (convidados, etc.), that were being converted to nouns -->
+      <antipattern> <!-- Fix para tod[ao]s nós/elas/eles/particípio_passado (convidados, etc.), aquelas/aqueles that were being converted to nouns -->
         <token regexp='yes'>tod[ao]s</token>
-        <token postag='PP[13].PN.+|VMP00P.+' postag_regexp='yes'/>
+        <token postag='PP[13].PN.+|VMP00P.+|PD0[FM]P000' postag_regexp='yes'/>
       </antipattern>
       <pattern>
         <token postag="SP.*|SENT_START" postag_regexp="yes"/>
@@ -4946,12 +4946,12 @@ USA
                 As cores são bem bonitas e usaria todas elas.
         -->
     </rule>
-    <rule> <!-- nós -->
+    <rule> <!-- nós/aquel[ae]s -->
       <pattern>
         <token regexp='yes'>tod[ao]s</token>
         <marker>
           <and>
-            <token postag_regexp='yes' postag='PP1.PN.+'/>
+            <token postag_regexp='yes' postag='PP1.PN.+|DD0.P.+'/>
             <token postag_regexp='yes' postag='NC.+|AQ.+'/>
           </and>
         </marker>
@@ -4964,6 +4964,22 @@ USA
                 Todos nós precisamos resistir.
                 Todos nós desenvolvemos esse lado obscuro devido à cultura religiosa.
                 Sinta-se abraçado por todos nós.
+        -->
+    </rule>
+    <rule> <!-- junt[ao]s -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token postag='VMIP2S0'/>
+            <token postag_regexp='yes' postag='VMP00P.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMIP2S.*"/>
+      <!--
+      Examples:
+                RULE PROVIDED ZERO HITS IN 950 000 SENTENCES CHECK.
         -->
     </rule>
     <rule> <!-- tod[ao]s + verb -->
