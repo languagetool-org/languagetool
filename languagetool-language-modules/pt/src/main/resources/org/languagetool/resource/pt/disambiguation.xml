@@ -1950,9 +1950,9 @@ USA
       <disambig action="remove" postag="V.[SI].*"></disambig>
     </rule>
     <rule>
-      <antipattern>
+      <antipattern> <!-- Fix para tod[ao]s nós/elas/eles, that were being converted to nouns -->
         <token regexp='yes'>tod[ao]s</token>
-        <token postag='PP3.PN.+' postag_regexp='yes'/>
+        <token postag='PP[13].PN.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
         <token postag="SP.*|SENT_START" postag_regexp="yes"/>
@@ -4925,45 +4925,68 @@ USA
       -->
   </rule>
 
-
-  <rule id="TODOS_ELES_20251021_RARE" name="This word is a pronoun">
-    <!-- QUICK FIX: NOT TESTED IN DATABASE, GPT5 SUGGESTED, SEE NIGHTLY RESULTS: TODOS ELES/TODAS ELAS, TRY DI.+blah blah -->
-    <pattern>
-      <token regexp='yes'>tod[ao]s</token>
-      <marker>
-        <and>
-          <token postag_regexp='yes' postag='PP3.PN.+'/>
-          <token postag_regexp='yes' postag='VM[SI]P2S0'/>
-        </and>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="[NAV].*"/>
-    <!--
-    Examples:
-              
-      -->
-  </rule>
-
-
-  <rule id="TODOS_VERB_NOUN_ADJ_20251021_RARE" name="This word is a verb">
-    <!-- QUICK FIX: NOT TESTED IN DATABASE, GPT5 SUGGESTED, SEE NIGHTLY RESULTS: TODOS SÃO CAPAZES, LATER TRY DI.+blah blah TO SEE IF IT WORKS -->
-    <pattern>
-      <token regexp='yes'>tod[ao]s</token>
-      <marker>
-        <and>
-          <token postag='VMIP3P0'/>
-          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
-        </and>
-      </marker>
-      <token postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
-    </pattern>
-    <disambig action="remove" postag="[NA].*"/>
-    <!--
-    Examples:
-             
-      -->
-  </rule>
-
+  <rulegroup id="TODOS_FIXES_FOR_PRONOUNS_AND_VERBS_20251022_RARE" name="This word is a pronoun/verb">
+    <!-- ChatGPT 5 -->
+    <rule> <!-- el[ae]s -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='PP3.PN.+'/>
+            <token postag_regexp='yes' postag='VM[SI]P2S0'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NAV].*"/>
+      <!--
+      Examples:
+                Todas elas nos vários tamanhos, e algumas delas até o número 3G.
+                Vc não concorda com nenhum, agride e ofende a todos eles.
+                Eu AMEI todas elas!!!
+                As cores são bem bonitas e usaria todas elas.
+        -->
+    </rule>
+    <rule> <!-- nós -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='PP1.PN.+'/>
+            <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NAV].*"/>
+      <!--
+      Examples:
+                Sorte a todos nós sempre!
+                Bom início de ano letivo para todos nós!
+                Todos nós precisamos resistir.
+                Todos nós desenvolvemos esse lado obscuro devido à cultura religiosa.
+                Sinta-se abraçado por todos nós.
+        -->
+    </rule>
+    <rule> <!-- tod[ao]s + verb -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token postag='VMIP3P0'/>
+            <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NA].*"/>
+      <!--
+      Examples:
+                Já usei alguns, de várias marcas, todos são bons.
+                Muito mais que parceiros todas são pessoas queridas que fazem seu trabalho com dedicação e carinho.
+                Todos são egoístas e acham donos do mundo, e ninguém se suporta mais.
+                Todas são possíveis....
+                TODOS são vítimas do trânsito.
+        -->
+    </rule>
+  </rulegroup>
 
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
