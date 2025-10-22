@@ -168,6 +168,10 @@ public class AdjustPronounsFilter extends RuleFilter {
     for (String action : actions) {
       String replacement = "";
       switch (action) {
+        case "removePronounEn":
+          String pr = pronounsStr.replace("en","").replace("n'","").replace("'n","").strip();
+          replacement = transformDavant(pr, verbStr) + verbStr;
+          break;
         case "addPronounEn":
           replacement = doAddPronounEn(firstVerb, pronounsStr, verbStr, false);
           break;
