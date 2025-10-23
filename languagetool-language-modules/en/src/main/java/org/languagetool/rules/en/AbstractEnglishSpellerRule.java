@@ -193,6 +193,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern GITLAB = compile("[Gg]itlab");
   private static final Pattern BONAFIDE = compile("[Bb]onafide");
   private static final Pattern WHEREEVER = compile("[Ww]hereever");
+  private static final Pattern UNINSPIRATIONAL = compile("[Uu]ninspirational");
   private static final Pattern WHATSAPP = compile("[Ww]hatsapp");
   private static final Pattern JETLAGGED = compile("jetlagged");
   private static final Pattern MACBOOK = compile("[Mm]acbooks?");
@@ -1573,6 +1574,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (ADDON.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ddon", "dd-on"));
     if (WHEREEVER.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "hereever", "herever"));
     if (WHATSAPP.matcher(word).matches()) return topMatch("WhatsApp");
+    if (UNINSPIRATIONAL.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ninspirational", "ninspiring"));
     if (JETLAGGED.matcher(word).matches()) return topMatch("jet-lagged");
     if (MACBOOK.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "acbook", "acBook"));
     if (LIKELYHOOD.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ikelyhood", "ikelihood"));
