@@ -1,5 +1,5 @@
 FROM alpine:3.20
-RUN apk add --no-cache fasttext gcompat openjdk21-jdk tar
+RUN apk add --no-cache openjdk21-jdk
 
 RUN adduser -u 10000 -h /home/languagetool -D languagetool
 USER languagetool
@@ -15,4 +15,4 @@ COPY server.properties .
 
 EXPOSE 8181/tcp
 
-ENTRYPOINT [ "java", "-Xmx2048m", "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDumpPath=/heap-dump/app.hprof", "-cp", "languagetool-server.jar", "org.languagetool.server.HTTPServer", "--config", "server.properties", "--port", "8181", "--allow-origin", "--public" ]
+ENTRYPOINT [ "java", "-cp", "languagetool-server.jar", "org.languagetool.server.HTTPServer", "--config", "server.properties", "--port", "8181", "--allow-origin", "--public" ]
