@@ -15,4 +15,4 @@ COPY server.properties .
 
 EXPOSE 8181/tcp
 
-ENTRYPOINT [ "java", "-Xmx3072m", "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDumpPath=/heap-dump/app.hprof", "-cp", "languagetool-server.jar", "org.languagetool.server.HTTPServer", "--config", "server.properties", "--port", "8181", "--allow-origin", "--public" ]
+ENTRYPOINT [ "java", "-Xmx2048m", "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDumpPath=/heap-dump/app.hprof", "-cp", "languagetool-server.jar", "org.languagetool.server.HTTPServer", "--config", "server.properties", "--port", "8181", "--allow-origin", "--public" ]
