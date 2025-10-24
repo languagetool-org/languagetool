@@ -125,7 +125,8 @@ class UserLimits {
       if (userId == 0) {
         return username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
       }
-      return new UserLimits(0, 0, userId, false, 0L, 0L, LimitEnforcementMode.PER_DAY, data, jwtContent);
+      // we don't want to block access for anyone based on the token
+      return getDefaultLimits(config);
     }
 
     // At this point we already know
@@ -143,7 +144,7 @@ class UserLimits {
 
     // Anonymous user with valid token
     if (jwtContent.isValid()) {
-      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), 1L, jwtContent.isPremium(), null, null, null, null, jwtContent);
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), null, jwtContent.isPremium(), null, null, null, null, jwtContent);
     }
     return username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
   }
