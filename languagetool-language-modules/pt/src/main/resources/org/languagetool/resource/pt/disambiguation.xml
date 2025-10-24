@@ -1951,7 +1951,7 @@ USA
     </rule>
     <rule>
       <antipattern> <!-- Fix para tod[ao]s nós/elas/eles/particípio_passado (convidados, etc.), aquelas/aqueles, demos, quantas, quantos, that were being converted to nouns -->
-        <token regexp='yes'>tod[ao]s</token>
+        <token regexp='yes'>tod[ao]s<exception scope='next' regexp='yes'>cert[ao]s</exception></token>
         <token postag='PP[13].PN.+|VMP00P.+|PD0[FM]P000|VMIS1P0|PI0[FM]P000' postag_regexp='yes'/>
       </antipattern>
       <pattern>
@@ -4948,7 +4948,7 @@ USA
     </rule>
     <rule> <!-- nós/aquel[ae]s/quant[ao]s -->
       <pattern>
-        <token regexp='yes'>tod[ao]s><exception scope='next' regexp='yes'>cert[ao]s</exception></token>
+        <token regexp='yes'>tod[ao]s<exception scope='next' regexp='yes'>cert[ao]s</exception></token>
         <marker>
           <and>
             <token postag_regexp='yes' postag='PP1.PN.+|DD0.P.+|PI0.P.+'/>
