@@ -14487,173 +14487,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='TODOS_FOLLOWED_BY_NOUN_PLURAL' name="Expressão: Todos + 'nome sem artigo'" default="on">
-            <!-- FIXME: too many matches -->
-            <!-- Created by Tiago F. Santos, 2017-03-12 -->
-            <!-- XXX Brazilian portuguese has as different interpretations for tod[ao] -->
-            <!--                                                                       -->
-            <!-- MARCOAGPINTO inserted global antipatterns for all subrules on top -->
+    <rule id='TODOS_FOLLOWED_BY_NOUN_PLURAL_V2' name="Expressão: Todos + 'nome sem artigo'" default='temp_off'>
+        <!-- FIXME: too many matches -->
+        <!-- Created by Tiago F. Santos, 2017-03-12 -->
+        <!-- XXX Brazilian portuguese has as different interpretations for tod[ao] -->
+        <!--                                                                       -->
+        <!-- Marco A.G.Pinto has rewritten the rule removing the too many matches BY FIXING THE DISAMBIGUATOR -->
 
-            <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-            <!-- It seems that all these words I placed here appear as nouns in the disambiguator -->
+        <!-- ChatGPT 5 said that the use of verbs in this rule is problematic, and that VMG.+ (gerund) is the less problematic one -->
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
-            <antipattern>
-                <token postag='V....P.+' postag_regexp='yes'/>
+        <antipattern> <!-- ChatGPT 5: Verbs that accept: VERB + [a] + tod[ao]s + ADJECTIVE -->
+            <token regexp='yes' inflected='yes'>deixar|fazer|tornar|transformar|converter|reduzir|manter|elevar|levar|render|mostrar|considerar|julgar|achar|reputar|estimar|crer|imaginar|supor|avaliar|tomar|ver|reconhecer|aceitar|eleger|nomear|designar|proclamar|declarar|chamar|intitular|apelidar|batizar|consagrar|ouvir|sentir|encontrar|observar|notar|perceber|surpreender|apanhar|flagar|pressentir|forçar|obrigar|induzir|mandar|permitir|autorizar|instituir|anunciar|ratificar</token>
+            <token min='0' max='1'>a</token>
+            <token regexp='yes'>tod[ao]s</token>
+            <token postag='AQ.+' postag_regexp='yes'/>
+            <example>Está deixando todos nervosos.</example>
+            <example>Vai nos deixar a todos ricos.</example>
+        </antipattern>
+        <antipattern>
+            <token postag='SENT_START|_PUNCT|CC' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+'/></token>
+            <token regexp='yes'>tod[ao]s</token>
+            <token postag='N..P.+|VMP00P.+' postag_regexp='yes'/>
+            <token postag='SENT_END|_PUNCT_EXCLAMATION|_PUNCT_INTERROGATION|PD.+|SPS00:DA.+|SPS00|CC|DD.+|RG' postag_regexp='yes'/>
+            <example>Três nomes já estão confirmados: Pastores Chester M. Wright, David Shatwell e Kevin Howard, todos americanos.</example>
+            <example>Nos Jogos Olímpicos Intercalados de 1906 em Atenas, 6 eventos de remo foram realizados, todos masculinos.</example>
+            <example>No corpo da Igreja, há quatro altares, todos iguais.</example>
+            <example>O livro contém 111 minicontos, todos ilustrados.</example>
+            <example>É o maior campeão do futebol de Samoa com 9 títulos sendo 7 ligas e 2 copas, todos nacionais.</example>
+            <example>Todos quietos!</example>
+            <example>Todos prontos a ocultar a origem e o destino dos recursos surrupiados do povo.</example>
+            <example>Todos charmosos sem essa vulgaridade dos dias de hoje.</example>
+            <example>Todas ameaçadas de não ter onde se preparar em alto nível.</example>
+            <example>Todos acompanhados de suas mães.</example>
+            <example>Todos unidos por um ideal maior.</example>
+            <example>Todas lindas mas fico com a Schutz sem dúvida!</example>
+            <example>20 grandes revistas, todas de diferentes periodicidades e todas publicadas em Pyongyang.</example>
+            <example>Todos desidratados e livres de frituras!</example>
+            <example>Sejam f2, f3, f4 e f5 quatro pontos de um mesmo plano, todos distintos e três não colineares.</example>
+            <example>Eu tenho três gatinhos, todos espertos e inteligentes.</example>
+            <example>Nesse sábado 23, às 10 hs, tem floresta de bolso em plantio coletivo, todos convidados!!</example>
+            <example>Todos mortos esta manhã, exceto este...</example>
+            <example>a midnight in buenos aires: os cinco, os seis, todos sentidos aqui.</example>
+        </antipattern>
+        <pattern>
+            <token postag='SENT_START|_PUNCT|VMG.+|SPS00|CS|CC|PR0CN000|DA.+' postag_regexp='yes'/>
+            <marker>
                 <token regexp='yes'>tod[ao]s</token>
-                <token regexp='yes'>amostra|categoria|classe|elemento|espécie|espécime|exemplo|faixa|fatia|grupo|indivíduo|intervalo|lote|membro|metade|modalidade|opção|parcela|parte|pessoa|porção|p[eo]rcentagem|proporção|quantidade|sec?ção|segmento|subgrupo|tipo|unidade|variedade|versão</token>
-                <token postag='SPS00:DA0.S.+' postag_regexp='yes'/>
-                <example>Ainda somos todos parte da família.</example>
-            </antipattern>
-
-            <antipattern>
-                <token inflected='yes' regexp='yes'>acabar|adaptar-se|adiantar-se|afirmar-se|andar|apresentar-se|cair|chegar|começar|considerar|continuar|crescer|deixar|desenvolver-se|estar|evoluir|existir|expressar-se|ficar|fluir|identificar-se|inclinar-se|ir|manifestar-se|manter-se|morrer|mostrar-se|mudar|nascer|ocultar-se|opor-se|parecer|permanecer|provar-se|questionar-se|reduzir-se|regressar|renascer|renegar|retornar|revelar-se|seguir|sentir-se|ser|superar-se|terminar|tornar-se|transformar-se|virar|voltar<exception scope='previous' postag_regexp='no' postag='RG'/></token> <!-- ChatGPT 4o -->
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <example>Somos todos filhos de Deus.</example>
-                <example>Nós nascemos todos loucos.</example>
-                <example>A morte dele deixou todos tristes.</example>
-                <example>Está deixando todos nervosos.</example>
-                <example>Estamos todos solteiros.</example>
-                <example>Estávamos todos ensopados de suor.</example>
-                <example>Nós estávamos todos presentes na reunião.</example>
-                <example>Estamos todos convencidos de que ele é culpado.</example>
-                <example>Estávamos todos acostumados com sua presença.</example>
-                <example>Haviam cinco homens, sendo todos ex-lutadores.</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token postag='SPS00' postag_regexp='no'/>
-                <example>Fui à faculdade e fiquei com os dedos todos roxos de tanto caminhar.</example>
-            </antipattern>
-
-            <antipattern>
-                <token regexp='yes'>tod[ao]s</token>
-                <token regexp='yes'>ás?|aquel[ae]s|ansios[ao]s|demos|diferentes|el[ae]s|fáceis|iguais|junt[ao]s|lind[ao]s|menos|nós|pel[ao]s|pront[ao]s|próxim[ao]s|quant[ao]s|simples</token>
-                <example>O Papa reza por todos nós.</example>
-                <example>Todos prontos a ocultar a origem e o destino dos recursos surrupiados do povo.</example>
-                <example>Vc não concorda com nenhum, agride e ofende a todos eles.</example>
-                <example>O centro da cidade deve estar fechado para todos menos para o trânsito de pedestres.</example>
-                <example>Todas lindas mas fico com a Schutz sem dúvida!</example>
-                <example>Doce poesia! A mais bela das artes! Tu que, suscitando em nós o poder criador, coloca-nos todos próximos da divindade.</example>
-                <example>Estou farto de todos eles.</example>
-                <example>Na realidade, a pergunta pela identidade é a mais importante de todas aquelas que podemos nos fazer: “Quem sou eu?” A rigor, essa é a primeira e essencial pergunta.</example>
-                <example>Todas aquelas que vierem serão bem-vindas.</example>
-                <example>Todos juntos faremos um mundo melhor guiados sempre pelo mestre maior, Hashém.</example>
-                <example>Todos demos um suspiro de alívio.</example>
-                <example>É um agradecimento e ao mesmo tempo uma explicação a todos quantos eu me habituei a sentir aqui e que eu estimo.</example>
-                <example>Todos juntos fazem um trânsito melhor.</example>
-                <example>O centro da cidade deve estar fechado para todos menos para o trânsito de pedestres.</example>
-            </antipattern>
-            <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <antipattern>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag_regexp='yes' postag='A.+'>
-                    <exception negate_pos='yes' postag_regexp='yes' postag='A.+'/></token>
-                <token>
-                    <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
-            </antipattern>
-            <antipattern>
-                <token regexp='yes' postag_regexp='yes' postag='V...3P.+' inflected='yes'>&verbos_de_ligacao;</token>
-                <token regexp='yes'>tod[ao]s</token>
-                <token/>
-                <token>
-                    <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
-            </antipattern>
-            <antipattern>
-                <token inflected='yes'>ser</token>
-                <token regexp='yes'>tod[ao]s?</token>
-                <token postag_regexp='yes' postag='A.+'>
-                    <exception negate_pos='yes' postag_regexp='yes' postag='[AN].+'/></token>
-                <token postag='_PUNCT'/>
-            </antipattern>
-            <antipattern>
-                <token>,</token>
-                <token regexp='yes'>tod[ao]s</token>
-                <token/>
-                <token postag='_PUNCT'/>
-            </antipattern>
-            <!-- MARCOAGPINTO 2021-01-27 (1-JAN-2021+) *START* -->
-            <!--
-      É um fenómeno entre todos raro e insólito na cultura portuguesa.
-      -->
-            <antipattern>
-                <token postag='SPS.+' postag_regexp='yes'/>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
-            </antipattern>
-            <!-- MARCOAGPINTO 2021-01-27 (1-JAN-2021+) *END* -->
-            <antipattern>
-                <token postag='_PUNCT|SENT_START|RG|RN' postag_regexp='yes'/>
-                <token min="0" postag="RM"/>
-                <token regexp='yes'>tod[ao]s</token>
-                <token max="3" postag='N.+|AQ.+' postag_regexp='yes'/>
-                <token min='0' postag="RG|RM" postag_regexp="yes"/>
-                <token postag="_PUNCT|SENT_END|SPS.+|DD.+|CC" postag_regexp='yes'/>
-                <example>Todas ruins.</example>
-                <example>Tem sete filhos, praticamente todos ruivos.</example>
-                <example>Todas disponíveis na Netflix, mas as duas últimas sairão junho ou julho.</example>
-                <example>Todos conquistados pelos livros</example>
-                <example>Todos diretores.</example>
-                <example>Quase todas ruins.</example>
-                <example>Todos encostados na parede!</example>
-                <example>Todos filmes do início do século XX</example>
-                <example>-Todos fora da área...</example>
-                <example>Todos mortos.</example>
-                <example>Todos mortos esta manhã</example>
-                <example>Todos quietos!</example>
-                <example>Cerca de 6.500 pessoas moram em Porto Trombetas, todas empregadas diretas ou indiretas da mineradora.</example>
-                <example>Ambas as disciplinas, todas convergentes para o mesmo foco, dependem da conscientização de todos os envolvidos.</example>
-            </antipattern>
-            <antipattern>
-                <token postag='_PUNCT|SENT_START|RG|RN' postag_regexp='yes'/>
-                <token min="0" postag="RM"/>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag='N.+' postag_regexp='yes'/>
-                <token min='0' postag="RG|RM" postag_regexp="yes"/>
-                <token postag='AQ.+' postag_regexp='yes'/>
-                <token postag="_PUNCT|SENT_END|SPS.+|DD.+|CC" postag_regexp='yes'/>
-                <example>Todos mecanismos fiscalizadores.</example>
-                <example>Quase praticamente todos carros muito novos.</example>
-                <example>Todos carros novos.</example>
-            </antipattern>
-            <antipattern>
-                <token postag="SENT_START|_PUNCT" postag_regexp="yes"/>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag_regexp='yes' postag='(?:N|A).+'/>
-                <token postag='VMP.+' postag_regexp='yes'>
-                    <exception>reservados</exception></token>
-                <example>Há cinco composições, todas músicas compostas pela banda.</example>
-            </antipattern>
-            <pattern>
-                <token regexp='yes'>tod[ao]s</token>
-                <token postag_regexp='yes' postag='(?:NC|A).+'>
-                    <exception regexp='yes'>uns|umas|iguais</exception>
-                    <exception negate_pos='yes' postag_regexp='yes' postag='(?:N|A).+'/></token>
-            </pattern>
-            <message>Se '\2' é um substantivo, '\1' no plural exige um segundo artigo.</message>
-            <suggestion>\1 <match no='1' regexp_match='...(..)' regexp_replace='$1'/> \2</suggestion>
-            <example correction='Todas as chávenas'><marker>Todas chávenas</marker> estão partidas.</example>
-            <example correction='todas as adversidades'>…uma vez que <marker>todas adversidades</marker> naturais dificultam a implantação…</example>
-            <example correction='todos os felizes'>Onde estão <marker>todos felizes</marker> convidados?</example>
-            <example>Por favor, fiquem todos calmos.</example>
-            <example>São todos iguais?</example>
-            <example>Estão todos felizes?</example>
-            <example correction='todos os felizes'>Onde estão <marker>todos felizes</marker> convidados?</example>
-            <example>Nisso somos todos iguais.</example>
-            <example>Somos todos uns mimados.</example>
-            <example>Os sócios, todos portugueses, fizeram o investimento inicial.</example>
-
-            <example>Somos <marker>todos filhos</marker> de Deus.</example>
-            <example>Somos todas filhas de Deus.</example>
-            <example>Estamos <marker>todas solteiras</marker>.</example>
-            <example>Estamos todos solteiros.</example>
-
-            <example>É um fenómeno entre <marker>todos raro</marker> e insólito na cultura portuguesa.</example>
-        </rule>
+                <token postag='N..P.+' postag_regexp='yes'/>
+            </marker>
+        </pattern>
+        <message>Se '\3' é um substantivo, '\2' no plural exige um segundo artigo.</message>
+        <suggestion>\2 <match no='2' regexp_match='...(..)' regexp_replace='$1'/> \3</suggestion>
+        <example correction='Todas as chávenas'><marker>Todas chávenas</marker> estão partidas.</example>
+        <example correction='todas as adversidades'>…uma vez que <marker>todas adversidades</marker> naturais dificultam a implantação…</example>
+    </rule>
 
 
         <rulegroup id='EM_ANEXO_CONFUSION' name='Expressão: Em anexo'>
