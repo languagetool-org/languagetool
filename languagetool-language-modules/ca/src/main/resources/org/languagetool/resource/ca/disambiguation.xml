@@ -51,6 +51,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token regexp="yes">.*\d</token>
+                <marker>
+                    <token spacebefore="no" regexp="yes">[’']</token>
+                    <token spacebefore="no">s</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="allow_saxon_genitive"/>
+                <wd pos="allow_saxon_genitive"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">\p{Lu}.+<exception postag="V.[MN].*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="allow_saxon_genitive" spacebefore="no" regexp="yes">[’']s</token>
@@ -281,6 +294,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <!--<filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>-->
             <disambig action="add">
+                <wd pos="_english_ignore_"/>
+                <wd pos="_english_ignore_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_english_ignore_"/>
+                <marker>
+                    <token regexp="yes">\d+</token>
+                    <token>'</token>
+                    <token>s</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_english_ignore_"/>
                 <wd pos="_english_ignore_"/>
                 <wd pos="_english_ignore_"/>
             </disambig>
@@ -522,7 +550,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes" spacebefore="no">['"’”»]<exception postag="_QM_OPEN"/></token>
+                    <token regexp="yes" spacebefore="no">['"’”»]<exception postag="_QM_OPEN|allow_saxon_genitive" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="add">
