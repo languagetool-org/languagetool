@@ -5072,11 +5072,12 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
         <pattern>
             <marker>
                 <token inflected='yes'>ser</token>
-                <token skip='1' regexp='yes'>út(il|eis)</token>
+                <token regexp='yes'>út(il|eis)</token>
             </marker>
+            <token min='0' max='1' postag='RM'/>
             <token>para</token>
-            <token postag='V.+' postag_regexp='yes'>
-                <exception regexp='yes' inflected='yes'>ser|estar|ficar|parecer|ter|haver|existir|sentir|gostar|odiar|amar|pensar|achar|crer|acreditar|lembrar|lembrar-se|recordar|imaginar|sonhar|ver|ouvir|perceber|notar|observar|reconhecer</exception></token> <!-- ChatGPT 5 said these exceptions make the rule ~99% accurate -->
+            <token postag='VMN0000'>
+                <exception regexp='yes' inflected='yes'>ser|estar|ficar|parecer|ter|haver|existir|sentir|gostar|odiar|amar|pensar|achar|crer|acreditar|lembrar|lembrar-se|recordar|imaginar|sonhar|ver|ouvir|perceber|notar|observar|reconhecer|servir</exception></token> <!-- ChatGPT 5 said these exceptions make the rule ~99% accurate -->
         </pattern>
         <message>Pode substituir &quot;ser útil&quot; por &quot;servir&quot; para uma formulação mais simples e natural.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>servir</match></suggestion>
