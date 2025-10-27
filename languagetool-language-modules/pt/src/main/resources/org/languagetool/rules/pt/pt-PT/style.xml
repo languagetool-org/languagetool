@@ -5067,16 +5067,18 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
     </rule>
 
 
-    <rule id='VERBO_SER_ÚTIL_PARA_SERVIR_PARA' name="[pt-PT][Simplificar] V.Ser útil para → V.Servir para" type="style">
+    <rule id='VERBO_SER_ÚTIL_PARA_SERVIR_PARA' name="[pt-PT][Simplificar] Ser útil para → servir para" type="style">
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
         <pattern>
             <marker>
                 <token inflected='yes'>ser</token>
                 <token skip='1' regexp='yes'>út(il|eis)</token>
             </marker>
             <token>para</token>
-            <token postag='V.+' postag_regexp='yes'/>
+            <token postag='V.+' postag_regexp='yes'>
+                <exception regexp='yes' inflected='yes'>ser|estar|ficar|parecer|ter|haver|existir|sentir|gostar|odiar|amar|pensar|achar|crer|acreditar|lembrar|lembrar-se|recordar|imaginar|sonhar|ver|ouvir|perceber|notar|observar|reconhecer</exception></token> <!-- ChatGPT 5 said these exceptions make the rule ~99% accurate -->
         </pattern>
-        <message>&simplify_msg;</message>
+        <message>Pode substituir &quot;ser útil&quot; por &quot;servir&quot; para uma formulação mais simples e natural.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>servir</match></suggestion>
         <example correction="serviu">Esta equação <marker>foi útil</marker> para ajudar a população.</example>
         <example correction="serviu">Esta equação <marker>foi útil</marker> nomeadamente para ajudar a população.</example>
