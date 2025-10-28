@@ -3964,7 +3964,7 @@ USA
     -->
   </rule>
 
-  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251009" name="Make past participle verbs and others appear as 3rd person singular">
+  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251028" name="Make past participle verbs and others appear as 3rd person singular">
     <!-- ChatGPT 5 -->
     <rule>
       <pattern>
@@ -4132,6 +4132,29 @@ USA
                Além disso, sabe-se que há incertezas intrínsecas aos experimentos.
                Para uma experiência ser considerada rigorosa nas ciências humanas, leva-se muito em conta o fator da aleatoriedade.
                A jota castelhana dança-se com os característicos passos saltados, um pouco repicada.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag_regexp='yes' postag='_PUNCT|SENT_START'/>
+        <token postag_regexp='yes' postag='DA.+'/>
+        <token skip='-1' postag_regexp='yes' postag='N.+|AQ.+|UNKNOWN'><exception scope='next' postag_regexp='yes' postag='DP.+|_QUOT'/></token>
+        <marker>
+          <and>
+            <token postag='VMIP3S0:PP1CSO00'/>
+            <token postag='VMM02S0:PP1CSO00'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMM02S0:PP1CSO00"/>
+      <!--
+      Examples:
+               A subida do crédito à habitação deixa-me estupefacta.
+               O sabor desta madalena dá-me lembranças de minha infância.
+               O abacaxi machuca-me a boca.
+               A história lembra-me de uma experiência que tive há muito tempo.
+               A cerâmica oriental interessa-me.
+               A verdade obriga-me a dizê-lo.
       -->
     </rule>
   </rulegroup>
