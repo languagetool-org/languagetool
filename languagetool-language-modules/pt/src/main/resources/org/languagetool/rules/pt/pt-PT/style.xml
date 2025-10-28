@@ -2330,17 +2330,6 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
 
         <!-- Inserted global antipatterns for all subrules on top. -->
 
-        <antipattern>
-            <token postag_regexp='yes' postag='_PUNCT|SENT_START'/>
-            <token postag_regexp='yes' postag='DA.+'/>
-            <token skip='-1' postag_regexp='yes' postag='N.+|AQ.+|UNKNOWN'><exception scope='next' postag_regexp='yes' postag='DP.+'/></token>
-            <token postag_regexp='yes' postag='(VMIP3S0|VMM02S0):PP1CSO00'/>
-            <example>O TENENTE SACOGNE diz-me que pediu passagem para a reserva, para onde vai no posto de MAJOR.</example>
-            <example>A pele das serpentes repugna-me.</example>
-            <example>A Ana repugna-me.</example>
-            <example>A USF altera-me a consulta de véspera.</example>
-        </antipattern>
-
         <!-- ChatGPT 4o: "All these verbs are related to absence, need, or lack and are, therefore, exceptions to the proposed rule." -->
         <antipattern>
             <token regexp='yes' inflected='yes' postag_regexp='yes' postag='VM.....:PP.C.+'>ausentar|carecer|definhar|desaparecer|descurar|escassear|_esquecer|faltar|fugir|minguar|negligenciar|omitir|precisar<exception postag_regexp='yes' postag='VMN0000:.+|VM.....:(PP2CSO00|PP3..A00)'/></token>
