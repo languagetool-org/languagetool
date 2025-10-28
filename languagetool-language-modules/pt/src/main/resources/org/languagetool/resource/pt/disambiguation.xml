@@ -1950,6 +1950,10 @@ USA
       <disambig action="remove" postag="V.[SI].*"></disambig>
     </rule>
     <rule>
+      <antipattern> <!-- Fix para tod[ao]s nós/elas/eles/particípio_passado (convidados, etc.), aquelas/aqueles, demos, quantas, quantos, that were being converted to nouns -->
+        <token regexp='yes'>tod[ao]s<exception scope='next' regexp='yes'>cert[ao]s</exception></token>
+        <token postag='PP[13].PN.+|VMP00P.+|PD0[FM]P000|VMIS1P0|PI0[FM]P000' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
         <token postag="SP.*|SENT_START" postag_regexp="yes"/>
         <marker>
@@ -4920,6 +4924,89 @@ USA
              Precisaremos de vinte dados para jogar este jogo.
       -->
   </rule>
+
+  <rulegroup id="TODOS_FIXES_FOR_PRONOUNS_AND_VERBS_20251022_RARE" name="This word is a pronoun/verb">
+    <!-- ChatGPT 5 -->
+    <rule> <!-- el[ae]s -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='PP3.PN.+'/>
+            <token postag_regexp='yes' postag='VM[SI]P2S0'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NAV].*"/>
+      <!--
+      Examples:
+                Todas elas nos vários tamanhos, e algumas delas até o número 3G.
+                Vc não concorda com nenhum, agride e ofende a todos eles.
+                Eu AMEI todas elas!!!
+                As cores são bem bonitas e usaria todas elas.
+        -->
+    </rule>
+    <rule> <!-- nós/aquel[ae]s/quant[ao]s -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s<exception scope='next' regexp='yes'>cert[ao]s</exception></token>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='PP1.PN.+|DD0.P.+|PI0.P.+'/>
+            <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NAV].*"/>
+      <!--
+      Examples:
+                Sorte a todos nós sempre!
+                Bom início de ano letivo para todos nós!
+                Todos nós precisamos resistir.
+                Todos nós desenvolvemos esse lado obscuro devido à cultura religiosa.
+                Sinta-se abraçado por todos nós.
+                É um agradecimento e ao mesmo tempo uma explicação a todos quantos eu me habituei a sentir aqui e que eu estimo.
+                Além da idade, eram todos muitos unidos, os casamentos feitos entre primos, uns mais longe, outro mais perto.
+        -->
+    </rule>
+    <rule> <!-- junt[ao]s -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token regexp='yes'>junt[ao]s</token>
+            <token postag_regexp='yes' postag='VMP00P.+|AQ.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="(NC.+|VMIP2S0)"/>
+      <!--
+      Examples:
+                RULE PROVIDED ZERO HITS IN 950 000 SENTENCES CHECK.
+        -->
+    </rule>
+    <rule> <!-- tod[ao]s + verb (fixes also "DEMOS: VMIS1P0") -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='VMIP3P0|VMIS1P0'/>
+            <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NA].*"/>
+      <!--
+      Examples:
+                Já usei alguns, de várias marcas, todos são bons.
+                Muito mais que parceiros todas são pessoas queridas que fazem seu trabalho com dedicação e carinho.
+                Todos são egoístas e acham donos do mundo, e ninguém se suporta mais.
+                Todas são possíveis....
+                TODOS são vítimas do trânsito.
+                Agora eu leio, você lê e ele lê; nós todos lemos.
+                Todos demos um suspiro de alívio.
+        -->
+    </rule>
+  </rulegroup>
 
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
