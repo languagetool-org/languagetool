@@ -34591,6 +34591,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id='TAO_TÃO' name="[Confusão] tao/tão" default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <marker>
+                    <token>tao<exception case_sensitive='yes'>Tao</exception></token> <!-- Tao Te Ching -->
+                </marker>
+                <token postag='N.+|AQ.+|VMP.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Substitua por <suggestion>tão</suggestion>.</message>
+            <example correction="tão">A Ana estava <marker>tao</marker> Feliz.</example>
+            <example>Sou tão beneficiado com o emprego.</example>
+        </rule>
+
+
         <!-- COM MAIS REALIDADE com mais realismo -->
         <rule id='CONFUSÃO_REALIDADE_REALISMO' name="[Confusão] realidade/realismo">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-31 + 2022-11-01 (25-JUL-2022+) -->
