@@ -136,7 +136,10 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       } else if (newLemma.endsWith("-se")) {
         newLemma = newLemma.substring(0, newLemma.length() - 3);
         action = "addPronounReflexive";
-      } else if (newLemma.endsWith("-hi")) {
+      } else if (newLemma.endsWith("'s")) {
+        newLemma = newLemma.substring(0, newLemma.length() - 2);
+        action = "addPronounReflexive";
+      }else if (newLemma.endsWith("-hi")) {
         newLemma = newLemma.substring(0, newLemma.length() - 3);
         action = "addPronounHi";
       } else if (newLemma.endsWith("-s'ho")) {
