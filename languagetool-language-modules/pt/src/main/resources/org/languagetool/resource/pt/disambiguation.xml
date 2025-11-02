@@ -4827,6 +4827,30 @@ USA
     -->
   </rule>
 
+  <rule id="VERB_VERBINFINITIVE_PASTPART_NC_AQ_DA_DI_20251102_RARE" name="Remove infinitive verbs from appearing as nouns">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+        <token postag='VMP00.+|D[AI].+' postag_regexp='yes'/>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+    <!--
+    Examples:
+             Sepultura: Os organizadores resolveram escalar o grupo mineiro faltando um mês para começar o festival.
+             Para evitar ser enganado, é preciso ficar atento e tomar um certo cuidado.
+             E gostar de roupas masculinas não faz ninguém querer ser um marmanjo.
+             Isso sim é democracia, e não, a PresidentA ter que aceitar ser xingada pra contentar a escória burguesa!
+             Incrivel como a cartilha consegue manipular os factos.
+             Devo fazê-lo ou esperar ser notificada?
+    -->
+  </rule>
+
   <rule id="VERB_VERBINFINITIVE_REMOVEVERB_20251008_RARE" name="Convert infinitive verbs to nouns/adjectives">
     <!-- ChatGPT 5 -->
     <pattern>
