@@ -4191,7 +4191,7 @@ USA
             </antipattern>
             <antipattern>
                 <token regexp='yes' inflected='yes'>estar|ter|ser</token>
-                <token postag='DI0M.+' postag_regexp='yes'/>
+                <token postag='Z0.+|DI0M.+' postag_regexp='yes'/>
                 <token regexp='yes'>pedidos?</token>
                 <example>Tenho um pedido a fazer-lhes, amigos.</example>
                 <example>A parte queixosa tem um pedido a fazer?</example>
@@ -4255,7 +4255,7 @@ USA
             </antipattern>
             <antipattern>
                 <token inflected='yes' regexp='no'>pedir</token>
-                <token skip='1' regexp='yes'>[ao]s?|d[ao]s?|de|em</token>
+                <token skip='1' regexp='yes' inflected='yes'>[ao]s?|d[ao]s?|de|em|&adverbios_de_intensidade;</token>
                 <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</token> <!-- The same words below -->
                 <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
                 <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
@@ -4266,10 +4266,12 @@ USA
                 <example>Não quero pedir a sua mão!</example>
                 <example>Ministra Marina Silva entrega pedido de demissão a...</example>
                 <example>Temas do primeiro pedido de desculpas.</example>
+                <example>Peço muitas desculpas pelo sucedido.</example>
+                <example>Pedimos imensa desculpa pelo atraso.</example>
             </antipattern>
             <pattern>
                 <marker>
-                    <token inflected='yes' regexp='no'>pedir
+                    <token postag='V.+' postag_regexp='yes' inflected='yes' regexp='no'>pedir
                         <exception scope='next' regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</exception></token>
                 </marker>
             </pattern>
