@@ -139,6 +139,9 @@ public class PronomsFeblesHelper {
     addEnApostrophe.put("m'", "me n'");
     addEnApostrophe.put("t'", "te n'");
     addEnApostrophe.put("s'", "se n'");
+    addEnApostrophe.put("'m", "me n'");
+    addEnApostrophe.put("'t", "te n'");
+    addEnApostrophe.put("'s", "se n'");
     addEnApostrophe.put("em", "me n'");
     addEnApostrophe.put("et", "te n'");
     addEnApostrophe.put("es", "se n'");
@@ -148,6 +151,7 @@ public class PronomsFeblesHelper {
     addEnApostrophe.put("vos", "vos n'");
     addEnApostrophe.put("li", "li n'");
     addEnApostrophe.put("els", "els n'");
+    addEnApostrophe.put("'ls", "els n'");
     addEnApostrophe.put("se m'", "se me n'");
     addEnApostrophe.put("se t'", "se te n'");
     addEnApostrophe.put("se'm", "se me n'");
@@ -161,11 +165,14 @@ public class PronomsFeblesHelper {
     addEnApostrophe.put("", "n'");
   }
 
-  private static Map<String, String> addEn = new HashMap<>();
+  static Map<String, String> addEn = new HashMap<>();
   static {
     addEn.put("m'", "me'n ");
     addEn.put("t'", "te'n ");
     addEn.put("s'", "se'n ");
+    addEn.put("'m", "me'n ");
+    addEn.put("'t", "te'n ");
+    addEn.put("'s", "se'n ");
     addEn.put("em", "me'n ");
     addEn.put("et", "te'n ");
     addEn.put("es", "se'n ");
@@ -175,6 +182,7 @@ public class PronomsFeblesHelper {
     addEn.put("vos", "vos en ");
     addEn.put("li", "li'n ");
     addEn.put("els", "els en ");
+    addEn.put("'ls", "els en ");
     addEn.put("se'm", "se me'n ");
     addEn.put("se't", "se te'n ");
     addEn.put("se m'", "se me'n ");
@@ -307,8 +315,8 @@ public class PronomsFeblesHelper {
     addEsEnApostrophe.put("els", "se'ls n'");
   }
 
-  private static Pattern pronomFeble = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
-  private static Pattern infinitiuGerundiImperatiu = Pattern.compile("V.[GNM].*");
+  static Pattern pronomFeble = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
+  static Pattern infinitiuGerundiImperatiu = Pattern.compile("V.[GNM].*");
 
 
   PronomsFeblesHelper() {
@@ -412,16 +420,14 @@ public class PronomsFeblesHelper {
   public static String doAddPronounEn(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
     Map<String, String> transform;
     String replacement = "";
-    String between = "";
     if (pApostropheNeeded.matcher(firstVerb).matches()) {
       transform = addEnApostrophe;
     } else {
       transform = addEn;
-      //between = " ";
     }
     String pronounsReplacement = transform.get(pronounsStr.toLowerCase());
     if (pronounsReplacement != null) {
-      replacement = pronounsReplacement + between + verbStr.toLowerCase();
+      replacement = pronounsReplacement + verbStr.toLowerCase();
     }
     return replacement;
   }
