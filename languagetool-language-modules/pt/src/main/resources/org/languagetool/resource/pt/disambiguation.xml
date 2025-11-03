@@ -3964,6 +3964,31 @@ USA
     -->
   </rule>
 
+  <rule id="VERB_MESMO_TANTO_20251103_RARE" name="mesmo/tanto is an RG, not a noun, nor PI.+">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token regexp='yes'>mesmo|tanto</token>
+          <token postag_regexp='yes' postag='NC.+'/>
+        </and>
+      </marker>
+      <token min='0' max='1' postag='PP.C.+' postag_regexp='yes'/>
+      <token postag='VMN0000|V.+:PP3.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="replace" postag="RG"/>
+    <!--
+    Examples:
+             É tããão bom, mas tãããão bom que vocês não podem mesmo deixar de provar.
+             Queria mesmo comprar casa.
+             Com excepção da Nissan, as outras duas conseguiram mesmo aumentar a quota de mercado no nosso País.
+             Deseja mesmo sair?
+             Nunca quis tanto gastar meu tempo falando bobagens com alguém como eu quero contigo.
+             Através do MaxMilhas você pode tanto comprar quanto vender as suas milhas.
+    -->
+  </rule>
+
   <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251028" name="Make past participle verbs and others appear as 3rd person singular">
     <!-- ChatGPT 5 -->
     <rule>
