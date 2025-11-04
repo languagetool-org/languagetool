@@ -127,7 +127,9 @@ public class DonarseliBeFilter extends RuleFilter {
     }
     int posQue = (isNo ? posPrimerVerb - 4 : posPrimerVerb - 3);
     boolean isQue = posQue > 0 && tokens[posQue].getToken().equalsIgnoreCase("que");
-    //TODO: quines coses se li donen bé
+    //TODO: quines coses se li donen bé; les que no se't donen tan bé; Què se'm donava millor?;
+    // a mi no se'm dona gaire bé dibuixar; La geografia se't donava prou bé
+    // Altres suggermients: tenir-hi la mà trencada, ser el meu fort
     List<String> replacements = new ArrayList<>();
     String persona = pronomFebleDavant.getPOSTag().substring(2, 3);
     String nombre = pronomFebleDavant.getPOSTag().substring(4, 5);
@@ -140,9 +142,17 @@ public class DonarseliBeFilter extends RuleFilter {
       addStringToLeft = "que ";
       addTokensToLeft++;
       suggestion.append("en què ");
+      if (isNo && !isNoMalament) {
+        addStringToLeft = "que no ";
+        addTokensToLeft++;
+        suggestion.append("no ");
+      }
     }
     if (isMalament) {
       suggestion.append("no ");
+    }
+    if (!addStringToLeft.startsWith("que") && despresDarrerAdverbi == null) {
+      suggestion.append("hi ");
     }
     suggestion.append(createVerb(tokens, posPrimerVerb, primerVerb, posDonar, "tenir", newVerbPostag));
     if (!isNoMalament && !isMalament) {
@@ -155,7 +165,7 @@ public class DonarseliBeFilter extends RuleFilter {
         addTokensToRight = 1;
         addStringToRight = " el";
       }
-      if (despresDarrerAdverbi.getToken().toLowerCase().equals("els")) {
+      else if (despresDarrerAdverbi.getToken().toLowerCase().equals("els")) {
         suggestion.append(" per als");
         addTokensToRight = 1;
         addStringToRight = " els";
@@ -174,6 +184,9 @@ public class DonarseliBeFilter extends RuleFilter {
         suggestion.append("mai ");
       }
       suggestion.append("no ");
+    }
+    if (!addStringToLeft.startsWith("que") && despresDarrerAdverbi == null) {
+      suggestion.append("ho ");
     }
     suggestion.append(createVerb(tokens, posPrimerVerb, primerVerb, posDonar, "fer", newVerbPostag));
     suggestion.append(getAdverbsFor(tokens, primerAdverbi, darrerAdverbi, "bé"));
@@ -196,8 +209,8 @@ public class DonarseliBeFilter extends RuleFilter {
     if (pronom.equalsIgnoreCase("'ls") | pronom.equalsIgnoreCase("li")) {
       pronom = "es";
     }
-    suggestion.append(doAddPronounEn(primerVerb.getToken(), pronom, "", false));
-
+    String pronomsNormalitzats = transform(pronom, PronounPosition.NORMALIZED) + " en";
+    suggestion.append(transformDavant(pronomsNormalitzats, primerVerb.getToken()));
     suggestion.append(createVerb(tokens, posPrimerVerb, primerVerb, posDonar, "sortir", newVerbPostag));
     /*if (!isNoMalament && !isMalament) {
       suggestion.append(getAdverbsFor(tokens, primerAdverbi, darrerAdverbi, "traça"));
@@ -311,6 +324,8 @@ public class DonarseliBeFilter extends RuleFilter {
         resultStr = " molta";
       } else if (resultStr.equalsIgnoreCase(" gens")) {
         resultStr = " gens de";
+      } else if (resultStr.equalsIgnoreCase(" tan")) {
+        resultStr = " tanta";
       }
     }
     return resultStr;
