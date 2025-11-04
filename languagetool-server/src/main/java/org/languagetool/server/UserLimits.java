@@ -51,7 +51,7 @@ class UserLimits {
   private final LimitEnforcementMode limitEnforcementMode;
 
   @Getter
-  private final JwtContent jwtContent;
+  private JwtContent jwtContent;
 
   static UserLimits getDefaultLimits(HTTPServerConfig config) {
     if (config.premiumAlways) {
@@ -119,14 +119,15 @@ class UserLimits {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
     }
 
-    // User send an invalid premium-token
+    // nonPremium User send an invalid premium-token
     if (!jwtContent.isValid() && jwtContent.isPremium()) {
-      Long userId = (data != null) ? data.getUserId() : 0L;
-      if (userId == 0) {
-        return username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
+      if (data != null) {
+        return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
       }
       // we don't want to block access for anyone based on the token
-      return getDefaultLimits(config);
+      var userLimits = username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
+      userLimits.jwtContent = jwtContent;
+      return userLimits;
     }
 
     // At this point we already know
@@ -134,19 +135,21 @@ class UserLimits {
     // 2. User has not sent an invalid premium token
 
     // User is not premium in our DB but has a token that decides if user is premium
-    if (data != null) {
+    if (data != null) { // nonPremium user, but in our database
       if (jwtContent.isPremium()) {
         return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
       } else {
         return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
       }
+    } else { // anonymous user
+      if (jwtContent.isPremium()) {
+        return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), null, true, null, null, null, null, jwtContent);
+      } else {
+        var userLimits = username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
+        userLimits.jwtContent = jwtContent;
+        return userLimits;
+      }
     }
-
-    // Anonymous user with valid token
-    if (jwtContent.isValid()) {
-      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), null, jwtContent.isPremium(), null, null, null, null, jwtContent);
-    }
-    return username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
   }
 
   private static UserLimits getUserLimitsFromWhitelistOrDefault(HTTPServerConfig config, String username) {
