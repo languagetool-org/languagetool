@@ -3864,6 +3864,17 @@ USA
       </rule>
   </rulegroup>
 
+  <rule id="ANTES_VERB_20251104" name="Antes can't be a verb and an RG, it is always RG">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <marker>
+        <token>antes</token>
+        <token postag='RG'/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+  </rule>
+
   <rule id="NÓS_PROFESSORES_NCMP000" name="professores aparecia como verbo">
     <pattern>
       <token>nós</token>
@@ -3964,30 +3975,54 @@ USA
     -->
   </rule>
 
-  <rule id="VERB_MESMO_TANTO_20251103_RARE" name="mesmo/tanto is an RG, not a noun, nor PI.+">
+  <rulegroup id="VERB_MESMO_TANTO_20251104_RARE" name="mesmo/tanto is an RG, not a noun, nor PI.+">
     <!-- ChatGPT 5 -->
-    <pattern>
-      <token postag='V.+' postag_regexp='yes'/>
-      <marker>
-        <and>
-          <token regexp='yes'>mesmo|tanto</token>
-          <token postag_regexp='yes' postag='NC.+'/>
-        </and>
-      </marker>
-      <token min='0' max='1' postag='PP.C.+' postag_regexp='yes'/>
-      <token postag='VMN0000|V.+:PP3.+' postag_regexp='yes'/>
-    </pattern>
-    <disambig action="replace" postag="RG"/>
-    <!--
-    Examples:
-             É tããão bom, mas tãããão bom que vocês não podem mesmo deixar de provar.
-             Queria mesmo comprar casa.
-             Com excepção da Nissan, as outras duas conseguiram mesmo aumentar a quota de mercado no nosso País.
-             Deseja mesmo sair?
-             Nunca quis tanto gastar meu tempo falando bobagens com alguém como eu quero contigo.
-             Através do MaxMilhas você pode tanto comprar quanto vender as suas milhas.
-    -->
-  </rule>
+    <rule>
+      <pattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token regexp='yes'>mesmo|tanto</token>
+            <token postag_regexp='yes' postag='NC.+'/>
+          </and>
+        </marker>
+        <token min='0' max='1' postag='PP.C.+' postag_regexp='yes'/>
+        <token postag='VMN0000|V.+:PP3.+|SPS00' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+      <!--
+      Examples:
+               É tããão bom, mas tãããão bom que vocês não podem mesmo deixar de provar.
+               Queria mesmo comprar casa.
+               Com excepção da Nissan, as outras duas conseguiram mesmo aumentar a quota de mercado no nosso País.
+               Deseja mesmo sair?
+               Nunca quis tanto gastar meu tempo falando bobagens com alguém como eu quero contigo.
+               Através do MaxMilhas você pode tanto comprar quanto vender as suas milhas.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token regexp='yes'>mesmo|tanto</token>
+            <token postag_regexp='yes' postag='NC.+'/>
+          </and>
+        </marker>
+        <token regexp='yes' inflected='yes'>de|este|esse|aquele|isto|isso|aquilo|ele|algum|outro|onde|aqui|aí|ali<exception postag_regexp='yes' postag='DA.+'/></token>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+      <!--
+      Examples:
+               Desde 1931, a meta oficial foi mesmo de cumprir os planos quinquenais em apenas quatro anos.
+               Burguês não gosta mesmo de mim.
+               Você defende mesmo isso?
+               Por favor, certifique-se de que é mesmo isto que pretende.
+               Como se chama mesmo aquela tartaruga do Mario Bros? Ah, Koopa Bros!
+               Tom não consegue acreditar que Mary disse mesmo aquilo.
+      -->
+    </rule>
+  </rulegroup>
 
   <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251028" name="Make past participle verbs and others appear as 3rd person singular">
     <!-- ChatGPT 5 -->
