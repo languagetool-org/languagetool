@@ -76,6 +76,24 @@ public abstract class Rule {
   private int minPrevMatches = 0; // minimum number of previous matches to show the rule
   private int distanceTokens = -1; // distance (number of tokens) between matches to consider a repetition
   private int priority = 0;
+  
+  private static final Set<String> ERRORS_THAT_CAN_BE_CORRECTED_ALL_AT_ONCE = Set.of(
+    "FALSCHES_ANFUEHRUNGSZEICHEN",
+    "TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN",
+    "TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN_CH",
+    "TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN_2",
+    "TYPOGRAFISCHE_APOSTROPHE",
+    "EN_QUOTES",
+    "WRONG_APOSTROPHE",
+    "PARAGRAF_LEERZEICHEN",
+    "CONSISTENCYRULE_JE_F",
+    "CONSISTENCYRULE_JE_M",
+    "COMILLAS_TIPOGRAFICAS",
+    "COMETES_TIPOGRAFIQUES",
+    "TYPOGRAFISCHE_AANHALINGSTEKENS",
+    "PT_SMART_QUOTES",
+    "GL_SMART_QUOTES"
+    );
 
   public Rule() {
     this(null);
@@ -262,7 +280,15 @@ public abstract class Rule {
   public boolean isDictionaryBasedSpellingRule() {
     return false;
   }
-  
+
+  /**
+   * Whether results from this rule should be filtered using the users' personal dictionary.
+   * @since 6.7
+   */
+  public boolean useDictionaryBasedFilterForMatches() {
+    return isDictionaryBasedSpellingRule();
+  }
+
   /**
    * Whether this rule should be forced to be used in LO/OO extension.
    * Rules that return {@code true} will be enabled always in LO/OO extension
@@ -618,5 +644,12 @@ public abstract class Rule {
  */
   public void setIncludedInHiddenMatches(boolean includedInHiddenMatches) {
     this.includedInHiddenMatches = includedInHiddenMatches;
+  }
+
+  /**
+   * @return Whether this rule supports the "correct all errors at once" feature, e.g., for typographic tweaks
+   */
+  public boolean isIncludedInErrorsCorrectedAllAtOnce() {
+    return ERRORS_THAT_CAN_BE_CORRECTED_ALL_AT_ONCE.contains(getId());
   }
 }

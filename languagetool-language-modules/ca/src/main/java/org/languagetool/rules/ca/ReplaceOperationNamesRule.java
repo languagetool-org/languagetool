@@ -34,6 +34,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that suggests better names for technical operation names
@@ -122,6 +123,11 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
       
       // exceptions
       if (token.equals("duplicat") && tokens[i-1].getToken().equalsIgnoreCase("per")) {
+        continue loop;
+      }
+      // el polit Potos
+      if (i + 1 < tokens.length && token.equalsIgnoreCase("polit") 
+          && StringTools.isCapitalizedWord(tokens[i+1].getToken())) {
         continue loop;
       }
       // Assecat el braç del riu

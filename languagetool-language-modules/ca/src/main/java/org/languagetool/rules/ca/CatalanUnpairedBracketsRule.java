@@ -61,6 +61,10 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     if (i < 1) {
       return true;
     }
+
+    if (tokens[i].hasPosTagStartingWith("NP") || tokens[i].hasPosTagStartingWith("allow_saxon_genitive")) {
+      return false;
+    }
     
     if ((tokenStr.equals("’") || tokenStr.equals("'"))
         && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A"))) {

@@ -125,6 +125,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
     // replace hyphen, non-break hyphen -> hyphen-minus
     String auxText = text.replace('\u2010', '\u002d');
     auxText = auxText.replace('\u2011', '\u002d');
+    // replace  'MODIFIER LETTER APOSTROPHE' (U+02BC) -> typographical apostrophe
+    auxText = auxText.replace('\u02BC', '’');
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1xxELA_GEMINADAxx$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);

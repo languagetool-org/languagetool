@@ -594,6 +594,12 @@ abstract class TextChecker {
     } else {
       toneTags.add(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC); //No toneTags param in request
     }
+
+    String rIp = LanguageToolHttpHandler.getRealRemoteAddressOrNull(httpExchange,config);
+    if (rIp != null && mode.equals(JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY)) {
+      log.info("L-IP{}:{}", lang.getShortCodeWithCountryAndVariant(), rIp);
+    }
+
     String callback = params.get("callback");
     // allowed to log input on errors?
     boolean inputLogging = !params.getOrDefault("inputLogging", "").equals("no");

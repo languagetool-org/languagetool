@@ -157,6 +157,7 @@ abstract class Server {
     System.out.println("                   'lang-xx-dictPath' - absolute path to the hunspell .dic file, use language code instead of 'xx', e.g.");
     System.out.println("                                        lang-tr-dictPath=/path/to/tr.dic. Note that the same directory also needs to");
     System.out.println("                                        contain a common_words.txt file with the most common 10,000 words (used for better language detection)");
+    System.out.println("                 'suggestionsEnabled' - if suggestions should be generated for spell check errors (optional, default: true)");
   }
 
   protected static void printCommonOptions() {

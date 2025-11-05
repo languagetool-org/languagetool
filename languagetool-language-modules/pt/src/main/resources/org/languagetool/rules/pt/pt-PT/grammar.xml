@@ -867,14 +867,38 @@ USA
           <token regexp='yes'>residentes?|morad(?:as?|or(?:es)?)</token>
           <token postag_regexp='yes' postag='A.+'/>
       </antipattern>
-      <!-- MARCOAGPINTO 2020-10-06 + 2020-10-27 (21-OCT-2020+) *START* -->
-      <!-- "No núcleo reside a força imprescindível dos modelos." -->
       <antipattern>
-          <token regexp="yes">residem?</token>
-          <token regexp="yes">as?|os?|um|uns|umas?</token>
-          <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+          <token regexp='yes'>moram?|residem?</token>
+          <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+          <example>No núcleo reside a força imprescindível dos modelos.</example>
+          <example>Em que tipo de casa mora o Tom?</example>
+          <example>É aqui que mora o senhor Pedro?</example>
+          <example>Onde mora seu sogro? - Na casa que está situada junto da casa do meu cunhado.</example>
+          <example>Ele mora um andar acima do meu.</example>
+          <example>Vocês devem ter errado de endereço. Aqui não mora nenhum Wagner.</example>
+          <example>Onde mora teu avô?</example>
+          <example>Dentro de todos os adultos mora o desejo secreto de voltar à infância.</example>
+          <example>Onde moram tuas filhas?</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2020-10-06 + 2020-10-27 (21-OCT-2020+) *END* -->
+      <antipattern>
+          <token regexp='yes'>residentes?|moradora?|morador[ae]s</token>
+          <token regexp='yes'>loca(l|is)</token>
+          <example>Circulam histórias entre os moradores locais sobre a faculdade.</example>
+          <example>Alguns moradores locais não quiseram comentar.</example>
+          <example>As taxas de admissão são reduzidas para os residentes locais durante o inverno.</example>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>residentes?|moradora?|morador[ae]s</token>
+          <token postag='SPS.+|NP..[^G].+' postag_regexp='yes'/>
+          <example>Hoje, para evitar reação hostil de moradores contra os guardas, a Polícia Civil contou com o apoio da PM.</example>
+          <example>O prefeito Rafael Greca (PMN) relatou uma série de reclamações de moradores contra o mau comportamento dos invasores.</example>
+          <example>Eles viajam para Burkittsville, Maryland (anteriormente Blair) e entrevistam os moradores sobre a lenda da Bruxa de Blair.</example>
+          <example>O prefeito Rafael Greca (PMN) relatou uma série de reclamações de moradores contra o mau comportamento dos invasores.</example>
+          <example>O morador Henrique Gonçalves, 35, destacou que a maior preocupação, é que diante do período chuvoso esses locais estão...</example>
+          <example>Já para o morador Fábio Santos, que também esteve acompanhando a manifestação, é lamentável a situação ao qual se enco...</example>
+          <example>“É a melhor notícia que eu poderia ter recebido”, comemora a moradora Madalena, que vive no Camanducaia há 8 anos.</example>
+      </antipattern>
       <pattern>
           <token inflected='yes' regexp='yes'>residir|morar|residente|morador</token>
           <token postag_regexp='yes' postag='[DN].+'>
@@ -1912,7 +1936,6 @@ USA
         <example>Lady Danbury é uma das minhas queridinhas desde que a conheci na série Os Bridgertons e aqui me peguei apaixonada por Malcom, seu gato, também.</example>
         <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
         <example>Eu quase me tornei carpinteiro.</example>
-        <example>Quanto mais você fala, menos lhe dão ouvidos.</example>
         <example>Alguma vez te sentiste enganado?</example>
         <example>Alguma vez te sentiste traído por um amigo?</example>
         <example>Então lhe foi dirigida esta palavra do Senhor: "Não será esse o herdeiro, mas alguém saído do teu sangue."</example>
@@ -1996,7 +2019,7 @@ USA
         <example>Por algum motivo me perguntam isso.</example>
         <example>Muitos anos se passaram desde esse tempo, e muito mal nos atingiu.</example>
         <example>Cada erro me fortaleceu.</example>
-        <example>Poucas coisas nos dão tanto prazer quanto a música.</example>
+<!--        <example>Poucas coisas nos dão tanto prazer quanto a música.</example> -->
         <example>Já por várias vezes vos falei dela, Alteza.</example>
         <example>Todo mundo me ama.</example>
         <example>E um outro dia se foi.</example>
@@ -3214,6 +3237,27 @@ USA
           <message>Grafia do Brasil. Substitua por <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCF$1000'>experiência</match></suggestion>.</message>
           <example correction='experiência'>Vai começar o <marker>experimento</marker>.</example>
           <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
+      </rule>
+
+
+     <rule id='BRASILEIRISMO_ESTAR_DE_SACO_CHEIO' name="[pt-PT][Brasileirismo] estar 'de saco cheio' → farto/saturado">
+          <pattern>
+              <token skip='2' postag='VM.+' postag_regexp='yes' inflected='yes' regexp='no'>estar</token>
+              <marker>
+                  <token>de</token>
+                  <token>saco</token>
+                  <token>cheio</token>
+              </marker>
+          </pattern>
+          <message>Grafia do Brasil. Substitua por:</message>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0M$10'>farto</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0F$10'>farto</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0M$10'>saturado</match></suggestion>
+          <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0F$10'>saturado</match></suggestion>
+          <example correction='farto|farta|saturado|saturada'>Estou <marker>de saco cheio</marker>.</example>
+          <example correction='fartos|fartas|saturados|saturadas'>Estamos <marker>de saco cheio</marker>.</example>
+          <example>Estamos completamente saturados disto tudo.</example>
+          <example>A Ana está farta.</example>
       </rule>
 
 

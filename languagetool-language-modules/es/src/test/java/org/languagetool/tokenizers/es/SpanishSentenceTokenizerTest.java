@@ -96,6 +96,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("DTO. DEL 50%");
     testSplit("Ayto. del Ferrol");
     testSplit("En el ayto. del municipio.");
+    testSplit("Compré 6 Ltrs. de leche.");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");

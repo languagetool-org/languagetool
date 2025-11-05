@@ -40,6 +40,7 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -79,7 +80,7 @@ public class HunspellRule extends SpellingCheckRule {
   private final Pattern MINUS_PLUS = Pattern.compile("-+");
 
   private static final ConcurrentMap<URL, List<String>> ignoreFileContents = new ConcurrentHashMap<>();
-  private static final ConcurrentMap<Path, Pattern> nonWordPatterns = new ConcurrentHashMap<>();
+  private static final ConcurrentMap<String, Pattern> nonWordPatterns = new ConcurrentHashMap<>();
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -255,7 +256,9 @@ public class HunspellRule extends SpellingCheckRule {
           //  SimpleDateFormat sdf = new SimpleDateFormat("HH");
           //  System.out.println(sdf.format(new Date()) + " - speller: " + cleanWord2);
           //}
-          if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
+          if (userConfig != null && !userConfig.isSuggestionsEnabled()) {
+            ruleMatch.setSuggestedReplacements(List.of());
+          } else if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
             List<SuggestedReplacement> sugg = calcSuggestions(word, cleanWord2);
             if (isFirstItemHighConfidenceSuggestion(word, sugg)) {
               sugg.get(0).setConfidence(HIGH_CONFIDENCE);
@@ -507,47 +510,63 @@ public class HunspellRule extends SpellingCheckRule {
     }
     String shortDicPath = getDictFilenameInResources(langCountry);
     // set dictionary only if there are dictionary files:
-    Path affPath = null;
     if(!Tools.isExternSpeller()) {    //  use of external speller for OO extension (32-bit)
-                                      //  hunspell doesn't support 32 bit java
+                                      //  hunspell doesn't support 32-bit java
       if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
-        String path = getDictionaryPath(langCountry, shortDicPath);
-        if ("".equals(path)) {
-          hunspell = null;
+        if (Hunspell.FORCE_TEMP_FILES) {
+          String path = getDictionaryPath(langCountry, shortDicPath);
+          if ("".equals(path)) {
+            hunspell = null;
+          } else {
+            Path affPath = Paths.get(path + ".aff");
+            hunspell = Hunspell.getDictionary(Paths.get(path + ".dic"), affPath);
+            addIgnoreWords();
+            nonWordPattern = nonWordPatternFromPath(affPath);
+          }
         } else {
-          affPath = Paths.get(path + ".aff");
-          hunspell = Hunspell.getDictionary(Paths.get(path + ".dic"), affPath);
+          String aff = shortDicPath.substring(0, shortDicPath.length() - 3) + "aff";
+          hunspell = Hunspell.forDictionaryInResources(langCountry, shortDicPath, aff);
           addIgnoreWords();
+          nonWordPattern = nonWordPatterns.computeIfAbsent("resource:" + shortDicPath, __ ->
+            computeNonWordPattern(JLanguageTool.getDataBroker().getFromResourceDirAsStream(aff)));
         }
       } else if (new File(shortDicPath + ".dic").exists()) {
         // for dynamic languages
-        affPath = Paths.get(shortDicPath + ".aff");
+        Path affPath = Paths.get(shortDicPath + ".aff");
         hunspell = Hunspell.getDictionary(Paths.get(shortDicPath + ".dic"), affPath);
+        nonWordPattern = nonWordPatternFromPath(affPath);
       }
     }
-    if (affPath != null) {
-      nonWordPattern = nonWordPatterns.computeIfAbsent(affPath, (path) -> {
-        String wordChars = "";
-        if (path != null) {
-          try (Scanner sc = new Scanner(path)) {
-            while (sc.hasNextLine()) {
-              String line = sc.nextLine();
-              if (line.startsWith("WORDCHARS ")) {
-                String wordCharsFromAff = line.substring("WORDCHARS ".length());
-                //System.out.println("#" + wordCharsFromAff+ "#");
-                wordChars = "(?![" + wordCharsFromAff.replace("-", "\\-") + "])";
-                break;
-              }
-            }
-          } catch (IOException e) {
-            logger.error("Could not read aff file: " + path, e);
-          }
-        }
-        return Pattern.compile(wordChars + NON_ALPHABETIC);
-      });
-    } else {
+
+    if (nonWordPattern == null) {
       nonWordPattern = NON_ALPHABETIC_PATTERN;
     }
+  }
+
+  private static Pattern nonWordPatternFromPath(Path affPath) {
+    return nonWordPatterns.computeIfAbsent(affPath.toString(), (path) -> {
+      String wordChars = "";
+      try (var stream = Files.newInputStream(Paths.get(path))) {
+        return computeNonWordPattern(stream);
+      } catch (IOException e) {
+        logger.error("Could not read aff file: " + path, e);
+      }
+      return Pattern.compile(wordChars + NON_ALPHABETIC);
+    });
+  }
+
+  private static Pattern computeNonWordPattern(InputStream stream) {
+    try (Scanner sc = new Scanner(stream)) {
+      while (sc.hasNextLine()) {
+        String line = sc.nextLine();
+        if (line.startsWith("WORDCHARS ")) {
+          String wordCharsFromAff = line.substring("WORDCHARS ".length());
+          //System.out.println("#" + wordCharsFromAff+ "#");
+          return Pattern.compile("(?![" + wordCharsFromAff.replace("-", "\\-") + "])" + NON_ALPHABETIC);
+        }
+      }
+    }
+    return NON_ALPHABETIC_PATTERN;
   }
 
   @NotNull

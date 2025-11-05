@@ -69,6 +69,8 @@ public class FrenchSentenceTokenizerTest {
     testSplit("Je suis Chris.[4] ", "Je suis Chris."); 
     testSplit("Je suis Chris.[4]\u00a0", "Je suis Chris.");
     testSplit("gaffa.org");
+    testSplit("Notice BnF de l'éd. Jean Marx.");
+    testSplit("L'Éducation nationale, impr. par ordre de la Convention nationale, Reprod. de l'éd. de : [Paris].");
     
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, …?) sur ce qui nous attend.");
     // TODO:

@@ -3691,6 +3691,120 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='CERTO_INDICADO_PARA' name="'Certo' para → indicado/adequado/qualificado/apropriado" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 -->
+
+            <antipattern> <!-- ChatGPT5 : Versão média (10–12 lemas), que dá mais cobertura sem ficar tão extensa como a lista longa -->
+                <token regexp='yes' inflected='yes'>resposta|solução|resultado|alternativa|opção|decisão|afirmação|proposta|hipótese|estratégia|número|valor</token>
+                <token min='0' max='1'>mais</token>
+                <token regexp='yes'>cert[ao]s?</token>
+                <token>para</token>
+                <example>Cada vez mais inconteste no guarda-roupa, salutar as opções certas para começo das temperaturas amenas.</example>
+                <example>Não há uma resposta certa para isto.</example>
+            </antipattern>
+            <pattern>
+                <token postag='N.+' postag_regexp='yes'/>
+                <token min='0' max='1'>mais</token>
+                <marker>
+                    <token regexp='yes'>cert[ao]s?</token>
+                </marker>
+                <token>para</token>
+            </pattern>
+            <message>&quot;Certo&quot; é aceitável em registos informais. Em registos formais, prefira &quot;indicado&quot;, &quot;adequado&quot;, &quot;qualificado&quot; ou &quot;apropriado&quot;.</message>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>indicado</match></suggestion>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>adequado</match></suggestion>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>qualificado</match></suggestion>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>apropriado</match></suggestion>
+            <example correction="indicado|adequado|qualificado|apropriado">O Rui é o professor mais <marker>certo</marker> para dar as aulas.</example>
+            <example>O Rui é a pessoa mais adequada para a função.</example>
+            <example>A Ana e a Rita são as utilizadoras mais indicadas para escrever o documento.</example>
+        </rule>
+
+
+        <rule id='MAIORES_PRINCIPAIS' name="Maiores → principais (plural apenas)" type='style' tone_tags='formal' tags='picky'>
+            <!-- ChatGPT 5 -->
+            <!-- Atenção: esta regra aplica-se apenas a "maiores" (plural).
+                          Não utilizar com "maior" (singular), pois o sentido muda
+                          e a substituição por "principal" nem sempre é válida. -->
+            <pattern>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <marker>
+                    <token>maiores</token>
+                </marker>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Use &quot;principais&quot; para importância/relevância, e &quot;maiores&quot; apenas para tamanho, quantidade ou idade.</message>
+            <suggestion>principais</suggestion>
+            <example correction="principais">O Marco é um dos <marker>maiores</marker> contribuidores lexicográficos.</example>
+            <example>Conheci alguns dos principais escritores da atualidade.</example>
+            <example>Ele é um dos principais responsáveis pela decisão.</example>
+        </rule>
+
+
+        <rulegroup id='FALAR_DE_ABORDAR' name="Falar de → abordar" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 -->
+
+            <rule> <!-- #1: da(s)/do(s) -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>falar
+                            <exception postag='V.+:.+' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes'>me|te|se|nos|vos|lhes?</exception>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ouvir|escutar|ver|sentir</exception></token>
+                        <token skip='1' regexp='yes'>d[ao]s?</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>coisa|questão|assunto|tema|problema|matéria|tópico|ponto|pauta|conteúdo|temática|discussão|análise|argumento|perspetiva|abordagem|conceito|aspecto|dimensão|âmbito|categoria|critério|parâmetro|questionalidade|fundamento|princípio|noção</token>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;abordar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>abordar</match> <match no='2' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <example correction="aborda as">A forma como ele <marker>fala das</marker> questões é excelente.</example>
+                <example>O Rui aborda as questões muito sensíveis.</example>
+                <example>Vocês já ouviram falar do Princípio de Peter?</example>
+                <example>Falaram-te do problema?</example>
+            </rule>
+
+            <rule> <!-- #2: de -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>falar
+                            <exception postag='V.+:.+' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes'>me|te|se|nos|vos|lhes?</exception>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ouvir|escutar|ver|sentir</exception></token>
+                        <token skip='1'>de</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>coisa|questão|assunto|tema|problema|matéria|tópico|ponto|pauta|conteúdo|temática|discussão|análise|argumento|perspetiva|abordagem|conceito|aspecto|dimensão|âmbito|categoria|critério|parâmetro|questionalidade|fundamento|princípio|noção</token>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;abordar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>abordar</match></suggestion>
+                <example correction="aborda">A forma como ela <marker>fala de</marker> questões relevantes é perfeita.</example>
+                <example>O Rui aborda questões muito sensíveis.</example>
+                <example>Você já ouviu falar de tal coisa?</example>
+                <example>Não se fala de outra coisa na TV.</example>
+                <example>Não se fala de outra coisa além disso.</example>
+                <example>O meu avô nos fala de coisas passadas.</example>
+                <example>Liguei para Tom e lhe falei de meu problema.</example>
+            </rule>
+
+            <rule> <!-- #3: dessa(s)/desse(s) -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>falar
+                            <exception postag='V.+:.+' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes'>me|te|se|nos|vos|lhes?</exception>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ouvir|escutar|ver|sentir</exception></token>
+                        <token skip='1' regexp='yes'>dess[ae]s?</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>coisa|questão|assunto|tema|problema|matéria|tópico|ponto|pauta|conteúdo|temática|discussão|análise|argumento|perspetiva|abordagem|conceito|aspecto|dimensão|âmbito|categoria|critério|parâmetro|questionalidade|fundamento|princípio|noção</token>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;abordar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>abordar</match> <match no='2' postag='SPS00:DD0(..)0' postag_replace='DD0$10'>esse</match></suggestion>
+                <example correction="aborda essa">A forma como ele <marker>fala dessa</marker> questão é excelente.</example>
+                <example>O Rui aborda essas questões muito sensíveis.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rulegroup id='PERTO_PRÓXIMO' name="Perto → próximo" type='style' tone_tags='formal'>
 
             <antipattern>
@@ -4077,7 +4191,7 @@ USA
             </antipattern>
             <antipattern>
                 <token regexp='yes' inflected='yes'>estar|ter|ser</token>
-                <token postag='DI0M.+' postag_regexp='yes'/>
+                <token postag='Z0.+|DI0M.+' postag_regexp='yes'/>
                 <token regexp='yes'>pedidos?</token>
                 <example>Tenho um pedido a fazer-lhes, amigos.</example>
                 <example>A parte queixosa tem um pedido a fazer?</example>
@@ -4141,7 +4255,7 @@ USA
             </antipattern>
             <antipattern>
                 <token inflected='yes' regexp='no'>pedir</token>
-                <token skip='1' regexp='yes'>[ao]s?|d[ao]s?|de|em</token>
+                <token skip='1' regexp='yes' inflected='yes'>[ao]s?|d[ao]s?|de|em|&adverbios_de_intensidade;</token>
                 <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</token> <!-- The same words below -->
                 <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
                 <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
@@ -4152,10 +4266,12 @@ USA
                 <example>Não quero pedir a sua mão!</example>
                 <example>Ministra Marina Silva entrega pedido de demissão a...</example>
                 <example>Temas do primeiro pedido de desculpas.</example>
+                <example>Peço muitas desculpas pelo sucedido.</example>
+                <example>Pedimos imensa desculpa pelo atraso.</example>
             </antipattern>
             <pattern>
                 <marker>
-                    <token inflected='yes' regexp='no'>pedir
+                    <token postag='V.+' postag_regexp='yes' inflected='yes' regexp='no'>pedir
                         <exception scope='next' regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</exception></token>
                 </marker>
             </pattern>
@@ -4319,7 +4435,7 @@ USA
                 <pattern>
                     <token postag='V.+|RG|CS' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='SPS.+'/>
-                        <exception regexp='yes' inflected='yes'>formar|precisar|só</exception></token> <!-- "ser" removed in rule #1 -->
+                        <exception regexp='yes' inflected='yes'>faltar|formar|precisar|só</exception></token> <!-- "ser" removed in rule #1 -->
                     <marker>
                         <token regexp='yes'>[ao]s</token>
                         <token regexp='yes'>duas|dois
@@ -4348,7 +4464,7 @@ USA
                 <pattern>
                     <token postag='V.+|RG|CS' postag_regexp='yes'>
                         <exception postag_regexp='yes' postag='SPS.+'/>
-                        <exception regexp='yes' inflected='yes'>formar|precisar|ser|só</exception></token>
+                        <exception regexp='yes' inflected='yes'>faltar|formar|precisar|ser|só</exception></token>
                     <marker>
                         <token regexp='yes'>[ao]s</token>
                         <token regexp='yes'>duas|dois</token>
@@ -12745,6 +12861,62 @@ USA
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
 
 
+        <rulegroup id='OUTRA_ALTERNATIVA' name="Simplificar: Outra opção/hipótese/possibilidade/solução/via/saída → alternativa">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: Negative (triggered first): "alternativa" -->
+                <pattern>
+                    <token skip='2' regexp='yes'>sempre|quando|caso|se|enquanto</token> <!-- GPT 5 said these work 100% accurately -->
+                    <token>não</token>
+                    <token regexp='yes' inflected='yes'>haver|existir</token>
+                    <token min='0' max='1'>sem</token>
+                    <marker>
+                        <token regexp='yes'>outras?</token>
+                        <token regexp='yes' inflected='yes'>opção|hipótese|possibilidade|solução|via|saída</token> <!-- GPT 5 said it is 100% safe -->
+                    </marker>
+                </pattern>
+                <message>Prefira &quot;alternativa&quot; para maior concisão/consistência.</message>
+                <suggestion><match no='5' postag='DI0F(.)0' postag_replace='NCF$1000'>alternativa</match></suggestion>
+                <example correction="alternativa">Faz isso só quando não houver <marker>outra hipótese</marker>.</example>
+                <example correction="alternativa">Faz o cálculo sempre que não houver <marker>outra opção</marker>.</example>
+                <example>É sempre pior quando não há alternativas.</example>
+            </rule>
+
+            <rule> <!-- #2: Positive (triggered only if #1 fails) "uma alternativa" (singular) -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>haver|existir<exception scope='previous'>não</exception></token>
+                    <marker>
+                        <token>outra</token>
+                        <token regexp='yes' inflected='yes'>opção|hipótese|possibilidade|solução|via|saída</token> <!-- GPT 5 said it is 100% safe -->
+                    </marker>
+                </pattern>
+                <message>Prefira &quot;alternativa&quot; para maior concisão/consistência.</message>
+                <suggestion>uma alternativa</suggestion>
+                <example correction="uma alternativa">Faz isso se houver <marker>outra hipótese</marker>.</example>
+                <example correction="uma alternativa">Evita o cálculo se houver <marker>outra opção</marker>.</example>
+                <example>É sempre melhor quando há uma alternativa.</example>
+            </rule>
+
+            <rule> <!-- #3: Positive (triggered only if #1 and #2 fail) "alternativas"/"outras alternativas" (plural) -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>haver|existir<exception scope='previous'>não</exception></token>
+                    <marker>
+                        <token>outras</token>
+                        <token regexp='yes' inflected='yes'>opção|hipótese|possibilidade|solução|via|saída</token> <!-- GPT 5 said it is 100% safe -->
+                    </marker>
+                    <token><exception regexp='yes' inflected='yes'>formular|propor|postular|sugerir|testar|avaliar|analisar|investigar|verificar|confirmar|refutar|considerar|discutir|explorar|apresentar|mencionar|descrever|explicar|defender|sustentar|comprovar|validar|apoiar|corroborar|rejeitar|comparar|contrastar|relacionar|interpretar|demonstrar|abordar|examinar|estudar|enunciar</exception></token> <!-- Exception verbs (scientific/technical) -->
+                </pattern>
+                <message>Prefira &quot;alternativa&quot; para maior concisão/consistência.</message>
+                <suggestion>alternativas</suggestion>
+                <suggestion>outras alternativas</suggestion>
+                <example correction="alternativas|outras alternativas">Faz isso se houver <marker>outras hipóteses</marker>.</example>
+                <example>É sempre melhor quando há alternativas.</example>
+                <example>É sempre melhor quando há outras alternativas.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rule id='DEPOIS_DE_APÓS' name="Simplificar: Depois de → após">
             <antipattern>
                 <token>depois</token>
@@ -12793,15 +12965,15 @@ USA
         </rule>
 
 
-        <rulegroup id='QUE_SE_V_PRESENTE' name="Simplificar: 'que se + V. presente' → V. part. passado" default='temp_off'>
+        <rulegroup id='QUE_SE_V_PRESENTE' name="Simplificar: 'que se + V. presente' → V. part. passado">
 
             <antipattern>
-                <token regexp='yes'>[ao]|uma?</token>
+                <token regexp='yes'>[ao]s?|u(m|ns)|umas?</token>
                 <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
                 <token>que</token>
                 <token>se</token>
                 <token postag='V.+' postag_regexp='yes'><exception scope='next' regexp='yes'>como|de|pela|agora</exception></token>
-                <token min='0' max='1' regexp='yes'>a|à</token>
+                <token min='0' max='1' regexp='yes'>as?|às?</token>
                 <token postag='AQ.[CF].+|NC[CF].+|VMN0000|VMP00SF|RG' postag_regexp='yes'/>
                 <example>Não importa o horário que se faz a compra que vcs estão sempre atentos aos nossos pedidos.</example>
                 <example>Agora resta saber quem é o sax que se faz passar por “Claude Taylor”.</example>
@@ -12813,34 +12985,371 @@ USA
 
             <rule> <!-- Female -->
                 <pattern>
-                    <token regexp='yes'>a|uma</token>
+                    <token regexp='yes'>as?|umas?</token>
                     <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
                     <marker>
                         <token>que</token>
                         <token>se</token>
-                        <token postag='VMM02S0' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
+                        <token postag='VMIP3.+' postag_regexp='yes' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
                     </marker>
                 </pattern>
                 <message>Use presente para o que acontece agora e particípio para o que já ocorreu ou é formal.</message>
-                <suggestion><match no='5' postag='VMM02S0' postag_regexp="yes" postag_replace='VMP00SF'/></suggestion>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_regexp='yes' postag_replace='VMP00$1F'/></suggestion>
                 <example correction="observada">A tensão <marker>que se observa</marker> na empresa é péssima.</example>
+                <example correction="observadas">As tensões <marker>que se observam</marker> na empresa são péssimas.</example>
                 <example>A tensão sentida é do pior que há.</example>
+                <example>As tensões sentidas são do pior que há.</example>
             </rule>
             <rule> <!-- Male -->
                 <pattern>
-                    <token regexp='yes'>o|um</token>
+                    <token regexp='yes'>os?|u(m|ns)</token>
                     <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
                     <marker>
                         <token>que</token>
                         <token>se</token>
-                        <token postag='VMM02S0' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
+                        <token postag='VMIP3.+' postag_regexp='yes' regexp='yes' inflected='yes'>sentir|ver|ouvir|dizer|fazer|escrever|pensar|viver|observar|notar|perceber|registar|lembrar|recordar|medir|avaliar|julgar|considerar</token>
                     </marker>
                 </pattern>
                 <message>Use presente para o que acontece agora e particípio para o que já ocorreu ou é formal.</message>
-                <suggestion><match no='5' postag='VMM02S0' postag_regexp="yes" postag_replace='VMP00SM'/></suggestion>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_regexp='yes' postag_replace='VMP00$1M'/></suggestion>
                 <example correction="observado">O ambiente <marker>que se observa</marker> na empresa é péssimo.</example>
+                <example correction="observados">Os ambientes <marker>que se observam</marker> na empresa são péssimos.</example>
                 <example>O clima sentido é do pior que há.</example>
+                <example>Os climas sentidos são do pior que há.</example>
             </rule>
+        </rulegroup>
+
+
+        <rulegroup id='DOBRO_DUAS_VEZES_MAIS_V3' name="Simplificar: 'duas vezes mais' → 'o dobro'">
+
+            <antipattern>
+                <token>duas</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <token skip='-1' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>em|que|do</token>
+                <token min='0' max='1'>que</token> <!-- do que -->
+                <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+                <example>Destacando que há cerca de duas vezes mais topônimos com Grim na Inglaterra do que topônimos com Odim.</example>
+            </antipattern>
+
+            <rule> <!-- #1: Without noun/adjective -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='_PUNCT|SENT_END|RG' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='N.+|AQ.+'/>
+                        <exception regexp='yes'>abaixo|acima|acolá|adiante|aí|além|algures|amanhã|aquém|aqui|atrás|cedo|dentro|embaixo|fora|lá|longe|nenhures|off-?line|on-?line|ontem|perto|tarde</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro</suggestion>
+                <example correction="o dobro">Quero <marker>duas vezes mais</marker>.</example>
+                <example>Ele produz o dobro agora.</example>
+            </rule>
+
+            <rule> <!-- #2: Noun male/C -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NC[CM].+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                        <exception scope='next' regexp='yes'>em|que|do</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0M$20'>de:o</match></suggestion>
+                <example correction="o dobro do">Quero <marker>duas vezes mais</marker> dinheiro por isso.</example>
+                <example correction="o dobro dos">Coloquem <marker>duas vezes mais</marker> agentes na rua.</example>
+                <example>Quero o dobro do valor da casa.</example>
+                <example>Quero o dobro dos agentes a patrulhar a rua.</example>
+                <example>Ele é duas vezes mais velho que ela.</example>
+                <example>Você é duas vezes mais forte que eu.</example>
+            </rule>
+
+            <rule> <!-- #3: Noun female -->
+                <pattern>
+                    <marker>
+                        <token>duas</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NCF.+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                        <exception scope='next' regexp='yes'>em|que|do</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0F$20'>de:o</match></suggestion>
+                <example correction="o dobro da">Quero <marker>duas vezes mais</marker> velocidade no PC.</example>
+                <example correction="o dobro das">Coloquem <marker>duas vezes mais</marker> mulheres a patrulhar.</example>
+                <example>Quero o dobro da quantia oferecida.</example>
+                <example>Quero o dobro das mulheres a gerir a empresa.</example>
+                <example>A Ana é duas vezes mais velha que ela.</example>
+                <example>Você é duas vezes mais fraca que eu.</example>
+            </rule>
+
+            <rule> <!-- #4: o(s)|a(s) -->
+                <!-- Specific antipatterns for #4 suggested by ChatGPT-5.
+                     Instead of placing the results in each AP, I placed them in the rule
+                     examples because all these APs were created and executed at the same time.
+                -->
+                <antipattern> <!-- AP #4.1a: Bloqueios por verbo de repetição/ocorrência (à esquerda) -->
+                    <token skip='3' inflected='yes' regexp='yes'>acontecer|alcançar|andar|arrebatar|atravessar|cometer|conquistar|correr|descer|entrar|enfrentar|erguer|executar|fazer|ganhar|levar|nadar|obter|ocorrer|passar|praticar|realizar|receber|repetir|retornar|sair|subir|suceder|vencer|viajar|visitar|voltar</token>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+                <antipattern> <!-- AP #4.1b: Bloquear gerúndio nas 1–3 palavras anteriores, que cobre muitos casos -->
+                    <token skip='3' postag='VMG0.+' postag_regexp='yes'/>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.2: Bloqueios por nome próprio/título (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token postag='NP.+' postag_regexp='yes'/>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.3: Bloqueios por domínio desportivo/competitivo (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>adversário|rival|equip[ae]|time|clube|selec?ção|jogador|jogo|partida|set|round|corrida|prova|etapa|golo|gol|ponto|placar|t[íi]tulo|taça|copa|liga|torneio|campeonato|troféu|trofeu|medalha|recorde|pr[éeê]mio|oscar|emmy|grammy|bafta|nobel</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.4: Bloqueios por deslocação/ocorrência física (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>rio|ponte|fronteira|estrada|maratona|ultramaratona|volta|rota|trajec?to|percurso|turno|turnos|viagem|visita|etapa</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.5: Bloqueios por adjetivos/itens idiomáticos (à direita) -->
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>melhor|pior|maior|menor|máximo|minimo|superior|inferior|principal|primeiro|último|mesmo|próprio|mais</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.6: Bloqueia quando houver verbo de movimento nas 1–3 palavras anteriores a “(duas|três) vezes” -->
+                    <token skip='3' inflected='yes' regexp='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|viajar|visitar|atravessar|enfrentar|passar</token>
+                    <token>duas</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <pattern>
+                    <marker>
+                        <token>duas
+                            <exception scope='previous' postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|andar|correr|viajar|visitar|atravessar|percorrer|passar|nadar</exception> <!-- Movimento/deslocação -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>atacar|invadir|enfrentar|combater|lutar|batalhar|disputar|jogar|competir|conquistar|vencer|derrotar|ganhar</exception> <!-- Conflito/competição -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>fazer|realizar|executar|cumprir|cometer|praticar|repetir</exception> <!-- Execução de atos -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>obter|receber|alcançar|erguer|arrebatar|levar</exception> <!-- Aquisição/obtenção -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>acontecer|ocorrer|suceder</exception> <!-- Ocorrência/acontecimento -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>por|a</exception></token>
+                        <token>vezes</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token><exception postag='D[AI].+' postag_regexp='yes'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o dobro d\3</suggestion>
+                <example correction="o dobro da">Quero <marker>duas vezes a</marker> quantia em dinheiro.</example>
+                <example correction="o dobro do">Quero <marker>duas vezes o</marker> valor pedido.</example>
+                <example>Quero o dobro da quantia oferecida.</example>
+                <example>Quero o dobro das mulheres a gerir a empresa.</example>
+                <example>Os molbos pagaram prontamente ao homem o que ele pediu, mesmo sendo aquilo duas vezes o que o fuzil valia.</example>
+                <example>Eu não gosto de repetir duas vezes a mesma coisa.</example>
+                <example>Não se pode atravessar duas vezes o mesmo rio.</example>
+                <example>No decorrer de sua vida, visitou duas vezes a cidade natal de seus pais.</example>
+                <example>Por esse trabalho, Sheen ganhou duas vezes o prêmio Emmy de Personalidade Mais Notável da Televisão.</example>
+                <example>Ele foi duas vezes o primeiro-ministro pelo partido "tory".</example>
+                <example>As equipes fazem 82 jogos na temporada regular, enfrentando duas vezes os rivais da outra Conferência.</example>
+                <example>Durante os dezoito anos seguintes, o Milan disputou apenas duas vezes a Copa dos Campeões.</example>
+                <example>Formidável explorador, além das quedas de Vitória, atravessou duas vezes o deserto do Kalahari.</example>
+                <example>Este valor de 7,8 % é igual a duas vezes o desvio padrão (2sigma) da distribuição dos resultados.</example>
+                <example>Em seu país, Kuffour é muito adorado, e foi nomeado por duas vezes o jogados do ano de Gana (1998 e 2002).</example>
+            </rule>
+
+        </rulegroup>
+
+
+        <rulegroup id='TRIPLO_TRÊS_VEZES_MAIS_V3' name="Simplificar: 'três vezes mais' → 'o triplo'">
+
+            <antipattern>
+                <token>duas</token>
+                <token regexp='yes'>e|ou</token>
+                <token>três</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <example>Armas de implosão linear usam duas ou três vezes mais plutônio e são consideravelmente mais caras.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>três</token>
+                <token>vezes</token>
+                <token>mais</token>
+                <token skip='-1' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>em|que|do</token>
+                <token min='0' max='1'>que</token> <!-- do que -->
+                <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+                <example>Destacando que há cerca de três vezes mais topônimos com Grim na Inglaterra do que topônimos com Odim.</example>
+            </antipattern>
+
+            <rule> <!-- #1: Without noun/adjective -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='_PUNCT|SENT_END|RG' postag_regexp='yes'>
+                        <exception postag_regexp='yes' postag='N.+|AQ.+'/>
+                        <exception regexp='yes'>abaixo|acima|acolá|adiante|aí|além|algures|amanhã|aquém|aqui|atrás|cedo|dentro|embaixo|fora|lá|longe|nenhures|off-?line|on-?line|ontem|perto|tarde</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo</suggestion>
+                <example correction="o triplo">Quero <marker>três vezes mais</marker>.</example>
+                <example>Ele produz o triplo agora.</example>
+            </rule>
+
+            <rule> <!-- #2: Noun male/C -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NC[CM].+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                        <exception scope='next' regexp='yes'>em|que|do</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0M$20'>de:o</match></suggestion>
+                <example correction="o triplo do">Quero <marker>três vezes mais</marker> dinheiro por isso.</example>
+                <example correction="o triplo dos">Coloquem <marker>três vezes mais</marker> agentes na rua.</example>
+                <example>Quero o triplo do valor da casa.</example>
+                <example>Quero o triplo dos agentes a patrulhar a rua.</example>
+                <example>Ele é três vezes mais velho que ela.</example>
+                <example>Você é três vezes mais forte que eu.</example>
+            </rule>
+
+            <rule> <!-- #3: Noun female -->
+                <pattern>
+                    <marker>
+                        <token>três</token>
+                        <token>vezes</token>
+                        <token>mais</token>
+                    </marker>
+                    <token postag='NCF.+' postag_regexp='yes'>
+                        <exception postag_regexp='no' postag='RG'/>
+                        <exception scope='next' regexp='yes'>em|que|do</exception></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo <match no='4' postag='NC(.)(.)000' postag_replace='SPS00:DA0F$20'>de:o</match></suggestion>
+                <example correction="o triplo da">Quero <marker>três vezes mais</marker> velocidade no PC.</example>
+                <example correction="o triplo das">Coloquem <marker>três vezes mais</marker> mulheres a patrulhar.</example>
+                <example>Quero o triplo da quantia oferecida.</example>
+                <example>Quero o triplo das mulheres a gerir a empresa.</example>
+                <example>A Ana é três vezes mais velha que ela.</example>
+                <example>Você é três vezes mais fraca que eu.</example>
+            </rule>
+
+            <rule> <!-- #4: o(s)|a(s) -->
+                <!-- Specific antipatterns for #4 suggested by ChatGPT-5.
+                     Instead of placing the results in each AP, I placed them in the rule
+                     examples because all these APs were created and executed at the same time.
+                -->
+                <antipattern> <!-- AP #4.1a: Bloqueios por verbo de repetição/ocorrência (à esquerda) -->
+                    <token skip='3' inflected='yes' regexp='yes'>acontecer|alcançar|andar|arrebatar|atravessar|cometer|conquistar|correr|descer|entrar|enfrentar|erguer|executar|fazer|ganhar|levar|nadar|obter|ocorrer|passar|praticar|realizar|receber|repetir|retornar|sair|subir|suceder|vencer|viajar|visitar|voltar</token>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+                <antipattern> <!-- AP #4.1b: Bloquear gerúndio nas 1–3 palavras anteriores, que cobre muitos casos -->
+                    <token skip='3' postag='VMG0.+' postag_regexp='yes'/>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.2: Bloqueios por nome próprio/título (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token postag='NP.+' postag_regexp='yes'/>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.3: Bloqueios por domínio desportivo/competitivo (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>adversário|rival|equip[ae]|time|clube|selec?ção|jogador|jogo|partida|set|round|corrida|prova|etapa|golo|gol|ponto|placar|t[íi]tulo|taça|copa|liga|torneio|campeonato|troféu|trofeu|medalha|recorde|pr[éeê]mio|oscar|emmy|grammy|bafta|nobel</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.4: Bloqueios por deslocação/ocorrência física (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>rio|ponte|fronteira|estrada|maratona|ultramaratona|volta|rota|trajec?to|percurso|turno|turnos|viagem|visita|etapa</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.5: Bloqueios por adjetivos/itens idiomáticos (à direita) -->
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token inflected='yes' regexp='yes'>melhor|pior|maior|menor|máximo|minimo|superior|inferior|principal|primeiro|último|mesmo|próprio|mais</token>
+                </antipattern>
+
+                <antipattern> <!-- AP #4.6: Bloqueia quando houver verbo de movimento nas 1–3 palavras anteriores a “(duas|três) vezes” -->
+                    <token skip='3' inflected='yes' regexp='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|viajar|visitar|atravessar|enfrentar|passar</token>
+                    <token>três</token>
+                    <token>vezes</token>
+                    <token regexp='yes'>[ao]s?</token>
+                </antipattern>
+
+                <pattern>
+                    <marker>
+                        <token>três
+                            <exception scope='previous' postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                            <exception scope='previous' regexp='yes' inflected='yes'>ir|vir|chegar|partir|voltar|sair|entrar|subir|descer|andar|correr|viajar|visitar|atravessar|percorrer|passar|nadar</exception> <!-- Movimento/deslocação -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>atacar|invadir|enfrentar|combater|lutar|batalhar|disputar|jogar|competir|conquistar|vencer|derrotar|ganhar</exception> <!-- Conflito/competição -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>fazer|realizar|executar|cumprir|cometer|praticar|repetir</exception> <!-- Execução de atos -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>obter|receber|alcançar|erguer|arrebatar|levar</exception> <!-- Aquisição/obtenção -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>acontecer|ocorrer|suceder</exception> <!-- Ocorrência/acontecimento -->
+                            <exception scope='previous' regexp='yes' inflected='yes'>por|a</exception></token>
+                        <token>vezes</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token><exception postag='D[AI].+' postag_regexp='yes'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>o triplo d\3</suggestion>
+                <example correction="o triplo da">Quero <marker>três vezes a</marker> quantia em dinheiro.</example>
+                <example correction="o triplo do">Quero <marker>três vezes o</marker> valor pedido.</example>
+                <example>Quero o triplo da quantia oferecida.</example>
+                <example>Quero o triplo das mulheres a gerir a empresa.</example>
+                <example>Eu já fui três vezes a Boston.</example>
+                <example>Três vezes a mesma posição significa empate.</example>
+                <example>Além disso conquistaram por três vezes o Campeonato Mundial de Voleibol Feminino em 1962 na União Soviética.</example>
+                <example>Exerceu por três vezes as funções de Governador Civil do Distrito de Viana do Castelo.</example>
+                <example>Com o Real, faturou três vezes a Liga dos Campeões da UEFA: 1997–98, 1999–00 e 2001–02.</example>
+                <example>Fui três vezes a sua casa.</example>
+                <example>Três vezes o gato malhado miou. Quatro vezes o ouriço ganiu. A harpia grita "É hora, é hora".</example>
+                <example>Sami cobrou a conta três vezes a um freguês bêbado.</example>
+                <example>Três vezes a cabeça, descontente.</example>
+                <example>Os espartanos invadiram três vezes a zona nos anos seguintes.</example>
+                <example>Ela está a voar por cima de mim, duas, três vezes a velocidades que não consegui identificar.</example>
+            </rule>
+
         </rulegroup>
 
 
@@ -15133,49 +15642,6 @@ USA
         </rule>
 
 
-        <!-- AMBIENTE QUE SE VIVE ambiente vivido -->
-        <rule id='QUE_SE_VERBO_TIPO_VIVE_PART_PASSADO' name="[Simplificar] 'Que se V.Tipo.Vive(m)' → 'V.Part.Pass.'" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-03/14 (2-MAR-2023+) -->
-            <!--
-      O ambiente que se vive na escola é péssimo. → O ambiente vivido na escola é péssimo.
-      Os ambientes que se vivem na escola são péssimos. → Os ambientes vividos na escola são péssimos.
-      -->
-
-            <antipattern>
-                <token>que</token>
-                <token>se</token>
-                <token postag='VMIP3.+' postag_regexp='yes'/>
-                <token regexp='yes'>às?</token>
-                <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-                <token postag='V.+' postag_regexp='yes'/>
-<!--                <example>Temos as leoas que se movem à procura de alimento.</example> -->
-            </antipattern>
-
-            <pattern>
-                <token postag='DA.+|DI.+|CC' postag_regexp='yes'>
-                    <exception postag_regexp='no' postag='SPS00'/>
-                </token>
-                <token postag='NC[FM][SP].+' postag_regexp='yes'/>
-                <marker>
-                    <token>que</token>
-                    <token>se</token>
-                    <token postag='VMIP3.+' postag_regexp='yes'/>
-                </marker>
-                <token postag='SPS00:DA.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='V.+'/>
-                </token>
-                <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-                <token postag='NC.+|AQ.+|NP.+|DI.+' postag_regexp='yes'/>
-            </pattern>
-            <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:5 lemmaSelect:V.* postagFrom:2 postagSelect:NC(.)(.).* postagReplace:VMP00[\b2N][\b1C]" />
-            <message>&simplify_msg;</message>
-            <suggestion>{suggestion}</suggestion>
-            <example correction="vivido">O ambiente <marker>que se vive</marker> na escola é péssimo.</example>
-            <example correction="vividos">Os ambientes <marker>que se vivem</marker> na escola são péssimos.</example>
-        </rule>
-
-
         <!-- QUE EU TENHO A FAZER a fazer -->
         <rule id='QUE_PRONOMERETO_VERBOTER_A_VERBO_A_VERBO' name="[Simplificar] que + [Pronome Reto] + V.Ter + a + Verbo → a + verbo" type="style" tags="picky">
             <!--IDEA shorten_it-->
@@ -16856,156 +17322,45 @@ USA
                 <example correction="prioridades|outras prioridades">Há <marker>coisas mais importantes em que pensar</marker>.</example>
             </rule>
         </rulegroup>
-        <!-- EM QUE onde -->
-        <rule id='EM_QUE_O_OS_A_AS_ONDE' name="Em que → Onde" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2023-02-11/12 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-            Esta é a cidade em que o evento acontece. → Esta é a cidade onde o evento acontece.
 
-            Note: This rule isn't 100% accurate because it depends on context, which can't be entirely coded in rules.
-            -->
 
-            <antipattern>
-                <token regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</token>
-                <token min="0" max="1" postag_regexp='yes' postag='(SPS00:)?D[AI].+'/>
-                <token min="0" max="2" postag_regexp='yes' postag='NC.+|AQ.+|RG|V.+|CS|CC'/>
-                <token min="0" max="1" postag='_QUOT'/>
-                <token min="0" max="1" postag='_PUNCT'/>
-                <token>em</token>
-                <token>que</token>
-                <example>Às vezes, ela estava simplesmente tomando café, mas eu via, naquele segundo distraído em que o olhar se perdia no armário do outro lado da cozinha.</example>
-                <example>Assim como será altamente democrático ter campanhas em que o abuso do poder econômico, bem como o uso de máquinas públicas, sindicais e empresariais sejam lim...</example>
-                <example>...pa existe um trecho de Friedrich Nietzsche (filósofo alemão) de 1871 que fala sobre a época moderna em que as pessoas perceberão que Deus não existe, que nada poderá salvá-las, e será uma época de grande te...</example>
-                <example>A empresa de trabalho temporário é responsável pelo contrato, mas e no dia a dia, em que o funcionário está alocado na empresa contratante como que fica?</example>
-                <example>...perior só será permitida após a permanência do Sócio Torcedor por no mínimo 6 (seis) meses no plano em que o Sócio Torcedor migrou.</example>
-                <example>Adolescência é o período da vida em que o desenvolvimento da criança a converte num adulto.</example>
-                <example>Na atual era, em que as pessoas recorrem para a web para saber como tratar de uma gripe ou até como trocar a resistência...</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag_regexp='yes' postag='RG|V.+'> <!-- RG="na medida em que" -->
-                    <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
-                </token>
-                <token min="0" max="1" postag='_QUOT'/>
-                <token min="0" max="1" postag='_PUNCT'/>
-                <token>em</token>
-                <token>que</token>
-                <example>Tratando-se de garantia simples ou impropria, em que a falta da denunciação da lide não envolve perda do direito de regresso, sendo a ação julgada impro...</example>
-                <example>Trata-se de uma narrativa poética, teatralizada, em que as personagens rurais, confrontadas com o mundo exterior, dão testemunho da sua intimidade, dos seu...</example>
-                <example>Ela se comprometeu em que a sessão de grupo para ser aberto com qualquer criança sobre as suas origens, mas ela investiu uma ...</example>
-                <example>No entanto, os reembolsos mensais de juros e prestações são também um compromisso a prazo, em que os pagamentos mensais devem ser garantidos mesmo em caso de acidente, doença ou desemprego.</example>
-                <example>A interpretação que se está dando é que, na medida em que o parágrafo único do art.</example>
-            </antipattern>
-
-            <antipattern>
-                <token regexp='yes'>atividade|caso|circunstância|condição|consciência|consultivo|contexto|desordem|distúrbio|episódio|fase|forma|grau|hipótese|língua|lista|literário|livro|medida|modelo|modo|movimento|numeração|ocorrência|participativo|pessoa|processo|sentido|situação|solução|título</token> <!-- exactly the same exceptions from the pattern below. -->
-                <token min="0" max="1" postag_regexp='yes' postag='(SPS00:)?D[AI].+'/>
-                <token min="1" max="2" postag_regexp='yes' postag='NC.+|AQ.+|RG|V.+|CS|CC'/>
-                <token min="0" max="1" postag='_QUOT'/>
-                <token min="0" max="1" postag='_PUNCT'/>
-                <token>em</token>
-                <token>que</token>
-                <example>Aí ele chega à adolescência, fase da vida em que a gente se junta, faz grupos, turminhas, e em vez de se juntar a um grupo de estudantes atletas com...</example>
-                <example>Trata-se de uma situação conjuntural em que os “de cima” – a burguesia e os seus representantes – já não conseguem governar como sempre governa...</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag_regexp='yes' postag='SENT_START|_PUNCT'/>
-                <token>em</token>
-                <token>que</token>
-                <token postag_regexp='yes' postag='DA.+'/>
-                <token postag_regexp='yes' postag='(SPS00:)?DP.+|NC.+|AQ.+|NP.+'/>
-                <token min="0" max="1" postag_regexp='yes' postag='NC.+|AQ.+|NP.+'/>
-                <token min="1" max="2" postag_regexp='yes' postag='_PUNCT|V.+|SPS00:D[AI].+'>
-                    <exception regexp='yes'>com|nos|seja</exception>
-                    <exception scope='next' regexp='yes'>com|nos|seja</exception>
-                </token>
-                <example>Algo que Steiner chama de obra “dialógica”, em que as pessoas reagem diferentemente aos estímulos e sentem-se parte do ambiente.</example>
-                <example>Mas mesmo construtoras das faixas 1,5 e 2, em que o subsídio é menor, relatam atrasos e temem impactos financeiros.</example>
-                <example>O primeiro: o “espírito do tempo” que estamos vivenciando, um mundo plural, em que a morte do passado nos revela que tradição não dá mais liga e o individualismo é o senhor da razão....</example>
-                <example>Aprender a enxergar uma teologia da história, em que a história dos impérios, das guerras, das conquistas humanas, é a mesma história das misérias e vir...</example>
-                <example>Em alguns modelos, em que a roda é de alumínio, somente essa peça custa R$ 1.000,00.</example>
-                <example>Portanto, estamos já em um segundo tempo adiantado do "jogo" (em que a preservação do meio ambiente vai perdendo).</example>
-                <example>Um estresse físico ou psicológico causa uma série de respostas fisiológicas, em que a principal é a liberação de cortisol pelas glândulas adrenais.</example>
-                <example>Em que o autor estava pensando enquanto escrevia este livro?</example>
-                <example>A vida é uma lousa, em que o destino, para escrever um novo caso, precisa apagar o caso escrito.</example>
-                <example>Em que o Tom trabalha?</example>
-                <example>Isso forçou dois jogos de desempate, em que o Palmeiras venceu as duas partidas.</example>
-                <example>Em que a sua opinião difere da dele?</example>
-                <example>Em que o seu pai trabalha?</example>
-                <example>Ele foi influenciado pela definição de estilo de Blanc, em que a verdadeira pintura requer ótimo uso de cor, perspectiva e pincelada.</example>
-            </antipattern>
-
+        <rule id='EM_QUE_ONDE_NO_QUAL' name="Em que → onde/no qual" type='style' tags='picky'>
+            <!-- ChatGPT 5 -->
+            <!-- Regra de simplificação no uso de pronomes relativos em texto formal. -->
             <pattern>
-                <token>
-                    <exception postag_regexp='yes' postag='Z0.+'/>
-                    <exception regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception>
-                    <exception regexp='yes' inflected='yes'>atividade|caso|circunstância|condição|consciência|consultivo|contexto|desordem|distúrbio|episódio|fase|forma|grau|hipótese|língua|lista|literário|livro|medida|modelo|modo|movimento|numeração|ocorrência|participativo|pessoa|processo|sentido|situação|solução|título</exception> <!-- Add exceptions - 2023-02-11 -->
-                </token>
-                <token min="0" max="1" postag='_QUOT'/>
-                <token min="0" max="1" postag='_PUNCT'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'>
+                    <exception scope='previous' postag_regexp='no' postag='SPS00:PD0NN0'/> <!-- Neutral pronoun -->
+                    <exception postag_regexp='yes' postag='Z0.+|CS|SPS.+|CC|RG|V.+|[DP].+|RN'/>
+                    <exception regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception></token>
+                <token min='0' max='2' postag='_QUOT|_PUNCT' postag_regexp='yes'/>
                 <marker>
                     <token>em</token>
                     <token>que</token>
                 </marker>
                 <token regexp='yes'>[ao]s?</token>
             </pattern>
-            <message>Utilize &quot;onde&quot; se estiver a referir-se a um local.</message>
+            <message>Use &quot;onde&quot; para lugares; use &quot;no/na qual&quot; (singular ou plural) para outros substantivos/adjetivos.</message>
             <suggestion>onde</suggestion>
             <suggestion>no qual</suggestion>
             <suggestion>na qual</suggestion>
             <suggestion>nos quais</suggestion>
             <suggestion>nas quais</suggestion>
             <example correction="onde|no qual|na qual|nos quais|nas quais">Esta é a cidade <marker>em que</marker> o evento acontece.</example>
-            <example>H.G. Wells escreve A Guerra dos Mundos em 1898 em que a Terra seria invadida por marcianos que usavam armas poderosas.</example>
-            <example>Uma entrevista com o Henry Ford dado em 1926 em que o fabricante de automóvel explica seu impacto econômico provável.</example>
-            <example>Presenciei o incrível momento em que o filhote quebrara o ovo.</example>
-            <example>Há ocasiões em que os gastos superam os ganhos e outras em que maiores ganhos provocam maior poupança.</example>
-            <example>No período em que o Brasil foi colônia de Portugal, o estado de Goiás pertencia à capitania de São Paulo.</example>
-            <example>Fez parte da diocese de Elvas até 1882, data em que a mesma foi extinta.</example>
-            <example>Foi a primeira vez em que o Brasil sediou uma conferência mórmon.</example>
-            <example>No entanto, foram várias as vezes em que as suas pinturas feriam as susceptibilidades dos seus clientes.</example>
-            <example>Este fenómeno acentuou-se desde o Renascimento, altura em que a cultura clássica foi revalorizada.</example>
-            <example>O Brunei foi visitado por Fernão de Magalhães em 1521, numa altura em que o sultão dominava toda a ilha.</example>
-            <example>Entre os séculos II e III, séculos em que o Cristianismo ganhou cada vez mais adeptos entre os Romanos.</example>
-            <example>Quase morri de susto no instante em que o vi.</example>
-            <example>A idade em que os heróis viveram na mitologia grega é conhecida como Era (ou Idade) Heróica.</example>
-            <example>É um remanescente histórico da era em que as garrafas eram feitas artesanalmente, sopradas através de um cano.</example>
-            <example>A situação em que o senhor se encontra é parecida com a minha.</example>
-            <example>O sigilo sacramental diz respeito a tudo o que o penitente acusou, mesmo no caso em que o confessor não conceda a absolvição.</example>
-            <example>Este surgiu lá na Europa por miados de 1300 e não passava de um movimento literário em que os autores para ter "inspiração" para fazer suas obras comiam ovo, pão com mortadela e mais umas ou...</example>
-            <example>Estes conteúdos são chamados de “nutrição” e precisam estar alinhados com a fase em que o cliente se encontra dentro da jornada.</example>
-            <example>Além disso saiba que, das 00h às 4h é o horário em que a medula óssea está produzindo sangue.</example>
-            <example>Sistema de numeração em que a base é doze.</example>
+            <example>A cidade onde nasci.</example>
+            <example>O sistema no qual confiamos.</example>
+            <example>As regras nas quais se baseia</example>
+            <example>A situação na qual nos encontramos.</example>
+            <example>Por outro lado, na exata medida em que as dívidas superarem os bens, ter-se-á o estado de insolvência.</example>
             <example>À medida em que o grotesco desfile passava, todos saíam de suas casas, hipnotizados.</example>
-            <example>Cagar em dodote de adulto podia ser uma das soluções em que a CMP podia apostar, em lugar da caras sentinas públicas ou casas de banho em casa de cada um.</example>
-            <example>Ele se encaixa perfeitamente bem ao modo em que as 5,8” são utilizáveis com apenas uma das mãos.</example>
-            <example>Se o carro estiver em uma condição em que o motor elétrico for mais eficiente, apenas esse sistema será utilizado.</example>
-            <example>O teatro é a atividade em que o homem reflexiona sobre si mesmo.</example>
-            <example>Incêndio da Trafaria, um triste episódio em que a aldeia da Trafaria foi propositada e completamente incendiada, com o propósito de capturar refrac...</example>
-            <example>... fazer em 1875 com que fosse transferido para Paris, onde ficou ressentido por questões como o grau em que a firma mercantilizava arte, sendo demitido um ano depois.</example>
-            <example>Existe sempre um amanhã em que a vida nos dá outra oportunidade para fazermos bem as coisas,... mas, pensando que hoje é tudo o qu...</example>
-            <example>É melhor traduzir um diálogo que uma frase independente, porque o diálogo define o contexto em que as palavras ali são usadas.</example>
-            <example>O campeonato se chamou Copa Rio, título em que a FIFA oficializou em 2014 como o Primeiro campeonato Mundial Interclubes da história do futebol.</example>
-            <example>Como juiz tive oportunidade de atuar num processo em que o autor narrava um ato ilícito (decorrente de acidente automobilístico) em relação à SLU (autarquia...</example>
-            <example>Uma hipótese é a de que só tenham sentenças revistas os processos em que o réu reivindicou ainda na primeira instância o direito a apresentar as alegações finais após os de...</example>
-            <example>[199] A 2 de Janeiro de 2011, foi revelada uma lista em que o projecto era a décima quinta música mais descarregada de sempre no país.</example>
-            <example>Hipótese em que os embargantes foram denunciados pela prática dos delitos descritos nos artigos 1º, IV, e 2º, II, d...</example>
-            <example>E a familiaridade do pensamento com tais pares constituintes abre o caminho para pensar modelos em que o modelo constituinte é uma combinação dos três pares constituintes.</example>
-            <example>Do mesmo modo, informar a circunstância em que a criança mais sente dor pode contribuir para o diagnóstico: observe se ela grita ou chora ao troca...</example>
-            <example>na praia é inspirado neste livro em que o Papa Francisco dá uma entrevista e declara: “Deus é jovem.” Como falamos muito de santidade e juv...</example>
-            <example>...ta: a do arquiteto Roberto Andrés, professor da UFMG, que criticou de forma muito criativa, a forma em que as cidades pensam em suas malhas viárias, usando BH como exemplo.</example>
-            <example>A desordem em que a Europa acaba de mergulhar é momento propício para reflexão.</example>
-            <example>Ele é o consultivo em que o rei mais confia.</example>
-            <example>Infelizmente, existe um distúrbio em que as plaquetas de sangue são muito mais baixas do que o normal.</example>
-            <example>A amizade é uma língua em que o surdo pode ouvir e o cego pode ler.</example>
-            <example>...erir que a África pré-colonial pode não ter sido um mundo sem fronteiras, pelo menos não no sentido em que as temos definido; as fronteiras existentes sempre foram porosas e permeáveis.</example>
-            <example>Festas de família, aniversário, happy-hour com os amigos e outras ocorrências em que o apelo da comida seja muito excessivo costumam ser evitados.</example>
-            <example>Nenhum estudioso foi capaz de identificar a língua em que o texto foi escrito.</example>
-            <example>...tidos em cada experimento está inseparavelmente vinculada às condições e ao contexto de consciência em que a experimentação se realiza, ou seja, a totalidade da nossa natureza.</example>
-            <example>Tom é a única pessoa em que a Mary realmente confia.</example>
+            <example>Tom reconheceu Mary no segundo em que a viu.</example>
+            <example>Dudu foi o lendário parceiro de Ademir nos tempos em que o Palmeiras foi chamado de "Academia de Futebol".</example>
+            <example>Além disso saiba que, das 00h às 4h é o horário em que a medula óssea está produzindo sangue.</example>
+            <example>Eu lembro do dia em que o acidente ocorreu.</example>
+            <example>Quase morri de susto no instante em que o vi.</example>
+            <example>Houve uma época em que a América favorecia uma política de isolacionismo.</example>
         </rule>
+
+
         <!-- DO MUNDO REAL real/reais -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-02 + 2021-02-18 (1-JAN-2021+)      -->
         <!--
@@ -19508,7 +19863,7 @@ USA
         <rule id='QUE_TER_COMO_POR_NOME_ADJ' name="cujo(a) + substantivo + verbo ser">
             <pattern>
                 <marker>
-                    <token>que</token>
+                    <token>que<exception scope='previous' postag_regexp='yes' postag='V.+'/></token>
                     <token postag='VM..3.0' postag_regexp='yes' inflected='yes'>ter</token>
                     <token regexp='yes'>como|por</token>
                     <token postag='NC[^C].+' postag_regexp='yes'/>
@@ -19521,6 +19876,7 @@ USA
             <example correction="cuja meta era">Assim surgiu o ISIS <marker>que tinha como meta</marker> criar um califado.</example>
             <example correction="cujo objetivo é">Assim surgiu o ISIS <marker>que tem como objetivo</marker> criar um califado.</example>
             <example correction="cujo objetivo era">Assim surgiu o ISI <marker>que tinha como objetivo</marker> criar um califado.</example>
+            <example>O que o Rui diz é que tem como objetivo ajudar na pesquisa.</example>
         </rule>
 
 
