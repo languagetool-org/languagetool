@@ -130,6 +130,7 @@ public class DonarseliBeFilter extends RuleFilter {
     //TODO: quines coses se li donen bé; les que no se't donen tan bé; Què se'm donava millor?;
     // a mi no se'm dona gaire bé dibuixar; La geografia se't donava prou bé
     // Altres suggermients: tenir-hi la mà trencada, ser el meu fort
+    //TODO: el "no" hauria d'anar sempre dins el suggeriment.
     List<String> replacements = new ArrayList<>();
     String persona = pronomFebleDavant.getPOSTag().substring(2, 3);
     String nombre = pronomFebleDavant.getPOSTag().substring(4, 5);
@@ -199,6 +200,9 @@ public class DonarseliBeFilter extends RuleFilter {
     suggestion.setLength(0);
     if (isQue) {
       suggestion.append("en què ");
+      if (isNo && !isNoMalament) {
+        suggestion.append("no ");
+      }
     } else {
       suggestion.append(addStringToLeft);
     }
