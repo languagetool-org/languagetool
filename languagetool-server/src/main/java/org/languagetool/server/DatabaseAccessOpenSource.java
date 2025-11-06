@@ -152,6 +152,11 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
   }
 
   @Override
+  JwtContent validateAuthHeader(String authHeader) {
+    return JwtContent.NONE;
+  }
+
+  @Override
   void invalidateUserInfoCache(String user) {
     throw new NotImplementedException(NON_PREMIUM_MSG);
   }
