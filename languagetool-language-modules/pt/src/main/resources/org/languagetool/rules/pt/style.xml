@@ -4254,8 +4254,7 @@ USA
                 <example>Ao menos já adiante as peças mais delicadas e levinhas.</example>
             </antipattern>
             <antipattern>
-                <token inflected='yes' regexp='no'>pedir</token>
-                <token skip='1' regexp='yes' inflected='yes'>[ao]s?|d[ao]s?|de|em|&adverbios_de_intensidade;</token>
+                <token skip='2' inflected='yes' regexp='no'>pedir</token> <!-- more than skip='2' causes false positives -->
                 <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</token> <!-- The same words below -->
                 <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
                 <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
@@ -4268,7 +4267,12 @@ USA
                 <example>Temas do primeiro pedido de desculpas.</example>
                 <example>Peço muitas desculpas pelo sucedido.</example>
                 <example>Pedimos imensa desculpa pelo atraso.</example>
+                <example>Gostaria de pedir uma oração em favor da minha familia.</example>
+                <example>Pedimos sinceras desculpas e sempre que precisar, pode contar conosco!</example>
+                <example>Eu peço profusas desculpas por meu atraso.</example>
+                <example>Peço mil desculpas.</example>
             </antipattern>
+
             <pattern>
                 <marker>
                     <token postag='V.+' postag_regexp='yes' inflected='yes' regexp='no'>pedir
