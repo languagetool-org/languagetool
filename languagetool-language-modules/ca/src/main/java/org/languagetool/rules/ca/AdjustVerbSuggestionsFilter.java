@@ -41,10 +41,6 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    /*if (match.getSentence().getText().contains("Demà es compliran")) {
-      int ii=0;
-      ii++;
-    }*/
     JLanguageTool lt = ((PatternRule) match.getRule()).getLanguage().createDefaultJLanguageTool();
     List<String> replacements = new ArrayList<>();
     boolean numberFromNextWords = getOptional("numberFromNextWords", arguments, "false").equalsIgnoreCase("true");
@@ -221,7 +217,10 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       pronounsStr = pronounsStr.toLowerCase();
       switch (action) {
         case "addPronounEn":
-          replacement = doAddPronounEn(firstVerb, pronounsStr, verbStr, !firstVerbInflected);
+          String newPronoun = doAddPronounEn(pronounsStr, verbStr);
+          if (!newPronoun.isEmpty()) {
+            replacement = newPronoun + verbStr;
+          }
           break;
         case "removePronounReflexive":
           replacement = doRemovePronounReflexive(firstVerb, pronounsStr, verbStr, !firstVerbInflected);
@@ -250,8 +249,8 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
           replacement = doAddPronounReflexive(firstVerb, pronounsStr, newVerbStr, firstVerbPersonaNumber,
             !firstVerbInflected);
           break;
-        case "addPronounHi":
-          replacement = doAddPronounHi(firstVerb, "", verbStr, !firstVerbInflected);
+        case "addPronounHi": // S'ignoren altres pronoms?
+          replacement = "hi " + verbStr;
           break;
         case "addPronounReflexiveImperative":
           replacement = doAddPronounReflexiveImperative(firstVerb, pronounsStr, verbStr,

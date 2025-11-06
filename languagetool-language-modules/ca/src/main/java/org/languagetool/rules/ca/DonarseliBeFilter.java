@@ -32,7 +32,6 @@ public class DonarseliBeFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-
     int posWord = 0;
     int posDonar = -1;
     int posPrimerVerb = -1;
