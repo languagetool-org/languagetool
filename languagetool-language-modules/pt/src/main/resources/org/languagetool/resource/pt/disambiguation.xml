@@ -3875,6 +3875,22 @@ USA
     <disambig action="remove" postag="V.*"/>
   </rule>
 
+  <rule id="NADA_VERB_20251107" name="In this case NADA is PI0CN000">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token>não</token>
+      <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+      <token min='0' max='1' postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+      <marker>
+        <and>
+          <token>nada</token>
+          <token postag='PI.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="PI0CN000"/>
+  </rule>
+
   <rule id="NÓS_PROFESSORES_NCMP000" name="professores aparecia como verbo">
     <pattern>
       <token>nós</token>
@@ -4363,11 +4379,11 @@ USA
     -->
   </rule>
 
-  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_NEXTVERB_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+  <rule id="PELA_COMO_SOBRE_ACERCA_ELAR_NEXTVERB_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- False verbs after "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
     <pattern>
       <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+|VMG0000'/></token>
-      <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?|logo</token>
+      <token regexp="yes">pel[ao]s?|como|sobre|acerca|el[ae]s?|logo</token>
       <marker>
         <token postag='V.+' postag_regexp='yes'/>
         <token postag='NC.+' postag_regexp='yes'/>
