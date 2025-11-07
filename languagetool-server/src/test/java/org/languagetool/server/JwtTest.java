@@ -35,7 +35,7 @@ public class JwtTest {
   @Test
   public void getLimitsWithJwtTokenTest() {
     UserLimits userLimits = UserLimits.getLimitsWithJwtToken(httpServerConfig, "", "", "");
-    checkDefaults(userLimits);
+    checkDefaults(userLimits, JwtContent.NONE);
   }
 
   @Test
@@ -43,20 +43,20 @@ public class JwtTest {
     Headers headers = new Headers();
     Map<String, String> params = new HashMap<>();
     UserLimits userLimits = ServerTools.getUserLimits(params, httpServerConfig, headers);
-    checkDefaults(userLimits);
+    checkDefaults(userLimits, null);
 
     headers.add("Authorization", "Bearer: kdsajgtfoi43hjrt9i342htfg0eqhj0-49jrtfg9o0jnm32-0er34jghg908hn");
     UserLimits withAuthHeader = ServerTools.getUserLimits(params, httpServerConfig, headers);
-    checkDefaults(withAuthHeader);
+    checkDefaults(withAuthHeader, JwtContent.NONE);
 
     params.put("username", "user");
     params.put("tokenV2", "0815-token");
 
     UserLimits withAuthHeaderAndUser = ServerTools.getUserLimits(params, httpServerConfig, headers);
-    checkDefaults(withAuthHeaderAndUser);
+    checkDefaults(withAuthHeaderAndUser, JwtContent.NONE);
   }
 
-  private void checkDefaults(UserLimits userLimits) {
+  private void checkDefaults(UserLimits userLimits, JwtContent expectedJwtContent) {
     assertEquals(Integer.MAX_VALUE, userLimits.getMaxTextLength());
     assertEquals(-1, userLimits.getMaxCheckTimeMillis());
     assertFalse(userLimits.hasPremium());
@@ -65,6 +65,6 @@ public class JwtTest {
     assertFalse(userLimits.getSkipLimits());
     assertNull(userLimits.getRequestsPerDay());
     assertEquals(LimitEnforcementMode.DISABLED, userLimits.getLimitEnforcementMode());
-    assertEquals(JwtContent.NONE, userLimits.getJwtContent());
+    assertEquals(expectedJwtContent, userLimits.getJwtContent());
   }
 }

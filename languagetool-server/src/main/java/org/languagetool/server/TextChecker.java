@@ -491,13 +491,16 @@ abstract class TextChecker {
     Pattern trustedSourcesPattern = config.getTrustedSources();
     boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
     boolean optInThirdPartyAI = isOptInThirdPartyAI(limits, params, config);
-
+    UserConfig.TokenType tokenType = UserConfig.TokenType.NO_TOKEN;
+    if (limits.getJwtContent() != null) {
+      tokenType = limits.getJwtContent().isPremium() ? UserConfig.TokenType.TRIAL_TOKEN : UserConfig.TokenType.TEST_TOKEN;
+    }
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource, optInThirdPartyAI, limits.hasPremium(), limits.getJwtContent().claims());
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource, optInThirdPartyAI, limits.hasPremium(), tokenType);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
