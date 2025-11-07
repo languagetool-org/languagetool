@@ -29,6 +29,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ca.VerbSynthesizer;
 import org.languagetool.tools.StringTools;
 
 /*
@@ -74,9 +75,9 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
       suggestion.append(" que");
     } else if (lastToken.hasPosTagStartingWith("VMG") || lastToken.hasPosTagStartingWith("VSG")) {
       suggestion.append(" que ");
-      String[] result = PronomsFeblesHelper.getTwoNextPronouns(tokens,lastTokenPos + 1);
-      String pronoms = result[0];
-      adjustEndPos += Integer.valueOf(result[1]);
+      VerbSynthesizer verbSynth = new VerbSynthesizer(tokens, lastTokenPos, getLanguageFromRuleMatch(match));
+      String pronoms = verbSynth.getPronounsStrAfter();
+      adjustEndPos += verbSynth.getNumPronounsAfter();
       AnalyzedToken at2 = new AnalyzedToken("", "", lastToken.readingWithTagRegex("V.G.*").getLemma());
       String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8), true);
       if (synthForms2.length == 0) {
@@ -91,9 +92,9 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
       || tokens[lastTokenPos + 1].hasPosTagStartingWith("VMN"))) {
       suggestion.append(" que no ");
       adjustEndPos++;
-      String[] result = PronomsFeblesHelper.getTwoNextPronouns(tokens,lastTokenPos + 2);
-      String pronoms = result[0];
-      adjustEndPos += Integer.valueOf(result[1]);
+      VerbSynthesizer verbSynth = new VerbSynthesizer(tokens, lastTokenPos + 1, getLanguageFromRuleMatch(match));
+      String pronoms = verbSynth.getPronounsStrAfter();
+      adjustEndPos += verbSynth.getNumPronounsAfter();
       AnalyzedToken at2 = new AnalyzedToken("", "", tokens[lastTokenPos + 1].readingWithTagRegex("V.N.*").getLemma());
       String[] synthForms2 = synth.synthesize(at2, "V.I" + verbPostag.substring(3,8));
       if (synthForms2.length == 0) {
@@ -131,8 +132,4 @@ public class PortarTempsSuggestionsFilter extends RuleFilter {
     return ruleMatch;
   }
 
-  private String getLanguageVariantCode(RuleMatch match) {
-    PatternRule pr = (PatternRule) match.getRule();
-    return pr.getLanguage().getShortCodeWithCountryAndVariant();
-  }
 }

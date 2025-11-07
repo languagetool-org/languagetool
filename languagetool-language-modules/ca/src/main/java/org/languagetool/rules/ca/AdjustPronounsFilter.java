@@ -34,7 +34,6 @@ import org.languagetool.tools.StringTools;
 
 import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
 
-
 /*
  * Add the pronoun "en" in the required place with all the necessary transformations,
  * including moving the <marker> positions.
@@ -175,22 +174,22 @@ public class AdjustPronounsFilter extends RuleFilter {
           }
           break;
         case "removePronounReflexive":
-          replacement = doRemovePronounReflexive(firstVerb, pronounsStr, verbStr, false);
+          replacement = doRemovePronounReflexive(pronounsStr, verbStr, false);
           break;
         case "replaceEmEn":
-          replacement = doReplaceEmEn(firstVerb, pronounsStr, verbStr, false);
+          replacement = doReplaceEmEn(pronounsStr, verbStr, false);
           break;
         case "replaceHiEn":
           replacement = doAddPronounEn(transform(pronounsStr.replace("hi","").trim(), PronounPosition.NORMALIZED), verbStr) + verbStr;
           break;
         case "addPronounReflexive":
-          replacement = doAddPronounReflexive(firstVerb, pronounsStr, verbStr, firstVerbPersonaNumber, false);
+          replacement = doAddPronounReflexive(pronounsStr, verbStr, firstVerbPersonaNumber, false);
           break;
         case "addPronounReflexiveHi":
-          replacement = doAddPronounReflexive(firstVerb, pronounsStr, "hi " + verbStr, firstVerbPersonaNumber, false);
+          replacement = doAddPronounReflexive(pronounsStr, "hi " + verbStr, firstVerbPersonaNumber, false);
           break;
         case "addPronounReflexiveImperative":
-          replacement = doAddPronounReflexiveImperative(firstVerb, pronounsStr, verbStr,
+          replacement = doAddPronounReflexiveImperative(pronounsStr, verbStr,
             firstVerbPersonaNumberImperative);
           break;
         case "changeOnlyLemma":

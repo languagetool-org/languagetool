@@ -19,10 +19,9 @@
 
 package org.languagetool.rules.ca;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -130,8 +129,7 @@ public class PronomsFeblesHelper {
 
   final static Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
   final static Pattern pApostropheNeededEnd = Pattern.compile(".*[aei]", Pattern.CASE_INSENSITIVE);
-  final static Pattern pronomFeble = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
-  final static Pattern infinitiuGerundiImperatiu = Pattern.compile("V.[GNM].*");
+  public final static Pattern pPronomFeble = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
 
   final private static Map<String, String> reflexivePronoun = new HashMap<>();
 
@@ -199,67 +197,6 @@ public class PronomsFeblesHelper {
     }
   }
 
-  public static String[] getTwoNextPronouns(AnalyzedTokenReadings[] tokens, int from) {
-    String[] result = new String[2];
-    int numPronouns = 0;
-    String pronoms = "";
-    if (from < tokens.length && !tokens[from].isWhitespaceBefore()) {
-      AnalyzedToken pronom = tokens[from].readingWithTagRegex(pronomFeble);
-      if (pronom != null) {
-        pronoms = pronom.getToken();
-        numPronouns++;
-      }
-      if (from + 1 < tokens.length && !tokens[from + 1].isWhitespaceBefore()) {
-        AnalyzedToken pronom2 = tokens[from + 1].readingWithTagRegex(pronomFeble);
-        if (pronom2 != null) {
-          pronoms = pronoms + pronom2.getToken();
-          numPronouns++;
-        }
-      }
-    }
-    result[0] = pronoms;
-    result[1] = String.valueOf(numPronouns);
-    return result;
-  }
-
-  public static String[] getPreviousPronouns(AnalyzedTokenReadings[] tokens, int toIndex) {
-    String[] result = new String[2];
-    int numPronouns = 0;
-    StringBuilder pronouns = new StringBuilder();
-    int fromIndex = toIndex;
-    boolean done = false;
-    while (fromIndex > 0 && !done) {
-      AnalyzedToken pronom = tokens[fromIndex].readingWithTagRegex(pronomFeble);
-      if (pronom != null) {
-        if (fromIndex - 1 > 0 && !tokens[fromIndex].isWhitespaceBefore() && tokens[fromIndex - 1].readingWithTagRegex(infinitiuGerundiImperatiu) != null) {
-          done = true;
-        } else if (fromIndex - 2 > 0 && !tokens[fromIndex].isWhitespaceBefore() && !tokens[fromIndex - 1].isWhitespaceBefore()
-          && tokens[fromIndex - 1].readingWithTagRegex(pronomFeble) != null && tokens[fromIndex - 2].readingWithTagRegex(infinitiuGerundiImperatiu) != null) {
-          done = true;
-        }
-        if (!done) {
-          fromIndex--;
-          numPronouns++;
-        }
-      } else {
-        done = true;
-      }
-    }
-    if (numPronouns > 0) {
-      for (int j = fromIndex + 1; j <= toIndex; j++) {
-        if (j > fromIndex + 1 && j <= toIndex) {
-          if (tokens[j].isWhitespaceBefore()) {
-            pronouns.append(" ");
-          }
-        }
-        pronouns.append(tokens[j].getToken());
-      }
-    }
-    result[0] = pronouns.toString();
-    result[1] = String.valueOf(numPronouns);
-    return result;
-  }
-
   public static String doAddPronounEn(String pronounsStr, String firstVerb) {
     String pronounNormalized = transform(pronounsStr, PronounPosition.NORMALIZED);
     if (pronounNormalized.endsWith("hi")) {
@@ -270,8 +207,7 @@ public class PronomsFeblesHelper {
     return transformDavant(pronounNormalized, firstVerb);
   }
 
-  public static String doRemovePronounReflexive(String firstVerb, String pronounsStr, String verbStr,
-                                                boolean pronounsAfter) {
+  public static String doRemovePronounReflexive(String pronounsStr, String verbStr, boolean pronounsAfter) {
     String replacement;
     String pronounsReplacement = transform(pronounsStr.toLowerCase(), PronounPosition.NORMALIZED)
       .replaceFirst("(?i)(em|et|es|ens|us|vos)", "").trim();
@@ -292,9 +228,10 @@ public class PronomsFeblesHelper {
   }
 
   private final static Pattern containsReflexivePronoun = Pattern.compile(".*([mts][e']|[e'][mts]|vos|us|ens|-nos|-vos).*");
+  public final static List<String> reflexivePronouns = Arrays.asList("em", "et", "es", "ens", "us", "vos");
 
-  public static String doAddPronounReflexive(String firstVerb, String pronounsStr, String verbStr,
-                                             String firstVerbPersonaNumber, boolean pronounsAfter) {
+  public static String doAddPronounReflexive(String pronounsStr, String verbStr, String firstVerbPersonaNumber,
+                                             boolean pronounsAfter) {
     String replacement = "";
     if (pronounsAfter) {
       if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
@@ -320,8 +257,8 @@ public class PronomsFeblesHelper {
     return replacement;
   }
 
-  public static String doAddPronounReflexiveEn(String firstVerb, String pronounsStr, String verbStr,
-                                               String firstVerbPersonaNumber, boolean pronounsAfter) {
+  public static String doAddPronounReflexiveEn(String pronounsStr, String verbStr, String firstVerbPersonaNumber,
+                                               boolean pronounsAfter) {
     String replacement = "";
     if (pronounsAfter) {
       if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
@@ -348,8 +285,7 @@ public class PronomsFeblesHelper {
     return replacement;
   }
 
-  public static String doAddPronounReflexiveImperative(String firstVerb, String pronounsStr, String verbStr,
-                                                       String firstVerbPersonaNumber) {
+  public static String doAddPronounReflexiveImperative(String pronounsStr, String verbStr, String firstVerbPersonaNumber) {
     String pronounToAdd;
     String replacement = "";
     if (pronounsStr.isEmpty()) {
@@ -361,7 +297,7 @@ public class PronomsFeblesHelper {
     return replacement;
   }
 
-  public static String doReplaceEmEn(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
+  public static String doReplaceEmEn(String pronounsStr, String verbStr, boolean pronounsAfter) {
     String replacement = "";
     if (pronounsStr.equalsIgnoreCase("em")) {
       replacement = "en" + " " + verbStr;
@@ -375,7 +311,7 @@ public class PronomsFeblesHelper {
     return replacement;
   }
 
-  public static String doReplaceHiEn(String firstVerb, String pronounsStr, String verbStr, boolean pronounsAfter) {
+  public static String doReplaceHiEn(String pronounsStr, String verbStr, boolean pronounsAfter) {
     String replacement = "";
     if (pronounsStr.equalsIgnoreCase("hi")) {
       replacement = "en" + " " + verbStr;
