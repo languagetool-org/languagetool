@@ -56,14 +56,26 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
     for (String originalSuggestion : match.getSuggestedReplacements()) {
       originalSuggestion = originalSuggestion.toLowerCase();
       boolean makeIntrasitive = false;
+      String desiredNumber = "";
+      String desiredPersona = "";
+      String action = "removePronounReflexive";
       if (originalSuggestion.endsWith(" [intr]")) {
         originalSuggestion = originalSuggestion.substring(0, originalSuggestion.length() - 7);
         makeIntrasitive = true;
       }
+      if (originalSuggestion.endsWith(" [3s]")) {
+        originalSuggestion = originalSuggestion.substring(0, originalSuggestion.length() - 5);
+        desiredNumber = "S";
+        desiredPersona = "3";
+      }
+      if (originalSuggestion.startsWith("[datiu] ")) {
+        originalSuggestion = originalSuggestion.substring(8);
+        action = "addPronounDative";
+      }
       int firstSpaceIndex = originalSuggestion.indexOf(" ");
       String newLemma = originalSuggestion;
       String afterLemma = "";
-      String desiredNumber = "";
+
       if (firstSpaceIndex != -1) {
         newLemma = originalSuggestion.substring(0, firstSpaceIndex);
         afterLemma = originalSuggestion.substring(firstSpaceIndex + 1);
@@ -78,7 +90,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       if (!forceNumber.isEmpty()) {
         desiredNumber = forceNumber;
       }
-      String action = "removePronounReflexive";
+
       if (newLemma.endsWith("-se'n")) {
         newLemma = newLemma.substring(0, newLemma.length() - 5);
         action = "addPronounReflexiveEn";
@@ -109,6 +121,11 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
               postag = postag.substring(0, 5) + desiredNumber + postag.substring(6);
             }
           }
+          if (!desiredPersona.isEmpty()) {
+            if (!postag.substring(2, 3).equals("P") && (postag.substring(4, 5).matches("[123]"))) {
+              postag = postag.substring(0, 4) + desiredPersona + postag.substring(5);
+            }
+          }
           postags.add(postag);
         }
       }
@@ -118,12 +135,11 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         verbSynthesizer.setLemmaAndPostag(newLemma, targetPostag);
         verbStr = verbSynthesizer.synthesize();
       }
-      String pronounsStr;
-      boolean isPronounsAfter = false;
-      isPronounsAfter = verbSynthesizer.getNumPronounsAfter() > 0 || !verbSynthesizer.isFirstVerbIS();
+      String pronounsStr="";
+      boolean isPronounsAfter = verbSynthesizer.getNumPronounsAfter() > 0 || !verbSynthesizer.isFirstVerbIS();
       if (verbSynthesizer.getNumPronounsBefore() > 0) {
         pronounsStr = verbSynthesizer.getPronounsStrBefore();
-      } else {
+      } else if (verbSynthesizer.getNumPronounsAfter() > 0) {
         pronounsStr = verbSynthesizer.getPronounsStrAfter();
       }
       pronounsStr = pronounsStr.toLowerCase();
@@ -151,12 +167,20 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         case "addPronounReflexiveHi":
           replacement = doAddPronounReflexive("", "hi " + verbStr, firstVerbPersonaNumber, isPronounsAfter);
           break;
+        case "addPronounDative":
+          String dativePronoun = getDativePronoun(firstVerbPersonaNumber);
+          if (isPronounsAfter) {
+            replacement = verbStr + transformDarrere(dativePronoun, verbStr);
+          } else {
+            replacement = transformDavant(dativePronoun, verbStr) + verbStr;
+          }
+          break;
         case "addPronounReflexiveHo":
           String reflexivePronoun = getReflexivePronoun(firstVerbPersonaNumber);
           if (reflexivePronoun.isEmpty()) {
             if (!pronounsStr.isEmpty()) {
                String rp = transform(pronounsStr, PronounPosition.NORMALIZED);
-              if (reflexivePronouns.contains(rp)) {
+              if (lReflexivePronouns.contains(rp)) {
                 reflexivePronoun= rp;
               }
             }

@@ -227,14 +227,14 @@ public class PronomsFeblesHelper {
     return replacement;
   }
 
-  private final static Pattern containsReflexivePronoun = Pattern.compile(".*([mts][e']|[e'][mts]|vos|us|ens|-nos|-vos).*");
-  public final static List<String> reflexivePronouns = Arrays.asList("em", "et", "es", "ens", "us", "vos");
+  private final static Pattern pContainsReflexivePronoun = Pattern.compile(".*([mts][e']|[e'][mts]|vos|us|ens|-nos|-vos).*");
+  public final static List<String> lReflexivePronouns = Arrays.asList("em", "et", "es", "ens", "us", "vos");
 
   public static String doAddPronounReflexive(String pronounsStr, String verbStr, String firstVerbPersonaNumber,
                                              boolean pronounsAfter) {
     String replacement = "";
     if (pronounsAfter) {
-      if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
+      if (pContainsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
         return verbStr + pronounsStr;
       }
       if (verbStr.endsWith("r") || verbStr.endsWith("re")) {
@@ -261,7 +261,7 @@ public class PronomsFeblesHelper {
                                                boolean pronounsAfter) {
     String replacement = "";
     if (pronounsAfter) {
-      if (containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
+      if (pContainsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
         return verbStr + transformDarrere(pronounsStr + "'n", verbStr); // no sempre correcte
       }
       return verbStr + transformDarrere("-se'n", verbStr);
