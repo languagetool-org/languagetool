@@ -18,12 +18,14 @@ import java.util.regex.Pattern;
 
 import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
 import static org.languagetool.synthesis.ca.VerbSynthesizer.pVerb;
+import static org.languagetool.rules.ca.VerbsHelper.isVerbDicendiBefore;
 
 public class DonarseliBeFilter extends RuleFilter {
 
   private final Pattern pDespresDarrerAdverbi = Pattern.compile("V.N.*|D.*|PD.*");
   private final List<String> adverbiFinal = Arrays.asList("bé", "malament", "mal", "millor", "pitjor", "fatal");
-  private final List<String> pronomsPersonals = Arrays.asList("mi", "tu", "ell", "ella", "nosaltres", "vosaltres", "ells",
+  private final List<String> pronomsPersonals = Arrays.asList("mi", "tu", "ell", "ella", "nosaltres", "vosaltres",
+    "ells",
     "elles");
 
   @Nullable
@@ -115,7 +117,8 @@ public class DonarseliBeFilter extends RuleFilter {
       addTokensToLeft += 2;
     }
     boolean isQue =
-      posInitUnderline - addTokensToLeft - 1 > 0 && tokens[posInitUnderline - addTokensToLeft - 1].getToken().equalsIgnoreCase("que");
+      posInitUnderline - addTokensToLeft - 1 > 0 && tokens[posInitUnderline - addTokensToLeft - 1].getToken().equalsIgnoreCase("que")
+        && !isVerbDicendiBefore(tokens, posInitUnderline - addTokensToLeft - 2);
     if (isQue) {
       addTokensToLeft++;
     }
