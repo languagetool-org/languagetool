@@ -3963,8 +3963,35 @@ USA
                Um pouco de bondade de uma pessoa para outra vale mais que todo o amor pela humanidade.
       -->
     </rule>
-
   </rulegroup>
+
+  <rule id="VERB_TO_NOUN_20251108" name="Remove rare verbs from appearing as verbs">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token regexp='yes' inflected='yes'>ser|estar</token>
+      <token postag='V.+|AQ.+' postag_regexp='yes'/> <!-- ChatGPT 5: "use adjectives too" -->
+      <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;<exception postag='RN' postag_regexp='no'/></token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Sim é baixo, e EUA ainda paga bem, media 'nas zooropa' é bem mais baixa.
+             Eu serei responsável somente pela postagem, o acompanhamento do rastreio fica por conta do/a vencedor/a.
+             São possíveis vários olhares sobre ele.
+             É bem mais seguro!
+             O serviço foi impecável, estávamos tão bem cuidados do início ao fim!
+             A ação foi tão bem escrita, que foi possível imaginar os duelos que estavam sendo travados.
+             Mas é preciso muito cuidado na hora de punir.
+             E são projéteis mais sofisticados do que antes, capazes de chegar mais longe.
+             O desafio é manter tudo alinhado e em harmonia porque eu me gosto e o autocuidado só me faz bem.
+    -->
+  </rule>
 
   <rule id="DP_V_VPARTPASS_NC_20250927" name="Remove rare verbs from appearing as verbs">
     <pattern>
