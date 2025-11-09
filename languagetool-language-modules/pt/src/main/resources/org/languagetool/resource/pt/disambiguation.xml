@@ -3993,6 +3993,32 @@ USA
     -->
   </rule>
 
+  <rule id="VERBNOUNADJECTIVE_V_SER_ESTAR_VERBNOUNADJECTIVE_20251109" name="Convert to noun/adjective">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <token regexp='yes' inflected='yes'>ser|estar</token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMN0000|VMG0000|VMP00.+'/></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             A carta 2 pode estar presente contanto que esteja em seu lugar de costume (entre o ás e o 3).
+             Essas adaptações podem ser pregas circulares, vilosidades, microvilosidades e criptas de Lieberkühn.
+             Selecionamos, desenvolvemos e retemos pessoas que podem ser melhores que nós mesmos.
+             Elas devem estar maduras, porém firmes.
+             No amor a semana promete ser positiva e de também de momentos felizes ao lado da pessoa amada.
+             Por isso, o seu consumo deve ser frequente para quem tem problemas cardiovasculares.
+             Um quase que não me deixa ser inteira em nada, plena em nada, tranqüila em nada, feliz em nada.
+             Nancy descobre que Waldisney foi solto e questiona a possibilidade do ex namorado ser inocente.
+    -->
+  </rule>
+
   <rule id="DP_V_VPARTPASS_NC_20250927" name="Remove rare verbs from appearing as verbs">
     <pattern>
       <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
