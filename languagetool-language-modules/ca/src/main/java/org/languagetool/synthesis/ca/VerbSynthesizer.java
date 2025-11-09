@@ -77,7 +77,7 @@ public class VerbSynthesizer {
       }
       //avant
       i = j + 1;
-      while (isVerb(i)) {
+      while (isVerb(i) && !(isFirstVerbIS() && isVerbIS(i))) {
         posLastVerb = i;
         i++;
       }
@@ -119,7 +119,8 @@ public class VerbSynthesizer {
     StringBuilder result = new StringBuilder();
     AnalyzedToken firstVerb = tokens[posFirstVerb].readingWithTagRegex(pVerb);
     if (posFirstVerb == posLastVerb) {
-      String[] synthesized = synth.synthesize(new AnalyzedToken("", newPostag, newLemma), adjustPostagTolemma(newLemma, newPostag));
+      String[] synthesized = synth.synthesize(new AnalyzedToken("", newPostag, newLemma),
+        adjustPostagTolemma(newLemma, newPostag));
       if (synthesized != null && synthesized.length > 0) {
         result.append(synthesized[0]);
       }
@@ -164,7 +165,7 @@ public class VerbSynthesizer {
   public String getStringFromTo(int start, int end) {
     StringBuilder sb = new StringBuilder();
     for (int i = start; i <= end; i++) {
-      if (i>start && tokens[i].isWhitespaceBefore()) {
+      if (i > start && tokens[i].isWhitespaceBefore()) {
         sb.append(" ");
       }
       sb.append(tokens[i].getToken());
@@ -173,7 +174,7 @@ public class VerbSynthesizer {
   }
 
   public String getPronounsStrBefore() {
-    return getStringFromTo(posFirstVerb - numPronounsBefore , posFirstVerb - 1);
+    return getStringFromTo(posFirstVerb - numPronounsBefore, posFirstVerb - 1);
   }
 
   public String getPronounsStrAfter() {
@@ -208,6 +209,15 @@ public class VerbSynthesizer {
     AnalyzedToken reading = tokens[posFirstVerb].readingWithTagRegex(pVerbIS);
     return reading != null;
   }
+
+  private boolean isVerbIS(int i) {
+    if (i < 0 || i >= tokens.length) {
+      return false;
+    }
+    AnalyzedToken reading = tokens[i].readingWithTagRegex(pVerbIS);
+    return reading != null;
+  }
+
 
   public String getCasingModel() {
     return getStringFromTo(posFirstVerb - numPronounsBefore, posFirstVerb);

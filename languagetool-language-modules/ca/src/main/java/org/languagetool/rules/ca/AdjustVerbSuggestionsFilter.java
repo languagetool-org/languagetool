@@ -53,6 +53,10 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       posWord++;
     }
     VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, posWord, getLanguageFromRuleMatch(match));
+    // verb found out of bounds
+    if (tokens[verbSynthesizer.getLastVerbPos()].getEndPos() > match.getToPos()) {
+      return null;
+    }
     for (String originalSuggestion : match.getSuggestedReplacements()) {
       originalSuggestion = originalSuggestion.toLowerCase();
       boolean makeIntrasitive = false;
