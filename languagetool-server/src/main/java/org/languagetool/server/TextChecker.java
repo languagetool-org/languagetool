@@ -329,7 +329,8 @@ abstract class TextChecker {
                  String remoteAddress) throws Exception {
     checkParams(params);
     long timeStart = System.currentTimeMillis();
-    UserLimits limits = ServerTools.getUserLimits(params, config, httpExchange.getRequestHeaders());
+    String authHeader = ServerTools.getAuthHeader(httpExchange.getRequestHeaders());
+    UserLimits limits = ServerTools.getUserLimits(params, config, authHeader);
 
     if (Premium.isPremiumStatusCheck(aText)) {
       Language premiumStatusCheckLang = Languages.getLanguageForShortCode("en-US");
@@ -491,9 +492,11 @@ abstract class TextChecker {
     Pattern trustedSourcesPattern = config.getTrustedSources();
     boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
     boolean optInThirdPartyAI = isOptInThirdPartyAI(limits, params, config);
-    UserConfig.TokenType tokenType = UserConfig.TokenType.NO_TOKEN;
+
+    // set default value for tokenType
+    UserConfig.TokenType tokenType = authHeader == null ? UserConfig.TokenType.NO_TOKEN : UserConfig.TokenType.INVALID_TOKEN;
     JwtContent jwtContent = limits.getJwtContent();
-    if (jwtContent != null && jwtContent != JwtContent.NONE) {
+    if (jwtContent != null && jwtContent.isValid()) {
       tokenType = jwtContent.isPremium() ? UserConfig.TokenType.TRIAL_TOKEN : UserConfig.TokenType.TEST_TOKEN;
     }
     UserConfig userConfig =

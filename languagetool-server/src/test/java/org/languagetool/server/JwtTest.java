@@ -40,19 +40,21 @@ public class JwtTest {
 
   @Test
   public void getUserLimitsTest() {
-    Headers headers = new Headers();
+
     Map<String, String> params = new HashMap<>();
-    UserLimits userLimits = ServerTools.getUserLimits(params, httpServerConfig, headers);
+    UserLimits userLimits = ServerTools.getUserLimits(params, httpServerConfig, null);
     checkDefaults(userLimits, null);
 
+    Headers headers = new Headers();
     headers.add("Authorization", "Bearer: kdsajgtfoi43hjrt9i342htfg0eqhj0-49jrtfg9o0jnm32-0er34jghg908hn");
-    UserLimits withAuthHeader = ServerTools.getUserLimits(params, httpServerConfig, headers);
+
+    UserLimits withAuthHeader = ServerTools.getUserLimits(params, httpServerConfig, ServerTools.getAuthHeader(headers));
     checkDefaults(withAuthHeader, JwtContent.NONE);
 
     params.put("username", "user");
     params.put("tokenV2", "0815-token");
 
-    UserLimits withAuthHeaderAndUser = ServerTools.getUserLimits(params, httpServerConfig, headers);
+    UserLimits withAuthHeaderAndUser = ServerTools.getUserLimits(params, httpServerConfig, ServerTools.getAuthHeader(headers));
     checkDefaults(withAuthHeaderAndUser, JwtContent.NONE);
   }
 

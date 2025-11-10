@@ -34,6 +34,7 @@ import java.util.*;
 public class UserConfig {
 
   public enum TokenType {
+    INVALID_TOKEN,
     NO_TOKEN,
     TEST_TOKEN,
     TRIAL_TOKEN,

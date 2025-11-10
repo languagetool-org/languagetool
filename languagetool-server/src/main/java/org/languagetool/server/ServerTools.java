@@ -139,15 +139,7 @@ final class ServerTools {
     return getUserLimits(params, config, null);
   }
 
-  static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config, Headers headers) {
-    String authHeader = null;
-    if (headers != null) {
-      authHeader = headers.getFirst("Authorization");
-      if (authHeader != null && authHeader.isBlank()) {
-        authHeader = null;
-      }
-    }
-
+  static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config, String authHeader) {
     if (params.get("username") != null) {
       if (params.get("apiKey") != null && params.get("password") != null) {
         throw new BadRequestException("apiKey AND password was set, set only apiKey");
@@ -261,5 +253,16 @@ final class ServerTools {
     return referrer.startsWith(blockedRef) ||
       referrer.startsWith("http://" + blockedRef) || referrer.startsWith("https://" + blockedRef) ||
       referrer.startsWith("http://www." + blockedRef) || referrer.startsWith("https://www." + blockedRef);
+  }
+
+  public static String getAuthHeader(Headers headers) {
+    String authHeader = null;
+    if (headers != null) {
+      authHeader = headers.getFirst("Authorization");
+      if (authHeader != null && authHeader.isBlank()) {
+        authHeader = null;
+      }
+    }
+    return authHeader;
   }
 }
