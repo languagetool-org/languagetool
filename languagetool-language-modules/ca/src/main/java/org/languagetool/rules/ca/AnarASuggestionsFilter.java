@@ -47,13 +47,23 @@ public class AnarASuggestionsFilter extends RuleFilter {
       initPos++;
     }
     VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, initPos, getLanguageFromRuleMatch(match));
+    initPos = verbSynthesizer.getFirstVerbPos();
     String verbPostag = tokens[initPos].readingWithTagRegex("V.IP.*").getPOSTag();
     String lemma = tokens[initPos + 2].readingWithTagRegex("V.N.*").getLemma();
     AnalyzedToken at = new AnalyzedToken("", "", lemma);
-    String newPostag =  "V[MS]I[PF]" + verbPostag.substring(4, 8);
+
+    List<String> synthFormsList = new ArrayList<>();
+    //synthesize future
+    String newPostag =  "V[MS]IF" + verbPostag.substring(4, 8);
     Synthesizer synth = getSynthesizerFromRuleMatch(match);
     String[] synthForms = synth.synthesize(at, newPostag, true);
-    if (synthForms.length == 0) {
+    synthFormsList.addAll(List.of(synthForms));
+    //synthesize present
+    newPostag =  "V[MS]IP" + verbPostag.substring(4, 8);
+    synth = getSynthesizerFromRuleMatch(match);
+    synthForms = synth.synthesize(at, newPostag, true);
+    synthFormsList.addAll(List.of(synthForms));
+    if (synthFormsList.isEmpty()) {
       return null;
     }
 
@@ -66,7 +76,8 @@ public class AnarASuggestionsFilter extends RuleFilter {
     adjustStartPos += verbSynthesizer.getNumPronounsBefore();
 
     List<String> replacements = new ArrayList<>();
-    for (String verb : synthForms) {
+    replacements.addAll(match.getSuggestedReplacements());
+    for (String verb : synthFormsList) {
       String suggestion = "";
       if (!pronomsDarrere.isEmpty()) {
         suggestion = PronomsFeblesHelper.transformDavant(pronomsDarrere, verb);
@@ -83,7 +94,7 @@ public class AnarASuggestionsFilter extends RuleFilter {
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[initPos - adjustStartPos].getStartPos(),
       tokens[initPos + 2 + adjustEndPos].getEndPos(), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
-    ruleMatch.setSuggestedReplacements(replacements);
+    ruleMatch.setSuggestedReplacements(getLanguageFromRuleMatch(match).adaptSuggestionsList(replacements, ""));
     return ruleMatch;
   }
 

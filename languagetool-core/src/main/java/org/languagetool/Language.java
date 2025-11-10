@@ -988,6 +988,18 @@ public abstract class Language {
     return s;
   }
 
+  /**
+   * @since 6.8
+   * Adjust list of suggestions
+   */
+  public List<String> adaptSuggestionsList(List<String> suggestions, String originalErrorStr) {
+    List<String> newSuggestions = new ArrayList<>();
+    for (String s : suggestions) {
+      newSuggestions.add(adaptSuggestion(s, originalErrorStr));
+    }
+    return newSuggestions;
+  }
+
   public String getConsistencyRulePrefix() {
     return "PREFIXFORCONSISTENCYRULES_";
   }
