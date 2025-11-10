@@ -492,8 +492,9 @@ abstract class TextChecker {
     boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
     boolean optInThirdPartyAI = isOptInThirdPartyAI(limits, params, config);
     UserConfig.TokenType tokenType = UserConfig.TokenType.NO_TOKEN;
-    if (limits.getJwtContent() != null) {
-      tokenType = limits.getJwtContent().isPremium() ? UserConfig.TokenType.TRIAL_TOKEN : UserConfig.TokenType.TEST_TOKEN;
+    JwtContent jwtContent = limits.getJwtContent();
+    if (jwtContent != null && jwtContent != JwtContent.NONE) {
+      tokenType = jwtContent.isPremium() ? UserConfig.TokenType.TRIAL_TOKEN : UserConfig.TokenType.TEST_TOKEN;
     }
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
