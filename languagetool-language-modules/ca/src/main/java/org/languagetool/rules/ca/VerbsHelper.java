@@ -27,7 +27,7 @@ public class VerbsHelper {
     , "recitar", "reclamar", "recomanar", "reconèixer", "referir", "refermar", "reflexionar", "refusar", "refutar",
     "relatar", "remarcar", "rematar", "remugar", "renegar", "renyar", "repetir", "replicar", "reprendre", "resar",
     "respondre", "retreure", "revelar", "sol·licitar", "somicar", "sospirar", "sospitar", "sostenir", "subratllar",
-    "suggerir", "suposar", "xisclar", "xiuxiuejar");
+    "suggerir", "suposar", "xisclar", "xiuxiuejar", "trobar");
 
   private static final Pattern pKeepLooking = Pattern.compile("V.*|RG.*|LOC_ADV");
 

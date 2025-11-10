@@ -1578,6 +1578,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="PTime"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">portar|dur</token>
+                <marker>
+                    <token>tota</token>
+                    <token>la</token>
+                    <token>vida</token>
+                </marker>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rule id="PTIME_gerundi" name="període de temps + gerundi">
         <pattern>
@@ -20081,6 +20096,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="remove" postag="V.[IM].*"/>
+        </rule>
+        <rule id="condicional_subj__valencia" name="verb subjuntiu (valencià) i condicional (general): si fora">
+            <pattern>
+                <token skip="4">si<exception scope="next" postag="VM[SI].*" postag_regexp="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="VSS.*" postag_regexp="yes"/>
+                        <token postag="VSIC.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="VSS.*"/>
         </rule>
         <rule id="subj_imp_valencia" name="verb subjuntiu (valencià) i imperatiu (general): digues, sigues">
             <pattern>
