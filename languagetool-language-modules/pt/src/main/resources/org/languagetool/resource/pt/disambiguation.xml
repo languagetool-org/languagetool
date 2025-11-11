@@ -3891,6 +3891,20 @@ USA
     <disambig action="filter" postag="PI0CN000"/>
   </rule>
 
+  <rule id="SOBRE_VERB_20251111" name="In this case SOBRE is SPS00">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token>sobre</token>
+          <token postag='SPS00'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="SPS00"/>
+  </rule>
+
   <rule id="NÓS_PROFESSORES_NCMP000" name="professores aparecia como verbo">
     <pattern>
       <token>nós</token>
