@@ -47,6 +47,9 @@ public class AnarASuggestionsFilter extends RuleFilter {
       initPos++;
     }
     VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, initPos, getLanguageFromRuleMatch(match));
+    if (verbSynthesizer.isUndefined() || tokens[verbSynthesizer.getLastVerbPos()].getEndPos() > match.getToPos()) {
+      return null;
+    }
     initPos = verbSynthesizer.getFirstVerbPos();
     String verbPostag = tokens[initPos].readingWithTagRegex("V.IP.*").getPOSTag();
     String lemma = tokens[initPos + 2].readingWithTagRegex("V.N.*").getLemma();

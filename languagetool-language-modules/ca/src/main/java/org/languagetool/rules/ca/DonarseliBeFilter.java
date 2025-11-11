@@ -49,6 +49,9 @@ public class DonarseliBeFilter extends RuleFilter {
       posWord++;
     }
     VerbSynthesizer verbSynth = new VerbSynthesizer(tokens, posWord, lang);
+    if (verbSynth.isUndefined() || tokens[verbSynth.getLastVerbPos()].getEndPos() > match.getToPos()) {
+      return null;
+    }
     posDonar = verbSynth.getLastVerbPos();
     posPrimerVerb = verbSynth.getFirstVerbPos();
     posInitUnderline = posPrimerVerb - verbSynth.getNumPronounsBefore();

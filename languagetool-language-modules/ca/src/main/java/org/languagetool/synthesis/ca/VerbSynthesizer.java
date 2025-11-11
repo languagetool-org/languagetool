@@ -223,4 +223,8 @@ public class VerbSynthesizer {
     return getStringFromTo(posFirstVerb - numPronounsBefore, posFirstVerb);
   }
 
+  public boolean isUndefined() {
+    return (posFirstVerb == -1 || posLastVerb == -1 || numPronounsAfter == -1 || numPronounsBefore == -1);
+  }
+
 }

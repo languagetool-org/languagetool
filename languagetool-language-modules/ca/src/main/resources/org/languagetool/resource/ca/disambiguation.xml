@@ -9276,6 +9276,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="A.*"/>
     </rule>
+    <rule id="fer_fora" name="fer fora (verb)">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">fer</token>
+                <token postag="RG">fora</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="el_fa" name="el fa (verb)">
         <pattern>
             <marker>
@@ -20102,11 +20111,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="V.[IM].*"/>
         </rule>
         <rule id="condicional_subj__valencia" name="verb subjuntiu (valencià) i condicional (general): si fora">
+            <antipattern>
+                <token>allà</token>
+                <token>fora</token>
+            </antipattern>
             <pattern>
                 <token skip="4">si<exception scope="next" postag="VM[SI].*" postag_regexp="yes"/></token>
                 <marker>
                     <and>
-                        <token postag="VSS.*" postag_regexp="yes"/>
+                        <token postag="VSS.*" postag_regexp="yes"><exception postag="VSIS.*" postag_regexp="yes"></exception></token>
                         <token postag="VSIC.*" postag_regexp="yes"/>
                     </and>
                 </marker>

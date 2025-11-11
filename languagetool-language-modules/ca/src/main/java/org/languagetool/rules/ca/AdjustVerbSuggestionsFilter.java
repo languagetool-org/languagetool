@@ -54,7 +54,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
     }
     VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, posWord, getLanguageFromRuleMatch(match));
     // verb found out of bounds
-    if (tokens[verbSynthesizer.getLastVerbPos()].getEndPos() > match.getToPos()) {
+    if (verbSynthesizer.isUndefined() || tokens[verbSynthesizer.getLastVerbPos()].getEndPos() > match.getToPos()) {
       return null;
     }
     for (String originalSuggestion : match.getSuggestedReplacements()) {
