@@ -33,6 +33,13 @@ import java.util.*;
  */
 public class UserConfig {
 
+  public enum TokenType {
+    INVALID_TOKEN,
+    NO_TOKEN,
+    TEST_TOKEN,
+    TRIAL_TOKEN,
+  }
+
   // don't do A/B tests in command line / GUI mode / tests, etc.; true when running as a server
   private static boolean abTestEnabled = false;
   public static void enableABTests() {
@@ -70,7 +77,7 @@ public class UserConfig {
   private boolean isPremium;
 
   @Getter
-  private final Map<String, Object> tokenClaims;
+  private final TokenType tokenType;
   private final boolean suggestionsEnabled;
 
   public UserConfig() {
@@ -97,7 +104,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
     this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
-      false, null, null, false, null, false, false, false, Collections.emptyMap());
+      false, null, null, false, null, false, false, false, TokenType.NO_TOKEN);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords,
@@ -108,7 +115,7 @@ public class UserConfig {
                     LinguServices linguServices, boolean filterDictionaryMatches,
                     @Nullable List<String> abTest, @Nullable Long textSessionId,
                     boolean hidePremiumMatches, List<String> preferredLanguages) {
-    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, false, false, false, Collections.emptyMap());
+    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, false, false, false, TokenType.NO_TOKEN);
   }
 
 
@@ -123,7 +130,7 @@ public class UserConfig {
                     boolean trustedSource,
                     boolean optInThirdPartyAI,
                     boolean isPremium) {
-    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, trustedSource, optInThirdPartyAI, isPremium, Collections.emptyMap());
+    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, trustedSource, optInThirdPartyAI, isPremium, TokenType.NO_TOKEN);
   }
   
   public UserConfig(List<String> userSpecificSpellerWords,
@@ -137,8 +144,8 @@ public class UserConfig {
                     boolean trustedSource,
                     boolean optInThirdPartyAI,
                     boolean isPremium, 
-                    Map<String, Object> tokenClaims) {
-    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, trustedSource, optInThirdPartyAI, isPremium, tokenClaims, true);
+                    TokenType tokenType) {
+    this(userSpecificSpellerWords, userSpecificRules, ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices, filterDictionaryMatches, abTest, textSessionId, hidePremiumMatches, preferredLanguages, trustedSource, optInThirdPartyAI, isPremium, tokenType, true);
   }
   
   public UserConfig(List<String> userSpecificSpellerWords,
@@ -152,7 +159,7 @@ public class UserConfig {
                     boolean trustedSource,
                     boolean optInThirdPartyAI,
                     boolean isPremium,
-                    Map<String, Object> tokenClaims,
+                    TokenType tokenType,
                     boolean suggestionsEnabled) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
@@ -173,7 +180,7 @@ public class UserConfig {
     this.trustedSource = trustedSource;
     this.optInThirdPartyAI = optInThirdPartyAI;
     this.isPremium = isPremium;
-    this.tokenClaims = tokenClaims;
+    this.tokenType = tokenType;
     this.suggestionsEnabled = suggestionsEnabled;
   }
 
@@ -305,7 +312,7 @@ public class UserConfig {
       .append(trustedSource, other.trustedSource)
       .append(optInThirdPartyAI, other.optInThirdPartyAI)
       .append(isPremium, other.isPremium)
-      .append(tokenClaims, other.tokenClaims)
+      .append(tokenType, other.tokenType)
       .append(suggestionsEnabled, other.suggestionsEnabled)
       .isEquals();
   }
@@ -328,7 +335,7 @@ public class UserConfig {
       .append(trustedSource)
       .append(optInThirdPartyAI)
       .append(isPremium)
-      .append(tokenClaims)
+      .append(tokenType)
       .append(suggestionsEnabled)
       .toHashCode();
   }
