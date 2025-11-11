@@ -243,17 +243,11 @@ public class PronomsFeblesHelper {
         return verbStr;
       }
     }
-    String pronounToAdd;
-    if (pronounsStr.isEmpty()) {
-      pronounToAdd = getReflexivePronoun(firstVerbPersonaNumber);
-      if (pronounToAdd != null) {
-        replacement = transformDavant(pronounToAdd, verbStr) + verbStr;
-      }
-    } else {
-      //TODO: add reflexive pronoun to another pronoun
-      // containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()
-      replacement = (pronounsStr + " " + verbStr).trim().replace("' ", "'");
+    String pronounToAdd = transform(pronounsStr, PronounPosition.NORMALIZED);
+    if (!pContainsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
+      pronounToAdd = getReflexivePronoun(firstVerbPersonaNumber) + " " + pronounToAdd;
     }
+    replacement = transformDavant(pronounToAdd, verbStr) + verbStr;
     return replacement;
   }
 
