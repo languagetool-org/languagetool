@@ -3864,6 +3864,47 @@ USA
       </rule>
   </rulegroup>
 
+  <rule id="ANTES_VERB_20251104" name="Antes can't be a verb and an RG, it is always RG">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <marker>
+        <token>antes</token>
+        <token postag='RG'/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+  </rule>
+
+  <rule id="NADA_VERB_20251107" name="In this case NADA is PI0CN000">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token>não</token>
+      <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+      <token min='0' max='1' postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+      <marker>
+        <and>
+          <token>nada</token>
+          <token postag='PI.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="PI0CN000"/>
+  </rule>
+
+  <rule id="SOBRE_VERB_20251111" name="In this case SOBRE is SPS00">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token>sobre</token>
+          <token postag='SPS00'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="SPS00"/>
+  </rule>
+
   <rule id="NÓS_PROFESSORES_NCMP000" name="professores aparecia como verbo">
     <pattern>
       <token>nós</token>
@@ -3936,8 +3977,59 @@ USA
                Um pouco de bondade de uma pessoa para outra vale mais que todo o amor pela humanidade.
       -->
     </rule>
-
   </rulegroup>
+
+  <rule id="VERB_TO_NOUN_20251108" name="Remove rare verbs from appearing as verbs">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token regexp='yes' inflected='yes'>ser|estar</token>
+      <token postag='V.+|AQ.+' postag_regexp='yes'/> <!-- ChatGPT 5: "use adjectives too" -->
+      <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;<exception postag='RN' postag_regexp='no'/></token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Sim é baixo, e EUA ainda paga bem, media 'nas zooropa' é bem mais baixa.
+             Eu serei responsável somente pela postagem, o acompanhamento do rastreio fica por conta do/a vencedor/a.
+             São possíveis vários olhares sobre ele.
+             É bem mais seguro!
+             O serviço foi impecável, estávamos tão bem cuidados do início ao fim!
+             A ação foi tão bem escrita, que foi possível imaginar os duelos que estavam sendo travados.
+             Mas é preciso muito cuidado na hora de punir.
+             E são projéteis mais sofisticados do que antes, capazes de chegar mais longe.
+             O desafio é manter tudo alinhado e em harmonia porque eu me gosto e o autocuidado só me faz bem.
+    -->
+  </rule>
+
+  <rule id="VERBNOUNADJECTIVE_V_SER_ESTAR_VERBNOUNADJECTIVE_20251111" name="Convert to noun/adjective">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <token regexp='yes' inflected='yes'>ser|estar</token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMN0000|VMG0000|VMP00.+|VMIP1S0'/></token> <!-- Added VMIP1S0 on 2025-11-11 -->
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             A carta 2 pode estar presente contanto que esteja em seu lugar de costume (entre o ás e o 3).
+             Essas adaptações podem ser pregas circulares, vilosidades, microvilosidades e criptas de Lieberkühn.
+             Selecionamos, desenvolvemos e retemos pessoas que podem ser melhores que nós mesmos.
+             Elas devem estar maduras, porém firmes.
+             Por isso, o seu consumo deve ser frequente para quem tem problemas cardiovasculares.
+             Nancy descobre que Waldisney foi solto e questiona a possibilidade do ex namorado ser inocente.
+    -->
+  </rule>
 
   <rule id="DP_V_VPARTPASS_NC_20250927" name="Remove rare verbs from appearing as verbs">
     <pattern>
@@ -3964,7 +4056,64 @@ USA
     -->
   </rule>
 
-  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251009" name="Make past participle verbs and others appear as 3rd person singular">
+  <rulegroup id="VERB_MESMO_TANTO_20251108_RARE" name="mesmo/tanto is an RG, not a noun, nor PI.+">
+    <!-- ChatGPT 5 -->
+    <rule>
+      <pattern>
+        <token postag='V.+|CS' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token regexp='yes'>mesmo|tanto</token>
+            <token postag_regexp='yes' postag='NC.+'/>
+          </and>
+        </marker>
+        <token min='0' max='1' postag='PP.C.+' postag_regexp='yes'/>
+        <token postag='VMN000.+|V.+:PP3.+|V[MS]IP3.+|_PUNCT|SENT_END' postag_regexp='yes'/> <!-- <exception postag_regexp='no' postag='VMG0000'/></token> -->
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+      <!--
+      Examples:
+               É tããão bom, mas tãããão bom que vocês não podem mesmo deixar de provar.
+               Queria mesmo comprar casa.
+               Com excepção da Nissan, as outras duas conseguiram mesmo aumentar a quota de mercado no nosso País.
+               Deseja mesmo sair?
+               Nunca quis tanto gastar meu tempo falando bobagens com alguém como eu quero contigo.
+               Através do MaxMilhas você pode tanto comprar quanto vender as suas milhas.
+               Apesar de tanto estudar, não conseguiu a aprovação.
+               Rubens diz que “são pensamentos muito rápidos, de defesa, porque o foco mesmo é de equilíbrio para parar os 8 segundos.
+               E nós abandonamos o homem que tanto têm lutado por nós.
+               Já que lesbianas não tem o bilu que tanto desejam, querem parecer com quem tem um.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='V.+|CS' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token regexp='yes'>mesmo|tanto</token>
+            <token postag_regexp='yes' postag='NC.+'/>
+          </and>
+        </marker>
+        <token regexp='yes' inflected='yes'>de|de:o|este|de:este|esse|de:esse|aquele|de:aquele|isto|de:isto|isso|de:isso|aquilo|de:aquilo|ele|de:ele|algum|de:algum|outro|de:outro|onde|de:onde|aqui|de:aqui|aí|de:aí|ali|de:ali<exception postag_regexp='yes' postag='DA.+'/></token>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+      <!--
+      Examples:
+               Desde 1931, a meta oficial foi mesmo de cumprir os planos quinquenais em apenas quatro anos.
+               Burguês não gosta mesmo de mim.
+               Você defende mesmo isso?
+               Por favor, certifique-se de que é mesmo isto que pretende.
+               Como se chama mesmo aquela tartaruga do Mario Bros? Ah, Koopa Bros!
+               Tom não consegue acreditar que Mary disse mesmo aquilo.
+               Mas gosto tanto destas árvores nesta altura.
+               Será que descendo mesmo dos judeus?
+               Ai, eu sou absurdamente fã do Charles Dickens, por isso gostei tanto do seu vídeo e do seu texto.
+               Lopo diz-lhe que se o cabelo for mesmo dela, Clarice terá de cumprir a promessa e beijá –lo.
+      -->
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251028" name="Make past participle verbs and others appear as 3rd person singular">
     <!-- ChatGPT 5 -->
     <rule>
       <pattern>
@@ -3981,7 +4130,7 @@ USA
           <exception scope='previous' regexp='yes'>surpresa|assente</exception>
           <exception regexp='yes'>ao?|às?</exception></token> <!-- It will remove valid verbs, but better this way -->
       </pattern>
-      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <disambig action="remove" postag="VMP00SF"/>
       <!--
       Examples:
                A tragédia completa um ano nesta data.
@@ -4007,7 +4156,7 @@ USA
         </marker>
         <token postag='(SPS00:)?D[AIP].+|RG|CS' postag_regexp='yes'><exception scope='previous' regexp='yes'>surpresa|assente</exception></token>
       </pattern>
-      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <disambig action="remove" postag="VMP00SF"/>
       <!--
       Examples:
                O sujeito ganha uma medalha de ouro, critica a burocracia cuba..digo, brasileira, e leva uma bronca.
@@ -4035,7 +4184,7 @@ USA
           </and>
         </marker>
       </pattern>
-      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <disambig action="remove" postag="(NC.+|AQ.+|VMP00.+|VMM02S0)"/>
       <!--
       Examples:
                O David ganha muito pouco com os livros, mas dá aulas.
@@ -4058,7 +4207,7 @@ USA
           </and>
         </marker>
       </pattern>
-      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <disambig action="remove" postag="VMP00SF"/>
       <!--
       Examples:
                Eu vejo pelas coisas que ela posta, o desejo de ajudar o outro.
@@ -4078,7 +4227,7 @@ USA
             <token postag='VMM02S0'/>
           </and>
         </marker>
-        <token postag='VMN0000'><exception scope='previous' postag_regexp='no' postag='CC'/></token>
+        <token postag_regexp='yes' postag='VMN0000|[DP].+'><exception scope='previous' postag_regexp='no' postag='CC'/></token>
       </pattern>
       <disambig action="remove" postag="VMM02S0"/>
       <!--
@@ -4089,6 +4238,9 @@ USA
                Você pode ouvir o álbum inteiro.
                O cognoscível é o que se pode conhecer.
                Você deve ativar o Javascript no seu navegador para utilizar as funcionalidades deste site.
+               Ele também tem uma irmã chamada Misty.
+               Para o aristocrata Henry, o artista observador Basil diz: "Você nunca diz algo moral, e você nunca faz algo errado".
+               Nota: Se procura o político brasileiro, veja Jorge Vargas (político).
       -->
     </rule>
     <rule>
@@ -4102,7 +4254,7 @@ USA
         <token postag='VMN0000'/>
         <token postag='VMP00S.+' postag_regexp='yes'><exception postag_regexp='yes' postag='AQ.+'/></token>
       </pattern>
-      <disambig action="replace"><wd pos="VMIP3S0"/></disambig>
+      <disambig action="remove" postag="VMM02S0"/>
       <!--
       Examples:
                Esta tradição pode ser revivida no núcleo das charqueadas, por meio de visitas orientadas.
@@ -4132,6 +4284,29 @@ USA
                Além disso, sabe-se que há incertezas intrínsecas aos experimentos.
                Para uma experiência ser considerada rigorosa nas ciências humanas, leva-se muito em conta o fator da aleatoriedade.
                A jota castelhana dança-se com os característicos passos saltados, um pouco repicada.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag_regexp='yes' postag='_PUNCT|SENT_START'/>
+        <token postag_regexp='yes' postag='DA.+'/>
+        <token skip='-1' postag_regexp='yes' postag='N.+|AQ.+|UNKNOWN'><exception scope='next' postag_regexp='yes' postag='DP.+|_QUOT'/></token>
+        <marker>
+          <and>
+            <token postag='VMIP3S0:PP1CSO00'/>
+            <token postag='VMM02S0:PP1CSO00'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMM02S0:PP1CSO00"/>
+      <!--
+      Examples:
+               A subida do crédito à habitação deixa-me estupefacta.
+               O sabor desta madalena dá-me lembranças de minha infância.
+               O abacaxi machuca-me a boca.
+               A história lembra-me de uma experiência que tive há muito tempo.
+               A cerâmica oriental interessa-me.
+               A verdade obriga-me a dizê-lo.
       -->
     </rule>
   </rulegroup>
@@ -4273,11 +4448,11 @@ USA
     -->
   </rule>
 
-  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_NEXTVERB_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+  <rule id="PELA_COMO_SOBRE_ACERCA_ELAR_NEXTVERB_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
     <!-- False verbs after "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
     <pattern>
       <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+|VMG0000'/></token>
-      <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?|logo</token>
+      <token regexp="yes">pel[ao]s?|como|sobre|acerca|el[ae]s?|logo</token>
       <marker>
         <token postag='V.+' postag_regexp='yes'/>
         <token postag='NC.+' postag_regexp='yes'/>
@@ -4776,21 +4951,22 @@ USA
     -->
   </rule>
 
-  <rule id="VERB_VERBINFINITIVE_20251009_RARE" name="Remove infinitive verbs from appearing as nouns">
+  <rule id="VERB_VERBINFINITIVE_20251105_RARE" name="Remove infinitive verbs from appearing as nouns">
     <!-- ChatGPT 5 -->
     <pattern>
       <token postag='V.+' postag_regexp='yes'>
         <exception postag='VMN0000'/>
         <exception regexp='yes' inflected='yes'>ter|haver</exception>
         <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <token min='0' max='1' postag='RG|RM|RN' postag_regexp='yes'/>
       <marker>
         <and>
-          <token postag='VMN0000'/>
-          <token postag='NC.+' postag_regexp='yes'/>
+          <token postag='VMN0000'><exception postag_regexp='yes' postag='AQ.+'/></token>
+          <token postag='NC.+|VMN01S0|VMN03S0|VMSF1S0|VMSF3S0' postag_regexp='yes'><exception postag_regexp='yes' postag='AQ.+'/></token>
         </and>
       </marker>
     </pattern>
-    <disambig action="remove" postag="N.*"/>
+    <disambig action="filter" postag="VMN0000"/>
     <!--
     Examples:
              Ele precisa saber o que fazer com essas ferramentas.
@@ -4798,6 +4974,31 @@ USA
              Páginas nesta categoria devem ser adicionadas pelo Módulo:Citação/CS1.
              Mas superou tudo, e bastou cantar três músicas para que ela conquistasse o público revoltado.
              Não deve haver nó distinto ou nós que assumam papéis especiais ou conjunto extra de responsabilidades.
+    -->
+  </rule>
+
+  <rule id="VERB_VERBINFINITIVE_PASTPART_NC_AQ_DA_DI_20251105_RARE" name="Remove infinitive verbs from appearing as nouns">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <token min='0' max='1' postag='RG|RM|RN' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+|VMN01S0|VMN03S0|VMSF1S0|VMSF3S0' postag_regexp='yes'/>
+        </and>
+        <token postag='VMP00.+|D[AI].+' postag_regexp='yes'/>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+    <!--
+    Examples:
+             Sepultura: Os organizadores resolveram escalar o grupo mineiro faltando um mês para começar o festival.
+             Para evitar ser enganado, é preciso ficar atento e tomar um certo cuidado.
+             E gostar de roupas masculinas não faz ninguém querer ser um marmanjo.
+             Isso sim é democracia, e não, a PresidentA ter que aceitar ser xingada pra contentar a escória burguesa!
+             Incrivel como a cartilha consegue manipular os factos.
+             Devo fazê-lo ou esperar ser notificada?
     -->
   </rule>
 
@@ -4851,7 +5052,7 @@ USA
       -->
   </rule>
 
-  <rulegroup id="VERBO_PARA_INFINITIVO_FIRST_PERSON_SINGULAR_20251020_RARE" name="This word is first person">
+  <rulegroup id="VERBO_PARA_INFINITIVO_FIRST_PERSON_SINGULAR_20251107_RARE" name="This word is first person">
     <rule>
       <!-- ChatGPT 5 -->
       <pattern>
@@ -4879,7 +5080,7 @@ USA
     </rule>
     <rule>
       <pattern>
-        <token postag='PP.C.+|SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token postag='RN|PP.C.+|SENT_START|_PUNCT' postag_regexp='yes'/>
         <marker>
           <and>
             <token postag_regexp='yes' postag='VMIS1S.+'/>
@@ -4895,7 +5096,8 @@ USA
                  Em relação a A lista negra, não me interessei pela trama, mas curti sua resenha e amei as fotos!
                  Me senti muito grato pela acolhida de todos", diz Jesus, morador do bairro Anair.
                  Eu me senti vingada aqui!
-                 Sério, esse livro me ensinou tanto nessas 463 páginas que até agora não sei se consegui explicar a forma de como ele conseguiu me sacudir.
+                 Até agora não sei se consegui explicar a forma de como ele conseguiu me sacudir.
+                 Não pedi nenhum conselho.
         -->
     </rule>
   </rulegroup>
@@ -5007,6 +5209,33 @@ USA
         -->
     </rule>
   </rulegroup>
+
+  <rule id="VERB_INTENSITY_NOUN_ADJECTIVE_20251107_RARE" name="This word is a noun/adjective">
+    <!-- ChatGPT 5 -->
+    <!-- Avoids infinitive, gerund and past participle because they are ambiguous -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag='NC.+|AQ.+' postag_regexp='yes'/></token>
+      <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;<exception postag='RN' postag_regexp='no'/></token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='V.+'><exception postag='VMN0000|VMG0000|VMP00.+' postag_regexp='yes'/></token>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Após um jogo iniciado, pode-se então acrescentar mais cartas, de uma em uma ou mais.
+             O Alpha serviu mais tarde para o desenvolvimento do Northrop Gamma.
+             Os finlandeses resistiram ferozmente, e recebeu bastante apoio e simpatia dos Aliados.
+             Essa formação soava mais como um Sex Pistols e começam a abrir para bandas como The Clash, The Ruts e The Damned.
+             No dia seguinte, eles exploram mais fundo a floresta, mesmo estando incertos da sua localização exata no mapa.
+             Saiba mais sobre a Web Store do Chrome.
+             Após 6 minutos o dano cerebral é praticamente certo.
+             O álbum Brand New Day ficou completamente fora das listas.
+      -->
+  </rule>
 
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>

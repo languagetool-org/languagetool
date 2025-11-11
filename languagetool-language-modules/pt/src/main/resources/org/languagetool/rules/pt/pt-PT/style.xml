@@ -2175,11 +2175,7 @@ USA
                 <suggestion><match no='1' postag='VM[^P].+' postag_regexp='yes'>despender</match></suggestion>
                 <suggestion><match no='1' postag='VM[^P].+' postag_regexp='yes'>desembolsar</match></suggestion>
                 <example correction="despendeu|desembolsou">A Ana <marker>gastou</marker> demasiado dinheiro no supermercado.</example>
-<!--
-
-FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
                 <example correction="despende|desembolsa">Ela <marker>gasta</marker> bastante dinheiro em livros.</example>
--->
                 <example>A empresa tinha gasto mil milhões de euros nessas compras.</example>
                 <example>Queria não ter gastado tanto dinheiro.</example>
                 <example>Tenho gastado muito dinheiro em minha casa.</example>
@@ -2329,17 +2325,6 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
         <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
 
         <!-- Inserted global antipatterns for all subrules on top. -->
-
-        <antipattern>
-            <token postag_regexp='yes' postag='_PUNCT|SENT_START'/>
-            <token postag_regexp='yes' postag='DA.+'/>
-            <token skip='-1' postag_regexp='yes' postag='N.+|AQ.+|UNKNOWN'><exception scope='next' postag_regexp='yes' postag='DP.+'/></token>
-            <token postag_regexp='yes' postag='(VMIP3S0|VMM02S0):PP1CSO00'/>
-            <example>O TENENTE SACOGNE diz-me que pediu passagem para a reserva, para onde vai no posto de MAJOR.</example>
-            <example>A pele das serpentes repugna-me.</example>
-            <example>A Ana repugna-me.</example>
-            <example>A USF altera-me a consulta de véspera.</example>
-        </antipattern>
 
         <!-- ChatGPT 4o: "All these verbs are related to absence, need, or lack and are, therefore, exceptions to the proposed rule." -->
         <antipattern>
@@ -2720,7 +2705,6 @@ FIX THIS RULE WITH THE NEW DISAMBIGUATOR FIX 2025-09-30!!!!
             <token postag='SPS00|CC|CS' postag_regexp='yes'>
                 <exception scope="next" regexp='yes'>que|lhes?|me|te|ti|tu</exception>
             </token>
-            <example>Quero ver os pássaros revoando sobre as arvores e chorar de alegria.</example>
             <example>... está patente quer em séries recolhidas em livro, quer nos desenhos e (des)colagens, quer ainda nos filmes e acções poéticas que realizou.</example>
             <example>Muitos membros da Vampires de Isara se mudaram para Solera e estão até hoje lá.</example>
             <example>...ra galerinha novinha aí, vamos lá, como diz o JR, vamos estudar... Um forte abraço a todos e viva o Consoles e Jogos Brasil!!!</example>

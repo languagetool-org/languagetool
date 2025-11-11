@@ -87,23 +87,23 @@ private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
   @Override
   protected String adjustPostag(String postag) {
     if (postag.contains("CN")) {
-      return StringUtils.replaceOnce(postag,"CN", "..");
+      return postag.replaceFirst("CN", "..");
     } else if (postag.contains("MS")) {
-      return StringUtils.replaceOnce(postag,"MS", "[MC][SN]");
+      return postag.replaceFirst("MS", "[MC][SN]");
     } else if (postag.contains("FS")) {
-      return StringUtils.replaceOnce(postag,"FS", "[FC][SN]");
+      return postag.replaceFirst("FS", "[FC][SN]");
     } else if (postag.contains("MP")) {
-      return StringUtils.replaceOnce(postag,"MP", "[MC][PN]");
+      return postag.replaceFirst("MP", "[MC][PN]");
     } else if (postag.contains("FP")) {
-      return StringUtils.replaceOnce(postag,"FP", "[FC][PN]");
+      return postag.replaceFirst("FP", "[FC][PN]");
     } else if (postag.contains("CS")) {
-      return StringUtils.replaceOnce(postag,"CS", "[MFC][SN]"); // also F ?
+      return postag.replaceFirst("CS", "[MFC][SN]"); // also F ?
     } else if (postag.contains("CP")) {
-      return StringUtils.replaceOnce(postag,"CP", "[MFC][PN]"); // also F ?
+      return postag.replaceFirst("CP", "[MFC][PN]"); // also F ?
     } else if (postag.contains("MN")) {
-      return StringUtils.replaceOnce(postag,"MN", "[MC][SPN]");
+      return postag.replaceFirst("MN", "[MC][SPN]");
     } else if (postag.contains("FN")) {
-      return StringUtils.replaceOnce(postag,"FN", "[FC][SPN]");
+      return postag.replaceFirst("FN", "[FC][SPN]");
     }
     return postag;
   }
