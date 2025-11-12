@@ -47,10 +47,10 @@ public class AnarASuggestionsFilter extends RuleFilter {
       initPos++;
     }
     VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, initPos, getLanguageFromRuleMatch(match));
-    if (verbSynthesizer.isUndefined() || tokens[verbSynthesizer.getLastVerbPos()].getEndPos() > match.getToPos()) {
+    if (verbSynthesizer.isUndefined() || tokens[verbSynthesizer.getLastVerbIndex()].getEndPos() > match.getToPos()) {
       return null;
     }
-    initPos = verbSynthesizer.getFirstVerbPos();
+    initPos = verbSynthesizer.getFirstVerbIndex();
     String verbPostag = tokens[initPos].readingWithTagRegex("V.IP.*").getPOSTag();
     String lemma = tokens[initPos + 2].readingWithTagRegex("V.N.*").getLemma();
     AnalyzedToken at = new AnalyzedToken("", "", lemma);

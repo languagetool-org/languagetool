@@ -54,7 +54,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
     }
     VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, posWord, getLanguageFromRuleMatch(match));
     // verb found out of bounds
-    if (verbSynthesizer.isUndefined() || tokens[verbSynthesizer.getLastVerbPos()].getEndPos() > match.getToPos()) {
+    if (verbSynthesizer.isUndefined() || tokens[verbSynthesizer.getLastVerbIndex()].getEndPos() > match.getToPos()) {
       return null;
     }
     for (String originalSuggestion : match.getSuggestedReplacements()) {
@@ -116,7 +116,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       }
       // synthesize with new lemma
       List<String> postags = new ArrayList<>();
-      for (AnalyzedToken reading : tokens[verbSynthesizer.getFirstVerbPos()]) {
+      for (AnalyzedToken reading : tokens[verbSynthesizer.getFirstVerbIndex()]) {
         if (reading.getPOSTag() != null && reading.getPOSTag().startsWith("V")) {
           String postag = reading.getPOSTag();
           if (!desiredNumber.isEmpty()) {
@@ -218,7 +218,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
     if (replacements.isEmpty()) {
       return null;
     }
-    int posStartUnderline = verbSynthesizer.getFirstVerbPos() - verbSynthesizer.getNumPronounsBefore();
+    int posStartUnderline = verbSynthesizer.getFirstVerbIndex() - verbSynthesizer.getNumPronounsBefore();
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posStartUnderline].getStartPos(),
       match.getToPos(), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());

@@ -37,13 +37,14 @@ public class VerbSynthesizer {
 
   final public static Pattern pVerb = Pattern.compile("V.*");
   final public static Pattern pInflectedVerb = Pattern.compile("V.[SIM].*");
+  final public static Pattern pImperativeVerb = Pattern.compile("V.M.*");
   final public static Pattern pVerbIS = Pattern.compile("V.[IS].*");
   final private static Pattern pNonParticiple = Pattern.compile("V.[^P].*");
   final private static Pattern pParticiple = Pattern.compile("V.P.*");
 
   AnalyzedTokenReadings[] tokens;
-  int posFirstVerb = -1;
-  int posLastVerb = -1;
+  int iFirstVerb = -1;
+  int iLastVerb = -1;
   String newLemma;
   String newPostag;
   int numPronounsBefore = -1;
@@ -61,6 +62,11 @@ public class VerbSynthesizer {
     this.newPostag = postag;
   }
 
+  public void setLemma(String lemma) {
+    this.newLemma = lemma;
+    this.newPostag = tokens[iFirstVerb].readingWithTagRegex(pVerb).getPOSTag();
+  }
+
   private void setIndexes(int startPos) {
     int j = startPos;
     //If it is not a verb, find the first one
@@ -68,24 +74,24 @@ public class VerbSynthesizer {
       j++;
     }
     if (isVerb(j)) {
-      posFirstVerb = posLastVerb = j;
+      iFirstVerb = iLastVerb = j;
       //enrere
       int i = j - 1;
-      while (isVerb(i)) {
-        posFirstVerb = i;
+      while (isVerb(i) && !isFirstVerbIS()) {
+        iFirstVerb = i;
         i--;
       }
       //avant
       i = j + 1;
       while (isVerb(i) && !(isFirstVerbIS() && isVerbIS(i))) {
-        posLastVerb = i;
+        iLastVerb = i;
         i++;
       }
     }
 
     int i = 1;
     int pronounsAfter = 0;
-    while (posLastVerb + i < tokens.length && !tokens[posLastVerb + i].isWhitespaceBefore() && tokens[posLastVerb + i].hasPosTagStartingWith("P")) {
+    while (iLastVerb + i < tokens.length && !tokens[iLastVerb + i].isWhitespaceBefore() && tokens[iLastVerb + i].hasPosTagStartingWith("P")) {
       pronounsAfter++;
       i++;
     }
@@ -94,8 +100,8 @@ public class VerbSynthesizer {
     i = -1;
     int pronounsBeforeNoSpaceBefore = 0;
     int pronounsBefore = 0;
-    while (posFirstVerb + i > 0 && tokens[posFirstVerb + i].readingWithTagRegex(pPronomFeble) != null) {
-      if (tokens[posFirstVerb + i].isWhitespaceBefore() || posFirstVerb + i == 1) {
+    while (iFirstVerb + i > 0 && tokens[iFirstVerb + i].readingWithTagRegex(pPronomFeble) != null) {
+      if (tokens[iFirstVerb + i].isWhitespaceBefore() || iFirstVerb + i == 1 || tokens[iFirstVerb + i - 1].hasPosTagStartingWith("_QM")) {
         pronounsBefore = pronounsBefore + pronounsBeforeNoSpaceBefore + 1;
         pronounsBeforeNoSpaceBefore = 0;
       } else {
@@ -117,25 +123,25 @@ public class VerbSynthesizer {
   public String synthesize() throws IOException {
     Synthesizer synth = language.getSynthesizer();
     StringBuilder result = new StringBuilder();
-    AnalyzedToken firstVerb = tokens[posFirstVerb].readingWithTagRegex(pVerb);
-    if (posFirstVerb == posLastVerb) {
+    AnalyzedToken firstVerb = tokens[iFirstVerb].readingWithTagRegex(pVerb);
+    if (iFirstVerb == iLastVerb) {
       String[] synthesized = synth.synthesize(new AnalyzedToken("", newPostag, newLemma),
         adjustPostagTolemma(newLemma, newPostag));
       if (synthesized != null && synthesized.length > 0) {
         result.append(synthesized[0]);
       }
     } else {
-      for (int i = posFirstVerb; i <= posLastVerb; i++) {
-        if (i == posFirstVerb) {
+      for (int i = iFirstVerb; i <= iLastVerb; i++) {
+        if (i == iFirstVerb) {
           String[] synthesized = synth.synthesize(firstVerb, newPostag);
           if (synthesized != null && synthesized.length > 0) {
             result.append(synthesized[0]);
           }
-        } else if (i == posLastVerb) {
+        } else if (i == iLastVerb) {
           if (tokens[i].isWhitespaceBefore()) {
             result.append(" ");
           }
-          String postag = tokens[posLastVerb].readingWithTagRegex(pVerb).getPOSTag();
+          String postag = tokens[iLastVerb].readingWithTagRegex(pVerb).getPOSTag();
           AnalyzedToken toSynthesize = new AnalyzedToken("", postag, newLemma);
           String[] synthesized = synth.synthesize(toSynthesize, adjustPostagTolemma(newLemma, postag));
           if (synthesized != null && synthesized.length > 0) {
@@ -174,19 +180,23 @@ public class VerbSynthesizer {
   }
 
   public String getPronounsStrBefore() {
-    return getStringFromTo(posFirstVerb - numPronounsBefore, posFirstVerb - 1);
+    return getStringFromTo(iFirstVerb - numPronounsBefore, iFirstVerb - 1);
   }
 
   public String getPronounsStrAfter() {
-    return getStringFromTo(posLastVerb + 1, posLastVerb + numPronounsAfter);
+    return getStringFromTo(iLastVerb + 1, iLastVerb + numPronounsAfter);
   }
 
-  public int getFirstVerbPos() {
-    return posFirstVerb;
+  public String getVerbStr() {
+    return getStringFromTo(iFirstVerb, iLastVerb);
   }
 
-  public int getLastVerbPos() {
-    return posLastVerb;
+  public int getFirstVerbIndex() {
+    return iFirstVerb;
+  }
+
+  public int getLastVerbIndex() {
+    return iLastVerb;
   }
 
   public int getNumPronounsAfter() {
@@ -198,7 +208,15 @@ public class VerbSynthesizer {
   }
 
   public String getFirstVerbPersonaNumber() {
-    AnalyzedToken reading = tokens[posFirstVerb].readingWithTagRegex(pInflectedVerb);
+    AnalyzedToken reading = tokens[iFirstVerb].readingWithTagRegex(pInflectedVerb);
+    if (reading != null) {
+      return reading.getPOSTag().substring(4, 6);
+    }
+    return "";
+  }
+
+  public String getFirstVerbPersonaNumberImperative() {
+    AnalyzedToken reading = tokens[iFirstVerb].readingWithTagRegex(pImperativeVerb);
     if (reading != null) {
       return reading.getPOSTag().substring(4, 6);
     }
@@ -206,7 +224,7 @@ public class VerbSynthesizer {
   }
 
   public boolean isFirstVerbIS() {
-    AnalyzedToken reading = tokens[posFirstVerb].readingWithTagRegex(pVerbIS);
+    AnalyzedToken reading = tokens[iFirstVerb].readingWithTagRegex(pVerbIS);
     return reading != null;
   }
 
@@ -218,13 +236,12 @@ public class VerbSynthesizer {
     return reading != null;
   }
 
-
   public String getCasingModel() {
-    return getStringFromTo(posFirstVerb - numPronounsBefore, posFirstVerb);
+    return getStringFromTo(iFirstVerb - numPronounsBefore, iFirstVerb);
   }
 
   public boolean isUndefined() {
-    return (posFirstVerb == -1 || posLastVerb == -1 || numPronounsAfter == -1 || numPronounsBefore == -1);
+    return (iFirstVerb == -1 || iLastVerb == -1 || numPronounsAfter == -1 || numPronounsBefore == -1);
   }
 
 }

@@ -49,11 +49,11 @@ public class DonarseliBeFilter extends RuleFilter {
       posWord++;
     }
     VerbSynthesizer verbSynth = new VerbSynthesizer(tokens, posWord, lang);
-    if (verbSynth.isUndefined() || tokens[verbSynth.getLastVerbPos()].getEndPos() > match.getToPos()) {
+    if (verbSynth.isUndefined() || tokens[verbSynth.getLastVerbIndex()].getEndPos() > match.getToPos()) {
       return null;
     }
-    posDonar = verbSynth.getLastVerbPos();
-    posPrimerVerb = verbSynth.getFirstVerbPos();
+    posDonar = verbSynth.getLastVerbIndex();
+    posPrimerVerb = verbSynth.getFirstVerbIndex();
     posInitUnderline = posPrimerVerb - verbSynth.getNumPronounsBefore();
     isPronomFebleDavant = verbSynth.getNumPronounsBefore() > 0;
     int posPronomFebleRelevant = -1;
@@ -71,7 +71,7 @@ public class DonarseliBeFilter extends RuleFilter {
       return null;
     }
     // mira darrere: molt bé
-    posWord = verbSynth.getLastVerbPos() + verbSynth.getNumPronounsAfter() + 1;
+    posWord = verbSynth.getLastVerbIndex() + verbSynth.getNumPronounsAfter() + 1;
     primerAdverbi = posWord;
     while (posWord < tokens.length && !adverbiFinal.contains(tokens[posWord].getToken().toLowerCase())) {
       posWord++;
