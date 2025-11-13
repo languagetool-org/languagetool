@@ -931,6 +931,22 @@ USA
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
 
+      <antipattern> <!-- There were issues with "nada" after my fix in the disambiguator ChatGPT 5 -->
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='PI.+' postag_regexp='yes'><exception postag_regexp='yes' postag='DI.+|RG'/></token>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <example>Eu não retenho nada teu.</example>
+          <example>Aquele é todo seu.</example>
+          <example>"Agora eu serei todo seu", disse o coelhinho branco.</example>
+          <example>O prazer é todo meu.</example>
+          <example>O erro foi todo seu.</example>
+          <example>É tudo minha culpa!</example>
+          <example>É tudo nossa culpa.</example>
+          <example>Esses cadernos são todos seus?</example>
+          <example>Só um cavalo de potência, mas é todo teu.</example>
+          <example>O prazer foi todo nosso.</example>
+      </antipattern>
+
       <antipattern> <!-- Greeting people related: DeepSeek-V3 -->
           <token postag='SENT_START|_QUOT|_PUNCT|SPS00:DA.+|RG|I' postag_regexp='yes'/>
           <token postag='DP.+' postag_regexp='yes'/>
