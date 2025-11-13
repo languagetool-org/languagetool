@@ -153,11 +153,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         case "addPronounEn":
           String newPronoun = doAddPronounEn(pronounsStr, verbStr, !verbSynthesizer.isFirstVerbIS());
           if (!newPronoun.isEmpty()) {
-            if (verbSynthesizer.isFirstVerbIS()) {
-              replacement = newPronoun + verbStr;
-            } else {
-              replacement = verbStr + newPronoun;
-            }
+            replacement = (verbSynthesizer.isFirstVerbIS() ? newPronoun + verbStr : verbStr + newPronoun);
           }
           break;
         case "removePronounReflexive":
