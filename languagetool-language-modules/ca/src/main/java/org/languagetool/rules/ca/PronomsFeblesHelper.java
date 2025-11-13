@@ -197,14 +197,19 @@ public class PronomsFeblesHelper {
     }
   }
 
-  public static String doAddPronounEn(String pronounsStr, String firstVerb) {
+  public static String doAddPronounEn(String pronounsStr, String verbStr, boolean pronounsAfter) {
     String pronounNormalized = transform(pronounsStr, PronounPosition.NORMALIZED);
     if (pronounNormalized.endsWith("hi")) {
       pronounNormalized = pronounNormalized.replace("hi", "en hi");
     } else {
       pronounNormalized += " en";
     }
-    return transformDavant(pronounNormalized, firstVerb);
+    if (pronounsAfter) {
+      return transformDarrere(pronounNormalized, verbStr);
+    } else {
+      return transformDavant(pronounNormalized, verbStr);
+    }
+
   }
 
   public static String doRemovePronounReflexive(String pronounsStr, String verbStr, boolean pronounsAfter) {

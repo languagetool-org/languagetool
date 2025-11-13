@@ -77,16 +77,18 @@ public class VerbSynthesizer {
       iFirstVerb = iLastVerb = j;
       //enrere
       int i = j - 1;
-      while (isVerb(i) && !isFirstVerbIS()) {
+      while (isMultitokenVerb(i) && !isFirstVerbIS()) {
         iFirstVerb = i;
         i--;
       }
       //avant
       i = j + 1;
-      while (isVerb(i) && !(isFirstVerbIS() && isVerbIS(i))) {
+      while (isMultitokenVerb(i) && !(isFirstVerbIS() && isVerbIS(i))) {
         iLastVerb = i;
         i++;
       }
+    } else {
+      return;
     }
 
     int i = 1;
@@ -118,6 +120,13 @@ public class VerbSynthesizer {
     }
     return tokens[i].getChunkTags().contains(new ChunkTag("GV")) || tokens[i].readingWithTagRegex(pNonParticiple) != null
       || (tokens[i].readingWithTagRegex(pParticiple) != null && tokens[i].hasPosTag("_GV_"));
+  }
+
+  private boolean isMultitokenVerb(int i) {
+    if (i < 0 || i > tokens.length - 1) {
+      return false; // out of bounds
+    }
+    return tokens[i].getChunkTags().contains(new ChunkTag("GV"));
   }
 
   public String synthesize() throws IOException {

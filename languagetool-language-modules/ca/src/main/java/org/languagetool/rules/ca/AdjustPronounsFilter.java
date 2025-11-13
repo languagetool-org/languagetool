@@ -44,10 +44,6 @@ public class AdjustPronounsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    if (match.getSentence().getText().contains("ell es va anar a estudiar")) {
-      int ii=0;
-      ii++;
-    }
     List<String> replacements = new ArrayList<>();
     List<String> actions = Arrays.asList(getRequired("actions", arguments).split(","));
     Synthesizer synth = getSynthesizerFromRuleMatch(match);
@@ -94,9 +90,13 @@ public class AdjustPronounsFilter extends RuleFilter {
           replacement = transformDavant(pr, verbStr) + verbStr;
           break;
         case "addPronounEn":
-          String newPronoun = doAddPronounEn(pronounsStr, verbStr);
+          String newPronoun = doAddPronounEn(pronounsStr, verbStr, !verbSynthesizer.isFirstVerbIS());
           if (!newPronoun.isEmpty()) {
-            replacement = newPronoun + verbStr;
+            if (verbSynthesizer.isFirstVerbIS()) {
+              replacement = newPronoun + verbStr;
+            } else {
+              replacement = verbStr + newPronoun;
+            }
           }
           break;
         case "removePronounReflexive":
@@ -107,10 +107,11 @@ public class AdjustPronounsFilter extends RuleFilter {
           break;
         case "replaceHiEn":
           replacement = doAddPronounEn(transform(pronounsStr.replace("hi", "").trim(), PronounPosition.NORMALIZED),
-            verbStr) + verbStr;
+            verbStr, false) + verbStr;
           break;
         case "addPronounReflexive":
-          replacement = doAddPronounReflexive(pronounsStr, verbStr, firstVerbPersonaNumber, false);
+
+          replacement = doAddPronounReflexive(pronounsStr, verbStr, firstVerbPersonaNumber, !verbSynthesizer.isFirstVerbIS());
           break;
         case "addPronounReflexiveHi":
           replacement = doAddPronounReflexive(pronounsStr, "hi " + verbStr, firstVerbPersonaNumber, false);
