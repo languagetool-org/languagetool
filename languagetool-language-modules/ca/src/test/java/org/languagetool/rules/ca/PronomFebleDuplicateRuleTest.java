@@ -60,7 +60,6 @@ public class PronomFebleDuplicateRuleTest {
     assertCorrect("la batalla per defensar-la");
     assertCorrect("ens convida a treure'ns-la");
     assertCorrect("ens ve a buscar per ajudar-nos");
-    assertCorrect("et fan adonar-te");
     assertCorrect("m'agrada enfonsar-me");
     assertCorrect("em dedico a fer-me");
     assertCorrect("la mira sense veure-la");
@@ -233,6 +232,10 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals(1, matches.length);
     assertEquals("ha d'haver-hi", matches[0].getSuggestedReplacements().get(0));
     assertEquals("hi ha d'haver", matches[0].getSuggestedReplacements().get(1));
+
+    matches = rule.match(lt.getAnalyzedSentence("Això et fa adonar-te del que passa."));
+    assertEquals(1, matches.length);
+    assertEquals("et fa adonar", matches[0].getSuggestedReplacements().get(0));
 
   }
     

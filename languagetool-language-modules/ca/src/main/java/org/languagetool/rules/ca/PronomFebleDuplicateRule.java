@@ -104,9 +104,13 @@ public class PronomFebleDuplicateRule extends Rule {
             tokens[i - 1].getEndPos(), ruleMessage, shortMessage);
           List<String> replacements = new ArrayList<>();
           if (correctedPronouns == null) {
-            replacements.add(StringTools.preserveCase(getSuggestionFromTo(tokens, initPos + lemesPronomsAbans.size(),
-              initPos + lemesPronomsAbans.size() + countVerb + lemesPronomsDespres.size()),
+            boolean isExceptionPronounsAfter = tokens[initPos + lemesPronomsAbans.size()].hasLemma("fer") &&
+              tokens[lastVerbPos].hasLemma("adonar");
+            if (!isExceptionPronounsAfter) {
+              replacements.add(StringTools.preserveCase(getSuggestionFromTo(tokens, initPos + lemesPronomsAbans.size(),
+                  initPos + lemesPronomsAbans.size() + countVerb + lemesPronomsDespres.size()),
                 tokens[initPos].getToken()));
+            }
             replacements.add(StringTools.preserveCase(getSuggestionFromTo(tokens, initPos,
               initPos + lemesPronomsAbans.size() + countVerb), tokens[initPos].getToken()));
           } else {
