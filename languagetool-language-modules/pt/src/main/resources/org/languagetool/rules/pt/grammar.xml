@@ -4738,6 +4738,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='(?:NC|A..)[MC]P.+' postag_regexp='yes'/>
                     <token regexp='yes'>alvo|padrão</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp='yes'>ficheiros|arquivos</token>
+                    <token>áudio</token>
+                    <example>Edite o template carregado em [[PER_S1]] de chamada - CS – Default, preencha com os dados do cliente e anexe os ficheiros áudio;</example>
+                    <example>Salve os arquivos áudio na pasta.</example>
+                </antipattern>
                 <!-- MARCOAGPINTO 2021-12-19/20/21/24/25 (25-JUN-2021+) *START* -->
                 <!--
         FIRST ANTIPATTERN:
@@ -19204,6 +19210,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/a-virgula-em-4-regras-simples/3191</url>
             <short>Separe com vírgulas</short>
             <antipattern>
+                <token postag_regexp="yes" postag="D[DI].+|PI.+"/>
+                <marker>
+                    <token>porém</token>
+                </marker>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">[\.!?]</token>
                 <token regexp="yes" spacebefore='no'>”|»|&quot;</token>
             </antipattern>
@@ -27142,6 +27154,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <rule id='PARONYM_VARIA_340' name='Parónimo: varia'>
                 <!-- MARCOAGPINTO 2023-03-22 (2-MAR-2023+) *START* -->
+                <antipattern>
+                    <token postag='DA.+|DI.+' postag_regexp='yes'/>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                    <token postag='SPS00'/>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                    <token regexp='yes'>vari[ao]s?</token>
+                    <example>Diferentemente das listas estáticas, ela oferece maior flexibilidade, sendo ideal para situações em que a quantidade de dados varia.</example>
+                </antipattern>
                 <antipattern>
                     <token postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'/>
                     <token postag='NC.+|AQ.+' postag_regexp='yes'/>
