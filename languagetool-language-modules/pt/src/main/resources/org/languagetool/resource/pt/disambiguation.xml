@@ -3905,6 +3905,53 @@ USA
     <disambig action="filter" postag="SPS00"/>
   </rule>
 
+  <rulegroup id="SIM_NOUN" name="Remover substantivo da palavra 'sim'">
+    <!-- ChatGPT 5 -->
+    <rule> <!-- #1: "sim" at start of sentence, after a verb, or after punctuation -->
+      <pattern>
+        <token postag='V.+|SENT_START|_PUNCT' postag_regexp='yes'>
+          <exception scope='previous' postag_regexp='yes' postag='D.+'/>
+          <exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+        <marker>
+          <and>
+            <token>sim</token>
+            <token postag='RG'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="N.*"/>
+      <!--
+      Examples:
+               Se temos internet,video conferencia e vontade de aprender,digamos sim aos cursos à distancia.
+               Em Curitiba existe o curso da Uniandrade que é sim Superior de formação tecnológica.
+               Sim, cegamente atarefados como formigas ou cupim encaminhando-se para a morte.
+               A resposta é SIM!
+               Grande feito, sim senhor doutor!
+      -->
+    </rule>
+    <rule> <!-- #2: "sim" followed by punctuation -->
+      <pattern>
+        <marker>
+          <and>
+            <token>sim</token>
+            <token postag='RG'/>
+          </and>
+        </marker>
+        <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="remove" postag="N.*"/>
+      <!--
+      Examples:
+               Eu sim!
+               Se o blog ? bem feito, meu, ganha dinheiro sim.
+               A segurança não deve ser pensada depois de uma invasão, mas sim, antes!
+               Tudo indica que sim!
+               Em teoria sim, seguindo a máxima “quem não deve, não teme”.
+               Para muitos sim, mas para alguns ainda desconhecida.
+      -->
+    </rule>
+  </rulegroup>
+
   <rule id="NÓS_PROFESSORES_NCMP000" name="professores aparecia como verbo">
     <pattern>
       <token>nós</token>
