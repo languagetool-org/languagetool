@@ -20460,6 +20460,37 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove" postag="V.[SI].1S.."/>
         </rule>
+        <rule>
+            <!-- em faci riure -->
+            <pattern>
+                <token regexp="yes">em|m'</token>
+                <marker>
+                    <and>
+                        <token postag="V.[SI].1S.." postag_regexp="yes" inflected="yes" regexp="yes">fer|deixar</token>
+                        <token postag="V.[SI].3S.." postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token chunk="GV" min="0" max="2"><exception postag_regexp="yes" postag="V.N.*"/></token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.[SI].1S.."/>
+        </rule>
+        <rule>
+            <!-- m'hauria fet riure -->
+            <pattern>
+                <token regexp="yes">em|m'</token>
+                <marker>
+                    <and>
+                        <token postag="V.[SI].1S.." postag_regexp="yes"/>
+                        <token postag="V.[SI].3S.." postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token min="0" max="1" chunk="GV"><exception regexp="yes" inflected="yes">fer|deixar</exception></token>
+                <token regexp="yes" inflected="yes">fer|deixar</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.[SI].1S.."/>
+        </rule>
     </rulegroup>
     <rulegroup id="verb_reflexiu_simple" name="verb acompanyat de pronom reflexiu">
         <antipattern>
@@ -23190,6 +23221,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>hi</token>
             <token chunk="GV"/>
         </antipattern>
+        <antipattern>
+            <token inflected="yes">fer</token>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token chunk="GV" postag="_reflexiu"/>
             <marker>
@@ -23299,6 +23334,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">[&#x2200;-&#x22FF;]</token>
                 <token regexp="yes">[a-z]</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]['’][a-z]</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z]['’][a-z]</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token regexp="yes" spacebefore="no">[a-z]</token>
+                <token spacebefore="no" regexp="yes">['’]</token>
             </pattern>
             <disambig action="immunize"/>
         </rule>
