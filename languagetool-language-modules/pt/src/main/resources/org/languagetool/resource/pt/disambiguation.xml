@@ -3910,6 +3910,20 @@ USA
     <disambig action="filter" postag="SPS00"/>
   </rule>
 
+  <rule id="PRAZER_VERB_20251116" name="In this case PRAZER is NCMS000">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token>prazer</token>
+          <token postag='NCMS000'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="NCMS000"/>
+  </rule>
+
   <rulegroup id="SIM_NOUN" name="Remover substantivo da palavra 'sim'">
     <!-- ChatGPT 5 -->
     <rule> <!-- #1: "sim" at start of sentence, after a verb, or after punctuation -->
