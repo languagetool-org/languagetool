@@ -3967,6 +3967,57 @@ USA
     <disambig postag="NCMP000"/>
   </rule>
 
+  <rule id="PP3_N_VERBO_VERBOINFINNOUN_20251116" name="Convert to verb infinitive">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='PP3.+|N.+' postag_regexp='yes'><exception postag_regexp='yes' postag='PP3CNO00|SPS.+|RG'/></token> <!-- GPT: 'PP3.+|N.+' -->
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='VMP00.+|SPS.+|RG'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception>
+        <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+      <!--
+      Examples:
+               (Não há nada de errado em uma mulher querer ser mãe nessa idade e em um relacionamento estável.)
+               Oscar, agora com 17 anos, está ao seu lado, de pé, a segurar-lhe a mão e a tentar sorrir.
+               Tento evitar comer demais pela minha saúde.
+               Elas disseram o que vão querer comer? 
+               Não me estás a fazer sentir nada que eu já não tenha sentido.
+               Gosto bastante de o ouvir falar.
+               Estamos a tentar falar contigo!
+      -->
+  </rule>
+
+  <rule id="PP3_VERBO_VERBOINFINNOUN_20251116" name="Convert to verb infinitive">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='PP3.+' postag_regexp='yes'><exception postag_regexp='yes' postag='PD.+|PP3CNO00'/></token>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='VMP00.+|SPS.+|RG'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+      <!--
+      Examples:
+               Você estabelece a complexidade medindo como o algoritmo se comporta quando ele precisa manipular, por exemplo, 10, 100 e 1000 elementos.
+               Ele conseguiu escalar a montanha.
+               Isto é, o agente possui duas posições antagônicas que lhe permitem manipular a situação em prol de seu objetivo ilegal e obscuro.
+      -->
+  </rule>
+
   <rule id="PARA_POR_TODOS_TERMOS_SUBSTANTIVO_PARA_VERBO" name="Adicionar tag de verbo ao substantivo">
     <pattern>
       <token regexp='yes'>para|por</token>
