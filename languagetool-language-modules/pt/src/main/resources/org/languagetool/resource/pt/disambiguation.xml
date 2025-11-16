@@ -892,7 +892,7 @@ USA
         <token postag='R.+' postag_regexp="yes" min='0' max='4'>
           <exception negate_pos='yes' postag='R.+' postag_regexp="yes"/></token>
         <marker>
-          <token postag="V.P.+" postag_regexp="yes"><exception>junto</exception></token>
+          <token postag="V.P.+" postag_regexp="yes"><exception>junto</exception><exception postag='VMP00PM'/></token>
         </marker>
       </pattern>
       <disambig action="filter" postag="V.P.+"/>
@@ -968,6 +968,11 @@ USA
   </rulegroup>
   <rulegroup id="SER_NOUN" name="'ser' como substantivo">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
+    <antipattern> <!-- "Preciso mesmo ser muito cuidadoso." -->
+      <token postag='V.+' postag_regexp='yes'/>
+      <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+      <token>ser</token>
+    </antipattern>
     <rule>
       <pattern>
         <marker>
