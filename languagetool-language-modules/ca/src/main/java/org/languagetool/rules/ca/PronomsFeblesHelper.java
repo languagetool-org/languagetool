@@ -78,7 +78,7 @@ public class PronomsFeblesHelper {
     "me la", "me l'", "-me-la", "-me-la", "mela", "mela", "em la",
     "me les", "me les", "-me-les", "-me-les", "meles", "meles", "em les",
     "me li", "me li", "-me-li", "-me-li", "meli", "meli", "em li",
-    "me'l", "me l'", "-me'l", "-me'l", "mel", "mel", "me'l",
+    "me'l", "me l'", "-me'l", "-me'l", "mel", "mel", "em el",
     "me'ls", "me'ls", "-me'ls", "-me'ls", "mels", "mels", "em els",
     "me'n", "me n'", "-me'n", "-me'n", "men", "men", "em en",
     "n'hi", "n'hi", "-n'hi", "-n'hi", "nhi", "nhi", "en hi",

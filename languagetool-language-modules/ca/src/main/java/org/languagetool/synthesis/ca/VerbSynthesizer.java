@@ -196,6 +196,10 @@ public class VerbSynthesizer {
     return getStringFromTo(iLastVerb + 1, iLastVerb + numPronounsAfter);
   }
 
+  public String getWholeOriginalStr()  {
+    return getStringFromTo(iFirstVerb - numPronounsBefore, iLastVerb + numPronounsAfter);
+  }
+  
   public String getVerbStr() {
     return getStringFromTo(iFirstVerb, iLastVerb);
   }

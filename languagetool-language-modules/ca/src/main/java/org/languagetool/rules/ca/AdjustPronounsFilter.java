@@ -122,13 +122,14 @@ public class AdjustPronounsFilter extends RuleFilter {
           replacement = pronounsStr + verbStr2;
           break;
       }
-      if (!replacement.isEmpty()) {
+      if (!replacement.isEmpty() && !replacement.equalsIgnoreCase(verbSynthesizer.getWholeOriginalStr())) {
         replacements.add(StringTools.preserveCase(replacement, verbSynthesizer.getCasingModel()));
       }
     }
     if (replacements.isEmpty()) {
       return null;
     }
+
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[startUnderlineIndex].getStartPos(),
       tokens[endUnderlineIndex].getEndPos(), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
