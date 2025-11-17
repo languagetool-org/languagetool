@@ -3981,10 +3981,38 @@ USA
     <disambig postag="NCMP000"/>
   </rule>
 
+  <rule id="V_ESTAR_TER_SER_Z0_DI_VERBNOUN_20251117" name="Remove verb from token. It can be a noun, etc., but not a verb">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token regexp='yes' inflected='yes'>estar|ter|ser</token>
+      <token postag='Z0.+|DI.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               Assim, a oração de petição, para eles, não tem nenhum sentido, nenhuma eficácia para a obtenção da vida eterna.
+               São muitas marcas de implantes dentários no mercado.
+               A arte seria uma saída?
+               Transações usando aplicativos já são 3,5 vezes maiores que transações em agências tradicionais.
+               O Everton melhorou como ala, enquanto o Carlão como terceiro zagueiro é uma piada.
+               As lagoas não estavam muito cheias, cobrindo até a cintura mais ou menos.
+               Cada palavra tem um significado ou uma historinha tão deliciosa que não tem como não sorrir com cada página.
+               Nós tivemos muitos convidados nos visitando para um evento familiar em Olten e tivemos que procurar uma acomodação extra.
+               Mas eu me joguei no lacinho de poá e no sou toda ouvidos!!!
+               O Superbowl americano teve um convidado em plena forma - Prince, nem mais!
+      -->
+  </rule>
+
   <rule id="PP_N_VERBO_VERBOINFINNOUN_20251117" name="Convert to verb infinitive">
     <!-- ChatGPT 5 -->
     <pattern>
-      <token postag='PP.+|N.+' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+|RG'/></token> <!-- GPT: 'PP3.+|N.+' -->
+      <token postag='PP.+|N.+|CS' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+|RG'/></token> <!-- GPT: 'PP3.+|N.+' -->
       <token postag='V.+' postag_regexp='yes'>
         <exception postag_regexp='yes' postag='VMP00.+|SPS.+|RG'/>
         <exception inflected='yes' regexp='yes'>ser|estar</exception>
@@ -4008,6 +4036,10 @@ USA
                Estamos a tentar falar contigo!
                Isso seria me fazer parecer louco.
                Mas você vai prometer que irá me deixar falar com ela antes de pegá-la.
+               Acredito muito que o palco é o solo sagrado do artista e lá ele tem que procurar ser profissional.
+               Eu percebi que, apesar de querer comer, eu não tinha tempo suficiente.
+               Quero muito te ajudar mas você tem que querer ser ajudada.
+               Ele ganha US$10 por semana mais toda a serragem que conseguir comer.
       -->
   </rule>
 
