@@ -2147,6 +2147,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="mans lliures" pos="AQ0MN0"/>
         </disambig>
     </rule>
+    <rule id="CARA_AL_SOL" name="cara al sol">
+        <pattern>
+            <token regexp="yes">el|l</token>
+            <token min="0" postag="_QM_OPEN"/>
+            <marker>
+                <token>cara</token>
+            </marker>
+            <token>a</token>
+            <token>l</token>
+            <token>sol</token>
+        </pattern>
+        <disambig action="replace" postag="NCMS000"/>
+    </rule>
     <rule id="CARA" name="cara (adj/nom)">
         <pattern>
             <marker>
@@ -19942,6 +19955,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token regexp="yes" skip="5">més|menys|millor|pitjor|record|recordatori|doble|triple|quàdruple|quíntuple|sèxtuple</token>
+                <marker>
+                    <token>de</token>
+                </marker>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token>que</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_no_relatiu"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" skip="2">menor|major</token>
                 <marker>
                     <token>de</token>
                 </marker>
