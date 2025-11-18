@@ -333,6 +333,7 @@ public class Catalan extends Language {
       case "VERBS_PRONOMINALS": return -25;
       case "PORTO_LLEGINT": return -30;
       case "PORTA_UNA_HORA": return -40;
+      case "MAJOR_MES_GRAN0": return -40; // higher than MAJOR_MES_GRAN (style, -50)
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
