@@ -3981,6 +3981,33 @@ USA
     <disambig postag="NCMP000"/>
   </rule>
 
+  <rule id="Z0_VERB_NOUN_20251118" name="It is NC.+ not VMSP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='Z0.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMSP2S0'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMSP2S0"/>
+      <!--
+      Examples:
+               O carro está disponível em 34 cores.
+               Stiller está envolvido em 20, dos 35 filmes do Frat Pack.
+               Campeonato Paulista de Basquete Masculino: 8 vezes (1932, 1933, 1934, 1958, 1961, 1963, 1972 e 1974).
+               Abraccine organiza ranking dos 100 melhores filmes brasileiros.
+               Análise dos 7 melhores!
+               Foi eleito um dos 10 melhores maquiadores de noivas do Rio de Janeiro, pelo site espanhol Zankyou.
+               439 ataques registados, 802 reféns.
+               Sala 3 ambientes.
+               O CBS tem a participação de 15 equipes divididas em quatro grupos.
+               Gostaria de saber informações sobre os cursos de 17/9 e18/9 valores tbm desse e dos demais!
+      -->
+  </rule>
+
   <rule id="V_ESTAR_TER_SER_Z0_DI_VERBNOUN_20251117" name="Remove verb from token. It can be a noun, etc., but not a verb">
     <!-- ChatGPT 5 -->
     <pattern>
