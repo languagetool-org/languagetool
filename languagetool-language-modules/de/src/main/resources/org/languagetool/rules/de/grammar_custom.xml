@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print"?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet"?>
+
+<!--
+German grammar and typo rules for LanguageTool.
+See resource/de/tagset.txt for the meaning of the POS tags.
+
+Copyright © 2001–2022 Markus Brenneis, Daniel Naber, Jan Schreiber,
+   and the LanguageTool contributors (https://www.languagetool.org)
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+
+<!DOCTYPE rules [
+    <!ENTITY lsqb    "&#x005B;"> <!-- left square bracket -->
+    <!ENTITY rsqb    "&#x005D;"> <!-- right square bracket -->
+    <!ENTITY laquo    "&#x00AB;"> <!-- left-pointing double angle quotation mark -->
+    <!ENTITY raquo    "&#x00BB;"> <!-- right-pointing double angle quotation mark -->
+    <!ENTITY lsquo    "&#x2018;"> <!-- left single quotation mark -->
+    <!ENTITY rsquo    "&#x2019;"> <!-- right single quotation mark -->
+    <!ENTITY ldquo    "&#x201C;"> <!-- left double quotation mark -->
+    <!ENTITY rdquo    "&#x201D;"> <!-- right double quotation mark -->
+    <!ENTITY nbsp    "&#x00A0;"> <!-- no-break space -->
+    <!ENTITY nnbsp    "&#x202F;"> <!-- narrow no-break space -->
+    <!ENTITY thinsp    "&#x2009;"> <!-- thin space -->
+    <!ENTITY apostrophe "['’`´‘]">
+    <!ENTITY anfauf "„|&quot;|»|›|‚|'">
+    <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
+    <!ENTITY anf "&anfauf;|‘|’|“|‹|«">
+    <!ENTITY klamauf "\(|\{|\&lsqb;|&lt;">
+    <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
+    <!ENTITY klam "&klamauf;|&klamzu;">
+    <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
+    <!ENTITY sometlds "art|com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab|local|ru|ca|global|kz|eco|ho|hu|berlin|ee|ro|crypto|so|nrw|life|tech|cz|pl|ua|plus|bonus">
+
+    <!-- Error messages -->
+    <!ENTITY gla "Umbruchgeschützte Leerzeichen in Abkürzungen">
+    <!ENTITY glalong "Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden.">
+    <!ENTITY prgk "Bitte überprüfen Sie die Groß-/Kleinschreibung">
+    <!ENTITY namengross "Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.">
+    <!ENTITY titelgross "Titel und Ehrenbezeichnungen werden großgeschrieben.">
+    <!ENTITY taggross "Besondere Kalendertage werden großgeschrieben.">
+    <!ENTITY eigenname "Möglicherweise falsch geschriebener Eigenname.">
+    <!ENTITY subanfang "Bitte prüfen Sie, ob ">
+    <!ENTITY subende " hier als Nomen gebraucht wird und daher großgeschrieben werden muss.">
+    <!ENTITY advende " hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.">
+    <!ENTITY adjende " hier als Adjektiv gebraucht wird und daher kleingeschrieben werden muss.">
+    <!ENTITY verende " hier als Verb gebraucht wird und daher kleingeschrieben werden muss.">
+    <!ENTITY inwend "In der Wendung ">
+    <!ENTITY getrennt "Bitte prüfen Sie die Getrenntschreibung">
+    <!ENTITY umgangsspr " ist eine umgangssprachliche Ausdrucksweise.">
+    <!ENTITY unstimmig "Diese Formulierung ist möglicherweise unstimmig:">
+    <!ENTITY verw "Mögliche Wortverwechslung: ">
+    <!ENTITY typo "Möglicher Tippfehler">
+    <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
+    <!ENTITY redundanz "Diese Formulierung ist möglicherweise redundant.">
+    <!ENTITY seitseid "Meinten Sie <suggestion>seit</suggestion> (Präposition: 'seit gestern') statt 'seid' (Verbform: 'seid ihr angekommen?')?">
+    <!ENTITY seidseit "Meinten Sie <suggestion>seid</suggestion> (Verbform: 'seid ihr angekommen?') statt 'seit' (Präposition: 'seit gestern')?">
+    <!ENTITY maennerleute "(.*kauf|Amt|Berg|Berufsfeuerwehr|Boots|Busch|Clubob|Dienst|Edel|Ersatz|Fach|Fahrens|Feuerwehr|Finanz|Forst|Geschäfts|Gewährs|Haupt|Hinter|Kamera|Kirchen|Klubob|Neben|Ombuds|Ordens|Reiters|Schutz|See|Sicherheits|Steuer|Stroh|Verbindungs|Verkehrsschutz|Vertrauens|Wach|Wahl|Werbefach)männer(n|.*)?">
+
+    <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonnabend|Sonntag">
+    <!ENTITY abgekWochentage "M[oi]|D[io]|Fr|S[ao]">
+    <!ENTITY monate "Januar|Jänner|Februar|März|April|Mai|Ju[ln]i|August|September|Oktober|November|Dezember">
+    <!ENTITY abgekMonate "J[aä]n|Febr?|Mär|Apr|Ju[ln]|Aug|Sept?|Okt|Nov|Dez">
+    <!ENTITY tageszeitangabenklein "abend|morgen|mittag|nachmittag|nacht|vormittag">
+    <!ENTITY zeiteinheitensing "Millisekunde|Hundertstelsekunde|Zehntelsekunde|Sekunde|Minute|Stunde|Tag|Woche|Monat|Semester|Halbjahr|Jahr|Jahrzehnt|Jahrhundert|Jahrtausend|Jahrmillion">
+    <!ENTITY zeiteinheitenplu "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Semester|Halbjahre|Jahre|Jahrzehnte|Jahrhunderte|Jahrtausende|Jahrmillionen">
+    <!ENTITY zeiteinheiten "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Minütchen|Stunden|Stündchen|Tagen|Wochen|Monaten|Semestern|Halbjahren|Jahren|Jahrzehnten|Jahrhunderten|Jahrtausenden|Jahrmillionen">
+    <!ENTITY also "also|folglich|demnach|deshalb|mithin|somit">
+    <!ENTITY fast "annähernd|beinahe?|fast|nahezu|ungefähr">
+    <!ENTITY modal "halt|eben|doch|wohl|eigentlich|auch|schon|aber|recht|ziemlich">
+    <!ENTITY neusubklein "alter|ansinnen|band|bedenken|bündel|delta|differential|double|drittel|eck|eislaufen|elend|ende|erbe|erbrecht|fach|fest|fett|gebrechen|gemach|gerät|gewissen|grauen|gutachten|hoch|ideal|junge|kapital|kollektiv|konditional|können|leben|leck|leid|licht|lokal|los|mal|manifest|maß|mass|mittelalter|morden|paar|patent|pfeifen|präsent|recht|reich|rennen|scheitern|schloss|schweigen|sitzen|stillschweigen|tief|totem|ungeheuer|unrecht|verbot|verdeck|verdienst|verfahren|vergnügen|verhör|verlangen|vermögen|versprechen|wettrennen|wohl|wunder|zeug|ziel|zimmer">
+    <!ENTITY massubklein "abgeordnete|abkomme|abriss|abschied|abschnitt|abstieg|ahne|andrang|angriff|anklang|anschnitt|anstieg|anstrich|antrieb|antritt|ärger|arm|aufriss|aufschnitt|aufstand|aufstieg|aufstrich|auftritt|ausklang|ausritt|ausschnitt|ausstand|ausstieg|austritt|band|bau|bedarf|begriff|beistand|beitritt|belang|bestand|betrieb|betrug|blick|block|bogen|braten|brauch|brocken|dank|dichter|drang|durchschnitt|einband|eingriff|einschnitt|einstand|einstieg|eintritt|ernst|ertrag|feind|filz|floh|forscher|fortschritt|fremde|frieden?|gefreite|geselle|gläubiger|gleichstand|graben|herzog|husten|intrigant|junge|jünger|knebel|knick|knoten|koch|komparativ|kragen|krieg|laden|lappen|lauf|laut|lumpen|mitschnitt|morgen|nachklang|nachkomme|nachwuchs|pfiff|pfropfen|plan|planer|platz|plural|pole|preis|rang|rasen|rausschmiss|reif(en)?|rücken|rüde|samt|schaden|schal|scherz|schiefer|schlag|schluck|schnitt|schnupfen|schock|schotte|schreck(en)?|schritt|schubs|schuft|schund|schütze|schwamm|sitz|spitz|stand|stecken|stich|stillstand|stolz|stopfen|stoß|stoss|streifen|strich|strick|träger|trieb|tritt|tropf(en)?|trotz|türke|übergriff|übertritt|umriss|unterschied|untertan|verband|verbrauch|verdacht|verdienst|verkauf|verkehr|verlass|verlauf|verleih|vermerk|verriss|verschlag|verstand|verstoß|verstoss|versuch|vertrieb|verzehr|virtuose|vokal|vorbehalt|vorgriff|vorstand|vortritt|vorwärtsschritt|wagen|weg|wein|weise|wert|wettstreit|wicht|widerstand|wuchs|zank|zeuge|zügel|zugriff|zusammenschnitt|zustand|zutritt|zwang|zweifel">
+    <!ENTITY femsubklein "abbitte|abfahrt|abfrage|abfuhr|abgeordnete|ablöse|abreise|absage|absteige|acht|alternative|anfahrt|anfrage|angst|anklage|anrede|anreise|anrichte|ansage|antike|anzeige|asche|auffahrt|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|backe|bahre|band|bar|beichte|beize|beule|beute|binde|bitte|blase|bleiche|bombe|bräune|brause|braut|breite|bremse|buche|bucht|bürde|burleske|bürste|creme|decke|defensive|delle|deutsche|dichte|drei|durchfahrt|durchreiche|durchreise|durchsage|dürre|dusche|düse|ebbe|ebene|ecke|ehe|ehre|eiche|eile|einbrenne|einfahrt|einreise|eins|elf|erde|fahrt|falle|falte|feier|feige|feile|ferne|flamme|flaute|fliege|fliese|flöte|flotte|flucht|folge|frage|fräse|fremde|fresse|frische|fülle|fünf|furche|geige|gemeinde|gerade|glotze|gnade|grenze|grille|großtat|grosstat|groteske|gurke|hacke|halle|harke|härte|hast|haut|hecke|heimfahrt|herfahrt|hetze|hexe|hinfahrt|hinreise|höhle|hülle|hupe|hure|illustrierte|kacke|kante|kappe|karre|keile|kerbe|kette|keule|kippe|klage|klammer|klampfe|klappe|klasse|klatsche|klaue|klebe|klemme|klette|klinge|klingel|klinke|kloppe|knarre|knete|knospe|kommode|konstante|kontroverse|kotze|kraft|krähe|kralle|kurbel|kurve|kürze|kutsche|lade|lasche|last|lauge|laute|leere|legende|lehne|lehre|leier|leine|leiste|leuchte|liebe|liege|linse|liste|locke|lüge|lymphe|macht|marine|matte|menge|messe|miete|mithilfe|mühe|münze|nachfolge|nachfrage|nachlese|nachrede|nähe|naht|nässe|neun|oder|offensive|pappe|parallele|pauke|pauschale|pause|pelle|penne|perle|pfeife|pflanze|pisse|plane|platte|pleite|posaune|post|predigt|presse|probe|prostituierte|pumpe|puste|quelle|ramme|ranke|rassel|rast|rate|ratsche|raufe|raute|rede|reibe|reife|reihe|reise|reue|rille|rinne|ritze|robbe|röhre|rolle|rotze|rückfrage|rüge|ruhe|runde|rutsche|säge|sahne|salbe|säure|sause|schabe|schale|schanze|scharte|schau|schaufel|scheide|scheiße|scheisse|schelle|schenke|schere|schiene|schippe|schlampe|schlappe|schleife|schleppe|schleuder|schleuse|schließe|schliesse|schlinge|schmelze|schmiede|schmiere|schnalle|schnauze|schneide|schnitte|schramme|schraube|schuld|schule|schuppe|schürze|schwäche|schwärze|schwebe|schwelle|schwemme|schwere|schwitze|sechs|sehne|seife|senke|sieben|sonne|sorge|spalte|spanne|sparte|speise|spende|sperre|spitze|spritze|spucke|spule|stärke|starre|stelle|stiege|stille|stimme|strafe|strebe|strecke|streife|strippe|stufe|stunde|stütze|suche|sucht|sülze|summe|taste|tat|taube|taufe|tiefe|totale|trage|träne|tränke|traute|treue|trommel|trompete|tröte|tunke|tüte|uniform|unke|variable|vier|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|vorrede|vorsitzende|vorsorge|wache|wacht|walze|wand|wärme|warte|weiche|weide|weihe|weile|weise|weite|welle|wende|werft|wette|wichse|wiege|wiese|winde|wippe|wolle|wunde|würde|würze|wüste|zahl|zeche|zehn|zeit|zentrale|zicke|zier|zufahrt|zufuhr|zusage|zwei|zwinge|zwölf">
+    <!ENTITY subkleinplural "abbitten|abdrücke|abfragen|abfuhren|abgaben|abgeordneten|absagen|abschnitte|absprachen|absteigen|abstiege|abstürze|abteile|ahnen|alternativen|anbauten|anblicke|andachten|anfragen|angaben|angeln|angriffe|ängste|anhalte|anhänge|anklagen|anlagen|anliegen|annahmen|anreden|anreisen|anreize|anrichten|anrufe|ansagen|anschnitte|anschreiben|ansprachen|anstiege|antriebe|antworten|anzahlen|anzeigen|arabesken|armen?|äste|aufbauten|aufgaben|auflagen|aufnahmen|aufrufe|aufschreie|aufstriche|ausbauten|ausbeuten|ausdrucke|ausdrücke|ausfuhren|ausgaben|aushänge|auslagen|ausleihen|auslesen|ausnahmen|ausreden|ausreisen|ausritte|ausrufe|aussagen|ausschnitte|aussprachen|ausweise|bahnen|bände|banden|barsche|bäume|bauten|bedenken|befehle|beichten|beigaben|beilagen|belange|belege|berge|berichte|berufe|bescheide|besuche|betten|beulen|beweise|binden|bitten|blasen|blätter|blicke|breiten|bremsen|brocken|brüste|buchen|bündel|bürden|burlesken|bürsten|dämme|dämpfe|delinquenten|deutschen|dichten|dichter|dinge|dreier|drucke|durchsagen|durchschnitte|duschen|düsen|ebenen|ecken|ehren|eichen|eingaben|eingriffe|einnahmen|einreisen|einschnitte|einschreiben|einstiege|entgegennahmen|entnahmen|entscheide|erfolge|erlöse|fallen|fälle|falten|feigen|feilen|feinde|festnahmen|fiedeln|filme|fische|flammen|flauten|fliegen|fliesen|flöße|flösse|flöten|flotten|fluchten|folgen|forscher|fortschritte|fragen|fransen|freigaben|freiräume|fressen|freunde|furchen|gebrechen|gebühren|gefahren|gefreiten|geigen|gemeinden|genossen|geraden|gesellen|gestalten|gewinne|gläubiger|greise|grenzen|großtaten|grosstaten|grotesken|gruben|gründe|grüße|grüsse|hacken|haken|hallen|härten|haushalte|hechte|hecken|herzen|herzöge|hexen|hiebe|hinweise|höhlen|hüte|illustrierten|initialen|intriganten|jungen|jünger|kanten|kappen|kehlen|keulen|klagen|klammern|klänge|klappen|klauen|klemmen|klingeln|klingen|knappen|knechte|knöpfe|knospen|knoten|kommoden|konstanten|kontroversen|köpfe|kosten|krähen|krallen|krebse|kreuze|kriege|kugeln|kuppeln|küsse|kutschen|lappen|lasten|laute|legenden|lehren|leinen|leisten|leuchten|lichter|liegen|links|linsen|listen|löcher|lügen|lumpen|matten|mengen|messen|mieten|mitschnitte|morde|mühen|münzen|nachdrucke|nachfragen|nachklänge|nachkommen|nachlesen|nachreden|nachrufe|nachweise|nähte|narren|offensiven|parallelen|pauken|pauschalen|pausen|perlen|pfeifen|pfiffe|pfropfen|platten|pole|polen|predigten|preise|pressen|proben|pumpen|quellen|ränge|ratschen|räume|rechte|reden|regeln|reiben|reiche|reichen|reifen|reihen|reisen|rentiere|rillen|ritzen|robben|rollen|rückfragen|rüden|rügen|rümpfe|runden|runzeln|rutschen|sagen|sägen|salben|salze|säume|schächte|schalen|schanzen|scharten|schatten|schätze|schaufeln|schäume|scheiden|scheine|scheren|scherze|schienen|schiffe|schippen|schlampen|schlangen|schleifen|schleusen|schlingen|schmieden?|schnallen|schneiden|schnitte|schotten|schränke|schreie|schritte|schufte|schulden|schulen|schultern|schürzen|schützen|schwächen|schwänze|schwellen|sehnen|siebe|siege|siegel|sitze|söhne|sonnen|sorgen|spalten|speisen|spinnen|spitzen|sprachen|spritzen|stacheln|stände|stärken|stellen|steuern|stimmen|strafen|strahlen|streben|strecken|streiche|streifen|striche|stricke|strippen|stufen|stunden|stürme|stützen|suchen|summen|tafeln|tage|tasten|taten|tauben|taufen|teile|teilnahmen|texte|tiefen|tische|tragen|träger|tränen|träume|tropfen|türken|türme|umbauten|umhänge|umkreise|umlaute|umschauen|unterlagen|unterschiede|variablen|verbände|verbrechen|verdecke|vereine|verfahren|vergehen|vergleiche|verhaue|verhöre|verleihe|vermerke|versprechen|verstecke|versuche|verweise|virtuosen|vögel|vokale|vollmachten|vorarbeiten|voraussagen|vorbehalte|vorgaben|vorgriffe|vorhersagen|vorkommen|vorlagen|vorreden|vorsitzenden|vorspanne|vorwegnahmen|vorwürfe|wachen|wagen|walzen|wände|waren|weichen|weiden|weihen|weine|weisen|wellen|werte|wiedergaben|wiedersehen|wiegen|wiesen|winden?|wogen|wunden|wünsche|würden|wurzeln|wüsten|zahlen|zäune|zechen|zelte|zentralen|zettel|zeugen|ziele|zimmer|zufuhren|zügel|zugriffe|zunahmen|zusagen|zusammenhänge|zwänge|zweige|zweifel">
+    <!ENTITY regionadj "adriatisch|afghanisch|afrikanisch|ägäisch|ägyptisch|albanisch|alemannisch|algerisch|amerikanisch|anatolisch|andorranisch|angolanisch|antarktisch|arabisch|argentinisch|arktisch|asiatisch|atlantisch|australisch|badisch|baltisch|bayerisch|belgisch|böhmisch|bolivianisch|bosnisch|botsuanisch|brandenburgisch|brasilianisch|britannisch|britisch|bulgarisch|chinesisch|dänisch|deutsch|ecuadorianisch|elbisch|englisch|eritreisch|estnisch|eurasisch|europäisch|finnisch|fränkisch|französisch|friesisch|gälisch|galizisch|gallisch|georgisch|germanisch|gotisch|griechisch|grönländisch|havelländisch|hessisch|holländisch|holsteinisch|honduranisch|indisch|indogermanisch|indonesisch|ira[kn]isch|irisch|isländisch|israelisch|italienisch|japanisch|jemenitisch|jiddisch|jordanisch|jugoslawisch|kalifornisch|kambodschanisch|kamerunisch|kanadisch|karelisch|karibisch|kasachisch|kaukasisch|keltisch|kenianisch|kirgisisch|kleinasiatisch|kolumbianisch|kongolesisch|koreanisch|korsisch|kroatisch|kubanisch|laotisch|lateinisch|lettisch|libanesisch|libysch|litauisch|luxemburgisch|mährisch|malaysisch|märkisch|mazedonisch|mediterran|mexikanisch|moldauisch|mongolisch|mosambikisch|moselfränkisch|namibisch|niederdeutsch|niederfränkisch|niederländisch|nigerianisch|norwegisch|österreichisch|pakistanisch|panamesisch|pazifisch|persisch|peruanisch|pfälzisch|phönizisch|polnisch|polynesisch|portugiesisch|preußisch|preussisch|rheinisch|römisch|rumänisch|russisch|saudisch|schottisch|schwäbisch|schwedisch|schweizerisch|semitisch|senegalesisch|serbisch|serbokroatisch|sibirisch|slawisch|slowakisch|slowenisch|spanisch|sudanesisch|syrisch|taiwanisch|tasmanisch|thailändisch|thüringisch|tibetisch|timorisch|tirolisch|transsylvanisch|tschechisch|tunesisch|türkisch|turkmenisch|ugandisch|ukrainisch|ungarisch|venezolanisch|vietnamesisch|walisisch|weißrussisch|weissrussisch|zairisch|zyprisch">
+    <!ENTITY sprachadj1 "afrikanisch|alt(arabisch|chinesisch|griechisch|persisch)|amerikanisch|arabisch|chinesisch|dänisch|deutsch|plattdeutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch|weissrussisch|hebräisch|katalanisch">
+    <!ENTITY sprachadj2 "agglutinierend|algorithmisch|asiatisch|ausgestorben|bilderreich|bildlich|deutlich|dichterisch|europäisch|extensional|flektierend|formal|gesprochen|indogermanisch|intensional|klangvoll|konsonantenreich|maschinenorientiert|metaphorisch|poetisch|prosaisch|romanisch|schön|selten|vokalreich|wunderschön">
+    <!ENTITY bundesstaaten "Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kalifornien|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New|North|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West|Wisconsin|Wyoming">
+    <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
+    <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
+    <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?|vergiessens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|potenziell|potentiell|erst|ganz|wohl|genau|laut|maximal|reichlich|(tag)?täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr|unter|zwischenzeitlich|vermutlich">
+    <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
+    <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen|schreien|antworten|säuseln|flehen">
+    <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
+    <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?"><!-- TODO: why is "welche/welcher/welches" missing? -->
+    <!ENTITY farbadj "gr(au|ün)|wei(ß|ss)|schwarz|rot|gelb|blau|lila|orange|beige|rosa|braun">
+    <!ENTITY possessiv_lemma "dein|euer|Ihr|ihr|mein|sein|unser">
+    <!ENTITY bivalent "achten|amüsieren|analysieren|ändern|antworten|arbeiten|ärgern|atmen|backen|baden|bauen|beachten|beantragen|bedeuten|bedienen|beeinflussen|befassen|befinden|befolgen|beginnen|begründen|begrü(ß|ss)en|behalten|behandeln|behaupten|behindern|beleidigen|bemerken|benutzen|beobachten|beraten|berichten|berücksichtigen|beruhigen|beschädigen|beschäftigen|beschlie(ß|ss)en|beschreiben|besichtigen|besitzen|besorgen|bestätigen|bestehen|bestellen|bestimmen|bestrafen|besuchen|betrügen|bezeichnen|bilden|brauchen|bremsen|brennen|buchstabieren|bürsten|differenzieren|diskutieren|ehren|empfehlen|entdecken|enthalten|entlassen|entscheiden|entschuldigen|enttäuschen|entwickeln|erfahren|erfinden|erhalten|erhöhen|erinnern|erkennen|erleben|erledigen|ernähren|eröffnen|erreichen|erwarten|erziehen|essen|feiern|finden|fliegen|folgern|fordern|fotografieren|fragen|fressen|frisieren|frühstücken|fühlen|führen|fürchten|gebären|gebrauchen|gewinnen|gewöhnen|gliedern|gründen|grü(ß|ss)en|hassen|heben|heiraten|hindern|holen|hören|husten|informieren|interessieren|kämmen|kennen|klappen|kriegen|leben|leisten|leiten|lernen|lieben|loben|lösen|markieren|meinen|merken|messen|mieten|missverstehen|nutzen|operieren|organisieren|parken|passen|pflegen|planen|probieren|produzieren|prüfen|rauchen|regeln|regieren|retten|riechen|sammeln|schalten|scheiden|schieben|schimpfen|schlussfolgern|schmecken|schreien|schützen|schwimmen|schwitzen|sehen|sparen|sprechen|springen|spülen|stoppen|stören|studieren|suchen|tanken|tanzen|telefonieren|töten|trainieren|transportieren|träumen|treffen|trennen|trinken|turnen|überfahren|überholen|überlegen|übernehmen|überqueren|überraschen|überreden|überzeugen|umtauschen|unterrichten|unterscheiden|unterschreiben|unterstützen|untersuchen|verändern|verbessern|verbrauchen|verbringen|verdienen|vergessen|vergleichen|verhaften|verhindern|verlangen|verlängern|verlassen|verletzen|verlieren|vermuten|veröffentlichen|verschlechtern|versichern|verstehen|versuchen|verteilen|vertreten|verwechseln|verwenden|verwickeln|verzollen|wählen|warnen|wecken|werfen|wiederholen|wiegen|wissen|zählen|zerstören|zwingen">
+    <!ENTITY sinnmachen "Der Ausdruck 'Sinn machen' kann umgangssprachlich wirken. Möchten Sie eine alternative Formulierung verwenden?">
+    <!ENTITY drauflos_verben "reden|gehen|arbeiten|fabulieren|feuern|schwatzen|fahren|reiten|schie(ß|ss)en|rennen|schwimmen|schimpfen|laufen|schlagen|bauen|führen|sprechen|hämmern|watscheln|wirtschaften|raten|starten|klicken|posten|schreiben|malen|plappern">
+    <!ENTITY adj_er_weise "unglaublich|absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|dumm|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erklärt|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|lustig|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verboten|verdient|vernünftig|verständlich|versehentlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig|zweckmässig|üblich|überraschend|anständig|ärgerlich|bekannt|geheimnisvoll|zwecklos|cool">
+    <!ENTITY sub_weise "Berge|Ansatz|Reihen|Container|Eimer|Fall|Grad|Haufen|Liter|Paar|Probe|Schritt|Stück|Tropfen|Wahl|Zeit|Kannen|Kisten|Massen|Phasen|Stellen|Stufen|Tonnen|Zeilen|leih|Tage|Kapitel">
+    <!ENTITY sub_s_weise "Beispiel|Vergleich|Beziehung|Abschnitt|Andeutung|Aushilf|Quartal|Schätzung|Übergang|Versuch|Vorzug|Zwang">
+    <!--
+    for local testing of an external file - also see below:
+    <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
+    -->
+    <!ENTITY date_allnumbers_skip '
+        <marker>
+            <token regexp="yes">\d\d?</token>
+            <token>.</token>
+            <token regexp="yes">\d\d?</token>
+            <token>.</token>
+            <token regexp="yes" skip="-1">\d\d\d\d</token>
+        </marker>
+    '>
+
+    <!ENTITY date_month_shortened_skip '
+        <marker>
+        <token regexp="yes">\d\d?</token>
+        <token>.</token>
+        <token regexp="yes">&abgekMonate;</token>
+        <token>.</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        </marker>
+    '>
+
+    <!ENTITY date_month_full_skip '
+        <marker>
+        <token regexp="yes">\d\d?</token>
+        <token>.</token>
+        <token regexp="yes">&monate;</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        </marker>
+    '>
+
+<!ENTITY exceptions_multitoken_spell "[^\p{L}]|[\p{P}\+@©\|#_].*|you|the|were|here|we|was|they|are|and|will|love|in|it|is|let|make|may|by|at|su|sus|this|that|my|your|his|her|on|ours|theirs|all|time|dr|jr|if|iz|\d.*|en|per|sr|sra|dra|andren|dierser|fuer|au|best|del|et|al|à|made|many">
+<!ENTITY particles_of "de|von|van|of|d'|di|du|da|ibn|des|am|an|zur|for|to">
+<!ENTITY exceptions_multitoken_sensitive "(?-i)[A-Z]+\d+|[a-z][a-z]?\d+">
+
+]>
+
+<rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+    <category id="TYPOS" name="Mögliche Tippfehler">
+      <rulegroup id="SCHREIBEN_SCHRIEBEN_SPELLING_RULE" name="'im Schrieben (Schreiben)'">
+        <!-- Regel: Großschreibung von „Urteil“ nach Artikel  -->
+        <rule id="KLEINGESCHRIEBENES_SUBSTANTIV_URTEIL_NACH_ARTIKEL" name="Kleingeschriebenes Substantiv Urteil nach Artikel">
+          <pattern case_sensitive='yes'>
+            <token postag='ART:.+' postag_regexp='yes'></token>
+            <marker>
+              <token regexp='yes'>urteil(e|en|s)?</token>
+            </marker>
+          </pattern>
+          <message>Nach einem Artikel steht ein Verb in Imperativform. Vermutlich ist ein Substantiv gemeint, das großgeschrieben werden sollte.</message>
+          <example correction=''>Der Staatsanwalt legte Berufung gegen das <marker>urteil</marker> des Landgerichts ein.</example>
+          <example>Der Staatsanwalt legte Berufung gegen das Urteil des Landgerichts ein.</example>
+        </rule>
+      </rulegroup>
+    </category>
+</rules>
