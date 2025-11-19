@@ -95,6 +95,7 @@ public class NounToVerbHelper {
     Map.entry("identificació", "identificar"),
     Map.entry("il·lustració", "il·lustrar"),
     Map.entry("implantació", "implantar"),
+    Map.entry("implementació", "implementar"),
     Map.entry("importació", "importar"),
     Map.entry("impressió", "imprimir"),
     Map.entry("inauguració", "inaugurar"),
