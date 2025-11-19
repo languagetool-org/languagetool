@@ -105,8 +105,7 @@ public class PronomFebleDuplicateRule extends Rule {
           List<String> replacements = new ArrayList<>();
           if (correctedPronouns == null) {
             replacements.add(StringTools.preserveCase(getSuggestionFromTo(tokens, initPos + lemesPronomsAbans.size(),
-              initPos + lemesPronomsAbans.size() + countVerb + lemesPronomsDespres.size()),
-                tokens[initPos].getToken()));
+                initPos + lemesPronomsAbans.size() + countVerb + lemesPronomsDespres.size()), tokens[initPos].getToken()));
             replacements.add(StringTools.preserveCase(getSuggestionFromTo(tokens, initPos,
               initPos + lemesPronomsAbans.size() + countVerb), tokens[initPos].getToken()));
           } else {
@@ -154,6 +153,10 @@ public class PronomFebleDuplicateRule extends Rule {
   }
 
   private boolean isException(AnalyzedTokenReadings[] tokens, int i) {
+    if (tokens[i].hasAnyPartialPosTag("VMN0000", "VSN0000", "VAN0000") && tokens[i - 1].hasLemma("fer")) {
+      // et fan adonar-te --> rule EL_FAN_AGENOLLAR
+      return true;
+    }
     if (tokens[i].getToken().equals("poder") && tokens[i - 1].hasPosTagStartingWith("V")) {
       return true;
     }

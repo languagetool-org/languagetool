@@ -276,6 +276,7 @@ public class Catalan extends Language {
       case "SUPER": return 20;
       case "PRONOM_FEBLE_HI": return 20; // greater than HAVER_PARTICIPI_HAVER_IMPERSONAL
       case "HAVER_PARTICIPI_HAVER_IMPERSONAL": return 15; // greater than ACCENTUATION_CHECK
+      case "SE_LI_VA_FER_CALLAR": return 15;
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "POSTULARSE": return 10;
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
@@ -296,6 +297,7 @@ public class Catalan extends Language {
       case "PREFIXOS_SENSE_GUIONET_EN_DICCIONARI": return 10; // greater than SPELLING
       case "ZERO_O": return 10; //greater than SPELLING
       case "URL": return 10; //greater than SPELLING
+      case "EL_FAN_AGENOLLAR": return 10; // greater than PRONOMS_FEBLES_DUPLICATS
       case "CONCORDANCES_DET_NOM": return 5; // greater than DE_EL_S_APOSTROFEN
       case "CONCORDANCES_DET_ADJ": return 5; // greater than DE_EL_S_APOSTROFEN
       case "CONCORDANCES_DET_POSSESSIU": return 5; // greater than CONCORDANCES_ADJECTIUS_NEUTRES
@@ -331,6 +333,7 @@ public class Catalan extends Language {
       case "VERBS_PRONOMINALS": return -25;
       case "PORTO_LLEGINT": return -30;
       case "PORTA_UNA_HORA": return -40;
+      case "MAJOR_MES_GRAN0": return -40; // higher than MAJOR_MES_GRAN (style, -50)
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;

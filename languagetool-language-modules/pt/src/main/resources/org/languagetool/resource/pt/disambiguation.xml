@@ -892,7 +892,7 @@ USA
         <token postag='R.+' postag_regexp="yes" min='0' max='4'>
           <exception negate_pos='yes' postag='R.+' postag_regexp="yes"/></token>
         <marker>
-          <token postag="V.P.+" postag_regexp="yes"><exception>junto</exception></token>
+          <token postag="V.P.+" postag_regexp="yes"><exception>junto</exception><exception postag='VMP00PM'/></token>
         </marker>
       </pattern>
       <disambig action="filter" postag="V.P.+"/>
@@ -968,6 +968,11 @@ USA
   </rulegroup>
   <rulegroup id="SER_NOUN" name="'ser' como substantivo">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
+    <antipattern> <!-- "Preciso mesmo ser muito cuidadoso." -->
+      <token postag='V.+' postag_regexp='yes'/>
+      <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+      <token>ser</token>
+    </antipattern>
     <rule>
       <pattern>
         <marker>
@@ -3905,6 +3910,67 @@ USA
     <disambig action="filter" postag="SPS00"/>
   </rule>
 
+  <rule id="PRAZER_VERB_20251116" name="In this case PRAZER is NCMS000">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token>prazer</token>
+          <token postag='NCMS000'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="NCMS000"/>
+  </rule>
+
+  <rulegroup id="SIM_NOUN" name="Remover substantivo da palavra 'sim'">
+    <!-- ChatGPT 5 -->
+    <rule> <!-- #1: "sim" at start of sentence, after a verb, or after punctuation -->
+      <pattern>
+        <token postag='V.+|SENT_START|_PUNCT' postag_regexp='yes'>
+          <exception scope='previous' postag_regexp='yes' postag='D.+'/>
+          <exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+        <marker>
+          <and>
+            <token>sim</token>
+            <token postag='RG'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="N.*"/>
+      <!--
+      Examples:
+               Se temos internet,video conferencia e vontade de aprender,digamos sim aos cursos à distancia.
+               Em Curitiba existe o curso da Uniandrade que é sim Superior de formação tecnológica.
+               Sim, cegamente atarefados como formigas ou cupim encaminhando-se para a morte.
+               A resposta é SIM!
+               Grande feito, sim senhor doutor!
+      -->
+    </rule>
+    <rule> <!-- #2: "sim" followed by punctuation -->
+      <pattern>
+        <marker>
+          <and>
+            <token>sim</token>
+            <token postag='RG'/>
+          </and>
+        </marker>
+        <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="remove" postag="N.*"/>
+      <!--
+      Examples:
+               Eu sim!
+               Se o blog ? bem feito, meu, ganha dinheiro sim.
+               A segurança não deve ser pensada depois de uma invasão, mas sim, antes!
+               Tudo indica que sim!
+               Em teoria sim, seguindo a máxima “quem não deve, não teme”.
+               Para muitos sim, mas para alguns ainda desconhecida.
+      -->
+    </rule>
+  </rulegroup>
+
   <rule id="NÓS_PROFESSORES_NCMP000" name="professores aparecia como verbo">
     <pattern>
       <token>nós</token>
@@ -3913,6 +3979,125 @@ USA
       </marker>
     </pattern>
     <disambig postag="NCMP000"/>
+  </rule>
+
+  <rule id="Z0_VERB_NOUN_20251118" name="It is NC.+ not VMSP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='Z0.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMSP2S0'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMSP2S0"/>
+      <!--
+      Examples:
+               O carro está disponível em 34 cores.
+               Stiller está envolvido em 20, dos 35 filmes do Frat Pack.
+               Campeonato Paulista de Basquete Masculino: 8 vezes (1932, 1933, 1934, 1958, 1961, 1963, 1972 e 1974).
+               Abraccine organiza ranking dos 100 melhores filmes brasileiros.
+               Análise dos 7 melhores!
+               Foi eleito um dos 10 melhores maquiadores de noivas do Rio de Janeiro, pelo site espanhol Zankyou.
+               439 ataques registados, 802 reféns.
+               Sala 3 ambientes.
+               O CBS tem a participação de 15 equipes divididas em quatro grupos.
+               Gostaria de saber informações sobre os cursos de 17/9 e18/9 valores tbm desse e dos demais!
+      -->
+  </rule>
+
+  <rule id="V_ESTAR_TER_SER_Z0_DI_VERBNOUN_20251117" name="Remove verb from token. It can be a noun, etc., but not a verb">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token regexp='yes' inflected='yes'>estar|ter|ser</token>
+      <token postag='Z0.+|DI.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               Assim, a oração de petição, para eles, não tem nenhum sentido, nenhuma eficácia para a obtenção da vida eterna.
+               São muitas marcas de implantes dentários no mercado.
+               A arte seria uma saída?
+               Transações usando aplicativos já são 3,5 vezes maiores que transações em agências tradicionais.
+               O Everton melhorou como ala, enquanto o Carlão como terceiro zagueiro é uma piada.
+               As lagoas não estavam muito cheias, cobrindo até a cintura mais ou menos.
+               Cada palavra tem um significado ou uma historinha tão deliciosa que não tem como não sorrir com cada página.
+               Nós tivemos muitos convidados nos visitando para um evento familiar em Olten e tivemos que procurar uma acomodação extra.
+               Mas eu me joguei no lacinho de poá e no sou toda ouvidos!!!
+               O Superbowl americano teve um convidado em plena forma - Prince, nem mais!
+      -->
+  </rule>
+
+  <rule id="PP_N_VERBO_VERBOINFINNOUN_20251117" name="Convert to verb infinitive">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='PP.+|N.+|CS' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+|RG'/></token> <!-- GPT: 'PP3.+|N.+' -->
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='VMP00.+|SPS.+|RG'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception>
+        <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+      <!--
+      Examples:
+               (Não há nada de errado em uma mulher querer ser mãe nessa idade e em um relacionamento estável.)
+               Oscar, agora com 17 anos, está ao seu lado, de pé, a segurar-lhe a mão e a tentar sorrir.
+               Tento evitar comer demais pela minha saúde.
+               Elas disseram o que vão querer comer? 
+               Não me estás a fazer sentir nada que eu já não tenha sentido.
+               Gosto bastante de o ouvir falar.
+               Estamos a tentar falar contigo!
+               Isso seria me fazer parecer louco.
+               Mas você vai prometer que irá me deixar falar com ela antes de pegá-la.
+               Acredito muito que o palco é o solo sagrado do artista e lá ele tem que procurar ser profissional.
+               Eu percebi que, apesar de querer comer, eu não tinha tempo suficiente.
+               Quero muito te ajudar mas você tem que querer ser ajudada.
+               Ele ganha US$10 por semana mais toda a serragem que conseguir comer.
+      -->
+  </rule>
+
+  <rule id="PP_VERBO_VERBOINFINNOUN_20251117" name="Convert to verb infinitive">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='PP.+' postag_regexp='yes'><exception postag_regexp='yes' postag='PD.+|PP3CNO00'/></token>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='VMP00.+|SPS.+|RG'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+      <!--
+      Examples:
+               Você estabelece a complexidade medindo como o algoritmo se comporta quando ele precisa manipular, por exemplo, 10, 100 e 1000 elementos.
+               Ele conseguiu escalar a montanha.
+               Isto é, o agente possui duas posições antagônicas que lhe permitem manipular a situação em prol de seu objetivo ilegal e obscuro.
+               Um dia se eu conseguir ser 10% disso e ter tanta criatividade para criar moldes eu vou ficar agradecida.
+               Só quero te escutar cantar mais uma vez.
+               Não me deixarei manipular por ele.
+               Sra. Macy, obrigada por nos deixar falar com Sierra.
+               Por me fazer sentir normal hoje.
+               Tem de me deixar olhar.
+               Um dia se eu conseguir ser 10% disso e ter tanta criatividade para criar moldes eu vou ficar agradecida.
+      -->
   </rule>
 
   <rule id="PARA_POR_TODOS_TERMOS_SUBSTANTIVO_PARA_VERBO" name="Adicionar tag de verbo ao substantivo">
@@ -4034,9 +4219,10 @@ USA
   <rule id="DP_V_VPARTPASS_NC_20250927" name="Remove rare verbs from appearing as verbs">
     <pattern>
       <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <token min='0' max='1' postag='Z0.+|RM' postag_regexp='yes'/>
       <marker>
         <and>
-          <token postag='VMP00PM' postag_regexp='no'/>
+          <token postag='VMP00PM|VMSP2S0' postag_regexp='yes'/>
           <token postag='NC.+' postag_regexp='yes'/>
         </and>
       </marker>

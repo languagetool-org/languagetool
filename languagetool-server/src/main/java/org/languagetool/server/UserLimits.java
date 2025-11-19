@@ -177,7 +177,7 @@ class UserLimits {
   }
 
   private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement) {
-    this(maxTextLength, maxCheckTimeMillis, premiumUid, hasPremium, dictCacheSize, requestsPerDay, limitEnforcement, null, new JwtContent(false, false, Collections.emptyMap()));
+    this(maxTextLength, maxCheckTimeMillis, premiumUid, hasPremium, dictCacheSize, requestsPerDay, limitEnforcement, null, null);
   }
 
   private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement, UserInfoEntry account, JwtContent jwtContent) {

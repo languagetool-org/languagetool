@@ -78,7 +78,7 @@ public class PronomsFeblesHelper {
     "me la", "me l'", "-me-la", "-me-la", "mela", "mela", "em la",
     "me les", "me les", "-me-les", "-me-les", "meles", "meles", "em les",
     "me li", "me li", "-me-li", "-me-li", "meli", "meli", "em li",
-    "me'l", "me l'", "-me'l", "-me'l", "mel", "mel", "me'l",
+    "me'l", "me l'", "-me'l", "-me'l", "mel", "mel", "em el",
     "me'ls", "me'ls", "-me'ls", "-me'ls", "mels", "mels", "em els",
     "me'n", "me n'", "-me'n", "-me'n", "men", "men", "em en",
     "n'hi", "n'hi", "-n'hi", "-n'hi", "nhi", "nhi", "en hi",
@@ -197,14 +197,19 @@ public class PronomsFeblesHelper {
     }
   }
 
-  public static String doAddPronounEn(String pronounsStr, String firstVerb) {
+  public static String doAddPronounEn(String pronounsStr, String verbStr, boolean pronounsAfter) {
     String pronounNormalized = transform(pronounsStr, PronounPosition.NORMALIZED);
     if (pronounNormalized.endsWith("hi")) {
       pronounNormalized = pronounNormalized.replace("hi", "en hi");
     } else {
       pronounNormalized += " en";
     }
-    return transformDavant(pronounNormalized, firstVerb);
+    if (pronounsAfter) {
+      return transformDarrere(pronounNormalized, verbStr);
+    } else {
+      return transformDavant(pronounNormalized, verbStr);
+    }
+
   }
 
   public static String doRemovePronounReflexive(String pronounsStr, String verbStr, boolean pronounsAfter) {
@@ -243,17 +248,11 @@ public class PronomsFeblesHelper {
         return verbStr;
       }
     }
-    String pronounToAdd;
-    if (pronounsStr.isEmpty()) {
-      pronounToAdd = getReflexivePronoun(firstVerbPersonaNumber);
-      if (pronounToAdd != null) {
-        replacement = transformDavant(pronounToAdd, verbStr) + verbStr;
-      }
-    } else {
-      //TODO: add reflexive pronoun to another pronoun
-      // containsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()
-      replacement = (pronounsStr + " " + verbStr).trim().replace("' ", "'");
+    String pronounToAdd = transform(pronounsStr, PronounPosition.NORMALIZED);
+    if (!pContainsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
+      pronounToAdd = getReflexivePronoun(firstVerbPersonaNumber) + " " + pronounToAdd;
     }
+    replacement = transformDavant(pronounToAdd, verbStr) + verbStr;
     return replacement;
   }
 

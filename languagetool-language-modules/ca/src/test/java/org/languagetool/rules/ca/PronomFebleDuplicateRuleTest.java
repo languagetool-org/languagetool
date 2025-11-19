@@ -60,7 +60,6 @@ public class PronomFebleDuplicateRuleTest {
     assertCorrect("la batalla per defensar-la");
     assertCorrect("ens convida a treure'ns-la");
     assertCorrect("ens ve a buscar per ajudar-nos");
-    assertCorrect("et fan adonar-te");
     assertCorrect("m'agrada enfonsar-me");
     assertCorrect("em dedico a fer-me");
     assertCorrect("la mira sense veure-la");
@@ -106,6 +105,10 @@ public class PronomFebleDuplicateRuleTest {
     assertCorrect("hi anava a prendre'n possessió");
     assertCorrect("hi anava a veure'l cada dia");
     assertCorrect("se'n va a salvar-se");
+    assertCorrect("Què els va fer seguir-lo?");
+    assertCorrect("Això et fa adonar-te del que passa."); // -> rule EL_FAN_AGENOLLAR
+    assertCorrect("la mare em feia anar a exhibir-me a certes cases"); // dubtós
+    assertCorrect("ja havia pensat en la recança que em feia haver-me d’allunyar d’ella"); // dubtós
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("S'ha de fer-se"));
     assertEquals(1, matches.length);
@@ -233,6 +236,10 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals(1, matches.length);
     assertEquals("ha d'haver-hi", matches[0].getSuggestedReplacements().get(0));
     assertEquals("hi ha d'haver", matches[0].getSuggestedReplacements().get(1));
+
+    /*matches = rule.match(lt.getAnalyzedSentence("Això et fa adonar-te del que passa."));
+    assertEquals(1, matches.length);
+    assertEquals("et fa adonar", matches[0].getSuggestedReplacements().get(0));*/
 
   }
     

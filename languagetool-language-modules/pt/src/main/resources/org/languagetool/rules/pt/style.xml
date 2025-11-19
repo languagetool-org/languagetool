@@ -4190,13 +4190,6 @@ USA
                 <example>Os clientes costumam ser fiéis e fazer pedidos periódicos.</example>
             </antipattern>
             <antipattern>
-                <token regexp='yes' inflected='yes'>estar|ter|ser</token>
-                <token postag='Z0.+|DI0M.+' postag_regexp='yes'/>
-                <token regexp='yes'>pedidos?</token>
-                <example>Tenho um pedido a fazer-lhes, amigos.</example>
-                <example>A parte queixosa tem um pedido a fazer?</example>
-            </antipattern>
-            <antipattern>
                 <token postag='D[ADIP].+|SPS.+|Z0.+' postag_regexp='yes'>
                     <exception scope='previous' regexp='yes' inflected='yes'>estar|ter|ser</exception>
                     <exception scope='previous' regexp='yes'>por|pel[ao]s?|abaixo</exception></token>
@@ -4218,19 +4211,6 @@ USA
                 <example>Para realizar o pagamento imprima o boleto após a conclusão do pedido.</example>
                 <example>O distribuidor, então, fatura e realiza a entrega do pedido.</example>
                 <example>Riram dele por causa do pedido por ele feito.</example>
-            </antipattern>
-            <antipattern>
-                <token postag='Z0.+|DI.+' postag_regexp='yes'/>
-                <token regexp='yes'>peças?</token>
-                <example>EMBALAGEM COM 100 PEÇAS (1 CENTO).</example>
-                <example>A poltrona tem série limitada de 13 peças.</example>
-                <example>O atendimento pelo whatsapp é para mínimo de 250 peças.</example>
-                <example>Juntas, produzem cerca de 200 peças por mês, todas feitas em 100% algodão.</example>
-                <example>Estou a montar um quebra-cabeça de 750 peças.</example>
-                <example>Existem 144 centros móveis, consistindo de seis conjuntos de 24 peças cada.</example>
-                <example>Escreveu também cerca de 20 peças, das quais 14 foram encenadas.</example>
-                <example>Como o processo de impressão era complexo, ele imprimiu apenas 40 peças.</example>
-                <example>A poltrona tem série limitada de 13 peças.</example>
             </antipattern>
             <antipattern>
                 <token regexp='yes'>peças?</token>
@@ -4255,7 +4235,7 @@ USA
             </antipattern>
             <antipattern>
                 <token skip='2' inflected='yes' regexp='no'>pedir</token> <!-- more than skip='2' causes false positives -->
-                <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</token> <!-- The same words below -->
+                <token regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</token>
                 <example>O Sr. Lino de Carvalho (PCP): - Peço a palavra, Sr. Presidente.</example>
                 <example>Tito pede a mão de Filomena em casamento para Querêncio.</example>
                 <example>O aluno pediu a palavra.</example>
@@ -4275,8 +4255,7 @@ USA
 
             <pattern>
                 <marker>
-                    <token postag='V.+' postag_regexp='yes' inflected='yes' regexp='no'>pedir
-                        <exception scope='next' regexp='yes'>casamento|conselhos?|desculpas?|demissão|divórcio|mãos?|namoro|oração|palavra|perdão|socorro</exception></token>
+                    <token postag='V.+' postag_regexp='yes' inflected='yes'>pedir</token>
                 </marker>
             </pattern>
             <message>&informal_msg;</message>
@@ -19421,7 +19400,6 @@ USA
             <!--
             Ela não pode ter me visto na festa.
             Você se importaria em vir e me ver no sábado?
-            Quantas cores você vê no arco-íris?
             Por que não deu para você vir no sábado?
             Deixe-me ver o seu pulso.
             Do topo podia-se ver o rio.
@@ -19735,7 +19713,6 @@ USA
 
                 <example>Ela não pode ter me visto na festa.</example>
                 <example>Você se importaria em vir e me ver no sábado?</example>
-                <example>Quantas cores você vê no arco-íris?</example>
                 <example>Por que não deu para você vir no sábado?</example>
                 <example>Deixe-me ver o seu pulso.</example>
                 <example>Do topo podia-se ver o rio.</example>
