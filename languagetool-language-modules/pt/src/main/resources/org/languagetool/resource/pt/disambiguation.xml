@@ -4218,7 +4218,8 @@ USA
 
   <rule id="DP_V_VPARTPASS_NC_20250927" name="Remove rare verbs from appearing as verbs">
     <pattern>
-      <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
       <token min='0' max='1' postag='Z0.+|RM' postag_regexp='yes'/>
       <marker>
         <and>
@@ -4502,11 +4503,12 @@ USA
     <pattern>
       <token postag='V.+' postag_regexp="yes">
         <exception scope='previous' postag_regexp='yes' postag='PP.+'/>
-        <exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+        <exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
       <marker>
         <and>
           <token postag='V.+' postag_regexp='yes'/>
-          <token postag='NC.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
         </and>
       </marker>
       <token postag='SPS00' postag_regexp='no'><exception scope='previous' postag_regexp='no' postag='VMN0000'/></token>
