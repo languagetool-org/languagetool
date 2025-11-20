@@ -298,7 +298,8 @@ public class JLanguageTool {
                        GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging) {
     this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, true, false);
   }
-  
+
+
   /**
    * Create a JLanguageTool and setup the built-in rules for the
    * given language and false friend rules for the text language / mother tongue pair.
@@ -317,25 +318,51 @@ public class JLanguageTool {
    * @since 6.6
    */
   public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging, boolean withLanguageModel) {
+      this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, inputLogging, withLanguageModel, null);
+  }
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   *
+   * @param language     the language of the text to be checked
+   * @param altLanguages The languages that are accepted as alternative languages - currently this means
+   *                     words are accepted if they are in an alternative language and not similar to
+   *                     a word from {@code language}. If there's a similar word in {@code language},
+   *                     there will be an error of type {@link RuleMatch.Type#Hint} (EXPERIMENTAL)
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @param inputLogging allow inclusion of input in logs on exceptions
+   * @param withLanguageModel will not call updateOptionalLanguageModelRules(null) if this is true
+   * @param customRules rules to use for the JLanguageTool instance instead of intializing with the built-in ones, or null to use built-in rules
+   * @since 6.6
+   */
+  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging, boolean withLanguageModel, List<Rule> customRules) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.altLanguages = Objects.requireNonNull(altLanguages, "altLanguages cannot be null (but empty)");
     this.motherTongue = motherTongue;
     this.userConfig = Objects.requireNonNullElseGet(userConfig, UserConfig::new);
     this.globalConfig = globalConfig;
-    ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    builtinRules = getAllBuiltinRules(language, messages, userConfig, globalConfig);
     this.cleanOverlappingMatches = true;
-    try {
-      activateDefaultPatternRules();
-      if (!language.hasNGramFalseFriendRule(motherTongue)) {
-        // use the old false friends, which always match, not depending on context
-        activateDefaultFalseFriendRules();
+    ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
+    if (customRules != null) {
+      builtinRules = customRules;
+    } else {
+      builtinRules = getAllBuiltinRules(language, messages, userConfig, globalConfig);
+      try {
+        activateDefaultPatternRules();
+        if (!language.hasNGramFalseFriendRule(motherTongue)) {
+          // use the old false friends, which always match, not depending on context
+          activateDefaultFalseFriendRules();
+        }
+        if (!withLanguageModel) {
+          updateOptionalLanguageModelRules(null); // start out with rules without language model
+        }
+      } catch (Exception e) {
+        throw new RuntimeException("Could not activate rules", e);
       }
-      if (!withLanguageModel) {
-        updateOptionalLanguageModelRules(null); // start out with rules without language model
-      }
-    } catch (Exception e) {
-      throw new RuntimeException("Could not activate rules", e);
     }
     this.cache = cache;
     descProvider = new ShortDescriptionProvider();
@@ -776,6 +803,20 @@ public class JLanguageTool {
   }
 
   /**
+   * Updates the rules for the system by replacing the user-defined rules with the provided set of rules.
+   * Clears any existing user and built-in rules, as well as the cached rule set, before applying the new rules.
+   *
+   * @param rules a list of Rule objects to be set as the new user-defined rules
+   * @since 6.8
+   */
+  public void setRules(List<Rule> rules) {
+    builtinRules.clear();
+    userRules.clear();
+    userRules.addAll(rules);
+    ruleSetCache.clear();
+  }
+
+  /**
    * Disable the given rule category so the check methods like {@link #check(String)} won't use it.
    *
    * @param id the id of the category to disable - no error will be thrown if the id does not exist
@@ -1038,9 +1079,15 @@ public class JLanguageTool {
   }
 
   protected CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
+                                       Mode mode, Level level, @NotNull Set<ToneTag> toneTags,
+                                       @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
+    RuleSet rules = getActiveRulesForLevelAndToneTags(level, toneTags);
+    return checkInternalWithCustomRules(rules, annotatedText, paraMode, listener, mode, level, toneTags, textSessionID, sentences, analyzedSentences);
+  }
+
+  public CheckResults checkInternalWithCustomRules(RuleSet rules, AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
                                      Mode mode, Level level, @NotNull Set<ToneTag> toneTags,
                                      @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
-    RuleSet rules = getActiveRulesForLevelAndToneTags(level, toneTags);
     if (printStream != null) {
       printIfVerbose(rules.allRules().size() + " rules activated for language " + language);
     }
