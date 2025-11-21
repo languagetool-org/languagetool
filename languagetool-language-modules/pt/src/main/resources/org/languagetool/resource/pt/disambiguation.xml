@@ -4008,6 +4008,29 @@ USA
       -->
   </rule>
 
+  <rule id="SP_VERB_NOUN_20251121" name="It is NC.+/AQ.+ not VMIP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='SP.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+        <token postag='NC.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP2S0"/>
+      <!--
+      Examples:
+               Acompanhe nossa página no facebook e conta no twitter para futuras edições.
+               Muito indicadas para noivas elegantes, porém básicas.
+               Este Metal Zipper é feito de latão e geralmente usado para calças jeans.
+               Para compras exclusivas no e-commerce, parcelamento em 3 vezes sem juros ou em até 10 vezes com juros de 2,5% a.m.
+               Nos anos 70 e 80, os filipinos vendiam seus “peixes” para editoras americanas (Warren, remember?).
+      -->
+  </rule>
+
   <rule id="V_ESTAR_TER_SER_Z0_DI_VERBNOUN_20251117" name="Remove verb from token. It can be a noun, etc., but not a verb">
     <!-- ChatGPT 5 -->
     <pattern>
