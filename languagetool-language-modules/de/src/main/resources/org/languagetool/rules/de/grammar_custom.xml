@@ -146,20 +146,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 ]>
 
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
-    <category id="TYPOS" name="Mögliche Tippfehler">
-      <rulegroup id="SCHREIBEN_SCHRIEBEN_SPELLING_RULE" name="'im Schrieben (Schreiben)'">
-        <!-- Regel: Großschreibung von „Urteil“ nach Artikel  -->
-        <rule id="KLEINGESCHRIEBENES_SUBSTANTIV_URTEIL_NACH_ARTIKEL" name="Kleingeschriebenes Substantiv Urteil nach Artikel">
-          <pattern case_sensitive='yes'>
-            <token postag='ART:.+' postag_regexp='yes'></token>
+  <category id="TYPOS" name="Mögliche Tippfehler">
+   <rulegroup id="SCHREIBEN_SCHRIEBEN_SPELLING_RULE" name="'im Schrieben (Schreiben)'">
+      <!-- Großschreibung von Wort Urteil nach Artikel oder Possessivpronomen -->
+      <rule id="GROSCHREIBUNG_VON_WORT_URTEIL_NACH_ARTIKEL_ODER_POSSESSIVPRONOMEN" name="Großschreibung von Wort Urteil nach Artikel oder Possessivpronomen">
+         <pattern case_sensitive='yes'>
+            <token postag='(ART:.+|PPOSAT|POSS:.+)' postag_regexp='yes'></token>
             <marker>
               <token regexp='yes'>urteil(e|en|s)?</token>
-            </marker>
-          </pattern>
-          <message>Nach einem Artikel steht ein Verb in Imperativform. Vermutlich ist ein Substantiv gemeint, das großgeschrieben werden sollte.</message>
-          <example correction=''>Der Staatsanwalt legte Berufung gegen das <marker>urteil</marker> des Landgerichts ein.</example>
-          <example>Der Staatsanwalt legte Berufung gegen das Urteil des Landgerichts ein.</example>
-        </rule>
-      </rulegroup>
-    </category>
+           </marker>
+        </pattern>
+        <message></message>
+        <example correction=''>Der Staatsanwalt legte Berufung gegen das <marker>urteil</marker> des Landgerichts ein.</example>
+        <example>Der Staatsanwalt legte Berufung gegen das Urteil des Landgerichts ein.</example>
+     </rule>
+  </rulegroup>
+</category>
 </rules>
