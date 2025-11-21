@@ -2296,6 +2296,25 @@ USA
       <disambig action="filter" postag="V.+"/>
       <!--Example: Ele casa -->
     </rule>
+    <rule> <!-- Created by Marco A.G.Pinto based on the above from Tiago, for proper names -->
+      <antipattern>
+        <token postag='SPS00'/>
+        <token postag='NP.+' postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
+        <token postag='NP.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='NP.+'/></token> <!-- reinforce NC.+ below -->
+        <marker>
+          <and>
+            <token postag='NC.+' postag_regexp='yes'/> <!-- Dom Pedro, "pedro" seems to appear as a verb, so NC.+ and not N.+ -->
+            <token postag='V.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+      <!--Example: Ana era filha do padeiro -->
+    </rule>
+
+
   </rulegroup>
 
   <rule id="PREPOSITION_SE" name="'Se' como preposição">
