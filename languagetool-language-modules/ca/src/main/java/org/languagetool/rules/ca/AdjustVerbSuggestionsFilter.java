@@ -88,7 +88,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
           desiredNumber = (tokensAfterLemma.get(0).getTokensWithoutWhitespace()[1].hasPartialPosTag("S") ? "S" :  "P");
         }
       }
-      if (newLemma.equals("haver")) {
+      if (newLemma.contains("haver-hi")) {
         desiredNumber = "S";
       }
       if (!forceNumber.isEmpty()) {
@@ -104,7 +104,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       } else if (newLemma.endsWith("'s")) {
         newLemma = newLemma.substring(0, newLemma.length() - 2);
         action = "addPronounReflexive";
-      }else if (newLemma.endsWith("-hi")) {
+      } else if (newLemma.endsWith("-hi")) {
         newLemma = newLemma.substring(0, newLemma.length() - 3);
         action = "addPronounHi";
       } else if (newLemma.endsWith("-s'ho")) {
@@ -222,7 +222,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posStartUnderline].getStartPos(),
       match.getToPos(), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
-    ruleMatch.setSuggestedReplacements(replacements);
+    ruleMatch.setSuggestedReplacements(getLanguageFromRuleMatch(match).adaptSuggestionsList(replacements, verbSynthesizer.getWholeOriginalStr()));
     return ruleMatch;
   }
 
