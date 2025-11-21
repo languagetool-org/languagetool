@@ -4034,6 +4034,33 @@ USA
       -->
   </rule>
 
+  <rule id="VERB_VERBVMIP_20251121" name="It is NC.+/AQ.+ not VMIP.S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        <exception scope='next' postag_regexp='yes' postag='VMP00.+|RG'/></token>
+      <marker>
+        <and>
+          <token postag='VMIP.S0' postag_regexp='yes'/>
+          <token postag='NC.F.+|AQ.F.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               Faz fronteira com Corzano, Longhena, Maclodio, Mairano, Trenzano.
+               A contrarrevolução camponesa da Vendeia e a ameaça externa colocavam a revolução à beira do abismo.
+               A Queda da Bastilha causou profunda emoção nas províncias e acelerou a queda dos intendentes.
+               Administrador/eliminador: Não apague esta categoria somente por estar vazia!
+               É permitido, e não raro acontece, contabilizar pontuações finais negativas numa rodada.
+               O jogo contém notas orquestradas digitalmente e trilhas sonoras de voice-over.
+               O garimpeiro aposentado pede calma, e ri.
+               Não fazia ideia até então, que a produção tratava-se de uma adaptação literária.
+      -->
+  </rule>
+
   <rule id="V_ESTAR_TER_SER_Z0_DI_VERBNOUN_20251117" name="Remove verb from token. It can be a noun, etc., but not a verb">
     <!-- ChatGPT 5 -->
     <pattern>
