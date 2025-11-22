@@ -2303,7 +2303,7 @@ USA
       </antipattern>
       <pattern>
         <token postag='NP.+' postag_regexp='yes'>
-          <exception inflected='yes' regexp='yes'>ser|estar</exception> <!-- Fixes at least "São" which is a Proper Name -->
+          <exception postag_regexp='yes' postag='V.+'/> <!-- Fixes at least "São" which is a Proper Name and verb "ser" -->
           <exception scope='next' postag_regexp='yes' postag='NP.+'/></token> <!-- reinforce NC.+ below -->
         <marker>
           <and>
