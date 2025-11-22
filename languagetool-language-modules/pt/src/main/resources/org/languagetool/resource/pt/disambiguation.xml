@@ -2302,7 +2302,9 @@ USA
         <token postag='NP.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
-        <token postag='NP.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='NP.+'/></token> <!-- reinforce NC.+ below -->
+        <token postag='NP.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='V.+'/> <!-- Fixes at least "São" which is a Proper Name and verb "ser" -->
+          <exception scope='next' postag_regexp='yes' postag='NP.+'/></token> <!-- reinforce NC.+ below -->
         <marker>
           <and>
             <token postag='NC.+' postag_regexp='yes'/> <!-- Dom Pedro, "pedro" seems to appear as a verb, so NC.+ and not N.+ -->
