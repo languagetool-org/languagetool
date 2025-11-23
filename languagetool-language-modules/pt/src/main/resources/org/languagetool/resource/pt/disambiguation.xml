@@ -2297,13 +2297,10 @@ USA
       <!--Example: Ele casa -->
     </rule>
     <rule> <!-- Created by Marco A.G.Pinto based on the above from Tiago, for proper names -->
-      <antipattern>
-        <token postag='SPS00'/>
-        <token postag='NP.+' postag_regexp='yes'/>
-      </antipattern>
       <pattern>
-        <token postag='NP.+' postag_regexp='yes'>
+        <token postag='NP.[SN].+' postag_regexp='yes'>
           <exception postag_regexp='yes' postag='V.+'/> <!-- Fixes at least "São" which is a Proper Name and verb "ser" -->
+          <exception postag_regexp='yes' postag='NC.P.+|AQ0.P.+'/> <!-- Fixes for plurals which are usually nouns/adjectives -->
           <exception scope='next' postag_regexp='yes' postag='NP.+'/></token> <!-- reinforce NC.+ below -->
         <marker>
           <and>
@@ -2311,6 +2308,7 @@ USA
             <token postag='V.+' postag_regexp='yes'/>
           </and>
         </marker>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/> <!-- Makes the rule very strict reducing FPs -->
       </pattern>
       <disambig action="filter" postag="V.+"/>
       <!--Example: Ana era filha do padeiro -->
