@@ -4028,7 +4028,36 @@ USA
       -->
   </rule>
 
-  <rule id="SP_VERB_NOUN_20251121" name="It is NC.+/AQ.+ not VMIP2S0">
+  <rule id="VERB_VMSP2S0_NOUN_20251123" name="It is not VMSP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+        <and>
+          <token postag='VMSP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMSP2S0"/>
+      <!--
+      Examples:
+               M. Stoddart, um editor para a Lippincott, estava em Londres para solicitar novelas curtas para publicar na revista.
+               Na marquise, foram colocados suportes duplos em betão armado na base de seis consolas, para segurar vasos com flores.
+               A partida decisiva teve doses elevadas de emoção, já que contou com duas viradas de placar.
+               Mas, como nem tudo são flores, a fase dourada não impede que Koyume fique sem inspiração.
+               Os pedidos realizados esta semana vão ser entregues depois da Semana Santa.
+               Dê leves batidinhas para ele ficar bem lisinho.
+               Assim, eles são livres para transportar a energia por meio das colisões dentro do metal.
+               Seria erro do próprio governo, que fez vistas grossas justamente com os bancos e banqueiros.
+               São peças confortáveis e super práticas, pra usar o ano inteiro!
+               Dona HELENA MAGOSSO, em nome do Secretário, quer saber detalhes sobre o Monumento-Mausoléu.
+               São eles: Várzea, Jardim São Paulo, Santo Amaro, Casa Amarela e Alto José do Pinho.
+      -->
+  </rule>
+
+  <rule id="SP_VERB_NOUN_20251121" name="It is not VMIP2S0">
     <!-- ChatGPT 5 -->
     <pattern>
       <token postag='SP.+' postag_regexp='yes'/>
