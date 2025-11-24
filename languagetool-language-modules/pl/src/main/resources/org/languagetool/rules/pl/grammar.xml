@@ -178,17 +178,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">				
                             <antipattern>
                                 <token postag="verb:praet.*" postag_regexp="yes"/>
-                                <marker>
-                                    <token>szkolę</token>
-                                </marker>
+                                <token>szkolę</token>
                                 <example>W tym roku skończyłem szkolę średnią w Ukrainie oraz</example>
                             </antipattern>
                             <antipattern>
                                 <token>duszą</token>
                                 <token postag="subst:.*" postag_regexp="yes"/>
-                                <marker>
-                                    <token inflected="yes">być</token>
-                                </marker>
+                                <token inflected="yes">być</token>
                                 <example>Duszą posłuszeństwa jest, rzecz jasna, posłuch.</example>
                             </antipattern>
                             <!-- utarte zwroty frazeologiczne pisane bez przecinków -->
@@ -7330,13 +7326,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example correction="">Czy <marker>przeczytaj</marker> tę książkę?</example>
       </rule>
 		<rule id="ADJ_SUBST_ADJ_UNIFY" name="Naruszenie związku zgody">
-      <antipattern>
-          <marker>
-                <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">oferować|dedykować|poświęcać|przedstawiać|prezentować|(?:za)?proponować</token>
-                <token postag="subst:.*:dat.*" postag_regexp="yes"/>
-                <token postag="(adj|ppas|pact):.*:dat.*" postag_regexp="yes"/>
-          </marker>
-          <example>W firmie wiązłem udział w szkoleniach, związanych ze sprzedażą produktów ubezpieczeniowych oferowanych klientom indywidualnym.</example>
+       <antipattern>
+              <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">oferować|dedykować|poświęcać|przedstawiać|prezentować|(?:za)?proponować</token>
+              <token postag="subst:.*:dat.*" postag_regexp="yes"/>
+              <token postag="(adj|ppas|pact):.*:dat.*" postag_regexp="yes"/>
+      </antipattern>
       </antipattern>
       <antipattern>
             <unify>
@@ -12429,9 +12423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 				<rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
           <antipattern>
-            <marker>
-              <token case_sensitive="yes">Pizza</token>
-            </marker>
+            <token case_sensitive="yes">Pizza</token>
             <token case_sensitive="yes">Hut</token>
             <example>Z wielkim entuzjazmem aplikuję na stanowisko pracownika restauracji w Pizza Hut.</example>
           </antipattern>
@@ -22886,14 +22878,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     </marker>
                                 </antipattern>
                                 <antipattern>
-                                    <token>(</token>
                                     <token>Red</token>
-                                    <marker>
-                                        <token case_sensitive="yes">Hot</token>
-                                    </marker>
+                                    <token case_sensitive="yes">Hot</token>
                                     <token regexp="yes">Chili|Chilli</token>
                                     <token>Peppers</token>
-                                    <token>)</token>
                                     <example>Gra na gitarze, Gra na basie, Muzyka rockowa (Blink-182, Red Hot Chilli Peppers)</example>
                                 </antipattern>
                                 <pattern>
