@@ -1950,7 +1950,6 @@ USA
         <example>Antes que cante o galo, três vezes me terás negado.</example>
         <example>Lady Danbury é uma das minhas queridinhas desde que a conheci na série Os Bridgertons e aqui me peguei apaixonada por Malcom, seu gato, também.</example>
         <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
-        <example>Eu quase me tornei carpinteiro.</example>
         <example>Alguma vez te sentiste enganado?</example>
         <example>Alguma vez te sentiste traído por um amigo?</example>
         <example>Então lhe foi dirigida esta palavra do Senhor: "Não será esse o herdeiro, mas alguém saído do teu sangue."</example>
@@ -2886,6 +2885,108 @@ USA
   <example>Vejo-te por aí.</example>
   <example>Manda-me uma foto sua, por favor.</example>
     </rule>
+
+
+    <rulegroup id='PRECISAR_DE_PT_PT' name="[pt-PT] Verbo precisar de" default='temp_off'>
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+<!-- Needs to be rewritten because of the comments of the AI bot -->
+        <antipattern> <!-- #1: Verb "ser"/"estar" -->
+            <token inflected='yes' regexp='yes'>ser|estar</token>
+            <token min='0' max='1' postag='RM' postag_regexp='no'/>
+            <token inflected='yes'>precisar</token>
+            <token min='0' max='1' regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+            <token postag='NC.+|AQ.+|V.+|_PUNCT' postag_regexp='yes'/>
+            <example>Agora é preciso paciência.</example>
+            <example>É preciso lucidez para se avaliar uma situação complexa como esta.</example>
+            <example>Para oferecer isso aos leitores, de graça, é preciso muito investimento.</example>
+            <example>É preciso autorização?</example>
+            <example>É muito bom, mas não é fácil, é preciso dedicação, dedicação e dedicação.</example>
+            <example>É preciso muita perseverança ao estudar.</example>
+            <example>É preciso coragem para se fazer uma coisa dessas.</example>
+            <example>É preciso muita criatividade para inventar ideias.</example>
+        </antipattern>
+
+        <antipattern> <!-- #2: Catch anything after "de|d[ao]s?" -->
+            <token inflected='yes'>precisar</token>
+            <token postag='NC.+|AQ.+|V.+|RG' postag_regexp='yes'/>
+            <token regexp='yes'>de|d[ao]s?</token>
+            <example>Por favor preciso muito de ajuda estou passando por momentos de muita turbulência.</example>
+            <example>Tom precisava muito do dinheiro.</example>
+            <example>As colónias de Vossa Majestade nas Índias Ocidentais precisam muito de escravos.</example>
+            <example>Então precisamos mesmo do serviço extra.</example>
+            <example>O mundo precisa muito de uma urgente franciscanização.</example>
+            <example>Eu preciso tanto do seu sorriso como do ar para viver.</example>
+            <example>Preciso muito da sua ajuda.</example>
+            <example>A casa que Tom comprou precisa muito de uma reforma.</example>
+            <example>Mary precisa tanto do nosso apoio como do nosso amor.</example>
+            <example>Eu preciso muito de você.</example>
+            <example>Eu preciso muito de você agora.</example>
+            <example>Eu precisava mesmo da sua ajuda.</example>
+            <example>precisa tanto da sua ajuda?</example>
+            <example>Acho que precisamos um do outro.</example>
+            <example>Precisamos um do outro para sobreviver.</example>
+            <example>Orra fez ilustrações detalhadas de flores nativas e gramíneas além de precisas aquarelas de cogumelos típicos da região.</example>
+            <example>Para que haja o dever de indenizar é preciso sacrifício do direito e agravo econômico provocado por este.</example>
+        </antipattern>
+
+        <antipattern> <!-- #3: Catch any verbs after &adverbios_de_intensidade; -->
+            <token inflected='yes'>precisar</token>
+            <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+            <token postag='V.+' postag_regexp='yes'/>
+            <example>Preciso muito saber, ligo lá e ninguém atende.</example>
+            <example>Precisamos todos aprender a lidar com essa situação.</example>
+            <example>Eu preciso muito conversar com alguém.</example>
+            <example>Preciso muito falar contigo.</example>
+            <example>Preciso muito falar com você.</example>
+            <example>Eu preciso muito fazer isso.</example>
+            <example>Eu preciso muito acabar com isso.</example>
+            <example>Deb, você precisa muito ir ao Dia de Ação de Graças.</example>
+            <example>Preciso muito saber, ligo lá e ninguém atende.</example>
+        </antipattern>
+
+        <rule> <!-- #1: Adverb of Intensity + Noun (add "de") -->
+            <pattern>
+                <marker>
+                    <token postag='V.+' postag_regexp='yes' inflected='yes'>precisar</token>
+                </marker>
+                <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+|RG'/></token>
+            </pattern>
+            <message>No português europeu, use &quot;de&quot; após precisar quando o complemento for um substantivo, mesmo com advérbio de intensidade.</message>
+            <suggestion>\1 de</suggestion>
+            <example correction="precisamos de">Hoje <marker>precisamos</marker> muita paciência.</example>
+            <example>Preciso de muita diversão.</example>
+        </rule>
+
+        <rule> <!-- #2: Noun (add "de") -->
+            <pattern>
+                <marker>
+                    <token postag='V.+' postag_regexp='yes' inflected='yes'>precisar</token>
+                </marker>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+|RG'/></token>
+            </pattern>
+            <message>No português europeu, use &quot;de&quot; após precisar quando for seguido de um substantivo.</message>
+            <suggestion>\1 de</suggestion>
+            <example correction="precisamos de">Hoje <marker>precisamos</marker> paciência.</example>
+            <example>Preciso de diversão.</example>
+        </rule>
+
+        <rule> <!-- #3: Verb Infinitive (remove "de") -->
+            <pattern>
+                <marker>
+                    <token postag='V.+' postag_regexp='yes' inflected='yes'>precisar</token>
+                    <token>de</token>
+                </marker>
+                <token postag='VMN000.+' postag_regexp='yes'/>
+            </pattern>
+            <message>No português europeu, não use &quot;de&quot; após precisar quando for seguido de um verbo no infinitivo.</message>
+            <suggestion>\1</suggestion>
+            <example correction="Precisamos"><marker>Precisamos de</marker> estudar muito.</example>
+            <example>Preciso saber o resultado do exame.</example>
+        </rule>
+
+    </rulegroup>
+
 
     <rule id="ZERO_MEDIDA_SINGULAR" name="[pt-PT] Concordância de número: 'zero grau'">
         <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->

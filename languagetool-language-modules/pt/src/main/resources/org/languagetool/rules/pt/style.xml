@@ -4543,7 +4543,6 @@ USA
                     <example>Morra, seu bastardo!</example>
                     <example>MORRA AGORA, SEU ASSASSINO!</example>
                     <example>Morra, sua vadia!</example>
-                    <example>Se vc gosta de trekkings, pedalar morro acima, morro abaixo, Maiorca tb é uma ótima opção!</example>
                     <example>Ela dirá para o mundo ouvir: “Fraqueza, medo e desespero morreram; força, poder e coragem nasceram”.</example>
                     <example>É que eu não quero morrer hoje, só isso.</example>
                     <example>"Morre, danado!"</example>
@@ -4631,7 +4630,6 @@ USA
                     <example>Há mais de cem mortos na catástrofe.</example>
                     <example>Desabamento de prédio deixa mais de 1000 mortos em Bangladesh.</example>
                     <example>Corpos não identificados de mulheres mortas em Los Angeles geralmente são chamados: "Sally in the Alley"</example>
-                    <example>Hoje, PEDE DESCULPAS pelos 4,4 mil mortos na cidade.</example>
                 </antipattern>
                 <antipattern>
                     <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
@@ -16749,39 +16747,6 @@ USA
             <suggestion>\1 \4</suggestion>
             <example correction="continua tão">O tema da pesquisa <marker>continua a ser tão</marker> atual.</example>
             <example correction="continua bastante">O tema da pesquisa <marker>continua a ser bastante</marker> atual.</example>
-        </rule>
-
-
-        <rule id='FAZER_VERBO_VERBO_INFINITIVO_V2' name="[Simplificar] V.Fazer + V. → V.Inf." type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <antipattern>
-                <token>fazer</token>
-                <token postag='VMIP2S0' postag_regexp='no'/>
-                <token>para</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <example>Quando éramos crianças gostávamos de fazer fisgas para sermos bons.</example>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token>fazer
-                        <exception scope='next' regexp='no'>compras</exception> <!-- Add exceptions here -->
-                    </token>
-                    <token skip='4' postag='VMIP2S0' postag_regexp='no'/>
-                </marker>
-                <token inflected='yes'>ser
-                    <exception regexp='yes' inflected='yes'>estar|ir</exception>
-                    <exception scope='previous' regexp='yes' inflected='yes'>estar|ir</exception>
-                </token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='2' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
-            <example correction="Somar"><marker>Fazer somas</marker> é o melhor que há.</example>
-            <example correction="conjeturar">Mas <marker>fazer conjeturas</marker> sobre algo é medir uma probabilidade.</example>
-            <example correction="somar">Assim <marker>fazer somas</marker> é o melhor.</example>
-            <example correction="somar">Assim <marker>fazer somas</marker> será o melhor.</example>
-            <example>Fazer compras é uma sensação fantástica.</example>
-            <example>Quanto às sugestões de uso de drones para fazer entregas estão sendo avaliadas.</example>
-            <example>Fui com Magnus fazer compras, fomos a uma loja ótima.</example>
         </rule>
 
 

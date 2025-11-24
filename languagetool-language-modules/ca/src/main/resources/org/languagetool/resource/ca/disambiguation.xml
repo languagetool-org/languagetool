@@ -18892,6 +18892,56 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="immunize"/>
         </rule>
     </rulegroup>
+    <rulegroup id="femeni_inusual" name="femení inusual: amor, color...">
+        <rule>
+            <pattern>
+                <token postag="_GN_MS" regexp="yes">&femeni_inusual;<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NCMS000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">&femeni_inusual;<exception postag=".*_GN_.*|.*LOC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NCMS000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&femeni_inusual;<exception postag=".*_GN_.*|.*LOC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_MS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="_GN_MP" regexp="yes">(&femeni_inusual;)s<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NCMP000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">(&femeni_inusual;)s<exception postag=".*_GN_.*|.*LOC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NCMP000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">(&femeni_inusual;)s<exception postag=".*_GN_.*|.*LOC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_MP"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="nom_en_complement" name="nom en complement">
         <rule>
             <pattern>
@@ -21556,24 +21606,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove">
                 <wd lemma="vendre"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-    <rulegroup id="femeni_inusual" name="femení inusual: amor, color...">
-        <rule>
-            <pattern>
-                <token regexp="yes">&femeni_inusual;<exception postag=".*_GN_.*|.*LOC.*" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GN_MS"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">(&femeni_inusual;)s<exception postag=".*_GN_.*|.*LOC.*" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GN_MP"/>
             </disambig>
         </rule>
     </rulegroup>

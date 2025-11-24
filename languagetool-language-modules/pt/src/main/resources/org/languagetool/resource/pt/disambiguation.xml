@@ -2296,6 +2296,26 @@ USA
       <disambig action="filter" postag="V.+"/>
       <!--Example: Ele casa -->
     </rule>
+    <rule> <!-- Created by Marco A.G.Pinto based on the above from Tiago, for proper names -->
+      <pattern>
+        <token postag='NP.[SN].+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='V.+'/> <!-- Fixes at least "São" which is a Proper Name and verb "ser" -->
+          <exception postag_regexp='yes' postag='NC.P.+|AQ0.P.+'/> <!-- Fixes for plurals which are usually nouns/adjectives -->
+          <exception scope='next' postag_regexp='yes' postag='NP.+'/></token> <!-- reinforce NC.+ below -->
+        <marker>
+          <and>
+            <token postag='NC.+' postag_regexp='yes'/> <!-- Dom Pedro, "pedro" seems to appear as a verb, so NC.+ and not N.+ -->
+            <token postag='V.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token min='0' max='1' postag='SPS00|D[AI].+' postag_regexp='yes'/> <!-- Ana era A filha do padeiro -->
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/> <!-- Makes the rule very strict reducing FPs -->
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+      <!--Example: Ana era filha do padeiro -->
+    </rule>
+
+
   </rulegroup>
 
   <rule id="PREPOSITION_SE" name="'Se' como preposição">
@@ -4008,6 +4028,88 @@ USA
       -->
   </rule>
 
+  <rule id="VERB_VMSP2S0_NOUN_20251123" name="It is not VMSP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+        <and>
+          <token postag='VMSP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMSP2S0"/>
+      <!--
+      Examples:
+               M. Stoddart, um editor para a Lippincott, estava em Londres para solicitar novelas curtas para publicar na revista.
+               Na marquise, foram colocados suportes duplos em betão armado na base de seis consolas, para segurar vasos com flores.
+               A partida decisiva teve doses elevadas de emoção, já que contou com duas viradas de placar.
+               Mas, como nem tudo são flores, a fase dourada não impede que Koyume fique sem inspiração.
+               Os pedidos realizados esta semana vão ser entregues depois da Semana Santa.
+               Dê leves batidinhas para ele ficar bem lisinho.
+               Assim, eles são livres para transportar a energia por meio das colisões dentro do metal.
+               Seria erro do próprio governo, que fez vistas grossas justamente com os bancos e banqueiros.
+               São peças confortáveis e super práticas, pra usar o ano inteiro!
+               Dona HELENA MAGOSSO, em nome do Secretário, quer saber detalhes sobre o Monumento-Mausoléu.
+               São eles: Várzea, Jardim São Paulo, Santo Amaro, Casa Amarela e Alto José do Pinho.
+      -->
+  </rule>
+
+  <rule id="SP_VERB_NOUN_20251121" name="It is not VMIP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='SP.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='NC.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+|RG'/></token>
+    </pattern>
+    <disambig action="remove" postag="VMIP2S0"/>
+      <!--
+      Examples:
+               Acompanhe nossa página no facebook e conta no twitter para futuras edições.
+               Muito indicadas para noivas elegantes, porém básicas.
+               Este Metal Zipper é feito de latão e geralmente usado para calças jeans.
+               Para compras exclusivas no e-commerce, parcelamento em 3 vezes sem juros ou em até 10 vezes com juros de 2,5% a.m.
+               Nos anos 70 e 80, os filipinos vendiam seus “peixes” para editoras americanas (Warren, remember?).
+               A baixas temperaturas, a água transforma-se em gelo.
+               Para palavras loucas, orelhas moucas.
+               Riem dele pelas costas.
+      -->
+  </rule>
+
+  <rule id="VERB_VERBVMIP_20251123" name="It is not VMIP.S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        <exception scope='next' postag_regexp='yes' postag='VMP00.+|RG'/></token>
+      <marker>
+        <and>
+          <token postag='VMIP.S0' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP.*"/>
+      <!--
+      Examples:
+               Faz fronteira com Corzano, Longhena, Maclodio, Mairano, Trenzano.
+               A contrarrevolução camponesa da Vendeia e a ameaça externa colocavam a revolução à beira do abismo.
+               A Queda da Bastilha causou profunda emoção nas províncias e acelerou a queda dos intendentes.
+               Administrador/eliminador: Não apague esta categoria somente por estar vazia!
+               É permitido, e não raro acontece, contabilizar pontuações finais negativas numa rodada.
+               O jogo contém notas orquestradas digitalmente e trilhas sonoras de voice-over.
+               O garimpeiro aposentado pede calma, e ri.
+               Não fazia ideia até então, que a produção tratava-se de uma adaptação literária.
+      -->
+  </rule>
+
   <rule id="V_ESTAR_TER_SER_Z0_DI_VERBNOUN_20251117" name="Remove verb from token. It can be a noun, etc., but not a verb">
     <!-- ChatGPT 5 -->
     <pattern>
@@ -4216,13 +4318,40 @@ USA
     -->
   </rule>
 
-  <rule id="DP_V_VPARTPASS_NC_20250927" name="Remove rare verbs from appearing as verbs">
+  <rule id="DP_V_VPARTPASS_NC_20250927a" name="Remove rare verbs from appearing as verbs"> <!-- a and b: turned into two rules because of ser|estar -->
     <pattern>
-      <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
       <token min='0' max='1' postag='Z0.+|RM' postag_regexp='yes'/>
       <marker>
         <and>
-          <token postag='VMP00PM|VMSP2S0' postag_regexp='yes'/>
+          <token postag='VMP00PM' postag_regexp='no'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Em Roma dividiam-se os partidos mas a maioria estava contra os intentos da rainha.
+             Muito conhecidos são os mercados e socos cairotas.
+             Sendo assim, Bênlio assumiu os teclados, mais continuou a tocar guitarra em algumas ocasiões.
+             Normalmente são alaranjados, alguns esverdeados, quando em boas condições.
+             «Reforma trabalhista: como votaram os deputados».
+             Mas juntos somos fortes e conseguiremos chegar onde queremos e merecemos.
+             Esses resultados definiram os classificados ao quadrangular semifinal da competição.
+             Às vezes, os opostos não estão preparados para se atrair.
+             Tal música fere os ouvidos.
+    -->
+  </rule>
+  <rule id="DP_V_VPARTPASS_NC_20250927b" name="Remove rare verbs from appearing as verbs"> <!-- a and b: turned into two rules because of ser|estar -->
+    <pattern>
+      <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </token>
+      <token min='0' max='1' postag='Z0.+|RM' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMSP2S0' postag_regexp='no'/>
           <token postag='NC.+' postag_regexp='yes'/>
         </and>
       </marker>
@@ -4502,7 +4631,8 @@ USA
     <pattern>
       <token postag='V.+' postag_regexp="yes">
         <exception scope='previous' postag_regexp='yes' postag='PP.+'/>
-        <exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+        <exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
       <marker>
         <and>
           <token postag='V.+' postag_regexp='yes'/>
