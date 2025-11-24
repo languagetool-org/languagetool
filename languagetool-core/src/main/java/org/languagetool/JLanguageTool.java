@@ -1351,7 +1351,7 @@ public class JLanguageTool {
       if (matches == null) {
         continue;
       }
-      if (cache != null && result.isSuccess()) {
+      if (cache != null && result.isSuccess() && result.adjustOffsets()) {
         // store in cache
         InputSentence cacheKey = new InputSentence(
           sentence, language, motherTongue, disabledRules, disabledRuleCategories,
@@ -1365,8 +1365,10 @@ public class JLanguageTool {
       // clone matches before adjusting offsets
       // match objects could be relevant to multiple (duplicate) sentences at different offsets
       List<RuleMatch> adjustedMatches = matches.stream().map(RuleMatch::new).collect(Collectors.toList());
-      for (RuleMatch match : adjustedMatches) {
-        adjustOffset(annotatedText, offset, match);
+      if (result.adjustOffsets()) {
+        for (RuleMatch match : adjustedMatches) {
+          adjustOffset(annotatedText, offset, match);
+        }
       }
       remoteMatches.addAll(adjustedMatches);
     }
