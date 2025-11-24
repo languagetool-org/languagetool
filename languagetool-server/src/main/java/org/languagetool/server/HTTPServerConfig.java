@@ -189,6 +189,9 @@ public class HTTPServerConfig {
 
   protected String jwtSecret;
 
+  protected String externalRolloutServiceUrl = null;
+  protected String externalRolloutServiceApiKey = null;
+
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
@@ -210,7 +213,7 @@ public class HTTPServerConfig {
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
     "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken", "trustedSources",
-    "ruleIdToConfidenceFile", "jwtSecret");
+    "ruleIdToConfidenceFile", "jwtSecret", "externalRolloutServiceUrl", "externalRolloutServiceApiKey");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -472,6 +475,8 @@ public class HTTPServerConfig {
         styleGuideLimitTeam = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitTeam", "0"));
         requestLimitAccessToken = getOptionalProperty(props, "requestLimitAccessToken", null);
         jwtSecret = getOptionalProperty(props, "jwtSecret", null);
+        externalRolloutServiceUrl = getOptionalProperty(props, "externalRolloutServiceUrl", null);
+        externalRolloutServiceApiKey = getOptionalProperty(props, "externalRolloutServiceApiKey", null);
 
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
@@ -1547,5 +1552,13 @@ public class HTTPServerConfig {
 
   public String getJwtSecret() {
     return jwtSecret;
+  }
+
+  public String getExternalRolloutServiceUrl() {
+    return externalRolloutServiceUrl;
+  }
+
+  public String getExternalRolloutServiceApiKey() {
+    return externalRolloutServiceApiKey;
   }
 }
