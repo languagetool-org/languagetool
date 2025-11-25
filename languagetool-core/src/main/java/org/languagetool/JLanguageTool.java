@@ -336,7 +336,7 @@ public class JLanguageTool {
    *              e.g. when LT is running as a server and texts are re-checked due to changes
    * @param inputLogging allow inclusion of input in logs on exceptions
    * @param withLanguageModel will not call updateOptionalLanguageModelRules(null) if this is true
-   * @param customRules rules to use for the JLanguageTool instance instead of intializing with the built-in ones, or null to use built-in rules
+   * @param customRules rules to use for the JLanguageTool instance instead of initializing with the built-in ones, or null to use built-in rules
    * @since 6.6
    */
   public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging, boolean withLanguageModel, List<Rule> customRules) {
@@ -348,7 +348,7 @@ public class JLanguageTool {
     this.cleanOverlappingMatches = true;
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     if (customRules != null) {
-      builtinRules = customRules;
+      builtinRules = new ArrayList<>(customRules);
     } else {
       builtinRules = getAllBuiltinRules(language, messages, userConfig, globalConfig);
       try {

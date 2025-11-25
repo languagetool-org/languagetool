@@ -271,13 +271,15 @@ abstract class TextChecker {
    */
   protected static Long computeTextSessionID(String textSessionIdParam, String ip) {
       String input = textSessionIdParam != null ? textSessionIdParam : ip;
+      if (input == null) {
+        return null;
+      }
       try {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] bytes = md.digest(input.getBytes(StandardCharsets.UTF_8));
 
         ByteBuffer buffer = ByteBuffer.wrap(bytes);
         Long textSessionId = buffer.getLong();
-        System.out.printf("Got textSessionId %d from input \"%s\"%n", textSessionId, input);
         return textSessionId;
       } catch (NoSuchAlgorithmException e) {
         // Should not happen for SHA-256, wrap in a runtime exception
