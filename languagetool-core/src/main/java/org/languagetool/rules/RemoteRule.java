@@ -240,6 +240,11 @@ public abstract class RemoteRule extends Rule {
     return circuitBreakers.computeIfAbsent(getId(), this::createCircuitBreaker);
   }
 
+  @Nullable
+  public static CircuitBreaker getCircuitBreaker(String id) {
+    return circuitBreakers.get(id);
+  }
+
   private List<RuleMatch> suppressMisspelled(List<RuleMatch> sentenceMatches) {
     List<RuleMatch> result = new ArrayList<>();
     SpellingCheckRule speller = ruleLanguage.getDefaultSpellingRule();
