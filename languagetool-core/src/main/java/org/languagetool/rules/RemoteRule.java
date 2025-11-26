@@ -210,7 +210,7 @@ public abstract class RemoteRule extends Rule {
             filteredMatches.addAll(filteredSentenceMatches);
           }
         }
-        result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
+        result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), result.adjustOffsets(), filteredMatches, sentences);
       }
 
       List<RuleMatch> filteredMatches = new ArrayList<>();
@@ -221,7 +221,7 @@ public abstract class RemoteRule extends Rule {
           filteredMatches.addAll(filteredSentenceMatches);
         }
       }
-      result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
+      result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), result.adjustOffsets(), filteredMatches, sentences);
       return result;
     });
   }
