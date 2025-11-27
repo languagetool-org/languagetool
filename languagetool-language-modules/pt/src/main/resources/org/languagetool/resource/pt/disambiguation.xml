@@ -4001,6 +4001,32 @@ USA
     <disambig postag="NCMP000"/>
   </rule>
 
+  <rule id="NP_UNKNOWN_VMIP3S0_VMM02S0_20251127" name="It is VMIP3S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag_regexp='yes' postag='NP.+|UNKNOWN'/>
+      <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='VMM02S0'/>
+        </and>
+      </marker>
+      <token postag_regexp='yes' postag='SPS00|V.+'/>
+    </pattern>
+    <disambig action="remove" postag="VMM02S0"/>
+    <!--
+    Examples:
+             Na pele de Bianca, Deborah Secco mexe com o coração de Tuco».
+             A atual cidade de Ma'rib fica a cerca de 3,5 quilômetros do centro da cidade antiga.
+             No final com muitas vaias da torcida, Maynard consegue vencer por decisão divida e conquistando alguns fãs.
+             Dorian teme por sua vida.
+             Dorian chantageia Alan em destruir o corpo assassinado de Basil Hallward; Campbell depois atira em si mesmo.
+             Cairo está localizado nas margens e ilhas do rio Nilo, ao sul do delta.
+             Bella concorda em tomar sangue humano, que Carlisle havia trazido do Hospital, e sente-se melhor.
+    -->
+  </rule>
+
   <rule id="Z0_VERB_NOUN_20251118" name="It is NC.+ not VMSP2S0">
     <!-- ChatGPT 5 -->
     <pattern>
