@@ -10138,23 +10138,24 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] usar → empregar" type="style" tags="picky" tone_tags="formal" is_goal_specific="true">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected='yes'>usar</token>
-                    </marker>
-                    <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
-                    <token regexp="yes">termos?</token>
-                </pattern>
-                <message>Num contexto formal, é preferível escrever &quot;empregar um termo&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
-                <example correction="empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
-                <example correction="empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
-                <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> o termo “terrorismo”.</example>
-                <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
-            </rule>
-        </rulegroup>
+        <rule id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] 'usar/utilizar' termo → empregar" type='style' tags='picky' tone_tags='formal' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <marker>
+                    <token skip='1' regexp='yes' inflected='yes'>usar|utilizar</token>
+                </marker>
+                <token regexp='yes'>termos?</token>
+            </pattern>
+            <message>Num contexto formal, é preferível escrever &quot;empregar um termo&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
+            <example correction="emprega-se">Na nossa pesquisa <marker>usa-se</marker> o termo “dualismo”.</example>
+            <example correction="empregamos">Na nossa pesquisa <marker>usamos</marker> o termo “dualismo”.</example>
+            <example correction="emprega-se">Na nossa pesquisa <marker>utiliza-se</marker> termos caros.</example>
+            <example correction="empregamos">Na nossa pesquisa <marker>utilizamos</marker> termos caros.</example>
+        </rule>
+
+
         <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token inflected='yes' skip='3'>fazer</token>
