@@ -15658,31 +15658,24 @@ USA
         </rule>
 
 
-        <!-- QUE PRETENDER pretendido -->
-        <rule id='QUE_PRETENDER_PRETENDIDO' name="[Simplificar] que pretender → pretendido" type="style">
+        <rule id='QUE_PRETENDER_PRETENDIDO' name="[Simplificar] que pretender → pretendido" type='style' default='temp_off'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-01 (25-JUL-2022+) -->
-            <!--
-      Vamos escolher o horário que se pretende. → Vamos escolher o horário pretendido.
-      Vamos escolher os horários que se pretende. → Vamos escolher os horários pretendidos.
-      Vamos escolher o horário que pretendemos. → Vamos escolher o horário pretendido.
-      Vamos escolher os horários que pretendemos. → Vamos escolher os horários pretendidos.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token regexp='yes'>[ao]s?</token>
-                <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='D.0[MF][SP].+' postag_regexp='yes'/>
+                <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <marker>
                     <token>que</token>
-                    <token min="0" max="1">se</token>
-                    <token regexp='no' inflected='yes'>pretender
-                        <exception scope="next" postag_regexp='yes' postag='V.+'/>
-                    </token>
+                    <token min='0' max='1'>se</token>
+                    <token postag='V.+' postag_regexp='yes' inflected='yes'>pretender</token>
                 </marker>
+                <token><exception postag_regexp='yes' postag='V.+|NC.+|AQ.+|_PUNCT_COMMA'/></token>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='DA0(..)0' postag_replace='NC$1000'>pretendido</match></suggestion>
+            <suggestion><match no='1' postag='D.0(..)0' postag_replace='NC$1000'>pretendido</match></suggestion>
             <example correction="pretendido">Vamos escolher o horário <marker>que pretendemos</marker>.</example>
             <example correction="pretendidos">Vamos escolher os horários <marker>que pretendemos</marker>.</example>
+            <example>abarcando diversas etapas que pretendem, no fundo, espelhar o trabalho dos deputados representativos.</example>
         </rule>
 
 
