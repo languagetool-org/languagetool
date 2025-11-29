@@ -15415,29 +15415,43 @@ USA
         </rule>
 
 
-        <!-- QUANDO ELE quando -->
-        <rule id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="[Simplificar] Pron.P. + V. + NC/Adj/V. + quando/ao/por/para + Pron.P. → omitir segundo Pron.P." type="style">
+        <rulegroup id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="[Simplificar] Omitir pronome pessoal redundante" type='style' default='temp_off'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-17 (2-MAR-2023+) -->
-            <!--
-      ELE ficou louco QUANDO ELE foi ver o website. → ELE ficou louco QUANDO foi ver o website.
-      -->
-            <pattern>
-                <token regexp='yes'>&pronomes_retos;</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token min='0' max='1' postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
-                <marker>
-                    <token regexp='yes'>quando|ao|por|para</token> <!-- as new words are found, add them here -->
-                    <token><match no="0"/></token>
-                </marker>
-                <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='SPS00|CC'/>
-                </token>
-            </pattern>
-            <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal.</message>
-            <suggestion>\4</suggestion>
-            <example correction="QUANDO">ELE ficou louco <marker>QUANDO ELE</marker> foi ver o website.</example>
-        </rule>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <rule>
+                <pattern> <!-- #1: Single tokens -->
+                    <token regexp='yes'>&pronomes_retos;</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token min='0' max='2' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
+                        <exception regexp='yes'>ao|caso|como|conforme|para|por|porque|quando|se|segundo</exception></token> <!-- equal to below -->
+                    <marker>
+                        <token regexp='yes'>ao|caso|como|conforme|para|por|porque|quando|se|segundo</token> <!-- Add new words here -->
+                        <token><match no='0'/></token>
+                    </marker>
+                    <token><exception postag_regexp='yes' postag='SENT_END|_PUNCT|SPS00|CC|RG|CS'/></token>
+                </pattern>
+                <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal redundante.</message>
+                <suggestion>\4</suggestion>
+                <example correction="QUANDO">ELE ficou louco <marker>QUANDO ELE</marker> foi ver o website.</example>
+            </rule>
+            <rule> <!-- #2: Tokens that require "que" -->
+                <pattern>
+                    <token regexp='yes'>&pronomes_retos;</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token min='0' max='2' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
+                        <exception regexp='yes'>antes|assim|depois|desde|logo</exception></token> <!-- equal to below -->
+                    <marker>
+                        <token regexp='yes'>antes|assim|depois|desde|logo</token> <!-- Add new words here that require a "que" after them -->
+                        <token>que</token>
+                        <token><match no='0'/></token>
+                    </marker>
+                    <token><exception postag_regexp='yes' postag='SENT_END|_PUNCT|SPS00|CC|RG|CS'/></token>
+                </pattern>
+                <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal redundante.</message>
+                <suggestion>\4 \5</suggestion>
+                <example correction="ASSIM QUE">ELE ficou louco <marker>ASSIM QUE ELE</marker> foi ver o website.</example>
+            </rule>
+        </rulegroup>
 
 
         <!-- QUANDO SE ABRE UMA DEFINIÇÃO ao abrir uma definição -->
