@@ -4517,12 +4517,13 @@ USA
     </rule>
 
 
-    <rule id='PARA_SER_MELHORADA_A_MELHORAR' name="[pt-PT][Simplificar] Para/a ser melhorad(a/o) → a melhorar">
+    <rule id='PARA_SER_MELHORADA_A_MELHORAR' name="[pt-PT][Simplificar] A ser melhorado → a melhorar">
     <!-- IDEA shorten_it -->
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
         <pattern>
-            <token postag="NC.+|AQ.+" postag_regexp='yes'/>
+            <token postag='N.+|AQ.+' postag_regexp='yes'/>
             <marker>
-                <token regexp='yes'>a|para</token>
+                <token regexp='yes'>a|para|por|de</token>
                 <token regexp='yes'>ser(em)?</token>
                 <token regexp='yes'>melhorad[ao]s?</token>
             </marker>
