@@ -39,7 +39,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   private final static String[] PUNCTUATION_MARKS = {".", "!", "?", ":", ",", ";"};
   private final static String[] QUOTATION_MARKS = {"„", "»", "«", "\"", "”", "″", "’", "‚", "‘", "›", "‹", "′", "'"};
   private final static Pattern P_NUMERIC = Pattern.compile("[0-9.]+");
-  
+  private final static int MAX_URL_LENGTH = 30; // Do not add punctuation after long URLs
   private final Language lang;
 
   /**
@@ -127,6 +127,10 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
               // e.g. "find it at: http://example.com" should not be an error
               lastPara = n;
               pos += sentence.getText().length();
+              continue;
+            }
+            String lastToken = tokens[lastNWToken].getToken();
+            if (lastToken.length() > MAX_URL_LENGTH && lastToken.toLowerCase().startsWith("http") || lastToken.toLowerCase().startsWith("ftp")) {
               continue;
             }
             if (isWord(tokens[lastNWToken]) 
