@@ -4987,6 +4987,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="[^D].*"/>
         </rule>
     </rulegroup>
+    <rule id="sa_terra" name="sa terra">
+        <pattern>
+            <!-- adjectiu masculí és improbable -->
+            <marker>
+                <token postag="DP3FSC">sa<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+            </marker>
+            <token postag="NC[FC].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="D.*"/>
+    </rule>
     <rule id="excepcions_preposicions" name="entre a; entre en">
         <pattern>
             <marker>
