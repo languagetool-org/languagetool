@@ -129,7 +129,15 @@ public class DonarseliBeFilter extends RuleFilter {
       isQue = false;
     }
     boolean isElQue = false;
-    if (isQue && posInitUnderline - addTokensToLeft - 2 > 0 && tokens[posInitUnderline - addTokensToLeft - 2].hasPosTagStartingWith("DA")) {
+    boolean isAQui = false;
+    if (posInitUnderline - addTokensToLeft - 1 > 0 && tokens[posInitUnderline - addTokensToLeft - 1].getToken().equalsIgnoreCase("qui")) {
+      isElQue = true;
+      if (posInitUnderline - addTokensToLeft - 2 > 0 && tokens[posInitUnderline - addTokensToLeft - 2].getToken().equalsIgnoreCase("a")) {
+        isAQui = true;
+      }
+    }
+    if (isQue && posInitUnderline - addTokensToLeft - 2 > 0 && (tokens[posInitUnderline - addTokensToLeft - 2].hasPosTagStartingWith("DA")
+    || tokens[posInitUnderline - addTokensToLeft - 2].hasAnyLemma("alumne", "persona", "estudiant", "professor"))) {
       isElQue = true;
       isQue = false; // no subratllem "que"
     }
@@ -145,7 +153,7 @@ public class DonarseliBeFilter extends RuleFilter {
 
     //TODO: quines coses se li donen bé; les que no se't donen tan bé;
     // al teu fill no se li dona gaire bé dibuixar; La geografia se't donava prou bé
-    // Altres suggermients: tenir-hi la mà trencada, ser el meu fort
+    // Altres suggeriments: tenir-hi la mà trencada, ser el meu fort
 
     // Crea suggeriments
     List<String> replacements = new ArrayList<>();
@@ -208,8 +216,10 @@ public class DonarseliBeFilter extends RuleFilter {
     suggestion.append(getAdverbsFor(tokens, primerAdverbi, darrerAdverbi, "bé"));
     suggestion.append(" " + darrerAdverbiStr);
     suggestion.append(addStringToRight);
-    replacements.add(StringTools.preserveCase(suggestion.toString(),
-      tokens[posInitUnderline - addTokensToLeft].getToken()));
+    if (!isAQui) {
+      replacements.add(StringTools.preserveCase(suggestion.toString(),
+        tokens[posInitUnderline - addTokensToLeft].getToken()));
+    }
 
     // me'n surto (en)
     suggestion.setLength(0);

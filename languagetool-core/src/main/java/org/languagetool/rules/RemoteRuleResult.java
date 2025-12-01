@@ -29,6 +29,8 @@ import java.util.*;
 public class RemoteRuleResult {
   private final boolean remote; // was remote needed/involved? rules may filter input sentences and only call remote on some; for metrics
   private final boolean success; // successful -> for caching, so that we can cache: remote not needed for this sentence
+  private final boolean adjustOffsets; // whether rule matches are relative to each sentence and need to be adjusted further
+  // or already use the positions from the analyzed sentence and don't need to be adjusted
   private final List<RuleMatch> matches;
   private final Set<AnalyzedSentence> processedSentences;
   // which sentences were processed? to distinguish between no matches because not processed (e.g. cached)
@@ -36,9 +38,10 @@ public class RemoteRuleResult {
 
   private final Map<AnalyzedSentence, List<RuleMatch>> sentenceMatches = new HashMap<>();
 
-  public RemoteRuleResult(boolean remote, boolean success, List<RuleMatch> matches, List<AnalyzedSentence> processedSentences) {
+  public RemoteRuleResult(boolean remote, boolean success, boolean adjustOffsets, List<RuleMatch> matches, List<AnalyzedSentence> processedSentences) {
     this.remote = remote;
     this.success = success;
+    this.adjustOffsets = adjustOffsets;
     this.matches = matches;
     this.processedSentences = Collections.unmodifiableSet(new HashSet<>(processedSentences));
 
@@ -54,12 +57,20 @@ public class RemoteRuleResult {
     }
   }
 
+  public RemoteRuleResult(boolean remote, boolean success, List<RuleMatch> matches, List<AnalyzedSentence> processedSentences) {
+    this(remote, success, true, matches, processedSentences);
+  }
+
   public boolean isRemote() {
     return remote;
   }
 
   public boolean isSuccess() {
     return success;
+  }
+
+  public boolean adjustOffsets() {
+    return adjustOffsets;
   }
 
   public List<RuleMatch> getMatches() {

@@ -10138,23 +10138,24 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] usar → empregar" type="style" tags="picky" tone_tags="formal" is_goal_specific="true">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token inflected='yes'>usar</token>
-                    </marker>
-                    <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
-                    <token regexp="yes">termos?</token>
-                </pattern>
-                <message>Num contexto formal, é preferível escrever &quot;empregar um termo&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
-                <example correction="empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
-                <example correction="empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
-                <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> o termo “terrorismo”.</example>
-                <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
-            </rule>
-        </rulegroup>
+        <rule id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] 'usar/utilizar' termo → empregar" type='style' tags='picky' tone_tags='formal' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <marker>
+                    <token skip='1' regexp='yes' inflected='yes'>usar|utilizar</token>
+                </marker>
+                <token regexp='yes'>termos?</token>
+            </pattern>
+            <message>Num contexto formal, é preferível escrever &quot;empregar um termo&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
+            <example correction="emprega-se">Na nossa pesquisa <marker>usa-se</marker> o termo “dualismo”.</example>
+            <example correction="empregamos">Na nossa pesquisa <marker>usamos</marker> o termo “dualismo”.</example>
+            <example correction="emprega-se">Na nossa pesquisa <marker>utiliza-se</marker> termos caros.</example>
+            <example correction="empregamos">Na nossa pesquisa <marker>utilizamos</marker> termos caros.</example>
+        </rule>
+
+
         <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token inflected='yes' skip='3'>fazer</token>
@@ -15414,29 +15415,43 @@ USA
         </rule>
 
 
-        <!-- QUANDO ELE quando -->
-        <rule id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="[Simplificar] Pron.P. + V. + NC/Adj/V. + quando/ao/por/para + Pron.P. → omitir segundo Pron.P." type="style">
+        <rulegroup id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="[Simplificar] Omitir pronome pessoal redundante" type='style' default='temp_off'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-17 (2-MAR-2023+) -->
-            <!--
-      ELE ficou louco QUANDO ELE foi ver o website. → ELE ficou louco QUANDO foi ver o website.
-      -->
-            <pattern>
-                <token regexp='yes'>&pronomes_retos;</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token min='0' max='1' postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
-                <marker>
-                    <token regexp='yes'>quando|ao|por|para</token> <!-- as new words are found, add them here -->
-                    <token><match no="0"/></token>
-                </marker>
-                <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='SPS00|CC'/>
-                </token>
-            </pattern>
-            <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal.</message>
-            <suggestion>\4</suggestion>
-            <example correction="QUANDO">ELE ficou louco <marker>QUANDO ELE</marker> foi ver o website.</example>
-        </rule>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <rule>
+                <pattern> <!-- #1: Single tokens -->
+                    <token regexp='yes'>&pronomes_retos;</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token min='0' max='2' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
+                        <exception regexp='yes'>ao|caso|como|conforme|para|por|porque|quando|se|segundo</exception></token> <!-- equal to below -->
+                    <marker>
+                        <token regexp='yes'>ao|caso|como|conforme|para|por|porque|quando|se|segundo</token> <!-- Add new words here -->
+                        <token><match no='0'/></token>
+                    </marker>
+                    <token><exception postag_regexp='yes' postag='SENT_END|_PUNCT|SPS00|CC|RG|CS'/></token>
+                </pattern>
+                <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal redundante.</message>
+                <suggestion>\4</suggestion>
+                <example correction="QUANDO">ELE ficou louco <marker>QUANDO ELE</marker> foi ver o website.</example>
+            </rule>
+            <rule> <!-- #2: Tokens that require "que" -->
+                <pattern>
+                    <token regexp='yes'>&pronomes_retos;</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                    <token min='0' max='2' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
+                        <exception regexp='yes'>antes|assim|depois|desde|logo</exception></token> <!-- equal to below -->
+                    <marker>
+                        <token regexp='yes'>antes|assim|depois|desde|logo</token> <!-- Add new words here that require a "que" after them -->
+                        <token>que</token>
+                        <token><match no='0'/></token>
+                    </marker>
+                    <token><exception postag_regexp='yes' postag='SENT_END|_PUNCT|SPS00|CC|RG|CS'/></token>
+                </pattern>
+                <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal redundante.</message>
+                <suggestion>\4 \5</suggestion>
+                <example correction="ASSIM QUE">ELE ficou louco <marker>ASSIM QUE ELE</marker> foi ver o website.</example>
+            </rule>
+        </rulegroup>
 
 
         <!-- QUANDO SE ABRE UMA DEFINIÇÃO ao abrir uma definição -->
@@ -15657,31 +15672,24 @@ USA
         </rule>
 
 
-        <!-- QUE PRETENDER pretendido -->
-        <rule id='QUE_PRETENDER_PRETENDIDO' name="[Simplificar] que pretender → pretendido" type="style">
+        <rule id='QUE_PRETENDER_PRETENDIDO' name="[Simplificar] que pretender → pretendido" type='style' default='temp_off'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-01 (25-JUL-2022+) -->
-            <!--
-      Vamos escolher o horário que se pretende. → Vamos escolher o horário pretendido.
-      Vamos escolher os horários que se pretende. → Vamos escolher os horários pretendidos.
-      Vamos escolher o horário que pretendemos. → Vamos escolher o horário pretendido.
-      Vamos escolher os horários que pretendemos. → Vamos escolher os horários pretendidos.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token regexp='yes'>[ao]s?</token>
-                <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='D.0[MF][SP].+' postag_regexp='yes'/>
+                <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <marker>
                     <token>que</token>
-                    <token min="0" max="1">se</token>
-                    <token regexp='no' inflected='yes'>pretender
-                        <exception scope="next" postag_regexp='yes' postag='V.+'/>
-                    </token>
+                    <token min='0' max='1'>se</token>
+                    <token postag='V.+' postag_regexp='yes' inflected='yes'>pretender</token>
                 </marker>
+                <token><exception postag_regexp='yes' postag='V.+|NC.+|AQ.+|_PUNCT_COMMA'/></token>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='DA0(..)0' postag_replace='NC$1000'>pretendido</match></suggestion>
+            <suggestion><match no='1' postag='D.0(..)0' postag_replace='NC$1000'>pretendido</match></suggestion>
             <example correction="pretendido">Vamos escolher o horário <marker>que pretendemos</marker>.</example>
             <example correction="pretendidos">Vamos escolher os horários <marker>que pretendemos</marker>.</example>
+            <example>abarcando diversas etapas que pretendem, no fundo, espelhar o trabalho dos deputados representativos.</example>
         </rule>
 
 

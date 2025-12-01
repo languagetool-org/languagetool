@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -38,31 +38,38 @@ public class CatalanTagger extends BaseTagger {
 
   public static final CatalanTagger INSTANCE_VAL = new CatalanTagger(Languages.getLanguageForShortCode("ca-ES-valencia"));
   public static final CatalanTagger INSTANCE_CAT = new CatalanTagger(Languages.getLanguageForShortCode("ca-ES"));
-  
+
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
-  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern ADJECTIU_COMPOST = Pattern.compile("(.*)o-(.*.*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern ADJECTIU_COMPOST = Pattern.compile("(.*)o-(.*.*)",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern TRES_ADJECTIUS = Pattern.compile("(.*)o-(.*)o-(.*.*)",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private final List<String> ALTRES_PREFIXOS = Arrays.asList("greco", "sino", "italo", "franco", "gal·lo", "luso",
+    "germano", "hispano", "anglo", "arabo");
+  private final List<String> NO_ALTRES_PREFIXOS = Arrays.asList("grego", "xineso", "italiano", "franceso",
+    "portugueso", "angleso", "espanyolo", "alemanyo");
   private static final List<String> ALLUPPERCASE_EXCEPTIONS = Arrays.asList("ARNAU", "CRISTIAN", "TOMÀS");
   private String variant;
 
+
   public CatalanTagger(Language language) {
-    super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION, new Locale("ca"), false);
+    super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,
+      new Locale("ca"), false);
     variant = language.getVariant();
   }
-  
+
   @Override
-  public boolean overwriteWithManualTagger(){
+  public boolean overwriteWithManualTagger() {
     return false;
   }
 
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
-
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
-
     for (String originalWord : sentenceTokens) {
       // This hack allows all rules and dictionary entries to work with
       // typewriter apostrophe
@@ -79,26 +86,29 @@ public class CatalanTagger extends BaseTagger {
       final boolean isLowercase = normalizedWord.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(normalizedWord);
       final boolean isAllUpper = StringTools.isAllUppercase(normalizedWord);
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(normalizedWord));
-      
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
+        getWordTagger().tag(normalizedWord));
+
       // normal case:
       addTokens(taggerTokens, l);
       // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
       // word with lowercase word tags:
       if (!isLowercase && !isMixedCase) {
-        List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(lowerWord));
+        List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
+          getWordTagger().tag(lowerWord));
         addTokens(lowerTaggerTokens, l);
       }
-      
+
       //tag all-uppercase proper nouns (ex. FRANÇA)
       if ((l.isEmpty() || ALLUPPERCASE_EXCEPTIONS.contains(normalizedWord)) && isAllUpper) {
         final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
-        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(firstUpper));
+        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
+          getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
       }
       // additional tagging with prefixes
       if (l.isEmpty() && !isMixedCase) {
-        addTokens(additionalTags(originalWord, dictLookup), l);
+        addTokens(additionalTags(originalWord), l);
       }
       // emoji
       if (l.isEmpty() && StringTools.isEmoji(originalWord)) {
@@ -119,17 +129,16 @@ public class CatalanTagger extends BaseTagger {
   }
 
   @Nullable
-  protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
+  protected List<AnalyzedToken> additionalTags(String word) {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment
     final String lowerWord = StringTools.normalizeNFC(word.toLowerCase(locale));
-    if (lowerWord.endsWith("ment")){  
+    if (lowerWord.endsWith("ment")) {
       final String possibleAdj = lowerWord.replaceAll("^(.+)ment$", "$1");
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
-      for (AnalyzedToken taggerToken : taggerTokens ) {
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(possibleAdj,
+        getWordTagger().tag(possibleAdj));
+      for (AnalyzedToken taggerToken : taggerTokens) {
         final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
           final Matcher m = ADJ_PART_FS.matcher(posTag);
@@ -144,7 +153,8 @@ public class CatalanTagger extends BaseTagger {
     Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);
     if (matcher.matches()) {
       final String possibleVerb = StringTools.normalizeNFC(matcher.group(2).toLowerCase());
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(possibleVerb,
+        getWordTagger().tag(possibleVerb));
       for (AnalyzedToken taggerToken : taggerTokens) {
         if (!taggerToken.getLemma().equals("nòmer")) {
           final String posTag = taggerToken.getPOSTag();
@@ -163,29 +173,35 @@ public class CatalanTagger extends BaseTagger {
     matcher = ADJECTIU_COMPOST.matcher(word);
     if (matcher.matches()) {
       final String adj1 = matcher.group(1).toLowerCase();
-      List<AnalyzedToken> atl1 = asAnalyzedTokenList(adj1, dictLookup.lookup(adj1));
-      boolean isValid = false;
-      for (AnalyzedToken at : atl1) {
-        if (at.getPOSTag() != null && at.getPOSTag().equals("AQ0MS0")) {
-          isValid = true;
-          break;
-        }
-      }
-      if (isValid) {
-        isValid = false;
+      if (isValidAdjectiveForm(adj1)) {
         final String adj2 = matcher.group(2).toLowerCase();
-        List<AnalyzedToken> atl2 = asAnalyzedTokenList(adj2, dictLookup.lookup(adj2));
+        List<AnalyzedToken> atl2 = asAnalyzedTokenListForTaggedWords(adj2, getWordTagger().tag(adj2));
         for (AnalyzedToken at : atl2) {
           if (at.getPOSTag() != null && at.getPOSTag().startsWith("A")) {
-            isValid = true;
             additionalTaggedTokens.add(new AnalyzedToken(word, at.getPOSTag(), adj1 + "o-" + at.getLemma()));
-            break;
+            return additionalTaggedTokens;
           }
         }
       }
-      return additionalTaggedTokens;
     }
-    
+    // franco-americano-alemany
+    matcher = TRES_ADJECTIUS.matcher(word);
+    if (matcher.matches()) {
+      final String adj1 = matcher.group(1).toLowerCase();
+      final String adj2 = matcher.group(2).toLowerCase();
+      if (isValidAdjectiveForm(adj1) && isValidAdjectiveForm(adj2)) {
+        final String adj3 = matcher.group(3).toLowerCase();
+        List<AnalyzedToken> atl3 = asAnalyzedTokenListForTaggedWords(adj3, getWordTagger().tag(adj3));
+        for (AnalyzedToken at : atl3) {
+          if (at.getPOSTag() != null && at.getPOSTag().startsWith("A")) {
+            additionalTaggedTokens.add(new AnalyzedToken(word, at.getPOSTag(),
+              adj1 + "o-" + adj2 + "o-" + at.getLemma()));
+            return additionalTaggedTokens;
+          }
+        }
+      }
+    }
+
     // Any well-formed noun with prefix ex- is tagged as a noun copying the original tags
     /*if (word.startsWith("ex")) {
       final String lowerWord = word.toLowerCase(conversionLocale);
@@ -209,15 +225,15 @@ public class CatalanTagger extends BaseTagger {
     // U+0140 LATIN SMALL LETTER L WITH MIDDLE DOT
     if (word.contains("\u0140") || word.contains("\u013f")) {
       final String possibleWord = lowerWord.replace("\u0140", "l·");
-      return asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));
+      return asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(possibleWord));
     }
-    
+
     // adjectives -iste in Valencian variant
     if (variant != null && lowerWord.endsWith("iste")) {
       final String possibleAdjNoun = lowerWord.replaceAll("^(.+)iste$", "$1ista");
-      List<AnalyzedToken> taggerTokens;
-      taggerTokens = asAnalyzedTokenList(possibleAdjNoun, dictLookup.lookup(possibleAdjNoun));
-      for (AnalyzedToken taggerToken : taggerTokens ) {
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(possibleAdjNoun,
+        getWordTagger().tag(possibleAdjNoun));
+      for (AnalyzedToken taggerToken : taggerTokens) {
         final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
           if (posTag.equals("NCCS000")) {
@@ -232,7 +248,7 @@ public class CatalanTagger extends BaseTagger {
         }
       }
     }
-    
+
     return null;
   }
 
@@ -240,6 +256,26 @@ public class CatalanTagger extends BaseTagger {
     if (taggedTokens != null) {
       l.addAll(taggedTokens);
     }
+  }
+
+  private boolean wordformHasPostag(String wordform, String postag) {
+    List<AnalyzedToken> atl1 = asAnalyzedTokenListForTaggedWords(wordform, getWordTagger().tag(wordform));
+    if (atl1 == null) {
+      return false;
+    }
+    for (AnalyzedToken at : atl1) {
+      if (at.getPOSTag() != null && at.getPOSTag().equals(postag)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // check: grec(o)-, russ(o)-...
+  private boolean isValidAdjectiveForm(String wordStem) {
+    return !NO_ALTRES_PREFIXOS.contains(wordStem + "o")
+      && (wordformHasPostag(wordStem + "a", "AQ0FS0")
+      || ALTRES_PREFIXOS.contains(wordStem + "o"));
   }
 
 }
