@@ -6995,6 +6995,18 @@
 <beforebreak>\b(alt|bl\.a|dvs|etc|ev|forts|inkl|fr\.o\.m|f\.d|m\.a\.o|orig|osv|p\.g\.a|prel|ref|resp|s\.k|st|t\.ex|övr|kol|fig|s|art|bil)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<rule break="yes">
+<beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002¹²³]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
 </languagerule>
 </languagerules>
 <maprules>
