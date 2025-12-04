@@ -177,17 +177,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 				<rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">				
                             <antipattern>
-                                <token postag="verb:praet.*" postag_regexp="yes"/>
-                                <marker>
-                                    <token>szkolę</token>
-                                </marker>
-                                <example>W tym roku skończyłem szkolę średnią w Ukrainie oraz</example>
-                            </antipattern>
-                            <antipattern>
                                 <token>duszą</token>
                                 <token postag="subst:.*" postag_regexp="yes"/>
                                 <marker>
-                                    <token inflected="yes">być</token>
+                                    <token postag="verb:.*" postag_regexp="yes"/>
                                 </marker>
                                 <example>Duszą posłuszeństwa jest, rzecz jasna, posłuch.</example>
                             </antipattern>
@@ -12432,7 +12425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <marker>
               <token case_sensitive="yes">Pizza</token>
             </marker>
-            <token case_sensitive="yes">Hut</token>
+            <token regexp="yes">Hut|Dominium|Biesiadowo|Express</token>
             <example>Z wielkim entuzjazmem aplikuję na stanowisko pracownika restauracji w Pizza Hut.</example>
           </antipattern>
 				  <antipattern> <!-- też ndm -->
