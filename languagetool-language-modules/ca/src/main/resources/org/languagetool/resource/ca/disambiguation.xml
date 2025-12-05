@@ -467,6 +467,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="la_cop" name="la COP">
+        <pattern>
+            <token postag="D..FS." postag_regexp="yes"/>
+            <marker>
+                <token case_sensitive="yes">COP</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="NPFSO00"/>
+    </rule>
     <rulegroup id="peca_fem" name="peça (femení)">
         <rule>
             <pattern>
@@ -8439,18 +8448,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">posar|ficar</token>
-                <token>en</token>
-                <marker>
-                    <token regexp="yes">dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|camí|funcionament</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GV_"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
                 <token inflected="yes" regexp="yes">deixar|posar</token>
                 <token regexp="yes">a|de</token>
                 <marker>
@@ -9110,6 +9107,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes">de|en</token>
                 <marker>
                     <token regexp="yes">relleu|valor</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">posar|ficar</token>
+                <token>en</token>
+                <marker>
+                    <token regexp="yes">dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|camí|funcionament|directe|relació|comú|entredit</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -10988,6 +10997,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <token postag="V.[^P].*" postag_regexp="yes" inflected="yes" regexp="yes">acabar|començar|anar|continuar|seguir|prosseguir|estar</token>
+                    <token postag="V.G.*" postag_regexp="yes"><exception postag="_perfet"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.[^P].*" postag_regexp="yes" inflected="yes" regexp="yes">acabar|començar|anar|continuar|seguir|prosseguir|estar</token>
+                    <token postag="RG.*" postag_regexp="yes"/>
                     <token postag="V.G.*" postag_regexp="yes"><exception postag="_perfet"/></token>
                 </marker>
             </pattern>
@@ -17106,7 +17125,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="no_GV" name="neteja GV">
         <rule>
             <pattern>
-                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">cap|present|ressò|punyetes|acord|banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta|funcionament</exception></token>
+                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">cap|present|ressò|punyetes|acord|banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta|funcionament|directe|relació|comú|entredit</exception></token>
             </pattern>
             <disambig action="remove">
                 <wd pos="_GV_"/>
@@ -22272,6 +22291,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token>a</token>
                 </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>fa</token>
+                <marker>
+                    <token>la</token>
+                </marker>
+                <token>la</token>
             </pattern>
             <disambig action="add">
                 <wd pos="_allow_repeat"/>
