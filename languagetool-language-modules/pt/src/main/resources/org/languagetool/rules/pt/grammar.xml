@@ -32712,7 +32712,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="entraste">Então <marker>entras te</marker> bem o ano.</example>
         </rule>
 
+
         <rulegroup id='CONFUSÃO_ESTA_ESTÁ' name="[Confusão] Esta/Está">
+
+            <antipattern>
+                <token postag='RG'><exception regexp='no'>agora</exception></token> <!-- Add more RG exceptions as found -->
+                <token regexp='yes'>estas?</token>
+                <token postag='Z0.+|NC.+|AQ.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='DI.+|VMP00.+'/>
+                    <exception scope='next' postag_regexp='yes' postag='VMP00.+'/></token>
+                <example>Apenas estas 10 páginas.</example>
+                <example>Então estas séries são para você.</example>
+                <example>Mesmo estas palavras desaparecerão um dia.</example>
+                <example>Espero que Lafe idade não se apaga conosco por ele stashing aqui esta árvore.</example>
+            </antipattern>
+
             <antipattern>
                 <token postag='CC'/>
                 <token regexp="yes">estas?</token>
