@@ -56,6 +56,7 @@ public class GermanStyleRepeatedWordRuleTest {
     assertEquals(0, lt.check("Rotbraun war die Farbe der Haselnuss. Der Horizont schimmerte rot.").size());
     assertEquals(0, lt.check("Rotbraun war die Farbe der Haselnuss. Was für eine 'Farbe'?").size());
     assertEquals(0, lt.check("Der Ausblick war überwätigend. \"Was für ein Ausblick!\", sagte sie auch prompt.").size());
+    assertEquals(0, lt.check("Frau Heinrich stand unschlüssig in in ihrem Garten. Frau Müller schaute zu ihr herüber.").size());
 
     setUpRule(lt, getRuleValues (1, false, true));
     assertEquals(3, lt.check("Der Schiffsmotor, der im Heck des Schiffs eingebaut war, röhrte. Auf Hochtouren lief der Motor.").size());
