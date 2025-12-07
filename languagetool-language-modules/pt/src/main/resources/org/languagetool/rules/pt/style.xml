@@ -3691,6 +3691,24 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='COMO_SEGUNDO_CONFORME' name="Como/segundo → conforme" type='style' tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <marker>
+                    <token regexp='yes'>como|segundo</token>
+                </marker>
+                <token min='0' max='2' regexp='yes' inflected='yes'>ser|ter|haver|o</token>
+                <token postag='AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>acordado|alinhado|combinado</token>
+            </pattern>
+            <message>Use &quot;conforme&quot; para maior formalidade.</message>
+            <suggestion>conforme</suggestion>
+            <example correction="conforme">Aqui está o relatório <marker>segundo</marker> combinado.</example>
+            <example>Redigi o documento conforme fora acordado por ambas as partes.</example>
+            <example>Conforme havia sido combinado, aqui está o relatório.</example>
+            <example>Conforme o combinado, aqui está o livro.</example>
+        </rule>
+
+
         <rule id='CERTO_INDICADO_PARA' name="'Certo' para → indicado/adequado/qualificado/apropriado" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 -->
 
