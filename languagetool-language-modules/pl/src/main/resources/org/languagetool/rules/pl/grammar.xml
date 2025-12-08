@@ -10901,6 +10901,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>Zahary Quinto i Jessica Lange byli wychwalani pod niebiosa.</example>
               <example>Oboje byli odurzeni.</example>
             </rule>
+            <rule id="DO_CI_DO_CIEBIE" name="Nieakcentowana forma zaimka po przyimku">
+
+                <!--  if preposition requires CASE and following noun (or jej/jego + noun) is in that CASE, DON'T flag -->
+                <antipattern>
+                    <token postag="prep:([a-z]+).*" postag_regexp="yes"/>
+                    <token postag="subst.*[\.:]\1.*" postag_regexp="yes"/>
+                </antipattern>
+
+                <antipattern>
+                    <token postag="prep:([a-z]+).*" postag_regexp="yes"/>
+                    <token regexp="yes">jej|jego</token>
+                    <token postag="subst.*[\.:]\1.*" postag_regexp="yes"/>
+                </antipattern>
+
+                <!-- MAIN PATTERN: preposition + (unaccented) personal pronoun -->
+                <pattern>
+                    <!-- 1) preposition: capture its case in the tag but ignore interrogative prepositions "co|jak" -->
+                    <token postag="prep:([a-z]+).*" postag_regexp="yes">
+                        <exception regexp="yes">co|jak</exception>
+                    </token>
+
+                    <!-- 2) pronoun marker (this is the token we want to replace from nakc -> akc) -->
+                    <marker>
+                        <token postag="ppron.*:nakc.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+
+                <message>
+                    Tu powinna być forma akcentowana zaimka:
+                    <!--
+                          Use match no="2" (the pronoun). Capture the postag so we can replace "nakc" with "akc".
+                          postag="(ppron.*:)(nakc)(.*)" captures parts before and after nakc, we then recompose with $1akc$3
+                        -->
+                    <suggestion><match no="2"
+                               postag="(ppron.*:)(nakc)(.*)"
+                               postag_regexp="yes"
+                               postag_replace="$1akc$3"/></suggestion>.
+                </message>
+
+                <short>Błędna forma gramatyczna</short>
+
+                <example correction="Ciebie">Mówię do <marker>Cię</marker>.</example>
+                <example>Mówię do Ciebie.</example>
+                <example>Mówię do niego.</example>
+                <example>Mówię do jej matki.</example> <!-- not flagged due to antipattern -->
+            </rule>
+
             <rule id="NIEZGODNA_FORMA_ORZECZNIKA_POT_PRAET" name="Niezgodność formy orzecznika przymiotnikowego z czasownikiem „być”">
             <antipattern>
               <unify><feature id="gender"></feature><feature id="case"/><feature id="number"/>
