@@ -5579,6 +5579,33 @@ USA
       -->
   </rule>
 
+  <rulegroup id="WORD_NOT_VMIP1S0_20251209_RARE" name="This word is not VMIP1S0">
+    <rule>
+      <pattern>
+        <token skip='1' postag_regexp='yes' postag='V.+|SPS00'/>
+        <marker>
+          <and>
+            <token postag='VMIP1S0'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token><exception postag_regexp='yes' postag='V.+|[DP].+'/></token>
+      </pattern>
+      <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+                Hoje, poucas das antigas charqueadas existem, apenas as instalações , mantidas como marco turístico regional.
+                No filme ela deu vida a soro positivo Judite.
+                É terra doce sem deixar de ser terra firme: o bastante para que nela se construa com solidez engenho, casa e capela.
+                Também possui um verificador automático para até mil palavras (que mais tarde conjunto em 1024).
+                Existem diversos algoritmos disponíveis para uso, específicos à sua própria linguagem de programação.
+                Sua população recenseada em 2010 pelo IBGE é de 8 491 habitantes.
+                Em 5 de dezembro conseguiram se reagrupar e logo depois, em 11 de dezembro, a frota avistou a ilha da Madeira.
+                Foi consagrada basílica em 1904 pelo Papa Pio X.
+        -->
+    </rule>
+  </rulegroup>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
