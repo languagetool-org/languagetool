@@ -5604,6 +5604,34 @@ USA
                 Foi consagrada basílica em 1904 pelo Papa Pio X.
         -->
     </rule>
+    <rule>
+      <pattern>
+        <token postag_regexp='yes' postag='N.+|AQ.+|PI.+'>
+          <exception scope='previous' postag_regexp='yes' postag='SPS.+'/>
+          <exception postag_regexp='yes' postag='V.+'/></token>
+        <token min='0' max='2' postag_regexp='yes' postag='CC|_PUNCT|DA.+|SPS.+'/>
+        <marker>
+          <and>
+            <token postag='VMIP1S0'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token><exception postag_regexp='yes' postag='CS|PI.+'/></token>
+      </pattern>
+      <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+                A população francesa ficou enfurecida, pois enxergava esta ação como uma intromissão direta aos assuntos do país.
+                Ao mesmo tempo, o regime republicano foi forçado a lidar com rebeliões contra sua autoridade em grande parte do oeste e sul da França.
+                Hoje, poucas das antigas charqueadas existem, apenas as instalações , mantidas como marco turístico regional.
+                «Lázaro Ramos, Susana Vieira e grande elenco no trailer de Sorria, Você Está Sendo Filmado».
+                Sirajeddine Chihi, ex-futebolista marroquino.
+                Juan Krupoviesa, ex-futebolista argentino.
+                Lara Dutta, atriz e modelo indiana.
+                A lavoura da cana-de-açúcar era próspera e, meio século depois, a distribuição dos engenhos perfazia um total de 256.
+                Ou seja, todo experimento está sujeito a uma incerteza.
+        -->
+    </rule>
   </rulegroup>
 
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
