@@ -499,6 +499,42 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
             <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">\p{P}</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_PUNCT_SENT_START"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">[\p{P}[a-z]\d+]</token>
+                <marker>
+                    <token regexp="yes">\p{P}</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_PUNCT_SENT_START"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">\p{P}</token>
+                <token regexp="yes">[\p{P}[a-z]\d+]</token>
+                <marker>
+                    <token regexp="yes">\p{P}</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_PUNCT_SENT_START"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;•\-]<exception postag="LOC_.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="add">
@@ -15979,7 +16015,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="AdjNom" name="adj + nom">
         <antipattern>
-            <token regexp="yes">\p{Lu}.*<exception scope="previous" postag="SENT_START"/></token>
+            <token regexp="yes">\p{Lu}.*<exception scope="previous" postag="SENT_START|_PUNCT_SENT_START" postag_regexp="yes"/></token>
             <token postag="V.[IS].*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
