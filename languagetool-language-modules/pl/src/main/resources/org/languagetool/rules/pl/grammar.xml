@@ -178,7 +178,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">				
                             <antipattern>
                                 <token>duszą</token>
-                                <token postag="subst:.*" postag_regexp="yes"/>
+                                <token postag="subst:.*:(gen|nom):.*" postag_regexp="yes"/>
                                 <marker>
                                     <token postag="verb:.*" postag_regexp="yes"/>
                                 </marker>
@@ -18561,9 +18561,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 				<rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
             <antipattern case_sensitive="yes">
-              <token>Noblistów</token>
-              <token>Polskich</token>
-              <example>Szkoła Noblistów Polskich w Myszkowie</example>
+              <token>im</token>
+              <token>.</token>
+              <token/>  <!-- any token -->
+              <token inflected="yes">polski</token>
             </antipattern>
 				    <antipattern case_sensitive="yes">
 				      <token inflected="yes">rada</token>
