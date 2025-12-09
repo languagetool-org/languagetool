@@ -4162,11 +4162,11 @@ USA
     </rule>
 
 
-    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT][Simplificar] Chegar ao fim → findar/terminar/acabar" type="style" tone_tags="objective">
-        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT][Simplificar] Chegar ao fim → findar/terminar/acabar" type='style' tone_tags='objective'>
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
         <antipattern>
             <token postag='V.+|N.+|AQ.+|UNKNOWN|RN|SPS00' postag_regexp='yes'/>
-            <token skip='4' regexp='yes'>a|por|que|se</token>
+            <token skip='2' regexp='yes'>a|por|que|se|de|para|até|sem|após</token>
             <token inflected='yes'>chegar</token>
             <token>ao</token>
             <token>fim</token>
@@ -4175,11 +4175,12 @@ USA
             <example>Kinako se recusa, explicando que ela está chegando ao fim de sua vida útil natural.</example>
             <example>Reformas variadas (e demasiadas, não se chegando ao fim de nenhuma, o que também é recorrente).</example>
             <example>Há diversos caminhos para se chegar ao fim de um estágio e uma infinidade de segredos bem escondidos.</example>
+            <example>Já desde as últimas eleições que penso que o lfv chegou ao fim da linha.</example>
         </antipattern>
         <pattern>
-            <token skip='4' regexp='yes'>a|por|que|se</token>
+            <token skip='2' regexp='yes'>a|por|que|se|de|para|até|sem|após</token>
             <marker>
-                <token inflected='yes'>chegar</token>
+                <token postag='V.+' postag_regexp='yes' inflected='yes'>chegar</token>
                 <token>ao</token>
                 <token>fim</token>
             </marker>
