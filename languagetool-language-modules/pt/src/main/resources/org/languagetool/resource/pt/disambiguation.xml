@@ -5604,6 +5604,39 @@ USA
                 Foi consagrada basílica em 1904 pelo Papa Pio X.
         -->
     </rule>
+    <rule>
+      <antipattern>
+        <token regexp='yes' inflected='yes'>ser|estar</token>
+        <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+        <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
+        <token min='0' max='1' postag='_PUNCT'/>
+        <token postag='VMIP1S0'/>
+        <token postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
+        <token postag='SPS.+|[DP].+' postag_regexp='yes'/>
+        <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
+        <token min='0' max='1' postag='_PUNCT'/>
+        <marker>
+          <and>
+            <token postag='VMIP1S0'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token postag='SPS00|(SPS00:)?DA.+|V.+' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+                Várias reuniões de Assembleias provinciais, como em Grenoble, já o haviam feito.
+                Ao mesmo tempo, o regime republicano foi forçado a lidar com rebeliões contra sua autoridade em grande parte do oeste e sul da França.
+                Por exemplo, determinar o estado do universo inteiro em um particular momento é impossível, e também inútil.
+                Mas em 2008 este número caiu pela metade e ficou em 3%, segundo dados do TIC Domícilios 2008[5].
+                foi um chefe germano da tribo dos Queruscos, filho do chefe guerreiro Segimero.
+                Qualquer tentativa de usar o hardiman resultou em um movimento violento fora de controle.
+                Os piores momentos da deskulakização e as dificuldades do primeiro plano tinham passado.
+        -->
+    </rule>
   </rulegroup>
 
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
