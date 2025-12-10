@@ -1638,6 +1638,83 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="PTime"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>tot</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token>sant</token>
+                    <token>dia</token>
+                </marker>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>ben</token>
+                    <token>bé</token>
+                </marker>
+                <token chunk="PTime"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">passar</token>
+                <marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </marker>
+                <token chunk="PTime"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>la</token>
+                    <token>major</token>
+                    <token>part</token>
+                    <token>de</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </marker>
+                <token chunk="PTime"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>la</token>
+                    <token>majoria</token>
+                    <token>de</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </marker>
+                <token chunk="PTime"/>
+            </pattern>
+            <disambig action="addchunk">
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rule id="PTIME_gerundi" name="període de temps + gerundi">
         <pattern>
