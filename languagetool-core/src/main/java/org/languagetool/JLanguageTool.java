@@ -2185,7 +2185,13 @@ public class JLanguageTool {
       for (int i = 0, sentencesSize = sentences.size(); i < sentencesSize; i++) {
         SentenceData sentence = sentences.get(i);
         wordCounter += sentence.wordCount;
-        ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentence.startOffset, sentence.startOffset + sentence.text.trim().length(), language.getShortCode());
+        int whitespaceFix = 0;
+        // Check if sentence in sentenceData has more than 1 whitespace at begin, if yes fix the range to match with the normal sentenceRange
+        if (sentence.text.startsWith(" ", 1)) {
+          String sentenceStripLeading = sentence.text.stripLeading();
+          whitespaceFix = (sentence.text.length() - sentenceStripLeading.length());
+        }
+        ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentence.startOffset + whitespaceFix, sentence.startOffset + whitespaceFix + sentence.text.trim().length(), language.getShortCode());
         extendedSentenceRanges.add(extendedSentenceRange);
         try {
           //comment in to trigger an exception via input text:
