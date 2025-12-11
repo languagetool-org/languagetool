@@ -4166,7 +4166,7 @@ USA
         <!-- ChatGPT 5 and new disambiguator for 2026+ -->
         <antipattern>
             <token postag='V.+|N.+|AQ.+|UNKNOWN|RN|SPS00' postag_regexp='yes'/>
-            <token skip='2' regexp='yes'>a|por|que|se|de|para|até|sem|após</token>
+            <token skip='2' regexp='yes'>a|por|que|se|de|para|até|sem|após|mais|menos</token>
             <token inflected='yes'>chegar</token>
             <token>ao</token>
             <token>fim</token>
@@ -4178,7 +4178,7 @@ USA
             <example>Já desde as últimas eleições que penso que o lfv chegou ao fim da linha.</example>
         </antipattern>
         <pattern>
-            <token skip='2' regexp='yes'>a|por|que|se|de|para|até|sem|após</token>
+            <token skip='2' regexp='yes'>a|por|que|se|de|para|até|sem|após|mais|menos</token>
             <marker>
                 <token postag='V.+' postag_regexp='yes' inflected='yes'>chegar</token>
                 <token>ao</token>
@@ -4190,6 +4190,7 @@ USA
         <suggestion><match no='2' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
         <suggestion><match no='2' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
         <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
+        <example>Mais um ano termina.</example>
     </rule>
 
 
