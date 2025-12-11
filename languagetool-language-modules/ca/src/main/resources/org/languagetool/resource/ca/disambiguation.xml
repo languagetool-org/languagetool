@@ -1441,6 +1441,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </disambig>
     </rule>
     <rulegroup id="PERIODES_DE_TEMPS" name="períodes de temps">
+        <antipattern>
+            <!-- el segon km -->
+            <token>segon</token>
+            <token postag="NC[MC][SN].*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="DA.*" postag_regexp="yes"/>
@@ -1710,6 +1715,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="addchunk">
                 <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+                <wd pos="PTime"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>tota</token>
+                    <token>la</token>
+                    <token>vida</token>
+                </marker>
+            </pattern>
+            <disambig action="addchunk">
                 <wd pos="PTime"/>
                 <wd pos="PTime"/>
                 <wd pos="PTime"/>
