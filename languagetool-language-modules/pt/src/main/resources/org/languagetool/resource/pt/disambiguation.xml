@@ -4136,6 +4136,33 @@ USA
       -->
   </rule>
 
+  <rule id="VERB_VMIP1S0_NOUN_PASTPARTICIPLE_20251212" name="It is not VMIP1S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP1S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='VMP00.+' postag_regexp='yes'><exception scope='previous' regexp='yes' inflected='yes'>ser|estar|ter|haver|ficar|continuar|permanecer|manter|deixar|considerar|julgar|achar</exception></token>
+    </pattern>
+    <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+               O carro apresentado no salão foi a única unidade produzida, e foi vendida por U$ 2,8 milhões dólares.
+               A cidade cobre uma área de 53 km2 e tem uma população de 44 856 pessoas, segundo dados de 2011.
+               O segundo e terceiro posto esta ocupado pela Turquia e Alemanha, respectivamente.
+               Como resultado, enchi meu bolso de experiência e agora estou enchendo de amor.
+               Com carcaça de alumínio fundido e vidro temperado, a luz de inundação LED Clock Clock IP67 é forte e bonita!
+               Um cálice de cerveja para cada um e assunto resolvido.
+               RECURSO DESPROVIDO.
+               Livro ilustrado.
+               Projeto financiado com o apoio da Comissão Europeia.
+               Vale ressaltar que o boleto impresso não será enviado pelos correios.
+      -->
+  </rule>
+
   <rule id="V_ESTAR_TER_SER_Z0_DI_VERBNOUN_20251117" name="Remove verb from token. It can be a noun, etc., but not a verb">
     <!-- ChatGPT 5 -->
     <pattern>
