@@ -5606,7 +5606,7 @@ USA
       -->
   </rule>
 
-  <rulegroup id="WORD_NOT_VMIP1S0_20251209_RARE" name="This word is not VMIP1S0">
+  <rulegroup id="WORD_NOT_VMIP1S0_20251212_RARE" name="This word is not VMIP1S0">
     <rule>
       <pattern>
         <token skip='1' postag_regexp='yes' postag='V.+|SPS00'/>
@@ -5661,6 +5661,34 @@ USA
                 foi um chefe germano da tribo dos Queruscos, filho do chefe guerreiro Segimero.
                 Qualquer tentativa de usar o hardiman resultou em um movimento violento fora de controle.
                 Os piores momentos da deskulakização e as dificuldades do primeiro plano tinham passado.
+        -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='D[AI].+' postag_regexp='yes'/>
+        <token min='0' max='1' postag='NC.+|AQ.+' postag_regexp='yes'><exception postag='VMIP1S0'/></token>
+        <marker>
+          <and>
+            <token postag='VMIP1S0'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token postag='CS' postag_regexp='no'/>
+        <token postag='V.+' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+                System of a Down: O grupo se apresentou no última dia do festival.
+                Na literatura, o escritor argentino Jorge Luís Borges denomina de "Aleph" o ponto que contém todo o universo.
+                Ou seja, o sujeito que compra o A250 assina atestado de idiota.
+                É sempre menos desumano que abandonar recém-nascido em caçamba de lixo.
+                Geralmente, um cidadão de um país estrangeiro que queira viajar para os Estados Unidos deve, em primeiro lugar, obter um visto.
+                Como o espinho que entra na mão do bêbado, assim é o provérbio na boca dos tolos.
+                Mas o governo já esticou demais essa corda.
+                Os quadrinhos e o espelho que estavam no meu quarto ganharam novos cantinhos.
+                O cancelamento não será realizado caso o ingresso já tenha sido trocado.
+                De modo que eu sempre defendi essa história, dentro do possível, o sujeito se informar.
         -->
     </rule>
   </rulegroup>
