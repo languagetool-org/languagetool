@@ -1813,6 +1813,12 @@ USA
     <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
     <short>Erro de colocação pronominal</short>
 
+   <antipattern>
+        <token regexp="yes">[Tt]e</token>
+        <token postag_regexp="yes" postag="VM..2S." regexp="yes">
+          és|eras|foste|serás|sejas
+        </token>
+    </antipattern>
     <!-- I must create an AP just with exception verbs, to do in 2025+ KEEP THIS AP ABOVE ALL OTHERS FOR AN EASY VIEW-->
     <antipattern> <!-- #1: se -->
         <token postag='CC' postag_regexp='no'/>
@@ -2833,6 +2839,32 @@ USA
       </rule>
   </rulegroup>
 
+<rule id="CLITIC_AS_SUBJECT_TE_SER" name="[pt-PT] te → tu (sujeito)">
+  <pattern>
+    <token postag="SENT_START" postag_regexp="no"/>
+    <marker>
+      <token>te</token>
+    </marker>
+    <token>és</token>
+  </pattern>
+  <message>«Te» é pronome oblíquo. Como sujeito, use «tu».</message>
+  <suggestion>tu</suggestion>
+  <example correction="Tu"> <marker>Te</marker> és muito inteligente.</example>
+</rule>
+
+<rule id="CLITIC_AS_SUBJECT_ME_SER" name="[pt-PT] me → eu (sujeito)">
+  <pattern>
+    <token postag="SENT_START" postag_regexp="no"/>
+    <marker>
+      <token>me</token>
+    </marker>
+    <token>sou</token>
+  </pattern>
+  <message>«Me» é pronome oblíquo. Como sujeito, use «eu».</message>
+  <suggestion>eu</suggestion>
+  <example correction="Eu"> <marker>Me</marker> sou responsável por este projeto.</example>
+</rule>
+
 
   <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
   <rule id='VERBO_PRONOME_PESSOAL_VERB' name="[pt-PT] Pron. Pessoal + Verbo → Verbo + - + Pron. Pessoal">
@@ -2843,6 +2875,13 @@ USA
           Te vejo por aí. → Vejo-te por aí.
           Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
       -->
+      <!-- Prevent wrong hyphenation suggestion for: Me sou / Te és / Nos somos / Vos sois -->
+      <antipattern>
+          <token postag="SENT_START" postag_regexp="no"/>
+          <token regexp="yes">[Mm]e|[Tt]e|[Nn]os|[Vv]os</token>
+          <token inflected="yes" postag_regexp="yes" postag="VMIP[13]S0|VMM02S0">ser</token>
+          <example>Me sou responsável pelo relatório final.</example>
+      </antipattern>
       <antipattern>
           <token regexp='yes'>n[ao]s?</token>
           <token postag='VMIP1S0' postag_regexp='no'/>
