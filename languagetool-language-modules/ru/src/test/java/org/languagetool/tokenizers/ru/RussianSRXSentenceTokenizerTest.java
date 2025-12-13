@@ -42,6 +42,7 @@ public class RussianSRXSentenceTokenizerTest {
     testSplit("Более 300 тыс. документов и справочников.");
     testSplit("Скидки до 50000 руб. на автомобили.");
     testSplit("Изготовление визиток любыми тиражами (от 20 шт. до 10 тысяч) в минимальные сроки (от 20 минут).");
+    testSplit("Временно не работает, т.к. не поддерживается.");
   }
 
   private void testSplit(final String... sentences) {
