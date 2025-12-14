@@ -3690,6 +3690,22 @@ USA
 
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
+        <rule id='DIFERENTES_DISTINTOS' name="Diferentes → distintos" type='style' tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag='NC[MF]P.+' postag_regexp='yes' regexp='yes' inflected='yes'>conceito|categoria|classe|tipo|método|procedimento|processo|estratégia|modelo|sistema|critério|parâmetro|variável|fator|elemento|componente|nível|dimensão|fase|etapa|hipótese|premissa|pressuposto|interpretação|análise|perspectiva|estrutura</token> <!-- The safest -->
+                <token min='0' max='1' regexp='yes' inflected='yes'>ser|estar|tornar|mostrar|revelar|permanecer|manter|continuar|parecer|apresentar|configurar</token>
+                <marker>
+                    <token>diferentes</token>
+                </marker>
+            </pattern>
+            <message>Em textos formais, considere usar &quot;distintos&quot; em vez de &quot;diferentes&quot;.</message>
+            <suggestion><match no='1' postag='NC(.)P000' postag_replace='AQ0$1P0'>distinto</match></suggestion>
+            <example correction="distintas">São hipóteses <marker>diferentes</marker>.</example>
+            <example correction="distintos">São pressupostos <marker>diferentes</marker>.</example>
+            <example>Ambas as premissas são distintas.</example>
+        </rule>
+
 
         <rule id='COMO_SEGUNDO_CONFORME' name="Como/segundo → conforme" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
