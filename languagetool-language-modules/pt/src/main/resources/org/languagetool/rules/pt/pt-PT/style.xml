@@ -2326,6 +2326,29 @@ USA
 
         <!-- Inserted global antipatterns for all subrules on top. -->
 
+        <antipattern>
+            <token regexp='no'>de</token> <!-- Add more words as they are found -->
+            <token regexp='yes'>vocês?</token>
+            <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMN000.+|VMN03P.+|VMSF3P.+'/></token>
+            <example>Uma curiosidade: alguns de vocês devem saber, outros não.</example>
+            <example>Por que razão quem discorda de você é hipócrita?</example>
+            <example>Algum de vocês tem algo melhor pra fazer?</example>
+            <example>Perdoaria ela por julgar que tudo que acontece de ruim ao redor de vocês é sua culpa?</example>
+            <example>Teve alguma hora que um de vocês parou e pensou “o que eu estou fazendo aqui”?</example>
+            <example>Muitas de vocês sabem que iniciaremos a construção de nossa nova ala de oração em breve.</example>
+            <example>O pai de vocês vai supervisionar a construção de um edifício na zona oeste de Berkeley.</example>
+            <example>Mas, no final do dia, só um de vocês vai ganhá-lo. Meu nome é Margot.</example>
+            <example>Togo, Armstrong, Palacio, Myers... sei o quanto cada um de vocês batalhou para chegar até aqui.</example>
+            <example>E o jeito de vocês é melhor?</example>
+            <example>Talvez os três de vocês precisem se separar por hoje.</example>
+            <example>Nenhum de vocês desiste dela porque ela é seu elo afetivo com Zak! Não sabe nada sobre meu irmão!</example>
+            <example>Talvez um de vocês possa cuidar de mim à moda antiga ou nova. Eu sou fácil.</example>
+            <example>Cada um de vocês receberá uma caderneta.</example>
+            <example>Qual de vocês é o cara sortudo?</example>
+            <example>Alguns de vocês trabalham comigo há pouco tempo.</example>
+            <example>Algum de vocês recorda... onde deixei meu triciclo?</example>
+        </antipattern>
+
         <!-- ChatGPT 4o: "All these verbs are related to absence, need, or lack and are, therefore, exceptions to the proposed rule." -->
         <antipattern>
             <token regexp='yes' inflected='yes' postag_regexp='yes' postag='VM.....:PP.C.+'>ausentar|carecer|definhar|desaparecer|descurar|escassear|_esquecer|faltar|fugir|minguar|negligenciar|omitir|precisar<exception postag_regexp='yes' postag='VMN0000:.+|VM.....:(PP2CSO00|PP3..A00)'/></token>
