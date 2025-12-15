@@ -1679,12 +1679,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT12" name="Ulteriori errori comuni - voci del verbo 'avere'">
         <rulegroup name="scambio di 'a' ed 'ha'" id="ER_01_001">
             <rule>
-                <antipattern>
+                <antipattern> <!-- l'arco a volta -->
+                    <token inflected="yes">arco</token>
                     <token>a</token>
-                    <token regexp="yes">volte|letto|posto|morte|punti|punta</token>
+                    <token>volta</token>
+                </antipattern>
+                <antipattern> <!-- mettere a punto -->
+                    <token inflected="yes">mettere</token>
+                    <token>a</token>
+                    <token>punto</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" regexp="yes">andare|portare</token>
+                  <token>a</token>
+                  <token>seguito</token>
+                  <token regexp="yes">di|del|della|dell|degli|dello|dei|delle</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">volte|letto|posto|morte|punti|punta|cascata</token>
+                </antipattern>
+                <antipattern> <!-- verbi con "a"  -->
+                    <token inflected="yes" regexp="yes">andare|portare|rispetto|ricorrere|associare|contribuire|procedere|indirizzare|incentivare|abilitare|tendere|indurre|scendere</token>
+                    <token>a</token>
+                </antipattern>
+                <antipattern> <!-- verbi riflessivi con "a"  -->
+                    <token regexp="yes">mi|ti|si|ci|vi</token>
+                    <token min="0" max="1" inflected="yes" regexp="yes">stare|essere|avere</token>
+                    <token min="0" max="1" inflected="yes" regexp="yes">dovere|potere|volere</token>
+                    <token inflected="yes" regexp="yes">adattare|limitare|preparare</token>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">essere</token>
+                    <token>destinato</token>
                     <token>a</token>
                 </antipattern>
                 <!-- "a" + un participio passato -->
@@ -1720,6 +1747,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup name="scambio di 'ai' ed 'hai'" id="ER_01_002">
+          <antipattern> <!-- verbi con "ai"  -->
+            <token inflected="yes" regexp="yes">andare|portare|rispetto|ricorrere|associare|contribuire|procedere|indirizzare|incentivare|abilitare|tendere|indurre|scendere</token>
+            <token>ai</token>
+          </antipattern>
+          <antipattern> <!-- verbi riflessivi con "ai"  -->
+            <token regexp="yes">mi|ti|si|ci|vi</token>
+            <token min="0" max="1" inflected="yes" regexp="yes">stare|essere|avere</token>
+            <token min="0" max="1" inflected="yes" regexp="yes">dovere|potere|volere</token>
+            <token inflected="yes" regexp="yes">adattare|limitare|preparare</token>
+            <token>ai</token>
+          </antipattern>
+          <antipattern>
+            <token inflected="yes">essere</token>
+            <token>destinato</token>
+            <token>ai</token>
+          </antipattern>
             <rule>
                 <!-- "ai" + un participio passato -->
                 <pattern>
