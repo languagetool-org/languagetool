@@ -12299,6 +12299,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="FORCA" name="força: nom, adjectiu, adverbi">
         <rule>
+            <pattern>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes">força</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes" inflected="yes">seguretat|atac|acció|defensa</token>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+        </rule>
+        <rule>
             <!-- amb força indestructible, de força major -->
             <pattern>
                 <token postag="SPS00|DI0FS0" postag_regexp="yes"/>
