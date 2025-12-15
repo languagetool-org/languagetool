@@ -1962,6 +1962,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Man unterschätzt den Einfluss der Liebe <marker>zu</marker> einer Person.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>in</token>
+                    </marker>
+                    <token regexp="yes">Jemen|Kosovo|Tschad</token>
+                </pattern>
+                <example correction="">Die politische Lage <marker>in</marker> Kosovo bleibt weiterhin angespannt.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="" id="AI_DE_GGEC_REPLACEMENT_PRONOUN_FORM_MICH_MIR">
@@ -3477,7 +3486,31 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Die <marker>1-%-Regel</marker> gilt für privat genutzte Dienstwagen.</example>
                 <example correction="">Die <marker>5-%-Hürde</marker> wurde erreicht.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>"</token>
+                        <token spacebefore="no" regexp="yes">[A-ZÄÖÜ].+|[a-zäöü].+</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>"wer</marker> weiß, was da los ist"</example>
+            </rule>
         </rulegroup>
+
+        <rulegroup id="QB_NEW_DE_OTHER_ERROR_IDS_REPLACEMENT_ADPOSITION" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>in</token>
+                    </marker>
+                    <token regexp="yes">Jemen|Kosovo|Tschad</token>
+                </pattern>
+                <example correction="">Die politische Lage <marker>in</marker> Kosovo bleibt weiterhin angespannt.</example>
+            </rule>
+        </rulegroup>
+
+
 
         <rulegroup name="" id="QB_NEW_DE_OTHER_ERROR_IDS_REPLACEMENT_DETERMINER_FORM">
             <rule>

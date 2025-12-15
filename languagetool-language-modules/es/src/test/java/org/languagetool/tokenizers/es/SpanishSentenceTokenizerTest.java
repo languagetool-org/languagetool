@@ -97,6 +97,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Ayto. del Ferrol");
     testSplit("En el ayto. del municipio.");
     testSplit("Compré 6 Ltrs. de leche.");
+    testSplit("Mi profesora trabaja los lun., mié. y vie.; los juev. y los dom., no.");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");
@@ -110,7 +111,7 @@ public class SpanishSentenceTokenizerTest {
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("cuando G.Oueddei se convierte en líder");
-    testSplit("el jesuita alemany J.E. Nithard");
+    testSplit("El jesuita alemán J.E. Nithard");
   }
 
   private void testSplit(final String... sentences) {

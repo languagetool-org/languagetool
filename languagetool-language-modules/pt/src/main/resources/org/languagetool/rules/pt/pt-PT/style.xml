@@ -2326,6 +2326,29 @@ USA
 
         <!-- Inserted global antipatterns for all subrules on top. -->
 
+        <antipattern>
+            <token regexp='no'>de</token> <!-- Add more words as they are found -->
+            <token regexp='yes'>vocês?</token>
+            <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMN000.+|VMN03P.+|VMSF3P.+'/></token>
+            <example>Uma curiosidade: alguns de vocês devem saber, outros não.</example>
+            <example>Por que razão quem discorda de você é hipócrita?</example>
+            <example>Algum de vocês tem algo melhor pra fazer?</example>
+            <example>Perdoaria ela por julgar que tudo que acontece de ruim ao redor de vocês é sua culpa?</example>
+            <example>Teve alguma hora que um de vocês parou e pensou “o que eu estou fazendo aqui”?</example>
+            <example>Muitas de vocês sabem que iniciaremos a construção de nossa nova ala de oração em breve.</example>
+            <example>O pai de vocês vai supervisionar a construção de um edifício na zona oeste de Berkeley.</example>
+            <example>Mas, no final do dia, só um de vocês vai ganhá-lo. Meu nome é Margot.</example>
+            <example>Togo, Armstrong, Palacio, Myers... sei o quanto cada um de vocês batalhou para chegar até aqui.</example>
+            <example>E o jeito de vocês é melhor?</example>
+            <example>Talvez os três de vocês precisem se separar por hoje.</example>
+            <example>Nenhum de vocês desiste dela porque ela é seu elo afetivo com Zak! Não sabe nada sobre meu irmão!</example>
+            <example>Talvez um de vocês possa cuidar de mim à moda antiga ou nova. Eu sou fácil.</example>
+            <example>Cada um de vocês receberá uma caderneta.</example>
+            <example>Qual de vocês é o cara sortudo?</example>
+            <example>Alguns de vocês trabalham comigo há pouco tempo.</example>
+            <example>Algum de vocês recorda... onde deixei meu triciclo?</example>
+        </antipattern>
+
         <!-- ChatGPT 4o: "All these verbs are related to absence, need, or lack and are, therefore, exceptions to the proposed rule." -->
         <antipattern>
             <token regexp='yes' inflected='yes' postag_regexp='yes' postag='VM.....:PP.C.+'>ausentar|carecer|definhar|desaparecer|descurar|escassear|_esquecer|faltar|fugir|minguar|negligenciar|omitir|precisar<exception postag_regexp='yes' postag='VMN0000:.+|VM.....:(PP2CSO00|PP3..A00)'/></token>
@@ -4064,7 +4087,7 @@ USA
     <category id='SHORTEN_IT_PT_PT' name="[pt-PT] Linguagem concisa" type="style">
 
 
-    <rulegroup id='SIMPLIFICAR_DE_VOCÊS_VOSSO_SEU' name="[pt-PT][Simplificar] 'de vocês' → vosso/seu" tone_tags='objective' default='temp_off'>
+    <rulegroup id='SIMPLIFICAR_DE_VOCÊS_VOSSO_SEU' name="[pt-PT][Simplificar] 'de vocês' → vosso/seu" tone_tags='objective'>
         <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
         <rule> <!-- #1: é/são de você -> é/são sua(s)/seu(s) -->
@@ -4162,11 +4185,11 @@ USA
     </rule>
 
 
-    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT][Simplificar] Chegar ao fim → findar/terminar/acabar" type="style" tone_tags="objective">
-        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT][Simplificar] Chegar ao fim → findar/terminar/acabar" type='style' tone_tags='objective'>
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
         <antipattern>
             <token postag='V.+|N.+|AQ.+|UNKNOWN|RN|SPS00' postag_regexp='yes'/>
-            <token skip='4' regexp='yes'>a|por|que|se</token>
+            <token skip='3' regexp='yes'>a|por|que|se|de|para|até|sem|após|mais|menos</token>
             <token inflected='yes'>chegar</token>
             <token>ao</token>
             <token>fim</token>
@@ -4175,11 +4198,12 @@ USA
             <example>Kinako se recusa, explicando que ela está chegando ao fim de sua vida útil natural.</example>
             <example>Reformas variadas (e demasiadas, não se chegando ao fim de nenhuma, o que também é recorrente).</example>
             <example>Há diversos caminhos para se chegar ao fim de um estágio e uma infinidade de segredos bem escondidos.</example>
+            <example>Já desde as últimas eleições que penso que o lfv chegou ao fim da linha.</example>
         </antipattern>
         <pattern>
-            <token skip='4' regexp='yes'>a|por|que|se</token>
+            <token skip='3' regexp='yes'>a|por|que|se|de|para|até|sem|após|mais|menos</token>
             <marker>
-                <token inflected='yes'>chegar</token>
+                <token postag='V.+' postag_regexp='yes' inflected='yes'>chegar</token>
                 <token>ao</token>
                 <token>fim</token>
             </marker>
@@ -4189,6 +4213,8 @@ USA
         <suggestion><match no='2' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
         <suggestion><match no='2' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
         <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
+        <example>Mais um ano termina.</example>
+        <example>A Segunda Guerra Mundial terminou no 20º ano da era Showa.</example>
     </rule>
 
 
@@ -4323,7 +4349,7 @@ USA
     </rulegroup>
 
 
-    <rule id='SIMPLIFICAR_É_NECESSÁRIO_TER_REQUER' name="[pt-PT][Simplificar] é necessário ter → requer" type='style' default='temp_off'>
+    <rule id='SIMPLIFICAR_É_NECESSÁRIO_TER_REQUER' name="[pt-PT][Simplificar] é necessário ter → requer" type='style'>
         <!-- ChatGPT 5 and new disambiguator for 2026+ -->
         <pattern>
             <marker>
@@ -4475,7 +4501,7 @@ USA
     </rulegroup>
 
 
-    <rule id='SIMPLIFICAR_TAMBÉM_O_VERBO_PT_PT' name="[pt-PT][Simplificar] Evitar redundância de adjetivos" tone_tags='clarity' default='temp_off'>
+    <rule id='SIMPLIFICAR_TAMBÉM_O_VERBO_PT_PT' name="[pt-PT][Simplificar] Evitar redundância de adjetivos" tone_tags='clarity'>
         <!-- IDEA shorten_it -->
         <!-- ChatGPT 5 and new disambiguator for 2026+ -->
         <pattern>

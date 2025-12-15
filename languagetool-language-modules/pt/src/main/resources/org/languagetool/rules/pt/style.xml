@@ -3691,6 +3691,24 @@ USA
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rule id='COMO_SEGUNDO_CONFORME' name="Como/segundo → conforme" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <marker>
+                    <token regexp='yes'>como|segundo</token>
+                </marker>
+                <token min='0' max='2' regexp='yes' inflected='yes'>ser|ter|haver|o</token>
+                <token postag='AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>acordado|alinhado|combinado</token>
+            </pattern>
+            <message>Use &quot;conforme&quot; para maior formalidade.</message>
+            <suggestion>conforme</suggestion>
+            <example correction="conforme">Aqui está o relatório <marker>segundo</marker> combinado.</example>
+            <example>Redigi o documento conforme fora acordado por ambas as partes.</example>
+            <example>Conforme havia sido combinado, aqui está o relatório.</example>
+            <example>Conforme o combinado, aqui está o livro.</example>
+        </rule>
+
+
         <rule id='CERTO_INDICADO_PARA' name="'Certo' para → indicado/adequado/qualificado/apropriado" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 -->
 
@@ -4543,7 +4561,6 @@ USA
                     <example>Morra, seu bastardo!</example>
                     <example>MORRA AGORA, SEU ASSASSINO!</example>
                     <example>Morra, sua vadia!</example>
-                    <example>Ela dirá para o mundo ouvir: “Fraqueza, medo e desespero morreram; força, poder e coragem nasceram”.</example>
                     <example>É que eu não quero morrer hoje, só isso.</example>
                     <example>"Morre, danado!"</example>
                     <example>Por exemplo, a palavra alemã "Sterben" e outras que significam «morrer» são cognados da palavra inglesa.</example>
@@ -9455,7 +9472,30 @@ USA
         </rule>
 
     </category>
+
+
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
+
+
+        <rule id='DIFERENTES_DISTINTOS' name="Diferentes → distintos" type='style' tone_tags='academic' is_goal_specific='true' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag='NC[MF]P.+' postag_regexp='yes' regexp='yes' inflected='yes'>conceito|categoria|classe|tipo|método|procedimento|processo|estratégia|modelo|sistema|critério|parâmetro|variável|fator|elemento|componente|nível|dimensão|fase|etapa|hipótese|premissa|pressuposto|interpretação|análise|perspectiva|estrutura</token> <!-- The safest -->
+                <token min='0' max='1' regexp='yes' inflected='yes'>ser|estar|tornar|mostrar|revelar|permanecer|manter|continuar|parecer|apresentar</token>
+                <token min='0' max='2' postag='RG|RM' postag_regexp='yes'/>
+                <marker>
+                    <token>diferentes</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/científico, é frequente empregar &quot;distintos&quot; em vez de &quot;diferentes&quot;.</message>
+            <suggestion><match no='1' postag='NC(.)P000' postag_replace='AQ0$1P0'>distinto</match></suggestion>
+            <example correction="distintas">São hipóteses <marker>diferentes</marker>.</example>
+            <example correction="distintos">São pressupostos <marker>diferentes</marker>.</example>
+            <example correction="distintos">São critérios claramente muito <marker>diferentes</marker>.</example>
+            <example>Ambas as premissas são distintas.</example>
+            <example>Os pressupostos são bastante distintos.</example>
+        </rule>
+
 
         <rule id='APAGAR_INDELÉVEL' name="[Universitário][Científico] Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true">
             <pattern>
@@ -15415,7 +15455,7 @@ USA
         </rule>
 
 
-        <rulegroup id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="[Simplificar] Omitir pronome pessoal redundante" type='style' default='temp_off'>
+        <rulegroup id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="[Simplificar] Omitir pronome pessoal redundante" type='style'>
             <!--IDEA shorten_it-->
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <rule>
@@ -15672,7 +15712,7 @@ USA
         </rule>
 
 
-        <rule id='QUE_PRETENDER_PRETENDIDO' name="[Simplificar] que pretender → pretendido" type='style' default='temp_off'>
+        <rule id='QUE_PRETENDER_PRETENDIDO' name="[Simplificar] que pretender → pretendido" type='style'>
             <!--IDEA shorten_it-->
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>

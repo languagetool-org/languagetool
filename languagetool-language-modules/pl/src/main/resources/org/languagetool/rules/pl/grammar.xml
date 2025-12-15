@@ -3326,6 +3326,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ANI" name="Brak przecinka przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="verb:fin:.*"/>
+                    <token skip="-1"/>
+                    <token regexp="yes">ani|ni|lub|albo|czy|oraz</token>
+                    <token postag_regexp="yes" postag="subst:.*"/>
+                    <example>W weekendy lub wieczorowo planuję podjąć studia lub kursy poszerzające moją wiedzę i podnoszące moje kwalifikacje</example>
+                </antipattern>
 								<pattern>
 										<token regexp="yes" skip="-1">ani|ni|lub|albo|czy|oraz<exception regexp="yes" scope="next">[\(\)…,;–\-—„”]</exception></token>
 										<marker>
@@ -7309,6 +7316,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 		<rule id="ADJ_SUBST_ADJ_UNIFY" name="Naruszenie związku zgody">
       <antipattern>
+          <marker>
+                <token regexp="yes" inflected="yes" postag="ppas.*" postag_regexp="yes">oferować|dedykować|poświęcać|przedstawiać|prezentować|(?:za)?proponować</token>
+                <token postag="subst:.*:dat.*" postag_regexp="yes"/>
+                <token postag="(adj|ppas|pact):.*:dat.*" postag_regexp="yes"/>
+          </marker>
+          <example>W firmie wiązłem udział w szkoleniach, związanych ze sprzedażą produktów ubezpieczeniowych oferowanych klientom indywidualnym.</example>
+      </antipattern>
+      <antipattern>
             <unify>
                 <feature id="number"/>
                 <token inflected="yes" postag="verb:fin.*:imperf:nonrefl" postag_regexp="yes">być</token>
@@ -10901,6 +10916,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>Zahary Quinto i Jessica Lange byli wychwalani pod niebiosa.</example>
               <example>Oboje byli odurzeni.</example>
             </rule>
+            <rule id="DO_CI_DO_CIEBIE" name="Nieakcentowana forma zaimka po przyimku">
+
+                <!--  if preposition requires CASE and following noun (or jej/jego + noun) is in that CASE, DON'T flag -->
+                <antipattern>
+                    <token postag="prep:([a-z]+).*" postag_regexp="yes"/>
+                    <token postag="subst.*[\.:]\1.*" postag_regexp="yes"/>
+                </antipattern>
+
+                <antipattern>
+                    <token postag="prep:([a-z]+).*" postag_regexp="yes"/>
+                    <token regexp="yes">jej|jego</token>
+                    <token postag="subst.*[\.:]\1.*" postag_regexp="yes"/>
+                </antipattern>
+
+                <!-- MAIN PATTERN: preposition + (unaccented) personal pronoun -->
+                <pattern>
+                    <!-- 1) preposition: capture its case in the tag but ignore interrogative prepositions "co|jak" -->
+                    <token postag="prep:([a-z]+).*" postag_regexp="yes">
+                        <exception regexp="yes">co|jak</exception>
+                    </token>
+
+                    <!-- 2) pronoun marker (this is the token we want to replace from nakc -> akc) -->
+                    <marker>
+                        <token postag="ppron.*:nakc.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                                        <!--
+                                          Use match no="2" (the pronoun). Capture the postag so we can replace "nakc" with "akc".
+                                          postag="(ppron.*:)(nakc)(.*)" captures parts before and after nakc, we then recompose with $1akc$3
+                                        -->
+                <message>Tu powinna być forma akcentowana zaimka: <suggestion><match no="2"
+                               postag="(ppron.*:)(nakc)(.*)"
+                               postag_regexp="yes"
+                               postag_replace="$1akc$3"/></suggestion>.</message>
+
+                <short>Błędna forma gramatyczna</short>
+
+                <example correction="Ciebie">Mówię do <marker>Cię</marker>.</example>
+                <example>Mówię do Ciebie.</example>
+                <example>Mówię do niego.</example>
+                <example>Mówię do jej matki.</example> <!-- not flagged due to antipattern -->
+            </rule>
+
             <rule id="NIEZGODNA_FORMA_ORZECZNIKA_POT_PRAET" name="Niezgodność formy orzecznika przymiotnikowego z czasownikiem „być”">
             <antipattern>
               <unify><feature id="gender"></feature><feature id="case"/><feature id="number"/>
@@ -12398,6 +12456,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="jakichś">To zgniatało mnie od <marker>jakiś</marker> kilku ostatnich lat.</example>
 				</rule>
 				<rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
+          <antipattern>
+            <marker>
+              <token case_sensitive="yes">Pizza</token>
+            </marker>
+            <token regexp="yes">Hut|Dominium|Biesiadowo|Express</token>
+            <example>Z wielkim entuzjazmem aplikuję na stanowisko pracownika restauracji w Pizza Hut.</example>
+          </antipattern>
 				  <antipattern> <!-- też ndm -->
   				  <marker>
 				      <token>sir</token>
@@ -18530,6 +18595,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Nie zgodził się na to Marian Krzaklewski.</example>
 				</rule>
 				<rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
+            <antipattern case_sensitive="yes">
+              <token>im</token>
+              <token>.</token>
+              <token/>  <!-- any token -->
+              <token inflected="yes">polski</token>
+            </antipattern>
 				    <antipattern case_sensitive="yes">
 				      <token inflected="yes">rada</token>
 				      <token>Języka</token>
@@ -22842,6 +22913,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <marker>
                                         <token>oo</token>
                                     </marker>
+                                </antipattern>
+                                <antipattern>
+                                    <token>Red</token>
+                                    <token case_sensitive="yes">Hot</token>
+                                    <token regexp="yes">Chili|Chilli</token>
+                                    <token>Peppers</token>
+                                    <example>Gra na gitarze, Gra na basie, Muzyka rockowa (Blink-182, Red Hot Chilli Peppers)</example>
                                 </antipattern>
                                 <pattern>
 										<marker>

@@ -127,7 +127,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
    * (German example: return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
    *              && !token.matchesPosTagRegex("ART:.*|ADV:.*|VER:(AUX|MOD):.*"));
    */
-  protected abstract boolean isTokenToCheck(AnalyzedTokenReadings token);
+  protected abstract boolean isTokenToCheck(AnalyzedTokenReadings[] tokens, int n);
     
   /*
    * Is checked word part of pairs like "arm in arm", "side by side", etc. (exclude such pairs)
@@ -223,7 +223,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
       } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(tokens[i].getToken()).matches() 
           && i > 1 && !tokens[i].isWhitespaceBefore()) {
         isDirectSpeech = false;
-      } else if (i != notCheck && !isDirectSpeech && !isInQuotes(tokens, i) && isTokenToCheck(tokens[i])) {
+      } else if (i != notCheck && !isDirectSpeech && !isInQuotes(tokens, i) && isTokenToCheck(tokens, i)) {
         if ((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[0])) && !isExceptionPair(testToken, tokens[i])) 
             || isPartOfWord(testToken.getToken(), tokens[i].getToken())) {
           if (notCheck >= 0) {
@@ -308,7 +308,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
           } else if (excludeDirectSpeech && isDirectSpeech && ENDING_QUOTES.matcher(token.getToken()).matches() 
               && i > 1 && !tokenList.get(nTok)[i].isWhitespaceBefore()) {
             isDirectSpeech = false;
-          } else if (!isDirectSpeech && !isInQuotes(tokenList.get(nTok), i) && isTokenToCheck(token)) {
+          } else if (!isDirectSpeech && !isInQuotes(tokenList.get(nTok), i) && isTokenToCheck(tokenList.get(nTok), i)) {
             int isRepeated = 0;
             if (isTokenInSentence(token, tokenList.get(nTok), i, isDSList.get(nTok))) {
               isRepeated = 1;

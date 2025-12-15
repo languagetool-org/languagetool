@@ -5720,7 +5720,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <example>Aceita-se o grupo aves não como Classe.</example>
                     <example>...odas as marcas estejam a criar opções para carros eléctricos diferentes e no final nenhuma lança um carro 100% eléctrico que seja uma opção viável.</example>
                     <example>Tem um casal periquitos gritando na mangueira.</example>
-                    <example>Correios lança selo do signo Peixes nesta semana — Correios: encomendas, rastreamento, telegramas, cep, cartas, selos, agências e mais!</example>
                 </antipattern>
                 <!-- MARCOAGPINTO 2022-08-11 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
@@ -7920,6 +7919,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- Created by Tiago F. Santos, 2017-01-17 -->
 
             <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
+
+            <antipattern>
+                <token postag='VM...S.+' postag_regexp='yes'/>
+                <token>todos</token>
+                <token>os</token>
+                <token>dias</token>
+                <token postag='AQ..P.+|N..P.+' postag_regexp='yes'/>
+                <example>Agora é todos os dias e-mails de scammers.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='VM...P.+' postag_regexp='yes'><exception scope='previous' postag='PD0NN000' postag_regexp='no'/></token>
@@ -32712,7 +32720,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="entraste">Então <marker>entras te</marker> bem o ano.</example>
         </rule>
 
+
         <rulegroup id='CONFUSÃO_ESTA_ESTÁ' name="[Confusão] Esta/Está">
+
+            <antipattern>
+                <token postag='RG'><exception regexp='no'>agora</exception></token> <!-- Add more RG exceptions as found -->
+                <token regexp='yes'>estas?</token>
+                <token postag='Z0.+|NC.+|AQ.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='DI.+|VMP00.+'/>
+                    <exception scope='next' postag_regexp='yes' postag='VMP00.+'/></token>
+                <example>Apenas estas 10 páginas.</example>
+                <example>Então estas séries são para você.</example>
+                <example>Mesmo estas palavras desaparecerão um dia.</example>
+                <example>Espero que Lafe idade não se apaga conosco por ele stashing aqui esta árvore.</example>
+            </antipattern>
+
             <antipattern>
                 <token postag='CC'/>
                 <token regexp="yes">estas?</token>

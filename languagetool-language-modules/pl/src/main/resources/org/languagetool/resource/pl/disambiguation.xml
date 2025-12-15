@@ -6895,6 +6895,16 @@
         <disambig action="remove"><wd lemma="tyli"/></disambig>
     </rule>
 
+    <rule id="DUSZA_NOM" name="duszą towarzystwa to subst">
+        <pattern>
+            <marker><token>duszą</token></marker>
+            <token postag="subst.*gen.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove"><wd lemma="dusić"/></disambig>
+        <example type="untouched">Duszą mięso godzinami.</example>
+        <example type="ambiguous" inputform="duszą[dusić/verb:fin:pl:ter:imperf:nonrefl,dusić/verb:fin:pl:ter:imperf:refl.nonrefl,dusza/subst:sg:inst:f]" outputform="duszą[dusza/subst:sg:inst:f]">Jurek był <marker>duszą</marker> towarzystwa.</example>
+    </rule>
+
     <rule id="WALNIE_VERB" name="walnie pięścią to walnąć">
         <pattern>
             <marker><token>walnie</token></marker>
@@ -6902,6 +6912,7 @@
         </pattern>
         <disambig action="remove"><wd lemma="walnie"/></disambig>
     </rule>
+
 
     <rule id="WALNIE_ADV_1" name="walnie przyF">
         <pattern>

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -135,11 +135,19 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   /**
    * Only substantive, names, verbs and adjectives are checked
    */
-  protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
+  protected boolean isTokenToCheck(AnalyzedTokenReadings[] tokens, int n) {
+    if (n > 0 && n < tokens.length - 1 &&
+        (tokens[n + 1].hasPosTagStartingWith("EIG") || isUnknownWord(tokens[n+1]))
+        && (tokens[n].getToken().equals("Frau") || tokens[n].getToken().equals("Fräulein") || tokens[n].getToken().equals("Herr") || 
+            tokens[n].getToken().equals("Herrn") || tokens[n].getToken().equals("Lady") || tokens[n].getToken().equals("Mister"))
+       ) {
+      return false;
+    }
+    AnalyzedTokenReadings token = tokens[n];
     return ((token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
         && !token.matchesPosTagRegex("(PRO|A(RT|DV)|VER:(AUX|MOD)):.*")
         || isUnknownWord(token))
-        && !StringUtils.equalsAny(token.getToken(), "sicher", "weit", "Sie", "Ich", "Euch", "Eure", "Der", "all"));
+        && !Strings.CS.equalsAny(token.getToken(), "sicher", "weit", "Sie", "Ich", "Euch", "Eure", "Der", "all"));
   }
 
   /**

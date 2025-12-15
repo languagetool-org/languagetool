@@ -246,6 +246,8 @@ public class Catalan extends Language {
       case "TENIR_QUE": return 35; // greater than CA_SIMPLE_REPLACE
       case "CONFUSIONS_PRONOMS_FEBLES": return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
       case "COMMA_PERO1": return 35; // greater than CA_SIMPLE_REPLACE
+      case "PASSAR_SE": return 35; // greater than OBLIDARSE
+      case "OBLIDARSE": return 30; // greater than ACOSTUMAR_A
       case "CA_SPLIT_WORDS": return 30;
       case "PRONOMS_FEBLES_TEMPS_VERBAL": return 35;
       case "ET_AL": return 30; // greater than apostrophes and pronouns
@@ -301,7 +303,6 @@ public class Catalan extends Language {
       case "CONCORDANCES_DET_NOM": return 5; // greater than DE_EL_S_APOSTROFEN
       case "CONCORDANCES_DET_ADJ": return 5; // greater than DE_EL_S_APOSTROFEN
       case "CONCORDANCES_DET_POSSESSIU": return 5; // greater than CONCORDANCES_ADJECTIUS_NEUTRES
-      case "PASSAR_SE": return 5; // greater than OBLIDARSE
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
       case "APOSTROF_ANYS": return 5; // greater than typography options
