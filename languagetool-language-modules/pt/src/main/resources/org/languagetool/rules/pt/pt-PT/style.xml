@@ -3520,7 +3520,7 @@ USA
           <!-- ChatGPT 5 and new disambiguator for 2026+ -->
           <pattern>
               <marker>
-                  <token skip='2' inflected='yes'>fazer</token> <!-- skip='3' gives false positives -->
+                  <token skip='2' inflected='yes'>fazer<exception scope='next' postag_regexp='yes' postag='V.+'/></token> <!-- skip='3' gives false positives -->
                   <token regexp='yes'>desportos?|sports?|esportes?</token>
               </marker>
           </pattern>
@@ -3528,6 +3528,7 @@ USA
           <suggestion><match no='1' include_skipped='all' postag='V.+' postag_regexp='yes'>praticar</match> <match no='2' postag='NC.+' postag_regexp='yes'>desporto</match></suggestion>
           <example correction="praticar muito desporto">Vou <marker>fazer muito desporto</marker>.</example>
           <example correction="praticar desportos">Vou <marker>fazer desportos</marker> de combate.</example>
+          <example>Foi o meu pai quem me fez interessar por esportes.</example>
       </rule>
 
 
