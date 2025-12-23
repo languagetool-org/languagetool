@@ -3516,19 +3516,19 @@ USA
         </rule>
 
 
-    <rule id='FAZER_DESPORTO' name="[pt-PT][Formal] 'Fazer' desporto → Praticar" tone_tags="formal">
-        <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
-        <pattern>
-            <marker>
-                <token skip='4' inflected='yes'>fazer</token>
-            </marker>
-            <token regexp='yes'>desportos?</token>
-        </pattern>
-        <message>O termo &quot;praticar desporto&quot; é mais formal e transmite uma ideia de frequência e seriedade, enquanto &quot;fazer desporto&quot; é mais casual e generalista.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
-        <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
-        <example correction="praticar">Vou <marker>fazer</marker> desportos de combate.</example>
-    </rule>
+      <rule id='FAZER_DESPORTO' name="[pt-PT][Formal] 'Fazer' desporto → Praticar" tone_tags='formal' default='temp_off'>
+          <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+          <pattern>
+              <marker>
+                  <token skip='2' inflected='yes'>fazer</token> <!-- skip='3' gives false positives -->
+                  <token regexp='yes'>desportos?|sports?|esportes?</token>
+              </marker>
+          </pattern>
+          <message>&quot;Praticar desporto&quot; é a forma mais cuidada em português europeu.</message>
+          <suggestion><match no='1' include_skipped='all' postag='V.+' postag_regexp='yes'>praticar</match> <match no='2' postag='NC.+' postag_regexp='yes'>desporto</match></suggestion>
+          <example correction="praticar muito desporto">Vou <marker>fazer muito desporto</marker>.</example>
+          <example correction="praticar desportos">Vou <marker>fazer desportos</marker> de combate.</example>
+      </rule>
 
 
     <rule id='TIVER_ESTIVER' name='[pt-PT][Formal] tiver/estiver' tone_tags="formal">
