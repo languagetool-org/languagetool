@@ -4260,42 +4260,6 @@ USA
     </rule>
 
 
-    <rulegroup id='SIMPLIFICAR_DE_VOCÊS_VOSSA_VOSSAS_VOSSO_VOSSOS' name="[pt-PT][Simplificar] de você(s) → vosso(s)/seu(s)" type='style' tone_tags="objective">
-        <rule>
-            <pattern>
-                <token postag='NC[^C].+' postag_regexp='yes'/>
-                <token inflected='yes'>ser</token>
-                <marker>
-                    <token>de</token>
-                    <token>você</token>
-                </marker>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='NC(..).+' postag_replace='DP3$1S'>seu</match></suggestion>
-            <example correction="sua">A sorte é <marker>de você</marker>.</example>
-            <example correction="suas">As casas são <marker>de você</marker>.</example>
-            <example correction="seu">O cão é <marker>de você</marker>.</example>
-            <example correction="seus">Os cães são <marker>de você</marker>.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag='NC[^C].+' postag_regexp='yes'/>
-                <token inflected='yes'>ser</token>
-                <marker>
-                    <token>de</token>
-                    <token>vocês</token>
-                </marker>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='NC(..).+' postag_replace='DP2$1P'>vosso</match></suggestion>
-            <example correction="vossa">A sorte é <marker>de vocês</marker>.</example>
-            <example correction="vossas">As casas são <marker>de vocês</marker>.</example>
-            <example correction="vosso">O cão é <marker>de vocês</marker>.</example>
-            <example correction="vossos">Os cães são <marker>de vocês</marker>.</example>
-        </rule>
-    </rulegroup>
-
-
       <rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="[pt-PT][Simplificar] Depois é que → depois" type='style' tone_tags='objective'>
           <!-- ChatGPT 5 and new disambiguator for 2026+ -->
           <pattern>
