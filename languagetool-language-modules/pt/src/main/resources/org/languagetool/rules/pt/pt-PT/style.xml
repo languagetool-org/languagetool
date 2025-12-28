@@ -4296,22 +4296,23 @@ USA
     </rulegroup>
 
 
-<rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="[pt-PT][Simplificar] Depois é que + Verbo → Depois + Verbo" type='style' tone_tags="objective">
-    <pattern>
-        <token postag='RM|RG' postag_regexp='yes'/>
-        <marker>
-            <token>depois</token>
-            <token>é</token>
-            <token skip='4'>que</token>
-        </marker>
-        <token postag='V.+' postag_regexp='yes'/>
-    </pattern>
-    <message>&simplify_msg;</message>
-    <suggestion>\2</suggestion>
-    <example correction="depois">Estava a fazer exercício e só <marker>depois é que</marker> li o texto dela.</example>
-    <example correction="depois">Estava a fazer exercício e apenas <marker>depois é que</marker> eu li o texto dela.</example>
-    <example correction="depois">Estava a fazer exercício e somente <marker>depois é que</marker> o Rui leu o texto dela.</example>
-</rule>
+      <rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="[pt-PT][Simplificar] Depois é que → depois" type='style' tone_tags='objective'>
+          <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+          <pattern>
+              <token regexp='yes'>só|apenas|somente</token>
+              <marker>
+                  <token>depois</token>
+                  <token>é</token>
+                  <token skip='3'>que</token>
+              </marker>
+              <token postag='V.+' postag_regexp='yes'/>
+          </pattern>
+          <message>&simplify_msg;</message>
+          <suggestion>\2</suggestion>
+          <example correction="depois">Estava a fazer exercício e só <marker>depois é que</marker> li o texto dela.</example>
+          <example correction="depois">Estava a fazer exercício e apenas <marker>depois é que</marker> eu li o texto dela.</example>
+          <example correction="depois">Estava a fazer exercício e somente <marker>depois é que</marker> o Rui leu o texto dela.</example>
+      </rule>
 
 
     <rulegroup id='SIMPLIFICAR_E_ESTAS_ESTES_QUE_PT_PT' name="[pt-PT][Simplificar] E est(a/e)(s) → que" type='style'>
