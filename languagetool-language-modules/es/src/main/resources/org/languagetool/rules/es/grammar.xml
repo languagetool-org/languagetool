@@ -8165,6 +8165,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Además"><marker>Ademas</marker> de inglés, habla francés.</example>
             </rule>
             <rule id="UNUSUAL_WITHOUT_ACCENT" name="palabras usualmente con tilde">
+                <!-- 'pedio/pedia/pedios/pedias' as an adjective in specific medical collocations -->
+                <antipattern>
+                    <token regexp="yes"
+                           postag="NC.*"
+                           postag_regexp="yes">arteria|arterias|vena|venas|vaso|vasos|segmento|segmentos</token>
+                    <token regexp="yes"
+                           postag="AQ0[MF].*"
+                           postag_regexp="yes">pedio|pedia|pedios|pedias</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">yacio|aliaria|convivio|desplego|heria|prometio|rodo|rogo|pario|pedia|servia</token>
@@ -21932,6 +21941,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_ADJ" name="Concordancias determinante y adjetivo">
+            <!-- colon sigmoide/sigmoides used as anatomical noun: “al/del sigmoides” -->
+            <antipattern>
+                <token regexp="yes">al|del</token>
+                <token postag="AQ0CP0" postag_regexp="yes" regexp="yes">sigmoides?</token>
+                <example>ENGROSAMIENTO DEL SIGMOIDES Y RECTO, SE SUGIERE COMPLEMENTAR CON MARCADORES ADICIONALES.</example>
+            </antipattern>
             <antipattern>
                 <token>en</token>
                 <token>cuanto</token>
@@ -22892,6 +22907,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
+            <!-- colon sigmoides: nombre anatómico compuesto, no revisar concordancia -->
+            <antipattern>
+                <token inflected="yes">colon</token>
+                <token regexp="yes">sigmoide|sigmoides</token>
+                <example>A nivel del colon sigmoides con presencia de formaciones saculares de pared delgada.</example>
+            </antipattern>
             <antipattern>
                 <token inflected="yes" skip="3">ser</token>
                 <token>poca</token>
@@ -23801,6 +23822,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
+            <!-- Radiology: ordinal + 'arcos' (+ optional adj), e.g. 'sexto arcos costales' -->
+            <antipattern>
+               <token regexp="yes" inflected="yes">tercer|cuarto|quinto|sexto|séptimo|octavo|noveno|décimo</token>
+               <token inflected="yes">arco</token>
+               <token min="0" max="2" postag="A.*" postag_regexp="yes"/>
+            </antipattern>
             <antipattern>
                 <token postag="AQ.*|NC.*" postag_regexp="yes"/>
                 <token regexp="yes">areola|mama|vena</token>

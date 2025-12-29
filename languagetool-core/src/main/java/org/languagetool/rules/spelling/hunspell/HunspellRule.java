@@ -513,23 +513,11 @@ public class HunspellRule extends SpellingCheckRule {
     if(!Tools.isExternSpeller()) {    //  use of external speller for OO extension (32-bit)
                                       //  hunspell doesn't support 32-bit java
       if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
-        if (Hunspell.FORCE_TEMP_FILES) {
-          String path = getDictionaryPath(langCountry, shortDicPath);
-          if ("".equals(path)) {
-            hunspell = null;
-          } else {
-            Path affPath = Paths.get(path + ".aff");
-            hunspell = Hunspell.getDictionary(Paths.get(path + ".dic"), affPath);
-            addIgnoreWords();
-            nonWordPattern = nonWordPatternFromPath(affPath);
-          }
-        } else {
-          String aff = shortDicPath.substring(0, shortDicPath.length() - 3) + "aff";
-          hunspell = Hunspell.forDictionaryInResources(langCountry, shortDicPath, aff);
-          addIgnoreWords();
-          nonWordPattern = nonWordPatterns.computeIfAbsent("resource:" + shortDicPath, __ ->
-            computeNonWordPattern(JLanguageTool.getDataBroker().getFromResourceDirAsStream(aff)));
-        }
+        String aff = shortDicPath.substring(0, shortDicPath.length() - 3) + "aff";
+        hunspell = Hunspell.forDictionaryInResources(langCountry, shortDicPath, aff);
+        addIgnoreWords();
+        nonWordPattern = nonWordPatterns.computeIfAbsent("resource:" + shortDicPath, __ ->
+          computeNonWordPattern(JLanguageTool.getDataBroker().getFromResourceDirAsStream(aff)));
       } else if (new File(shortDicPath + ".dic").exists()) {
         // for dynamic languages
         Path affPath = Paths.get(shortDicPath + ".aff");

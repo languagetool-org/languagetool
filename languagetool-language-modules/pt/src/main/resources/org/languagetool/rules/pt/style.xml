@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+
 <!--
-Portuguese Style Rules for LanguageTool
-See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2023 Daniel Naber (http://www.danielnaber.de),
-  Marcin Miłkowski, and the LanguageTool contributors
+Portuguese - Style Rules for LanguageTool.
+
+See tagset.txt for the meaning of the POS tags.
+Copyright © 2001-2026 Daniel Naber (http://www.danielnaber.de),
+Marcin Miłkowski, and the LanguageTool contributors.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -14,16 +16,16 @@ version 2.1 of the License, or (at your option) any later version.
 
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
-USA
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 -->
 
-<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+<!-- Contribuidores open-source: consultem https://dev.languagetool.org/#portuguese -->
+
 
 <!DOCTYPE rules [
     <!ENTITY % messages  SYSTEM "../../resource/pt/entities/messages.ent" >
@@ -4159,7 +4161,7 @@ USA
         </rule>
 
 
-        <rule id='APENAS_SOMENTE' name="Apenas → Somente" tone_tags='formal' tags='picky'>
+        <rule id='APENAS_SOMENTE' name="Apenas → Somente" tone_tags='formal' tags='picky' is_goal_specific='true'>
             <!-- Used DeepSeek-V3 -->
             <pattern>
                 <token regexp='no'>apenas</token>
@@ -9477,7 +9479,7 @@ USA
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
 
 
-        <rule id='DIFERENTES_DISTINTOS' name="Diferentes → distintos" type='style' tone_tags='academic' is_goal_specific='true' default='temp_off'>
+        <rule id='DIFERENTES_DISTINTOS' name="Diferentes → distintos" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
                 <token postag='NC[MF]P.+' postag_regexp='yes' regexp='yes' inflected='yes'>conceito|categoria|classe|tipo|método|procedimento|processo|estratégia|modelo|sistema|critério|parâmetro|variável|fator|elemento|componente|nível|dimensão|fase|etapa|hipótese|premissa|pressuposto|interpretação|análise|perspectiva|estrutura</token> <!-- The safest -->
@@ -11538,6 +11540,25 @@ USA
     </category>
 
     <category id="SCIENTIFIC" name="Linguagem científica" type="style" tone_tags="scientific">
+
+
+        <rule id='LINHA_RETA_RETA_V2' name="Traçar 'linha reta' → reta" type='style' tone_tags='scientific' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='3' regexp='yes' inflected='yes'>traçar|desenhar|riscar</token>
+                <marker>
+                    <token regexp='yes'>linhas?</token>
+                    <token regexp='yes'>rec?tas?</token>
+                </marker>
+            </pattern>
+            <message>Em contexto técnico, &quot;reta&quot; é suficiente.</message>
+            <suggestion>\3</suggestion>
+            <example correction="reta">Vou traçar uma <marker>linha reta</marker> entre os pontos.</example>
+            <example correction="retas">Vou traçar várias <marker>linhas retas</marker> no quadro.</example>
+            <example>O Rui vai traçar mais duas retas para todos analisarem.</example>
+        </rule>
+
+
         <rulegroup id="NUMERO_DE_MOLS" name="Número de mols → massa molecular" tags="picky" is_goal_specific="true">
             <rule>
                 <pattern>
@@ -11605,7 +11626,7 @@ USA
             <example correction="a constante de Avogadro">Calculamos com <marker>o número de Avogadro</marker>.</example>
         </rule>
 
-        <rule id="GRAU_CENTIGRADO" name="Preferir 'grau Celius' a 'grau centígrado'.">
+        <rule id="GRAU_CENTIGRADO" name="Preferir 'grau Celsius' a 'grau centígrado'.">
             <pattern>
                 <token regexp="yes">graus?</token>
                 <marker>

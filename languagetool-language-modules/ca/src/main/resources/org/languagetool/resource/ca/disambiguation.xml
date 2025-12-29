@@ -12865,15 +12865,41 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="fons" pos="NCMP000"/>
         </disambig>
     </rule>
-    <rule id="parlar" name="parlar (no nom)">
-        <pattern>
-            <token><exception postag="D..MS." postag_regexp="yes"/></token>
-            <marker>
-                <token postag="VMN00000">parlar</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="VMN00000"/>
-    </rule>
+    <rulegroup id="parlar" name="parlar (no nom)">
+        <rule>
+            <pattern>
+                <token><exception postag="D..MS." postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="VMN00000">parlar</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="VMN00000"/>
+        </rule>
+        <rule>
+            <antipattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token regexp="yes">parla|parles</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">parlar</token>
+                </marker>
+                <token postag="NCMS000" regexp="yes">&noms_llengues;</token>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <marker>
+                    <!-- parla: N/V -->
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">parlar</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="DetNom_exceptions" name="excepcions a DetNom">
         <rule>
             <!-- Amb error de concordança adjectiu-nom -->
