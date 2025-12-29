@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
@@ -48,7 +48,7 @@ public class GermanCommaWhitespaceRuleTest {
 
   @Test
   public void testWederNochWithLineBreak() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(new German());
+    JLanguageTool langTool = new JLanguageTool(GermanyGerman.getInstance());
     String text = "Ich habe\nweder\nZeit\nnoch\nGeld.";
     List<RuleMatch> matches = langTool.check(text);
     assertTrue(matches.isEmpty());  // no comma error
