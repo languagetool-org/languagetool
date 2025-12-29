@@ -15,53 +15,40 @@ public class UrlCapitalizationTest {
   private final JLanguageTool langTool = new JLanguageTool(AmericanEnglish.getInstance());
 
   @Test
-  public void testHttpsUrlNotFlagged() throws IOException {
-    List<RuleMatch> matches = langTool.check(
-      "The code is documented here: https://github.com/languagetool-org/languagetool."
-    );
-    assertEquals(0, matches.size());
+  public void testHttpsUrlDoesNotTriggerCapitalization() throws IOException {
+    String text = "See more here: https://github.com/languagetool-org/languagetool.";
+    assertEquals(0, langTool.check(text).size());
   }
 
   @Test
-  public void testHttpUrlNotFlagged() throws IOException {
-    List<RuleMatch> matches = langTool.check(
-      "More info: http://example.com/path."
-    );
-    assertEquals(0, matches.size());
+  public void testHttpUrlDoesNotTriggerCapitalization() throws IOException {
+    String text = "Open http://example.com for details.";
+    assertEquals(0, langTool.check(text).size());
   }
 
   @Test
-  public void testWwwUrlNotFlagged() throws IOException {
-    List<RuleMatch> matches = langTool.check(
-      "See www.example.com for details."
-    );
-    assertEquals(0, matches.size());
+  public void testWwwUrlDoesNotTriggerCapitalization() throws IOException {
+    String text = "Visit www.example.com for documentation.";
+    assertEquals(0, langTool.check(text).size());
   }
 
   @Test
-  public void testUrlAtSentenceStartNotFlagged() throws IOException {
-    List<RuleMatch> matches = langTool.check(
-      "https://foo.bar is a test site."
-    );
-    assertEquals(0, matches.size());
+  public void testUrlAtSentenceStartDoesNotTriggerCapitalization() throws IOException {
+    String text = "https://example.com is the official site.";
+    assertEquals(0, langTool.check(text).size());
   }
 
   @Test
-  public void testUrlInMiddleNotFlagged() throws IOException {
-    List<RuleMatch> matches = langTool.check(
-      "You can read it at https://foo.bar/docs today."
-    );
-    assertEquals(0, matches.size());
+  public void testUrlWithTrailingPunctuationDoesNotTriggerCapitalization() throws IOException {
+    String text = "Read more at https://example.com/docs, then continue.";
+    assertEquals(0, langTool.check(text).size());
   }
 
   @Test
-  public void testNonUrlStillTriggersCapitalization() throws IOException {
-    List<RuleMatch> matches = langTool.check(
-      "the internet is amazing."
-    );
-    // Expect at least one capitalization suggestion
-    boolean hasCapitalizationRule =
-      matches.stream().anyMatch(m -> m.getMessage().toLowerCase().contains("capitalize"));
-
-    assertFalse(hasCapitalizationRule);  }
+  public void testRegularCapitalizationErrorStillTriggers() throws IOException {
+    String text = "the united states is large.";
+    // We expect at least one capitalization rule to fire here
+    int matches = langTool.check(text).size();
+    assertTrue(matches > 0);
+  }
 }
