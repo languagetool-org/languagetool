@@ -49,10 +49,11 @@ public class GermanCommaWhitespaceRuleTest {
   @Test
   public void testWederNochWithLineBreak() throws IOException {
     JLanguageTool langTool = new JLanguageTool(GermanyGerman.getInstance());
-    String text = "Ich habe\nweder\nZeit\nnoch\nGeld.";
+    String text = "Ich habe" + System.lineSeparator() + "weder"
+      + System.lineSeparator() + "Zeit" + System.lineSeparator() + "noch"
+      + System.lineSeparator() + "Geld.";
     List<RuleMatch> matches = langTool.check(text);
     assertTrue(matches.isEmpty());  // no comma error
   }
-
 
 }
