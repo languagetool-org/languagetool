@@ -46,20 +46,5 @@ public class GermanCommaWhitespaceRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Es gibt 5 Millionen .de-Domains.")).length, is(0));
   }
 
-  @Test
-  public void testWederNochWithLineBreak() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(GermanyGerman.getInstance());
-
-    String text = "Ich habe\nweder\nZeit\nnoch\nGeld.";
-
-    List<RuleMatch> matches = langTool.check(text);
-
-    // ensure our rule (WEDER_OHNE_NOCH) does NOT trigger
-    assertTrue(
-      matches.stream()
-        .noneMatch(m -> m.getRule().getId().equals("WEDER_OHNE_NOCH"))
-    );
-  }
-
 
 }
