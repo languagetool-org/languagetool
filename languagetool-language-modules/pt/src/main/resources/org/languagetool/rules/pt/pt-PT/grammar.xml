@@ -933,6 +933,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- Whole antipatterns must be rewritten: 2024+ -->
       <!-- 31-DEC-2025: entity pronomes_possessivos_pt_pt had "minhas?" missing, this may affect several APs here and in other parts -->
 
+      <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_possessivos_pt_pt;</token>
+          <token regexp='yes'>[ao]s?</token>
+          <example>Faço minhas as suas palavras!</example>
+          <example>Todavia, a escassez voltou a se expandir em Janeiro de 2012 até atingir seu o recorde de 28% em fevereiro 2014.</example>
+          <example>Faço minhas as tuas palavras.</example>
+      </antipattern>
+
       <antipattern> <!-- There were issues with "nada" after my fix in the disambiguator ChatGPT 5 -->
           <token postag='V.+' postag_regexp='yes'/>
           <token postag='PI.+' postag_regexp='yes'><exception postag_regexp='yes' postag='DI.+|RG'/></token>
