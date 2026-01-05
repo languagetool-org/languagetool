@@ -18343,6 +18343,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule id='CONTRACAO_DA' name='De + artigos'> <!--default='off' -->
                 <antipattern>
+                    <token>de</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token min='1' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMI[CP]3.+|VMP00.+|VMG.+'/></token>
+                    <example>O fato de o transporte coletivo ser um dos principais problemas estruturais do país reforça tudo isso.</example>
+                    <example>Hoje, graças a evolução do mercado de games no Brasil, a tendência é de os jogos terem opção de Português.</example>
+                    <example>O secretário de Relações do Trabalho ressaltou o acerto de o acordo ter sido firmado por dois anos.</example>
+                    <example>No caso de a investigação durar menos de 5 dias poderá ser facultada autorização temporária de leitura.</example>
+                    <example>O medo é de o cachorro ficar aleijado algum dia por causa da doença, existe a possibilidade?</example>
+                    <example>Seria o caso de o governo apresentá-las ao público.</example>
+                    <example>Quais são as chances de o Tom vir realmente?</example>
+                    <example>Ainda deu tempo de a Eslováquia diminuir no último minuto de jogo.</example>
+                    <example>O Tom disse que ele sabia o motivo de a Mary ter feito aquilo.</example>
+                </antipattern>
+                <antipattern>
                     <token regexp='yes'>&expressao_invariavel_com_DE;</token>
                     <token>de</token>
                 </antipattern>
