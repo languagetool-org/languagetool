@@ -15359,8 +15359,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rulegroup id='FRAGMENT_TWO_PREPOSITIONS' name="Fragmento: duas preposições seguidas">
+
+            <antipattern>
+                <token postag='AQ..S.+|NC.S.+|V.+' postag_regexp='yes'/>
+                <token regexp='yes' case_sensitive='yes'>A|E</token>
+                <token>em</token>
+                <example>Eu tirei A em francês.</example>
+                <example>Tom tirou A em francês.</example>
+                <example>A equação A em matemática.</example>
+                <example>A curva E em matemática.</example>
+            </antipattern>
+
             <rule>
-                <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15	-->
+                <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15 -->
                 <antipattern><!-- XXX Better handled by CONFUSION_POR rule -->
                     <token>de</token>
                     <token>por</token>
