@@ -5721,6 +5721,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
+  <rule id="NCAQ_VERB_NOUN_PARTPASS_20260106_RARE" name="This word is a NOUN">
+    <pattern>
+      <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2S0'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='VMP00P.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Os alunos pintaram-na e decoraram-na com estrelas amarelas recheadas de belas mensagens.
+             Esse desconhecimento mantém a sociedade muito passiva mesmo diante das inúmeras injustiças vivenciadas ano após ano.
+             Muito bom atendimento super indico, pessoas fofas educadas..
+             Pára de ficar lendo supostas escrituras sagradas que nada têm a ver comigo.
+             Aroma: Frutas vermelhas combinadas com pimenta doce e baunilha.
+             Esta torta foi obviamente uma das primeiras receitas escolhidas.
+             Em fevereiro, a mudança veio de fora para dentro nas situações transformadoras externas representadas pelo raio que atinge A Torre.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
