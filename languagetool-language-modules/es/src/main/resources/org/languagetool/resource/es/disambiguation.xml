@@ -3791,6 +3791,15 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="A.*"/>
     </rule>
+    <rule id="blandas" name="blandas (adj)">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="AQ0FP0">blandas</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rule id="adj_sent_end" name="adjectives at sentence end">
         <pattern>
             <token><exception regexp="yes">no|que|ya|porqe|aún|como</exception><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
