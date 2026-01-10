@@ -33640,6 +33640,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rule id='CONFUSÃO_ESTÁ_ESTA' name="[Confusão] está/esta" default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- The rare verbs were causing FPs, so I had to limit the scope. Later fix the rare verbs and try again. -->
+            <pattern>
+                <token postag='SENT_START|_PUNCT|CC' postag_regexp='yes'/>
+                <marker>
+                    <token regexp='yes'>estás?</token>
+                </marker>
+                <token min='1' max='2' postag='AQ0F.+|N.F.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'><exception scope='next' postag='SENT_END|_PUNCT' postag_regexp='yes'/></token>
+            </pattern>
+            <message>Uso de &quot;esta&quot; (demonstrativo) em vez de &quot;está&quot; (verbo).</message>
+            <suggestion><match no='2' case_conversion='preserve' regexp_match='(...)(.)(s?)' regexp_replace='$1a$3'/></suggestion>
+            <example correction='Esta'><marker>Está</marker> mulher é o máximo.</example>
+            <example correction='Estas'><marker>Estás</marker> mulheres são o máximo.</example>
+        </rule>
+
+
         <rule id='O_AO' name="[Confusão] o/ao" >
             <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-07-04 (2-JUL-2020+) -->
             <pattern>
