@@ -33640,7 +33640,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='CONFUSÃO_ESTÁ_ESTA' name="[Confusão] está/esta" default='temp_off'>
+        <rule id='CONFUSÃO_ESTÁ_ESTA' name="[Confusão] está/esta">
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <!-- The rare verbs were causing FPs, so I had to limit the scope. Later fix the rare verbs and try again. -->
             <pattern>
@@ -35089,16 +35089,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- UNS TEM SORTE uns têm sorte -->
-        <rule id='CONFUSÃO_TEM_TÊM' name="[Confusão] tem/têm">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      Uns tem sorte no jogo. → Uns têm sorte no jogo.
-      Uns não tem sorte no jogo. → Uns não têm sorte no jogo.
-      -->
+        <rule id='CONFUSÃO_TEM_TÊM' name="[Confusão] tem/têm" default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Later expand also to "(SPS00:)?" -->
+            <antipattern>
+                <token postag='[DP]...[NS].+' postag_regexp='yes'><exception postag='CS|CC|RG|PD0NN000' postag_regexp='yes'/></token>
+                <token min='0' max='1' postag='SPS00' postag_regexp='no'/>
+                <token postag='[DP]...P.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='RN|RG|RM' postag_regexp='yes'/>
+                <token>tem</token>
+                <example>Claro que tudo isto é bonito para quem não tem filhos, para quem os tem, boa sorte!</example>
+                <example>Algum de vocês tem algo melhor pra fazer?</example>
+                <example>Certezas são avaliadas pelo ponto de vista de quem as tem.</example>
+                <example>Nenhum de nós tem razão.</example>
+                <example>Você os tem visto?</example>
+                <example>Algum de vocês tem um lápis?</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='CS|[DP]...S.+|AQ..S.+|N..S.+|Z..S.+' postag_regexp='yes'/>
+                <token postag='SPS00|N.+|AQ.+|RG' postag_regexp='yes'/>
+                <token postag='[DP]...P.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='RN|RG|RM' postag_regexp='yes'/>
+                <token>tem</token>
+                <example>, que para eles tem pouco ou nenhum sentido.</example>
+                <example>(como o Planalto os tem definido em suas notas estapafúrdias).</example>
+                <example>Ele também nos tem dado grande trânsito junto à igreja brasileira nos últimos 7 anos.</example>
+                <example>O cachorro de vocês tem patas enormes!</example>
+                <example>Por que Tom ainda os tem?</example>
+                <example>A França já as tem, há algum tempo.</example>
+                <example>O fato que a maioria de nós não tem pais.</example>
+                <example>Cada um de nós tem uma perspectiva específica que precisa ser liberada.</example>
+            </antipattern>
+
             <pattern>
-                <token postag='PI0.P.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='RN' postag_regexp='no'/>
+                <token postag='[DP]...P.+' postag_regexp='yes'><exception regexp='yes'>[ao]s?</exception></token>
+                <token min='0' max='1' postag='RN|RG|RM' postag_regexp='yes'/>
                 <marker>
                     <token>tem</token>
                 </marker>
@@ -35107,6 +35133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>têm</suggestion>
             <example correction="têm">Uns <marker>tem</marker> sorte no jogo.</example>
             <example correction="têm">Uns não <marker>tem</marker> sorte no jogo.</example>
+            <example>Junto ainda as redes do Ajax e do PSV, mas recordo-te que o estadio do Feyenoord (de Kuip) não as tem.</example>
         </rule>
 
 
