@@ -3467,6 +3467,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!-- Specific gender concordance errors - A > Masculine Noun -->
         <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
         <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordância: A + Masculino">
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token regexp='yes'>&cores;</token>
+                <example>Esses resultados estão destacados a amarelo nas tabelas.</example>
+                <example>WOUD - H 130 mm, Ø 120 mm, Metal, lacado a branco, vidro opala, E14, Max 25W.</example>
+                <example>O alumínio é um metal de prateado a branco.</example>
+                <example>“O negro passando a branco, na terceira geração, por efeito do cruzamento de raças”</example>
+                <example>Todas as páginas são douradas ("" - isto é as bordas das páginas são pintadas a ouro).</example>
+                <example>As decorações de teto, eram quase exclusivamente confinado a branco e ouro.</example>
+                <example>As construções existentes foram edificadas em alvenaria de pedra rebocada e pintada a branco.</example>
+                <example>A volta mais rápida de cada sessão está assinalada a cinzento.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='SPS00'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'><exception postag='RG' postag_regexp='no'/></token>
+                <token>a</token>
+                <token postag='N.M.+|AQ.M.+' postag_regexp='yes'/>
+                <example>A safra era sazonal e durava de novembro a abril.</example>
+                <example>«Macri recebe opositor de Maduro em busca de apoio a referendo».</example>
+                <example>O Jornal Hoje vai ao ar no começo da tarde e é apresentado de segunda-feira a sábado.</example>
+                <example>Pode ser usada em fogões a gás, elétrico e vitrocerâmico.</example>
+                <example>O Consumer Trends assume-se como um portal de referência a nível nacional.</example>
+                <example>Trás boas coreografias e excelente componente visual, mas com alguma falta de consistência a nível de performance.</example>
+                <example>Os operadores de bit a bit na linguagem de programação C são a espinha dorsal dessas operações.</example>
+                <example>Onde encontrar freios de caminhão a ar preço Campinas?</example>
+                <example>Lavagem de carpete a seco e Interior.</example>
+                <example>Cozinha integrada com a sala para dois ambientes, sacada com churrasqueira a carvão.</example>
+                <example>Um ponto de luz a serviço do amor.</example>
+                <example>Tom gosta mais de chá a café.</example>
+                <example>Eu prefiro vinho tinto a vinho branco.</example>
+            </antipattern>
             <pattern>
                 <token>a</token>
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
@@ -3480,7 +3512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <message>&MSG_ECG;</message>
             <suggestion suppress_misspelled="yes">o <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
             <suggestion suppress_misspelled="yes">a <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' postag='(A..|[NZ].)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
-            <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+            <url>https://pt.wikipedia.org/wiki/Artigo_(gramática)</url>
             <example correction='O boi'><marker>A boi</marker> está no pasto.</example>
             <example correction='O mais boi'><marker>A mais boi</marker> está no pasto.</example>
             <example>A vaca está no pasto.</example>
@@ -35089,7 +35121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='CONFUSÃO_TEM_TÊM' name="[Confusão] tem/têm" default='temp_off'>
+        <rule id='CONFUSÃO_TEM_TÊM' name="[Confusão] tem/têm">
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <!-- Later expand also to "(SPS00:)?" -->
             <antipattern>
