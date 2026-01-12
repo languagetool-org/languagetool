@@ -5721,9 +5721,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
-  <rule id="NCAQ_VERB_NOUN_PARTPASS_NC_AQ_20260112_RARE" name="This word is a NOUN">
+  <rule id="NCAQ_DP_VERB_NOUN_PARTPASS_NC_AQ_20260112_RARE" name="It is NC.+/AQ.+ not VMSP2S0">
     <pattern>
-      <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+      <token postag='AQ..P.+|NC.P.+|(SPS00:)?[DP].+' postag_regexp='yes'/>
       <marker>
         <and>
           <token postag='VMIP2S0'/>
@@ -5732,7 +5732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </marker>
       <token postag='VMP00P.+|AQ..P.+|NC.P.+' postag_regexp='yes'/>
     </pattern>
-    <disambig action="remove" postag="V.*"/>
+    <disambig action="remove" postag="VMSP2S0"/>
     <!--
     Examples:
              Os alunos pintaram-na e decoraram-na com estrelas amarelas recheadas de belas mensagens.
@@ -5750,42 +5750,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
              Lindas humildes palavras de salvação.
              Após instalado, o plugin criará os respectivos campos para links das principais redes sociais (Facebook, Google Plus e Twitter).
              Todos com ar condicionado, com belos detalhes decorativos.
+             As Saias Longas são as escolhas perfeitas para looks mais casuais, por serem fresquinhas e confortáveis.
+             Catarina disse que devia a sua sobrevivência às frequentes sangrias a que a sujeitavam.
+             Crise nos ares lusitanos?
+             Utilizamos o poder da sua compra e dos seus amigos para negociar grandes descontos nos melhores estabelecimentos da cidade.
+             Vou caçar ainda mais, naqueles mares ótimos, como em Marrocos.
+             Financiamento nos melhores bancos com as melhores taxas.
+             Ensina os limites impostos à satisfação dos desejos.
+             Quantos botes salva-vidas há?
+             Por que as aulas convencionais de idiomas são tão enfadonhas?
+             Era apelidado de "Testina d'Oro" ("Testinha de Ouro") pelos frequentes gols de cabeça.
+             Estes aniões são as bases conjugadas dos polissulfetos de hidrogênio H2S"n".
       -->
   </rule>
-
-  <rule id="DP_VMSP2S0_NC_PARTPASS_20260112" name="It is NC.+ not VMSP2S0">
-    <!-- ChatGPT 5 -->
-    <pattern>
-      <token postag_regexp='yes' postag='(SPS00:)?[DP].+'/>
-      <marker>
-        <and>
-          <token postag='VMSP2S0'/>
-          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-        </and>
-      </marker>
-      <token postag_regexp='yes' postag='VMP00P.+|AQ..P.+|NC.P.+'/> <!-- Only past participle was giving too few results -->
-    </pattern>
-    <disambig action="remove" postag="VMSP2S0"/>
-      <!--
-      Examples:
-               As Saias Longas são as escolhas perfeitas para looks mais casuais, por serem fresquinhas e confortáveis.
-               Catarina disse que devia a sua sobrevivência às frequentes sangrias a que a sujeitavam.
-               Crise nos ares lusitanos?
-               Utilizamos o poder da sua compra e dos seus amigos para negociar grandes descontos nos melhores estabelecimentos da cidade.
-               Vou caçar ainda mais, naqueles mares ótimos, como em Marrocos.
-               Financiamento nos melhores bancos com as melhores taxas.
-               Ensina os limites impostos à satisfação dos desejos.
-               Quantos botes salva-vidas há?
-               Por que as aulas convencionais de idiomas são tão enfadonhas?
-               Era apelidado de "Testina d'Oro" ("Testinha de Ouro") pelos frequentes gols de cabeça.
-               Estes aniões são as bases conjugadas dos polissulfetos de hidrogênio H2S"n".
-      -->
-  </rule>
-
-
-
-
-
 
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
