@@ -5407,6 +5407,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SE_CREO2" name="confusión: se creo/creó">
+            <antipattern>
+                <token>radio</token>
+                <token>de</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>creo</token>
@@ -18784,6 +18788,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
+            <antipattern>
+                <token>del</token>
+                <token case_sensitive="no">meso</token>
+                <!-- si después viene un nombre/adjetivo, es muy probable que "meso" sea sustantivo médico -->
+                <token postag="N.*|A.*" postag_regexp="yes"/>
+            </antipattern>
             <antipattern>
                 <token>por</token>
                 <token>hay</token>
