@@ -107,7 +107,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Son de 1 g. ", "Han sido acondicionadas.");
     testSplit("Son de 1 m. ", "Han sido acondicionadas.");
     testSplit("Vivían 50 h. ", "Después el pueblo creció.");
-    testSplit("El acto será a las 15.30 h. de la tarde.");
+    testSplit("Se calcula un Vol. aproximado de 3.5 ml.");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("cuando G.Oueddei se convierte en líder");
