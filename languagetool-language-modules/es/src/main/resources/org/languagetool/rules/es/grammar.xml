@@ -5407,6 +5407,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SE_CREO2" name="confusión: se creo/creó">
+            <antipattern>
+                <token>radio</token>
+                <token>de</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>creo</token>
@@ -6984,6 +6988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>23,19% impresiones respecto al mes pasado.</example>
                 <example>- Ganes o pierdas, ¡te encantará!</example>
                 <example>Sin importar cuánto lo piense no comprendo cómo ella obtuvo esa información secreta.</example>
+                <example>Placas de ateroma blandas y calcificadas en aorta abdominal e ilíacas.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
@@ -8167,12 +8172,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="UNUSUAL_WITHOUT_ACCENT" name="palabras usualmente con tilde">
                 <!-- 'pedio/pedia/pedios/pedias' as an adjective in specific medical collocations -->
                 <antipattern>
-                    <token regexp="yes"
-                           postag="NC.*"
-                           postag_regexp="yes">arteria|arterias|vena|venas|vaso|vasos|segmento|segmentos</token>
-                    <token regexp="yes"
-                           postag="AQ0[MF].*"
-                           postag_regexp="yes">pedio|pedia|pedios|pedias</token>
+                    <token regexp="yes" postag="NC.*" postag_regexp="yes">arteria|arterias|vena|venas|vaso|vasos|segmento|segmentos</token>
+                    <token regexp="yes" postag="AQ0[MF].*" postag_regexp="yes">pedio|pedia|pedios|pedias</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -15770,6 +15771,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fitosanitario">Especialista <marker>fito sanitario</marker>.</example>
                 <example correction="zoosanitarias">Medidas <marker>zoo-sanitarias</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>meso</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+</token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>Se escribe junto.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="mesoovario">Infiltración del <marker>meso ovario</marker> bilateral.</example>
+            </rule>
             <rule id="PREFIJO_POST" name="pos-operatorio -> posoperatorio, postoperatorio">
                 <pattern>
                     <token regexp="yes">post|pos</token>
@@ -18776,6 +18788,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
+            <antipattern>
+                <token>del</token>
+                <token case_sensitive="no">meso</token>
+                <!-- si después viene un nombre/adjetivo, es muy probable que "meso" sea sustantivo médico -->
+                <token postag="N.*|A.*" postag_regexp="yes"/>
+            </antipattern>
             <antipattern>
                 <token>por</token>
                 <token>hay</token>
@@ -23824,9 +23842,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
             <!-- Radiology: ordinal + 'arcos' (+ optional adj), e.g. 'sexto arcos costales' -->
             <antipattern>
-               <token regexp="yes" inflected="yes">tercer|cuarto|quinto|sexto|séptimo|octavo|noveno|décimo</token>
-               <token inflected="yes">arco</token>
-               <token min="0" max="2" postag="A.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">tercer|cuarto|quinto|sexto|séptimo|octavo|noveno|décimo</token>
+                <token inflected="yes">arco</token>
+                <token min="0" max="2" postag="A.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="AQ.*|NC.*" postag_regexp="yes"/>

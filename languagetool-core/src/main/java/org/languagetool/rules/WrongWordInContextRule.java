@@ -181,7 +181,10 @@ public abstract class WrongWordInContextRule extends Rule {
           }
         }
         if (matchedContext[notFoundWord] && !matchedContext[foundWord]) {
-          String repl = matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]);
+          String originalStr = contextWords.matches[foundWord];
+          String replacementStr = contextWords.matches[notFoundWord];
+          String repl = StringTools.preserveCase(matchedToken.replaceFirst("(?i)" + originalStr, replacementStr)
+            , matchedToken);
           String msg = getMessage(matchedToken, repl, contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
           String id = StringTools.toId(getId() + "_" + matchedToken + "_" + repl, lang);
           String desc = getDescription().replace("$match", matchedToken + "/" + repl);

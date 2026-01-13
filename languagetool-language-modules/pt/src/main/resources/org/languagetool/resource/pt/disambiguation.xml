@@ -5693,6 +5693,77 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
   </rulegroup>
 
+  <rule id="SPS00_DP_NC_VMN0000_20260105_RARE" name="This word is NOT A NOUN, but an INFINITIVE">
+    <pattern>
+      <token postag='SPS00'/>
+      <token postag='[DP].+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='N.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
+      <token postag='N.+|AQ.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='V.+'/>
+        <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'><exception scope='next' postag='CS'/></token>
+          <token postag='NC.+' postag_regexp='yes'><exception scope='next' postag='CS'/></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="N.*"/>
+    <!--
+    Examples:
+             Para uma experiência ser considerada rigorosa nas ciências humanas, leva-se muito em conta o fator da aleatoriedade.
+             O fato de o transporte coletivo ser um dos principais problemas estruturais do país reforça tudo isso.
+             Está na hora de o Congresso olhar e falar: “olha, adia (as eleições)”.
+             (Não há nada de errado em uma mulher querer ser mãe nessa idade e em um relacionamento estável.)
+             Se durante o negócio sentir demoras agradeço que me contacte e aguarde antes de dar feedbacks disparatados.
+             Após o incenso ser queimado, coloque as cinzas em um vaso pequeno com com terra.
+             É difícil para os estudantes estrangeiros falar bem o inglês.
+      -->
+  </rule>
+
+  <rule id="NCAQ_DP_VERB_NOUN_PARTPASS_NC_AQ_20260112_RARE" name="It is NC.+/AQ.+ not VMSP2S0">
+    <pattern>
+      <token postag='AQ..P.+|NC.P.+|(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='VMP00P.+|AQ..P.+|NC.P.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="VMSP2S0"/>
+    <!--
+    Examples:
+             Os alunos pintaram-na e decoraram-na com estrelas amarelas recheadas de belas mensagens.
+             Esse desconhecimento mantém a sociedade muito passiva mesmo diante das inúmeras injustiças vivenciadas ano após ano.
+             Muito bom atendimento super indico, pessoas fofas educadas..
+             Pára de ficar lendo supostas escrituras sagradas que nada têm a ver comigo.
+             Aroma: Frutas vermelhas combinadas com pimenta doce e baunilha.
+             Esta torta foi obviamente uma das primeiras receitas escolhidas.
+             Em fevereiro, a mudança veio de fora para dentro nas situações transformadoras externas representadas pelo raio que atinge A Torre.
+             Ele disse que o filme possuía o "coração, alma, espírito e romance" dos melhores filmes mudos.
+             A comunidade monástica produz um dos melhores azeites ecológicos do Mediterrâneo.
+             Capa de brochura com ligeiros cortes marginais.
+             A Bandeira brasileira mantém a tradição das antigas cores nacionais.
+             Oct-2015 Todos os animais europeus com textos uniformes verificados.
+             Lindas humildes palavras de salvação.
+             Após instalado, o plugin criará os respectivos campos para links das principais redes sociais (Facebook, Google Plus e Twitter).
+             Todos com ar condicionado, com belos detalhes decorativos.
+             As Saias Longas são as escolhas perfeitas para looks mais casuais, por serem fresquinhas e confortáveis.
+             Catarina disse que devia a sua sobrevivência às frequentes sangrias a que a sujeitavam.
+             Crise nos ares lusitanos?
+             Utilizamos o poder da sua compra e dos seus amigos para negociar grandes descontos nos melhores estabelecimentos da cidade.
+             Vou caçar ainda mais, naqueles mares ótimos, como em Marrocos.
+             Financiamento nos melhores bancos com as melhores taxas.
+             Ensina os limites impostos à satisfação dos desejos.
+             Quantos botes salva-vidas há?
+             Por que as aulas convencionais de idiomas são tão enfadonhas?
+             Era apelidado de "Testina d'Oro" ("Testinha de Ouro") pelos frequentes gols de cabeça.
+             Estes aniões são as bases conjugadas dos polissulfetos de hidrogênio H2S"n".
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>

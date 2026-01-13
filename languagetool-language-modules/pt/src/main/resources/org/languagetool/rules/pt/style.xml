@@ -3693,6 +3693,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
 
 
+        <rulegroup id='LENTO_MOROSO' name="Lento → moroso" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: lentidão → morosidade -->
+                <pattern>
+                    <marker>
+                        <token>lentidão</token>
+                    </marker>
+                    <token min='0' max='2' postag='SPS00|(SPS00:)?[DP].+|V.+|RG|RM' postag_regexp='yes'/>
+                    <token regexp='yes' inflected='yes'>acompanhamento|acórdão|admissão|análise|andamento|apreciação|apresentação|apuração|arquivamento|atendimento|auditoria|autorização|avaliação|averiguação|cadastro|candidatura|certificação|comunicação|conclusão|confirmação|contestação|contrarrazões|controle|controlo|correição|credenciamento|cumprimento|decisão|deferimento|defesa|deliberação|demanda|desarquivamento|despacho|determinação|encaminhamento|encerramento|etapa|exame|execução|fase|fiscalização|formalização|habilitação|homologação|impugnação|indeferimento|inquérito|inscrição|inspeção|instância|instrução|intimação|investigação|julgamento|licenciamento|liquidação|manifestação|monitoramento|notificação|parecer|pedido|petição|procedimento|processamento|pronunciamento|propositura|proposta|protocolo|publicação|ratificação|reconsideração|recurso|redistribuição|registo|registro|regularização|relatório|remessa|réplica|requerimento|resolução|resposta|revisão|sentença|solicitação|submissão|supervisão|tramitação|trâmite|tratamento|validação|verificação|vistoria|voto</token> <!-- whitelist institucional GPT 5.2 -->
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;morosidade&quot;.</message>
+                <suggestion>morosidade</suggestion>
+                <example correction="morosidade">Toda esta <marker>lentidão</marker> na homologação é incompreensível.</example>
+                <example>A morosidade do processo ultrapassa todos os limites.</example>
+            </rule>
+
+            <rule> <!-- #2: lent[ao]s? → moros[ao]s? WHITELIST BEFORE -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>acompanhamento|acórdão|admissão|análise|andamento|apreciação|apresentação|apuração|arquivamento|atendimento|auditoria|autorização|avaliação|averiguação|cadastro|candidatura|certificação|comunicação|conclusão|confirmação|contestação|contrarrazões|controle|controlo|correição|credenciamento|cumprimento|decisão|deferimento|defesa|deliberação|demanda|desarquivamento|despacho|determinação|encaminhamento|encerramento|etapa|exame|execução|fase|fiscalização|formalização|habilitação|homologação|impugnação|indeferimento|inquérito|inscrição|inspeção|instância|instrução|intimação|investigação|julgamento|licenciamento|liquidação|manifestação|monitoramento|notificação|parecer|pedido|petição|procedimento|processamento|pronunciamento|propositura|proposta|protocolo|publicação|ratificação|reconsideração|recurso|redistribuição|registo|registro|regularização|relatório|remessa|réplica|requerimento|resolução|resposta|revisão|sentença|solicitação|submissão|supervisão|tramitação|trâmite|tratamento|validação|verificação|vistoria|voto</token> <!-- whitelist institucional GPT 5.2 -->
+                    <token min='0' max='2' postag='SPS00|(SPS00:)?[DP].+|V.+|RG|RM' postag_regexp='yes'/>
+                    <marker>
+                        <token regexp='yes'>lent[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;moroso&quot;.</message>
+                <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>moroso</match></suggestion>
+                <example correction="moroso">O procedimento <marker>lento</marker> foi criticado.</example>
+                <example>A validação é muito morosa.</example>
+            </rule>
+
+            <rule> <!-- #3: lent[ao]s? → moros[ao]s? WHITELIST AFTER -->
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>lent[ao]s?</token>
+                    </marker>
+                    <token min='0' max='2' postag='SPS00|(SPS00:)?[DP].+|V.+|RG|RM' postag_regexp='yes'/>
+                    <token regexp='yes' inflected='yes'>acompanhamento|acórdão|admissão|análise|andamento|apreciação|apresentação|apuração|arquivamento|atendimento|auditoria|autorização|avaliação|averiguação|cadastro|candidatura|certificação|comunicação|conclusão|confirmação|contestação|contrarrazões|controle|controlo|correição|credenciamento|cumprimento|decisão|deferimento|defesa|deliberação|demanda|desarquivamento|despacho|determinação|encaminhamento|encerramento|etapa|exame|execução|fase|fiscalização|formalização|habilitação|homologação|impugnação|indeferimento|inquérito|inscrição|inspeção|instância|instrução|intimação|investigação|julgamento|licenciamento|liquidação|manifestação|monitoramento|notificação|parecer|pedido|petição|procedimento|processamento|pronunciamento|propositura|proposta|protocolo|publicação|ratificação|reconsideração|recurso|redistribuição|registo|registro|regularização|relatório|remessa|réplica|requerimento|resolução|resposta|revisão|sentença|solicitação|submissão|supervisão|tramitação|trâmite|tratamento|validação|verificação|vistoria|voto</token> <!-- whitelist institucional GPT 5.2 -->
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;moroso&quot;.</message>
+                <suggestion><match no='1' postag='AQ.+' postag_regexp='yes'>moroso</match></suggestion>
+                <example correction="moroso">O <marker>lento</marker> procedimento foi criticado.</example>
+                <example>A morosa supervisão afetou o relatório.</example>
+            </rule>
+        </rulegroup>
+
+
         <rule id='COMO_SEGUNDO_CONFORME' name="Como/segundo → conforme" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>

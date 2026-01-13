@@ -61,7 +61,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <!ENTITY pronomes_ambiguos_pt_pt "a|as|mas|nos|o|os|se">
 <!ENTITY pronomes_nao_ambiguos_pt_pt "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
 <!ENTITY pronomes_informais_pt_pt "contigo|t[ao]s?|teus?|tuas?|t[uie]|vocês?">
-<!ENTITY pronomes_possessivos_pt_pt "del[ae]s?|meus?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?">
+<!-- 31-DEC-2025: entity pronomes_possessivos_pt_pt below had "minhas?" missing, this may affect several APs -->
+<!ENTITY pronomes_possessivos_pt_pt "del[ae]s?|meus?|minhas?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?">
+
 <!ENTITY pronomes_possessivos_excecoes_a_o_pt_pt "adepto|administrador|adversário|advogado|agente|agricultor|aliado|almirante|aluno|amigo|anão|anjo|antropólogo|arqueólogo|arquiteto|artesão|artista|assaltante|assessor|astronauta|astrónomo|ator|aviador|bandido|banqueiro|barão|baronesa|biólogo|bobo|bombeiro|cabo|cantor|capitão|cavaleiro|chefão|chefe|cientista|cliente|coach|colega|comandante|comerciante|companheiro|comprador|conde|condessa|condutor|conhecido|conquistador|cônsul|consultor|consumidor|contabilista|coordenador|coronel|criminoso|crítico|dama|dançarino|defensor|delegado|demónio|dentista|deputado|desconhecido|desempregado|detetive|Deus|diabo|diplomata|diretor|dissidente|ditador|doutor|duque|duquesa|economista|editor|educador|embaixador|emigrante|empreendedor|empregado|empresário|enfermeiro|engenheiro|escravo|escritor|espectador|espião|espírito|estrangeiro|estudante|executivo|exilado|explorador|fã|fantasma|farmacêutico|feudal|filho|filósofo|financista|físico|fora-da-lei|formador|fornecedor|fugitivo|funcionário|general|génio|geólogo|gerente|gestor|gigante|governador|guardião|guerrilheiro|guru|herói|historiador|idiota|imigrante|industrial|infiltrado|influenciador|inimigo|inspetor|insurgente|intérprete|investidor|investigador|irmão|jornalista|juiz|jurista|ladrão|legislador|leitor|libertador|liberto|líder|louco|major|maluco|marido|marinheiro|marquês|marquesa|matemático|médico|mendigo|mentor|mestre|ministro|monarca|monstro|motorista|músico|namorado|nobre|nómada|oficial|operário|oponente|opressor|ouvinte|pai|palhaço|parceiro|pensionista|perdedor|pescador|piloto|pintor|plebeu|poeta|polícia|politólogo|prefeito|presidente|princesa|príncipe|prisioneiro|procurador|professor|promotor|protetor|psicólogo|psiquiatra|querido|químico|rainha|rebelde|reformado|refugiado|rei|repórter|revisor|revolucionário|rival|sábio|sabotador|salvador|santo|sargento|secretário|seguidor|senador|senhor|servo|simpatizante|sobrevivente|sócio|sociólogo|soldado|supervisor|suserano|tenente|teólogo|terapeuta|terrorista|tesoureiro|tirano|tolo|trabalhador|tradutor|traidor|treinador|turista|utilizador|vagabundo|vassalo|vencedor|vendedor|vereador|veterinário|viajante|vice-presidente|visconde|viscondessa|vizinho">
 
 <!ENTITY expressoes_invariaveis_pt_pt "algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|núpcia|óculo|olheira|pantalona|parabén|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere">
@@ -929,6 +931,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
 
       <!-- Whole antipatterns must be rewritten: 2024+ -->
+      <!-- 31-DEC-2025: entity pronomes_possessivos_pt_pt had "minhas?" missing, this may affect several APs here and in other parts -->
+
+      <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_possessivos_pt_pt;</token>
+          <token regexp='yes'>[ao]s?</token>
+          <example>Faço minhas as suas palavras!</example>
+          <example>Todavia, a escassez voltou a se expandir em Janeiro de 2012 até atingir seu o recorde de 28% em fevereiro 2014.</example>
+          <example>Faço minhas as tuas palavras.</example>
+      </antipattern>
 
       <antipattern> <!-- There were issues with "nada" after my fix in the disambiguator ChatGPT 5 -->
           <token postag='V.+' postag_regexp='yes'/>
@@ -1812,6 +1824,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
     <short>Erro de colocação pronominal</short>
 
+   <antipattern>
+        <token regexp="yes">[Tt]e</token>
+        <token postag_regexp="yes" postag="VM..2S." regexp="yes">
+          és|eras|foste|serás|sejas
+        </token>
+        <example>Te és muito inteligente.</example>
+    </antipattern>
+    <antipattern>
+        <token regexp="yes">[Mm]e</token>
+        <token postag_regexp="yes" postag="VM..1S." regexp="yes">
+          sou|era|fui|serei|seria|seja|fosse
+        </token>
+        <example>Me sou responsável pelo relatório final.</example>
+    </antipattern>
     <!-- I must create an AP just with exception verbs, to do in 2025+ KEEP THIS AP ABOVE ALL OTHERS FOR AN EASY VIEW-->
     <antipattern> <!-- #1: se -->
         <token postag='CC' postag_regexp='no'/>
@@ -2832,6 +2858,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
   </rulegroup>
 
+<rule id="CLITIC_AS_SUBJECT_TE_SER" name="[pt-PT] te → tu (sujeito)" default="temp_off">
+  <pattern>
+    <token postag="SENT_START" postag_regexp="no"/>
+    <marker>
+      <token>te</token>
+    </marker>
+    <token>és</token>
+  </pattern>
+  <message>«Te» é pronome oblíquo. Como sujeito, use «tu».</message>
+  <suggestion>tu</suggestion>
+  <example correction="Tu"> <marker>Te</marker> és muito inteligente.</example>
+</rule>
+
+<rule id="CLITIC_AS_SUBJECT_ME_SER" name="[pt-PT] me → eu (sujeito)" default="temp_off">
+  <pattern>
+    <token postag="SENT_START" postag_regexp="no"/>
+    <marker>
+      <token>me</token>
+    </marker>
+    <token>sou</token>
+  </pattern>
+  <message>«Me» é pronome oblíquo. Como sujeito, use «eu».</message>
+  <suggestion>eu</suggestion>
+  <example correction="Eu"> <marker>Me</marker> sou responsável por este projeto.</example>
+</rule>
+
 
   <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
   <rule id='VERBO_PRONOME_PESSOAL_VERB' name="[pt-PT] Pron. Pessoal + Verbo → Verbo + - + Pron. Pessoal">
@@ -2842,6 +2894,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           Te vejo por aí. → Vejo-te por aí.
           Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
       -->
+      <!-- Prevent wrong hyphenation suggestion for: Me sou / Te és / Nos somos / Vos sois -->
+      <antipattern>
+          <token postag="SENT_START" postag_regexp="no"/>
+          <token regexp="yes">[Mm]e|[Tt]e|[Nn]os|[Vv]os</token>
+          <token inflected="yes" postag_regexp="yes" postag="VMIP[13]S0|VMM02S0">ser</token>
+          <example>Me sou responsável pelo relatório final.</example>
+      </antipattern>
       <antipattern>
           <token regexp='yes'>n[ao]s?</token>
           <token postag='VMIP1S0' postag_regexp='no'/>
