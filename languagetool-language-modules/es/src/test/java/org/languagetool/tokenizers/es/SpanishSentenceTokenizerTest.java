@@ -107,6 +107,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Son de 1 g. ", "Han sido acondicionadas.");
     testSplit("Son de 1 m. ", "Han sido acondicionadas.");
     testSplit("Vivían 50 h. ", "Después el pueblo creció.");
+    testSplit("El acto será a las 15.30 h. de la tarde.");
     testSplit("Se calcula un Vol. aproximado de 3.5 ml.");
     testSplit("Se aplicaron 5 cc. de anestesia local durante el procedimiento.");
     testSplit("El dispositivo opera a 2400 MHz. lo que garantiza una conexión estable.");
