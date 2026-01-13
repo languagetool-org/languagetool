@@ -108,6 +108,12 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Son de 1 m. ", "Han sido acondicionadas.");
     testSplit("Vivían 50 h. ", "Después el pueblo creció.");
     testSplit("Se calcula un Vol. aproximado de 3.5 ml.");
+    testSplit("Se aplicaron 5 cc. de anestesia local durante el procedimiento.");
+    testSplit("El dispositivo opera a 2400 MHz. lo que garantiza una conexión estable.");
+    testSplit("El paciente fue evaluado tras 12 hr. de observación continua.");
+    testSplit("El medicamento se administró pb. dos veces al día.");
+    testSplit("La reunión se realizará en la 3a. sala del edificio principal.");
+    testSplit("El informe médico indica Dx. confirmado de neumonía.");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("cuando G.Oueddei se convierte en líder");
