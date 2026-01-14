@@ -42995,35 +42995,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>…com uma pedra…—, acho que…</example>
         </rule>
 
-        <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
-            <!-- Created b8y Tiago F. Santos, 2017-02-12 -->
 
-            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *START* -->
-            <!--
-            THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
-            As forças estão organizadas numa hierarquia C2.
-            -->
+        <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
+            <!-- Created by Tiago F. Santos, 2017-02-12 -->
+
+            <antipattern> <!-- #1: Military usage - C2 -->
+                <token>comando</token>
+                <token>e</token>
+                <token skip='-1' regexp='yes'>control[oe]?</token>
+                <token case_sensitive='yes'>C2</token>
+                <example>Estabelecendo uma estrutura de Comando e Controlo (C2).</example>
+                <example>As exigências de uma moderna instalação de Comando e Controle (C2) terminou beneficiando a Instituição.</example>
+            </antipattern>
+            <antipattern> <!-- #2: Military usage - C2 -->
+                <token skip='-1' case_sensitive='yes'>C2</token>
+                <token>comando</token>
+                <token>e</token>
+                <token regexp='yes'>control[oe]?</token>
+                <example>O C2 representa uma estrutura de Comando e Controlo.</example>
+            </antipattern>
+            <antipattern> <!-- #3: Military usage - C2 -->
+                <token skip='1' regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
+                <token case_sensitive='yes'>C2</token>
+                <example>Militarmente temos estruturas de C2.</example>
+                <example>As forças estão organizadas numa hierarquia C2.</example>
+            </antipattern>
+
             <antipattern>
                 <token regexp='yes'>BBB|CC|Y|C2C|B2C|U|V|W|PB|SiO|COP|FS|SnO</token>
                 <token regexp='yes'>\d+</token>
                 <example>Ela é uma das participantes do BBB5.</example>
             </antipattern>
-            <antipattern>
-                <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
-                <token min="0" max="1">de</token>
-                <token case_sensitive='yes'>C2</token>
-            </antipattern>
-            <!-- 2022-10-02 -->
-            <!--
-            O grupo detém pouca análise de alvos, C2 ou capacidade de aprendizagem.
-            -->
-            <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                <token case_sensitive='yes'>C2</token>
-                <token postag='CC' postag_regexp='no'/>
-            </antipattern>
-            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
             <rule>
                 <pattern case_sensitive='yes'>
