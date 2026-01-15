@@ -4001,6 +4001,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <disambig postag="NCMP000"/>
   </rule>
 
+  <rule id="SÃO_VERB_20260115" name="In this case SÃO is VMIP3P0">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP3P0'/>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='VMP00P.+|AQ..P.+|NC.P.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="filter" postag="VMIP3P0"/>
+    <!--
+    Examples:
+             Estes cookies são definidos por terceiros, tais como as redes sociais.
+             Suas asas são vermelhas como o sangue, por isso ganhou esse nome.
+             Mas a maneira que tais átomos são postos juntos.
+             Os cidadãos são consumidores, além das fronteiras do Estado-nação.
+             Extraída a polpa, as sementes são lavadas e postas para secar em local ventilado e seco.
+             Os rodízios são referidos coletivamente como rodízios móveis e rodízios fixos.
+             Mas a ideia que tentam passar para fora é a de que as pessoas são mal-educadas.
+             Quantos informáticos são precisos para mudar uma lâmpada?
+    -->
+  </rule>
+
   <rule id="NP_UNKNOWN_VMIP3S0_VMM02S0_20251127" name="It is VMIP3S0">
     <!-- ChatGPT 5 -->
     <pattern>
