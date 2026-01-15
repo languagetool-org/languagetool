@@ -2301,6 +2301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
       <rulegroup id='TER_REUNIDAS_CONDIÇÕES_PARA' name="[pt-PT][Formal] não 'ter' condições para → 'ver reunidas'" tone_tags='formal' default='temp_off'>
+          <!-- ChatGPT 5 and new disambiguator for 2026+ -->
           <rule>
               <pattern>
                   <token>não</token>
@@ -2322,7 +2323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                   <token>não</token>
                   <marker>
                       <token inflected='yes'>ter</token>
-                      <token postag='RG' postag_regexp='no'/>
+                      <token regexp='yes'>mais|já|nunca</token>
                   </marker>
                   <token min='0' max='1'>as</token>
                   <token>condições</token>
