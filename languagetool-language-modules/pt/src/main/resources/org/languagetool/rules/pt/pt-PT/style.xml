@@ -2300,6 +2300,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+      <rulegroup id='TER_REUNIDAS_CONDIÇÕES_PARA' name="[pt-PT][Formal] não 'ter' condições para → 'ver reunidas'" tone_tags='formal' default='temp_off'>
+          <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+          <rule>
+              <pattern>
+                  <token>não</token>
+                  <marker>
+                      <token inflected='yes'>ter</token>
+                  </marker>
+                  <token min='0' max='1'>as</token>
+                  <token>condições</token>
+                  <token>para</token>
+                  <token regexp='yes' inflected='yes'>continuar|prosseguir|avançar|exercer|manter|iniciar|assumir|celebrar|executar|realizar|desempenhar</token>
+              </pattern>
+              <message>Em português europeu, é mais idiomático usar &quot;não vejo reunidas as condições para…&quot; em contextos formais.</message>
+              <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ver</match> reunidas</suggestion>
+              <example correction="vejo reunidas">Não <marker>tenho</marker> condições para continuar.</example>
+              <example correction="vejo reunidas">Não <marker>tenho</marker> as condições para continuar.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>não</token>
+                  <marker>
+                      <token inflected='yes'>ter</token>
+                      <token regexp='yes'>mais|já|nunca</token>
+                  </marker>
+                  <token min='0' max='1'>as</token>
+                  <token>condições</token>
+                  <token>para</token>
+                  <token regexp='yes' inflected='yes'>continuar|prosseguir|avançar|exercer|manter|iniciar|assumir|celebrar|executar|realizar|desempenhar</token>
+              </pattern>
+              <message>Em português europeu, é mais idiomático usar &quot;não vejo reunidas as condições para…&quot; em contextos formais.</message>
+              <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ver</match> \3 reunidas</suggestion>
+              <example correction="vejo mais reunidas">Não <marker>tenho mais</marker> condições para continuar.</example>
+              <example correction="vejo mais reunidas">Não <marker>tenho mais</marker> as condições para continuar.</example>
+          </rule>
+      </rulegroup>
+
+
     <rule id='PÔR_FIM_TERMO' name="[pt-PT][Formal] pôr 'fim' → 'termo/término'" tags="picky" tone_tags="formal">
         <pattern>
             <token skip='4' inflected='yes'>pôr</token>
