@@ -11730,8 +11730,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rule id='A_MAIORIA_SINGULAR' name='Concordância verbal: A maioria + plural'>
             <antipattern>
-                <token>há</token>
-                <token/>
+                <token regexp='yes'>d[ao]s</token>
+                <token postag='AQ..P.+|N..P.+' postag_regexp='yes'/>
+                <token postag='VM...P.+' postag_regexp='yes'/>
+                <token postag='AQ..P.+|N..P.+|VMP00P.+' postag_regexp='yes'/>
+                <example>Outra coisa q chama a atenção é que o nome da festa era 'agromerados' e a maioria das pessoas morreram aglomeradas.</example>
+                <example>...com aproximadamente 200 lotes que possuem metragens de 5.000 m² a 30.000m² e a maioria dos terrenos são planos.</example>
+                <example>A maioria das gaivotas são carnívoras.</example>
+                <example>A maioria dos filmes são escritos e dirigidos por homens.</example>
+                <example>A maioria das escolas estão fechadas hoje.</example>
+                <example>A maioria das vítimas eram criancinhas.</example>
+                <example>A maioria dos apartamentos estão vazios.</example>
+                <example>A maioria dos escravos fugiam sozinhos ou em grupos de no máximo três.</example>
+            </antipattern>
+            <antipattern>
+                <token skip='1'>há</token>
                 <token regexp='yes'>&expressoes_de_tempo;</token>
             </antipattern>
             <antipattern>
@@ -11739,7 +11752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>maioria|minoria</token>
                 <token min='0' regexp='yes'>d[eao]s?</token>
                 <token min='0' postag_regexp='yes' postag='N.+'/>
-                <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
+                <token min="0" skip='3' postag_regexp='yes' postag='R.'/>
                 <token postag='VMN0000'/>
             </antipattern>
             <antipattern>
@@ -11747,7 +11760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>maioria|minoria</token>
                 <token min='0' regexp='yes'>d[eao]s?</token>
                 <token min='0' postag_regexp='yes' postag='N.+'/>
-                <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
+                <token min="0" skip='3' postag_regexp='yes' postag='R.'/>
                 <token postag="VMN0000X"/>
                 <token regexp='yes' spacebefore='no'>&hifen;</token>
                 <token postag="PP3[FM]SA00" postag_regexp="yes"/>
@@ -11758,7 +11771,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>maioria|minoria</token>
                 <token min='0' regexp='yes'>d[eao]s?</token>
                 <token min='0' postag_regexp='yes' postag='N.+'/>
-                <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
+                <token min="0" skip='3' postag_regexp='yes' postag='R.'/>
                 <marker>
                     <token postag_regexp='yes' postag='(V...)3P(.+)'>
                         <exception postag_regexp='yes' postag='V...3S.+'/>
