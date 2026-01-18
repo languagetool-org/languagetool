@@ -5818,6 +5818,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
+  <rule id="VERB_TO_SPS_20260118_RARE" name="It is SPS not VMIS2P0">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIS2P0'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="VMIS2P0"/>
+    <!--
+    Examples:
+             Uma edição especial que pretende revelar o poder criativo destes artistas
+             Uma parte significativa destes doentes refractários.
+             As intervenções contribuíram para a mudança visual destes bairros, que ganharam um novo aspecto.
+             É a base de toda a mobilidade física destes animais.
+             As pessoas que mais tem me auxiliado ao longo destes anos também estão cansadas, até mesmo esgotadas.
+             Meu corpo já está sentindo a sequência de enfermidades ao longo destes anos.
+             Muitas das violências e violações estão vinculadas à negação ao direito territorial destes povos.
+             As intervenções contribuíram para a mudança visual destes bairros, que ganharam um novo aspecto.
+             É a base de toda a mobilidade física destes animais.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>

@@ -9526,6 +9526,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
 
 
+        <rule id='COMPARADA_COMPARÁVEL' name="'Comparada' a → Comparável" type='style' tone_tags='academic' is_goal_specific='true' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' regexp='yes' inflected='yes'>capacidade|processo|fenómeno|fenômeno|mecanismo|estrutura|dinâmica|função|propriedade|característica|qualidade|natureza|sistema|modelo|paradigma|conceito|noção|abordagem|estratégia|metodologia|método|lógica|princípio|relação|interação|configuração|dimensão|aspecto|padrão|forma|organização|estruturação</token> <!-- substantivos abstratos mais comuns em teses ChatGPT 5.2 -->
+                <token postag='VMI[IP].+' postag_regexp='yes' inflected='yes'>ser</token> <!-- The safest 'VMI[IP].+' -->
+                <marker>
+                    <token regexp='yes'>comparad[ao]s?</token>
+                </marker>
+                <token regexp='yes'>a|às?|aos?</token>
+            </pattern>
+            <message>Em escrita académica, &quot;comparável&quot; é frequentemente preferido a &quot;comparada&quot; por expressar semelhança de forma mais objetiva.</message>
+            <suggestion><match no='3' postag='VMP00(.).' postag_replace='AQ0C$10'>comparável</match></suggestion>
+            <example correction="comparável">Tal capacidade é <marker>comparada</marker> à possibilidade de vencer.</example>
+            <example correction="comparáveis">Tais capacidades são <marker>comparadas</marker> às possibilidades de vencer.</example>
+        </rule>
+
         <rule id='DIFERENTES_DISTINTOS' name="Diferentes → distintos" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
