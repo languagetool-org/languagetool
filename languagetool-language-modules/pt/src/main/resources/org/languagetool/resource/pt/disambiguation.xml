@@ -5845,6 +5845,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
+  <rule id="VERB_2S_TO_VERB_3S_20260118_RARE" name="It is VMIP3S0">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='VMM02S0'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMM02S0"/>
+    <!--
+    Examples:
+             Por isso uma obra pode ter vários números ISBN diferentes.
+             Seu nome vem do personagem mitológico grego Leucoteia.
+             Esvaziada de seu poder, a Assembleia convoca a eleição de uma Convenção Nacional.
+             No calendário litúrgico tem a letra dominical A para o dia da semana.
+             Ou seja, todo experimento está sujeito a uma incerteza.
+             Os bailarinos dançam com as mãos mantendo as mãos acima da cabeça, por vezes acompanhando com castanholas.
+             O sorriso convida à abertura e ao relaxamento.
+             O desdobramento das cadeias musculares encontra seu espaço nas espirais.
+             O movimento da mão tem sua fonte e sua força nos pés.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
