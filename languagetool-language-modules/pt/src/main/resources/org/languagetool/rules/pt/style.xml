@@ -9542,7 +9542,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="comparáveis">Tais capacidades são <marker>comparadas</marker> às possibilidades de vencer.</example>
         </rule>
 
-
         <rule id='DIFERENTES_DISTINTOS' name="Diferentes → distintos" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
@@ -11349,10 +11348,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rule id='EVIDENCIAR_COMPROVAR_DEMONSTRAR' name="[Universitário] Mostrar → evidenciar/comprovar/demonstrar" type='style' tags='picky' tone_tags='academic'>
+
+            <antipattern>
+                <token skip='2' inflected='yes'>mostrar</token>
+                <token regexp='yes' inflected='yes'>imagem|figura|fotografia|foto|ilustração|quadro|frame|slide|diagrama|esquema|mapa</token>  <!-- ChatGPT 5.2: lista mínima e conservadora, focada apenas em objetos visuais inequívocos, com baixo risco de mascarar usos académicos legítimos. -->
+                <example>E oculta-os durante a simulação, mostrando a imagem original do local.</example>
+            </antipattern>
+
             <pattern>
                 <token regexp='yes' inflected='yes' skip='1'>abordagem|achado|amostra|análise|artigo|avaliação|caso|cenário|coleta|comparação|conceito|consulta|contexto|critério|dado|diagnóstico|dissertação|documento|enquadramento|ensaio|entrevista|equação|estratégia|estudo|evidência|exemplo|experiência|experimento|fen[óô]meno|ferramenta|fórmula|framework|gráfico|hipótese|indicador|inquérito|instrumento|investigação|levantamento|mapa|mecanismo|método|métrica|modelo|monografia|observação|padrão|paradigma|parâmetro|pesquisa|prática|pressuposto|princípio|procedimento|processo|projeto|protocolo|relatório|resultado|revisão|simulação|sistema|sondagem|tabela|técnica|tecnologia|tendência|teoria|tese|teste|trabalho|variável</token>
                 <marker>
-                    <token regexp='no' inflected='yes'>mostrar</token>
+                    <token inflected='yes'>mostrar</token>
                 </marker>
             </pattern>
             <message>Num contexto formal/universitário, é preferível escrever &quot;evidenciar&quot;, &quot;comprovar&quot; ou &quot;demonstrar&quot;.</message>
