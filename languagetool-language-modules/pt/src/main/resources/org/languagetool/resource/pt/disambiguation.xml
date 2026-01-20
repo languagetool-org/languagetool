@@ -5915,6 +5915,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
+  <rule id="VERB_TO_NC_ADJ_OTHER_20260120_RARE" name="It is NC.+/AQ.+">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP2S0"/>
+    <!--
+    Examples:
+             Uma das primeiras grandes batalhas que ele teve foi entre as guilds Rise Against vs Hive.
+             Em fevereiro, a mudança veio de fora para dentro nas situações transformadoras externas representadas pelo raio que atinge A Torre.
+             Das vinte maiores empresas de petróleo do mundo, 15 são estatais.
+             Eu tive algumas conversas muito profundas enquanto selecionava peças de quebra-cabeças.
+             Os cem melhores poetas brasileiros do século, 2ª edição.
+             A peça marca datas especiais e traz um certo brilho para todo o ambiente.
+             Este veneno mata baratas, mas não é eficaz para ratos.
+             As folhas secas eram levadas pelo vento como plumas.
+             O que são estrelas fixas?
+             Minha mulher ama novelas românticas.
+             Fez ao professor várias perguntas.
+             Na Espanha, serve-se o almoço lá pelas duas.
+             Minha esposa pinta aquarelas.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
