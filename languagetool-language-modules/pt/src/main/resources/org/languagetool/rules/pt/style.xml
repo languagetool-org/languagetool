@@ -9542,7 +9542,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="comparáveis">Tais capacidades são <marker>comparadas</marker> às possibilidades de vencer.</example>
         </rule>
 
-
         <rule id='DIFERENTES_DISTINTOS' name="Diferentes → distintos" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
@@ -11349,17 +11348,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rule id='EVIDENCIAR_COMPROVAR_DEMONSTRAR' name="[Universitário] Mostrar → evidenciar/comprovar/demonstrar" type='style' tags='picky' tone_tags='academic'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token skip='2' inflected='yes'>mostrar</token>
+                <token regexp='yes' inflected='yes'>imagem|figura|fotografia|foto|ilustração|quadro|print|captura|screenshot|frame|slide|diagrama|esquema|mapa|animação|vídeo|interface|ecrã|janela|painel|vista|prévia|preview|projeção|layout|mockup</token> <!-- ChatGPT 5.2: Lista revista e afinada (conservadora, mas ampla) -->
+                <example>E oculta-os durante a simulação, mostrando a imagem original do local.</example>
+            </antipattern>
+
             <pattern>
-                <token regexp='yes' inflected='yes' skip='1'>abordagem|achado|amostra|análise|artigo|avaliação|caso|cenário|coleta|comparação|conceito|consulta|contexto|critério|dado|diagnóstico|dissertação|documento|enquadramento|ensaio|entrevista|equação|estratégia|estudo|evidência|exemplo|experiência|experimento|fen[óô]meno|ferramenta|fórmula|framework|gráfico|hipótese|indicador|inquérito|instrumento|investigação|levantamento|mapa|mecanismo|método|métrica|modelo|monografia|observação|padrão|paradigma|parâmetro|pesquisa|prática|pressuposto|princípio|procedimento|processo|projeto|protocolo|relatório|resultado|revisão|simulação|sistema|sondagem|tabela|técnica|tecnologia|tendência|teoria|tese|teste|trabalho|variável</token>
+                <token regexp='yes' inflected='yes' skip='1'>abordagem|achado|amostra|análise|artigo|avaliação|caso|cenário|coleta|comparação|conceito|consulta|contexto|critério|dado|diagnóstico|dissertação|documento|enquadramento|ensaio|entrevista|equação|estratégia|estudo|evidência|experiência|experimento|fen[óô]meno|fórmula|framework|hipótese|indicador|inquérito|instrumento|investigação|levantamento|mecanismo|método|métrica|modelo|monografia|padrão|paradigma|parâmetro|pesquisa|prática|pressuposto|princípio|procedimento|processo|projeto|protocolo|relatório|resultado|revisão|sondagem|técnica|tecnologia|tendência|teoria|tese|teste|trabalho|variável</token> <!-- ChatGPT 5.2 suggested skip='1' -->
                 <marker>
-                    <token regexp='no' inflected='yes'>mostrar</token>
+                    <token inflected='yes'>mostrar</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal/universitário, é preferível escrever &quot;evidenciar&quot;, &quot;comprovar&quot; ou &quot;demonstrar&quot;.</message>
+            <message>Num contexto formal/universitário, é preferível escrever &quot;evidenciar&quot;, &quot;comprovar&quot;, &quot;indicar&quot; ou &quot;demonstrar&quot;.</message>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>evidenciar</match></suggestion>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>comprovar</match></suggestion>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>demonstrar</match></suggestion>
-            <example correction="evidencia|comprova|demonstra">A pesquisa <marker>mostra</marker> que os resultados são os esperados.</example>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>indicar</match></suggestion>
+            <example correction="evidencia|comprova|demonstra|indica">A pesquisa <marker>mostra</marker> que os resultados são os esperados.</example>
             <example>O estudo evidencia um enorme grau de sucesso.</example>
         </rule>
 
