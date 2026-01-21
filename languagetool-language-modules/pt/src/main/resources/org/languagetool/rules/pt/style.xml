@@ -9542,6 +9542,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="comparáveis">Tais capacidades são <marker>comparadas</marker> às possibilidades de vencer.</example>
         </rule>
 
+
+        <rule id='POR_INF_EM_VIRTUDE_DE' name="'por' + Verbo infinitivo → em virtude de" type='style' tone_tags='academic' is_goal_specific='true' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag='_PUNCT'/>
+                <marker>
+                    <token>por</token>
+                </marker>
+                <token postag='VMN.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Num contexto formal/científico, pode ser preferível substituir &quot;, por + infinitivo&quot; (valor causal) por uma construção mais explícita (p. ex., &quot;devido a&quot;, &quot;em virtude de&quot;, &quot;em razão de&quot;, &quot;pelo facto/fato de&quot;).</message>
+            <suggestion>devido a</suggestion>
+            <suggestion>em virtude de</suggestion>
+            <suggestion>em razão de</suggestion>
+            <suggestion>pelo facto de</suggestion>
+            <suggestion>pelo fato de</suggestion>
+            <example correction="devido a|em virtude de|em razão de|pelo facto de|pelo fato de">O autor é referido, <marker>por</marker> ter estabelecido as bases fundamentais da disciplina.</example>
+            <example correction="devido a|em virtude de|em razão de|pelo facto de|pelo fato de">Os investigadores são citados, <marker>por</marker> terem demonstrado resultados consistentes.</example>
+        </rule>
+
+
         <rule id='DIFERENTES_DISTINTOS' name="Diferentes → distintos" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
