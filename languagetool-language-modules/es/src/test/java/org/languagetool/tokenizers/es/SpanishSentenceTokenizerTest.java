@@ -115,6 +115,8 @@ public class SpanishSentenceTokenizerTest {
     testSplit("El medicamento se administró pb. dos veces al día.");
     testSplit("La reunión se realizará en la 3a. sala del edificio principal.");
     testSplit("El informe médico indica Dx. confirmado de neumonía.");
+    testSplit("Cursó la lic. en Administración de Empresas.");
+    testSplit("Cursó la Lic. En Administración de Empresas.");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("cuando G.Oueddei se convierte en líder");
