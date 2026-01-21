@@ -9546,11 +9546,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rule id='POR_INF_EM_VIRTUDE_DE' name="'por' + Verbo infinitivo → em virtude de" type='style' tone_tags='academic' is_goal_specific='true' default='temp_off'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token postag='_PUNCT'/>
+                <token postag='_PUNCT_COMMA'/>
                 <marker>
                     <token>por</token>
                 </marker>
-                <token postag='VMN.+' postag_regexp='yes'/>
+                <token postag='VMN.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='_PUNCT_COMMA|SENT_END'/></token>
             </pattern>
             <message>Num contexto formal/científico, pode ser preferível substituir &quot;, por + infinitivo&quot; (valor causal) por uma construção mais explícita (p. ex., &quot;devido a&quot;, &quot;em virtude de&quot;, &quot;em razão de&quot;, &quot;pelo facto/fato de&quot;).</message>
             <suggestion>devido a</suggestion>
@@ -9560,6 +9560,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>pelo fato de</suggestion>
             <example correction="devido a|em virtude de|em razão de|pelo facto de|pelo fato de">O autor é referido, <marker>por</marker> ter estabelecido as bases fundamentais da disciplina.</example>
             <example correction="devido a|em virtude de|em razão de|pelo facto de|pelo fato de">Os investigadores são citados, <marker>por</marker> terem demonstrado resultados consistentes.</example>
+            <example>A Ana só tem, por ter.</example>
+            <example>Os relatórios, por fazer, serão concluídos amanhã.</example>
         </rule>
 
 
