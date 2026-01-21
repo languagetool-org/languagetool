@@ -2858,7 +2858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
   </rulegroup>
 
-<rule id="CLITIC_AS_SUBJECT_TE_SER" name="[pt-PT] te → tu (sujeito)" default="temp_off">
+<rule id="CLITIC_AS_SUBJECT_TE_SER" name="[pt-PT] te → tu (sujeito)">
   <pattern>
     <token postag="SENT_START" postag_regexp="no"/>
     <marker>
@@ -2871,7 +2871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <example correction="Tu"> <marker>Te</marker> és muito inteligente.</example>
 </rule>
 
-<rule id="CLITIC_AS_SUBJECT_ME_SER" name="[pt-PT] me → eu (sujeito)" default="temp_off">
+<rule id="CLITIC_AS_SUBJECT_ME_SER" name="[pt-PT] me → eu (sujeito)">
   <pattern>
     <token postag="SENT_START" postag_regexp="no"/>
     <marker>
@@ -4360,6 +4360,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 <rulegroup id='AO45_CARDINAL_POINTS_CASING' type='grammar' name='[pt-PT][AO45] Capitalização de Pontos Cardeais'>
+
+              <antipattern>
+                  <token regexp='yes'>que|e|ou</token>
+                  <token regexp='yes' case_sensitive='yes'>l?este|oriente</token>
+                  <token postag='RM|[DP].+|PP3CNO00' postag_regexp='yes'/>
+                  <example>Inexistência de um objetivo global que oriente coletivamente o movimento.</example>
+                  <example>Havia um livro que leste realmente.</example>
+                  <example>Tu o saberás; enquanto isso, roguemos a Deus que oriente nossos atos e decisões no sentido da glória de seu nome.</example>
+                  <example>Tem de obedecer ao general e este se encontra ferido.</example>
+                  <example>Jacó aproximou-se de Isaac, e este o apalpou.</example>
+                  <example>Outro amor algum dia há de ser encontrado, e este meu coração vai voltar a querer.</example>
+                  <example>Antonia, insisto pela última vez, que escolha entre mim e este seu irmão escandaloso.</example>
+              </antipattern>
+
     <rule>
         <pattern case_sensitive='yes'>
             <marker>

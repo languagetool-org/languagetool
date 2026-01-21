@@ -4001,6 +4001,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <disambig postag="NCMP000"/>
   </rule>
 
+  <rule id="SÃO_VERB_20260115" name="In this case SÃO is VMIP3P0">
+    <pattern>
+      <token postag='AQ..P.+|NC.P.+|(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP3P0'/>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='VMP00P.+|AQ..P.+|NC.P.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="filter" postag="VMIP3P0"/>
+    <!--
+    Examples:
+             Estes cookies são definidos por terceiros, tais como as redes sociais.
+             Suas asas são vermelhas como o sangue, por isso ganhou esse nome.
+             Mas a maneira que tais átomos são postos juntos.
+             Os cidadãos são consumidores, além das fronteiras do Estado-nação.
+             Extraída a polpa, as sementes são lavadas e postas para secar em local ventilado e seco.
+             Os rodízios são referidos coletivamente como rodízios móveis e rodízios fixos.
+             Mas a ideia que tentam passar para fora é a de que as pessoas são mal-educadas.
+             Quantos informáticos são precisos para mudar uma lâmpada?
+             Passeios de barco e atrações musicais são oferecidos à beira do rio.
+             As fundações públicas são denominadas pela doutrina brasileira especializada como fundações governamentais.
+             Murphy é rapidamente declarado morto e seus restos mortais são escolhidos para o programa RoboCop.
+    -->
+  </rule>
+
+  <rule id="HÁ_VERB_20260116" name="In this case HÁ is VMIP3S0">
+    <pattern>
+      <marker>
+        <and>
+          <token>há</token>
+          <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='Z0.+|NC.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="filter" postag="VMIP3S0"/>
+    <!--
+    Examples:
+             Aos meus Pais e Irmão que me toleram há 52 anos.
+             Há dois obstáculos a se evitar : a rigidez e a moleza.
+             Há controvérsia relativa à grafia correta do termo, bem como de seu plural.
+             Há duas formas de bater para cada dupla.
+             Há uma variação considerável na magnitude dos riscos dependendo do local da mutação no gene.
+             Não há artigos.
+             A probabilidade de sobreviver é recalculada somente nos intervalos em que há morte.
+             «Há 25 anos, Steffi Graf tocava o céu com sua raquete».
+             Há uma lacuna nos registros quando ele viveu em Paris, já que os irmãos moravam juntos.
+    -->
+  </rule>
+
   <rule id="NP_UNKNOWN_VMIP3S0_VMM02S0_20251127" name="It is VMIP3S0">
     <!-- ChatGPT 5 -->
     <pattern>
@@ -4821,7 +4875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- False verbs after "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
     <pattern>
       <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+|VMG0000'/></token>
-      <token regexp="yes">pel[ao]s?|como|sobre|acerca|el[ae]s?|logo</token>
+      <token regexp="yes">pel[ao]s?|como|sobre|acerca|el[ae]s?|logo<exception postag_regexp='yes' scope='next' postag='VMN000.+'/></token>
       <marker>
         <token postag='V.+' postag_regexp='yes'/>
         <token postag='NC.+' postag_regexp='yes'/>
@@ -5761,6 +5815,133 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
              Por que as aulas convencionais de idiomas são tão enfadonhas?
              Era apelidado de "Testina d'Oro" ("Testinha de Ouro") pelos frequentes gols de cabeça.
              Estes aniões são as bases conjugadas dos polissulfetos de hidrogênio H2S"n".
+      -->
+  </rule>
+
+  <rule id="VERB_TO_SPS_20260119_RARE" name="It is SPS not VMIS2.+">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIS2.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Uma edição especial que pretende revelar o poder criativo destes artistas
+             Uma parte significativa destes doentes refractários.
+             As intervenções contribuíram para a mudança visual destes bairros, que ganharam um novo aspecto.
+             É a base de toda a mobilidade física destes animais.
+             As pessoas que mais tem me auxiliado ao longo destes anos também estão cansadas, até mesmo esgotadas.
+             Meu corpo já está sentindo a sequência de enfermidades ao longo destes anos.
+             Muitas das violências e violações estão vinculadas à negação ao direito territorial destes povos.
+             As intervenções contribuíram para a mudança visual destes bairros, que ganharam um novo aspecto.
+             É a base de toda a mobilidade física destes animais.
+             Fui hoje a um musical do qual faz parte meu ator favorito. É o musical imperdível deste ano.
+             Não faça pouco caso deste conselho.
+             Vá para a página principal deste curso.
+             Também fiz a cobertura jornalística deste encontro, que durou quase uma semana, mas já pelo GLOBO.
+             Sim, existem alguns pontos menores, no entanto isso não invalida a qualidade geral deste set.
+      -->
+  </rule>
+
+  <rule id="VERB_2S_TO_VERB_3S_20260118_RARE" name="It is VMIP3S0">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='VMM02S0'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMM02S0"/>
+    <!--
+    Examples:
+             Por isso uma obra pode ter vários números ISBN diferentes.
+             Seu nome vem do personagem mitológico grego Leucoteia.
+             Esvaziada de seu poder, a Assembleia convoca a eleição de uma Convenção Nacional.
+             No calendário litúrgico tem a letra dominical A para o dia da semana.
+             Ou seja, todo experimento está sujeito a uma incerteza.
+             Os bailarinos dançam com as mãos mantendo as mãos acima da cabeça, por vezes acompanhando com castanholas.
+             O sorriso convida à abertura e ao relaxamento.
+             O desdobramento das cadeias musculares encontra seu espaço nas espirais.
+             O movimento da mão tem sua fonte e sua força nos pés.
+      -->
+  </rule>
+
+  <rule id="VERB_TO_NC_ADJ_20260119_RARE" name="It is NC.+/AQ.+">
+    <pattern>
+      <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+      <token postag='CC'/>
+      <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+        <and>
+          <token postag='VMI[IP]2P0|VMSP2S0' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Não é certamente descrito que este animal seja capaz de habitar além de locais úmidos e várzeas florestais.
+             Na astrologia, o signo de sagitário tem como elemento de regência natural o fogo e regências sazonais em terra e vento.
+             Passeios de barco e atrações musicais são oferecidos à beira do rio.
+             Conclusão e considerações finais.
+             Todos os preços e condições comerciais estão sujeitos a alteração sem aviso prévio.
+             Costa e… o Partido dos Trabalhadores, pela sua direção nacional e bancadas federais ficam na defensiva.
+             Se você gostaria de jogar jogos de tiro parecidos e muito legais, confira Mr. Bullet e Gun Blood.
+             São divertidas, espontâneas e nada convencionais.
+             Eles trabalham diretamente com outras instituições de caridade, parceiros e comunidades locais.
+             Onde estavam os prefeitos e governadores responsáveis pelas obras exigidas pela Fifa?
+             Ouço piropos e comentários desagradáveis.
+             Deus não poderia reivindicar seus direitos por difamação,calúnia e danos morais?
+             Produto sem aromas e corantes artificiais.
+             Atendimento por telefone, e-mail, chat, trocas, cancelamentos e dúvidas frequentes.
+             Nele, a jovem aparece com diferentes visuais e sintomas aparentes.
+             milk-shakes além de sucos de fruta, açaí e waffles doces e salgados.
+             Uma grande festa com pizza, doces, refrigerantes e muitos brindes encerrará o encontro.
+             Posso falar sobre os melhores serviços, dicas para uma saúde e bem-estar melhores e qualquer coisa que me ocorra.
+             Ela passou um filme super poético, belíssimo, daqueles que merecem ser assistidos várias e várias vezes!
+             As repercussões fetais foram transitórias com o uso de efedrina e menos frequentes com uso de fenilefrina.
+      -->
+  </rule>
+
+  <rule id="VERB_TO_NC_ADJ_OTHER_20260120_RARE" name="It is NC.+/AQ.+">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP2S0"/>
+    <!--
+    Examples:
+             Uma das primeiras grandes batalhas que ele teve foi entre as guilds Rise Against vs Hive.
+             Em fevereiro, a mudança veio de fora para dentro nas situações transformadoras externas representadas pelo raio que atinge A Torre.
+             Das vinte maiores empresas de petróleo do mundo, 15 são estatais.
+             Eu tive algumas conversas muito profundas enquanto selecionava peças de quebra-cabeças.
+             Os cem melhores poetas brasileiros do século, 2ª edição.
+             A peça marca datas especiais e traz um certo brilho para todo o ambiente.
+             Este veneno mata baratas, mas não é eficaz para ratos.
+             As folhas secas eram levadas pelo vento como plumas.
+             O que são estrelas fixas?
+             Minha mulher ama novelas românticas.
+             Fez ao professor várias perguntas.
+             Na Espanha, serve-se o almoço lá pelas duas.
+             Minha esposa pinta aquarelas.
       -->
   </rule>
 
