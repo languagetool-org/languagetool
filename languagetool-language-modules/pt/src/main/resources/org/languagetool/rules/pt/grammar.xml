@@ -6,7 +6,7 @@
 Portuguese - Grammar and Typo Rules for LanguageTool.
 
 See tagset.txt for the meaning of the POS tags.
-Copyright © 2001-2026 Daniel Naber (http://www.danielnaber.de),
+Copyright © 2001-2026 Daniel Naber (https://www.danielnaber.de),
 Marcin Miłkowski, and the LanguageTool contributors.
 
 This library is free software; you can redistribute it and/or
@@ -3468,8 +3468,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
         <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordância: A + Masculino">
 
+            <antipattern> <!-- ChatGPT 5.2 -->
+                <token regexp='yes' inflected='yes'>aceder|aludir|assistir|aspirar|atender|chegar|corresponder|dar|dedicar|dirigir|obedecer|pertencer|proceder|recorrer|referir|responder|resistir|retornar|voltar</token>
+                <token>a</token>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <example>Ele fá-lo recorrendo a software que simula batalhas.</example>
+                <example>Em 1749 chegou a Portugal, mas enquanto viveu D. João V, não conseguiu nova função.</example>
+                <example>Finalmente as partes chegaram a acordo e se chegou à paz.</example>
+                <example>Em 1734, Dom Frei Antônio de Guadalupe ergue, então, uma capela dedicada a Santo Antônio.</example>
+                <example>Recorri a empréstimo bancário para esta nova aquisição, estando ainda devedor ao banco de 173.000€.</example>
+                <example>No fundo, as nossas forças são bem fracas para chegar a Deus.</example>
+                <example>Voltaste a Portugal.</example>
+                <example>Assistiu-se a bom futebol no Campo de Jogos do Pego.</example>
+                <example>De forma análoga, impostos correspondem a dinheiro que é retirado de circulação.</example>
+                <example>Dado a reduzido nº de tiragem das separatas factícias, este voluminho é bastane raro.</example>
+                <example>Lembre-se que sem a sensibilidade e a empatia, não chegará a lugar algum.</example>
+                <example>Ainda chegaram a ponto de especular se a mulher tinha ou não uma alma.</example>
+            </antipattern>
             <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
                 <token>a</token>
                 <token><match no='0'/></token>
                 <example>Quero um combate corpo a corpo.</example>
