@@ -9526,6 +9526,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
 
 
+        <rule id='O_USO_DE_X_X' name="Verbo + 'o uso de X' → X" type='style' tone_tags='academic' is_goal_specific='true' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token regexp='yes' inflected='yes'>evitar|reduzir|minimizar|mitigar|prevenir|eliminar|diminuir|controlar|limitar|conter|suprimir</token>
+                <marker>
+                    <token>o</token>
+                    <token>uso</token>
+                    <token>de</token>
+                    <token regexp='yes' inflected='yes'>valor|inconsistência|ambiguidade|ruído|instabilidade|redundância|viés|sobreajuste|degradação|erro|falha|artefato|discrepância|distorção|atraso|interferência|perda|impacto|variabilidade|incerteza|oscilação|imprecisão|incoerência|anomalia|irregularidade|desvio|contaminação|propagação|acumulação|saturação</token>
+                </marker>
+            </pattern>
+            <message>A expressão &quot;o uso de&quot; é redundante com substantivos que denotam propriedades ou fenómenos indesejáveis.</message>
+            <suggestion>\5</suggestion>
+            <example correction="valores">A equação deve evitar <marker>o uso de valores</marker> negativos.</example>
+        </rule>
+
+
         <rule id='COMPARADA_COMPARÁVEL' name="'Comparada' a → Comparável" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
