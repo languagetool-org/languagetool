@@ -264,5 +264,14 @@ public class JLanguageToolTest {
     assertEquals(1, matches.length);
   }
 
+  @Test
+  public void testCatalanLongSentenceRule() throws IOException {
+    List<RuleMatch> matches = tool.check(
+      "En una tarda grisa que avançava sense pressa sobre els carrers estrets de la ciutat, mentre els comerços abaixaven persianes i el soroll del trànsit es diluïa en un murmuri constant, un home caminava pensant en decisions ajornades, en paraules no dites i en projectes que havia volgut compondre amb rigor, però que el cansament havia anat desfigurant i, així i tot, convençut que encara disposava de prou lucidesa per a ordenar les idees, assumir els errors, fer servir l’experiència acumulada com a criteri i continuar avançant amb una determinació menys impulsiva però més sòlida."
+      , JLanguageTool.Level.PICKY);
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[desfigurant. I]");
+
+  }
+
 
 }

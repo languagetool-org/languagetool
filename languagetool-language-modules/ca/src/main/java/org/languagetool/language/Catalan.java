@@ -132,7 +132,9 @@ public class Catalan extends Language {
             new SimpleReplaceDNVColloquialRule(messages, this),
             new SimpleReplaceDNVSecondaryRule(messages, this),
             new WordCoherencyRule(messages),
-            new PunctuationMarkAtParagraphEnd(messages, this)
+            new PunctuationMarkAtParagraphEnd(messages, this),
+            new CatalanRemoteRule(messages, userConfig),
+            new CatalanSplitLongSentenceRule(messages, userConfig, 60)
     );
   }
 
@@ -279,6 +281,7 @@ public class Catalan extends Language {
       case "PRONOM_FEBLE_HI": return 20; // greater than HAVER_PARTICIPI_HAVER_IMPERSONAL
       case "HAVER_PARTICIPI_HAVER_IMPERSONAL": return 15; // greater than ACCENTUATION_CHECK
       case "SE_LI_VA_FER_CALLAR": return 15;
+      case "CA_REMOTE_RULE": return 15;
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "POSTULARSE": return 10;
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
@@ -352,9 +355,10 @@ public class Catalan extends Language {
       case "PUNCTUATION_PARAGRAPH_END": return -200;
       case "CA_END_PARAGRAPH_PUNCTUATION": return -250;
       case "DICENDI_QUE": return -250;
-      case "UPPERCASE_SENTENCE_START": return -500;
-      case "MAJUSCULA_IMPROBABLE": return -500;
-      case "ELA_GEMINADA_WIKI": return -500;
+      case "UPPERCASE_SENTENCE_START": return -300;
+      case "MAJUSCULA_IMPROBABLE": return -300;
+      case "ELA_GEMINADA_WIKI": return -300;
+      case "CA_SPLIT_LONG_SENTENCE": return -90;
     }
     if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
       return -95;

@@ -26,7 +26,7 @@ public class PseudoMatch {
   private final int fromPos;
   private final int toPos;
 
-  PseudoMatch(String replacement, int fromPos, int toPos) {
+  public PseudoMatch(String replacement, int fromPos, int toPos) {
     this.replacements = new ArrayList<>();
     this.replacements.add(replacement);
     this.fromPos = fromPos;
@@ -37,6 +37,13 @@ public class PseudoMatch {
     return this.replacements;
   }
 
+  public String getReplacement() {
+    if (replacements != null && replacements.size() > 0) {
+      return this.replacements.get(0);
+    }
+    return null;
+  }
+
   public int getFromPos() {
     return this.fromPos;
   }
@@ -44,6 +51,7 @@ public class PseudoMatch {
   public int getToPos() {
     return this.toPos;
   }
+
 
   public String toString() {
     return String.valueOf(this.fromPos) + "-" + String.valueOf(this.toPos) + "-" + this.replacements.toString();
