@@ -4077,36 +4077,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='PRESO_RETIDO' name="Preso → retido" tone_tags='formal' tags='picky' default='temp_off'>
-            <antipattern>
-                <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
-                <token regexp='yes'>pres[ao]s?</token>
-                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
-                <token min='0' max='1' regexp='yes'>após|como|com|devido|durante|em|enquanto|n[ao]s?|para|pel[ao]s?|por|porqu[eê]|quando|que|sob</token>
-                <token min='0' max='1' regexp='yes'>[àao]s?|aos?|e|ou</token>
-                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
-                <token inflected='yes' regexp='yes'>acusação|acusado|advogado|assassinar|autoridade|cela|custódia|enganar|engano|esfaquear|estuprar|furtar|furto|GNR|juiz|julgamento|lapso|matar|molestar|PJ|polícia|político|posse|prisão|PSP|reincidência|roubar|roubo|torturado|torturar|tribunal|usurpação|usurpar</token>
-                <example>Depois de quatro anos de pregação, foi preso pelas autoridades pagãs.</example>
-                <example>Ela foi presa pela polícia.</example>
-                <example>Ele foi preso sob a acusação de conspirar contra a monarquia, mas foi liberado por falta de provas.</example>
-                <example>Rosso é posteriormente preso sob custódia da A.R.G.U.S.</example>
-                <example>Malvo foi inicialmente preso sob acusações federais, mas elas foram retiradas.</example>
-                <example>Ele foi preso acusado por evasão fiscal.</example>
-                <example>Tom foi preso por engano.</example>
-                <example>Luís XVI e Maria foram presos, acusados de traição ao país por colaborarem com os invasores.</example>
-                <example>Elemento mão de visgo é preso após furtar aparelho...</example>
-                <example>Nessa época, ele ainda não cantava, e chegou a ser preso e torturado.</example>
-                <example>Ele foi preso e assassinado durante a Revolução.</example>
-                <example>Ele foi preso porque roubou dinheiro. </example>
-            </antipattern>
+        <rule id='PRESO_RETIDO_V2' name="Preso → retido" tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
                 <marker>
-                    <token regexp='yes'>pres[ao]s?</token>
+                    <token postag='VMP00.+' postag_regexp='yes' regexp='yes'>pres[ao]s?</token>
                 </marker>
+                <token skip='1' regexp='yes'>em|n[oa]s?|nu(m|ns)|numas?</token>
+                <token regexp='yes' inflected='yes'>trânsito|tráfego|engarrafamento|congestionamento|fila|espera|bloqueio|interdição|paragem|paralisação|via|estrada|rodovia|auto-estrada|autoestrada|avenida|ciclovia|ponte|túnel|acesso|saída|rotunda|cruzamento|portagem|pedágio|aeroporto|terminal|porto|estação|plataforma|embarque|desembarque|check-in|checkin|inspeção|fiscalização|vistoria|controlo|controle|segurança|fronteira|alfândega|aduana|imigração|passaporte|bagagem|mala|encomenda|pacote|remessa|carga|mercadoria|contentor|contêiner|container|transportadora|correio|entrega|distribuição|triagem|armazém|depósito|despacho|expedição|liberação|desalfandegamento|desembaraço</token>
             </pattern>
             <message>Empregue &quot;retido&quot; em textos formais, salvo ao referir-se a prisão de liberdade.</message>
-            <suggestion>retid<match no='2' regexp_match='(pres)(.)(s?)' regexp_replace='$2$3'/></suggestion>
+            <suggestion><match no='1' postag='VMP00(..)' postag_replace='VMP00$1'>reter</match></suggestion>
             <example correction="retido">Estou <marker>preso</marker> no trânsito.</example>
             <example>A Ana está retida no congestionamento a caminho do trabalho.</example>
             <example>O documento foi retido na alfândega.</example>
