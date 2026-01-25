@@ -4080,6 +4080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rule id='PRESO_RETIDO_V2' name="Preso → retido" tone_tags='formal' default='temp_off'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
+                <token postag='SENT_START|_PUNCT|V.+' postag_regexp='yes'><exception regexp='no' inflected='yes'>ser</exception></token> <!-- Só dispara com verbos típicos de estado (não com "ser" na passiva: foram presos...) -->
                 <marker>
                     <token postag='VMP00.+' postag_regexp='yes' regexp='yes'>pres[ao]s?</token>
                 </marker>
@@ -4087,10 +4088,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes' inflected='yes'>trânsito|tráfego|engarrafamento|congestionamento|fila|espera|bloqueio|interdição|paragem|paralisação|via|estrada|rodovia|auto-estrada|autoestrada|avenida|ciclovia|ponte|túnel|acesso|saída|rotunda|cruzamento|portagem|pedágio|aeroporto|terminal|porto|estação|plataforma|embarque|desembarque|check-in|checkin|inspeção|fiscalização|vistoria|controlo|controle|segurança|fronteira|alfândega|aduana|imigração|passaporte|bagagem|mala|encomenda|pacote|remessa|carga|mercadoria|contentor|contêiner|container|transportadora|correio|entrega|distribuição|triagem|armazém|depósito|despacho|expedição|liberação|desalfandegamento|desembaraço</token>
             </pattern>
             <message>Empregue &quot;retido&quot; em textos formais, salvo ao referir-se a prisão de liberdade.</message>
-            <suggestion><match no='1' postag='VMP00(..)' postag_replace='VMP00$1'>reter</match></suggestion>
+            <suggestion><match no='2' postag='VMP00(..)' postag_replace='VMP00$1'>reter</match></suggestion>
             <example correction="retido">Estou <marker>preso</marker> no trânsito.</example>
             <example>A Ana está retida no congestionamento a caminho do trabalho.</example>
             <example>O documento foi retido na alfândega.</example>
+            <example>Vários traficantes foram presos na fronteira com o Paraguai.</example>
         </rule>
 
 
