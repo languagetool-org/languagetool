@@ -3569,6 +3569,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='A_WORD' name="Concordância: A + palavra">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
 
+            <antipattern> <!-- Copied from rule ID:ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A - 2026-01-26 -->
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token><match no='0'/></token>
+                <example>Quero um combate corpo a corpo.</example>
+                <example>Então bora começar, vestido ombro a ombro a saia de tule, detalhes em guipir no peito, confira agora as fotos!</example>
+                <example>A partir daí, cada ISBN tem um preço bem menor que você tira livro a livro que for publicar.</example>
+                <example>Estes são engates rápidos mono que transportam mídia de maneira coaxial (tubo a tubo).</example>
+                <example>Ele desabotoava-lhe o vestido botão a botão.</example>
+                <example>Polícia faz controlo carro a carro na entrada para a Ponte 25 de Abril no sentido Lisboa-Almada.</example>
+                <example>A partida é válida pela quinta rodada da competição e o GloboEsporte.com acompanha lance a lance pelo tempo real.</example>
+                <example>Parágrafo a parágrafo.</example>
+                <example>Quando perguntei-lhe, explicou-me ponto a ponto.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='VMN0000' postag_regexp='no'/>
+                <token min='1' max='2' postag='AQ.MP.+|N.MP.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <example>Aos sábados, ele sai com seu violão para fazer cultos e dar estudos bíblicos a pessoas da comunidade.</example>
+            </antipattern>
+
             <antipattern>
                 <token postag='RG' postag_regexp='no'/>
                 <token>a</token>
