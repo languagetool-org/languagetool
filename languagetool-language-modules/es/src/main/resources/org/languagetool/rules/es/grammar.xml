@@ -1874,6 +1874,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="como">Páginas con nombres ridículos <marker>cómo</marker> esta.</example>
         </rule>
         <rulegroup id="DIACRITICS_VERB_N_ADJ" name="nombres y adjetivos con tilde">
+            <antipattern>
+                <!-- "folia/folias" anatomical noun mistagged as verb -->
+                <token postag="SPS00" postag_regexp="yes"/>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes">folias?</token>
+                <token postag="AQ.*" postag_regexp="yes"/>
+                <example>Se describe prominencia de las folias cerebelosas del vermis.</example>
+            </antipattern>
             <antipattern case_sensitive="yes">
                 <token>Echo</token>
                 <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
@@ -20435,6 +20443,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural">
             <antipattern>
+                <token regexp="yes">segmento|lóbulo|lobulo|zona|región|region|área|area</token>
+                <token postag="DN0CP0"/>
+                <token postag="AQ0MS0|AQ0FS0" postag_regexp="yes"/>
+                <example>Imágenes hiperdensas puntiformes en segmento 6 hepático donde existe la posibilidad de pequeñas calcificaciones.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">grado|estadio|fase|tipo|nivel|clase</token>
                 <token regexp="yes">\d{1,2}|[IVX]+</token>
                 <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
@@ -35395,6 +35409,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!--NUMBER_DAYS_MONTH[11]-->
+                <antipattern>
+                    <token regexp="yes">31\.(11|0?[469])</token>
+                    <token regexp="yes">UH|HU|mm|cm|ml|mg|g|kg|%</token>
+                    <example>En el centro muestra una densidad de 31.6 UH a considerar absceso de etiología.</example>
+                </antipattern>
                 <antipattern>
                     <token regexp="yes">31[\.,]\d+</token>
                     <token regexp="yes">x|×</token>
