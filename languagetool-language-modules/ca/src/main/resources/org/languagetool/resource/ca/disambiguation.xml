@@ -8343,6 +8343,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="N.*"/>
     </rule>
+    <rule id="SENT_NECESSITAT" name="sent (sentir, no ser)">
+        <pattern>
+            <marker>
+                <token postag="VM.*" postag_regexp="yes">sent</token>
+            </marker>
+            <token>necessitat</token>
+        </pattern>
+        <disambig action="remove" postag="VSG00000"/>
+    </rule>
     <!-- ser + participi-->
     <rulegroup id="ser_participi" name="ser + participi">
         <!--<antipattern>
