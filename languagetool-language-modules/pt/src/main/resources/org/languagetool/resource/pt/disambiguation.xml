@@ -6,7 +6,7 @@
 Portuguese - Grammar and Typo Rules for LanguageTool.
 
 See tagset.txt for the meaning of the POS tags.
-Copyright © 2001-2026 Daniel Naber (http://www.danielnaber.de),
+Copyright © 2001-2026 Daniel Naber (https://www.danielnaber.de),
 Marcin Miłkowski, and the LanguageTool contributors.
 
 This library is free software; you can redistribute it and/or
@@ -5775,18 +5775,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
-  <rule id="NCAQ_DP_VERB_NOUN_PARTPASS_NC_AQ_20260112_RARE" name="It is NC.+/AQ.+ not VMSP2S0">
+  <rule id="NCAQ_DP_VERB_NOUN_PARTPASS_NC_AQ_20260126_RARE" name="It is NC.+/AQ.+ not VM[SI]P2S0">
     <pattern>
       <token postag='AQ..P.+|NC.P.+|(SPS00:)?[DP].+' postag_regexp='yes'/>
       <marker>
         <and>
-          <token postag='VMIP2S0'/>
+          <token postag='VM[SI]P2S0' postag_regexp='yes'/>
           <token postag='NC.+|AQ.+' postag_regexp='yes'/>
         </and>
       </marker>
       <token postag='VMP00P.+|AQ..P.+|NC.P.+' postag_regexp='yes'/>
     </pattern>
-    <disambig action="remove" postag="VMSP2S0"/>
+    <disambig action="remove" postag="VM[SI]P2S0"/>
     <!--
     Examples:
              Os alunos pintaram-na e decoraram-na com estrelas amarelas recheadas de belas mensagens.
