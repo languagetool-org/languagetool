@@ -3788,6 +3788,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id='FAZER_PROCEDER' name="Formalização: fazer → proceder a (atos administrativos)" type='style' tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token skip='1' postag='CS|V.+' postag_regexp='yes'><exception scope='previous' postag_regexp='yes' postag='PT.+'/>
+                    <exception scope='next' postag_regexp='yes' postag='PT.+'/></token>
+                <marker>
+                    <token inflected='yes'>fazer</token>
+                    <token skip='1' postag='DA.+' postag_regexp='yes'/>
+                </marker>
+                <token regexp='yes' inflected='yes'>pagamento|liquidação|transferência|regularização|cobrança|inscrição|cancelamento|ativação|validação|homologação|autorização|formalização|constituição|notificação|publicação|emissão|prorrogação|renovação<exception scope='previous' postag_regexp='yes' postag='SPS00:.+'/></token> <!-- Lista final — precisão máxima -->
+            </pattern>
+            <message>Em linguagem formal, prefira &quot;proceder a&quot; com este tipo de ação.</message>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>proceder</match> <match no='3' postag='DA0(..)0' postag_replace='SPS00:DA0$10'>a:o</match></suggestion>
+            <example correction="proceder ao">O Marco vai <marker>fazer o</marker> pagamento do livro.</example>
+            <example correction="proceder à">Como <marker>fazer a</marker> emissão da fatura?</example>
+            <example>Vou proceder ao seu pagamento imediato.</example>
+            <example>Como eu procedo ao seu pagamento?</example>
+        </rule>
+
+
         <rule id='MAIORES_PRINCIPAIS' name="Maiores → principais (plural apenas)" type='style' tone_tags='formal' tags='picky'>
             <!-- ChatGPT 5 -->
             <!-- Atenção: esta regra aplica-se apenas a "maiores" (plural).
