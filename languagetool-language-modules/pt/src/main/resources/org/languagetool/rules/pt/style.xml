@@ -3792,9 +3792,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
             <pattern>
-                <token postag='RG|V.+' postag_regexp='yes'>
+                <token postag='RG|V.+|SENT_START|_PUNCT' postag_regexp='yes'>
                     <exception inflected='yes'>ter</exception>
-                    <exception regexp='yes'>foi|foram|eram?</exception></token>
+                    <exception regexp='yes'>foi|foram|era|eram|sido</exception></token>
                 <token min='0' max='1' postag='PP.+' postag_regexp='yes'/> <!-- "eu", "tu", "ele", "você", etc. -->
                 <marker>
                     <token inflected='yes'>fazer</token>
