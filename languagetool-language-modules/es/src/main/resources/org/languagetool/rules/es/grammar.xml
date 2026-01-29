@@ -5408,6 +5408,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SE_CREO2" name="confusión: se creo/creó">
             <antipattern>
+                <token>modelo</token>
+                <token regexp="yes">[A-Z0-9].*</token>
+                <example>Se realizó estudio solicitado mediante Unidad de Tomografía de la marca: PHILIPS modelo ACCESS. </example>
+            </antipattern>
+            <antipattern>
                 <token>radio</token>
                 <token>de</token>
             </antipattern>
@@ -15526,6 +15531,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="superyó|superego">El <marker>súper-yo</marker> del psicoanálisis freudiano.</example>
             </rule>
             <rule>
+                <!-- Medical terms that are correctly written with a hyphen: beta-X -->
+                <antipattern>
+                    <token>beta</token>
+                    <token inflected="yes" regexp="yes">talasemia|2-microglobulina|antagonista|feniletilamina|fructofuranosidasa|fructosidasa</token>
+                    <example>Tenemos un  paciente con beta talasemia.</example>
+                </antipattern>
                 <pattern>
                     <token>beta</token>
                     <token min="0">-</token>
@@ -20109,6 +20120,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONCORDANCIA_ADJECTIVOS_NEUTROS" name="concordancias con adjetivos neutros">
             <antipattern>
+                <!-- Medical ellipsis: "la cortical superior" (cortical used substantivally) -->
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token>cortical</token>
+                <token postag="AQ.*" postag_regexp="yes"/>
+                <example>la cortical superior</example>
+                <example>la cortical medial</example>
+                <example>la cortical externa</example>
+            </antipattern>
+            <antipattern>
                 <!-- aposición -->
                 <token>la</token>
                 <token>variable</token>
@@ -21347,6 +21367,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
+            <antipattern>
+                <token>pes</token>
+                <token>anserina</token>
+            </antipattern>
             <antipattern>
                 <token postag="NCMP.*|AQ.MP.*" postag_regexp="yes"/>
                 <token>,</token>
@@ -27157,6 +27181,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MAMA" name="mama/mamá">
             <url>https://www.rae.es/dpd/mam%C3%A1</url>
+            <antipattern>
+                <token skip="-1" inflected="yes" regexp="yes">&context_mama_medical;</token>
+                <token regexp="yes">mama|mamas</token>
+                <example>Hay cambios postquirúrgicos en la mama.</example>
+            </antipattern>
             <antipattern>
                 <token>mama</token>
                 <token regexp="yes">izquierda|derecha</token>
