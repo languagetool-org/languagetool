@@ -28,6 +28,9 @@ import com.github.difflib.text.DiffRowGenerator;
 
 public class DiffsAsMatches {
 
+  private boolean filterOutApostropheDiffs = true;
+  private boolean joinContiguousMatches = true;
+
   public List<PseudoMatch> getPseudoMatches(String original, String revised) {
     List<PseudoMatch> matches = new ArrayList<>();
     List<String> origList = DiffRowGenerator.SPLITTER_BY_WORD.apply(original);
@@ -114,7 +117,74 @@ public class DiffsAsMatches {
       lastInlineDelta = inlineDelta;
 
     }
+    if (filterOutApostropheDiffs) {
+      matches = fiterOutApostropheDiffs(matches, original);
+    }
+    if (joinContiguousMatches) {
+      matches = joinContiguousMatches(matches, original);
+    }
     return matches;
+  }
+
+  /*
+   * Join all matches inside a segment
+   */
+  public PseudoMatch getJoinedMatch(List<PseudoMatch> pseudoMatches, String originalSentence, int patternFrom,
+                                     int patternTo) {
+    int minFrom = -1;
+    int maxTo = -1;
+    int previousTo = -1;
+    StringBuilder suggestion = new StringBuilder();
+    for (PseudoMatch pm : pseudoMatches) {
+      if ((minFrom != -1) && (maxTo == -1)
+        || (pm.getFromPos() >= patternFrom && pm.getToPos() <= patternTo)) {
+        maxTo = pm.getToPos();
+        if (minFrom == -1) {
+          minFrom = pm.getFromPos();
+        } else if (pm.getFromPos() > previousTo) {
+          suggestion.append(originalSentence.substring(previousTo, pm.getFromPos()));
+        }
+        suggestion.append(pm.getReplacements().get(0));
+      }
+      previousTo = pm.getToPos();
+    }
+    if (minFrom > -1 && maxTo > 0) {
+      return new PseudoMatch(suggestion.toString(), minFrom, maxTo);
+    }
+    return null;
+  }
+
+  private List<PseudoMatch> fiterOutApostropheDiffs(List<PseudoMatch> pseudoMatches, String original) {
+    List<PseudoMatch> results = new ArrayList<>();
+    for (PseudoMatch pm : pseudoMatches) {
+      if (!original.substring(pm.getFromPos(), pm.getToPos()).replace("’", "'")
+        .equals(pm.getReplacement().replace("’", "'"))) {
+        results.add(pm);
+      }
+    }
+    return results;
+  }
+
+  private List<PseudoMatch> joinContiguousMatches(List<PseudoMatch> pseudoMatches, String original) {
+    List<PseudoMatch> results = new ArrayList<>();
+    int previousToPos = -1;
+    for (PseudoMatch pm : pseudoMatches) {
+      if (previousToPos > -1 && pm.getFromPos() - previousToPos < 3) {
+        PseudoMatch previousPm = results.get(results.size() - 1);
+        StringBuilder replacementBuilder = new StringBuilder(previousPm.getReplacement());
+        if (previousPm.getToPos() < pm.getFromPos()) {
+          replacementBuilder.append(original.substring(previousPm.getToPos(), pm.getFromPos()));
+        }
+        replacementBuilder.append(pm.getReplacement());
+        PseudoMatch newPseudoPmatch = new PseudoMatch(replacementBuilder.toString(), previousPm.getFromPos(),
+          pm.getToPos());
+        results.set(results.size() - 1, newPseudoPmatch);
+      } else {
+        results.add(pm);
+      }
+      previousToPos = pm.getToPos();
+    }
+    return results;
   }
 
 }

@@ -126,13 +126,13 @@ public class DiffsAsMatchesTest {
     original = "I truely reserve.";
     revised = "I truly deserve.";
     matches = diffsAsMatches.getPseudoMatches(original, revised);
-    assertEquals(2, matches.size());
-    assertEquals("[truly]", matches.get(0).getReplacements().toString());
+    assertEquals(1, matches.size());
+    assertEquals("[truly deserve]", matches.get(0).getReplacements().toString());
     assertEquals(2, matches.get(0).getFromPos());
-    assertEquals(8, matches.get(0).getToPos());
-    assertEquals("[deserve]", matches.get(1).getReplacements().toString());
+    assertEquals(16, matches.get(0).getToPos());
+    /*assertEquals("[deserve]", matches.get(1).getReplacements().toString());
     assertEquals(9, matches.get(1).getFromPos());
-    assertEquals(16, matches.get(1).getToPos());
+    assertEquals(16, matches.get(1).getToPos());*/
     
     original = "}Describes how plants are important";
     revised = "It describes how plants are important";

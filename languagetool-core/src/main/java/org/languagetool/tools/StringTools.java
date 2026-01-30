@@ -45,6 +45,7 @@ public final class StringTools {
   private static final Pattern NONCHAR = compile("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]");
   private static final Pattern WORD_FOR_SPELLER = Pattern.compile("^[\\p{L}\\d\\p{P}\\p{Zs}]+$");
   private static final Pattern IS_NUMERIC = Pattern.compile("^[\\d\\s\\.,]*\\d$");
+  private static final Pattern TRIM_PATTERN = Pattern.compile("^[\\s\\u00A0]+|[\\s\\u00A0]+$");
 
   /**
    * Constants for printing XML rule matches.
@@ -986,5 +987,12 @@ public final class StringTools {
 
   public static boolean isNumeric(String string) {
     return IS_NUMERIC.matcher(string).matches();
+  }
+
+  /*
+   * Remove all leading and trailing spaces.
+   */
+  public static String trimLeadingAndTrailingSpaces(String s) {
+    return TRIM_PATTERN.matcher(s).replaceAll("");
   }
 }
