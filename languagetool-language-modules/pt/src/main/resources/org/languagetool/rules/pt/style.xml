@@ -3831,6 +3831,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rulegroup id='SOBRE_QUAL_QUAIS_INFLACIONADO' name="Construção 'sobre qual/quais' inflacionada" type='style' tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+
+            <rule> <!-- #1: Comparativos/superlativos irregulares (adjetivos) -->
+                <pattern>
+                    <token>sobre</token>
+                    <marker>
+                        <token regexp='yes'>qua(l|is)</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>melhor|pior|maior|menor|superior|inferior|principal|único|fundamental|essencial|crítico|determinante|adequado|relevante|prioritário|preferencial|ideal|ótimo|máximo|mínimo</token>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Prefira o artigo definido.</message>
+                <suggestion>\3</suggestion>
+                <example correction="a">Decidir sobre <marker>qual a</marker> melhor estratégia a implementar.</example>
+            </rule>
+
+            <rule> <!-- #2: NC/AQ -->
+                <pattern>
+                    <token>sobre</token>
+                    <marker>
+                        <token regexp='yes'>qua(l|is)</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Prefira &quot;sobre que&quot; ou o artigo definido.</message>
+                <suggestion>\3</suggestion>
+                <suggestion>que</suggestion>
+                <example correction="a|que">Decidir sobre <marker>qual a</marker> solução a implementar.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rule id='MAIORES_PRINCIPAIS' name="Maiores → principais (plural apenas)" type='style' tone_tags='formal' tags='picky'>
             <!-- ChatGPT 5 -->
             <!-- Atenção: esta regra aplica-se apenas a "maiores" (plural).
