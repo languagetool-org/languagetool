@@ -3811,6 +3811,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id='DECIDIR_DELIBERAR' name="Decidir → deliberar (órgão colegiado)" type='style' tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token regexp='yes' inflected='yes'>júri|comissão|conselho|tribunal|corte|senado</token>
+                <token min='0' max='1' regexp='yes'>de|d[ao]s?</token>
+                <token min='0' max='1' regexp='yes' inflected='yes'>administração|estado|ministros|justiça|educação|saúde|finanças|defesa|segurança|ética|disciplina|fiscal|científico|pedagógico|universitário|superior</token>
+                <token min='0' max='1' postag='RG'/>
+                <marker>
+                    <token inflected='yes'>decidir</token>
+                </marker>
+            </pattern>
+            <message>Quando o sujeito é um órgão colegiado, prefira &quot;deliberar&quot; em vez de &quot;decidir&quot;.</message>
+            <suggestion><match no='5' postag='V.+' postag_regexp='yes'>deliberar</match></suggestion>
+            <example correction="deliberou">O júri <marker>decidiu</marker> sobre o recurso.</example>
+            <example correction="deliberou">A Comissão Científica <marker>decidiu</marker> sobre a decisão.</example>
+            <example>A Comissão Científica já deliberou sobre a decisão.</example>
+        </rule>
+
+
         <rule id='MAIORES_PRINCIPAIS' name="Maiores → principais (plural apenas)" type='style' tone_tags='formal' tags='picky'>
             <!-- ChatGPT 5 -->
             <!-- Atenção: esta regra aplica-se apenas a "maiores" (plural).
