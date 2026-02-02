@@ -15534,8 +15534,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- Medical terms that are correctly written with a hyphen: beta-X -->
                 <antipattern>
                     <token>beta</token>
+                    <token spacebefore="no">-</token>
                     <token inflected="yes" regexp="yes">talasemia|2-microglobulina|antagonista|feniletilamina|fructofuranosidasa|fructosidasa</token>
-                    <example>Tenemos un  paciente con beta talasemia.</example>
+                    <example>Tenemos un  paciente con beta-talasemia.</example>
                 </antipattern>
                 <pattern>
                     <token>beta</token>
@@ -20120,13 +20121,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONCORDANCIA_ADJECTIVOS_NEUTROS" name="concordancias con adjetivos neutros">
             <antipattern>
-                <!-- Medical ellipsis: "la cortical superior" (cortical used substantivally) -->
+                <!-- Medical ellipsis: la cortical lateral proximal -->
                 <token postag="DA.*" postag_regexp="yes"/>
                 <token>cortical</token>
-                <token postag="AQ.*" postag_regexp="yes"/>
-                <example>la cortical superior</example>
+                <token postag="AQ.*|NC.*" postag_regexp="yes" min="1" max="3"/>
                 <example>la cortical medial</example>
-                <example>la cortical externa</example>
+                <example>la cortical lateral proximal</example>
             </antipattern>
             <antipattern>
                 <!-- aposición -->
@@ -27182,7 +27182,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MAMA" name="mama/mamá">
             <url>https://www.rae.es/dpd/mam%C3%A1</url>
             <antipattern>
-                <token skip="-1" inflected="yes" regexp="yes">&context_mama_medical;</token>
+                <token skip="-1" inflected="yes" regexp="yes">&context_mama;</token>
                 <token regexp="yes">mama|mamas</token>
                 <example>Hay cambios postquirúrgicos en la mama.</example>
             </antipattern>
