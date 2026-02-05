@@ -4236,19 +4236,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- Specific gender concordance errors - A/AO > Ponto de    -->
-        <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
-        <rule default='off' id='A_PONTO' name="Ao ponto de">
+        <!-- "ao ponto de" + infinitivo -> quase sempre deveria ser "a ponto de" -->
+        <rule id="AO_PONTO_DE_INF" name="Ao ponto de + infinitivo" default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token regexp='yes'>a|ao</token>
-                <token>ponto</token>
-                <token min='0'>de</token>
+                <token regexp='yes' inflected='yes'>estar|ficar|andar|ser|tornar|encontrar|permanecer</token>
+                <marker>
+                    <token>ao</token>
+                    <token>ponto</token>
+                    <token>de</token>
+                </marker>
+                <token postag_regexp='yes' postag='VMN000.+'/>
             </pattern>
-            <message>Expressão usualmente confundida.</message>
-            <url>http://www.portuguesnarede.com/2012/05/ao-ponto-de-ou-ponto-de.html</url>
-            <short>Construção dúbia</short>
+            <message>Nesta construção, o mais comum é <suggestion>a ponto de</suggestion> (ex.: &quot;a ponto de <match no='5'/>&quot;).</message>
+            <short>Possível confusão: &quot;a ponto de&quot;</short>
             <example type='incorrect'>Ela estava <marker>ao ponto de</marker> perder o controlo emocional.</example>
-        </rule>
+            <example type='correct'>Ela estava <marker>a ponto de</marker> perder o controlo emocional.</example>
+         </rule>
+
 
         <!-- HAVIA_PRESENTE_CONJUNTIVO_IMPESSOAL  Havia Pretérito Imp Con -->
         <rule id='HAVIA_PRESENTE_CONJUNTIVO_IMPESSOAL' name="Havia + Presente Conj/Imp → Havia + Pretérito Imp Con">
