@@ -5945,6 +5945,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
+  <rule id="VERB_TO_NC_ADJ_OTHER_20260205_RARE" name="It is NC.+/AQ.+">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'><exception postag_regexp='no' postag='RG'/></token>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP1S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP1S0"/>
+    <!--
+    Examples:
+             Esta animação mostra como funcionam os telemóveis.
+             Suas galinhas vão desfrutar de um amplo ar fresco e exercício com caminhada em corrida de galinha.
+             Começa no branco, passando por cores frias, chegando às quentes e terminando no vermelho bem vivo.
+             Poder vestir as mulheres e pô-las ainda mais belas é um impacto muito positivo.
+             O pneu dianteiro largo e alto deixa a frente mais “pesada” e isso é normal nos modelos clássicos.
+             As capas de brochura apresentam uma pequena mancha no canto inferior esquerdo, mas o miolo apresenta-se muito limpo.
+             Tarot Cigano – Explore o mundo esotérico cigano e aprenda as 36 cartas que compõem o baralho de Tarô Cigano (baralho cigano).
+             Ficávamos com o bichinho muito cedo.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
