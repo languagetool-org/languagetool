@@ -31,6 +31,18 @@ jobs:
         run: ./prepare-docker-image.sh
       - name: Generate docker image
         run: cd $(ls -1d LanguageTool*); docker build --file ../Dockerfile.neuris --tag ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }} .
+      - name: Generate Trivy Cosign-Vuln Report
+        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8
+        with:
+          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
+          format: "cosign-vuln"
+          output: "vuln.json"
+      - name: Upload vulm report artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: vuln-report
+          path: vuln.json
+          if-no-files-found: error
       - name: Run Trivy vulnerability image scanner
           # Third-party action, pin to commit SHA!
           # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
@@ -82,6 +94,10 @@ jobs:
           path: /tmp/images
           key: docker-languagetool-images-cache-${{ env.RUN_ID }}
           restore-keys: docker-images-cache-${{ env.RUN_ID }}
+      - name: Get vuln report artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: vuln-report
       - name: load image
         shell: bash
         run: docker load -i /tmp/images/languagetool-image.tar
@@ -99,3 +115,5 @@ jobs:
         run: cosign sign --yes ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ env.CONTAINER_IMAGE_VERSION }}
       - id: set-version
         run: echo "version=$CONTAINER_IMAGE_VERSION" >> "$GITHUB_OUTPUT"
+      - name: Attest the vulnerability scan
+        run: cosign attest --yes --replace --predicate vuln.json --type vuln ghcr.io/${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}@${{ env.CONTAINER_IMAGE_VERSION }}
