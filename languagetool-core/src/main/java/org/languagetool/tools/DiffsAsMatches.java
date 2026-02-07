@@ -137,7 +137,8 @@ public class DiffsAsMatches {
     StringBuilder suggestion = new StringBuilder();
     for (PseudoMatch pm : pseudoMatches) {
       if ((minFrom != -1) && (maxTo == -1)
-        || (pm.getFromPos() >= patternFrom && pm.getToPos() <= patternTo)) {
+        || (pm.getFromPos() >= patternFrom && pm.getFromPos() <= patternTo)
+        || (pm.getToPos() >= patternFrom && pm.getToPos() <= patternTo)) {
         maxTo = pm.getToPos();
         if (minFrom == -1) {
           minFrom = pm.getFromPos();

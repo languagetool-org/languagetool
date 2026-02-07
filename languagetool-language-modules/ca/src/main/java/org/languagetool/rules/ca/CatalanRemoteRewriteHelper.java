@@ -72,6 +72,7 @@ public class CatalanRemoteRewriteHelper {
     }
     HttpURLConnection conn = null;
     System.out.println("Requesting server " + SERVER_URL + " for rule " + ruleid);
+    logger.info("Requesting server " + SERVER_URL + " for rule " + ruleid);
     try {
       JSONObject payload = new JSONObject();
       payload.put("model", MODEL_ID);
@@ -166,7 +167,10 @@ public class CatalanRemoteRewriteHelper {
     Map.entry("Hi hagué un accident greu a l'autopista entre un camió i un turisme, morint al cap de poc els passatgers del turisme.",
       "Hi hagué un accident greu a l'autopista entre un camió i un turisme, i els passatgers del turisme van morir al cap de poc."),
     Map.entry("Hi hagué un accident greu a l'autopista entre un camió i un turisme, morint els passatgers del turisme al cap de poc.",
-      "Hi hagué un accident greu a l'autopista entre un camió i un turisme i els passatgers del turisme van morir al cap de poc.")
+      "Hi hagué un accident greu a l'autopista entre un camió i un turisme i els passatgers del turisme van morir al cap de poc."),
+    Map.entry("Va arribar tard a l'examen, perdent així després tota oportunitat d'aprovar l'assignatura.",
+        "Va arribar tard a l'examen i, per això, va perdre tota oportunitat d'aprovar l'assignatura.")
+
   ),
     "CA_SPLIT_LONG_SENTENCE", Map.ofEntries(
       Map.entry("En una tarda grisa que avançava sense pressa sobre els carrers estrets de la ciutat, mentre els comerços abaixaven persianes i el soroll del trànsit es diluïa en un murmuri constant, un home caminava pensant en decisions ajornades, en paraules no dites i en projectes que havia volgut compondre amb rigor, però que el cansament havia anat desfigurant i, així i tot, convençut que encara disposava de prou lucidesa per a ordenar les idees, assumir els errors, fer servir l'experiència acumulada com a criteri i continuar avançant amb una determinació menys impulsiva però més sòlida.",

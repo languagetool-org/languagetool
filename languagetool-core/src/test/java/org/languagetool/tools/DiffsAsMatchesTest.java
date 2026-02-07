@@ -174,6 +174,11 @@ public class DiffsAsMatchesTest {
     assertEquals(0, matches.get(0).getFromPos());
     assertEquals(2, matches.get(0).getToPos());
 
+    original = "Va arribar tard a l'examen, perdent així després tota oportunitat d'aprovar l'assignatura.";
+    revised =  "Va arribar tard a l'examen i, per això, va perdre tota oportunitat d'aprovar l'assignatura.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+
   }
 
 }
