@@ -30,6 +30,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static org.languagetool.tools.StringTools.trimLeadingAndTrailingSpaces;
 
 public class CatalanRemoteRewriteHelper {
@@ -46,6 +49,7 @@ public class CatalanRemoteRewriteHelper {
       TIMEOUT_MS = 5000;
     }
   }
+  private static final Logger logger = LoggerFactory.getLogger(CatalanRemoteRewriteHelper.class);
 
   static boolean isRemoteServiceAvailable() {
     return (SERVER_URL != null && API_KEY !=null && MODEL_ID != null);
@@ -72,8 +76,9 @@ public class CatalanRemoteRewriteHelper {
       JSONObject payload = new JSONObject();
       payload.put("model", MODEL_ID);
       JSONArray messages = new JSONArray();
-      messages.put(new JSONObject().put("role", "system").put("content", PROMPTS.get(ruleid)));
-      messages.put(new JSONObject().put("role", "user").put("content", sentence));
+      //messages.put(new JSONObject().put("role", "system").put("content", PROMPTS.get(ruleid)));
+      //messages.put(new JSONObject().put("role", "user").put("content", sentence));
+      messages.put(new JSONObject().put("role", "user").put("content",  PROMPTS.get(ruleid) + "\n\n" + sentence));
       payload.put("messages", messages);
       byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);
       URL url = new URL(SERVER_URL);
@@ -116,7 +121,8 @@ public class CatalanRemoteRewriteHelper {
             .getString("content")
             .trim();
         } else {
-          System.err.println("API error (" + code + "): " + response.toString() + "// PAYLOAD: " + payload.toString());
+          System.err.println("API error (" + code + "): " + response + "// PAYLOAD: " + payload.toString());
+          logger.error("API error (" + code + "): " + response);
           return "";
         }
       }
@@ -132,7 +138,8 @@ public class CatalanRemoteRewriteHelper {
   static final Map<String, String> PROMPTS = Map.of(
     "GERUNDI_POSTERIORITAT", "Reescriu les frases sense el gerundi de posterioritat. Respon directament " +
       "amb la frase, sense comentaris ni puntuació extra.",
-    "CA_SPLIT_LONG_SENTENCE", "Aquesta frase és massa llarga. Divideix-la fent els mínims canvis possibles. Respon només amb la frase dividida.");
+    "CA_SPLIT_LONG_SENTENCE", "Aquesta frase és massa llarga. Divideix-la fent els mínims canvis possibles. " +
+      "Respon només amb la frase dividida.");
 
   //For testing
   static final Map<String, Map<String, String>> cachedResponses = Map.of("GERUNDI_POSTERIORITAT", Map.ofEntries(
