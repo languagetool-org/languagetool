@@ -40,6 +40,9 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CatalanRemoteRule extends TextLevelRule {
 
   private static String[] serverUrls;
@@ -47,6 +50,7 @@ public class CatalanRemoteRule extends TextLevelRule {
   private static int TIMEOUT_MS = 2000;
   boolean ab_test = false; //AB test disabled, opened 100%
   private static int MAX_SENTENCES_FIRST_SERVER = 4;
+  private static final Logger logger = LoggerFactory.getLogger(CatalanRemoteRule.class);
 
   public CatalanRemoteRule(ResourceBundle messages, UserConfig userConfig) {
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
@@ -80,12 +84,13 @@ public class CatalanRemoteRule extends TextLevelRule {
     return sentencesPlainText;
   }
 
-  private static final Pattern TRIM_PATTERN = Pattern.compile("^[\\s\\u00A0]+|[\\s\\u00A0]+$");
+  private static final Pattern TRIM_PATTERN = Pattern.compile("^[\\s\\u00A0\\n]+|[\\s\\u00A0\\n]+$");
 
   private String trimAllSpaces (String s) {
     Matcher matcher = TRIM_PATTERN.matcher(s);
     return matcher.replaceAll("");
   }
+
   private RuleMatch[] doRule(List<AnalyzedSentence> sentences) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     int pos = 0;
@@ -96,12 +101,16 @@ public class CatalanRemoteRule extends TextLevelRule {
     }
     DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
     for (int i=0; i<sentencesPlainText.size();i++) {
-      List<PseudoMatch> pseudoMatches = diffsAsMatches.getPseudoMatches(sentencesPlainText.get(i), correctedSentences.get(i));
+      // No és clar què hauria de passar amb salts de línia dins la mateixa frase.
+      String original = sentencesPlainText.get(i).replaceAll("\n", " ");
+      String corrected =  correctedSentences.get(i).replaceAll("\n", " ");
+      List<PseudoMatch> pseudoMatches = diffsAsMatches.getPseudoMatches(original, corrected);
       for (PseudoMatch pseudoMatch : pseudoMatches) {
         String suggestion = pseudoMatch.getReplacements().get(0);
         // ignora espais al final o al principi
-        String underlined = sentencesPlainText.get(i).substring(pseudoMatch.getFromPos(), pseudoMatch.getToPos());
-        if ((pseudoMatch.getToPos() == sentencesPlainText.get(i).length() || pseudoMatch.getFromPos()==0) && trimAllSpaces(underlined).isEmpty()) {
+        String underlined =original.substring(pseudoMatch.getFromPos(), pseudoMatch.getToPos());
+        if ((pseudoMatch.getToPos() == sentencesPlainText.get(i).length() || pseudoMatch.getFromPos()==0)
+          && trimAllSpaces(underlined).isEmpty()) {
           continue;
         }
         // ignora canvis en espais
@@ -110,8 +119,10 @@ public class CatalanRemoteRule extends TextLevelRule {
         }
         if (pseudoMatch.getToPos() <= pseudoMatch.getFromPos()) {
           //No hauria de passar
-          throw new IllegalArgumentException("fromPos (" + pseudoMatch.getFromPos() + ") must be less than toPos ("
-            + pseudoMatch.getToPos()  + "). Sentence: "+sentencesPlainText.get(i));
+          String errMsg = "IllegalArgumentException: fromPos (" + pseudoMatch.getFromPos() + ") must be less than toPos ("
+            + pseudoMatch.getToPos()  + "). Sentence: "+original;
+          System.err.println(errMsg);
+          logger.error(errMsg);
         }
         String message = "Canvi recomanat pel model d'aprenentatge automàtic.";
         if (suggestion.equals(underlined+",")) {
