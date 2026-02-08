@@ -2383,6 +2383,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
+      <rule id='TER_QUE_DE' name="[pt-PT][Formal] Ter 'que' infinitivo → 'de'" tone_tags='formal' default='temp_off'>
+          <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+          <pattern>
+              <token inflected='yes'>ter</token>
+              <marker>
+                  <token>que</token>
+              </marker>
+              <token postag='VMN000+' postag_regexp='yes'/>
+          </pattern>
+          <message>Em português europeu, recomenda-se &quot;ter de&quot; em vez de &quot;ter que&quot; em registo formal.</message>
+          <suggestion>de</suggestion>
+          <example correction="de">O Rui tem <marker>que</marker> ir à universidade.</example>
+      </rule>
+
+
         <rule id='FORMAL_DEPRECIATIVO' name="[pt-PT][Formal] Termos depreciativos">
             <!-- IDEA inclusive -->
             <pattern>
