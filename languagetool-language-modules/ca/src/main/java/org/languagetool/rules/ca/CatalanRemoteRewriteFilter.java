@@ -50,23 +50,24 @@ public class CatalanRemoteRewriteFilter extends RuleFilter {
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String originalSentence = trimLeadingAndTrailingSpaces(match.getSentence().getText());
     String correctedSentence = sendPostRequest(originalSentence, match.getRule().getId());
+    boolean bSuppressMatch = getOptional("suppressMatch", arguments, "false").equalsIgnoreCase("true");
     if (correctedSentence == null || correctedSentence.isEmpty()) {
-      return match;
+      return (bSuppressMatch? null: match);
     }
     DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
     List<PseudoMatch> pseudoMatches = diffsAsMatches.getPseudoMatches(originalSentence, correctedSentence);
     PseudoMatch pseudoMatch = diffsAsMatches.getJoinedMatch(pseudoMatches, originalSentence, match.getFromPos() - 2,
       match.getToPos() + 40);
     if (pseudoMatch == null) {
-      return match;
+      return (bSuppressMatch? null: match);
     }
     String suggestion = pseudoMatch.getReplacements().get(0);
     String underlined = originalSentence.substring(pseudoMatch.getFromPos(), pseudoMatch.getToPos());
     if ((pseudoMatch.getToPos() == originalSentence.length() || pseudoMatch.getFromPos() == 0) && trimLeadingAndTrailingSpaces(underlined).isEmpty()) {
-      return match;
+      return (bSuppressMatch? null: match);
     }
     if (trimLeadingAndTrailingSpaces(suggestion).equals(trimLeadingAndTrailingSpaces(underlined))) {
-      return match;
+      return (bSuppressMatch? null: match);
     }
     if (pseudoMatch.getToPos() <= pseudoMatch.getFromPos()) {
       throw new IllegalArgumentException("fromPos (" + pseudoMatch.getFromPos() + ") must be less than toPos ("

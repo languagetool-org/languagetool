@@ -140,7 +140,10 @@ public class CatalanRemoteRewriteHelper {
     "GERUNDI_POSTERIORITAT", "Reescriu les frases sense el gerundi de posterioritat. Respon directament " +
       "amb la frase, sense comentaris ni puntuació extra.",
     "CA_SPLIT_LONG_SENTENCE", "Aquesta frase és massa llarga. Divideix-la fent els mínims canvis possibles. " +
-      "Respon només amb la frase dividida.");
+      "Respon només amb la frase dividida.",
+  "CA_REMOTE_ESCOLTAR_SENTIR", "Reescriu aquesta frase canviant el verb 'escoltar' pel verb 'sentir', si està mal usat, és a dir, si no vol dir 'parar atenció, atendre o obeir'." +
+      "No canviïs el verb si 'escoltar' vol dir 'parar atenció, atendre o obeir', i per tant està ben usat (p. ex., El vaig escoltar atentament)." +
+      "Respon directament amb la frase reescrita, sense comentaris ni puntuació extra.");
 
   //For testing
   static final Map<String, Map<String, String>> cachedResponses = Map.of("GERUNDI_POSTERIORITAT", Map.ofEntries(
@@ -174,5 +177,10 @@ public class CatalanRemoteRewriteHelper {
   ),
     "CA_SPLIT_LONG_SENTENCE", Map.ofEntries(
       Map.entry("En una tarda grisa que avançava sense pressa sobre els carrers estrets de la ciutat, mentre els comerços abaixaven persianes i el soroll del trànsit es diluïa en un murmuri constant, un home caminava pensant en decisions ajornades, en paraules no dites i en projectes que havia volgut compondre amb rigor, però que el cansament havia anat desfigurant i, així i tot, convençut que encara disposava de prou lucidesa per a ordenar les idees, assumir els errors, fer servir l'experiència acumulada com a criteri i continuar avançant amb una determinació menys impulsiva però més sòlida.",
-        "En una tarda grisa que avançava sense pressa sobre els carrers estrets de la ciutat, mentre els comerços abaixaven persianes i el soroll del trànsit es diluïa en un murmuri constant, un home caminava pensant en decisions ajornades, en paraules no dites i en projectes que havia volgut compondre amb rigor, però que el cansament havia anat desfigurant. I, així i tot, convençut que encara disposava de prou lucidesa per a ordenar les idees, assumir els errors, fer servir l'experiència acumulada com a criteri i continuar avançant amb una determinació menys impulsiva però més sòlida.")));
+        "En una tarda grisa que avançava sense pressa sobre els carrers estrets de la ciutat, mentre els comerços abaixaven persianes i el soroll del trànsit es diluïa en un murmuri constant, un home caminava pensant en decisions ajornades, en paraules no dites i en projectes que havia volgut compondre amb rigor, però que el cansament havia anat desfigurant. I, així i tot, convençut que encara disposava de prou lucidesa per a ordenar les idees, assumir els errors, fer servir l'experiència acumulada com a criteri i continuar avançant amb una determinació menys impulsiva però més sòlida.")
+  ),
+    "CA_REMOTE_ESCOLTAR_SENTIR", Map.ofEntries(
+      Map.entry("Vaig escoltar que deien coses inversemblants.","Vaig sentir que deien coses inversemblants."),
+      Map.entry("Vaig escoltar atentament les seves explicacions.","Vaig escoltar atentament les seves explicacions.")
+      ));
 }
