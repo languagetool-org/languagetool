@@ -105,6 +105,8 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
           }
           if (atr != null) {
             if (atr.getPOSTag().startsWith("DA")) {
+              suggestionBuilder.insert(0, conditionalAddedString);
+              conditionalAddedString.setLength(0);
               addDeterminer = true;
               startPos = i;
             } else {
@@ -162,8 +164,10 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             } else {
               conditionalAddedString.insert(0, tokens[i].getToken() + " ");
             }
-          } else if (tokens[i].hasPosTag("RG")
-            && (i <= 1 || tokens[i - 1].readingWithTagRegex(splitGenderNumber) != null)) {
+          } else if (tokens[i].hasPosTagStartingWith("RG")
+            // adverbi envoltat d'elements que tenen gènere i nombre
+            && (i <= 1 || tokens[i - 1].readingWithTagRegex(splitGenderNumber) != null)
+            && (i >= tokens.length - 1 || tokens[i + 1].readingWithTagRegex(splitGenderNumber) != null)) {
             conditionalAddedString.insert(0, tokens[i].getToken() + " ");
           } else {
             stop = true;
@@ -189,7 +193,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             conditionalAddedString.setLength(0);
             suggestionBuilder.append(" " + s);
             endPos = i;
-          } else if (tokens[i].hasPosTag("RG")) {
+          } else if (tokens[i].hasPosTagStartingWith("RG")) {
             conditionalAddedString.append(" " + tokens[i].getToken());
           } else if (tokens[i].hasPosTag("CC")) {
             isThereConjunction = true;
