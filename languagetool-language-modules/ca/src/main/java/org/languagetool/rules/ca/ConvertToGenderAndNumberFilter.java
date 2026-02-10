@@ -162,7 +162,8 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             } else {
               conditionalAddedString.insert(0, tokens[i].getToken() + " ");
             }
-          } else if (tokens[i].hasPosTag("RG")) {
+          } else if (tokens[i].hasPosTag("RG")
+            && (i <= 1 || tokens[i - 1].readingWithTagRegex(splitGenderNumber) != null)) {
             conditionalAddedString.insert(0, tokens[i].getToken() + " ");
           } else {
             stop = true;
