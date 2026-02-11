@@ -4440,38 +4440,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='DAR_ATRIBUIR_CONFERIR' name="Dar → atribuir/conferir" tone_tags='formal' tags='picky' default='temp_off'>
-            <!-- Used ChatGPT with Reason and DeepSeek-V3 -->
-            <!-- Later expand into two subrules to accept directly the list of words after the "DAR" verb -->
-
-            <pattern>
-                <marker>
-                    <token inflected='yes' regexp='no'>dar<exception postag_regexp='yes' postag='VMSP.+|VMP00.+'/></token>
-                </marker>
-                <token skip='1' regexp='yes'>[ao]s?|um|uns|umas?|&adverbios_de_intensidade;</token>
-                <token inflected='yes' regexp='yes'>acesso|atenção|autoridade|autorização|benefício|cargo|certificação|certificado|clareza|chance|competência|condecoração|credibilidade|designação|destaque|diploma|direito|distinção|distintivo|dom|emblema|ênfase|enfoque|forma|função|garantia|graduação|grau|habilitação|honra|honraria|importância|investidura|liberdade|licença|licitude|lugar|mandato|medalha|mérito|oportunidade|ordem|outorga|patente|permissão|poder|posição|possibilidade|pr[éê]mio|prerrogativa|prioridade|privilégio|propósito|realismo|reconhecimento|responsabilidade|sentido|seriedade|status|título|troféu|valor|vantagem</token>
-            </pattern>
-            <message>Use &quot;dar&quot; para casos gerais, &quot;conferir&quot; para concessões formais e &quot;atribuir&quot; para designações.</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atribuir</match></suggestion>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
-            <example correction="atribuiu|conferiu">O tribunal <marker>deu</marker> a responsabilidade da criança à mãe.</example>
-            <example>A comissão atribuiu a distinção ao melhor candidato.</example>
-            <example>Além disso, os dados fortemente tipados podem ser armazenados no registro.</example>
-            <example>Mas fomos dados uma segunda chance.</example>
-            <example>Dê o lugar, Milton.</example>
-            <example>Corte-o na linha reta, ou seja, dê uma forma quadrada.</example>
-            <example>Dada a oportunidade, você deve negociar ambas as direções</example>
-            <example>Nos dê uma chance.</example>
-            <example>- Todos teriamos dado as mesmas ordens.</example>
-            <example>Se quiser outro, me dê um título em português.</example>
-            <example>Espero que me dês mais atenção da próxima vez.</example>
-            <example>Dê-me uma outra chance.</example>
-            <example>Deem-me uma outra chance.</example>
-            <example>Foi-me dada a permissão de utilizar este carro.</example>
-            <example>Eu gostaria que desse uma chance aos dois.</example>
-        </rule>
-
-
         <rule id='ESTAR_CONSTAR' name="Estar → constar" tone_tags='formal' tags='picky'>
             <!-- Used DeepSeek-V3 -->
             <pattern>
@@ -11297,22 +11265,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='CIENTÍFICO_DAR_CONFERIR' name="[Universitário][Científico] dar → conferir" type="style" tone_tags="academic">
+        <rule id='DAR_ATRIBUIR_CONFERIR_V2' name="[Universitário][Científico] dar → conferir" type='style' tone_tags='academic' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token skip='2' inflected='yes' postag_regexp='yes' postag='V.+'>dar</token>
+                <token>benefício</token>
+                <token>da</token>
+                <token>dúvida</token>
+                <example>e neste caso eu prefiro dar o benefício da dúvida.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                <token skip='2' regexp='yes'>dad[ao]s?</token>
+                <token inflected='yes' regexp='yes' postag_regexp='yes' postag='NC.+'>acesso|autoridade|benefício|cargo|certificação|certificado|competência|condecoração|credibilidade|designação|diploma|direito|distinção|distintivo|emblema|graduação|grau|habilitação|honraria|investidura|liberdade|mandato|medalha|outorga|patente|poder|prêmio|prémio|prerrogativa|privilégio|responsabilidade|troféu|título</token>
+                <example>, dado ao oráculo acesso a formula_16</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes' regexp='yes'>ter|haver</token>
+                <token skip='2' regexp='yes'>dad[ao]s?</token>
+                <token inflected='yes' regexp='yes' postag_regexp='yes' postag='NC.+'>acesso|autoridade|benefício|cargo|certificação|certificado|competência|condecoração|credibilidade|designação|diploma|direito|distinção|distintivo|emblema|graduação|grau|habilitação|honraria|investidura|liberdade|mandato|medalha|outorga|patente|poder|prêmio|prémio|prerrogativa|privilégio|responsabilidade|troféu|título</token>
+                <example>Esta pode ter dado um acesso secundário ao piso superior do solar original.</example>
+            </antipattern>
+
             <pattern>
                 <marker>
-                    <token inflected='yes'>dar</token>
+                    <token inflected='yes' postag_regexp='yes' postag='V.+'>dar<exception scope='next' regexp='no'>de</exception></token>
                 </marker>
-                <and>
-                    <token regexp='yes'>.*de|.*ez
-                        <exception regexp='yes'>continuidade|oportunidade|prioridade|saúde|visibilidade</exception>
-                    </token>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                </and>
-                <token regexp='yes'>[aà]s?|aos?</token>
+                <token skip='1' min='0' max='1' postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <token inflected='yes' regexp='yes' postag_regexp='yes' postag='NC.+'>acesso|autoridade|benefício|cargo|certificação|certificado|competência|condecoração|credibilidade|designação|diploma|direito|distinção|distintivo|emblema|graduação|grau|habilitação|honraria|investidura|liberdade|mandato|medalha|outorga|patente|poder|prêmio|prémio|prerrogativa|privilégio|responsabilidade|troféu|título</token>
             </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;conferir&quot;.</message>
+            <message>Considere &quot;atribuir&quot; (designação) ou &quot;conferir&quot; (concessão formal) em vez de &quot;dar&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atribuir</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
-            <example correction="confere">Esta equação <marker>dá</marker> aleatoriedade ao jogo.</example>
+            <example correction="atribuiu|conferiu">O tribunal <marker>deu</marker> a responsabilidade da criança à mãe.</example>
         </rule>
 
 
