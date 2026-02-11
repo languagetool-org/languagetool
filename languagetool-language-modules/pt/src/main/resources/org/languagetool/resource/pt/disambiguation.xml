@@ -5970,6 +5970,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
+  <rule id="VERB_VMIS2S0_TO_SPS_20260211_RARE" name="It is SPS.+">
+    <pattern>
+      <token postag_regexp='yes' postag='V.+'><exception postag_regexp='no' postag='RG'/></token>
+      <token min='0' max='1' postag='RG|RM|RN' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIS2S0'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+        </and>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O que acham deste traje para o noivo: amam, odeiam ou ignoram?
+             Gostou deste comentário?
+             Quando soube deste lançamento da Editora Planeta, eu fiquei doida para ler.
+             Mas outras importantes lições se podem colher deste surpreendente fenómeno.
+             Fazem deste silêncio, “Uma próxima Jornada”.
+             Ora bem... eu... hum... Opá que á para dizer deste menino?!
+             A partir deste pressuposto, partem as outras observações.
+             Apesar deste tão longo tempo afastado deste blog, e de algumas outras atividades, eu estou vivo.
+             Você precisa deste livro?
+             Eu nunca me esquecerei deste acontecimento até o dia de minha morte.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
