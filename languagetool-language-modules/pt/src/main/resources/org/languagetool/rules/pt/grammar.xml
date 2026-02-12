@@ -18860,6 +18860,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='PUNCTUATION' name="Pontuação">
+
+
         <rulegroup id="LOCUCOES_ADVERBIAIS_REDUPLICADAS" name="Sugerir vírgula em locuções adverbiais formadas por reduplicação, como 'logo logo' => 'logo, logo'.">
             <rule>
                 <pattern>
@@ -18872,6 +18874,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="já, já">Ele chega <marker>já já</marker>.</example>
             </rule>
         </rulegroup>
+
+
+        <rule id='VIRGULA_REDUNDANTE_APOS_TRAVESSAO' name="Vírgula redundante após travessão de inciso" default='temp_off'>
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+        <!-- Added exceptions to verbs because disambiguator isn't 100% perfect. As we improve the disambiguator the rules will have more hits -->
+            <pattern>
+                <token skip='-1' regexp='yes' spacebefore='yes'>[-–—]
+                    <exception scope='next' regexp='yes' inflected='yes'>dizer|responder|retrucar|perguntar|exclamar|afirmar|declarar|comentar|acrescentar|explicar|gritar|sussurrar|contar|insistir|admitir|revelar|confessar|observar|ponderar|recordar|lembrar|continuar|prosseguir|concluir|repetir|interromper|corrigir|anunciar|assegurar|assinalar|argumentar|avisar|bradar|comunicar|confirmar|constatar|depor|detalhar|dissertar|enfatizar|esclarecer|escrever|especificar|expôr|frisar|informar|indagar|indicar|interpelar|mencionar|notar|opinar|ordenar|questionar|reforçar|relatar|resmungar|ressaltar|retorquir|salientar|sugerir|testemunhar|tornar|traduzir|pronunciar|proferir|murmurar|balbuciar|vociferar|brincar|ironizar|zombar|chamar|replicar|retomar|finalizar|encerrar|arrematar</exception></token> <!-- Exceptions direct speech between dashes -->
+                <marker>
+                    <token regexp='yes'>[-–—]</token>
+                    <token spacebefore='no' postag='_PUNCT_COMMA'/>
+                </marker>
+                <token min='0' max='2' postag='SP.+|PP.C.+' postag_regexp='yes'/>
+                <token postag='VMG.+|VMI.+|VMS.+|VMN.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='RG|NC.+|AQ.+'/></token> <!-- exceptions because disambiguator isn't 100% accurate -->
+            </pattern>
+            <message>Remova a vírgula após o travessão, exceto em discurso direto ou quando separar orações.</message>
+            <suggestion>\2</suggestion>
+            <example correction="—">O Rui — grande aluno universitário <marker>—,</marker> celebrando fez uma festa.</example>
+            <example>Sim - respondeu meu pai -, és forte porque tens coragem.</example>
+            <example>Não - retrucou ele -, vocês choram de alegria!</example>
+            <example>Sim - disse ele -, irei.</example>
+            <example>Certamente - disse meu pai, considerando tão perigosas pretensões -, deves querer o primeiro lugar.</example>
+        </rule>
+
 
         <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on' tags="picky">
             <!-- Created by Tiago F. Santos, Portuguese rule, -->
