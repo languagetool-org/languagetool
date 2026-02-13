@@ -31411,6 +31411,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule id='HOMONYM_VIAGEM_2' name='Homófona: viagem - viajem'>
                 <antipattern>
+                    <token postag='CS' postag_regexp='no'/>
+                    <token>viagem</token>
+                    <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+                    <example>Que viagem é essa?</example>
+                    <example>Que viagem agradável nós tivemos!</example>
+                </antipattern>
+                <antipattern>
                     <token postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/>
                     <token min="0" regexp="yes">["'“‘«]</token>
                     <token>viagem</token>
