@@ -13064,10 +13064,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
 
 
-        <rule id='CAIR_CEDER' name="Estrutura cair → ceder" tone_tags='objective' default='temp_off'>
+        <rule id='CAIR_CEDER' name="Estrutura cair → ceder" tone_tags='objective'>
         <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token skip='2' regexp='yes' inflected='yes'>estrutura|edifício|prédio|ponte|viaduto|muro|parede|fachada|telhado|teto|cobertura|laje|viga|pilar|coluna|fundação|alicerce|sapata|estaca|aterro|terrapleno|barragem|dique|túnel|galeria|escavação|poço|andaime|plataforma|passarela|varanda|sacada|marquise|cais|doca|pavimento|piso|estrada|rodovia|autoestrada|via|travessia|trilho|carril|armação|suporte|escoramento|contenção|paredão|cortina|painel|placa|bloco|maciço|torre|antena|poste|mastro<exception scope='next' regexp='no'>sem</exception></token>
+                <token skip='2' regexp='yes' inflected='yes'>estrutura|edifício|prédio|ponte|viaduto|muro|parede|fachada|telhado|teto|cobertura|laje|viga|pilar|coluna|fundação|alicerce|sapata|estaca|aterro|terrapleno|barragem|dique|túnel|galeria|escavação|poço|andaime|plataforma|passarela|varanda|sacada|marquise|cais|doca|pavimento|piso|estrada|rodovia|autoestrada|via|travessia|trilho|carril|armação|suporte|escoramento|contenção|paredão|cortina|painel|placa|bloco|maciço|torre|antena|poste|mastro<exception scope='next' regexp='yes'>sem|e|ou</exception></token>
                 <marker>
                     <token postag_regexp='yes' postag='V.+' inflected='yes'>cair
                         <exception postag_regexp='yes' postag='VMP00.+'/></token>
@@ -13079,6 +13079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Nas imagens é possível perceber que apenas uma parte da estrutura já estava caída.</example>
             <example>O jogador deve tentar colocar um certo número de tijolos em sua torre sem deixar cair muitos e perder a saúde.</example>
             <example>Uma criatura de quatro patas chamada "The Doodler" numa série de intermináveis plataformas sem cair.</example>
+            <example>Cole pode muito facilmente escalar edifícios e outras estruturas e cair de grandes alturas sem sofrer danos.</example>
         </rule>
 
 
