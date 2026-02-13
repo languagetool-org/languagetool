@@ -9359,19 +9359,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='SEM_DAR_NAS_VISTAS' name="discretamente">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <token>sem</token>
-                <token inflected='yes'>dar</token>
-                <token min="0">muito</token>
-                <token>nas</token>
-                <token>vistas</token>
-            </pattern>
-            <message>&informal_msg;</message>
-            <suggestion>discretamente</suggestion>
-            <example correction="discretamente">Limpa o chão <marker>sem dar nas vistas</marker>.</example>
-        </rule>
+        <rulegroup id='SEM_DAR_NAS_VISTAS_V2' name="Sem dar nas vistas → discretamente" default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: with intensifiers -->
+                <pattern>
+                    <token>sem</token>
+                    <token inflected='yes'>dar</token>
+                    <token regexp='yes'>&adverbios_de_intensidade;</token>
+                    <token>nas</token>
+                    <token>vistas</token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion>\3 discretamente</suggestion>
+                <example correction="muito discretamente">Limpa o chão <marker>sem dar muito nas vistas</marker>.</example>
+            </rule>
+
+            <rule> <!-- #2: without intensifiers -->
+                <pattern>
+                    <token>sem</token>
+                    <token inflected='yes'>dar</token>
+                    <token>nas</token>
+                    <token>vistas</token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion>discretamente</suggestion>
+                <example correction="discretamente">Limpa o chão <marker>sem dar nas vistas</marker>.</example>
+            </rule>
+        </rulegroup>
+
 
         <rule id='À_BOCADO' name="Há bocado">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
