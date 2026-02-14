@@ -9572,6 +9572,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
 
 
+        <rule id='OBTER_ALCANCAR' name="Obter → alcançar" type='style' tone_tags='academic' is_goal_specific='true' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <marker>
+                    <token skip='1' inflected='yes'>obter</token>
+                </marker>
+                <token skip='1' regexp='yes'>a|o</token>
+                <token regexp='yes'>vitória|objetivo|objectivo|meta|finalidade</token>
+            </pattern>
+            <message>Num contexto formal/científico, prefira &quot;alcançar&quot; a &quot;obter&quot; quando se refere a metas, objetivos, ou vitória.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>alcançar</match></suggestion>
+            <example correction="alcançar">Num conflito o objetivo é <marker>obter</marker> a vitória.</example>
+            <example correction="alcançar">O Zé vai <marker>obter</marker> rapidamente o objetivo proposto.</example>
+        </rule>
+
+
         <rule id='VERBO_O_USO_DE_X_X' name="Verbo + 'o uso de X' → X" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
