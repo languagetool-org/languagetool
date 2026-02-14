@@ -4295,6 +4295,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rule id="ENTRE" name="entre (verb)">
         <antipattern>
+            <!-- aquest antipattern no funciona, hi ha un bug? -->
+            <token>entre</token>
+            <token>a</token>
+            <token>i</token>
+        </antipattern>
+        <antipattern>
             <token>en</token>
             <!-- nom de persona -->
             <token regexp="yes" skip="20">\p{Lu}.*</token>
@@ -4310,8 +4316,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="V.*" postag_regexp="yes">entre</token>
             </marker>
             <token regexp="yes">en|a</token>
+            <token><exception>i</exception></token>
         </pattern>
         <disambig action="filter" postag="V.*"/>
+        <example type="untouched">Aquesta és la causa de la relació entre A i B.</example>
     </rule>
     <rule id="ES_CASA" name="es casa">
         <pattern>
