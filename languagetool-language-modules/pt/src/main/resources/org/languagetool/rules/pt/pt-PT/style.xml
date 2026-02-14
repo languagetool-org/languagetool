@@ -119,16 +119,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-    <rule id='CICLO_VICIOSO' name="[pt-PT] Calinada: Círculo vicioso" tags="picky" tone_tags="objective">
-       <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
+    <rule id='CICLO_VICIOSO' name="[pt-PT] Calinada: 'ciclo' vicioso → 'círculo'" tone_tags='objective'>
+       <!-- ChatGPT 5 and new disambiguator for 2026+ -->
        <pattern>
-            <token regexp='yes'>ciclos?</token>
-            <token regexp='yes'>viciosos?</token>
+            <marker>
+                <token skip='1' regexp='yes'>ciclos?</token>
+                <token skip='1' regexp='yes'>viciosos?</token>
+            </marker>
+            <token regexp='yes' inflected='yes'>pobreza|violência|dependência|dívida|miséria|desemprego|corrupção|droga|vício|crime|depressão|inflação|desigualdade|fracasso|injustiça|exploração|dominação|abuso|opressão</token>
         </pattern>
-        <message>A expressão &quot;círculo vicioso&quot; é a mais consagrada para descrever uma situação repetitiva negativa sem solução aparente.</message>
-        <suggestion><match no='1' postag='NC(..)000' postag_replace='NC$1000'>círculo</match> \2</suggestion>
+        <message>Prefira &quot;círculo vicioso&quot; para descrever uma situação repetitiva negativa sem solução aparente.</message>
+        <suggestion><match no='1' postag='NC(..)000' postag_replace='NC$1000' include_skipped='all'>círculo</match> \2</suggestion>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-circulo-vicioso-e-nao-ciclo-vicioso/33313</url>
         <example correction="círculo vicioso">O <marker>ciclo vicioso</marker> da pobreza.</example>
+        <example correction="círculo bastante vicioso">O <marker>ciclo bastante vicioso</marker> da pobreza.</example>
     </rule>
 
 
