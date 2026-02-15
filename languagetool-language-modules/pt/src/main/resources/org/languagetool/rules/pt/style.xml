@@ -4223,7 +4223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='CARRO_AUTOMOVEL_VEICULO' name="Carro → automóvel/veículo" tone_tags='formal' tags='picky'>
+        <rule id='CARRO_AUTOMOVEL_VEICULO' name="Carro → automóvel/veículo" tone_tags='formal' is_goal_specific='true' tags='picky'>
             <antipattern>
                 <token case_sensitive='yes'>Vila</token>
                 <token case_sensitive='yes'>Cova</token>
@@ -10193,23 +10193,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id='PERSISTIR_AO_LONGO_DE_TEMPO' name="Persistir + há + tempo" tone_tags="academic">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
-            <pattern>
-                <token inflected='yes'>persistir</token>
-                <marker>
-                    <token>ao</token>
-                    <token>longo</token>
-                    <token regexp='yes'>de|d[ao]s</token>
-                    <token min="0" max="1" postag='Z0.+|DI.+|AQ0.+|NC.+' postag_regexp='yes'/>
-                    <token regexp='yes'>segundos|minutos|horas|dias|semanas|meses|anos|décadas|séculos|milénios|gerações|tempos|sessões</token>
-                </marker>
-            </pattern>
-            <message>Substitua por</message>
-            <suggestion>há \5 \6</suggestion>
-            <suggestion>durante \5 \6</suggestion>
-            <example correction="há décadas|durante décadas">Estas deficiências persistem <marker>ao longo de décadas</marker>.</example>
-        </rule>
+
+        <rulegroup id='PERSISTIR_AO_LONGO_DE_TEMPO_V2' name="Persistir + há + tempo" tone_tags='academic' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: Simple -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>persistir|manter|permanecer|continuar|prolongar|arrastar|subsistir|perdurar|prevalecer|repetir|verificar|registar|manifestar|observar|existir</token>
+                    <token min='0' max='1' postag='RG'/>
+                    <marker>
+                        <token>ao</token>
+                        <token>longo</token>
+                        <token regexp='yes'>de|d[ao]s</token>
+                        <token postag='NC.P.+' postag_regexp='yes' regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+                    </marker>
+                </pattern>
+                <message>Substitua por</message>
+                <suggestion>há \6</suggestion>
+                <suggestion>durante \6</suggestion>
+                <suggestion>desde há \6</suggestion>
+                <example correction="há décadas|durante décadas|desde há décadas">Estas deficiências persistem <marker>ao longo de décadas</marker>.</example>
+            </rule>
+
+            <rule> <!-- #2: Complex -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>persistir|manter|permanecer|continuar|prolongar|arrastar|subsistir|perdurar|prevalecer|repetir|verificar|registar|manifestar|observar|existir</token>
+                    <token min='0' max='1' postag='RG'/>
+                    <marker>
+                        <token>ao</token>
+                        <token>longo</token>
+                        <token regexp='yes'>de|d[ao]s</token>
+                        <token postag='Z0.+|DI.+|AQ.+|NC.+' postag_regexp='yes'/>
+                        <token postag='NC.P.+' postag_regexp='yes' regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+                    </marker>
+                </pattern>
+                <message>Substitua por</message>
+                <suggestion>há \6 \7</suggestion>
+                <suggestion>durante \6 \7</suggestion>
+                <suggestion>desde há \6 \7</suggestion>
+                <example correction="há muitas décadas|durante muitas décadas|desde há muitas décadas">As deficiências persistem <marker>ao longo de muitas décadas</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger" tone_tags="academic">
             <pattern>
                 <token regexp='yes' inflected='yes'>alinha|artigo|assunto|matéria|ponto|problema|problemática|questão|tema|temática|termo|tópico</token>
