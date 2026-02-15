@@ -11437,7 +11437,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <antipattern>
             <token regexp="yes">de|d'</token>
             <token min="0" postag="A..[FC]S." postag_regexp="yes"/>
-            <token>manera</token>
+            <token regexp="yes">manera|forma</token>
         </antipattern>
         <pattern>
             <marker>
@@ -11446,9 +11446,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">nota|signe|barreja|mescla|taxa</token>
                 </and>
             </marker>
-            <token regexp="yes">de|d'</token>
+            <token regexp="yes">de|d'<exception postag="LOC_ADV"/></token>
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
+        <!--<example type="untouched">Es nota de seguida.</example>-->
+        <example type="untouched">Es nota de manera clara.</example>
+        <example type="untouched">Es nota de forma immediata.</example>
     </rule>
     <rulegroup id="qui_les_porta" name="qui pronom verb 3a persona sing">
         <antipattern>
