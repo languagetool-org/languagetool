@@ -549,6 +549,18 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("Поч. XX ст.");
     assertEquals(Arrays.asList("Поч.", " ", "XX", " ", "ст."), testList);
+
+    testList = w.tokenize("Чигиринський пов. Такої губернії");
+    assertEquals(Arrays.asList("Чигиринський", " ", "пов.", " ", "Такої", " ", "губернії"), testList);
+
+    testList = w.tokenize("Чигиринський пов.");
+    assertEquals(Arrays.asList("Чигиринський", " ", "пов."), testList);
+
+    testList = w.tokenize("З пов. Горобець");
+    assertEquals(Arrays.asList("З", " ", "пов.", " ", "Горобець"), testList);
+
+    testList = w.tokenize("пом. 1994");
+    assertEquals(Arrays.asList("пом.", " ", "1994"), testList);
   }
 
   @Test
