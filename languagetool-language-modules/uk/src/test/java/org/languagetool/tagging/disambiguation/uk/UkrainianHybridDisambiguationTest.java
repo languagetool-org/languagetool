@@ -204,14 +204,20 @@ public class UkrainianHybridDisambiguationTest {
       + " до/[до]noun:inanim:n:v_dav:nv|до/[до]noun:inanim:n:v_naz:nv|до/[до]noun:inanim:n:v_oru:nv|до/[до]noun:inanim:n:v_rod:nv"
       + "|до/[до]noun:inanim:n:v_zna:nv|до/[до]noun:inanim:p:v_dav:nv|до/[до]noun:inanim:p:v_naz:nv|до/[до]noun:inanim:p:v_oru:nv|до/[до]noun:inanim:p:v_rod:nv|до/[до]noun:inanim:p:v_zna:nv|до/[до]prep",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+//    TestTools.myAssert("Такі різні фактори",
+//        "/[null]SENT_START Такі/[такий]adj:p:v_naz:pron:dem|Такі/[такий]adj:p:v_zna:rinanim:pron:dem"
+//        + "  /[null]null різні/[різний]adj:p:v_kly:compb|різні/[різний]adj:p:v_naz:compb|різні/[різний]adj:p:v_zna:rinanim:compb"
+//        + "  /[null]null фактори/[фактор]noun:anim:p:v_kly|фактори/[фактор]noun:anim:p:v_naz|фактори/[фактор]noun:inanim:p:v_naz|фактори/[фактор]noun:inanim:p:v_zna",
+//        tokenizer, sentenceTokenizer, tagger, disambiguator);
 
+    // still v_kly
     TestTools.myAssert("Мій лемківський краю...",
         "/[null]SENT_START Мій/[мій]adj:m:v_kly:pron:pos|Мій/[мій]adj:m:v_naz:pron:pos|Мій/[мій]adj:m:v_zna:rinanim:pron:pos  /[null]null"
         + " лемківський/[лемківський]adj:m:v_kly|лемківський/[лемківський]adj:m:v_naz|лемківський/[лемківський]adj:m:v_zna:rinanim  /[null]null"
         + " краю/[край]noun:inanim:m:v_dav|краю/[край]noun:inanim:m:v_kly|краю/[край]noun:inanim:m:v_rod .../[null]null",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
-    // still v_kly
     TestTools.myAssert("Ясний місяцю!",
         "/[null]SENT_START Ясний/[ясний]adj:m:v_kly:compb|Ясний/[ясний]adj:m:v_naz:compb|Ясний/[ясний]adj:m:v_zna:rinanim:compb"
         +"  /[null]null місяцю/[місяць]noun:inanim:m:v_dav|місяцю/[місяць]noun:inanim:m:v_kly !/[null]null",
@@ -222,6 +228,7 @@ public class UkrainianHybridDisambiguationTest {
         + "  /[null]null Львове/[Львів]noun:inanim:m:v_kly:prop:geo",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
+
 
   @Test
   public void testDisambiguatorForPluralNames() throws IOException {
