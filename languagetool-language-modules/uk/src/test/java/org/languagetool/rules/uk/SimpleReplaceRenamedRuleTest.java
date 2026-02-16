@@ -57,5 +57,9 @@ public class SimpleReplaceRenamedRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Червонознам'янка."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Знам'янка", "Знаменка"), matches[0].getSuggestedReplacements());
+    
+    matches = rule.match(lt.getAnalyzedSentence("Переяслав-Хмельницький."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("Переяслав", "переяславський"), matches[0].getSuggestedReplacements());
   }
 }

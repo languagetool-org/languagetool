@@ -958,6 +958,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="водночас"><marker>в одночас</marker>.</example>
     </rule>
 
+    <rule id="erroneous_space" name="Зайвий пробіл">
+      <!-- |в\s+право|на\s+право - викликає FP з іменником "право" -->
+      <!--
+      <regexp>(?U)\b(в\s+ліво|на\s+ліво|на\s+прикінці)\b</regexp>
+      -->
+      <regexp>(?U)\b(на\s+прикінці)\b</regexp>
+      <message>Зайвий пробіл</message>
+      <suggestion><match no="0" regexp_match=" " regexp_replace=""/></suggestion>
+      <!--
+      <example correction="вліво">повернув <marker>в ліво</marker>.</example>
+      -->
+      <example correction="Наприкінці"><marker>На прикінці</marker> зробити щеплення.</example>
+      <example>вернув ліворуч</example>
+    </rule>
+
     <!-- group: іноземні -->
 
     <rule id="DASH_STREET" name="-стріт/-стрит">
