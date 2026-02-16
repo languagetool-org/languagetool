@@ -10194,7 +10194,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rulegroup id='PERSISTIR_AO_LONGO_DE_TEMPO_V2' name="Persistir + há + tempo" tone_tags='academic' default='temp_off'>
+        <rulegroup id='PERSISTIR_AO_LONGO_DE_TEMPO_V2' name="Persistir + há + tempo" tone_tags='academic'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
             <rule> <!-- #1: Simple -->
@@ -11596,7 +11596,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' tone_tags='academic'>
+        <rule id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' tone_tags='academic' is_goal_specific='true'>
             <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
 
             <antipattern> <!-- Remove interrogation sentences -->
@@ -13129,6 +13129,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token skip='2' regexp='yes' inflected='yes'>estrutura|edifício|prédio|ponte|viaduto|muro|parede|fachada|telhado|teto|cobertura|laje|viga|pilar|coluna|fundação|alicerce|sapata|estaca|aterro|terrapleno|barragem|dique|túnel|galeria|escavação|poço|andaime|plataforma|passarela|varanda|sacada|marquise|cais|doca|pavimento|piso|estrada|rodovia|autoestrada|via|travessia|trilho|carril|armação|suporte|escoramento|contenção|paredão|cortina|painel|placa|bloco|maciço|torre|antena|poste|mastro<exception scope='next' regexp='yes'>sem|e|ou</exception></token>
                 <marker>
                     <token postag_regexp='yes' postag='V.+' inflected='yes'>cair
+                        <exception scope='previous' postag_regexp='no' postag='_PUNCT_COMMA'/>
                         <exception postag_regexp='yes' postag='VMP00.+'/></token>
                 </marker>
             </pattern>
@@ -13140,8 +13141,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>O jogador deve tentar colocar um certo número de tijolos em sua torre sem deixar cair muitos e perder a saúde.</example>
             <example>Uma criatura de quatro patas chamada "The Doodler" numa série de intermináveis plataformas sem cair.</example>
             <example>Cole pode muito facilmente escalar edifícios e outras estruturas e cair de grandes alturas sem sofrer danos.</example>
+            <example>E também pelo fato de termos errado a estrada, caindo inclusive no atoleiro.</example>
         </rule>
-
 
 
         <rulegroup id='OUTRA_ALTERNATIVA' name="Simplificar: Outra opção/hipótese/possibilidade/solução/via/saída → alternativa">
