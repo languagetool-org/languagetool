@@ -3919,6 +3919,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
   </rulegroup>
 
+  <rule id="PELA_VERB_20260217" name="Pela is not a verb, it is always SPS.+">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='SENT_START|_PUNCT|V.+|CC|CS|RG|RM|SPS00|N.+|AQ.+|Z0.+|I|RN' postag_regexp='yes'/>
+      <marker>
+        <token regexp='yes'>pelas?</token>
+        <token postag='SPS.+' postag_regexp='yes'/>
+      </marker>
+      <token postag='AQ.+|N.+|VMP00.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               O jogo foi um amistoso válido pela simbólica "taça guarani".
+               Pela seleção, marcou mais de mil gols.
+               O município é constituído pela comuna-sede, correspondente à cidade de Namacunde, e pela comuna de Chiede.
+               No entanto, conhecemos o real também pela intuição.
+               Pela convocação, Fermo recebeu muitos cumprimentos, e faz questão de manifestar seus agradecimentos.
+               Se tem a possibilidade e condições, opte sempre pela maior titulação, no caso, o da Federal.
+               O cidadão será avisado por telefone ou pela internet.
+               Durante um bom tempo fiquei mal: pela confiança, pela traição, depois de quase dois anos de convivência.
+               Não porque eu não o soubesse, apenas pela cortesia de me relembrar que o mundo não está feito para ter sol.
+               Mais uma vez muito obrigado, pela resposta.
+               O patinho estava sendo bicado não apenas pelos patos, mas também pelas galinhas.
+               Mas ele tropeçou: algo havia-o agarrado pelas pernas.
+               Tom me apunhalou pelas costas.
+               Alimentado pelas chuvas recentes, o rio cresce e ruge.
+      -->
+  </rule>
+
   <rule id="ANTES_VERB_20251104" name="Antes can't be a verb and an RG, it is always RG">
     <!-- ChatGPT 5 -->
     <pattern>
