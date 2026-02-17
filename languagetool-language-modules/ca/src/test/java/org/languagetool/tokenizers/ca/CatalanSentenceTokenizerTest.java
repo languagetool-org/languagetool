@@ -19,6 +19,7 @@
 
 package org.languagetool.tokenizers.ca;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
