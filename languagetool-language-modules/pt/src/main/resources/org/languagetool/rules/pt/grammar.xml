@@ -19434,6 +19434,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp="yes" spacebefore='no'>”|»|&quot;</token>
             </antipattern>
 
+            <antipattern>
+                <token postag='SENT_START'/>
+                <token min='1' max='2' postag_regexp='yes' postag='I|NC.+|AQ.+|V.+|RG'><exception postag_regexp='yes' postag='NP.+|SPS.+'/></token>
+                <token regexp='yes'>pelas?</token>
+                <token min='1' max='3' postag_regexp='yes' postag='N.+|AQ.+|AO.+|SPS00|CS|[DP].+|UNKNOWN'/>
+                <token postag_regexp='yes' postag='SENT_END|_PUNCT|SPS00:DA.+'/>
+                <example>Muito obrigada pela visita Gia!</example>
+                <example>Temerosos pela reação de Deméter, os deuses recusavam-se a revelar o paradeiro de sua filha.</example>
+                <example>Grato pela correção.</example>
+                <example>Muito obrigada pela tua carta.</example>
+                <example>Muito obrigada pela ajuda.</example>
+                <example>Grato pela resposta minuciosa.</example>
+                <example>Grato pela ajuda.</example>
+            </antipattern>
+
             <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
             <!--
       NOTICE THE ANTIPATTERN CREATED HERE IN THE COMMA "MAS" RULE, SO THAT IT TRIGGERS THE RULE CONFUSÃO_MAS_MAIS.
