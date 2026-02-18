@@ -703,8 +703,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag="R.+" postag_regexp="yes"/>
         <marker>
           <and>
-            <token postag="AQ.+"/>
-            <token postag="V.+"/>
+            <token postag="AQ.+|SPS.+" postag_regexp="yes"/>
+            <token postag="V.+" postag_regexp="yes"/>
           </and>
         </marker>
       </antipattern>
@@ -1034,9 +1034,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   </rule>
 
   <rule id="ADVERB_VERB_SINGULAR" name="Advérbio Verbo/nome Nome Singular">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	-->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27 -->
     <pattern>
-      <token postag="R.+" postag_regexp='yes'/>
+      <token postag="R.+" postag_regexp='yes'><exception scope='next' postag="SPS.+" postag_regexp='yes'/></token>
       <marker>
         <and>
           <token postag="V.+" postag_regexp='yes'/>
