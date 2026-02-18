@@ -16880,27 +16880,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- TER FORMA DE ter como -->
-        <rule id='TER_FORMA_DE_TER_COMO' name="[Simplificar] Ter forma de → Ter como" type="style">
+        <rule id='TER_FORMA_DE_TER_COMO' name="[Simplificar] Ter/haver 'forma de' → 'como'" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 (25-JUL-2022+) -->
-            <!--
-      Após 8 meses de baixa não tinha forma de os contactar. → Após 8 meses de baixa não tinha como os contactar.
-      Após acabar o curso já tinha forma de os contactar. → Após acabar o curso já tinha como os contactar.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token inflected='yes'>ter</token>
+                <token regexp='yes' inflected='yes'>ter|haver</token>
                 <marker>
                     <token>forma</token>
                     <token>de</token>
                 </marker>
-                <token><exception postag_regexp='yes' postag='NC.+|AQ.+|DI.+|Z0.+'/></token>
+                <token postag='DA.+|PP.+|V.+|RM' postag_regexp='yes'/>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>como</suggestion>
             <example correction="como">Após 8 meses de baixa não tinha <marker>forma de</marker> os contactar.</example>
             <example correction="como">Após acabar o curso já tinha <marker>forma de</marker> os contactar.</example>
-            <example>Esta pedra tem forma de um animal.</example>
         </rule>
 
 
