@@ -43166,6 +43166,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>As forças estão organizadas numa hierarquia C2.</example>
             </antipattern>
 
+            <antipattern> <!-- #1: Monte/Montanha K2 -->
+                <token skip='-1' postag='NC.+' postag_regexp='yes' regexp='yes'>montes?|montanhas?</token>
+                <token case_sensitive='yes'>K2</token>
+                <example>O monte K2 fica na cadeia do Caracoram.</example>
+                <example>Você já ouviu falar do monte K2?</example>
+            </antipattern>
+            <antipattern> <!-- #2: Monte/Montanha K2 -->
+                <token skip='-1' case_sensitive='yes'>K2</token>
+                <token postag='NC.+' postag_regexp='yes' regexp='yes'>montes?|montanhas?</token>
+                <example>O K2 é o segundo monte mais alto da Terra, após o Everest.</example>
+            </antipattern>
+
             <antipattern>
                 <token regexp='yes'>BBB|CC|Y|C2C|B2C|U|V|W|PB|SiO|COP|FS|SnO</token>
                 <token regexp='yes'>\d+</token>
