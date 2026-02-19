@@ -9572,6 +9572,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
 
 
+        <rule id='AO_LONGO_DO_TEMPO' name="Ao longo do tempo → gradualmente/progressivamente" type='style' tone_tags='academic' is_goal_specific='true' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' regexp='yes' inflected='yes'>evoluir|desenvolver|transformar|modificar|alterar|adaptar|aperfeiçoar|refinar|consolidar|amadurecer|emergir|surgir|tornar|complexificar|diferenciar</token>
+                <marker>
+                    <token>ao</token>
+                    <token>longo</token>
+                    <token>do</token>
+                    <token>tempo</token>
+                </marker>
+            </pattern>
+            <message>&quot;Ao longo do tempo&quot; pode ser redundante com verbos que já implicam progressão (ex.: &quot;evoluir&quot;). Considere remover ou substituir por &quot;gradualmente&quot; ou &quot;progressivamente&quot;.</message>
+            <suggestion>gradualmente</suggestion>
+            <suggestion>progressivamente</suggestion>
+            <example correction="gradualmente|progressivamente">É assim que o sistema evolui <marker>ao longo do tempo</marker>.</example>
+        </rule>
+
+
         <rule id='OBTER_ALCANCAR' name="Obter → alcançar" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
