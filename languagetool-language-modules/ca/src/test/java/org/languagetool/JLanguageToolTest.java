@@ -49,15 +49,15 @@ public class JLanguageToolTest {
     matches = tool.check("Potser siga el millor");
     assertEquals(1, matches.size());
     assertEquals("POTSER_SIGUI", matches.get(0).getRule().getId());
-    
-    //ChunkTags
- 
-    assertEquals("[<S> Ho[ho/PP3NN000] deu[deure/VMIP3S00,GV] haver[haver/VAN00000,haver/_GV_,haver/_perfet,GV] tornat[tornar/VMP00SM0,GV] a[a/SPS00,GV] fer[fer/VMN00000,fer/complement,GV].[</S>./_PUNCT,<P/>]]",
-        tool.analyzeText("Ho deu haver tornat a fer.").toString());
 
-    
+    //ChunkTags
+
+    assertEquals("[<S> Ho[ho/PP3NN000] deu[deure/VMIP3S00,GV] haver[haver/VAN00000,haver/_GV_,haver/_perfet,GV] tornat[tornar/VMP00SM0,GV] a[a/SPS00,GV] fer[fer/VMN00000,fer/complement,GV].[</S>./_PUNCT,<P/>]]",
+      tool.analyzeText("Ho deu haver tornat a fer.").toString());
+
+
     assertEquals("[<S> Ho[ho/PP3NN000] he[haver/VAIP1S00,haver/_obligacio,GV] de[de/SPS00,GV] continuar[continuar/VMN00000,continuar/_GV_,GV] fent[fer/VMG00000,fent/_GV_,GV] així[així/RG].[</S>./_PUNCT,<P/>]]",
-        tool.analyzeText("Ho he de continuar fent així.").toString());
+      tool.analyzeText("Ho he de continuar fent així.").toString());
 
   }
 
@@ -70,23 +70,23 @@ public class JLanguageToolTest {
 
     matches = tool.check("Aquests ganivets no corresponen amb estes forquilles.");
     assertEquals(1, matches.size());
-    assertEquals( "aquestes", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("aquestes", matches.get(0).getSuggestedReplacements().get(0));
 
     matches = tool.check("Estes forquilles, aquestos ganivets.");
     assertEquals(1, matches.size());
-    assertEquals( "estos", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("estos", matches.get(0).getSuggestedReplacements().get(0));
 
     matches = tool.check("Estes forquilles, aquests ganivets.");
     assertEquals(1, matches.size());
-    assertEquals( "estos", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("estos", matches.get(0).getSuggestedReplacements().get(0));
 
     matches = tool.check("Aqueixes forquilles, eixos ganivets.");
     assertEquals(1, matches.size());
-    assertEquals( "aqueixos", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("aqueixos", matches.get(0).getSuggestedReplacements().get(0));
 
     matches = tool.check("Eixes forquilles, aqueixos ganivets.");
     assertEquals(1, matches.size());
-    assertEquals( "eixos", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("eixos", matches.get(0).getSuggestedReplacements().get(0));
 
     matches = tool.check("Estos ganivets no corresponen amb estes forquilles.");
     assertEquals(0, matches.size());
@@ -96,7 +96,7 @@ public class JLanguageToolTest {
 
     matches = tool.check("Com no te vaig a estimar?");
     assertEquals(1, matches.size());
-    assertEquals( "Com vols que no t'estime", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("Com vols que no t'estime", matches.get(0).getSuggestedReplacements().get(0));
 
     List<RuleMatch> matches2 = tool.check("Aquestes frases per a probar.");
     assertEquals(1, matches2.size());
@@ -104,14 +104,14 @@ public class JLanguageToolTest {
 
     matches = tool.check("Vull coneixer més coses.");
     assertEquals(1, matches.size());
-    assertEquals( "conéixer", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("conéixer", matches.get(0).getSuggestedReplacements().get(0));
 
     matches = tool.check("Durant l\u0092estiu.");
     assertEquals(1, matches.size());
-    assertEquals( "l'estiu", matches.get(0).getSuggestedReplacements().get(0));
+    assertEquals("l'estiu", matches.get(0).getSuggestedReplacements().get(0));
 
   }
-  
+
   @Test
   public void testBalearicVariant() throws IOException {
     Language lang = BalearicCatalan.getInstance();
@@ -127,7 +127,7 @@ public class JLanguageToolTest {
     assertEquals(0, matches3.size());
 
   }
-  
+
   @Test
   public void testAdvancedTypography() throws IOException {
     assertEquals(lang.toAdvancedTypography("És l'\"hora\"!"), "És l’«hora»!");
@@ -156,12 +156,12 @@ public class JLanguageToolTest {
   @Test
   public void testAdaptSuggestions() throws IOException {
     List<RuleMatch> matches = tool.check(
-        "Els valencians hem sigut valencians des que Jaume I creà el regne de València i poc a poc es conformà una nova identitat política (que en l'edat mitjana, per exemple, no entrava en contradicció amb la consciència clara que teníem un origen i una llengua comuns amb els catalans).");
+      "Els valencians hem sigut valencians des que Jaume I creà el regne de València i poc a poc es conformà una nova identitat política (que en l'edat mitjana, per exemple, no entrava en contradicció amb la consciència clara que teníem un origen i una llengua comuns amb els catalans).");
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[a poc a poc]");
 
     matches = tool.check("A nivell d'ensenyament superior.");
     assertEquals(matches.get(0).getSuggestedReplacements().toString(),
-        "[En l'àmbit d', A escala d', A , En , Pel que fa a , Quant a ]");
+      "[En l'àmbit d', A escala d', A , En , Pel que fa a , Quant a ]");
 
   }
 
@@ -267,11 +267,23 @@ public class JLanguageToolTest {
   @Test
   public void testCatalanLongSentenceRule() throws IOException {
     List<RuleMatch> matches = tool.check(
-      "En una tarda grisa que avançava sense pressa sobre els carrers estrets de la ciutat, mentre els comerços abaixaven persianes i el soroll del trànsit es diluïa en un murmuri constant, un home caminava pensant en decisions ajornades, en paraules no dites i en projectes que havia volgut compondre amb rigor, però que el cansament havia anat desfigurant i, així i tot, convençut que encara disposava de prou lucidesa per a ordenar les idees, assumir els errors, fer servir l’experiència acumulada com a criteri i continuar avançant amb una determinació menys impulsiva però més sòlida."
+      "En una tarda grisa que avançava sense pressa sobre els carrers estrets de la ciutat, mentre els comerços " +
+        "abaixaven persianes i el soroll del trànsit es diluïa en un murmuri constant, un home caminava pensant en " +
+        "decisions ajornades, en paraules no dites i en projectes que havia volgut compondre amb rigor, però que el " +
+        "cansament havia anat desfigurant i, així i tot, convençut que encara disposava de prou lucidesa per a " +
+        "ordenar les idees, assumir els errors, fer servir l’experiència acumulada com a criteri i continuar avançant" +
+        " amb una determinació menys impulsiva però més sòlida."
       , JLanguageTool.Level.PICKY);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[desfigurant. I]");
-
   }
 
+  @Test
+  public void testIgnoreProperNouns() throws IOException {
+    List<RuleMatch> matches = tool.check(
+      "Henna Virkkunen ha remarcat que la venda de productes il·legals a la UE era del tot prohibida. Virkkunen ha " +
+        "reivindicat la llei de serveis digitals."
+      , JLanguageTool.Level.PICKY);
+    assertEquals(matches.size(), 0);
+  }
 
 }

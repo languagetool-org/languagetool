@@ -134,7 +134,8 @@ public class Catalan extends Language {
             new WordCoherencyRule(messages),
             new PunctuationMarkAtParagraphEnd(messages, this),
             new CatalanRemoteRule(messages, userConfig),
-            new CatalanSplitLongSentenceRule(messages, userConfig, 60)
+            new CatalanSplitLongSentenceRule(messages, userConfig, 60),
+            new IgnoreProperNouns(messages)
     );
   }
 
@@ -577,23 +578,41 @@ public class Catalan extends Language {
   @Override
   public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> results = new ArrayList<>();
-    for (int i=0; i<ruleMatches.size(); i++) {
+    int ignoreMatchInPos = -1;
+    RuleMatch previousRuleMatch = null;
+    for (int i = 0; i < ruleMatches.size(); i++) {
       RuleMatch ruleMatch = ruleMatches.get(i);
+      // remove rules IGNORE_PROPER_NOUNS and MORFOLOGIK_RULE_CA_ES if they are in the same position
+      if (ruleMatch.getRule().getId().equals("IGNORE_PROPER_NOUNS")) {
+        if (previousRuleMatch != null && previousRuleMatch.getRule().getId().equals("MORFOLOGIK_RULE_CA_ES")
+        && ruleMatch.getFromPos() == previousRuleMatch.getFromPos()) {
+          results.remove(results.size() - 1);
+          ignoreMatchInPos = -1;
+          continue;
+        }
+        ignoreMatchInPos = ruleMatch.getFromPos();
+        continue;
+      }
+      if (ruleMatch.getRule().getId().equals("MORFOLOGIK_RULE_CA_ES") && ruleMatch.getFromPos() == ignoreMatchInPos) {
+        ignoreMatchInPos = -1;
+        continue;
+      }
       if (ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[3]") ||
         ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[4]")) {
-        if (i+1 < ruleMatches.size()) {
-          if (ruleMatches.get(i+1).getFromPosSentence()>-1
-            && !ruleMatches.get(i+1).getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]")
-            && ruleMatches.get(i+1).getFromPosSentence() - ruleMatch.getToPosSentence()<20) {
+        if (i + 1 < ruleMatches.size()) {
+          if (ruleMatches.get(i + 1).getFromPosSentence() > -1
+            && !ruleMatches.get(i + 1).getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]")
+            && ruleMatches.get(i + 1).getFromPosSentence() - ruleMatch.getToPosSentence() < 20) {
             continue;
           }
         }
       }
-      if (i>0 && ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]") &&
-        ruleMatches.get(i-1).getRule().getId().equals("FALTA_ELEMENT_ENTRE_VERBS")) {
-      continue;
+      if (i > 0 && ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]") &&
+        ruleMatches.get(i - 1).getRule().getId().equals("FALTA_ELEMENT_ENTRE_VERBS")) {
+        continue;
       }
       results.add(adjustCatalanMatch(ruleMatch, enabledRules));
+      previousRuleMatch = ruleMatch;
     }
     return results;
   }
