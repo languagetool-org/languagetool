@@ -6068,6 +6068,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
+  <rule id="VERB_VMIP2P0_TO_NCAQ_20260220_RARE" name="It is not VMIP2P0">
+    <pattern>
+      <token postag_regexp='yes' postag='(SPS00:)?[DP]...P.+ '/>
+      <token postag_regexp='yes' postag='AQ..P.+|NC.P.+|VMP00P.+'/>
+      <token min='0' max='1' postag='RG|RM|RN' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2P0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP2P0"/>
+    <!--
+    Examples:
+             Regional: são os serviços locais da CP efectuam paragem em todas ou quase todas as estações e apeadeiros.
+             Inclusive os proibiu de exercer seu comércio para os artesãos individuais, pelo menos até 1936.
+             Alguns desses trabalhos finais denotam as preocupações mais profundas de Van Gogh.
+             Essa relação está presente na maioria das plantas atuais.
+             Além disso, alguns de seus álbuns também foram citados como os álbuns digitais mais bem sucedidos da história.
+             Confira as letras originais, a tradução e cative seu amor!
+             Trazendo os presentes mais originais, mais engraçados e únicos até aqui!
+             O conteúdo deste portal pode ser utilizado para todos os fins não comerciais, respeitados e reservados os direitos morais dos autores.
+             Versátil, a peça vai desde o ambiente de trabalho até as ocasiões mais informais.
+             Estes clientes são considerados pelos médicos como potenciais “problemas” em virtude do risco de litígio legal por erros médicos.
+             Ela é uma das pessoas mais legais que eu conheço.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
