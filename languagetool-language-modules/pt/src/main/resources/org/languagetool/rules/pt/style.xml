@@ -14107,6 +14107,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       Foi considerado por muitos cientistas como sendo o pai da Matemática. → Foi considerado por muitos cientistas o pai da Matemática.
       Uma sessão de login é considerada como sendo a vida útil de um processo de usuário. → Uma sessão de login é considerada a vida útil de um processo de usuário.
       -->
+
+            <antipattern>
+                <token postag='VMP00.+' postag_regexp='yes'/>
+                <token>como</token>
+                <token>sendo</token>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token min='0' max='1'>de</token>
+                <token min='0' max='1' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token postag='SENT_END|_PUNCT|CC|SPS00|SPS00:D[AI].+' postag_regexp='yes'/>
+                <example>O “Pilar” é classificado como sendo um obstáculo.</example>
+                <example>O arvoredo foi mantido como sendo um terreno.</example>
+                <example>Os terroristas retaliam contra Estados encarados como sendo os inimigos.</example>
+                <example>Um argumento é definido como sendo um raciocínio para provar algo.</example>
+                <example>Ela é definida como sendo a função principal.</example>
+                <example>O Sistema de Crenças é definido como sendo o conjunto de argumentos e os respetivos pesos.</example>
+            </antipattern>
+
             <antipattern>
                 <token><exception postag='V.+' postag_regexp='yes'/></token>
                 <token min="0" max="1" postag='DI.+|RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
@@ -14115,31 +14133,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>como</token>
                 <token>sendo</token>
                 <token/>
-                <example>...ndo que o profeta da Era do peixe seria o Messias; e é por isso que os judeus nunca aceitaram Jesus como sendo um Deus humano.</example>
-                <example>...os de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
+                <example>É por isso que os judeus nunca aceitaram Jesus como sendo um Deus humano.</example>
+                <example>Enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
                 <example>Parece que muitas vezes, em nossa cabeça, interpretamos outras religiões cristãs como sendo outros deuses.</example>
-                <example>* (j) Monarca discutível como sendo o verdadeiro Chefe de Estado.</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag='VMIS.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                <token postag='VMP00.+' postag_regexp='yes'/>
-                <token>como</token>
-                <token>sendo</token>
-                <token/>
-                <example>O arvoredo foi mantido como sendo um terreno.</example>
-                <example>Os terroristas retaliam contra Estados encarados como sendo os inimigos.</example>
-            </antipattern>
-
-            <antipattern>
-                <token regexp='yes'>definid[ao]s?</token>
-                <token>como</token>
-                <token>sendo</token>
-                <token postag='[DP].+' postag_regexp='yes'/>
-                <token postag='N.+|AQ.+' postag_regexp='yes'/>
-                <example>Um argumento é definido como sendo um raciocínio para provar algo.</example>
-                <example>Ela é definida como sendo a função principal.</example>
-                <example>O Sistema de Crenças é definido como sendo o conjunto de argumentos e os respetivos pesos.</example>
+                <example>Monarca discutível como sendo o verdadeiro Chefe de Estado.</example>
             </antipattern>
 
             <pattern>
