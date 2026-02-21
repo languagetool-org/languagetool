@@ -7716,6 +7716,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="podar"/>
         </disambig>
     </rule>
+    <rulegroup id="GRANS" name="grans de cereals...">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCMP000">grans</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">all|blat|cereal|dacsa|panís</token>
+            </pattern>
+            <disambig action="filter" postag="NCMP000"/>
+            <example type="untouched">Són fragments grans de membrana.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCMP000">grans<exception scope="previous" postag="NC.P.*" postag_regexp="yes"/></token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token postag="NC.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+            <example type="untouched">Són fragments grans de membrana.</example>
+        </rule>
+    </rulegroup>
     <rule id="caldre_calar" name="caldre/calar + infinitiu">
         <pattern>
             <marker>
@@ -18653,17 +18677,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="[^P].*"/>
-    </rule>
-    <rule id="GRANS" name="grans de cereals...">
-        <pattern>
-            <marker>
-                <token postag="NC.*" postag_regexp="yes">grans<exception scope="previous" postag="NC.P.*" postag_regexp="yes"/></token>
-            </marker>
-            <token regexp="yes">de|d'</token>
-            <token postag="NC.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-        <example type="untouched">Són fragments grans de membrana.</example>
     </rule>
     <rule id="clara_d_ou" name="clara d'ou">
         <pattern>
