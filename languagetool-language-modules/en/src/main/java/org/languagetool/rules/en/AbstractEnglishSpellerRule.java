@@ -492,6 +492,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !repLc.startsWith("op ") &&
           !repLc.startsWith("con ") &&
           !repLc.startsWith("pre ") &&
+          !repLc.startsWith("mis ") &&
           !repLc.startsWith("socio ") &&
           !repLc.startsWith("proto ") &&
           !repLc.startsWith("neo ") &&
