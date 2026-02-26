@@ -1,6 +1,6 @@
 ## LanguageTool
 
-**LanguageTool** is open-source proofreading software for English, Spanish, French, German,
+**LanguageTool** is an open-source proofreading software for English, Spanish, French, German,
 Portuguese, Polish, Dutch, and [more than 20 other languages](https://languagetool.org/languages/).
 It detects many errors that a simple spell checker cannot detect.
 * [LanguageTool Forum](https://forum.languagetool.org)
