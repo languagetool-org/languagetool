@@ -2,8 +2,7 @@
 
 **LanguageTool** is open-source proofreading software for English, Spanish, French, German,
 Portuguese, Polish, Dutch, and [more than 20 other languages](https://languagetool.org/languages/).
-It finds many errors that a simple spell checker cannot detect.
-
+It detects many errors that a simple spell checker cannot detect.
 * [LanguageTool Forum](https://forum.languagetool.org)
 
 * [How to run your own LanguageTool server](https://dev.languagetool.org/http-server)
