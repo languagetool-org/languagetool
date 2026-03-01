@@ -71,7 +71,7 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
           if (replacements.size() >= 2 * MAX_SUGGESTIONS) {
             break;
           }
-          if (analyzedSuggestion.matchesPosTagRegex("NP.*|NC.[SN].*|A...[SN].|V.P..S..|V.[NG].*|RG|PX..S...")) {
+          if (analyzedSuggestion.matchesPosTagRegex("NP..[^0].*|NC.[SN].*|A...[SN].|V.P..S..|V.[NG].*|RG|PX..S...")) {
             replacements.add("és " + analyzedSuggestion.getToken());
             usedEsAccent = true;
           }

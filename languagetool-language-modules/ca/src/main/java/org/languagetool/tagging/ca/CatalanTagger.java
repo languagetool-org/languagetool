@@ -52,13 +52,13 @@ public class CatalanTagger extends BaseTagger {
   private final List<String> NO_ALTRES_PREFIXOS = Arrays.asList("grego", "xineso", "italiano", "franceso",
     "portugueso", "angleso", "espanyolo", "alemanyo", "arabo");
   private static final List<String> ALLUPPERCASE_EXCEPTIONS = Arrays.asList("ARNAU", "CRISTIAN", "TOMÀS");
-  private String variant;
+  private boolean isValencian;
 
 
   public CatalanTagger(Language language) {
-    super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,
+    super("/ca/ca-ES" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,
       new Locale("ca"), false);
-    variant = language.getVariant();
+    isValencian = "valencia".equals(language.getVariant());
   }
 
   @Override
@@ -81,7 +81,7 @@ public class CatalanTagger extends BaseTagger {
         }
       }
       String normalizedWord = StringTools.normalizeNFC(originalWord);
-      final List<AnalyzedToken> l = new ArrayList<>();
+      final List<AnalyzedToken> analyzedTokenList = new ArrayList<>();
       final String lowerWord = normalizedWord.toLowerCase(locale);
       final boolean isLowercase = normalizedWord.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(normalizedWord);
@@ -90,34 +90,37 @@ public class CatalanTagger extends BaseTagger {
         getWordTagger().tag(normalizedWord));
 
       // normal case:
-      addTokens(taggerTokens, l);
+      addTokens(taggerTokens, analyzedTokenList);
       // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
       // word with lowercase word tags:
       if (!isLowercase && !isMixedCase) {
         List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
           getWordTagger().tag(lowerWord));
-        addTokens(lowerTaggerTokens, l);
+        addTokens(lowerTaggerTokens, analyzedTokenList);
       }
 
       //tag all-uppercase proper nouns (ex. FRANÇA)
-      if ((l.isEmpty() || ALLUPPERCASE_EXCEPTIONS.contains(normalizedWord)) && isAllUpper) {
+      if ((analyzedTokenList.isEmpty() || ALLUPPERCASE_EXCEPTIONS.contains(normalizedWord)) && isAllUpper) {
         final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
         List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord,
           getWordTagger().tag(firstUpper));
-        addTokens(firstupperTaggerTokens, l);
+        addTokens(firstupperTaggerTokens, analyzedTokenList);
       }
       // additional tagging with prefixes
-      if (l.isEmpty() && !isMixedCase) {
-        addTokens(additionalTags(originalWord), l);
+      if (analyzedTokenList.isEmpty() && !isMixedCase) {
+        addTokens(additionalTags(originalWord), analyzedTokenList);
       }
       // emoji
-      if (l.isEmpty() && StringTools.isEmoji(originalWord)) {
-        l.add(new AnalyzedToken(originalWord, "_emoji_", "_emoji_"));
+      if (analyzedTokenList.isEmpty() && StringTools.isEmoji(originalWord)) {
+        analyzedTokenList.add(new AnalyzedToken(originalWord, "_emoji_", "_emoji_"));
       }
-      if (l.isEmpty()) {
-        l.add(new AnalyzedToken(originalWord, null, null));
+      // filter for Valencian POS tags
+      filterAnalyzedTokensInPlace(analyzedTokenList);
+      // if empty, add an analyzed token with no lemma and no postag
+      if (analyzedTokenList.isEmpty()) {
+        analyzedTokenList.add(new AnalyzedToken(originalWord, null, null));
       }
-      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
+      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(analyzedTokenList, pos);
       if (containsTypographicApostrophe) {
         atr.setTypographicApostrophe();
       }
@@ -126,6 +129,33 @@ public class CatalanTagger extends BaseTagger {
     }
 
     return tokenReadings;
+  }
+
+  private void filterAnalyzedTokensInPlace(final List<AnalyzedToken> analyzedTokenList) {
+    // Si som en valencià eliminem el "0" al principi de l'etiqueta
+    // Si no som en valencià, ignorem les etiquetes que comencen per "0"
+    if (analyzedTokenList.isEmpty()) return;
+    final int size = analyzedTokenList.size();
+    if (isValencian) {
+      for (int i = 0; i < size; i++) {
+        AnalyzedToken token = analyzedTokenList.get(i);
+        String posTag = token.getPOSTag();
+        if (posTag != null && posTag.length() > 0 && posTag.charAt(0) == '0') {
+          analyzedTokenList.set(i, new AnalyzedToken(
+            token.getToken(),
+            posTag.substring(1),
+            token.getLemma()
+          ));
+        }
+      }
+    } else {
+      for (int i = size - 1; i >= 0; i--) {
+        String posTag = analyzedTokenList.get(i).getPOSTag();
+        if (posTag != null && posTag.length() > 0 && posTag.charAt(0) == '0') {
+          analyzedTokenList.remove(i);
+        }
+      }
+    }
   }
 
   @Nullable
@@ -229,7 +259,7 @@ public class CatalanTagger extends BaseTagger {
     }
 
     // adjectives -iste in Valencian variant
-    if (variant != null && lowerWord.endsWith("iste")) {
+    if (isValencian && lowerWord.endsWith("iste")) {
       final String possibleAdjNoun = lowerWord.replaceAll("^(.+)iste$", "$1ista");
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(possibleAdjNoun,
         getWordTagger().tag(possibleAdjNoun));
