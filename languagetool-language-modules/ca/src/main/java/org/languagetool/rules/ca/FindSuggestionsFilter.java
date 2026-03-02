@@ -31,10 +31,10 @@ import org.languagetool.tagging.ca.CatalanTagger;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
-  protected static final String DICT_FILENAME = "/ca/ca-ES.dict";
+  protected static final String DICT_FILENAME = "/ca/ca-ES_spelling.dict";
   protected static MorfologikSpeller speller;
   /* lemma exceptions */
-  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar"};
+  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar", "liar", "vore"};
   public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
   
   public FindSuggestionsFilter() throws IOException {

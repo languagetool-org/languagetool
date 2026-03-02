@@ -264,7 +264,7 @@ public class Portuguese extends LanguageWithModel {
     id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER
     id2prio.put("PT_BR_SIMPLE_REPLACE", -51);
     id2prio.put("CRASE_CONFUSION", -54);
-    id2prio.put("NAO_MILITARES", -54);
+    id2prio.put("NAO_MILITARES_CIVIS", -54);
     id2prio.put("NA_QUELE", -54);
     id2prio.put("NOTAS_FICAIS", -54);
     id2prio.put("GENERAL_VERB_AGREEMENT_ERRORS", -55);

@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Catalan;
+import org.languagetool.language.ValencianCatalan;
 import org.languagetool.rules.RuleMatch;
 
 import static org.junit.Assert.assertEquals;
@@ -37,11 +38,12 @@ public class CatalanTest extends LanguageSpecificTest {
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
     String s = "Introduïu açí el vostre text. o feu servir aquest texts com a a exemple per a alguns errades que LanguageTool hi pot detectat.";
-    Catalan lang = Catalan.getInstance();
+    Language lang = Catalan.getInstance();
+    Language langVariantForReplaceTests = ValencianCatalan.getInstance();
     testDemoText(lang, s,
       Arrays.asList("MORFOLOGIK_RULE_CA_ES", "UPPERCASE_SENTENCE_START", "CONCORDANCES_DET_NOM", "CATALAN_WORD_REPEAT_RULE", "CONCORDANCES_DET_NOM", "VERB_SEGUIT_DINFINITIU")
     );
-    runTests(lang, "ca-ES", "·");
+    runTests(lang, langVariantForReplaceTests,"ca-ES", "·");
   }
   
   @Test

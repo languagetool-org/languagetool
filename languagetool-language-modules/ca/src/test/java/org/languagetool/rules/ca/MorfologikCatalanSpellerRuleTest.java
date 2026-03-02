@@ -107,7 +107,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertEquals("Bordó", matches[0].getSuggestedReplacements().get(0));
     assertEquals("Bordoi", matches[0].getSuggestedReplacements().get(1));
     assertEquals("Bordo", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("Bordon", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("Borðoy", matches[0].getSuggestedReplacements().get(3));
 
     matches = rule.match(lt.getAnalyzedSentence("Mal'aysia"));
     assertEquals(1, matches.length);
@@ -118,7 +118,7 @@ public class MorfologikCatalanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Malaysia"));
     assertEquals(1, matches.length);
     assertEquals("Malàisia", matches[0].getSuggestedReplacements().get(0));
-    assertEquals(1 , matches[0].getSuggestedReplacements().size());
+    assertEquals(2 , matches[0].getSuggestedReplacements().size());
 
     matches = rule.match(lt.getAnalyzedSentence("quna"));
     assertEquals(1, matches.length);
@@ -133,7 +133,8 @@ public class MorfologikCatalanSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("bànner"));
     assertEquals(1, matches.length);
-    assertEquals("bàner", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Banner", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("bàner", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("especialisats"));
     assertEquals(1, matches.length);
