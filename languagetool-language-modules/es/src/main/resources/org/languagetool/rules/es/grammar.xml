@@ -5409,11 +5409,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SE_CREO2" name="confusión: se creo/creó">
             <antipattern>
-                <token postag="VMIP1S0">trazo</token>
-                <token>de</token>
-                <example>La tibia muestra trazo de fractura oblicuo.</example>
-            </antipattern>
-            <antipattern>
                 <token>modelo</token>
                 <token regexp="yes">[A-Z0-9].*</token>
                 <example>Se realizó estudio solicitado mediante Unidad de Tomografía de la marca: PHILIPS modelo ACCESS. </example>
@@ -6654,8 +6649,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto">
             <antipattern>
-                <token postag="V.S.*" postag_regexp="yes">volares</token>
-                <example>Ligamentos volares conservados.</example>
+                <token postag="DA.*" postag_regexp="yes" min="0" max="1"/>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <token postag="AQ.*" postag_regexp="yes" min="1" max="6"/>
+                <token>y</token>
+                <token>volares</token>
+                <example>Los ligamentos extrínsecos radiocarpianos dorsales y volares se observan conservados.</example>
             </antipattern>
             <antipattern>
                 <token postag="_english_ignore_"/>
@@ -16611,15 +16610,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>¿Tomas café?</example>
         </rule>
         <rulegroup id="SINGLE_CHARACTER" name="carácter único en minúscula">
-            <antipattern>
-                <token regexp="yes">\d+([.,]\d+)?</token>
-                <token min="0" max="1" regexp="yes">mm|cm|m</token>
-                <token case_sensitive="yes">x</token>
-                <token min="0" max="1">por</token>
-                <token regexp="yes">\d+([.,]\d+)?</token>
-                <token min="0" max="1" regexp="yes">mm|cm|m</token>
-                <example>La lesión mide 26 mm x por 28 mm.</example>
-            </antipattern>
             <!-- copied and adapted from English rule -->
             <antipattern>
                 <token regexp="yes">[a-z]</token>
