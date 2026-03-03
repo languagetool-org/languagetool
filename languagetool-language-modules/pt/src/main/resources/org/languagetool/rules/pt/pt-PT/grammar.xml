@@ -4443,36 +4443,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 </category>
 
 
-<category id='CONFUSED_WORDS_PT_PT' name="🇵🇹 Confusão de Palavras">
-
-    <rule id='PARONYM_PREMIO_252_PT' name='🇵🇹 Parónimo: premio'>
-        <pattern>
-            <token regexp='yes'>&art_detecao_paronimos;</token>
-            <token min='0' postag='A.+' postag_regexp='yes'/>
-            <token regexp='yes'>premios?</token>
-        </pattern>
-        <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> prémio<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
-        <url>https://pt.wiktionary.org/wiki/prémio</url>
-        <example correction='no prémio'><marker>no premio</marker>.</example>
-        <example correction='nos prémios'><marker>nos premios</marker>.</example>
-    </rule>
-    <rule id='PARONYM_PREMIO_252_PT2' name='🇵🇹 Parónimo: premio'>
-        <pattern>
-            <token regexp='yes' inflected="yes">&verbos_auxiliares_part_passado;|dever|poder|querer|costumar</token>
-            <marker>
-                <token regexp='yes'>premios?</token>
-            </marker>
-        </pattern>
-        <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion>prémio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
-        <url>https://pt.wiktionary.org/wiki/prémio</url>
-        <example correction='prémio'>E tem <marker>premio</marker> para todos.</example>
-        <example correction='prémios'>E tem <marker>premios</marker> para todos.</example>
-    </rule>
+  <category id='CONFUSED_WORDS_PT_PT' name="🇵🇹 Confusão de Palavras">
 
 
-    <rule id='AUTO-FALANTE' name="🇵🇹 Confusão: Auto-falante/Altifalante">
+      <rulegroup id='PARONYM_PREMIO_PRÉMIO_PT' name='🇵🇹❓ Parónimo: premio/prémio'>
+          <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+          <rule>
+              <pattern>
+                  <token regexp='yes'>&art_detecao_paronimos;</token>
+                  <token min='0' postag='A.+' postag_regexp='yes'/>
+                  <token regexp='yes'>premios?</token>
+              </pattern>
+              <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+              <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> prémio<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+              <url>https://pt.wiktionary.org/wiki/prémio</url>
+              <example correction='no prémio'><marker>no premio</marker>.</example>
+              <example correction='nos prémios'><marker>nos premios</marker>.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token regexp='yes' inflected="yes">&verbos_auxiliares_part_passado;|dever|poder|querer|costumar</token>
+                  <marker>
+                      <token regexp='yes'>premios?</token>
+                  </marker>
+              </pattern>
+              <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+              <suggestion>prémio<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+              <url>https://pt.wiktionary.org/wiki/prémio</url>
+              <example correction='prémio'>E tem <marker>premio</marker> para todos.</example>
+              <example correction='prémios'>E tem <marker>premios</marker> para todos.</example>
+          </rule>
+      </rulegroup>
+
+
+    <rule id='AUTO-FALANTE' name="🇵🇹❓ Auto-falante/Altifalante">
         <pattern>
             <token>auto</token>
             <token regexp='yes' min='0'>&tracos_de_separacao;</token>
@@ -4486,7 +4490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-    <rule id='CRIAR_QUERER' name="🇵🇹 Confusão: Criar/Querer">
+    <rule id='CRIAR_QUERER' name="🇵🇹❓ Criar/Querer">
         <pattern>
             <marker>
                 <token regexp='yes'>cria[ms]?|criamos</token>
@@ -4505,7 +4509,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-</category>
+  </category>
 
 
 
