@@ -22917,30 +22917,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
 
 
-    <category id='CONFUSED_WORDS' name="Confusão de Palavras">
+    <category id='CONFUSED_WORDS' name="❓ Confusão de Palavras">
 
 
-        <rule id='TEMOS_TERMOS' name="Temos → termos">
+        <rule id='TEMOS_TERMOS' name="❓ Temos/termos">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Regra restringida a preposições para reduzir falsos positivos em "temos/termos" -->
             <pattern>
-                <token regexp='yes'>para|por</token>
+                <token regexp='yes'>para|por|sem|de</token>
                 <marker>
                     <token>temos</token>
                 </marker>
             </pattern>
-            <message>Possível erro de digitação. Provavelmente você quis escrever <suggestion>termos</suggestion>.</message>
+            <message>Possível erro de digitação. Provavelmente quis escrever <suggestion>termos</suggestion>.</message>
             <example correction="termos">Isso é ótimo por <marker>temos</marker> informação adicional.</example>
             <example>O estudo foi elaborado para termos informação sobre a população do país.</example>
         </rule>
 
 
-        <rule id='NOTAS_FICAIS' name="Notas ficais → fiscais">
+        <rule id='NOTAS_FICAIS' name="❓ Notas 'ficais' → fiscais">
             <pattern>
                 <token>notas</token>
                 <token>ficais</token>
             </pattern>
-            <message>Possível erro de digitação. Provavelmente você quis escrever <suggestion>notas fiscais</suggestion>.</message>
+            <message>Possível erro de digitação. Provavelmente quis escrever <suggestion>notas fiscais</suggestion>.</message>
             <example correction="notas fiscais">E as <marker>notas ficais</marker> de 2020?</example>
         </rule>
+
 
         <rule id='PER_CAPTA' name="Per capta → per capita">
             <pattern>
