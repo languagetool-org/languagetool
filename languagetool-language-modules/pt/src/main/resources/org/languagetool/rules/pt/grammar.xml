@@ -22917,30 +22917,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
 
 
-    <category id='CONFUSED_WORDS' name="Confusão de Palavras">
+    <category id='CONFUSED_WORDS' name="❓ Confusão de Palavras">
 
 
-        <rule id='TEMOS_TERMOS' name="Temos → termos">
+        <rule id='TEMOS_TERMOS' name="❓ Temos/termos">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Attempted to detect V.+ before "temos", but the rare verbs cause tons of FPs -->
+            <antipattern>
+                <token postag='CC|SPS00|CS' postag_regexp='yes'/>
+                <token regexp='yes'>[ao]s?</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token>temos</token>
+                <example>Para a utilizar temos de saber ler.</example>
+                <example>Para o utilizar temos de saber ler.</example>
+                <example>Para as utilizar temos de saber ler.</example>
+                <example>Para os utilizar temos de saber ler.</example>
+                <example>Por a incluir temos erros no código.</example>
+                <example>Por o incluir temos erros no código.</example>
+                <example>Por as incluir temos erros no código.</example>
+                <example>Por os incluir temos erros no código.</example>
+                <example>Que a colocar temos vários items.</example>
+            </antipattern>
             <pattern>
-                <token regexp='yes'>para|por</token>
+                <token regexp='yes' inflected='yes'>para|por|sem|até|pôr|colocar|usar|utilizar|incluir|empregar</token>
                 <marker>
                     <token>temos</token>
                 </marker>
             </pattern>
-            <message>Possível erro de digitação. Provavelmente você quis escrever <suggestion>termos</suggestion>.</message>
+            <message>Possível erro de digitação. Provavelmente quis escrever <suggestion>termos</suggestion>.</message>
             <example correction="termos">Isso é ótimo por <marker>temos</marker> informação adicional.</example>
             <example>O estudo foi elaborado para termos informação sobre a população do país.</example>
         </rule>
 
 
-        <rule id='NOTAS_FICAIS' name="Notas ficais → fiscais">
+        <rule id='NOTAS_FICAIS' name="❓ Notas 'ficais' → fiscais">
             <pattern>
                 <token>notas</token>
                 <token>ficais</token>
             </pattern>
-            <message>Possível erro de digitação. Provavelmente você quis escrever <suggestion>notas fiscais</suggestion>.</message>
+            <message>Possível erro de digitação. Provavelmente quis escrever <suggestion>notas fiscais</suggestion>.</message>
             <example correction="notas fiscais">E as <marker>notas ficais</marker> de 2020?</example>
         </rule>
+
 
         <rule id='PER_CAPTA' name="Per capta → per capita">
             <pattern>
