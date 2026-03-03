@@ -4491,10 +4491,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <rule id='CRIAR_QUERER' name="🇵🇹❓ Criar/Querer">
+          <!-- ChatGPT 5 and new disambiguator for 2026+ -->
         <pattern>
             <marker>
                 <token regexp='yes'>cria[ms]?|criamos</token>
             </marker>
+            <token min='0' max='1' regexp='yes'>&adverbios_de_intensidade;</token>
             <token postag="VMN0000">
                 <exception>saber</exception> <!-- "Ele cria saber." -->
             </token>
@@ -4505,6 +4507,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction="queria">Ele <marker>cria</marker> comprar o livro.</example>
         <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
         <example correction="queria">É o que eu <marker>cria</marker> dizer.</example>
+        <example correction="queria">É o que eu <marker>cria</marker> muito dizer.</example>
         <example>Ele cria saber.</example>
     </rule>
 
