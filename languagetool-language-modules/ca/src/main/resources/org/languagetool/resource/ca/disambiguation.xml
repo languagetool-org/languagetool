@@ -94,7 +94,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="UNKNOWN" regexp="yes">&english_common;|&english_common_casesensitive;</token>
+                <token postag="UNKNOWN|NPCN000" postag_regexp="yes" regexp="yes">&english_common;|&english_common_casesensitive;</token>
                 <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
             </pattern>
             <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:2"/>
@@ -118,7 +118,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token regexp="yes">[a-z]+<exception regexp="yes">&english_no;</exception></token>
-                <token postag="UNKNOWN" regexp="yes">&english_common;|&english_common_casesensitive;<exception>in</exception></token>
+                <token  postag="UNKNOWN|NPCN000" postag_regexp="yes" regexp="yes">&english_common;|&english_common_casesensitive;<exception>in</exception></token>
             </pattern>
             <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
             <disambig action="add">
@@ -179,7 +179,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
+                <token postag="_english_ignore_|UNKNOWN|NPCN000" postag_regexp="yes" regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
                 <token spacebefore="no">-</token>
                 <token spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
             </pattern>
@@ -194,7 +194,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">[a-z]+<exception regexp="yes">saint|anti|&english_no;</exception></token>
                 <token spacebefore="no">-</token>
-                <token postag="_english_ignore_|UNKNOWN" postag_regexp="yes" spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
+                <token postag="_english_ignore_|UNKNOWN|NPCN000" postag_regexp="yes" spacebefore="no" regexp="yes">[a-z]+<exception regexp="yes">&english_no;|&english_forward;</exception></token>
             </pattern>
             <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1,3"/>
             <disambig action="add">
