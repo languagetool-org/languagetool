@@ -3852,6 +3852,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id='USAR_UTILIZAR' name="🤵 Usar → utilizar" type='style' tone_tags='formal' tags='picky' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Disambiguator must be improved in order to fix some of the words that appear as verbs - 2026-03-04 -->
+
+            <antipattern>
+                <token skip='5' regexp='yes' inflected='yes'>calçado|sapato|bota|sandália|chinelo|ténis|meia|calça|saia|vestido|camisa|camisola|casaco|chapéu|boné|óculos|lente|anel|pulseira|colar|brinco|relógio|perfume|desodorizante|maquilhagem|batom|creme|gel</token> <!-- Lista mais curta e robusta (≈30 lemmas) que cobre a grande maioria dos casos -->
+                <token postag='V.+' postag_regexp='yes' inflected='yes'>usar</token>
+                <example>Para o homem, compre a bota ou o sapato que ele irá usar para ir ao trabalho.</example>
+                <example>Amigas dizem que rejuvenesci, perguntam se fiz cirurgia plástica ou que creme de beleza estou usando.</example>
+                <example>Você se importaria em me dizer o nome do perfume que usa?</example>
+                <example>Ainda não descobri qual perfume ela usa.</example>
+                <example>Ela precisa de óculos, mas não quer usá-los.</example>
+                <example>Os sapatos que você está usando parecem ser bastante caros.</example>
+                <example>O dirndl é um tipo de vestido tradicional que é usado na Alemanha meridional e na Áustria.</example>
+                <example>O chapéu que você usa é feio.</example>
+                <example>À venda: sapatos de bebê, nunca usados.</example>
+                <example>Maria vangloriou-se de ter confeccionado com as próprias mãos o vestido que usava.</example>
+            </antipattern>
+            <antipattern>
+                <token skip='5' postag='V.+' postag_regexp='yes' inflected='yes'>usar
+                    <exception scope='next' regexp='yes'>para|em|com|por|como</exception></token>
+                <token postag='NC.+' postag_regexp='yes' regexp='yes' inflected='yes'>calçado|sapato|bota|sandália|chinelo|ténis|meia|calça|saia|vestido|camisa|camisola|casaco|chapéu|boné|óculos|lente|anel|pulseira|colar|brinco|relógio|perfume|desodorizante|maquilhagem|batom|creme|gel</token> <!-- Lista mais curta e robusta (≈30 lemmas) que cobre a grande maioria dos casos -->
+                <example>Como os ângulos que Taeyang faz enquanto dança, e até o modo como move sua boca enquanto usa óculos escuros.</example>
+                <example>do tipo que sempre usa a mesma saia com a mesma blusa sabe?</example>
+                <example>Eu só não uso camisa de força porque branco marca muito.</example>
+                <example>Isto significa que pode usar o relógio no duche.</example>
+                <example>Pena que as mulheres brasileiras tenham medo de usar chapéu.</example>
+                <example>Não uso relógio.</example>
+                <example>Esse desconforto é rapidamente contornado com aplicação de flúor e uso de creme dental dessensibilizante.</example>
+                <example>Eu deixei de usar óculos.</example>
+                <example>Usarei o vestido azul.</example>
+                <example>Ele usava calças de ganga.</example>
+                <example>A minha mãe usa a camisa velha do meu pai como trapo para limpar.</example>
+                <example>Apesar de eu não usar mais esses sapatos, não tenho coragem de me livrar deles.</example>
+                <example>Meg era a única menina que usava botas.</example>
+                <example>Eu uso lentes de contato.</example>
+                <example>Quando uso lentes de contato, meus olhos secam e avermelham-se.</example>
+                <example>Você está usando brincos caros.</example>
+            </antipattern>
+
+            <pattern>
+                <marker>
+                    <token postag='V.+' postag_regexp='yes' inflected='yes'>usar</token>
+                </marker>
+            </pattern>
+            <message>Em contexto formal, prefira &quot;utilizar&quot; em vez de &quot;usar&quot; (exceto com roupa, acessórios ou cosmética).</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>utilizar</match></suggestion>
+            <example correction="utilizar">Vamos <marker>usar</marker> grandes meios.</example>
+            <example correction="utilizou">O Rui <marker>usou</marker> equações matemáticas.</example>
+        </rule>
+
+
         <rule id='DECIDIR_DELIBERAR' name="Decidir → deliberar (órgão colegiado)" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
