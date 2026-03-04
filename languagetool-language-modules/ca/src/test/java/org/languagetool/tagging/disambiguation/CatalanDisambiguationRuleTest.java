@@ -51,6 +51,18 @@ public class CatalanDisambiguationRuleTest {
 
     TestTools
       .myAssert(
+        "Astragalus germaini",
+        "/[null]SENT_START Astragalus/[Astragalus germaini]NPCNM00  /[null]null germaini/[Astragalus germaini]NPCNM00",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools
+      .myAssert(
+        "Ammoxenus amphalodes",
+        "/[null]SENT_START Ammoxenus/[Ammoxenus amphalodes]NPCNM00|Ammoxenus/[Ammoxenus]NPCN000  /[null]null amphalodes/[Ammoxenus amphalodes]NPCNM00",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools
+      .myAssert(
         "COVID-19",
         "/[null]SENT_START COVID-19/[COVID-19]NCFS000|COVID-19/[covid-19]NCFS000",
         tokenizer, sentenceTokenizer, tagger, disambiguator);

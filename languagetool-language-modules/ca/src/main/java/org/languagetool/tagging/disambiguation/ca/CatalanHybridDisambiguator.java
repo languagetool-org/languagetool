@@ -41,6 +41,7 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   private final MultiWordChunker chunkerGlobal = MultiWordChunker.getInstance("/spelling_global.txt", false, true, false,
     "NPCN000");
   private final Disambiguator disambiguator;
+  private final CatalanMultitokenDisambiguator multitokenDisambiguator = new CatalanMultitokenDisambiguator();
 
   private static final String ENGLISH_IGNORE_TAG = "_english_ignore_";
 
@@ -62,9 +63,10 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input,
                                              @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input,
+    AnalyzedSentence analyzedSentence = disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input,
         checkCanceled),
       checkCanceled), checkCanceled);
+    return multitokenDisambiguator.disambiguate(analyzedSentence, checkCanceled);
   }
 
 }
