@@ -6097,6 +6097,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
   </rule>
 
+  <rule id="NCAQ_SPS00DA_NCAQVMP_20260305_RARE" name="It is not VMP00.+">
+    <pattern>
+      <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      <token postag='SPS00:DA.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMP00.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='SPS.+'/></token>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='SPS.+'/></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMP00.+"/>
+    <!--
+    Examples:
+             Outras leis proibiram a venda de cargos públicos e a isenção tributária das camadas privilegiadas.
+             Esta tradição pode ser revivida no núcleo das charqueadas, por meio de visitas orientadas.
+             As restantes naus da Armada portuguesa ficariam em defesa do porto de Lisboa.
+             Conviveu com figuras proeminentes do partido, como Artur Bernardes Filho, Clóvis Salgado da Gama e Tristão da Cunha.
+             Também foram feitas várias obras de reparação nas oficinas, incluindo a substituição do telhado e de bocas de incêndio, e nos escritórios.
+             Com vários problemas internos na banda, houve especulações sobre o fim do conjunto.
+      -->
+  </rule>
+
   <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
     <pattern>
       <marker>
