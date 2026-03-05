@@ -130,7 +130,7 @@ public class MultitokenSpeller {
         }
       }
     }
-    weightedCandidates.addAll(getAdditionalSuggestions(normalizedWord));
+    weightedCandidates.addAll(getAdditionalSuggestions(word));
     if (weightedCandidates.isEmpty()) {
       return Collections.emptyList();
     }

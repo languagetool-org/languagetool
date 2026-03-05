@@ -167,6 +167,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testMultitokenSpeller() throws IOException {
+    assertEquals("[Hans-Hermann Hoppe]", lang.getMultitokenSpeller().getSuggestions("Hans-Herrmann Hoppe").toString());
     assertEquals("[Manuel Sadosky]", lang.getMultitokenSpeller().getSuggestions("Manuel sadosky").toString());
     assertEquals("[Manuel Sadosky]", lang.getMultitokenSpeller().getSuggestions("Manuel Sadusky").toString());
     assertEquals("[Jacques-Louis David]", lang.getMultitokenSpeller().getSuggestions("Jacques Louis David").toString());

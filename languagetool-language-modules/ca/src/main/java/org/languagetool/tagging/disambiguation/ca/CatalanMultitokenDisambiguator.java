@@ -30,6 +30,7 @@ public class CatalanMultitokenDisambiguator extends AbstractDisambiguator {
 
   private static MorfologikSpeller speller;
   private static final int WINDOW_FORWARD = 10;
+  private static final int WINDOW_BACKWARD = 4;
 
   public CatalanMultitokenDisambiguator() {
     this.speller = CatalanMorfologikMultitokenSpeller.getSpeller();
@@ -58,7 +59,7 @@ public class CatalanMultitokenDisambiguator extends AbstractDisambiguator {
         }
         // Backward
         if (!found) {
-          int fromBwd = Math.max(1, i - 2);
+          int fromBwd = Math.max(1, i - WINDOW_BACKWARD);
           int toBwd = i;
           searchInDictAndTag(anTokens, fromBwd, toBwd, false);
         }
