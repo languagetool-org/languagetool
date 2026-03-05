@@ -3852,7 +3852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='USAR_UTILIZAR' name="🤵 Usar → utilizar" type='style' tone_tags='formal' tags='picky' default='temp_off'>
+        <rule id='USAR_UTILIZAR' name="🤵 Usar → utilizar" type='style' tone_tags='formal' tags='picky'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <!-- Disambiguator must be improved in order to fix some of the words that appear as verbs - 2026-03-04 -->
 
@@ -3872,6 +3872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </antipattern>
             <antipattern>
                 <token skip='5' postag='V.+' postag_regexp='yes' inflected='yes'>usar
+                    <exception case_sensitive='yes' regexp='no'>USA</exception> <!-- United States of America -->
                     <exception scope='next' regexp='yes'>para|em|com|por|como</exception></token>
                 <token postag='NC.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido</token> <!-- Lista que cobre a grande maioria dos casos -->
                 <example>Como os ângulos que Taeyang faz enquanto dança, e até o modo como move sua boca enquanto usa óculos escuros.</example>
@@ -3901,6 +3902,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>utilizar</match></suggestion>
             <example correction="utilizar">Vamos <marker>usar</marker> grandes meios.</example>
             <example correction="utilizou">O Rui <marker>usou</marker> equações matemáticas.</example>
+            <example>Como proceder quando se negocia com os USA?</example>
         </rule>
 
 
