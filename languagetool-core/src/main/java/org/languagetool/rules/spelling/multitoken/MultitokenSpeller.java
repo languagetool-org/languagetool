@@ -130,7 +130,13 @@ public class MultitokenSpeller {
         }
       }
     }
-    weightedCandidates.addAll(getAdditionalSuggestions(word));
+    for (WeightedSuggestion additionalSuggestion : getAdditionalSuggestions(word)) {
+      if (!additionalSuggestion.getWord().equals(originalWord)) {
+        weightedCandidates.add(additionalSuggestion);
+      } else {
+        return Collections.emptyList();
+      }
+    }
     if (weightedCandidates.isEmpty()) {
       return Collections.emptyList();
     }

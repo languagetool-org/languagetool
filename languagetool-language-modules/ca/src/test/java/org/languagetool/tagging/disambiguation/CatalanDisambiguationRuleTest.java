@@ -51,6 +51,12 @@ public class CatalanDisambiguationRuleTest {
 
     TestTools
       .myAssert(
+        "Santa María del Páramo",
+        "/[null]SENT_START Santa/[Santa María del Páramo]NPCNM00|Santa/[sant]AQ0FS0|Santa/[sant]NCFS000  /[null]null María/[Santa María del Páramo]NPCNM00  /[null]null de/[Santa María del Páramo]NPCNM00|de/[de]SPS00 l/[Santa María del Páramo]NPCNM00|l/[el]DA0MS0  /[null]null Páramo/[Santa María del Páramo]NPCNM00",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools
+      .myAssert(
         "Astragalus germaini",
         "/[null]SENT_START Astragalus/[Astragalus germaini]NPCNM00  /[null]null germaini/[Astragalus germaini]NPCNM00",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
