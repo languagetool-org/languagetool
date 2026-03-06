@@ -57,7 +57,7 @@ public class CatalanRemoteRewriteFilter extends RuleFilter {
     DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
     List<PseudoMatch> pseudoMatches = diffsAsMatches.getPseudoMatches(originalSentence, correctedSentence);
     PseudoMatch pseudoMatch = diffsAsMatches.getJoinedMatch(pseudoMatches, originalSentence, match.getFromPos() - 2,
-      match.getToPos() + 40);
+      match.getToPos() + 60);
     if (pseudoMatch == null) {
       return (bSuppressMatch? null: match);
     }
