@@ -20158,21 +20158,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- CERT(A)(O) dad(a)(o) -->
-        <rule id='CERTA_CERTO_DADA_DADO' name="Cert(a)(o)/Dad(a)(o)" type="style" tags="picky">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-09 (25-JUN-2021+)      -->
-            <!--
-            Isto aconteceu a certa altura do projeto. → Isto aconteceu a dada altura do projeto.
-            -->
+        <rule id='CERTA_CERTO_DADA_DADO' name="🤵 'Certa' altura → dada" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
                 <token>a</token>
                 <marker>
-                    <token regexp="yes">cert[ao]</token>
+                    <token regexp='yes'>cert[ao]s?</token>
                 </marker>
-                <token postag='NC.S.+' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes'>altura|momento|ponto|fase|etapa|instante|ocasião</token>
             </pattern>
-            <message>Num contexto formal, é preferível escrever:</message>
-            <suggestion><match no='3' postag='NC(.)S.*' postag_replace='AQ0$1S0'>dado</match></suggestion>
+            <message>Em contexto formal, prefere-se &quot;a dado/a dada&quot; em vez de &quot;a certo/a certa&quot;.</message>
+            <suggestion><match no='3' postag='NC(..)000' postag_replace='AQ0$10'>dado</match></suggestion>
             <example correction="dada">Isto aconteceu a <marker>certa</marker> altura do projeto.</example>
             <example>A dada altura, elas sofrem uma metamorfose e transformam-se em adultos.</example>
         </rule>
