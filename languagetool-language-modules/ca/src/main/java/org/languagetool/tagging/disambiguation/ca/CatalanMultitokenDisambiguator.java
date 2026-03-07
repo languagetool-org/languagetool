@@ -114,17 +114,17 @@ public class CatalanMultitokenDisambiguator extends AbstractDisambiguator {
     while (fromIndex > 1 &&
       (Character.isUpperCase(tokens[fromIndex - 1].getToken().charAt(0))
         || tokens[fromIndex - 1].isWhitespace()
-        || (tokens[fromIndex - 1].getToken().length())<3 ))     {
+        || (tokens[fromIndex - 1].getToken().length()) < 3)) {
       fromIndex--;
     }
-    while (!Character.isUpperCase(tokens[fromIndex].getToken().charAt(0)) && fromIndex < startIndex ) {
+    while (!Character.isUpperCase(tokens[fromIndex].getToken().charAt(0)) && fromIndex < startIndex) {
       fromIndex++;
     }
     int toIndex = startIndex;
     while (toIndex < tokens.length - 1 &&
       (Character.isUpperCase(tokens[toIndex + 1].getToken().charAt(0))
         || tokens[toIndex + 1].isWhitespace()
-        || (tokens[toIndex + 1].getToken().length())<3 ))     {
+        || (tokens[toIndex + 1].getToken().length()) < 3)) {
       toIndex++;
     }
     while (!Character.isUpperCase(tokens[toIndex].getToken().charAt(0)) && toIndex > startIndex) {
