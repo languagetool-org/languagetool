@@ -3549,5 +3549,103 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
 
+        <rulegroup name="" id="QB_NEW_DE_OTHER_ERROR_IDS_MISSING_ORTHOGRAPHY_SPACE">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d{1,3}</token>
+                    <marker>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">\d{3}</token>
+                </pattern>
+                <example correction="">Ich habe 100<marker>.</marker>000 Ideen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ich habe <marker>1.000.111.222</marker> Ideen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ich habe <marker>12.000.111</marker> Ideen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ich habe <marker>100.000</marker> Ideen.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup name="" id="QB_NEW_DE_OTHER_ERROR_IDS_REPLACEMENT_OTHER">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d{1,3}</token>
+                    <marker>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">\d{3}</token>
+                </pattern>
+                <example correction="">Ich habe 100<marker>.</marker>000 Ideen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ich habe <marker>1.000.111.222</marker> Ideen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ich habe <marker>12.000.111</marker> Ideen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">\d{1,3}</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes" spacebefore="no">\d{3}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ich habe <marker>100.000</marker> Ideen.</example>
+            </rule>
+        </rulegroup>
+
     </category>
 </rules>
