@@ -102,27 +102,29 @@ public abstract class WrongWordInContextRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    String sentenceLower = sentence.getText().toLowerCase(Locale.ROOT);
     for (ContextWords contextWords : contextWordsSet) {
-      boolean[] matchedWord = {false, false};
-      Matcher[] matchers = {null, null};
-      matchers[0] = contextWords.words[0].matcher("");
-      matchers[1] = contextWords.words[1].matcher("");
-      //start searching for words
-      //ignoring token 0, i.e., SENT_START
-      int i;
-      String token1 = "";
-      for (i = 1; i < tokens.length && !matchedWord[0]; i++) {
-        if (!tokens[i].hasPartialPosTag("IS_URL")) {
-          token1 = tokens[i].getToken();
-          matchedWord[0] = matchers[0].reset(token1).find();
-        }
+      if (!contextWords.couldMatchSentence(sentenceLower)) {
+        continue;
       }
-      int j;
-      String token2 = "";
-      for (j = 1; j < tokens.length && !matchedWord[1]; j++) {
-        if (!tokens[j].hasPartialPosTag("IS_URL")) {
-          token2 = tokens[j].getToken();
-          matchedWord[1] = matchers[1].reset(token2).find();
+      boolean[] matchedWord = {false, false};
+      Matcher[] matchers = {contextWords.words[0].matcher(""), contextWords.words[1].matcher("")};
+      int matchedPos0 = -1, matchedPos1 = -1;
+      String token1 = "", token2 = "";
+      // search for word1 and word2 in a single pass, ignoring token 0 (SENT_START)
+      for (int k = 1; k < tokens.length && (!matchedWord[0] || !matchedWord[1]); k++) {
+        if (!tokens[k].hasPartialPosTag("IS_URL")) {
+          String t = tokens[k].getToken();
+          if (!matchedWord[0] && matchers[0].reset(t).find()) {
+            matchedWord[0] = true;
+            matchedPos0 = k;
+            token1 = t;
+          }
+          if (!matchedWord[1] && matchers[1].reset(t).find()) {
+            matchedWord[1] = true;
+            matchedPos1 = k;
+            token2 = t;
+          }
         }
       }
       int foundWord = -1;
@@ -134,50 +136,43 @@ public abstract class WrongWordInContextRule extends Rule {
       if (matchedWord[0] && !matchedWord[1]) {
         foundWord = 0;
         notFoundWord = 1;
-        matchers[1] = contextWords.contexts[1].matcher("");
-        startPos = tokens[i-1].getStartPos();
-        endPos = tokens[i-1].getStartPos() + token1.length();
+        startPos = tokens[matchedPos0].getStartPos();
+        endPos = tokens[matchedPos0].getStartPos() + token1.length();
         matchedToken = token1;
       } else if (matchedWord[1] && !matchedWord[0]) {
         foundWord = 1;
         notFoundWord = 0;
-        matchers[0] = contextWords.contexts[0].matcher("");
-        startPos = tokens[j-1].getStartPos();
-        endPos = tokens[j-1].getStartPos() + token2.length();
+        startPos = tokens[matchedPos1].getStartPos();
+        endPos = tokens[matchedPos1].getStartPos() + token2.length();
         matchedToken = token2;
       }
-      
+
       if (foundWord != -1) {
         boolean[] matchedContext = {false, false};
         matchers[foundWord] = contextWords.contexts[foundWord].matcher("");
         matchers[notFoundWord] = contextWords.contexts[notFoundWord].matcher("");
-        //start searching for context words
-        //ignoring token 0, i.e., SENT_START
-        String token;
-        for (i = 1; i < tokens.length && !matchedContext[foundWord]; i++) {
+        // search for both context patterns in a single pass, ignoring token 0 (SENT_START)
+        for (int k = 1; k < tokens.length && (!matchedContext[foundWord] || !matchedContext[notFoundWord]); k++) {
           if (matchLemmas) {
-            for (j = 0; j < tokens[i].getReadingsLength() && !matchedContext[foundWord]; j++) {
-              String lemma = tokens[i].getAnalyzedToken(j).getLemma();
+            for (int j = 0; j < tokens[k].getReadingsLength() && (!matchedContext[foundWord] || !matchedContext[notFoundWord]); j++) {
+              String lemma = tokens[k].getAnalyzedToken(j).getLemma();
               if (lemma != null && !lemma.isEmpty()) {
-                matchedContext[foundWord] = matchers[foundWord].reset(lemma).find();
+                if (!matchedContext[foundWord]) {
+                  matchedContext[foundWord] = matchers[foundWord].reset(lemma).find();
+                }
+                if (!matchedContext[notFoundWord]) {
+                  matchedContext[notFoundWord] = matchers[notFoundWord].reset(lemma).find();
+                }
               }
             }
           } else {
-            token = tokens[i].getToken();
-            matchedContext[foundWord] = matchers[foundWord].reset(token).find();
-          }
-        }
-        for (i = 1; i < tokens.length && !matchedContext[notFoundWord]; i++) {
-          if (matchLemmas) {
-            for (j = 0; j < tokens[i].getReadingsLength() && !matchedContext[notFoundWord]; j++) {
-              String lemma = tokens[i].getAnalyzedToken(j).getLemma();
-              if (lemma != null && !lemma.isEmpty()) {
-                matchedContext[notFoundWord] = matchers[notFoundWord].reset(lemma).find();
-              }
+            String token = tokens[k].getToken();
+            if (!matchedContext[foundWord]) {
+              matchedContext[foundWord] = matchers[foundWord].reset(token).find();
             }
-          } else {
-            token = tokens[i].getToken();
-            matchedContext[notFoundWord] = matchers[notFoundWord].reset(token).find();
+            if (!matchedContext[notFoundWord]) {
+              matchedContext[notFoundWord] = matchers[notFoundWord].reset(token).find();
+            }
           }
         }
         if (matchedContext[notFoundWord] && !matchedContext[foundWord]) {
@@ -266,17 +261,20 @@ public abstract class WrongWordInContextRule extends Rule {
   }
   
   static class ContextWords {
-    
+
+    private static final int MIN_PREFIX_LENGTH = 3;
+
     final String[] matches = {"", ""};
     final String[] explanations = {"", ""};
     final Pattern[] words;
     final Pattern[] contexts;
-    
+    final String[] wordPrefixes = {"", ""};
+
     ContextWords() {
       words = new Pattern[2];
       contexts = new Pattern[2];
     }
-    
+
     private String addBoundaries(String str) {
       String ignoreCase = "";
       if (str.startsWith("(?i)")) {
@@ -285,15 +283,108 @@ public abstract class WrongWordInContextRule extends Rule {
       }
       return ignoreCase + "\\b(" + str + ")\\b";
     }
-    
+
     void setWord(int i, String word) {
       words[i] = Pattern.compile(addBoundaries(word));
+      String pattern = word;
+      if (pattern.startsWith("(?i)")) {
+        pattern = pattern.substring(4);
+      } else if (pattern.startsWith("(?-i)")) {
+        pattern = pattern.substring(5);
+      }
+      wordPrefixes[i] = extractWordPrefix(pattern);
     }
-    
+
     void setContext(int i, String context) {
       contexts[i] = Pattern.compile(addBoundaries(context));
     }
-    
+
+    boolean couldMatchSentence(String sentenceLower) {
+      boolean word0Could = wordPrefixes[0].isEmpty() || sentenceLower.contains(wordPrefixes[0]);
+      boolean word1Could = wordPrefixes[1].isEmpty() || sentenceLower.contains(wordPrefixes[1]);
+      return word0Could || word1Could;
+    }
+
+    private static String extractWordPrefix(String pattern) {
+      List<String> alternatives = splitTopLevelAlternatives(pattern);
+      List<String> prefixes = new ArrayList<>();
+      for (String alt : alternatives) {
+        String p = extractSimplePrefix(alt);
+        if (p.length() < MIN_PREFIX_LENGTH) {
+          return "";
+        }
+        prefixes.add(p.toLowerCase(Locale.ROOT));
+      }
+      if (prefixes.isEmpty()) {
+        return "";
+      }
+      String common = prefixes.get(0);
+      for (int i = 1; i < prefixes.size(); i++) {
+        common = commonPrefix(common, prefixes.get(i));
+        if (common.length() < MIN_PREFIX_LENGTH) {
+          return "";
+        }
+      }
+      return common;
+    }
+
+    private static List<String> splitTopLevelAlternatives(String pattern) {
+      List<String> parts = new ArrayList<>();
+      int depth = 0;
+      int start = 0;
+      for (int i = 0; i < pattern.length(); i++) {
+        char c = pattern.charAt(i);
+        if (c == '\\') { i++; continue; }
+        if (c == '(' || c == '[') depth++;
+        else if (c == ')' || c == ']') depth--;
+        else if (c == '|' && depth == 0) {
+          parts.add(pattern.substring(start, i));
+          start = i + 1;
+        }
+      }
+      parts.add(pattern.substring(start));
+      return parts;
+    }
+
+    private static String extractSimplePrefix(String alt) {
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < alt.length(); i++) {
+        char c = alt.charAt(i);
+        if (c == '\\' && i + 1 < alt.length()) {
+          i++;
+          char escaped = alt.charAt(i);
+          if (i + 1 < alt.length() && (alt.charAt(i + 1) == '?' || alt.charAt(i + 1) == '*')) {
+            break; // escaped char is optional
+          }
+          sb.append(escaped);
+          if (i + 1 < alt.length() && alt.charAt(i + 1) == '+') {
+            i++; // skip quantifier
+          }
+        } else if ("[(|.^$\\{".indexOf(c) >= 0) {
+          break;
+        } else if (c == '?' || c == '*') {
+          if (sb.length() > 0) sb.deleteCharAt(sb.length() - 1); // preceding char was optional
+          break;
+        } else if (c == '+') {
+          break;
+        } else {
+          if (i + 1 < alt.length() && (alt.charAt(i + 1) == '?' || alt.charAt(i + 1) == '*')) {
+            break; // this char is optional
+          }
+          sb.append(c);
+        }
+      }
+      return sb.toString();
+    }
+
+    private static String commonPrefix(String a, String b) {
+      int len = Math.min(a.length(), b.length());
+      for (int i = 0; i < len; i++) {
+        if (a.charAt(i) != b.charAt(i)) return a.substring(0, i);
+      }
+      return a.substring(0, len);
+    }
+
   }
 
 }
