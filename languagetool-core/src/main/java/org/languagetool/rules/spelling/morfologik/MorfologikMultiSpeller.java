@@ -92,6 +92,9 @@ public class MorfologikMultiSpeller {
   private final List<MorfologikSpeller> defaultDictSpellers;
   private final List<MorfologikSpeller> userDictSpellers;
   private final boolean convertsCase;
+  private final Cache<String, List<String>> defaultDictSuggestionsCache = CacheBuilder.newBuilder()
+    .maximumSize(2000)
+    .build();
   private final Long premiumUid;
   private final Long userDictCacheSize;
   private final String userDictName;
@@ -400,7 +403,13 @@ public class MorfologikMultiSpeller {
    * @since 4.5
    */
   public List<String> getSuggestionsFromDefaultDicts(String word) {
-    return getSuggestionsFromSpellers(word, defaultDictSpellers);
+    List<String> cached = defaultDictSuggestionsCache.getIfPresent(word);
+    if (cached != null) {
+      return cached;
+    }
+    List<String> suggestions = getSuggestionsFromSpellers(word, defaultDictSpellers);
+    defaultDictSuggestionsCache.put(word, suggestions);
+    return suggestions;
   }
 
   /**
