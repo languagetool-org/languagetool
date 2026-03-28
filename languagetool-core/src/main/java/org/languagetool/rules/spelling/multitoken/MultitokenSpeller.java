@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.spelling.multitoken;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.JLanguageTool;
@@ -44,6 +46,9 @@ public class MultitokenSpeller {
 
   private final SpellingCheckRule spellingRule;
   private final Language language;
+  private final Cache<String, List<String>> suggestionsCache = CacheBuilder.newBuilder()
+    .maximumSize(2000)
+    .build();
 
   private HashMap<Character, HashMap<String, List<String>>> suggestionsMap;
   private HashMap<String, List<String>> suggestionsMapNoSpacesKey;
@@ -65,6 +70,17 @@ public class MultitokenSpeller {
 
   public List<String> getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
     originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(" ");
+    String normalizedWord = originalWord;
+    boolean accepted = areTokensAcceptedBySpeller;
+    String cacheKey = originalWord + "\t" + areTokensAcceptedBySpeller;
+    try {
+      return suggestionsCache.get(cacheKey, () -> computeSuggestions(normalizedWord, accepted));
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+  }
+
+  private List<String> computeSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
     String word = originalWord.replace("- ", "-").replace(" -", "-");
     if (discardRunOnWords(word)) {
      return Collections.emptyList();

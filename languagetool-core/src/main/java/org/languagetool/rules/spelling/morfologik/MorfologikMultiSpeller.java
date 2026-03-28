@@ -403,13 +403,11 @@ public class MorfologikMultiSpeller {
    * @since 4.5
    */
   public List<String> getSuggestionsFromDefaultDicts(String word) {
-    List<String> cached = defaultDictSuggestionsCache.getIfPresent(word);
-    if (cached != null) {
-      return cached;
+    try {
+      return defaultDictSuggestionsCache.get(word, () -> getSuggestionsFromSpellers(word, defaultDictSpellers));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-    List<String> suggestions = getSuggestionsFromSpellers(word, defaultDictSpellers);
-    defaultDictSuggestionsCache.put(word, suggestions);
-    return suggestions;
   }
 
   /**
