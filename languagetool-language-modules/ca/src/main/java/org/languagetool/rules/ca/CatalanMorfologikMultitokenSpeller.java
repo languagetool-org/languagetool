@@ -18,15 +18,23 @@
  */
 package org.languagetool.rules.ca;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.rules.spelling.morfologik.WeightedSuggestion;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class CatalanMorfologikMultitokenSpeller {
 
   private static final String SPELLING_MULTITOKEN_DICT_FILENAME = "/ca/ca-ES_spelling_multitoken.dict";
   private static MorfologikSpeller multitokenSpeller;
+  private static final Cache<String, List<WeightedSuggestion>> suggestionsCache = CacheBuilder.newBuilder()
+    .maximumSize(2000)
+    .build();
 
   public static MorfologikSpeller getSpeller() {
     if (multitokenSpeller == null) {
@@ -39,5 +47,17 @@ public class CatalanMorfologikMultitokenSpeller {
       }
     }
     return multitokenSpeller;
+  }
+
+  public static List<WeightedSuggestion> getSuggestions(String word) throws IOException {
+    List<WeightedSuggestion> cached = suggestionsCache.getIfPresent(word);
+    if (cached != null) {
+      return cached;
+    }
+    List<WeightedSuggestion> result = multitokenSpeller != null
+      ? multitokenSpeller.getSuggestions(word)
+      : Collections.emptyList();
+    suggestionsCache.put(word, result);
+    return result;
   }
 }
