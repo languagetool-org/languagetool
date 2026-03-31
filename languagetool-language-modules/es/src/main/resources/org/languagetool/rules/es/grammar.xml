@@ -5409,6 +5409,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SE_CREO2" name="confusión: se creo/creó">
             <antipattern>
+                <token>atención</token>
+                <token min="0" max="2"/>
+                <token>incremento</token>
+                <token regexp="yes">en|de</token>
+                <example>Llama la atención incremento en el volumen en los tejidos blandos.</example>
+            </antipattern>
+            <antipattern>
                 <token>modelo</token>
                 <token regexp="yes">[A-Z0-9].*</token>
                 <example>Se realizó estudio solicitado mediante Unidad de Tomografía de la marca: PHILIPS modelo ACCESS. </example>
@@ -6648,6 +6655,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_INCORRECTO" name="verbo en modo subjuntivo incorrecto">
+            <antipattern case_sensitive="yes">
+                <token postag="SENT_START"/>
+                <token regexp="yes">Lesiones|Contusiones</token>
+                <token postag="A.*" postag_regexp="yes"/>
+                <example>Contusiones hemorrágica conocidas a nivel frontal.</example>
+            </antipattern>
             <antipattern>
                 <token postag="_english_ignore_"/>
                 <token postag="_english_ignore_"/>
@@ -30118,6 +30131,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="con">El gobierno cumple <marker>son</marker> su función.</example>
         </rule>
         <rulegroup id="ANO" name="ano/año">
+            <antipattern>
+                <token regexp="yes">músculo|músculos|esfínter|esfínteres|elevador|dolor|lesión|lesiones|fisura|cáncer|tumor|absceso|inflamación|región|zona|canal|margen</token>
+                <token regexp="yes">del|en|de</token>
+                <token min="0" max="1">el</token>
+                <token>ano</token>
+                <example>Se muestra extensión extraprostática en donde contacta con el músculo elevador del ano de lado izquierdo.</example>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>-</token>
@@ -32271,6 +32291,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <!--TODO: idem with ", pues"-->
         <rule id="COMMA_ADVERB" name="coma en adverbio al principio de frase">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token postag="RG" regexp="yes">ecográficamente|radiológicamente|clínicamente|histológicamente|sonográficamente|mamográficamente|experimentalmente</token>
+                <token min="0" max="1">se</token>
+                <token postag="V.*" postag_regexp="yes"/>
+                <example>Ecográficamente corresponde con isoecoico al tejido mamario.</example>
+                <example>Experimentalmente se comprobó la hipótesis inicial.</example>
+            </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">\p{P}</token>
