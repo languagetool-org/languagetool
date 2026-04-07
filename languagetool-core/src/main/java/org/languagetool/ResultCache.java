@@ -90,7 +90,7 @@ public class ResultCache {
     public int weigh(InputSentence sentence, List<ProtoResultCache.CachedResultMatch> matches) {
       // this is just a rough guesstimate so that the cacheSize given by the user
       // is very roughly the number of average sentences the cache can keep:
-      return sentence.getAnalyzedSentence().getText().length() / 75 + matches.size();
+      return 1 + sentence.getAnalyzedSentence().getText().length() / 75 + matches.size();
     }
   }
 
@@ -99,14 +99,14 @@ public class ResultCache {
     public int weigh(InputSentence sentence, @NotNull Map<String, List<RuleMatch>> matches) {
       // this is just a rough guesstimate so that the cacheSize given by the user
       // is very roughly the number of average sentences the cache can keep:
-      return sentence.getAnalyzedSentence().getText().length() / 75;
+      return 1 + sentence.getAnalyzedSentence().getText().length() / 75;
     }
   }
 
   static class SentenceWeigher implements Weigher<SimpleInputSentence, AnalyzedSentence> {
     @Override
     public int weigh(SimpleInputSentence sentence, @NotNull AnalyzedSentence analyzedSentence) {
-      return sentence.getText().length() / 75;
+      return 1 + sentence.getText().length() / 75;
     }
   }
   
