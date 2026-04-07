@@ -36,6 +36,7 @@ public class CompoundRuleData {
   private final Set<String> joinedLowerCaseSuggestion = new ObjectOpenHashSet<>();
   private final Set<String> dashSuggestion = new ObjectOpenHashSet<>();
   private final LineExpander expander;
+  private boolean hasDigitPatterns = false;
 
   public CompoundRuleData(String path) {
     this(new String[] {path});
@@ -70,6 +71,10 @@ public class CompoundRuleData {
 
   public Set<String> getJoinedLowerCaseSuggestion() {
 	return Collections.unmodifiableSet(joinedLowerCaseSuggestion);
+  }
+
+  public boolean hasDigitPatterns() {
+    return hasDigitPatterns;
   }
 
   private void loadCompoundFile(String path) throws IOException {
@@ -108,6 +113,9 @@ public class CompoundRuleData {
           dashSuggestion.add(expLine);
         }
         incorrectCompounds.add(expLine);
+        if (expLine.contains("\\d")) {
+          hasDigitPatterns = true;
+        }
       }
     }
   }

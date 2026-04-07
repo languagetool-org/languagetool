@@ -54,7 +54,8 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
       }
       if (ruleMatch.getFromPos() < prevRuleMatch.getFromPos()) {
         throw new IllegalArgumentException(
-            "The list of rule matches is not ordered. Make sure it is sorted by start position.");
+            "The list of rule matches is not ordered. Make sure it is sorted by start position. RuleMatch: "
+              + ruleMatch + "; previous RuleMatch: " + prevRuleMatch);
       }
 
       boolean isDuplicateSuggestion = false;

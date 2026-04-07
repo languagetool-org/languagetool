@@ -127,12 +127,21 @@ public class PronomsFeblesHelper {
     // pronoms erronis?
   };
 
+  final private static Map<String, String> incorrectOrders = new HashMap<>();
+  static {
+    incorrectOrders.put("me se", "se'm");
+    incorrectOrders.put("me s'", "se m'");
+    incorrectOrders.put("te se", "se't");
+    incorrectOrders.put("te s'", "se t'");
+    incorrectOrders.put("li se", "se li");
+    incorrectOrders.put("li s'", "se li");
+  }
+
   final static Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
   final static Pattern pApostropheNeededEnd = Pattern.compile(".*[aei]", Pattern.CASE_INSENSITIVE);
   public final static Pattern pPronomFeble = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
 
   final private static Map<String, String> reflexivePronoun = new HashMap<>();
-
   static {
     reflexivePronoun.put("1S", "em");
     reflexivePronoun.put("2S", "et");
@@ -164,7 +173,8 @@ public class PronomsFeblesHelper {
 
   public static String transform(String inputPronom, PronounPosition pronounPos) {
     int i = 0;
-    inputPronom = inputPronom.trim();
+    inputPronom = inputPronom.toLowerCase().trim();
+    inputPronom = incorrectOrders.getOrDefault(inputPronom, inputPronom);
     while (i < pronomsFebles.length && !inputPronom.equalsIgnoreCase(pronomsFebles[i])) {
       i++;
     }
@@ -182,10 +192,17 @@ public class PronomsFeblesHelper {
   }
 
   public static String transformDavant(String inputPronom, String nextWord) {
+    nextWord = nextWord.toLowerCase();
     if (pApostropheNeeded.matcher(nextWord).matches()) {
       return transform(inputPronom, PronounPosition.DAVANT_APOS);
     } else {
-      return transform(inputPronom, PronounPosition.DAVANT);
+      String pronom = transform(inputPronom, PronounPosition.DAVANT);
+      // se senten, se cenyeix...
+      if (pronom.equals("es ")
+        && ((nextWord.startsWith("s") || nextWord.startsWith("ce") || nextWord.startsWith("ci")))) {
+        return "se ";
+      }
+      return pronom;
     }
   }
 
@@ -249,11 +266,21 @@ public class PronomsFeblesHelper {
       }
     }
     String pronounToAdd = transform(pronounsStr, PronounPosition.NORMALIZED);
-    if (!pContainsReflexivePronoun.matcher(pronounsStr.toLowerCase()).matches()) {
+    if (!containsAnyReflexivePronoun(pronounsStr.toLowerCase())) {
       pronounToAdd = getReflexivePronoun(firstVerbPersonaNumber) + " " + pronounToAdd;
     }
     replacement = transformDavant(pronounToAdd, verbStr) + verbStr;
     return replacement;
+  }
+
+  private static boolean containsAnyReflexivePronoun(String pronounsStr) {
+    String[] normalizedPronouns = transform(pronounsStr.toLowerCase(), PronounPosition.NORMALIZED).split(" ");
+    for (String pronoun : normalizedPronouns) {
+      if (lReflexivePronouns.contains(pronoun)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public static String doAddPronounReflexiveEn(String pronounsStr, String verbStr, String firstVerbPersonaNumber,

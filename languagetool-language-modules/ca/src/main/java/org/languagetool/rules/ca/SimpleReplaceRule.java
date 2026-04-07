@@ -18,16 +18,15 @@
  */
 package org.languagetool.rules.ca;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones
@@ -78,6 +77,24 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
       return "¿Volíeu dir «" + replacements.get(0) + "»?";
     }
     return getShort();
+  }
+
+  private static final Map<String, String> argumentsMap = Map.of("lemmaSelect", "[NA].*");
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    RuleMatch[] potentialMatches = super.match(sentence);
+    ConvertToGenderAndNumberFilter filter = new ConvertToGenderAndNumberFilter();
+    filter.setLanguage(getLanguage());
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    // Adjust determinants and adjectives
+    for (RuleMatch potentialRuleMatch : potentialMatches) {
+      RuleMatch finalMatch = filter.acceptRuleMatch(potentialRuleMatch, argumentsMap, 0, null, null);
+      if (finalMatch != null) {
+        ruleMatches.add(finalMatch);
+      }
+    }
+    return toRuleMatchArray(ruleMatches);
   }
 
   @Override

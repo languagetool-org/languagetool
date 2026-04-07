@@ -50,15 +50,26 @@ public class VerbSynthesizer {
   int numPronounsBefore = -1;
   int numPronounsAfter = -1;
   Language language;
+  boolean searchBackward;
+
+  public VerbSynthesizer(AnalyzedTokenReadings[] tokens, int startPos, Language lang, boolean searchBackward) {
+    this.searchBackward = searchBackward;
+    this.tokens = tokens;
+    this.language = lang;
+    setIndexes(startPos);
+  }
 
   public VerbSynthesizer(AnalyzedTokenReadings[] tokens, int startPos, Language lang) {
-    this.tokens = tokens;
-    setIndexes(startPos);
-    this.language = lang;
+    this(tokens, startPos, lang, false);
   }
 
   public void setLemmaAndPostag(String lemma, String postag) {
     this.newLemma = lemma;
+    this.newPostag = postag;
+  }
+
+  public void setPostag(String postag) {
+    this.newLemma = tokens[iLastVerb].readingWithTagRegex(pVerb).getLemma();
     this.newPostag = postag;
   }
 
@@ -69,10 +80,32 @@ public class VerbSynthesizer {
 
   private void setIndexes(int startPos) {
     int j = startPos;
-    //If it is not a verb, find the first one
-    while (j < tokens.length && !isVerb(j)) {
-      j++;
+    // single participle
+    if (tokens[j].readingWithTagRegex(pParticiple) != null && !tokens[j].hasPosTag("_GV_") &&
+      !tokens[j].getChunkTags().contains(new ChunkTag("GV"))) {
+      iFirstVerb = iLastVerb = j;
+      numPronounsBefore = numPronounsAfter = 0;
+      return;
     }
+    // If it is not a verb, find the first one
+    if (searchBackward) {
+      while (j > 0 && !isVerb(j)) {
+        j--;
+      }
+      boolean foundSomeVerb = false;
+      while (j > 0 && isVerb(j)) {
+        foundSomeVerb = true;
+        j--;
+      }
+      if (foundSomeVerb) {
+        j++;
+      }
+    } else {
+      while (j < tokens.length && !isVerb(j)) {
+        j++;
+      }
+    }
+
     if (isVerb(j)) {
       iFirstVerb = iLastVerb = j;
       //enrere
@@ -93,7 +126,8 @@ public class VerbSynthesizer {
 
     int i = 1;
     int pronounsAfter = 0;
-    while (iLastVerb + i < tokens.length && !tokens[iLastVerb + i].isWhitespaceBefore() && tokens[iLastVerb + i].hasPosTagStartingWith("P")) {
+    while (iLastVerb + i < tokens.length && !tokens[iLastVerb + i].isWhitespaceBefore()
+      && tokens[iLastVerb + i].readingWithTagRegex(pPronomFeble) != null) {
       pronounsAfter++;
       i++;
     }
@@ -126,7 +160,7 @@ public class VerbSynthesizer {
     if (i < 0 || i > tokens.length - 1) {
       return false; // out of bounds
     }
-    return tokens[i].getChunkTags().contains(new ChunkTag("GV"));
+    return tokens[i].getChunkTags().contains(new ChunkTag("GV")) || tokens[i].hasPosTag("_GV_");
   }
 
   public String synthesize() throws IOException {
@@ -142,7 +176,7 @@ public class VerbSynthesizer {
     } else {
       for (int i = iFirstVerb; i <= iLastVerb; i++) {
         if (i == iFirstVerb) {
-          String[] synthesized = synth.synthesize(firstVerb, newPostag);
+          String[] synthesized = synth.synthesize(firstVerb, adjustPostagTolemma(firstVerb.getLemma(), newPostag));
           if (synthesized != null && synthesized.length > 0) {
             result.append(synthesized[0]);
           }
@@ -212,6 +246,10 @@ public class VerbSynthesizer {
     return iLastVerb;
   }
 
+  public int getLastIndex() {
+    return iLastVerb +  numPronounsAfter;
+  }
+
   public int getNumPronounsAfter() {
     return numPronounsAfter;
   }
@@ -237,8 +275,22 @@ public class VerbSynthesizer {
   }
 
   public boolean isFirstVerbIS() {
+    if (iFirstVerb == -1) {
+      return false;
+    }
     AnalyzedToken reading = tokens[iFirstVerb].readingWithTagRegex(pVerbIS);
     return reading != null;
+  }
+
+  public String getFirstVerbISPostag() {
+    if (iFirstVerb == -1) {
+      return null;
+    }
+    AnalyzedToken reading = tokens[iFirstVerb].readingWithTagRegex(pVerbIS);
+    if (reading != null) {
+      return reading.getPOSTag();
+    }
+    return null;
   }
 
   private boolean isVerbIS(int i) {
@@ -255,6 +307,22 @@ public class VerbSynthesizer {
 
   public boolean isUndefined() {
     return (iFirstVerb == -1 || iLastVerb == -1 || numPronounsAfter == -1 || numPronounsBefore == -1);
+  }
+
+  public boolean isPassatPerifrastic() {
+    if (iFirstVerb < 1 || iFirstVerb + 1 > tokens.length - 1) {
+      return false;
+    }
+    return tokens[iFirstVerb].hasPosTagStartingWith("VA") && tokens[iFirstVerb].hasLemma("anar")
+      && tokens[iFirstVerb + 1].hasAnyPartialPosTag("VMN", "VSN", "VAN");
+  }
+
+  public boolean isPerfet() {
+    if (iFirstVerb < 1 || iFirstVerb + 1 > tokens.length - 1) {
+      return false;
+    }
+    return tokens[iFirstVerb].hasPosTagStartingWith("VA") && tokens[iFirstVerb].hasLemma("haver")
+      && tokens[iFirstVerb + 1].hasAnyPartialPosTag("VMP", "VSP", "VAP");
   }
 
 }

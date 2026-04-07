@@ -42,8 +42,8 @@ public abstract class AbstractCompoundRule extends Rule {
 
   static final int MAX_TERMS = 5;
 
-  private static final Pattern WHITESPACE = Pattern.compile("\\s+");
   private static final Pattern DIGIT = Pattern.compile("\\d+");
+  private static final Pattern WHITESPACE = Pattern.compile("\\s+");
   private static final Pattern DASHES = Pattern.compile("--+");
 
   private final String withHyphenMessage;
@@ -109,7 +109,10 @@ public abstract class AbstractCompoundRule extends Rule {
 
     RuleMatch prevRuleMatch = null;
     ArrayDeque<AnalyzedTokenReadings> prevTokens = new ArrayDeque<>(MAX_TERMS);
-    boolean containsDigits = false;
+    boolean hasDigitPatterns = getCompoundRuleData().hasDigitPatterns();
+    List<String> stringsToCheck = new ArrayList<>(MAX_TERMS);
+    List<String> origStringsToCheck = new ArrayList<>(MAX_TERMS);
+    Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>(MAX_TERMS * 2);
     for (int i = 0; i < tokens.length + MAX_TERMS; i++) {
       AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
@@ -126,19 +129,17 @@ public abstract class AbstractCompoundRule extends Rule {
       }
 
       AnalyzedTokenReadings firstMatchToken = prevTokens.peek();
-      List<String> stringsToCheck = new ArrayList<>();      // no hyphens spelling
-      List<String> origStringsToCheck = new ArrayList<>();  // original upper/lowercase and hyphens spelling
-      Map<String, AnalyzedTokenReadings> stringToToken =
-              getStringToTokenMap(prevTokens, stringsToCheck, origStringsToCheck);
+      stringsToCheck.clear();      // no hyphens spelling
+      origStringsToCheck.clear();  // original upper/lowercase and hyphens spelling
+      stringToToken.clear();
+      getStringToTokenMap(prevTokens, stringsToCheck, origStringsToCheck, stringToToken);
       // iterate backwards over all potentially incorrect strings to make
       // sure we match longer strings first:
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
         String stringToCheck = stringsToCheck.get(k);
         String origStringToCheck = origStringsToCheck.get(k);
         String digitsRegexp = null;
-        if (Stream.of(stringToCheck.split(" ")).anyMatch(s -> StringUtils.isNumeric(s))) {
-            containsDigits = true;
-        }
+        boolean containsDigits = hasDigitPatterns && Stream.of(stringToCheck.split(" ")).anyMatch(s -> StringUtils.isNumeric(s));
         if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck) ||
             (containsDigits && getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp = DIGIT.matcher(stringToCheck).replaceAll("\\\\d+")))) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
@@ -207,15 +208,15 @@ public abstract class AbstractCompoundRule extends Rule {
     return newReplacements;
   }
 
-  private Map<String, AnalyzedTokenReadings> getStringToTokenMap(Queue<AnalyzedTokenReadings> prevTokens,
-                                                                 List<String> stringsToCheck, List<String> origStringsToCheck) {
+  private void getStringToTokenMap(Queue<AnalyzedTokenReadings> prevTokens,
+                                   List<String> stringsToCheck, List<String> origStringsToCheck,
+                                   Map<String, AnalyzedTokenReadings> stringToToken) {
     StringBuilder sb = new StringBuilder();
-    Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>();
     int j = 0;
     boolean isFirstSentStart = false;
     for (AnalyzedTokenReadings atr : prevTokens) {
       if (atr.isWhitespaceBefore()) {
-        sb.append(' ');  
+        sb.append(' ');
       }
       sb.append(atr.getToken());
       if (j == 0) {
@@ -234,7 +235,6 @@ public abstract class AbstractCompoundRule extends Rule {
       }
       j++;
     }
-    return stringToToken;
   }
 
   private String normalize(String inStr) {

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+
 <!--
-Portuguese Style Rules for LanguageTool
-See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2023 Daniel Naber (http://www.danielnaber.de),
-  Marcin Miłkowski, and the LanguageTool contributors
+Portuguese - Style Rules for LanguageTool.
+
+See tagset.txt for the meaning of the POS tags.
+Copyright © 2001-2026 Daniel Naber (https://www.danielnaber.de),
+Marcin Miłkowski, and the LanguageTool contributors.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -14,16 +16,16 @@ version 2.1 of the License, or (at your option) any later version.
 
 This library is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
-USA
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 -->
 
-<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+<!-- Contribuidores open-source: consultem https://dev.languagetool.org/#portuguese -->
+
 
 <!DOCTYPE rules [
     <!ENTITY % messages  SYSTEM "../../resource/pt/entities/messages.ent" >
@@ -509,7 +511,7 @@ USA
             </rule>
 
         </rulegroup>
-        <rule id='VISTO_POR_V3' name="[Simplificar] Visto → Por" type="style" tone_tags="clarity">
+        <rule id='VISTO_POR_V3' name="✂️ Visto → Por" type="style" tone_tags="clarity">
             <!--IDEA shorten_it-->
             <pattern>
                 <token postag='NC.+|AQ.+|NP.+|VMP00.+|VMN0000' postag_regexp='yes'>
@@ -539,7 +541,7 @@ USA
         </rule>
 
         <!-- DOS MESMOS destes DAS MESMAS destas -->
-        <rulegroup id='DOS_MESMOS_DESTES_DAS_MESMAS_DESTAS' name="[Simplificar] 'dos mesmos'/'das mesmas' → 'destes'/'destas'" tone_tags="clarity" type="style" tags="picky">
+        <rulegroup id='DOS_MESMOS_DESTES_DAS_MESMAS_DESTAS' name="✂️ 'dos mesmos'/'das mesmas' → 'destes'/'destas'" tone_tags="clarity" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-05 (2-MAR-2023+) -->
             <!--
@@ -714,25 +716,22 @@ USA
                 <example correction="">Ele <marker>vai chegar</marker> a tempo.</example>
             </rule>
         </rulegroup>
-        <!-- CUMPRIR OS COMPROMISSOS honrar os compromissos -->
-        <rule id='HONRAR_COMPROMISSOS' name="Honrar compromissos" tags="picky">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-22 (25-JUN-2021+)      -->
-            <!--
-            Vou cumprir os compromissos. → Vou honrar os compromissos.
-            Vou cumprir os meus compromissos. → Vou honrar os meus compromissos.
-            -->
+
+
+        <rule id='HONRAR_COMPROMISSOS' name="'Cumprir' compromissos → honrar" type='style' tags='picky'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
                 <marker>
-                    <token inflected='yes'>cumprir</token>
+                    <token skip='2' inflected='yes'>cumprir</token>
                 </marker>
-                <token min="0" max="1" regexp="yes">os?</token>
-                <token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
                 <token regexp="yes">compromissos?</token>
             </pattern>
-            <message>É mais correto usar: <suggestion><match no='1' postag='V.+' postag_regexp='yes'>honrar</match></suggestion>.</message>
+            <message>Pode usar uma forma mais enfática:</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>honrar</match></suggestion>
             <example correction="honrar">Vou <marker>cumprir</marker> os compromissos.</example>
             <example>Vou honrar os meus compromissos.</example>
         </rule>
+
 
         <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite → Imagem de satélite" tags="picky">
             <!--      Created by Tiago F. Santos, 2019-09-07      -->
@@ -3688,10 +3687,114 @@ USA
 
 
 
-    <category id='FORMAL' name='Linguagem formal' type='style' tone_tags="formal">
+    <category id='FORMAL' name='🤵 Linguagem formal' type='style' tone_tags="formal">
 
 
-        <rule id='COMO_SEGUNDO_CONFORME' name="Como/segundo → conforme" type='style' tone_tags='formal' default='temp_off'>
+        <rulegroup id='LENTO_MOROSO' name="🤵 Lento → moroso" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: lentidão → morosidade -->
+                <pattern>
+                    <marker>
+                        <token>lentidão</token>
+                    </marker>
+                    <token min='0' max='2' postag='SPS00|(SPS00:)?[DP].+|V.+|RG|RM' postag_regexp='yes'/>
+                    <token regexp='yes' inflected='yes'>acompanhamento|acórdão|admissão|análise|andamento|apreciação|apresentação|apuração|arquivamento|atendimento|auditoria|autorização|avaliação|averiguação|cadastro|candidatura|certificação|comunicação|conclusão|confirmação|contestação|contrarrazões|controle|controlo|correição|credenciamento|cumprimento|decisão|deferimento|defesa|deliberação|demanda|desarquivamento|despacho|determinação|encaminhamento|encerramento|etapa|exame|execução|fase|fiscalização|formalização|habilitação|homologação|impugnação|indeferimento|inquérito|inscrição|inspeção|instância|instrução|intimação|investigação|julgamento|licenciamento|liquidação|manifestação|monitoramento|notificação|parecer|pedido|petição|procedimento|processamento|pronunciamento|propositura|proposta|protocolo|publicação|ratificação|reconsideração|recurso|redistribuição|registo|registro|regularização|relatório|remessa|réplica|requerimento|resolução|resposta|revisão|sentença|solicitação|submissão|supervisão|tramitação|trâmite|tratamento|validação|verificação|vistoria|voto</token> <!-- whitelist institucional GPT 5.2 -->
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;morosidade&quot;.</message>
+                <suggestion>morosidade</suggestion>
+                <example correction="morosidade">Toda esta <marker>lentidão</marker> na homologação é incompreensível.</example>
+                <example>A morosidade do processo ultrapassa todos os limites.</example>
+            </rule>
+
+            <rule> <!-- #2: lent[ao]s? → moros[ao]s? WHITELIST BEFORE -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>acompanhamento|acórdão|admissão|análise|andamento|apreciação|apresentação|apuração|arquivamento|atendimento|auditoria|autorização|avaliação|averiguação|cadastro|candidatura|certificação|comunicação|conclusão|confirmação|contestação|contrarrazões|controle|controlo|correição|credenciamento|cumprimento|decisão|deferimento|defesa|deliberação|demanda|desarquivamento|despacho|determinação|encaminhamento|encerramento|etapa|exame|execução|fase|fiscalização|formalização|habilitação|homologação|impugnação|indeferimento|inquérito|inscrição|inspeção|instância|instrução|intimação|investigação|julgamento|licenciamento|liquidação|manifestação|monitoramento|notificação|parecer|pedido|petição|procedimento|processamento|pronunciamento|propositura|proposta|protocolo|publicação|ratificação|reconsideração|recurso|redistribuição|registo|registro|regularização|relatório|remessa|réplica|requerimento|resolução|resposta|revisão|sentença|solicitação|submissão|supervisão|tramitação|trâmite|tratamento|validação|verificação|vistoria|voto</token> <!-- whitelist institucional GPT 5.2 -->
+                    <token min='0' max='2' postag='SPS00|(SPS00:)?[DP].+|V.+|RG|RM' postag_regexp='yes'/>
+                    <marker>
+                        <token regexp='yes'>lent[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;moroso&quot;.</message>
+                <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>moroso</match></suggestion>
+                <example correction="moroso">O procedimento <marker>lento</marker> foi criticado.</example>
+                <example>A validação é muito morosa.</example>
+            </rule>
+
+            <rule> <!-- #3: lent[ao]s? → moros[ao]s? WHITELIST AFTER -->
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>lent[ao]s?</token>
+                    </marker>
+                    <token min='0' max='2' postag='SPS00|(SPS00:)?[DP].+|V.+|RG|RM' postag_regexp='yes'/>
+                    <token regexp='yes' inflected='yes'>acompanhamento|acórdão|admissão|análise|andamento|apreciação|apresentação|apuração|arquivamento|atendimento|auditoria|autorização|avaliação|averiguação|cadastro|candidatura|certificação|comunicação|conclusão|confirmação|contestação|contrarrazões|controle|controlo|correição|credenciamento|cumprimento|decisão|deferimento|defesa|deliberação|demanda|desarquivamento|despacho|determinação|encaminhamento|encerramento|etapa|exame|execução|fase|fiscalização|formalização|habilitação|homologação|impugnação|indeferimento|inquérito|inscrição|inspeção|instância|instrução|intimação|investigação|julgamento|licenciamento|liquidação|manifestação|monitoramento|notificação|parecer|pedido|petição|procedimento|processamento|pronunciamento|propositura|proposta|protocolo|publicação|ratificação|reconsideração|recurso|redistribuição|registo|registro|regularização|relatório|remessa|réplica|requerimento|resolução|resposta|revisão|sentença|solicitação|submissão|supervisão|tramitação|trâmite|tratamento|validação|verificação|vistoria|voto</token> <!-- whitelist institucional GPT 5.2 -->
+                </pattern>
+                <message>Em textos formais, legais ou jurídicos, prefira &quot;moroso&quot;.</message>
+                <suggestion><match no='1' postag='AQ.+' postag_regexp='yes'>moroso</match></suggestion>
+                <example correction="moroso">O <marker>lento</marker> procedimento foi criticado.</example>
+                <example>A morosa supervisão afetou o relatório.</example>
+            </rule>
+        </rulegroup>
+
+
+        <rule id='NAO_DEIXAR_QUE_PERMITIR' name="🤵 Não 'deixar' que → permitir" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token>não</token>
+                <token min='0' max='1' regexp='yes' inflected='yes'>poder|dever</token>
+                <marker>
+                    <token inflected='yes'>deixar</token>
+                </marker>
+                <token>que</token>
+            </pattern>
+            <message>A expressão &quot;permitir&quot; é mais formal e direta do que &quot;deixar que&quot;.</message>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
+            <example correction="permitir">Não posso <marker>deixar</marker> que ele faça isso.</example>
+        </rule>
+
+
+        <rule id='UNS_ALGUNS_UMAS_ALGUMAS' name="🤵 uns/umas → alguns/algumas" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token regexp='yes' inflected='yes'>fazer|haver</token>
+                <marker>
+                    <token regexp='yes'>uns|umas</token>
+                </marker>
+                <token postag='NC.P.+' postag_regexp='yes' regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+            </pattern>
+            <message>&quot;Uns/umas&quot; são formas informais. Em contextos mais formais, prefira &quot;alguns/algumas&quot;.</message>
+            <suggestion><match no='2' postag='DI.+' postag_regexp='yes'>algum</match></suggestion>
+            <example correction="alguns">Isso aconteceu há <marker>uns</marker> minutos.</example>
+            <example correction="algumas">Isso aconteceu há <marker>umas</marker> horas.</example>
+        </rule>
+
+
+        <rule id='PROXIMO_ZERO_PRATICAMENTE_NULO' name="🤵 próximo do zero → quase inexistente/praticamente nulo" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag='NC.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='SPS.+|[DP].+|RG|V.+|NP.+'/>
+                    <exception regexp='yes' inflected='yes'>probabilidade|possibilidade|chance|risco|taxa|percentagem|proporção|rácio|índice|nível|valor|quantidade|montante|volume|massa|peso|densidade|concentração|intensidade|amplitude|frequência|velocidade|aceleração|temperatura|pressão|tensão|voltagem|corrente|resistência|potência|energia|força|momento|impulso|carga|campo|fluxo|gradiente|diferença|variação|desvio|erro|incerteza|precisão|exatidão|resolução|latência|tempo|duração|intervalo|distância|comprimento|altura|largura|profundidade|área|perímetro|diâmetro|raio|coeficiente|constante|parâmetro|métrica|medida|resultado|score|pontuação|classificação|ranking|desempenho|eficiência|eficácia|produtividade|rendimento|capacidade|limite|limiar|threshold</exception></token>
+                <token min='0' max='3' postag='(SPS00:)?[DP].+|N.+' postag_regexp='yes'><exception regexp='yes' inflected='yes'>probabilidade|possibilidade|chance|risco|taxa|percentagem|proporção|rácio|índice|nível|valor|quantidade|montante|volume|massa|peso|densidade|concentração|intensidade|amplitude|frequência|velocidade|aceleração|temperatura|pressão|tensão|voltagem|corrente|resistência|potência|energia|força|momento|impulso|carga|campo|fluxo|gradiente|diferença|variação|desvio|erro|incerteza|precisão|exatidão|resolução|latência|tempo|duração|intervalo|distância|comprimento|altura|largura|profundidade|área|perímetro|diâmetro|raio|coeficiente|constante|parâmetro|métrica|medida|resultado|score|pontuação|classificação|ranking|desempenho|eficiência|eficácia|produtividade|rendimento|capacidade|limite|limiar|threshold</exception></token>
+                <token min='0' max='1' regexp='yes' inflected='yes'>ser|estar</token>
+                <marker>
+                    <token regexp='yes'>próxim[ao]s?</token>
+                    <token regexp='yes'>de|do</token>
+                    <token regexp='yes'>zero|0</token>
+                </marker>
+            </pattern>
+            <message>Em sentido figurado, prefira &quot;praticamente nulo(a)&quot;/&quot;quase inexistente&quot; a &quot;próximo(a) de/do zero&quot;.</message>
+            <suggestion>quase <match no='4' postag='AQ0(.)(.)0' postag_replace='AQ0C$20'>inexistente</match></suggestion>
+            <suggestion>praticamente <match no='4' postag='AQ.+' postag_regexp='yes'>nulo</match></suggestion>
+            <example correction="quase inexistente|praticamente nula">A ética dessa pessoa é <marker>próxima do zero</marker>.</example>
+            <example correction="quase inexistente|praticamente nula">A ética dela é <marker>próxima do zero</marker>.</example>
+            <example correction="quase inexistente|praticamente nula">A ética da Ana é <marker>próxima do zero</marker>.</example>
+            <example correction="quase inexistente|praticamente nula">Ela tem uma ética <marker>próxima do zero</marker>.</example>
+            <example correction="quase inexistentes|praticamente nulas">Ela tem uma moral e ética <marker>próximas do zero</marker>.</example>
+        </rule>
+
+
+        <rule id='COMO_SEGUNDO_CONFORME' name="🤵 Como/segundo → conforme" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
                 <marker>
@@ -3737,6 +3840,139 @@ USA
             <example>O Rui é a pessoa mais adequada para a função.</example>
             <example>A Ana e a Rita são as utilizadoras mais indicadas para escrever o documento.</example>
         </rule>
+
+
+        <rule id='FAZER_PROCEDER' name="🤵 fazer → proceder a (atos administrativos)" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token postag='RG|V.+|SENT_START|_PUNCT' postag_regexp='yes'>
+                    <exception inflected='yes'>ter</exception>
+                    <exception regexp='yes'>foi|foram|era|eram|sido</exception></token>
+                <token min='0' max='1' postag='PP.+' postag_regexp='yes'/> <!-- "eu", "tu", "ele", "você", etc. -->
+                <marker>
+                    <token inflected='yes'>fazer</token>
+                    <token skip='1' postag='DA.+' postag_regexp='yes'/>
+                </marker>
+                <token regexp='yes' inflected='yes'>pagamento|liquidação|transferência|regularização|cobrança|inscrição|cancelamento|ativação|validação|homologação|autorização|formalização|constituição|notificação|publicação|emissão|prorrogação|renovação<exception scope='previous' postag_regexp='yes' postag='SPS00:.+'/></token> <!-- Lista final — precisão máxima -->
+            </pattern>
+            <message>Em linguagem formal, prefira &quot;proceder a&quot; com este tipo de ação.</message>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>proceder</match> <match no='4' postag='DA0(..)0' postag_replace='SPS00:DA0$10'>a:o</match></suggestion>
+            <example correction="proceder ao">O Marco vai <marker>fazer o</marker> pagamento do livro.</example>
+            <example correction="proceder à">Como <marker>fazer a</marker> emissão da fatura?</example>
+            <example>Vou proceder ao seu pagamento imediato.</example>
+            <example>Como eu procedo ao seu pagamento?</example>
+        </rule>
+
+
+        <rule id='USAR_UTILIZAR' name="🤵 Usar → utilizar" type='style' tone_tags='formal' tags='picky'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Disambiguator must be improved in order to fix some of the words that appear as verbs - 2026-03-04 -->
+
+            <antipattern>
+                <token skip='5' postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
+                <token postag='V.+' postag_regexp='yes' inflected='yes'>usar</token>
+                <example>Para o homem, compre a bota ou o sapato que ele irá usar para ir ao trabalho.</example>
+                <example>Amigas dizem que rejuvenesci, perguntam se fiz cirurgia plástica ou que creme de beleza estou usando.</example>
+                <example>Você se importaria em me dizer o nome do perfume que usa?</example>
+                <example>Ainda não descobri qual perfume ela usa.</example>
+                <example>Ela precisa de óculos, mas não quer usá-los.</example>
+                <example>Os sapatos que você está usando parecem ser bastante caros.</example>
+                <example>O dirndl é um tipo de vestido tradicional que é usado na Alemanha meridional e na Áustria.</example>
+                <example>O chapéu que você usa é feio.</example>
+                <example>À venda: sapatos de bebê, nunca usados.</example>
+                <example>Maria vangloriou-se de ter confeccionado com as próprias mãos o vestido que usava.</example>
+            </antipattern>
+            <antipattern>
+                <token skip='5' postag='V.+' postag_regexp='yes' inflected='yes'>usar
+                    <exception scope='next' regexp='yes'>para|em|com|por|como</exception></token>
+                <token postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
+                <example>Como os ângulos que Taeyang faz enquanto dança, e até o modo como move sua boca enquanto usa óculos escuros.</example>
+                <example>do tipo que sempre usa a mesma saia com a mesma blusa sabe?</example>
+                <example>Eu só não uso camisa de força porque branco marca muito.</example>
+                <example>Isto significa que pode usar o relógio no duche.</example>
+                <example>Pena que as mulheres brasileiras tenham medo de usar chapéu.</example>
+                <example>Não uso relógio.</example>
+                <example>Esse desconforto é rapidamente contornado com aplicação de flúor e uso de creme dental dessensibilizante.</example>
+                <example>Eu deixei de usar óculos.</example>
+                <example>Usarei o vestido azul.</example>
+                <example>Ele usava calças de ganga.</example>
+                <example>A minha mãe usa a camisa velha do meu pai como trapo para limpar.</example>
+                <example>Apesar de eu não usar mais esses sapatos, não tenho coragem de me livrar deles.</example>
+                <example>Meg era a única menina que usava botas.</example>
+                <example>Eu uso lentes de contato.</example>
+                <example>Quando uso lentes de contato, meus olhos secam e avermelham-se.</example>
+                <example>Você está usando brincos caros.</example>
+            </antipattern>
+
+            <pattern>
+                <marker>
+                    <token postag='V.+' postag_regexp='yes' inflected='yes'>usar
+                        <exception case_sensitive='yes' regexp='no'>USA</exception></token> <!-- United States of America -->
+                </marker>
+            </pattern>
+            <message>Em contexto formal, prefira &quot;utilizar&quot; em vez de &quot;usar&quot; (exceto com roupa, acessórios ou cosmética).</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>utilizar</match></suggestion>
+            <example correction="utilizar">Vamos <marker>usar</marker> grandes meios.</example>
+            <example correction="utilizou">O Rui <marker>usou</marker> equações matemáticas.</example>
+            <example>Como proceder quando se negocia com os USA?</example>
+        </rule>
+
+
+        <rule id='DECIDIR_DELIBERAR' name="🤵 Decidir → deliberar (órgão colegiado)" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token regexp='yes' inflected='yes'>júri|comissão|conselho|tribunal|corte|senado</token>
+                <token min='0' max='1' regexp='yes'>de|d[ao]s?</token>
+                <token min='0' max='1' regexp='yes' inflected='yes'>administração|estado|ministros|justiça|educação|saúde|finanças|defesa|segurança|ética|disciplina|fiscal|científico|pedagógico|universitário|superior</token>
+                <token min='0' max='1' postag='RG'/>
+                <marker>
+                    <token inflected='yes'>decidir</token>
+                </marker>
+            </pattern>
+            <message>Quando o sujeito é um órgão colegiado, prefira &quot;deliberar&quot; em vez de &quot;decidir&quot;.</message>
+            <suggestion><match no='5' postag='V.+' postag_regexp='yes'>deliberar</match></suggestion>
+            <example correction="deliberou">O júri <marker>decidiu</marker> sobre o recurso.</example>
+            <example correction="deliberou">A Comissão Científica <marker>decidiu</marker> sobre a decisão.</example>
+            <example>A Comissão Científica já deliberou sobre a decisão.</example>
+        </rule>
+
+
+        <rulegroup id='SOBRE_QUAL_QUAIS_INFLACIONADO' name="🤵 Construção 'sobre qual/quais' inflacionada" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: Comparativos/superlativos irregulares (adjetivos) -->
+                <pattern>
+                    <token>sobre</token>
+                    <marker>
+                        <token regexp='yes'>qua(l|is)</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token regexp='yes' inflected='yes'>melhor|pior|maior|menor|superior|inferior|principal|único|fundamental|essencial|crítico|determinante|adequado|relevante|prioritário|preferencial|ideal|ótimo|máximo|mínimo</token>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Prefira o artigo definido.</message>
+                <suggestion>\3</suggestion>
+                <example correction="a">Decidir sobre <marker>qual a</marker> melhor estratégia a implementar.</example>
+            </rule>
+
+            <rule> <!-- #2: NC/AQ -->
+                <pattern>
+                    <token>sobre</token>
+                    <marker>
+                        <token regexp='yes'>qua(l|is)</token>
+                        <token regexp='yes'>[ao]s?</token>
+                    </marker>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Prefira &quot;sobre que&quot; ou o artigo definido.</message>
+                <suggestion>\3</suggestion>
+                <suggestion>que</suggestion>
+                <example correction="a|que">Decidir sobre <marker>qual a</marker> solução a implementar.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <rule id='MAIORES_PRINCIPAIS' name="Maiores → principais (plural apenas)" type='style' tone_tags='formal' tags='picky'>
@@ -4028,39 +4264,22 @@ USA
         </rule>
 
 
-        <rule id='PRESO_RETIDO' name="Preso → retido" tone_tags='formal' tags='picky' default='temp_off'>
-            <antipattern>
-                <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
-                <token regexp='yes'>pres[ao]s?</token>
-                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
-                <token min='0' max='1' regexp='yes'>após|como|com|devido|durante|em|enquanto|n[ao]s?|para|pel[ao]s?|por|porqu[eê]|quando|que|sob</token>
-                <token min='0' max='1' regexp='yes'>[àao]s?|aos?|e|ou</token>
-                <token min='0' max='1' postag='_PUNCT' postag_regexp='no'/>
-                <token inflected='yes' regexp='yes'>acusação|acusado|advogado|assassinar|autoridade|cela|custódia|enganar|engano|esfaquear|estuprar|furtar|furto|GNR|juiz|julgamento|lapso|matar|molestar|PJ|polícia|político|posse|prisão|PSP|reincidência|roubar|roubo|torturado|torturar|tribunal|usurpação|usurpar</token>
-                <example>Depois de quatro anos de pregação, foi preso pelas autoridades pagãs.</example>
-                <example>Ela foi presa pela polícia.</example>
-                <example>Ele foi preso sob a acusação de conspirar contra a monarquia, mas foi liberado por falta de provas.</example>
-                <example>Rosso é posteriormente preso sob custódia da A.R.G.U.S.</example>
-                <example>Malvo foi inicialmente preso sob acusações federais, mas elas foram retiradas.</example>
-                <example>Ele foi preso acusado por evasão fiscal.</example>
-                <example>Tom foi preso por engano.</example>
-                <example>Luís XVI e Maria foram presos, acusados de traição ao país por colaborarem com os invasores.</example>
-                <example>Elemento mão de visgo é preso após furtar aparelho...</example>
-                <example>Nessa época, ele ainda não cantava, e chegou a ser preso e torturado.</example>
-                <example>Ele foi preso e assassinado durante a Revolução.</example>
-                <example>Ele foi preso porque roubou dinheiro. </example>
-            </antipattern>
+        <rule id='PRESO_RETIDO_V2' name="Preso → retido" tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token skip='1' inflected='yes' regexp='yes'>achar|continuar|encontrar|estar|ficar|manter|permanecer|ser|ver</token>
+                <token postag='SENT_START|_PUNCT|V.+' postag_regexp='yes'><exception regexp='no' inflected='yes'>ser</exception></token> <!-- Só dispara com verbos típicos de estado (não com "ser" na passiva: foram presos...) -->
                 <marker>
-                    <token regexp='yes'>pres[ao]s?</token>
+                    <token postag='VMP00.+' postag_regexp='yes' regexp='yes'>pres[ao]s?</token>
                 </marker>
+                <token skip='1' regexp='yes'>em|n[oa]s?|nu(m|ns)|numas?</token>
+                <token regexp='yes' inflected='yes'>trânsito|tráfego|engarrafamento|congestionamento|fila|espera|bloqueio|interdição|paragem|paralisação|via|estrada|rodovia|auto-estrada|autoestrada|avenida|ciclovia|ponte|túnel|acesso|saída|rotunda|cruzamento|portagem|pedágio|aeroporto|terminal|porto|estação|plataforma|embarque|desembarque|check-in|checkin|inspeção|fiscalização|vistoria|controlo|controle|segurança|fronteira|alfândega|aduana|imigração|passaporte|bagagem|mala|encomenda|pacote|remessa|carga|mercadoria|contentor|contêiner|container|transportadora|correio|entrega|distribuição|triagem|armazém|depósito|despacho|expedição|liberação|desalfandegamento|desembaraço</token>
             </pattern>
             <message>Empregue &quot;retido&quot; em textos formais, salvo ao referir-se a prisão de liberdade.</message>
-            <suggestion>retid<match no='2' regexp_match='(pres)(.)(s?)' regexp_replace='$2$3'/></suggestion>
+            <suggestion><match no='2' postag='VMP00(..)' postag_replace='VMP00$1'>reter</match></suggestion>
             <example correction="retido">Estou <marker>preso</marker> no trânsito.</example>
             <example>A Ana está retida no congestionamento a caminho do trabalho.</example>
             <example>O documento foi retido na alfândega.</example>
+            <example>Vários traficantes foram presos na fronteira com o Paraguai.</example>
         </rule>
 
 
@@ -4112,7 +4331,7 @@ USA
         </rule>
 
 
-        <rule id='CARRO_AUTOMOVEL_VEICULO' name="Carro → automóvel/veículo" tone_tags='formal' tags='picky'>
+        <rule id='CARRO_AUTOMOVEL_VEICULO' name="Carro → automóvel/veículo" tone_tags='formal' is_goal_specific='true' tags='picky'>
             <antipattern>
                 <token case_sensitive='yes'>Vila</token>
                 <token case_sensitive='yes'>Cova</token>
@@ -4159,7 +4378,7 @@ USA
         </rule>
 
 
-        <rule id='APENAS_SOMENTE' name="Apenas → Somente" tone_tags='formal' tags='picky'>
+        <rule id='APENAS_SOMENTE' name="Apenas → Somente" tone_tags='formal' tags='picky' is_goal_specific='true'>
             <!-- Used DeepSeek-V3 -->
             <pattern>
                 <token regexp='no'>apenas</token>
@@ -4326,38 +4545,6 @@ USA
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>importunar</match></suggestion>
             <example correction="incomode|importune">Não <marker>chateie</marker> mais os visitantes.</example>
             <example>O Rui importuna os visitantes abusivamente.</example>
-        </rule>
-
-
-        <rule id='DAR_ATRIBUIR_CONFERIR' name="Dar → atribuir/conferir" tone_tags='formal' tags='picky' default='temp_off'>
-            <!-- Used ChatGPT with Reason and DeepSeek-V3 -->
-            <!-- Later expand into two subrules to accept directly the list of words after the "DAR" verb -->
-
-            <pattern>
-                <marker>
-                    <token inflected='yes' regexp='no'>dar<exception postag_regexp='yes' postag='VMSP.+|VMP00.+'/></token>
-                </marker>
-                <token skip='1' regexp='yes'>[ao]s?|um|uns|umas?|&adverbios_de_intensidade;</token>
-                <token inflected='yes' regexp='yes'>acesso|atenção|autoridade|autorização|benefício|cargo|certificação|certificado|clareza|chance|competência|condecoração|credibilidade|designação|destaque|diploma|direito|distinção|distintivo|dom|emblema|ênfase|enfoque|forma|função|garantia|graduação|grau|habilitação|honra|honraria|importância|investidura|liberdade|licença|licitude|lugar|mandato|medalha|mérito|oportunidade|ordem|outorga|patente|permissão|poder|posição|possibilidade|pr[éê]mio|prerrogativa|prioridade|privilégio|propósito|realismo|reconhecimento|responsabilidade|sentido|seriedade|status|título|troféu|valor|vantagem</token>
-            </pattern>
-            <message>Use &quot;dar&quot; para casos gerais, &quot;conferir&quot; para concessões formais e &quot;atribuir&quot; para designações.</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atribuir</match></suggestion>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
-            <example correction="atribuiu|conferiu">O tribunal <marker>deu</marker> a responsabilidade da criança à mãe.</example>
-            <example>A comissão atribuiu a distinção ao melhor candidato.</example>
-            <example>Além disso, os dados fortemente tipados podem ser armazenados no registro.</example>
-            <example>Mas fomos dados uma segunda chance.</example>
-            <example>Dê o lugar, Milton.</example>
-            <example>Corte-o na linha reta, ou seja, dê uma forma quadrada.</example>
-            <example>Dada a oportunidade, você deve negociar ambas as direções</example>
-            <example>Nos dê uma chance.</example>
-            <example>- Todos teriamos dado as mesmas ordens.</example>
-            <example>Se quiser outro, me dê um título em português.</example>
-            <example>Espero que me dês mais atenção da próxima vez.</example>
-            <example>Dê-me uma outra chance.</example>
-            <example>Deem-me uma outra chance.</example>
-            <example>Foi-me dada a permissão de utilizar este carro.</example>
-            <example>Eu gostaria que desse uma chance aos dois.</example>
         </rule>
 
 
@@ -4741,45 +4928,6 @@ USA
         </rulegroup>
 
 
-        <!-- VESTIR calçar -->
-        <rule id='CONFUSÃO_VESTIR_CALÇAR' name="[Confusão] vestir/calçar" tags='picky' tone_tags="formal">
-            <antipattern>
-                <token>vestidos</token>
-                <token min="0" max="1" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
-                <token postag='_PUNCT'/>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes" skip="2">vestir</token>
-                <token regexp="yes">meias?</token>
-                <token min="0">-</token>
-                <token regexp="yes">calças?</token>
-                <example>vesti a meia-calça</example>
-            </antipattern>
-            <antipattern>
-                <token inflected="yes">vestir</token>
-                <token postag="_PUNCT|_QUOT" postag_regexp="yes"/>
-                <example>As roupas que vestimos, os sapatos que usamos.</example>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token inflected="yes">vestir
-                        <exception regexp="yes">vestidos?|vestes</exception>
-                    </token>
-                </marker>
-                <token min="0" max="2" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|t[éê]nis</token>
-                <token regexp="yes">botas?|chinelos?|galochas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|t[éê]nis</token>
-            </pattern>
-            <message>Prefira o verbo &quot;calçar&quot; nas extremidades dos membros do corpo.</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
-            <example correction="calçar">Vou <marker>vestir</marker> os sapatos.</example>
-            <example>Vou calçar os sapatos.</example>
-            <example>Não se esqueça de calçar as meias.</example>
-
-            <example>Kullervo abriu a arca que continha seus tesouros, deixando ver galas soberbas, vestidos esplêndidos, meias bordadas com fios de ouro, cintos e broches de prata.</example>
-            <example>Vence a indústria do luxo, porque a disputa hoje é sobre os melhores e piores vestidos, sapatos, acessórios, publicados exaustivamente pela imprensa internacional e, claro, repercutidos aqui no Brasil.</example>
-        </rule>
-
-
         <rule id='DIFERENTES' name="Ser diferente → Diferir" tags='picky'>
             <pattern>
                 <token postag='NC.+|AQ.+|NP.+|[DP].+' postag_regexp='yes'/>
@@ -4836,7 +4984,7 @@ USA
             <example correction="algo">Tudo isto para <marker>uma coisa</marker> que aconteceu.</example>
         </rule>
         <!-- DE AGORA atual/atuais -->
-        <rule id='DE_AGORA_ATUAL_ATUAIS' name="Simplificar: De agora → Atual/atuais" type='style'>
+        <rule id='DE_AGORA_ATUAL_ATUAIS' name="✂️ De agora → Atual/atuais" type='style'>
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-03 (25-JUL-2022+) -->
             <!--
             Qual o preço de agora? → Qual o preço atual?
@@ -4892,7 +5040,7 @@ USA
         </rule>
 
 
-        <rule id='QUE_VEM_PROXIMA' name="[Simplificar] Substantivo + que vem → próxim(ao)(s) + substantivo" type='style' tone_tags='formal'>
+        <rule id='QUE_VEM_PROXIMA' name="✂️ Substantivo + que vem → próxim(ao)(s) + substantivo" type='style' tone_tags='formal'>
             <!--IDEA shorten_it-->
 
             <pattern>
@@ -4912,7 +5060,7 @@ USA
 
 
         <!-- ATRAVÉS DE por/via/com -->
-        <rulegroup id='ATRAVES_DE_POR_VIA' name="[Simplificar] Através de → por/via/com" type="style" tone_tags="formal">
+        <rulegroup id='ATRAVES_DE_POR_VIA' name="✂️ Através de → por/via/com" type="style" tone_tags="formal">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-13/26 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
@@ -5149,7 +5297,7 @@ USA
             <example correction="valor">A diferença no <marker>dinheiro</marker> é mínima.</example>
         </rule>
 
-        <rulegroup id='FORMAL_PRA_PARA' name="Linguagem informal: pra → para" tone_tags="formal academic scientific">
+        <rulegroup id='FORMAL_PRA_PARA' name="🤵🎓🔬 Linguagem informal: pra → para" tone_tags="formal academic scientific">
             <rule> <!-- simple 'para', i.e. not followed by a fem. sg. nominal -->
                 <pattern>
                     <token>
@@ -9207,7 +9355,7 @@ USA
 
 
         <!-- TENHO PENA lamento -->
-        <rulegroup id='TER_PENA_LAMENTAR' name="[Formal] Ter pena → Lamentar" tags="picky">
+        <rulegroup id='TER_PENA_LAMENTAR' name="👔 Ter pena → Lamentar" tags="picky">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-04 (2-MAR-2023+) -->
             <!--
             Subrule1:
@@ -9280,19 +9428,35 @@ USA
         </rule>
 
 
-        <rule id='SEM_DAR_NAS_VISTAS' name="discretamente">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <token>sem</token>
-                <token inflected='yes'>dar</token>
-                <token min="0">muito</token>
-                <token>nas</token>
-                <token>vistas</token>
-            </pattern>
-            <message>&informal_msg;</message>
-            <suggestion>discretamente</suggestion>
-            <example correction="discretamente">Limpa o chão <marker>sem dar nas vistas</marker>.</example>
-        </rule>
+        <rulegroup id='SEM_DAR_NAS_VISTAS_V2' name="Sem dar nas vistas → discretamente">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: with intensifiers -->
+                <pattern>
+                    <token>sem</token>
+                    <token inflected='yes'>dar</token>
+                    <token regexp='yes'>&adverbios_de_intensidade;</token>
+                    <token>nas</token>
+                    <token>vistas</token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion>\3 discretamente</suggestion>
+                <example correction="muito discretamente">Limpa o chão <marker>sem dar muito nas vistas</marker>.</example>
+            </rule>
+
+            <rule> <!-- #2: without intensifiers -->
+                <pattern>
+                    <token>sem</token>
+                    <token inflected='yes'>dar</token>
+                    <token>nas</token>
+                    <token>vistas</token>
+                </pattern>
+                <message>&informal_msg;</message>
+                <suggestion>discretamente</suggestion>
+                <example correction="discretamente">Limpa o chão <marker>sem dar nas vistas</marker>.</example>
+            </rule>
+        </rulegroup>
+
 
         <rule id='À_BOCADO' name="Há bocado">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
@@ -9472,9 +9636,122 @@ USA
         </rule>
 
     </category>
-    <category id='ACADEMIC' name='Linguagem acadêmica' type='style' tone_tags="academic">
 
-        <rule id='APAGAR_INDELÉVEL' name="[Universitário][Científico] Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true">
+
+    <category id='ACADEMIC' name='🎓 Linguagem acadêmica' type='style' tone_tags="academic">
+
+
+        <rule id='AO_LONGO_DO_TEMPO' name="🎓 Ao longo do tempo → gradualmente/progressivamente" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' regexp='yes' inflected='yes'>evoluir|desenvolver|transformar|modificar|alterar|adaptar|aperfeiçoar|refinar|consolidar|amadurecer|emergir|surgir|tornar|complexificar|diferenciar</token>
+                <marker>
+                    <token>ao</token>
+                    <token>longo</token>
+                    <token>do</token>
+                    <token>tempo</token>
+                </marker>
+            </pattern>
+            <message>&quot;Ao longo do tempo&quot; pode ser redundante com verbos que já implicam progressão (ex.: &quot;evoluir&quot;). Considere remover ou substituir por &quot;gradualmente&quot; ou &quot;progressivamente&quot;.</message>
+            <suggestion>gradualmente</suggestion>
+            <suggestion>progressivamente</suggestion>
+            <example correction="gradualmente|progressivamente">É assim que o sistema evolui <marker>ao longo do tempo</marker>.</example>
+        </rule>
+
+
+        <rule id='OBTER_ALCANCAR' name="🎓 Obter → alcançar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <marker>
+                    <token skip='1' inflected='yes'>obter</token>
+                </marker>
+                <token skip='1' regexp='yes'>a|o</token>
+                <token regexp='yes'>vitória|objetivo|objectivo|meta|finalidade</token>
+            </pattern>
+            <message>Num contexto formal/científico, prefira &quot;alcançar&quot; a &quot;obter&quot; quando se refere a metas, objetivos, ou vitória.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>alcançar</match></suggestion>
+            <example correction="alcançar">Num conflito o objetivo é <marker>obter</marker> a vitória.</example>
+            <example correction="alcançar">O Zé vai <marker>obter</marker> rapidamente o objetivo proposto.</example>
+        </rule>
+
+
+        <rule id='VERBO_O_USO_DE_X_X' name="🎓 Verbo + 'o uso de X' → X" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token regexp='yes' inflected='yes'>evitar|reduzir|minimizar|mitigar|prevenir|eliminar|diminuir|controlar|limitar|conter|suprimir</token>
+                <marker>
+                    <token>o</token>
+                    <token>uso</token>
+                    <token>de</token>
+                    <token regexp='yes' inflected='yes'>valor|inconsistência|ambiguidade|ruído|instabilidade|redundância|viés|sobreajuste|degradação|erro|falha|artefato|discrepância|distorção|atraso|interferência|perda|impacto|variabilidade|incerteza|oscilação|imprecisão|incoerência|anomalia|irregularidade|desvio|contaminação|propagação|acumulação|saturação</token>
+                </marker>
+            </pattern>
+            <message>A expressão &quot;o uso de&quot; é redundante com substantivos que denotam propriedades ou fenómenos indesejáveis.</message>
+            <suggestion>\5</suggestion>
+            <example correction="valores">A equação deve evitar <marker>o uso de valores</marker> negativos.</example>
+        </rule>
+
+
+        <rule id='COMPARADA_COMPARÁVEL' name="🎓 'Comparada' a → Comparável" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' regexp='yes' inflected='yes'>capacidade|processo|fenómeno|fenômeno|mecanismo|estrutura|dinâmica|função|propriedade|característica|qualidade|natureza|sistema|modelo|paradigma|conceito|noção|abordagem|estratégia|metodologia|método|lógica|princípio|relação|interação|configuração|dimensão|aspecto|padrão|forma|organização|estruturação</token> <!-- substantivos abstratos mais comuns em teses ChatGPT 5.2 -->
+                <token postag='VMI[IP].+' postag_regexp='yes' inflected='yes'>ser</token> <!-- The safest 'VMI[IP].+' -->
+                <marker>
+                    <token regexp='yes'>comparad[ao]s?</token>
+                </marker>
+                <token regexp='yes'>a|às?|aos?</token>
+            </pattern>
+            <message>Em escrita académica, &quot;comparável&quot; é frequentemente preferido a &quot;comparada&quot; por expressar semelhança de forma mais objetiva.</message>
+            <suggestion><match no='3' postag='VMP00(.).' postag_replace='AQ0C$10'>comparável</match></suggestion>
+            <example correction="comparável">Tal capacidade é <marker>comparada</marker> à possibilidade de vencer.</example>
+            <example correction="comparáveis">Tais capacidades são <marker>comparadas</marker> às possibilidades de vencer.</example>
+        </rule>
+
+
+        <rule id='POR_INFIN_EM_VIRTUDE_DE' name="🎓 'por' + Verbo infinitivo → em virtude de" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag='_PUNCT_COMMA'/>
+                <marker>
+                    <token>por</token>
+                </marker>
+                <token postag='VMN.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='_PUNCT_COMMA|SENT_END'/></token>
+            </pattern>
+            <message>Num contexto formal/científico, pode ser preferível substituir &quot;, por + infinitivo&quot; (valor causal) por uma construção mais explícita (p. ex., &quot;devido a&quot;, &quot;em virtude de&quot;, &quot;em razão de&quot;, &quot;pelo facto/fato de&quot;).</message>
+            <suggestion>devido a</suggestion>
+            <suggestion>em virtude de</suggestion>
+            <suggestion>em razão de</suggestion>
+            <suggestion>pelo facto de</suggestion>
+            <suggestion>pelo fato de</suggestion>
+            <example correction="devido a|em virtude de|em razão de|pelo facto de|pelo fato de">O autor é referido, <marker>por</marker> ter estabelecido as bases fundamentais da disciplina.</example>
+            <example correction="devido a|em virtude de|em razão de|pelo facto de|pelo fato de">Os investigadores são citados, <marker>por</marker> terem demonstrado resultados consistentes.</example>
+            <example>A Ana só tem, por ter.</example>
+            <example>Os relatórios, por fazer, serão concluídos amanhã.</example>
+        </rule>
+
+
+        <rule id='DIFERENTES_DISTINTOS' name="🎓 Diferentes → distintos" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag='NC[MF]P.+' postag_regexp='yes' regexp='yes' inflected='yes'>conceito|categoria|classe|tipo|método|procedimento|processo|estratégia|modelo|sistema|critério|parâmetro|variável|fator|elemento|componente|nível|dimensão|fase|etapa|hipótese|premissa|pressuposto|interpretação|análise|perspectiva|estrutura</token> <!-- The safest -->
+                <token min='0' max='1' regexp='yes' inflected='yes'>ser|estar|tornar|mostrar|revelar|permanecer|manter|continuar|parecer|apresentar</token>
+                <token min='0' max='2' postag='RG|RM' postag_regexp='yes'/>
+                <marker>
+                    <token>diferentes</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/científico, é frequente empregar &quot;distintos&quot; em vez de &quot;diferentes&quot;.</message>
+            <suggestion><match no='1' postag='NC(.)P000' postag_replace='AQ0$1P0'>distinto</match></suggestion>
+            <example correction="distintas">São hipóteses <marker>diferentes</marker>.</example>
+            <example correction="distintos">São pressupostos <marker>diferentes</marker>.</example>
+            <example correction="distintos">São critérios claramente muito <marker>diferentes</marker>.</example>
+            <example>Ambas as premissas são distintas.</example>
+            <example>Os pressupostos são bastante distintos.</example>
+        </rule>
+
+
+        <rule id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
                     <token>que
@@ -9492,7 +9769,7 @@ USA
         </rule>
 
 
-        <rule id='BÁSICO_ELEMENTAR' name="[Universitário][Científico] Básico → Elementar" tone_tags="academic" is_goal_specific="true">
+        <rule id='BÁSICO_ELEMENTAR' name="🎓🔬 Básico → Elementar" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token regexp='yes'>unidades?</token>
                 <token regexp='yes'>básicas?</token>
@@ -9523,7 +9800,7 @@ USA
         </rule>
 
 
-        <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="[Universitário][Científico] Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky">
+        <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="🎓🔬 Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky">
             <pattern>
                 <token inflected='yes' regexp='yes'>ter|ser</token>
                 <token min='0' regexp='yes'>sido|es[st][ae]s?|aquel[ae]s?</token>
@@ -9542,7 +9819,7 @@ USA
         </rule>
 
 
-       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="Simplificar: 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true">
+       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="🎓 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true">
 
             <!-- #1 - Without d[ao]s? -->
             <rule>
@@ -9578,7 +9855,7 @@ USA
         </rulegroup>
 
 
-       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="[Universitário][formal] 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true">
+       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="🎓🤵 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
                     <token inflected='yes'>ficar</token>
@@ -9594,7 +9871,7 @@ USA
         </rule>
 
 
-        <rule id='TOMAR_ASSUMIR' name="[Universitário][Científico] V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
+        <rule id='TOMAR_ASSUMIR' name="🎓🔬 V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <token postag='SENT_START|AQ.+|NC.+|NP.+|CS|CC' postag_regexp='yes'/>
                 <marker>
@@ -9619,7 +9896,7 @@ USA
         </rule>
 
         <!-- SENDO CONSIDERADA considerada -->
-        <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style' tone_tags="academic">
+        <rulegroup id='SENDO_PARTPASS_PARTPASS' name="🎓 sendo + V.Part.Pass → V.Part.Pass" type='style' tone_tags="academic">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-18/19/20 (25-JUL-2022+) -->
             <!--
@@ -9708,7 +9985,7 @@ USA
             </rule>
         </rulegroup>
 
-       <rule id='SER_CONSISTIR_RESIDIR' name="[Universitário][Científico] V.Ser → V.Consistir/V.Residir" tone_tags="academic" is_goal_specific="true">
+       <rule id='SER_CONSISTIR_RESIDIR' name="🎓🔬 V.Ser → V.Consistir/V.Residir" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <token regexp='yes' inflected='yes'>assimetria|diferença|dissemelhança|disparidade|distinção|oposição|oposto</token>
                 <token min='0' max='1' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
@@ -9735,7 +10012,7 @@ USA
             <example>Já que existe diferença entre monarquia parlamentarista x monarquia absolutista como é nos países do Oriente Médio totalmente ditatorial.</example>
         </rule>
 
-        <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="[Simplificar] Ir_verbo + [a/de seguir/seguida] + V.Inf." type="style" tone_tags="academic">
+        <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="🎓 Ir_verbo + [a/de seguir/seguida] + V.Inf." type="style" tone_tags="academic">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-2 + 2021-02-03 + 2021-02-04 (1-JAN-2021+)      -->
             <rule>
@@ -9806,7 +10083,7 @@ USA
             </rule>
 
         </rulegroup>
-        <rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" type="style" tags="picky" tone_tags="academic" default='off'>
+        <rulegroup id='E_NO_COMECO' name="🎓 Frase começa com 'E', 'Mas' ou 'Ou'" type="style" tags="picky" tone_tags="academic" default='off'>
             <rule>
                 <antipattern>
                     <token postag='SENT_START'/>
@@ -10003,23 +10280,50 @@ USA
             </rule>
         </rulegroup>
 
-        <rule id='PERSISTIR_AO_LONGO_DE_TEMPO' name="Persistir + há + tempo" tone_tags="academic">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
-            <pattern>
-                <token inflected='yes'>persistir</token>
-                <marker>
-                    <token>ao</token>
-                    <token>longo</token>
-                    <token regexp='yes'>de|d[ao]s</token>
-                    <token min="0" max="1" postag='Z0.+|DI.+|AQ0.+|NC.+' postag_regexp='yes'/>
-                    <token regexp='yes'>segundos|minutos|horas|dias|semanas|meses|anos|décadas|séculos|milénios|gerações|tempos|sessões</token>
-                </marker>
-            </pattern>
-            <message>Substitua por</message>
-            <suggestion>há \5 \6</suggestion>
-            <suggestion>durante \5 \6</suggestion>
-            <example correction="há décadas|durante décadas">Estas deficiências persistem <marker>ao longo de décadas</marker>.</example>
-        </rule>
+
+        <rulegroup id='PERSISTIR_AO_LONGO_DE_TEMPO_V2' name="🎓 Persistir + há + tempo" tone_tags='academic'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: Simple -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>persistir|manter|permanecer|continuar|prolongar|arrastar|subsistir|perdurar|prevalecer|repetir|verificar|registar|manifestar|observar|existir</token>
+                    <token min='0' max='1' postag='RG'/>
+                    <marker>
+                        <token>ao</token>
+                        <token>longo</token>
+                        <token regexp='yes'>de|d[ao]s</token>
+                        <token postag='NC.P.+' postag_regexp='yes' regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+                    </marker>
+                </pattern>
+                <message>Substitua por</message>
+                <suggestion>há \6</suggestion>
+                <suggestion>durante \6</suggestion>
+                <suggestion>desde há \6</suggestion>
+                <example correction="há décadas|durante décadas|desde há décadas">Estas deficiências persistem <marker>ao longo de décadas</marker>.</example>
+            </rule>
+
+            <rule> <!-- #2: Complex -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>persistir|manter|permanecer|continuar|prolongar|arrastar|subsistir|perdurar|prevalecer|repetir|verificar|registar|manifestar|observar|existir</token>
+                    <token min='0' max='1' postag='RG'/>
+                    <marker>
+                        <token>ao</token>
+                        <token>longo</token>
+                        <token regexp='yes'>de|d[ao]s</token>
+                        <token postag='Z0.+|DI.+|AQ.+|NC.+' postag_regexp='yes'/>
+                        <token postag='NC.P.+' postag_regexp='yes' regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+                    </marker>
+                </pattern>
+                <message>Substitua por</message>
+                <suggestion>há \6 \7</suggestion>
+                <suggestion>durante \6 \7</suggestion>
+                <suggestion>desde há \6 \7</suggestion>
+                <example correction="há muitas décadas|durante muitas décadas|desde há muitas décadas">As deficiências persistem <marker>ao longo de muitas décadas</marker>.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger" tone_tags="academic">
             <pattern>
                 <token regexp='yes' inflected='yes'>alinha|artigo|assunto|matéria|ponto|problema|problemática|questão|tema|temática|termo|tópico</token>
@@ -10052,7 +10356,7 @@ USA
         <!-- PARA TER ACONTECIDO para acontecer -->
 
 
-        <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='[Simplificar] Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style" tone_tags="academic">
+        <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='🎓 Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style" tone_tags="academic">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-01 + 2023-02-26 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
@@ -10109,7 +10413,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="[Científico] Contrário → Oposto" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
+        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="🎓🔬 Contrário → Oposto" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token min="0" max="1" postag='RM'/>
@@ -10123,7 +10427,7 @@ USA
             <example correction="oposto">A Ana percebeu exatamente o <marker>contrário</marker>.</example>
         </rule>
 
-        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="[Científico] Corrigir 'erros/falhas' → 'imprecisões'" type="style" tone_tags="academic" default="off">
+        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="🎓🔬 Corrigir 'erros/falhas' → 'imprecisões'" type="style" tone_tags="academic" default="off">
             <pattern>
                 <token inflected='yes'>corrigir</token>
                 <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|algum|inúmero|pequeno</token>
@@ -10136,7 +10440,7 @@ USA
             <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
         </rule>
 
-        <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="[Científico] 'de propósito' → 'deliberadamente'" type="style" tags="picky" tone_tags="formal">
+        <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="🔬 'de propósito' → 'deliberadamente'" type="style" tags="picky" tone_tags="formal">
             <rule>
                 <pattern>
                     <token inflected='yes'>fazer</token>
@@ -10155,7 +10459,7 @@ USA
         </rulegroup>
 
 
-        <rule id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] 'usar/utilizar' termo → empregar" type='style' tags='picky' tone_tags='formal' is_goal_specific='true'>
+        <rule id='CIENTÍFICO_EMPREGAR_TERMO' name="🔬 'usar/utilizar' termo → empregar" type='style' tags='picky' tone_tags='formal' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
             <pattern>
@@ -10173,7 +10477,7 @@ USA
         </rule>
 
 
-        <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
+        <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="🎓🔬 Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token inflected='yes' skip='3'>fazer</token>
                 <token regexp='yes'>&vocativos;|calor|frio|d*</token>
@@ -10772,7 +11076,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky' tone_tags="academic" is_goal_specific="true">
+        <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="🎓🔬 Para concluir/resumidamente → em suma" type="style" tags='picky' tone_tags="academic" is_goal_specific="true">
             <rule>
                 <pattern>
                     <or>
@@ -10819,7 +11123,7 @@ USA
 
 
         <!-- PENSAR EM ponderar -->
-        <rule id='CIENTÍFICO_PENSAR_EM_PONDERAR' name="[Científico] Pensar em → ponderar" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
+        <rule id='CIENTÍFICO_PENSAR_EM_PONDERAR' name="🎓🔬 Pensar em → ponderar" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <or>
                     <token/>
@@ -10844,7 +11148,7 @@ USA
 
 
         <!-- PRECISÃO CIENTÍFICA rigor científico -->
-        <rule id='CIENTÍFICO_PRECISAO_RIGOR_CIENTIFICO' name="[Científico] Precisão/rigor científico" type="style" tags="picky">
+        <rule id='CIENTÍFICO_PRECISAO_RIGOR_CIENTIFICO' name="🔬 Precisão/rigor científico" type="style" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-22 (25-JUN-2021+)      -->
             <!--
             Isto deve ser feito com precisão científica. → Isto deve ser feito com rigor científico.
@@ -10862,7 +11166,7 @@ USA
         </rule>
 
 
-        <rulegroup id='CIENTÍFICO_TER_NOME_DESIGNAÇÃO' name="[Científico] Ter 'nome' → 'designação'" type="style" tone_tags="formal">
+        <rulegroup id='CIENTÍFICO_TER_NOME_DESIGNAÇÃO' name="🔬 Ter 'nome' → 'designação'" type="style" tone_tags="formal">
                         <rule>
                 <pattern>
                     <token postag='NC[FM].+' postag_regexp='yes'/>
@@ -10924,7 +11228,7 @@ USA
 
 
         <!-- OS TERMOS TÉCNICOS a terminologia -->
-        <rulegroup id='CIENTÍFICO_TERMOS_TÉCNICOS_TERMINOLOGIA' name="[Científico] termos técnicos → terminologia" type='style'>
+        <rulegroup id='CIENTÍFICO_TERMOS_TÉCNICOS_TERMINOLOGIA' name="🔬 termos técnicos → terminologia" type='style'>
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-07 (25-JUL-2022+) -->
             <!--
             #1
@@ -11046,7 +11350,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id="AJUDAR_AUXILIAR" name="[Universitário][Científico] ajudar → auxiliar" type='style' tags='picky' tone_tags="academic">
+        <rulegroup id="AJUDAR_AUXILIAR" name="🎓🔬 ajudar → auxiliar" type='style' tags='picky' tone_tags="academic">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-12/26/27 (2-MAR-2023+) -->
             <!--
             SUBRULE 1:
@@ -11107,26 +11411,44 @@ USA
         </rulegroup>
 
 
-        <rule id='CIENTÍFICO_DAR_CONFERIR' name="[Universitário][Científico] dar → conferir" type="style" tone_tags="academic">
+        <rule id='DAR_ATRIBUIR_CONFERIR_V2' name="🎓🔬 dar → conferir" type='style' tone_tags='academic'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token skip='2' inflected='yes' postag_regexp='yes' postag='V.+'>dar</token>
+                <token>benefício</token>
+                <token>da</token>
+                <token>dúvida</token>
+                <example>e neste caso eu prefiro dar o benefício da dúvida.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                <token skip='2' regexp='yes'>dad[ao]s?</token>
+                <token inflected='yes' regexp='yes' postag_regexp='yes' postag='NC.+'>acesso|autoridade|benefício|cargo|certificação|certificado|competência|condecoração|credibilidade|designação|diploma|direito|distinção|distintivo|emblema|graduação|grau|habilitação|honraria|investidura|liberdade|mandato|medalha|outorga|patente|poder|prêmio|prémio|prerrogativa|privilégio|responsabilidade|troféu|título</token>
+                <example>, dado ao oráculo acesso a formula_16</example>
+            </antipattern>
+            <antipattern>
+                <token inflected='yes' regexp='yes'>ter|haver</token>
+                <token skip='2' regexp='yes'>dad[ao]s?</token>
+                <token inflected='yes' regexp='yes' postag_regexp='yes' postag='NC.+'>acesso|autoridade|benefício|cargo|certificação|certificado|competência|condecoração|credibilidade|designação|diploma|direito|distinção|distintivo|emblema|graduação|grau|habilitação|honraria|investidura|liberdade|mandato|medalha|outorga|patente|poder|prêmio|prémio|prerrogativa|privilégio|responsabilidade|troféu|título</token>
+                <example>Esta pode ter dado um acesso secundário ao piso superior do solar original.</example>
+            </antipattern>
+
             <pattern>
                 <marker>
-                    <token inflected='yes'>dar</token>
+                    <token inflected='yes' postag_regexp='yes' postag='V.+'>dar<exception scope='next' regexp='no'>de</exception></token>
                 </marker>
-                <and>
-                    <token regexp='yes'>.*de|.*ez
-                        <exception regexp='yes'>continuidade|oportunidade|prioridade|saúde|visibilidade</exception>
-                    </token>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                </and>
-                <token regexp='yes'>[aà]s?|aos?</token>
+                <token skip='1' min='0' max='1' postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <token inflected='yes' regexp='yes' postag_regexp='yes' postag='NC.+'>acesso|autoridade|benefício|cargo|certificação|certificado|competência|condecoração|credibilidade|designação|diploma|direito|distinção|distintivo|emblema|graduação|grau|habilitação|honraria|investidura|liberdade|mandato|medalha|outorga|patente|poder|prêmio|prémio|prerrogativa|privilégio|responsabilidade|troféu|título</token>
             </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;conferir&quot;.</message>
+            <message>Considere &quot;atribuir&quot; (designação) ou &quot;conferir&quot; (concessão formal) em vez de &quot;dar&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atribuir</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
-            <example correction="confere">Esta equação <marker>dá</marker> aleatoriedade ao jogo.</example>
+            <example correction="atribuiu|conferiu">O tribunal <marker>deu</marker> a responsabilidade da criança à mãe.</example>
         </rule>
 
 
-        <rulegroup id='SER_SIGNIFICATIVO' name="[Universitário][Científico] 'fazer toda a diferença' → 'ser significativo/expressivo'" type="style" tone_tags="academic" is_goal_specific="true" tags="picky">
+        <rulegroup id='SER_SIGNIFICATIVO' name="🎓🔬 'fazer toda a diferença' → 'ser significativo/expressivo'" type="style" tone_tags="academic" is_goal_specific="true" tags="picky">
 
             <!-- #1: é significativo -->
             <rule>
@@ -11175,7 +11497,7 @@ USA
         </rulegroup>
 
 
-        <rule id='FAZER_EXERCER' name="[Universitário][Científico] Verbo Fazer → Verbo Exercer" type="style" tone_tags="academic" is_goal_specific="true" tags="picky">
+        <rule id='FAZER_EXERCER' name="🎓🔬 Verbo Fazer → Verbo Exercer" type="style" tone_tags="academic" is_goal_specific="true" tags="picky">
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token min='0' max='1' postag='D[AI].+|NC.+|AQ.+' postag_regexp='yes'/>
@@ -11236,7 +11558,7 @@ USA
 
 
         <!-- NÃO SE PODE APAGAR é indelével -->
-        <rule id='NÃO_SE_PODE_APAGAR_É_INDELÉVEL' name="[Universitário][Científico] 'não se pode apagar' → 'é indelével'" type="style">
+        <rule id='NÃO_SE_PODE_APAGAR_É_INDELÉVEL' name="🎓🔬 'não se pode apagar' → 'é indelével'" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
             <!--
             Eu queria, mas não se pode apagar o passado. → Eu queria, mas o passado é indelével.
@@ -11259,23 +11581,32 @@ USA
         </rule>
 
 
-        <rule id='EVIDENCIAR_COMPROVAR_DEMONSTRAR' name="[Universitário] Mostrar → evidenciar/comprovar/demonstrar" type='style' tags='picky' tone_tags='academic'>
+        <rule id='EVIDENCIAR_COMPROVAR_DEMONSTRAR' name="🎓 Mostrar → evidenciar/comprovar/demonstrar/indicar" type='style' tags='picky' tone_tags='academic'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token skip='2' inflected='yes'>mostrar</token>
+                <token regexp='yes' inflected='yes'>imagem|figura|fotografia|foto|ilustração|quadro|print|captura|screenshot|frame|slide|diagrama|esquema|mapa|animação|vídeo|interface|ecrã|janela|painel|vista|prévia|preview|projeção|layout|mockup</token> <!-- ChatGPT 5.2: Lista revista e afinada (conservadora, mas ampla) -->
+                <example>E oculta-os durante a simulação, mostrando a imagem original do local.</example>
+            </antipattern>
+
             <pattern>
-                <token regexp='yes' inflected='yes' skip='1'>abordagem|achado|amostra|análise|artigo|avaliação|caso|cenário|coleta|comparação|conceito|consulta|contexto|critério|dado|diagnóstico|dissertação|documento|enquadramento|ensaio|entrevista|equação|estratégia|estudo|evidência|exemplo|experiência|experimento|fen[óô]meno|ferramenta|fórmula|framework|gráfico|hipótese|indicador|inquérito|instrumento|investigação|levantamento|mapa|mecanismo|método|métrica|modelo|monografia|observação|padrão|paradigma|parâmetro|pesquisa|prática|pressuposto|princípio|procedimento|processo|projeto|protocolo|relatório|resultado|revisão|simulação|sistema|sondagem|tabela|técnica|tecnologia|tendência|teoria|tese|teste|trabalho|variável</token>
+                <token regexp='yes' inflected='yes' skip='1'>abordagem|achado|amostra|análise|artigo|avaliação|caso|cenário|coleta|comparação|conceito|consulta|contexto|critério|dado|diagnóstico|dissertação|documento|enquadramento|ensaio|entrevista|equação|estratégia|estudo|evidência|experiência|experimento|fen[óô]meno|fórmula|framework|hipótese|indicador|inquérito|instrumento|investigação|levantamento|mecanismo|método|métrica|modelo|monografia|padrão|paradigma|parâmetro|pesquisa|prática|pressuposto|princípio|procedimento|processo|projeto|protocolo|relatório|resultado|revisão|sondagem|técnica|tecnologia|tendência|teoria|tese|teste|trabalho|variável</token> <!-- ChatGPT 5.2 suggested skip='1' -->
                 <marker>
-                    <token regexp='no' inflected='yes'>mostrar</token>
+                    <token inflected='yes'>mostrar</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal/universitário, é preferível escrever &quot;evidenciar&quot;, &quot;comprovar&quot; ou &quot;demonstrar&quot;.</message>
+            <message>Num contexto formal/universitário, é preferível escrever &quot;evidenciar&quot;, &quot;comprovar&quot;, &quot;indicar&quot; ou &quot;demonstrar&quot;.</message>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>evidenciar</match></suggestion>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>comprovar</match></suggestion>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>demonstrar</match></suggestion>
-            <example correction="evidencia|comprova|demonstra">A pesquisa <marker>mostra</marker> que os resultados são os esperados.</example>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>indicar</match></suggestion>
+            <example correction="evidencia|comprova|demonstra|indica">A pesquisa <marker>mostra</marker> que os resultados são os esperados.</example>
             <example>O estudo evidencia um enorme grau de sucesso.</example>
         </rule>
 
 
-        <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[Universitário] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky" tone_tags="academic" is_goal_specific="true">
+        <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="🎓 Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
                     <and>
@@ -11296,7 +11627,7 @@ USA
         </rule>
 
 
-        <rule id='PHD_TESE_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="[Universitário] Para Ajudar a + V.Inf. → Para V.Inf." type='style' tone_tags="academic">
+        <rule id='PHD_TESE_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="🎓 Para Ajudar a + V.Inf. → Para V.Inf." type='style' tone_tags="academic">
             <pattern>
                 <marker>
                     <token>para</token>
@@ -11313,7 +11644,7 @@ USA
         </rule>
 
 
-        <rule id='PHD_TESE_POSSA_POSSAM_PÔR' name="[Universitário] Evitar expressões do tipo 'possa(m) pôr’ → 'ponha(m)'" type='style' tags="picky" tone_tags="academic">
+        <rule id='PHD_TESE_POSSA_POSSAM_PÔR' name="🎓 Evitar expressões do tipo 'possa(m) pôr’ → 'ponha(m)'" type='style' tags="picky" tone_tags="academic">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima and Susana Boatto suggestions, Portuguese rule 2022-11-30 (25-JUL-2022+) -->
             <!--
             Para impedir que o radical possa pôr em perigo o ocidente. → Para impedir que o radical ponha em perigo o ocidente.
@@ -11352,7 +11683,7 @@ USA
         </rule>
 
 
-        <rule id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[Universitário] Evitar expressões do tipo 'procura provar'" type='style' tags='picky' tone_tags='academic'>
+        <rule id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="🎓 Evitar expressões do tipo 'procura provar'" type='style' tags='picky' tone_tags='academic' is_goal_specific='true'>
             <!-- Used ChatGPT 4o for enhancements and extra accuracy -->
 
             <antipattern> <!-- Remove interrogation sentences -->
@@ -11448,28 +11779,28 @@ USA
         </rule>
 
 
-        <rule id='PHD_TESE_REFERIREMOS_A_SEGUIR_REFERIDAS_REFERIDOS' name="[Universitário] Expressões do tipo 'que/como referiremos a seguir' → 'referidas a seguir'" type="style" tags="picky" tone_tags="academic">
+        <rule id='PHD_TESE_REFERIREMOS_A_SEGUIR_REFERIDAS_REFERIDOS' name="🎓 Expressões do tipo 'que refiro/referiremos/referimos' a seguir / de seguida → 'referidas'" type='style' tone_tags='academic'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
                 <marker>
-                    <token regexp='yes'>que|como</token>
-                    <token min="0" max="1" regexp='no'>se</token>
-                    <and>
-                        <token regexp='yes' inflected='yes'>apresentar|compreender|debater|descrever|detalhar|documentar|escrever|explanar|explicar|mencionar|mostrar|observar|referir|relatar|ter|ver</token> <!-- Add verbs here as found -->
-                        <token postag='VMIF.+' postag_regexp='yes'/>
-                    </and>
-                    <token regexp='yes'>a|de</token>
-                    <token regexp='yes'>seguir|seguida</token>
+                    <token>que</token>
+                    <token postag='VMI[FP]1.+' postag_regexp='yes' regexp='yes' inflected='yes'>abordar|analisar|apresentar|avaliar|caracterizar|comparar|considerar|definir|demonstrar|descrever|detalhar|discutir|examinar|explicar|identificar|indicar|ilustrar|investigar|justificar|listar|mencionar|mostrar|notar|observar|referir|relatar|salientar|sublinhar|ver|debater|escrever</token>
                 </marker>
+                <token regexp='yes'>a|de</token>
+                <token regexp='yes'>seguir|seguida</token>
             </pattern>
             <message>&thesis_msg;</message>
-            <suggestion><match no='3' postag='VMIF.(.)0' postag_regexp="yes" postag_replace='VMP00$1F|VMP00$1M'/> a seguir</suggestion>
-            <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>que referiremos a seguir</marker>.</example>
-            <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>como referiremos a seguir</marker>.</example>
-            <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>que referiremos de seguida</marker>.</example>
-            <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>como referiremos de seguida</marker>.</example>
+            <suggestion><match no='2' postag='VMI..(.)0' postag_regexp="yes" postag_replace='VMP00$1F|VMP00$1M'/></suggestion>
+            <example correction="referida|referido">Existem algumas críticas ao modelo, <marker>que refiro</marker> a seguir.</example>
+            <example correction="referidas|referidos">Existem algumas críticas ao modelo, <marker>que referiremos</marker> a seguir.</example>
+            <example correction="referidas|referidos">Existem algumas críticas ao modelo, <marker>que referimos</marker> a seguir.</example>
+            <example correction="referida|referido">Existem algumas críticas ao modelo, <marker>que refiro</marker> de seguida.</example>
+            <example correction="referidas|referidos">Existem algumas críticas ao modelo, <marker>que referiremos</marker> de seguida.</example>
+            <example correction="referidas|referidos">Existem algumas críticas ao modelo, <marker>que referimos</marker> de seguida.</example>
         </rule>
 
-        <rulegroup id='PHD_TESE_PODE_SER_PART_PASS_É_PART_PASS' name="[Universitário] Expressões do tipo 'pode ser usado' → 'é usado'" type="style" tags='picky' default='off' tone_tags="academic">
+
+        <rulegroup id='PHD_TESE_PODE_SER_PART_PASS_É_PART_PASS' name="🎓 Expressões do tipo 'pode ser usado' → 'é usado'" type="style" tags='picky' default='off' tone_tags="academic">
             <rule>
                 <pattern>
                     <marker>
@@ -11514,8 +11845,27 @@ USA
         </rulegroup>
     </category>
 
-    <category id="SCIENTIFIC" name="Linguagem científica" type="style" tone_tags="scientific">
-        <rulegroup id="NUMERO_DE_MOLS" name="Número de mols → massa molecular" tags="picky" is_goal_specific="true">
+    <category id="SCIENTIFIC" name="🔬 Linguagem científica" type="style" tone_tags="scientific">
+
+
+        <rule id='LINHA_RETA_RETA_V2' name="🔬 Traçar 'linha reta' → reta" type='style' tone_tags='scientific' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='3' regexp='yes' inflected='yes'>traçar|desenhar|riscar</token>
+                <marker>
+                    <token regexp='yes'>linhas?</token>
+                    <token regexp='yes'>rec?tas?</token>
+                </marker>
+            </pattern>
+            <message>Em contexto técnico, &quot;reta&quot; é suficiente.</message>
+            <suggestion>\3</suggestion>
+            <example correction="reta">Vou traçar uma <marker>linha reta</marker> entre os pontos.</example>
+            <example correction="retas">Vou traçar várias <marker>linhas retas</marker> no quadro.</example>
+            <example>O Rui vai traçar mais duas retas para todos analisarem.</example>
+        </rule>
+
+
+        <rulegroup id="NUMERO_DE_MOLS" name="🔬 Número de mols → massa molecular" tags="picky" is_goal_specific="true">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
@@ -11543,7 +11893,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id="PESO_MOLECULAR" name="Peso molecular → massa molecular" tags="picky" is_goal_specific="true">
+        <rulegroup id="PESO_MOLECULAR" name="🔬 Peso molecular → massa molecular" tags="picky" is_goal_specific="true">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
@@ -11570,7 +11920,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rule id="NUMERO_DE_AVOGADRO" name="Número de Avogadro → constante" tags="picky" is_goal_specific="true">
+        <rule id="NUMERO_DE_AVOGADRO" name="🔬 Número de Avogadro → constante" tags="picky" is_goal_specific="true">
             <pattern>
                 <token postag_regexp="yes" postag="(SP.+:)?D.+MS.*" min="0"/>
                 <token>número</token>
@@ -11582,7 +11932,7 @@ USA
             <example correction="a constante de Avogadro">Calculamos com <marker>o número de Avogadro</marker>.</example>
         </rule>
 
-        <rule id="GRAU_CENTIGRADO" name="Preferir 'grau Celius' a 'grau centígrado'.">
+        <rule id="GRAU_CENTIGRADO" name="🔬 Preferir 'grau Celsius' a 'grau centígrado'.">
             <pattern>
                 <token regexp="yes">graus?</token>
                 <marker>
@@ -11708,7 +12058,7 @@ USA
             </rule>
         </rulegroup>
         <!-- QUE O NOSSO ALGORITMO SUPPORTA suportado pelo nosso algoritmo -->
-        <rule id='QUE_ARTDEF_PRONPOSS_NOMECOMUM_VERBO' name="Simplificar: Que + Art.Def.+ Pron.Poss. + NomeC. + Verbo → Verbo.Part.Pass. + pel[ao](s) + Pron.Poss. + NomeC." type="style">
+        <rule id='QUE_ARTDEF_PRONPOSS_NOMECOMUM_VERBO' name="✂️ Que + Art.Def.+ Pron.Poss. + NomeC. + Verbo → Verbo.Part.Pass. + pel[ao](s) + Pron.Poss. + NomeC." type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-18 (25-JUL-2022+) -->
             <!--
             Alguns cenários que o nosso algoritmo suporta. → Alguns cenários suportados pelo nosso algoritmo.
@@ -11733,7 +12083,7 @@ USA
             <example correction="suportados pelo nosso algoritmo">Alguns cenários <marker>que o nosso algoritmo suporta</marker>.</example>
         </rule>
         <!-- QUE É CONSIDERADA considerada -->
-        <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass" type='style' tone_tags="objective">
+        <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="✂️ que é + V.Part.Pass → V.Part.Pass" type='style' tone_tags="objective">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-17 (25-JUL-2022+) -->
             <!--
@@ -11909,7 +12259,7 @@ USA
                         <exception scope='previous' postag_regexp='yes' postag='SENT_START|_QUOT|NP.+'/>
                         <exception scope="previous" regexp="no">quem</exception></token>
                     <token postag='VMP00SM'>
-                        <exception regexp='yes' inflected='yes'>abandonar|abrir|acabar|achar|adquirir|alcançar|aparecer|assemelhar|assistir|atingir|cessar|chegar|começar|concluir|conseguir|cuidar|decidir|desaparecer|descansar|desistir|determinar|doutorar|encerrar|escolher|estar|evaporar|existir|ficar|finalizar|findar|fracassar|ganhar|imaginar|iniciar|julgar|manifestar|morrer|nascer|obter|optar|parecer|partir|perder|permanecer|receber|relaxar|renunciar|resolver|sair|selec?cionar|sentir|ser|sumir|superar|supor|surgir|terminar|triunfar|vencer|ver|vir|viver</exception></token> <!-- ChatGPT 4o -->
+                        <exception regexp='yes' inflected='yes'>abandonar|abrir|acabar|achar|adquirir|alcançar|aparecer|assemelhar|assistir|associar|atingir|cessar|chegar|começar|concluir|conseguir|cuidar|decidir|desaparecer|descansar|desistir|determinar|doutorar|encerrar|escolher|estar|evaporar|existir|ficar|finalizar|findar|fracassar|ganhar|imaginar|iniciar|julgar|manifestar|morrer|nascer|obter|optar|parecer|partir|perder|permanecer|receber|relaxar|renunciar|resolver|sair|selec?cionar|sentir|ser|sumir|superar|supor|surgir|terminar|triunfar|vencer|ver|vir|viver</exception></token> <!-- ChatGPT 4o -->
                 </marker>
                 <token regexp='yes'>[ao]s?|que|em|com|desde|u(m|ns)|umas?|muit[ao]s|há</token>
             </pattern>
@@ -12005,44 +12355,45 @@ USA
         </rulegroup>
 
 
-        <rule id='TORNAR_MAIS_FORTE' name="Tornar mais forte → Fortalecer" tone_tags="objective">
+        <rulegroup id='TORNAR_MAIS_FORTE_FRACO' name="Tornar mais forte/fraco → fortalecer/enfraquecer" tone_tags='objective'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      As regras vão tornar mais forte o acordo. → As regras vão fortalecer o acordo.
-      -->
-            <pattern>
-                <marker>
-                    <token inflected='yes'>tornar</token>
-                    <token min="0" max="1">mais</token>
-                    <token regexp='yes'>fortes?</token>
-                </marker>
-                <token><exception postag_regexp='no' postag='SPS00'/></token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fortalecer</match></suggestion>
-            <example correction="fortalecer">As regras vão <marker>tornar mais forte</marker> o acordo.</example>
-        </rule>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
+            <rule> <!-- fortalecer -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar
+                           <exception scope='previous' postag_regexp='yes' postag='PP.C.+'/>
+                           <exception postag_regexp='yes' postag='V.+:PP.C.+'/></token>
+                        <token min='0' max='1'>mais</token>
+                        <token skip='2' regexp='yes'>fortes?</token>
+                    </marker>
+                    <token postag='N.+|AQ.+' postag_regexp='yes'><exception scope='previous' postag='CC'/></token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fortalecer</match></suggestion>
+                <example correction="fortalecer">As regras vão <marker>tornar mais forte</marker> o acordo.</example>
+                <example>Isso vai fortalecer o seu estudo sobre a matéria.</example>
+            </rule>
 
-        <rule id='TORNAR_MAIS_FRACO' name="Tornar mais fraco → Enfraquecer" tone_tags="objective">
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      As regras vão tornar mais fraco o acordo. → As regras vão enfraquecer o acordo.
-      -->
-            <pattern>
-                <marker>
-                    <token inflected='yes'>tornar</token>
-                    <token min="0" max="1">mais</token>
-                    <token regexp='yes'>frac[ao]s?</token>
-                </marker>
-                <token><exception postag_regexp='no' postag='SPS00'/></token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enfraquecer</match></suggestion>
-            <example correction="enfraquecer">As regras vão <marker>tornar mais fraco</marker> o acordo.</example>
-        </rule>
+            <rule> <!-- enfraquecer -->
+                 <pattern>
+                    <marker>
+                        <token inflected='yes'>tornar
+                           <exception scope='previous' postag_regexp='yes' postag='PP.C.+'/>
+                           <exception postag_regexp='yes' postag='V.+:PP.C.+'/></token>
+                        <token min='0' max='1'>mais</token>
+                        <token skip='2' regexp='yes'>frac[ao]s?</token>
+                    </marker>
+                    <token postag='N.+|AQ.+' postag_regexp='yes'><exception scope='previous' postag='CC'/></token>
+                 </pattern>
+                 <message>&simplify_msg;</message>
+                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enfraquecer</match></suggestion>
+                 <example correction="enfraquecer">As regras vão <marker>tornar mais fraco</marker> o acordo.</example>
+                <example>Isso vai enfraquecer o seu estudo sobre a matéria.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <rule id='TRABALHO_PAGO_REMUNERADO' name="Trabalho 'pago'/'remunerado'" tone_tags="objective">
@@ -12064,7 +12415,7 @@ USA
         </rule>
 
 
-        <rule id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: 'Causar dificuldade' → Dificultar" tone_tags="objective">
+        <rule id='CAUSAR_DIFICULDADE_DIFICULTAR' name="✂️ 'Causar dificuldade' → Dificultar" tone_tags="objective">
             <!--IDEA shorten_it-->
             <pattern>
                 <marker>
@@ -12083,7 +12434,7 @@ USA
         </rule>
 
 
-        <rulegroup id='DE_FORA_EXTERNO_DE_DENTRO_INTERNO' name="Simplificar: de dentro/fora → interno/externo">
+        <rulegroup id='DE_FORA_EXTERNO_DE_DENTRO_INTERNO' name="✂️ de dentro/fora → interno/externo">
             <!--IDEA shorten_it-->
 
             <!-- #1: de dentro → interno -->
@@ -12309,7 +12660,7 @@ USA
         </rulegroup>
         <!-- ESTAR + ADVÉRBIO + A + VERBO verbo + advérbio -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-05 (21-OCT-2020+)     -->
-        <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="[Simplificar] Estar + Adv + A + Verbo → Verbo + Adv" type="style" tone_tags="objective">
+        <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="✂️ Estar + Adv + A + Verbo → Verbo + Adv" type="style" tone_tags="objective">
             <!--IDEA shorten_it-->
             <!-- ESTOU -->
             <rule>
@@ -12506,7 +12857,7 @@ USA
     <category id='REMOVE_PRONOUN' name='Remoção de pronomes' type='style' tone_tags="povrem">
 
 
-        <rule id='SUBSTANTIVO_PRONOME_VERBINF_REM_PRON' name="Simplificar: Substantivo + Pronome + Verbo Infinitivo → Omitir Pronome" type='style' tone_tags="clarity">
+        <rule id='SUBSTANTIVO_PRONOME_VERBINF_REM_PRON' name="✂️ Substantivo + Pronome + Verbo Infinitivo → Omitir Pronome" type='style' tone_tags="clarity">
             <antipattern>
                 <token postag='SENT_START|CC|CS' postag_regexp='yes'/>
                 <token min='0' max='1' postag='_PUNCT|_QUOT' postag_regexp='yes'/>
@@ -12537,7 +12888,7 @@ USA
 
 
         <!-- ELA O QUE ELA ACHOU ela o que achou -->
-        <rule id='PRONOME_PESS_O_QUE_MESMO_PRONOME_PESS' name="Simplificar: Pronome P. + o + que + Pronome P. → Omitir segundo Pronome P." type="style">
+        <rule id='PRONOME_PESS_O_QUE_MESMO_PRONOME_PESS' name="✂️ Pronome P. + o + que + Pronome P. → Omitir segundo Pronome P." type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-29 (25-JUL-2022+) -->
             <!--
             Pergunta a ela o que ela achou do texto. → Pergunta a ela o que achou do texto.
@@ -12723,7 +13074,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='VERBO_PRON_PESS_REM_PRON_PESS' name="Simplificar: Frase com Verbo + Pronome Pessoal → Omitir Pronome Pessoal" type='style' tags="picky" tone_tags="povrem">
+        <rulegroup id='VERBO_PRON_PESS_REM_PRON_PESS' name="✂️ Frase com Verbo + Pronome Pessoal → Omitir Pronome Pessoal" type='style' tags="picky" tone_tags="povrem">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-29 (25-JUL-2022+) -->
             <!--
       Se me reformar DEDICAREI o resto da MINHA vida a isso. → Se me reformar DEDICAREI o resto da vida a isso.
@@ -12792,75 +13143,118 @@ USA
     </category>
 
 
-    <category id='POSITIVE' name='Linguagem positiva' type='style' tone_tags="positive">
-        <!-- NÃO MILITARES civis -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-18 (2-JUL-2020+)     -->
-        <rulegroup id='NAO_MILITARES' name="Civil/Civis" tags='picky' tone_tags="positive">
+
+    <category id='POSITIVE' name='🎯 Linguagem positiva' type='style' tone_tags="positive">
+
+
+        <rule id='NAO_MILITARES_CIVIS' name="🎯 Entidade não militar → civil" tone_tags='positive'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <!--IDEA shorten_it-->
-            <rule>
-                <antipattern>
-                    <token>,</token>
+            <pattern>
+                <token skip='2' regexp='yes' inflected='yes'>empresa|organização|entidade|instituição|agência|associação|ONG|sec?tor|administração</token>
+                <marker>
                     <token>não</token>
-                    <token>militar</token>
-                    <example>É de responsabilidade civil, e não militar</example>
-                </antipattern>
-                <pattern>
-                    <token postag='N.+|AQ.+' postag_regexp='yes'/>
-                    <marker>
-                        <token>não</token>
-                        <token>militar</token>
-                    </marker>
-                </pattern>
-                <message>Veja se pretende referir uma organização/empresa civil.</message>
-                <suggestion>civil</suggestion>
-                <example correction="civil">Há uma empresa <marker>não militar</marker> a criar simuladores.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='N.+|AQ.+' postag_regexp='yes'/>
-                    <marker>
-                        <token>não</token>
-                        <token>militares</token>
-                    </marker>
-                </pattern>
-                <message>Veja se pretende referir uma organização/empresa civil.</message>
-                <suggestion>civis</suggestion>
-                <example correction="civis">Há empresas <marker>não militares</marker> a criar simuladores.</example>
-            </rule>
-        </rulegroup>
-        <!-- PERDER semanas a/para demorar semanas a/para -->
-        <rule id='PERDER_DEMORAR_LEVAR' name="Perder → Demorar/levar" type='style' tone_tags="positive">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-16 (25-JUN-2021+)      -->
-            <!--
-            Perdi meses a escrever o livro. → Demorei meses a escrever o livro.
-            Perdi vários meses a escrever o livro. → Demorei vários meses a escrever o livro.
-            -->
+                    <token regexp='yes'>milita(r|res)</token>
+                </marker>
+            </pattern>
+            <message>Veja se pretende referir uma entidade civil.</message>
+            <suggestion><match no='3' postag='AQ.+' postag_regexp='yes'>civil</match></suggestion>
+            <example correction="civil">Há uma empresa <marker>não militar</marker> a criar simuladores.</example>
+            <example correction="civis">Há empresas <marker>não militares</marker> a criar simuladores.</example>
+            <example>Há uma organização muito reconhecida civil.</example>
+        </rule>
+
+
+        <rule id='PERDER_DEMORAR_LEVAR_ESTAR' name="🎯 Perder → Demorar/levar/estar" type='style' tone_tags='positive'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
                 <marker>
-                    <token inflected='yes'>perder</token>
+                    <token skip='1' postag='V.+' postag_regexp='yes' inflected='yes'>perder</token>
                 </marker>
-                <or>
-                    <token min="0" max="1" regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
-                    <token postag='Z0.+' postag_regexp='yes'/>
-                </or>
-                <token regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
-                <token regexp="yes">a|para</token>
+                <token regexp='yes' inflected='yes'>&expressoes_de_tempo;<exception regexp='no'>tempo</exception></token>
+                <token regexp='yes'>a|para</token>
                 <token postag='V.+' postag_regexp='yes'/>
             </pattern>
-            <message>Nesta situação o verbo &quot;perder&quot; pode ser depreciativo. Utilize um alternativo.</message>
+            <message>Considere usar &quot;demorar&quot;, &quot;levar&quot; ou &quot;estar&quot; em vez de &quot;perder&quot;.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>demorar</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>levar</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
             <example correction="Demorei|Levei|Estive"><marker>Perdi</marker> meses a escrever o livro.</example>
+            <example correction="Demorei|Levei|Estive"><marker>Perdi</marker> vários anos a escrever o livro.</example>
+            <example correction="Demorei|Levei|Estive"><marker>Perdi</marker> 5 anos para escrever o livro.</example>
+            <example>Ele não perdeu tempo para voltar.</example>
+            <example>Você está perdendo seu tempo a tentar convencê-lo.</example>
+            <example>Além disso, perderemos muito tempo para falar sobre os vários assuntos.</example>
         </rule>
+
+
+
     </category>
 
 
 
-    <category id='SHORTEN_IT' name="Linguagem concisa" type="style">
+    <category id='SHORTEN_IT' name="✂️ Linguagem concisa" type="style">
 
 
-        <rulegroup id='OUTRA_ALTERNATIVA' name="Simplificar: Outra opção/hipótese/possibilidade/solução/via/saída → alternativa">
+        <rulegroup id='LOCALIZADA_SITUADA_EM_NA_NO_V3' name="✂️ Localizada/situada em/na(s)/no(s) → em/na(s)/no(s)" tone_tags='objective'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <rule> <!-- #1: Proper name, keep/add comma, and show extra suggestion -->
+                <pattern>
+                    <marker>
+                        <token postag='NP.+' postag_regexp='yes'/>
+                        <token spacebefore='no' min='0' max='1' postag='_PUNCT_COMMA'/>
+                        <token regexp='yes'>(situad|localizad)[ao]s?</token>
+                        <token regexp='yes'>em|n[ao]s?</token>
+                    </marker>
+                    <token postag='NP.+' postag_regexp='yes'/>
+                </pattern>
+                <message>&quot;Localizada&quot; ou &quot;situada&quot; pode ser redundante antes de uma indicação de lugar.</message>
+                <suggestion>\1, \4</suggestion>
+                <suggestion>\1,</suggestion>
+                <example correction="Lisboa, em|Lisboa,">Aconteceu em <marker>Lisboa situada em</marker> Portugal.</example>
+                <example correction="Lisboa, em|Lisboa,">Aconteceu em <marker>Lisboa, situada em</marker> Portugal.</example>
+            </rule>
+            <rule> <!-- #2: Substantive, no comma -->
+                <pattern>
+                    <marker>
+                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token spacebefore='no' min='0' max='1' postag='_PUNCT_COMMA'/>
+                        <token regexp='yes'>(situad|localizad)[ao]s?</token>
+                        <token regexp='yes'>em|n[ao]s?</token>
+                    </marker>
+                    <token postag='NP.+' postag_regexp='yes'/>
+                </pattern>
+                <message>&quot;Localizada&quot; ou &quot;situada&quot; pode ser redundante antes de uma indicação de lugar.</message>
+                <suggestion>\1 \4</suggestion>
+                <example correction="neutra na">Lisboa é uma zona <marker>neutra situada na</marker> Europa.</example>
+                <example correction="neutra na">Lisboa é uma zona <marker>neutra, situada na</marker> Europa.</example>
+            </rule>
+        </rulegroup>
+
+
+        <rule id='CAIR_CEDER_COLAPSAR' name="✂️ Estrutura cair → ceder/colapsar" tone_tags='objective'>
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='2' regexp='yes' inflected='yes'>estrutura|edifício|prédio|ponte|viaduto|muro|parede|fachada|telhado|teto|cobertura|laje|viga|pilar|coluna|fundação|alicerce|sapata|estaca|aterro|terrapleno|barragem|dique|túnel|galeria|escavação|poço|andaime|plataforma|passarela|varanda|sacada|marquise|cais|doca|pavimento|piso|estrada|rodovia|autoestrada|via|travessia|trilho|carril|armação|suporte|escoramento|contenção|paredão|cortina|painel|placa|bloco|maciço|torre|antena|poste|mastro<exception scope='next' regexp='yes'>sem|e|ou</exception></token>
+                <marker>
+                    <token postag_regexp='yes' postag='V.+' inflected='yes'>cair
+                        <exception scope='previous' postag_regexp='no' postag='_PUNCT_COMMA'/>
+                        <exception postag_regexp='yes' postag='VMP00.+'/></token>
+                </marker>
+            </pattern>
+            <message>Substitua &quot;cair&quot; por &quot;ceder&quot; ou &quot;colapsar&quot; quando o sujeito for uma estrutura física (ex.: prédio, ponte, muro).</message>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ceder</match></suggestion>
+            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>colapsar</match></suggestion>
+            <example correction="cedeu|colapsou">A estrutura <marker>caiu</marker> ontem.</example>
+            <example>Nas imagens é possível perceber que apenas uma parte da estrutura já estava caída.</example>
+            <example>O jogador deve tentar colocar um certo número de tijolos em sua torre sem deixar cair muitos e perder a saúde.</example>
+            <example>Uma criatura de quatro patas chamada "The Doodler" numa série de intermináveis plataformas sem cair.</example>
+            <example>Cole pode muito facilmente escalar edifícios e outras estruturas e cair de grandes alturas sem sofrer danos.</example>
+            <example>E também pelo fato de termos errado a estrada, caindo inclusive no atoleiro.</example>
+        </rule>
+
+
+        <rulegroup id='OUTRA_ALTERNATIVA' name="✂️ Outra opção/hipótese/possibilidade/solução/via/saída → alternativa">
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
             <rule> <!-- #1: Negative (triggered first): "alternativa" -->
@@ -12916,7 +13310,7 @@ USA
         </rulegroup>
 
 
-        <rule id='DEPOIS_DE_APÓS' name="Simplificar: Depois de → após">
+        <rule id='DEPOIS_DE_APÓS' name="✂️ Depois de → após">
             <antipattern>
                 <token>depois</token>
                 <token>de</token>
@@ -12947,7 +13341,7 @@ USA
         </rule>
 
 
-        <rule id='TOTALIZAR' name="Simplificar: 'perfazer um total de' → totalizar">
+        <rule id='TOTALIZAR' name="✂️ 'perfazer um total de' → totalizar">
             <pattern>
                 <marker>
                     <token inflected='yes' regexp='yes'>alcançar|contabilizar|perfazer|somar|totalizar</token>
@@ -12964,7 +13358,7 @@ USA
         </rule>
 
 
-        <rulegroup id='QUE_SE_V_PRESENTE' name="Simplificar: 'que se + V. presente' → V. part. passado">
+        <rulegroup id='QUE_SE_V_PRESENTE' name="✂️ 'que se + V. presente' → V. part. passado">
 
             <antipattern>
                 <token regexp='yes'>[ao]s?|u(m|ns)|umas?</token>
@@ -13019,7 +13413,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='DOBRO_DUAS_VEZES_MAIS_V3' name="Simplificar: 'duas vezes mais' → 'o dobro'">
+        <rulegroup id='DOBRO_DUAS_VEZES_MAIS_V3' name="✂️ 'duas vezes mais' → 'o dobro'">
 
             <antipattern>
                 <token>duas</token>
@@ -13181,7 +13575,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='TRIPLO_TRÊS_VEZES_MAIS_V3' name="Simplificar: 'três vezes mais' → 'o triplo'">
+        <rulegroup id='TRIPLO_TRÊS_VEZES_MAIS_V3' name="✂️ 'três vezes mais' → 'o triplo'">
 
             <antipattern>
                 <token>duas</token>
@@ -13352,7 +13746,7 @@ USA
         </rulegroup>
 
 
-        <rule id='SER_NECESSARIO_NECESSARIO_V2' name="Simplificar: Ser necessário → necessário">
+        <rule id='SER_NECESSARIO_NECESSARIO_V2' name="✂️ Ser necessário → necessário">
             <antipattern>
                 <token postag="V.+|NC.+" postag_regexp='yes'/>
                 <token>que</token>
@@ -13391,7 +13785,7 @@ USA
         </rule>
 
 
-        <rule id='DAR_VALOR_VALORIZAR' name="Simplificar: Verbo 'dar' + valor → valorizar" tags="picky">
+        <rule id='DAR_VALOR_VALORIZAR' name="✂️ Verbo 'dar' + valor → valorizar" tags="picky">
             <!-- IDEA shorten_it -->
             <pattern>
                 <marker>
@@ -13424,7 +13818,7 @@ USA
         </rule>
         <!-- 	AS COISAS NÃO VÃO VERBO_INF nada vai Verb_info -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 (21-OCT-2020+)     -->
-        <rule id='AS_COISAS_NÃO_VÃO_VERBO_INF' name="Nada vai + verb_inf">
+        <rule id='AS_COISAS_NÃO_VÃO_VERBO_INF' name="✂️ Nada vai + verb_inf">
             <!-- IDEA shorten_it -->
             <pattern>
                 <marker>
@@ -13441,7 +13835,7 @@ USA
 
         <!-- É NECESSÁRIO ESTAR PRESENTE é presencial -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-02 (21-OCT-2020+)  *START*   -->
-        <rulegroup id='PRESENTE_PRESENCIAL' name="é presencial">
+        <rulegroup id='PRESENTE_PRESENCIAL' name="✂️ é presencial">
             <!--IDEA shorten_it-->
             <rule>
                 <pattern>
@@ -13515,7 +13909,7 @@ USA
         </rulegroup>
 
 
-        <rule id='ESTAR_NO_ECRA' name="Estar no ecrã">
+        <rule id='ESTAR_NO_ECRA' name="✂️ Estar no ecrã">
             <!--IDEA shorten_it-->
             <pattern>
                 <token postag='(SPS00:)?PD.+' postag_regexp='yes'/>
@@ -13534,7 +13928,7 @@ USA
         </rule>
 
 
-        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="Simplificar: Fazer uso de → usar/recorrer" tags="picky">
+        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="✂️ Fazer uso de → usar/recorrer" tags="picky">
             <!-- IDEA shorten_it -->
 
             <!-- DE -->
@@ -13584,7 +13978,7 @@ USA
         </rulegroup>
 
 
-        <rule id='AO_MESMO_TEMPO_QUE_ENQUANTO' name=" Ao mesmo tempo que → enquanto" type="style" tags='picky' default='off'>
+        <rule id='AO_MESMO_TEMPO_QUE_ENQUANTO' name="✂️ Ao mesmo tempo que → enquanto" type="style" tags='picky' default='off'>
             <!--IDEA shorten_it-->
             <antipattern>
                 <token>ao</token>
@@ -13614,7 +14008,7 @@ USA
             <example correction="Enquanto|Simultaneamente, enquanto"><marker>Ao mesmo tempo que</marker> tenta entender as situações antes de criticar.</example>
         </rule>
         <!-- MAS NÃO TERÁ UTILIDADE mas sem utilidade -->
-        <rule id='MAS_EMBORA_CONTUDO_SEM' name="Expressões do tipo: 'não ter utilidade' → 'sem utilidade'" type='style'>
+        <rule id='MAS_EMBORA_CONTUDO_SEM' name="✂️ Expressões do tipo: 'não ter utilidade' → 'sem utilidade'" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 + 2023-03-01 (25-JUL-2022+) -->
             <!--
@@ -13643,7 +14037,7 @@ USA
             <example correction="sem">Fizeram estudos importantes, mas estes <marker>não tinham</marker> objetivos militares.</example>
         </rule>
         <!-- A NÍVEL PROFISSIONAL profissionalmente -->
-        <rulegroup id='A_NÍVEL_ADJC_NCC_ADVÉRBIO' name="[Simplificar] A nível NC/Adj → Adv" type='style'>
+        <rulegroup id='A_NÍVEL_ADJC_NCC_ADVÉRBIO' name="✂️ A nível NC/Adj → Adv" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 + 2023-01-07 (25-JUL-2022+) -->
             <!--
@@ -13737,7 +14131,7 @@ USA
 
 
         <!-- ATÉ QUE SURGIRAM  até surgirem -->
-        <rulegroup id='SIMPLIFICAR_ATÉ_QUE_ATÉ_VERBO' name="[Simplificar] Até que + Verbo → Até + V.Inf." type='style'>
+        <rulegroup id='SIMPLIFICAR_ATÉ_QUE_ATÉ_VERBO' name="✂️ Até que + Verbo → Até + V.Inf." type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-23 (25-JUL-2022+) -->
             <!--
@@ -13762,7 +14156,7 @@ USA
         </rulegroup>
 
         <!-- COMO É VISTO conforme visto -->
-        <rule id='COMO_É_CONFORME' name="[Simplificar] Como é → Conforme" type='style'>
+        <rule id='COMO_É_CONFORME' name="✂️ Como é → Conforme" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-25 (25-JUL-2022+) -->
             <!--
@@ -13797,13 +14191,31 @@ USA
 
 
         <!-- COMO SENDO A(S)/O(S)/UM/UNS/UMA(S) a(s)/o(s)/um/uns/uma(s) -->
-        <rule id='SIMPLIFICAR_COMO_SENDO' name="[Simplificar] Como sendo + a(s)/o(s)/um/uns/uma(s) → a(s)/o(s)/um/uns/uma(s)" type="style">
+        <rule id='SIMPLIFICAR_COMO_SENDO' name="✂️ Como sendo + a(s)/o(s)/um/uns/uma(s) → a(s)/o(s)/um/uns/uma(s)" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-05 + 2022-07-07 + 2023-02-27 (Checked/Enhanced) (5-JUN-2022+)      -->
             <!--
       Foi considerado por muitos cientistas como sendo o pai da Matemática. → Foi considerado por muitos cientistas o pai da Matemática.
       Uma sessão de login é considerada como sendo a vida útil de um processo de usuário. → Uma sessão de login é considerada a vida útil de um processo de usuário.
       -->
+
+            <antipattern>
+                <token postag='VMP00.+' postag_regexp='yes'/>
+                <token>como</token>
+                <token>sendo</token>
+                <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token min='0' max='1'>de</token>
+                <token min='0' max='1' postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token postag='SENT_END|_PUNCT|CC|SPS00|SPS00:D[AI].+' postag_regexp='yes'/>
+                <example>O “Pilar” é classificado como sendo um obstáculo.</example>
+                <example>O arvoredo foi mantido como sendo um terreno.</example>
+                <example>Os terroristas retaliam contra Estados encarados como sendo os inimigos.</example>
+                <example>Um argumento é definido como sendo um raciocínio para provar algo.</example>
+                <example>Ela é definida como sendo a função principal.</example>
+                <example>O Sistema de Crenças é definido como sendo o conjunto de argumentos e os respetivos pesos.</example>
+            </antipattern>
+
             <antipattern>
                 <token><exception postag='V.+' postag_regexp='yes'/></token>
                 <token min="0" max="1" postag='DI.+|RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
@@ -13812,31 +14224,10 @@ USA
                 <token>como</token>
                 <token>sendo</token>
                 <token/>
-                <example>...ndo que o profeta da Era do peixe seria o Messias; e é por isso que os judeus nunca aceitaram Jesus como sendo um Deus humano.</example>
-                <example>...os de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
+                <example>É por isso que os judeus nunca aceitaram Jesus como sendo um Deus humano.</example>
+                <example>Enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
                 <example>Parece que muitas vezes, em nossa cabeça, interpretamos outras religiões cristãs como sendo outros deuses.</example>
-                <example>* (j) Monarca discutível como sendo o verdadeiro Chefe de Estado.</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag='VMIS.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                <token postag='VMP00.+' postag_regexp='yes'/>
-                <token>como</token>
-                <token>sendo</token>
-                <token/>
-                <example>O arvoredo foi mantido como sendo um terreno.</example>
-                <example>Os terroristas retaliam contra Estados encarados como sendo os inimigos.</example>
-            </antipattern>
-
-            <antipattern>
-                <token regexp='yes'>definid[ao]s?</token>
-                <token>como</token>
-                <token>sendo</token>
-                <token postag='[DP].+' postag_regexp='yes'/>
-                <token postag='N.+|AQ.+' postag_regexp='yes'/>
-                <example>Um argumento é definido como sendo um raciocínio para provar algo.</example>
-                <example>Ela é definida como sendo a função principal.</example>
-                <example>O Sistema de Crenças é definido como sendo o conjunto de argumentos e os respetivos pesos.</example>
+                <example>Monarca discutível como sendo o verdadeiro Chefe de Estado.</example>
             </antipattern>
 
             <pattern>
@@ -13865,7 +14256,7 @@ USA
 
 
         <!-- COMO É O CASO DO NOSSO como é o nosso -->
-        <rule id='COMO_SER_O_CASO_DO' name="[Simplificar] Como é/são o caso do → Como o" type='style'>
+        <rule id='COMO_SER_O_CASO_DO' name="✂️ Como é/são o caso do → Como o" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-02 (25-JUL-2022+) -->
             <!--
@@ -13888,7 +14279,7 @@ USA
 
 
         <!-- CONFORME IA REVENDO conforme revia -->
-        <rule id='CONFORME_IA_IAM_GERUNDIO_CONFORME_PASSADO' name="[Simplificar] Conforme 'ia(m) + V.Gerúndio' → 'V.Passado.'" type="style" default='on'>
+        <rule id='CONFORME_IA_IAM_GERUNDIO_CONFORME_PASSADO' name="✂️ Conforme 'ia(m) + V.Gerúndio' → 'V.Passado.'" type="style" default='on'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-13/14 (2-MAR-2023+) -->
             <!--
@@ -13914,7 +14305,7 @@ USA
 
 
         <!-- CORRER O RISCO arriscar-->
-        <rulegroup id='CORRER_RISCO_ARRISCAR' name="[Simplificar] Correr o risco → arriscar" type='style'>
+        <rulegroup id='CORRER_RISCO_ARRISCAR' name="✂️ Correr o risco → arriscar" type='style'>
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20/21 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
@@ -13978,7 +14369,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="[Simplificar] 'do inimigo/adversário/aliado/oponente' → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style" tags='picky'>
+        <rulegroup id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="✂️ 'do inimigo/adversário/aliado/oponente' → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style" tags='picky'>
             <!--IDEA shorten_it-->
 
             <antipattern> <!-- Later use this AP for specific fixes, removing exceptions from the rules below -->
@@ -14074,7 +14465,7 @@ USA
 
         <!-- DE FORMA/MODO + ADJ adv -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
-        <rule id='DE_FORMA-MODO_ADJ' name="[Simplificar] De + forma/modo + Adj → Adv" type="style" tags="picky">
+        <rule id='DE_FORMA-MODO_ADJ' name="✂️ De + forma/modo + Adj → Adv" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <antipattern>
                 <token>de</token>
@@ -14103,7 +14494,7 @@ USA
         </rule>
 
 
-        <rule id='MADRUGADA_MATINAL' name="Simplificar: da madrugada/manhã → matinal" type="style">
+        <rule id='MADRUGADA_MATINAL' name="✂️ da madrugada/manhã → matinal" type="style">
             <!--IDEA shorten_it-->
             <pattern>
                 <token postag='V.+' postag_regexp='yes'/>
@@ -14123,7 +14514,7 @@ USA
 
 
         <!-- ISSO ACONTECE DESDE A ALTURA isso acontece desde então -->
-        <rule id='DESDE_A_ALTURA_DESDE_ENTÃO' name="[Simplificar] Desde a altura → desde então" type='style'>
+        <rule id='DESDE_A_ALTURA_DESDE_ENTÃO' name="✂️ Desde a altura → desde então" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-07 (25-JUL-2022+) -->
             <!--
@@ -14152,7 +14543,7 @@ USA
 
 
         <!-- DESDE QUE HAJA ao haver se houver-->
-        <rule id='DESDE_QUE_VERBO_AO_VERBO_INF' name="[Simplificar] Desde que + V. → ao + V.Inf." type='style' tags='picky'>
+        <rule id='DESDE_QUE_VERBO_AO_VERBO_INF' name="✂️ Desde que + V. → ao + V.Inf." type='style' tags='picky'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-03 (2-MAR-2023+) -->
             <!--
@@ -14181,7 +14572,7 @@ USA
 
 
         <!-- DOS HUMANOS humano -->
-        <rulegroup id='DOS_HUMANOS_HUMANO' name="[Simplificar] Do(s) + humano(s) → humano" type="style" tags='picky'>
+        <rulegroup id='DOS_HUMANOS_HUMANO' name="✂️ Do(s) + humano(s) → humano" type="style" tags='picky'>
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-12 + 2022-08-28 (1-JAN-2022+)      -->
             <!--
@@ -14261,7 +14652,7 @@ USA
         </rulegroup>
 
         <!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
-        <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="[Simplificar] E é/são/foi/foram + V. → [sendo/sido/e] + V." type="style" tags='picky'>
+        <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="✂️ E é/são/foi/foram + V. → [sendo/sido/e] + V." type="style" tags='picky'>
             <!--IDEA shorten_it-->
             <!--      Created byMarco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-04-25 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
@@ -14303,7 +14694,7 @@ USA
             <example>Tom apagou a luz e foi dormir.</example>
         </rule>
 
-        <rulegroup id='E_NÃO_VERB_SEM_VERBINFINITIVE' name="[Simplificar] E não + Verbo → Sem + V.Inf." type='style' default="off">
+        <rulegroup id='E_NÃO_VERB_SEM_VERBINFINITIVE' name="✂️ E não + Verbo → Sem + V.Inf." type='style' default="off">
             <!--IDEA shorten_it-->
 
             <rule>
@@ -14350,7 +14741,7 @@ USA
 
 
         <!-- É QUE OS TERRORISTAS SÃO VIOLENTOS é os terroristas serem violentos -->
-        <rule id='É_QUE_AS-OS_NC_É-SÃO' name="[Simplificar] É que (a/o)(s) NC é/são → É (a/o)(s) NC ser(em)" type="style" tags="picky">
+        <rule id='É_QUE_AS-OS_NC_É-SÃO' name="✂️ É que (a/o)(s) NC é/são → É (a/o)(s) NC ser(em)" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
@@ -14383,7 +14774,7 @@ USA
 
 
         <!-- E QUE VERBO e verbo -->
-        <rule id='E_QUE_VERBO_E_VERBO' name="[Simplificar] E que + Verbo → E + Verbo" type='style'>
+        <rule id='E_QUE_VERBO_E_VERBO' name="✂️ E que + Verbo → E + Verbo" type='style'>
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-03 + 2021-08-04 + 2022-03-08 (25-JUN-2021+)      -->
             <!--
@@ -14535,7 +14926,7 @@ USA
 
 
         <!-- PRONTO A ENTREGAR E QUE MAIS NADA ERA NECESSÁRIO Pronto a entregar e nada mais era necessário -->
-        <rule id='E_QUE_ADV_VERBO_NADA_E_NADA_ADV_VERBO' name="[Simplificar] e/ou + que + Adv/Verbo + nada → e/ou + nada + Adv/Verbo" type='style'>
+        <rule id='E_QUE_ADV_VERBO_NADA_E_NADA_ADV_VERBO' name="✂️ e/ou + que + Adv/Verbo + nada → e/ou + nada + Adv/Verbo" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-05 (25-JUL-2022+) -->
             <!--
@@ -14557,7 +14948,7 @@ USA
         </rule>
 
 
-        <rule id='EM_QUE_NAO_HA_PRONOME-INDEFINIDO' name="[Simplificar] Em que não há + Pron.Indef. → Sem Pron.Indef." type="style" tags="picky">
+        <rule id='EM_QUE_NAO_HA_PRONOME-INDEFINIDO' name="✂️ Em que não há + Pron.Indef. → Sem Pron.Indef." type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-31 (Checked/Enhanced) (2-MAR-2023+) -->
             <!--
@@ -14577,7 +14968,7 @@ USA
 
 
         <!-- ESTAR A VERB_INFINITIVE verb (verb1 person)-->
-        <rulegroup id='ESTAR_A_VERB-INFINITIVE' name="[Simplificar] Estar a + V.Inf. → V.1.ªPessoa" type="style">
+        <rulegroup id='ESTAR_A_VERB-INFINITIVE' name="✂️ Estar a + V.Inf. → V.1.ªPessoa" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-19 (2-JUL-2020+)     -->
             <rule>
@@ -14610,7 +15001,7 @@ USA
             </rule>
         </rulegroup>
         <!-- MAS SIM QUE ERA DEVIDO mas era devido -->
-        <rulegroup id='MAS_QUE_ERA_VERBOPARTPASSADO_MAS_VERBOPARTPASSADO' name="[Simplificar] mas/e + que + V.Ser + V.Part.Pass. → mas/e + V.Ser + V. Part.Pass." type='style'>
+        <rulegroup id='MAS_QUE_ERA_VERBOPARTPASSADO_MAS_VERBOPARTPASSADO' name="✂️ mas/e + que + V.Ser + V.Part.Pass. → mas/e + V.Ser + V. Part.Pass." type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-20 (25-JUL-2022+) -->
             <!--
@@ -14666,7 +15057,7 @@ USA
 
 
         <!-- QUE NÃO DÁ PARA VOLTAR ATRÁS irreversível -->
-        <rule id='NÃO_DÁ_PARA_VOLTAR_ATRÁS_IRREVERSÍVEL' name="[Simplificar] 'que não dá para voltar atrás' → 'irreversível'" tone_tags="formal" type="style">
+        <rule id='NÃO_DÁ_PARA_VOLTAR_ATRÁS_IRREVERSÍVEL' name="✂️ 'que não dá para voltar atrás' → 'irreversível'" tone_tags="formal" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
             <!--
@@ -14695,7 +15086,7 @@ USA
         </rule>
 
         <!-- O DESENVOLVIMENTO DE desenvolver -->
-        <rulegroup id="VERBAL_NOUNS_TO_VERB" name="[Simplificar] NC Verbais para V.Inf.: 'o -mento de'/'a -ção de' → '-ar/-er/-ir'" type="style" tags="picky">
+        <rulegroup id="VERBAL_NOUNS_TO_VERB" name="✂️ NC Verbais para V.Inf.: 'o -mento de'/'a -ção de' → '-ar/-er/-ir'" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-09/10/11 (2-MAR-2023+) -->
             <!--
@@ -14892,7 +15283,7 @@ USA
 
 
         <!-- O QUE ESTÁ ESTIPULADO o estipulado -->
-        <rule id='O_QUE_ESTAR_SER_PARTICIPIOPASSADO' name="[Simplificar] O que V.Estar/Ser + V.Part.Pass. → o + V.Part.Pass." type="style">
+        <rule id='O_QUE_ESTAR_SER_PARTICIPIOPASSADO' name="✂️ O que V.Estar/Ser + V.Part.Pass. → o + V.Part.Pass." type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-04/5 + 2023-01-19/20 (25-JUL-2022+) -->
             <!--
@@ -14928,7 +15319,7 @@ USA
 
 
         <!-- O QUE TEM DE MAL que mal tem -->
-        <rule id='O_QUE_TEM_DE_MAL_QUE_MAL_TEM' name="[Simplificar] 'o que tem de mal' → 'que mal tem'" type="style">
+        <rule id='O_QUE_TEM_DE_MAL_QUE_MAL_TEM' name="✂️ 'o que tem de mal' → 'que mal tem'" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-23 (2-MAR-2023+) -->
             <!--
@@ -14953,7 +15344,7 @@ USA
 
 
         <!-- DE SOFTWARE PARA O PÚBLICO de software público -->
-        <rule id='PARA_O_PÚBLICO_PÚBLICO_PÚBLICA' name="[Simplificar] Para o público → público(a)" type="style">
+        <rule id='PARA_O_PÚBLICO_PÚBLICO_PÚBLICA' name="✂️ Para o público → público(a)" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-17 (25-JUL-2022+) -->
             <!--
@@ -14977,7 +15368,7 @@ USA
 
 
         <!-- PARA QUANDO quando -->
-        <rule id='PARA_QUANDO_QUANDO' name="[Simplificar] Para quando → quando" type="style">
+        <rule id='PARA_QUANDO_QUANDO' name="✂️ Para quando → quando" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-03 (25-JUL-2022+) -->
             <!--
@@ -14999,7 +15390,7 @@ USA
 
 
         <!-- PARA QUE para -->
-        <rulegroup id='SIMPLIFICAR_PARA_QUE_PARA' name="[Simplificar] para que → para" type='style' tags='picky'>
+        <rulegroup id='SIMPLIFICAR_PARA_QUE_PARA' name="✂️ para que → para" type='style' tags='picky'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-23/24/26 (25-JUL-2022+) -->
             <!--
@@ -15055,7 +15446,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='TORNAR_MELHOR_PIOR_MELHORAR_PIORAR' name="[Simplificar] Tornar melhor/pior → melhorar/simplificar">
+        <rulegroup id='TORNAR_MELHOR_PIOR_MELHORAR_PIORAR' name="✂️ Tornar melhor/pior → melhorar/simplificar">
             <!--IDEA shorten_it-->
 
             <!-- #1: melhorar -->
@@ -15092,7 +15483,7 @@ USA
 
 
         <!-- PARA QUE SAIBAM para saberem -->
-        <rulegroup id='QUE_SUBJ_VS_INF_PESS' name="[Simplificar] Para que + Verbo → Para + Verbo " type='style'>
+        <rulegroup id='QUE_SUBJ_VS_INF_PESS' name="✂️ Para que + Verbo → Para + Verbo " type='style'>
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-19 + 2021-04-29 + 2021-05-04 + 2021-05-05 (17-MAR-2021+)      -->
             <!--
@@ -15249,7 +15640,7 @@ USA
 
 
         <!-- POIS AFETA ao afetar -->
-        <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="[Simplificar] Pois + Verbo → Ao/por/visto + V.Inf." type='style' tags='picky'>
+        <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="✂️ Pois + Verbo → Ao/por/visto + V.Inf." type='style' tags='picky'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-02/3/4 (27-FEB-2023+) -->
             <!--
@@ -15293,7 +15684,7 @@ USA
 
 
         <!-- POR ANO anuais -->
-        <rulegroup id='POR_ANO_MÊS_SEMANA_DIA_ANUAL_MENSAL_SEMANAL_DIÁRIO_V2' name="[Simplificar] por ano/mês/semana/dia → anual/mensal/semanal/diário" type="style" tags="picky">
+        <rulegroup id='POR_ANO_MÊS_SEMANA_DIA_ANUAL_MENSAL_SEMANAL_DIÁRIO_V2' name="✂️ por ano/mês/semana/dia → anual/mensal/semanal/diário" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-08 (2-MAR-2023+) -->
             <!--
@@ -15387,7 +15778,7 @@ USA
 
 
         <!-- POR ISSO aí/assim/daí/isso -->
-        <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="[Simplificar] por isso → aí/assim/daí/isso" type="style" tags="picky">
+        <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="✂️ por isso → aí/assim/daí/isso" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
@@ -15413,7 +15804,7 @@ USA
             </rule>
         </rulegroup>
         <!-- POUCO IMPORTA não importa -->
-        <rule id='POUCO_IMPORTA_NÃO_IMPORTA' name="[Simplificar] 'Pouco' importa → não" type="style" tags="picky" default="off">
+        <rule id='POUCO_IMPORTA_NÃO_IMPORTA' name="✂️ 'Pouco' importa → não" type="style" tags="picky" default="off">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-21 (2-MAR-2023+) -->
             <!--
@@ -15432,7 +15823,7 @@ USA
         </rule>
 
 
-        <rulegroup id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="[Simplificar] Omitir pronome pessoal redundante" type='style' default='temp_off'>
+        <rulegroup id='PRON_PESSOAL_REPETIDO_REMOVER_SEG_REPETICAO' name="✂️ Omitir pronome pessoal redundante" type='style'>
             <!--IDEA shorten_it-->
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <rule>
@@ -15472,7 +15863,7 @@ USA
 
 
         <!-- QUANDO SE ABRE UMA DEFINIÇÃO ao abrir uma definição -->
-        <rule id='QUANDO_SE_VERBO_TIPO_ABRE_M_AO_VERBO_TIPO_ABRIR_EM_V2' name="[Simplificar] 'Quando se V.Tipo.Abre(m)' → 'Ao [se] V.Tipo.Abrir(em)'" type="style" tags="picky">
+        <rule id='QUANDO_SE_VERBO_TIPO_ABRE_M_AO_VERBO_TIPO_ABRIR_EM_V2' name="✂️ 'Quando se V.Tipo.Abre(m)' → 'Ao [se] V.Tipo.Abrir(em)'" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-26 + 2023-05-01/4 (2-MAR-2023+) -->
             <!--
@@ -15499,7 +15890,7 @@ USA
         </rule>
 
 
-        <rule id='QUANDO_TER_DE_QUE_VINF_AO_VINF' name="[Simplificar] 'Quando V.Ter de/que V.Inf.' com → 'Ao V.Inf.'" type="style" tags="picky">
+        <rule id='QUANDO_TER_DE_QUE_VINF_AO_VINF' name="✂️ 'Quando V.Ter de/que V.Inf.' com → 'Ao V.Inf.'" type="style" tags="picky">
             <pattern>
                 <marker>
                     <token>quando</token>
@@ -15521,7 +15912,7 @@ USA
 
 
         <!-- QUE É DEPOIS TRANSFORMADO depois transformado -->
-        <rule id='QUE_É_ADVERBIO_VERPARTPASSADO' name="[Simplificar] Que é + Adv + V.Part.Pass → Adv V.Part.Pass" type="style">
+        <rule id='QUE_É_ADVERBIO_VERPARTPASSADO' name="✂️ Que é + Adv + V.Part.Pass → Adv V.Part.Pass" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-11 (25-JUL-2022+) -->
             <!--
@@ -15557,7 +15948,7 @@ USA
 
 
         <!-- QUE ESTÁ/ESTÃO EM USO em uso -->
-        <rule id='QUE_ESTA_ESTAO_EM' name="[Simplificar] Que está/estão + contração/preposição → contração/preposição" type="style">
+        <rule id='QUE_ESTA_ESTAO_EM' name="✂️ Que está/estão + contração/preposição → contração/preposição" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-31 (25-JUL-2022+) -->
             <!--
@@ -15656,7 +16047,7 @@ USA
 
 
         <!-- QUE EU TENHO A FAZER a fazer -->
-        <rule id='QUE_PRONOMERETO_VERBOTER_A_VERBO_A_VERBO' name="[Simplificar] que + [Pronome Reto] + V.Ter + a + Verbo → a + verbo" type="style" tags="picky">
+        <rule id='QUE_PRONOMERETO_VERBOTER_A_VERBO_A_VERBO' name="✂️ que + [Pronome Reto] + V.Ter + a + Verbo → a + verbo" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-26 (25-JUL-2022+) -->
             <!--
@@ -15689,7 +16080,7 @@ USA
         </rule>
 
 
-        <rule id='QUE_PRETENDER_PRETENDIDO' name="[Simplificar] que pretender → pretendido" type='style' default='temp_off'>
+        <rule id='QUE_PRETENDER_PRETENDIDO' name="✂️ que pretender → pretendido" type='style'>
             <!--IDEA shorten_it-->
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
@@ -15711,7 +16102,7 @@ USA
 
 
         <!-- ME ANDAVA A ARRASTAR me arrastava -->
-        <rule id='SIMPLIFICAR_QUE_PRON_V_ANDAR_A_INFINITIVO' name="[Simplificar] que + Pron. + 'V.Andar + a + V.Inf.' → V. baseado no V.Andar" type='style' tags='picky'>
+        <rule id='SIMPLIFICAR_QUE_PRON_V_ANDAR_A_INFINITIVO' name="✂️ que + Pron. + 'V.Andar + a + V.Inf.' → V. baseado no V.Andar" type='style' tags='picky'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-03 (2-MAR-2023+) -->
             <!--
@@ -15757,7 +16148,7 @@ USA
 
 
         <!-- QUE RESULTAM DE resultantes de -->
-        <rule id='QUE_RESULTA_RESULTAM_DE_DA_DAS_DO_DOS_NA_NAS_NO_NOS' name="[Simplificar] Que + resulta(m) + de/d(a/o)(s)/n(a/o)(s) → Resultante(s) + de/d(a/o)(s)/n(a/o)(s)" type='style' tags='picky'>
+        <rule id='QUE_RESULTA_RESULTAM_DE_DA_DAS_DO_DOS_NA_NAS_NO_NOS' name="✂️ Que + resulta(m) + de/d(a/o)(s)/n(a/o)(s) → Resultante(s) + de/d(a/o)(s)/n(a/o)(s)" type='style' tags='picky'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-24 (25-JUL-2022+) -->
             <!--
@@ -15783,7 +16174,7 @@ USA
 
 
         <!-- QUE SE ENCONTRA NA na -->
-        <rule id='QUE_SE_ENCONTRAR_NA_NO_NESTA_NESTE' name="[Simplificar] que se encontr[ae](m) n[ao](s)/nest[ae](s) → n[ao](s)/nest[ae](s)" type="style" tags="picky">
+        <rule id='QUE_SE_ENCONTRAR_NA_NO_NESTA_NESTE' name="✂️ que se encontr[ae](m) n[ao](s)/nest[ae](s) → n[ao](s)/nest[ae](s)" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-13 (25-JUL-2022+) -->
             <!--
@@ -15831,7 +16222,7 @@ USA
 
         <!-- QUE + VERB + COM verb_inf + com -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 + 2020-11-14 (21-OCT-2020+)     -->
-        <rulegroup id='QUE_VERB_COM_VERBINF_COM' name="[Simplificar] Que + Verbo + Com → V.Inf. + com" type="style" tags="picky">
+        <rulegroup id='QUE_VERB_COM_VERBINF_COM' name="✂️ Que + Verbo + Com → V.Inf. + com" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <rule>
                 <pattern>
@@ -15869,7 +16260,7 @@ USA
 
 
         <!-- NA SEMANA QUE PASSOU na semana passada -->
-        <rulegroup id='QUE_VERBOPASSADO_VERBOPARTPASSADO' name="[Simplificar] Que + V.Passado → V.Part.Pass." type="style">
+        <rulegroup id='QUE_VERBOPASSADO_VERBOPARTPASSADO' name="✂️ Que + V.Passado → V.Part.Pass." type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-28/29 (25-JUL-2022+) -->
             <!--
@@ -15961,7 +16352,7 @@ USA
 
 
         <!-- QUE OCORRE CONTINUAMENTE ocorrido continuamente -->
-        <rulegroup id='QUE_VERBOPRESENTE_CONTINUAMENTE_VERBO_PART_PASSADO' name="[Simplificar] Que + V.Presente + Adv → V.Part.Pass. + Adv" type='style' default='off'>
+        <rulegroup id='QUE_VERBOPRESENTE_CONTINUAMENTE_VERBO_PART_PASSADO' name="✂️ Que + V.Presente + Adv → V.Part.Pass. + Adv" type='style' default='off'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-09 + 2022-11-25 (25-JUL-2022+) -->
             <!--
@@ -16002,7 +16393,7 @@ USA
 
 
         <!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
-        <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="[Simplificar] Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
+        <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="✂️ Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
             <!--
@@ -16069,7 +16460,7 @@ USA
 
 
         <!-- QUE EM NC SER VERBO NUM ser verbo em nc num -->
-        <rule id='QUE_EM_NC_SER_VERBO_NUM' name="[Simplificar] Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style'>
+        <rule id='QUE_EM_NC_SER_VERBO_NUM' name="✂️ Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style'>
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
             <!--
@@ -16091,7 +16482,7 @@ USA
 
 
         <!-- QUE FOI O CRIADOR o criador -->
-        <rule id='QUE_VERBO_SER_A_AS_O_OS_A_AS_O_OS' name="[Simplificar] Que + V.Ser + a(s)/o(s) → a(s)/o(s)" type="style">
+        <rule id='QUE_VERBO_SER_A_AS_O_OS_A_AS_O_OS' name="✂️ Que + V.Ser + a(s)/o(s) → a(s)/o(s)" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-07 + 2023-01-08 (25-JUL-2022+) -->
             <!--
@@ -16239,7 +16630,7 @@ USA
 
 
         <!-- VERB + QUE + É/SÃO verb + ser(em) -->
-        <rulegroup id='VERB_QUE_É_VERB_SER' name="[Simplificar] Que é/são → ser(em)" type="style" tags="picky">
+        <rulegroup id='VERB_QUE_É_VERB_SER' name="✂️ Que é/são → ser(em)" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-14 + 2021-07-06 (Enhanced) (1-JAN-2021+)      -->
             <!--
@@ -16472,7 +16863,7 @@ USA
 
 
         <!-- JÁ ESTÁ OCUPADA já ocupada -->
-        <rule id='QUE_JÁ_ESTAR_PARTPASS_JÁ_PARTPASS' name="[Simplificar] Que já + V.Estar + V.Part.Pass → Já + V.Part.Pass" type='style'>
+        <rule id='QUE_JÁ_ESTAR_PARTPASS_JÁ_PARTPASS' name="✂️ Que já + V.Estar + V.Part.Pass → Já + V.Part.Pass" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-19 (25-JUL-2022+) -->
             <!--
@@ -16497,7 +16888,7 @@ USA
 
 
         <!-- QUE ESTÁ ATUALMENTE atualmente -->
-        <rule id='QUE_ESTAR_ADVERB_ADVERB' name="[Simplificar] Que + V.Estar + Adv → Adv" type='style' tags='picky'>
+        <rule id='QUE_ESTAR_ADVERB_ADVERB' name="✂️ Que + V.Estar + Adv → Adv" type='style' tags='picky'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-19 (25-JUL-2022+) -->
             <!--
@@ -16521,7 +16912,7 @@ USA
 
 
         <!-- QUE PÕE/PÕEM EM pondo em -->
-        <rule id='QUE_VERB_GERUND' name="[Simplificar] Que + verbo + em → Gerúndio + em" type="style" tags='picky'>
+        <rule id='QUE_VERB_GERUND' name="✂️ Que + verbo + em → Gerúndio + em" type="style" tags='picky'>
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-23 + 2021-07-25 (25-JUN-2021+)      -->
             <!--
@@ -16567,7 +16958,7 @@ USA
             <example correction="investindo|investidas|investidos|investidoras">Há organizações <marker>que investem</marker> em causa a segurança internacional.</example>
         </rule>
         <!-- SER CAPAZ DE conseguir -->
-        <rule id='SER_CAPAZ_DE_CONSEGUIR' name="[Simplificar] Ser capaz de → Conseguir" type="style" tags='picky'>
+        <rule id='SER_CAPAZ_DE_CONSEGUIR' name="✂️ Ser capaz de → Conseguir" type="style" tags='picky'>
             <!--IDEA shorten_it-->
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
@@ -16595,32 +16986,26 @@ USA
         </rule>
 
 
-        <!-- TER FORMA DE ter como -->
-        <rule id='TER_FORMA_DE_TER_COMO' name="[Simplificar] Ter forma de → Ter como" type="style">
+        <rule id='TER_FORMA_DE_TER_COMO' name="✂️ Ter/haver 'forma de' → 'como'" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 (25-JUL-2022+) -->
-            <!--
-      Após 8 meses de baixa não tinha forma de os contactar. → Após 8 meses de baixa não tinha como os contactar.
-      Após acabar o curso já tinha forma de os contactar. → Após acabar o curso já tinha como os contactar.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token inflected='yes'>ter</token>
+                <token regexp='yes' inflected='yes'>ter|haver</token>
                 <marker>
                     <token>forma</token>
                     <token>de</token>
                 </marker>
-                <token><exception postag_regexp='yes' postag='NC.+|AQ.+|DI.+|Z0.+'/></token>
+                <token postag='DA.+|PP.+|V.+|RM' postag_regexp='yes'/>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>como</suggestion>
             <example correction="como">Após 8 meses de baixa não tinha <marker>forma de</marker> os contactar.</example>
             <example correction="como">Após acabar o curso já tinha <marker>forma de</marker> os contactar.</example>
-            <example>Esta pedra tem forma de um animal.</example>
         </rule>
 
 
         <!-- TIRAR UMA FOTO fotografar -->
-        <rule id='TIRAR_FOTOGRAFIA_FOTOGRAFAR' name="[Simplificar] Tirar fotografia/foto → fotografar" type='style'>
+        <rule id='TIRAR_FOTOGRAFIA_FOTOGRAFAR' name="✂️ Tirar fotografia/foto → fotografar" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
@@ -16647,7 +17032,7 @@ USA
 
 
         <!-- TORNANDO POSSÍVEL permitindo -->
-        <rule id='TORNAR_POSSÍVEL_PERMITIR_POSSIBILITAR' name="[Simplificar] Tornar possível → permitir/possibilitar" type="style">
+        <rule id='TORNAR_POSSÍVEL_PERMITIR_POSSIBILITAR' name="✂️ Tornar possível → permitir/possibilitar" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-03 (25-JUL-2022+) -->
             <!--
@@ -16669,7 +17054,7 @@ USA
 
 
         <!-- UNS COM OS OUTROS entre si/nós/vocês/vós -->
-        <rulegroup id='UNS_COM_OS_OUTROS_ENTRE_SI_NÓS_VÓS_VOCÊS' name="[Simplificar] Uns com os outros → entre si/nós/vós/vocês" type="style" tags="picky">
+        <rulegroup id='UNS_COM_OS_OUTROS_ENTRE_SI_NÓS_VÓS_VOCÊS' name="✂️ Uns com os outros → entre si/nós/vós/vocês" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-31 + 2023-01-01 (25-JUL-2022+) -->
             <!--
@@ -16751,7 +17136,7 @@ USA
 
 
         <!-- CONTINUA A SER TÃO continua tão -->
-        <rule id='CONTINUAR_A_SER' name="[Simplificar] V.Continuar a ser tão/bastante → V.Continuar tão/bastante" type='style'>
+        <rule id='CONTINUAR_A_SER' name="✂️ V.Continuar a ser tão/bastante → V.Continuar tão/bastante" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-06 (25-JUL-2022+) -->
             <!--
@@ -16776,7 +17161,7 @@ USA
 
 
         <!-- QUE CHEGUE O DIA chegar o dia -->
-        <rulegroup id='SER_NC_QUE_VERBO_VINFINITIVO' name="[Simplificar] V.Ser + NC + 'que + V.' → V.Inf." type='style'>
+        <rulegroup id='SER_NC_QUE_VERBO_VINFINITIVO' name="✂️ V.Ser + NC + 'que + V.' → V.Inf." type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-22 (25-JUL-2022+) -->
             <!--
@@ -16808,7 +17193,7 @@ USA
 
 
         <!-- SÃO PARA SEREM USADOS são para usar -->
-        <rule id='SER_PARA_SER_SEREM_PARTPASSADO_SER_PARA_VINFINITIVO' name="[Simplificar] V.Ser + para + V.Ser + V.Part.Pass → V.Ser + para + V.Inf" type="style">
+        <rule id='SER_PARA_SER_SEREM_PARTPASSADO_SER_PARA_VINFINITIVO' name="✂️ V.Ser + para + V.Ser + V.Part.Pass → V.Ser + para + V.Inf" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
@@ -16831,7 +17216,7 @@ USA
 
 
         <!-- ERA QUEM CHEGASSE PRIMEIRO era chegar primeiro -->
-        <rule id='SER_QUEM_VERB-ESSE_WORD' name="[Simplificar] V.Ser + quem + V.-asse → V.Ser + V.Inf." type="style">
+        <rule id='SER_QUEM_VERB-ESSE_WORD' name="✂️ V.Ser + quem + V.-asse → V.Ser + V.Inf." type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
@@ -16853,7 +17238,7 @@ USA
 
 
         <!-- SERVE PARA permite -->
-        <rule id='SERVIR_PARA_PERMITIR' name="[Simplificar] V.Servir + para → V.Permitir" type="style" tags="picky">
+        <rule id='SERVIR_PARA_PERMITIR' name="✂️ V.Servir + para → V.Permitir" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-20 (2-MAR-2023+) -->
             <!--
@@ -16897,7 +17282,7 @@ USA
         </rule>
 
 
-        <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="[Simplificar] Verbo estar + a + V.Inf. → Verbo" type="style" tags="picky">
+        <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="✂️ Verbo estar + a + V.Inf. → Verbo" type="style" tags="picky">
             <antipattern>
                 <token inflected='yes'>estar</token>
                 <token>a</token>
@@ -16958,7 +17343,7 @@ USA
         </rulegroup>
 
 
-        <rule id='PASSAR_A_VERBO' name="[Simplificar] V.Passar + a + V. → V. (na forma de V.Passar)" type="style" tags="picky">
+        <rule id='PASSAR_A_VERBO' name="✂️ V.Passar + a + V. → V. (na forma de V.Passar)" type="style" tags="picky">
             <antipattern>
                 <token inflected='yes'>passar</token>
                 <token>a</token>
@@ -16991,7 +17376,7 @@ USA
             <example correction="sentir-me-ei">E <marker>passarei a sentir-me</marker> estrangeiro no meu próprio país.</example>
         </rule>
 
-        <rule id='TER_SIDO_PART_PASSADO_VERBO' name="[Simplificar] V.Ter + sido + V.Part.Pass. → V." type="style" tags='picky'>
+        <rule id='TER_SIDO_PART_PASSADO_VERBO' name="✂️ V.Ter + sido + V.Part.Pass. → V." type="style" tags='picky'>
             <antipattern>
                 <token regexp='yes'>t[eê]m</token>
                 <token>sido</token>
@@ -17027,7 +17412,7 @@ USA
 
 
         <!-- VERBO1 QUE VERBO2 VERBO3 O QUE verbo2_infinitivo verbo3_infinitivo o que -->
-        <rule id='VERBO1_QUE_VERBO2_VERBO3_O_QUE' name="[Simplificar] verbo2 + verbo3_infinitivo" type="style">
+        <rule id='VERBO1_QUE_VERBO2_VERBO3_O_QUE' name="✂️ verbo2 + verbo3_infinitivo" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-23 + 2020-11-17 (21-OCT-2020+)     -->
             <antipattern>
@@ -17054,7 +17439,7 @@ USA
         </rule>
 
 
-        <rule id='VIR_A_VERBO_VERBO' name="[Simplificar] Vir + a + Verbo → Verbo" type='style'>
+        <rule id='VIR_A_VERBO_VERBO' name="✂️ Vir + a + Verbo → Verbo" type='style'>
             <pattern>
                 <token inflected='yes'>vir<exception>vi</exception></token><!-- please remove "vi" as a form of "vir" from dict -->
                 <token>a</token>
@@ -17070,7 +17455,7 @@ USA
         </rule>
 
         <!-- VISTO QUE QUERIA visto querer -->
-        <rulegroup id='VISTO_DADO_QUE' name="[Simplificar] Visto/dado que → visto/dado V.Inf." type="style">
+        <rulegroup id='VISTO_DADO_QUE' name="✂️ Visto/dado que → visto/dado V.Inf." type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
@@ -17665,7 +18050,7 @@ USA
             <example>A área é delimitada <marker>fisicamente</marker>.</example>
         </rule>
         <!-- AS QUE quais -->
-        <rule id='AS_OS_QUE_QUAIS' name="Simplificar: [ao]s que → quais" type="style">
+        <rule id='AS_OS_QUE_QUAIS' name="✂️ [ao]s que → quais" type="style">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-01 (25-JUL-2022+) -->
             <!--
             E determinar as que obtiveram melhores resultados. → E determinar quais obtiveram melhores resultados.
@@ -17712,7 +18097,7 @@ USA
 
 
         <!-- QUATRO OU MENOS SÃO SUFICIENTES até quatro são suficientes -->
-        <rule id='ATE_NUMERO_NUMERO_OU_MENOS' name="Simplificar: NÚMERO + ou menos → até NÚMERO">
+        <rule id='ATE_NUMERO_NUMERO_OU_MENOS' name="✂️ NÚMERO + ou menos → até NÚMERO">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
             <!--
             Tudo bate certo e quatro ou menos variáveis são suficientes na equação. → Tudo bate certo e até quatro variáveis são suficientes na equação.
@@ -17759,7 +18144,7 @@ USA
 
 
         <!-- ACONTECE DESDE OS ANOS remonta aos anos -->
-        <rule id='DESDE_TEMPO_REMONTA_TEMPO' name="Simplificar: Desde tempo → remontar tempo" type="style" tags="picky">
+        <rule id='DESDE_TEMPO_REMONTA_TEMPO' name="✂️ Desde tempo → remontar tempo" type="style" tags="picky">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-06/7 (25-JUL-2022+) -->
             <!--
             Isto acontece desde os anos 1990s. → Isto remonta aos anos 1990s.
@@ -17814,7 +18199,7 @@ USA
 
 
         <!-- POR ISSO EXISTE/EXISTEM existindo -->
-        <rulegroup id='POR_ISSO_V_3PESSOA_SINGULAR_PLURAL_GERUNDIO' name="Simplificar: Por isso + verbo na 3.ª pessoa → Verbo gerúndio" type='style'>
+        <rulegroup id='POR_ISSO_V_3PESSOA_SINGULAR_PLURAL_GERUNDIO' name="✂️ Por isso + verbo na 3.ª pessoa → Verbo gerúndio" type='style'>
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-17/18 (25-JUL-2022+) -->
             <!--
             Os bits são o nível mais baixo existente nos computadores, por isso existem em maior quantidade. → Os bits são o nível mais baixo existente nos computadores, existindo em maior quantidade.
@@ -17859,7 +18244,7 @@ USA
         </rulegroup>
 
 
-        <rule id='QUE_SER_ESTAR_PARTPASSADO_V2' name="Simplificar: Que + ser/estar + part. passado → Particípio passado" type='style' tags='picky'>
+        <rule id='QUE_SER_ESTAR_PARTPASSADO_V2' name="✂️ Que + ser/estar + part. passado → Particípio passado" type='style' tags='picky'>
             <!-- The rule has been completely rewritten.
                  In my first rewrite, I used postag='VMI[IPS]3.+' for the verb "ser" and "estar".
                  In my second rewrite, I removed the 'I' ("estava(m)") postag='VMI[PS]3.+' to avoid too many false positives.
@@ -18264,7 +18649,7 @@ USA
 
 
         <!-- QUE JULGÁVAMOS SER MAIOR que julgávamos maior -->
-        <rule id='QUE_VERBO_SER_ADJ_QUE_VERBO_ADJ' name="Simplificar: Que + Verbo + ser + Adj (remover 'ser')">
+        <rule id='QUE_VERBO_SER_ADJ_QUE_VERBO_ADJ' name="✂️ Que + Verbo + ser + Adj (remover 'ser')">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-22/29 + 2022-12-17 (25-JUL-2022+) -->
             <!--
             Você já tentou fazer algo que parecia ser impossível? → Você já tentou fazer algo que parecia impossível?
@@ -18289,7 +18674,7 @@ USA
 
 
         <!-- COMO É O CASO DE como no/o caso de -->
-        <rule id='SIMPLIFICAR_COMO_É_O_CASO_DO_DA_DAS_DOS_DE_NO_CASO' name="Simplificar: Como é o caso d[ao](s)/de/em → Como no/o caso d[ao](s)/de/em" type="style">
+        <rule id='SIMPLIFICAR_COMO_É_O_CASO_DO_DA_DAS_DOS_DE_NO_CASO' name="✂️ Como é o caso d[ao](s)/de/em → Como no/o caso d[ao](s)/de/em" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-31 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
@@ -18315,7 +18700,7 @@ USA
 
 
         <!-- E QUE e -->
-        <rule id='SIMPLIFICAR_E_QUE_E' name="Simplificar: E que → e" type="style">
+        <rule id='SIMPLIFICAR_E_QUE_E' name="✂️ E que → e" type="style">
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-21 + 2023-02-08 (25-JUL-2022+) -->
             <!--
@@ -18356,7 +18741,7 @@ USA
 
 
         <!-- USAR EXPRESSÕES MAIS SIMPLES SUGERINDO VERBOS NO INFINITIVO -->
-        <rulegroup id='SIMPLIFICAR_CONVERTER_PARA_VERBO_INFINITIVO' name="Simplificar: Usar a versão com infinitivo da subordinada" type="style">
+        <rulegroup id='SIMPLIFICAR_CONVERTER_PARA_VERBO_INFINITIVO' name="✂️ Usar a versão com infinitivo da subordinada" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-04 (1-JAN-2022+)      -->
             <!--
@@ -18405,7 +18790,7 @@ USA
 
 
         <!-- E QUE que -->
-        <rule id='SIMPLIFICAR_E_QUE_QUE' name="Simplificar: E que → que" type="style">
+        <rule id='SIMPLIFICAR_E_QUE_QUE' name="✂️ E que → que" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-27 + 2022-06-01/02 (24-MAY-2022+)      -->
             <!--
@@ -18441,7 +18826,7 @@ USA
 
 
         <!-- PODE IR AO PC E IDENTIFICAR O UTILIZADOR? Pode ir ao PC identificar o utilizador? -->
-        <rule id='SIMPLIFICAR_IR_E_PARA' name="Simplificar: Locução com verbo ‘ir’" type="style">
+        <rule id='SIMPLIFICAR_IR_E_PARA' name="✂️ Locução com verbo ‘ir’" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-26 + 2022-06-01 + 2022-09-09 (24-MAY-2022+)      -->
             <!--
@@ -18502,7 +18887,7 @@ USA
         </rule>
 
 
-        <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style" tags='picky' tone_tags="academic" is_goal_specific="true">
+        <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="🎓 Não + V. + nada → nada + V." type="style" tags='picky' tone_tags="academic" is_goal_specific="true">
             <!--IDEA shorten_it-->
             <antipattern>
                 <token>não</token>
@@ -18641,7 +19026,7 @@ USA
 
 
         <!-- O QUE ORIGINA originando -->
-        <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style" tags="picky">
+        <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="✂️ O que + V. → V. Gerúndio" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15/17/19/21 (1-JAN-2022+)      -->
             <!--
@@ -19025,7 +19410,7 @@ USA
 
 
         <!-- PARA O DOMINGO DE HOJE para este domingo -->
-        <rulegroup id='SIMPLIFICAR_PARA_DIA_SEMANA_PARA_ESTE_DIA' name="Simplificar: Para dia semana → Para este dia" type="style">
+        <rulegroup id='SIMPLIFICAR_PARA_DIA_SEMANA_PARA_ESTE_DIA' name="✂️ Para dia semana → Para este dia" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-14/15 (1-JAN-2022+)      -->
             <!--
@@ -19052,7 +19437,7 @@ USA
 
 
         <!-- ,POIS : -->
-        <rule id='SIMPLIFICAR_POIS_REMOVER' name="Simplificar: Remoção de “pois” com ela(s)/ele(s)" type="style" tags="picky">
+        <rule id='SIMPLIFICAR_POIS_REMOVER' name="✂️ Remoção de “pois” com ela(s)/ele(s)" type="style" tags="picky">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-04/05/07 (1-JAN-2022+)      -->
             <!--
@@ -19079,7 +19464,7 @@ USA
         </rule>
 
 
-        <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="Simplificar: Que/E tem/têm → com" tags='picky'>
+        <rule id='SIMPLIFICAR_QUE_E_TEM_TÊM' name="✂️ Que/E tem/têm → com" tags='picky'>
             <!--IDEA shorten_it-->
 
             <antipattern>
@@ -19218,7 +19603,7 @@ USA
 
 
         <!-- QUE CAUSAM causados -->
-        <rule id='SIMPLIFICAR_QUE_VERBO_PARTICÍPIO_PASSADO' name="Simplificar: Que + V. → V. Part. Passado">
+        <rule id='SIMPLIFICAR_QUE_VERBO_PARTICÍPIO_PASSADO' name="✂️ Que + V. → V. Part. Passado">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-27 (1-JAN-2022+)      -->
             <!--
@@ -19242,7 +19627,7 @@ USA
 
 
         <!-- ARRANJADOS É QUE PODEM arranjados podem -->
-        <rule id='SIMPLIFICAR_REMOVER_É_QUE_PARTICÍPIO' name="Simplificar: Part. Passado + é + que → Part. Passado" type="style">
+        <rule id='SIMPLIFICAR_REMOVER_É_QUE_PARTICÍPIO' name="✂️ Part. Passado + é + que → Part. Passado" type="style">
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-19 (1-JAN-2022+)      -->
             <!--
@@ -19261,7 +19646,7 @@ USA
 
 
         <!-- 	VERBO TER + PARTICÍPIO PASSADO Pret. Perf. Ind. Part. Passado -->
-        <rulegroup id='SIMPLIFICAR_VERBO_TER_MAIS_PARTICIPIO_PASSADO' name="Simplificar: V. Ter + Part. Passado → V. Pret. Perf. Ind. Part. Passado" type="style" tags='picky'>
+        <rulegroup id='SIMPLIFICAR_VERBO_TER_MAIS_PARTICIPIO_PASSADO' name="✂️ V. Ter + Part. Passado → V. Pret. Perf. Ind. Part. Passado" type="style" tags='picky'>
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-23 (Checked/Enhanced) (1-JAN-2022+)      -->
             <rule>
@@ -19348,7 +19733,7 @@ USA
 
 
         <!-- VÁRIAS VEZES vári[ao]s -->
-        <rule id='VÁRIAS_VEZES_VÁRIAS' name="Simplificar: Várias vezes → Vári[ao]s" type="style">
+        <rule id='VÁRIAS_VEZES_VÁRIAS' name="✂️ Várias vezes → Vári[ao]s" type="style">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-23 (Checked/Enhanced) (1-JAN-2022+)      -->
             <!--
             Apagaram várias vezes publicações minhas. → Apagaram várias publicações minhas.
@@ -19370,435 +19755,35 @@ USA
         </rule>
 
 
-        <rulegroup id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
-            <antipattern>
-                <token case_sensitive="yes">VI</token>
-                <example>Constantino VI no ano 790 da nossa era.</example>
-            </antipattern>
-            <antipattern>
-                <token inflected='yes' skip='-1'>ver</token>
-                <token regexp='yes'>filmes?|vídeos?|séries?|mensagem|mensagens|cenas?|televisão|tv|lado</token>
-            </antipattern>
-            <antipattern>
-                <token>via</token>
-                <token regexp='yes'>d[eoa]s?</token>
-            </antipattern>
-            <antipattern>
-                <token>não</token>
-                <token inflected='yes'>ver</token>
-            </antipattern>
-            <!--
-            Ela não pode ter me visto na festa.
-            Você se importaria em vir e me ver no sábado?
-            Por que não deu para você vir no sábado?
-            Deixe-me ver o seu pulso.
-            Do topo podia-se ver o rio.
-            Deixe-me ver a lista.
-            Estava muito nublado para ver o avião.
-            Eu gostaria de ver o senhor Kosugi.
-            Eu gostaria de ver o mundo antigo.
-            Dá para ver a diferença?
-            Acabei de ver o seu amigo.
-            -->
-            <rule>
-                <antipattern>
-                    <token postag='V.+|CC' postag_regexp='yes'/>
-                    <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-                    <token postag='PP.+|DA.+|PD.+|SPS00' postag_regexp='yes'/>
-                    <token inflected='yes'>ver</token>
-                </antipattern>
-
-                <!--
-                Veja a palavra no dicionário.
-                A ver a liberdade que lhes era retirada.
-                Na forma como via o curso que o panorama cultural português levava.
-                Eu não consigo ver as palavras no quadro.
-                Muitos canadenses valorizam o multiculturalismo e veem o Canadá como sendo inerentemente multicultural.
-                Esta noite pode-se ver a Lua cheia.
-                Eu vi o John na biblioteca.
-                Tom planeja ver a Mary na segunda.
-                Você já viu a figura pintada por Picasso?
-                Veja os cursos avaliados!
-                Podemos ver o porto inteiro do prédio.
-                Não vejo o porquê precisarmos disso.
-                Acho pouco provável que alienígenas parecidos com os que vemos nos filmes já tenham visitado nosso planeta.
-                -->
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token postag='DA.+|DI.+|DP.+|PP.+' postag_regexp='yes'/>
-                    <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
-                    <token postag='SPS00.DA.*|CS|V.+' postag_regexp='yes'/>
-                </antipattern>
-
-                <!--
-                Com você é verão o ano inteiro.
-                Aproveitamos e almoçamos em um restaurante ali na praça, a dica aqui é ver os pratos do dia.
-                Foram ver o amigo defunto pela última vez no velório.
-                O Tom foi ver a Mary três dias depois daquilo.
-                Tu foste ver o Tom?
-                -->
-                <antipattern>
-                    <token inflected='yes'>ser</token>
-                    <token regexp='yes'>ver|verão</token>
-                </antipattern>
-
-                <!--
-                O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.
-                Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.
-                Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.
-                Ou o nativo visto pelo prisma do etnógrafo?
-                Ninguém tem visto o Tom por um tempo.
-                Pensei que já tivesse visto o Tom em algum lugar.
-                Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.
-                Era visto nas mãos de todos os japoneses em paradas.
-                -->
-                <antipattern>
-                    <token negate="yes" inflected='yes'>ser</token>
-                    <token regexp='yes'>vist[ao]s?</token>
-                    <token negate_pos="yes" postag='SPS00.DA.*' postag_regexp='yes'/>
-                    <token min="1" max="2" postag='NP.+|AQ.+|NC.+|V.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='CS|RG'/>
-                    </token>
-                    <token postag='SPS.+|CS|V.+|CC|RM|RG' postag_regexp='yes'/>
-                </antipattern>
-
-                <!-- MARCOAGPINTO 2022-01-24/25 (1-JAN-2022+) *START* -->
-                <!--
-                HITS IN 600000 SENTENCES:
-                BEFORE:2236
-                AFTER:2164
-                -->
-                <!--
-                Para mais informações, veja a página número 16.
-                Você viu o livro de receitas que eu escrevi?
-                Veja a nota de rodapé na página 5.
-                Veja na linha seguinte.
-                -->
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token regexp='yes'>[ao]s?|d[ao]s?|n[ao]s?</token>
-                    <token regexp='yes'>abstracts?|anexos?|assuntos?|bíblias?|bibliotecas?|capítulos?|códigos?|conclusão|conclusões|dicionários?|documentários?|filmes?|folhas?|índices?|introdução|introduções|linhas?|livros?|narrativas?|notas?|páginas?|parágrafos?|resumos?|rodapés?|screenshots?|secção|secções|subcapítulos?|títulos?|tópicos?</token>
-                </antipattern>
-                <!-- MARCOAGPINTO 2022-01-24/25 (1-JAN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *START* -->
-                <!--
-                HITS IN 600000 SENTENCES:
-                BEFORE:2452
-                AFTER:2215
-                -->
-                <!--
-                Você já viu o Monte Fuji? É indescritivelmente lindo.
-                Também quero ver o Sam, curto algumas musicas dele.
-                Eu não deveria ter ido ver o Tom.
-                Há quatro meses que não vejo a Maria.
-                -->
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
-                    <token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
-                    <token postag='NP.+' postag_regexp='yes'/>
-                </antipattern>
-
-                <!--
-                Você viu o que o Tom fez à Mary?
-                Deus vê o que o Diabo esconde.
-                Veja o que o Tom tem a dizer sobre tudo isso.
-                -->
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token regexp='yes'>[ao]s?</token>
-                    <token>que</token>
-                    <token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
-                    <token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
-                    <token postag='NP.+' postag_regexp='yes'/>
-                </antipattern>
-                <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-02-06 (1-JAN-2022+) *START* -->
-                <!--
-                Fico na cama a olhar para o relógio a ver a hora a aproximar.
-                -->
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token regexp='yes'>[ao]s?</token>
-                    <token regexp='yes'>&expressoes_de_tempo;</token>
-                    <token regexp='yes'>[ao]s?</token>
-                </antipattern>
-                <!-- MARCOAGPINTO 2022-02-06 (1-JAN-2022+) *END* -->
-
-                <!-- MARCOAGPINTO 2022-03-22 (1-JAN-2022+) *START* -->
-                <!--
-                TO ACTIVATE THE RULE IN WORDINESS.TXT FOR THE BROWSER ADD-ON
-                ver a diferença > distinguir
-                -->
-                <antipattern>
-                    <token>ver</token>
-                    <token>a</token>
-                    <token>diferença</token>
-                </antipattern>
-                <!-- MARCOAGPINTO 2022-03-22 (1-JAN-2022+) *END* -->
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token>o</token>
-                    <token>que</token>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token postag='D.+|SPS00:DA.+' postag_regexp='yes' min='0' max='2'/>
-                    <token regexp='yes'>&vocativos;|rostos?|anúncios?|notícias?</token>
-                    <example>Fui ver meus amigos.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token postag='SPS00:DA0FS0'/>
-                    <token>internet</token>
-                    <example>Não se pode acreditar em tudo que vemos pela internet.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token>à</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp='yes'>tô|tá|tão</token>
-                    <token inflected='yes'>ver</token>
-                    <example>Não tô vendo nada.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='AO.+' postag_regexp='yes'/>
-                    <token>via</token>
-                    <example>Retirei a segunda via do cartão.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='NC.S.+' postag_regexp='yes'/>
-                    <token>via</token>
-                    <example>Retirei a 2ª via do cartão.</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp='yes'>\d+|uma|duas|principal|principais</token>
-                    <token regexp='yes'>via|vias</token>
-                    <example>Retirei 01 via do cartão.</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp='yes'>&pronomes_obliquos;</token>
-                    <token inflected='yes'>ver</token>
-                    <example>Te vi chegar em casa ontem.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag_regexp="yes" postag="V.+:PP.+"/>
-                    <token inflected='yes'>ver</token>
-                    <example>Deixa-me ver isso aqui.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token postag='PP.+' postag_regexp='yes'/>
-                    <example>Vi você chegar em casa ontem.</example>
-                </antipattern>
-                <antipattern>
-                    <token>o</token>
-                    <token>que</token>
-                    <token inflected='yes'>ver</token>
-                    <token regexp='yes'>&contracoes_MS;|&contracoes_FS;|&contracoes_MP;|&contracoes_FP;</token>
-                    <example>Não sei o que ele vê nela.</example>
-                </antipattern>
-                <antipattern>
-                    <token>já</token>
-                    <token inflected='yes'>ver</token>
-                    <example>Já vi esse filme antes.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token>a</token>
-                    <token>hora</token>
-                    <example>Não via a hora de chegar em casa.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token>no</token>
-                    <token>olho</token>
-                    <example>Hoje vejo no olho dele que há algo de errado.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token>o</token>
-                    <token>melhor</token>
-                    <example>Hoje vejo o melhor em mim.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token>a</token>
-                    <token>vida</token>
-                    <example>Há tantas formas de ver a vida...</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp='yes' inflected='yes'>estar|ir</token>
-                    <token inflected='yes'>ver</token>
-                    <example>Não está vendo que ela está infeliz?</example>
-                    <example>Você vai ver o que é bom.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
-                    <token regexp='yes'>vias?</token>
-                    <example>Por via das dúvidas, é melhor irmos juntas.</example>
-                    <example>Acabei a encontrando na via principal.</example>
-                </antipattern>
-                <antipattern>
-                    <token>via</token>
-                    <token>de</token>
-                    <token>regra</token>
-                    <example>Via de regra, sempre dá errado.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
-                    <token regexp='yes'>vídeos?|looks?</token>
-                    <example>Veja o vídeo e tire suas conclusões.</example>
-                </antipattern>
-                <antipattern>
-                    <token inflected='yes'>ver</token>
-                    <token postag='DA.+|SPS00.DA.*' postag_regexp='yes' skip='-1'/>
-                    <token regexp='yes'>vídeos?|looks?|tamanhos?|dimensão|dimensões</token>
-                    <example>Veja o caso da criança que fugiu!</example>
-                    <example>Veja o tamanho disso!</example>
-                </antipattern>
-                <antipattern>
-                    <token regexp='yes' inflected='yes'>querer|ser</token>
-                    <token inflected='yes'>ver</token>
-                    <example>Quero ver o que ele fará depois de perder tudo.</example>
-                    <example>Ele é visto como o herói da família.</example>
-                </antipattern>
-                <antipattern>
-                    <token>nunca</token>
-                    <token inflected='yes'>ver</token>
-                    <example>Nunca vi isso na vida.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='SENT_START'/>
-                    <token>veja</token>
-                    <example>Veja os comentários.</example>
-                </antipattern>
-                <antipattern>
-                    <token postag='VMP00.+' postag_regexp='yes'/>
-                    <token>via</token>
-                    <token postag='(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
-                    <example>Eles são frequentemente obtidos via as atividades ilegais.</example>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token inflected='yes'>ver
-                            <exception regexp='yes' inflected='yes'>vestir|ir|virar|vender</exception>
-                            <exception regexp='yes'>verdes?|vir</exception>
-                        </token>
-                    </marker>
-                    <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
-                    <token negate_pos="yes" postag='AQ.+|AO.+' postag_regexp='yes'/>
-                </pattern>
-                <message>Num contexto formal, é preferível escrever &quot;observar&quot; ou &quot;constatar&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constatar</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>avistar</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perceber</match></suggestion>
-                <example correction="observar|constatar|conferir|avistar|perceber">É fácil como podem <marker>ver</marker> na figura.</example>
-
-                <example>Ela não pode ter me visto na festa.</example>
-                <example>Você se importaria em vir e me ver no sábado?</example>
-                <example>Por que não deu para você vir no sábado?</example>
-                <example>Deixe-me ver o seu pulso.</example>
-                <example>Do topo podia-se ver o rio.</example>
-                <example>Deixe-me ver a lista.</example>
-<!--                <example>Estava muito nublado para ver o avião.</example> -->
-                <example>Eu gostaria de ver o senhor Kosugi.</example>
-                <example>Eu gostaria de ver o mundo antigo.</example>
-                <example>Dá para ver a diferença?</example>
-                <example>Acabei de ver o seu amigo.</example>
-
-                <example>Veja a palavra no dicionário.</example>
-                <example>A ver a liberdade que lhes era retirada.</example>
-                <example>Na forma como via o curso que o panorama cultural português levava.</example>
-                <example>Eu não consigo ver as palavras no quadro.</example>
-                <example>Muitos canadenses valorizam o multiculturalismo e veem o Canadá como sendo inerentemente multicultural.</example>
-                <example>Esta noite pode-se ver a Lua cheia.</example>
-                <example>Eu vi o John na biblioteca.</example>
-                <example>Tom planeja ver a Mary na segunda.</example>
-                <example>Você já viu a figura pintada por Picasso?</example>
-                <example>Veja os cursos avaliados!</example>
-<!--                <example>Podemos ver o porto inteiro do prédio.</example> -->
-                <example>Não vejo o porquê precisarmos disso.</example>
-                <example>Acho pouco provável que alienígenas parecidos com os que vemos nos filmes já tenham visitado nosso planeta.</example>
-
-                <example>Com você é verão o ano inteiro.</example>
-                <example>Aproveitamos e almoçamos em um restaurante ali na praça, a dica aqui é ver os pratos do dia.</example>
-                <example>Foram ver o amigo defunto pela última vez no velório.</example>
-                <example>O Tom foi ver a Mary três dias depois daquilo.</example>
-                <example>Tu foste ver o Tom?</example>
-
-                <example>O estilo de combate assemelha-se ao de guerrilha visto os radicais estarem entrincheirados.</example>
-                <example>Era visto pela ditadura militar que se instalou no país, em 1964, como um elemento subversivo.</example>
-                <example>Kennedy também foi mal-visto pelos comandantes militares dos Estados Unidos.</example>
-                <example>Ou o nativo visto pelo prisma do etnógrafo?</example>
-                <example>Ninguém tem visto o Tom por um tempo.</example>
-                <example>Pensei que já tivesse visto o Tom em algum lugar.</example>
-                <example>Disposto a desfazer o mal entendido entre a ciência e a religião, conseguiu ser mal visto pelos representantes de ambas.</example>
-                <example>Era visto nas mãos de todos os japoneses em paradas.</example>
-
-                <example>Para mais informações, veja a página número 16.</example>
-                <example>Você viu o livro de receitas que eu escrevi?</example>
-                <example>Veja a nota de rodapé na página 5.</example>
-                <example>Veja na linha seguinte.</example>
-
-                <example>Você já viu o Monte Fuji? É indescritivelmente lindo.</example>
-                <example>Também quero ver o Sam, curto algumas musicas dele.</example>
-                <example>Eu não deveria ter ido ver o Tom.</example>
-                <example>Há quatro meses que não vejo a Maria.</example>
-
-                <example>Você viu o que o Tom fez à Mary?</example>
-                <example>Deus vê o que o Diabo esconde.</example>
-                <example>Veja o que o Tom tem a dizer sobre tudo isso.</example>
-
-                <example>Vou ver a diferença.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token>via</token>
-                    <token postag='SPS00:D.*' postag_regexp='yes'/>
-                    <example>oficialmente por via da internet</example>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token inflected='yes'>ver
-                            <exception regexp='yes' inflected='yes'>vestir|ir|virar|vender</exception>
-                            <exception regexp='yes'>verdes?|vir</exception>
-                        </token>
-                    </marker>
-                    <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
-                    <token regexp='yes'>notícias?|jornal|anúncios?|folhetos?|cartaze?s?|panfletos?|placas?|jornais|revistas?|internet</token>
-                </pattern>
-                <message>Num contexto formal, é preferível usar o verbo &quot;ler&quot; ou &quot;assistir&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ler</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assistir</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>descobrir</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
-                <example correction="Lemos|Assistimos|Descobrimos|Observamos"><marker>Vimos</marker> no jornal o que aconteceu.</example>
-            </rule>
-        </rulegroup>
+        <rule id='VER_OBSERVAR_CONSTATAR_V2' name="🎓 Ver → observar/constatar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- This rule used to have thousands of FPs. It is now very strict using the most common academic used words -->
+            <pattern>
+                <marker>
+                    <token skip='1' inflected='yes'>ver</token>
+                </marker>
+                <token skip='1' regexp='yes'>que|n[ao]s?|em</token>
+                <token postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>dado|resultado|figura|tabela|gráfico|estudo|análise|evidência|amostra|variável|modelo|experiência|ensaio|distribuição|correlação</token>
+            </pattern>
+            <message>Em contexto formal/científico, prefira &quot;observar&quot; ou &quot;constatar&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constatar</match></suggestion>
+            <example correction="observar|constatar">É fácil como podem <marker>ver</marker> na figura.</example>
+            <example correction="observar|constatar">Podemos <marker>ver</marker> que há correlação.</example>
+        </rule>
 
 
-        <!-- CERT(A)(O) dad(a)(o) -->
-        <rule id='CERTA_CERTO_DADA_DADO' name="Cert(a)(o)/Dad(a)(o)" type="style" tags="picky">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-09 (25-JUN-2021+)      -->
-            <!--
-            Isto aconteceu a certa altura do projeto. → Isto aconteceu a dada altura do projeto.
-            -->
+        <rule id='CERTA_CERTO_DADA_DADO' name="🤵 'Certa' altura → dada" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
                 <token>a</token>
                 <marker>
-                    <token regexp="yes">cert[ao]</token>
+                    <token regexp='yes'>cert[ao]s?</token>
                 </marker>
-                <token postag='NC.S.+' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes'>altura|momento|ponto|fase|etapa|instante|ocasião</token>
             </pattern>
-            <message>Num contexto formal, é preferível escrever:</message>
-            <suggestion><match no='3' postag='NC(.)S.*' postag_replace='AQ0$1S0'>dado</match></suggestion>
+            <message>Em contexto formal, prefere-se &quot;a dado/a dada&quot; em vez de &quot;a certo/a certa&quot;.</message>
+            <suggestion><match no='3' postag='NC(..)000' postag_replace='AQ0$10'>dado</match></suggestion>
             <example correction="dada">Isto aconteceu a <marker>certa</marker> altura do projeto.</example>
             <example>A dada altura, elas sofrem uma metamorfose e transformam-se em adultos.</example>
         </rule>
@@ -19899,8 +19884,8 @@ USA
         </rulegroup>
     </category>
 
-    <category id="GENERAL" name="Regras gerais de estilo" type="style" tone_tags="general">
-        <rule id="GRAU_KELVIN" name="Evitar 'grau' antes da unidade Kelvin">
+    <category id="GENERAL" name="🖌️ Regras gerais de estilo" type="style" tone_tags="general">
+        <rule id="GRAU_KELVIN" name="🖌️ Evitar 'grau' antes da unidade Kelvin">
             <pattern>
                 <token regexp="yes">graus?</token>
                 <token>kelvin</token>
@@ -19911,7 +19896,7 @@ USA
             <example correction="kelvins">O sol tem a temperatura de 15,7 milhões de <marker>graus kelvin</marker>.</example>
         </rule>
 
-        <rule id="OK_EM_MINUSCULA" name="Preferência por 'OK' em vez de 'ok'" tags="picky">
+        <rule id="OK_EM_MINUSCULA" name="🖌️ Preferência por 'OK' em vez de 'ok'" tags="picky">
             <pattern>
                 <token case_sensitive="yes">ok</token>
             </pattern>

@@ -9,32 +9,35 @@ import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
+import org.languagetool.tools.StringTools;
 
 public class CatalanNumberSpellerFilter extends RuleFilter {
-  
+
   private final Language language = Catalan.getInstance();
   private final CatalanSynthesizer synth = (CatalanSynthesizer) language.getSynthesizer();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
-
     String strToSpell = getRequired("number_to_spell", arguments).replace(".", "");
     if (getRequired("gender", arguments).contentEquals("feminine")) {
       strToSpell = "feminine " + strToSpell;
     }
     String spelledNumber = synth.getSpelledNumber(strToSpell);
+    AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
+    if (patternTokenPos <= 1 || tokens[patternTokenPos - 1].hasPartialPosTag("SENT_START")) {
+      spelledNumber = StringTools.uppercaseFirstChar(spelledNumber);
+    }
     if (!spelledNumber.isEmpty() && spelledNumber.replace("-i-", " ").replace("-", " ").split(" ").length < 4) {
       String message = match.getMessage();
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
-          message, match.getShortMessage());
+        message, match.getShortMessage());
       ruleMatch.setType(match.getType());
       ruleMatch.setSuggestedReplacement(spelledNumber);
       return ruleMatch;
     } else {
       return null;
     }
-
   }
 
 }

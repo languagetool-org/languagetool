@@ -1194,6 +1194,7 @@ public class JLanguageTool {
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
+    ruleMatches = language.filterRuleMatchesAfterOverlapping(ruleMatches);
     return applyCustomFilters(ruleMatches, annotatedText);
   }
 

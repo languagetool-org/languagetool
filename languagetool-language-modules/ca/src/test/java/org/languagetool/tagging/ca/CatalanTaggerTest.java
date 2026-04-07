@@ -44,6 +44,12 @@ public class CatalanTaggerTest {
 
   @Test
   public void testTagger() throws IOException {
+
+    //verbs incorrectes, analitzats amb flexió
+    TestTools.myAssert("enfotia", "enfotia/[enfotre]VMII1S00|enfotia/[enfotre]VMII3S00", tokenizer, tagger);
+    TestTools.myAssert("quebrada", "quebrada/[quebrar]VMP00SF0", tokenizer, tagger);
+    TestTools.myAssert("liava", "liava/[liar]VMII1S00|liava/[liar]VMII3S00", tokenizer, tagger);
+
     TestTools.myAssert("UPF", "UPF/[UPF]NPFSO00", tokenizer, tagger);
     TestTools
         .myAssert(

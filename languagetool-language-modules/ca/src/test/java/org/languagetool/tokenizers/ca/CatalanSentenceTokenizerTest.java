@@ -140,6 +140,8 @@ public class CatalanSentenceTokenizerTest {
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("s'hi enfrontà quan G.Oueddei n'esdevingué líder");
     testSplit("el jesuïta alemany J.E. Nithard");
+
+    testSplit("PERNIL DOLÇ\nBACON\nPEPERONI\nPEBROT VERD\nOLIVES");
   }
 
   private void testSplit(final String... sentences) {

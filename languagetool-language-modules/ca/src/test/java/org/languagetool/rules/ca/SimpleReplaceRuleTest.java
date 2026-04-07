@@ -54,8 +54,8 @@ public class SimpleReplaceRuleTest {
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("El recader fa huelga."));
     assertEquals(2, matches.length);
-    assertEquals("ordinari", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("transportista", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("L'ordinari", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("El transportista", matches[0].getSuggestedReplacements().get(1));
     assertEquals("vaga", matches[1].getSuggestedReplacements().get(0));
     
     matches = rule.match(lt.getAnalyzedSentence("EEUU"));
@@ -65,7 +65,18 @@ public class SimpleReplaceRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Aconteixements"));
     assertEquals(1, matches.length);
     assertEquals("Esdeveniments", matches[0].getSuggestedReplacements().get(0));
-    
+
+    matches = rule.match(lt.getAnalyzedSentence("Els desencontres."));
+    assertEquals(1, matches.length);
+    assertEquals("[Les desavinences, Els desacords, Les topades, La manca d'acord, La manca de coincidència]",
+      matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("La seguent solució."));
+    assertEquals(1, matches.length);
+    assertEquals("[La següent, El seient]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("Un caminet poc ciclable baixa uns metres."));
+    assertEquals("[poc pedalable, poc ciclista]", matches[0].getSuggestedReplacements().toString());
   }
 
 }

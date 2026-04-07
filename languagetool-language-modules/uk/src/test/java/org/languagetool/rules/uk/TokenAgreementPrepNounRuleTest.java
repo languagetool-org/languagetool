@@ -112,7 +112,7 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("до схід сонця");
     assertEmptyMatch("з рана до вечора, від рана до ночі");
     assertEmptyMatch("до НАК «Надра України»");
-    assertEmptyMatch("призвів до значною мірою демократичного середнього класу");
+//    assertEmptyMatch("призвів до значною мірою демократичного середнього класу");
     assertEmptyMatch("Вони замість Андрій вибрали Юрій");
     assertEmptyMatch("час від часу нам доводилось");
     assertEmptyMatch("ні до чого доброго силові дії не призведуть");

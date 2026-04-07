@@ -65,7 +65,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
 //  }
 
   private CatalanSynthesizer(Language language) {
-    super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", language);
+    super("/ca/ca.sor", "/ca/ca-ES_synth.dict", "/ca/ca-ES_tags.txt", language);
   }
 
   @Override

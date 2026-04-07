@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" title="Easy editing stylesheet" ?>
+
 <!--
-Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
+Portuguese - Grammar and Typo Rules for LanguageTool.
 
-Copyright © 2012-2023 Marco A.G.Pinto (www.marcoagpinto.com)
-Copyright © 2016-2023 Tiago F. Santos (tiagofsantos81@sapo.pt)
-Copyright © 2022-2023 Ricardo Joseh Lima
-Copyright © 2022-2023 Susana Boatto
-
-Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Christopher Blum,
-Udo Mai and Yakov Reztsov who mentored the project.
+See tagset.txt for the meaning of the POS tags.
+Copyright © 2001-2026 Daniel Naber (https://www.danielnaber.de),
+Marcin Miłkowski, and the LanguageTool contributors.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -27,7 +24,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 -->
 
-<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+<!-- Contribuidores open-source: consultem https://dev.languagetool.org/#portuguese -->
+
 
 <!DOCTYPE rules [
         <!ENTITY % messages   SYSTEM "../../resource/pt/entities/messages.ent" >
@@ -3469,6 +3467,85 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!-- Specific gender concordance errors - A > Masculine Noun -->
         <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
         <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordância: A + Masculino">
+
+            <antipattern> <!-- ChatGPT 5.2 -->
+                <token regexp='yes' inflected='yes'>aceder|aludir|assistir|aspirar|atender|chegar|corresponder|dar|dedicar|dirigir|obedecer|pertencer|proceder|recorrer|referir|responder|resistir|retornar|voltar</token>
+                <token>a</token>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <example>Ele fá-lo recorrendo a software que simula batalhas.</example>
+                <example>Em 1749 chegou a Portugal, mas enquanto viveu D. João V, não conseguiu nova função.</example>
+                <example>Finalmente as partes chegaram a acordo e se chegou à paz.</example>
+                <example>Em 1734, Dom Frei Antônio de Guadalupe ergue, então, uma capela dedicada a Santo Antônio.</example>
+                <example>Recorri a empréstimo bancário para esta nova aquisição, estando ainda devedor ao banco de 173.000€.</example>
+                <example>No fundo, as nossas forças são bem fracas para chegar a Deus.</example>
+                <example>Voltaste a Portugal.</example>
+                <example>Assistiu-se a bom futebol no Campo de Jogos do Pego.</example>
+                <example>De forma análoga, impostos correspondem a dinheiro que é retirado de circulação.</example>
+                <example>Dado a reduzido nº de tiragem das separatas factícias, este voluminho é bastane raro.</example>
+                <example>Lembre-se que sem a sensibilidade e a empatia, não chegará a lugar algum.</example>
+                <example>Ainda chegaram a ponto de especular se a mulher tinha ou não uma alma.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token><match no='0'/></token>
+                <example>Quero um combate corpo a corpo.</example>
+                <example>Então bora começar, vestido ombro a ombro a saia de tule, detalhes em guipir no peito, confira agora as fotos!</example>
+                <example>A partir daí, cada ISBN tem um preço bem menor que você tira livro a livro que for publicar.</example>
+                <example>Estes são engates rápidos mono que transportam mídia de maneira coaxial (tubo a tubo).</example>
+                <example>Ele desabotoava-lhe o vestido botão a botão.</example>
+                <example>Polícia faz controlo carro a carro na entrada para a Ponte 25 de Abril no sentido Lisboa-Almada.</example>
+                <example>A partida é válida pela quinta rodada da competição e o GloboEsporte.com acompanha lance a lance pelo tempo real.</example>
+                <example>Parágrafo a parágrafo.</example>
+                <example>Quando perguntei-lhe, explicou-me ponto a ponto.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='VMP00.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token postag='NP.+' postag_regexp='yes'/>
+                <example>Morreu na miséria por ter desobedecido a Salazar.</example>
+                <example>Entrevista a Jorge Jesus "Benfica?</example>
+                <example>A informação fez com que muitas críticas fossem efetuadas a Giovanni.</example>
+                <example>A frase atribuída a Luxemburgo pelo UOL mostra bem o estado mental do "verdadeiro pato" da noite.</example>
+                <example>Essa pintura é atribuída a Picasso.</example>
+                <example>Ela parece ter partido a Tóquio ontem.</example>
+                <example>Mary não agrada a Tom.</example>
+                <example>O que é permitido a Júpiter não é permitido a um boi.</example>
+                <example>Foi feita a entrega de uma mercadoria frágil destinada a Sami.</example>
+                <example>Tom e Maria negaram ter dito a João que ele tinha que fazer aquilo.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token regexp='yes'>&cores;</token>
+                <example>Esses resultados estão destacados a amarelo nas tabelas.</example>
+                <example>WOUD - H 130 mm, Ø 120 mm, Metal, lacado a branco, vidro opala, E14, Max 25W.</example>
+                <example>O alumínio é um metal de prateado a branco.</example>
+                <example>“O negro passando a branco, na terceira geração, por efeito do cruzamento de raças”</example>
+                <example>Todas as páginas são douradas ("" - isto é as bordas das páginas são pintadas a ouro).</example>
+                <example>As decorações de teto, eram quase exclusivamente confinado a branco e ouro.</example>
+                <example>As construções existentes foram edificadas em alvenaria de pedra rebocada e pintada a branco.</example>
+                <example>A volta mais rápida de cada sessão está assinalada a cinzento.</example>
+            </antipattern>
+            <antipattern>
+                <token postag='SPS00'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'><exception postag='RG' postag_regexp='no'/></token>
+                <token>a</token>
+                <token postag='N.M.+|AQ.M.+' postag_regexp='yes'/>
+                <example>A safra era sazonal e durava de novembro a abril.</example>
+                <example>«Macri recebe opositor de Maduro em busca de apoio a referendo».</example>
+                <example>O Jornal Hoje vai ao ar no começo da tarde e é apresentado de segunda-feira a sábado.</example>
+                <example>Pode ser usada em fogões a gás, elétrico e vitrocerâmico.</example>
+                <example>O Consumer Trends assume-se como um portal de referência a nível nacional.</example>
+                <example>Trás boas coreografias e excelente componente visual, mas com alguma falta de consistência a nível de performance.</example>
+                <example>Os operadores de bit a bit na linguagem de programação C são a espinha dorsal dessas operações.</example>
+                <example>Onde encontrar freios de caminhão a ar preço Campinas?</example>
+                <example>Lavagem de carpete a seco e Interior.</example>
+                <example>Cozinha integrada com a sala para dois ambientes, sacada com churrasqueira a carvão.</example>
+                <example>Um ponto de luz a serviço do amor.</example>
+                <example>Tom gosta mais de chá a café.</example>
+                <example>Eu prefiro vinho tinto a vinho branco.</example>
+            </antipattern>
             <pattern>
                 <token>a</token>
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
@@ -3482,7 +3559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <message>&MSG_ECG;</message>
             <suggestion suppress_misspelled="yes">o <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
             <suggestion suppress_misspelled="yes">a <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' postag='(A..|[NZ].)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
-            <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+            <url>https://pt.wikipedia.org/wiki/Artigo_(gramática)</url>
             <example correction='O boi'><marker>A boi</marker> está no pasto.</example>
             <example correction='O mais boi'><marker>A mais boi</marker> está no pasto.</example>
             <example>A vaca está no pasto.</example>
@@ -3491,6 +3568,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='A_WORD' name="Concordância: A + palavra">
             <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+
+            <antipattern>
+                <token>a</token>
+                <token postag='AQ..S.+|N..S.+' postag_regexp='yes'/>
+                <token postag='CC'/>
+                <token postag='AQ..S.+|N..S.+' postag_regexp='yes'/>
+                <example>Imaginem todos nós, trancados aqui (nesta sala) a pão e água; não tardaria a atingirmos o desespero.</example>
+            </antipattern>
+
+            <antipattern> <!-- Copied from rule ID:ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A - 2026-01-26 -->
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token><match no='0'/></token>
+                <example>Quero um combate corpo a corpo.</example>
+                <example>Então bora começar, vestido ombro a ombro a saia de tule, detalhes em guipir no peito, confira agora as fotos!</example>
+                <example>A partir daí, cada ISBN tem um preço bem menor que você tira livro a livro que for publicar.</example>
+                <example>Estes são engates rápidos mono que transportam mídia de maneira coaxial (tubo a tubo).</example>
+                <example>Ele desabotoava-lhe o vestido botão a botão.</example>
+                <example>Polícia faz controlo carro a carro na entrada para a Ponte 25 de Abril no sentido Lisboa-Almada.</example>
+                <example>A partida é válida pela quinta rodada da competição e o GloboEsporte.com acompanha lance a lance pelo tempo real.</example>
+                <example>Parágrafo a parágrafo.</example>
+                <example>Quando perguntei-lhe, explicou-me ponto a ponto.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='VMN0000' postag_regexp='no'/>
+                <token min='1' max='2' postag='AQ.MP.+|N.MP.+' postag_regexp='yes'/>
+                <token>a</token>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <example>Aos sábados, ele sai com seu violão para fazer cultos e dar estudos bíblicos a pessoas da comunidade.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='RG' postag_regexp='no'/>
+                <token>a</token>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='RN'/>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <example>Mas também a informações não locais e a instruções da cadeia de comando hierárquico.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='RM' postag_regexp='no'/>
@@ -4119,19 +4236,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- Specific gender concordance errors - A/AO > Ponto de    -->
-        <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
-        <rule default='off' id='A_PONTO' name="Ao ponto de">
+        <!-- "ao ponto de" + infinitivo -> quase sempre deveria ser "a ponto de" -->
+        <rule id="AO_PONTO_DE_INF" name="Ao ponto de + infinitivo">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token regexp='yes'>a|ao</token>
-                <token>ponto</token>
-                <token min='0'>de</token>
+                <token regexp='yes' inflected='yes'>estar|ficar|andar|ser|tornar|encontrar|permanecer</token>
+                <marker>
+                    <token>ao</token>
+                    <token>ponto</token>
+                    <token>de</token>
+                </marker>
+                <token min='0' max='1' postag='RN'/>
+                <token postag_regexp='yes' postag='VMN000.+'/>
             </pattern>
-            <message>Expressão usualmente confundida.</message>
-            <url>http://www.portuguesnarede.com/2012/05/ao-ponto-de-ou-ponto-de.html</url>
-            <short>Construção dúbia</short>
+            <message>Nesta construção, o mais comum é <suggestion>a ponto de</suggestion> (ex.: &quot;a ponto de <match no='6'/>&quot;).</message>
+            <short>Possível confusão: &quot;a ponto de&quot;</short>
             <example type='incorrect'>Ela estava <marker>ao ponto de</marker> perder o controlo emocional.</example>
-        </rule>
+            <example type='correct'>Ela estava <marker>a ponto de</marker> perder o controlo emocional.</example>
+         </rule>
+
 
         <!-- HAVIA_PRESENTE_CONJUNTIVO_IMPESSOAL  Havia Pretérito Imp Con -->
         <rule id='HAVIA_PRESENTE_CONJUNTIVO_IMPESSOAL' name="Havia + Presente Conj/Imp → Havia + Pretérito Imp Con">
@@ -4425,6 +4548,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!--
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
+
+            <antipattern>
+                <token postag='RG' postag_regexp='no'/>
+                <token>a</token>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='RN'/>
+                <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+                <example>Mas também a informações não locais e a instruções da cadeia de comando hierárquico.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='VMG0000' postag_regexp='no'/>
@@ -11670,8 +11802,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rule id='A_MAIORIA_SINGULAR' name='Concordância verbal: A maioria + plural'>
             <antipattern>
-                <token>há</token>
-                <token/>
+                <token regexp='yes'>d[ao]s</token>
+                <token postag='AQ..P.+|N..P.+' postag_regexp='yes'/>
+                <token postag='VM...P.+' postag_regexp='yes'/>
+                <token postag='AQ..P.+|N..P.+|VMP00P.+' postag_regexp='yes'/>
+                <example>Outra coisa q chama a atenção é que o nome da festa era 'agromerados' e a maioria das pessoas morreram aglomeradas.</example>
+                <example>...com aproximadamente 200 lotes que possuem metragens de 5.000 m² a 30.000m² e a maioria dos terrenos são planos.</example>
+                <example>A maioria das gaivotas são carnívoras.</example>
+                <example>A maioria dos filmes são escritos e dirigidos por homens.</example>
+                <example>A maioria das escolas estão fechadas hoje.</example>
+                <example>A maioria das vítimas eram criancinhas.</example>
+                <example>A maioria dos apartamentos estão vazios.</example>
+                <example>A maioria dos escravos fugiam sozinhos ou em grupos de no máximo três.</example>
+            </antipattern>
+            <antipattern>
+                <token skip='1'>há</token>
                 <token regexp='yes'>&expressoes_de_tempo;</token>
             </antipattern>
             <antipattern>
@@ -11679,7 +11824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>maioria|minoria</token>
                 <token min='0' regexp='yes'>d[eao]s?</token>
                 <token min='0' postag_regexp='yes' postag='N.+'/>
-                <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
+                <token min="0" skip='3' postag_regexp='yes' postag='R.'/>
                 <token postag='VMN0000'/>
             </antipattern>
             <antipattern>
@@ -11687,7 +11832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>maioria|minoria</token>
                 <token min='0' regexp='yes'>d[eao]s?</token>
                 <token min='0' postag_regexp='yes' postag='N.+'/>
-                <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
+                <token min="0" skip='3' postag_regexp='yes' postag='R.'/>
                 <token postag="VMN0000X"/>
                 <token regexp='yes' spacebefore='no'>&hifen;</token>
                 <token postag="PP3[FM]SA00" postag_regexp="yes"/>
@@ -11698,7 +11843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>maioria|minoria</token>
                 <token min='0' regexp='yes'>d[eao]s?</token>
                 <token min='0' postag_regexp='yes' postag='N.+'/>
-                <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
+                <token min="0" skip='3' postag_regexp='yes' postag='R.'/>
                 <marker>
                     <token postag_regexp='yes' postag='(V...)3P(.+)'>
                         <exception postag_regexp='yes' postag='V...3S.+'/>
@@ -11837,13 +11982,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='REFLEXIVE_VERB_SE_AGREEMENT' name='Concordância verbal: Verbo -se + Plural'>
             <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
             <short>&MSG_ECV;</short>
+
             <antipattern>
                 <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
-                <token min="1" max="2" postag='AQ..S.+|NC.S.+|NP.S.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
                 <token postag='VMI.3S0:PP3CNO00' postag_regexp='yes'/>
-                <token postag='RG' postag_regexp='no'/>
-                <token postag='AQ..P.+|NC.P.+|NP.P.+' postag_regexp='yes'/>
+                <token postag='RM|RG' postag_regexp='yes'/>
+                <token postag='AQ..P.+|N..P.+|VM...P.+' postag_regexp='yes'/>
+                <token postag='AQ..P.+|N..P.+|VM...P.+' postag_regexp='yes'/>
+                <example>Simula-se eficazmente combates navais.</example>
+                <example>Simula-se ainda combates navais.</example>
                 <example>O jovem vendedor, Rui Santos, imolou-se quando polícias tentaram prendê-lo.</example>
                 <example>O jovem vendedor, Rui Santos, imola-se quando polícias tentaram prendê-lo.</example>
             </antipattern>
@@ -15361,8 +15508,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
         <rulegroup id='FRAGMENT_TWO_PREPOSITIONS' name="Fragmento: duas preposições seguidas">
+
+            <antipattern>
+                <token postag='AQ..S.+|NC.S.+|V.+' postag_regexp='yes'/>
+                <token regexp='yes' case_sensitive='yes'>A|E</token>
+                <token>em</token>
+                <example>Eu tirei A em francês.</example>
+                <example>Tom tirou A em francês.</example>
+                <example>A equação A em matemática.</example>
+                <example>A curva E em matemática.</example>
+            </antipattern>
+
             <rule>
-                <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15	-->
+                <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15 -->
                 <antipattern><!-- XXX Better handled by CONFUSION_POR rule -->
                     <token>de</token>
                     <token>por</token>
@@ -18345,6 +18503,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule id='CONTRACAO_DA' name='De + artigos'> <!--default='off' -->
                 <antipattern>
+                    <token>de</token>
+                    <token regexp='yes'>[ao]s?</token>
+                    <token min='0' max='2' postag='N.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMI[CP]3.+|VMP00.+|VMG.+'/></token>
+                    <example>O fato de o transporte coletivo ser um dos principais problemas estruturais do país reforça tudo isso.</example>
+                    <example>Hoje, graças a evolução do mercado de games no Brasil, a tendência é de os jogos terem opção de Português.</example>
+                    <example>O secretário de Relações do Trabalho ressaltou o acerto de o acordo ter sido firmado por dois anos.</example>
+                    <example>No caso de a investigação durar menos de 5 dias poderá ser facultada autorização temporária de leitura.</example>
+                    <example>O medo é de o cachorro ficar aleijado algum dia por causa da doença, existe a possibilidade?</example>
+                    <example>Seria o caso de o governo apresentá-las ao público.</example>
+                    <example>Quais são as chances de o Tom vir realmente?</example>
+                    <example>Ainda deu tempo de a Eslováquia diminuir no último minuto de jogo.</example>
+                    <example>O Tom disse que ele sabia o motivo de a Mary ter feito aquilo.</example>
+                    <example>Impedindo o inimigo de a alcançar.</example>
+                    <example>Potemkin teve a tarefa de o receber e acompanhar até São Petersburgo.</example>
+                    <example>No entanto, temos outras formas de o ajudar!</example>
+                    <example>Aliás tinha de o fazer já que era a cadeira de Análise I.</example>
+                    <example>Não tivemos proveito desportivo de o ter mais 6 meses e ainda tivemos prejuízo financeiro.</example>
+                    <example>Tenho de o proteger um pouco e agora que ele está em altas fazendo gols.</example>
+                </antipattern>
+                <antipattern>
                     <token regexp='yes'>&expressao_invariavel_com_DE;</token>
                     <token>de</token>
                 </antipattern>
@@ -18681,6 +18860,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='PUNCTUATION' name="Pontuação">
+
+
         <rulegroup id="LOCUCOES_ADVERBIAIS_REDUPLICADAS" name="Sugerir vírgula em locuções adverbiais formadas por reduplicação, como 'logo logo' => 'logo, logo'.">
             <rule>
                 <pattern>
@@ -18693,6 +18874,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="já, já">Ele chega <marker>já já</marker>.</example>
             </rule>
         </rulegroup>
+
+
+        <rule id='VIRGULA_REDUNDANTE_APOS_TRAVESSAO' name="Vírgula redundante após travessão de inciso">
+        <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+        <!-- Added exceptions to verbs because disambiguator isn't 100% perfect. As we improve the disambiguator the rules will have more hits -->
+            <pattern>
+                <token skip='-1' regexp='yes' spacebefore='yes'>[-–—]
+                    <exception scope='next' regexp='yes' inflected='yes'>dizer|responder|retrucar|perguntar|exclamar|afirmar|declarar|comentar|acrescentar|explicar|gritar|sussurrar|contar|insistir|admitir|revelar|confessar|observar|ponderar|recordar|lembrar|continuar|prosseguir|concluir|repetir|interromper|corrigir|anunciar|assegurar|assinalar|argumentar|avisar|bradar|comunicar|confirmar|constatar|depor|detalhar|dissertar|enfatizar|esclarecer|escrever|especificar|expôr|frisar|informar|indagar|indicar|interpelar|mencionar|notar|opinar|ordenar|questionar|reforçar|relatar|resmungar|ressaltar|retorquir|salientar|sugerir|testemunhar|tornar|traduzir|pronunciar|proferir|murmurar|balbuciar|vociferar|brincar|ironizar|zombar|chamar|replicar|retomar|finalizar|encerrar|arrematar</exception></token> <!-- Exceptions direct speech between dashes -->
+                <marker>
+                    <token regexp='yes'>[-–—]</token>
+                    <token spacebefore='no' postag='_PUNCT_COMMA'/>
+                </marker>
+                <token min='0' max='2' postag='SP.+|PP.C.+' postag_regexp='yes'/>
+                <token postag='VMG.+|VMI.+|VMS.+|VMN.+' postag_regexp='yes'>
+                    <exception postag_regexp='yes' postag='RG|NC.+|AQ.+'/></token> <!-- exceptions because disambiguator isn't 100% accurate -->
+            </pattern>
+            <message>Remova a vírgula após o travessão, exceto em discurso direto ou quando separar orações.</message>
+            <suggestion>\2</suggestion>
+            <example correction="—">O Rui — grande aluno universitário <marker>—,</marker> celebrando fez uma festa.</example>
+            <example>Sim - respondeu meu pai -, és forte porque tens coragem.</example>
+            <example>Não - retrucou ele -, vocês choram de alegria!</example>
+            <example>Sim - disse ele -, irei.</example>
+            <example>Certamente - disse meu pai, considerando tão perigosas pretensões -, deves querer o primeiro lugar.</example>
+        </rule>
+
 
         <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on' tags="picky">
             <!-- Created by Tiago F. Santos, Portuguese rule, -->
@@ -19226,6 +19432,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <antipattern>
                 <token regexp="yes">[\.!?]</token>
                 <token regexp="yes" spacebefore='no'>”|»|&quot;</token>
+            </antipattern>
+
+            <antipattern>
+                <token postag='SENT_START'/>
+                <token min='1' max='2' postag_regexp='yes' postag='I|NC.+|AQ.+|V.+|RG'><exception postag_regexp='yes' postag='NP.+|SPS.+'/></token>
+                <token regexp='yes'>pelas?</token>
+                <token min='1' max='3' postag_regexp='yes' postag='N.+|AQ.+|AO.+|SPS00|CS|[DP].+|UNKNOWN'/>
+                <token postag_regexp='yes' postag='SENT_END|_PUNCT|SPS00:DA.+'/>
+                <example>Muito obrigada pela visita Gia!</example>
+                <example>Temerosos pela reação de Deméter, os deuses recusavam-se a revelar o paradeiro de sua filha.</example>
+                <example>Grato pela correção.</example>
+                <example>Muito obrigada pela tua carta.</example>
+                <example>Muito obrigada pela ajuda.</example>
+                <example>Grato pela resposta minuciosa.</example>
+                <example>Grato pela ajuda.</example>
             </antipattern>
 
             <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
@@ -22696,30 +22917,107 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </category>
 
 
-    <category id='CONFUSED_WORDS' name="Confusão de Palavras">
+    <category id='CONFUSED_WORDS' name="❓ Confusão de Palavras">
 
 
-        <rule id='TEMOS_TERMOS' name="Temos → termos">
+        <rulegroup id="CONFUSÃO_VESTIR_CALÇAR" name="❓ vestir/calçar">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Had to use exception NC.+|AQ.+ in the verbs vestir/calçar due to wrong disambiguation in some cases - 2026-04-06 -->
+
+            <rule> <!-- #1a: item + vestir -->
+                <pattern>
+                    <token skip='2' postag='_CONTEXTO_CALCADO_CALCAR'/>
+                    <marker>
+                        <token postag_regexp='yes' postag='V.+' inflected='yes'>vestir<exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+                    </marker>
+                </pattern>
+                <message>Prefira o verbo &quot;calçar&quot; nas extremidades dos membros do corpo.</message>
+                <suggestion><match no='2' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
+                <example correction="calçar">Esses são os sapatos que vou <marker>vestir</marker>.</example>
+            </rule>
+            <rule> <!-- #1b: vestir + item -->
+                <pattern>
+                    <marker>
+                        <token skip='2' postag_regexp='yes' postag='V.+' inflected='yes'>vestir<exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+                    </marker>
+                    <token postag='_CONTEXTO_CALCADO_CALCAR'/>
+                </pattern>
+                <message>Prefira o verbo &quot;calçar&quot; nas extremidades dos membros do corpo.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
+                <example correction="calçar">Vou <marker>vestir</marker> os sapatos.</example>
+            </rule>
+
+            <rule> <!-- #2a: item + calçar -->
+                <pattern>
+                    <token skip='2' postag='_CONTEXTO_VESTUARIO_VESTIR'/>
+                    <marker>
+                        <token postag_regexp='yes' postag='V.+' inflected='yes'>calçar<exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+                    </marker>
+                </pattern>
+                <message>Prefira o verbo &quot;vestir&quot; para peças de roupa.</message>
+                <suggestion><match no='2' postag='V.+' postag_regexp='yes'>vestir</match></suggestion>
+                <example correction="vestir">Esse é o blusão que vou <marker>calçar</marker>.</example>
+            </rule>
+            <rule> <!-- #2b: calçar + item -->
+                <pattern>
+                    <marker>
+                        <token skip='2' postag_regexp='yes' postag='V.+' inflected='yes'>calçar<exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+                    </marker>
+                    <token postag='_CONTEXTO_VESTUARIO_VESTIR'/>
+                </pattern>
+                <message>Prefira o verbo &quot;vestir&quot; para peças de roupa.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>vestir</match></suggestion>
+                <example correction="vestir">Vou <marker>calçar</marker> o blusão.</example>
+            </rule>
+
+        </rulegroup>
+
+
+        <rule id='ESTAR_TER_CONFUSAO' name="❓ estar/ter">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <antipattern> <!-- Expressões idiomáticas -->
+                <token inflected='yes'>estar</token>
+                <token>de</token>
+                <token regexp='yes'>arrasar|morrer|chorar|rir|rebentar|explodir|arrebentar|partir|estoirar|desesperar|enlouquecer|encantar|apaixonar|deslumbrar|irritar|enervar|dar|deitar</token>
+                <example>E as sobremesas também estão de arrasar.</example>
+                <example>Maltratado pelo seu dono, este cachorro estava de dar dó.</example>
+            </antipattern>
             <pattern>
-                <token regexp='yes'>para|por</token>
+                <token inflected='yes'>estar<exception>estado</exception></token>
+                <token regexp='yes'>de|que</token>
+                <token postag='VMN0.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Possível confusão entre &quot;estar&quot; e &quot;ter&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> \2 \3</suggestion>
+            <example correction="tivemos de sair">Por isso <marker>estivemos de sair</marker>.</example>
+            <example>Onde está a ideia moral do estado de proteger e servir o cidadão?</example>
+        </rule>
+
+
+        <rule id='TEMOS_TERMOS' name="❓ Temos/termos">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Regra restringida a preposições para reduzir falsos positivos em "temos/termos" -->
+            <pattern>
+                <token regexp='yes'>para|por|sem|de</token>
                 <marker>
                     <token>temos</token>
                 </marker>
             </pattern>
-            <message>Possível erro de digitação. Provavelmente você quis escrever <suggestion>termos</suggestion>.</message>
+            <message>Possível erro de digitação. Provavelmente quis escrever <suggestion>termos</suggestion>.</message>
             <example correction="termos">Isso é ótimo por <marker>temos</marker> informação adicional.</example>
             <example>O estudo foi elaborado para termos informação sobre a população do país.</example>
         </rule>
 
 
-        <rule id='NOTAS_FICAIS' name="Notas ficais → fiscais">
+        <rule id='NOTAS_FICAIS' name="❓ Notas 'ficais' → fiscais">
             <pattern>
                 <token>notas</token>
                 <token>ficais</token>
             </pattern>
-            <message>Possível erro de digitação. Provavelmente você quis escrever <suggestion>notas fiscais</suggestion>.</message>
+            <message>Possível erro de digitação. Provavelmente quis escrever <suggestion>notas fiscais</suggestion>.</message>
             <example correction="notas fiscais">E as <marker>notas ficais</marker> de 2020?</example>
         </rule>
+
 
         <rule id='PER_CAPTA' name="Per capta → per capita">
             <pattern>
@@ -31205,6 +31503,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule id='HOMONYM_VIAGEM_2' name='Homófona: viagem - viajem'>
                 <antipattern>
+                    <token postag='CS' postag_regexp='no'/>
+                    <token>viagem</token>
+                    <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+                    <example>Que viagem é essa?</example>
+                    <example>Que viagem agradável nós tivemos!</example>
+                </antipattern>
+                <antipattern>
                     <token postag='(?:A|D|SP|V).+|_PUNCT' postag_regexp='yes'/>
                     <token min="0" regexp="yes">["'“‘«]</token>
                     <token>viagem</token>
@@ -33616,6 +33921,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rule id='CONFUSÃO_ESTÁ_ESTA' name="[Confusão] está/esta">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- The rare verbs were causing FPs, so I had to limit the scope. Later fix the rare verbs and try again. -->
+            <pattern>
+                <token postag='SENT_START|_PUNCT|CC' postag_regexp='yes'/>
+                <marker>
+                    <token regexp='yes'>estás?</token>
+                </marker>
+                <token min='1' max='2' postag='AQ0F.+|N.F.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'><exception scope='next' postag='SENT_END|_PUNCT' postag_regexp='yes'/></token>
+            </pattern>
+            <message>Uso de &quot;esta&quot; (demonstrativo) em vez de &quot;está&quot; (verbo).</message>
+            <suggestion><match no='2' case_conversion='preserve' regexp_match='(...)(.)(s?)' regexp_replace='$1a$3'/></suggestion>
+            <example correction='Esta'><marker>Está</marker> mulher é o máximo.</example>
+            <example correction='Estas'><marker>Estás</marker> mulheres são o máximo.</example>
+        </rule>
+
+
         <rule id='O_AO' name="[Confusão] o/ao" >
             <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-07-04 (2-JUL-2020+) -->
             <pattern>
@@ -35047,16 +35370,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- UNS TEM SORTE uns têm sorte -->
         <rule id='CONFUSÃO_TEM_TÊM' name="[Confusão] tem/têm">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      Uns tem sorte no jogo. → Uns têm sorte no jogo.
-      Uns não tem sorte no jogo. → Uns não têm sorte no jogo.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Later expand also to "(SPS00:)?" -->
+            <antipattern>
+                <token postag='VMP00S.+|[DP]...[NS].+' postag_regexp='yes'><exception postag='CS|CC|RG|PD0NN000' postag_regexp='yes'/></token>
+                <token min='0' max='1' postag='SPS0.+|CC' postag_regexp='yes'/>
+                <token postag='[DP]...P.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='RN|RG|RM' postag_regexp='yes'/>
+                <token>tem</token>
+                <example>Claro que tudo isto é bonito para quem não tem filhos, para quem os tem, boa sorte!</example>
+                <example>Algum de vocês tem algo melhor pra fazer?</example>
+                <example>Certezas são avaliadas pelo ponto de vista de quem as tem.</example>
+                <example>Nenhum de nós tem razão.</example>
+                <example>Você os tem visto?</example>
+                <example>Algum de vocês tem um lápis?</example>
+                <example>Ninguém dentre nós tem o direito de estar envaidecido, porque a nossa força não é o mérito de qualquer de nós.</example>
+                <example>É um ponto cruzado oblíquo composto por duas meias cruzes, uma das quais tem o dobro do comprimento da outra.</example>
+                <example>“Também sabemos que o Filho de Deus é vindo e nos tem dado entendimento para reconhecermos o verdadeiro”.</example>
+            </antipattern>
+
+            <antipattern>
+                <token postag='CS|[DP]...S.+|AQ..S.+|N..S.+|Z..S.+' postag_regexp='yes'/>
+                <token postag='SPS00|N.+|AQ.+|RG' postag_regexp='yes'/>
+                <token postag='[DP]...P.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='RN|RG|RM' postag_regexp='yes'/>
+                <token>tem</token>
+                <example>, que para eles tem pouco ou nenhum sentido.</example>
+                <example>(como o Planalto os tem definido em suas notas estapafúrdias).</example>
+                <example>Ele também nos tem dado grande trânsito junto à igreja brasileira nos últimos 7 anos.</example>
+                <example>O cachorro de vocês tem patas enormes!</example>
+                <example>Por que Tom ainda os tem?</example>
+                <example>A França já as tem, há algum tempo.</example>
+                <example>O fato que a maioria de nós não tem pais.</example>
+                <example>Cada um de nós tem uma perspectiva específica que precisa ser liberada.</example>
+            </antipattern>
+
             <pattern>
-                <token postag='PI0.P.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='RN' postag_regexp='no'/>
+                <token postag='[DP]...P.+' postag_regexp='yes'><exception regexp='yes'>[ao]s?</exception></token>
+                <token min='0' max='1' postag='RN|RG|RM' postag_regexp='yes'/>
                 <marker>
                     <token>tem</token>
                 </marker>
@@ -35065,6 +35417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>têm</suggestion>
             <example correction="têm">Uns <marker>tem</marker> sorte no jogo.</example>
             <example correction="têm">Uns não <marker>tem</marker> sorte no jogo.</example>
+            <example>Junto ainda as redes do Ajax e do PSV, mas recordo-te que o estadio do Feyenoord (de Kuip) não as tem.</example>
         </rule>
 
 
@@ -42864,35 +43217,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>…com uma pedra…—, acho que…</example>
         </rule>
 
-        <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
-            <!-- Created b8y Tiago F. Santos, 2017-02-12 -->
 
-            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *START* -->
-            <!--
-            THIS ANTIPATTERN ALSO APPEARS IN TWO OTHER PLACES ALSO ^2 RELATED.
-            As forças estão organizadas numa hierarquia C2.
-            -->
+        <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
+            <!-- Created by Tiago F. Santos, 2017-02-12 -->
+
+            <antipattern> <!-- #1: Military usage - C2 -->
+                <token>comando</token>
+                <token>e</token>
+                <token skip='-1' regexp='yes'>control[oe]?</token>
+                <token case_sensitive='yes'>C2</token>
+                <example>Estabelecendo uma estrutura de Comando e Controlo (C2).</example>
+                <example>As exigências de uma moderna instalação de Comando e Controle (C2) terminou beneficiando a Instituição.</example>
+            </antipattern>
+            <antipattern> <!-- #2: Military usage - C2 -->
+                <token skip='-1' case_sensitive='yes'>C2</token>
+                <token>comando</token>
+                <token>e</token>
+                <token regexp='yes'>control[oe]?</token>
+                <example>O C2 representa uma estrutura de Comando e Controlo.</example>
+            </antipattern>
+            <antipattern> <!-- #3: Military usage - C2 -->
+                <token skip='1' regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
+                <token case_sensitive='yes'>C2</token>
+                <example>Militarmente temos estruturas de C2.</example>
+                <example>As forças estão organizadas numa hierarquia C2.</example>
+            </antipattern>
+
+            <antipattern> <!-- #1: Monte/Montanha K2 -->
+                <token skip='5' postag='NC.+' postag_regexp='yes' regexp='yes'>montes?|montanhas?</token>
+                <token case_sensitive='yes'>K2</token>
+                <example>O monte K2 fica na cadeia do Caracoram.</example>
+                <example>Você já ouviu falar do monte K2?</example>
+            </antipattern>
+            <antipattern> <!-- #2: Monte/Montanha K2 -->
+                <token skip='5' case_sensitive='yes'>K2</token>
+                <token postag='NC.+' postag_regexp='yes' regexp='yes'>montes?|montanhas?</token>
+                <example>O K2 é o segundo monte mais alto da Terra, após o Everest.</example>
+            </antipattern>
+
+            <antipattern> <!-- Mobile phone Samsung Galaxy series S -->
+                <token skip='5' case_sensitive='yes'>Galaxy</token>
+                <token case_sensitive='yes' regexp='yes'>S\d+\+?</token>
+                <example>Como o Galaxy S7 já foi formulado para funcionar com o Android 6.0, ele leva o ponto nesse quesito.</example>
+                <example>O Galaxy S9+ não tem uma câmara a mais.</example>
+                <example>O novo telemóvel Galaxy S9 da Samsung tem uma câmara mesmo boa.</example>
+            </antipattern>
+
             <antipattern>
                 <token regexp='yes'>BBB|CC|Y|C2C|B2C|U|V|W|PB|SiO|COP|FS|SnO</token>
                 <token regexp='yes'>\d+</token>
                 <example>Ela é uma das participantes do BBB5.</example>
             </antipattern>
-            <antipattern>
-                <token regexp='yes'>ciclos?|estruturas?|hierarquias?|hierárquicas?</token>
-                <token min="0" max="1">de</token>
-                <token case_sensitive='yes'>C2</token>
-            </antipattern>
-            <!-- 2022-10-02 -->
-            <!--
-            O grupo detém pouca análise de alvos, C2 ou capacidade de aprendizagem.
-            -->
-            <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                <token case_sensitive='yes'>C2</token>
-                <token postag='CC' postag_regexp='no'/>
-            </antipattern>
-            <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
             <rule>
                 <pattern case_sensitive='yes'>

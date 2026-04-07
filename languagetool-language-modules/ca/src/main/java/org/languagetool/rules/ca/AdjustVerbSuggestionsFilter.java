@@ -18,11 +18,10 @@
  */
 package org.languagetool.rules.ca;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.*;
+import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SpecificIdRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
@@ -31,6 +30,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -38,21 +38,28 @@ import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
 
 public class AdjustVerbSuggestionsFilter extends RuleFilter {
 
+  final private List<String> needsApostropheChange = Arrays.asList("de", "d'", "l", "l'", "el");
+  final private List<String> needsContractionChange = Arrays.asList("a", "de", "per", "pe");
+
+
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
-    JLanguageTool lt = ((PatternRule) match.getRule()).getLanguage().createDefaultJLanguageTool();
+    Language lang = getLanguageFromRuleMatch(match);
+    JLanguageTool lt = lang.createDefaultJLanguageTool();
+    Synthesizer synth = lang.getSynthesizer();
     List<String> replacements = new ArrayList<>();
     boolean numberFromNextWords = getOptional("numberFromNextWords", arguments, "false").equalsIgnoreCase("true");
+    List<String> actions = Arrays.asList(getOptional("actions", arguments, "removePronounReflexive").split(","));
     String forceNumber = getOptional("forceNumber", arguments, "");
-    Synthesizer synth = getSynthesizerFromRuleMatch(match);
     int posWord = 0;
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     while (posWord < tokens.length
       && (tokens[posWord].getStartPos() < match.getFromPos() || tokens[posWord].isSentenceStart())) {
       posWord++;
     }
-    VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, posWord, getLanguageFromRuleMatch(match));
+    VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, posWord, lang);
     // verb found out of bounds
     if (verbSynthesizer.isUndefined() || tokens[verbSynthesizer.getLastVerbIndex()].getEndPos() > match.getToPos()) {
       return null;
@@ -62,7 +69,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       boolean makeIntrasitive = false;
       String desiredNumber = "";
       String desiredPersona = "";
-      String action = "removePronounReflexive";
+      String action = actions.get(0);
       if (originalSuggestion.endsWith(" [intr]")) {
         originalSuggestion = originalSuggestion.substring(0, originalSuggestion.length() - 7);
         makeIntrasitive = true;
@@ -94,7 +101,6 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       if (!forceNumber.isEmpty()) {
         desiredNumber = forceNumber;
       }
-
       if (newLemma.endsWith("-se'n")) {
         newLemma = newLemma.substring(0, newLemma.length() - 5);
         action = "addPronounReflexiveEn";
@@ -110,6 +116,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       } else if (newLemma.endsWith("-s'ho")) {
         newLemma = newLemma.substring(0, newLemma.length() - 5);
         action = "addPronounReflexiveHo";
+      } else if (newLemma.endsWith("-se-les")) {
+        newLemma = newLemma.substring(0, newLemma.length() - 7);
+        action = "addPronounReflexiveLes";
       } else if (newLemma.endsWith("-s'hi")) {
         newLemma = newLemma.substring(0, newLemma.length() - 5);
         action = "addPronounReflexiveHi";
@@ -147,7 +156,12 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         pronounsStr = verbSynthesizer.getPronounsStrAfter();
       }
       pronounsStr = pronounsStr.toLowerCase();
-      String firstVerbPersonaNumber = verbSynthesizer.getFirstVerbPersonaNumber();
+      String firstVerbPersonaNumber;
+      if (action.equals("addPronounDative")) {
+        firstVerbPersonaNumber = verbSynthesizer.getFirstVerbPersonaNumber();
+      } else {
+        firstVerbPersonaNumber = targetPostag.substring(4,6);
+      }
       String replacement = "";
       switch (action) {
         case "addPronounEn":
@@ -170,6 +184,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
           break;
         case "addPronounReflexiveHi":
           replacement = doAddPronounReflexive("", "hi " + verbStr, firstVerbPersonaNumber, isPronounsAfter);
+          break;
+        case "addPronounReflexiveLes":
+          replacement = doAddPronounReflexive("les", verbStr, firstVerbPersonaNumber, isPronounsAfter);
           break;
         case "addPronounDative":
           String dativePronoun = getDativePronoun(firstVerbPersonaNumber);
@@ -205,6 +222,13 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         case "addPronounReflexiveImperative": //TODO
           replacement = doAddPronounReflexiveImperative(pronounsStr, verbStr, firstVerbPersonaNumber);
           break;
+        case "None":
+          if (isPronounsAfter) {
+            replacement = verbStr + transformDarrere(pronounsStr, verbStr);
+          } else {
+            replacement = transformDavant(pronounsStr, verbStr) + verbStr;
+          }
+          break;
       }
       if (!replacement.isEmpty()) {
         if (makeIntrasitive) {
@@ -219,11 +243,46 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
       return null;
     }
     int posStartUnderline = verbSynthesizer.getFirstVerbIndex() - verbSynthesizer.getNumPronounsBefore();
+    if (verbSynthesizer.getNumPronounsBefore()==0 && posStartUnderline > 1
+      && needsApostropheChange.contains(tokens[posStartUnderline - 1].getToken().toLowerCase())
+      && anyChangeVowelConsonant(verbSynthesizer.getVerbStr(), replacements)) {
+      StringBuilder prefix = new StringBuilder();
+      if (posStartUnderline > 2 && needsContractionChange.contains(tokens[posStartUnderline - 2].getToken().toLowerCase())) {
+        prefix.append(verbSynthesizer.getStringFromTo(posStartUnderline - 2, posStartUnderline - 1).toLowerCase());
+        if (tokens[posStartUnderline].isWhitespaceBefore()) {
+          prefix.append(" ");
+        }
+        posStartUnderline = posStartUnderline - 2;
+      } else {
+        prefix.append(tokens[posStartUnderline - 1].getToken().toLowerCase());
+        if (tokens[posStartUnderline].isWhitespaceBefore()) {
+          prefix.append(" ");
+        }
+        posStartUnderline = posStartUnderline - 1;
+      }
+      for (int i = 0; i < replacements.size(); i++) {
+        replacements.set(i,prefix + replacements.get(i));
+      }
+    }
+    // extend the ending position if there are pronouns after the verb
+    int endingPos = Math.max(match.getToPos(), tokens[verbSynthesizer.getLastIndex()].getStartPos());
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posStartUnderline].getStartPos(),
-      match.getToPos(), match.getMessage(), match.getShortMessage());
+      endingPos, match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
-    ruleMatch.setSuggestedReplacements(getLanguageFromRuleMatch(match).adaptSuggestionsList(replacements, verbSynthesizer.getWholeOriginalStr()));
+    String originalStr = match.getSentence().getText().substring(tokens[posStartUnderline].getStartPos(),
+      match.getToPos());
+    ruleMatch.setSuggestedReplacements(lang.adaptSuggestionsList(replacements, originalStr));
     return ruleMatch;
+  }
+
+  private boolean anyChangeVowelConsonant(String originalVerb, List<String> replacements) {
+    boolean originalVerbNeedsApostrophe = pApostropheNeeded.matcher(originalVerb).matches();
+    for (String replacement : replacements) {
+      if (originalVerbNeedsApostrophe != pApostropheNeeded.matcher(replacement).matches()) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

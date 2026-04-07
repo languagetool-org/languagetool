@@ -132,7 +132,10 @@ public class Catalan extends Language {
             new SimpleReplaceDNVColloquialRule(messages, this),
             new SimpleReplaceDNVSecondaryRule(messages, this),
             new WordCoherencyRule(messages),
-            new PunctuationMarkAtParagraphEnd(messages, this)
+            new PunctuationMarkAtParagraphEnd(messages, this),
+            new CatalanRemoteRule(messages, userConfig),
+            new CatalanSplitLongSentenceRule(messages, userConfig, 60),
+            new IgnoreProperNouns(messages)
     );
   }
 
@@ -279,6 +282,7 @@ public class Catalan extends Language {
       case "PRONOM_FEBLE_HI": return 20; // greater than HAVER_PARTICIPI_HAVER_IMPERSONAL
       case "HAVER_PARTICIPI_HAVER_IMPERSONAL": return 15; // greater than ACCENTUATION_CHECK
       case "SE_LI_VA_FER_CALLAR": return 15;
+      case "CA_REMOTE_RULE": return 15;
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "POSTULARSE": return 10;
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
@@ -352,9 +356,10 @@ public class Catalan extends Language {
       case "PUNCTUATION_PARAGRAPH_END": return -200;
       case "CA_END_PARAGRAPH_PUNCTUATION": return -250;
       case "DICENDI_QUE": return -250;
-      case "UPPERCASE_SENTENCE_START": return -500;
-      case "MAJUSCULA_IMPROBABLE": return -500;
-      case "ELA_GEMINADA_WIKI": return -500;
+      case "UPPERCASE_SENTENCE_START": return -300;
+      case "MAJUSCULA_IMPROBABLE": return -300;
+      case "ELA_GEMINADA_WIKI": return -300;
+      case "CA_SPLIT_LONG_SENTENCE": return -90;
     }
     if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
       return -95;
@@ -382,9 +387,15 @@ public class Catalan extends Language {
     }
     return super.getPriorityForId(id);
   }
-  
+
+  @Override
   public boolean hasMinMatchesRules() {
     return true;
+  }
+
+  @Override
+  public int getSpellerMaxWeightDiff() {
+    return 15;
   }
   
   @Override
@@ -396,6 +407,8 @@ public class Catalan extends Language {
 
   private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set<String> enabledRules) {
     String errorStr = ruleMatch.getOriginalErrorStr();
+    boolean hasTypographicApostrophe = Arrays.stream(ruleMatch.getSentence().getTokensWithoutWhitespace())
+      .anyMatch(x -> x.hasTypographicApostrophe());
     List<String> suggestedReplacements = ruleMatch.getSuggestedReplacements();
     List<SuggestedReplacement> newReplacements = new ArrayList<>();
     for (String suggestedReplacement : suggestedReplacements) {
@@ -418,7 +431,8 @@ public class Catalan extends Language {
           continue;
         }
       }
-      if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && newReplStr.length() > 1) {
+      if ((enabledRules.contains("APOSTROF_TIPOGRAFIC") || hasTypographicApostrophe) && newReplStr.length() > 1
+        && !enabledRules.contains("APOSTROF_RECTE")) {
         newReplStr = newReplStr.replace("'", "’");
       }
       if (enabledRules.contains("EXIGEIX_POSSESSIUS_U") && newReplStr.length() > 3) {
@@ -446,10 +460,9 @@ public class Catalan extends Language {
         }
       }
     }
-    RuleMatch newRuleMatch = new RuleMatch(ruleMatch, newReplacements);
-    return newRuleMatch;
+    return new RuleMatch(ruleMatch, newReplacements);
   }
-  
+
   private String removeOldDiacritics(String s) {
     return s
         .replace("contrapèl", "contrapel")
@@ -492,6 +505,7 @@ public class Catalan extends Language {
   private static final Pattern CA_APOSTROPHES7 = compile("\\b(de|a)l (h?[aeoàúèéí][^ ])",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES8 = compile("\\b([MTLSN])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  private static final Pattern CA_APOSTROPHES9 = compile("\\b([Dd])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
   private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
       Pattern.UNICODE_CASE);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
@@ -511,8 +525,10 @@ public class Catalan extends Language {
     s = m1.replaceAll("$1");
     Matcher m2 = CA_APOSTROPHES2.matcher(s);
     s = m2.replaceAll("e$1 $2");
-    Matcher m3 = CA_APOSTROPHES3.matcher(s);
-    s = m3.replaceAll("$1'$2");
+    if (!s.contains("en el")) {
+      Matcher m3 = CA_APOSTROPHES3.matcher(s);
+      s = m3.replaceAll("$1'$2");
+    }
     Matcher m4 = CA_APOSTROPHES4.matcher(s);
     s = m4.replaceAll("$1'$2");
     Matcher m5 = CA_APOSTROPHES5.matcher(s);
@@ -531,8 +547,10 @@ public class Catalan extends Language {
     }
     m8.appendTail(sb);
     s = sb.toString();
-    Matcher m9 = CA_REMOVE_SPACES.matcher(s);
-    s = m9.replaceAll("$1$2");
+    Matcher m9 = CA_APOSTROPHES9.matcher(s);
+    s = m9.replaceAll("$1e $2");
+    Matcher m10 = CA_REMOVE_SPACES.matcher(s);
+    s = m10.replaceAll("$1$2");
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }
@@ -571,26 +589,52 @@ public class Catalan extends Language {
   }
 
   @Override
+  public List<RuleMatch> filterRuleMatchesAfterOverlapping(List<RuleMatch> ruleMatches) {
+    List<RuleMatch> result = ruleMatches.stream().map(RuleMatch::trimMatchEnds).collect(java.util.stream.Collectors.toList());
+    Collections.sort(result);
+    return result;
+  }
+
+  @Override
   public List<RuleMatch> filterRuleMatches(List<RuleMatch> ruleMatches, AnnotatedText text, Set<String> enabledRules) {
     List<RuleMatch> results = new ArrayList<>();
-    for (int i=0; i<ruleMatches.size(); i++) {
+    int ignoreMatchInPos = -1;
+    RuleMatch previousRuleMatch = null;
+    for (int i = 0; i < ruleMatches.size(); i++) {
       RuleMatch ruleMatch = ruleMatches.get(i);
+      // remove rules IGNORE_PROPER_NOUNS and MORFOLOGIK_RULE_CA_ES if they are in the same position
+      if (ruleMatch.getRule().getId().equals("IGNORE_PROPER_NOUNS")) {
+        if (previousRuleMatch != null && previousRuleMatch.getRule().getId().equals("MORFOLOGIK_RULE_CA_ES")
+        && ruleMatch.getFromPos() == previousRuleMatch.getFromPos()) {
+          results.remove(results.size() - 1);
+          ignoreMatchInPos = -1;
+          continue;
+        }
+        ignoreMatchInPos = ruleMatch.getFromPos();
+        continue;
+      }
+      if (ruleMatch.getRule().getId().equals("MORFOLOGIK_RULE_CA_ES") && ruleMatch.getFromPos() == ignoreMatchInPos) {
+        ignoreMatchInPos = -1;
+        continue;
+      }
       if (ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[3]") ||
         ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[4]")) {
-        if (i+1 < ruleMatches.size()) {
-          if (ruleMatches.get(i+1).getFromPosSentence()>-1
-            && !ruleMatches.get(i+1).getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]")
-            && ruleMatches.get(i+1).getFromPosSentence() - ruleMatch.getToPosSentence()<20) {
+        if (i + 1 < ruleMatches.size()) {
+          if (ruleMatches.get(i + 1).getFromPosSentence() > -1
+            && !ruleMatches.get(i + 1).getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]")
+            && ruleMatches.get(i + 1).getFromPosSentence() - ruleMatch.getToPosSentence() < 20) {
             continue;
           }
         }
       }
-      if (i>0 && ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]") &&
-        ruleMatches.get(i-1).getRule().getId().equals("FALTA_ELEMENT_ENTRE_VERBS")) {
-      continue;
+      if (i > 0 && ruleMatch.getRule().getFullId().equals("FALTA_ELEMENT_ENTRE_VERBS[5]") &&
+        ruleMatches.get(i - 1).getRule().getId().equals("FALTA_ELEMENT_ENTRE_VERBS")) {
+        continue;
       }
       results.add(adjustCatalanMatch(ruleMatch, enabledRules));
+      previousRuleMatch = ruleMatch;
     }
+    Collections.sort(results);
     return results;
   }
 

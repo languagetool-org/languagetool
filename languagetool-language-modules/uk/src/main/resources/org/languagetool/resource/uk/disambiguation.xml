@@ -453,12 +453,12 @@ category: symbols -->
     <pattern>
       <token postag_regexp="yes" postag="(adj|noun).*">
         <exception postag_regexp="yes" postag=".*v_kly.*"/>
-        <exception regexp="yes">та|любий|люба|любі</exception>
+        <exception regexp="yes">та|вся|весь|любий|люба|любі|сяк(а|е|ий)-.+|так(а|е|ий)-.+</exception>
       </token>
       <marker>
         <token postag_regexp="yes" postag=".*v_kly(?!.*name).*">
           <exception scope="next" regexp="yes">[!?]</exception>
-          <exception regexp="yes">мамо|любонько|містере|Україно</exception>
+          <exception regexp="yes">мамо|любонько|містере|панове|народе|Україно</exception>
         </token>
       </marker>
     </pattern>
@@ -467,6 +467,16 @@ category: symbols -->
         inputform="відома[відом/noun:inanim:m:v_rod,відомий/adj:f:v_kly:compb,відомий/adj:f:v_naz:compb]"
         outputform="відома[відом/noun:inanim:m:v_rod,відомий/adj:f:v_naz:compb]"
             >самого <marker>відома</marker>.</example>
+    <!-- TODO:
+    <example type="ambiguous"
+        inputform="1"
+        outputform="2"
+            >такі <marker>різні</marker> фактори.</example>
+    -->
+    <example type="untouched">відома акторко!</example>
+    <example type="untouched">іроде злий!</example>
+    <example type="untouched">Встань, історичний народе,</example>
+    <example type="untouched">Ти для нас, зухвалий Лесю,</example>
     <example type="untouched">Друже!</example>
     <example type="untouched">О люди!</example>
     <example type="untouched">панове!</example>
@@ -478,6 +488,16 @@ category: symbols -->
     <example type="untouched">Вельмишановний Миколо Яновичу!</example>
     <example type="untouched">що хотів сказати мені Миколо?</example>
     <example type="untouched">дай нам Мамо</example>
+    <example type="untouched">Стережися, вся Європо,</example>
+    <example type="untouched">я тебе, сяка-така душе,</example>
+    <example type="untouched">зненавиджений хлопче,</example>
+    <!-- TODO: 
+    <example type="untouched">розумного батька розумна дочко,</example>
+    <example type="untouched">Встань, поневолений віками історичний народе,</example>
+    -->
+    <!-- неправильна конструкція
+    <example type="untouched">ніж його друже Платон</example>
+    -->
     <!-- теоретично мала би бути кома
     <example type="untouched">Вірте мені ваше достойносте!</example>
     -->
@@ -558,10 +578,12 @@ category: symbols -->
         </marker>
       </pattern>
       <disambig action="remove" postag="noun:anim:.:v_kly.*?:lname.*"/>
+      <!--
       <example type="ambiguous"
           inputform="Петровський[Петровський/noun:anim:m:v_kly:prop:lname,Петровський/noun:anim:m:v_naz:prop:lname,петровський/adj:m:v_kly,петровський/adj:m:v_naz,петровський/adj:m:v_zna:rinanim]"
           outputform="Петровський[Петровський/noun:anim:m:v_naz:prop:lname,петровський/adj:m:v_kly,петровський/adj:m:v_naz,петровський/adj:m:v_zna:rinanim]"
               ><marker>Петровський</marker> пішов</example>
+       -->
       <example type="ambiguous"
           inputform="Максименку[Максименко/noun:anim:m:v_dav:prop:lname,Максименко/noun:anim:m:v_kly:prop:lname]"
           outputform="Максименку[Максименко/noun:anim:m:v_dav:prop:lname]"
@@ -2870,9 +2892,9 @@ category: symbols -->
     <pattern>
       <token>заміть</token>
     </pattern>
-    <disambig action="remove" postag="verb:perf:impr:s:2:arch"/>
+    <disambig action="remove" postag=".*:arch"/>
     <example type="ambiguous" 
-        inputform="Заміть[замітити/verb:perf:impr:s:2:arch]" 
+        inputform="Заміть[замітити/verb:perf:impr:s:2:arch,заміть/noun:inanim:f:v_naz:arch,заміть/noun:inanim:f:v_zna:arch]" 
         outputform="Заміть[Заміть]"><marker>Заміть</marker> сказати «дякую»</example>
     <example type="untouched">- Заміть, не я це почав.</example>
   </rule>
@@ -3623,16 +3645,21 @@ category: symbols -->
   <rule name="Грати - іменник" id="hraty-noun">
     <pattern>
       <token regexp="yes" inflected="yes">за|крізь|через|повз|об|фортечний|загороджувальний|.*?ламати|.*?пиляти|.*?пилювати|зривати|зірвати|встановл.*</token>
-      <token postag_regexp="yes" postag="adj.*" min="0"/>
-      <marker>
-        <token>грати</token>
-      </marker>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <token postag_regexp="yes" postag="adj:p:(v_naz|v_zna).*" min="0"/>
+        <marker>
+          <token>грати</token>
+        </marker>
+      </unify>
     </pattern>
     <disambig action="filter" postag="noun.*?:bad.*"/>
     <example type="ambiguous"
         inputform="грати[грати/noun:inanim:p:v_naz:ns:bad,грати/noun:inanim:p:v_zna:ns:bad,грати/verb:imperf:inf]"
         outputform="грати[грати/noun:inanim:p:v_naz:ns:bad,грати/noun:inanim:p:v_zna:ns:bad]">кинули за <marker>грати</marker>.</example>
     <example type="untouched">почав грати.</example>
+    <example type="untouched">за збірну грати не збирався.</example>
   </rule>
 
   <rule name="Грати - іменник 2" id="hraty-noun2">

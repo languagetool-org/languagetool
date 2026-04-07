@@ -1020,6 +1020,15 @@ public abstract class Language {
     return ruleMatches;
   }
 
+  /**
+   * This function is called by JLanguageTool after CleanOverlappingFilter removes overlapping ruleMatches
+   * @return post-filtered ruleMatches
+   * @since 6.8
+   */
+  public List<RuleMatch> filterRuleMatchesAfterOverlapping(List<RuleMatch> ruleMatches) {
+    return ruleMatches;
+  }
+
   public MultitokenSpeller getMultitokenSpeller() {
     return null;
   }
@@ -1030,5 +1039,18 @@ public abstract class Language {
   public Map<String, Integer> getPriorityMap() {
     return new HashMap<>();
   }
+
+  /**
+   * The maximum difference in weight between consecutive spelling suggestions.
+   * If the gap between two consecutive suggestion weights exceeds this value,
+   * suggestions from that point on are discarded.
+   * Returns {@code -1} if no limit should be applied (default behaviour).
+   * Override in language-specific subclasses to enable the filter.
+   * @since 6.8
+   */
+  public int getSpellerMaxWeightDiff() {
+    return -1;
+  }
+
 
 }

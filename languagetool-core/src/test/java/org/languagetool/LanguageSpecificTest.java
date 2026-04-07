@@ -48,6 +48,10 @@ public class LanguageSpecificTest {
   }
 
   protected void runTests(Language lang, String onlyRunCode, String additionalValidationChars) throws IOException {
+    runTests(lang, lang, onlyRunCode, additionalValidationChars);
+  }
+
+  protected void runTests(Language lang, Language langVariantForReplaceTests, String onlyRunCode, String additionalValidationChars) throws IOException {
     new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
     testNoLineBreaksEtcInMessage(lang);
     testNoQuotesAroundSuggestion(lang);
@@ -56,13 +60,14 @@ public class LanguageSpecificTest {
     testConfusionSetLoading();
     countTempOffRules(lang);
     testCoherencyBaseformIsOtherForm(lang);
-    testReplaceRuleReplacements(lang);
+    testReplaceRuleReplacements(langVariantForReplaceTests);
     try {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
+
 
   protected void testReplaceRuleReplacements(Language lang) throws IOException {
     JLanguageTool lt = new JLanguageTool(lang);

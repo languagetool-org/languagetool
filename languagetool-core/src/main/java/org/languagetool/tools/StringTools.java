@@ -45,6 +45,7 @@ public final class StringTools {
   private static final Pattern NONCHAR = compile("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]");
   private static final Pattern WORD_FOR_SPELLER = Pattern.compile("^[\\p{L}\\d\\p{P}\\p{Zs}]+$");
   private static final Pattern IS_NUMERIC = Pattern.compile("^[\\d\\s\\.,]*\\d$");
+  private static final Pattern TRIM_PATTERN = Pattern.compile("^[\\s\\u00A0]+|[\\s\\u00A0]+$");
 
   /**
    * Constants for printing XML rule matches.
@@ -84,6 +85,7 @@ public final class StringTools {
   private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
   private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
   private static final Pattern PUNCTUATION_PATTERN = compile("[\\p{IsPunctuation}']", DOTALL);
+  private static final Pattern PUNCT_AND_SYMBOL_PATTERN = compile("[\\p{IsPunctuation}\\p{S}']");
   private static final Pattern NOT_WORD_CHARACTER = compile("[^\\p{L}]", DOTALL);
   private static final Pattern NOT_WORD_STR = compile("[^\\p{L}]+", DOTALL);
   private static final Pattern PATTERN = compile("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]");
@@ -741,7 +743,15 @@ public final class StringTools {
   public static boolean isPunctuationMark(String input) {
     return PUNCTUATION_PATTERN.matcher(input).matches();
   }
-  
+
+  /**
+   * Whether the string is punctuation mark or symbol (includes =, +, etc.)
+   * @since 6.8
+   */
+  public static boolean isPunctuationOrSymbol(String input) {
+    return PUNCT_AND_SYMBOL_PATTERN.matcher(input).matches();
+  }
+
   /**
    * Whether the string is a punctuation mark
    * @since 6.1
@@ -986,5 +996,12 @@ public final class StringTools {
 
   public static boolean isNumeric(String string) {
     return IS_NUMERIC.matcher(string).matches();
+  }
+
+  /*
+   * Remove all leading and trailing spaces.
+   */
+  public static String trimLeadingAndTrailingSpaces(String s) {
+    return TRIM_PATTERN.matcher(s).replaceAll("");
   }
 }

@@ -21,17 +21,33 @@ package org.languagetool.rules.spelling.hunspell;
 import dumonts.hunspell.Hunspell;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DumontsHunspellDictionary implements HunspellDictionary {
   private final Hunspell hunspell;
+  private final Path dictionaryPath;
+  private final Path affixPath;
+  @Getter
+  private final boolean deleteOnClose;
+  @Getter
   private boolean closed = false;
 
   public DumontsHunspellDictionary(Path dictionary, Path affix) {
+    this(dictionary, affix, false);
+  }
+
+  public DumontsHunspellDictionary(Path dictionary, Path affix, boolean deleteOnClose) {
+    this.dictionaryPath = dictionary;
+    this.affixPath = affix;
+    this.deleteOnClose = deleteOnClose;
     try {
-      hunspell = new Hunspell(dictionary,affix);
+      hunspell = new Hunspell(dictionary, affix);
     } catch (UnsatisfiedLinkError e) {
       throw new RuntimeException("Could not create hunspell instance. Please note that LanguageTool supports only 64-bit platforms " +
           "(Linux, Windows, Mac) and that it requires a 64-bit JVM (Java).", e);
@@ -63,13 +79,23 @@ public class DumontsHunspellDictionary implements HunspellDictionary {
   }
 
   @Override
-  public boolean isClosed() {
-    return closed;
-  }
-
-  @Override
   public void close() throws IOException {
     closed = true;
     hunspell.close();
+
+    // Clean up temp files if this dictionary owns them (fixes #11380)
+    if (deleteOnClose) {
+      try {
+        boolean dicDeleted = Files.deleteIfExists(dictionaryPath);
+        boolean affDeleted = Files.deleteIfExists(affixPath);
+        if (dicDeleted || affDeleted) {
+          log.trace("Deleted temporary Hunspell files: {} (deleted: {}) and {} (deleted: {})",
+                    dictionaryPath, dicDeleted, affixPath, affDeleted);
+        }
+      } catch (IOException e) {
+        // Log but don't throw - cleanup is best effort
+        log.trace("Failed to delete temporary Hunspell files: {} and {}", dictionaryPath, affixPath, e);
+      }
+    }
   }
 }

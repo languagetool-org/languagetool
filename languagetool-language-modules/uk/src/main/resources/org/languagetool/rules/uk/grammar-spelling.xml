@@ -958,6 +958,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="водночас"><marker>в одночас</marker>.</example>
     </rule>
 
+    <rule id="erroneous_space" name="Зайвий пробіл">
+      <!-- |в\s+право|на\s+право - викликає FP з іменником "право" -->
+      <!--
+      <regexp>(?U)\b(в\s+ліво|на\s+ліво|на\s+прикінці)\b</regexp>
+      -->
+      <regexp>(?U)\b(на\s+прикінці)\b</regexp>
+      <message>Зайвий пробіл</message>
+      <suggestion><match no="0" regexp_match=" " regexp_replace=""/></suggestion>
+      <!--
+      <example correction="вліво">повернув <marker>в ліво</marker>.</example>
+      -->
+      <example correction="Наприкінці"><marker>На прикінці</marker> зробити щеплення.</example>
+      <example>вернув ліворуч</example>
+    </rule>
+
     <!-- group: іноземні -->
 
     <rule id="DASH_STREET" name="-стріт/-стрит">
@@ -1634,10 +1649,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="invalid_apostrophe" name="Неправильний символ апострофа">
       <regexp>([а-яіїєґ'-]*[бвджзклмнпрстфхш])[&quot;”‟`´]([єїюя][а-яіїєґ'-]*)</regexp>
-      <message>Можливо вжито неправильний символ апострофа?</message>
+      <message>Можливо вжито неправильний символ апострофа? (рекомендовані варіанти: U+02BC - лінгвістично правильний, U+2019 - типографічний, U+0027 - прямий)</message>
+      <suggestion>\1ʼ\2</suggestion>
+      <suggestion>\1’\2</suggestion>
       <suggestion>\1'\2</suggestion>
-      <example correction="прим'ятий">він <marker>прим"ятий</marker>.</example>
-      <example correction="прим'ятий">він <marker>прим´ятий</marker>.</example>
+      <example correction="примʼятий|прим’ятий|прим'ятий">він <marker>прим"ятий</marker>.</example>
+      <example correction="примʼятий|прим’ятий|прим'ятий">він <marker>прим´ятий</marker>.</example>
     </rule>
 
   </category>

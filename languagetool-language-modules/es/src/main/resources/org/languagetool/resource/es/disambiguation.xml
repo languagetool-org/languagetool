@@ -1021,6 +1021,28 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="replace" postag="RG"/>
         </rule>
     </rulegroup>
+    <rulegroup id="intra_inter" name="prefix inter- intra-">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>inter</token>
+                </marker>
+                <token postag="CC"/>
+                <token regexp="yes">intra.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>intra</token>
+                </marker>
+                <token postag="CC"/>
+                <token regexp="yes">inter.*|extra.*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rule id="DEMASIADO" name="demasiado">
         <pattern>
             <token postag="RG">demasiado</token>
@@ -3791,6 +3813,15 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="A.*"/>
     </rule>
+    <rule id="blandas" name="blandas (adj)">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="AQ0FP0">blandas</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rule id="adj_sent_end" name="adjectives at sentence end">
         <pattern>
             <token><exception regexp="yes">no|que|ya|porqe|aún|como</exception><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
@@ -5000,7 +5031,7 @@ Copyright (C) 2011 Juan Martorell
                     <feature id="numero"/>
                     <feature id="genero"/>
                     <token postag="AQ.*|D.*" postag_regexp="yes" regexp="yes" inflected="yes">principal|pequeño|grande|diferente|vario|distinto|importante|gran|bueno|medio<exception>bueno</exception></token>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"><exception>muestra</exception></token>
                 </unify>
             </pattern>
             <disambig action="filterall"/>
@@ -6640,6 +6671,15 @@ Copyright (C) 2011 Juan Martorell
             <!-- error: estás -->
             <token postag="A.*" postag_regexp="yes" skip="3"/>
             <!--<token regexp="yes">\?|\.|que|porque</token>-->
+        </antipattern>
+        <antipattern>
+            <unify>
+                <feature id="genero"/>
+                <feature id="numero"/>
+                <token postag="A.*" postag_regexp="yes"/>
+                <token postag="A.*" postag_regexp="yes"/>
+            </unify>
+            
         </antipattern>
         <pattern>
             <token><exception postag="RG_before|LOC_ADV|_GV_|SPS00|CC|UNKNOWN|V.[SING].*|_PUNCT.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|estar|parecer|considerar</exception><exception regexp="yes">super|súper</exception></token>

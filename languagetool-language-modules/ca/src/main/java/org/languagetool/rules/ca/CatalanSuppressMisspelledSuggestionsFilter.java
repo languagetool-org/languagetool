@@ -20,10 +20,12 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.AbstractSuppressMisspelledSuggestionsFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
@@ -32,6 +34,8 @@ public class CatalanSuppressMisspelledSuggestionsFilter extends AbstractSuppress
   public CatalanSuppressMisspelledSuggestionsFilter() throws IOException {
   }
 
+  private final ChunkTag incorrectVerbChunk = new ChunkTag("_incorrect_verb_");
+
   @Override
   public boolean isMisspelled(String s, Language language) throws IOException {
     SpellingCheckRule spellerRule = language.getDefaultSpellingRule();
@@ -39,7 +43,10 @@ public class CatalanSuppressMisspelledSuggestionsFilter extends AbstractSuppress
       return true;
     }
     List<AnalyzedSentence> sentences = language.createDefaultJLanguageTool().analyzeText(s);
-    return spellerRule.match(sentences.get(0)).length > 0;
+    AnalyzedSentence sentence = sentences.get(0);
+    boolean hasIncorrectVerb = Arrays.stream(sentence.getTokensWithoutWhitespace())
+      .anyMatch(x -> x.getChunkTags().contains(incorrectVerbChunk));
+    return hasIncorrectVerb || spellerRule.match(sentence).length > 0;
   }
 
 }
