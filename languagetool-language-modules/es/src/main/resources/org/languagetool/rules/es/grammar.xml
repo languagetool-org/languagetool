@@ -16616,10 +16616,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="SINGLE_CHARACTER" name="carácter único en minúscula">
             <antipattern case_sensitive="no">
-                <token>tipo</token>
+                <token regexp="yes">tipo|categoría</token>
+                <token min="0" max="3" postag="A.*|RG" postag_regexp="yes"/>
                 <token regexp="yes">[a-d]</token>
-                <token regexp="yes">del|según</token>
+                <token min="0" max="4"/>
                 <token>ACR</token>
+                <example>Mamas con un patrón fibroglandular homogéneo tipo b del ACR.</example>
             </antipattern>
             <!-- copied and adapted from English rule -->
             <antipattern>
@@ -30132,7 +30134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="ANO" name="ano/año">
             <antipattern>
-                <token regexp="yes">músculo|músculos|esfínter|esfínteres|elevador|dolor|lesión|lesiones|fisura|cáncer|tumor|absceso|inflamación|región|zona|canal|margen</token>
+                <token regexp="yes">músculo|músculos|esfínter|esfínteres|elevador|dolor|lesión|lesiones|fisura|cáncer|tumor|absceso|inflamación|región|zona|canal|margen|pared|trayecto|afectación|alteración|evalución|cambio|cambios</token>
                 <token regexp="yes">del|en|de</token>
                 <token min="0" max="1">el</token>
                 <token>ano</token>
@@ -33400,7 +33402,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PUNTO_EN_ABREVIATURAS" name="Punto en abreviaturas: pág., núm., etc." default="on">
             <url>https://languagetool.org/insights/es/publicacion/abreviaturas/</url>
             <antipattern>
-                <token regexp="yes">I{1,3}[a-zA-Z]</token>
+                <token regexp="yes">Ib|IIa|IIb</token>
                 <example>Se advierten ganglios  con eje corto de hasta 6.6 mm en nivel Ib derecho.</example>
             </antipattern>
             <antipattern>
