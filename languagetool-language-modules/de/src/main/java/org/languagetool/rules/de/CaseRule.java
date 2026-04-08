@@ -1060,7 +1060,6 @@ public class CaseRule extends Rule {
         System.arraycopy(tokens, 0, subarray, 0, i);
 
         if (isVerbFollowing(i, tokens, lowercaseReadings) || getTokensWithPosTagStartingWithCount(subarray, "VER") == 0) {
-        // no error
         } else {
           addRuleMatch(ruleMatches, sentence, COLON_MESSAGE, tokens[i], lcWord);
         }
@@ -1106,28 +1105,8 @@ public class CaseRule extends Rule {
     return getTokensWithPosTagStartingWithCount(subarray, "VER:") != 0;
 }
 
-  private boolean isQuestionEquivalentAfterColon(int i, AnalyzedTokenReadings[] tokens) {
-    if (i < tokens.length - 1) {
-      String word = tokens[i].getToken();
-      String next = tokens[i + 1].getToken();
-      // "Warum?"
-      if (isColonQuestionWord(word) && "?".equals(next)) {
-        return true;
-      }
-      // "Und warum?"
-      if (StringUtils.equalsAnyIgnoreCase(word, "und", "oder", "aber", "denn")
-          && i < tokens.length - 2
-          && isColonQuestionWord(tokens[i + 1].getToken())
-          && "?".equals(tokens[i + 2].getToken())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   private boolean isColonQuestionWord(String word) {
-    return StringUtils.equalsAnyIgnoreCase(word,
-        "warum", "wieso", "weshalb", "wer", "was", "wann", "wo", "wie", "wozu");
+    return StringUtils.equalsAnyIgnoreCase(word, COLON_QUESTION_WORDS);
   }
 
   private void addRuleMatch(List<RuleMatch> ruleMatches, AnalyzedSentence sentence, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
