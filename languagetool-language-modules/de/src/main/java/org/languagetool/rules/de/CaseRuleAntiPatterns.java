@@ -1843,17 +1843,6 @@ class CaseRuleAntiPatterns {
       csRegex("Das|das"),
       posRegex("VER:[13]:PLU.*"),
       posRegex("(PRO|SUB).*")
-      ),
-    Arrays.asList( // "Ich frage mich: Warum?"
-      csToken(":"),
-      csRegex("warum|wieso|weshalb|wer|was|wann|wo|wie|wozu"),
-      csToken("?")
-    ),
-    Arrays.asList( // "Ich frage mich: Und warum?"
-      csToken(":"),
-      csRegex("und|oder|aber|denn"),
-      csRegex("warum|wieso|weshalb|wer|was|wann|wo|wie|wozu"),
-      csToken("?")
-    )
+      )
     );
 }
