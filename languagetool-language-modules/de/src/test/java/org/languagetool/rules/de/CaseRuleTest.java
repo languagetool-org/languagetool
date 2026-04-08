@@ -383,6 +383,14 @@ public class CaseRuleTest {
     assertBad("Das ist es: Kein Satz.");
     assertBad("Wen magst du lieber: Die Giants oder die Dragons?");
 
+    assertGood("Ich frage mich: Warum?");
+    assertGood("Ich frage mich: Wieso?");
+    assertGood("Ich frage mich: Weshalb?");
+    assertGood("Ich frage mich: Und warum?");
+    assertGood("Ich frage mich: Oder wieso?");
+    assertGood("Ich frage mich: Aber warum?");
+    assertBad("Ich frage mich: Warum Das so ist.");
+
     assertGood("Das wirklich Wichtige ist dies:");
     assertGood("Das wirklich wichtige Verfahren ist dies:");
     //assertBad("Das wirklich wichtige ist dies:");
