@@ -1843,12 +1843,5 @@ class CaseRuleAntiPatterns {
       csRegex("Das|das"),
       posRegex("VER:[13]:PLU.*"),
       posRegex("(PRO|SUB).*")
-      ),
-    Arrays.asList( // "eine kompaktere" / "eine etwas ausführlichere" after colon
-      csToken(":"),
-      csRegex("eine?|der|die|das"),
-      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
-      posRegex("ADJ:.*")
-    )
-    );
+      );
 }

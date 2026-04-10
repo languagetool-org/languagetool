@@ -391,8 +391,6 @@ public class CaseRuleTest {
     assertGood("Ich frage mich: Aber warum?");
     assertBad("Ich frage mich: Warum Das so ist.");
 
-    assertGood("Es produzierte zwei Versionen: eine etwas ausführlichere und eine kompaktere darunter.");
-
     assertGood("Das wirklich Wichtige ist dies:");
     assertGood("Das wirklich wichtige Verfahren ist dies:");
     //assertBad("Das wirklich wichtige ist dies:");
