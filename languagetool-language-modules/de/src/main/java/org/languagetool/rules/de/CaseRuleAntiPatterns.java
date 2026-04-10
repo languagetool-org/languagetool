@@ -1843,5 +1843,6 @@ class CaseRuleAntiPatterns {
       csRegex("Das|das"),
       posRegex("VER:[13]:PLU.*"),
       posRegex("(PRO|SUB).*")
-      );
+      )
+    );
 }
