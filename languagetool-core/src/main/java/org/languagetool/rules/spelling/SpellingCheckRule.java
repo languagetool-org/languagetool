@@ -232,6 +232,13 @@ public abstract class SpellingCheckRule extends Rule {
   public void addIgnoreTokens(List<String> tokens) {
     wordsToBeIgnored.addAll(tokens);
   }
+  
+    /**
+     * Remove the given words from the list of words to be ignored.
+     */
+    public void removeIgnoreTokens(List<String> tokens) {
+        wordsToBeIgnored.removeAll(tokens);
+    }
 
   private void updateIgnoredWordDictionary() {
     wordsToBeIgnoredDictionaryIgnoreCase = null;
