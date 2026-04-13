@@ -186,7 +186,7 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
           replacement = doAddPronounReflexive("", "hi " + verbStr, firstVerbPersonaNumber, isPronounsAfter);
           break;
         case "addPronounReflexiveLes":
-          replacement = doAddPronounReflexive("les", verbStr, firstVerbPersonaNumber, isPronounsAfter);
+          replacement = doAddPronounReflexive(transform(pronounsStr.toLowerCase(), PronounPosition.NORMALIZED) + " les", verbStr, firstVerbPersonaNumber, isPronounsAfter);
           break;
         case "addPronounDative":
           String dativePronoun = getDativePronoun(firstVerbPersonaNumber);

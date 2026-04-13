@@ -3737,6 +3737,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rule id='PASSAR_POR_DIFICULDADES' name="🤵 'Passar' [situação negativa] → 'passar por'/enfrentar" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <marker>
+                    <token skip='1' inflected='yes'>passar<exception scope='next' postag='SPS.+|DA.+' postag_regexp='yes'/></token>
+                </marker>
+                <token regexp='yes' inflected='yes'>dificuldade|problema|crise|adversidade|contratempo|percalço|sofrimento|angústia|aflição|privação|carência</token>
+            </pattern>
+            <message>Em registos formais, prefira &quot;passar por [situação]&quot; ou &quot;enfrentar [situação]&quot;.</message>
+            <suggestion>\1 por</suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enfrentar</match></suggestion>
+            <example correction="Passei por|Enfrentei"><marker>Passei</marker> dificuldades.</example>
+            <example correction="Passei por|Enfrentei"><marker>Passei</marker> grandes dificuldades.</example>
+            <example correction="Passei por|Enfrentei"><marker>Passei</marker> várias dificuldades.</example>
+            <example correction="Passei por|Enfrentei"><marker>Passei</marker> muitas dificuldades.</example>
+            <example>Alguém na minha frente estava discutindo com o inspetor, então eu pude passar sem problemas.</example>
+            <example>Quando perdemos isso ou quando passamos o problema para outra pessoa.</example>
+            <example>Os seus últimos anos de vida foram passados em sofrimento e viagens constantes ao estrangeiro.</example>
+            <example>Podemos passar pelo problema sem dificuldade.</example>
+            <example>Podemos passar por problemas sem vacilar.</example>
+        </rule>
+
+
+        <rule id='DURANTE_ESTE_O_PRESENTE' name="🤵 Forma administrativa: 'presente' + expressão temporal" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token>durante</token>
+                <marker>
+                    <token regexp='yes'>est[ae]</token>
+                </marker>
+                <token regexp='yes'>mês|ano|semestre|trimestre|período|ciclo|exercício|dia|intervalo|prazo|lapso|momento|instante|semana|data|fase|época</token>
+            </pattern>
+            <message>Em contexto formal, use &quot;presente&quot; com períodos de tempo (&quot;presente mês&quot;, &quot;presente semana&quot;). Em linguagem comum, prefira &quot;este/esta&quot;.</message>
+            <suggestion><match no='2' postag='DD0(.)S0' postag_replace='DA0$1S0'>o</match> presente</suggestion>
+            <example correction="a presente">Vou tratar disso durante <marker>esta</marker> semana.</example>
+            <example correction="o presente">Vou tratar disso durante <marker>este</marker> mês.</example>
+        </rule>
+
+
         <rule id='NAO_DEIXAR_QUE_PERMITIR' name="🤵 Não 'deixar' que → permitir" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>

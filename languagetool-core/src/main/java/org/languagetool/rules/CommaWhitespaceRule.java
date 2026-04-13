@@ -157,7 +157,7 @@ public class CommaWhitespaceRule extends Rule {
           }
         }
       }
-      if (msg != null && !isException(tokens, i)) {
+      if (msg != null && !isException(tokens, i) && !tokens[i].isImmunized()) {
         int fromPos = tokens[i - 1].getStartPos();
         if (twoSuggestions) {
           fromPos = tokens[i - 2].getStartPos();

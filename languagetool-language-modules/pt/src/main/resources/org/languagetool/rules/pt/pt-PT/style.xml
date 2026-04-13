@@ -485,6 +485,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='FORMAL_SPEECH_PT_PT' name='🇵🇹 Linguagem Formal' type='register' tone_tags="formal">
 
 
+      <rule id='COM_OS_MELHORES_CUMPRIMENTOS' name="🇵🇹🤵 Uniformização de despedidas formais" type='style' tone_tags='formal'>
+          <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+          <pattern>
+              <token postag='SENT_START'/>
+              <marker>
+                  <token min='0' max='1' regexp='yes'>obrigad[ao]</token>
+                  <token min='0' max='1'>e</token>
+                  <token min='0' max='1'>os</token>
+                  <token min='0' max='1' postag='_PUNCT_COMMA'/>
+                  <token min='0' max='1'>melhores</token>
+                  <token>cumprimentos</token>
+              </marker>
+              <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
+          </pattern>
+          <message>Para manter um tom formal, utilize &quot;Com os melhores cumprimentos&quot; como fórmula de despedida.</message>
+          <suggestion>Com os melhores cumprimentos</suggestion>
+          <example correction="Com os melhores cumprimentos"><marker>Obrigado e cumprimentos</marker>.</example>
+          <example correction="Com os melhores cumprimentos"><marker>Obrigada e cumprimentos</marker>.</example>
+          <example correction="Com os melhores cumprimentos"><marker>Obrigado, cumprimentos</marker>.</example>
+          <example correction="Com os melhores cumprimentos"><marker>Obrigado e os melhores cumprimentos</marker>.</example>
+          <example correction="Com os melhores cumprimentos"><marker>Cumprimentos</marker>.</example>
+          <example correction="Com os melhores cumprimentos"><marker>Melhores cumprimentos</marker>.</example>
+          <example correction="Com os melhores cumprimentos"><marker>Os melhores cumprimentos</marker>.</example>
+      </rule>
+
+
       <rule id='ALUGAR_CASA' name="🇵🇹🤵 'alugar' imóvel → 'arrendar'" type='style' tone_tags='formal'>
           <!-- ChatGPT 5 and new disambiguator for 2026+ -->
           <pattern>

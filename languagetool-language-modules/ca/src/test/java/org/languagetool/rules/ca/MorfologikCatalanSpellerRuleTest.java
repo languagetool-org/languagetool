@@ -138,6 +138,11 @@ public class MorfologikCatalanSpellerRuleTest {
     //assertSuggestionsTest("Buco", "[Boço, Boca, Bou, Coco, Botó]", 1);
     //assertSuggestionsTest("matitzàrem", "[matisarem, matisàrem, emetitzarem, emetitzàrem, matisara]", 1);
     //assertSuggestionsTest("tamitzéssim", "[tamisàssim, tamiséssim, tamisassin, tamisassis, tamisessin]", 1);
+    assertSuggestionsTest("No vull posarmi ara.", "[posar-m'hi]", 1);
+    assertSuggestionsTest("Podria oposarmi.", "[oposar-m'hi]", 1);
+    assertSuggestionsTest("Volem acostarsi.", "[acostar-s'hi, acostar si]", 1);
+    assertSuggestionsTest("Volem acostarlosi.", "[acostar-los-hi, acostar-los]", 1);
+    assertSuggestionsTest("Volem acostarnosi.", "[acostar-nos-hi, acostar-nos]", 1);
     assertSuggestionsTest("adquireixquen", "[adquirisquen, adquiresquen]", 1);
     assertSuggestionsTest("calificació", "[qualificació]", 1);
     assertSuggestionsTest("desconte", "[descompte, descompta]", 1);

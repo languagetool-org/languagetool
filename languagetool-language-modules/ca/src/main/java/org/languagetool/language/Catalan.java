@@ -489,29 +489,29 @@ public class Catalan extends Language {
         .replace("Fóra", "Fora");
   }
   
-  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[DdPp]e)r? e(ls?)\\b");
-  private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ");
+  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[DdPp]e)r? e(ls?)\\b", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ", Pattern.UNICODE_CHARACTER_CLASS);
   // exceptions: l'FBI, l'statu quo
-  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])", Pattern.UNICODE_CHARACTER_CLASS);
   // exceptions: el iogurt, la essa
   private static final Pattern CA_APOSTROPHES3 = compile("\\be?([mtsldn])e? (h[aeio]|h?[aeiouàèéíòóú][a-zàèéíòóúïüç])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES4 = compile("\\b(l)a ([aeoàúèéí][^ ])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES5 = compile("\\b([mts]e) (['’])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES6 = compile("\\bs'e(ns|ls)\\b",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES7 = compile("\\b(de|a)l (h?[aeoàúèéí][^ ])",
-    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES8 = compile("\\b([MTLSN])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
-  private static final Pattern CA_APOSTROPHES9 = compile("\\b([Dd])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern CA_APOSTROPHES8 = compile("\\b([MTLSN])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern CA_APOSTROPHES9 = compile("\\b([Dd])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])", Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
-      Pattern.UNICODE_CASE);
+      Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
-      Pattern.UNICODE_CASE);
+      Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_REMOVE_SPACES = compile("\\b(a|de|pe) (ls?)(?!['’])\\b",
-    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
 
   @Override
   public String adaptSuggestion(String s, String originalErrorStr) {
