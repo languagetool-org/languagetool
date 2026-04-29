@@ -17,7 +17,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public abstract class LemmaHelper {
   private static final String IGNORE_CHARS = "\u00AD\u0301";
-  public static final Set<String> CITY_AVENU = new HashSet<>(Arrays.asList("сіті", "ситі", "стріт", "стрит", "рівер", "ривер", "авеню", "штрасе", "штрассе", "сьоркл", "сквер"));
+  public static final Set<String> CITY_AVENU = new HashSet<>(Arrays.asList("сіті", "ситі", "стріт", "стрит", "рівер", "ривер", "авеню", "штрасе", "штрассе", "сьоркл", "сквер", "плац"));
   public static final List<String> MONTH_LEMMAS = Arrays.asList("січень", "лютий", "березень", "квітень", "травень", "червень", "липень", 
       "серпень", "вересень", "жовтень", "листопад", "грудень");
   public static final List<String> DAYS_OF_WEEK = Arrays.asList("понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя");

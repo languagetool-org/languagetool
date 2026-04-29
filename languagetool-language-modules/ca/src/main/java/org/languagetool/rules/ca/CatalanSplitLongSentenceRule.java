@@ -18,6 +18,7 @@ public class CatalanSplitLongSentenceRule extends LongSentenceRule {
 
   public CatalanSplitLongSentenceRule(ResourceBundle messages, UserConfig userConfig, int maxWords) {
     super(messages, userConfig, maxWords);
+    this.setDefaultOff();
   }
 
   @Override

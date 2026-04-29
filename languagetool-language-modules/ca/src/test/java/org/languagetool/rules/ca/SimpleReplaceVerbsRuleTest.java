@@ -191,6 +191,9 @@ public class SimpleReplaceVerbsRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Com te s'ha ocurrit."));
     assertEquals("[se t'ha ocorregut]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("liar-te-la"));
+    assertEquals("[embolicar-te-la, enredar-te-la, enrotllar-te-la, armar-te-la, engalipar-te-la, entabanar-te-la, embullar-te-la, embrollar-te-la]", matches[0].getSuggestedReplacements().toString());
   }
 
 }

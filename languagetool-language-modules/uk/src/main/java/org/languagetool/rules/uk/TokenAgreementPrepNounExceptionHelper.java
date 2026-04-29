@@ -29,19 +29,19 @@ public class TokenAgreementPrepNounExceptionHelper {
 
     
     // на дивом уцілілій техніці
-    if( tokenReadings.getToken().equals("дивом") )
+    if( token.equals("дивом") )
       return new RuleException(0);
 
     // в тисяча шістсот якомусь році
     if( i < tokens.length - 1 
-        && tokenReadings.getToken().equals("тисяча")
+        && token.equals("тисяча")
         && (PosTagHelper.hasPosTagPart(tokens[i+1], "numr")
             || LemmaHelper.hasLemma(tokens[i+1], "якийсь"))) {
       return new RuleException(0);
     }
     // в дев'яносто восьмому
     if( i < tokens.length - 1 
-        //tokenReadings.getToken().equals("тисяча")
+        // token.equals("тисяча")
         && PosTagHelper.hasPosTagPart(tokenReadings, "numr") && PosTagHelper.hasPosTagPart(tokenReadings, "v_naz")
         && PosTagHelper.hasPosTagPart(tokens[i+1], "numr") && PosTagHelper.hasPosTag(tokenReadings, Pattern.compile(".*v_(rod|dav|zna|oru|mis).*")) ) {
       return new RuleException(1);
@@ -312,7 +312,7 @@ public class TokenAgreementPrepNounExceptionHelper {
       return new RuleException(0);
     }
 
-    if( tokenReadings.getToken().equals("наприклад") )
+    if( token.equals("наприклад") )
       return new RuleException(0);
 
     if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("adv(?!p).*")) ) {

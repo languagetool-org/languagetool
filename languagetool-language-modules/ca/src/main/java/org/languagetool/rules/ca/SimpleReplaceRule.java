@@ -81,6 +81,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, String> argumentsMap = Map.of("lemmaSelect", "[NA].*");
 
+  private final Set<String> exceptions = Set.of("perquè", "què", "per què");
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     RuleMatch[] potentialMatches = super.match(sentence);
@@ -89,6 +91,12 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     // Adjust determinants and adjectives
     for (RuleMatch potentialRuleMatch : potentialMatches) {
+      if (potentialRuleMatch.getSuggestedReplacements().stream()
+        .map(String::toLowerCase)
+        .anyMatch(exceptions::contains)) {
+        ruleMatches.add(potentialRuleMatch);
+        continue;
+      }
       RuleMatch finalMatch = filter.acceptRuleMatch(potentialRuleMatch, argumentsMap, 0, null, null);
       if (finalMatch != null) {
         ruleMatches.add(finalMatch);

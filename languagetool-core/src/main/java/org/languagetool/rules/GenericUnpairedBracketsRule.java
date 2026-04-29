@@ -327,7 +327,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     }
     ruleMatchStack.push(new SymbolLocator(symbol, ruleMatches.size(), startPos, sentence, sentenceIdx));
     String otherSymbol = findCorrespondingSymbol(symbol);
-    String message = MessageFormat.format(messages.getString("unpaired_brackets"), otherSymbol);
+    String message = Objects.requireNonNullElseGet(getMessage(), () -> MessageFormat.format(messages.getString(
+      "unpaired_brackets"), otherSymbol));
     String fullText = lazyFullText.get();
     if (startPos + symbol.symbol.length() < fullText.length()) {
       if (startPos >= 2 && startPos + symbol.symbol.length() < fullText.length()) {
@@ -358,6 +359,10 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
   }
 
   protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos, Symbol symbol, String otherSymbol) {
+    return null;
+  }
+
+  protected String getMessage() {
     return null;
   }
 

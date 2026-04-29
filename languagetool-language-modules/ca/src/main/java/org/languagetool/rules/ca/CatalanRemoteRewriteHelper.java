@@ -39,7 +39,6 @@ public class CatalanRemoteRewriteHelper {
 
   private static final String SERVER_URL = System.getenv("CA_REMOTE_REWRITE_SERVER");
   private static final String API_KEY = System.getenv("CA_REMOTE_REWRITE_API_KEY");
-  private static final String MODEL_ID = System.getenv("CA_REMOTE_REWRITE_MODEL_ID");
   private static int TIMEOUT_MS;
   static {
     try {
@@ -51,8 +50,10 @@ public class CatalanRemoteRewriteHelper {
   }
   private static final Logger logger = LoggerFactory.getLogger(CatalanRemoteRewriteHelper.class);
 
+  private static int MAX_SENTENCE_CHARS = 550;
+
   static boolean isRemoteServiceAvailable() {
-    return (SERVER_URL != null && API_KEY !=null && MODEL_ID != null);
+    return (SERVER_URL != null && !SERVER_URL.isEmpty());
   }
 
   static String sendPostRequest(String sentence, String ruleid) {
@@ -70,17 +71,18 @@ public class CatalanRemoteRewriteHelper {
     if (!isRemoteServiceAvailable()) {
       return "";
     }
+    // ignorem frases molt llargues, no tractem d'arreglar-les
+    if (sentence.length() > MAX_SENTENCE_CHARS) {
+      return "";
+    }
     HttpURLConnection conn = null;
     System.out.println("Requesting server " + SERVER_URL + " for rule " + ruleid);
     logger.info("Requesting server " + SERVER_URL + " for rule " + ruleid);
     try {
       JSONObject payload = new JSONObject();
-      payload.put("model", MODEL_ID);
-      JSONArray messages = new JSONArray();
-      //messages.put(new JSONObject().put("role", "system").put("content", PROMPTS.get(ruleid)));
-      //messages.put(new JSONObject().put("role", "user").put("content", sentence));
-      messages.put(new JSONObject().put("role", "user").put("content",  PROMPTS.get(ruleid) + "\n\n" + sentence));
-      payload.put("messages", messages);
+      payload.put("system_prompt", PROMPTS.get(ruleid));
+      payload.put("user_prompt", sentence);
+      payload.put("temperature", 0.0);
       byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);
       URL url = new URL(SERVER_URL);
       conn = (HttpURLConnection) url.openConnection();
@@ -88,7 +90,9 @@ public class CatalanRemoteRewriteHelper {
       conn.setDoOutput(true);
       conn.setUseCaches(false); // IMPORTANT: En POST sempre a false
       conn.setInstanceFollowRedirects(true);
-      conn.setRequestProperty("Authorization", "Bearer " + API_KEY);
+      if (API_KEY != null && !API_KEY.isEmpty()) {
+          conn.setRequestProperty("Authorization", "Bearer " + API_KEY);
+      }
       conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
       conn.setRequestProperty("Accept", "application/json");
       //conn.setRequestProperty("HTTP-Referer", "");
@@ -116,11 +120,7 @@ public class CatalanRemoteRewriteHelper {
         }
         if (code == HttpURLConnection.HTTP_OK) {
           JSONObject jsonResponse = new JSONObject(response.toString());
-          return jsonResponse.getJSONArray("choices")
-            .getJSONObject(0)
-            .getJSONObject("message")
-            .getString("content")
-            .trim();
+          return jsonResponse.getString("response").trim();
         } else {
           System.err.println("API error (" + code + "): " + response + "// PAYLOAD: " + payload.toString());
           logger.error("API error (" + code + "): " + response);
@@ -175,7 +175,11 @@ public class CatalanRemoteRewriteHelper {
     Map.entry("Hi hagué un accident greu a l'autopista entre un camió i un turisme, morint els passatgers del turisme al cap de poc.",
       "Hi hagué un accident greu a l'autopista entre un camió i un turisme i els passatgers del turisme van morir al cap de poc."),
     Map.entry("Va arribar tard a l'examen, perdent així després tota oportunitat d'aprovar l'assignatura.",
-        "Va arribar tard a l'examen i, per això, va perdre tota oportunitat d'aprovar l'assignatura.")
+        "Va arribar tard a l'examen i, per això, va perdre tota oportunitat d'aprovar l'assignatura."),
+    Map.entry("Van anul·lar la reunió, convocant-la per a la setmana següent.",
+        "Van anul·lar la reunió i la van convocar per a la setmana següent."),
+    Map.entry("Van anul·lar la reunió, convocant-la per a la propera setmana.",
+        "Van anul·lar la reunió i la van convocar per a la propera setmana.")
 
   ),
     "CA_SPLIT_LONG_SENTENCE", Map.ofEntries(

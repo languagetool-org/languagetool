@@ -111,6 +111,7 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     return true;
   }
 
+  @Override
   protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos, Symbol symbol, String otherSymbol) {
     List<String> replacements = new ArrayList<>();
     // add the other symbol together with the original symbol, needs to be moved by the user
@@ -122,6 +123,11 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     // add the option to remove the original symbol
     replacements.add("");
     return replacements;
+  }
+
+  @Override
+  protected String getMessage() {
+    return "Símbol sense parella. Afegiu-lo i situeu-lo manualment en el lloc adequat, o bé esborreu-lo.";
   }
 
 }

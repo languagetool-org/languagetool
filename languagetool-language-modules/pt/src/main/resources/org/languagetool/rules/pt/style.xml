@@ -245,6 +245,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <antipattern>
                 <token>que</token>
+                <token postag='PI.+' postag_regexp='yes'/>
+                <token postag='RG'/>
+                <token postag='VMI.+' postag_regexp='yes'/>
+                <example>A troika provou o que muitos já suspeitavam.</example>
+                <example>Estudos mostram que muitos ainda sonham em fugir das suas casas.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>que</token>
                 <token postag='RG'/>
                 <token postag='RG'/>
                 <token postag='VMI[IPS].S.+' postag_regexp='yes'/>
@@ -323,7 +332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception postag_regexp='yes' postag='CC|RN|SPS0.+'/>
                         <exception regexp='yes'>então|sempre</exception> <!-- Force exceptions -->
                     </token>
-                    <token postag='VMI[CFIMPS].+' postag_regexp='yes'>
+                    <token postag='VMI.+' postag_regexp='yes'>
                         <exception scope='next' postag_regexp='yes' postag='VMN0000|VMP00.+|Z0CN0|CS'/>
                         <exception postag='VMIP2P0'/>
                     </token>
@@ -3737,6 +3746,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rule id='PASSAR_POR_DIFICULDADES' name="🤵 'Passar' [situação negativa] → 'passar por'/enfrentar" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <marker>
+                    <token skip='1' inflected='yes'>passar<exception scope='next' postag='SPS.+|DA.+' postag_regexp='yes'/></token>
+                </marker>
+                <token regexp='yes' inflected='yes'>dificuldade|problema|crise|adversidade|contratempo|percalço|sofrimento|angústia|aflição|privação|carência</token>
+            </pattern>
+            <message>Em registos formais, prefira &quot;passar por [situação]&quot; ou &quot;enfrentar [situação]&quot;.</message>
+            <suggestion>\1 por</suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enfrentar</match></suggestion>
+            <example correction="Passei por|Enfrentei"><marker>Passei</marker> dificuldades.</example>
+            <example correction="Passei por|Enfrentei"><marker>Passei</marker> grandes dificuldades.</example>
+            <example correction="Passei por|Enfrentei"><marker>Passei</marker> várias dificuldades.</example>
+            <example correction="Passei por|Enfrentei"><marker>Passei</marker> muitas dificuldades.</example>
+            <example>Alguém na minha frente estava discutindo com o inspetor, então eu pude passar sem problemas.</example>
+            <example>Quando perdemos isso ou quando passamos o problema para outra pessoa.</example>
+            <example>Os seus últimos anos de vida foram passados em sofrimento e viagens constantes ao estrangeiro.</example>
+            <example>Podemos passar pelo problema sem dificuldade.</example>
+            <example>Podemos passar por problemas sem vacilar.</example>
+        </rule>
+
+
+        <rule id='DURANTE_ESTE_O_PRESENTE' name="🤵 Forma administrativa: 'presente' + expressão temporal" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token>durante</token>
+                <marker>
+                    <token regexp='yes'>est[ae]</token>
+                </marker>
+                <token regexp='yes'>mês|ano|semestre|trimestre|período|ciclo|exercício|dia|intervalo|prazo|lapso|momento|instante|semana|data|fase|época</token>
+            </pattern>
+            <message>Em contexto formal, use &quot;presente&quot; com períodos de tempo (&quot;presente mês&quot;, &quot;presente semana&quot;). Em linguagem comum, prefira &quot;este/esta&quot;.</message>
+            <suggestion><match no='2' postag='DD0(.)S0' postag_replace='DA0$1S0'>o</match> presente</suggestion>
+            <example correction="a presente">Vou tratar disso durante <marker>esta</marker> semana.</example>
+            <example correction="o presente">Vou tratar disso durante <marker>este</marker> mês.</example>
+        </rule>
+
+
         <rule id='NAO_DEIXAR_QUE_PERMITIR' name="🤵 Não 'deixar' que → permitir" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
@@ -3870,7 +3918,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- Disambiguator must be improved in order to fix some of the words that appear as verbs - 2026-03-04 -->
 
             <antipattern>
-                <token skip='5' postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
+                <token skip='5' postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|roupa|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
                 <token postag='V.+' postag_regexp='yes' inflected='yes'>usar</token>
                 <example>Para o homem, compre a bota ou o sapato que ele irá usar para ir ao trabalho.</example>
                 <example>Amigas dizem que rejuvenesci, perguntam se fiz cirurgia plástica ou que creme de beleza estou usando.</example>
@@ -3886,7 +3934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <antipattern>
                 <token skip='5' postag='V.+' postag_regexp='yes' inflected='yes'>usar
                     <exception scope='next' regexp='yes'>para|em|com|por|como</exception></token>
-                <token postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
+                <token postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|roupa|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
                 <example>Como os ângulos que Taeyang faz enquanto dança, e até o modo como move sua boca enquanto usa óculos escuros.</example>
                 <example>do tipo que sempre usa a mesma saia com a mesma blusa sabe?</example>
                 <example>Eu só não uso camisa de força porque branco marca muito.</example>
@@ -9299,21 +9347,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id='ACHO_QUE' name="penso/julgo que" tags='picky' default='off'>
+
+        <rule id='ACHAR_QUE' name="🤵 'achar' que → considerar/entender/julgar/supor/pensar" tags='picky' type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token postag='C.+' postag_regexp='yes'/>
+                <token postag='PP.+|D[AI].+|SENT_START|_PUNCT' postag_regexp='yes'/>
+                <token min='0' max='2' postag='N.+|AQ.+|RM|RG|RN|CC' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
                 <marker>
-                    <token inflected='yes'>achar</token>
-                    <token>que</token>
+                    <token  postag='V.+' postag_regexp='yes' inflected='yes'>achar</token>
                 </marker>
+                <token>que</token>
             </pattern>
             <message>&informal_msg;</message>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>pensar</match> que</suggestion>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>julgar</match> que</suggestion>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>acreditar</match> que</suggestion>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>supor</match> que</suggestion>
-            <example correction='pensávamos que|julgávamos que|acreditávamos que|supúnhamos que'>Já não íamos lá há algum tempo porque <marker>achávamos que</marker> a qualidade tinha vindo a cair.</example>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>considerar</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>entender</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>julgar</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>supor</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>pensar</match></suggestion>
+            <example correction='considero|entendo|julgo|suponho|penso'>Não <marker>acho</marker> que a solução seja viável.</example>
+            <example correction='considera|entende|julga|supõe|pensa'>O Rui <marker>acha</marker> que decidiu bem.</example>
+            <example correction='considera|entende|julga|supõe|pensa'>A Ana realmente <marker>acha</marker> que escolheu bem.</example>
+            <example correction='considera|entende|julga|supõe|pensa'>A Ana ainda <marker>acha</marker> que escolheu bem.</example>
         </rule>
+
 
         <rule id='BASEIA-SE_EM' name="Tem por base" default='off'>
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
@@ -9639,6 +9695,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='ACADEMIC' name='🎓 Linguagem acadêmica' type='style' tone_tags="academic">
+
+
+        <rule id='COISA_DE_CERCA_DE_APROXIMADAMENTE' name="🎓🤵 Há 'coisa de' → 'cerca de'/aproximadamente" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token>há</token>
+                <marker>
+                    <token>coisa</token>
+                    <token>de</token>
+                </marker>
+                <token postag='Z0.+' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+            </pattern>
+            <message>Expressão coloquial. Em textos formais ou académicos, prefira &quot;há cerca de&quot; ou &quot;há aproximadamente&quot;.</message>
+            <suggestion>cerca de</suggestion>
+            <suggestion>aproximadamente</suggestion>
+            <example correction="cerca de|aproximadamente">Há <marker>coisa de</marker> um mês fui lá.</example>
+            <example correction="cerca de|aproximadamente">Há <marker>coisa de</marker> dois dias fui lá.</example>
+        </rule>
 
 
         <rule id='AO_LONGO_DO_TEMPO' name="🎓 Ao longo do tempo → gradualmente/progressivamente" type='style' tone_tags='academic' is_goal_specific='true'>
@@ -16638,6 +16713,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
 
             <antipattern>
+                <token postag='VMSF.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token inflected='yes'>ser</token>
+                <token postag='VMP00.+' postag_regexp='yes'><exception postag_regexp='yes' postag='AQ.+'/></token>
+                <example>Se me garantir que é publicado este ano letivo.</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='SPS00:DA.+' postag_regexp='yes'/>
                 <token skip='4' postag='DP.+' postag_regexp='yes'/>
                 <token>que</token>
@@ -19732,26 +19815,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- VÁRIAS VEZES vári[ao]s -->
-        <rule id='VÁRIAS_VEZES_VÁRIAS' name="✂️ Várias vezes → Vári[ao]s" type="style">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-23 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-            Apagaram várias vezes publicações minhas. → Apagaram várias publicações minhas.
-            Apagaram várias vezes comentários meus. → Apagaram vários comentários meus.
-            Apagaram várias vezes comentários do Rui. → Apagaram vários comentários do Rui.
-            -->
+        <rule id='VÁRIAS_VEZES_REPETIDAMENTE' name="✂️ Várias vezes → repetidamente" type='style'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'>
+                    <exception regexp='yes' inflected='yes'>acolher|chamar|convidar|convocar|cumprimentar|designar|eleger|encontrar|entrevistar|escutar|estar|ficar|nomear|ouvir|permanecer|receber|reeleger|reencontrar|renomear|saudar|ser|tornar|ver|visitar</exception></token> <!-- Most problematic verbs ChatGPT -->
                 <marker>
                     <token>várias</token>
                     <token>vezes</token>
                 </marker>
-                <token postag='NC.P.+' postag_regexp='yes'/>
-                <token postag='DP.+|SPS.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+|RG'/></token> <!-- Strict to avoid FPs -->
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='4' postag='NC(.)P000' postag_replace='DI0$1P0'>vários</match></suggestion>
-            <example correction="várias">Apagaram <marker>várias vezes</marker> publicações minhas.</example>
+            <message>Pode simplificar &quot;várias vezes&quot; para &quot;repetidamente&quot;.</message>
+            <suggestion>repetidamente</suggestion>
+            <example correction="repetidamente">Apagaram <marker>várias vezes</marker> publicações minhas.</example>
+            <example correction="repetidamente">Apagaram <marker>várias vezes</marker> comentários do Rui.</example>
         </rule>
 
 

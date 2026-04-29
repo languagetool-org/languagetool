@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.uk.LemmaHelper;
@@ -65,6 +66,9 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern PATTERN_MD = Pattern.compile("[MD]+");
   private static final Pattern QUOTES = Pattern.compile("[«»\"„“]");
   private static final Pattern YI_PATTERN = Pattern.compile("([бвгґджзклмнпрстфхцчшщ])ї", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern RICCHA = Pattern.compile("(сто|[а-яіїєґ']+?(?:сот))?([а-яіїє']+?(?:ти|ка|то))?([а-яіїє']+?(?:ти|ри|ох|ми|во))?(річч[а-яі]{1,3})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern OTYI = Pattern.compile("(сто|[а-яіїєґ']+?(?:сот))?([а-яіїє']+?(?:ти|ка|то))?([а-яіїє']+?(?:ти|ри|ох|ми|во|но))?((?:мільйон|тисяч|річн)[а-яії]+)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
 
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, locale);
 //  private BufferedWriter taggedDebugWriter;
@@ -209,8 +213,83 @@ public class UkrainianTagger extends BaseTagger {
         return new ArrayList<>();
       }
     }
+
+    // стодвадцятиріччя
+    if ( word.length() >= 10 ) {
+      Matcher matcher1 = RICCHA.matcher(word);
+      if( matcher1.matches() ) {
+
+        String endWord = matcher1.group(4);
+        List<TaggedWord> rightWdList = wordTagger.tag("сто"+endWord);
+        if( rightWdList.isEmpty() )
+          return List.of();
+
+        if( ! isAllNum(wordTagger, matcher1, 1, 3) )
+          return List.of();
+        
+        List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
+        for (TaggedWord analyzedToken : rightWdList) {
+          String posTag = analyzedToken.getPosTag();
+          if( posTag == null || posTag.contains("v_kly") || posTag.contains(":p:") )
+              continue;
+
+          String lemma = concatGroups(matcher1, 1, 3) + analyzedToken.getLemma().substring(3);
+          newAnalyzedTokens.add(new AnalyzedToken(word, analyzedToken.getPosTag(), lemma));
+        }
+
+        return newAnalyzedTokens;
+      }
+      else {
+        Matcher matcher2 = OTYI.matcher(word);
+        if( matcher2.matches() ) {
+          String endWord = matcher2.group(4);
+          List<TaggedWord> rightWdList = wordTagger.tag(endWord);
+          if( rightWdList.isEmpty() )
+            return List.of();
+          
+          if( ! isAllNum(wordTagger, matcher2, 1, 3) )
+            return List.of();
+
+          List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
+          for (TaggedWord analyzedToken : rightWdList) {
+            String posTag = analyzedToken.getPosTag();
+            if( posTag == null || ! posTag.startsWith("adj") || posTag.contains("v_kly") )
+                continue;
+
+            String lemma = concatGroups(matcher2, 1, 3) + analyzedToken.getLemma();
+            newAnalyzedTokens.add(new AnalyzedToken(word, analyzedToken.getPosTag(), lemma));
+          }
+          return newAnalyzedTokens;
+        }
+      }
+    }
     
     return compoundTagger.guessOtherTags(word);
+  }
+
+  private boolean isAllNum(WordTagger wordTagger, Matcher matcher1, int from, int to) {
+    for(int ii=from; ii<=to; ii++) {
+      String group = matcher1.group(ii);
+      if( StringUtils.isNotEmpty(group) ) {
+        List<TaggedWord> w = wordTagger.tag(group.toLowerCase());
+        if( ! PosTagHelper.hasPosTagPart2(w, "num") 
+            || PosTagHelper.hasPosTag2(w, Pattern.compile(".*(bad|subst).*")) ) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  private static String concatGroups(Matcher matcher1, int i, int j) {
+    StringBuilder sb = new StringBuilder(64);
+    for(int ii=i; ii<=j; ii++) {
+      String group = matcher1.group(ii);
+      if( group != null ) {
+        sb.append(matcher1.group(ii));
+      }
+    }
+    return sb.toString();
   }
 
   @Override

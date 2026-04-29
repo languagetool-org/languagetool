@@ -54,6 +54,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag_regexp="yes" postag="verb.*impr.*"/>
       </antipattern>
       <antipattern>
+        <token case_sensitive="no">о</token>
+        <token inflected="yes" regexp="yes">чергувати(ся)?</token>
+      </antipattern>
+      <antipattern>
         <token inflected="yes" regexp="yes">група|турнір|гепатит</token>
         <token case_sensitive="yes" regexp="yes">[А-Я]</token>
       </antipattern>
@@ -89,6 +93,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
       <example>кількість захворювань на гепатит В зменшилась у вісім разів.</example>
       <example>О слався, о слався, сміливцю...</example>
+      <example>де о чергується з і</example>
     </rule>
 
     <rulegroup id="MODAL_WORD" name="Узгодження з модальними словами">
@@ -2785,6 +2790,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="відкрив">він <marker>відрив</marker> двері</example>
     </rule>
 
+    <rule id="kruzhok" name="Кружок і гурток">
+      <pattern>
+        <token inflected="yes" postag_regexp="yes" postag="adj:[mp]:.*" regexp="yes">спортивн.*|літературн.*|історичн.*|художн.*|.*шкільн.*|шаховий|театральний|студентський|аматорський|академічний</token>
+        <marker>
+          <token inflected="yes">кружок</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion><match no="2" regexp_match="(?iu)круж(.*)" regexp_replace="гурт$1"/></suggestion>?</message>
+      <example correction="гуртка">спортивного <marker>кружка</marker></example>
+    </rule>
+
     <rulegroup id="vika_viku" name="Віка і віку">
       <rule>
         <pattern>
@@ -2912,6 +2928,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     </rulegroup>
 
+    <rule id="klad_vs_sklad_1" name="Клад і склад">
+      <pattern>
+        <token inflected="yes">особовий</token>
+        <marker>
+          <token inflected="yes">клад</token>
+        </marker>
+      </pattern>
+      <message>Можливо ви мали на увазі: <suggestion><match no="2" regexp_match="клад" regexp_replace="с$0"/></suggestion>?</message>
+      <example correction="складу">для особового <marker>кладу</marker>.</example>
+      <example>Великого кладу</example>
+    </rule>
+
+    <rule id="klad_vs_sklad_2" name="Клад і склад">
+      <pattern>
+        <token>до</token>
+        <marker>
+          <token>кладу</token>
+        </marker>
+      </pattern>
+      <message>Можливо ви мали на увазі: <suggestion>складу</suggestion>?</message>
+      <example correction="складу">до <marker>кладу</marker> якої мали увійти.</example>
+      <example>Великого кладу</example>
+    </rule>
+
     <rulegroup id="na_vylit_vs_navylit" name="На виліт і навиліт">
       <rule>
         <pattern>
@@ -2962,32 +3002,114 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-  <!--
-    <rulegroup id="yih_vs_yiniy" name="Їх та їхній" default="off">
+    <rulegroup id="yih_vs_yiniy" name="Їх та їхній">
+      <url>http://yak-my-hovorymo.wikidot.com/zajmennyky#yih-yihnij</url>
+
       <rule>
+        <antipattern>
+          <token regexp="yes">[ву]</token>
+          <token>їхньому</token>
+          <token>виконанні</token>
+        </antipattern>
+
+        <pattern>
+          <marker>
+            <token inflected="yes">їхній</token>
+          </marker>
+          <token inflected="yes" regexp="yes">кількість|розгляд|обговорення|використання|реалізація|виконання|звільнення|виробництво|застосування |проведення|утримання|вирішення|загибель|аналоги|однолітки|перелік|затримання|створення|розміщення|лікування|втілення|арешт|формування|наявність|збереження</token>
+        </pattern>
+        <message>Якщо займенник відповідає на питання «кого/чого», а не «чий», треба вживати: <suggestion>їх</suggestion></message>
+        <example correction="їх">незважаючи на <marker>їхню</marker> кількість.</example>
+        <example>в їхньому виконанні</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token inflected="yes" regexp="yes">позбавляти|позбавити|позбавивши|позбавлявши|позбавляючи|позбавлення</token>
+          <token regexp="yes" min="0">би?</token>
+          <token postag_regexp="yes" postag="(adj|numr).*v_rod.*" min="0"/>
+          <token>їх</token>
+        </antipattern>
+
+        <antipattern>
+          <token inflected="yes" regexp="yes">навчати|навчити|навчаючи|навчавши|навчивши</token>
+          <token regexp="yes" min="0">би?</token>
+          <token>їх</token>
+        </antipattern>
+
+        <antipattern>
+        <!-- too many verbs, ideally we need logic: verb with rv_zna+rv_oru
+          <token inflected="yes" regexp="yes">перекладати|перекласти|перекладаючи|переклавши|наділяти|наділити|наділяюячи|наділявши|наділивши|супроводжувати|супроводжуючи|озвучувати|озвучувавши|виховувати|воховуючи|(на)друкувати|друкування|підкріплювати|підкріплюючи|забезпечити|забезпечувати|забезпечивши|забезбечуючи|завантажувати|завантажити|завантажуючи</token>
+           -->
+          <token postag_regexp="yes" postag="(verb.*|advp.*)"/>
+          <token regexp="yes" min="0">би?</token>
+          <token>їх</token>
+          <token postag_regexp="yes" postag="adj.*v_oru.*" min="0"/>
+          <token postag_regexp="yes" postag="noun.*v_oru.*"/>
+        </antipattern>
+
+        <antipattern>
+          <token inflected="yes" regexp="yes">(під)?давати|(під)?дати|(під)?даючи|(під)?дававши|(під)?давши|протиставляти|протиставляючи</token>
+          <token regexp="yes" min="0">би?</token>
+          <token>їх</token>
+          <token postag_regexp="yes" postag=".*v_dav.*"/>
+        </antipattern>
+
+        <antipattern>
+          <token>їх</token>
+          <token postag_regexp="yes" postag="(noun|adj).*pron.*"/>
+        </antipattern>
+  
         <pattern>
           <marker>
             <token>їх</token>
           </marker>
-          <token inflected="yes" regexp="yes">організм|пам'ять|становище|замисел|сподівання|ресурс|потреба|майно|знайомство|хвиля|голос|тренер|родич</token>
-          < життя ? >
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj.*" min="0"/>
+            <token inflected="yes" regexp="yes">організм|професія|обов'язок|думка|вимога|cтановище|побажання|потреба|замисел|сподівання|життя|участь|право|небезпека|мова|знання|сім'я|діяльність|слово|дія
+              <exception regexp="yes">знання|мовою</exception>
+            </token>
+          </unify>
         </pattern>
-        <message>Якщо «їх» відповідає на питання «кого/чого», а не «чий», треба вживати <suggestion>їхній</suggestion>?</message>
-        <example correction="їхній">на <marker>їх</marker> сподівання.</example>
+        <message>Якщо «їх» відповідає на питання «чий», а не «кого/чого», треба вживати <suggestion>їхній</suggestion></message>
+        <example correction="їхній">на <marker>їх</marker> організм.</example>
+        <example correction="їхній">на <marker>їх</marker> загальний обов'язок.</example>
+        <example correction="їхній">відповідатиме <marker>їх</marker> економічно-соціальним потребам.</example>
+        <example>позбавивши їх життя</example>
+        <example>жінка навчає їх англійської мови</example>
+        <example>перекладати їх іншими мовами</example>
+        <example>позбавити обох їх батьківських прав</example>
+        <example>низький рівень їх знання поміж українців</example>
+        <example>якщо їх цього права позбавити</example>
+        <example>писали їх українською мовою</example>
       </rule>
     </rulegroup>
-    -->
 
     <rulegroup id="pyvyd_vs_pryvid" name="Привід та привид">
       <rule>
         <pattern>
-          <token regexp="yes" inflected="yes">механічний|електричний|формальний|зайвий|да(ва)?ти|шукати|мати</token>
+          <token regexp="yes" inflected="yes">механічний|електричний|формальний|зайвий|офіційний|гарний|непоганий|повний</token>
           <marker>
             <token>привид</token>
           </marker>
         </pattern>
         <message>Може ви мали на увазі <suggestion>привід</suggestion>?</message>
         <example correction="привід">механічний <marker>привид</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">(на)?дати|(на)?давати|(на)?даючи|(на)?давши|шукати|шукаючи|знайти|знайшовши|мати|cтворювати|створити|потрібен</token>
+          <token postag_regexp="yes" postag="(adj:m:v_zna:rinanim|noun.*v_dav).*" min="0"/>
+          <marker>
+            <token>привид</token>
+          </marker>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>привід</suggestion>?</message>
+        <example correction="привід">дав їм <marker>привид</marker>.</example>
+        <example correction="привід">дав гарний <marker>привид</marker>.</example>
       </rule>
 
       <rule>
@@ -2999,6 +3121,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Може ви мали на увазі <suggestion>привід</suggestion>?</message>
         <example correction="привід">шукав <marker>привид</marker> для.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>привид</token>
+          </marker>
+          <token postag_regexp="yes" postag="verb.*inf.*" />
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>привід</suggestion>?</message>
+        <example correction="привід">просто <marker>привид</marker> втекти додому.</example>
       </rule>
     </rulegroup>
 

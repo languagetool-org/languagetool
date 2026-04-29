@@ -77,6 +77,10 @@ public class SimpleReplaceRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Un caminet poc ciclable baixa uns metres."));
     assertEquals("[poc pedalable, poc ciclista]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("La seva escola transformada pq les seves filles encaixen molt bé."));
+    assertEquals("[perquè]", matches[0].getSuggestedReplacements().toString());
+
   }
 
 }

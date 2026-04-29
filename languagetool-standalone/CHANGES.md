@@ -1,5 +1,12 @@
 # LanguageTool Change Log
 
+## 6.8 (2026-05-??)
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * new rules
+  * tagging and disambiguation improvements
+
 ## 6.7 (2025-10-01)
 
 #### Ukrainian

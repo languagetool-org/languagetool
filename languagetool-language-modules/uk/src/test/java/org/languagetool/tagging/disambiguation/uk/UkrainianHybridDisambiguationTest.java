@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker2;
 import org.languagetool.tagging.disambiguation.uk.SimpleDisambiguator.TokenMatcher;
@@ -271,7 +273,7 @@ public class UkrainianHybridDisambiguationTest {
 
     TestTools.myAssert("Леонідів Кравчука та Кучму",
         "/[null]SENT_START Леонідів/[Леонід]noun:anim:p:v_rod:prop:fname|Леонідів/[Леонід]noun:anim:p:v_zna:prop:fname|Леонідів/[Леонідів]adj:m:v_kly|Леонідів/[Леонідів]adj:m:v_naz|Леонідів/[Леонідів]adj:m:v_zna:rinanim"
-        + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname|Кравчука/[кравчук]noun:anim:m:v_rod|Кравчука/[кравчук]noun:anim:m:v_zna"
+        + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname"
         + "  /[null]null та/[та]conj:coord|та/[та]part|та/[той]adj:f:v_naz:pron:dem  /[null]null Кучму/[Кучма]noun:anim:m:v_zna:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -532,11 +534,7 @@ public class UkrainianHybridDisambiguationTest {
     TestTools.myAssert("Держдепартамент", "/[null]SENT_START Держдепартамент/[Держдепартамент]noun:inanim:m:v_naz:prop|Держдепартамент/[Держдепартамент]noun:inanim:m:v_zna:prop",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
-    TestTools.myAssert("вікіпедія", "/[null]SENT_START вікіпедія/[вікіпедія]noun:inanim:f:v_naz:bad",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
-
-    // technically plural is not :bad but it's tricky to take it off
-    TestTools.myAssert("вікіпедіях", "/[null]SENT_START вікіпедіях/[вікіпедія]noun:inanim:p:v_mis:bad",
+    TestTools.myAssert("держземагентства", "/[null]SENT_START держземагентства/[держземагентство]noun:inanim:n:v_rod:bad:err",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
@@ -559,9 +557,89 @@ public class UkrainianHybridDisambiguationTest {
         + "  /[null]null мами/[мама]noun:anim:f:v_rod|мами/[мама]noun:anim:p:v_naz",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("прийняв її до уваги", "/[null]SENT_START прийняв/[прийняти]verb:perf:past:m"
-        + "  /[null]null її/[вона]noun:unanim:f:v_rod:pron:pers:3|її/[вона]noun:unanim:f:v_zna:pron:pers:3|її/[її]adj:n:v_dav:nv:pron:pos|її/[її]adj:n:v_naz:nv:pron:pos|її/[її]adj:n:v_oru:nv:pron:pos|її/[її]adj:n:v_rod:nv:pron:pos|її/[її]adj:n:v_zna:nv:pron:pos|її/[її]adj:p:v_dav:nv:pron:pos|її/[її]adj:p:v_naz:nv:pron:pos|її/[її]adj:p:v_oru:nv:pron:pos|її/[її]adj:p:v_rod:nv:pron:pos|її/[її]adj:p:v_zna:rinanim:nv:pron:pos"
+        + "  /[null]null її/[вона]noun:unanim:f:v_rod:pron:pers:3|її/[вона]noun:unanim:f:v_zna:pron:pers:3"
         + "  /[null]null до/[до]prep  /[null]null уваги/[увага]noun:inanim:f:v_rod|уваги/[увага]noun:inanim:p:v_naz|уваги/[увага]noun:inanim:p:v_zna",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
+  }
+
+  
+  @Test
+  public void testYih() throws IOException {
+    TestTools.myAssert("їх кількість.",
+        "/[null]SENT_START"
+        + " їх/[вони]noun:unanim:p:v_rod:pron:pers:3|їх/[вони]noun:unanim:p:v_zna:pron:pers:3"
+        + "  /[null]null кількість/[кількість]noun:inanim:f:v_naz|кількість/[кількість]noun:inanim:f:v_zna"
+        + " ./[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("їх забули.",
+        "/[null]SENT_START"
+        + " їх/[вони]noun:unanim:p:v_rod:pron:pers:3|їх/[вони]noun:unanim:p:v_zna:pron:pers:3"
+        + "  /[null]null забули/[забути]verb:perf:past:p"
+        + " ./[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("ми досліджуємо їх, вони",
+        "/[null]SENT_START"
+        + " ми/[ми]noun:anim:p:v_naz:pron:pers:1"
+        + "  /[null]null досліджуємо/[досліджувати]verb:imperf:pres:p:1"
+        + "  /[null]null їх/[вони]noun:unanim:p:v_rod:pron:pers:3|їх/[вони]noun:unanim:p:v_zna:pron:pers:3"
+        + " ,/[null]null"
+        + "  /[null]null вони/[вони]noun:unanim:p:v_naz:pron:pers:3",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("Загнав їх у кут.",
+        "/[null]SENT_START"
+        + " Загнав/[загнати]verb:perf:past:m"
+        + "  /[null]null їх/[вони]noun:unanim:p:v_rod:pron:pers:3|їх/[вони]noun:unanim:p:v_zna:pron:pers:3"
+        + "  /[null]null у/[у]prep  /[null]null кут/[кут]noun:inanim:m:v_naz|кут/[кут]noun:inanim:m:v_zna"
+        + " ./[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("Загнав їх.",
+        "/[null]SENT_START"
+        + " Загнав/[загнати]verb:perf:past:m"
+        + "  /[null]null їх/[вони]noun:unanim:p:v_rod:pron:pers:3|їх/[вони]noun:unanim:p:v_zna:pron:pers:3"
+        + " ./[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("що їх не знали",
+        "/[null]SENT_START"
+        + " що/[що]conj:subord|що/[що]noun:inanim:n:v_naz:pron:int:rel|що/[що]noun:inanim:n:v_zna:pron:int:rel"
+        + "  /[null]null їх/[вони]noun:unanim:p:v_rod:pron:pers:3|їх/[вони]noun:unanim:p:v_zna:pron:pers:3"
+        + "  /[null]null"
+        + " не/[не]part"
+        + "  /[null]null знали/[знати]verb:imperf:past:p",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("Загнав його у кут.",
+        "/[null]SENT_START"
+        + " Загнав/[загнати]verb:perf:past:m"
+        + "  /[null]null його/[воно]noun:unanim:n:v_rod:pron:pers:3|його/[воно]noun:unanim:n:v_zna:pron:pers:3|його/[він]noun:unanim:m:v_rod:pron:pers:3|його/[він]noun:unanim:m:v_zna:pron:pers:3"
+        + "  /[null]null у/[у]prep  /[null]null кут/[кут]noun:inanim:m:v_naz|кут/[кут]noun:inanim:m:v_zna"
+        + " ./[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("примусили її сказати.",
+        "/[null]SENT_START"
+        + " примусили/[примусити]verb:perf:past:p"
+        + "  /[null]null її/[вона]noun:unanim:f:v_rod:pron:pers:3|її/[вона]noun:unanim:f:v_zna:pron:pers:3"
+        + "  /[null]null сказати/[сказати]verb:perf:inf"
+        + " ./[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("на його душу.",
+        "/[null]SENT_START"
+        + " на/[на]prep"
+        + "  /[null]null його/[воно]noun:unanim:n:v_rod:pron:pers:3|його/[воно]noun:unanim:n:v_zna:pron:pers:3|його/[він]noun:unanim:m:v_rod:pron:pers:3|його/[він]noun:unanim:m:v_zna:pron:pers:3|його/[його]adj:f:v_zna:nv:pron:pos|його/[його]adj:m:v_dav:nv:pron:pos|його/[його]adj:m:v_mis:nv:pron:pos|його/[його]adj:m:v_rod:nv:pron:pos"
+        + "  /[null]null душу/[душ]noun:inanim:m:v_dav|душу/[душ]noun:inanim:m:v_mis|душу/[душ]noun:inanim:m:v_rod|душу/[душа]noun:inanim:f:v_zna"
+        + " ./[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    // TODO: ignore these
+    //  та її не надто швидка хода
+    // триватимуть його не дуже успішні реформи
+    // Це була її не перша спроба
   }
 
   @Test
@@ -572,16 +650,31 @@ public class UkrainianHybridDisambiguationTest {
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
+
   @Test
   public void testDisambiguatorRemovePresentInDictionary() throws IOException {
+    SimpleDisambiguator simpleDisambiguator = new SimpleDisambiguator();
+
     // make sure our disambiguation lines are valid lines in dictionary
-    Map<String, TokenMatcher> map = new SimpleDisambiguator().DISAMBIG_REMOVE_MAP;
+    Map<String, TokenMatcher> map = simpleDisambiguator.DISAMBIG_REMOVE_MAP;
     for (Entry<String, TokenMatcher> entry : map.entrySet()) {
       List<AnalyzedTokenReadings> tagged = tagger.tag(Arrays.asList(entry.getKey()));
       AnalyzedTokenReadings taggedToken = tagged.get(0);
       TokenMatcher tokenMatcher = entry.getValue();
       
       assertTrue(String.format("%s not found in dictionary, tags: %s", entry, tagged), matches(taggedToken, tokenMatcher));
+    }
+
+    Map<String, List<String>> mapLemmas = simpleDisambiguator.DISAMBIG_DUPS_MAP;
+    for (Entry<String, List<String>> entry : mapLemmas.entrySet()) {
+
+      ArrayList<String> lemmas = new ArrayList<>(List.of(entry.getKey()));
+      lemmas.addAll(entry.getValue());
+
+      for(String lemma: lemmas) {
+        List<AnalyzedTokenReadings> tagged = tagger.tag(Arrays.asList(lemma));
+        assertTrue(String.format("%s lemma not in dictionary", lemma), LemmaHelper.hasLemma(tagged.get(0), List.of(lemma)));
+      }
     }
   }
 

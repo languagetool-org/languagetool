@@ -1932,6 +1932,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>хочеться також зазначити</example>
     </rule>
 
+<!--
+    <rulegroup id="perenos_vs_perenesennya" name="Перенос і перенесення">
+      <rule>
+        <pattern>
+          <token inflected="yes">перенос</token>
+        </pattern>
+        <message>На позначення дії правильно: <suggestion>перенесення</suggestion></message>
+        <example correction="скасовувати|касувати|зносити|анулювати"><marker>відміняються</marker> податки</example>
+        <example>знак переносу</example>
+      </rule>
+    </rulegroup>
+-->
+
     <!--TODO: як вловити правильний вжиток відміняти: змінювати??? -->
     <rulegroup id="VIDMINYTY_VS_SKASUVATY" name="Відмінити і скасувати">
       <antipattern>
@@ -1941,6 +1954,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <antipattern>
         <token regexp="yes" inflected="yes" skip="-1">дієслово|іменник|прикметник|речення|відмінок</token>
         <token regexp="yes" inflected="yes">відміняти(ся)?|відмінити(ся)?|відмінявши(сь)?|відміняючи(сь)?|відмінивши(сь)?|відміна|відмінений</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes" inflected="yes">поділяти(ся)?|поділити|поділ</token>
+        <token>на</token>
+        <token inflected="yes">відміна</token>
       </antipattern>
       
       <rule>
@@ -3173,7 +3191,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <or>
           <token><exception postag_regexp="yes" postag=".*:[mn]:v_mis.*"/></token>
           <token postag_regexp="yes" postag="noun.*:nv.*:abbr.*"/>
-          <token>її</token>
         </or>
       </pattern>
       <message>Краще: <suggestion>надалі</suggestion></message>
@@ -3183,6 +3200,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Надалі"><marker>У подальшому</marker> її впровадили в країнах Латинської Америки</example>
       <example>в подальшому розвитку</example> <!-- TODO: в подальшому розвитку -> дальшому розвитку ??? -->
       <example>що надалі стало підставою</example>
+    </rule>
+
+    <rule id="v_cilyah" name="В цілях">
+      <pattern>
+        <marker>
+          <token regexp="yes">[ву]</token>
+          <token>цілях</token>
+        </marker>
+        <token postag_regexp="yes" postag=".*v_rod.*"/>
+      </pattern>
+      <message>Краще: <suggestion>для</suggestion></message>
+      <suggestion>щоб (з інфінітивом)</suggestion>
+      <example correction="для|щоб (з інфінітивом)">і <marker>в цілях</marker> пропаганди</example>
+      <example>також в цілях приховати</example>
+    </rule>
+
+    <rule id="skhodu_bad" name="Сходу">
+      <antipattern>
+        <token regexp="yes">заходу|півдн[яю]|півночі|Криму</token>
+        <token postag_regexp="yes" postag="conj.*"/>
+        <token>сходу</token>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag="conj.*"/>
+        <marker>
+          <token case_sensitive="yes">сходу</token>
+        </marker>
+        <token postag_regexp="yes" postag="verb.*"/>
+      </pattern>
+      <message>Правильно: <suggestion>спрожогу</suggestion></message>
+      <suggestion>з наскоку</suggestion>
+      <example correction="спрожогу|з наскоку">і <marker>сходу</marker> заявляє</example>
+      <example>жителів сходу</example>
+      <example>так і Сходу розуміють</example>
     </rule>
 
     <rule id="NEVIDYEMNYI" name="Невід'ємний">
@@ -5974,6 +6025,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Краще: <suggestion>без просипу \2</suggestion></message>
         <example correction="без просипу пивши"><marker>мертвецьки пивши</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="lezhaty_pastom" name="Лежати пластом">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">лежати|.*лягти|лягати|лігши</token>
+          <marker>
+            <token>пластом</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>лежма</suggestion></message>
+        <suggestion>крижем</suggestion>
+        <suggestion>плиском</suggestion>
+        <suggestion>навзнак</suggestion>
+        <example correction="лежма|крижем|плиском|навзнак">ліг <marker>пластом</marker>.</example>
       </rule>
     </rulegroup>
 

@@ -101,7 +101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes">пів['–-][а-яіїєґ'].*
             <exception>пів-на-пів</exception>
-            <exception postag_regexp="yes" postag="noun(?!.*up92).*"/>
+            <exception postag_regexp="yes" postag="noun(?!.*alt).*"/>
           </token>
         </pattern>
         <message>За правописом 2019 «пів» з іменниками пишемо окремо, якщо це слово не становить єдине поняття</message>
@@ -117,7 +117,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes" postag_regexp="yes" postag="noun.*?:nv.*">пів[^'–-][а-яіїєґ'].*
-            <exception postag_regexp="yes" postag="noun(?!.*up92).*"/>
+            <exception postag_regexp="yes" postag="noun(?!.*alt).*"/>
           </token>
         </pattern>
         <message>За правописом 2019 «пів» з іменниками пишемо окремо, якщо це слово не становить єдине поняття</message>
@@ -528,7 +528,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction=""><marker>ґра́нтовий</marker></example>
         <example correction=""><marker>ґра́нтовий</marker>.</example>
         <example correction=""><marker>ґурка</marker></example> <!-- alt + arch -->
-        <example>проекту</example>
+        <example correction=""><marker>проекту</marker></example>
+        <example correction=""><marker>фойє</marker></example>
+        <example correction=""><marker>Топ-менеджер</marker></example>
         <example>проєкту</example>
         <example>хоче прорости</example>
         <example>в ролі стюарда</example>
@@ -778,12 +780,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="habar_2019" name="Хабара і хабаря">
       <pattern>
-        <token inflected="yes" postag_regexp="yes" postag=".*up92.*">хабар
-          <exception postag_regexp="yes" postag=".*up19.*"/>
+        <token inflected="yes" postag_regexp="yes" postag=".*alt.*">хабар
+          <exception postag_regexp="yes" postag="(?!.*alt).*"/>
         </token>
       </pattern>
       <message>За правописом 2019 хабар відмінюється, як м'яка група</message>
-      <suggestion><match no="1" postag_regexp="yes" postag="(.*?)up92(.*)" postag_replace="$1up19$2" /></suggestion>
+      <suggestion><match no="1" postag_regexp="yes" postag="(.*?):alt(.*)" postag_replace="$1$2" /></suggestion>
       <example correction="хабаря">дав <marker>хабара</marker>.</example>
       <example correction="хабарем"><marker>хабаром</marker>.</example>
       <example>хабарі</example>
@@ -1493,6 +1495,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- group: велика літера -->
 
     <rule id="z_velykoiy" name="Назви з великої">
+      <antipattern>
+        <token regexp="yes">(не)?хай</token>
+        <token>господь</token>
+      </antipattern>
+      <antipattern>
+        <token>господь</token>
+        <token regexp="yes">і?з</token>
+        <token regexp="yes">тобою|вами</token>
+      </antipattern>
       <pattern>
         <and>
           <token case_sensitive="yes" regexp="yes">[а-яіїєґ].*</token>
@@ -1506,21 +1517,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Різдва">готувався до <marker>різдва</marker></example>
       <example>по тонкому покрову</example>
       <example>така затишна господа</example>
+      <example>нехай господь помагає</example>
     </rule>
 
     <!-- group: інші -->
-
-    <rule id="torgovelnyi_vs_torgivelnyi" name="Торговельний і торгівельний">
-      <pattern>
-        <token regexp="yes">.*торговельн.*</token>
-      </pattern>
-      <message>Правильно (аналогічно до купівельний, будівельний...): <suggestion><match 
-        no="1" regexp_match="(?iu)(.*тор)говельн(.*)" regexp_replace="$1гівельн$2"/></suggestion></message>
-      <url>https://iul-nasu.org.ua/najnovishi-rekomendatsiyi.html</url>
-      <example correction="риботоргівельного"><marker>риботорговельного</marker></example>
-      <example correction="Торгівельного"><marker>Торговельного</marker></example>
-      <example>торгівля</example>
-    </rule>
 
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
@@ -1648,13 +1648,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rule id="invalid_apostrophe" name="Неправильний символ апострофа">
-      <regexp>([а-яіїєґ'-]*[бвджзклмнпрстфхш])[&quot;”‟`´]([єїюя][а-яіїєґ'-]*)</regexp>
+      <regexp>([а-яіїєґ'-]*[бвджзклмнпрстфхш])[&quot;&#x201D;&#x201F;&#x0060;&#x00B4;&#x1FFD;&#x2018;]([єїюя][а-яіїєґ'-]*)</regexp>
       <message>Можливо вжито неправильний символ апострофа? (рекомендовані варіанти: U+02BC - лінгвістично правильний, U+2019 - типографічний, U+0027 - прямий)</message>
       <suggestion>\1ʼ\2</suggestion>
       <suggestion>\1’\2</suggestion>
       <suggestion>\1'\2</suggestion>
       <example correction="примʼятий|прим’ятий|прим'ятий">він <marker>прим"ятий</marker>.</example>
       <example correction="примʼятий|прим’ятий|прим'ятий">він <marker>прим´ятий</marker>.</example>
+      <example correction="привʼязати|прив’язати|прив'язати">там <marker>прив”язати</marker>.</example>
+      <!-- 
+      <example correction="привʼязати|прив’язати|прив'язати">ось там <marker>прив`язати</marker>.</example>
+      -->
     </rule>
 
   </category>

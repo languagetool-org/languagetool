@@ -607,8 +607,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token regexp="yes">[\(\[\{]</token>
                 <marker>
-                    <token regexp="yes" spacebefore="no">['"’”»]<exception postag="_QM_OPEN|allow_saxon_genitive" postag_regexp="yes"/></token>
+                    <token regexp="yes" spacebefore="no">['"]<exception postag="_QM_OPEN|allow_saxon_genitive" postag_regexp="yes"/></token>
+                </marker>
+                <token spacebefore="no"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_QM_OPEN"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" spacebefore="no">['"’”»]<exception postag="_QM_OPEN|allow_saxon_genitive" postag_regexp="yes"/><exception scope="previous">(</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -4079,6 +4091,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="trucada" name="trucada (nom no adj)">
+        <pattern>
+            <marker>
+                <token postag="NCF.*" postag_regexp="yes" inflected="yes">trucada</token>
+            </marker>
+            <token inflected="yes">de</token>
+            <token>telèfon</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rulegroup id="deixar_a_part" name="deixar a part, a banda, de banda">
         <rule>
             <pattern>
@@ -4953,14 +4975,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="DI0MP0|PI0MP000" postag_regexp="yes">uns</token>
             <token postag="DI0MP0|PI0MP000" postag_regexp="yes">quants</token>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
     </rule>
     <rule id="unes_quantes" name="unes quantes">
         <pattern>
             <token postag="DI0FP0|PI0FP000" postag_regexp="yes">unes</token>
             <token postag="DI0FP0|PI0FP000" postag_regexp="yes">quantes</token>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
     </rule>
     <rulegroup id="no_se_quin" name="no sé quin">
         <rule>
@@ -5276,6 +5298,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>te</token>
             <token inflected="yes" regexp="yes">voler|deure|poder|preferir|desitjar</token>
             <token postag="V.N.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <!-- "te dona" és ambigu-->
+            <token inflected="yes">donar</token>
+            <token postag="[DAN].*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
             <token>te</token>
@@ -6048,6 +6075,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>tret</token>
             <token>de</token>
             <token regexp="yes" inflected="yes">canó|pistola|fusell</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">fins|finsa</token>
+            <token min="0">a</token>
+            <token>aviat</token>
         </antipattern>
         <pattern>
             <token regexp="yes">&formes_HAVER_sense_hac;</token>
@@ -13929,7 +13961,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">trajecte|viatge|festa|etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">trajecte|viatge|festa|etapa|període|època|era|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
             <disambig action="replace">
                 <wd lemma="fi" pos="NCFS000"/>
@@ -13942,7 +13974,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">trajecte|viatge|festa|etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">trajecte|viatge|festa|etapa|període|època|era|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
             <disambig action="replace">
                 <wd lemma="fi" pos="NCFP000"/>
@@ -13957,7 +13989,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">trajecte|viatge|festa|etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">trajecte|viatge|festa|etapa|període|època|era|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
             <disambig action="replace" postag="NCMS000"/>
         </rule>
@@ -13968,7 +14000,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">trajecte|viatge|festa|etapa|període|època|era|legislatura|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
+                <token regexp="yes">trajecte|viatge|festa|etapa|període|època|era|mandat|&parts_dia;|&periodes_temps;|&unitats_temps;</token>
             </pattern>
             <disambig action="replace" postag="NCMP000"/>
         </rule>
@@ -14343,7 +14375,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes">més|menys</token>
             <marker>
                 <and>
-                    <token postag="N..P.*" postag_regexp="yes"/>
+                    <token postag="N..P.*" postag_regexp="yes"><exception>nous</exception></token>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -14508,7 +14540,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="SPS00"><exception>cap</exception></token>
                 <token postag="RG_anteposat"><exception regexp="yes">molt|poc|tant|tan|.+ment|massa|ben</exception></token>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="D.*|PI.*|VS.*" postag_regexp="yes"/></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="D.*|PI.*|VS.*" postag_regexp="yes"/><exception>nous</exception></token>
                 </marker>
                 <token><exception postag="NC.*" postag_regexp="yes"/></token>
             </pattern>
@@ -18086,11 +18118,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token regexp="yes">me|ma</token>
             <token postag="V.P..SM." postag_regexp="yes"/>
         </antipattern>
+        <antipattern>
+            <token regexp="yes" inflected="yes">ser|estar|haver</token>
+            <token postag="V.P.*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <!--  paraules que habitualment no són participi si no han concordat (darrere de "de"?: base de dades, sistema de partits -->
             <pattern>
                 <and>
-                    <token postag="V.P.*" postag_regexp="yes" regexp="yes">costats?|vista|partida|dada|dades|partits?|estats?|beguda|begudes|llibertat|llibertats<exception postag="_GN_.*|_GV_" postag_regexp="yes"/><exception scope="previous" regexp="yes">e|as|em|eu|an</exception></token>
+                    <token postag="V.P.*" postag_regexp="yes" regexp="yes">costats?|vista|partida|dada|dades|partits?|estats?|beguda|begudes|llibertat|llibertats|trucada|trucades<exception postag="_GN_.*|_GV_" postag_regexp="yes"/><exception scope="previous" regexp="yes">e|as|em|eu|an</exception></token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </and>
             </pattern>
@@ -23213,7 +23249,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token spacebefore="yes">-</token>
                 <marker>
-                    <token regexp="yes" spacebefore="no">indre|ldre|ns|scs|scos|igs|ix|eix|é|ena|è|it|ert|ir|ar|er|re|ívola?</token>
+                    <token regexp="yes" spacebefore="no">indre|ldre|ns|scs|scos|igs|ix|eix|é|ena|è|it|ert|ir|ar|er|re|ívola?|itzar</token>
                 </marker>
             </pattern>
             <disambig action="immunize"/>
@@ -23816,6 +23852,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="WIKIPEDIA_FORMAT" name="format de la Wikipedia">
+        <rule>
+            <pattern>
+                <marker>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="no">[</token>
+                </marker>
+                <token regexp="yes" spacebefore="no">\d+</token>
+                <token spacebefore="no">]</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="no">(</token>
+                </marker>
+                <token regexp="yes" spacebefore="no">\d+</token>
+                <token spacebefore="no">)</token>
+            </pattern>
+            <disambig action="immunize"/>
         </rule>
     </rulegroup>
     <rulegroup id="MATEMATIQUES" name="notació matemàtica">

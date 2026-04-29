@@ -16347,39 +16347,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+
         <rulegroup id="ABREVIATIONS" name="Abreviaturas: p.ex. sr. → Sr.">
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <!--  Based on German gramar.xml rule, by Tiago F. Santos, 2018-07-13      -->
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-o-uso-de-maiusculas-e-de-minusculas/30160</url>
-            <rule>
+
+            <antipattern>
+                <token regexp='yes' case_sensitive='yes'>Sra?|Dra?|SRA?|DRA?</token>
+                <token spacebefore='no' postag='_PUNCT_PERIOD'/>
+            </antipattern>
+
+            <rule> <!-- #1: Abreviaturas: sr. → Sr. -->
                 <pattern>
-                    <token case_sensitive='yes'>sr</token>
-                    <token spacebefore='no'>.</token>
+                    <token regexp='yes' >sra?</token>
+                    <token min='0' max='1' postag='_PUNCT_PERIOD'/>
                 </pattern>
-                <message>A abreviatura de 'Senhor' é capitalizada. A abreviatura 'sr.' refere-se a 'sénior'.</message>
-                <suggestion>Sr.</suggestion>
+                <message>&quot;Sr.&quot; e &quot;Sra.&quot; são abreviaturas de tratamento (&quot;Senhor&quot; e &quot;Senhora&quot;). &quot;sr.&quot; significa &quot;sénior&quot;.</message>
+                <suggestion><match no='1' case_conversion='startupper'/>.</suggestion>
                 <url>https://www.uc.pt/sibuc/Pdfs/ISBD3</url>
                 <example correction="Sr.">Exmo <marker>sr.</marker> Costa,</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token case_sensitive='yes'>sra</token>
-                    <token spacebefore='no'>.</token>
-                </pattern>
-                <message>A abreviatura de 'Senhora' é capitalizada.</message>
-                <suggestion>Sra.</suggestion>
-                <url>https://www.uc.pt/sibuc/Pdfs/ISBD3</url>
                 <example correction="Sra.">Exma <marker>sra.</marker> Costa,</example>
             </rule>
-            <rule id="ABREVIATIONS_DR" name="Abreviaturas: dr. → Dr.">
+
+            <rule> <!-- #2: Abreviaturas: dr. → Dr. -->
                 <pattern>
-                    <token case_sensitive='yes' regexp='yes'>dra?</token>
-                    <token spacebefore='no'>.</token>
+                    <token regexp='yes' >dra?</token>
+                    <token min='0' max='1' postag='_PUNCT_PERIOD'/>
                 </pattern>
-                <message>Esta abreviatura refere-se ao antigo grau de licenciado. O grau de doutorado escreve-se <suggestion><match no='1' case_conversion='startupper'/>.</suggestion>.</message>
+                <message>&quot;Dr.&quot; e &quot;Dra.&quot; são abreviaturas de &quot;doutor&quot; e &quot;doutora&quot;, usadas como forma de tratamento.</message>
+                <suggestion><match no='1' case_conversion='startupper'/>.</suggestion>
                 <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/doutor-dr-e-licenciado/179</url>
                 <example correction="Dr.">Exmo <marker>dr.</marker> Costa,</example>
+                <example correction="Dra.">Exma <marker>dra.</marker> Costa,</example>
             </rule>
         </rulegroup>
+
 
         <rulegroup id='SI_UNITS_CASE' name="Unidades do Sistema Internacional: Km/km">
             <url>https://pt.wikipedia.org/wiki/Prefixos_do_Sistema_Internacional_de_Unidades</url>
@@ -41711,7 +41714,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rule id="ABREVIATURAS_FEMININAS_COM_SOBRESCRITO" name="Prefira o sobrescrito em abreviaturas femininas." type="typographical" tags="picky">
             <pattern>
-                <token regexp="yes">profa|dra|exa|enga|sra|reva|srta</token>
+                <token regexp="yes">profa|exa|enga|reva|srta</token>
                 <token regexp='yes' spacebefore='no'>\.</token>
             </pattern>
             <message>Determinadas abreviaturas exigem um sobrescrito após o ponto. No lugar de &quot;\1.&quot;, prefira <suggestion><match no="1" regexp_match="(.+)a$" regexp_replace="$1.&sup_a;"/></suggestion>.</message>

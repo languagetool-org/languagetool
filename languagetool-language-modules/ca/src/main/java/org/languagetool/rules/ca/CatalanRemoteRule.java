@@ -126,7 +126,7 @@ public class CatalanRemoteRule extends TextLevelRule {
         }
         String message = "Canvi recomanat pel model d'aprenentatge automàtic.";
         if (suggestion.equals(underlined+",")) {
-          message = "Sembla que hi falta una coma.";
+          message = "Pot ser que hi falti una coma. Reviseu la puntuació.";
         } else {
           continue;
         }
