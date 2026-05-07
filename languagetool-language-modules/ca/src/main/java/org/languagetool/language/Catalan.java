@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2009 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -80,7 +80,7 @@ public class Catalan extends Language {
   public String[] getCountries() {
     return new String[]{"ES"}; // "AD", "FR", "IT"
   }
-  
+
   @Override
   public String getShortCode() {
     return "ca";
@@ -90,52 +90,53 @@ public class Catalan extends Language {
   public Language getDefaultLanguageVariant() {
     return Languages.getLanguageForShortCode("ca-ES");
   }
-  
+
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { new Contributor("Ricard Roca"), new Contributor("Jaume Ortolà") };
+    return new Contributor[]{new Contributor("Ricard Roca"), new Contributor("Jaume Ortolà")};
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue,
+                                     List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages, 
-            		Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
-            		Example.fixed("A parer seu<marker>,</marker> no era veritat.")),
-            new DoublePunctuationRule(messages),
-            new CatalanUnpairedBracketsRule(messages, this),
-            new UppercaseSentenceStartRule(messages, this,
-            		Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
-            		Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
-            new MultipleWhitespaceRule(messages, this),
-            new LongSentenceRule(messages, userConfig, 60),
-            // specific to Catalan:
-            new CatalanWordRepeatRule(messages, this),
-            new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
-            new CatalanUnpairedQuestionMarksRule(messages, this),
-            new CatalanUnpairedExclamationMarksRule(messages, this),
-            new CatalanWrongWordInContextRule(messages, this),
-            new SimpleReplaceVerbsRule(messages, this),
-            new SimpleReplaceBalearicRule(messages, this),
-            new SimpleReplaceRule(messages, this),
-            new SimpleReplaceMultiwordsRule(messages),
-            new ReplaceOperationNamesRule(messages, this),
-            new SimpleReplaceDiacriticsIEC(messages, this),
-            new SimpleReplaceAnglicism(messages), 
-            new PronomFebleDuplicateRule(messages),
-            new CheckCaseRule(messages, this),
-            new SimpleReplaceAdverbsMent(messages),
-            new CatalanWordRepeatBeginningRule(messages, this),
-            new CompoundRule(messages, this, userConfig),
-            //new CatalanRepeatedWordsRule(messages, this),
-            new SimpleReplaceDNVRule(messages, this),
-            new SimpleReplaceDNVColloquialRule(messages, this),
-            new SimpleReplaceDNVSecondaryRule(messages, this),
-            new WordCoherencyRule(messages),
-            new PunctuationMarkAtParagraphEnd(messages, this),
-            new CatalanRemoteRule(messages, userConfig),
-            new CatalanSplitLongSentenceRule(messages, userConfig, 60),
-            new IgnoreProperNouns(messages)
+      new CommaWhitespaceRule(messages,
+        Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
+        Example.fixed("A parer seu<marker>,</marker> no era veritat.")),
+      new DoublePunctuationRule(messages),
+      new CatalanUnpairedBracketsRule(messages, this),
+      new UppercaseSentenceStartRule(messages, this,
+        Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
+        Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
+      new MultipleWhitespaceRule(messages, this),
+      new LongSentenceRule(messages, userConfig, 60),
+      // specific to Catalan:
+      new CatalanWordRepeatRule(messages, this),
+      new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
+      new CatalanUnpairedQuestionMarksRule(messages, this),
+      new CatalanUnpairedExclamationMarksRule(messages, this),
+      new CatalanWrongWordInContextRule(messages, this),
+      new SimpleReplaceVerbsRule(messages, this),
+      new SimpleReplaceBalearicRule(messages, this),
+      new SimpleReplaceRule(messages, this),
+      new SimpleReplaceMultiwordsRule(messages),
+      new ReplaceOperationNamesRule(messages, this),
+      new SimpleReplaceDiacriticsIEC(messages, this),
+      new SimpleReplaceAnglicism(messages),
+      new PronomFebleDuplicateRule(messages),
+      new CheckCaseRule(messages, this),
+      new SimpleReplaceAdverbsMent(messages),
+      new CatalanWordRepeatBeginningRule(messages, this),
+      new CompoundRule(messages, this, userConfig),
+      //new CatalanRepeatedWordsRule(messages, this),
+      new SimpleReplaceDNVRule(messages, this),
+      new SimpleReplaceDNVColloquialRule(messages, this),
+      new SimpleReplaceDNVSecondaryRule(messages, this),
+      new WordCoherencyRule(messages),
+      new PunctuationMarkAtParagraphEnd(messages, this),
+      new CatalanRemoteRule(messages, userConfig),
+      new CatalanSplitLongSentenceRule(messages, userConfig, 60),
+      new IgnoreProperNouns(messages)
     );
   }
 
@@ -165,32 +166,42 @@ public class Catalan extends Language {
   public Tokenizer createDefaultWordTokenizer() {
     return CatalanWordTokenizer.INSTANCE;
   }
-  
-  /** @since 5.1 */
+
+  /**
+   * @since 5.1
+   */
   @Override
   public String getOpeningDoubleQuote() {
     return "«";
   }
 
-  /** @since 5.1 */
+  /**
+   * @since 5.1
+   */
   @Override
   public String getClosingDoubleQuote() {
     return "»";
   }
-  
-  /** @since 5.1 */
+
+  /**
+   * @since 5.1
+   */
   @Override
   public String getOpeningSingleQuote() {
     return "‘";
   }
 
-  /** @since 5.1 */
+  /**
+   * @since 5.1
+   */
   @Override
   public String getClosingSingleQuote() {
     return "’";
   }
-  
-  /** @since 5.1 */
+
+  /**
+   * @since 5.1
+   */
   @Override
   public boolean isAdvancedTypographyEnabled() {
     return true;
@@ -201,14 +212,14 @@ public class Catalan extends Language {
   private static final Pattern PATTERN_3 = compile("(\\b[lmnstdLMNSTD])’'");
 
   @Override
-  public String toAdvancedTypography (String input) {
+  public String toAdvancedTypography(String input) {
     String output = super.toAdvancedTypography(input);
-    
+
     // special cases: apostrophe + quotation marks
     output = PATTERN_1.matcher(output).replaceAll("$1’");
     output = PATTERN_2.matcher(output).replaceAll("$1’" + getOpeningDoubleQuote());
     output = PATTERN_3.matcher(output).replaceAll("$1’" + getOpeningSingleQuote());
-    
+
     return output;
   }
 
@@ -216,7 +227,7 @@ public class Catalan extends Language {
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
   }
-  
+
   @Override
   protected int getDefaultRulePriorityForStyle() {
     return -50;
@@ -225,141 +236,274 @@ public class Catalan extends Language {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
-      case "CONFUSIONS2": return 80;
-      case "DEU_NI_DO": return 80; // greater than rules about pronouns
-      case "FER_LOGIN": return 70; // greater than anglicisms
-      case "L_OK": return 70; // greater than anglicisms
-      case "INCORRECT_EXPRESSIONS": return 50;
-      case "PERSONATGES_FAMOSOS": return 50;
-      case "CONEIXO_CONEC": return 50;
-      case "COMETES_INCORRECTES": return 50; // greater than PRONOMS_FEBLES
-      case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
-      case "PREGUEM_DISCULPIN": return 45; // greater than ESPERANT_US_AGRADI
-      case "DESDE_UN": return 40;
-      case "CONEIXET": return 40;
-      case "CONEIXENTS": return 40;
-      case "MOTS_NO_SEPARATS": return 40;
-      case "REPETEAD_ELEMENTS": return 40;
-      case "ESPERANT_US_AGRADI": return 40;
-      case "LO_NEUTRE": return 40; // lower than other INCORRECT_EXPRESSIONS
-      case "ESPAIS_SOBRANTS": return 40; // greater than L
-      case "PER_A_QUE_PERQUE": return 40;
-      case "PRONOMS_FEBLES_COMBINACIONS_SE": return 40;
-      case "ELA_GEMINADA": return 35; // greater than agreement rules, pronoun rules
-      case "TENIR_QUE": return 35; // greater than CA_SIMPLE_REPLACE
-      case "CONFUSIONS_PRONOMS_FEBLES": return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
-      case "COMMA_PERO1": return 35; // greater than CA_SIMPLE_REPLACE
-      case "PASSAR_SE": return 35; // greater than OBLIDARSE
-      case "OBLIDARSE": return 30; // greater than ACOSTUMAR_A
-      case "CA_SPLIT_WORDS": return 30;
-      case "PRONOMS_FEBLES_TEMPS_VERBAL": return 35;
-      case "ET_AL": return 30; // greater than apostrophes and pronouns
-      case "PRONOMS_FEBLES_COLLOQUIALS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
-      case "CONCORDANCES_CASOS_PARTICULARS": return 30;
-      case "GERUNDI_PERD_T": return 30;
-      case "CONFUSIONS": return 30;
-      case "PRONOMS_FEBLES_DARRERE_VERB": return 30; // greater than PRONOMS_FEBLES_SOLTS2
-      case "VERBS_NO_INCOATIUS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
-      case "ARRIBAN_ARRIBANT": return 30;
-      case "PERO_PERO": return 30; // lower than COMMA_PERO1
-      case "PUNT_LLETRA": return 30; // greater than CONCORDANCES_DET_NOM
-      case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
-      case "INCORRECT_WORDS_IN_CONTEXT": return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN
-      case "PRONOMS_FEBLES_SOLTS2": return 26;  // greater than PRONOMS_FEBLES_SOLTS, ES, HAVER_SENSE_HAC
-      case "ES_UNKNOWN": return 25;
-      case "HAVER_SENSE_HAC": return 25; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
-      case "HA_A": return 25; //  lower than CA_SIMPLE_REPLACE_VERBS
-      case "PASSAT_PERIFRASTIC": return 25; // greater than CONFUSIONS_ACCENT
-      case "PREPOSITIONS": return 25;
-      case "CONFUSIONS_ACCENT": return 20;
-      case "CONFUSIO_PASSAT_INFINITIU": return 20; // greater than ACCENTUATION_CHECK
-      case "DIACRITICS": return 20;
-      case "COMMA_ENTRE_DALTRES": return 20; //greater than CONCORDANCES_DET_NOM
-      case "CAP_GENS": return 20; //greater than CAP_ELS_CAP_ALS, CONCORDANCES_DET_NOM
-      case "MOTS_SENSE_GUIONETS": return 20; // greater than CONCORDANCES_NUMERALS
-      case "ORDINALS": return 20; // greater than SEPARAT
-      case "SUPER": return 20;
-      case "PRONOM_FEBLE_HI": return 20; // greater than HAVER_PARTICIPI_HAVER_IMPERSONAL
-      case "HAVER_PARTICIPI_HAVER_IMPERSONAL": return 15; // greater than ACCENTUATION_CHECK
-      case "SE_LI_VA_FER_CALLAR": return 15;
-      case "CA_REMOTE_RULE": return 15;
-      case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
-      case "POSTULARSE": return 10;
-      case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
-      case "ACCENTUATION_CHECK": return 10;
-      case "CONCORDANCA_GRIS": return 10;
-      case "SELS_EN_VA_DE_LES_MANS": return 10;
-      case "A_PER": return 10;
-      case "CONCORDANCES_NUMERALS": return 10;
-      case "COMMA_IJ": return 10;
-      case "AVIS": return 10;
-      case "CAP_ELS_CAP_ALS": return 10; // greater than DET_GN
-      case "CASING": return 10; // greater than CONCORDANCES_DET_NOM
-      case "DOS_ARTICLES": return 10; // greater than apostrophation rules
-      case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
-      case "SELS_EN_VA": return 10;
-      case "RECENT": return 10;
-      case "CONCORDANCES_NOUNS_PRIORITY": return 10;
-      case "PREFIXOS_SENSE_GUIONET_EN_DICCIONARI": return 10; // greater than SPELLING
-      case "ZERO_O": return 10; //greater than SPELLING
-      case "URL": return 10; //greater than SPELLING
-      case "EL_FAN_AGENOLLAR": return 10; // greater than PRONOMS_FEBLES_DUPLICATS
-      case "CONCORDANCES_DET_NOM": return 5; // greater than DE_EL_S_APOSTROFEN
-      case "CONCORDANCES_DET_ADJ": return 5; // greater than DE_EL_S_APOSTROFEN
-      case "CONCORDANCES_DET_POSSESSIU": return 5; // greater than CONCORDANCES_ADJECTIUS_NEUTRES
-      case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
-      case "SPELLING": return 5;
-      case "APOSTROF_ANYS": return 5; // greater than typography options
-      case "VENIR_NO_REFLEXIU": return 5;
-      case "DEUS_SEUS": return 5;
-      case "SON_BONIC": return 5;
-      case "ACCENTUACIO": return 5;
-      case "FIDEUA": return 5; // la cremà
-      case "L_NO_APOSTROFA": return 5;
-      case "L_D_N_NO_S_APOSTROFEN": return 5;
-      case "AMB_EM": return 5;
-      case "CONTRACCIONS": return 0; // lesser than apostrophations
-      case "CASING_START": return -5;
-      case "CA_WORD_COHERENCY": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
-      case "CA_WORD_COHERENCY_VALENCIA": return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
-    // TA_DEMOSTRATIUS_ESTE
-      case "QUAN_PREPOSICIO": return -10; // lesser than QUANT_MES_MES
-      case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
-      case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
-      case "COMMA_LOCUTION": return -10;
-      case "REGIONAL_VERBS": return -10;
-      case "UN_ALTRE_DISTRIBUTIVES": return -10; // no suggestions
-      case "PRONOMS_FEBLES_SOLTS": return -10; //lesser than SPELLING
-      case "CONCORDANCA_PRONOMS_CATCHALL": return -10;
-      case "AGREEMENT_POSTPONED_ADJ": return -15;
-      case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
-      case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
-      case "VERBS_NOMSPROPIS": return -20;
-      case "VERBS_PRONOMINALS": return -25;
-      case "PORTO_LLEGINT": return -30;
-      case "PORTA_UNA_HORA": return -40;
-      case "MAJOR_MES_GRAN0": return -40; // higher than MAJOR_MES_GRAN (style, -50)
-      case "REPETITIONS_STYLE": return -50;
-      case "MUNDAR": return -50;
-      case "NOMBRES_ROMANS": return -90;
-      case "TASCAS_TASQUES": return -97;
-      case "PREPOSICIONS_MINUSCULA": return -97; // less than CA_MULTITOKEN_SPELLING
-      case "SUGGERIMENTS_LE": return -97; // less than CA_MULTITOKEN_SPELLING
-      case "MORFOLOGIK_RULE_CA_ES": return -100;
-      case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
+      case "CONFUSIONS2":
+        return 80;
+      case "DEU_NI_DO":
+        return 80; // greater than rules about pronouns
+      case "FER_LOGIN":
+        return 70; // greater than anglicisms
+      case "L_OK":
+        return 70; // greater than anglicisms
+      case "INCORRECT_EXPRESSIONS":
+        return 50;
+      case "PERSONATGES_FAMOSOS":
+        return 50;
+      case "CONEIXO_CONEC":
+        return 50;
+      case "COMETES_INCORRECTES":
+        return 50; // greater than PRONOMS_FEBLES
+      case "OFERTAR_OFERIR":
+        return 50; // greater than PRONOMS_FEBLES_SOLTS2
+      case "PREGUEM_DISCULPIN":
+        return 45; // greater than ESPERANT_US_AGRADI
+      case "DESDE_UN":
+        return 40;
+      case "CONEIXET":
+        return 40;
+      case "CONEIXENTS":
+        return 40;
+      case "MOTS_NO_SEPARATS":
+        return 40;
+      case "REPETEAD_ELEMENTS":
+        return 40;
+      case "ESPERANT_US_AGRADI":
+        return 40;
+      case "LO_NEUTRE":
+        return 40; // lower than other INCORRECT_EXPRESSIONS
+      case "ESPAIS_SOBRANTS":
+        return 40; // greater than L
+      case "PER_A_QUE_PERQUE":
+        return 40;
+      case "PRONOMS_FEBLES_COMBINACIONS_SE":
+        return 40;
+      case "ELA_GEMINADA":
+        return 35; // greater than agreement rules, pronoun rules
+      case "TENIR_QUE":
+        return 35; // greater than CA_SIMPLE_REPLACE
+      case "CONFUSIONS_PRONOMS_FEBLES":
+        return 35; // greater than ES (DIACRITICS), PRONOMS_FEBLES_DARRERE_VERB
+      case "COMMA_PERO1":
+        return 35; // greater than CA_SIMPLE_REPLACE
+      case "PASSAR_SE":
+        return 35; // greater than OBLIDARSE
+      case "OBLIDARSE":
+        return 30; // greater than ACOSTUMAR_A
+      case "CA_SPLIT_WORDS":
+        return 30;
+      case "PRONOMS_FEBLES_TEMPS_VERBAL":
+        return 35;
+      case "ET_AL":
+        return 30; // greater than apostrophes and pronouns
+      case "PRONOMS_FEBLES_COLLOQUIALS":
+        return 30; // greater than PRONOMS_FEBLES_SOLTS2
+      case "CONCORDANCES_CASOS_PARTICULARS":
+        return 30;
+      case "GERUNDI_PERD_T":
+        return 30;
+      case "CONFUSIONS":
+        return 30;
+      case "PRONOMS_FEBLES_DARRERE_VERB":
+        return 30; // greater than PRONOMS_FEBLES_SOLTS2
+      case "VERBS_NO_INCOATIUS":
+        return 30; // greater than PRONOMS_FEBLES_SOLTS2
+      case "ARRIBAN_ARRIBANT":
+        return 30;
+      case "PERO_PERO":
+        return 30; // lower than COMMA_PERO1
+      case "PUNT_LLETRA":
+        return 30; // greater than CONCORDANCES_DET_NOM
+      case "REEMPRENDRE":
+        return 28; // equal to CA_SIMPLE_REPLACE_VERBS
+      case "INCORRECT_WORDS_IN_CONTEXT":
+        return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN
+      case "PRONOMS_FEBLES_SOLTS2":
+        return 26;  // greater than PRONOMS_FEBLES_SOLTS, ES, HAVER_SENSE_HAC
+      case "ES_UNKNOWN":
+        return 25;
+      case "HAVER_SENSE_HAC":
+        return 25; // greater than CONFUSIONS_ACCENT avia, lower than CONFUSIONS_E
+      case "HA_A":
+        return 25; //  lower than CA_SIMPLE_REPLACE_VERBS
+      case "PASSAT_PERIFRASTIC":
+        return 25; // greater than CONFUSIONS_ACCENT
+      case "PREPOSITIONS":
+        return 25;
+      case "CONFUSIONS_ACCENT":
+        return 20;
+      case "CONFUSIO_PASSAT_INFINITIU":
+        return 20; // greater than ACCENTUATION_CHECK
+      case "DIACRITICS":
+        return 20;
+      case "COMMA_ENTRE_DALTRES":
+        return 20; //greater than CONCORDANCES_DET_NOM
+      case "CAP_GENS":
+        return 20; //greater than CAP_ELS_CAP_ALS, CONCORDANCES_DET_NOM
+      case "MOTS_SENSE_GUIONETS":
+        return 20; // greater than CONCORDANCES_NUMERALS
+      case "ORDINALS":
+        return 20; // greater than SEPARAT
+      case "SUPER":
+        return 20;
+      case "PRONOM_FEBLE_HI":
+        return 20; // greater than HAVER_PARTICIPI_HAVER_IMPERSONAL
+      case "HAVER_PARTICIPI_HAVER_IMPERSONAL":
+        return 15; // greater than ACCENTUATION_CHECK
+      case "SE_LI_VA_FER_CALLAR":
+        return 15;
+      case "CA_REMOTE_RULE":
+        return 15;
+      case "CONCORDANCES_NUMERALS_DUES":
+        return 10; // greater than CONCORDANCES_NUMERALS
+      case "POSTULARSE":
+        return 10;
+      case "FALTA_CONDICIONAL":
+        return 10; // greater than POTSER_SIGUI
+      case "ACCENTUATION_CHECK":
+        return 10;
+      case "CONCORDANCA_GRIS":
+        return 10;
+      case "SELS_EN_VA_DE_LES_MANS":
+        return 10;
+      case "A_PER":
+        return 10;
+      case "CONCORDANCES_NUMERALS":
+        return 10;
+      case "COMMA_IJ":
+        return 10;
+      case "AVIS":
+        return 10;
+      case "CAP_ELS_CAP_ALS":
+        return 10; // greater than DET_GN
+      case "CASING":
+        return 10; // greater than CONCORDANCES_DET_NOM
+      case "DOS_ARTICLES":
+        return 10; // greater than apostrophation rules
+      case "MOTS_GUIONET":
+        return 10; // greater than CONCORDANCES_DET_NOM
+      case "SELS_EN_VA":
+        return 10;
+      case "RECENT":
+        return 10;
+      case "CONCORDANCES_NOUNS_PRIORITY":
+        return 10;
+      case "PREFIXOS_SENSE_GUIONET_EN_DICCIONARI":
+        return 10; // greater than SPELLING
+      case "ZERO_O":
+        return 10; //greater than SPELLING
+      case "URL":
+        return 10; //greater than SPELLING
+      case "EL_FAN_AGENOLLAR":
+        return 10; // greater than PRONOMS_FEBLES_DUPLICATS
+      case "CONCORDANCES_DET_NOM":
+        return 5; // greater than DE_EL_S_APOSTROFEN
+      case "CONCORDANCES_DET_ADJ":
+        return 5; // greater than DE_EL_S_APOSTROFEN
+      case "CONCORDANCES_DET_POSSESSIU":
+        return 5; // greater than CONCORDANCES_ADJECTIUS_NEUTRES
+      case "DET_GN":
+        return 5; // greater than DE_EL_S_APOSTROFEN
+      case "SPELLING":
+        return 5;
+      case "APOSTROF_ANYS":
+        return 5; // greater than typography options
+      case "VENIR_NO_REFLEXIU":
+        return 5;
+      case "DEUS_SEUS":
+        return 5;
+      case "SON_BONIC":
+        return 5;
+      case "ACCENTUACIO":
+        return 5;
+      case "FIDEUA":
+        return 5; // la cremà
+      case "L_NO_APOSTROFA":
+        return 5;
+      case "L_D_N_NO_S_APOSTROFEN":
+        return 5;
+      case "AMB_EM":
+        return 5;
+      case "CONTRACCIONS":
+        return 0; // lesser than apostrophations
+      case "CASING_START":
+        return -5;
+      case "CA_WORD_COHERENCY":
+        return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
+      case "CA_WORD_COHERENCY_VALENCIA":
+        return -10; // lesser than EVITA_DEMOSTRATIUS_ESTE
+      // TA_DEMOSTRATIUS_ESTE
+      case "QUAN_PREPOSICIO":
+        return -10; // lesser than QUANT_MES_MES
+      case "ARTICLE_TOPONIM_MIN":
+        return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM
+      case "PEL_QUE":
+        return -10; // lesser than PEL_QUE_FA
+      case "COMMA_LOCUTION":
+        return -10;
+      case "REGIONAL_VERBS":
+        return -10;
+      case "UN_ALTRE_DISTRIBUTIVES":
+        return -10; // no suggestions
+      case "PRONOMS_FEBLES_SOLTS":
+        return -10; //lesser than SPELLING
+      case "CONCORDANCA_PRONOMS_CATCHALL":
+        return -10;
+      case "AGREEMENT_POSTPONED_ADJ":
+        return -15;
+      case "FALTA_COMA_FRASE_CONDICIONAL":
+        return -20;
+      case "ESPAIS_QUE_FALTEN_PUNTUACIO":
+        return -20;
+      case "VERBS_NOMSPROPIS":
+        return -20;
+      case "VERBS_PRONOMINALS":
+        return -25;
+      case "PORTO_LLEGINT":
+        return -30;
+      case "PORTA_UNA_HORA":
+        return -40;
+      case "MAJOR_MES_GRAN0":
+        return -40; // higher than MAJOR_MES_GRAN (style, -50)
+      case "REPETITIONS_STYLE":
+        return -50;
+      case "MUNDAR":
+        return -50;
+      case "NOMBRES_ROMANS":
+        return -90;
+      case "TASCAS_TASQUES":
+        return -97;
+      case "PREPOSICIONS_MINUSCULA":
+        return -97; // less than CA_MULTITOKEN_SPELLING
+      case "SUGGERIMENTS_LE":
+        return -97; // less than CA_MULTITOKEN_SPELLING
+      case "MORFOLOGIK_RULE_CA_ES":
+        return -100;
+      case "EXIGEIX_ACCENTUACIO_VALENCIANA":
+        return -120;
       //case "APOSTROFACIO_MOT_DESCONEGUT": return -120; // lesser than MORFOLOGIK_RULE_CA_ES
-      case "PHRASE_REPETITION": return -150;
-      case "SUBSTANTIUS_JUNTS": return -150;
-      case "REPETITION_ADJ_N_ADJ": return -155;
-      case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
-      case "PUNT_FINAL": return -200;
-      case "PUNCTUATION_PARAGRAPH_END": return -200;
-      case "CA_END_PARAGRAPH_PUNCTUATION": return -250;
-      case "DICENDI_QUE": return -250;
-      case "UPPERCASE_SENTENCE_START": return -300;
-      case "MAJUSCULA_IMPROBABLE": return -300;
-      case "ELA_GEMINADA_WIKI": return -300;
-      case "CA_SPLIT_LONG_SENTENCE": return -90;
+      case "PHRASE_REPETITION":
+        return -150;
+      case "SUBSTANTIUS_JUNTS":
+        return -150;
+      case "REPETITION_ADJ_N_ADJ":
+        return -155;
+      case "FALTA_ELEMENT_ENTRE_VERBS":
+        return -200;
+      case "PUNT_FINAL":
+        return -200;
+      case "PUNCTUATION_PARAGRAPH_END":
+        return -200;
+      case "CA_END_PARAGRAPH_PUNCTUATION":
+        return -250;
+      case "DICENDI_QUE":
+        return -250;
+      case "UPPERCASE_SENTENCE_START":
+        return -300;
+      case "MAJUSCULA_IMPROBABLE":
+        return -300;
+      case "ELA_GEMINADA_WIKI":
+        return -300;
+      case "CA_SPLIT_LONG_SENTENCE":
+        return -90;
     }
     if (id.startsWith("CA_MULTITOKEN_SPELLING")) {
       return -95;
@@ -397,19 +541,36 @@ public class Catalan extends Language {
   public int getSpellerMaxWeightDiff() {
     return 15;
   }
-  
+
   @Override
   public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
-      return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
+    return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
-  
-  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra|adéu|féu|desféu|vés|contrapèl)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+  private static final Pattern CA_OLD_DIACRITICS = compile(".*\\b(sóc|dóna|dónes|vénen|véns|fóra|adéu|féu|desféu|vés" +
+    "|contrapèl)\\b.*", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private RuleMatch adjustCatalanMatch(RuleMatch ruleMatch, Set<String> enabledRules) {
     String errorStr = ruleMatch.getOriginalErrorStr();
+    List<String> suggestedReplacements = ruleMatch.getSuggestedReplacements();
+    // Avoid two white spaces after removing a word
+    if (suggestedReplacements.size() == 1 && suggestedReplacements.get(0).equals("")) {
+      String sentenceText = ruleMatch.getSentence().getText();
+      int fromSent = ruleMatch.getFromPosSentence();
+      int toSent = ruleMatch.getToPosSentence();
+      if (fromSent >= 0 && toSent + 1 <= sentenceText.length()
+        && (fromSent == 0 || sentenceText.substring(fromSent - 1, fromSent).equals(" "))
+        && sentenceText.substring(toSent, toSent + 1).equals(" ")) {
+        RuleMatch newRuleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(),
+          ruleMatch.getFromPos(), ruleMatch.getToPos() + 1,
+          ruleMatch.getMessage(), ruleMatch.getShortMessage());
+        newRuleMatch.setSentencePosition(fromSent, toSent + 1);
+        newRuleMatch.setSuggestedReplacement("");
+        return newRuleMatch;
+      }
+    }
     boolean hasTypographicApostrophe = Arrays.stream(ruleMatch.getSentence().getTokensWithoutWhitespace())
       .anyMatch(x -> x.hasTypographicApostrophe());
-    List<String> suggestedReplacements = ruleMatch.getSuggestedReplacements();
     List<SuggestedReplacement> newReplacements = new ArrayList<>();
     for (String suggestedReplacement : suggestedReplacements) {
       String newReplStr = suggestedReplacement;
@@ -465,51 +626,55 @@ public class Catalan extends Language {
 
   private String removeOldDiacritics(String s) {
     return s
-        .replace("contrapèl", "contrapel")
-        .replace("Contrapèl", "Contrapel")
-        .replace("vés", "ves")
-        .replace("féu", "feu")
-        .replace("desféu", "desfeu")
-        .replace("adéu", "adeu")
-        .replace("dóna", "dona")
-        .replace("dónes", "dones")
-        .replace("sóc", "soc")
-        .replace("vénen", "venen")
-        .replace("véns", "véns")
-        .replace("fóra", "fora")
-        .replace("Vés", "Ves")
-        .replace("Féu", "Feu")
-        .replace("Desféu", "Desfeu")
-        .replace("Adéu", "Adeu")
-        .replace("Dóna", "Dona")
-        .replace("Dónes", "Dones")
-        .replace("Sóc", "Soc")
-        .replace("Vénen", "Venen")
-        .replace("Véns", "Vens")
-        .replace("Fóra", "Fora");
+      .replace("contrapèl", "contrapel")
+      .replace("Contrapèl", "Contrapel")
+      .replace("vés", "ves")
+      .replace("féu", "feu")
+      .replace("desféu", "desfeu")
+      .replace("adéu", "adeu")
+      .replace("dóna", "dona")
+      .replace("dónes", "dones")
+      .replace("sóc", "soc")
+      .replace("vénen", "venen")
+      .replace("véns", "véns")
+      .replace("fóra", "fora")
+      .replace("Vés", "Ves")
+      .replace("Féu", "Feu")
+      .replace("Desféu", "Desfeu")
+      .replace("Adéu", "Adeu")
+      .replace("Dóna", "Dona")
+      .replace("Dónes", "Dones")
+      .replace("Sóc", "Soc")
+      .replace("Vénen", "Venen")
+      .replace("Véns", "Vens")
+      .replace("Fóra", "Fora");
   }
-  
-  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[DdPp]e)r? e(ls?)\\b", Pattern.UNICODE_CHARACTER_CLASS);
+
+  private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[DdPp]e)r? e(ls?)\\b",
+    Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ", Pattern.UNICODE_CHARACTER_CLASS);
   // exceptions: l'FBI, l'statu quo
-  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])",
+    Pattern.UNICODE_CHARACTER_CLASS);
   // exceptions: el iogurt, la essa
   private static final Pattern CA_APOSTROPHES3 = compile("\\be?([mtsldn])e? (h[aeio]|h?[aeiouàèéíòóú][a-zàèéíòóúïüç])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES4 = compile("\\b(l)a ([aeoàúèéí][^ ])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES5 = compile("\\b([mts]e) (['’])",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES6 = compile("\\bs'e(ns|ls)\\b",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES7 = compile("\\b(de|a)l (h?[aeoàúèéí][^ ])",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
-  private static final Pattern CA_APOSTROPHES8 = compile("\\b([MTLSN])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])", Pattern.UNICODE_CHARACTER_CLASS);
-  private static final Pattern CA_APOSTROPHES9 = compile("\\b([Dd])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern CA_APOSTROPHES8 = compile("\\b([MTLSN])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])",
+    Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern CA_APOSTROPHES9 = compile("\\b([Dd])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])",
+    Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern POSSESSIUS_v = compile("\\b([mtsMTS]e)v(a|es)\\b",
-      Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
+    Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern POSSESSIUS_V = compile("\\b([MTS]E)V(A|ES)\\b",
-      Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
+    Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_REMOVE_SPACES = compile("\\b(a|de|pe) (ls?)(?!['’])\\b",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS);
 
@@ -557,8 +722,9 @@ public class Catalan extends Language {
     s = s.replace(" ,", ",");
     return StringTools.preserveCase(s, originalErrorStr);
   }
-  
-  private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander",
+
+  private final List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco " +
+      "Santander",
     "San Marcos", "Santa Ana", "San Joaquín", "Naguib Mahfouz", "Rosalía", "Aristide Maillol", "Alexia Putellas",
     "Mónica Randall", "Vicente Blasco Ibáñez", "Copa Sudamericana", "Série A", "Banco Sabadell");
 
@@ -590,7 +756,8 @@ public class Catalan extends Language {
 
   @Override
   public List<RuleMatch> filterRuleMatchesAfterOverlapping(List<RuleMatch> ruleMatches) {
-    List<RuleMatch> result = ruleMatches.stream().map(RuleMatch::trimMatchEnds).collect(java.util.stream.Collectors.toList());
+    List<RuleMatch> result =
+      ruleMatches.stream().map(RuleMatch::trimMatchEnds).collect(java.util.stream.Collectors.toList());
     Collections.sort(result);
     return result;
   }
@@ -605,7 +772,7 @@ public class Catalan extends Language {
       // remove rules IGNORE_PROPER_NOUNS and MORFOLOGIK_RULE_CA_ES if they are in the same position
       if (ruleMatch.getRule().getId().equals("IGNORE_PROPER_NOUNS")) {
         if (previousRuleMatch != null && previousRuleMatch.getRule().getId().equals("MORFOLOGIK_RULE_CA_ES")
-        && ruleMatch.getFromPos() == previousRuleMatch.getFromPos()) {
+          && ruleMatch.getFromPos() == previousRuleMatch.getFromPos()) {
           results.remove(results.size() - 1);
           ignoreMatchInPos = -1;
           continue;

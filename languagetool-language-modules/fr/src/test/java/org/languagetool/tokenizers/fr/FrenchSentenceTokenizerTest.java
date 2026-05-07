@@ -73,8 +73,8 @@ public class FrenchSentenceTokenizerTest {
     testSplit("L'Éducation nationale, impr. par ordre de la Convention nationale, Reprod. de l'éd. de : [Paris].");
     
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, …?) sur ce qui nous attend.");
-    // TODO:
-    //testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, … ?) sur ce qui nous attend.");
+    testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, … ?) sur ce qui nous attend.");
+    testSplit("Comment ça va … ?");
 
     // without nbsp
     testSplit("« Le film était bien ? » ", "« Il était énorme ! ", "J'ai eu mal au ventre tellement je me suis marré ! »");
@@ -101,6 +101,8 @@ public class FrenchSentenceTokenizerTest {
     testSplit("Qu'en dites-vous ?, demanda-t-il.");
     testSplit("Qu'en dites-vous ? demanda-t-il.");
     testSplit("Qu'en dites-vous ! demanda-t-il.");
+
+    testSplit("Première phrase.Deuxième phrase.");
     
   }
 

@@ -1107,6 +1107,31 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="English">
+<!-- unknown abbreviations inside parentheses/brackets/braces -->
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\[[^\]]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\]\r\n]*\]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\{[^\}]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\}\r\n]*\}</afterbreak>
+</rule>
 <rule break="no"><!-- https://www.seven.one/ -->
 <beforebreak>\b[Se]even\.</beforebreak>
 <afterbreak>[Oo]ne\b</afterbreak>
@@ -1553,6 +1578,31 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Dutch">
+<!-- unknown abbreviations inside parentheses/brackets/braces -->
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\[[^\]]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\]\r\n]*\]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\{[^\}]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\}\r\n]*\}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\sart\.\s</beforebreak>
 <afterbreak>[IVX]+[ .]</afterbreak>
@@ -4771,7 +4821,7 @@
 <beforebreak>^\d+\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{L}</afterbreak>
 </rule>
-<!-- unknown abbreviations inside parentheses -->
+<!-- unknown abbreviations inside parentheses/brackets/braces -->
 <rule break="no">
 <beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
 <afterbreak>[^\)\r\n]*\)</afterbreak>
@@ -4912,22 +4962,22 @@
 <beforebreak>^\d+\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{L}</afterbreak>
 </rule>
-<!-- unknown abbreviations inside parentheses -->
+<!-- unknown abbreviations inside parentheses/brackets/braces -->
 <rule break="no">
 <beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
 <afterbreak>[^\)\r\n]*\)</afterbreak>
 </rule>
 <rule break="no">
-  <beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
-  <afterbreak>[^\)\r\n]*\)</afterbreak>
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
 </rule>
 <rule break="no">
-  <beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
-  <afterbreak>[^\)\r\n]*\)</afterbreak>
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
 </rule>
 <rule break="no">
-  <beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
-  <afterbreak>[^\)\r\n]*\)</afterbreak>
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\[[^\]]*\.[\s\u00A0]</beforebreak>
@@ -5019,7 +5069,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Ee]d(it)?|[Nn]o|n|[Nn]úm|[Pp]ág|p|c|\d+er)|[V\.]gr\.[\s\u00A0]</beforebreak>
+<beforebreak>\b([Ee]d(it)?|[Nn]o|n|[Nn]úm|[Pp]ág|p|c|\d+er).|[V\.]gr\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Abbreviations that can finish sentences -->
@@ -5083,6 +5133,31 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="German">
+<!-- unknown abbreviations inside parentheses/brackets/braces -->
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\[[^\]]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\]\r\n]*\]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\{[^\}]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\}\r\n]*\}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
 <afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
@@ -5523,6 +5598,31 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="French">
+<!-- unknown abbreviations inside parentheses/brackets/braces -->
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\[[^\]]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\]\r\n]*\]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\{[^\}]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\}\r\n]*\}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>[\s\u00A0]</beforebreak>
 <afterbreak>[»”’"'›]</afterbreak>
@@ -5616,6 +5716,10 @@
 <rule break="no">
 <beforebreak>(…|\.\.\.)[\s\u00A0]?\?\)[\s\u00A0]</beforebreak>
 <afterbreak>[^\p{P}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>(…|\.\.\.)[\s\u00A0]</beforebreak>
+<afterbreak>[?!]</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\p{Lu}\p{L}+[\s\u00A0]v\.[\s\u00A0]</beforebreak>
@@ -5767,10 +5871,11 @@
 <beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}¹²³]?[\s\u00A0]+</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- don't split if there is no whitespace after the punctuation
 <rule break="yes">
 <beforebreak>[\.!?…]['"\p{Pe}\u00BB\u201D]?</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
-</rule>
+</rule>-->
 <rule break="yes">
 <beforebreak>[\s\u00A0]\p{L}[\.!?…][\s\u00A0]</beforebreak>
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
@@ -6282,6 +6387,31 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Portuguese">
+<!-- unknown abbreviations inside parentheses/brackets/braces -->
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\([^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0][^\)]*?[\.:][\s\u00A0]</beforebreak>
+<afterbreak>[^\)\r\n]*\)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\[[^\]]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\]\r\n]*\]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\{[^\}]*\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\}\r\n]*\}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
 <afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
@@ -6300,7 +6430,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(ca|card|cat|caus|cf|cit|cód|comp|compar|conj|contr|coord|cop)\.\s?</beforebreak>
+<beforebreak>\b(ca|cap|card|cat|caus|cf|cit|cód|comp|compar|conj|contr|coord|cop)\.\s?</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -6390,7 +6520,7 @@
 </rule>
 <!-- English abbreviations - but these work globally for all languages -->
 <rule break="no">
-<beforebreak>\b(Mr|Mrs|No|pp|St|Jr|Bros|etc|vs|esp|[Ff]ig|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s?</beforebreak>
+<beforebreak>\b(Mr|Mrs|No|pp|St|Jr|Bros|vs|esp|[Ff]ig|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s?</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Latin abbreviations - but these work globally for all languages -->
@@ -6483,6 +6613,11 @@
 <beforebreak>[^\s](\.\.\.|…)\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
+<!-- Not break for ellipses before ? or ! -->
+<rule break="no">
+<beforebreak>(…|\.\.\.)[\s ]</beforebreak>
+<afterbreak>[?!]</afterbreak>
+</rule>
 <!-- z.B. "bla (...) blubb" -> without ending sentence -->
 <rule break="no">
 <beforebreak>[\(\)\[\]]\s</beforebreak>
@@ -6518,10 +6653,11 @@
 <beforebreak>[\.!?][\u0002|'|"|“|«|\)|\]|\}¹²³]?\s+</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- Do not split if the white space is missing
 <rule break="yes">
 <beforebreak>[\.!?…]['"”»\p{Pe}\u00BB\u201D]?\s*</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
-</rule>
+</rule>-->
 <rule break="yes">
 <beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
 <afterbreak>\p{Lu}\p{Ll}*</afterbreak>

@@ -18,7 +18,7 @@ public class CatalanSplitLongSentenceRule extends LongSentenceRule {
 
   public CatalanSplitLongSentenceRule(ResourceBundle messages, UserConfig userConfig, int maxWords) {
     super(messages, userConfig, maxWords);
-    this.setDefaultOff();
+    //this.setDefaultOff();
   }
 
   @Override
@@ -31,23 +31,27 @@ public class CatalanSplitLongSentenceRule extends LongSentenceRule {
     RuleMatch[] originalRuleMatches = super.match(sentences);
     List<RuleMatch> resultRuleMatches = new ArrayList<>();
     for (RuleMatch rm : originalRuleMatches) {
-      String underlinedText = rm.getSentence().getText(); // the whole sentence, not the selected match
-      String correctedSentence = sendPostRequest(underlinedText, this.getId());
+      String sentence = rm.getSentence().getText(); // the whole sentence, not the selected match
+      String correctedSentence = sendPostRequest(sentence, this.getId());
       if (correctedSentence == null || correctedSentence.isEmpty()) {
         continue;
       }
       correctedSentence = correctedSentence.replaceAll("[\r\n\\s]*[\r\n][\r\n\\s]*", " ");
       //System.out.println("CORRECTED_SENTENCE: "+correctedSentence);
       DiffsAsMatches diffsAsMatches = new DiffsAsMatches();
-      List<PseudoMatch> pseudoMatches = diffsAsMatches.getPseudoMatches(underlinedText, correctedSentence);
+      List<PseudoMatch> pseudoMatches = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
       for (PseudoMatch pm : pseudoMatches) {
         String message = rm.getMessage();
         String shortMessage = rm.getShortMessage();
+        String underlined = sentence.substring(pm.getFromPos(), pm.getToPos());
+        if (underlined.trim().length() == 0) {
+          continue;
+        }
         if (!pm.getReplacement().contains(".") || pm.getReplacement().endsWith(".")) {
           // no és de la divisió de la frase, no sabem què és. Es poden aprofitar si es filtren bé.
-          //message = "Canvi recomanat.";
-          //shortMessage = "Canvi recomanat";
-          continue;
+          message = "Canvi recomanat.";
+          shortMessage = "Canvi recomanat";
+          //continue;
         }
         RuleMatch ruleMatch = new RuleMatch(rm.getRule(), rm.getSentence(), rm.getFromPos() + pm.getFromPos(),
           rm.getFromPos() + pm.getToPos(), message, shortMessage);

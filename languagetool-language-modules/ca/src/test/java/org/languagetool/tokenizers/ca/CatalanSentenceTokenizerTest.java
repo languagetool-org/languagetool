@@ -120,6 +120,7 @@ public class CatalanSentenceTokenizerTest {
     testSplit("{Impren. Disss}");
     testSplit("{Impren. 188-disss}");
     testSplit("(Impren. Disss. Ioo)");
+    testSplit("(Impren. Disss. Ioo. A. B. Garcia)");
     testSplit("Impren. ", "\nDisss");
     testSplit("(Impren. ", "\nDisss)");
 
@@ -142,6 +143,8 @@ public class CatalanSentenceTokenizerTest {
     testSplit("el jesuïta alemany J.E. Nithard");
 
     testSplit("PERNIL DOLÇ\nBACON\nPEPERONI\nPEBROT VERD\nOLIVES");
+
+    testSplit("El framework .NET o ASP.NET o Microsoft.Net");
   }
 
   private void testSplit(final String... sentences) {

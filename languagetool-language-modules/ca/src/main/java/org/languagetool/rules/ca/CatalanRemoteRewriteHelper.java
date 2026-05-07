@@ -39,6 +39,8 @@ public class CatalanRemoteRewriteHelper {
 
   private static final String SERVER_URL = System.getenv("CA_REMOTE_REWRITE_SERVER");
   private static final String API_KEY = System.getenv("CA_REMOTE_REWRITE_API_KEY");
+  private static final String PROVIDER = System.getenv("CA_REMOTE_REWRITE_PROVIDER");
+  private static final String MODEL = System.getenv("CA_REMOTE_REWRITE_MODEL");
   private static int TIMEOUT_MS;
   static {
     try {
@@ -80,9 +82,28 @@ public class CatalanRemoteRewriteHelper {
     logger.info("Requesting server " + SERVER_URL + " for rule " + ruleid);
     try {
       JSONObject payload = new JSONObject();
-      payload.put("system_prompt", PROMPTS.get(ruleid));
-      payload.put("user_prompt", sentence);
-      payload.put("temperature", 0.0);
+      if ("openai".equalsIgnoreCase(PROVIDER)) {
+        JSONArray messages = new JSONArray();
+        messages.put(new JSONObject().put("role", "system").put("content", PROMPTS.get(ruleid)));
+        messages.put(new JSONObject().put("role", "user").put("content", sentence));
+        if (MODEL != null && !MODEL.isEmpty()) {
+            payload.put("model", MODEL);
+        }
+        payload.put("messages", messages);
+        payload.put("temperature", 0.0);
+      } else if ("google".equalsIgnoreCase(PROVIDER)) {
+        JSONObject systemInstruction = new JSONObject().put("parts", new JSONArray().put(new JSONObject().put("text", PROMPTS.get(ruleid))));
+        JSONObject userParts = new JSONObject().put("parts", new JSONArray().put(new JSONObject().put("text", sentence)));
+        userParts.put("role", "user");
+        JSONObject generationConfig = new JSONObject().put("temperature", 0.0);
+        payload.put("systemInstruction", systemInstruction);
+        payload.put("contents", new JSONArray().put(userParts));
+        payload.put("generationConfig", generationConfig);
+      } else {
+        payload.put("system_prompt", PROMPTS.get(ruleid));
+        payload.put("user_prompt", sentence);
+        payload.put("temperature", 0.0);
+      }
       byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);
       URL url = new URL(SERVER_URL);
       conn = (HttpURLConnection) url.openConnection();
@@ -120,7 +141,13 @@ public class CatalanRemoteRewriteHelper {
         }
         if (code == HttpURLConnection.HTTP_OK) {
           JSONObject jsonResponse = new JSONObject(response.toString());
-          return jsonResponse.getString("response").trim();
+          if ("openai".equalsIgnoreCase(PROVIDER)) {
+            return jsonResponse.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content").trim();
+          } else if ("google".equalsIgnoreCase(PROVIDER)) {
+            return jsonResponse.getJSONArray("candidates").getJSONObject(0).getJSONObject("content").getJSONArray("parts").getJSONObject(0).getString("text").trim();
+          } else {
+            return jsonResponse.getString("response").trim();
+          }
         } else {
           System.err.println("API error (" + code + "): " + response + "// PAYLOAD: " + payload.toString());
           logger.error("API error (" + code + "): " + response);

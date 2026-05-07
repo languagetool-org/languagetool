@@ -14161,6 +14161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp='yes'>as?</token>
                     </marker>
                     <token postag_regexp='yes' postag='N.F.+'>
+                        <exception regexp='yes'>teses?</exception> <!-- quick workaround: "como ia a tese?" - MARCOAGPINTO - 2026-05-05 -->
                         <exception postag='D..F.+|R.+' postag_regexp='yes'/></token>
                 </pattern>
                 <message>Esta palavra rege-se com a preposição "a".</message>
@@ -43940,6 +43941,274 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='… '><marker>…</marker>e os votos de Bom Ano Novo.</example>
                 <example>Cole aqui o seu texto<marker>…</marker></example>
                 <example>Além disso<marker>…</marker> </example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ESPACO_APOS_PONTO" name="Verifique o espaço após o ponto.">
+            <!-- Adapted from French ESPACE_APRES_POINT -->
+            <!-- Abreviatura seguida de palavra minúscula desconhecida: não detectar -->
+            <antipattern>
+                <marker>
+                    <token>.</token>
+                    <token spacebefore="no" postag="UNKNOWN" regexp="yes">\p{Ll}.+</token>
+                </marker>
+            </antipattern>
+            <!-- www.algo -->
+            <antipattern>
+                <marker>
+                    <token>www</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no"/>
+                </marker>
+            </antipattern>
+            <!-- padrão .palavra.palavra (domínio com subdomínio) -->
+            <antipattern>
+                <marker>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
+                </marker>
+            </antipattern>
+            <!-- arquivo.extensão -->
+            <antipattern>
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">&filename_extensions;</token>
+            </antipattern>
+            <!-- domínio.tld (ex.: languagetool.org) -->
+            <antipattern>
+                <token regexp="yes">[a-z].*</token>
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">&sometlds;</token>
+            </antipattern>
+            <!-- .NET ou sufixo .s -->
+            <antipattern>
+                <token>.</token>
+                <token case_sensitive="yes" spacebefore="no" regexp="yes">NET|s</token>
+            </antipattern>
+            <!-- Regra 1: [.!?] sem espaço imediatamente seguido de palavra -->
+            <rule>
+                <antipattern>
+                    <token regexp="yes">http.*</token>
+                    <token regexp="yes" spacebefore="no">[.!?]</token>
+                    <token spacebefore="no" regexp="yes">[\p{L}'-]{2,30}</token>
+                </antipattern>
+                <antipattern>
+                    <!-- Sigla com ponto: S.A., E.U.A., etc. -->
+                    <token regexp="yes">(?-i)[A-Z].*</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes">(?-i)[A-Z][A-Z].*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" spacebefore="no">[.!?]
+                        <exception scope="previous">.</exception>
+                        <exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,30})
+                        <exception regexp="yes">(?-i)[VXI][IXV].*|(?-i)[VXI]</exception></token>
+                </pattern>
+                <message>Falta um espaço após o ponto.</message>
+                <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <suggestion> \2</suggestion>
+                <example correction=". Sempre| sempre">É assim<marker>.sempre</marker>.</example>
+                <example correction="? Sempre| sempre">É assim<marker>?sempre</marker>.</example>
+                <example correction="! Sempre| sempre">É assim<marker>!sempre</marker>.</example>
+                <example>É assim. Sempre.</example>
+                <example>É assim.</example>
+                <example>É assim...</example>
+                <example>É assim. </example>
+                <example>Acesse www.languagetool.org</example>
+                <example>O ficheiro maindoc.xml não foi encontrado.</example>
+                <example>A extensão .doc.</example>
+            </rule>
+            <!-- Regra 2: espaço antes do ponto seguido de palavra (ex.: "texto .próxima") -->
+            <rule>
+                <antipattern>
+                    <token>.</token>
+                    <token regexp="yes" spacebefore="no">&filename_extensions;</token>
+                </antipattern>
+                <pattern>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">[.]
+                        <exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,30})</token>
+                </pattern>
+                <message>O espaço deve vir após o ponto.</message>
+                <suggestion><match no="1"/><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="assim. Sempre">É como <marker>assim .sempre</marker>.</example>
+                <example>É assim. Sempre.</example>
+                <example>A extensão .doc</example>
+            </rule>
+            <!-- Regra 3: espaço antes das reticências seguidas de palavra (ex.: "texto …próxima") -->
+            <rule>
+                <pattern>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">[…]
+                        <exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,30})</token>
+                </pattern>
+                <message>O espaço deve vir após as reticências.</message>
+                <suggestion><match no="1"/><match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
+                <suggestion><match no="1"/><match no="2"/> \3</suggestion>
+                <example correction="assim… Sempre|assim… sempre">É como <marker>assim …sempre</marker>!</example>
+            </rule>
+            <!-- Regra 4: espaço antes de ? ou ! seguidos de palavra -->
+            <rule>
+                <pattern>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">[?!]
+                        <exception postag="SENT_END"/></token>
+                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,30})</token>
+                </pattern>
+                <message>Falta um espaço após a pontuação.</message>
+                <suggestion><match no="1"/> <match no="2"/> <match no="3" case_conversion="startupper"/></suggestion>
+                <example correction="assim ! Sempre">É como <marker>assim !sempre</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="RETICENCIAS_ESPACO" name="Espaço depois das reticências">
+            <!-- Adapted from French POINTS_SUSPENSIONS_SPACE -->
+            <!-- Reticências seguidas de /,* -->
+            <antipattern>
+                <token>.</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">[/,\*]</token>
+            </antipattern>
+            <!-- Sequência de mais de três pontos -->
+            <antipattern>
+                <token min="2">.</token>
+                <token>.</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">.</token>
+                <token min="2">.</token>
+            </antipattern>
+            <!-- Regra 1: ...palavra (reticências ASCII seguidas de palavra sem espaço) -->
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">.
+                        <exception postag="SENT_END"/></token>
+                        <marker>
+                    <token spacebefore="no">
+                        <exception regexp="yes">[\.\]\)\}&gt;"?!]</exception></token>
+                        </marker>
+                </pattern>
+                <message>As reticências devem ser seguidas de espaço.</message>
+                <suggestion> \4</suggestion>
+                <example correction=" exceto">Olá a todos...<marker>exceto</marker> aos tradutores.</example>
+                <example correction=" isso">Ele me disse que...<marker>isso</marker> é muito difícil.</example>
+                <example>Olá a [...].</example>
+                <example>Tu és, hm..., Mo...</example>
+                <example> .....................7</example>
+            </rule>
+            <!-- Regra 2: …palavra (reticências Unicode seguidas de palavra sem espaço) -->
+            <rule>
+                <pattern>
+                    <token>…
+                        <exception scope="previous" regexp="yes">.|…</exception></token>
+                    <token spacebefore="no">
+                        <exception regexp="yes">[\.\]\…\)\}&gt;,?!''"""*]</exception></token>
+                </pattern>
+                <message>As reticências devem ser seguidas de espaço.</message>
+                <suggestion>… \2</suggestion>
+                <example correction="… exceto">Olá a todos<marker>…exceto</marker> aos tradutores.</example>
+                <example>Olá a (…)</example>
+            </rule>
+            <!-- Regra 3: palavra . . . ?! → palavra…?! (espaço entre palavra e reticências antes de ?/!) -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[a-z].*
+                            <exception>etc</exception></token>
+                        <token>.</token>
+                        <token>.</token>
+                        <token>.</token>
+                        <token spacebefore="yes" regexp="yes">[!?]</token>
+                    </marker>
+                </pattern>
+                <message>As reticências devem estar juntas à palavra anterior.</message>
+                <suggestion>\1…\5</suggestion>
+                <example correction="viria…?">Ele <marker>viria ... ?</marker> Não sei.</example>
+            </rule>
+            <!-- Regra 4: palavra, . . . → palavra… (vírgula/ponto-e-vírgula antes das reticências) -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[a-z].*</token>
+                        <token regexp="yes">[,;]</token>
+                        <token spacebefore="yes">.</token>
+                        <token>.</token>
+                        <token min="1" max="2">.
+                            <exception scope="next" regexp="yes">[?!.]</exception></token>
+                    </marker>
+                </pattern>
+                <message>Este sinal de pontuação não pode preceder as reticências.</message>
+                <suggestion>\1…\2</suggestion>
+                <suggestion>\1…</suggestion>
+                <suggestion>\1\2 etc</suggestion>
+                <example correction="viria…,|viria…|viria, etc">Ele <marker>viria, ...</marker></example>
+            </rule>
+            <!-- Regra 5: palavra.... → palavra… (quatro pontos — reticências têm exatamente três) -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[a-z].*
+                            <exception scope="previous">.</exception></token>
+                        <token>.</token>
+                        <token>.</token>
+                        <token>.</token>
+                        <token>.
+                            <exception scope="next">.</exception></token>
+                    </marker>
+                </pattern>
+                <message>As reticências são compostas por três pontos.</message>
+                <suggestion>\1…</suggestion>
+                <example correction="viria…">Ele <marker>viria ....</marker></example>
+            </rule>
+            <!-- Regra 6: palavra … → palavra… (espaço antes das reticências Unicode) -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">[a-z].*</token>
+                    <token spacebefore="yes">…
+                        <exception scope="next" regexp="yes">.|…|\/</exception></token>
+                </pattern>
+                <message>As reticências não devem ser precedidas de espaço.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="chegada…">Ele prepara minha <marker>chegada …</marker></example>
+            </rule>
+            <!-- Regra 7: ,; . . . ?! → …?! (vírgula/ponto-e-vírgula antes das reticências e ?/!) -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[;,]</token>
+                        <token>.</token>
+                        <token>.</token>
+                        <token>.</token>
+                        <token spacebefore="yes" regexp="yes">[!?]</token>
+                    </marker>
+                </pattern>
+                <message>O sinal de pontuação "\1" deve ser omitido.</message>
+                <suggestion>…\5</suggestion>
+                <example correction="…?">Ele viria<marker>, ... ?</marker> Não sei.</example>
+            </rule>
+            <!-- Regra 8: palavra ... → palavra… (espaço antes das reticências ASCII) -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">[a-z].*</token>
+                    <token spacebefore="yes">.</token>
+                    <token>.</token>
+                    <token>.
+                        <exception scope="next" regexp="yes">.|…|\/</exception></token>
+                </pattern>
+                <message>As reticências não devem ser precedidas de espaço.</message>
+                <suggestion>\1…</suggestion>
+                <example correction="chegada…">Ele prepara minha <marker>chegada ...</marker></example>
             </rule>
         </rulegroup>
 
