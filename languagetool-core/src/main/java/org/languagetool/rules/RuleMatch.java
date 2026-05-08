@@ -460,6 +460,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
+   * Returns the supplier of suggested replacements. The primary use case is to transform existing suggestions lazily.
+   * <p>
+   * Consider using {@link #getSuggestedReplacementObjects()} or {@link #getSuggestedReplacements()} instead.
+   */
+  public Supplier<List<SuggestedReplacement>> getLazySuggestedReplacements() {
+    return suggestedReplacements;
+  }
+
+  /**
    * @see #getSuggestedReplacements()
    */
   public void setSuggestedReplacements(List<String> replacements) {
