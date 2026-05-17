@@ -14405,6 +14405,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rulegroup id="menys_no_prep" name="menys (no prep)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="RG">menys</token>
+                </marker>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="RG"/>
+                <marker>
+                    <token postag="RG">menys</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="SPS00"/>
+        </rule>
+    </rulegroup>
     <rule id="prep_mesmenys_nom" name="preposició + més/menys + nom">
         <antipattern>
             <token postag="A.*|V.P.*" postag_regexp="yes"/>
