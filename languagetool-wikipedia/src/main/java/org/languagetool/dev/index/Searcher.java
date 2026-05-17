@@ -35,7 +35,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.SimpleFSDirectory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Counter;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -411,7 +411,7 @@ public class Searcher {
     Language language = Languages.getLanguageForShortCode(languageCode);
     File indexDir = new File(args[2]);
     boolean limitSearch = !(args.length > 3 && "--no_limit".equals(args[3]));
-    Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir.toPath()));
+    Searcher searcher = new Searcher(FSDirectory.open(indexDir.toPath()));
     if (!limitSearch) {
       searcher.setMaxHits(100_000);
     }

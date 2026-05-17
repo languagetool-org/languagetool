@@ -29,8 +29,8 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.LuceneTestCase;
+import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.tests.util.LuceneTestCase;
 import org.junit.Ignore;
 import org.languagetool.Language;
 import org.languagetool.language.English;
@@ -40,6 +40,7 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.languagetool.dev.index.Lucene.FIELD_NAME;
@@ -57,7 +58,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   public void setUp() throws Exception {
     super.setUp();
     language = new English();
-    directory = new RAMDirectory();
+    directory = new MMapDirectory(Paths.get("/tmp/lucene"));
     /*File indexPath = new File("/tmp/lucene");
     if (indexPath.exists()) {
       FileUtils.deleteDirectory(indexPath);
