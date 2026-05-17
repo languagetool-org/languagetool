@@ -5103,6 +5103,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rule id="diagnostic" name="barreja, mescla (verb)">
+        <pattern>
+            <token regexp="yes" inflected="yes">barrejar|mesclar</token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">diagnòstic</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"></disambig>
+    </rule>
     <rulegroup id="nDet" name="no Determinant">
         <!--  paraules comunes que no solen ser determinants gairebé mai -->
         <rule>
