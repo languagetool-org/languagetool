@@ -17406,26 +17406,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- SÃO PARA SEREM USADOS são para usar -->
-        <rule id='SER_PARA_SER_SEREM_PARTPASSADO_SER_PARA_VINFINITIVO' name="✂️ V.Ser + para + V.Ser + V.Part.Pass → V.Ser + para + V.Inf" type="style">
+        <rule id='SER_PARA_SER_PARTPASSADO_VINFINITIVO' name="✂️ Ser + para + 'ser(em) + Part.Pass' → Infinitivo" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      Os anéis são para serem usados de manhã. → Os anéis são para usar de manhã.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
+                <token regexp='yes'>é|são|fossem?</token>
+                <token>para</token>
                 <marker>
-                    <token inflected='yes'>ser</token>
-                    <token>para</token>
-                    <token inflected='yes'>ser</token>
+                    <token regexp='yes'>ser(em)?</token>
                     <token postag='VMP00.+' postag_regexp='yes'/>
                 </marker>
-                <token><exception postag_regexp='yes' postag='CC|_PUNCT'/>
-                    <exception regexp='yes'>por|pel[oa]s?</exception></token>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>\1 \2 <match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
-            <example correction="são para usar">Os anéis <marker>são para serem usados</marker> de manhã.</example>
+            <message>Construção passiva frequentemente simplificável com infinitivo.</message>
+            <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+            <example correction="usar">O anel é para <marker>ser usado</marker> de manhã.</example>
+            <example correction="usar">Os anéis são para <marker>serem usados</marker> de manhã.</example>
         </rule>
 
 
