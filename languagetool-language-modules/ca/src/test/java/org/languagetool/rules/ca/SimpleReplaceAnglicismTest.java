@@ -90,7 +90,6 @@ public class SimpleReplaceAnglicismTest {
     assertEquals(1, matches.length);
     assertEquals("[l'esnòrquel gratuït, la immersió lleugera gratuïta]", matches[0].getSuggestedReplacements().toString());
 
-
     // frases incorrectes — anglicismes innecessaris:
     matches = rule.match(lt.getAnalyzedSentence("El spam és un problema al correu electrònic."));
     assertEquals(1, matches.length);
@@ -136,11 +135,11 @@ public class SimpleReplaceAnglicismTest {
     assertEquals("[en línia, digital, electrònic, connectat, per internet, en remot, en internet]",
       matches[0].getSuggestedReplacements().toString());
 
-
-    // know-how és un únic token (amb guionet), per tant sí que s'aplica el filtre:
     matches = rule.match(lt.getAnalyzedSentence("Necessitem el know-how necessari per fer-ho."));
     assertEquals(1, matches.length);
-    assertEquals("[el saber fer]", matches[0].getSuggestedReplacements().toString());
+    assertEquals(14, matches[0].getFromPos());
+    assertEquals(22, matches[0].getToPos());
+    assertEquals("[saber fer]", matches[0].getSuggestedReplacements().toString());
 
     // majúscula a l'inici de frase:
     matches = rule.match(lt.getAnalyzedSentence("Zombie és el nom de la pel·lícula."));

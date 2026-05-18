@@ -92,8 +92,7 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     for (RuleMatch potentialRuleMatch : potentialMatches) {
       // For multi-word expressions, skip the filter: it cannot adjust gender/number
       // reliably across tokens and causes incorrect position adjustments.
-      potentialRuleMatch.setOriginalErrorStr();
-      if (potentialRuleMatch.getOriginalErrorStr().contains(" ")) {
+      if (!potentialRuleMatch.isUnderlinedErrorSingleToken()) {
         ruleMatches.add(potentialRuleMatch);
         continue;
       }
