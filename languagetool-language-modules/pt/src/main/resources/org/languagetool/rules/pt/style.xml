@@ -3803,6 +3803,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rule id='A_VOLTA_DE_EM_TORNO_DE' name="🤵 'à/em volta' de → 'em torno'" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' regexp='yes' inflected='yes'>centrar|articular|estruturar|debater|discutir|versar|incidir|assentar|basear|depender|gravitar|convergir|focar|concentrar|orientar|formular|construir|debate|discussão|polémica|controvérsia|questão|tema|assunto|investigação|análise|estudo|teoria|hipótese|narrativa|discurso|argumento|problemática|reflexão|interpretação|perspetiva|estratégia|campanha</token> <!-- safelist GPT 5 -->
+                <marker>
+                    <token regexp='yes'>à|em</token>
+                    <token>volta</token>
+                </marker>
+                <token regexp='yes'>de|d[ao]s?</token>
+            </pattern>
+            <message>Em contexto abstrato e em registo formal, pode preferir &quot;em torno de&quot;.</message>
+            <suggestion>em torno</suggestion>
+            <example correction="em torno">A discussão decorre <marker>em volta</marker> do projeto.</example>
+            <example correction="em torno">O debate centra-se <marker>à volta</marker> do projeto.</example>
+        </rule>
+
+
+        <rule id='COMUNICADO_DIRIGIDO_A' name="🤵 Comunicado dirigido a alguém" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' postag='V.+' postag_regexp='yes' regexp='yes' inflected='yes'>fazer|emitir|publicar|divulgar|redigir|apresentar|veicular|difundir|produzir|lançar|elaborar</token>
+                <token postag='NC[^C].+' postag_regexp='yes' regexp='yes' inflected='yes'>comunicado|declaração|pronunciamento|manifesto|nota|anúncio|publicação|memorando|notificação|ofício|editorial|comunicação|posicionamento</token>
+                <token min='0' max='2' regexp='yes' inflected='yes'>aberto|oficial|público</token>
+                <marker>
+                    <token skip='1' regexp='yes'>às?|aos?</token>
+                </marker>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Em registo formal, pode explicitar o destinatário com &quot;dirigido a&quot;.</message>
+            <suggestion><match no='2' postag='NC(..)000' postag_replace='AQ0$10'>dirigido</match> \4</suggestion>
+            <example correction="dirigido à">Vou elaborar um ofício <marker>à</marker> Ana.</example>
+            <example correction="dirigida à">Vou lançar uma nota oficial <marker>à</marker> comunidade.</example>
+            <example correction="dirigida às">Vou lançar uma nota oficial <marker>às</marker> pessoas envolvidas.</example>
+            <example correction="dirigido ao">Vou fazer um comunicado oficial <marker>ao</marker> país.</example>
+            <example correction="dirigido aos">Vou fazer um comunicado <marker>aos</marker> utilizadores do software.</example>
+            <example correction="dirigido aos">Vou fazer um comunicado <marker>aos</marker> seus utilizadores.</example>
+            <example>Acabei de fazer uma declaração pública oficial dirigida ao país.</example>
+        </rule>
+
+
         <rule id='PASSAR_POR_DIFICULDADES' name="🤵 'Passar' [situação negativa] → 'passar por'/enfrentar" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
@@ -14189,6 +14229,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> nenhuma utilidade profissional.</example>
             <example correction="sem">Fizeram estudos importantes, mas estes <marker>não tinham</marker> objetivos militares.</example>
         </rule>
+
+
         <!-- A NÍVEL PROFISSIONAL profissionalmente -->
         <rulegroup id='A_NÍVEL_ADJC_NCC_ADVÉRBIO' name="✂️ A nível NC/Adj → Adv" type='style'>
             <!--IDEA shorten_it-->
@@ -14199,6 +14241,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       É útil a nível civil e militar. → É útil civil e militarmente.
       É útil a nível civil, policial e militar. → É útil civil, policial e militarmente.
       -->
+
+                <antipattern>
+                    <token postag='RG'/>
+                    <token>a</token>
+                    <token>nível</token>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <example>Questões de saúde na minha família, bem como a nível pessoal.</example>
+                    <example>A nível geográfico esta bem situado, tendo uma fácil acessibilidade tanto a nível terrestre como aéreo.</example>
+                    <example>A síntese de cristãos transformaram essas práticas, sem dúvida a nível local ...</example>
+                    <example>Passaram a dominar cada vez mais as políticas do estado, tanto a nível estadual quanto a nível nacional.</example>
+                </antipattern>
 
             <!-- É útil a nível civil. → É útil civilmente. -->
             <rule>
@@ -17353,26 +17406,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- SÃO PARA SEREM USADOS são para usar -->
-        <rule id='SER_PARA_SER_SEREM_PARTPASSADO_SER_PARA_VINFINITIVO' name="✂️ V.Ser + para + V.Ser + V.Part.Pass → V.Ser + para + V.Inf" type="style">
+        <rule id='SER_PARA_SER_PARTPASSADO_VINFINITIVO' name="✂️ Ser + para + 'ser(em) + Part.Pass' → Infinitivo" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      Os anéis são para serem usados de manhã. → Os anéis são para usar de manhã.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
+                <token regexp='yes'>é|são|fossem?</token>
+                <token>para</token>
                 <marker>
-                    <token inflected='yes'>ser</token>
-                    <token>para</token>
-                    <token inflected='yes'>ser</token>
+                    <token regexp='yes'>ser(em)?</token>
                     <token postag='VMP00.+' postag_regexp='yes'/>
                 </marker>
-                <token><exception postag_regexp='yes' postag='CC|_PUNCT'/>
-                    <exception regexp='yes'>por|pel[oa]s?</exception></token>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>\1 \2 <match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
-            <example correction="são para usar">Os anéis <marker>são para serem usados</marker> de manhã.</example>
+            <message>Construção passiva frequentemente simplificável com infinitivo.</message>
+            <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+            <example correction="usar">O anel é para <marker>ser usado</marker> de manhã.</example>
+            <example correction="usar">Os anéis são para <marker>serem usados</marker> de manhã.</example>
         </rule>
 
 

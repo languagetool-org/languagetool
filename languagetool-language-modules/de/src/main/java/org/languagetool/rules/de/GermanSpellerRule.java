@@ -112,7 +112,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern SCHAFE_PATTERN = compile("(Alpenschaf|Berberschaf|Bergschaf|Blauschaf|Brillenschaf|Dachsteinschaf|Deichschaf|Dickhornschaf|Feinwollschaf|Fettschwanzschaf|Fleischschaf|Fuchsschaf|Glücksschaf|Hausschaf|Jungschaf|Karakulschaf|Klonschaf|Merinoschaf|Milchschaf|Mondschaf|Nutzschaf|Rhönschaf|Riesenwildschaf|Schaukelschaf|Schneeschaf|Steinschaf|Steppenschaf|Superschaf|Waldschaf|Weideschaf|Wildschaf|Wollschaf|Zackelschaf|Zuchtschaf|Zwergblauschaf)(s|en)?");
 
   private static final Pattern START_WITH_NEGER = compile("neger.*");
-  private static final Pattern CONTAINS_NEGER = compile(".+neger(s|n|in|innen)?");
+  private static final Pattern CONTAINS_NEGER = compile(".+neger(s|n|in|innen)?.+");
   private static final Pattern CONTAINS_NEGER_2 = compile(".+-neger(s|n|in|innen)?-.+");
   private static final Pattern CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_BEGINNING = compile("^(hunger|zeit|käse|zwiebel|kommoden?|lager|angst|freund|feind)\\s.+");
   private static final Pattern CONTAINS_UNCOMMON_LOWERCASED_NOUN_AT_END = compile(".+\\s(hunger|zeit|käse|zwiebel|kommoden?|lager|angst|freund|feind)$");

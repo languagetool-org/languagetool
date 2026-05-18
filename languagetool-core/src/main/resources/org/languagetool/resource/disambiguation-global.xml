@@ -248,6 +248,22 @@ Copyright (C) 2021 Jaume Ortolà
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="mailto" id="MAILTO">
+        <pattern>
+            <token>mailto</token>
+            <token spacebefore="no">:</token>
+            <token spacebefore="no" regexp="yes">.*@.*</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule name="about:" id="ABOUT">
+        <pattern>
+            <token>about</token>
+            <token spacebefore="no">:</token>
+            <token regexp="yes" spacebefore="no">blank|config|preferences|settings|downloads|history|bookmarks|newtab|home|extensions|addons|plugins|cache|memory|performance|profiles|support|networking|crashes|credits|license|version|policies|studies|buildconfig|telemetry|processes|serviceworkers|third-party|webrtc|logging|certificate|dns|storage|welcome|privatebrowsing|reader|sessionrestore|debugging|profiling|checkerboard|robots|compat|unloads|rights|about|flags|gpu|net-internals|components|sync-internals|policy|sandbox|tracing|webrtc-internals|mozilla</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
     <rule name="Ignore spelling of file names" id="GLOBAL_IGNORE_FILE_NAMES">
         <pattern>
             <token/>

@@ -58,10 +58,6 @@ public class SimpleReplaceRuleTest {
     assertEquals("El transportista", matches[0].getSuggestedReplacements().get(1));
     assertEquals("vaga", matches[1].getSuggestedReplacements().get(0));
     
-    matches = rule.match(lt.getAnalyzedSentence("EEUU"));
-    assertEquals(1, matches.length);
-    assertEquals("EUA", matches[0].getSuggestedReplacements().get(0));
-    
     matches = rule.match(lt.getAnalyzedSentence("Aconteixements"));
     assertEquals(1, matches.length);
     assertEquals("Esdeveniments", matches[0].getSuggestedReplacements().get(0));

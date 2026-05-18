@@ -117,7 +117,7 @@ public class MorfologikCatalanSpellerRuleTest {
     // incomplete multiword
     assertSuggestionsTest("L'statu", "[tato, Satto, Steno, tatú, sta tu]", 1);
     assertSuggestionsTest("argüit", "[arguït]", 1);
-    assertSuggestionsTest("ángel", "[àngel, Àngel, àngels, anual, angle]", 1);
+    assertSuggestionsTest("ángel", "[àngel, àngels, anual, angle, anhel]", 1);
     assertSuggestionsTest("caçessim", "[cacéssim, cassàssim, casséssim, casàssim, caséssim]", 1);
     assertSuggestionsTest("coche", "[cotxe, cuixa, coixa, cuixé, cotxa]", 1);
     assertSuggestionsTest("cantaríà", "[cantaria]", 1);
@@ -193,7 +193,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("veurehi", "[veure-hi, beure-hi, veure hi]", 1);
     assertSuggestionsTest("veureles", "[veure-les, beure-les, vorells, barrales, beurades]", 1);
     assertSuggestionsTest("lilla", "[Lilla, l'Illa, l'illa, Lille, filla]", 1);
-    assertSuggestionsTest("portas", "[portàs, portes, Portes, porta, portar]", 1);
+    assertSuggestionsTest("portas", "[portàs, portes, porta, portar, poetes]", 1);
     assertSuggestionsTest("mantenir'me", "[mantenir-me]", 1);
     assertSuggestionsTest("elcap", "[el cap, alçar, alça, alçat, alcem]", 1);
     assertSuggestionsTest("almeu", "[al meu, allau, lleu, Dalmau, alceu]", 1);
@@ -209,7 +209,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("avegades", "[a vegades, vegades, amagades, apagades, avalades]", 1);
     assertSuggestionsTest("Encanvi", "[En canvi, Encabí, Encalbí, Encani, Encanti]", 1);
     assertSuggestionsTest("Nosé", "[No sé, Nos, Nus, Nosa, Pose]", 1);
-    assertSuggestionsTest("air", "[Aïr, aïr, dir, ahir, ai]", 1);
+    assertSuggestionsTest("air", "[aïr, dir, ahir, ai, aire]", 1);
     assertSuggestionsTest("Misiones", "[Missiones, Missionés]", 1); // millorable
     assertSuggestionsTest("quedan", "[queden, queda'n]", 1);
     assertSuggestionsTest("portan", "[porten, porta'n]", 1);
@@ -233,13 +233,17 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("enviartela", "[enviar-te-la, enviar tela]", 1);
     assertSuggestionsTest("enviartel", "[enviar-te'l, Innviertel, enviar tel]", 1);
     assertSuggestionsTest("dirtho", "[dir-t'ho, dir-ho, Dirshu]", 1);
-    assertSuggestionsTest("sentimen", "[sentiment, sentien, sentiran, sentiren, senti men]", 1);
+    assertSuggestionsTest("sentimen", "[sentiment, sentien, sentiran, sentiren, sentim en]", 1);
     assertSuggestionsTest("fesmho", "[fes-m'ho, fes-ho, fes mho]", 1);
     assertSuggestionsTest("prenten", "[pren-te'n, pretén, prenen, prenien, presten]", 1);
     assertSuggestionsTest("daconseguirlos", "[d'aconseguir-los, aconseguir-los]", 1);
     assertSuggestionsTest("laconseguirlos", "[l'aconseguir-los, aconseguir-los]", 1);
     assertSuggestionsTest("portarinhi", "[portar-hi, portar-n'hi]", 1);
-    assertSuggestionsTest("norueg", "[noruega, noruec, Noruega, nurag]", 1);
+    assertSuggestionsTest("Vull dirlis això.", "[dir-los, birlis, dialitz]", 1);
+    assertSuggestionsTest("Portemlis el sopar més tard.", "[Portem-los, Portells]", 1);
+
+    assertSuggestionsTest("inflacció", "[infecció, inflació, infracció, inflicció]", 1);
+    assertSuggestionsTest("norueg", "[noruega, noruec, nurag]", 1);
     assertSuggestionsTest("prenense", "[prenent-se, pretensa, pretense, prenen se]", 1);
     assertSuggestionsTest("cual", "[qual]", 1);
     assertSuggestionsTest("m0entretinc", "[m'entretinc]", 1);
@@ -261,7 +265,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("La sol•licitut", "[sol·licitud, sol·licitat, sol·licito]", 1);
     assertSuggestionsTest("Il•lustran", "[Il·lustren]", 1);
     assertSuggestionsTest("bél.lica", "[bèl·lica, vèlica]", 1);
-    assertSuggestionsTest("mercar", "[marcar, Mercer, marcer, mercer, mercat]", 1);
+    assertSuggestionsTest("mercar", "[marcar, marcer, mercer, mercat, marca]", 1);
     //majúscules
     assertSuggestionsTest("De PH 4", "[pH, PP, H, PA, AH]", 1);
     assertSuggestionsTest("De l'any 156 Ac a l'any 2000.", "[aC, A, Al, Ací, Ah]", 1);
@@ -329,6 +333,10 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("dema\u0300", "", 0);
     assertSuggestionsTest("demanàren", "[demanaren, demanaran]", 1);
     assertSuggestionsTest("demana\u0300ren", "[demanaren, demanaran]", 1);
+
+    // avoid capitalized replacement
+    assertSuggestionsTest("Em va demanar que fés la feina", "[fes, les, és, es, més]", 1);
+    assertSuggestionsTest("Ha arribat la caballería", "[cavalleria, cavallaria]", 1);
 
     // do not suggest forms of "sentar, enterar".
     assertSuggestionsTest("sentences", "[sentències, sentencies, sentenciés, senten ces]", 1);

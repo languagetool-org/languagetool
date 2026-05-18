@@ -418,6 +418,8 @@ public class Catalan extends Language {
         return 5; // la cremà
       case "L_NO_APOSTROFA":
         return 5;
+      case "EN_NO_INFINITIU_CAUSAL_REMOTE":
+        return 5;
       case "L_D_N_NO_S_APOSTROFEN":
         return 5;
       case "AMB_EM":

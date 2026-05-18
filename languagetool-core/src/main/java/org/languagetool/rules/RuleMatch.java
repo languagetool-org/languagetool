@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleMatcher;
@@ -367,7 +368,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * This value is used to keep the position in the sentence when the offsetPosition is adjusted to the whole text
    */
   public int getFromPosSentence() {
-    return sentencePosition.getStart();
+    if (sentencePosition.getStart() > -1) {
+      return sentencePosition.getStart();
+    } else {
+      // use the positions before the offsetPosition is adjusted to the whole text
+      return this.getFromPos();
+    }
   }
 
   /**
@@ -375,7 +381,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * This value is used to keep the position in the sentence when the offsetPosition is adjusted to the whole text
    */
   public int getToPosSentence() {
-    return sentencePosition.getEnd();
+    if (sentencePosition.getEnd() > -1) {
+      return sentencePosition.getEnd();
+    }  else {
+      // use the positions before the offsetPosition is adjusted to the whole text
+      return this.getToPos();
+    }
   }
 
   public void setOffsetPosition(int fromPos, int toPos) {
@@ -718,13 +729,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
     int toPos = this.getToPosSentence();
     if (fromPos > -1 && toPos > -1 && toPos<=sentenceStr.length() && fromPos<toPos) {
       this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
-      return;
-    }
-    // otherwise use the positions before the offsetPosition is adjusted to the whole text
-    fromPos = this.getFromPos();
-    toPos = this.getToPos();
-    if (fromPos > -1 && toPos > -1 && toPos<=sentenceStr.length() && fromPos<toPos) {
-      this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
     }
   }
 
@@ -836,6 +840,54 @@ public class RuleMatch implements Comparable<RuleMatch> {
     newMatch.setOriginalErrorStr(errorStr);
     return newMatch;
   }
+
+  /**
+   * Returns the 0-based token indices [fromToken, toToken] (inclusive) within the
+   * given AnalyzedSentence that correspond to this match's character offsets.
+   * Token 0 is the artificial SENT_START token; real tokens begin at index 1.
+   *
+   * @return int array of length 2: { fromTokenIndex, toTokenIndex }
+   * @throws IllegalArgumentException if no tokens overlap the match's character range,
+   *                                  or if sentencePosition has not been set
+   */
+  private int[] getStartEndTokenIndices() {
+    // use the positions in the sentence if available
+    int fromChar = this.getFromPosSentence();
+    int toChar = this.getToPosSentence();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
+    int fromToken = -1;
+    int toToken = -1;
+    for (int i = 0; i < tokens.length; i++) {
+      // getStartPos() is sentence-relative, matching sentencePosition
+      int tokenStart = tokens[i].getStartPos();
+      int tokenEnd = tokenStart + tokens[i].getToken().length();
+      if (fromToken == -1 && tokenEnd > fromChar) {
+        fromToken = i;
+      }
+      if (tokenStart < toChar) {
+        toToken = i;
+      } else {
+        break;
+      }
+    }
+    if (fromToken == -1 || toToken == -1) {
+      throw new IllegalArgumentException(
+          "No tokens found for sentencePosition [" + fromChar + ", " + toChar + "]");
+    }
+    return new int[]{fromToken, toToken};
+  }
+
+  /*
+   * Returns `true` if the underlined error contains only one token
+   */
+  public boolean isUnderlinedErrorSingleToken() {
+    int[] indices = getStartEndTokenIndices();
+    if (indices != null && indices.length == 2) {
+      return indices[0] == indices[1];
+    }
+    return false;
+  }
+
 }
 
 

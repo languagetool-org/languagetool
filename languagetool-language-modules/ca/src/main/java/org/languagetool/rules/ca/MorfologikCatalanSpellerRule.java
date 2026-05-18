@@ -50,7 +50,9 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final List<String> PREFIX_AMB_ESPAI = Arrays.asList("pod", "ultra", "eco", "tele", "anti", "re", "des",
     "sen", "sem", "s", "avant", "auto", "ex", "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post",
     "retro", "semi", "super", "trans", "pro", "g", "l", "m", "e", "pos", "acost");
-  private static final List<String> ESPAI_AMB_SUFIX = Arrays.asList("a", "o", "i");
+  private static final List<String> ESPAI_AMB_SUFIX_NO = Arrays.asList("mi", "lis");
+  private static final List<String> ESPAI_AMB_SUFIX_SI = Arrays.asList("a", "o", "i");
+
   private static final List<String> PRONOM_INICIAL = Arrays.asList("em", "et", "es", "se", "ens", "us", "vos", "li", "hi",
     "ho", "el", "la", "els", "les");
 
@@ -99,7 +101,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     "nsla", "nsli", "sela", "seli", "sels", "sens", "seus", "tela", "teli", "tels", "tens", "usel", "usem", "usen",
     "ushi", "usho", "usla", "usli", "lan", "len", "les", "lhi", "lil", "lin", "los", "mel", "men", "mhi", "mho", "nhi"
     , "nos", "sel", "sem", "sen", "set", "shi", "sho", "tel", "tem", "ten", "thi", "tho", "vos", "hi", "ho", "la",
-    "li", "lo", "ls", "me", "ne", "ns", "se", "te", "us", "mi", "nosi", "losi", "si");
+    "li", "lo", "ls", "me", "ne", "ns", "se", "te", "us", "mi", "nosi", "losi", "si", "lis");
   // "l", "m", "n", "s", "t"
 
   private final CatalanTagger tagger;
@@ -143,8 +145,17 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     // move some run-on-words suggestions to the top
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
+    List<String> replacements = new ArrayList<>();
     for (int i = 0; i < suggestions.size(); i++) {
-      String replacement = suggestions.get(i).getReplacement();
+      replacements.add(suggestions.get(i).getReplacement());
+    }
+    for (int i = 0; i < suggestions.size(); i++) {
+      String replacement = replacements.get(i);
+      // avoid duplicate capitalized replacement
+      if (word.equals(word.toLowerCase()) && StringTools.isCapitalizedWord(replacement)
+        && replacements.contains(replacement.toLowerCase())) {
+        continue;
+      }
       if (inalambric.contains(replacement.toLowerCase())) {
         newSuggestions = new ArrayList<>();
         newSuggestions.add(new SuggestedReplacement("sense fils"));
@@ -183,11 +194,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
           continue;
         }
         // remove wrong split sufixes
-        if ("mi".equals(parts[1].toLowerCase())) {
+        if (ESPAI_AMB_SUFIX_NO.contains(parts[1].toLowerCase())) {
           continue;
         }
         // allow only one-letter second part " a", " o", " i"
-        if (parts[1].length() == 1 && !ESPAI_AMB_SUFIX.contains(parts[1].toLowerCase())) {
+        if (parts[1].length() == 1 && !ESPAI_AMB_SUFIX_SI.contains(parts[1].toLowerCase())) {
           continue;
         }
         // remove preposition + inflected verb
@@ -210,19 +221,21 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
       // move some split words to first place
       if (parts.length == 2) {
+        List<AnalyzedTokenReadings> atkn0 = tagger.tag(List.of(parts[0]));
+        List<AnalyzedTokenReadings> atkn1 = tagger.tag(List.of(parts[1]));
+        boolean isBalear0 = atkn0.get(0).matchesPosTagRegex(VERB_BALEAR) && !atkn0.get(0).hasPosTagStartingWith("N")
+          && !atkn0.get(0).hasPosTagStartingWith("S");
+        boolean isBalear1 = atkn1.get(0).matchesPosTagRegex(VERB_BALEAR) && !atkn1.get(0).hasPosTagStartingWith("N")
+          && !atkn1.get(0).hasPosTagStartingWith("S");
+        if (isBalear0 || isBalear1) {
+          continue;
+        }
         if (parts[1].length() > 1 && PARTICULA_INICIAL.contains(parts[0].toLowerCase())) {
-          String newSuggestion = parts[1];
-          List<AnalyzedTokenReadings> atkn = tagger.tag(List.of(newSuggestion));
-          boolean isBalear = atkn.get(0).matchesPosTagRegex(VERB_BALEAR) && !atkn.get(0).hasPosTagStartingWith("N");
-          if (!isBalear) {
             newSuggestions.add(posNewSugg, suggestions.get(i));
             continue;
-          }
         }
         if (parts[1].length() > 1 && PRONOM_INICIAL.contains(parts[0].toLowerCase())) {
-          String newSuggestion = parts[1];
-          List<AnalyzedTokenReadings> atkn = tagger.tag(List.of(newSuggestion));
-          if (atkn.get(0).matchesPosTagRegex(VERB_INDSUBJ)) {
+          if (atkn1.get(0).matchesPosTagRegex(VERB_INDSUBJ)) {
             newSuggestions.add(posNewSugg, suggestions.get(i));
             continue;
           }

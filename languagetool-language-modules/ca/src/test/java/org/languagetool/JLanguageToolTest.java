@@ -66,6 +66,15 @@ public class JLanguageToolTest {
   }
 
   @Test
+  public void testHyphenatedPlusCompound() throws IOException {
+    List<RuleMatch> matches = tool.check("c) Quan el prefix precedeix una locució, un sintagma o un mot que ja porta " +
+      "guionet: manifestació anti-cascos blaus, al·legat anti-pena de mort, ex-conseller en cap, ex-directora " +
+      "general, ex-Unió Soviètica, l’ambient pre-Segona Guerra Mundial, manifestació pro-dret de vaga, pseudo-petita " +
+      "burgesia, vice-primer ministre; actitud anti-nord-americana.");
+    assertEquals(0, matches.size());
+  }
+
+  @Test
   public void testValencianVariant() throws IOException {
     Language lang = ValencianCatalan.getInstance();
     JLanguageTool tool = new JLanguageTool(lang);

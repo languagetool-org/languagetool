@@ -49,9 +49,9 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern TRES_ADJECTIUS = Pattern.compile("(.*)o-(.*)o-(.*.*)",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private final List<String> ALTRES_PREFIXOS = Arrays.asList("greco", "sino", "italo", "franco", "gal·lo", "luso",
-    "germano", "hispano", "anglo", "àrabo", "austro");
+    "germano", "hispano", "anglo", "àrabo", "austro", "belgo");
   private final List<String> NO_ALTRES_PREFIXOS = Arrays.asList("grego", "xineso", "italiano", "franceso",
-    "portugueso", "angleso", "espanyolo", "alemanyo", "arabo", "austríaco");
+    "portugueso", "angleso", "espanyolo", "alemanyo", "arabo", "austríaco", "bèlgico");
   private static final List<String> ALLUPPERCASE_EXCEPTIONS = Arrays.asList("ARNAU", "CRISTIAN", "TOMÀS");
   private boolean isValencian;
 
