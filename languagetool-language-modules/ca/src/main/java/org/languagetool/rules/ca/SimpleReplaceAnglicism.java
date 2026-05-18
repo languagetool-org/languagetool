@@ -90,6 +90,13 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     // Adjust determinants and adjectives
     for (RuleMatch potentialRuleMatch : potentialMatches) {
+      // For multi-word expressions, skip the filter: it cannot adjust gender/number
+      // reliably across tokens and causes incorrect position adjustments.
+      potentialRuleMatch.setOriginalErrorStr();
+      if (potentialRuleMatch.getOriginalErrorStr().contains(" ")) {
+        ruleMatches.add(potentialRuleMatch);
+        continue;
+      }
       RuleMatch finalMatch = null;
       try {
         finalMatch = filter.acceptRuleMatch(potentialRuleMatch, argumentsMap, 0, null, null);
