@@ -368,7 +368,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * This value is used to keep the position in the sentence when the offsetPosition is adjusted to the whole text
    */
   public int getFromPosSentence() {
-    return sentencePosition.getStart();
+    if (sentencePosition.getStart() > -1) {
+      return sentencePosition.getStart();
+    } else {
+      // use the positions before the offsetPosition is adjusted to the whole text
+      return this.getFromPos();
+    }
   }
 
   /**
@@ -376,7 +381,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * This value is used to keep the position in the sentence when the offsetPosition is adjusted to the whole text
    */
   public int getToPosSentence() {
-    return sentencePosition.getEnd();
+    if (sentencePosition.getEnd() > -1) {
+      return sentencePosition.getEnd();
+    }  else {
+      // use the positions before the offsetPosition is adjusted to the whole text
+      return this.getToPos();
+    }
   }
 
   public void setOffsetPosition(int fromPos, int toPos) {
@@ -719,13 +729,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
     int toPos = this.getToPosSentence();
     if (fromPos > -1 && toPos > -1 && toPos<=sentenceStr.length() && fromPos<toPos) {
       this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
-      return;
-    }
-    // otherwise use the positions before the offsetPosition is adjusted to the whole text
-    fromPos = this.getFromPos();
-    toPos = this.getToPos();
-    if (fromPos > -1 && toPos > -1 && toPos<=sentenceStr.length() && fromPos<toPos) {
-      this.originalErrorStr = sentenceStr.substring(fromPos, toPos);
     }
   }
 
@@ -851,12 +854,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
     // use the positions in the sentence if available
     int fromChar = this.getFromPosSentence();
     int toChar = this.getToPosSentence();
-    // otherwise use the positions before the offsetPosition is adjusted to the
-    // whole text
-    if (fromChar == -1 || toChar == -1) {
-      fromChar = this.getFromPos();
-      toChar = this.getToPos();
-    }
     AnalyzedTokenReadings[] tokens = sentence.getTokens();
     int fromToken = -1;
     int toToken = -1;
