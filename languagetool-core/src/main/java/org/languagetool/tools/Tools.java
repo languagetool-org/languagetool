@@ -29,6 +29,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.*;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -266,6 +269,22 @@ public final class Tools {
       throw new IOException("Could not load file from classpath: '" + path + "'");
     }
     return is;
+  }
+
+  public static InputStream getStream(String path, String requiredHash) throws IOException, NoSuchAlgorithmException {
+    byte[] data;
+
+    try (InputStream is = getStream(path)) {
+      data = is.readAllBytes();
+    }
+
+    MessageDigest md = MessageDigest.getInstance("SHA-256");
+    String computedHash = HexFormat.of().formatHex(md.digest(data));
+
+    if (!computedHash.equals(requiredHash)) {
+      throw new IOException("Checksum mismatch for the file '" + path + "': expected " + requiredHash + ", got " + computedHash);
+    }
+    return new ByteArrayInputStream(data);
   }
 
   /**

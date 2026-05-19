@@ -30,6 +30,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,16 +60,16 @@ public class EnglishChunker implements Chunker {
   public EnglishChunker() {
     try {
       if (tokenModel == null) {
-        tokenModel = new TokenizerModel(Tools.getStream(TOKENIZER_MODEL));
+        tokenModel = new TokenizerModel(Tools.getStream(TOKENIZER_MODEL, "2d0dd64ffb3d084382d7bdb65e7bd004c5001ba5503c36413d97c3e46321437c"));
       }
       if (posModel == null) {
-        posModel = new POSModel(Tools.getStream(POS_TAGGER_MODEL));
+        posModel = new POSModel(Tools.getStream(POS_TAGGER_MODEL, "645a094f45a866687a617385233fd23ae8b0f5fa8b1b76996781a50c17bdcf3d"));
       }
       if (chunkerModel == null) {
-        chunkerModel = new ChunkerModel(Tools.getStream(CHUNKER_MODEL));
+        chunkerModel = new ChunkerModel(Tools.getStream(CHUNKER_MODEL, "7861a0c2f134d9c12a022a1ba501e88bc7039f6db72b4140e1bafd1fb5ef76cc"));
       }
       chunkFilter = new EnglishChunkFilter();
-    } catch (IOException e) {
+    } catch (IOException | NoSuchAlgorithmException e) {
       throw new RuntimeException("Could not initialize English chunker", e);
     }
   }
