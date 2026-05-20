@@ -238,6 +238,7 @@ public abstract class SpellingCheckRule extends Rule {
      */
     public void removeIgnoreTokens(List<String> tokens) {
         wordsToBeIgnored.removeAll(tokens);
+        updateIgnoredWordDictionary();
     }
 
   private void updateIgnoredWordDictionary() {
