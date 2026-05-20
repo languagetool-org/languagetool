@@ -20122,7 +20122,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         -->
         <rule>
             <pattern>
-                <token regexp="yes">més|menys</token>
+                <token regexp="yes">més|menys|mes|altre|altra|altres</token>
+                <token regexp="yes" inflected="yes">feina|faena</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"><exception>haver</exception></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="comparatiu" lemma="que"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">més|menys|mes</token>
                 <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
                 <marker>
                     <token>que</token>
@@ -20135,7 +20148,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">més|menys</token>
+                <token regexp="yes">més|menys|mes</token>
                 <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
                 <token min="0" max="4" postag="[AN].*|V.P.*|CC|_PUNCT_CONT" postag_regexp="yes"/>
                 <marker>
