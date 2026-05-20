@@ -41,6 +41,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
   private final static Pattern splitGenderNumberNoNoun = Pattern.compile("(A..|V.P..|D..|PX.)(.)(.)(.*)");
   private final static Pattern splitGenderNumberAdjective = Pattern.compile("(A..|V.P..|PX.)(.)(.)(.*)");
   private final static List<String> formsToIgnore = Arrays.asList("mes", "las");
+  private final static Pattern postagExceptions = Pattern.compile("NP.*|AQ0CN0|SPS00|[CP].*");
 
   @Nullable
   @Override
@@ -77,7 +78,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         String remainder = parts.length > 1 ? parts[1] : "";
         List<AnalyzedTokenReadings> atrs = tagger.tag(Collections.singletonList(word));
         AnalyzedToken at = atrs.get(0).readingWithTagRegex(splitGenderNumber);
-        if (at == null || at.getPOSTag() == null || at.getPOSTag().startsWith("NP")) {
+        if (at == null || at.getPOSTag() == null || atrs.get(0).readingWithTagRegex(postagExceptions) != null) {
           // if there is any suggestion without gender and number, use the list of suggestions with no change
           suggestions.addAll(match.getSuggestedReplacements());
           atrNounList.clear();
@@ -283,7 +284,8 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             suggestionBuilder.insert(0, prepositionToAdd + " ");
           }
           suggestionBuilder.insert(0, addTot);
-          String suggestion = StringTools.preserveCase(suggestionBuilder.toString(), tokens[startPos].getToken());
+          String originalSpan = match.getSentence().getText().substring(tokens[startPos].getStartPos(), tokens[endPos].getEndPos());
+          String suggestion = StringTools.preserveCaseWordByWord(suggestionBuilder.toString(), originalSpan);
           if (endPos == posWord && startPos == posWord && tokens[posWord].getToken().equals(suggestion)) {
             continue;
           }
@@ -366,5 +368,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
       return "";
     }
   }
+
+
 
 }

@@ -2790,6 +2790,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="відкрив">він <marker>відрив</marker> двері</example>
     </rule>
 
+    <rule id="kruzhok" name="Кружок і гурток">
+      <pattern>
+        <token inflected="yes" postag_regexp="yes" postag="adj:[mp]:.*" regexp="yes">спортивн.*|літературн.*|історичн.*|художн.*|.*шкільн.*|шаховий|театральний|студентський|аматорський|академічний</token>
+        <marker>
+          <token inflected="yes">кружок</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion><match no="2" regexp_match="(?iu)круж(.*)" regexp_replace="гурт$1"/></suggestion>?</message>
+      <example correction="гуртка">спортивного <marker>кружка</marker></example>
+    </rule>
+
     <rulegroup id="vika_viku" name="Віка і віку">
       <rule>
         <pattern>
@@ -2916,6 +2927,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 
     </rulegroup>
+
+    <rule id="klad_vs_sklad_1" name="Клад і склад">
+      <pattern>
+        <token inflected="yes">особовий</token>
+        <marker>
+          <token inflected="yes">клад</token>
+        </marker>
+      </pattern>
+      <message>Можливо ви мали на увазі: <suggestion><match no="2" regexp_match="клад" regexp_replace="с$0"/></suggestion>?</message>
+      <example correction="складу">для особового <marker>кладу</marker>.</example>
+      <example>Великого кладу</example>
+    </rule>
+
+    <rule id="klad_vs_sklad_2" name="Клад і склад">
+      <pattern>
+        <token>до</token>
+        <marker>
+          <token>кладу</token>
+        </marker>
+      </pattern>
+      <message>Можливо ви мали на увазі: <suggestion>складу</suggestion>?</message>
+      <example correction="складу">до <marker>кладу</marker> якої мали увійти.</example>
+      <example>Великого кладу</example>
+    </rule>
 
     <rulegroup id="na_vylit_vs_navylit" name="На виліт і навиліт">
       <rule>

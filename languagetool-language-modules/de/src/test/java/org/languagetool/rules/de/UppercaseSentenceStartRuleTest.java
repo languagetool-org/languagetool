@@ -79,6 +79,9 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(1, matches3.size());
     assertEquals(19, matches3.get(0).getFromPos());
     assertEquals(22, matches3.get(0).getToPos());
+
+    assertEquals(0, lt.check("Willkommen… im Berlin.").size());
+    assertEquals(0, lt.check("Die neue Kollektion von NAU! ist jetzt online.").size());
   }
 
 }

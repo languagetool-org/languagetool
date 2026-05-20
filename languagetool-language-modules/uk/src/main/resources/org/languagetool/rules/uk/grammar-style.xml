@@ -3986,7 +3986,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="svita_obsolete" name="Світа - застаріла форма">
       <pattern>
         <marker>
-          <token postag="noun:inanim:m:v_rod:rare">світа</token>
+          <token postag="noun:inanim:m:v_rod:arch">світа</token>
         </marker>
       </pattern>
       <message>світа - застаріла форма, за чинним правописом: <suggestion>світу</suggestion></message>
@@ -4427,6 +4427,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         -->
       </rule>
     </rulegroup>
+
+    <rule id="torgovelnyi_vs_torgivelnyi" name="Торговельний і торгівельний">
+      <pattern>
+        <token regexp="yes">.*торговельн.*</token>
+      </pattern>
+      <message>Правильно (аналогічно до купівельний, будівельний...): <suggestion><match 
+        no="1" regexp_match="(?iu)(.*тор)говельн(.*)" regexp_replace="$1гівельн$2"/></suggestion></message>
+      <url>https://iul-nasu.org.ua/najnovishi-rekomendatsiyi.html</url>
+      <example correction="риботоргівельного"><marker>риботорговельного</marker></example>
+      <example correction="Торгівельного"><marker>Торговельного</marker></example>
+      <example>торгівля</example>
+    </rule>
+
+    <rule id="javlyatysia_vs_buty" name="Являтися і бути">
+      <pattern>
+        <marker>
+          <token inflected="yes">являтися</token>
+        </marker>
+        <!--
+        <token regexp="yes" min="0">би?|же?</token>
+        -->
+        <token min="0" max="2">
+          <exception postag_regexp="yes" postag=".*v_(oru|dav).*"/>
+          <exception regexp="yes">[,;—–-]</exception>
+          <exception regexp="yes">під|і?з|над|понад|перед[оі]?|між</exception>
+        </token>
+        <token postag_regexp="yes" postag=".*v_(oru|dav).*">
+          <exception postag_regexp="yes" postag=".*v_dav.*"/>
+        </token>
+      </pattern>
+      <message>Правильно: <suggestion><match 
+        no="1" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">бути</match></suggestion></message>
+      <example correction="є">він <marker>являється</marker> символом</example>
+      <!--
+      <example correction="був">він <marker>являвся</marker> йому братом</example>
+      -->
+      <example>являється мені вечорами</example>
+      <example>являється місцевим мешканцям</example>
+      <example>двічі являтися під однією маскою</example>
+    </rule>
 
 <!--
     схоже, «відсутній» не має такого чіткого розділення

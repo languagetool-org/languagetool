@@ -645,7 +645,28 @@ public final class StringTools {
 //      return inputString.toLowerCase();
 //    }
     return inputString;
-    
+  }
+
+  /**
+   * Like StringTools.preserveCase but applies the case model word by word.
+   * If inputString and modelString have the same number of space-separated words,
+   * StringTools.preserveCase is applied to each word pair individually.
+   * Otherwise, falls back to StringTools.preserveCase on the whole string.
+   */
+  public static String preserveCaseWordByWord(String inputString, String modelString) {
+    String[] inputWords = inputString.split(" ", -1);
+    String[] modelWords = modelString.split(" ", -1);
+    if (inputWords.length != modelWords.length) {
+      return StringTools.preserveCase(inputString, modelString);
+    }
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < inputWords.length; i++) {
+      if (i > 0) {
+        result.append(" ");
+      }
+      result.append(StringTools.preserveCase(inputWords[i], modelWords[i]));
+    }
+    return result.toString();
   }
 
   @Nullable

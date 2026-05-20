@@ -1327,6 +1327,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="VER:1:PLU.*" postag_regexp="yes" />
             <token postag="SUB:.*" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- die Höhe bereitet/bereiten Kopfzerbrechen -->
+            <token postag="SUB:.*" postag_regexp="yes"/>
+            <token regexp="yes">bereitet?|bereiten</token>
+            <token postag="SUB:.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>

@@ -185,22 +185,25 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       // if it is not the last token in the sentence, similarly to UPPERCASE_SENTENCE_START
       if (isFirstWord && ruleMatches.size() > 0 && idx < tokens.length - 1) {
         RuleMatch ruleMatch = ruleMatches.get(0);
-        List<String> replacements = ruleMatch.getSuggestedReplacements();
-        List<String> newReplacements = new ArrayList<>();
-        for (String replacement : replacements) {
-          // only if the replacement is all lower case
-          if (replacement.equals(replacement.toLowerCase())) {
-            String capitalizedReplacement = StringTools.uppercaseFirstChar(replacement);
-            if (!newReplacements.contains(capitalizedReplacement)) {
-              newReplacements.add(capitalizedReplacement);
-            }
-          } else {
-            if (!newReplacements.contains(replacement)) {
-              newReplacements.add(replacement);
+        Supplier<List<SuggestedReplacement>> currentSuggestions = ruleMatch.getLazySuggestedReplacements();
+        ruleMatch.setLazySuggestedReplacements(() -> {
+          List<String> newReplacements = new ArrayList<>();
+          for (SuggestedReplacement suggestedReplacement : currentSuggestions.get()) {
+            // only if the replacement is all lower case
+            String replacement = suggestedReplacement.getReplacement();
+            if (replacement.equals(replacement.toLowerCase())) {
+              String capitalizedReplacement = StringTools.uppercaseFirstChar(replacement);
+              if (!newReplacements.contains(capitalizedReplacement)) {
+                newReplacements.add(capitalizedReplacement);
+              }
+            } else {
+              if (!newReplacements.contains(replacement)) {
+                newReplacements.add(replacement);
+              }
             }
           }
-        }
-        ruleMatch.setSuggestedReplacements(newReplacements);
+          return newReplacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList());
+        });
       }
       if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
         isFirstWord = false;

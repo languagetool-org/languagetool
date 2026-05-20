@@ -515,4 +515,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     ruleHasSuggestions = value;
   }
 
+  public Language getLanguage() {
+    return language;
+  }
+
 }

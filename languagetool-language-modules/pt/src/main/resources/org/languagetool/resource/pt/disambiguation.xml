@@ -3125,7 +3125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <!-- </rule> -->
   <!-- </rulegroup> -->
 
-  <rulegroup id="HOURS" name="Horas">
+  <rulegroup id="HOURS" name="Horas: Replace as NOUNS">
     <rule>
       <pattern>
         <token regexp='yes'>0?1h(\d{2}m)?(\d{2})?s?</token>
@@ -3171,7 +3171,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
     </rule>
   </rulegroup>
-  <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
+
+  <rulegroup id="HOURS_ADD_POSTAG_HOURS" name="Horas: Add postag _HOURS">
+    <rule>
+      <pattern>
+        <token regexp='yes'>0?1h(\d{2}m)?(\d{2})?s?</token>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>\d{1,2}h(\d{2}m)?(\d{2})?s?
+          <exception regexp='yes'>0?1h(\d{2}m)?(\d{2})?s?</exception></token>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</token>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>\d{1,2}\:(\d{2}\:)?(\d{2})?h?
+          <exception regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</exception></token>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='SPS00:DA0MP0' postag_regexp='no'/>
+        <marker>
+          <token regexp='yes'>\d{1,2}\:(\d{2}\:)?(\d{2})?
+            <exception regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</exception></token>
+        </marker>
+        <token postag='SPS00:DA0MS0' postag_regexp='no'/>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+      <!--
+      Examples:
+               Ramirez derrotou Gonzales por Finalização (mata leão) aos 4:38 do primeiro round.
+               Miolla cedeu aos 2:07 do primeiro round, encerrando sua série de oito vitórias consecutivas.
+               Ela derrotou Alvarez por nocaute técnico aos 2:53 do primeiro round.
+               Frank Mir venceu por nocaute aos 4:21 do segundo round.
+      -->
+    </rule>
+  </rulegroup>
+
+ <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2018-11-23  	-->
     <rule>
       <antipattern>
@@ -4065,6 +4113,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </marker>
     </pattern>
     <disambig postag="NCMP000"/>
+  </rule>
+
+  <rule id="VERBS_THIRD_PERSON_NOT_SECOND_20260511" name="These verbs aren't VMM02S0:PP1CSO00">
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP3S0:PP1CSO00' regexp='yes'>parece-me|ocorre-me|consta-me|compete-me|cabe-me|apraz-me</token>
+          <token postag='VMM02S0:PP1CSO00'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMM02S0:PP1CSO00"/>
+    <!--
+    Examples:
+             Dado este ponto da situação, parece-me impossível ter grau algum este ano letivo.
+             A mim, parece-me a única opção.
+             Compete-me testemunhar e eternizar cada instante, para que possa ser revivido sem limites.
+             Contestação a esse verso parece-me bem mais compreensível que uma mera rima forçada.
+             Este livro parece-me muito interessante.
+    -->
   </rule>
 
   <rule id="SÃO_VERB_20260115" name="In this case SÃO is VMIP3P0">

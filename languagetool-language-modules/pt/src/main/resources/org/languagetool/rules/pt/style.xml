@@ -245,6 +245,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <antipattern>
                 <token>que</token>
+                <token postag='PI.+' postag_regexp='yes'/>
+                <token postag='RG'/>
+                <token postag='VMI.+' postag_regexp='yes'/>
+                <example>A troika provou o que muitos já suspeitavam.</example>
+                <example>Estudos mostram que muitos ainda sonham em fugir das suas casas.</example>
+            </antipattern>
+
+            <antipattern>
+                <token>que</token>
                 <token postag='RG'/>
                 <token postag='RG'/>
                 <token postag='VMI[IPS].S.+' postag_regexp='yes'/>
@@ -323,7 +332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <exception postag_regexp='yes' postag='CC|RN|SPS0.+'/>
                         <exception regexp='yes'>então|sempre</exception> <!-- Force exceptions -->
                     </token>
-                    <token postag='VMI[CFIMPS].+' postag_regexp='yes'>
+                    <token postag='VMI.+' postag_regexp='yes'>
                         <exception scope='next' postag_regexp='yes' postag='VMN0000|VMP00.+|Z0CN0|CS'/>
                         <exception postag='VMIP2P0'/>
                     </token>
@@ -3737,6 +3746,103 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rulegroup id='ANIMO_ALENTO_PARA' name="🤵 Não ter mais ânimo/alento para [emocional]" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- I had to create three MAIN rules because of the "me" appearing as "me" and "mim" -->
+
+            <rule> <!-- #1: "tenho" -->
+                <pattern>
+                    <token>não</token>
+                    <marker>
+                        <token>tenho</token>
+                        <token min='0' max='1'>mais</token>
+                        <token regexp='yes'>ânimo|alento</token>
+                    </marker>
+                    <token>para</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Expressão potencialmente informal/emocional. Em contexto formal, considere uma alternativa mais neutra.</message>
+                <suggestion>reúno, neste momento, as condições</suggestion>
+                <suggestion>me encontro, neste momento, em condições</suggestion>
+                <example correction="reúno, neste momento, as condições|me encontro, neste momento, em condições">Não <marker>tenho mais ânimo</marker> para continuar.</example>
+            </rule>
+
+            <rule> <!-- #2: "temos" -->
+                <pattern>
+                    <token>não</token>
+                    <marker>
+                        <token>temos</token>
+                        <token min='0' max='1'>mais</token>
+                        <token regexp='yes'>ânimo|alento</token>
+                    </marker>
+                    <token>para</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Expressão potencialmente informal/emocional. Em contexto formal, considere uma alternativa mais neutra.</message>
+                <suggestion>reunimos, neste momento, as condições</suggestion>
+                <suggestion>nos encontramos, neste momento, em condições</suggestion>
+                <example correction="reunimos, neste momento, as condições|nos encontramos, neste momento, em condições">Não <marker>temos mais ânimo</marker> para prosseguir.</example>
+            </rule>
+
+            <rule> <!-- #3: "tem" -->
+                <pattern>
+                    <token>não</token>
+                    <marker>
+                        <token>tem</token>
+                        <token min='0' max='1'>mais</token>
+                        <token regexp='yes'>ânimo|alento</token>
+                    </marker>
+                    <token>para</token>
+                    <token postag='V.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Expressão potencialmente informal/emocional. Em contexto formal, considere uma alternativa mais neutra.</message>
+                <suggestion>reúne, neste momento, as condições</suggestion>
+                <suggestion>se encontra, neste momento, em condições</suggestion>
+                <example correction="reúne, neste momento, as condições|se encontra, neste momento, em condições">Não <marker>tem mais ânimo</marker> para prosseguir.</example>
+            </rule>
+        </rulegroup>
+
+
+        <rule id='A_VOLTA_DE_EM_TORNO_DE' name="🤵 'à/em volta' de → 'em torno'" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' regexp='yes' inflected='yes'>centrar|articular|estruturar|debater|discutir|versar|incidir|assentar|basear|depender|gravitar|convergir|focar|concentrar|orientar|formular|construir|debate|discussão|polémica|controvérsia|questão|tema|assunto|investigação|análise|estudo|teoria|hipótese|narrativa|discurso|argumento|problemática|reflexão|interpretação|perspetiva|estratégia|campanha</token> <!-- safelist GPT 5 -->
+                <marker>
+                    <token regexp='yes'>à|em</token>
+                    <token>volta</token>
+                </marker>
+                <token regexp='yes'>de|d[ao]s?</token>
+            </pattern>
+            <message>Em contexto abstrato e em registo formal, pode preferir &quot;em torno de&quot;.</message>
+            <suggestion>em torno</suggestion>
+            <example correction="em torno">A discussão decorre <marker>em volta</marker> do projeto.</example>
+            <example correction="em torno">O debate centra-se <marker>à volta</marker> do projeto.</example>
+        </rule>
+
+
+        <rule id='COMUNICADO_DIRIGIDO_A' name="🤵 Comunicado dirigido a alguém" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' postag='V.+' postag_regexp='yes' regexp='yes' inflected='yes'>fazer|emitir|publicar|divulgar|redigir|apresentar|veicular|difundir|produzir|lançar|elaborar</token>
+                <token postag='NC[^C].+' postag_regexp='yes' regexp='yes' inflected='yes'>comunicado|declaração|pronunciamento|manifesto|nota|anúncio|publicação|memorando|notificação|ofício|editorial|comunicação|posicionamento</token>
+                <token min='0' max='2' regexp='yes' inflected='yes'>aberto|oficial|público</token>
+                <marker>
+                    <token skip='1' regexp='yes'>às?|aos?</token>
+                </marker>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+            </pattern>
+            <message>Em registo formal, pode explicitar o destinatário com &quot;dirigido a&quot;.</message>
+            <suggestion><match no='2' postag='NC(..)000' postag_replace='AQ0$10'>dirigido</match> \4</suggestion>
+            <example correction="dirigido à">Vou elaborar um ofício <marker>à</marker> Ana.</example>
+            <example correction="dirigida à">Vou lançar uma nota oficial <marker>à</marker> comunidade.</example>
+            <example correction="dirigida às">Vou lançar uma nota oficial <marker>às</marker> pessoas envolvidas.</example>
+            <example correction="dirigido ao">Vou fazer um comunicado oficial <marker>ao</marker> país.</example>
+            <example correction="dirigido aos">Vou fazer um comunicado <marker>aos</marker> utilizadores do software.</example>
+            <example correction="dirigido aos">Vou fazer um comunicado <marker>aos</marker> seus utilizadores.</example>
+            <example>Acabei de fazer uma declaração pública oficial dirigida ao país.</example>
+        </rule>
+
+
         <rule id='PASSAR_POR_DIFICULDADES' name="🤵 'Passar' [situação negativa] → 'passar por'/enfrentar" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
@@ -3780,7 +3886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
                 <token>não</token>
-                <token min='0' max='1' regexp='yes' inflected='yes'>poder|dever</token>
+                <token min='0' max='1' postag='V.+' postag_regexp='yes' regexp='yes' inflected='yes'>poder|dever</token>
                 <marker>
                     <token inflected='yes'>deixar</token>
                 </marker>
@@ -3789,6 +3895,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <message>A expressão &quot;permitir&quot; é mais formal e direta do que &quot;deixar que&quot;.</message>
             <suggestion><match no='3' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
             <example correction="permitir">Não posso <marker>deixar</marker> que ele faça isso.</example>
+        </rule>
+
+
+        <rule id='POR_FAVOR_FACAM_INFINITIVO_FORMAL' name="🤵 Sugestão de formalidade: Peço, por favor, que façam" type='style' tone_tags='formal'  is_goal_specific='true'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <marker>
+                    <token min='0' max='1' regexp='yes'>peço|pedimos</token>
+                    <token min='0' max='1' postag='_PUNCT_COMMA'/>
+                    <token>por</token>
+                    <token>favor</token>
+                    <token min='0' max='1' postag='_PUNCT_COMMA'/>
+                </marker>
+                <token regexp='yes'>façam?</token>
+                <token postag='V.+' postag_regexp='yes' regexp='yes'>chegar|seguir|remeter|encaminhar|enviar|entregar|comunicar|informar|transmitir|submeter|apresentar|fornecer|disponibilizar|partilhar|remarcar|agendar|confirmar|validar|regularizar</token>
+            </pattern>
+            <message>Para um tom mais formal, pode usar:</message>
+            <suggestion>peço, por favor, que</suggestion>
+            <suggestion>pedimos, por favor, que</suggestion>
+            <example correction="Peço, por favor, que|Pedimos, por favor, que"><marker>Por favor</marker> faça chegar esta carta ao Rui.</example>
+            <example correction="Peço, por favor, que|Pedimos, por favor, que"><marker>Por favor</marker> façam chegar esta carta ao Rui.</example>
         </rule>
 
 
@@ -3909,7 +4036,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- Disambiguator must be improved in order to fix some of the words that appear as verbs - 2026-03-04 -->
 
             <antipattern>
-                <token skip='5' postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
+                <token skip='5' postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|roupa|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
                 <token postag='V.+' postag_regexp='yes' inflected='yes'>usar</token>
                 <example>Para o homem, compre a bota ou o sapato que ele irá usar para ir ao trabalho.</example>
                 <example>Amigas dizem que rejuvenesci, perguntam se fiz cirurgia plástica ou que creme de beleza estou usando.</example>
@@ -3925,7 +4052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <antipattern>
                 <token skip='5' postag='V.+' postag_regexp='yes' inflected='yes'>usar
                     <exception scope='next' regexp='yes'>para|em|com|por|como</exception></token>
-                <token postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
+                <token postag='NC.+|AQ.+' postag_regexp='yes' regexp='yes' inflected='yes'>aliança|anel|batom|bermuda|blusão|body|boné|bota|bracelete|brinco|bustiê|calça|calçado|calção|calcinha|camisa|camiseta|camisola|casaco|chapéu|chinelo|colar|corpete|creme|cueca|desodorante|desodorizante|gel|jaqueta|lente|lingerie|maquiagem|maquilhagem|meia|óculos|perfume|pulseira|relógio|roupa|saia|sandália|sapatilha|sapato|soutien|sutiã|ténis|tênis|vestido<exception regexp='yes'>calçadas?</exception></token> <!-- Lista que cobre a grande maioria dos casos -->
                 <example>Como os ângulos que Taeyang faz enquanto dança, e até o modo como move sua boca enquanto usa óculos escuros.</example>
                 <example>do tipo que sempre usa a mesma saia com a mesma blusa sabe?</example>
                 <example>Eu só não uso camisa de força porque branco marca muito.</example>
@@ -9338,21 +9465,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id='ACHO_QUE' name="penso/julgo que" tags='picky' default='off'>
+
+        <rule id='ACHAR_QUE' name="🤵 'achar' que → considerar/entender/julgar/supor/pensar" tags='picky' type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token postag='C.+' postag_regexp='yes'/>
+                <token postag='PP.+|D[AI].+|SENT_START|_PUNCT' postag_regexp='yes'/>
+                <token min='0' max='2' postag='N.+|AQ.+|RM|RG|RN|CC' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
                 <marker>
-                    <token inflected='yes'>achar</token>
-                    <token>que</token>
+                    <token  postag='V.+' postag_regexp='yes' inflected='yes'>achar</token>
                 </marker>
+                <token>que</token>
             </pattern>
             <message>&informal_msg;</message>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>pensar</match> que</suggestion>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>julgar</match> que</suggestion>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>acreditar</match> que</suggestion>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>supor</match> que</suggestion>
-            <example correction='pensávamos que|julgávamos que|acreditávamos que|supúnhamos que'>Já não íamos lá há algum tempo porque <marker>achávamos que</marker> a qualidade tinha vindo a cair.</example>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>considerar</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>entender</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>julgar</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>supor</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>pensar</match></suggestion>
+            <example correction='considero|entendo|julgo|suponho|penso'>Não <marker>acho</marker> que a solução seja viável.</example>
+            <example correction='considera|entende|julga|supõe|pensa'>O Rui <marker>acha</marker> que decidiu bem.</example>
+            <example correction='considera|entende|julga|supõe|pensa'>A Ana realmente <marker>acha</marker> que escolheu bem.</example>
+            <example correction='considera|entende|julga|supõe|pensa'>A Ana ainda <marker>acha</marker> que escolheu bem.</example>
         </rule>
+
 
         <rule id='BASEIA-SE_EM' name="Tem por base" default='off'>
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
@@ -9678,6 +9813,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='ACADEMIC' name='🎓 Linguagem acadêmica' type='style' tone_tags="academic">
+
+
+        <rule id='COISA_DE_CERCA_DE_APROXIMADAMENTE' name="🎓🤵 Há 'coisa de' → 'cerca de'/aproximadamente" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token>há</token>
+                <marker>
+                    <token>coisa</token>
+                    <token>de</token>
+                </marker>
+                <token postag='Z0.+' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+            </pattern>
+            <message>Expressão coloquial. Em textos formais ou académicos, prefira &quot;há cerca de&quot; ou &quot;há aproximadamente&quot;.</message>
+            <suggestion>cerca de</suggestion>
+            <suggestion>aproximadamente</suggestion>
+            <example correction="cerca de|aproximadamente">Há <marker>coisa de</marker> um mês fui lá.</example>
+            <example correction="cerca de|aproximadamente">Há <marker>coisa de</marker> dois dias fui lá.</example>
+        </rule>
 
 
         <rule id='AO_LONGO_DO_TEMPO' name="🎓 Ao longo do tempo → gradualmente/progressivamente" type='style' tone_tags='academic' is_goal_specific='true'>
@@ -14075,6 +14229,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> nenhuma utilidade profissional.</example>
             <example correction="sem">Fizeram estudos importantes, mas estes <marker>não tinham</marker> objetivos militares.</example>
         </rule>
+
+
         <!-- A NÍVEL PROFISSIONAL profissionalmente -->
         <rulegroup id='A_NÍVEL_ADJC_NCC_ADVÉRBIO' name="✂️ A nível NC/Adj → Adv" type='style'>
             <!--IDEA shorten_it-->
@@ -14085,6 +14241,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       É útil a nível civil e militar. → É útil civil e militarmente.
       É útil a nível civil, policial e militar. → É útil civil, policial e militarmente.
       -->
+
+                <antipattern>
+                    <token postag='RG'/>
+                    <token>a</token>
+                    <token>nível</token>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <example>Questões de saúde na minha família, bem como a nível pessoal.</example>
+                    <example>A nível geográfico esta bem situado, tendo uma fácil acessibilidade tanto a nível terrestre como aéreo.</example>
+                    <example>A síntese de cristãos transformaram essas práticas, sem dúvida a nível local ...</example>
+                    <example>Passaram a dominar cada vez mais as políticas do estado, tanto a nível estadual quanto a nível nacional.</example>
+                </antipattern>
 
             <!-- É útil a nível civil. → É útil civilmente. -->
             <rule>
@@ -16677,6 +16844,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
 
             <antipattern>
+                <token postag='VMSF.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token inflected='yes'>ser</token>
+                <token postag='VMP00.+' postag_regexp='yes'><exception postag_regexp='yes' postag='AQ.+'/></token>
+                <example>Se me garantir que é publicado este ano letivo.</example>
+            </antipattern>
+
+            <antipattern>
                 <token postag='SPS00:DA.+' postag_regexp='yes'/>
                 <token skip='4' postag='DP.+' postag_regexp='yes'/>
                 <token>que</token>
@@ -17231,26 +17406,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- SÃO PARA SEREM USADOS são para usar -->
-        <rule id='SER_PARA_SER_SEREM_PARTPASSADO_SER_PARA_VINFINITIVO' name="✂️ V.Ser + para + V.Ser + V.Part.Pass → V.Ser + para + V.Inf" type="style">
+        <rule id='SER_PARA_SER_PARTPASSADO_VINFINITIVO' name="✂️ Ser + para + 'ser(em) + Part.Pass' → Infinitivo" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      Os anéis são para serem usados de manhã. → Os anéis são para usar de manhã.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
+                <token regexp='yes'>é|são|fossem?</token>
+                <token>para</token>
                 <marker>
-                    <token inflected='yes'>ser</token>
-                    <token>para</token>
-                    <token inflected='yes'>ser</token>
+                    <token regexp='yes'>ser(em)?</token>
                     <token postag='VMP00.+' postag_regexp='yes'/>
                 </marker>
-                <token><exception postag_regexp='yes' postag='CC|_PUNCT'/>
-                    <exception regexp='yes'>por|pel[oa]s?</exception></token>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>\1 \2 <match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
-            <example correction="são para usar">Os anéis <marker>são para serem usados</marker> de manhã.</example>
+            <message>Construção passiva frequentemente simplificável com infinitivo.</message>
+            <suggestion><match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+            <example correction="usar">O anel é para <marker>ser usado</marker> de manhã.</example>
+            <example correction="usar">Os anéis são para <marker>serem usados</marker> de manhã.</example>
         </rule>
 
 
@@ -18837,6 +19007,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             Recebemos um documento escrito em francês e que revelou uma lista de restaurantes. → Recebemos um documento escrito em francês que revelou uma lista de restaurantes.
             -->
             <antipattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token>e</token>
+                <token>que</token>
+                <token postag='VMII.+' postag_regexp='yes'/>
+                <token postag='SPS00|RG' postag_regexp='yes'/>
+                <example>A chefe de lá disse para lhe mostrar o meu cartão de doutorando e que andava de olho em mim.</example>
+            </antipattern>
+
+            <antipattern>
                 <token skip='-1'>que</token>
                 <token postag='V.+' postag_regexp='yes' skip='-1'/>
                 <token>que</token>
@@ -18844,6 +19023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Não há evidências de que seja melhor para o ambiente ou que contribua para o conceito.</example>
                 <example>Afirmou que ainda não foi intimada sobre a decisão e que vai entrar com um recurso.</example>
             </antipattern>
+
             <pattern>
                 <token postag='RG|SPS00' postag_regexp='yes'/>
                 <token postag='AQ.+|NC.+' postag_regexp='yes'/>
@@ -18855,7 +19035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <exception postag_regexp='yes' postag='VMIS.+|VMSI.+'/>
                 </token>
             </pattern>
-            <message>Pode omitir a conjunção ‘e’ para tornar o texto mais fluido.</message>
+            <message>Pode omitir a conjunção &quot;e&quot; para tornar o texto mais fluído.</message>
             <suggestion>que</suggestion>
             <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
             <example>Índio me disse que interpretou a pergunta como uma brecha aberta para uma negociação de propina e que tratou de fechá-la no mesmo instante.</example>
@@ -19029,11 +19209,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token postag='VMI[ISM].+' postag_regexp='yes'/>
                     <token>nada</token>
                 </marker>
-                <token min="0" max="1" postag='_PUNCT'/>
+                <token>do</token>
+                <!--<token min="0" max="1" postag='_PUNCT'/>
                 <or>
                     <token><exception postag='AQ.+|NC.+|PI.+|SPS00:PI.+|PP.C.+|SPS00:PP.C.+|D[ADIPR].+|V.+|RG|NP.+|SENT_END' postag_regexp='yes'/></token>
                     <token postag='CC|CS|SPS00' postag_regexp='yes'/>
-                </or>
+                </or>-->
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>\3 \2</suggestion>
@@ -19771,26 +19952,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- VÁRIAS VEZES vári[ao]s -->
-        <rule id='VÁRIAS_VEZES_VÁRIAS' name="✂️ Várias vezes → Vári[ao]s" type="style">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-23 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-            Apagaram várias vezes publicações minhas. → Apagaram várias publicações minhas.
-            Apagaram várias vezes comentários meus. → Apagaram vários comentários meus.
-            Apagaram várias vezes comentários do Rui. → Apagaram vários comentários do Rui.
-            -->
+        <rule id='VÁRIAS_VEZES_REPETIDAMENTE' name="✂️ Várias vezes → repetidamente" type='style'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'>
+                    <exception regexp='yes' inflected='yes'>acolher|chamar|convidar|convocar|cumprimentar|designar|eleger|encontrar|entrevistar|escutar|estar|ficar|nomear|ouvir|permanecer|receber|reeleger|reencontrar|renomear|saudar|ser|tornar|ver|visitar</exception></token> <!-- Most problematic verbs ChatGPT -->
                 <marker>
                     <token>várias</token>
                     <token>vezes</token>
                 </marker>
-                <token postag='NC.P.+' postag_regexp='yes'/>
-                <token postag='DP.+|SPS.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='_PUNCT'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+|RG'/></token> <!-- Strict to avoid FPs -->
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='4' postag='NC(.)P000' postag_replace='DI0$1P0'>vários</match></suggestion>
-            <example correction="várias">Apagaram <marker>várias vezes</marker> publicações minhas.</example>
+            <message>Pode simplificar &quot;várias vezes&quot; para &quot;repetidamente&quot;.</message>
+            <suggestion>repetidamente</suggestion>
+            <example correction="repetidamente">Apagaram <marker>várias vezes</marker> publicações minhas.</example>
+            <example correction="repetidamente">Apagaram <marker>várias vezes</marker> comentários do Rui.</example>
         </rule>
 
 

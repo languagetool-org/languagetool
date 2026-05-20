@@ -58,10 +58,6 @@ public class SimpleReplaceRuleTest {
     assertEquals("El transportista", matches[0].getSuggestedReplacements().get(1));
     assertEquals("vaga", matches[1].getSuggestedReplacements().get(0));
     
-    matches = rule.match(lt.getAnalyzedSentence("EEUU"));
-    assertEquals(1, matches.length);
-    assertEquals("EUA", matches[0].getSuggestedReplacements().get(0));
-    
     matches = rule.match(lt.getAnalyzedSentence("Aconteixements"));
     assertEquals(1, matches.length);
     assertEquals("Esdeveniments", matches[0].getSuggestedReplacements().get(0));
@@ -77,6 +73,10 @@ public class SimpleReplaceRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("Un caminet poc ciclable baixa uns metres."));
     assertEquals("[poc pedalable, poc ciclista]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("La seva escola transformada pq les seves filles encaixen molt bé."));
+    assertEquals("[perquè]", matches[0].getSuggestedReplacements().toString());
+
   }
 
 }

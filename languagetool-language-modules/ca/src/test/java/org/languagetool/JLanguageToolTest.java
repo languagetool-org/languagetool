@@ -60,6 +60,21 @@ public class JLanguageToolTest {
   }
 
   @Test
+  public void testGlobalSpelling() throws IOException {
+    List<RuleMatch>  matches = tool.check("Johann Sebastian Bach, cantata BWV 126");
+    assertEquals(0, matches.size());
+  }
+
+  @Test
+  public void testHyphenatedPlusCompound() throws IOException {
+    List<RuleMatch> matches = tool.check("c) Quan el prefix precedeix una locució, un sintagma o un mot que ja porta " +
+      "guionet: manifestació anti-cascos blaus, al·legat anti-pena de mort, ex-conseller en cap, ex-directora " +
+      "general, ex-Unió Soviètica, l’ambient pre-Segona Guerra Mundial, manifestació pro-dret de vaga, pseudo-petita " +
+      "burgesia, vice-primer ministre; actitud anti-nord-americana.");
+    assertEquals(0, matches.size());
+  }
+
+  @Test
   public void testValencianVariant() throws IOException {
     Language lang = ValencianCatalan.getInstance();
     JLanguageTool tool = new JLanguageTool(lang);
@@ -160,7 +175,22 @@ public class JLanguageToolTest {
     matches = tool.check("A nivell d'ensenyament superior.");
     assertEquals(matches.get(0).getSuggestedReplacements().toString(),
       "[En l'àmbit d', A escala d', A , En , Pel que fa a , Quant a ]");
+  }
 
+  @Test
+  public void testAdjustCatalanMatch() throws IOException {
+    List<RuleMatch> matches = tool.check("No sé què dir. No aconseguia a dormir per la calor.");
+    //avoid two white spaces after removing word
+    assertEquals(1, matches.size());
+    assertEquals(14, matches.get(0).getFromPosSentence());
+    assertEquals(16, matches.get(0).getToPosSentence());
+    assertEquals(29, matches.get(0).getFromPos());
+    assertEquals(31, matches.get(0).getToPos());
+
+    matches = tool.check("Se m'han saltat les llàgrimes.");
+    assertEquals(1, matches.size());
+    assertEquals(0, matches.get(0).getFromPosSentence());
+    assertEquals(3, matches.get(0).getToPosSentence());
   }
 
   @Test
@@ -267,6 +297,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testCatalanLongSentenceRule() throws IOException {
+    tool.enableRule("CA_SPLIT_LONG_SENTENCE");
     List<RuleMatch> matches = tool.check(
       "En una tarda grisa que avançava sense pressa sobre els carrers estrets de la ciutat, mentre els comerços " +
         "abaixaven persianes i el soroll del trànsit es diluïa en un murmuri constant, un home caminava pensant en " +
@@ -275,7 +306,7 @@ public class JLanguageToolTest {
         "ordenar les idees, assumir els errors, fer servir l’experiència acumulada com a criteri i continuar avançant" +
         " amb una determinació menys impulsiva però més sòlida."
       , JLanguageTool.Level.PICKY);
-    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[desfigurant. I]");
+    assertEquals("[desfigurant. I]", matches.get(0).getSuggestedReplacements().toString());
   }
 
   @Test

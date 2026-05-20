@@ -21,6 +21,9 @@ package org.languagetool.rules.ca;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +43,8 @@ public class CatalanRemoteRewriteHelper {
 
   private static final String SERVER_URL = System.getenv("CA_REMOTE_REWRITE_SERVER");
   private static final String API_KEY = System.getenv("CA_REMOTE_REWRITE_API_KEY");
-  private static final String MODEL_ID = System.getenv("CA_REMOTE_REWRITE_MODEL_ID");
+  private static final String PROVIDER = System.getenv("CA_REMOTE_REWRITE_PROVIDER");
+  private static final String MODEL = System.getenv("CA_REMOTE_REWRITE_MODEL");
   private static int TIMEOUT_MS;
   static {
     try {
@@ -51,8 +56,15 @@ public class CatalanRemoteRewriteHelper {
   }
   private static final Logger logger = LoggerFactory.getLogger(CatalanRemoteRewriteHelper.class);
 
+  private static int MAX_SENTENCE_CHARS = 1200;
+
+  private static final Cache<String, String> cache = CacheBuilder.newBuilder()
+          .maximumSize(1000)
+          .expireAfterWrite(1, TimeUnit.HOURS)
+          .build();
+
   static boolean isRemoteServiceAvailable() {
-    return (SERVER_URL != null && API_KEY !=null && MODEL_ID != null);
+    return (SERVER_URL != null && !SERVER_URL.isEmpty());
   }
 
   static String sendPostRequest(String sentence, String ruleid) {
@@ -70,17 +82,42 @@ public class CatalanRemoteRewriteHelper {
     if (!isRemoteServiceAvailable()) {
       return "";
     }
+    // ignorem frases molt llargues, no tractem d'arreglar-les
+    if (sentence.length() > MAX_SENTENCE_CHARS) {
+      return "";
+    }
+    String cacheKey = ruleid + "|" + trimSentence;
+    String cachedVal = cache.getIfPresent(cacheKey);
+    if (cachedVal != null) {
+      return cachedVal;
+    }
     HttpURLConnection conn = null;
     System.out.println("Requesting server " + SERVER_URL + " for rule " + ruleid);
     logger.info("Requesting server " + SERVER_URL + " for rule " + ruleid);
     try {
       JSONObject payload = new JSONObject();
-      payload.put("model", MODEL_ID);
-      JSONArray messages = new JSONArray();
-      //messages.put(new JSONObject().put("role", "system").put("content", PROMPTS.get(ruleid)));
-      //messages.put(new JSONObject().put("role", "user").put("content", sentence));
-      messages.put(new JSONObject().put("role", "user").put("content",  PROMPTS.get(ruleid) + "\n\n" + sentence));
-      payload.put("messages", messages);
+      if ("openai".equalsIgnoreCase(PROVIDER)) {
+        JSONArray messages = new JSONArray();
+        messages.put(new JSONObject().put("role", "system").put("content", PROMPTS.get(ruleid)));
+        messages.put(new JSONObject().put("role", "user").put("content", sentence));
+        if (MODEL != null && !MODEL.isEmpty()) {
+            payload.put("model", MODEL);
+        }
+        payload.put("messages", messages);
+        payload.put("temperature", 0.0);
+      } else if ("google".equalsIgnoreCase(PROVIDER)) {
+        JSONObject systemInstruction = new JSONObject().put("parts", new JSONArray().put(new JSONObject().put("text", PROMPTS.get(ruleid))));
+        JSONObject userParts = new JSONObject().put("parts", new JSONArray().put(new JSONObject().put("text", sentence)));
+        userParts.put("role", "user");
+        JSONObject generationConfig = new JSONObject().put("temperature", 0.0);
+        payload.put("systemInstruction", systemInstruction);
+        payload.put("contents", new JSONArray().put(userParts));
+        payload.put("generationConfig", generationConfig);
+      } else {
+        payload.put("system_prompt", PROMPTS.get(ruleid));
+        payload.put("user_prompt", sentence);
+        payload.put("temperature", 0.0);
+      }
       byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);
       URL url = new URL(SERVER_URL);
       conn = (HttpURLConnection) url.openConnection();
@@ -88,7 +125,9 @@ public class CatalanRemoteRewriteHelper {
       conn.setDoOutput(true);
       conn.setUseCaches(false); // IMPORTANT: En POST sempre a false
       conn.setInstanceFollowRedirects(true);
-      conn.setRequestProperty("Authorization", "Bearer " + API_KEY);
+      if (API_KEY != null && !API_KEY.isEmpty()) {
+          conn.setRequestProperty("Authorization", "Bearer " + API_KEY);
+      }
       conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
       conn.setRequestProperty("Accept", "application/json");
       //conn.setRequestProperty("HTTP-Referer", "");
@@ -116,11 +155,18 @@ public class CatalanRemoteRewriteHelper {
         }
         if (code == HttpURLConnection.HTTP_OK) {
           JSONObject jsonResponse = new JSONObject(response.toString());
-          return jsonResponse.getJSONArray("choices")
-            .getJSONObject(0)
-            .getJSONObject("message")
-            .getString("content")
-            .trim();
+          String result = "";
+          if ("openai".equalsIgnoreCase(PROVIDER)) {
+            result = jsonResponse.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content").trim();
+          } else if ("google".equalsIgnoreCase(PROVIDER)) {
+            result = jsonResponse.getJSONArray("candidates").getJSONObject(0).getJSONObject("content").getJSONArray("parts").getJSONObject(0).getString("text").trim();
+          } else {
+            result = jsonResponse.getString("response").trim();
+          }
+          if (!result.isEmpty()) {
+            cache.put(cacheKey, result);
+          }
+          return result;
         } else {
           System.err.println("API error (" + code + "): " + response + "// PAYLOAD: " + payload.toString());
           logger.error("API error (" + code + "): " + response);
@@ -141,7 +187,7 @@ public class CatalanRemoteRewriteHelper {
       "amb la frase, sense comentaris ni puntuació extra.",
     "CA_SPLIT_LONG_SENTENCE", "Aquesta frase és massa llarga. Divideix-la fent els mínims canvis possibles. " +
       "Respon només amb la frase dividida.",
-        "EN_NO_INFINITIU_CAUSAL", "Reescriu la frase canviant la construcció 'al no + infinitiu' o " +
+        "EN_NO_INFINITIU_CAUSAL_REMOTE", "Reescriu la frase canviant la construcció 'al no + infinitiu' o " +
       "'en no + infinitiu' per 'com que...' o 'perquè...', fent els mínims canvis possibles. Respon amb la frase reescrita " +
       "sense comentaris extra.",
   "CA_REMOTE_ESCOLTAR_SENTIR", "Reescriu aquesta frase canviant el verb 'escoltar' pel verb 'sentir', si està mal usat, és a dir, si no vol dir 'parar atenció, atendre o obeir'." +
@@ -175,7 +221,11 @@ public class CatalanRemoteRewriteHelper {
     Map.entry("Hi hagué un accident greu a l'autopista entre un camió i un turisme, morint els passatgers del turisme al cap de poc.",
       "Hi hagué un accident greu a l'autopista entre un camió i un turisme i els passatgers del turisme van morir al cap de poc."),
     Map.entry("Va arribar tard a l'examen, perdent així després tota oportunitat d'aprovar l'assignatura.",
-        "Va arribar tard a l'examen i, per això, va perdre tota oportunitat d'aprovar l'assignatura.")
+        "Va arribar tard a l'examen i, per això, va perdre tota oportunitat d'aprovar l'assignatura."),
+    Map.entry("Van anul·lar la reunió, convocant-la per a la setmana següent.",
+        "Van anul·lar la reunió i la van convocar per a la setmana següent."),
+    Map.entry("Van anul·lar la reunió, convocant-la per a la propera setmana.",
+        "Van anul·lar la reunió i la van convocar per a la propera setmana.")
 
   ),
     "CA_SPLIT_LONG_SENTENCE", Map.ofEntries(
@@ -186,9 +236,13 @@ public class CatalanRemoteRewriteHelper {
       Map.entry("Vaig escoltar que deien coses inversemblants.","Vaig sentir que deien coses inversemblants."),
       Map.entry("Vaig escoltar atentament les seves explicacions.","Vaig escoltar atentament les seves explicacions.")
       ),
-      "EN_NO_INFINITIU_CAUSAL", Map.ofEntries(
-        Map.entry("En no tenir efectes pràctics, vam decidir deixar-ho córrer.", "Com que no tenia efectes pràctics, vam decidir deixar-ho córrer."),
-        Map.entry("Al no tenir efectes pràctics, se suspèn la sessió.", "Com que no té efectes pràctics, se suspèn la sessió.")
+      "EN_NO_INFINITIU_CAUSAL_REMOTE", Map.ofEntries(
+      Map.entry("En no poder venir, vam decidir deixar-ho córrer.", "Com que no podíem venir, vam decidir deixar-ho córrer."),
+      Map.entry("Al no poder venir, vam decidir deixar-ho córrer.", "Com que no podíem venir, vam decidir deixar-ho córrer."),
+      Map.entry("En no tenir efectes pràctics, vam decidir deixar-ho córrer.", "Com que no tenia efectes pràctics, vam decidir deixar-ho córrer."),
+      Map.entry("Al no venir fonamentades, tothom s'estranya.", "Com que no venen fonamentades, tothom s'estranya."),
+      Map.entry("Ho vaig deixar córrer al no disposar d'informació.", "Ho vaig deixar córrer perquè no disposava d'informació."),
+      Map.entry("En no haver descobert el resultat, vam quedar decebuts.", "Com que no havíem descobert el resultat, vam quedar decebuts.")
     )
 
   );

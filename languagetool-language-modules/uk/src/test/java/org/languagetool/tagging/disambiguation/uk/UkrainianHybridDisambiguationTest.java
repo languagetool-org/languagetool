@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker2;
 import org.languagetool.tagging.disambiguation.uk.SimpleDisambiguator.TokenMatcher;
@@ -271,7 +273,7 @@ public class UkrainianHybridDisambiguationTest {
 
     TestTools.myAssert("Леонідів Кравчука та Кучму",
         "/[null]SENT_START Леонідів/[Леонід]noun:anim:p:v_rod:prop:fname|Леонідів/[Леонід]noun:anim:p:v_zna:prop:fname|Леонідів/[Леонідів]adj:m:v_kly|Леонідів/[Леонідів]adj:m:v_naz|Леонідів/[Леонідів]adj:m:v_zna:rinanim"
-        + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname|Кравчука/[кравчук]noun:anim:m:v_rod|Кравчука/[кравчук]noun:anim:m:v_zna"
+        + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname"
         + "  /[null]null та/[та]conj:coord|та/[та]part|та/[той]adj:f:v_naz:pron:dem  /[null]null Кучму/[Кучма]noun:anim:m:v_zna:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -532,7 +534,7 @@ public class UkrainianHybridDisambiguationTest {
     TestTools.myAssert("Держдепартамент", "/[null]SENT_START Держдепартамент/[Держдепартамент]noun:inanim:m:v_naz:prop|Держдепартамент/[Держдепартамент]noun:inanim:m:v_zna:prop",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
-    TestTools.myAssert("держземагентства", "/[null]SENT_START держземагентства/[держземагентство]noun:inanim:n:v_rod:bad",
+    TestTools.myAssert("держземагентства", "/[null]SENT_START держземагентства/[держземагентство]noun:inanim:n:v_rod:bad:err",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
@@ -648,16 +650,31 @@ public class UkrainianHybridDisambiguationTest {
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
+
   @Test
   public void testDisambiguatorRemovePresentInDictionary() throws IOException {
+    SimpleDisambiguator simpleDisambiguator = new SimpleDisambiguator();
+
     // make sure our disambiguation lines are valid lines in dictionary
-    Map<String, TokenMatcher> map = new SimpleDisambiguator().DISAMBIG_REMOVE_MAP;
+    Map<String, TokenMatcher> map = simpleDisambiguator.DISAMBIG_REMOVE_MAP;
     for (Entry<String, TokenMatcher> entry : map.entrySet()) {
       List<AnalyzedTokenReadings> tagged = tagger.tag(Arrays.asList(entry.getKey()));
       AnalyzedTokenReadings taggedToken = tagged.get(0);
       TokenMatcher tokenMatcher = entry.getValue();
       
       assertTrue(String.format("%s not found in dictionary, tags: %s", entry, tagged), matches(taggedToken, tokenMatcher));
+    }
+
+    Map<String, List<String>> mapLemmas = simpleDisambiguator.DISAMBIG_DUPS_MAP;
+    for (Entry<String, List<String>> entry : mapLemmas.entrySet()) {
+
+      ArrayList<String> lemmas = new ArrayList<>(List.of(entry.getKey()));
+      lemmas.addAll(entry.getValue());
+
+      for(String lemma: lemmas) {
+        List<AnalyzedTokenReadings> tagged = tagger.tag(Arrays.asList(lemma));
+        assertTrue(String.format("%s lemma not in dictionary", lemma), LemmaHelper.hasLemma(tagged.get(0), List.of(lemma)));
+      }
     }
   }
 

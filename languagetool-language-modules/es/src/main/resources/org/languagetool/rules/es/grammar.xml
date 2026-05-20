@@ -82,6 +82,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </phrases>
     <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
         <rule id="MAYUSCULAS_INICIO_FRASE" name="mayúsculas a principio de frase">
+             <antipattern>
+                <token regexp="yes">IR|PSV|EDV|RI</token>
+                <token regexp="yes">\d+([.,]\d+)?</token>
+                <example>IR 0.52 dentro de límites.</example>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">\p{Lu}\p{Lu}\p{Lu}?</token>
                 <token min="0" regexp="yes">\p{P}|\p{Lu}|[\dºª]+</token>
@@ -1792,6 +1797,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="cólera">El <marker>colera</marker> hizo estragos</example>
         </rule>
         <rulegroup id="FALTA_ELEMENTO_ENTRE_VERBOS" name="Falta un elemento entre verbos: hay algo *(que) es claro">
+            <antipattern>
+                <token>spin</token>
+                <token>echo</token>
+                <example>Secuencia spin echo en T2.</example>
+            </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
@@ -18835,6 +18845,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
+                <token regexp="yes">imagen|patrón|estructura|morfología|formación|lesión</token>
+                <token min="0" max="2"/>
+                <token>en</token>
+                <token>dona</token>
+                <example>Imagen en dona con patrón típico.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">formando|mostrando|presenta|describe|observa</token>
+                <token min="0" max="3"/>
+                <token>en</token>
+                <token>dona</token>
+                <example>El estudio muestra un patrón en dona típico en la tomografía.</example>
+            </antipattern>
+            <antipattern>
                 <token>del</token>
                 <token case_sensitive="no">meso</token>
                 <!-- si después viene un nombre/adjetivo, es muy probable que "meso" sea sustantivo médico -->
@@ -23907,6 +23931,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
+            <antipattern>
+                <token regexp="yes">derecho|izquierdo</token>
+                <token regexp="yes">\d+([.,]\d+)?°</token>
+                <example>Ángulo (derecho 14°, izquierdo 14.8°).</example>
+            </antipattern>
             <!-- Radiology: ordinal + 'arcos' (+ optional adj), e.g. 'sexto arcos costales' -->
             <antipattern>
                 <token regexp="yes" inflected="yes">tercer|cuarto|quinto|sexto|séptimo|octavo|noveno|décimo</token>
@@ -32846,6 +32875,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="ESPACIO_DESPUES_DE_PUNTO" name="comprueba que hay espacio después de punto">
             <antipattern>
+            <!-- Lowercase medical abbreviations like v.tibial -->
+            <marker>
+                <token regexp="yes">v|a|n</token>
+                <token spacebefore="no">.</token>
+            </marker>
+                <token spacebefore="no" regexp="yes">\p{Ll}+</token>
+                <example>Flujo en v.tibial posterior normal.</example>
+            </antipattern>
+            <antipattern>
                 <token>.</token>
                 <token spacebefore="no" postag="UNKNOWN" regexp="yes">\p{Ll}.+</token>
             </antipattern>
@@ -36331,7 +36369,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ES_MULTITOKEN_SPELLING_HYPHEN" name="errores de ortografía en nombres propios con guion" default="on">
-            <short>Posible error</short>
+            <antipattern>
+                <token>LA</token>
+                <token>-</token>
+                <token regexp="yes">PZ(pm|pl|a)</token>
+                <example>Higado en sectores LA-PZa</example>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">.+</token>
                 <token>-</token>
