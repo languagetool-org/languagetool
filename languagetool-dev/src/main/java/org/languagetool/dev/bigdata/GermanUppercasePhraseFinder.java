@@ -130,7 +130,8 @@ final class GermanUppercasePhraseFinder {
     }
     int docId = topDocs.scoreDocs[0].doc;
     Document document = reader.document(docId);
-    return Long.parseLong(document.get("count"));
+    IndexableField field = document.getField("count");
+    return field.numericValue().longValue();
   }
   
 }

@@ -199,8 +199,8 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
                                    docs.totalHits.value + " matches in " + luceneSearcher.directory);
       }
       for (ScoreDoc scoreDoc : docs.scoreDocs) {
-        String countStr = luceneSearcher.reader.document(scoreDoc.doc).get("count");
-        result += Long.parseLong(countStr);
+        long count = luceneSearcher.reader.document(scoreDoc.doc).getField("count").numericValue().longValue();
+        result += count;
       }
       //System.out.println(term + " -> " + result);
     } catch (IOException e) {

@@ -189,7 +189,7 @@ class CommonCrawlToNgram implements AutoCloseable {
       } else if (topDocs.totalHits.value == 1) {
         int docNumber = topDocs.scoreDocs[0].doc;
         Document document = index.reader.document(docNumber);
-        long oldCount = Long.parseLong(document.getField("count").stringValue());
+        long oldCount = document.getField("count").numericValue().longValue();
         //System.out.println(ngram + " -> " + oldCount + "+" + entry.getValue());
         index.indexWriter.deleteDocuments(ngram);
         index.indexWriter.addDocument(getDoc(entry.getKey(), oldCount + entry.getValue()));
@@ -216,7 +216,6 @@ class CommonCrawlToNgram implements AutoCloseable {
   private Document getDoc(String ngram, long count) {
     Document doc = new Document();
     doc.add(new Field("ngram", ngram, StringField.TYPE_NOT_STORED));
-    doc.add(new LongPoint("count", count));
     doc.add(new StoredField("count", count));
     return doc;
   }
