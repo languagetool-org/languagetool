@@ -20,7 +20,6 @@ package org.languagetool.rules.pt;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.BrazilianPortuguese;
 import org.languagetool.language.PortugalPortuguese;
@@ -37,8 +36,8 @@ public class PortugueseDiacriticsRuleTest {
 
   @Test
   public void test() throws IOException {
-    JLanguageTool lt_pt = new JLanguageTool(new PortugalPortuguese());
-    JLanguageTool lt_br = new JLanguageTool(new BrazilianPortuguese());
+    JLanguageTool lt_pt = new JLanguageTool(PortugalPortuguese.getInstance());
+    JLanguageTool lt_br = new JLanguageTool(BrazilianPortuguese.getInstance());
 
     TestTools.disableAllRulesExcept(lt_pt, "DIACRITICS");
     TestTools.disableAllRulesExcept(lt_br, "DIACRITICS");

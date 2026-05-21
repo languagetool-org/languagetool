@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.eval;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.dev.dumpcheck.SentenceSourceChecker;
@@ -41,7 +42,7 @@ public class TatoebaEvaluator {
       //if (!lang.getShortCode().equals("sk")) {
       //  continue;
       //}
-      File file = new File(template.replaceFirst("LANG", lang.getShortCode()));
+      File file = new File(StringUtils.replaceOnce(template, "LANG", lang.getShortCode()));
       if (!file.exists() || file.length() == 0) {
         System.err.println("File not found or empty, skipping: " + file);
         continue;

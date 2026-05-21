@@ -34,13 +34,13 @@ public class GermanRuleDisambiguator extends AbstractDisambiguator {
   
   private final Disambiguator disambiguator;
 
-  private final MultiWordChunker multitokenSpeller = new MultiWordChunker(
+  private final MultiWordChunker multitokenSpeller = MultiWordChunker.getInstance(
     "/de/multitoken-ignore.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
 
-  private final MultiWordChunker multitokenSpeller2 = new MultiWordChunker(
+  private final MultiWordChunker multitokenSpeller2 = MultiWordChunker.getInstance(
     "/de/multitoken-suggest.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
 
-  private final MultiWordChunker multitokenSpeller3 = new MultiWordChunker(
+  private final MultiWordChunker multitokenSpeller3 = MultiWordChunker.getInstance(
     "/spelling_global.txt", false, true, false, MultiWordChunker.tagForNotAddingTags);
 
   public GermanRuleDisambiguator(Language lang) {

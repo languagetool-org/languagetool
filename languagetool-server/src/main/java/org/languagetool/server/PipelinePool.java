@@ -36,12 +36,12 @@ import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 /**
  * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
@@ -72,6 +72,9 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       this.pool = new GenericKeyedObjectPool<>(this, poolConfig);
     } else {
       this.pool = null;
+    }
+    if (config.getRemoteRulesConfigFile() != null) {
+      RemoteRuleFallbackManager.INSTANCE.init(config.getRemoteRulesConfigFile());
     }
   }
 
@@ -123,17 +126,18 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
         .put("check.level", params.level.name())
         .build();
     return TelemetryProvider.INSTANCE.createSpan("createPipeline", attributes, () -> {
-      Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging);
+      boolean withLanguageModel = config.getLanguageModelDir() != null;
+      Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging, withLanguageModel);
       //Add custom rules as filter if there are implement the RuleMatchFilter interface
       //TODO: Will not work anymore if we handle custom rules as remote rules
       for (Rule rule : userConfig.getRules()) {
-        if (rule instanceof RuleMatchFilter) {
-          lt.addMatchFilter((RuleMatchFilter) rule);
+        if (rule instanceof RuleMatchFilter ruleMatchFilter) {
+          lt.addMatchFilter(ruleMatchFilter);
         }
       }
       lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
       lt.disableRules(disabledRuleIds);
-      if (config.getLanguageModelDir() != null) {
+      if (withLanguageModel) {
         lt.activateLanguageModelRules(config.getLanguageModelDir());
       }
       if (config.getRulesConfigFile() != null) {
@@ -141,11 +145,13 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
       } else {
         configureFromGUI(lt, lang);
       }
+      File remoteRulesConfigFile = config.getRemoteRulesConfigFile();
+
       if (params.regressionTestMode) {
         List<RemoteRuleConfig> rules = Collections.emptyList();
         try {
-          if (config.getRemoteRulesConfigFile() != null) {
-            rules = RemoteRuleConfig.load(config.getRemoteRulesConfigFile());
+          if (remoteRulesConfigFile != null) {
+            rules = RemoteRuleConfig.load(remoteRulesConfigFile);
           }
         } catch (Exception e) {
           logger.error("Could not load remote rule configuration", e);
@@ -160,10 +166,10 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
           config.baseTimeoutMilliseconds = timeout;
           config.timeoutPerCharacterMilliseconds = 0f;
           return config;
-        }).collect(Collectors.toList());
+        }).toList();
         lt.activateRemoteRules(rules);
       } else {
-        lt.activateRemoteRules(config.getRemoteRulesConfigFile());
+        lt.activateRemoteRules(remoteRulesConfigFile);
       }
       if (params.useQuerySettings) {
         Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
@@ -201,6 +207,8 @@ class PipelinePool implements KeyedPooledObjectFactory<PipelineSettings, Pipelin
           }
         }
       }
+
+      TextChecker.AB_TEST_SERVICE.configureLTForTreatment(userConfig.getAbTest(), lt, lang, params, userConfig);
 
       if (pool != null) {
         lt.setupFinished();

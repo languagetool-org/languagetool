@@ -39,7 +39,7 @@ import static org.junit.Assert.fail;
  */
 public class MultiThreadingTest2 {
 
-  private static final Language LANG = new GermanyGerman();
+  private static final Language LANG = GermanyGerman.getInstance();
   private static final int THREADS = 5;
   private static final int RUNS = 50;
   private static final List<String> sentences = Arrays.asList(

@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RussianWordCoherencyRuleTest {
 
-  private final JLanguageTool lt = new JLanguageTool(new Russian());
+  private final JLanguageTool lt = new JLanguageTool(Russian.getInstance());
 
   @Test
   public void testRule() throws IOException {

@@ -19,7 +19,9 @@
 package org.languagetool.dev;
 
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.*;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.Contributor;
@@ -29,7 +31,10 @@ import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -250,7 +255,7 @@ public final class RuleOverview {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     if (dataBroker.resourceExists(path)) {
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
-        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new AmericanEnglish());
+        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(AmericanEnglish.getInstance());
         return confusionSetLoader.loadConfusionPairs(confusionSetStream).size()/2;
       } catch (IOException e) {
         throw new RuntimeException(e);

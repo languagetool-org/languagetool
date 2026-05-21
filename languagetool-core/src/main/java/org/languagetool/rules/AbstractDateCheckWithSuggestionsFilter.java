@@ -23,8 +23,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.List;
@@ -39,8 +37,6 @@ import java.util.regex.Pattern;
  * @since 2.7
  */
 public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter {
-
-  private static final Logger logger = LoggerFactory.getLogger(AbstractDateCheckWithSuggestionsFilter.class);
 
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
@@ -93,7 +89,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
       String yearStr;
       boolean isFullDateToken = false;
       int fullDatePos = getSkipCorrectedReference(tokenPositions, Integer.parseInt(getOptional("date", args, "-1"))); // format yyyy-mm-dd
-      if (fullDatePos > -1 ) {
+      if (fullDatePos > -1) {
         String [] parts = patternTokens[fullDatePos].getToken().split("-");
         isFullDateToken = true;
         dayPos = fullDatePos;
@@ -115,7 +111,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
       int month = getMonthFromStr(monthStr);
       int year = getYearFromStr(yearStr);
       Calendar dateFromDate = getDate(day, month, year);
-      int dayOfWeekFromDate = getdayOfWeekFromDate(dateFromDate);
+      int dayOfWeekFromDate = getDayOfWeekFromDate(dateFromDate);
       if (dayOfWeekFromDate == -1) {
         return null;
       }
@@ -126,7 +122,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
         // suggest changing the year (to current year)
         int currentYear = getYearFromStr(null);
         Calendar dateFromDateChangeYear = getDate(day, month, currentYear);
-        int dayOfWeekFromDateChangeYear = getdayOfWeekFromDate(dateFromDateChangeYear);
+        int dayOfWeekFromDateChangeYear = getDayOfWeekFromDate(dateFromDateChangeYear);
         if (dayOfWeekFromString == dayOfWeekFromDateChangeYear) {
           message = getErrorMessageWrongYear().replace("{currentYear}", String.valueOf(currentYear));
           RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(),
@@ -134,7 +130,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
           ruleMatch.setType(match.getType());
           ruleMatch.setUrl(Tools.getUrl("https://www.timeanddate.com/calendar/?year=" + dateFromDateChangeYear.get(Calendar.YEAR)));
           if (isFullDateToken) {
-            ruleMatch.setSuggestedReplacement(String.valueOf(currentYear)+"-"+monthStr+"-"+dayStr);
+            ruleMatch.setSuggestedReplacement(currentYear + "-" + monthStr + "-" + dayStr);
           } else {
             ruleMatch.setSuggestedReplacement(String.valueOf(currentYear));
           }
@@ -220,14 +216,14 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
     while (difference < 7) {
       if (day - difference > 0) {
         Calendar dateFromDate = getDate(day - difference, month, year);
-        int dayOfWeekFromDate = getdayOfWeekFromDate(dateFromDate);
+        int dayOfWeekFromDate = getDayOfWeekFromDate(dateFromDate);
         if (dayOfWeekFromString == dayOfWeekFromDate) {
           return String.valueOf(day - difference);
         }
       }
       if (day + difference < 32) {
         Calendar dateFromDate = getDate(day + difference, month, year);
-        int dayOfWeekFromDate = getdayOfWeekFromDate(dateFromDate);
+        int dayOfWeekFromDate = getDayOfWeekFromDate(dateFromDate);
         if (dayOfWeekFromString == dayOfWeekFromDate) {
           return String.valueOf(day + difference);
         }
@@ -237,7 +233,7 @@ public abstract class AbstractDateCheckWithSuggestionsFilter extends RuleFilter 
     return "";
   }
 
-  private int getdayOfWeekFromDate(Calendar dateFromDate) {
+  private int getDayOfWeekFromDate(Calendar dateFromDate) {
     int dayOfWeekFromDate;
     try {
       dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);

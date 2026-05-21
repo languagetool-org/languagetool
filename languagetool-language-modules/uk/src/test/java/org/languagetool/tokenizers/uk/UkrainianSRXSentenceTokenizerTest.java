@@ -138,6 +138,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("біля нар. ", "У таких умовах");
 
     testSplit("поч. 1945 - кін. 1946 р.");
+    testSplit("кін. ХІ — поч. ХІІІ ст.");
   }
   
   @Test

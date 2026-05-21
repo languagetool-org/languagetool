@@ -17,7 +17,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public abstract class LemmaHelper {
   private static final String IGNORE_CHARS = "\u00AD\u0301";
-  public static final Set<String> CITY_AVENU = new HashSet<>(Arrays.asList("сіті", "ситі", "стріт", "стрит", "рівер", "ривер", "авеню", "штрасе", "штрассе", "сьоркл", "сквер"));
+  public static final Set<String> CITY_AVENU = new HashSet<>(Arrays.asList("сіті", "ситі", "стріт", "стрит", "рівер", "ривер", "авеню", "штрасе", "штрассе", "сьоркл", "сквер", "плац"));
   public static final List<String> MONTH_LEMMAS = Arrays.asList("січень", "лютий", "березень", "квітень", "травень", "червень", "липень", 
       "серпень", "вересень", "жовтень", "листопад", "грудень");
   public static final List<String> DAYS_OF_WEEK = Arrays.asList("понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя");
@@ -282,12 +282,24 @@ public abstract class LemmaHelper {
     return true;
   }
 
+  public static boolean isAllLowercaseUk(String word) {
+    int sz = word.length();
+    for (int i = 0; i < sz; i++) {
+        char ch = word.charAt(i);
+        if (ch != '-' && ch != '\u2013' && ch != '\'' && ch != '\u0301' && ch != '\u00AD' 
+            && !Character.isLowerCase(ch)) {
+          return false;
+        }
+    }
+    return true;
+  }
+
   public static String capitalizeProperName(String word) {
     char[] chars = new char[word.length()];
     char prevChar = '-';
     for(int i=0; i<chars.length; i++) {
       char ch = word.charAt(i);
-      chars[i] = prevChar == '-' ? ch : Character.toLowerCase(ch);
+      chars[i] = prevChar == '-' ? Character.toUpperCase(ch) : Character.toLowerCase(ch);
       prevChar = ch == '\u2013' ? '-' : ch;
     }
     return new String(chars);

@@ -3,26 +3,29 @@
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 
 <!--
- Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright © 2016-2021 Tiago F. Santos (tiagofsantos81@sapo.pt)
- Copyright © 2021 Marco A.G.Pinto (www.marcoagpinto.com)
+Portuguese - Grammar and Typo Rules for LanguageTool.
 
- This library is free software; you can redistribute it and/or
- modify it under the terms of the GNU Lesser General Public
- License as published by the Free Software Foundation; either
- version 2.1 of the License, or (at your option) any later version.
+See tagset.txt for the meaning of the POS tags.
+Copyright © 2001-2026 Daniel Naber (https://www.danielnaber.de),
+Marcin Miłkowski, and the LanguageTool contributors.
 
- This library is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- Lesser General Public License for more details.
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
 
- You should have received a copy of the GNU Lesser General Public
- License along with this library; if not, write to the Free Software
- Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 -->
 
-<!-- Contribuintes opensource, deem uma olhada aqui: https://dev.languagetool.org/#portuguese -->
+<!-- Contribuidores open-source: consultem https://dev.languagetool.org/#portuguese -->
+
 
 <!DOCTYPE rules [
         <!ENTITY % datetime  SYSTEM "../../resource/pt/entities/datetime.ent" >
@@ -225,12 +228,25 @@
     <example type="untouched">Ela ficou tão bonita!</example>
   </rule>
   <rulegroup id="RARE_POS" name="rare POS tags">
-    <rule>
+    <rule> <!-- Used ChatGPT 4o to verify the results -->
       <pattern>
+        <token>à</token>
+        <marker>
+          <and>
+            <token postag="VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>
+            <token postag="NC.+" postag_regexp="yes"/>
+          </and>
+          <token postag="SPS00|SPS00:D[AI].+" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule>
+      <pattern> <!-- Used ChatGPT 4o to verify the results -->
         <token postag="Z0.[PN].+" postag_regexp="yes"/>
         <marker>
           <and>
-            <token postag="VMIP2S0|VMN02S0|VMSF2S0" postag_regexp="yes"/>
+            <token postag="VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0" postag_regexp="yes"/>
             <token postag="NC.+" postag_regexp="yes"/>
           </and>
         </marker>
@@ -368,6 +384,19 @@
     <rule>
       <pattern>
         <token regexp="yes">dele|deles|dela|delas</token>
+      </pattern>
+      <disambig action="remove" postag="V.*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+            <and>
+                <token regexp="yes">eles?|elas?</token>
+                <token postag="PP.+|V.+" postag_regexp="yes"/>
+            </and>
+        </marker>
+        <token postag="D[AI].+" postag_regexp="yes"/>
+        <token postag="NC.+|AQ.+" postag_regexp="yes"><exception postag='V.+' postag_regexp='yes'/></token>
       </pattern>
       <disambig action="remove" postag="V.*"></disambig>
     </rule>
@@ -640,6 +669,15 @@
 
   <rulegroup id="ADVERB_VERB_NOUN" name="Via: Advérbio + Verbo/Nome">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-02-27 -->
+    <antipattern> <!-- It can be both a verb and a non-verb -->
+      <token postag='RG'/>
+      <token postag='VMIP2S0|VMN02S0|VMM03S0' postag_regexp='yes'/>
+      <token postag='NC.+|AQ.+|_PUNCT|SENT_END' postag_regexp='yes'><exception postag_regexp='yes' postag='RG|NP.+'/></token>
+      <!-- "inclusive certas organizações" -->
+      <!-- "Quanto vales Bruno Fernandes?" -->
+      <!-- "Agora sabes porquê." -->
+      <!-- "Ela me disse que se juntaria a nós mais tarde." -->
+    </antipattern>
     <rule>
       <pattern>
         <token postag="N.+" postag_regexp="yes"/>
@@ -666,8 +704,8 @@
         <token postag="R.+" postag_regexp="yes"/>
         <marker>
           <and>
-            <token postag="AQ.+"/>
-            <token postag="V.+"/>
+            <token postag="AQ.+|SPS.+" postag_regexp="yes"/>
+            <token postag="V.+" postag_regexp="yes"/>
           </and>
         </marker>
       </antipattern>
@@ -855,7 +893,7 @@
         <token postag='R.+' postag_regexp="yes" min='0' max='4'>
           <exception negate_pos='yes' postag='R.+' postag_regexp="yes"/></token>
         <marker>
-          <token postag="V.P.+" postag_regexp="yes"><exception>junto</exception></token>
+          <token postag="V.P.+" postag_regexp="yes"><exception>junto</exception><exception postag='VMP00PM'/></token>
         </marker>
       </pattern>
       <disambig action="filter" postag="V.P.+"/>
@@ -931,6 +969,11 @@
   </rulegroup>
   <rulegroup id="SER_NOUN" name="'ser' como substantivo">
     <!-- Localized from Catalan by Tiago F. Santos, 2017-05-16  -->
+    <antipattern> <!-- "Preciso mesmo ser muito cuidadoso." -->
+      <token postag='V.+' postag_regexp='yes'/>
+      <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+      <token>ser</token>
+    </antipattern>
     <rule>
       <pattern>
         <marker>
@@ -992,9 +1035,9 @@
   </rule>
 
   <rule id="ADVERB_VERB_SINGULAR" name="Advérbio Verbo/nome Nome Singular">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	-->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27 -->
     <pattern>
-      <token postag="R.+" postag_regexp='yes'/>
+      <token postag="R.+" postag_regexp='yes'><exception scope='next' postag="SPS.+" postag_regexp='yes'/></token>
       <marker>
         <and>
           <token postag="V.+" postag_regexp='yes'/>
@@ -1661,6 +1704,11 @@
       <token>de</token>
       <token regexp="yes">podere?s?</token>
     </antipattern>
+    <antipattern> <!-- "sem falar de coisas sensíveis" -->
+      <token postag='SPS00' postag_regexp='no'/>
+      <token postag='VMN0000' postag_regexp='no'/>
+      <token postag='SPS.*' postag_regexp='yes'/>
+    </antipattern>
     <rule>
       <pattern>
         <token postag="DA0MS0">o</token>
@@ -1908,6 +1956,10 @@
       <disambig action="remove" postag="V.[SI].*"></disambig>
     </rule>
     <rule>
+      <antipattern> <!-- Fix para tod[ao]s nós/elas/eles/particípio_passado (convidados, etc.), aquelas/aqueles, demos, quantas, quantos, that were being converted to nouns -->
+        <token regexp='yes'>tod[ao]s<exception scope='next' regexp='yes'>cert[ao]s</exception></token>
+        <token postag='PP[13].PN.+|VMP00P.+|PD0[FM]P000|VMIS1P0|PI0[FM]P000' postag_regexp='yes'/>
+      </antipattern>
       <pattern>
         <token postag="SP.*|SENT_START" postag_regexp="yes"/>
         <marker>
@@ -1960,6 +2012,11 @@
         <token postag="V.*" postag_regexp="yes"/>
         <token spacebefore="no">-</token>
         <token spacebefore="no" postag="P.*" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern> <!-- "sem falar de coisas sensíveis" -->
+        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='VMN0000' postag_regexp='no'/>
+        <token postag='SPS.*' postag_regexp='yes'/>
       </antipattern>
       <pattern>
         <token postag="SPS00" postag_regexp="no">
@@ -2240,6 +2297,26 @@
       <disambig action="filter" postag="V.+"/>
       <!--Example: Ele casa -->
     </rule>
+    <rule> <!-- Created by Marco A.G.Pinto based on the above from Tiago, for proper names -->
+      <pattern>
+        <token postag='NP.[SN].+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='V.+'/> <!-- Fixes at least "São" which is a Proper Name and verb "ser" -->
+          <exception postag_regexp='yes' postag='NC.P.+|AQ0.P.+'/> <!-- Fixes for plurals which are usually nouns/adjectives -->
+          <exception scope='next' postag_regexp='yes' postag='NP.+'/></token> <!-- reinforce NC.+ below -->
+        <marker>
+          <and>
+            <token postag='NC.+' postag_regexp='yes'/> <!-- Dom Pedro, "pedro" seems to appear as a verb, so NC.+ and not N.+ -->
+            <token postag='V.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token min='0' max='1' postag='SPS00|D[AI].+' postag_regexp='yes'/> <!-- Ana era A filha do padeiro -->
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/> <!-- Makes the rule very strict reducing FPs -->
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+      <!--Example: Ana era filha do padeiro -->
+    </rule>
+
+
   </rulegroup>
 
   <rule id="PREPOSITION_SE" name="'Se' como preposição">
@@ -2344,6 +2421,36 @@
   </rule>
 
   <rulegroup id="PUNCTUATION" name="punctuation">
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>[-]</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_HYPHEN"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>[–]</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_ENDASH"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>[—]</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_EMDASH"/>
+      </disambig>
+    </rule>
     <rule>
       <pattern>
         <marker>
@@ -2727,10 +2834,21 @@
 
   <rulegroup id="ROMAN_NUMBER" name="Roman number">
     <rule>
+      <antipattern>
+        <token>rede</token>
+        <token>social</token>
+        <token case_sensitive='yes'>X</token>
+      </antipattern>
       <pattern>
         <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)</token>
       </pattern>
       <disambig postag="ZRCN0"/>
+    </rule>
+    <rule> <!-- "rede social X" -->
+      <pattern>
+        <token case_sensitive='yes'>X</token>
+      </pattern>
+      <disambig action="add"><wd pos="NPMS000_"/></disambig>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
@@ -3007,7 +3125,7 @@
   <!-- </rule> -->
   <!-- </rulegroup> -->
 
-  <rulegroup id="HOURS" name="Horas">
+  <rulegroup id="HOURS" name="Horas: Replace as NOUNS">
     <rule>
       <pattern>
         <token regexp='yes'>0?1h(\d{2}m)?(\d{2})?s?</token>
@@ -3034,8 +3152,74 @@
       </pattern>
       <disambig action="replace"><wd pos="NCFP000"/></disambig>
     </rule>
+    <rule>
+      <pattern>
+        <token postag='SPS00:DA0MP0' postag_regexp='no'/>
+        <marker>
+          <token regexp='yes'>\d{1,2}\:(\d{2}\:)?(\d{2})?
+            <exception regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</exception></token>
+        </marker>
+        <token postag='SPS00:DA0MS0' postag_regexp='no'/>
+      </pattern>
+      <disambig action="replace"><wd pos="NCMP000"/></disambig>
+      <!--
+      Examples:
+               Ramirez derrotou Gonzales por Finalização (mata leão) aos 4:38 do primeiro round.
+               Miolla cedeu aos 2:07 do primeiro round, encerrando sua série de oito vitórias consecutivas.
+               Ela derrotou Alvarez por nocaute técnico aos 2:53 do primeiro round.
+               Frank Mir venceu por nocaute aos 4:21 do segundo round.
+      -->
+    </rule>
   </rulegroup>
-  <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
+
+  <rulegroup id="HOURS_ADD_POSTAG_HOURS" name="Horas: Add postag _HOURS">
+    <rule>
+      <pattern>
+        <token regexp='yes'>0?1h(\d{2}m)?(\d{2})?s?</token>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>\d{1,2}h(\d{2}m)?(\d{2})?s?
+          <exception regexp='yes'>0?1h(\d{2}m)?(\d{2})?s?</exception></token>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</token>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>\d{1,2}\:(\d{2}\:)?(\d{2})?h?
+          <exception regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</exception></token>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='SPS00:DA0MP0' postag_regexp='no'/>
+        <marker>
+          <token regexp='yes'>\d{1,2}\:(\d{2}\:)?(\d{2})?
+            <exception regexp='yes'>0?1\:(\d{2}\:)?(\d{2})?h?</exception></token>
+        </marker>
+        <token postag='SPS00:DA0MS0' postag_regexp='no'/>
+      </pattern>
+      <disambig action="add"><wd pos="_HOURS"/></disambig>
+      <!--
+      Examples:
+               Ramirez derrotou Gonzales por Finalização (mata leão) aos 4:38 do primeiro round.
+               Miolla cedeu aos 2:07 do primeiro round, encerrando sua série de oito vitórias consecutivas.
+               Ela derrotou Alvarez por nocaute técnico aos 2:53 do primeiro round.
+               Frank Mir venceu por nocaute aos 4:21 do segundo round.
+      -->
+    </rule>
+  </rulegroup>
+
+ <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2018-11-23  	-->
     <rule>
       <antipattern>
@@ -3783,6 +3967,2356 @@
           <disambig action="remove"><wd lemma="farar"/></disambig>
       </rule>
   </rulegroup>
+
+  <rule id="PELA_VERB_20260217" name="Pela is not a verb, it is always SPS.+">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <marker>
+        <and>
+          <token regexp='yes'>pelas?</token>
+          <token postag='SPS.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token min='0' max='1' postag='[DP].+' postag_regexp='yes'/>
+      <token postag='AQ.+|N.+|VMP00.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               O jogo foi um amistoso válido pela simbólica "taça guarani".
+               Pela seleção, marcou mais de mil gols.
+               O município é constituído pela comuna-sede, correspondente à cidade de Namacunde, e pela comuna de Chiede.
+               No entanto, conhecemos o real também pela intuição.
+               Pela convocação, Fermo recebeu muitos cumprimentos, e faz questão de manifestar seus agradecimentos.
+               Se tem a possibilidade e condições, opte sempre pela maior titulação, no caso, o da Federal.
+               O cidadão será avisado por telefone ou pela internet.
+               Durante um bom tempo fiquei mal: pela confiança, pela traição, depois de quase dois anos de convivência.
+               Não porque eu não o soubesse, apenas pela cortesia de me relembrar que o mundo não está feito para ter sol.
+               Mais uma vez muito obrigado, pela resposta.
+               O patinho estava sendo bicado não apenas pelos patos, mas também pelas galinhas.
+               Mas ele tropeçou: algo havia-o agarrado pelas pernas.
+               Tom me apunhalou pelas costas.
+               Alimentado pelas chuvas recentes, o rio cresce e ruge.
+               Na Convenção, a Gironda dividiu-se: alguns optaram por um indulto, outros pela pena de morte.
+               Fazia tudo pela calada e aparentava indiferença.
+               Tem pessoas que desprezam as outras pela simples razão de não terem dinheiro.
+      -->
+  </rule>
+
+  <rule id="ANTES_VERB_20251104" name="Antes can't be a verb and an RG, it is always RG">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <marker>
+        <token>antes</token>
+        <token postag='RG'/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+  </rule>
+
+  <rule id="NADA_VERB_20251107" name="In this case NADA is PI0CN000">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token>não</token>
+      <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+      <token min='0' max='1' postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+      <marker>
+        <and>
+          <token>nada</token>
+          <token postag='PI.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="PI0CN000"/>
+  </rule>
+
+  <rule id="SOBRE_VERB_20251111" name="In this case SOBRE is SPS00">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token>sobre</token>
+          <token postag='SPS00'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="SPS00"/>
+  </rule>
+
+  <rule id="PRAZER_VERB_20251116" name="In this case PRAZER is NCMS000">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token>prazer</token>
+          <token postag='NCMS000'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="NCMS000"/>
+  </rule>
+
+  <rulegroup id="SIM_NOUN" name="Remover substantivo da palavra 'sim'">
+    <!-- ChatGPT 5 -->
+    <rule> <!-- #1: "sim" at start of sentence, after a verb, or after punctuation -->
+      <pattern>
+        <token postag='V.+|SENT_START|_PUNCT' postag_regexp='yes'>
+          <exception scope='previous' postag_regexp='yes' postag='D.+'/>
+          <exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+        <marker>
+          <and>
+            <token>sim</token>
+            <token postag='RG'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="N.*"/>
+      <!--
+      Examples:
+               Se temos internet,video conferencia e vontade de aprender,digamos sim aos cursos à distancia.
+               Em Curitiba existe o curso da Uniandrade que é sim Superior de formação tecnológica.
+               Sim, cegamente atarefados como formigas ou cupim encaminhando-se para a morte.
+               A resposta é SIM!
+               Grande feito, sim senhor doutor!
+      -->
+    </rule>
+    <rule> <!-- #2: "sim" followed by punctuation -->
+      <pattern>
+        <marker>
+          <and>
+            <token>sim</token>
+            <token postag='RG'/>
+          </and>
+        </marker>
+        <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="remove" postag="N.*"/>
+      <!--
+      Examples:
+               Eu sim!
+               Se o blog ? bem feito, meu, ganha dinheiro sim.
+               A segurança não deve ser pensada depois de uma invasão, mas sim, antes!
+               Tudo indica que sim!
+               Em teoria sim, seguindo a máxima “quem não deve, não teme”.
+               Para muitos sim, mas para alguns ainda desconhecida.
+      -->
+    </rule>
+  </rulegroup>
+
+  <rule id="NÓS_PROFESSORES_NCMP000" name="professores aparecia como verbo">
+    <pattern>
+      <token>nós</token>
+      <marker>
+        <token>professores</token>
+      </marker>
+    </pattern>
+    <disambig postag="NCMP000"/>
+  </rule>
+
+  <rule id="VERBS_THIRD_PERSON_NOT_SECOND_20260511" name="These verbs aren't VMM02S0:PP1CSO00">
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP3S0:PP1CSO00' regexp='yes'>parece-me|ocorre-me|consta-me|compete-me|cabe-me|apraz-me</token>
+          <token postag='VMM02S0:PP1CSO00'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMM02S0:PP1CSO00"/>
+    <!--
+    Examples:
+             Dado este ponto da situação, parece-me impossível ter grau algum este ano letivo.
+             A mim, parece-me a única opção.
+             Compete-me testemunhar e eternizar cada instante, para que possa ser revivido sem limites.
+             Contestação a esse verso parece-me bem mais compreensível que uma mera rima forçada.
+             Este livro parece-me muito interessante.
+    -->
+  </rule>
+
+  <rule id="SÃO_VERB_20260115" name="In this case SÃO is VMIP3P0">
+    <pattern>
+      <token postag='AQ..P.+|NC.P.+|(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP3P0'/>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='VMP00P.+|AQ..P.+|NC.P.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="filter" postag="VMIP3P0"/>
+    <!--
+    Examples:
+             Estes cookies são definidos por terceiros, tais como as redes sociais.
+             Suas asas são vermelhas como o sangue, por isso ganhou esse nome.
+             Mas a maneira que tais átomos são postos juntos.
+             Os cidadãos são consumidores, além das fronteiras do Estado-nação.
+             Extraída a polpa, as sementes são lavadas e postas para secar em local ventilado e seco.
+             Os rodízios são referidos coletivamente como rodízios móveis e rodízios fixos.
+             Mas a ideia que tentam passar para fora é a de que as pessoas são mal-educadas.
+             Quantos informáticos são precisos para mudar uma lâmpada?
+             Passeios de barco e atrações musicais são oferecidos à beira do rio.
+             As fundações públicas são denominadas pela doutrina brasileira especializada como fundações governamentais.
+             Murphy é rapidamente declarado morto e seus restos mortais são escolhidos para o programa RoboCop.
+    -->
+  </rule>
+
+  <rule id="HÁ_VERB_20260116" name="In this case HÁ is VMIP3S0">
+    <pattern>
+      <marker>
+        <and>
+          <token>há</token>
+          <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='Z0.+|NC.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="filter" postag="VMIP3S0"/>
+    <!--
+    Examples:
+             Aos meus Pais e Irmão que me toleram há 52 anos.
+             Há dois obstáculos a se evitar : a rigidez e a moleza.
+             Há controvérsia relativa à grafia correta do termo, bem como de seu plural.
+             Há duas formas de bater para cada dupla.
+             Há uma variação considerável na magnitude dos riscos dependendo do local da mutação no gene.
+             Não há artigos.
+             A probabilidade de sobreviver é recalculada somente nos intervalos em que há morte.
+             «Há 25 anos, Steffi Graf tocava o céu com sua raquete».
+             Há uma lacuna nos registros quando ele viveu em Paris, já que os irmãos moravam juntos.
+    -->
+  </rule>
+
+  <rule id="NP_UNKNOWN_VMIP3S0_VMM02S0_20251127" name="It is VMIP3S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag_regexp='yes' postag='NP.+|UNKNOWN'/>
+      <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='VMM02S0'/>
+        </and>
+      </marker>
+      <token postag_regexp='yes' postag='SPS00|V.+'><exception postag_regexp='yes' postag='AQ.+'/></token>
+    </pattern>
+    <disambig action="remove" postag="VMM02S0"/>
+    <!--
+    Examples:
+             Na pele de Bianca, Deborah Secco mexe com o coração de Tuco».
+             A atual cidade de Ma'rib fica a cerca de 3,5 quilômetros do centro da cidade antiga.
+             No final com muitas vaias da torcida, Maynard consegue vencer por decisão divida e conquistando alguns fãs.
+             Dorian teme por sua vida.
+             Dorian chantageia Alan em destruir o corpo assassinado de Basil Hallward; Campbell depois atira em si mesmo.
+             Cairo está localizado nas margens e ilhas do rio Nilo, ao sul do delta.
+             Bella concorda em tomar sangue humano, que Carlisle havia trazido do Hospital, e sente-se melhor.
+    -->
+  </rule>
+
+  <rule id="Z0_VERB_NOUN_20251118" name="It is NC.+ not VMSP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='Z0.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMSP2S0'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMSP2S0"/>
+      <!--
+      Examples:
+               O carro está disponível em 34 cores.
+               Stiller está envolvido em 20, dos 35 filmes do Frat Pack.
+               Campeonato Paulista de Basquete Masculino: 8 vezes (1932, 1933, 1934, 1958, 1961, 1963, 1972 e 1974).
+               Abraccine organiza ranking dos 100 melhores filmes brasileiros.
+               Análise dos 7 melhores!
+               Foi eleito um dos 10 melhores maquiadores de noivas do Rio de Janeiro, pelo site espanhol Zankyou.
+               439 ataques registados, 802 reféns.
+               Sala 3 ambientes.
+               O CBS tem a participação de 15 equipes divididas em quatro grupos.
+               Gostaria de saber informações sobre os cursos de 17/9 e18/9 valores tbm desse e dos demais!
+      -->
+  </rule>
+
+  <rule id="VERB_VMSP2S0_NOUN_20251123" name="It is not VMSP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+        <and>
+          <token postag='VMSP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMSP2S0"/>
+      <!--
+      Examples:
+               M. Stoddart, um editor para a Lippincott, estava em Londres para solicitar novelas curtas para publicar na revista.
+               Na marquise, foram colocados suportes duplos em betão armado na base de seis consolas, para segurar vasos com flores.
+               A partida decisiva teve doses elevadas de emoção, já que contou com duas viradas de placar.
+               Mas, como nem tudo são flores, a fase dourada não impede que Koyume fique sem inspiração.
+               Os pedidos realizados esta semana vão ser entregues depois da Semana Santa.
+               Dê leves batidinhas para ele ficar bem lisinho.
+               Assim, eles são livres para transportar a energia por meio das colisões dentro do metal.
+               Seria erro do próprio governo, que fez vistas grossas justamente com os bancos e banqueiros.
+               São peças confortáveis e super práticas, pra usar o ano inteiro!
+               Dona HELENA MAGOSSO, em nome do Secretário, quer saber detalhes sobre o Monumento-Mausoléu.
+               São eles: Várzea, Jardim São Paulo, Santo Amaro, Casa Amarela e Alto José do Pinho.
+      -->
+  </rule>
+
+  <rule id="SP_VERB_NOUN_20251121" name="It is not VMIP2S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='SP.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='NC.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+|RG'/></token>
+    </pattern>
+    <disambig action="remove" postag="VMIP2S0"/>
+      <!--
+      Examples:
+               Acompanhe nossa página no facebook e conta no twitter para futuras edições.
+               Muito indicadas para noivas elegantes, porém básicas.
+               Este Metal Zipper é feito de latão e geralmente usado para calças jeans.
+               Para compras exclusivas no e-commerce, parcelamento em 3 vezes sem juros ou em até 10 vezes com juros de 2,5% a.m.
+               Nos anos 70 e 80, os filipinos vendiam seus “peixes” para editoras americanas (Warren, remember?).
+               A baixas temperaturas, a água transforma-se em gelo.
+               Para palavras loucas, orelhas moucas.
+               Riem dele pelas costas.
+      -->
+  </rule>
+
+  <rule id="VERB_VERBVMIP_20251123" name="It is not VMIP.S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        <exception scope='next' postag_regexp='yes' postag='VMP00.+|RG'/></token>
+      <marker>
+        <and>
+          <token postag='VMIP.S0' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP.*"/>
+      <!--
+      Examples:
+               Faz fronteira com Corzano, Longhena, Maclodio, Mairano, Trenzano.
+               A contrarrevolução camponesa da Vendeia e a ameaça externa colocavam a revolução à beira do abismo.
+               A Queda da Bastilha causou profunda emoção nas províncias e acelerou a queda dos intendentes.
+               Administrador/eliminador: Não apague esta categoria somente por estar vazia!
+               É permitido, e não raro acontece, contabilizar pontuações finais negativas numa rodada.
+               O jogo contém notas orquestradas digitalmente e trilhas sonoras de voice-over.
+               O garimpeiro aposentado pede calma, e ri.
+               Não fazia ideia até então, que a produção tratava-se de uma adaptação literária.
+      -->
+  </rule>
+
+  <rule id="VERB_VMIP1S0_NOUN_PASTPARTICIPLE_20251212" name="It is not VMIP1S0">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP1S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='VMP00S.+' postag_regexp='yes'><exception scope='previous' regexp='yes' inflected='yes'>ser|estar|ter|haver|ficar|continuar|permanecer|manter|deixar|considerar|julgar|achar</exception></token>
+    </pattern>
+    <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+               O carro apresentado no salão foi a única unidade produzida, e foi vendida por U$ 2,8 milhões dólares.
+               A cidade cobre uma área de 53 km2 e tem uma população de 44 856 pessoas, segundo dados de 2011.
+               O segundo e terceiro posto esta ocupado pela Turquia e Alemanha, respectivamente.
+               Como resultado, enchi meu bolso de experiência e agora estou enchendo de amor.
+               Com carcaça de alumínio fundido e vidro temperado, a luz de inundação LED Clock Clock IP67 é forte e bonita!
+               Um cálice de cerveja para cada um e assunto resolvido.
+               RECURSO DESPROVIDO.
+               Livro ilustrado.
+               Projeto financiado com o apoio da Comissão Europeia.
+               Vale ressaltar que o boleto impresso não será enviado pelos correios.
+      -->
+  </rule>
+
+  <rule id="V_ESTAR_TER_SER_Z0_DI_VERBNOUN_20251117" name="Remove verb from token. It can be a noun, etc., but not a verb">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token regexp='yes' inflected='yes'>estar|ter|ser</token>
+      <token postag='Z0.+|DI.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               Assim, a oração de petição, para eles, não tem nenhum sentido, nenhuma eficácia para a obtenção da vida eterna.
+               São muitas marcas de implantes dentários no mercado.
+               A arte seria uma saída?
+               Transações usando aplicativos já são 3,5 vezes maiores que transações em agências tradicionais.
+               O Everton melhorou como ala, enquanto o Carlão como terceiro zagueiro é uma piada.
+               As lagoas não estavam muito cheias, cobrindo até a cintura mais ou menos.
+               Cada palavra tem um significado ou uma historinha tão deliciosa que não tem como não sorrir com cada página.
+               Nós tivemos muitos convidados nos visitando para um evento familiar em Olten e tivemos que procurar uma acomodação extra.
+               Mas eu me joguei no lacinho de poá e no sou toda ouvidos!!!
+               O Superbowl americano teve um convidado em plena forma - Prince, nem mais!
+      -->
+  </rule>
+
+  <rule id="PP_N_VERBO_VERBOINFINNOUN_20251117" name="Convert to verb infinitive">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='PP.+|N.+|CS' postag_regexp='yes'><exception postag_regexp='yes' postag='SPS.+|RG'/></token> <!-- GPT: 'PP3.+|N.+' -->
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='VMP00.+|SPS.+|RG'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception>
+        <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+      <!--
+      Examples:
+               (Não há nada de errado em uma mulher querer ser mãe nessa idade e em um relacionamento estável.)
+               Oscar, agora com 17 anos, está ao seu lado, de pé, a segurar-lhe a mão e a tentar sorrir.
+               Tento evitar comer demais pela minha saúde.
+               Elas disseram o que vão querer comer? 
+               Não me estás a fazer sentir nada que eu já não tenha sentido.
+               Gosto bastante de o ouvir falar.
+               Estamos a tentar falar contigo!
+               Isso seria me fazer parecer louco.
+               Mas você vai prometer que irá me deixar falar com ela antes de pegá-la.
+               Acredito muito que o palco é o solo sagrado do artista e lá ele tem que procurar ser profissional.
+               Eu percebi que, apesar de querer comer, eu não tinha tempo suficiente.
+               Quero muito te ajudar mas você tem que querer ser ajudada.
+               Ele ganha US$10 por semana mais toda a serragem que conseguir comer.
+      -->
+  </rule>
+
+  <rule id="PP_VERBO_VERBOINFINNOUN_20251117" name="Convert to verb infinitive">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='PP.+' postag_regexp='yes'><exception postag_regexp='yes' postag='PD.+|PP3CNO00'/></token>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='VMP00.+|SPS.+|RG'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+      <!--
+      Examples:
+               Você estabelece a complexidade medindo como o algoritmo se comporta quando ele precisa manipular, por exemplo, 10, 100 e 1000 elementos.
+               Ele conseguiu escalar a montanha.
+               Isto é, o agente possui duas posições antagônicas que lhe permitem manipular a situação em prol de seu objetivo ilegal e obscuro.
+               Um dia se eu conseguir ser 10% disso e ter tanta criatividade para criar moldes eu vou ficar agradecida.
+               Só quero te escutar cantar mais uma vez.
+               Não me deixarei manipular por ele.
+               Sra. Macy, obrigada por nos deixar falar com Sierra.
+               Por me fazer sentir normal hoje.
+               Tem de me deixar olhar.
+               Um dia se eu conseguir ser 10% disso e ter tanta criatividade para criar moldes eu vou ficar agradecida.
+      -->
+  </rule>
+
+  <rule id="PARA_POR_TODOS_TERMOS_SUBSTANTIVO_PARA_VERBO" name="Adicionar tag de verbo ao substantivo">
+    <pattern>
+      <token regexp='yes'>para|por</token>
+      <token regexp='yes'>tod[ao]s</token>
+      <marker>
+        <token>termos</token>
+      </marker>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="add"><wd pos='VMN01P0'/></disambig>
+    <!--
+    Examples:
+             Estou contente para todos termos mentes científicas.
+             Estou contente por todos termos mentes científicas.
+    -->
+  </rule>
+
+  <rulegroup id="OUTRA_SUBSTANTIVO_PARA_VERBO" name="Adicionar tag de verbo ao substantivo">
+
+    <rule> <!-- #1 -->
+      <pattern>
+        <token>outra</token>
+        <marker>
+          <token regexp='yes'>choco|esbarro</token> <!-- Add verbs as found -->
+        </marker>
+        <token postag='SPS.+|RG' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="add"><wd pos='VMIP1S0'/></disambig>
+      <!--
+      Examples:
+               De alguma forma, vez ou outra esbarro em algumas dessas coisas.
+               De alguma forma, vez ou outra choco em algumas dessas coisas.
+      -->
+    </rule>
+    <rule> <!-- #2 -->
+      <pattern>
+        <token>outra</token>
+        <marker>
+          <token regexp='no'>vale</token> <!-- Add verbs as found -->
+        </marker>
+        <token postag='SPS.+|RG' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="add"><wd pos='VMIP3S0'/></disambig>
+      <!--
+      Examples:
+               Um pouco de bondade de uma pessoa para outra vale mais que todo o amor pela humanidade.
+      -->
+    </rule>
+    <rule> <!-- #3 -->
+      <pattern>
+        <token>outra</token>
+        <marker>
+          <token regexp='no'>vale</token> <!-- Add verbs as found -->
+        </marker>
+        <token postag='SPS.+|RG' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="add"><wd pos='VMM02S0'/></disambig>
+      <!--
+      Examples:
+               Um pouco de bondade de uma pessoa para outra vale mais que todo o amor pela humanidade.
+      -->
+    </rule>
+  </rulegroup>
+
+  <rule id="VERB_TO_NOUN_20251108" name="Remove rare verbs from appearing as verbs">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token regexp='yes' inflected='yes'>ser|estar</token>
+      <token postag='V.+|AQ.+' postag_regexp='yes'/> <!-- ChatGPT 5: "use adjectives too" -->
+      <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;<exception postag='RN' postag_regexp='no'/></token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='VMN0000|VMG0000'/></token>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Sim é baixo, e EUA ainda paga bem, media 'nas zooropa' é bem mais baixa.
+             Eu serei responsável somente pela postagem, o acompanhamento do rastreio fica por conta do/a vencedor/a.
+             São possíveis vários olhares sobre ele.
+             É bem mais seguro!
+             O serviço foi impecável, estávamos tão bem cuidados do início ao fim!
+             A ação foi tão bem escrita, que foi possível imaginar os duelos que estavam sendo travados.
+             Mas é preciso muito cuidado na hora de punir.
+             E são projéteis mais sofisticados do que antes, capazes de chegar mais longe.
+             O desafio é manter tudo alinhado e em harmonia porque eu me gosto e o autocuidado só me faz bem.
+    -->
+  </rule>
+
+  <rule id="VERBNOUNADJECTIVE_V_SER_ESTAR_VERBNOUNADJECTIVE_20251111" name="Convert to noun/adjective">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+      <token regexp='yes' inflected='yes'>ser|estar</token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMN0000|VMG0000|VMP00.+|VMIP1S0'/></token> <!-- Added VMIP1S0 on 2025-11-11 -->
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             A carta 2 pode estar presente contanto que esteja em seu lugar de costume (entre o ás e o 3).
+             Essas adaptações podem ser pregas circulares, vilosidades, microvilosidades e criptas de Lieberkühn.
+             Selecionamos, desenvolvemos e retemos pessoas que podem ser melhores que nós mesmos.
+             Elas devem estar maduras, porém firmes.
+             Por isso, o seu consumo deve ser frequente para quem tem problemas cardiovasculares.
+             Nancy descobre que Waldisney foi solto e questiona a possibilidade do ex namorado ser inocente.
+    -->
+  </rule>
+
+  <rule id="DP_V_VPARTPASS_NC_20250927a" name="Remove rare verbs from appearing as verbs"> <!-- a and b: turned into two rules because of ser|estar -->
+    <pattern>
+      <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
+      <token min='0' max='1' postag='Z0.+|RM' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMP00PM' postag_regexp='no'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Em Roma dividiam-se os partidos mas a maioria estava contra os intentos da rainha.
+             Muito conhecidos são os mercados e socos cairotas.
+             Sendo assim, Bênlio assumiu os teclados, mais continuou a tocar guitarra em algumas ocasiões.
+             Normalmente são alaranjados, alguns esverdeados, quando em boas condições.
+             «Reforma trabalhista: como votaram os deputados».
+             Mas juntos somos fortes e conseguiremos chegar onde queremos e merecemos.
+             Esses resultados definiram os classificados ao quadrangular semifinal da competição.
+             Às vezes, os opostos não estão preparados para se atrair.
+             Tal música fere os ouvidos.
+    -->
+  </rule>
+  <rule id="DP_V_VPARTPASS_NC_20250927b" name="Remove rare verbs from appearing as verbs"> <!-- a and b: turned into two rules because of ser|estar -->
+    <pattern>
+      <token postag='[AIP].+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </token>
+      <token min='0' max='1' postag='Z0.+|RM' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMSP2S0' postag_regexp='no'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Em Roma dividiam-se os partidos mas a maioria estava contra os intentos da rainha.
+             Muito conhecidos são os mercados e socos cairotas.
+             Sendo assim, Bênlio assumiu os teclados, mais continuou a tocar guitarra em algumas ocasiões.
+             Normalmente são alaranjados, alguns esverdeados, quando em boas condições.
+             «Reforma trabalhista: como votaram os deputados».
+             Mas juntos somos fortes e conseguiremos chegar onde queremos e merecemos.
+             Esses resultados definiram os classificados ao quadrangular semifinal da competição.
+             Às vezes, os opostos não estão preparados para se atrair.
+             Tal música fere os ouvidos.
+    -->
+  </rule>
+
+  <rulegroup id="VERB_MESMO_TANTO_20251108_RARE" name="mesmo/tanto is an RG, not a noun, nor PI.+">
+    <!-- ChatGPT 5 -->
+    <rule>
+      <pattern>
+        <token postag='V.+|CS' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token regexp='yes'>mesmo|tanto</token>
+            <token postag_regexp='yes' postag='NC.+'/>
+          </and>
+        </marker>
+        <token min='0' max='1' postag='PP.C.+' postag_regexp='yes'/>
+        <token postag='VMN000.+|V.+:PP3.+|V[MS]IP3.+|_PUNCT|SENT_END' postag_regexp='yes'/> <!-- <exception postag_regexp='no' postag='VMG0000'/></token> -->
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+      <!--
+      Examples:
+               É tããão bom, mas tãããão bom que vocês não podem mesmo deixar de provar.
+               Queria mesmo comprar casa.
+               Com excepção da Nissan, as outras duas conseguiram mesmo aumentar a quota de mercado no nosso País.
+               Deseja mesmo sair?
+               Nunca quis tanto gastar meu tempo falando bobagens com alguém como eu quero contigo.
+               Através do MaxMilhas você pode tanto comprar quanto vender as suas milhas.
+               Apesar de tanto estudar, não conseguiu a aprovação.
+               Rubens diz que “são pensamentos muito rápidos, de defesa, porque o foco mesmo é de equilíbrio para parar os 8 segundos.
+               E nós abandonamos o homem que tanto têm lutado por nós.
+               Já que lesbianas não tem o bilu que tanto desejam, querem parecer com quem tem um.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='V.+|CS' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token regexp='yes'>mesmo|tanto</token>
+            <token postag_regexp='yes' postag='NC.+'/>
+          </and>
+        </marker>
+        <token regexp='yes' inflected='yes'>de|de:o|este|de:este|esse|de:esse|aquele|de:aquele|isto|de:isto|isso|de:isso|aquilo|de:aquilo|ele|de:ele|algum|de:algum|outro|de:outro|onde|de:onde|aqui|de:aqui|aí|de:aí|ali|de:ali<exception postag_regexp='yes' postag='DA.+'/></token>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+      <!--
+      Examples:
+               Desde 1931, a meta oficial foi mesmo de cumprir os planos quinquenais em apenas quatro anos.
+               Burguês não gosta mesmo de mim.
+               Você defende mesmo isso?
+               Por favor, certifique-se de que é mesmo isto que pretende.
+               Como se chama mesmo aquela tartaruga do Mario Bros? Ah, Koopa Bros!
+               Tom não consegue acreditar que Mary disse mesmo aquilo.
+               Mas gosto tanto destas árvores nesta altura.
+               Será que descendo mesmo dos judeus?
+               Ai, eu sou absurdamente fã do Charles Dickens, por isso gostei tanto do seu vídeo e do seu texto.
+               Lopo diz-lhe que se o cabelo for mesmo dela, Clarice terá de cumprir a promessa e beijá –lo.
+      -->
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="VPARTPASS_TO_THIRDPERSONSINGULAR_20251028" name="Make past participle verbs and others appear as 3rd person singular">
+    <!-- ChatGPT 5 -->
+    <rule>
+      <pattern>
+        <token>a</token>
+        <token postag='NCF.+|AQ0F.+|NP.+' postag_regexp='yes'/>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMP00SF'/>
+          </and>
+        </marker>
+        <token postag='D[AIP].+' postag_regexp='yes'>
+          <exception scope='previous' regexp='yes'>surpresa|assente</exception>
+          <exception regexp='yes'>ao?|às?</exception></token> <!-- It will remove valid verbs, but better this way -->
+      </pattern>
+      <disambig action="remove" postag="VMP00SF"/>
+      <!--
+      Examples:
+               A tragédia completa um ano nesta data.
+               Quando estiver pronto para uma foto, a pessoa segura seus braços para sinalizar a aeronave.
+               A gente pega um táxi?
+               Por que a gente não pega nossas coisas e vai embora?
+               A água desgasta o leito dos rios.
+               A cultura liberta o homem.
+               A ignorância cega o ignorante.
+               A música desperta os sentimentos.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='D[AIP].+' postag_regexp='yes'/>
+        <token postag='NCM.+|AQ0M.+|NP.+' postag_regexp='yes'/>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMP00SF'/>
+          </and>
+        </marker>
+        <token postag='(SPS00:)?D[AIP].+|RG|CS' postag_regexp='yes'><exception scope='previous' regexp='yes'>surpresa|assente</exception></token>
+      </pattern>
+      <disambig action="remove" postag="VMP00SF"/>
+      <!--
+      Examples:
+               O sujeito ganha uma medalha de ouro, critica a burocracia cuba..digo, brasileira, e leva uma bronca.
+               Já o Aécio oculta o patrimônio e não quer esclarecer.
+               Como o sal resseca o cabelo, é preciso fazer uma hidratação semanal.
+               O aplicativo pega cada trecho e monta aleatoriamente uma frase perfeita para incrementar sua reunião.
+               "Ou o Parlamento aceita as nossas condições, ou não aprovaremos qualquer pagamento", diz Cristas.
+               O cão desperta muito amor e é modelo de fidelidade.
+               Um Picasso estuda um objeto como um cirurgião disseca um cadáver.
+               Ao utilizar os nossos serviços aceita a sua utilização.
+               Meu pai pega o metrô às 7 da manhã para ir ao trabalho.
+               Teu sorriso desperta meu sorriso, e o duelo do amor já recomeça.
+               Fazendo isso, você ajudará o site a manter-se sempre ativo, pois a Amazon paga uma comissão por cada venda.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='D[AI]0MS0|CS' postag_regexp='yes'/>
+        <token postag='N.[CM].+|AQ0[CM].+|CS' postag_regexp='yes'><exception scope='next' regexp='yes'>surpresa|assente</exception></token>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'><exception scope='next' regexp='yes'>surpresa|assente</exception></token>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'><exception scope='next' postag_regexp='yes' postag='V.+|PP3..N.+'/></token>
+            <token postag='VMP00SF'><exception scope='next' postag_regexp='yes' postag='V.+|PP3..N.+'/></token>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="(NC.+|AQ.+|VMP00.+|VMM02S0)"/>
+      <!--
+      Examples:
+               O David ganha muito pouco com os livros, mas dá aulas.
+               Muitas pessoas comparam a renda do brasileiro com do europeu e conclui que o europeu ganha mais.
+               O Brasil desperta interesse.
+               A terceira etapa, é quando o arqueiro solta a flecha.
+               De um modo geral o carro agrada e têm um ótimo custo benefício.
+               Assim, o prazo finda apenas no dia 2 de maio (segunda-feira).
+               Com essas informações o avatar ganha vida na tela.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>el[ae]|você|se<exception scope='previous' regexp='yes'>por|de|com|em|a|às?|aos?</exception></token>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG|CS'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMP00SF'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMP00SF"/>
+      <!--
+      Examples:
+               Eu vejo pelas coisas que ela posta, o desejo de ajudar o outro.
+               Bom, não sei como funciona a Ed da USP, se ela aceita livros por encomenda.
+               Ela expressa o ponto de vista dela e cabe ao governo, secular, ignora-la.
+               Ele ganha três vezes mais que eu.
+               Ele ganha a vida ensinando.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>el[ae]|você|se<exception scope='previous' regexp='yes'>por|de|com|em|a|às?|aos?</exception></token>
+        <token min='0' max='1' postag_regexp='yes' postag='RM|RN|RG'/>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'/>
+            <token postag='VMM02S0'/>
+          </and>
+        </marker>
+        <token postag_regexp='yes' postag='VMN0000|[DP].+|NC.+|AQ.+'><exception scope='previous' postag_regexp='no' postag='CC'/></token>
+      </pattern>
+      <disambig action="remove" postag="VMM02S0"/>
+      <!--
+      Examples:
+               Você pode ajudar a Wikipédia expandindo-o.
+               Ele precisa saber o que fazer com essas ferramentas.
+               No entanto, é nos pequenos gestos que se pode descobrir a capacidade de observação deste grande pintor.
+               Você pode ouvir o álbum inteiro.
+               O cognoscível é o que se pode conhecer.
+               Você deve ativar o Javascript no seu navegador para utilizar as funcionalidades deste site.
+               Ele também tem uma irmã chamada Misty.
+               Para o aristocrata Henry, o artista observador Basil diz: "Você nunca diz algo moral, e você nunca faz algo errado".
+               Nota: Se procura o político brasileiro, veja Jorge Vargas (político).
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <and>
+            <token postag='VMIP3S0'><exception scope='previous' regexp='no'>a</exception></token>
+            <token postag='VMM02S0'><exception scope='previous' regexp='no'>a</exception></token>
+          </and>
+        </marker>
+        <token postag='VMN0000'/>
+        <token postag='VMP00S.+' postag_regexp='yes'><exception postag_regexp='yes' postag='AQ.+'/></token>
+      </pattern>
+      <disambig action="remove" postag="VMM02S0"/>
+      <!--
+      Examples:
+               Esta tradição pode ser revivida no núcleo das charqueadas, por meio de visitas orientadas.
+               Isso nos permite detectar o que não pode ser removido ou alterado sem remover ou alterar o fenômeno em questão.
+               Necessita ser reciclada de acordo com o livro de estilo.
+               Parece estar escrita em formato publicitário.
+               No entanto, ele pode ser achado na internet.
+               Wile E. Coyote Um coiote rival do Papa Léguas, que costuma ser derrotado de formas inusitadas.
+               Jones passa a explicar que o seu maior objetivo é assumir o controle da OCP, e admite ter sido ele a encomendar o assassinato de Morton.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <and>
+            <token postag='VMIP3S0:PP3CNO00'/>
+            <token postag='VMM02S0:PP3CNO00'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMM02S0:PP3CNO00"/>
+      <!--
+      Examples:
+               A era moderna tem-se desdobrado na sombra dos ideais conquistados pela Revolução Francesa.
+               O Arroio Pelotas liga-se ao Canal São Gonçalo , um canal natural de ligação entre a Lagoa Mirim e a Lagoa dos Patos.
+               Deve-se sempre pesar os benefícios e os custos de prosseguir com um experimento.
+               Além disso, sabe-se que há incertezas intrínsecas aos experimentos.
+               Para uma experiência ser considerada rigorosa nas ciências humanas, leva-se muito em conta o fator da aleatoriedade.
+               A jota castelhana dança-se com os característicos passos saltados, um pouco repicada.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag_regexp='yes' postag='_PUNCT|SENT_START'/>
+        <token postag_regexp='yes' postag='DA.+'/>
+        <token skip='-1' postag_regexp='yes' postag='N.+|AQ.+|UNKNOWN'><exception scope='next' postag_regexp='yes' postag='DP.+|_QUOT'/></token>
+        <marker>
+          <and>
+            <token postag='VMIP3S0:PP1CSO00'/>
+            <token postag='VMM02S0:PP1CSO00'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMM02S0:PP1CSO00"/>
+      <!--
+      Examples:
+               A subida do crédito à habitação deixa-me estupefacta.
+               O sabor desta madalena dá-me lembranças de minha infância.
+               O abacaxi machuca-me a boca.
+               A história lembra-me de uma experiência que tive há muito tempo.
+               A cerâmica oriental interessa-me.
+               A verdade obriga-me a dizê-lo.
+      -->
+    </rule>
+  </rulegroup>
+
+  <rule id="VERB_NOUNVERB_SPS00_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes">
+        <exception scope='previous' postag_regexp='yes' postag='PP.+'/>
+        <exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/>
+        <exception inflected='yes' regexp='yes'>ser|estar</exception></token>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='SPS00' postag_regexp='no'><exception scope='previous' postag_regexp='no' postag='VMN0000'/></token>
+      <token postag='[DP].+|N.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Havia ameaça de intervenção externa, crise econômica e inflação.
+             «Justiça do Rio determina quebra de sigilo e bloqueio de bens do casal Garotinho» (em Português Brasil).
+             Em 2007, os telecentros foram responsáveis por 6% dos acessos no país, o que revelou um crescimento de 100% em relação a 2006.
+             Dessa forma, toda a sociedade pode ter acesso a informações disponíveis na Internet, e assim produzir e disseminar conhecimento.
+             Os alunos recebem ajuda de custo para o transporte até a PUCRS[carece de fontes?].
+             Mestre Noro foi aluno de Doutora Ehrenfried e sofreu grande influência de Gerda Alexender (Mestre da eutonia).
+             O Kinomichi está presente em inúmeros países e em 4 continentes : Europa, África, América do Sul e América do Norte.
+             A presença de penas no Giganoraptor ainda se encontra aberta a discussão.
+             Isso inclui trilhas de caminhada, ciclofaixas e bosques.
+    -->
+  </rule>
+
+  <rule id="VERB_INFINITIVE_PASTPARTICIPLE_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='VMN0000' postag_regexp="no"/>
+      <token postag='D[AI].+' postag_regexp="yes"/>
+      <marker>
+          <token postag='VMP00.+' postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Vou terminar um doutorado em física.
+             Usa-se a batida final para pagar o morto.
+             Soma-se, então, este total com o da saída, anotando o valor para calcular o acumulado da partida.
+             Era um último esforço para favorecer a entrada das tropas comandadas por Junot.
+             A administração Truman propôs fortalecer os sistemas de aliança pró-ocidental e quadruplicar os gastos com Defesa.
+             No Papiro Rhind ou Ahmes[4] é dada uma solução plana para se construir um quadrado de área próxima a de um círculo.
+    -->
+  </rule>
+
+  <rule id="NOUN_HYPHEN_PASTPARTICIPLE_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <!-- In hyphenated words with a past participle it removes the past participle, for words not in the dictionary: "peixe-DOURADO" -->
+    <pattern>
+      <token postag="N.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+      <token regexp='yes' spacebefore='no'>&hifen;</token>
+      <marker>
+          <token spacebefore='no' postag='VMP00.+' postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Desde 1931, uma regulamentação de trabalho impedia qualquer mudança de emprego não-autorizado.
+             «Ex-namorado de George Michael contraria família e aparece em funeral».
+             Entre as especiarias características da ilha estão a noz-moscada, o gengibre, a pimenta e a baunilha.
+             Ligado ao tema está a tese de Bargil Pixner sobre uma Igreja de Sião, Jerusalém, pré-cruzadas.
+             Seus primeiros trabalhos consistiam em naturezas-mortas e representações de camponeses.
+             Um peixe-dourado grande nada na lagoa.
+    -->
+  </rule>
+
+  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly with RM. -->
+    <!-- A past participle/infinitive followed by "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
+    <pattern>
+      <token postag='VMP00.+|VMN0000|DP.+' postag_regexp="yes"/>
+      <token min='0' max='1' postag='RM'/>
+      <token min='0' max='1' postag="N.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+      <marker>
+          <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?|logo</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Elas eram conhecidas pelas cadelas.
+             Elas eram conhecidas como cadelas.
+             As espécies viáveis foram sendo incorporadas gradativamente pela natureza.
+             A cidade também é muito conhecida pelos seus doces de espécie.
+             Obrigado pela sua compreensão e bom trabalho!
+             A segunda, que era conhecida como sua esposa no Olimpo, era a ciumenta Hera.
+             Ele escreveu que ficou surpreso sobre como os resultados ficaram bons.
+             Se ofendem por conta de suspeitas sobre artistas.
+             Desde 1967, Ele tem derramado sobre a Igreja a graça do batismo no Espírito Santo.
+             Suponho que não há mais nada a dizer sobre isso.
+             Vamos nos separar e procurar pelo Tom.
+             Não vim aqui para falar sobre meus problemas.
+             Na audiência, nada foi comprovado acerca da alegação do convite às testemunhas.
+             Sei que tem muito jogo de cena, mas ele poderia ter escolhido ele mesmo.
+             Fala mal dela mas queria ser ela e estar no lugar dela.
+             Em 2014, o programa passou a ser comandado definitivo pela atriz Grazi Massafera.
+             Este acidente vai ter consequências sobre o seu temperamento e psicologia.
+             Por isso é tão importante discutir assuntos como estes”, disse Paulo Chaves, presidente do CEPP.
+             Estar sozinha nada mais é do que se dar prioridade e se permitir sonhar e conquistar tudo o que quiser - sem precisar ...
+             Mario vai reconhecer Yoshi como um dinossauro em comparação ao T-Rex deste game?
+    -->
+  </rule>
+
+  <rule id="PELA_COMO_SOBRE_NADA_ACERCA_ELAR_PUREVERBS_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly with RM. -->
+    <!-- A pure verb followed by "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <token min='0' max='1' postag="N.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+      <marker>
+          <token regexp="yes">pel[ao]s?|como|sobre|nada|acerca|el[ae]s?|logo</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Iniciou a sua carreira no Grêmio, passou pelo Avaí e ingressou à Europa e ao futebol polonês atuando pelo Górnik Zabrze.
+             A geometria dos movimentos dinâmicos executados a dois não se faz sobre uma linha reta nem sobre um círculo.
+             Em "O Conto de Attaf", Jafar aparece como um aventureiro.
+             A luta não se desencadeou como o esperado para o ex desafiante do cinturão.
+             Carvalho muito escreveu sobre o seu colega.
+             Por favor, disponibilizem ele novamente!
+             “Fui muito bem atendida”, comemorou ela.
+             Com vários problemas internos na banda, houve especulações sobre o fim do conjunto.
+             Nos dias 13 e 14 de julho, a guarda imperial revoltou-se, depôs Pedro e proclamou Catarina como governante da Rússia.
+             Nagoia é célebre pelo seu castelo.
+    -->
+  </rule>
+
+  <rule id="PELA_COMO_SOBRE_ACERCA_ELAR_NEXTVERB_VERBS_RARE" name="Remove rare verbs from appearing as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- False verbs after "pela", "como", "sobre", "nada", "acerca", "verbo elar" -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+|VMG0000'/></token>
+      <token regexp="yes">pel[ao]s?|como|sobre|acerca|el[ae]s?|logo<exception postag_regexp='yes' scope='next' postag='VMN000.+'/></token>
+      <marker>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+      </marker>
+      <token><exception postag_regexp='yes' postag='SPS00:PP.+'/></token> <!-- "Olhe como fala comigo, garoto." + "Sei como penso neles." -->
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Também pode ser denominado como recinto universitário, albergando todas as instituições dentro da universidade propriamente dita.
+             Esta linha entrou ao serviço em 3 de Agosto de 1882, sendo nessa altura considerado como parte da Linha da Beira Alta.
+             Um uádi longo foi usado como caminho.
+             Estes foram derrubados e reaproveitados como forro do passeio.
+             Ela pode ser acessada pela entrada da Exhibition Road e sua temática é voltada à história do planeta Terra.
+             O Diário Carioca, de 12 de dezembro de 1933, deu como manchete: "O Palestra é campeão brasileiro de 1933.
+             Cidade histórica do Campo das Vertentes, com cerca de 12 mil habitantes é cortada pela Estrada Real em seu perímetro urbano.
+    -->
+  </rule>
+
+  <rule id="VERB_VNOUN_NOUN_VERBS_RARE" name="Remove from verb followed by NOUN (verb) plus noun"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+        <and>
+          <token postag='VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0' postag_regexp="yes"/> <!-- Removed "VMIP1S0|VMP00SM" -->
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Vocês emitem nota fiscal?
+             E vi meu pai e meu tio jogarem terra logo após de enterrarem um primo.
+             As crianças que usam fraldas descartáveis são mais propensas a assaduras do que as que usam fraldas de pano.
+             Você está navegando pela página 26.
+             Têm forma peculiar de tetraedro que lembra um pedaço de chocolate Toblerone, daí o apelido.
+             Avise-me sobre novas publicações por email.
+             Auxilio saúde R$ 200,00, e auxílio alimentação R$ 304,00.
+             Mas sem cobranças e sim dando suporte emocional e amor!
+    -->
+  </rule>
+
+  <rulegroup id="PI_RELATED_VERBS_RARE" name="Remove PI.+ related followed by noun appearing as verb"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rules down for them to work with all the conditions included. -->
+    <rule> <!-- Used ChatGPT 4o to verify the results -->
+      <antipattern>
+        <token postag='VMSP.+' postag_regexp='yes'/>
+        <token min='0' max='1' postag='RM'/>
+        <token postag='DI.+' postag_regexp='yes'/>
+        <token postag='VMN0000' postag_regexp='no'/>
+        <!--
+        Examples:
+                 Tom e eu podemos ambos falar francês.
+                 Isto é a América, podemos todos sonhar, certo?
+        -->
+      </antipattern>
+      <pattern>
+        <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+        <token min='0' max='1' postag='RM'/>
+        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='P[IP].+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
+        <marker>
+          <and>
+            <token postag="V.+" postag_regexp="yes"/>
+            <token postag="NC.+" postag_regexp="yes"/>
+          </and>
+        </marker>
+        <token>
+          <exception scope="previous" postag_regexp='no' postag='VMN01P0'/> <!-- "termos" -->
+          <exception scope="previous" regexp="yes">era|tá</exception></token>
+      </pattern>
+      <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               As duas últimas equipes nesta fase são rebaixadas à Segunda Divisão.
+               Para bater da segunda vez, é preciso ter pego o morto e ter ao menos uma canastra limpa.
+               Soma-se, então, este total com o da saída, anotando o valor para calcular o acumulado da partida.
+               Se este for o caso, os pilares da criação vão sofrer uma erosão mais gradual.
+               Apesar de ter limitado os poderes do rei, este tinha ainda o direito de designar seus ministros.
+               Stalin apoiou à direita e [4] e reprimiu severamente a esquerda.
+               O Palmeiras virou novamente o jogo e definiu o placar em 3 a 2, com gols de Alex e Galeano.
+               Talvez uma circunstância não levada em conta por antes ninguém é a base da explicação procurada.
+               A comunicação que se estabelece não é limitada à pele das mãos ; os dois comunicam seus corpos e seus movimentos.
+               O Wikcionário tem o verbete Brás.
+               Integra a rede Pousadas de Portugal com a classificação de Pousada Histórica Design.
+               Você conhece o padre Grassi?
+               Atualmente, no Brasil, é transmitida pelo canal pago Comedy Central.
+               Passado um mês de isolamento Matsudaira Katamori rendeu-se e o castelo foi destruído pelo novo governo em 1874.
+               Declaravam que somente reconheciam a posse sobre as terras povoadas.
+               É um dia perfeito.
+               Em 1820, eram 22 charqueadas (depoimento de Auguste de Saint-Hilaire) e, em 1873, 38.
+               A Dinamarca resistiu algumas horas à ofensiva alemã, tendo morrido 26 soldados dinamarqueses e 20 alemães.
+               Ela pode ser acessada pela entrada da Exhibition Road e sua temática é voltada à história do planeta Terra.
+               Foram 68 partidas sem perder entre os anos de 1986 a 1990.
+               A vitória expressiva representou o placar mais dilatado em uma final da história da competição na era profissional.
+               Astronautas se abraçam na chegada dos novos tripulantes.
+      -->
+    </rule>
+    <rule> <!-- Used ChatGPT 4o to verify the results -->
+      <pattern>
+        <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+        <token min='0' max='1' postag='RM'/>
+        <token postag="(SPS00:)?D[AI].+|Z0.+" postag_regexp="yes"><exception postag_regexp='yes' postag='P[IP].+'/></token> <!-- Removed PP.+: "morrer nos custa muito" -->
+        <token postag="NC.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='V.+|CS|RG|CC|SPS.+|[DP].+'/></token>
+        <marker>
+          <and>
+            <token postag="VMSP3S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0|VMIP1S0|VMP00SM" postag_regexp="yes"/>  <!-- Removed "VMIP3S0|VMM02S0" due to false positives -->
+            <token postag="NC.+" postag_regexp="yes"/>
+          </and>
+        </marker>
+        <token><exception scope="previous" regexp="no">tá</exception></token>
+      </pattern>
+      <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               Estimula um comportamento positivo em relação ao estudo, à vida.
+               Destaca-se pelo eficiente desempenho hidráulico, o que proporciona menor perda de carga.
+               Yeshua Hamashia possui a mesma grafia em hebraico, que é o idioma sagrado dos judeus.
+               Aprofundar a discussão sobre a dívida pública brasileira é um imperativo para os brasileiros e trabalhadores em geral.
+               É errado dividir o ser humano em corpo, alma e espírito.
+               A praticidade e a durabilidade representa um investimento seguro e de longa vida.
+      -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+        <token min='0' max='1' postag='RM'/>
+        <token postag='(SPS00:)?PI.+' postag_regexp="yes"><exception postag_regexp='yes' postag='PP.+'/></token>
+        <marker>
+          <and>
+            <token postag="VMSP3S0|VMIP3S0|VMM02S0|VMSP2S0|VMIP2S0|VMN02S0|VMSF2S0" postag_regexp="yes"/> <!-- Removed "VMIP1S0|VMP00SM" not to break Premium -->
+            <token postag="NC.+" postag_regexp="yes"/>
+          </and>
+        </marker>
+        <token><exception scope="previous" regexp="no">tá</exception></token>
+      </pattern>
+      <disambig action="remove" postag="V.*"/>
+      <!--
+      Examples:
+               Eu fiz tudo certo desta vez.
+               Foi preso diversas vezes em sua juventude.
+               É único, há muito espaço para você ficar sozinho.
+               Giger (que também já fez várias capas para bandas de rock).
+               Não me foi consentido qualquer voto na matéria.
+               Tem visto relativamente pouco uso devido ao pequeno número de tipos de mídia até aqui que usa o TCP.
+               Por exemplo, meu salário é de R$ 1.500,00 e será depositado mensalmente nessa conta.
+               Se souber algo sobre o assunto edite a página/seção e explique de forma mais clara e objetiva o tema abordado.
+               Toninho trazia Felipe ainda pequeno para a oficina e este cresceu nesse ambiente, aprendendo os ofícios do pai.
+      -->
+    </rule>
+  </rulegroup>
+
+  <rule id="VERB_PRON_VERB_VNOUN_VERBS_RARE" name="Remove nouns identified as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag="V.+|NC.+|AQ.+" postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <token postag="(SPS00:)?(D[AI].+|PP.+)|Z0.+" postag_regexp="yes"/>
+      <token postag='V.+' postag_regexp="yes"/>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp="yes"/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token>
+        <exception scope="previous" postag_regexp='yes' postag='VMN0000|VMIP3P0'/>
+        <exception scope="previous" regexp="yes">era|tá</exception></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O castanho maçante da Terra sutilmente se torna rosas e azuis claros quando EVA chega.
+             A outra é "The Phoenix", do Fall Out Boy (nesse vídeo eu junto parte de uma com parte da outra).
+             Cobrando no meio da partida eu acho meio chato.
+             Como é a movida curso gratuito de análise gráfica em Díli?
+             E as mulheres me jogam rosas.
+             Em tempos tão tristes que vivemos, é preciso alimentar a alma para que as esperanças se mantenham vivas.
+             Com que frequência você compra roupas?
+             O formulário de encomenda apresenta o valor do IVA a pagar sobre os artigos seleccionados.
+             Alguém sabe me explicar sobre isso?
+             Pare de se anular, aja com humildade mas seja firme em suas decisões.
+             Que a terra lhe seja leve.
+             Eles iniciaram a revolta ao exigir a convocação dos Estados Gerais para votar o projeto de reformas.
+             Um aluno de Stewart, James Mackintosh, escreveu em resposta uma apaixonada defesa da causa francesa.
+             Outras leis proibiram a venda de cargos públicos e a isenção tributária das camadas privilegiadas.
+             De salientar que as carruagens se encontram ordenadas de sul para norte (1 -> 6).
+    -->
+  </rule>
+
+  <rule id="VERB_O_A_VERB_SPS00_VERBS_RARE" name="Remove nouns identified as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp="yes"><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RM'/>
+      <token postag='D[AI].+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp="yes"/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='SPS00'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Eles passaram a fazê-lo dois dias depois, completando o processo em 17 de junho.
+             A Warner proibiu severamente a partilha de vídeos em maior parte das redes da internet, por questões autoriais.
+             As extremidades exteriores dos dedos são protegidas por unhas, que podem ter a forma de garras ou cascos.
+             Usado para medir a taxa de sucesso de download e instalação.
+             Mais tarde, se casa com Ha-ni e decide se tornar um médico, não herdando a empresa de jogos do seu pai.
+             Para visualizar a lista de favoritos clique aqui.
+             O Tom está pintando a casa por conta própria.
+             Em outra panela (média), aqueça o azeite em fogo alto.
+             Fiz o leite em casa e coloquei em uma garrafa de gargalo pequeno.
+             A vida é muito curta para fingir algo para agradar alguém.
+    -->
+  </rule>
+
+  <rule id="VERB_INF_GER_PASTP_VERB_VNOUN_VERBS_RARE" name="Remove nouns identified as verbs"> <!-- Used ChatGPT 4o to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <antipattern>
+      <token postag='VMN0000' postag_regexp='no'/>
+      <token postag='PP.+' postag_regexp='yes'/>
+      <token postag='VMP00SM' postag_regexp='no'/>
+      <!--
+      Examples:
+               Tom pode ter nos ouvido.
+               Muito obrigado por ter nos convidado para jantar.
+               O Espírito Santo não poderia ter nos iluminado de melhor maneira.
+      -->
+    </antipattern>
+    <antipattern>
+      <token postag='VMN0000|VMG0000|VMP00.+' postag_regexp='yes'/>
+      <token regexp='yes'>lhes?|nos|te|vos</token>
+      <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+      <!--
+      Examples:
+               Mas porque estamos tão apegados a essa vida antiga, morrer nos custa muito e não é exatamente agradável.
+               Parar nos ajuda a ver.
+               O futuro nos atormenta, o passado nos retém, e por isso o presente nos escapa.
+               Nós mal podemos esperar para gravar nosso álbum de estréia e ver onde esta estrada nos leva".
+      -->
+    </antipattern>
+    <antipattern>
+      <token postag='VMN0000|VMG0000|VMP00.+|N.+|AQ.+' postag_regexp='yes'/>
+      <token postag='DA.+' postag_regexp='yes'/>
+      <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+      <token regexp='no'>para</token>
+      <!--
+      Examples:
+               Em 2007, mais uma vez a produtora Carla Estrada o chama para atuar ao lado de Fernando Colunga.
+      -->
+    </antipattern>
+    <pattern>
+      <token postag='VMN0000|VMG0000|VMP00.+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='RM'/>
+      <token postag='(SPS00:)?(D[AI].+|PP.+)|Z0.+' postag_regexp='yes'><exception regexp='no'>se</exception></token>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp="yes"/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+        <token>
+          <exception scope="previous" postag_regexp='no' postag='VMN01P0'/> <!-- "termos" -->
+          <exception scope="previous" regexp="yes">era|tá</exception></token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Apesar de ter limitado os poderes do rei, este tinha ainda o direito de designar seus ministros.
+             Considerado excessivamente moderado, Danton foi substituído por Robespierre e expulso do partido.
+             A Assembleia Nacional, contudo, acabou por absolver Luís XVI, mantendo a monarquia.
+             Ghsow - Foi dada a largada.
+             Em 9 de maio, foi anunciado que as lesões forçando a luta ser removida do card.
+             Atualmente Gray Maynard é co-estrelar o filme Submission com Ving Rhames e Ernie Reyes Jr.
+    -->
+  </rule>
+
+  <rule id="REMOVE_NC_AQ_IN_VERBS_VERBS_RARE" name="Remove adjectives/nouns in verbs"> <!-- Used DeepSeek-V3 to verify the results -->
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='P[DP].+' postag_regexp='yes'>
+        <exception scope='previous' postag_regexp='yes' postag='V.+'/>
+        <exception postag_regexp='yes' postag='CC|SPS.+|P.......:.+'/></token>
+      <token postag='RG' postag_regexp='no'/>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token><exception scope='previous' postag_regexp='yes' postag='RG|VMN0000|VMP.+'/></token>
+    </pattern>
+    <disambig action="remove" postag="[NA].*"/>
+    <!--
+    Examples:
+             Isto também passa pela escola.
+             “Eu só preciso saber que é preciso executá-lo”
+             Porém, elas também são eficientes para o emocional e psicológico.
+             A TransferWise não exige comprovação de rendimentos, você só precisa ter um endereço na Europa.
+             Se nada muda, mude-se você!
+             Elas só vão desaparecer se você quiser.
+             Isso me irritou e aumentou muito minha curiosidade pra saber o que ele tanto conversa.
+             Ele também leva um MacBook Pro entre seus pertences.
+    -->
+  </rule>
+
+  <rule id="REMOVE_VERBS_À_IN_NC_VERBS_RARE" name="Remove verbs in nouns">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+      <token regexp='yes'>às?</token>
+      <marker>
+        <and>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Alerta sobre risco à saúde.
+             Império à Deriva.
+             do Declínio Europeu à Era Global.
+             Todos os valores incluem IVA à taxa legal em vigor e podem ser alterados sem aviso prévio.
+    -->
+  </rule>
+
+  <rule id="VERBO_RM_AQ_NCAQ_RARE" name="Remove verbs in adjectives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token postag='RM' postag_regexp='no'/>
+      <marker>
+        <and>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token postag='AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='N.+|AQ.+|(SPS00:)?[DP].+|RG|CS' postag_regexp='yes'><exception scope='previous' postag_regexp='yes' postag='VMIP3P0|VMP00.+'/></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Os melhores prognósticos foram inversamente proporcionais a idade e ao tempo até o atendimento (p<0,001).
+             Não se torna desagradavelmente amarga como algumas IIPAs norte-americanas.
+             A funcionalidade poderá ser habilitada novamente conforme necessário.
+             Só pinte se você estiver realmente certa do que quer.
+             Ela está seriamente enferma do coração.
+             Ela é completamente surda da orelha esquerda.
+    -->
+  </rule>
+
+  <rule id="VERBO_PARA_DE_PARTPASS_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token regexp='yes'>para|de|com</token>
+      <marker>
+        <and>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Theo correu para junto do irmão no dia seguinte, encontrando-o de bom humor.
+             Não acredito na tese de "se armar para defesa".
+             Tem escrito para revistas musicais especializadas, enciclopédias reputadas e jornais.
+             Não se preocupe, nós oferecemos entrega agendada para pedidos com móveis!
+             A oferta é valida para retiradas entre 17/03/2018 e 30/04/2018.
+    -->
+  </rule>
+
+  <rule id="VERBO_RG_PARA_VMIP1S0_VMP00_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='CS|RG|NC.+|AQ.+|CC|SPS.+|[DP].+'/></token>
+      <token min='0' max='1' postag='RG'/>
+      <token>para</token>
+      <marker>
+        <and>
+            <token postag='VMIP1S0|VMP00.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Ele é destinado apenas para uso privado.
+             Detalhes do modelo : Este alvo é feito apenas para uso com armas de pressão.
+             Por que o Thomas tem estado tão para baixo ultimamente?
+             Tom e outros digitalizaram cerca de 200 livros e os colocaram online para acesso gratuito.
+             Ela estava mais para morta do que para viva.
+    -->
+  </rule>
+
+  <rule id="PPPLURAL_SUBSTANTIVE_SUBSTANTIVEADJECTIVE_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <antipattern>
+      <token postag='SPS00'/>
+      <token postag='(V.+:)?PP..P.+' postag_regexp='yes'/>
+      <token postag='NCMP000'/>
+      <token postag='VMP00.+' postag_regexp='yes'/>
+      <!--
+      Examples:
+               Até tentava achar que mamãe estava feliz por nos termos casado.
+               Depois de nós termos trabalhado tanto para capturá-los.
+      -->
+    </antipattern>
+    <pattern>
+      <token postag='(V.+:)?PP..P.+' postag_regexp='yes'>
+        <exception scope='previous' regexp='yes' inflected='yes'>estar|ter|ser</exception></token>
+      <marker>
+        <and>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='N.+|AQ.+|V.+' postag_regexp='yes'>
+        <exception scope='previous' postag_regexp='yes' postag='VMI.+|VMN0000|VMG0000|VMP00SM|VMSP3S0'/></token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Insira os dados completos na lista bônus e concorra a prêmios!
+             Qual a opinião de vcs sobre Moro no MJ?
+             Ver ao vivo deve ser super borbulhante nos melhores sentidos.
+             Quais os cuidados necessário com o ar-condicionado?
+             Até o dia 30 de março serão enviados por e-mail os pareceres sobre os resumos.
+             Alguns casos mais raros são diferenciados por não seguirem as medidas padrão.
+    -->
+  </rule>
+
+  <rule id="VERBO_PARA_PARTPASS_20250720_RARE" name="Remove verbs in substantives">
+    <!-- Moved the rule down to assure it works correctly. -->
+    <pattern>
+      <token regexp='no'>para</token>
+      <marker>
+        <and>
+            <token postag='VMP00.+' postag_regexp='yes'/>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='N.+|AQ.+|VMP00.+|CS|CC|RM|RG|SPS.+|[DP].+|VMG0000' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Bebedeiras, pronúncia falha, assessores que usam o dinheiro público para gastos pessoais.
+             Já para deputado federal será das 12h25 às 12h50 e das 19h55 às 20h20.
+             1ª e 2ª via para naturalizados maiores de 18 anos.
+             Para ouvido virtuoso não é perigoso um termo feio.
+             Em 2018, apoiou a ex-jornalista da TV Tribuna, Rosana Valle, para deputada Federal, eleita com 106 mil votos.
+             Os vegetais possuem grupos de células especializadas para determinados tipos de ações.
+             Se você acha que acessórios são apenas para balada e/ou festa?
+             Para surpresa dos fãs, os shows tiveram a participação especial de Andrew Ridgeley, seu ex-parceiro no Wham!
+             Estoques com Momento de Lucro Alto são uma opção preferida para jogadas de momentum.
+             Para ganho de massa, Dianabol ou Anadrol combinam perfeitamente com Parabolan.
+             A praia é pouco apetecível para idas a banhos e quase nunca frequentada.
+             E disseram: Não! Nós vamos contigo para junto de teu povo!
+    -->
+  </rule>
+
+  <rule id="VERB_NCAQ_VERBINFORMAL_TO_NOUN_20251001_RARE" name="Remove rare verbs from appearing as verbs">
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <token postag='AQ0P.+|NC.P.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMN02S0' postag_regexp='no'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O Comitê de Salvação Pública, liderado por Robespierre, assumiu plenos poderes.
+             Essas adaptações podem ser pregas circulares, vilosidades, microvilosidades e criptas de Lieberkühn.
+             Fica a 3.759 km de Santiago, Chile (SCL), havendo voos regulares entre esses pontos.
+             Hoje existe a OTAN – que é formada pela maioria dos países que possuem bombas nucleares.
+             Rolando é um central alto (1,89m) e rápido, jogando bem na antecipação e fazendo exibições regulares.
+             Ele sempre usa palavras vulgares quando fica nervoso.
+             Sua nave tem velas solares.
+    -->
+  </rule>
+
+  <rule id="VERB_VERBINFINITIVE_20251105_RARE" name="Remove infinitive verbs from appearing as nouns">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'>
+        <exception postag='VMN0000'/>
+        <exception regexp='yes' inflected='yes'>ter|haver</exception>
+        <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <token min='0' max='1' postag='RG|RM|RN' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMN0000'><exception postag_regexp='yes' postag='AQ.+'/></token>
+          <token postag='NC.+|VMN01S0|VMN03S0|VMSF1S0|VMSF3S0' postag_regexp='yes'><exception postag_regexp='yes' postag='AQ.+'/></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+    <!--
+    Examples:
+             Ele precisa saber o que fazer com essas ferramentas.
+             No seu período de operação, provou ser altamente confiável e produtivo.
+             Páginas nesta categoria devem ser adicionadas pelo Módulo:Citação/CS1.
+             Mas superou tudo, e bastou cantar três músicas para que ela conquistasse o público revoltado.
+             Não deve haver nó distinto ou nós que assumam papéis especiais ou conjunto extra de responsabilidades.
+    -->
+  </rule>
+
+  <rule id="VERB_VERBINFINITIVE_PASTPART_NC_AQ_DA_DI_20251105_RARE" name="Remove infinitive verbs from appearing as nouns">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag_regexp='yes' postag='V.+'><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+      <token min='0' max='1' postag='RG|RM|RN' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+|VMN01S0|VMN03S0|VMSF1S0|VMSF3S0' postag_regexp='yes'/>
+        </and>
+        <token postag='VMP00.+|D[AI].+' postag_regexp='yes'/>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="VMN0000"/>
+    <!--
+    Examples:
+             Sepultura: Os organizadores resolveram escalar o grupo mineiro faltando um mês para começar o festival.
+             Para evitar ser enganado, é preciso ficar atento e tomar um certo cuidado.
+             E gostar de roupas masculinas não faz ninguém querer ser um marmanjo.
+             Isso sim é democracia, e não, a PresidentA ter que aceitar ser xingada pra contentar a escória burguesa!
+             Incrivel como a cartilha consegue manipular os factos.
+             Devo fazê-lo ou esperar ser notificada?
+    -->
+  </rule>
+
+  <rule id="VERB_VERBINFINITIVE_REMOVEVERB_20251008_RARE" name="Convert infinitive verbs to nouns/adjectives">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token inflected='yes' regexp='yes'>ter|haver</token>
+      <marker>
+        <and>
+          <token postag='VMN0000'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Aquele que tem poder total sobre as tarefas e usuários do computador.
+             Quando o homem se sente respeitado pela esposa, ele naturalmente tem prazer em agradá-la.
+             Eu terei prazer em ajudá-la.
+             Você teve azar, eu voltei cinco minutos depois que você foi embora.
+             Dê a um homem um peixe e ele terá jantar por uma noite; ensine-o a pescar e ele terá jantar pela vida toda.
+             Eu tenho dever de casa.
+             Não há colher.
+    -->
+  </rule>
+
+  <rule id="N_AQ_PUNCT_QUE_QUEM_ONDE_QUANTO_VM_NC_VMP_NCAQVMP00_20251018_RARE" name="This word isn't a noun/adjective/past_participle/third_person">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='_PUNCT_COMMA|N.+|AQ.+' postag_regexp='yes'/>
+      <token regexp='yes'>quem?|onde|quanto</token>
+      <token min='0' max='1' postag_regexp='yes' postag='RM|RN'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'><exception postag_regexp='yes' postag='RG|SPS.+|[DP].+|Z0.+'/><exception regexp='no'>maravilha</exception></token>
+          <token postag_regexp='yes' postag='NC.+|AQ.+|VMP00.+|VMM02S0'><exception postag_regexp='yes' postag='RG|SPS.+|[DP].+|Z0.+'/><exception regexp='no'>maravilha</exception></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="(NC.+|AQ.+|VMP00.+|VMM02S0)"/>
+      <!--
+      Examples:
+               James Vane — o irmão de Sibyl, um marinheiro que parte para Austrália.
+               A pirâmide de culto tinha seu próprio recinto que corre ao longo do lado norte da pirâmide e por metade do lado oeste.
+               Na região descendente, também se encontra a papila duodenal menor, que forma a entrada do ducto pancreático acessório.
+               [1] Lá, há um time de futebol, o Tottenham Hotspur FC, que joga na Premier League.
+               É em Tonquim que conhece Gallieni, que volta a encontrar em Madagáscar, onde esteve destacado de 1897 a 1902.
+               Com a colher que tira de lá, faz café cheirar longe.
+               Localizado na charmosa vila de Arraial d'Ajuda (BA), um lugar mágico e acolhedor que agrada turistas do mundo inteiro.
+      -->
+  </rule>
+
+  <rulegroup id="VERBO_PARA_INFINITIVO_FIRST_PERSON_SINGULAR_20251107_RARE" name="This word is first person">
+    <rule>
+      <!-- ChatGPT 5 -->
+      <pattern>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='VMIS1S.+'/>
+            <token postag_regexp='yes' postag='VMM02P.+'/>
+          </and>
+        </marker>
+        <token min='0' max='1' postag='PP.C.+' postag_regexp='yes'/>
+        <token>para</token>
+        <token min='0' max='1' postag='R.+' postag_regexp='yes'/>
+        <token postag='VMN0000'/>
+      </pattern>
+      <disambig action="remove" postag="VMM.*"/>
+        <!--
+        Examples:
+                 Num impulso agarrei-o, pedi-lhe para ter calma.
+                 Abri o portão e pedi para falar com a diretora.
+                 Pedi para não ficar brava comigo.
+                 Eu te pedi para deixar o Tom em paz.
+                 Eu saí para dar uma volta.
+                 Onde está aquela garrafa de vinho que eu te pedi para comprar?
+        -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='RN|PP.C.+|SENT_START|_PUNCT' postag_regexp='yes'/>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='VMIS1S.+'/>
+            <token postag_regexp='yes' postag='VMM02P.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="VMM.*"/>
+        <!--
+        Examples:
+                 Eu assisti e ri muito.
+                 Eu me senti bem.
+                 Em relação a A lista negra, não me interessei pela trama, mas curti sua resenha e amei as fotos!
+                 Me senti muito grato pela acolhida de todos", diz Jesus, morador do bairro Anair.
+                 Eu me senti vingada aqui!
+                 Até agora não sei se consegui explicar a forma de como ele conseguiu me sacudir.
+                 Não pedi nenhum conselho.
+        -->
+    </rule>
+  </rulegroup>
+
+  <rule id="DI_DP_VMP_20251020_RARE" name="This word is a noun/adjective">
+    <!-- ChatGPT 5 -->
+    <pattern>
+      <token postag='D[IP].+|Z0.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='VMP00.+'/>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+      <token regexp='yes'>a|para|por|de|sem</token>
+      <token postag='V.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="VMP00.*"/>
+    <!--
+    Examples:
+             A partida decisiva teve doses elevadas de emoção, já que contou com duas viradas de placar.
+             Muitíssimo obrigada por participarem conosco dessa brincadeira.
+             Me sinto muito honrado de ter tido este momento com ele.
+             Esse foi o único da coleção que não gostei, achei ele sem sal e foi preciso 3 camadas para cobrir, não usei extra brilho.
+             Tenho um pedido a fazer-lhes, amigos.
+             Precisaremos de vinte dados para jogar este jogo.
+      -->
+  </rule>
+
+  <rulegroup id="TODOS_FIXES_FOR_PRONOUNS_AND_VERBS_20251022_RARE" name="This word is a pronoun/verb">
+    <!-- ChatGPT 5 -->
+    <rule> <!-- el[ae]s -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='PP3.PN.+'/>
+            <token postag_regexp='yes' postag='VM[SI]P2S0'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NAV].*"/>
+      <!--
+      Examples:
+                Todas elas nos vários tamanhos, e algumas delas até o número 3G.
+                Vc não concorda com nenhum, agride e ofende a todos eles.
+                Eu AMEI todas elas!!!
+                As cores são bem bonitas e usaria todas elas.
+        -->
+    </rule>
+    <rule> <!-- nós/aquel[ae]s/quant[ao]s -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s<exception scope='next' regexp='yes'>cert[ao]s</exception></token>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='PP1.PN.+|DD0.P.+|PI0.P.+'/>
+            <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NAV].*"/>
+      <!--
+      Examples:
+                Sorte a todos nós sempre!
+                Bom início de ano letivo para todos nós!
+                Todos nós precisamos resistir.
+                Todos nós desenvolvemos esse lado obscuro devido à cultura religiosa.
+                Sinta-se abraçado por todos nós.
+                É um agradecimento e ao mesmo tempo uma explicação a todos quantos eu me habituei a sentir aqui e que eu estimo.
+                Além da idade, eram todos muitos unidos, os casamentos feitos entre primos, uns mais longe, outro mais perto.
+        -->
+    </rule>
+    <rule> <!-- junt[ao]s -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token regexp='yes'>junt[ao]s</token>
+            <token postag_regexp='yes' postag='VMP00P.+|AQ.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="(NC.+|VMIP2S0)"/>
+      <!--
+      Examples:
+                RULE PROVIDED ZERO HITS IN 950 000 SENTENCES CHECK.
+        -->
+    </rule>
+    <rule> <!-- tod[ao]s + verb (fixes also "DEMOS: VMIS1P0") -->
+      <pattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <and>
+            <token postag_regexp='yes' postag='VMIP3P0|VMIS1P0'/>
+            <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+          </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="[NA].*"/>
+      <!--
+      Examples:
+                Já usei alguns, de várias marcas, todos são bons.
+                Muito mais que parceiros todas são pessoas queridas que fazem seu trabalho com dedicação e carinho.
+                Todos são egoístas e acham donos do mundo, e ninguém se suporta mais.
+                Todas são possíveis....
+                TODOS são vítimas do trânsito.
+                Agora eu leio, você lê e ele lê; nós todos lemos.
+                Todos demos um suspiro de alívio.
+        -->
+    </rule>
+  </rulegroup>
+
+  <rule id="VERB_INTENSITY_NOUN_ADJECTIVE_20251107_RARE" name="This word is a noun/adjective">
+    <!-- ChatGPT 5 -->
+    <!-- Avoids infinitive, gerund and past participle because they are ambiguous -->
+    <pattern>
+      <token postag='V.+' postag_regexp='yes'><exception postag='NC.+|AQ.+' postag_regexp='yes'/></token>
+      <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;<exception postag='RN' postag_regexp='no'/></token>
+      <marker>
+        <and>
+          <token postag_regexp='yes' postag='V.+'><exception postag='VMN0000|VMG0000|VMP00.+' postag_regexp='yes'/></token>
+          <token postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Após um jogo iniciado, pode-se então acrescentar mais cartas, de uma em uma ou mais.
+             O Alpha serviu mais tarde para o desenvolvimento do Northrop Gamma.
+             Os finlandeses resistiram ferozmente, e recebeu bastante apoio e simpatia dos Aliados.
+             Essa formação soava mais como um Sex Pistols e começam a abrir para bandas como The Clash, The Ruts e The Damned.
+             No dia seguinte, eles exploram mais fundo a floresta, mesmo estando incertos da sua localização exata no mapa.
+             Saiba mais sobre a Web Store do Chrome.
+             Após 6 minutos o dano cerebral é praticamente certo.
+             O álbum Brand New Day ficou completamente fora das listas.
+      -->
+  </rule>
+
+  <rulegroup id="WORD_NOT_VMIP1S0_20251212_RARE" name="This word is not VMIP1S0">
+    <rule>
+      <pattern>
+        <token skip='1' postag_regexp='yes' postag='V.+|SPS00'/>
+        <marker>
+          <and>
+            <token postag='VMIP1S0'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token><exception postag_regexp='yes' postag='V.+|[DP].+'/></token>
+      </pattern>
+      <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+                Hoje, poucas das antigas charqueadas existem, apenas as instalações , mantidas como marco turístico regional.
+                No filme ela deu vida a soro positivo Judite.
+                É terra doce sem deixar de ser terra firme: o bastante para que nela se construa com solidez engenho, casa e capela.
+                Também possui um verificador automático para até mil palavras (que mais tarde conjunto em 1024).
+                Existem diversos algoritmos disponíveis para uso, específicos à sua própria linguagem de programação.
+                Sua população recenseada em 2010 pelo IBGE é de 8 491 habitantes.
+                Em 5 de dezembro conseguiram se reagrupar e logo depois, em 11 de dezembro, a frota avistou a ilha da Madeira.
+                Foi consagrada basílica em 1904 pelo Papa Pio X.
+        -->
+    </rule>
+    <rule>
+      <antipattern>
+        <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+        <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
+        <token min='0' max='1' postag='_PUNCT'/>
+        <token postag='VMIP1S0'/>
+        <token postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'/>
+      </antipattern>
+      <pattern>
+        <token postag='SPS.+|[DP].+' postag_regexp='yes'/>
+        <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
+        <token min='0' max='1' postag='_PUNCT'/>
+        <marker>
+          <and>
+            <token postag='VMIP1S0'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token postag='SPS00|(SPS00:)?DA.+|V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMN000.+'/></token>
+      </pattern>
+      <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+                Várias reuniões de Assembleias provinciais, como em Grenoble, já o haviam feito.
+                Ao mesmo tempo, o regime republicano foi forçado a lidar com rebeliões contra sua autoridade em grande parte do oeste e sul da França.
+                Por exemplo, determinar o estado do universo inteiro em um particular momento é impossível, e também inútil.
+                Mas em 2008 este número caiu pela metade e ficou em 3%, segundo dados do TIC Domícilios 2008[5].
+                foi um chefe germano da tribo dos Queruscos, filho do chefe guerreiro Segimero.
+                Qualquer tentativa de usar o hardiman resultou em um movimento violento fora de controle.
+                Os piores momentos da deskulakização e as dificuldades do primeiro plano tinham passado.
+        -->
+    </rule>
+    <rule>
+      <pattern>
+        <token postag='D[AI].+' postag_regexp='yes'/>
+        <token min='0' max='1' postag='NC.+|AQ.+' postag_regexp='yes'><exception postag='VMIP1S0'/></token>
+        <marker>
+          <and>
+            <token postag='VMIP1S0'/>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token postag='CS' postag_regexp='no'/>
+        <token postag='V.+' postag_regexp='yes'/>
+      </pattern>
+      <disambig action="remove" postag="VMIP1S0"/>
+      <!--
+      Examples:
+                System of a Down: O grupo se apresentou no última dia do festival.
+                Na literatura, o escritor argentino Jorge Luís Borges denomina de "Aleph" o ponto que contém todo o universo.
+                Ou seja, o sujeito que compra o A250 assina atestado de idiota.
+                É sempre menos desumano que abandonar recém-nascido em caçamba de lixo.
+                Geralmente, um cidadão de um país estrangeiro que queira viajar para os Estados Unidos deve, em primeiro lugar, obter um visto.
+                Como o espinho que entra na mão do bêbado, assim é o provérbio na boca dos tolos.
+                Mas o governo já esticou demais essa corda.
+                Os quadrinhos e o espelho que estavam no meu quarto ganharam novos cantinhos.
+                O cancelamento não será realizado caso o ingresso já tenha sido trocado.
+                De modo que eu sempre defendi essa história, dentro do possível, o sujeito se informar.
+        -->
+    </rule>
+  </rulegroup>
+
+  <rule id="SPS00_DP_NC_VMN0000_20260105_RARE" name="This word is NOT A NOUN, but an INFINITIVE">
+    <pattern>
+      <token postag='SPS00'/>
+      <token postag='[DP].+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='N.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
+      <token postag='N.+|AQ.+' postag_regexp='yes'>
+        <exception postag_regexp='yes' postag='V.+'/>
+        <exception scope='next' postag_regexp='yes' postag='AQ.+'/></token>
+      <marker>
+        <and>
+          <token postag='VMN0000'><exception scope='next' postag='CS'/></token>
+          <token postag='NC.+' postag_regexp='yes'><exception scope='next' postag='CS'/></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="N.*"/>
+    <!--
+    Examples:
+             Para uma experiência ser considerada rigorosa nas ciências humanas, leva-se muito em conta o fator da aleatoriedade.
+             O fato de o transporte coletivo ser um dos principais problemas estruturais do país reforça tudo isso.
+             Está na hora de o Congresso olhar e falar: “olha, adia (as eleições)”.
+             (Não há nada de errado em uma mulher querer ser mãe nessa idade e em um relacionamento estável.)
+             Se durante o negócio sentir demoras agradeço que me contacte e aguarde antes de dar feedbacks disparatados.
+             Após o incenso ser queimado, coloque as cinzas em um vaso pequeno com com terra.
+             É difícil para os estudantes estrangeiros falar bem o inglês.
+      -->
+  </rule>
+
+  <rule id="NCAQ_DP_VERB_NOUN_PARTPASS_NC_AQ_20260126_RARE" name="It is NC.+/AQ.+ not VM[SI]P2S0">
+    <pattern>
+      <token postag='AQ..P.+|NC.P.+|(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VM[SI]P2S0' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='VMP00P.+|AQ..P.+|NC.P.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="VM[SI]P2S0"/>
+    <!--
+    Examples:
+             Os alunos pintaram-na e decoraram-na com estrelas amarelas recheadas de belas mensagens.
+             Esse desconhecimento mantém a sociedade muito passiva mesmo diante das inúmeras injustiças vivenciadas ano após ano.
+             Muito bom atendimento super indico, pessoas fofas educadas..
+             Pára de ficar lendo supostas escrituras sagradas que nada têm a ver comigo.
+             Aroma: Frutas vermelhas combinadas com pimenta doce e baunilha.
+             Esta torta foi obviamente uma das primeiras receitas escolhidas.
+             Em fevereiro, a mudança veio de fora para dentro nas situações transformadoras externas representadas pelo raio que atinge A Torre.
+             Ele disse que o filme possuía o "coração, alma, espírito e romance" dos melhores filmes mudos.
+             A comunidade monástica produz um dos melhores azeites ecológicos do Mediterrâneo.
+             Capa de brochura com ligeiros cortes marginais.
+             A Bandeira brasileira mantém a tradição das antigas cores nacionais.
+             Oct-2015 Todos os animais europeus com textos uniformes verificados.
+             Lindas humildes palavras de salvação.
+             Após instalado, o plugin criará os respectivos campos para links das principais redes sociais (Facebook, Google Plus e Twitter).
+             Todos com ar condicionado, com belos detalhes decorativos.
+             As Saias Longas são as escolhas perfeitas para looks mais casuais, por serem fresquinhas e confortáveis.
+             Catarina disse que devia a sua sobrevivência às frequentes sangrias a que a sujeitavam.
+             Crise nos ares lusitanos?
+             Utilizamos o poder da sua compra e dos seus amigos para negociar grandes descontos nos melhores estabelecimentos da cidade.
+             Vou caçar ainda mais, naqueles mares ótimos, como em Marrocos.
+             Financiamento nos melhores bancos com as melhores taxas.
+             Ensina os limites impostos à satisfação dos desejos.
+             Quantos botes salva-vidas há?
+             Por que as aulas convencionais de idiomas são tão enfadonhas?
+             Era apelidado de "Testina d'Oro" ("Testinha de Ouro") pelos frequentes gols de cabeça.
+             Estes aniões são as bases conjugadas dos polissulfetos de hidrogênio H2S"n".
+      -->
+  </rule>
+
+  <rule id="VERB_TO_SPS_20260119_RARE" name="It is SPS not VMIS2.+">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIS2.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Uma edição especial que pretende revelar o poder criativo destes artistas
+             Uma parte significativa destes doentes refractários.
+             As intervenções contribuíram para a mudança visual destes bairros, que ganharam um novo aspecto.
+             É a base de toda a mobilidade física destes animais.
+             As pessoas que mais tem me auxiliado ao longo destes anos também estão cansadas, até mesmo esgotadas.
+             Meu corpo já está sentindo a sequência de enfermidades ao longo destes anos.
+             Muitas das violências e violações estão vinculadas à negação ao direito territorial destes povos.
+             As intervenções contribuíram para a mudança visual destes bairros, que ganharam um novo aspecto.
+             É a base de toda a mobilidade física destes animais.
+             Fui hoje a um musical do qual faz parte meu ator favorito. É o musical imperdível deste ano.
+             Não faça pouco caso deste conselho.
+             Vá para a página principal deste curso.
+             Também fiz a cobertura jornalística deste encontro, que durou quase uma semana, mas já pelo GLOBO.
+             Sim, existem alguns pontos menores, no entanto isso não invalida a qualidade geral deste set.
+      -->
+  </rule>
+
+  <rule id="VERB_2S_TO_VERB_3S_20260310_RARE" name="It is VMIP3S0">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='_PUNCT_COMMA' postag_regexp='no'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='VMM02S0'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMM02S0"/>
+    <!--
+    Examples:
+             Por isso uma obra pode ter vários números ISBN diferentes.
+             Seu nome vem do personagem mitológico grego Leucoteia.
+             Esvaziada de seu poder, a Assembleia convoca a eleição de uma Convenção Nacional.
+             No calendário litúrgico tem a letra dominical A para o dia da semana.
+             Ou seja, todo experimento está sujeito a uma incerteza.
+             Os bailarinos dançam com as mãos mantendo as mãos acima da cabeça, por vezes acompanhando com castanholas.
+             O sorriso convida à abertura e ao relaxamento.
+             O desdobramento das cadeias musculares encontra seu espaço nas espirais.
+             O movimento da mão tem sua fonte e sua força nos pés.
+      -->
+  </rule>
+
+  <rule id="VERB_3S_TO_NCAQ_20260310_RARE" name="It is not VMIP3S0">
+    <!-- The VMM02S0 exception below fixes: "A mulher precisa, mas" e "A mulher observa e o homem pensa." -->
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'><exception scope='previous' regexp='yes'>que|e|ou</exception></token>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='_PUNCT_COMMA' postag_regexp='no'/>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='AQ.+' postag_regexp='yes'/> <!-- NC.+ causes FPs -->
+        </and>
+      </marker>
+      <token postag='_PUNCT|SENT_END' postag_regexp='yes'><exception scope='previous' postag_regexp='yes' postag='VMM02S0|VMP00.+|NC.+'/></token>
+    </pattern>
+    <disambig action="remove" postag="VMIP3S0"/>
+    <!--
+    Examples:
+             Não seria também porventura possuir a capacidade de entender o semelhante e de compreender a dor alheia?
+             Desenvolveu o gosto pela literatura e devorou livros durante a vida inteira.
+             A primeira, além da base super estreita, tem um aramado quase tridimensional nas pernas.
+             Considerando a situação narrada, assinale a afirmativa correta.
+             Agradeço pela lembrança precisa.
+             O Expressionismo é a arte do instinto, trata-se de uma pintura dramática, subjetiva, “expressando” sentimentos humanos.
+             Talvez fossem as vozes, quem sabe uma desconfiança repentina?
+             Não é bom ler na sala escura.
+             Gosto de dormir numa cama macia.
+             O conceito se tornou um dos pilares da ecologia profunda.
+      -->
+  </rule>
+
+  <rule id="VERB_TO_NC_ADJ_20260119_RARE" name="It is NC.+/AQ.+">
+    <pattern>
+      <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+      <token postag='CC'/>
+      <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+      <token min='0' max='1' postag='RM'/>
+      <marker>
+        <and>
+          <token postag='VMI[IP]2P0|VMSP2S0' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Não é certamente descrito que este animal seja capaz de habitar além de locais úmidos e várzeas florestais.
+             Na astrologia, o signo de sagitário tem como elemento de regência natural o fogo e regências sazonais em terra e vento.
+             Passeios de barco e atrações musicais são oferecidos à beira do rio.
+             Conclusão e considerações finais.
+             Todos os preços e condições comerciais estão sujeitos a alteração sem aviso prévio.
+             Costa e… o Partido dos Trabalhadores, pela sua direção nacional e bancadas federais ficam na defensiva.
+             Se você gostaria de jogar jogos de tiro parecidos e muito legais, confira Mr. Bullet e Gun Blood.
+             São divertidas, espontâneas e nada convencionais.
+             Eles trabalham diretamente com outras instituições de caridade, parceiros e comunidades locais.
+             Onde estavam os prefeitos e governadores responsáveis pelas obras exigidas pela Fifa?
+             Ouço piropos e comentários desagradáveis.
+             Deus não poderia reivindicar seus direitos por difamação,calúnia e danos morais?
+             Produto sem aromas e corantes artificiais.
+             Atendimento por telefone, e-mail, chat, trocas, cancelamentos e dúvidas frequentes.
+             Nele, a jovem aparece com diferentes visuais e sintomas aparentes.
+             milk-shakes além de sucos de fruta, açaí e waffles doces e salgados.
+             Uma grande festa com pizza, doces, refrigerantes e muitos brindes encerrará o encontro.
+             Posso falar sobre os melhores serviços, dicas para uma saúde e bem-estar melhores e qualquer coisa que me ocorra.
+             Ela passou um filme super poético, belíssimo, daqueles que merecem ser assistidos várias e várias vezes!
+             As repercussões fetais foram transitórias com o uso de efedrina e menos frequentes com uso de fenilefrina.
+      -->
+  </rule>
+
+  <rule id="VERB_TO_NC_ADJ_OTHER_20260120_RARE" name="It is NC.+/AQ.+">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP2S0"/>
+    <!--
+    Examples:
+             Uma das primeiras grandes batalhas que ele teve foi entre as guilds Rise Against vs Hive.
+             Em fevereiro, a mudança veio de fora para dentro nas situações transformadoras externas representadas pelo raio que atinge A Torre.
+             Das vinte maiores empresas de petróleo do mundo, 15 são estatais.
+             Eu tive algumas conversas muito profundas enquanto selecionava peças de quebra-cabeças.
+             Os cem melhores poetas brasileiros do século, 2ª edição.
+             A peça marca datas especiais e traz um certo brilho para todo o ambiente.
+             Este veneno mata baratas, mas não é eficaz para ratos.
+             As folhas secas eram levadas pelo vento como plumas.
+             O que são estrelas fixas?
+             Minha mulher ama novelas românticas.
+             Fez ao professor várias perguntas.
+             Na Espanha, serve-se o almoço lá pelas duas.
+             Minha esposa pinta aquarelas.
+      -->
+  </rule>
+
+  <rule id="VERB_TO_NC_ADJ_OTHER_20260205_RARE" name="It is NC.+/AQ.+">
+    <pattern>
+      <token postag='(SPS00:)?[DP].+' postag_regexp='yes'><exception postag_regexp='no' postag='RG'/></token>
+      <token min='1' max='2' postag='AQ.+|NC.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP1S0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP1S0"/>
+    <!--
+    Examples:
+             Esta animação mostra como funcionam os telemóveis.
+             Suas galinhas vão desfrutar de um amplo ar fresco e exercício com caminhada em corrida de galinha.
+             Começa no branco, passando por cores frias, chegando às quentes e terminando no vermelho bem vivo.
+             Poder vestir as mulheres e pô-las ainda mais belas é um impacto muito positivo.
+             O pneu dianteiro largo e alto deixa a frente mais “pesada” e isso é normal nos modelos clássicos.
+             As capas de brochura apresentam uma pequena mancha no canto inferior esquerdo, mas o miolo apresenta-se muito limpo.
+             Tarot Cigano – Explore o mundo esotérico cigano e aprenda as 36 cartas que compõem o baralho de Tarô Cigano (baralho cigano).
+             Ficávamos com o bichinho muito cedo.
+      -->
+  </rule>
+
+  <rule id="VERB_VMIS2S0_TO_SPS_20260211_RARE" name="It is SPS.+">
+    <pattern>
+      <token postag_regexp='yes' postag='V.+|RG'/>
+      <token min='0' max='1' postag='RG|RM|RN|NC.+|AQ.+|VMP00.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIS.+|VMSI.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O que acham deste traje para o noivo: amam, odeiam ou ignoram?
+             Gostou deste comentário?
+             Quando soube deste lançamento da Editora Planeta, eu fiquei doida para ler.
+             Mas outras importantes lições se podem colher deste surpreendente fenómeno.
+             Fazem deste silêncio, “Uma próxima Jornada”.
+             Ora bem... eu... hum... Opá que á para dizer deste menino?!
+             A partir deste pressuposto, partem as outras observações.
+             Apesar deste tão longo tempo afastado deste blog, e de algumas outras atividades, eu estou vivo.
+             Você precisa deste livro?
+             Eu nunca me esquecerei deste acontecimento até o dia de minha morte.
+             A partir desse momento, as posições de Vargas e da UDN tornaram-se cada vez mais conflituosas.
+             Doze contingentes de várias forças para-militares da Índia e forças policiais também participam desse desfile.
+             O Marcos me disse que você você gosta desse tipo de música.
+             Tom foi obrigado a desistir desse plano.
+             Paulo é desses caras.
+      -->
+  </rule>
+
+  <rule id="VERB_VMIP2P0_TO_NCAQ_20260220_RARE" name="It is not VMIP2P0">
+    <pattern>
+      <token postag_regexp='yes' postag='(SPS00:)?[DP]...P.+'/>
+      <token min='1' max='2' postag_regexp='yes' postag='AQ..P.+|NC.P.+|VMP00P.+'/>
+      <token min='0' max='1' postag='RG|RM|RN' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMIP2P0'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMIP2P0"/>
+    <!--
+    Examples:
+             Regional: são os serviços locais da CP efectuam paragem em todas ou quase todas as estações e apeadeiros.
+             Inclusive os proibiu de exercer seu comércio para os artesãos individuais, pelo menos até 1936.
+             Alguns desses trabalhos finais denotam as preocupações mais profundas de Van Gogh.
+             Essa relação está presente na maioria das plantas atuais.
+             Além disso, alguns de seus álbuns também foram citados como os álbuns digitais mais bem sucedidos da história.
+             Confira as letras originais, a tradução e cative seu amor!
+             Trazendo os presentes mais originais, mais engraçados e únicos até aqui!
+             O conteúdo deste portal pode ser utilizado para todos os fins não comerciais, respeitados e reservados os direitos morais dos autores.
+             Versátil, a peça vai desde o ambiente de trabalho até as ocasiões mais informais.
+             Estes clientes são considerados pelos médicos como potenciais “problemas” em virtude do risco de litígio legal por erros médicos.
+             Ela é uma das pessoas mais legais que eu conheço.
+      -->
+  </rule>
+
+  <rule id="NCAQ_SPS00DA_NCAQVMP_20260305_RARE" name="It is not VMP00.+">
+    <pattern>
+      <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      <token postag='SPS00:DA.+' postag_regexp='yes'/>
+      <marker>
+        <and>
+          <token postag='VMP00.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='SPS.+'/></token>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'><exception scope='next' postag_regexp='yes' postag='SPS.+'/></token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMP00.+"/>
+    <!--
+    Examples:
+             Outras leis proibiram a venda de cargos públicos e a isenção tributária das camadas privilegiadas.
+             Esta tradição pode ser revivida no núcleo das charqueadas, por meio de visitas orientadas.
+             As restantes naus da Armada portuguesa ficariam em defesa do porto de Lisboa.
+             Conviveu com figuras proeminentes do partido, como Artur Bernardes Filho, Clóvis Salgado da Gama e Tristão da Cunha.
+             Também foram feitas várias obras de reparação nas oficinas, incluindo a substituição do telhado e de bocas de incêndio, e nos escritórios.
+             Com vários problemas internos na banda, houve especulações sobre o fim do conjunto.
+      -->
+  </rule>
+
+  <rule id="QUE_VNCAQ_PP_V_20260324_RARE" name="It is noun/adjective.+">
+    <pattern>
+      <token>que</token>
+      <marker>
+        <and>
+          <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag='PP.C.+' postag_regexp='yes'/>
+      <token postag='V.+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMN0.+'/></token>
+    </pattern>
+    <disambig action="remove" postag="V.+"/>
+    <!--
+    Examples:
+             Que tinta vc usou?
+             Que idiota eu fui de emprestar-lhe dinheiro.
+             Que estrada você andou?
+             Dúvida: Que madeira vc utilizaria para substituir o mogno?
+             Que coroa você está vendo?
+      -->
+  </rule>
+
+  <rulegroup id="CONTEXT_BASED" name="contexto">
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes' inflected='yes'>beijo|boceta|broxe|caralho|carícia|clítoris|clitóris|coito|cona|cunilíngua|cunnilingus|dildo|ejaculação|ejacular|erótico|esperma|esporra|excitação|foda|foder|fornicar|langonha|masturbação|masturbar|minete|orgasmo|pénis|preservativo|queca|sensual|sexo|sexual|sexualmente|submisso|vagina|vibrador</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_CONTEXTO_SEXUAL_EROTICO"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp='yes' postag='NC.+|AQ.+' regexp='yes' inflected='yes'>anorak|avental|bata|bermuda|blazer|blusa|blusão|calça|calça-jeans|calção|calcinha|camisa|camiseta|camisola|cardigã|cardigan|casaco|colete|cueca|farda|fato|figurino|fraque|gabardina|indumentária|jaqueta|jardineira|jeans|kimono|lingerie|macacão|parka|pijama|pullover|pulover|quimono|regata|roupa|roupão|saia|short|smoking|sobretudo|soutien|suéter|sutiã|t-shirt|terno|top|traje|tshirt|túnica|uniforme|vestido</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_CONTEXTO_VESTUARIO_VESTIR"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp='yes' postag='NC.+|AQ.+' regexp='yes' inflected='yes'>alpargata|bota|bota-cano-curto|bota-cano-longo|botim|botina|chinelinho|chinelo|chuteira|clog|collant|coturno|derby|espadrilha|flipflop|galocha|havaiana|loafer|luva|meia|meia-calça|meias-calças|mocassim|monkstrap|oxford|papete|rasteirinha|sandalia|sandália|sandália-rasa|sandalia-salto|sandália-salto|sapatilha|sapatilha-corrida|sapatilha-desportiva|sapatilha-futebol|sapato|sapato-desportivo|sapato-social|soca|tamanco|tamanco-madeira|tenis|tênis</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_CONTEXTO_CALCADO_CALCAR"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp='yes' postag='NC.+|AQ.+' regexp='yes' inflected='yes'>alojamento|anexo|apartamento|bungalô|casa|chácara|chalé|cobertura|condomínio|domicílio|duplex|edifício|estúdio|fazenda|flat|habitação|hostel|imóvel|kitnet|loft|mansão|moradia|penthouse|pousada|prédio|propriedade|quarto|quinta|quitinete|rancho|república|residência|sítio|triplex|vivenda</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_CONTEXTO_HABITACAO_IMOVEIS"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token postag_regexp='yes' postag='NC.+|AQ.+' regexp='yes' inflected='yes'>autocarro|automóvel|bicicleta|bonde|buggy|camião|caminhão|caminhonete|camioneta|carrinha|carro|carroça|carruagem|charrete|comboio|diligência|elétrico|funicular|furgão|furgoneta|kart|locomotiva|metrô|metro|microônibus|minibus|monotrilho|moto|motocicleta|motociclo|motoneta|mototáxi|ônibus|patinete|pickup|quadriciclo|reboque|scooter|segway|táxi|taxi|trailer|trem|triciclo|trotinete|van|viatura|VLT</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_CONTEXTO_VEICULOS_TERRESTRES"/>
+      </disambig>
+    </rule>
+  </rulegroup>
+
+
+  <rule id="PORTA_HIFEN_SUBSTANTIVOPLURAL" name="Remove verbs in porta-Substantivo_Plural">
+    <pattern>
+      <marker>
+        <and>
+            <token>porta</token>
+            <token postag='N.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token spacebefore='no' regexp='yes'>[-]</token>
+      <token spacebefore='no' postag_regexp='yes' postag='NC.P.+'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             O porta-carros.
+             Os porta-carros.
+             O porta-paletes.
+             Os porta-paletes.
+    -->
+  </rule>
 
   <rulegroup id="NATIONAL_PREFIXES" name="Ignore spelling in tagged words with national prefixes">
       <rule>

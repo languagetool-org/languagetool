@@ -74,7 +74,8 @@ public class StyleTooOftenUsedNounRule extends AbstractStyleTooOftenUsedWordRule
   }
 
   @Override
-  protected boolean isException(AnalyzedTokenReadings token) {
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int n) {
+    AnalyzedTokenReadings token = tokens[n];
     return token.hasPosTagStartingWith("NNP") || token.hasPosTagStartingWith("IN") || 
         token.hasPosTagStartingWith("JJ") || token.hasPosTagStartingWith("RB") || 
         token.hasPosTagStartingWith("VB");

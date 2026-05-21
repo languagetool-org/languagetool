@@ -148,12 +148,16 @@ abstract class Server {
     System.out.println("                 'maxPipelinePoolSize' - cache size if 'pipelineCaching' is set");
     System.out.println("                 'pipelineExpireTimeInSeconds' - time after which pipeline cache items expire");
     System.out.println("                 'pipelinePrewarming' - set to 'true' to fill pipeline cache on start (can slow down start a lot)");
+    System.out.println("                 'trustXForwardForHeader' - set this to 'true' if you run the server behind a reverse proxy and want the");
+    System.out.println("                                            request limit to work on the original IP addresses provided by the 'X-forwarded-for' HTTP header,");
+    System.out.println("                                            usually set by the proxy");
     System.out.println("                 Spellcheck-only languages: You can add simple spellcheck-only support for languages that LT doesn't");
     System.out.println("                                            support by defining two optional properties:");
     System.out.println("                   'lang-xx' - set name of the language, use language code instead of 'xx', e.g. lang-tr=Turkish");
     System.out.println("                   'lang-xx-dictPath' - absolute path to the hunspell .dic file, use language code instead of 'xx', e.g.");
     System.out.println("                                        lang-tr-dictPath=/path/to/tr.dic. Note that the same directory also needs to");
     System.out.println("                                        contain a common_words.txt file with the most common 10,000 words (used for better language detection)");
+    System.out.println("                 'suggestionsEnabled' - if suggestions should be generated for spell check errors (optional, default: true)");
   }
 
   protected static void printCommonOptions() {

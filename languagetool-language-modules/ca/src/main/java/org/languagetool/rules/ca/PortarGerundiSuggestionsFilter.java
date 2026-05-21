@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ca.VerbSynthesizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -30,8 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.languagetool.rules.ca.PronomsFeblesHelper.getTwoNextPronouns;
-import static org.languagetool.rules.ca.PronomsFeblesHelper.getPreviousPronouns;
 import static org.languagetool.rules.ca.PronomsFeblesHelper.transformDavant;
 
 /*
@@ -55,40 +54,43 @@ public class PortarGerundiSuggestionsFilter extends RuleFilter {
     AnalyzedToken atr2 = tokens[posWord + 1].readingWithTagRegex("V.G.*");
     List<String> replacements = new ArrayList<>();
     // he fet
-    String lemma = (newLemma.isEmpty()? atr2.getLemma(): newLemma);
-    String[] synthForms1 = synth.synthesize(new AnalyzedToken("", "", "haver"), "VA"+atr1.getPOSTag().substring(2), true);
+    String lemma = (newLemma.isEmpty() ? atr2.getLemma() : newLemma);
+    String[] synthForms1 = synth.synthesize(new AnalyzedToken("", "", "haver"), "VA" + atr1.getPOSTag().substring(2),
+      true);
     String[] synthForms2 = synth.synthesize(new AnalyzedToken("", "", lemma), "V.P..SM.", true);
     if (synthForms1 != null && synthForms2 != null) {
       for (String synthForm1 : synthForms1) {
         for (String synthForm2 : synthForms2) {
-          replacements.add(synthForm1+" "+synthForm2);
+          replacements.add(synthForm1 + " " + synthForm2);
         }
       }
     }
     // faig
-    String[] synthForms3 = synth.synthesize(new AnalyzedToken("", "", lemma), "V."+atr1.getPOSTag().substring(2), true);
+    String[] synthForms3 = synth.synthesize(new AnalyzedToken("", "", lemma), "V." + atr1.getPOSTag().substring(2),
+      true);
     if (synthForms3 != null) {
       replacements.add(synthForms3[0]);
     }
     if (replacements.isEmpty()) {
       return null;
     }
-    String[] nextPronouns = getTwoNextPronouns(tokens, posWord + 2);
-    String[] previousPronouns = getPreviousPronouns(tokens, posWord - 1);
+    VerbSynthesizer verbSynthesizer = new VerbSynthesizer(tokens, posWord, getLanguageFromRuleMatch(match));
     int correctStartIndex = 0;
     int correctEndIndex = 0;
     for (int i = 0; i < replacements.size(); i++) {
       String pronounsSuggestion = "";
-      if (!nextPronouns[0].isEmpty()) {
-        pronounsSuggestion = transformDavant(nextPronouns[0], replacements.get(i));
-        correctEndIndex = Integer.parseInt(nextPronouns[1]);
-      } else if (!previousPronouns[0].isEmpty()) {
-        pronounsSuggestion = transformDavant(previousPronouns[0], replacements.get(i));
-        correctStartIndex = - Integer.parseInt(previousPronouns[1]);
+      if (verbSynthesizer.getNumPronounsAfter() > 0) {
+        pronounsSuggestion = transformDavant(verbSynthesizer.getPronounsStrAfter(), replacements.get(i));
+        correctEndIndex = verbSynthesizer.getNumPronounsAfter();
+      } else if (verbSynthesizer.getNumPronounsBefore() > 0) {
+        pronounsSuggestion = transformDavant(verbSynthesizer.getPronounsStrBefore(), replacements.get(i));
+        correctStartIndex = -verbSynthesizer.getNumPronounsBefore();
       }
-      replacements.set(i, StringTools.preserveCase(pronounsSuggestion + replacements.get(i), tokens[posWord + correctStartIndex].getToken()));
+      replacements.set(i, StringTools.preserveCase(pronounsSuggestion + replacements.get(i),
+        tokens[posWord + correctStartIndex].getToken()));
     }
-    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[posWord + correctStartIndex].getStartPos(),
+    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(),
+      tokens[posWord + correctStartIndex].getStartPos(),
       tokens[posWord + 1 + correctEndIndex].getEndPos(), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacements(replacements);

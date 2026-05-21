@@ -19,6 +19,7 @@
 package org.languagetool.dev;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.GermanSpellerRule;
@@ -48,7 +49,7 @@ public class GenderWordFinder {
         candidates.add(line);
       }
     }
-    GermanyGerman de = new GermanyGerman();
+    German de = GermanyGerman.getInstance();
     JLanguageTool lt = new JLanguageTool(de);
     for (Rule rule : lt.getAllActiveRules()) {
       if (!rule.getId().equals("GERMAN_SPELLER_RULE")) {

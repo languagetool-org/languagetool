@@ -35,7 +35,7 @@ public class PortugueseBarbarismRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lt = new JLanguageTool(new BrazilianPortuguese());
+    lt = new JLanguageTool(BrazilianPortuguese.getInstance());
     rule = new PortugueseBarbarismsRule(TestTools.getMessages("pt"), "/pt/pt-BR/barbarisms.txt",
       lt.getLanguage());
   }

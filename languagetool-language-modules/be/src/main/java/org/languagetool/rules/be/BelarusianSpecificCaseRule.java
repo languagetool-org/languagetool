@@ -19,7 +19,6 @@
 package org.languagetool.rules.be;
 
 import org.languagetool.rules.*;
-import org.languagetool.tools.Tools;
 
 import java.util.*;
 

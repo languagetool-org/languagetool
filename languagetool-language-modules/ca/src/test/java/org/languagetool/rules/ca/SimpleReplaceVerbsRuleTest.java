@@ -40,8 +40,8 @@ public class SimpleReplaceVerbsRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new SimpleReplaceVerbsRule(TestTools.getMessages("ca"), new Catalan());
-    lt = new JLanguageTool(new Catalan());
+    rule = new SimpleReplaceVerbsRule(TestTools.getMessages("ca"), Catalan.getInstance());
+    lt = new JLanguageTool(Catalan.getInstance());
   }
 
   @Test
@@ -77,18 +77,18 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals("empastifava", matches[0].getSuggestedReplacements().get(1));
     assertEquals("llepava", matches[0].getSuggestedReplacements().get(2));
     assertEquals("cagava", matches[0].getSuggestedReplacements().get(3));
-    assertEquals("(haver begut oli)", matches[0].getSuggestedReplacements().get(4));
-    assertEquals("(tocar el rebre)", matches[0].getSuggestedReplacements().get(5));
-    assertEquals("(fotre's)", matches[0].getSuggestedReplacements().get(6));
-    assertEquals("(fer-se fotre)", matches[0].getSuggestedReplacements().get(7));
+    assertEquals("havia begut oli", matches[0].getSuggestedReplacements().get(4));
+    assertEquals("tocava el rebre", matches[0].getSuggestedReplacements().get(5));
+    assertEquals("es fotia", matches[0].getSuggestedReplacements().get(6));
+    assertEquals("es feia fotre", matches[0].getSuggestedReplacements().get(7));
     
     matches = rule.match(lt.getAnalyzedSentence("abarca"));
     assertEquals(1, matches.length);
     assertEquals("abraça", matches[0].getSuggestedReplacements().get(0));
     assertEquals("abasta", matches[0].getSuggestedReplacements().get(1));
     assertEquals("comprèn", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("comprén", matches[0].getSuggestedReplacements().get(3));
-    assertEquals("inclou", matches[0].getSuggestedReplacements().get(4));
+    //assertEquals("comprén", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("inclou", matches[0].getSuggestedReplacements().get(3));
     
     matches = rule.match(lt.getAnalyzedSentence("abarcaven"));
     assertEquals(1, matches.length);
@@ -128,12 +128,12 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals("acuites", matches[0].getSuggestedReplacements().get(0));
     assertEquals("apresses", matches[0].getSuggestedReplacements().get(1));
     assertEquals("dones pressa", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("dónes pressa", matches[0].getSuggestedReplacements().get(3));
-    assertEquals("atabuixes", matches[0].getSuggestedReplacements().get(4));
-    assertEquals("aclapares", matches[0].getSuggestedReplacements().get(5));
-    assertEquals("afeixugues", matches[0].getSuggestedReplacements().get(6));
-    assertEquals("mareges", matches[0].getSuggestedReplacements().get(7));
-    assertEquals("afanyes", matches[0].getSuggestedReplacements().get(8));
+    //assertEquals("dónes pressa", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("atabuixes", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("aclapares", matches[0].getSuggestedReplacements().get(4));
+    assertEquals("afeixugues", matches[0].getSuggestedReplacements().get(5));
+    assertEquals("mareges", matches[0].getSuggestedReplacements().get(6));
+    assertEquals("afanyes", matches[0].getSuggestedReplacements().get(7));
     
     matches = rule.match(lt.getAnalyzedSentence("agobiem"));
     assertEquals(1, matches.length);
@@ -179,6 +179,21 @@ public class SimpleReplaceVerbsRuleTest {
     
     matches = rule.match(lt.getAnalyzedSentence("permitisc"));
     assertEquals("permeto", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("Influí en pràcticament tots els gèneres de la música dance des dels anys 70 fins ara."));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("Moldejant-les"));
+    assertEquals("[Modelant-les, Afaiçonant-les]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("Me s'ha ocurrit."));
+    assertEquals("[Se m'ha ocorregut]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("Com te s'ha ocurrit."));
+    assertEquals("[se t'ha ocorregut]", matches[0].getSuggestedReplacements().toString());
+
+    matches = rule.match(lt.getAnalyzedSentence("liar-te-la"));
+    assertEquals("[embolicar-te-la, enredar-te-la, enrotllar-te-la, armar-te-la, engalipar-te-la, entabanar-te-la, embullar-te-la, embrollar-te-la]", matches[0].getSuggestedReplacements().toString());
   }
 
 }

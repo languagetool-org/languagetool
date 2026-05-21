@@ -25,7 +25,7 @@ public class ChineseConcurrencyTest extends AbstractLanguageConcurrencyTest {
 
   @Override
   protected Language createLanguage() {
-    return new Chinese();
+    return Chinese.getInstance();
   }
 
   @Override

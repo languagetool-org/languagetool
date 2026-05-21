@@ -18,14 +18,9 @@
  */
 package org.languagetool.rules;
 
-import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.tools.StringTools;
 
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * A rule that checks case in phrases

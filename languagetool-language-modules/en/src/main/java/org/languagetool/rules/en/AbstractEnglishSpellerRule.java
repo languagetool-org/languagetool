@@ -20,6 +20,7 @@ package org.languagetool.rules.en;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -120,6 +121,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "horseshit",
     "kraut",
     "krauts",
+    "blackie",
+    "blackies",
     "motherfucker",
     "motherfuckers",
     "motherfucking",
@@ -179,6 +182,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern HONGKONG = compile("[hH]on[kg]kong");
   private static final Pattern AFAIK = compile("afaik");
   private static final Pattern JANUARY = compile("january");
+  private static final Pattern ADMITTINGLY = compile("[Aa]dmittingly");
   private static final Pattern APRIL = compile("april");
   private static final Pattern SEPTEMBER = compile("september");
   private static final Pattern OCTOBER = compile("october");
@@ -189,16 +193,23 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern GITLAB = compile("[Gg]itlab");
   private static final Pattern BONAFIDE = compile("[Bb]onafide");
   private static final Pattern WHEREEVER = compile("[Ww]hereever");
+  private static final Pattern UNINSPIRATIONAL = compile("[Uu]ninspirational");
   private static final Pattern WHATSAPP = compile("[Ww]hatsapp");
   private static final Pattern JETLAGGED = compile("jetlagged");
   private static final Pattern MACBOOK = compile("[Mm]acbooks?");
   private static final Pattern LIKELYHOOD = compile("[Ll]ikelyhood");
+  private static final Pattern FORSEEABLE = compile("[Ff]orseeable");
+  private static final Pattern UNFORSEEABLE = compile("[Uu]nforseeable");
+  private static final Pattern FORSEEABLY = compile("[Ff]orseeably");
+  private static final Pattern UNFORSEEABLY = compile("[Uu]nforseeably");
   private static final Pattern UNECESSARY = compile("[Uu]necessary");
   private static final Pattern HUBSPOT = compile("[Hh]ubspot");
   private static final Pattern URL = compile("[Uu]rl");
   private static final Pattern TV = compile("tv");
   private static final Pattern HTTP = compile("[Hh]ttp");
   private static final Pattern HTTPS = compile("[Hh]ttps");
+  private static final Pattern EUROPEAN = compile("european");
+  private static final Pattern EUROPEANS = compile("europeans");
   private static final Pattern FYI = compile("[Ff]yi");
   private static final Pattern MICROSOFT = compile("microsoft");
   private static final Pattern DEVOPS = compile("[Dd]evops");
@@ -210,6 +221,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern UX = compile("ux");
   private static final Pattern LANGUAGETOOL = compile("[Ll]anguagetool");
   private static final Pattern UNDETERMINISTIC = compile("undeterministic");
+  private static final Pattern QUILLBOT_POS = compile("QuillBots");
+  private static final Pattern QUILLBOT1 = compile("[Qq]uill?bot");
+  private static final Pattern QUILLBOT1_POS = compile("[Qq]uill?bots");
+  private static final Pattern QUILLBOT2 = compile("QuilBot");
+  private static final Pattern QUILLBOT2_POS = compile("QuilBots");
 
   private final BeoLingusTranslator translator;
 
@@ -221,13 +237,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private static final Pattern CONTAINS_TOKEN = compile(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)");
   static  {
     wordPatterns[0] = compile(".*[yi][zs]e([sd])?|.*[yi][zs]ings?|.*i[zs]ations?", CASE_INSENSITIVE | UNICODE_CASE);
-    blogLinks[0] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
+    blogLinks[0] = "https://quillbot.com/blog/category/uk-vs-us/";
 
     wordPatterns[1] = compile(".*(defen[cs]e|offen[sc]e|preten[sc]e).*", CASE_INSENSITIVE | UNICODE_CASE);
-    blogLinks[1] = "https://languagetool.org/insights/post/ise-ize/#the-distinctions-between-%E2%80%9C-ise%E2%80%9D-%E2%80%9C-ize%E2%80%9D-and-%E2%80%9C-yse%E2%80%9D-%E2%80%9C-yze%E2%80%9D";
+    blogLinks[1] = "https://quillbot.com/blog/category/uk-vs-us/";
 
     wordPatterns[2] = compile(".*og|.*ogue", CASE_INSENSITIVE | UNICODE_CASE);
-    blogLinks[2] = "https://languagetool.org/insights/post/ise-ize/#another-difference-because-of-foreign-words-%E2%80%9C-og%E2%80%9D-vs-%E2%80%9C-ogue%E2%80%9D";
+    blogLinks[2] = "https://quillbot.com/blog/category/uk-vs-us/";
     
     wordPatterns[3] = compile(".*(or|our).*", CASE_INSENSITIVE | UNICODE_CASE);
     blogLinks[3] = "https://languagetool.org/insights/post/our-or/#colour-or-color%E2%80%94colourise-or-colorize";
@@ -476,6 +492,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !repLc.startsWith("op ") &&
           !repLc.startsWith("con ") &&
           !repLc.startsWith("pre ") &&
+          !repLc.startsWith("mis ") &&
           !repLc.startsWith("socio ") &&
           !repLc.startsWith("proto ") &&
           !repLc.startsWith("neo ") &&
@@ -754,6 +771,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("playstation", Arrays.asList("PlayStation"));
     s.put("iam", Arrays.asList("I am", "I'm"));
     s.put("kpop", Arrays.asList("K-pop"));
+    s.put("defenate", Arrays.asList("definite"));
+    s.put("defenately", Arrays.asList("definitely"));
     s.put("trumpian", Arrays.asList("Trumpist"));
     s.put("trumpians", Arrays.asList("Trumpists"));
     s.put("UberEats", Arrays.asList("Uber Eats"));
@@ -794,6 +813,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("transcripting", Arrays.asList("transcribing"));
     s.put("incase", Arrays.asList("in case"));
     s.put("Incase", Arrays.asList("In case"));
+    s.put("admittably", Arrays.asList("admittedly"));
+    s.put("Admittably", Arrays.asList("Admittedly"));
     s.put("fam", Arrays.asList("family", "fame"));
     s.put("awnser", Arrays.asList("answer"));
     s.put("Awnser", Arrays.asList("Answer"));
@@ -868,6 +889,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("tuffest", Arrays.asList("toughest"));
     s.put("Tuffer", Arrays.asList("Tougher"));
     s.put("tuffer", Arrays.asList("tougher"));
+    s.put("devast", Arrays.asList("devastate"));
+    s.put("devasts", Arrays.asList("devastates"));
+    s.put("devasted", Arrays.asList("devastated"));
+    s.put("devasting", Arrays.asList("devastating"));
     s.put("Fundrace", Arrays.asList("Fundraise"));
     s.put("fundrace", Arrays.asList("fundraise"));
     s.put("Fundraces", Arrays.asList("Fundraises"));
@@ -916,8 +941,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Aps", Arrays.asList("Apps"));
     s.put("hehe", Arrays.asList("he-he"));
     s.put("Hehe", Arrays.asList("He-he"));
+    s.put("politeful", Arrays.asList("polite"));
+    s.put("Politeful", Arrays.asList("Polite"));
     s.put("defacto", Arrays.asList("de facto"));
     s.put("Defacto", Arrays.asList("De facto"));
+    s.put("rethoric", Arrays.asList("rhetoric"));
+    s.put("Rethoric", Arrays.asList("Rhetoric"));
     s.put("differently-abled", Arrays.asList("differently abled"));
     s.put("Differently-abled", Arrays.asList("Differently abled"));
     s.put("data-uri", Arrays.asList("data URI"));
@@ -1214,6 +1243,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("echos", Arrays.asList("echoes"));
     s.put("elfs", Arrays.asList("elves"));
     s.put("ellipsises", Arrays.asList("ellipses"));
+    s.put("ir", Arrays.asList("it"));
     s.put("embargos", Arrays.asList("embargoes"));
     s.put("erratums", Arrays.asList("errata"));
     s.put("firemans", Arrays.asList("firemen"));
@@ -1399,6 +1429,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Hight", Arrays.asList("Height"));
     s.put("fulltime", Arrays.asList("full-time"));
     s.put("Fulltime", Arrays.asList("Full-time"));
+    s.put("slimiar", Arrays.asList("similar"));
+    s.put("Slimiar", Arrays.asList("Similar"));
 
     return s;
   }
@@ -1481,31 +1513,32 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected List<SuggestedReplacement> getOnlySuggestions(String word) {
     // NOTE: only add words here that would otherwise have more than one suggestion
     // and have apply to all variants of English (en-US, en-GB, ...):
-    if (PROFILERATION.matcher(word).matches()) return topMatch(word.replaceFirst("rofileration", "roliferation"), "rapid expansion");
-    if (CEMETARY.matcher(word).matches()) return topMatch(word.replaceFirst("emetary", "emetery"));
-    if (CEMETARIES.matcher(word).matches()) return topMatch(word.replaceFirst("emetaries", "emeteries"));
-    if (BASICLY.matcher(word).matches()) return topMatch(word.replaceFirst("asicly", "asically"));
-    if (BELEIVES.matcher(word).matches()) return topMatch(word.replaceFirst("eleive", "elieve"));
-    if (BELIVES.matcher(word).matches()) return topMatch(word.replaceFirst("elive", "elieve"));
-    if (BIZZARE.matcher(word).matches()) return topMatch(word.replaceFirst("izzare", "izarre"));
-    if (COMPLETLY.matcher(word).matches()) return topMatch(word.replaceFirst("ompletly", "ompletely"));
-    if (DISSAPEARS.matcher(word).matches()) return topMatch(word.replaceFirst("issapear", "isappear"));
-    if (FARENHEIT.matcher(word).matches()) return topMatch(word.replaceFirst("arenheit", "ahrenheit"));
-    if (FREINDS.matcher(word).matches()) return topMatch(word.replaceFirst("reind", "riend"));
-    if (INCIDENTLY.matcher(word).matches()) return topMatch(word.replaceFirst("ncidently", "ncidentally"));
-    if (INTERUPTS.matcher(word).matches()) return topMatch(word.replaceFirst("nterupt", "nterrupt"));
-    if (LOLLYPOPS.matcher(word).matches()) return topMatch(word.replaceFirst("ollypop", "ollipop"));
-    if (OCASSIONS.matcher(word).matches()) return topMatch(word.replaceFirst("cassion", "ccasion"));
-    if (OCCURANCES.matcher(word).matches()) return topMatch(word.replaceFirst("ccurance", "ccurrence"));
-    if (PERSISTANT.matcher(word).matches()) return topMatch(word.replaceFirst("ersistant", "ersistent"));
-    if (PEICES.matcher(word).matches()) return topMatch(word.replaceFirst("eice", "iece"));
-    if (SEIGES.matcher(word).matches()) return topMatch(word.replaceFirst("eige", "iege"));
-    if (SUPERCEDES.matcher(word).matches()) return topMatch(word.replaceFirst("upercede", "upersede"));
-    if (THRESHHOLDS.matcher(word).matches()) return topMatch(word.replaceFirst("hreshhold", "hreshold"));
-    if (TOMMORROWS.matcher(word).matches()) return topMatch(word.replaceFirst("ommorrow", "omorrow"));
-    if (TOUTES.matcher(word).matches()) return topMatch(word.replaceFirst("ounge", "ongue"));
-    if (WIERD.matcher(word).matches()) return topMatch(word.replaceFirst("ierd", "eird"));
-    if (SARGENT.matcher(word).matches()) return topMatch(word.replaceFirst("argent", "ergeant"));
+    if (PROFILERATION.matcher(word).matches())
+      return topMatch(StringUtils.replaceOnce(word, "rofileration", "roliferation"), "rapid expansion");
+    if (CEMETARY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "emetary", "emetery"));
+    if (CEMETARIES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "emetaries", "emeteries"));
+    if (BASICLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "asicly", "asically"));
+    if (BELEIVES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "eleive", "elieve"));
+    if (BELIVES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "elive", "elieve"));
+    if (BIZZARE.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "izzare", "izarre"));
+    if (COMPLETLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ompletly", "ompletely"));
+    if (DISSAPEARS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "issapear", "isappear"));
+    if (FARENHEIT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "arenheit", "ahrenheit"));
+    if (FREINDS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "reind", "riend"));
+    if (INCIDENTLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ncidently", "ncidentally"));
+    if (INTERUPTS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "nterupt", "nterrupt"));
+    if (LOLLYPOPS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ollypop", "ollipop"));
+    if (OCASSIONS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "cassion", "ccasion"));
+    if (OCCURANCES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ccurance", "ccurrence"));
+    if (PERSISTANT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ersistant", "ersistent"));
+    if (PEICES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "eice", "iece"));
+    if (SEIGES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "eige", "iege"));
+    if (SUPERCEDES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "upercede", "upersede"));
+    if (THRESHHOLDS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "hreshhold", "hreshold"));
+    if (TOMMORROWS.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ommorrow", "omorrow"));
+    if (TOUTES.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ounge", "ongue"));
+    if (WIERD.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ierd", "eird"));
+    if (SARGENT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "argent", "ergeant"));
     if (SWIMMED.matcher(word).matches()) return topMatch("swam");
     if (MISSPELT.matcher(word).matches()) return topMatch("misspelled");
     if (ADHOC.matcher(word).matches()) return topMatch("ad hoc");
@@ -1515,6 +1548,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (HTTP.matcher(word).matches()) return topMatch("HTTP");
     if (HTTPS.matcher(word).matches()) return topMatch("HTTPS");
     if (FYI.matcher(word).matches()) return topMatch("FYI");
+    if (EUROPEAN.matcher(word).matches()) return topMatch("European");
+    if (EUROPEANS.matcher(word).matches()) return topMatch("Europeans");
     if (DEVOPS.matcher(word).matches()) return topMatch("DevOps");
     if (MICROSOFT.matcher(word).matches()) return topMatch("Microsoft");
     if (LANGUAGETOOL.matcher(word).matches()) return topMatch("LanguageTool");
@@ -1526,23 +1561,37 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (APRIL.matcher(word).matches()) return topMatch("April");
     if (AFAIK.matcher(word).matches()) return topMatch("AFAIK");
     if (JANUARY.matcher(word).matches()) return topMatch("January");
+    if (ADMITTINGLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "dmittingly", "dmittedly"));
     if (ENGLISH.matcher(word).matches()) return topMatch("English");
     if (SPANISH.matcher(word).matches()) return topMatch("Spanish");
     if (UNDETERMINISTIC.matcher(word).matches()) return topMatch("nondeterministic");
     if (WDYT.matcher(word).matches()) return topMatch("WDYT");
-    if (INTRANSPARENT.matcher(word).matches()) return topMatch(word.replaceFirst("in", "un"));
+    if (INTRANSPARENT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "in", "un"));
     if (UNCOMPLIANT.matcher(word).matches()) return topMatch("non-compliant");
     if (UX.matcher(word).matches()) return topMatch("UX");
     if (GITLAB.matcher(word).matches()) return topMatch("GitLab");
-    if (BONAFIDE.matcher(word).matches()) return topMatch(word.replaceFirst("onafide", "ona fide"));
-    if (ALLRIGHT.matcher(word).matches()) return topMatch(word.replaceFirst("llright", "lright"));
-    if (ADDON.matcher(word).matches()) return topMatch(word.replaceFirst("ddon", "dd-on"));
-    if (WHEREEVER.matcher(word).matches()) return topMatch(word.replaceFirst("hereever", "herever"));
+    if (BONAFIDE.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "onafide", "ona fide"));
+    if (ALLRIGHT.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "llright", "lright"));
+    if (ADDON.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ddon", "dd-on"));
+    if (WHEREEVER.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "hereever", "herever"));
     if (WHATSAPP.matcher(word).matches()) return topMatch("WhatsApp");
+    if (UNINSPIRATIONAL.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ninspirational", "ninspiring"));
     if (JETLAGGED.matcher(word).matches()) return topMatch("jet-lagged");
-    if (MACBOOK.matcher(word).matches()) return topMatch(word.replaceFirst("acbook", "acBook"));
-    if (LIKELYHOOD.matcher(word).matches()) return topMatch(word.replaceFirst("ikelyhood", "ikelihood"));
-    if (UNECESSARY.matcher(word).matches()) return topMatch(word.replaceFirst("necessary", "nnecessary"));
+    if (MACBOOK.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "acbook", "acBook"));
+    if (LIKELYHOOD.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "ikelyhood", "ikelihood"));
+    if (UNECESSARY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "necessary", "nnecessary"));
+    if (FORSEEABLE.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "orseeable", "oreseeable"));
+    if (UNFORSEEABLE.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "orseeable", "oreseeable"));
+    if (FORSEEABLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "orseeably", "oreseeably"));
+    if (UNFORSEEABLY.matcher(word).matches()) return topMatch(StringUtils.replaceOnce(word, "orseeably", "oreseeably"));
+    if (QUILLBOT1.matcher(word).matches() || QUILLBOT2.matcher(word).matches()) return topMatch("QuillBot");
+    if (QUILLBOT_POS.matcher(word).matches() || QUILLBOT1_POS.matcher(word).matches() ||
+      QUILLBOT2_POS.matcher(word).matches()) {
+      List<SuggestedReplacement> l = new ArrayList<>();
+      l.add(new SuggestedReplacement("QuillBot's"));
+      l.add(new SuggestedReplacement("QuillBot"));
+      return l;
+    }
     if (TV.matcher(word).matches()) {
       List<SuggestedReplacement> l = new ArrayList<>();
       l.add(new SuggestedReplacement("TV"));

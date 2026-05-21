@@ -29,12 +29,12 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class QuestionMarkRuleTest {
 
   private final QuestionMarkRule rule = new QuestionMarkRule(JLanguageTool.getMessageBundle());
-  private final JLanguageTool lt = new JLanguageTool(new Spanish());
+  private final JLanguageTool lt = new JLanguageTool(Spanish.getInstance());
   
   @Before
   public void setup() {

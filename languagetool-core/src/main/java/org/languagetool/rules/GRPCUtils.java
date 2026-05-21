@@ -1,94 +1,22 @@
 package org.languagetool.rules;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.rules.ml.MLServerProto.Match;
 
 import lombok.extern.slf4j.Slf4j;
+import org.languagetool.tools.grpc.RuleData;
+
+import static org.languagetool.tools.grpc.ProtoHelper.*;
 
 @Slf4j
-public final class GRPCUtils
-{
-
-  private static class RuleData extends Rule {
-    private final Match m;
-    private final String sourceFile;
-
-    RuleData(Match m) {
-      this.m = m;
-      this.sourceFile = m.getRule().getSourceFile();
-      // keep default values from Rule baseclass
-      if (!m.getRule().getIssueType().isEmpty()) {
-        setLocQualityIssueType(ITSIssueType.valueOf(m.getRule().getIssueType()));
-      }
-      if (m.getRule().getTempOff()) {
-        setDefaultTempOff();
-      }
-      if (m.getRule().hasCategory()) {
-        Category c = new Category(new CategoryId(m.getRule().getCategory().getId()),
-            m.getRule().getCategory().getName());
-        setCategory(c);
-      }
-      setPremium(m.getRule().getIsPremium());
-      setTags(m.getRule().getTagsList().stream().map(t -> Tag.valueOf(t.name())).collect(Collectors.toList()));
-    }
-
-    @Nullable
-    @Override
-    public String getSourceFile() {
-      return emptyAsNull(sourceFile);
-    }
-
-    @Override
-    public String getId() {
-      return m.getId();
-    }
-
-    @Override
-    public String getSubId() {
-      return emptyAsNull(m.getSubId());
-    }
-
-    @Override
-    public String getDescription() {
-      return m.getRuleDescription();
-    }
-
-    @Override
-    public int estimateContextForSureMatch() {
-      // 0 is okay as default value
-      return m.getContextForSureMatch();
-    }
-
-    @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-      throw new UnsupportedOperationException(
-          "Not implemented; internal class used for returning match" + " information from remote endpoint");
-    }
-  }
-
-  @NotNull
-  private static String nullAsEmpty(@Nullable String s) {
-    return s != null ? s : "";
-  }
-
-  @Nullable
-  private static String emptyAsNull(String s) {
-    if (s != null && s.isEmpty()) {
-      return null;
-    }
-    return s;
-  }
-
+public final class GRPCUtils {
 
   public static MLServerProto.AnalyzedToken toGRPC(AnalyzedToken token) {
       MLServerProto.AnalyzedToken.Builder t = MLServerProto.AnalyzedToken.newBuilder();
@@ -104,8 +32,8 @@ public final class GRPCUtils
 
   public static MLServerProto.AnalyzedTokenReadings toGRPC(AnalyzedTokenReadings readings) {
     return MLServerProto.AnalyzedTokenReadings.newBuilder()
-      .addAllChunkTags(readings.getChunkTags().stream().map(ChunkTag::getChunkTag).collect(Collectors.toList()))
-      .addAllReadings(readings.getReadings().stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+      .addAllChunkTags(readings.getChunkTags().stream().map(ChunkTag::getChunkTag).toList())
+      .addAllReadings(readings.getReadings().stream().map(GRPCUtils::toGRPC).toList())
       .build();
 
   }
@@ -113,13 +41,13 @@ public final class GRPCUtils
   public static MLServerProto.AnalyzedSentence toGRPC(AnalyzedSentence sentence) {
     return MLServerProto.AnalyzedSentence.newBuilder()
       .setText(sentence.getText())
-      .addAllTokens(Arrays.stream(sentence.getTokens()).map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+      .addAllTokens(Arrays.stream(sentence.getTokens()).map(GRPCUtils::toGRPC).toList())
       .build();
   }
 
   public static AnalyzedTokenReadings fromGRPC(MLServerProto.AnalyzedTokenReadings tokenReadings) {
     return new AnalyzedTokenReadings(tokenReadings.getReadingsList().stream()
-                                     .map(GRPCUtils::fromGRPC).collect(Collectors.toList()),
+                                     .map(GRPCUtils::fromGRPC).toList(),
                                      tokenReadings.getStartPos());
   }
 
@@ -132,19 +60,6 @@ public final class GRPCUtils
                                 .map(GRPCUtils::fromGRPC).toArray(AnalyzedTokenReadings[]::new));
   }
 
-  public static String getUrl(RuleMatch m) {
-    // URL can be attached to Rule or RuleMatch (or both); in Protobuf, only to RuleMatch
-    // prefer URL from RuleMatch, default to empty string
-    if (m.getUrl() != null) {
-      return m.getUrl().toString();
-    }
-    if (m.getRule().getUrl() != null) {
-      return m.getRule().getUrl().toString();
-    }
-    return "";
-  }
-
-
   public static Match toGRPC(RuleMatch m) {
     // could add better handling for conversion errors with enums
     return Match.newBuilder()
@@ -153,7 +68,7 @@ public final class GRPCUtils
       .setId(m.getSpecificRuleId())
       .setSubId(nullAsEmpty(m.getRule().getSubId()))
       .addAllSuggestedReplacements(m.getSuggestedReplacementObjects().stream()
-                                   .map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+                                   .map(GRPCUtils::toGRPC).toList())
       .setRuleDescription(nullAsEmpty(m.getRule().getDescription()))
       .setMatchDescription(nullAsEmpty(m.getMessage()))
       .setMatchShortDescription(nullAsEmpty(m.getShortMessage()))
@@ -172,7 +87,7 @@ public final class GRPCUtils
         .setIsPremium(Premium.get().isPremiumRule(m.getRule()))
         .addAllTags(m.getRule().getTags().stream()
           .map(t -> MLServerProto.Rule.Tag.valueOf(t.name()))
-          .collect(Collectors.toList()))
+          .toList())
         .build()
       ).build();
   }
@@ -182,7 +97,7 @@ public final class GRPCUtils
     RuleMatch r = new RuleMatch(rule, s, m.getOffset(), m.getOffset() + m.getLength(), m.getMatchDescription(), m.getMatchShortDescription());
 
     r.setSuggestedReplacementObjects(m.getSuggestedReplacementsList().stream()
-                                     .map(GRPCUtils::fromGRPC).collect(Collectors.toList()));
+                                     .map(GRPCUtils::fromGRPC).toList());
     r.setAutoCorrect(m.getAutoCorrect());
     r.setType(RuleMatch.Type.valueOf(m.getType().name()));
 

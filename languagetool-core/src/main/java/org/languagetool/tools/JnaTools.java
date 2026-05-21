@@ -28,7 +28,7 @@ public final class JnaTools {
   }
 
   /**
-   * Set a the <tt>jna.nosys</tt> to <tt>true</tt> to avoid the "There is an incompatible
+   * Set a the <code>jna.nosys</code> to <code>true</code> to avoid the "There is an incompatible
    * JNA native library installed on this system" error from JNA. NOTE: only call this
    * from main() methods, as setting system properties in other contexts (web apps etc.)
    * can lead to strange effects.

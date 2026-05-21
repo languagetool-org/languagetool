@@ -63,7 +63,7 @@ public class SameTranslationRule extends BitextRule {
       int endPos = tokens[tokens.length - 1].getEndPos();
       return new RuleMatch[] { new RuleMatch(this, targetText, 1, endPos, getMessage()) };
     }
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
 }

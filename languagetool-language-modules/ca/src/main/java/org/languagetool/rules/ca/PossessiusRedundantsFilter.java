@@ -50,18 +50,22 @@ public class PossessiusRedundantsFilter extends RuleFilter {
     boolean hasSomePronoun = false;
     // pronom enrere
     int posPronoun = posVerb - 1;
-    while (!pronounFound && posPronoun > 0 && tokens[posPronoun].hasPosTagStartingWith("P")) {
+    while (!pronounFound && posPronoun > 0
+      && (tokens[posPronoun].hasPosTagStartingWith("PP") || tokens[posPronoun].hasPosTagStartingWith("P0"))) {
       hasSomePronoun = true;
       String pronounPostag = tokens[posPronoun].readingWithTagRegex("P.*").getPOSTag();
-      pronounFound = pronounPostag.substring(2,3).equals(persona) && (number.equals("C") || pronounPostag.substring(4,5).equals(number));
+      pronounFound =
+        pronounPostag.substring(2, 3).equals(persona) && (number.equals("C") || pronounPostag.substring(4, 5).equals(number));
       posPronoun--;
     }
     //pronom avant
     posPronoun = patternTokenPos + 1;
-    while (!pronounFound && posPronoun < tokens.length && tokens[posPronoun].hasPosTagStartingWith("P")) {
+    while (!pronounFound && posPronoun < tokens.length
+      && (tokens[posPronoun].hasPosTagStartingWith("PP") || tokens[posPronoun].hasPosTagStartingWith("P0"))) {
       hasSomePronoun = true;
       String pronounPostag = tokens[posPronoun].readingWithTagRegex("P.*").getPOSTag();
-      pronounFound = pronounPostag.substring(2,3).equals(persona) && (number.equals("C") || pronounPostag.substring(4,5).equals(number));
+      pronounFound =
+        pronounPostag.substring(2, 3).equals(persona) && (number.equals("C") || pronounPostag.substring(4, 5).equals(number));
       posPronoun++;
     }
     // Cal apostrofar
@@ -80,11 +84,11 @@ public class PossessiusRedundantsFilter extends RuleFilter {
     if (!hasSomePronoun) {
       StringBuilder suggestion = new StringBuilder();
       if (tokens[posVerb].hasAnyPartialPosTag("VMN", "VMG")) {
-        String pronounSugg = transformDarrere(dativePronoun.get(persona + number), tokens[posVerb].getToken());
+        String pronounSugg = transformDarrere(getDativePronoun(persona + number), tokens[posVerb].getToken());
         suggestion.append(tokens[posVerb].getToken());
         suggestion.append(pronounSugg);
       } else {
-        String pronounSugg = transformDavant(dativePronoun.get(persona + number), tokens[posVerb].getToken());
+        String pronounSugg = transformDavant(getDativePronoun(persona + number), tokens[posVerb].getToken());
         suggestion.append(StringTools.preserveCase(pronounSugg, tokens[posVerb].getToken()));
         suggestion.append(tokens[posVerb].getToken().toLowerCase());
       }

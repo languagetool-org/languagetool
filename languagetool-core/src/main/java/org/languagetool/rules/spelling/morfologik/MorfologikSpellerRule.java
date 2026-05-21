@@ -64,6 +64,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private boolean checkCompound = false;
   private Pattern compoundRegex = Pattern.compile("-");
   private final UserConfig userConfig;
+  private final Object initLock = new Object();
+  private volatile boolean spellersInitialized = false;
  
   //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
   static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
@@ -72,7 +74,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private final static Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
 
   /**
-   * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
+   * Get the filename, e.g., <code>/resource/pl/spelling.dict</code>.
    */
   public abstract String getFileName();
 
@@ -123,8 +125,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
+    initSpellers();
+
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
-    if (initSpellers()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
     boolean isFirstWord = true;
     boolean gotResultsFromForeignLanguageChecker = false;
@@ -182,22 +185,25 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       // if it is not the last token in the sentence, similarly to UPPERCASE_SENTENCE_START
       if (isFirstWord && ruleMatches.size() > 0 && idx < tokens.length - 1) {
         RuleMatch ruleMatch = ruleMatches.get(0);
-        List<String> replacements = ruleMatch.getSuggestedReplacements();
-        List<String> newReplacements = new ArrayList<>();
-        for (String replacement : replacements) {
-          // only if the replacement is all lower case
-          if (replacement.equals(replacement.toLowerCase())) {
-            String capitalizedReplacement = StringTools.uppercaseFirstChar(replacement);
-            if (!newReplacements.contains(capitalizedReplacement)) {
-              newReplacements.add(capitalizedReplacement);
-            }
-          } else {
-            if (!newReplacements.contains(replacement)) {
-              newReplacements.add(replacement);
+        Supplier<List<SuggestedReplacement>> currentSuggestions = ruleMatch.getLazySuggestedReplacements();
+        ruleMatch.setLazySuggestedReplacements(() -> {
+          List<String> newReplacements = new ArrayList<>();
+          for (SuggestedReplacement suggestedReplacement : currentSuggestions.get()) {
+            // only if the replacement is all lower case
+            String replacement = suggestedReplacement.getReplacement();
+            if (replacement.equals(replacement.toLowerCase())) {
+              String capitalizedReplacement = StringTools.uppercaseFirstChar(replacement);
+              if (!newReplacements.contains(capitalizedReplacement)) {
+                newReplacements.add(capitalizedReplacement);
+              }
+            } else {
+              if (!newReplacements.contains(replacement)) {
+                newReplacements.add(replacement);
+              }
             }
           }
-        }
-        ruleMatch.setSuggestedReplacements(newReplacements);
+          return newReplacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList());
+        });
       }
       if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
         isFirstWord = false;
@@ -220,21 +226,26 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return null;
   }
 
-  private boolean initSpellers() throws IOException {
-    if (speller1 == null) {
+  private void initSpellers() throws IOException {
+    if (spellersInitialized) {
+      return;
+    }
+    synchronized (initLock) {
+      if (spellersInitialized) {
+        return;
+      }
       String binaryDict = null;
       if (getDataBroker().resourceExists(getFileName()) || Paths.get(getFileName()).toFile().exists()) {
         binaryDict = getFileName();
       }
-      if (binaryDict != null) {
-        initSpeller(binaryDict);
-      } else {
+      if (binaryDict == null) {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
         throw new RuntimeException("Cannot find dictionary file " + getFileName());
       }
+      initSpeller(binaryDict);
+      spellersInitialized = true;
     }
-    return false;
   }
 
   private void initSpeller(String binaryDict) throws IOException {
@@ -263,7 +274,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
            token.isIgnoredBySpeller() ||
            isUrl(token.getToken()) ||
            isEMail(token.getToken()) ||
-           (ignoreTaggedWords && token.isTagged() ) || // && !isProhibited(token.getToken())
+           (ignoreTaggedWords && token.isTagged() && !isProhibited(token.getToken())) ||
            ignoreToken(tokens, idx);
   }
 
@@ -485,6 +496,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               messages.getString("desc_spelling_short"));
       ruleMatch.setType(RuleMatch.Type.UnknownWord);
     }
+
+    if (userConfig != null && !userConfig.isSuggestionsEnabled()){
+      ruleMatches.add(ruleMatch);
+      return ruleMatches;
+    }
     
     //word starting with numbers or bullets    
     String cleanWord = word;
@@ -507,7 +523,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }  
       }
     }
-    
+
     boolean fullResults = SuggestionsChanges.getInstance() != null &&
       SuggestionsChanges.getInstance().getCurrentExperiment() != null &&
       (boolean) SuggestionsChanges.getInstance().getCurrentExperiment()

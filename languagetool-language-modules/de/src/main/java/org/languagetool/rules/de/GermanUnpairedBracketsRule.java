@@ -26,7 +26,6 @@ import org.languagetool.tools.Tools;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.Supplier;
 
 public class GermanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 

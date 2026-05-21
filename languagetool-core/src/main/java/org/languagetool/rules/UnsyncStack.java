@@ -54,7 +54,7 @@ public class UnsyncStack<E> extends ArrayList<E> {
    * value of this function.
    * 
    * @return The object at the top of this stack (the last item of the
-   *         <tt>ArrayList</tt> object).
+   *         <code>ArrayList</code> object).
    * @exception EmptyStackException if this stack is empty.
    */
   public E pop() {
@@ -70,7 +70,7 @@ public class UnsyncStack<E> extends ArrayList<E> {
    * stack.
    * 
    * @return the object at the top of this stack (the last item of the
-   *         <tt>ArrayList</tt> object).
+   *         <code>ArrayList</code> object).
    * @exception EmptyStackException if this stack is empty.
    */
   public E peek() {
@@ -93,10 +93,10 @@ public class UnsyncStack<E> extends ArrayList<E> {
 
   /**
    * Returns the 1-based position where an object is on this stack. If the
-   * object <tt>o</tt> occurs as an item in this stack, this method returns the
+   * object <code>o</code> occurs as an item in this stack, this method returns the
    * distance from the top of the stack of the occurrence nearest the top of the
    * stack; the topmost item on the stack is considered to be at distance
-   * <tt>1</tt>. The <tt>equals</tt> method is used to compare <tt>o</tt> to the
+   * <code>1</code>. The <code>equals</code> method is used to compare <code>o</code> to the
    * items in this stack.
    * 
    * @param o

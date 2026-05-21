@@ -278,5 +278,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   public void useSubRuleSpecificIds() {
     subRuleSpecificIds = true;
   }
+
+  public Language getLanguage() {
+    return language;
+  }
     
 }

@@ -735,7 +735,7 @@ public class SymSpell implements Serializable {
   //N equals the sum of all counts c in the dictionary only if the dictionary is complete, but not if the dictionary is truncated or filtered
   private static long N = 1024908267229L;  // TODO make dynamic man.
 
-  class SegmentedSuggestion {
+  static class SegmentedSuggestion {
     String segmentedString = "", correctedString = "";
     int distanceSum = 0;
     double probabilityLogSum = 0.0;

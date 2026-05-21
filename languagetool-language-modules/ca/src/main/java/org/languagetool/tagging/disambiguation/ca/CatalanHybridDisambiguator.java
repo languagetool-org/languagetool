@@ -19,13 +19,16 @@
 
 package org.languagetool.tagging.disambiguation.ca;
 
-import java.io.IOException;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+
+import java.io.IOException;
 
 /**
  * Hybrid chunker-disambiguator for Catalan
@@ -34,10 +37,11 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/ca/multiwords.txt", true, true, false);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", false, true, false,
+  private final MultiWordChunker chunker = MultiWordChunker.getInstance("/ca/multiwords.txt", true, true, false);
+  private final MultiWordChunker chunkerGlobal = MultiWordChunker.getInstance("/spelling_global.txt", false, true, false,
     "NPCN000");
   private final Disambiguator disambiguator;
+  private final CatalanMultitokenDisambiguator multitokenDisambiguator = new CatalanMultitokenDisambiguator();
 
   private static final String ENGLISH_IGNORE_TAG = "_english_ignore_";
 
@@ -59,9 +63,10 @@ public class CatalanHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input,
                                              @Nullable JLanguageTool.CheckCancelledCallback checkCanceled) throws IOException {
-    return disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input,
+    AnalyzedSentence analyzedSentence = disambiguator.disambiguate(chunker.disambiguate(chunkerGlobal.disambiguate(input,
         checkCanceled),
       checkCanceled), checkCanceled);
+    return multitokenDisambiguator.disambiguate(analyzedSentence, checkCanceled);
   }
 
 }

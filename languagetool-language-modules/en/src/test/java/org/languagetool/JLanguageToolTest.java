@@ -24,10 +24,6 @@ import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
-import org.languagetool.language.CanadianEnglish;
-import org.languagetool.language.NewZealandEnglish;
-import org.languagetool.language.SouthAfricanEnglish;
-import org.languagetool.language.AustralianEnglish;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -38,6 +34,7 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -48,7 +45,7 @@ public class JLanguageToolTest {
   @Ignore("not a test, but used on https://dev.languagetool.org/java-api")
   @Test
   public void demoCodeForHomepage() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BritishEnglish());
+    JLanguageTool lt = new JLanguageTool(BritishEnglish.getInstance());
     // comment in to use statistical ngram data:
     //lt.activateLanguageModelRules(new File("/data/google-ngram-data"));
     List<RuleMatch> matches = lt.check("A sentence with a error in the Hitchhiker's Guide tot he Galaxy");
@@ -64,7 +61,7 @@ public class JLanguageToolTest {
   @Ignore("not a test, but used on https://dev.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepage() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BritishEnglish());
+    JLanguageTool lt = new JLanguageTool(BritishEnglish.getInstance());
     for (Rule rule : lt.getAllRules()) {
       if (!rule.isDictionaryBasedSpellingRule()) {
         lt.disableRule(rule.getId());
@@ -83,7 +80,7 @@ public class JLanguageToolTest {
   @Ignore("not a test, but used on https://dev.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepageWithAddedWords() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BritishEnglish());
+    JLanguageTool lt = new JLanguageTool(BritishEnglish.getInstance());
     for (Rule rule : lt.getAllRules()) {
       if (rule instanceof SpellingCheckRule) {
         ((SpellingCheckRule) rule).addIgnoreTokens(Arrays.asList("myspecialword", "anotherspecialword"));
@@ -161,7 +158,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testPositionsWithEnglish() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+    JLanguageTool tool = new JLanguageTool(AmericanEnglish.getInstance());
     List<RuleMatch> matches = tool.check("A sentence with no period\n" +
         "A sentence. A typoh.");
     assertEquals(1, matches.size());
@@ -172,7 +169,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testPositionsWithEnglishTwoLineBreaks() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+    JLanguageTool tool = new JLanguageTool(AmericanEnglish.getInstance());
     List<RuleMatch> matches = tool.check("This sentence.\n\n" +
         "A sentence. A typoh.");
     assertEquals(1, matches.size());
@@ -203,8 +200,8 @@ public class JLanguageToolTest {
     //test vertical tab as white space
     String sentence = "I'm a cool test\u000Bwith a line";
     AnalyzedSentence aSentence = tool.getAnalyzedSentence(sentence);
-    assertEquals(aSentence.getTokens()[9].isWhitespace(), true);
-    assertEquals(aSentence.getTokens()[10].isWhitespaceBefore(), true);
+    assertTrue(aSentence.getTokens()[9].isWhitespace());
+    assertTrue(aSentence.getTokens()[10].isWhitespaceBefore());
   }
 
   @Test
@@ -237,7 +234,7 @@ public class JLanguageToolTest {
     AnalyzedSentence raw = tool.getRawAnalyzedSentence("Let's do a \"test\", do you understand?");
     AnalyzedSentence cooked = tool.getAnalyzedSentence("Let's do a \"test\", do you understand?");
     //test if there was a change
-    assertFalse(raw.equals(cooked));
+    assertNotEquals(raw, cooked);
     //see if nothing has been deleted
     assertEquals(raw.getTokens().length, cooked.getTokens().length);
     int i = 0;
@@ -251,7 +248,7 @@ public class JLanguageToolTest {
   @Test
   public void testOverlapFilter() throws IOException {
     Category category = new Category(new CategoryId("TEST_ID"), "test category");
-    List<PatternToken> elements1 = Arrays.asList(new PatternToken("one", true, false, false));
+    List<PatternToken> elements1 = Collections.singletonList(new PatternToken("one", true, false, false));
     PatternRule rule1 = new PatternRule("id1", new English(), elements1, "desc1", "msg1", "shortMsg1");
     rule1.setSubId("1");
     rule1.setCategory(category);
@@ -293,7 +290,7 @@ public class JLanguageToolTest {
       if (text.getGlobalMetaData(AnnotatedText.MetaDataKey.EmailToAddress, "").contains("Foo Bar")) {
         return new RuleMatch[]{new RuleMatch(this, null, 0, 1, "test message")};
       }
-      return new RuleMatch[0];
+      return RuleMatch.EMPTY_ARRAY;
     }
     @Override
     public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
@@ -315,7 +312,7 @@ public class JLanguageToolTest {
   
   @Test
   public void testAdvancedTypography() {
-    Language lang = new AmericanEnglish();
+    Language lang = AmericanEnglish.getInstance();
     assertEquals(lang.toAdvancedTypography("The genitive ('s) may be missing."), "The genitive (’s) may be missing.");
     assertEquals(lang.toAdvancedTypography("The word 'Language‘s' is not standard English"), "The word ‘Language‘s’ is not standard English");
     assertEquals(lang.toAdvancedTypography("Did you mean <suggestion>Language's</suggestion> (straight apostrophe) or <suggestion>Language’s</suggestion> (curly apostrophe)?"), "Did you mean “Language's” (straight apostrophe) or “Language’s” (curly apostrophe)?");
@@ -325,7 +322,7 @@ public class JLanguageToolTest {
   
   @Test 
   public void testAdaptSuggestions() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+    JLanguageTool tool = new JLanguageTool(AmericanEnglish.getInstance());
     List<RuleMatch> matches = tool.check("Whatever their needs, we doesn't never disappoint them.");
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[n't,  never]"); 
   }

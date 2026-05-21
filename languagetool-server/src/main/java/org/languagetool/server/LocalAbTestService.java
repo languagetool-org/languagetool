@@ -1,7 +1,8 @@
-package org.languagetool.server.tools;
+package org.languagetool.server;
 
-import org.languagetool.server.HTTPServerConfig;
+import org.languagetool.JLanguageTool;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class LocalAbTestService implements AbTestService {
+
+  protected LocalAbTestService() {}
 
   @Override
   public List<String> getActiveAbTestForClient(Map<String, String> params, HTTPServerConfig config) {
@@ -29,5 +32,18 @@ public class LocalAbTestService implements AbTestService {
       }
     }
     return abTest;
+  }
+
+  public static AbTestService getAbTestService() {
+    String className = "org.languagetool.server.PremiumAbTestService";
+    try {
+      Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
+      Constructor<?> constructor = aClass.getConstructor();
+      return (AbTestService) constructor.newInstance();
+    } catch (ClassNotFoundException e) {
+      return new LocalAbTestService();
+    } catch (Exception e) {
+      throw new RuntimeException("Object for class '" + className + "' could not be created", e);
+    }
   }
 }

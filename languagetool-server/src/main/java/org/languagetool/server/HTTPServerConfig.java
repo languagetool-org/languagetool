@@ -47,7 +47,7 @@ public class HTTPServerConfig {
 
   /** The default port on which the server is running (8081). */
   public static final int DEFAULT_PORT = 8081;
-  
+
   static final String LANGUAGE_MODEL_OPTION = "--languageModel";
 
   protected boolean verbose = false;
@@ -95,12 +95,14 @@ public class HTTPServerConfig {
   protected int cacheSize = 0;
   protected long cacheTTLSeconds = 300;
   protected float maxErrorsPerWordRate = 0;
+  protected boolean suggestionsEnabled = true;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
   protected Pattern trustedSources = null;
   protected boolean premiumAlways;
   protected boolean premiumOnly;
   protected String requestLimitAccessToken = null;
+  protected boolean defaultThirdPartyAI = false;
 
   public void setPremiumOnly(boolean premiumOnly) {
     this.premiumOnly = premiumOnly;
@@ -140,7 +142,7 @@ public class HTTPServerConfig {
   protected GlobalConfig globalConfig = new GlobalConfig();
   protected List<String> disabledRuleIds = new ArrayList<>();
   protected boolean stoppable = false;
-  
+
   protected String passwortLoginAccessListPath = "";
   /**
    * caching to avoid database hits for e.g. dictionaries
@@ -179,18 +181,22 @@ public class HTTPServerConfig {
   protected boolean localApiMode = false;
   protected String motherTongue = "en-US";
   protected List<String> preferredLanguages = new ArrayList<>();
-  
+
   protected int dictLimitUser = 0;
   protected int dictLimitTeam = 0;
   protected int styleGuideLimitUser = 0;
   protected int styleGuideLimitTeam = 0;
-  
-  
+
+  protected String jwtSecret;
+
+  protected String externalRolloutServiceUrl = null;
+  protected String externalRolloutServiceApiKey = null;
+
   private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
     "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
     "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxTextCheckerThreads", "textCheckerQueueSize", "maxCheckTimeMillis",
-    "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
+    "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "suggestionsEnabled", "maxSpellingSuggestions", "maxTextHardLength",
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
     "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "requestLimitWhitelistUsers", "requestLimitWhitelistLimit",
@@ -207,7 +213,7 @@ public class HTTPServerConfig {
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
     "passwortLoginAccessListPath", "redisDictTTLSeconds", "requestLimitAccessToken", "trustedSources",
-    "ruleIdToConfidenceFile");
+    "ruleIdToConfidenceFile", "jwtSecret", "externalRolloutServiceUrl", "externalRolloutServiceApiKey");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -226,7 +232,7 @@ public class HTTPServerConfig {
 
   /**
    * @param serverPort the port to bind to
-   * @param verbose when set to <tt>true</tt>, the input text will be logged in case there is an exception
+   * @param verbose when set to <code>true</code>, the input text will be logged in case there is an exception
    */
   public HTTPServerConfig(int serverPort, boolean verbose) {
     this.port = serverPort;
@@ -394,6 +400,7 @@ public class HTTPServerConfig {
         }
         cacheTTLSeconds = Integer.parseInt(getOptionalProperty(props, "cacheTTLSeconds", "300"));
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
+        suggestionsEnabled = Boolean.parseBoolean(getOptionalProperty(props, "suggestionsEnabled", "true"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
         setTrustedSources(getOptionalProperty(props, "trustedSources", null));
@@ -467,7 +474,10 @@ public class HTTPServerConfig {
         styleGuideLimitUser = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitUser", "0"));
         styleGuideLimitTeam = Integer.valueOf(getOptionalProperty(props, "styleGuideLimitTeam", "0"));
         requestLimitAccessToken = getOptionalProperty(props, "requestLimitAccessToken", null);
-        
+        jwtSecret = getOptionalProperty(props, "jwtSecret", null);
+        externalRolloutServiceUrl = getOptionalProperty(props, "externalRolloutServiceUrl", null);
+        externalRolloutServiceApiKey = getOptionalProperty(props, "externalRolloutServiceApiKey", null);
+
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
         globalConfig.setGrammalectePassword(getOptionalProperty(props, "grammalectePassword", null));
@@ -498,6 +508,8 @@ public class HTTPServerConfig {
         setAbTestClients(getOptionalProperty(props, "abTestClients", null));
         setAbTestRollout(Integer.parseInt(getOptionalProperty(props, "abTestRollout", "100")));
         String ngramLangIdentData = getOptionalProperty(props, "ngramLangIdentData", null);
+        setDefaultThirdPartyAI(Boolean.parseBoolean(getOptionalProperty(props, "defaultThirdPartyAI", "false")));
+
         if (ngramLangIdentData != null) {
           File dir = new File(ngramLangIdentData);
           if (!dir.exists() || dir.isDirectory()) {
@@ -575,7 +587,7 @@ public class HTTPServerConfig {
   public int getPort() {
     return port;
   }
-  
+
   public int getMinPort() {
     return minPort;
   }
@@ -730,7 +742,7 @@ public class HTTPServerConfig {
   }
 
 
-  /** 
+  /**
    * @since 6.3
    * Can configure a secret value for the Header X-Request-Limit-Access-Token that allows skipping limtis
    */
@@ -957,7 +969,7 @@ public class HTTPServerConfig {
     return cacheSize;
   }
 
-  /** 
+  /**
    * Set cache size (in number of sentences).
    * @since 4.2
    */
@@ -990,6 +1002,14 @@ public class HTTPServerConfig {
    */
   float getMaxErrorsPerWordRate() {
     return maxErrorsPerWordRate;
+  }
+
+  /**
+   * If the generation of suggestions should be enabled (default true)
+   * @since 6.8
+   */
+  public boolean isSuggestionsEnabled() {
+    return suggestionsEnabled;
   }
 
   /**
@@ -1056,7 +1076,7 @@ public class HTTPServerConfig {
   String getDatabaseDriver() {
     return dbDriver;
   }
-  
+
   /**
    * @since 4.2
    */
@@ -1079,7 +1099,7 @@ public class HTTPServerConfig {
   void setDatabaseUrl(String dbUrl) {
     this.dbUrl = dbUrl;
   }
-  
+
   /**
    * @return the database username, or {@code null}
    * @since 4.2
@@ -1095,7 +1115,7 @@ public class HTTPServerConfig {
   void setDatabaseUsername(String dbUsername) {
     this.dbUsername = dbUsername;
   }
-  
+
   /**
    * @return the database password matching {@link #getDatabaseUsername()}, or {@code null}
    * @since 4.2
@@ -1111,7 +1131,7 @@ public class HTTPServerConfig {
   void setDatabasePassword(String dbPassword) {
     this.dbPassword = dbPassword;
   }
-  
+
   /**
    * Whether meta data about each search (like in the logfile) should be logged to the database.
    * @since 4.4
@@ -1367,7 +1387,7 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @throws IllegalConfigurationException if property is not set 
+   * @throws IllegalConfigurationException if property is not set
    */
   protected String getProperty(Properties props, String propertyName, File config) {
     String propertyValue = (String)props.get(propertyName);
@@ -1500,7 +1520,7 @@ public class HTTPServerConfig {
   /**
    * @since 6.2
    * @return max number of active connections in DB connection pool
-   */ 
+   */
   public int getDbMaxConnections() {
     return dbMaxConnections;
   }
@@ -1508,7 +1528,7 @@ public class HTTPServerConfig {
   /**
    * @since 6.2
    * @param dbMaxConnections max number of active connections in DB connection pool
-   */ 
+   */
   public void setDbMaxConnections(int dbMaxConnections) {
     this.dbMaxConnections = dbMaxConnections;
   }
@@ -1519,5 +1539,26 @@ public class HTTPServerConfig {
   @Nullable
   public File getRuleIdToConfidenceFile() {
     return ruleIdToConfidenceFile;
+  }
+
+
+  public boolean getDefaultThirdPartyAI() {
+    return defaultThirdPartyAI;
+  }
+
+  public void setDefaultThirdPartyAI(boolean defaultThirdPartyAI) {
+    this.defaultThirdPartyAI = defaultThirdPartyAI;
+  }
+
+  public String getJwtSecret() {
+    return jwtSecret;
+  }
+
+  public String getExternalRolloutServiceUrl() {
+    return externalRolloutServiceUrl;
+  }
+
+  public String getExternalRolloutServiceApiKey() {
+    return externalRolloutServiceApiKey;
   }
 }

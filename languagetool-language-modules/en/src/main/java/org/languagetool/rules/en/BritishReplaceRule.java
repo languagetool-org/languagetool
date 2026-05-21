@@ -24,7 +24,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
-
 import java.util.*;
 
 /**
@@ -47,7 +46,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   public BritishReplaceRule(ResourceBundle messages, String path) {
-    super(messages, new BritishEnglish());
+    super(messages, BritishEnglish.getInstance());
     this.path = Objects.requireNonNull(path);
     useSubRuleSpecificIds();
     setCategory(Categories.STYLE.getCategory(messages));

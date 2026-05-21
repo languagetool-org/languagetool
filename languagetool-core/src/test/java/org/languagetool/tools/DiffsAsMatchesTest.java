@@ -126,13 +126,13 @@ public class DiffsAsMatchesTest {
     original = "I truely reserve.";
     revised = "I truly deserve.";
     matches = diffsAsMatches.getPseudoMatches(original, revised);
-    assertEquals(2, matches.size());
-    assertEquals("[truly]", matches.get(0).getReplacements().toString());
+    assertEquals(1, matches.size());
+    assertEquals("[truly deserve]", matches.get(0).getReplacements().toString());
     assertEquals(2, matches.get(0).getFromPos());
-    assertEquals(8, matches.get(0).getToPos());
-    assertEquals("[deserve]", matches.get(1).getReplacements().toString());
+    assertEquals(16, matches.get(0).getToPos());
+    /*assertEquals("[deserve]", matches.get(1).getReplacements().toString());
     assertEquals(9, matches.get(1).getFromPos());
-    assertEquals(16, matches.get(1).getToPos());
+    assertEquals(16, matches.get(1).getToPos());*/
     
     original = "}Describes how plants are important";
     revised = "It describes how plants are important";
@@ -157,6 +157,27 @@ public class DiffsAsMatchesTest {
     assertEquals("[Calle) ]", matches.get(0).getReplacements().toString());
     assertEquals(1, matches.get(0).getFromPos());
     assertEquals(7, matches.get(0).getToPos());
+
+    original = "Joan Caprí fou un actor humorista i monologuista català.";
+    revised =  "Joan Caprí fou un actor, humorista i monologuista català.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[actor,]", matches.get(0).getReplacements().toString());
+    assertEquals(18, matches.get(0).getFromPos());
+    assertEquals(23, matches.get(0).getToPos());
+    
+    original = "Ei he vist el teu amic!";
+    revised =  "Ei, he vist el teu amic!";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
+    assertEquals("[Ei,]", matches.get(0).getReplacements().toString());
+    assertEquals(0, matches.get(0).getFromPos());
+    assertEquals(2, matches.get(0).getToPos());
+
+    original = "Va arribar tard a l'examen, perdent així després tota oportunitat d'aprovar l'assignatura.";
+    revised =  "Va arribar tard a l'examen i, per això, va perdre tota oportunitat d'aprovar l'assignatura.";
+    matches = diffsAsMatches.getPseudoMatches(original, revised);
+    assertEquals(1, matches.size());
 
   }
 

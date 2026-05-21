@@ -35,7 +35,7 @@ public class CheckCaseRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lt = new JLanguageTool(new Catalan());
+    lt = new JLanguageTool(Catalan.getInstance());
     rule = new CheckCaseRule(TestTools.getMessages("ca"), lt.getLanguage());
   }
 

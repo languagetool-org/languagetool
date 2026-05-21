@@ -102,6 +102,10 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
@@ -156,7 +160,7 @@
                         <manifestEntries>
                             <!-- as we later unzip the language JARs (see languagetool-standalone's pom.xml), we need to add the top directory to the classpath: -->
                             <Class-Path>./</Class-Path>
-                            <Main-Class>org.languagetool.server.HTTPSServer</Main-Class>
+                            <Main-Class>org.languagetool.server.HTTPServer</Main-Class>
                             <ComponentVersion>${project.version}</ComponentVersion>
                             <Implementation-Date>${maven.build.timestamp}</Implementation-Date>
                         </manifestEntries>

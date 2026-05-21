@@ -62,7 +62,7 @@ public class PotentialCompoundFilter extends RuleFilter {
     List<String> replacements = new ArrayList<>();
     // create an AnalyzedSentence without instantiating a new JLanguageTool
     List<String> tokens =  Collections.singletonList(joinedWord);
-    List<AnalyzedTokenReadings> tokensList = GermanyGerman.INSTANCE.getTagger().tag(tokens);
+    List<AnalyzedTokenReadings> tokensList = GermanyGerman.getInstance().getTagger().tag(tokens);
     AnalyzedTokenReadings[] tokensArray = new AnalyzedTokenReadings[2];
     AnalyzedToken sentenceStartToken = new AnalyzedToken("", "SENT_START", null);
     AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
@@ -71,7 +71,7 @@ public class PotentialCompoundFilter extends RuleFilter {
     tokensArray[1] = tokensList.get(0);
     AnalyzedSentence analyzedSentence = new AnalyzedSentence(tokensArray);
     // check with the spelling rule
-    RuleMatch[] matches = GermanyGerman.INSTANCE.getDefaultSpellingRule().match(analyzedSentence);
+    RuleMatch[] matches = GermanyGerman.getInstance().getDefaultSpellingRule().match(analyzedSentence);
     if (matches.length == 0) {
       if (joinedWord.length() > 20) {
         replacements.add(hyphenatedWord);

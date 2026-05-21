@@ -18,10 +18,6 @@
  */
 package org.languagetool.rules.fr;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -29,8 +25,9 @@ import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.rules.RuleMatch;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Marcin Miłkowski
@@ -39,7 +36,7 @@ public class QuestionWhitespaceRuleTest {
 
     @Test
     public final void testRule() throws IOException {
-      Language french = new French();
+      Language french = French.getInstance();
       QuestionWhitespaceRule rule = new QuestionWhitespaceRule(TestTools.getEnglishMessages(), french);
       JLanguageTool lt = new JLanguageTool(french);
       

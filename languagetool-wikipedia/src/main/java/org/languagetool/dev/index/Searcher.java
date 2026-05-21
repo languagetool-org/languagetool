@@ -33,7 +33,6 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
@@ -281,7 +280,7 @@ public class Searcher {
     return new MatchingSentencesResult(matchingSentences, i, docsChecked);
   }
   
-  class MatchingSentencesResult {
+  static class MatchingSentencesResult {
     List<MatchingSentence> matchingSentences;
     int maxDocChecked;
     int docsChecked;

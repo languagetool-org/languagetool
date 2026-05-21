@@ -51,7 +51,7 @@ public class SimpleReplaceAdverbsMent extends AbstractSimpleReplaceRule {
   }
   
   public SimpleReplaceAdverbsMent(final ResourceBundle messages) throws IOException {
-    super(messages, new Catalan());
+    super(messages, Catalan.getInstance());
     super.setCategory(new Category(new CategoryId("PICKY_STYLE"), "regles d'estil, mode perfeccionaista"));
     super.setLocQualityIssueType(ITSIssueType.Style);
     super.setDefaultOff();

@@ -255,7 +255,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     return null;
   }
 
-  public class StringComparator implements Comparator<String> {
+  public static class StringComparator implements Comparator<String> {
     EditDistance levenstheinDistance;
     int maxDistance = 4;
 
@@ -278,7 +278,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   }
 
   protected String preProcessWrongWord (String word) {
-    return word = word.replaceAll(" ","");
+    return word.replace(" ","");
   }
 
 }

@@ -45,7 +45,7 @@ public class AmericanReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   public AmericanReplaceRule(ResourceBundle messages, String path) {
-    super(messages, new AmericanEnglish());
+    super(messages, AmericanEnglish.getInstance());
     this.path = Objects.requireNonNull(path);
     useSubRuleSpecificIds();
     setCategory(Categories.STYLE.getCategory(messages));

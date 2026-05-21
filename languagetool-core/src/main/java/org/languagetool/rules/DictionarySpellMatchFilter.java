@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -30,7 +29,6 @@ import org.languagetool.markup.AnnotatedText;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 /**
  * Filter spelling error with phrases the users wants to have accepted.
@@ -83,7 +81,7 @@ public class DictionarySpellMatchFilter implements RuleMatchFilter {
 
           while (iter.hasNext()) {
             RuleMatch match = iter.next();
-            if (match.getRule().isDictionaryBasedSpellingRule() &&
+            if (match.getRule().useDictionaryBasedFilterForMatches() &&
                 match.getFromPos() >= phrase.begin &&
                 match.getToPos() <= phrase.end) {
               // remove all spelling matches that are (subsets) of accepted phrases
@@ -106,7 +104,7 @@ public class DictionarySpellMatchFilter implements RuleMatchFilter {
     List<RuleMatch> collectedMatches = new ArrayList<>();
     List<String> collectedTerms = new ArrayList<>();
     for (RuleMatch match : ruleMatches) {
-      if (match.getRule().isDictionaryBasedSpellingRule()) {
+      if (match.getRule().useDictionaryBasedFilterForMatches()) {
         String covered = text.getPlainText().substring(match.getFromPos(), match.getToPos());
         if (match.getFromPos() == prevToPos + 1) {
           String key = String.join(" ", collectedTerms) + " " + covered;

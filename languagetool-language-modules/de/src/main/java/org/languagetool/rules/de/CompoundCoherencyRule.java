@@ -26,7 +26,6 @@ import org.languagetool.rules.*;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * Check consistent spelling for German compounds. It's a style issue
@@ -35,8 +34,6 @@ import java.util.regex.Pattern;
  * @author Daniel Naber
  */
 public class CompoundCoherencyRule extends TextLevelRule {
-
-  private static final Pattern HYPHEN = Pattern.compile("-");
 
   public CompoundCoherencyRule(ResourceBundle messages) {
     super.setCategory(Categories.STYLE.getCategory(messages));
@@ -70,7 +67,7 @@ public class CompoundCoherencyRule extends TextLevelRule {
         // The whole implementation could be simpler, but this way we also catch cases where
         // the word (and thus its lemma) isn't known.
         String lemma = lemmaOrNull != null ? lemmaOrNull : token;
-        String normToken = HYPHEN.matcher(lemma).replaceAll("").toLowerCase();
+        String normToken = lemma.replace("-", "").toLowerCase();
         if (StringUtils.isNumeric(normToken)) {
           // avoid messages about "2-3" and "23" both being used
           break;
@@ -82,7 +79,7 @@ public class CompoundCoherencyRule extends TextLevelRule {
             if (containsHyphenInside(other) || containsHyphenInside(token)) {
               String msg = "Uneinheitliche Verwendung von Bindestrichen. Der Text enthält sowohl '" + token + "' als auch '" + other + "'.";
               RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + atr.getStartPos(), pos + atr.getEndPos(), msg);
-              if (HYPHEN.matcher(token).replaceAll("").equalsIgnoreCase(HYPHEN.matcher(other).replaceAll(""))) {
+              if (token.replace("-", "").equalsIgnoreCase(other.replace("-", ""))) {
                 // might be different inflected forms, so only suggest if really just the hyphen is different:
                 ruleMatch.setSuggestedReplacement(other);
               }

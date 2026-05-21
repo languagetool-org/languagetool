@@ -40,8 +40,8 @@ public class SimpleReplaceVerbsRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new SimpleReplaceVerbsRule(TestTools.getMessages("ca"), new Spanish());
-    lt = new JLanguageTool(new Spanish());
+    rule = new SimpleReplaceVerbsRule(TestTools.getMessages("ca"), Spanish.getInstance());
+    lt = new JLanguageTool(Spanish.getInstance());
   }
 
   @Test

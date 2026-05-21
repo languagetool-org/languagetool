@@ -25,11 +25,6 @@ import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 /**
  * Command line tool to extract sentences from a (optionally bz2-compressed) Wikipedia XML dump.
  * @since 2.6

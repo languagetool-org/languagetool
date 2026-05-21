@@ -313,7 +313,7 @@ public class WikipediaQuickCheck {
     }
   }
   
-  class RevisionContentHandler extends DefaultHandler {
+  static class RevisionContentHandler extends DefaultHandler {
 
     private final StringBuilder revisionText = new StringBuilder();
 

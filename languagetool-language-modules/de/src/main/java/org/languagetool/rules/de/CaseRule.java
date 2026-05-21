@@ -47,7 +47,7 @@ import static org.languagetool.rules.de.CaseRuleAntiPatterns.ANTI_PATTERNS;
 /**
  * Check that adjectives and verbs are not written with an uppercase
  * first letter (except at the start of a sentence) and cases
- * like this: <tt>Das laufen f&auml;llt mir leicht.</tt> (<tt>laufen</tt> needs
+ * like this: <code>Das laufen f&auml;llt mir leicht.</code> (<code>laufen</code> needs
  * to be uppercased).
  *   
  * @author Daniel Naber
@@ -66,7 +66,6 @@ public class CaseRule extends Rule {
   private static final String LOWERCASE_MESSAGE = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
   private static final String COLON_MESSAGE = "Folgt dem Doppelpunkt weder ein Substantiv noch eine wörtliche Rede oder ein vollständiger Hauptsatz, schreibt man klein weiter.";
   private static final Pattern VERHALTEN = Pattern.compile(".+verhalten");
-  private static final Pattern SOFT_HYPHEN = Pattern.compile("\\u00AD");
   private static final Pattern IRGEND_ETC = Pattern.compile("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs");
   private static final Pattern VER_MOD_AUX = Pattern.compile("VER:(MOD|AUX):[1-3]:.*");
 
@@ -84,11 +83,20 @@ public class CaseRule extends Rule {
 
   private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "nix", "wenig", "allerlei"};
 
+  // Used for subordinate clause detection after verbs (e.g. "Überlegen, wie man...")
+
   private static final String[] INTERROGATIVE_PARTICLES = {"was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon", "wie"};
 
   private static final String[] POSSESSIVE_INDICATORS = {"einer", "eines", "der", "des", "dieser", "dieses"};
 
   private static final String[] DAS_VERB_EXCEPTIONS = {"nur", "sogar", "auch", "die", "alle", "viele", "zu"};
+
+  // Used for short question fragments after a colon (e.g. "Ich frage mich: Warum?")
+  // Intentionally different from INTERROGATIVE_PARTICLES, which targets subordinate clauses.
+
+  private static final String[] COLON_QUESTION_WORDS = {"warum", "wieso", "weshalb", "wer", "was", "wann", "wo", "wie", "wozu"};
+
+  private static final String[] COLON_QUESTION_CONJUNCTIONS = {"und", "oder", "aber", "denn"};
 
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
@@ -170,6 +178,9 @@ public class CaseRule extends Rule {
     "Invalide",
     "Invalider",
     "Invaliden",
+    "Sehende",
+    "Sehender",
+    "Sehenden",
     "Schutzheilige",
     "Schutzheiliger",
     "Schutzheiligen",
@@ -435,6 +446,12 @@ public class CaseRule extends Rule {
     "Plattdeutsch",
     "Wallet",
     "Str",
+    "Priest",
+    "Simple",
+    "Legend",
+    "Golden",
+    "Forward",
+    "Unverzagt", // österreichisches Adelsgeschlecht
     "Auszubildende",
     "Auszubildender",
     "Gelehrte",
@@ -477,6 +494,7 @@ public class CaseRule extends Rule {
     "Beschäftigter",
     "Beschäftigte",
     "Beschäftigten",
+    "Beschäftigtem",
     "Bekannter",
     "Bekannte",
     "Bevollmächtigte",
@@ -978,7 +996,7 @@ public class CaseRule extends Rule {
         return true;
       }
       // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
-      AnalyzedTokenReadings allReadings = lookup(SOFT_HYPHEN.matcher(readings.getToken()).replaceAll(""));  // unification in disambiguation.xml removes reading, so look up again, removing soft hyphens
+      AnalyzedTokenReadings allReadings = lookup(readings.getToken().replace("\u00AD", ""));  // unification in disambiguation.xml removes reading, so look up again, removing soft hyphens
       if (allReadings != null) {
         for (AnalyzedToken reading : allReadings) {
           String posTag = reading.getPOSTag();
@@ -1033,10 +1051,15 @@ public class CaseRule extends Rule {
         !isInvisibleSeparator(i-1, tokens) &&
         !language.getDefaultSpellingRule().isMisspelled(lcWord)) {
       if (":".equals(tokens[i - 1].getToken())) {
+        // allow short question sentences like "Warum? Und warum?" after colon
+        if (isQuestionEquivalentAfterColon(i, tokens)) {
+          return;
+        }
+
         AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
         System.arraycopy(tokens, 0, subarray, 0, i);
+
         if (isVerbFollowing(i, tokens, lowercaseReadings) || getTokensWithPosTagStartingWithCount(subarray, "VER") == 0) {
-          // no error
         } else {
           addRuleMatch(ruleMatches, sentence, COLON_MESSAGE, tokens[i], lcWord);
         }
@@ -1064,14 +1087,14 @@ public class CaseRule extends Rule {
 
   private boolean isNounWithVerbReading(int i, AnalyzedTokenReadings[] tokens) {
     return tokens[i].hasPosTagStartingWith("SUB") &&
-    		tokens[i].hasPosTagStartingWith("VER:INF");
-	}
+        tokens[i].hasPosTagStartingWith("VER:INF");
+  }
 
   private boolean isInvisibleSeparator(int i, AnalyzedTokenReadings[] tokens) {  // u2063 is used internally by our browser add-on
     return i >= 0 && i < tokens.length && tokens[i].getToken().length() > 0 && tokens[i].getToken().charAt(0) == '\u2063';
   }
 
-	private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
+  private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
     AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];
     System.arraycopy(tokens, i, subarray, 0, subarray.length);
     if (lowercaseReadings != null) {
@@ -1081,6 +1104,10 @@ public class CaseRule extends Rule {
     // if there is not a single verb, the tokens cannot be part of an independent clause
     return getTokensWithPosTagStartingWithCount(subarray, "VER:") != 0;
 }
+
+  private boolean isColonQuestionWord(String word) {
+    return StringUtils.equalsAnyIgnoreCase(word, COLON_QUESTION_WORDS);
+  }
 
   private void addRuleMatch(List<RuleMatch> ruleMatches, AnalyzedSentence sentence, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
     RuleMatch ruleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
@@ -1286,6 +1313,33 @@ public class CaseRule extends Rule {
     return true;
   }
 
+  /**
+   * Returns true if the token at position i starts a short question fragment
+   * that forms a valid Satzäquivalent after a colon, per Duden rules.
+   * Handles:
+   *   single word:          "Ich frage mich: Warum?"
+   *   with conjunction:     "Ich frage mich: Und warum?"
+   */
+  @VisibleForTesting
+  boolean isQuestionEquivalentAfterColon(int i, AnalyzedTokenReadings[] tokens) {
+    if (i < tokens.length - 1) {
+      String word = tokens[i].getToken();
+      String next = tokens[i + 1].getToken();
+      // "Warum?"
+      if (isColonQuestionWord(word) && "?".equals(next)) {
+        return true;
+      }
+      // "Und warum?"
+      if (StringUtils.equalsAnyIgnoreCase(word, COLON_QUESTION_CONJUNCTIONS)
+          && i < tokens.length - 2
+          && isColonQuestionWord(tokens[i + 1].getToken())
+          && "?".equals(tokens[i + 2].getToken())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private AnalyzedTokenReadings lookup(String word) {
     try {
       return ((GermanTagger) language.getTagger()).lookup(word);
@@ -1294,3 +1348,4 @@ public class CaseRule extends Rule {
     }
   }
 }
+

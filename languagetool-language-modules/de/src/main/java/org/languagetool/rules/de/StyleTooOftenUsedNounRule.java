@@ -72,11 +72,14 @@ public class StyleTooOftenUsedNounRule extends AbstractStyleTooOftenUsedWordRule
   }
 
   @Override
-  protected boolean isException(AnalyzedTokenReadings token) {
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int n) {
+    AnalyzedTokenReadings token = tokens[n];
     return token.hasPosTagStartingWith("PRO:") 
         || token.getToken().equals("Ich")
         || token.getToken().equals("Aber")
-        || token.getToken().equals("Ja");
+        || token.getToken().equals("Ja")
+        || (n < tokens.length - 1 && (token.getToken().equals("Frau") || token.getToken().equals("Herr")) 
+            && (tokens[n + 1].hasPosTagStartingWith("EIG:") || tokens[n + 1].isPosTagUnknown()));
   }
   
   @Override

@@ -153,7 +153,7 @@ public final class Tools {
    * @return String UI element string without mnemonics.
    */
   public static String getLabel(String label) {
-    return label.replaceAll("&([^&])", "$1").replaceAll("&&", "&");
+    return label.replaceAll("&([^&])", "$1").replace("&&", "&");
   }
 
   /**
@@ -278,7 +278,7 @@ public final class Tools {
     textPane.setBackground(new Color(0, 0, 0, 0));
     Tools.addHyperlinkListener(textPane);
     textPane.setSize(dialogWidth, Short.MAX_VALUE);
-    String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
+    String messageWithBold = message.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>");
     String exampleSentences = getExampleSentences(rule, messages);
     String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
             + "?lang=" + lang + "&amp;ref=standalone-gui";

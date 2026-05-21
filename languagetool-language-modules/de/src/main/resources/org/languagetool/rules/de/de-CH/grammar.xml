@@ -101,6 +101,24 @@
             </rule>
             <rule><!--2-->
                 <pattern>
+                    <token>zwischen</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <marker>
+                        <token>:</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>und</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">\.|:</token>
+                    <token regexp="yes" spacebefore="no">[0-9]+</token>
+                    <token>Uhr</token>
+                </pattern>
+                <message>Im Schweizer Schriftdeutsch wird bei Uhrzeitangaben standardmässig ein Punkt gesetzt.</message>
+                <suggestion>.</suggestion>
+                <example correction=".">Zwischen 18<marker>:</marker>00 und 20.00 Uhr bin ich zu Hause.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
                     <token regexp="yes">bis|um|von|ab</token>
                     <token regexp="yes">[0-9]+</token>
                     <marker>
@@ -115,7 +133,7 @@
                 <suggestion>.</suggestion>
                 <example correction=".">Das Seminar startet um 15<marker>:</marker>00.</example>
             </rule>
-            <rule><!--3-->
+            <rule><!--4-->
                 <pattern>
                     <token regexp="yes">[0-9][0-9]</token>
                     <marker>

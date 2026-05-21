@@ -24,7 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.synthesis.GermanSynthesizer;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +47,7 @@ class SpellingData {
   @NotNull
   private static Map<String, String> getCoherencyMap(String filePath, boolean sentStartMode) {
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
-    Map<String,String> coherencyMap = new HashMap<>();
+    Map<String, String> coherencyMap = new LinkedHashMap<>();
     for (String line : lines) {
       if (line.startsWith("#")) {
         continue;
@@ -65,12 +65,12 @@ class SpellingData {
       } else {
         coherencyMap.put(oldSpelling, newSpelling);
       }
-      if (oldSpelling.contains("ß") && oldSpelling.replaceAll("ß", "ss").equals(newSpelling)) {
+      if (oldSpelling.contains("ß") && oldSpelling.replace("ß", "ss").equals(newSpelling)) {
         try {
           String[] forms = GermanSynthesizer.INSTANCE.synthesizeForPosTags(oldSpelling, s -> true);
           for (String form : forms) {
             if (!form.contains("ss")) {  // avoid e.g. "Schlüsse" as form of "Schluß", as that's the new spelling
-              coherencyMap.put(form, form.replaceAll("ß", "ss"));
+              coherencyMap.put(form, form.replace("ß", "ss"));
             }
           }
         } catch (IOException e) {

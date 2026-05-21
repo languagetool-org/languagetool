@@ -25,6 +25,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.Tagger;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -60,7 +61,7 @@ public abstract class RuleFilter {
   private static class FakeRule extends Rule {
     @Override public String getId() { return "FAKE-RULE-FOR-FILTER"; }
     @Override public String getDescription() { return "<none>"; }
-    @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return new RuleMatch[0]; }
+    @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return RuleMatch.EMPTY_ARRAY; }
   }
 
   protected String getRequired(String key, Map<String, String> map) {
@@ -134,18 +135,33 @@ public abstract class RuleFilter {
 
   public Language getLanguageFromRuleMatch(RuleMatch match) {
     Rule rule = match.getRule();
-    Language language;
+    if (this.language != null) {
+      return language;
+    }
+    Language lang;
     if (rule instanceof AbstractPatternRule) {
-      language = ((PatternRule) match.getRule()).getLanguage();
+      lang = ((PatternRule) match.getRule()).getLanguage();
     } else {
       throw new RuntimeException("AbstractAdvancedSynthesizerFilter only works with pattern rules. " + rule.getFullId() + " is not a pattern rule");
     }
-    return language;
+    return lang;
   }
 
   public Synthesizer getSynthesizerFromRuleMatch(RuleMatch match) {
     return getLanguageFromRuleMatch(match).getSynthesizer();
   }
 
+  public Tagger getTaggerFromRuleMatch(RuleMatch match) {
+    return getLanguageFromRuleMatch(match).getTagger();
+  }
 
+  private Language language= null;
+
+  public Language getLanguage() {
+    return language;
+  };
+
+  public void setLanguage(Language language) {
+    this.language = language;
+  }
 }

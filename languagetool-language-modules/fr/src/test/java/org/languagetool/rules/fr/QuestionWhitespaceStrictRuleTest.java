@@ -36,7 +36,7 @@ public class QuestionWhitespaceStrictRuleTest {
 
     @Test
     public final void testRule() throws IOException {
-      Language french = new French();
+      Language french = French.getInstance();
       QuestionWhitespaceStrictRule rule = new QuestionWhitespaceStrictRule(TestTools.getEnglishMessages(), french);
       RuleMatch[] matches;
       JLanguageTool lt = new JLanguageTool(french);

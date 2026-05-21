@@ -28,7 +28,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.SymbolLocator;
 import org.languagetool.rules.UnsyncStack;

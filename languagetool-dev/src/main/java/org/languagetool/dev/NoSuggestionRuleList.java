@@ -24,7 +24,6 @@ import org.languagetool.Languages;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -80,7 +79,7 @@ public class NoSuggestionRuleList {
           //System.err.println("Skipping " + rule.getId() + " (no example)");
           continue;
         }
-        String incorrectExample = incorrectExamples.get(0).getExample().replaceAll("<marker>", "").replaceAll("</marker>", "");
+        String incorrectExample = incorrectExamples.get(0).getExample().replace("<marker>", "").replace("</marker>", "");
         lt.enableRule(rule.getId());
         List<RuleMatch> matches = lt.check(incorrectExample);
         for (RuleMatch match : matches) {

@@ -26,17 +26,15 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
-  protected static final String DICT_FILENAME = "/ca/ca-ES.dict";
+  protected static final String DICT_FILENAME = "/ca/ca-ES_spelling.dict";
   protected static MorfologikSpeller speller;
   /* lemma exceptions */
-  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar"};
+  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar", "liar", "vore"};
   public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
   
   public FindSuggestionsFilter() throws IOException {
@@ -67,7 +65,7 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   @Override
   protected String preProcessWrongWord (String word) {
-    word = word.replaceAll(" ","");
+    word = word.replace(" ","");
     word = ELA_GEMINADA.matcher(word).replaceAll("$1·$2");
     return word;
   }

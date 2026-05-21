@@ -32,19 +32,36 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 /**
  * Post-spelling-reform Portuguese.
  */
-public class Portuguese extends Language implements AutoCloseable {
+public class Portuguese extends LanguageWithModel {
+  private static final String LANGUAGE_SHORT_CODE = "pt";
 
-  private LanguageModel languageModel;
+  private static volatile Throwable instantiationTrace;
+
+  public Portuguese() {
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  /**
+   * This is a fake constructor overload for the subclasses. Public constructors can only be used by the LT itself.
+   */
+  protected Portuguese(boolean fakeValue) {
+  }
+
 
   @Override
   public String getName() {
@@ -165,25 +182,10 @@ public class Portuguese extends Language implements AutoCloseable {
 
   /** @since 3.6 */
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
-  /** @since 3.6 */
-  @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
-            new PortugueseConfusionProbabilityRule(messages, languageModel, this)
+    return Collections.singletonList(
+      new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
-
-  /** @since 3.6 */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   /** @since 5.1 */
@@ -238,7 +240,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("UNPAIRED_BRACKETS", -5);
     id2prio.put("PROFANITY", -6);
     id2prio.put("PT_BARBARISMS_REPLACE", -10);
-    id2prio.put("BARBARISMS_PT_PT_V3", -10);
+    id2prio.put("BARBARISMS_PT_PT_V4", -10);
     id2prio.put("PT_PT_SIMPLE_REPLACE", -11);  // for pt-PT, not lower than speller, not sure why
     id2prio.put("PT_REDUNDANCY_REPLACE", -12);
     id2prio.put("PT_WORDINESS_REPLACE", -13);
@@ -262,7 +264,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("PRETERITO_PERFEITO", -51);  // LOWER THAN SPELLER
     id2prio.put("PT_BR_SIMPLE_REPLACE", -51);
     id2prio.put("CRASE_CONFUSION", -54);
-    id2prio.put("NAO_MILITARES", -54);
+    id2prio.put("NAO_MILITARES_CIVIS", -54);
     id2prio.put("NA_QUELE", -54);
     id2prio.put("NOTAS_FICAIS", -54);
     id2prio.put("GENERAL_VERB_AGREEMENT_ERRORS", -55);
@@ -276,6 +278,7 @@ public class Portuguese extends Language implements AutoCloseable {
     id2prio.put("FORMAL_T-V_DISTINCTION_ALL", -101);
     id2prio.put("REPEATED_WORDS", -210);
     id2prio.put("PT_WIKIPEDIA_COMMON_ERRORS", -500);
+    id2prio.put("UPPERCASE_SENTENCE_START", -600);
     id2prio.put("FILLER_WORDS_PT", -990);
     id2prio.put(LongSentenceRule.RULE_ID, -997);
     id2prio.put(LongParagraphRule.RULE_ID, -998);
@@ -335,22 +338,30 @@ public class Portuguese extends Language implements AutoCloseable {
   public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Arrays.asList(line);
+      return Collections.singletonList(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     String form = formTag[0].trim();
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("N") || tag.equals("_Latin_")) {
-        return Arrays.asList(form);
+        return Collections.singletonList(form);
       } else {
-        return Arrays.asList("");
+        return Collections.singletonList("");
       }
     }
-    return Arrays.asList(line);
+    return Collections.singletonList(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
     return PortugueseMultitokenSpeller.INSTANCE;
+  }
+
+  public static @NotNull Portuguese getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Portuguese portuguese) {
+      return portuguese;
+    }
+    throw new RuntimeException("Portuguese language expected, got " + language);
   }
 }

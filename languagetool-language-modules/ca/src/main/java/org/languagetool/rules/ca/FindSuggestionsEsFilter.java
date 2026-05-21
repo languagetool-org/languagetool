@@ -37,6 +37,8 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
   // es + unknown -> és + noun/adj | es + verb 3rd person
 
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
+  Pattern pPostagNominal = Pattern.compile("NP..[^0].*|NC.[SN].*|A...[SN].|V.P..S..|V.[NG].*|RG|PX..S...");
+  Pattern pPostagVerb3person = Pattern.compile("V...3.*");
 
   public FindSuggestionsEsFilter() throws IOException {
     // lazy init
@@ -71,11 +73,11 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
           if (replacements.size() >= 2 * MAX_SUGGESTIONS) {
             break;
           }
-          if (analyzedSuggestion.matchesPosTagRegex("NP.*|NC.[SN].*|A...[SN].|V.P..S..|V.[NG].*|RG|PX..S...")) {
+          if (analyzedSuggestion.matchesPosTagRegex(pPostagNominal)) {
             replacements.add("és " + analyzedSuggestion.getToken());
             usedEsAccent = true;
           }
-          if (analyzedSuggestion.matchesPosTagRegex("V...3.*")) {
+          if (analyzedSuggestion.matchesPosTagRegex(pPostagVerb3person)) {
             Matcher m = pApostropheNeeded.matcher(analyzedSuggestion.getToken());
             if (!m.matches()) {
               replacements.add("es " + analyzedSuggestion.getToken().toLowerCase());
@@ -111,7 +113,7 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
 //      return null;
 //    }  
     if (usedEsAccent) {
-      message = message + " \"És\" (del v. 'ser') s'escriu amb accent.";
+      message = message + " \"És\" (del verb 'ser') s'escriu amb accent.";
     }
     if (usedEs) {
       message = message + " \"Es\" (pronom) acompanya un verb en tercera persona.";

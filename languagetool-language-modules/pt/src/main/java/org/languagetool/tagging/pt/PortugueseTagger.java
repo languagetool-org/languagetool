@@ -20,7 +20,6 @@ package org.languagetool.tagging.pt;
 
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;

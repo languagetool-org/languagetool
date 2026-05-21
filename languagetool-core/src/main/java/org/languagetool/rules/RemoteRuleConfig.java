@@ -45,7 +45,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 @SuppressWarnings("PublicField")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -58,6 +57,10 @@ public class RemoteRuleConfig {
   private static final String DEFAULT_SLIDING_WINDOW_TYPE = CircuitBreakerConfig.SlidingWindowType.TIME_BASED.name();
   private static final int DEFAULT_SLIDING_WINDOW_SIZE = 60;
   private static final int DEFAULT_MINIMUM_NUMBER_OF_CALLS = 10;
+
+  public static final String THIRD_PARTY_AI = "thirdPartyAI";
+  public static final String FALLBACK_RULE_ID = "fallbackRuleId";
+  public static final String PREMIUM = "premium";
 
 
   private static final LoadingCache<File, List<RemoteRuleConfig>> configCache = CacheBuilder.newBuilder()
@@ -185,6 +188,31 @@ public class RemoteRuleConfig {
    */
   public String getType() {
     return type;
+  }
+
+  /**
+   * based on options
+   * @return whether the RemoteRule sends data to a third-party AI model
+   */
+  public boolean isUsingThirdPartyAI() {
+    return options.getOrDefault(THIRD_PARTY_AI, "false").equals("true");
+  }
+
+  /**
+   * based on options
+   * @return whether the RemoteRule sends data to a third-party AI model
+   */
+  public boolean isPremium() {
+    return options.getOrDefault(PREMIUM, "false").equals("true");
+  }
+
+  /**
+   * Gets the ID of the fallback rule to use when this rule is not available
+   * (e.g., if this is a third-party AI rule and user has opted out)
+   * @return the ID of the fallback rule, or null if no fallback is configured
+   */
+  public String getFallbackRuleId() {
+    return options.get(FALLBACK_RULE_ID);
   }
 
   @Override

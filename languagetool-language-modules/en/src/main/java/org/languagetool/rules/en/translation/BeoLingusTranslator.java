@@ -280,7 +280,7 @@ public class BeoLingusTranslator implements Translator {
       .replace("sb.", "")
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
       .replaceAll(" /[A-Z][a-z]+\\.?/", "")    // e.g. "Tuesday /Tue/", "station /Sta./"
-      .replaceAll("<> ", "")  // "to fathom out <> sth."
+      .replace("<> ", "")  // "to fathom out <> sth."
       .replaceAll("<(.*)>", "")  // "decease [adm.]; demise [poet.] <death>"
       .replaceAll("\\s+", " ")
       .trim();

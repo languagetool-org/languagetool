@@ -18,15 +18,18 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
-import org.languagetool.*;
-import org.languagetool.broker.ResourceDataBroker;
-import org.languagetool.rules.patterns.*;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.RuleEntityResolver;
+import org.languagetool.rules.patterns.Match;
+import org.languagetool.rules.patterns.XMLRuleHandler;
+import org.languagetool.tools.StringInterner;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -299,7 +302,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           startPos = 0;
           endPos = tokenCountForMarker;
         }
-        rule.setSubId(inRuleGroup ? internString(Integer.toString(subId)) : "1");
+        rule.setSubId(inRuleGroup ? StringInterner.intern(Integer.toString(subId)) : "1");
 
         int matchedTokenCount = endPos - startPos;
         if (newWdList != null) {

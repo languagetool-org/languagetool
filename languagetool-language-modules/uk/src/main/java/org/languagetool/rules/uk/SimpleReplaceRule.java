@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
@@ -51,7 +52,6 @@ import org.languagetool.tools.Tools;
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/uk/replace.txt");
-//  private static final Set<String> FORCE_REPLACE_LIST = new HashSet<>(Arrays.asList("главком"));
   private final MorfologikUkrainianSpellerRule morfologikSpellerRule;
 
   @Override
@@ -187,8 +187,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     List<String> suggestions = 
         derivats.stream()
         .map(d -> getWrongWords().get(d))
-        .flatMap(c -> c.stream())
-        .map(t ->
+          .flatMap(c -> c != null ? c.stream() : Stream.empty())
+          .map(t ->
           CaseGovernmentHelper.DERIVATIVES_MAP.entrySet().stream()
           .filter(e -> e.getValue().contains(t) && e.getKey().endsWith(ending)) // filter -ючи vs -вши
           .map(e -> e.getKey())

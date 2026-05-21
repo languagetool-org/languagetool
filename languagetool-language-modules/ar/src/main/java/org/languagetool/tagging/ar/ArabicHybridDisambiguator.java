@@ -34,7 +34,7 @@ import java.io.IOException;
  */
 public class ArabicHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/ar/multiwords.txt");
+  private final Disambiguator chunker = MultiWordChunker.getInstance("/ar/multiwords.txt");
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Arabic());
 
   @Override

@@ -39,8 +39,8 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
   
   @Test
   public void testL2Languages() throws IOException {
-    validatePatternFile(Arrays.asList("en/grammar-l2-de.xml"));
-    validatePatternFile(Arrays.asList("en/grammar-l2-fr.xml"));
+    validatePatternFile(Collections.singletonList("en/grammar-l2-de.xml"));
+    validatePatternFile(Collections.singletonList("en/grammar-l2-fr.xml"));
     runTestForLanguage(new L2GermanRulesOnlyEnglish());
     runTestForLanguage(new L2FrenchRulesOnlyEnglish());
   }
@@ -53,24 +53,32 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
   }
   
   private static class L2GermanRulesOnlyEnglish extends AmericanEnglish {
+    public L2GermanRulesOnlyEnglish() {
+      super(true);
+    }
+
     @Override
     public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
       return new ArrayList<>();
     }
     @Override
     public List<String> getRuleFileNames() {
-      return Arrays.asList("/org/languagetool/rules/en/grammar-l2-de.xml");
+      return Collections.singletonList("/org/languagetool/rules/en/grammar-l2-de.xml");
     }
   }
 
   private static class L2FrenchRulesOnlyEnglish extends AmericanEnglish {
+    public L2FrenchRulesOnlyEnglish() {
+      super(true);
+    }
+
     @Override
     public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
       return new ArrayList<>();
     }
     @Override
     public List<String> getRuleFileNames() {
-      return Arrays.asList("/org/languagetool/rules/en/grammar-l2-fr.xml");
+      return Collections.singletonList("/org/languagetool/rules/en/grammar-l2-fr.xml");
     }
   }
 

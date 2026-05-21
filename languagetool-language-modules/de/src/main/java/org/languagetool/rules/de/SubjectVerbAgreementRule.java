@@ -449,6 +449,19 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("de[rs]|diese[sr]|[msd]?eine[rs]"),
       new PatternTokenBuilder().posRegex("SUB.*|EIG.*|UNKNOWN").setSkip(-1).build(),
       tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      tokenRegex("viele|alle"),
+      new PatternTokenBuilder().posRegex("SUB.*ADJ").tokenRegex(".+e").build(),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList(
+      // Sinn und Zweck dieser Prüfung ist, herauszufinden, ob der Druck
+      tokenRegex("Sinn"),
+      tokenRegex("und"),
+      new PatternTokenBuilder().tokenRegex("Zweck").setSkip(-1).build(),
+      tokenRegex("ist|war")
+
     )
   );
 

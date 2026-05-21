@@ -179,7 +179,7 @@ final class TokenAgreementNumrNounExceptionHelper {
     }
 
     // двадцять перший; дві соті
-    if( PosTagHelper.hasPosTag(nounAnalyzedTokenReadings, Pattern.compile("adj.*&numr.*"))  ) {
+    if( PosTagHelper.hasPosTag(nounAnalyzedTokenReadings, Pattern.compile("adj.*numr.*"))  ) {
       logException();
       return true;
     }

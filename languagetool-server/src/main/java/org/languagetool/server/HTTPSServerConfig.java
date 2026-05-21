@@ -32,7 +32,7 @@ public class HTTPSServerConfig extends HTTPServerConfig {
   private final String keyStorePassword;
   
   /**
-   * @param keystore a Java keystore file as created with the <tt>keytool</tt> command
+   * @param keystore a Java keystore file as created with the <code>keytool</code> command
    * @param keyStorePassword the password for the keystore
    */
   public HTTPSServerConfig(File keystore, String keyStorePassword) {
@@ -43,8 +43,8 @@ public class HTTPSServerConfig extends HTTPServerConfig {
 
   /**
    * @param serverPort the port to bind to
-   * @param verbose when set to <tt>true</tt>, the input text will be logged in case there is an exception
-   * @param keystore a Java keystore file as created with the <tt>keytool</tt> command
+   * @param verbose when set to <code>true</code>, the input text will be logged in case there is an exception
+   * @param keystore a Java keystore file as created with the <code>keytool</code> command
    * @param keyStorePassword the password for the keystore
    */
   public HTTPSServerConfig(int serverPort, boolean verbose, File keystore, String keyStorePassword) {
@@ -55,8 +55,8 @@ public class HTTPSServerConfig extends HTTPServerConfig {
 
   /**
    * @param serverPort the port to bind to
-   * @param verbose when set to <tt>true</tt>, the input text will be logged in case there is an exception
-   * @param keystore a Java keystore file as created with the <tt>keytool</tt> command
+   * @param verbose when set to <code>true</code>, the input text will be logged in case there is an exception
+   * @param keystore a Java keystore file as created with the <code>keytool</code> command
    * @param keyStorePassword the password for the keystore
    * @since 2.1
    */

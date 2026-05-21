@@ -1,10 +1,12 @@
 package org.languagetool.language;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class SpanishVoseo extends Spanish {
+  public SpanishVoseo() {
+    super(true);
+  }
 
   @Override
   public String getName() {
@@ -19,7 +21,7 @@ public class SpanishVoseo extends Spanish {
 
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
-    List<String> rules = Arrays.asList("VOSEO");
+    List<String> rules = Collections.singletonList("VOSEO");
     return Collections.unmodifiableList(rules);
   }
 

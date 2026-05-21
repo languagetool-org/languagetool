@@ -222,9 +222,10 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     assertEmptyMatch("Ті, хто зрозуміли");
     assertEmptyMatch("ті, хто сповідує");
     assertEmptyMatch("ті, хто не сповідують");
-    assertHasError("всі хто зрозуміли"); // пропущена кома
+    assertEmptyMatch("Ті, хто просто зрозуміли");
+    assertEmptyMatch("всі хто зрозуміли"); // пропущена кома
     assertEmptyMatch("про те, хто була ця клята Пандора");
-
+    
     assertEmptyMatch("що можна було й інший пошукати");
   }
   
@@ -409,6 +410,8 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     
     assertEmptyMatch("Що пачка цигарок, що ковбаса коштують");
     assertEmptyMatch("не вулична злочинність, не корупція відлякували");
+    
+    assertEmptyMatch("з Василем Кричевським Оскар Германович разом брали участь");
     
     // very long
     assertEmptyMatch("Леонід Новохатько й керівник головного управління з питань гуманітарного розвитку адміністрації\n" + 

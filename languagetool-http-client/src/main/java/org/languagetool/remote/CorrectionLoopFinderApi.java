@@ -128,8 +128,8 @@ public class CorrectionLoopFinderApi {
     }
     // defaultColor="\u001B[0m"
     // highlightColor="\u001B[97m"
-    cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replaceAll("\"", "");
-    cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim().replaceAll("\"", "");
+    cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replace("\"", "");
+    cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim().replace("\"", "");
     cfg.prepareConfiguration();
     run(cfg);
   }

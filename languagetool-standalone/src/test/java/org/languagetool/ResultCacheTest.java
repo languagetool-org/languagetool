@@ -19,7 +19,10 @@
 package org.languagetool;
 
 import org.junit.Test;
+import org.languagetool.rules.FakeRule;
+import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.hamcrest.core.Is.is;
@@ -40,36 +43,40 @@ public class ResultCacheTest {
   }
 
   @Test
-  public void testInputSentenceCache() {
+  public void testInputSentenceCache() throws IOException {
+    Language langDE = Languages.getLanguageForShortCode("de");
+    Language langEN = Languages.getLanguageForShortCode("en");
+    JLanguageTool ltDe = new JLanguageTool(langDE);
+    JLanguageTool ltEn = new JLanguageTool(langEN);
     ResultCache cache = new ResultCache(100);
     assertThat(cache.hitCount(), is(0L));
     assertThat(cache.hitRate(), is(1.0));
-    UserConfig userConfig1 = new UserConfig(Arrays.asList("word1"));
+    UserConfig userConfig1 = new UserConfig(List.of("word1"));
     JLanguageTool.Mode mode = JLanguageTool.Mode.ALL;
     JLanguageTool.Level level = JLanguageTool.Level.DEFAULT;
     List<Language> el = Collections.emptyList();
-    InputSentence input1a = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
-    InputSentence input1b = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
-    cache.put(input1a, Arrays.asList());
+    InputSentence input1a = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
+    InputSentence input1b = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
+    cache.put(input1a, List.of());
     assertNotNull(cache.getIfPresent(input1a));
     assertNotNull(cache.getIfPresent(input1b));
-    InputSentence input2a = new InputSentence("foo bar", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
-    InputSentence input2b = new InputSentence("foo", Languages.getLanguageForShortCode("en"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
-    InputSentence input2c = new InputSentence("foo", Languages.getLanguageForShortCode("de"), Languages.getLanguageForShortCode("en"), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
-    InputSentence input2d = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(Arrays.asList("ID1")), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
+    InputSentence input2a = new InputSentence(ltDe.getAnalyzedSentence("foo bar"), langDE, null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
+    InputSentence input2b = new InputSentence(ltEn.getAnalyzedSentence("foo"), langEN, null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
+    InputSentence input2c = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, Languages.getLanguageForShortCode("en"), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
+    InputSentence input2d = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(List.of("ID1")), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
     assertNull(cache.getIfPresent(input2a));
     assertNull(cache.getIfPresent(input2b));
     assertNull(cache.getIfPresent(input2c));
     assertNull(cache.getIfPresent(input2d));
     
-    UserConfig userConfig2 = new UserConfig(Arrays.asList("word2"));
-    InputSentence input1aUc1 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
+    UserConfig userConfig2 = new UserConfig(List.of("word2"));
+    InputSentence input1aUc1 = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, el, mode, level);
     assertNotNull(cache.getIfPresent(input1aUc1));
-    InputSentence input1aUc2 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, el, mode, level);
+    InputSentence input1aUc2 = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, el, mode, level);
     assertNull(cache.getIfPresent(input1aUc2));
 
-    InputSentence input1aUc2Alt = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
-            new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level);
+    InputSentence input1aUc2Alt = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(),
+            new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Collections.singletonList(langEN), mode, level);
     assertNull(cache.getIfPresent(input1aUc2Alt));
     
     //put in cache for next tests
@@ -83,24 +90,24 @@ public class ResultCacheTest {
     toneTagSet2.add(ToneTag.clarity);
     Set<ToneTag> toneTagSet3 = new TreeSet<>();
     
-    InputSentence inputWithTonetagSet1 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
-      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level, toneTagSet1);
+    InputSentence inputWithTonetagSet1 = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(),
+      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Collections.singletonList(langEN), mode, level, toneTagSet1);
 
-    InputSentence inputWithTonetagSet2 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
-      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level, toneTagSet2);
+    InputSentence inputWithTonetagSet2 = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(),
+      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Collections.singletonList(langEN), mode, level, toneTagSet2);
     
-    InputSentence inputWithTonetagSet3 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
-      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level, toneTagSet3);
+    InputSentence inputWithTonetagSet3 = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(),
+      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Collections.singletonList(langEN), mode, level, toneTagSet3);
 
-    InputSentence inputWithTonetagSetNull = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(),
-      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Arrays.asList(Languages.getLanguageForShortCode("en")), mode, level, null);
+    InputSentence inputWithTonetagSetNull = new InputSentence(ltDe.getAnalyzedSentence("foo"), langDE, null, new HashSet<>(),
+      new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, Collections.singletonList(langEN), mode, level, null);
     
     assertNull(cache.getIfPresent(inputWithTonetagSet1));
-    cache.put(inputWithTonetagSet1, new ArrayList<>());
+    cache.put(inputWithTonetagSet1, Collections.singletonList(new RuleMatch(new FakeRule("FAKE1"), 0, 1, "Fake message 1")));
     assertNotNull(cache.getIfPresent(inputWithTonetagSet1));
     
     assertNull(cache.getIfPresent(inputWithTonetagSet2));
-    cache.put(inputWithTonetagSet2, new ArrayList<>());
+    cache.put(inputWithTonetagSet2, Collections.singletonList(new RuleMatch(new FakeRule("FAKE2"), 0, 1, "Fake message 1")));
     assertNotNull(cache.getIfPresent(inputWithTonetagSet2));
     
     assertNotNull(cache.getIfPresent(inputWithTonetagSet3)); // same as input1aUc2Alt

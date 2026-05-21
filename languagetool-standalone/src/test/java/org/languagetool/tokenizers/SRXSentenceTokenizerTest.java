@@ -21,6 +21,11 @@ package org.languagetool.tokenizers;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.French;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -46,6 +51,26 @@ public class SRXSentenceTokenizerTest {
     }
     if (count == 0) {
       fail("No languages found for testing");
+    }
+  }
+
+  @Test
+  public void testDotNetSentence() {
+    // Test that .Net is recognized in multiple languages
+    List<Language> languages = Arrays.asList(AmericanEnglish.getInstance(), French.getInstance());
+    for (Language language : languages) {
+      String input = ".Net is a platform. .Net is a platform. The platform is .Net.";
+      SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language);
+
+      // Note the srx file is configured to preserve whitespace
+      List<String> expectedSentences = Arrays.asList(
+              ".Net is a platform. ",
+              ".Net is a platform. ",
+              "The platform is .Net."
+      );
+
+      List<String> actualSentences = tokenizer.tokenize(input);
+      assertEquals("Tokenized sentences do not match for " + language, expectedSentences, actualSentences);
     }
   }
 

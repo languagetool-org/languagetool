@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.ca;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
@@ -26,10 +27,7 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones
@@ -45,7 +43,7 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
   private static final Locale CA_LOCALE = new Locale("ca");
 
   public SimpleReplaceAnglicism(final ResourceBundle messages) throws IOException {
-    super(messages, new Catalan());
+    super(messages, Catalan.getInstance());
     setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     useSubRuleSpecificIds();
@@ -82,6 +80,34 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
   }
 
   //private List<String> possibleExceptions = Arrays.asList("link", "links", "event", "events");
+  private static final Map<String, String> argumentsMap = Map.of("lemmaSelect", "[NA].*");
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    RuleMatch[] potentialMatches = super.match(sentence);
+    ConvertToGenderAndNumberFilter filter = new ConvertToGenderAndNumberFilter();
+    filter.setLanguage(getLanguage());
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    // Adjust determinants and adjectives
+    for (RuleMatch potentialRuleMatch : potentialMatches) {
+      // For multi-word expressions, skip the filter: it cannot adjust gender/number
+      // reliably across tokens and causes incorrect position adjustments.
+      if (!potentialRuleMatch.isUnderlinedErrorSingleToken()) {
+        ruleMatches.add(potentialRuleMatch);
+        continue;
+      }
+      RuleMatch finalMatch = null;
+      try {
+        finalMatch = filter.acceptRuleMatch(potentialRuleMatch, argumentsMap, 0, null, null);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      if (finalMatch != null) {
+        ruleMatches.add(finalMatch);
+      }
+    }
+    return toRuleMatchArray(ruleMatches);
+  }
 
   @Override
   protected boolean isRuleMatchException(RuleMatch ruleMatch) {

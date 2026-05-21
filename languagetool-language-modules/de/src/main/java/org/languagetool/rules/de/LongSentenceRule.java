@@ -18,17 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Tag;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**

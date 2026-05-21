@@ -34,7 +34,7 @@ public class SpanishWrongWordInContextRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    Spanish spanish = new Spanish();
+    Spanish spanish = Spanish.getInstance();
     SpanishWrongWordInContextRule rule = new SpanishWrongWordInContextRule(null, spanish);
     JLanguageTool lt = new JLanguageTool(spanish);
     

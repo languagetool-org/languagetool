@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.pt;
 
-import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;

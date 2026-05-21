@@ -33,8 +33,6 @@ public class EsperantoWordTokenizer extends WordTokenizer {
 
   private static final Pattern PATTERN_1 = Pattern.compile("(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?![a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])");
   private static final Pattern PATTERN_2 = Pattern.compile("(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?=[a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])");
-  private static final Pattern PATTERN_3 = Pattern.compile("\u0001\u0001EO@APOS1\u0001\u0001");
-  private static final Pattern PATTERN_4 = Pattern.compile("\u0001\u0001EO@APOS2\u0001\u0001");
 
   /**
    * Tokenizes just like WordTokenizer with the exception that words
@@ -63,8 +61,8 @@ public class EsperantoWordTokenizer extends WordTokenizer {
       if (word.endsWith("\u0001\u0001EO@APOS2\u0001\u0001")) {
         itr.next(); // Skip the next spurious white space.
       }
-      word = PATTERN_3.matcher(word).replaceAll("'");
-      word = PATTERN_4.matcher(word).replaceAll("'");
+      word = word.replace("\u0001\u0001EO@APOS1\u0001\u0001", "'");
+      word = word.replace("\u0001\u0001EO@APOS2\u0001\u0001", "'");
       tokens.add(word);
     }
     return tokens;

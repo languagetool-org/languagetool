@@ -65,15 +65,21 @@ class UserInfoEntry {
   @Getter
   private final String defaultDictionary;
 
+  @Getter
+  private final boolean opt_in_3rd_party_ai_grammar_checker;
+
+  @Getter
+  private final boolean opt_in_3rd_party_ai_paraphraser;
+
   UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
                 @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, String apiKey,
                 @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole) {
-    this(id, email, userDictCacheSize, requestsPerDay, limitEnforcement, managedAccounts, passwordHash, premiumFrom, premiumTo, addonToken, apiKey, userGroup, groupId, groupRole, null);
+    this(id, email, userDictCacheSize, requestsPerDay, limitEnforcement, managedAccounts, passwordHash, premiumFrom, premiumTo, addonToken, apiKey, userGroup, groupId, groupRole, null, false, false);
   }
 
   UserInfoEntry(long id, String email, @Nullable Long userDictCacheSize, @Nullable Long requestsPerDay, @Nullable Integer limitEnforcement, @Nullable Long managedAccounts,
                 @Nullable String passwordHash, @Nullable java.sql.Date premiumFrom, @Nullable java.sql.Date premiumTo, String addonToken, @Nullable String apiKey,
-                @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole, @Nullable String defaultDictionary) {
+                @Nullable Long userGroup, @Nullable UUID groupId, @Nullable String groupRole, @Nullable String defaultDictionary, boolean opt_in_3rd_party_ai_grammar_checker, boolean opt_in_3rd_party_ai_paraphraser) {
     this.id = id;
     this.email = email;
     this.addonToken = addonToken;
@@ -89,6 +95,8 @@ class UserInfoEntry {
     this.groupId = groupId;
     this.groupRole = groupRole;
     this.defaultDictionary = defaultDictionary;
+    this.opt_in_3rd_party_ai_grammar_checker = opt_in_3rd_party_ai_grammar_checker;
+    this.opt_in_3rd_party_ai_paraphraser = opt_in_3rd_party_ai_paraphraser;
   }
 
 
@@ -168,5 +176,5 @@ class UserInfoEntry {
   public String getGroupRole() {
     return groupRole;
   }
-  
+
 }

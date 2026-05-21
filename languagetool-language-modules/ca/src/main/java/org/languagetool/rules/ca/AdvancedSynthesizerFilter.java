@@ -20,6 +20,7 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
+import static org.languagetool.rules.ca.NounToVerbHelper.getVerbFromNoun;
 
 /*
  * Synthesize suggestions using the lemma from one token (lemma_from)
@@ -30,4 +31,8 @@ import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
+  @Override
+  protected String getNewLemma(String word, String newLemma) {
+    return getVerbFromNoun(word);
+  }
 }

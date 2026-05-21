@@ -36,7 +36,7 @@ public class RussianSimpleReplaceRuleTest {
     RussianSimpleReplaceRule rule = new RussianSimpleReplaceRule(TestTools.getMessages("ru"));
 
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Russian());
+    JLanguageTool lt = new JLanguageTool(Russian.getInstance());
 
     // correct sentences:
     matches = rule.match(lt.getAnalyzedSentence("Рост кораллов тут самый быстрый,"));

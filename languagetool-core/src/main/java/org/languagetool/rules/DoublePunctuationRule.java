@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.tools.Tools;
 
 /**
  * A rule that matches ".." (but not "..." etc) and ",,".

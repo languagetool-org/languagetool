@@ -23,10 +23,12 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
-import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.*;
+import org.languagetool.rules.ConfusionPair;
+import org.languagetool.rules.ConfusionSetLoader;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 
@@ -59,12 +61,12 @@ class RealWordFalseAlarmEvaluator {
   private int globalRuleMatches;
 
   RealWordFalseAlarmEvaluator(File languageModelIndexDir) throws IOException {
-    Language lang = new AmericanEnglish();
+    Language lang = AmericanEnglish.getInstance();
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt")) {
       ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(lang);
       confusionPairs = confusionSetLoader.loadConfusionPairs(inputStream);
     }
-    lt = new JLanguageTool(new BritishEnglish());
+    lt = new JLanguageTool(BritishEnglish.getInstance());
     List<Rule> rules = lt.getAllActiveRules();
     for (Rule rule : rules) {
       lt.disableRule(rule.getId());

@@ -1657,7 +1657,7 @@ public final class Main {
    *  on the Java Tips Weblog without restriction. A credit in the code comments
    *  would be nice, but not in any way mandatory.
    */
-  public class TextLineNumber extends JPanel
+  public static class TextLineNumber extends JPanel
     implements CaretListener, DocumentListener, ComponentListener, PropertyChangeListener
   {
     private static final long serialVersionUID = 1L;

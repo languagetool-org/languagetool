@@ -22,14 +22,11 @@ import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.tools.Tools;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import java.net.URL;
 
 /**
  * Rule for simple and frequent one-to-one spelling fixes in Portuguese.

@@ -19,17 +19,33 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.Languages;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.rules.spelling.morfologik.WeightedSuggestion;
 import org.languagetool.rules.spelling.multitoken.MultitokenSpeller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CatalanMultitokenSpeller extends MultitokenSpeller {
 
   public static final CatalanMultitokenSpeller INSTANCE = new CatalanMultitokenSpeller();
+  private static MorfologikSpeller speller;
 
   protected CatalanMultitokenSpeller() {
     super(Languages.getLanguageForShortCode("ca-ES"),
       Arrays.asList("/ca/multiwords.txt", "/spelling_global.txt", "/ca/hyphenated_words.txt"));
+    this.speller = CatalanMorfologikMultitokenSpeller.getSpeller();
+  }
+
+  @Override
+  protected List<WeightedSuggestion> getAdditionalSuggestions(String originalWord) throws IOException {
+    if (speller != null) {
+      // the weights from the dict are different!
+      return speller.getSuggestions(originalWord);
+    }
+    return new ArrayList<>();
   }
 
 }

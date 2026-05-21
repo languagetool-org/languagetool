@@ -29,7 +29,7 @@ public final class PosTagHelper {
   private static final Pattern CONJ_REGEX = Pattern.compile("(noun:(?:[iu]n)?anim|numr|adj|adjp.*):[mfnp]:(v_...).*");
   private static final Pattern GENDER_REGEX = NUM_REGEX;
   private static final Pattern GENDER_CONJ_REGEX = Pattern.compile("(noun:(?:[iu]n)?anim|adj|numr|adjp.*):(.:v_...).*");
-  private static final Pattern PATTERN = Pattern.compile(":(comp.|&&?adjp:.*?(:(im)?perf)+)");
+  private static final Pattern CLEANUP_PATTERN = Pattern.compile(":(comp.|adjp:.*?(:(im)?perf)+)");
 
   public static final Pattern ADJ_COMP_REGEX = Pattern.compile(":comp[bcs]");
   public static final Map<String, String> VIDMINKY_MAP;
@@ -344,7 +344,7 @@ public final class PosTagHelper {
 
   private static String cleanExtraTags(String tag) {
     if (tag != null) {
-      tag = PATTERN.matcher(tag).replaceAll("");
+      tag = CLEANUP_PATTERN.matcher(tag).replaceAll("");
     }
     return tag;
   }
@@ -376,7 +376,7 @@ public final class PosTagHelper {
         && WORD_PATTERN.matcher(analyzedTokenReadings.getToken()).matches();
   }
 
-  private static Pattern PREDICT_INSERT_PATTERN = Pattern.compile("noninfl:&(predic|insert).*");
+  private static Pattern PREDICT_INSERT_PATTERN = Pattern.compile("noninfl:(predic|insert).*");
   public static boolean isPredictOrInsert(AnalyzedToken token) {
     return PREDICT_INSERT_PATTERN.matcher(token.getPOSTag()).matches();
   }

@@ -65,7 +65,7 @@ public class DifferentPunctuationRule extends BitextRule {
       int endPos = lastTransTokenObj.getEndPos();
       return new RuleMatch[] { new RuleMatch(this, targetText, 1, endPos, getMessage()) };
     }
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
 }

@@ -34,7 +34,7 @@ class ErrorRequestLimiter extends RequestLimiter {
   private static final Logger logger = LoggerFactory.getLogger(ErrorRequestLimiter.class);
 
   /**
-   * @param requestLimit the maximum number of request per <tt>requestLimitPeriodInSeconds</tt>
+   * @param requestLimit the maximum number of request per <code>requestLimitPeriodInSeconds</code>
    * @param requestLimitPeriodInSeconds the time period over which requests are considered, in seconds
    */
   ErrorRequestLimiter(int requestLimit, int requestLimitPeriodInSeconds) {

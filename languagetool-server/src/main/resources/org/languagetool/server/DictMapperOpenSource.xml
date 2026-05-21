@@ -28,6 +28,8 @@
         api_key varchar(16) DEFAULT NULL,
         group_id binary(16) DEFAULT NULL,
         group_role varchar(128) DEFAULT NULL,
+        opt_in_3rd_party_ai_grammar_checker boolean DEFAULT 0,
+        opt_in_3rd_party_ai_paraphraser boolean DEFAULT 0
         )
     </insert>
     <insert id="createUserTableMySQL">
@@ -38,6 +40,8 @@
         api_key varchar(16) DEFAULT NULL,
         group_id binary(16) DEFAULT NULL,
         group_role varchar(128) DEFAULT NULL,
+        opt_in_3rd_party_ai_grammar_checker tinyint(1) DEFAULT 0,
+        opt_in_3rd_party_ai_paraphraser  tinyint(1) DEFAULT 0
         )
     </insert>
     <insert id="createIgnoreWordTable">

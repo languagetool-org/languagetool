@@ -39,7 +39,7 @@ import java.util.concurrent.TimeoutException;
 import static org.junit.Assert.assertEquals;
 
 public class EnglishRemoteRuleSuppressMisspelledTest {
-  private static Language testLang = new AmericanEnglish();
+  private static final Language testLang = AmericanEnglish.getInstance();
   private static final String TEST_RULE = "TEST_REMOTE_RULE";
   private static final String TEST_SENTENCE = "This is a test sentence.";
 
@@ -116,7 +116,7 @@ public class EnglishRemoteRuleSuppressMisspelledTest {
     r = new TestRule(withOptions("suppressMisspelledSuggestions", TEST_RULE));
     m = r.match(s);
     assertEquals("Test rule creates match with suggestion suppression", 1, m.length);
-    assertEquals("Test rule creates match with correctly spelled suggestions", Arrays.asList("mistake"), m[0].getSuggestedReplacements());
+    assertEquals("Test rule creates match with correctly spelled suggestions", Collections.singletonList("mistake"), m[0].getSuggestedReplacements());
 
     r = new TestRule(withOptions("suppressMisspelledMatch", ".*REMOTE.*"));
     m = r.match(s);

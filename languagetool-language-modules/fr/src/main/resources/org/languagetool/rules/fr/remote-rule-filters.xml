@@ -737,6 +737,22 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Deux-cent<marker>-vingt-trois</marker> personnes se sont rassemblées devant la mairie.</example>
             </rule>
         </rulegroup>
+
+        <rulegroup id="AI_FR_GGEC_UNNECESSARY.*" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_END" regexp="yes">[”,"]</token>
+                </pattern>
+                <example correction="">Je suis Chris.<marker>”</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>"</token>
+                </pattern>
+                <example correction="">Je suis Chris.<marker>"</marker></example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="AI_FR_GGEC_UNNECESSARY_PUNCTUATION_DASH.*" name="">
             <rule>
                 <pattern>

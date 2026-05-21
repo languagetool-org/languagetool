@@ -169,6 +169,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (repetitionOf("yeah", tokens, position)) {
       return true;
+    } else if (repetitionOf("gout", tokens, position)) {
+      return true;
     } else if (repetitionOf("wait", tokens, position) && position == 2) {
       return true;
     } else if (repetitionOf("quack", tokens, position)) {
@@ -243,6 +245,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;   // "tse tse"
     } else if (repetitionOf("no", tokens, position)) {
       return true;   // "no no"
+    } else if (repetitionOf("Bora", tokens, position)) {
+      return true;   // "Bora Bora"
     } else if (tokens[position].getToken().endsWith("ay")) {
       if (tokens[position - 1].getToken().equals("may") && tokens[position].getToken().equals("May")) {
         return true;   // "may May"

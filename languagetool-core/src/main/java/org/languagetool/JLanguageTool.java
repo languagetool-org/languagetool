@@ -65,7 +65,7 @@ import java.util.stream.IntStream;
  * <p>You will probably want to use the sub class {@link MultiThreadedJLanguageTool} for best performance.
  *
  * <p><b>Thread-safety:</b> this class is not thread safe. Create one instance per thread,
- * but create the language only once (e.g. {@code new AmericanEnglish()}) and use it for all
+ * but create the language only once (e.g. {@code new AmericanEnglish}) and use it for all
  * instances of JLanguageTool.</p>
  *
  * @see MultiThreadedJLanguageTool
@@ -277,7 +277,7 @@ public class JLanguageTool {
                        GlobalConfig globalConfig, UserConfig userConfig) {
     this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, true);
   }
-  
+
   /**
    * Create a JLanguageTool and setup the built-in rules for the
    * given language and false friend rules for the text language / mother tongue pair.
@@ -296,27 +296,73 @@ public class JLanguageTool {
    */
   public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache,
                        GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging) {
+    this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, true, false);
+  }
+
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   *
+   * @param language     the language of the text to be checked
+   * @param altLanguages The languages that are accepted as alternative languages - currently this means
+   *                     words are accepted if they are in an alternative language and not similar to
+   *                     a word from {@code language}. If there's a similar word in {@code language},
+   *                     there will be an error of type {@link RuleMatch.Type#Hint} (EXPERIMENTAL)
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @param inputLogging allow inclusion of input in logs on exceptions
+   * @param withLanguageModel will not call updateOptionalLanguageModelRules(null) if this is true
+   * @since 6.6
+   */
+  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging, boolean withLanguageModel) {
+      this(language, altLanguages, motherTongue, cache, globalConfig, userConfig, inputLogging, withLanguageModel, null);
+  }
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   *
+   * @param language     the language of the text to be checked
+   * @param altLanguages The languages that are accepted as alternative languages - currently this means
+   *                     words are accepted if they are in an alternative language and not similar to
+   *                     a word from {@code language}. If there's a similar word in {@code language},
+   *                     there will be an error of type {@link RuleMatch.Type#Hint} (EXPERIMENTAL)
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @param inputLogging allow inclusion of input in logs on exceptions
+   * @param withLanguageModel will not call updateOptionalLanguageModelRules(null) if this is true
+   * @param customRules rules to use for the JLanguageTool instance instead of initializing with the built-in ones, or null to use built-in rules
+   * @since 6.6
+   */
+  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging, boolean withLanguageModel, List<Rule> customRules) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.altLanguages = Objects.requireNonNull(altLanguages, "altLanguages cannot be null (but empty)");
     this.motherTongue = motherTongue;
-    if (userConfig == null) {
-      this.userConfig = new UserConfig();
-    } else {
-      this.userConfig = userConfig;
-    }
+    this.userConfig = Objects.requireNonNullElseGet(userConfig, UserConfig::new);
     this.globalConfig = globalConfig;
-    ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    builtinRules = getAllBuiltinRules(language, messages, userConfig, globalConfig);
     this.cleanOverlappingMatches = true;
-    try {
-      activateDefaultPatternRules();
-      if (!language.hasNGramFalseFriendRule(motherTongue)) {
-        // use the old false friends, which always match, not depending on context
-        activateDefaultFalseFriendRules();
+    ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
+    if (customRules != null) {
+      builtinRules = new ArrayList<>(customRules);
+    } else {
+      builtinRules = getAllBuiltinRules(language, messages, userConfig, globalConfig);
+      try {
+        activateDefaultPatternRules();
+        if (!language.hasNGramFalseFriendRule(motherTongue)) {
+          // use the old false friends, which always match, not depending on context
+          activateDefaultFalseFriendRules();
+        }
+        if (!withLanguageModel) {
+          updateOptionalLanguageModelRules(null); // start out with rules without language model
+        }
+      } catch (Exception e) {
+        throw new RuntimeException("Could not activate rules", e);
       }
-      updateOptionalLanguageModelRules(null); // start out with rules without language model
-    } catch (Exception e) {
-      throw new RuntimeException("Could not activate rules", e);
     }
     this.cache = cache;
     descProvider = new ShortDescriptionProvider();
@@ -603,14 +649,64 @@ public class JLanguageTool {
   }
 
   public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
-    List<RemoteRuleConfig> remoteRuleConfigs = new ArrayList<>(configs);
-    if (!userConfig.isTrustedSource()) {
-      remoteRuleConfigs = configs.stream().filter(remoteRuleConfig -> !remoteRuleConfig.getOptions().getOrDefault("onlyTrustedSources", "false").equals("true")).collect(Collectors.toList());
+    // Apply A/B test filtering first - can affect which rules get enabled and thus disabled because of fallback settings
+    List<String> activeAbTestsForUser = userConfig.getAbTest();
+    List<RemoteRuleConfig> selectedConfigsByUserSettings = configs.stream()
+      .filter(config -> {
+        if (!userConfig.isPremium() && config.isPremium()) {
+          return false;
+        }
+        String excludeABTest = config.getOptions().get("excludeABTest");
+        if (excludeABTest != null && activeAbTestsForUser != null &&
+          activeAbTestsForUser.stream().anyMatch(flag -> flag.matches(excludeABTest))) {
+          return false;
+        }
+        String activeRemoteRuleAbTest = config.getOptions().get("abtest");
+        if (activeRemoteRuleAbTest != null && !activeRemoteRuleAbTest.trim().isEmpty()) {
+          if (activeAbTestsForUser == null) {
+            return false;
+          }
+          return activeAbTestsForUser.stream().anyMatch(test -> test.matches(activeRemoteRuleAbTest));
+        }
+        return true;
+      })
+      .toList();
+
+    List<RemoteRuleConfig> effectiveConfigs = new ArrayList<>();
+
+    // Then, determine effective configurations based on user opt-in for third-party AI
+    if (!userConfig.isOptInThirdPartyAI()) {
+      for (RemoteRuleConfig config : selectedConfigsByUserSettings) {
+        if (config.isUsingThirdPartyAI()) {
+          RemoteRuleConfig remoteRuleConfig = RemoteRuleFallbackManager.INSTANCE.getInhouseFallback(config.getRuleId());
+          if (remoteRuleConfig != null && !effectiveConfigs.contains(remoteRuleConfig)) {
+              effectiveConfigs.add(remoteRuleConfig);
+            }
+        } else {
+          effectiveConfigs.add(config);
+        }
+      }
+    } else {
+      for (RemoteRuleConfig config : selectedConfigsByUserSettings) {
+        if (config.isUsingThirdPartyAI() && config.getFallbackRuleId() != null) {
+          disableRule(config.getFallbackRuleId());
+        }
+      }
+      effectiveConfigs.addAll(selectedConfigsByUserSettings);
     }
-    List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), remoteRuleConfigs,
+
+    // Apply trusted source filtering
+    if (!userConfig.isTrustedSource()) {
+      effectiveConfigs = effectiveConfigs.stream()
+        .filter(config -> !config.getOptions().getOrDefault("onlyTrustedSources", "false").equals("true"))
+        .collect(Collectors.toList());
+    }
+    
+    // Proceed with rule activation using filtered configs
+    List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), effectiveConfigs,
       globalConfig, userConfig, motherTongue, altLanguages, inputLogging);
     userRules.addAll(rules);
-    Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), remoteRuleConfigs, userConfig, motherTongue, altLanguages, inputLogging);
+    Function<Rule, Rule> enhanced = language.getRemoteEnhancedRules(getMessageBundle(language), effectiveConfigs, userConfig, motherTongue, altLanguages, inputLogging);
     transformRules(enhanced, builtinRules);
     transformRules(enhanced, userRules);
     ruleSetCache.clear();
@@ -703,6 +799,20 @@ public class JLanguageTool {
   public void disableRules(List<String> ruleIds) {
     disabledRules.addAll(ruleIds);
     enabledRules.removeAll(ruleIds);
+    ruleSetCache.clear();
+  }
+
+  /**
+   * Updates the rules for the system by replacing the user-defined rules with the provided set of rules.
+   * Clears any existing user and built-in rules, as well as the cached rule set, before applying the new rules.
+   *
+   * @param rules a list of Rule objects to be set as the new user-defined rules
+   * @since 6.8
+   */
+  public void setRules(List<Rule> rules) {
+    builtinRules.clear();
+    userRules.clear();
+    userRules.addAll(rules);
     ruleSetCache.clear();
   }
 
@@ -969,9 +1079,15 @@ public class JLanguageTool {
   }
 
   protected CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
+                                       Mode mode, Level level, @NotNull Set<ToneTag> toneTags,
+                                       @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
+    RuleSet rules = getActiveRulesForLevelAndToneTags(level, toneTags);
+    return checkInternalWithCustomRules(rules, annotatedText, paraMode, listener, mode, level, toneTags, textSessionID, sentences, analyzedSentences);
+  }
+
+  public CheckResults checkInternalWithCustomRules(RuleSet rules, AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
                                      Mode mode, Level level, @NotNull Set<ToneTag> toneTags,
                                      @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
-    RuleSet rules = getActiveRulesForLevelAndToneTags(level, toneTags);
     if (printStream != null) {
       printIfVerbose(rules.allRules().size() + " rules activated for language " + language);
     }
@@ -1078,6 +1194,7 @@ public class JLanguageTool {
     if (cleanOverlappingMatches) {
       ruleMatches = new CleanOverlappingFilter(language, userConfig.getHidePremiumMatches()).filter(ruleMatches);
     }
+    ruleMatches = language.filterRuleMatchesAfterOverlapping(ruleMatches);
     return applyCustomFilters(ruleMatches, annotatedText);
   }
 
@@ -1093,7 +1210,7 @@ public class JLanguageTool {
       }
     }
     if (language.getShortCode().equals("es")) {
-      List<String> disableSpanishRules = Arrays.asList("AGREEMENT_POSTPONED_ADJ");
+      List<String> disableSpanishRules = Collections.singletonList("AGREEMENT_POSTPONED_ADJ");
       RemoteRuleResult remoteRulesResult = remoteRulesResults.get("AI_ES_GGEC");
       if (remoteRulesResult != null) {
         if (remoteRulesResult.isSuccess()) {
@@ -1235,10 +1352,10 @@ public class JLanguageTool {
       if (matches == null) {
         continue;
       }
-      if (cache != null && result.isSuccess()) {
+      if (cache != null && result.isSuccess() && result.adjustOffsets()) {
         // store in cache
         InputSentence cacheKey = new InputSentence(
-          sentence.getText(), language, motherTongue, disabledRules, disabledRuleCategories,
+          sentence, language, motherTongue, disabledRules, disabledRuleCategories,
           enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level, textSessionID, toneTags);
         Map<String, List<RuleMatch>> cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
         cacheEntry.put(ruleKey, matches);
@@ -1249,8 +1366,10 @@ public class JLanguageTool {
       // clone matches before adjusting offsets
       // match objects could be relevant to multiple (duplicate) sentences at different offsets
       List<RuleMatch> adjustedMatches = matches.stream().map(RuleMatch::new).collect(Collectors.toList());
-      for (RuleMatch match : adjustedMatches) {
-        adjustOffset(annotatedText, offset, match);
+      if (result.adjustOffsets()) {
+        for (RuleMatch match : adjustedMatches) {
+          adjustOffset(annotatedText, offset, match);
+        }
       }
       remoteMatches.addAll(adjustedMatches);
     }
@@ -1281,7 +1400,7 @@ public class JLanguageTool {
       AnalyzedSentence s = analyzedSentences.get(i);
       matchOffset.put(i, offset);
       offset += s.getText().length();
-      InputSentence cacheKey = new InputSentence(s.getText(), language, motherTongue,
+      InputSentence cacheKey = new InputSentence(s, language, motherTongue,
         disabledRules, disabledRuleCategories, enabledRules, enabledRuleCategories,
         userConfig, altLanguages, mode, level, textSessionID, toneTags);
       cacheKeys.add(cacheKey);
@@ -1877,7 +1996,7 @@ public class JLanguageTool {
           List<AbstractPatternRule> wrappedRules = ((RepeatedPatternRuleTransformer.RepeatedPatternRule) rule).getWrappedRules();
           rulesById.addAll(wrappedRules.stream().filter(r -> r.getSubId().equals(subId)).collect(Collectors.toList()));
         }
-        else if (rule instanceof AbstractPatternRule &&((AbstractPatternRule) rule).getSubId().equals(subId)){
+        else if (rule instanceof AbstractPatternRule && rule.getSubId().equals(subId)){
           rulesById.add((AbstractPatternRule) rule);
         }
       }
@@ -2067,7 +2186,13 @@ public class JLanguageTool {
       for (int i = 0, sentencesSize = sentences.size(); i < sentencesSize; i++) {
         SentenceData sentence = sentences.get(i);
         wordCounter += sentence.wordCount;
-        ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentence.startOffset, sentence.startOffset + sentence.text.trim().length(), language.getShortCode());
+        int whitespaceFix = 0;
+        // Check if sentence in sentenceData has more than 1 whitespace at begin, if yes fix the range to match with the normal sentenceRange
+        if (sentence.text.startsWith(" ", 1)) {
+          String sentenceStripLeading = sentence.text.stripLeading();
+          whitespaceFix = (sentence.text.length() - sentenceStripLeading.length());
+        }
+        ExtendedSentenceRange extendedSentenceRange = new ExtendedSentenceRange(sentence.startOffset + whitespaceFix, sentence.startOffset + whitespaceFix + sentence.text.trim().length(), language.getShortCode());
         extendedSentenceRanges.add(extendedSentenceRange);
         try {
           //comment in to trigger an exception via input text:
@@ -2077,7 +2202,7 @@ public class JLanguageTool {
           List<RuleMatch> sentenceMatches = null;
           InputSentence cacheKey = null;
           if (cache != null) {
-            cacheKey = new InputSentence(sentence.text, language, motherTongue,
+            cacheKey = new InputSentence(sentence.analyzed, language, motherTongue,
                     disabledRules, disabledRuleCategories,
                     enabledRules, enabledRuleCategories, userConfig, altLanguages, mode, level, toneTags);
             sentenceMatches = cache.getIfPresent(cacheKey);
@@ -2159,7 +2284,7 @@ public class JLanguageTool {
       return sentences.get(low - 1);
     }
 
-    private class LineColumnPosition {
+    private static class LineColumnPosition {
       int line;
       int column;
 

@@ -31,7 +31,7 @@ import static org.hamcrest.core.Is.is;
 
 public class FrenchSentenceTokenizerTest {
 
-  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new French());
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(French.getInstance());
 
   @Test
   public final void testTokenize() {
@@ -69,10 +69,12 @@ public class FrenchSentenceTokenizerTest {
     testSplit("Je suis Chris.[4] ", "Je suis Chris."); 
     testSplit("Je suis Chris.[4]\u00a0", "Je suis Chris.");
     testSplit("gaffa.org");
+    testSplit("Notice BnF de l'éd. Jean Marx.");
+    testSplit("L'Éducation nationale, impr. par ordre de la Convention nationale, Reprod. de l'éd. de : [Paris].");
     
     testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, …?) sur ce qui nous attend.");
-    // TODO:
-    //testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, … ?) sur ce qui nous attend.");
+    testSplit("Le discours de E. Philippe devrait nous éclairer (un peu, beaucoup, … ?) sur ce qui nous attend.");
+    testSplit("Comment ça va … ?");
 
     // without nbsp
     testSplit("« Le film était bien ? » ", "« Il était énorme ! ", "J'ai eu mal au ventre tellement je me suis marré ! »");
@@ -99,6 +101,8 @@ public class FrenchSentenceTokenizerTest {
     testSplit("Qu'en dites-vous ?, demanda-t-il.");
     testSplit("Qu'en dites-vous ? demanda-t-il.");
     testSplit("Qu'en dites-vous ! demanda-t-il.");
+
+    testSplit("Première phrase.Deuxième phrase.");
     
   }
 

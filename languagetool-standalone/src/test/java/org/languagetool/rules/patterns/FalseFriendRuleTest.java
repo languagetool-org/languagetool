@@ -18,12 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -33,6 +27,12 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class FalseFriendRuleTest {
 
@@ -51,7 +51,7 @@ public class FalseFriendRuleTest {
   @Test
   @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
   public void testHintsForGermanSpeakersWithVariant() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new BritishEnglish(), new SwissGerman());
+    JLanguageTool lt = new JLanguageTool(BritishEnglish.getInstance(), new SwissGerman());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
     assertErrors(0, "We will give you advice.", lt);
@@ -62,7 +62,7 @@ public class FalseFriendRuleTest {
 
   @Test
   public void testHintsForDemoLanguage() throws IOException {
-    JLanguageTool lt1 = new JLanguageTool(new BritishEnglish(), new Italian());
+    JLanguageTool lt1 = new JLanguageTool(BritishEnglish.getInstance(), new Italian());
     lt1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
     List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", lt1);
     assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());
@@ -72,7 +72,7 @@ public class FalseFriendRuleTest {
     List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", lt2);
     assertEquals("DEMO_ENTRY", matches2.get(0).getRule().getId());
 
-    JLanguageTool lt3 = new JLanguageTool(new AmericanEnglish(), new Italian());
+    JLanguageTool lt3 = new JLanguageTool(AmericanEnglish.getInstance(), new Italian());
     lt3.disableRule(MorfologikAmericanSpellerRule.RULE_ID);
     assertErrors(0, "And forDemoOnly.", lt3);
   }

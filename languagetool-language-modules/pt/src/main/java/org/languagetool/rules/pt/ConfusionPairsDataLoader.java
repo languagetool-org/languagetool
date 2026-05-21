@@ -23,7 +23,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
 import java.io.InputStream;
-import java.io.SequenceInputStream;
 import java.util.*;
 
 /**

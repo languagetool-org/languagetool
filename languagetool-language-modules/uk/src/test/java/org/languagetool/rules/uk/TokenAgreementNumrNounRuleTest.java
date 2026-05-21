@@ -342,6 +342,7 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertHasError("2 млн тон", "тонн");
     assertHasError("кілька тон", "тонн");
     assertHasError("вісім тисяч тон", "тонн");
+    assertHasError("вісім тис. тон", "тонн");
     assertHasError("22 тон", "тонн");
     assertHasError("8,5 тон", "тонн");
   }
@@ -416,7 +417,7 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
 
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("три", "numr:p:v_zna", "три"), 0));
-    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("мільйони", "мільйон/noun:inanim:p:v_zna:&numr", "мільйон"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("мільйони", "мільйон/noun:inanim:p:v_zna:numr", "мільйон"), 0));
     
     sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
 

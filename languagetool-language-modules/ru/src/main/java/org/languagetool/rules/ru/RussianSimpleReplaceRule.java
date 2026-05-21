@@ -18,19 +18,14 @@
  */
 package org.languagetool.rules.ru;
 
-import org.languagetool.rules.AbstractSimpleReplaceRule2;
-import org.languagetool.rules.Example;
+import org.languagetool.language.Russian;
+import org.languagetool.rules.*;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import org.languagetool.language.Russian;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -50,7 +45,7 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   private static final Locale RU_LOCALE = new Locale("ru");
 
   public RussianSimpleReplaceRule(ResourceBundle messages) throws IOException {
-    super(messages, new Russian());
+    super(messages, Russian.getInstance());
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCategory(new Category(new CategoryId("MISC"), "Общие правила"));
     addExamplePair(Example.wrong("<marker>Экспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."),

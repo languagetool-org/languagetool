@@ -28,16 +28,16 @@ import org.languagetool.language.Russian;
 import java.io.IOException;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class RussianVerbConjugationRuleTest {
 
-    private Set<String> rightSentences = ImmutableSet.of("Я иду", "Она сидит", "Оно думает",
+    private final Set<String> rightSentences = ImmutableSet.of("Я иду", "Она сидит", "Оно думает",
             "Они пишут", "Мы думаем", "Ты читаешь", "Он творит", "Вы идёте",
             "Я ходил", "Они ходили", "Мы ходили", "Она ходила", "Оно ходило", "Я ходила",
             "Я пойду", "Она пойдёт", "Оно пойдёт", "Мы пойдём", "Ты пойдёшь", "Я согласился на предложение.", "Джек и я согласились", "Ты может быть не помнишь." );
 
-    private Set<String> wrongSentences = ImmutableSet.of("Я идёт", "Она сидят",
+    private final Set<String> wrongSentences = ImmutableSet.of("Я идёт", "Она сидят",
             "Оно думаешь","Они идёте","Мы думаю","Ты читает", "Он творю",
             "Я ходили", "Они ходил", "Мы ходила", "Она ходил", "Оно ходила", "Я ходило",
             "Я пойдёт", "Она пойдут", "Оно пойдёте", "Мы пойдёшь", "Ты пойду", "Мы может поговорить здесь.");
@@ -45,7 +45,7 @@ public class RussianVerbConjugationRuleTest {
     @Test
     public void testRussianVerbConjugationRule() throws IOException {
         RussianVerbConjugationRule rule = new RussianVerbConjugationRule(TestTools.getEnglishMessages());
-        JLanguageTool lt = new JLanguageTool(new Russian());
+      JLanguageTool lt = new JLanguageTool(Russian.getInstance());
 
         for (String sentence : wrongSentences) {
             AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);

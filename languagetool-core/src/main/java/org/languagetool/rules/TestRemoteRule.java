@@ -40,7 +40,7 @@ public class TestRemoteRule extends RemoteRule {
       waitTime = Long.parseLong(config.getOptions().getOrDefault("waitTime", "1"));
     }
 
-    class TestRemoteRequest extends RemoteRequest {
+    static class TestRemoteRequest extends RemoteRequest {
       private final List<AnalyzedSentence> sentences;
 
       TestRemoteRequest(List<AnalyzedSentence> sentences) {

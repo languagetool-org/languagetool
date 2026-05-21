@@ -18,12 +18,15 @@
  */
 package org.languagetool.server;
 
+import com.google.common.base.Strings;
+import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -47,6 +50,9 @@ class UserLimits {
   private final Long requestsPerDay;
   private final LimitEnforcementMode limitEnforcementMode;
 
+  @Getter
+  private JwtContent jwtContent;
+
   static UserLimits getDefaultLimits(HTTPServerConfig config) {
     if (config.premiumAlways) {
       return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisAnonymous(), 1L, true);
@@ -62,13 +68,13 @@ class UserLimits {
   static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, @NotNull String username, @NotNull String password) {
     UserInfoEntry entry = DatabaseAccess.getInstance().getUserInfoWithPassword(username, password);
     if (entry == null) { // transparent fallback to anonymous user if DB down
-      return getDefaultLimits(config);
+      return getUserLimitsFromWhitelistOrDefault(config, username);
     } if (entry.hasPremium() || config.isPremiumAlways()) {
       logger.info("Access via username/password for " + username);
-      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), entry.getUserId(), true, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), entry.getUserId(), true, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry, JwtContent.NONE);
     } else {
       logger.info("Non-premium access via username/password for " + username);
-      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), entry.getUserId(), false, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
+      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), entry.getUserId(), false, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry, JwtContent.NONE);
     }
   }
 
@@ -79,11 +85,11 @@ class UserLimits {
     DatabaseAccess db = DatabaseAccess.getInstance();
     UserInfoEntry data = db.getUserInfoWithApiKey(username, apiKey);
     if (data == null) { // transparent fallback to anonymous user if DB down
-      return getDefaultLimits(config);
+      return getUserLimitsFromWhitelistOrDefault(config, username);
     } else if (data.hasPremium() || config.isPremiumAlways()) {
-      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, JwtContent.NONE);
     } else {
-      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, JwtContent.NONE);
     }
   }
 
@@ -94,11 +100,74 @@ class UserLimits {
     DatabaseAccess db = DatabaseAccess.getInstance();
     UserInfoEntry data = db.getUserInfoWithAddonToken(username, addonToken);
     if (data == null) { // transparent fallback to anonymous user if DB down
-      return getDefaultLimits(config);
+      return getUserLimitsFromWhitelistOrDefault(config, username);
     } if (data.hasPremium() || config.isPremiumAlways()) {
-      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, JwtContent.NONE);
     } else {
-      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data);
+      return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, JwtContent.NONE);
+    }
+  }
+
+  public static UserLimits getLimitsWithJwtToken(HTTPServerConfig config, String authHeader, String username, String addonToken) {
+
+    DatabaseAccess db = DatabaseAccess.isReady() ? DatabaseAccess.getInstance() : null;
+    UserInfoEntry data = (db != null && !Strings.isNullOrEmpty(username) && !Strings.isNullOrEmpty(addonToken)) ? db.getUserInfoWithAddonToken(username, addonToken) : null;
+    JwtContent jwtContent = db != null ? db.validateAuthHeader(authHeader) : JwtContent.NONE;
+
+    // User is premium
+    if (data != null && (data.hasPremium() || config.isPremiumAlways())) {
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
+    }
+
+    // nonPremium User send an invalid premium-token
+    if (!jwtContent.isValid() && jwtContent.isPremium()) {
+      if (data != null) {
+        return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
+      }
+      // we don't want to block access for anyone based on the token
+      var userLimits = username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
+      userLimits.jwtContent = jwtContent;
+      return userLimits;
+    }
+
+    // At this point we already know
+    // 1. User is not premium in our DB
+    // 2. User has not sent an invalid premium token
+
+    // User is not premium in our DB but has a token that decides if user is premium
+    if (data != null) { // nonPremium user, but in our database
+      if (jwtContent.isPremium()) {
+        return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), data.getUserId(), true, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
+      } else {
+        return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), data.getUserId(), false, data.getUserDictCacheSize(), data.getRequestsPerDay(), data.getLimitEnforcement(), data, jwtContent);
+      }
+    } else { // anonymous user
+      if (jwtContent.isPremium()) {
+        return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), null, true, null, null, null, null, jwtContent);
+      } else {
+        var userLimits = username != null ? getUserLimitsFromWhitelistOrDefault(config, username) : getDefaultLimits(config);
+        userLimits.jwtContent = jwtContent;
+        return userLimits;
+      }
+    }
+  }
+
+  private static UserLimits getUserLimitsFromWhitelistOrDefault(HTTPServerConfig config, String username) {
+    if (config.getRequestLimitWhitelistUsers() == null) {
+      return getDefaultLimits(config);
+    }
+    String mailDomain = username.substring(username.indexOf('@') + 1);
+    boolean isWhitelisted = false;
+    for (String whitelisted : config.getRequestLimitWhitelistUsers()) {
+      if (whitelisted.equals(username) || whitelisted.equals(mailDomain)) {
+        isWhitelisted = true;
+        break;
+      }
+    }
+    if (isWhitelisted) {
+      return new UserLimits(config.getMaxTextLengthPremium(), config.getMaxCheckTimeMillisPremium(), null, true);
+    } else {
+      return getDefaultLimits(config);
     }
   }
 
@@ -108,10 +177,10 @@ class UserLimits {
   }
 
   private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement) {
-    this(maxTextLength, maxCheckTimeMillis, premiumUid, hasPremium, dictCacheSize, requestsPerDay, limitEnforcement, null);
+    this(maxTextLength, maxCheckTimeMillis, premiumUid, hasPremium, dictCacheSize, requestsPerDay, limitEnforcement, null, null);
   }
 
-  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement, UserInfoEntry account) {
+  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid, boolean hasPremium, Long dictCacheSize, Long requestsPerDay, LimitEnforcementMode limitEnforcement, UserInfoEntry account, JwtContent jwtContent) {
     this.maxTextLength = maxTextLength;
     this.maxCheckTimeMillis = maxCheckTimeMillis;
     this.premiumUid = premiumUid;
@@ -120,6 +189,7 @@ class UserLimits {
     this.requestsPerDay = requestsPerDay;
     this.limitEnforcementMode = limitEnforcement != null ? limitEnforcement : LimitEnforcementMode.DISABLED;
     this.account = account;
+    this.jwtContent = jwtContent;
   }
 
   /**

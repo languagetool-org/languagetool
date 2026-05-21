@@ -18,18 +18,33 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.pt.*;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.io.IOException;
 import java.util.*;
 
 public class PortugalPortuguese extends Portuguese {
+  private static final String LANGUAGE_SHORT_CODE = "pt-PT";
+
+  private static volatile Throwable instantiationTrace;
+
+  public PortugalPortuguese() {
+    this(false);
+    Throwable trace = instantiationTrace;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTrace = new Throwable();
+  }
+
+  protected PortugalPortuguese(boolean fakeValue) {
+    super(fakeValue);
+  }
 
   @Override
   public String getName() {
@@ -85,5 +100,13 @@ public class PortugalPortuguese extends Portuguese {
   @Override
   public String getClosingDoubleQuote() {
     return "»";
+  }
+
+  public static @NotNull Portuguese getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof Portuguese portugalPortuguese) {
+      return portugalPortuguese;
+    }
+    throw new RuntimeException("PortugalPortuguese language expected, got " + language);
   }
 }

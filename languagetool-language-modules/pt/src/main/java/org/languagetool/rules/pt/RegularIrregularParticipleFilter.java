@@ -19,10 +19,6 @@
 
 package org.languagetool.rules.pt;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -32,9 +28,13 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.tools.StringTools;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 public class RegularIrregularParticipleFilter extends RuleFilter {
 
-  private final Language language = new Portuguese();
+  private final Language language = Portuguese.getInstance();
   private final PortugueseSynthesizer synth = (PortugueseSynthesizer) language.getSynthesizer();
 
   @Override

@@ -28,7 +28,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class SpanishSentenceTokenizerTest {
 
-  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Spanish());
+  private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(Spanish.getInstance());
 
   @Test
   public final void testTokenize() {
@@ -90,6 +90,14 @@ public class SpanishSentenceTokenizerTest {
     testSplit("LanguageTooler GmbH recaudará de tu cuenta a través de GoCardless Ltd. la cantidad debajo mencionada.");
     testSplit("El fruto es una nuez de 6 a 8 cm de long. y 4 a 6 cm de ancho");
     testSplit("Geiger (Proc. Roy. Soc. 1 de febrero de 1910).");
+    testSplit("Es la resolución No. 2 del parlamento,");
+    testSplit("Con un dto. del 50 %");
+    testSplit("DTO. 50%");
+    testSplit("DTO. DEL 50%");
+    testSplit("Ayto. del Ferrol");
+    testSplit("En el ayto. del municipio.");
+    testSplit("Compré 6 Ltrs. de leche.");
+    testSplit("Mi profesora trabaja los lun., mié. y vie.; los juev. y los dom., no.");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");
@@ -100,10 +108,19 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Son de 1 m. ", "Han sido acondicionadas.");
     testSplit("Vivían 50 h. ", "Después el pueblo creció.");
     testSplit("El acto será a las 15.30 h. de la tarde.");
+    testSplit("Se calcula un Vol. aproximado de 3.5 ml.");
+    testSplit("Se aplicaron 5 cc. de anestesia local durante el procedimiento.");
+    testSplit("El dispositivo opera a 2400 MHz. lo que garantiza una conexión estable.");
+    testSplit("El paciente fue evaluado tras 12 hr. de observación continua.");
+    testSplit("El medicamento se administró pb. dos veces al día.");
+    testSplit("La reunión se realizará en la 3a. sala del edificio principal.");
+    testSplit("El informe médico indica Dx. confirmado de neumonía.");
+    testSplit("Cursó la lic. en Administración de Empresas.");
+    testSplit("Cursó la Lic. En Administración de Empresas.");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("cuando G.Oueddei se convierte en líder");
-    testSplit("el jesuita alemany J.E. Nithard");
+    testSplit("El jesuita alemán J.E. Nithard");
   }
 
   private void testSplit(final String... sentences) {

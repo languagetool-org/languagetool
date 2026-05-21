@@ -18,15 +18,40 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class BalearicCatalan extends Catalan {
+
+  private static final String LANGUAGE_SHORT_CODE = "ca-ES-balear";
+
+  private static volatile Throwable instantiationTraceBalear;
+
+  public BalearicCatalan() {
+    super(true);
+    Throwable trace = instantiationTraceBalear;
+    if (trace != null) {
+      throw new RuntimeException("Language was already instantiated, see the cause stacktrace below.", trace);
+    }
+    instantiationTraceBalear = new Throwable();
+  }
+
+  public static @NotNull BalearicCatalan getInstance() {
+    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
+    if (language instanceof BalearicCatalan catalan) {
+      return catalan;
+    }
+    throw new RuntimeException("BalearicCatalan language expected, got " + language);
+  }
 
   @Override
   public String getName() {

@@ -2204,6 +2204,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="no_comma_za_tradiciyeyu" name="Зайва кома: за традицією">
+      <rule>
+        <pattern>
+          <token>,</token>
+          <token>за</token>
+          <token>традицією</token>
+          <token>,</token>
+        </pattern>
+        <message>Фраза «\2 \3» вствною не є і комами не виділяється</message>
+        <suggestion> \2 \3</suggestion>
+        <example correction=" за традицією"><marker>, за традицією,</marker> ...</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker>
+            <token>за</token>
+            <token>традицією</token>
+            <token>,</token>
+          </marker>
+        </pattern>
+        <message>Фраза «\2 \3» вствною не є і комами не виділяється</message>
+        <suggestion>\2 \3</suggestion>
+        <example correction="За традицією"><marker>За традицією,</marker> ...</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="no_comma_bilsh_nizh" name="Зайва кома: більш/менш ніж">
       <rule>
         <pattern>
@@ -2383,7 +2411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>тому
-            <exception scope="previous">,</exception>
+            <exception scope="previous" regexp="yes">[,;:—–-]</exception>
             <exception scope="previous" postag="SENT_START"/>
           </token>
           <token>що</token>
@@ -2401,7 +2429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>чи</token>
-          <token max="5"><exception regexp="yes">[,;:-]|чи</exception></token>
+          <token max="5"><exception regexp="yes">[,;:-—–]|чи</exception></token>
           <marker>
             <token>чи</token>
           </marker>
@@ -2430,6 +2458,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>\2 \3 \4,</suggestion>
       <example>пристав на його думку</example>
       <example correction="На мою думку,"><marker>На мою думку</marker> це марнотратство.</example>
+    </rule>
+
+    <rule id="no_comma_compound_conj" name="Зайва кома у складному сполучнику">
+        <regexp>^\h*(відтоді, як|внаслідок того, що|для того, щоб|з огляду на те, що|завдяки тому, що|замість того, щоб|незважаючи на те, що|перед тим, як|перш, ніж|після того, як|так само, як|так, що|тому, що|через те, що)</regexp>
+        <message>Якщо підрядне речення зі складеним сполучником підрядності стоїть перед головним (найчастіше на початку речення), то сполучник комою не розділяється</message>
+        <suggestion><match no="0" regexp_match=", " regexp_replace=" "/></suggestion>
+        <example correction="Замість того щоб"><marker>Замість того, щоб</marker> закликати своїх клієнтів до шоурумів</example>
+        <example correction="Перед тим як"><marker>Перед тим, як</marker> зробити щеплення, фахівці радять проконсультуватися із сімейним лікарем.</example>
+        <!--
+        <example correction="перед тим як">і все гаразд, <marker>перед тим, як</marker> зробити щеплення...</example>
+        -->
     </rule>
 
   <!-- 

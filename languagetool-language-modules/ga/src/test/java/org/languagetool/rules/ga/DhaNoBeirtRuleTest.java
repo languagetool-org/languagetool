@@ -37,7 +37,7 @@ public class DhaNoBeirtRuleTest {
   @Before
   public void setUp() throws IOException {
     rule = new DhaNoBeirtRule(TestTools.getMessages("ga"));
-    lt = new JLanguageTool(new Irish());
+    lt = new JLanguageTool(Irish.getInstance());
   }
 
   @Test

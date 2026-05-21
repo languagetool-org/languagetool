@@ -35,7 +35,7 @@ public class SuggestionStage {
         nodes = new ChunkArray<>(initialCapacity * 2);
     }
 
-    public class Node {
+    public static class Node {
         public String suggestion;
         public int next;
         public Node(String suggestion, int next) {
@@ -43,7 +43,7 @@ public class SuggestionStage {
             this.next = next;
         }
     }
-    public class Entry {
+    public static class Entry {
         public int count;
         public int first;
         Entry(int count, int first) {

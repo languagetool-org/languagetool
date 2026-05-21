@@ -53,7 +53,8 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "ⓒ",
           "ø", // used as bullet point
           "cc", // cc @daniel => "Cc @daniel" is strange
-          "pH"
+          "pH",
+          "heylogin" // trade mark name
   ));
   private static final Pattern DIGIT_DOT = compile("\\d+\\. .*");
   private static final Pattern LINEBREAK_DIGIT_DOT = compile(".*\n\\d+\\. ");
@@ -191,6 +192,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
                   messages.getString("incorrect_case"));
           ruleMatch.setSuggestedReplacement(capitalized);
           ruleMatches.add(ruleMatch);
+          ruleMatch.setShortMessage(messages.getString("category_case"));
         }
       }
       pos += sentence.getCorrectedTextLength();

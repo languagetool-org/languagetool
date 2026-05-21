@@ -34,16 +34,22 @@ public class CatalanTaggerTest {
 
   @Before
   public void setUp() {
-    tokenizer = new CatalanWordTokenizer();
+    tokenizer = CatalanWordTokenizer.INSTANCE;
   }
 
   @Test
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(tagger, new Catalan());
+    TestTools.testDictionary(tagger, Catalan.getInstance());
   }
 
   @Test
   public void testTagger() throws IOException {
+
+    //verbs incorrectes, analitzats amb flexió
+    TestTools.myAssert("enfotia", "enfotia/[enfotre]VMII1S00|enfotia/[enfotre]VMII3S00", tokenizer, tagger);
+    TestTools.myAssert("quebrada", "quebrada/[quebrar]VMP00SF0", tokenizer, tagger);
+    TestTools.myAssert("liava", "liava/[liar]VMII1S00|liava/[liar]VMII3S00", tokenizer, tagger);
+
     TestTools.myAssert("UPF", "UPF/[UPF]NPFSO00", tokenizer, tagger);
     TestTools
         .myAssert(

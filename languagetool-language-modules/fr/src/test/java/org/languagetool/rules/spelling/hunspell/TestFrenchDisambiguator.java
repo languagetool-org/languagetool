@@ -18,15 +18,15 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleLoader;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 class TestFrenchDisambiguator extends AbstractDisambiguator {
 
@@ -36,7 +36,7 @@ class TestFrenchDisambiguator extends AbstractDisambiguator {
     String filePath = "/disambiguator.xml";
     try (InputStream inputStream = getClass().getResourceAsStream(filePath)) {
       final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
-      List<DisambiguationPatternRule> disambiguationRules = ruleLoader.getRules(inputStream, new French(), filePath);
+      List<DisambiguationPatternRule> disambiguationRules = ruleLoader.getRules(inputStream, French.getInstance(), filePath);
       for (final DisambiguationPatternRule patternRule : disambiguationRules) {
         sentence = patternRule.replace(sentence);
       }

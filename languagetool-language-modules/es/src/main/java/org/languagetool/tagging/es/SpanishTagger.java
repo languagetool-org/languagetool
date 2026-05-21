@@ -83,7 +83,7 @@ public class SpanishTagger extends BaseTagger {
         || nextWord.equalsIgnoreCase("s")) {
         if (word.contains("’")) {
           containsTypographicApostrophe = true;
-          word = word.replaceAll("’", "'");
+          word = word.replace("’", "'");
         }
       }
       final List<AnalyzedToken> l = new ArrayList<>();

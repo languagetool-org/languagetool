@@ -45,6 +45,7 @@ public final class StringTools {
   private static final Pattern NONCHAR = compile("[^A-Z\\u00c0-\\u00D6\\u00D8-\\u00DE]");
   private static final Pattern WORD_FOR_SPELLER = Pattern.compile("^[\\p{L}\\d\\p{P}\\p{Zs}]+$");
   private static final Pattern IS_NUMERIC = Pattern.compile("^[\\d\\s\\.,]*\\d$");
+  private static final Pattern TRIM_PATTERN = Pattern.compile("^[\\s\\u00A0]+|[\\s\\u00A0]+$");
 
   /**
    * Constants for printing XML rule matches.
@@ -84,6 +85,7 @@ public final class StringTools {
   private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
   private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
   private static final Pattern PUNCTUATION_PATTERN = compile("[\\p{IsPunctuation}']", DOTALL);
+  private static final Pattern PUNCT_AND_SYMBOL_PATTERN = compile("[\\p{IsPunctuation}\\p{S}']");
   private static final Pattern NOT_WORD_CHARACTER = compile("[^\\p{L}]", DOTALL);
   private static final Pattern NOT_WORD_STR = compile("[^\\p{L}]+", DOTALL);
   private static final Pattern PATTERN = compile("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]");
@@ -643,7 +645,28 @@ public final class StringTools {
 //      return inputString.toLowerCase();
 //    }
     return inputString;
-    
+  }
+
+  /**
+   * Like StringTools.preserveCase but applies the case model word by word.
+   * If inputString and modelString have the same number of space-separated words,
+   * StringTools.preserveCase is applied to each word pair individually.
+   * Otherwise, falls back to StringTools.preserveCase on the whole string.
+   */
+  public static String preserveCaseWordByWord(String inputString, String modelString) {
+    String[] inputWords = inputString.split(" ", -1);
+    String[] modelWords = modelString.split(" ", -1);
+    if (inputWords.length != modelWords.length) {
+      return StringTools.preserveCase(inputString, modelString);
+    }
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < inputWords.length; i++) {
+      if (i > 0) {
+        result.append(" ");
+      }
+      result.append(StringTools.preserveCase(inputWords[i], modelWords[i]));
+    }
+    return result.toString();
   }
 
   @Nullable
@@ -741,7 +764,15 @@ public final class StringTools {
   public static boolean isPunctuationMark(String input) {
     return PUNCTUATION_PATTERN.matcher(input).matches();
   }
-  
+
+  /**
+   * Whether the string is punctuation mark or symbol (includes =, +, etc.)
+   * @since 6.8
+   */
+  public static boolean isPunctuationOrSymbol(String input) {
+    return PUNCT_AND_SYMBOL_PATTERN.matcher(input).matches();
+  }
+
   /**
    * Whether the string is a punctuation mark
    * @since 6.1
@@ -879,10 +910,10 @@ public final class StringTools {
   }
 
   /*
-   * Number of ocurreces of string t inside string s
+   * Number of occurrences of string t inside string s
    */
   public static int numberOf(String s, String t) {
-    return s.length() - s.replaceAll(t, "").length();
+    return s.length() - s.replace(t, "").length();
   }
 
   public static String convertToTitleCaseIteratingChars(String text) {
@@ -986,5 +1017,12 @@ public final class StringTools {
 
   public static boolean isNumeric(String string) {
     return IS_NUMERIC.matcher(string).matches();
+  }
+
+  /*
+   * Remove all leading and trailing spaces.
+   */
+  public static String trimLeadingAndTrailingSpaces(String s) {
+    return TRIM_PATTERN.matcher(s).replaceAll("");
   }
 }

@@ -18,16 +18,15 @@
  */
 package org.languagetool.rules.ca;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones
@@ -51,7 +50,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   public SimpleReplaceRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    super.setLocQualityIssueType(ITSIssueType.Grammar);
     this.setIgnoreTaggedWords();
     this.setCheckLemmas(false);
     super.useSubRuleSpecificIds();
@@ -78,6 +77,32 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
       return "¿Volíeu dir «" + replacements.get(0) + "»?";
     }
     return getShort();
+  }
+
+  private static final Map<String, String> argumentsMap = Map.of("lemmaSelect", "[NA].*");
+
+  private final Set<String> exceptions = Set.of("perquè", "què", "per què");
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    RuleMatch[] potentialMatches = super.match(sentence);
+    ConvertToGenderAndNumberFilter filter = new ConvertToGenderAndNumberFilter();
+    filter.setLanguage(getLanguage());
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    // Adjust determinants and adjectives
+    for (RuleMatch potentialRuleMatch : potentialMatches) {
+      if (potentialRuleMatch.getSuggestedReplacements().stream()
+        .map(String::toLowerCase)
+        .anyMatch(exceptions::contains)) {
+        ruleMatches.add(potentialRuleMatch);
+        continue;
+      }
+      RuleMatch finalMatch = filter.acceptRuleMatch(potentialRuleMatch, argumentsMap, 0, null, null);
+      if (finalMatch != null) {
+        ruleMatches.add(finalMatch);
+      }
+    }
+    return toRuleMatchArray(ruleMatches);
   }
 
   @Override

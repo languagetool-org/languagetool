@@ -23,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+import static org.languagetool.tools.StringInterner.intern;
+
 /**
  * A word (or punctuation, or whitespace) and its analysis (part-of-speech tag, lemma)
  * 
@@ -39,13 +41,13 @@ public final class AnalyzedToken {
   private boolean hasNoPOSTag;
 
   public AnalyzedToken(String token, String posTag, String lemma) {
-    this.token = Objects.requireNonNull(token, "token cannot be null");
-    this.posTag = posTag != null ? posTag.trim() : null;
-    this.lemma = lemma;    
-    if (lemma == null) {
-      lemmaOrToken = token;
+    this.token = intern(Objects.requireNonNull(token, "token cannot be null"));
+    this.posTag = posTag != null ? intern(posTag.trim()) : null;
+    this.lemma = lemma != null ? intern(lemma) : null;
+    if (this.lemma == null) {
+      lemmaOrToken = this.token;
     } else {
-      lemmaOrToken = lemma;
+      lemmaOrToken = this.lemma;
     }
     hasNoPOSTag = (posTag == null 
         || JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)

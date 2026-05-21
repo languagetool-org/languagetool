@@ -53,7 +53,7 @@ final class NeededNGramCounter {
     String path = "/" + lang.getShortCode() + "/confusion_sets.txt";
     Set<String> ngrams;
     try (InputStream confSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
-      ngrams = new ConfusionSetLoader(new AmericanEnglish()).loadConfusionPairs(confSetStream).keySet();
+      ngrams = new ConfusionSetLoader(AmericanEnglish.getInstance()).loadConfusionPairs(confSetStream).keySet();
     }
     String ngramIndexDir = args[0];
     FSDirectory fsDir = FSDirectory.open(new File(ngramIndexDir).toPath());

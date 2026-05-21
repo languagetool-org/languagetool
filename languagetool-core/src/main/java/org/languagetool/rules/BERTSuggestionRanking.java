@@ -89,7 +89,7 @@ public class BERTSuggestionRanking extends RemoteRule {
     }
   }
 
-  class MatchesForReordering extends RemoteRequest {
+  static class MatchesForReordering extends RemoteRequest {
     final List<AnalyzedSentence> sentences;
     final List<RuleMatch> matches;
     final List<RemoteLanguageModel.Request> requests;

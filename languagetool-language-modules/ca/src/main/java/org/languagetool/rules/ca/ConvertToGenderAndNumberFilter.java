@@ -25,12 +25,11 @@ import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.Tagger;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,9 +37,11 @@ import static org.languagetool.rules.ca.ApostophationHelper.getPrepositionAndDet
 
 public class ConvertToGenderAndNumberFilter extends RuleFilter {
 
-  private Pattern splitGenderNumber = Pattern.compile("(N.|A..|V.P..|D..|PX.)(.)(.)(.*)");
-  private Pattern splitGenderNumberNoNoun = Pattern.compile("(A..|V.P..|D..|PX.)(.)(.)(.*)");
-  private Pattern splitGenderNumberAdjective = Pattern.compile("(A..|V.P..|PX.)(.)(.)(.*)");
+  private final static Pattern splitGenderNumber = Pattern.compile("(N.|A..|V.P..|D..|PX.)(.)(.)(.*)");
+  private final static Pattern splitGenderNumberNoNoun = Pattern.compile("(A..|V.P..|D..|PX.)(.)(.)(.*)");
+  private final static Pattern splitGenderNumberAdjective = Pattern.compile("(A..|V.P..|PX.)(.)(.)(.*)");
+  private final static List<String> formsToIgnore = Arrays.asList("mes", "las");
+  private final static Pattern postagExceptions = Pattern.compile("NP.*|AQ0CN0|SPS00|[CP].*");
 
   @Nullable
   @Override
@@ -48,170 +49,261 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
                                    AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     AnalyzedTokenReadings[] tokens = match.getSentence().getTokensWithoutWhitespace();
     Synthesizer synth = getSynthesizerFromRuleMatch(match);
+    Tagger tagger = getTaggerFromRuleMatch(match);
     int posWord = 0;
     while (posWord < tokens.length
       && (tokens[posWord].getStartPos() < match.getFromPos() || tokens[posWord].isSentenceStart())) {
       posWord++;
     }
-    String desiredGenderStr = getOptional("gender", arguments, "");
-    String desiredNumberStr = getOptional("number", arguments, "");
-    String lemmaSelect = getRequired("lemmaSelect", arguments);
-    boolean keepOriginal = getOptional("keepOriginal", arguments, "false").equalsIgnoreCase("true");
+    final String desiredGenderOrigStr = getOptional("gender", arguments, "");
+    final String desiredNumberOrigStr = getOptional("number", arguments, "");
+    final String lemmaSelect = getRequired("lemmaSelect", arguments); // it could be optional
+    final String newLemma = getOptional("newLemma", arguments, "");
+    final boolean keepOriginal = getOptional("keepOriginal", arguments, "false").equalsIgnoreCase("true");
 
-    AnalyzedToken atrNoun = tokens[posWord].readingWithTagRegex(lemmaSelect);
-    String[] splitPostag = splitGenderAndNumber(atrNoun);
-    if (desiredGenderStr.isEmpty()) {
-      desiredGenderStr = splitPostag[2];
-    }
-    if (desiredNumberStr.isEmpty()) {
-      desiredNumberStr = splitPostag[3];
+    List<String> suggestions = new ArrayList<>();
+    List<AnalyzedToken> atrNounList = new ArrayList<>();
+    AnalyzedToken atrNounOrig = tokens[posWord].readingWithTagRegex(lemmaSelect);
+    if (!newLemma.isEmpty() && atrNounOrig != null) {
+      AnalyzedToken at = new AnalyzedToken(atrNounOrig.getToken(), atrNounOrig.getPOSTag(), newLemma);
+      atrNounList.add(at);
+    } else if (!match.getSuggestedReplacements().isEmpty()) {
+      GenderAndNumberSplit splitNounOrigPostag = null;
+      if (atrNounOrig != null) {
+        splitNounOrigPostag = splitGenderAndNumber(atrNounOrig);
+      }
+      for (String suggestion : match.getSuggestedReplacements()) {
+        String[] parts = suggestion.split(" ", 2);
+        String word = parts[0];
+        String remainder = parts.length > 1 ? parts[1] : "";
+        List<AnalyzedTokenReadings> atrs = tagger.tag(Collections.singletonList(word));
+        AnalyzedToken at = atrs.get(0).readingWithTagRegex(splitGenderNumber);
+        if (at == null || at.getPOSTag() == null || atrs.get(0).readingWithTagRegex(postagExceptions) != null) {
+          // if there is any suggestion without gender and number, use the list of suggestions with no change
+          suggestions.addAll(match.getSuggestedReplacements());
+          atrNounList.clear();
+          break;
+        }
+        GenderAndNumberSplit splitPostag = splitGenderAndNumber(at);
+        StringBuilder newPostag = new StringBuilder(splitPostag.prefix);
+        String number = !desiredNumberOrigStr.isEmpty() ? desiredNumberOrigStr
+          : (splitNounOrigPostag != null ? splitNounOrigPostag.number : splitPostag.number);
+        String gender = !desiredGenderOrigStr.isEmpty() ? desiredGenderOrigStr : splitPostag.gender;
+        if (splitPostag.prefix.startsWith("V")) {
+          newPostag.append(number).append(gender);
+        } else {
+          newPostag.append(gender).append(number);
+        }
+        newPostag.append(splitPostag.suffix);
+        String completeForm = at.getLemma();
+        if (!remainder.isEmpty()) {
+          completeForm = completeForm + " " + remainder;
+        }
+        AnalyzedToken at2 = new AnalyzedToken(completeForm, newPostag.toString(), at.getLemma());
+        atrNounList.add(at2);
+      }
+    } else {
+      atrNounList.add(atrNounOrig);
     }
     int startPos = posWord;
     int endPos = posWord;
-    List<String> suggestions = new ArrayList<>();
-
-    for (char genderCh : desiredGenderStr.toCharArray()) {
-      for (char numberCh : desiredNumberStr.toCharArray()) {
-        String desiredGender = String.valueOf(genderCh);
-        String desiredNumber = String.valueOf(numberCh);
-        StringBuilder suggestionBuilder = new StringBuilder();
-        boolean ignoreThisSuggestion = false;
-        if (!keepOriginal) {
-          String s = synthesizeWithGenderAndNumber(atrNoun, splitPostag, desiredGender, desiredNumber, synth);
-          if (s.isEmpty()) {
-            ignoreThisSuggestion=true;
-          }
-          suggestionBuilder.append(s);
-        } else {
-          suggestionBuilder.append(atrNoun.getToken());
+    for (AnalyzedToken atrNoun : atrNounList) {
+      startPos = posWord;
+      endPos = posWord;
+      GenderAndNumberSplit splitPostag = splitGenderAndNumber(atrNoun);
+      String desiredGenderStr = (!desiredGenderOrigStr.isEmpty() ? desiredGenderOrigStr : splitPostag.gender);
+      String desiredNumberStr = (!desiredNumberOrigStr.isEmpty() ? desiredNumberOrigStr : splitPostag.number);
+      //if gender = C, look into the words before and after
+      if (desiredGenderStr.equals("C") && posWord - 1 > 0) {
+        GenderAndNumberSplit splitPostag2 = splitGenderAndNumber(tokens[posWord - 1].readingWithTagRegex(splitGenderNumber));
+        if (splitPostag2 != null && (splitPostag2.gender.equals("F") || splitPostag2.gender.equals("M"))) {
+          desiredGenderStr = splitPostag2.gender;
         }
-        //backwards
-        boolean stop = false;
-        int i = posWord;
-        String prepositionToAdd = "";
-        boolean addDeterminer = false;
-        StringBuilder conditionalAddedString = new StringBuilder();
-        String addTot = "";
-        while (!stop && i > 1) {
-          i--;
-          AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumberNoNoun); //getReadingWithPriority(tokens[i]);
-          if (tokens[i].hasPosTag("_perfet") || tokens[i].hasPosTag("_GV_") || tokens[i].getChunkTags().contains(new ChunkTag("GV"))) {
-            atr = null;
+      }
+      if (desiredGenderStr.equals("C") && posWord + 1 < tokens.length) {
+        GenderAndNumberSplit splitPostag2 = splitGenderAndNumber(tokens[posWord + 1].readingWithTagRegex(splitGenderNumber));
+        if (splitPostag2 != null && (splitPostag2.gender.equals("F") || splitPostag2.gender.equals("M"))) {
+          desiredGenderStr = splitPostag2.gender;
+        }
+      }
+      // Prioritize gender and number in the original
+      if (splitPostag != null) {
+        if (desiredGenderStr.contains(splitPostag.gender)) {
+          desiredGenderStr = splitPostag.gender + desiredGenderStr.replace(splitPostag.gender, "");
+        }
+        if (desiredNumberStr.contains(splitPostag.number)) {
+          desiredNumberStr = splitPostag.number + desiredNumberStr.replace(splitPostag.number, "");
+        }
+      }
+      for (char genderCh : desiredGenderStr.toCharArray()) {
+        for (char numberCh : desiredNumberStr.toCharArray()) {
+          String desiredGender = String.valueOf(genderCh);
+          String desiredNumber = String.valueOf(numberCh);
+          StringBuilder suggestionBuilder = new StringBuilder();
+          boolean ignoreThisSuggestion = false;
+          if (!keepOriginal) {
+            String s = synthesizeWithGenderAndNumber(atrNoun, splitPostag, desiredGender, desiredNumber, synth);
+            if (s.isEmpty()) {
+              ignoreThisSuggestion = true;
+            }
+            suggestionBuilder.append(s);
+          } else {
+            suggestionBuilder.append(atrNoun.getToken());
           }
-          if (atr != null) {
-            if (atr.getPOSTag().startsWith("DA")) {
-              addDeterminer = true;
-              startPos = i;
-            } else {
-              if (!addDeterminer) {
-                String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
-                if (s.isEmpty()) {
-                  ignoreThisSuggestion=true;
-                }
-                if (s.equals("bo")) {
-                  s = "bon";
-                }
+          //backwards
+          boolean stop = false;
+          int i = posWord;
+          String prepositionToAdd = "";
+          boolean addDeterminer = false;
+          boolean addedDemonstrative = false;
+          StringBuilder conditionalAddedString = new StringBuilder();
+          String addTot = "";
+          while (!stop && i > 1) {
+            i--;
+            AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumberNoNoun);
+            if (!tokens[i].hasPosTagStartingWith("D") // incloem l'article fins i tot si està marcat com a _GV_
+              && (tokens[i].hasPosTag("_perfet") || tokens[i].hasPosTag("_GV_") || tokens[i].getChunkTags().contains(new ChunkTag("GV")))
+              || formsToIgnore.contains(tokens[i].getToken().toLowerCase())) {
+              atr = null;
+            }
+            if (atr != null && atr.getPOSTag() != null && atr.getLemma() != null) {
+              if (atr.getPOSTag().startsWith("DA")) {
                 suggestionBuilder.insert(0, conditionalAddedString);
                 conditionalAddedString.setLength(0);
-                if (tokens[i+1].isWhitespaceBefore()) {
-                  suggestionBuilder.insert(0, " ");
-                }
-                suggestionBuilder.insert(0, s);
+                addDeterminer = true;
                 startPos = i;
-                if (atr.getPOSTag().startsWith("D") && !atr.getPOSTag().startsWith("DN")) {
+              } else {
+                if (!addDeterminer && !addedDemonstrative) {
+                  String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender,
+                    desiredNumber, synth);
+                  if (s.isEmpty()) {
+                    ignoreThisSuggestion = true;
+                  }
+                  if (s.equals("bo")) {
+                    s = "bon";
+                  }
+                  suggestionBuilder.insert(0, conditionalAddedString);
+                  conditionalAddedString.setLength(0);
+                  if (tokens[i + 1].isWhitespaceBefore()) {
+                    suggestionBuilder.insert(0, " ");
+                  }
+                  suggestionBuilder.insert(0, s);
+                  startPos = i;
+                  if (atr.getPOSTag().startsWith("DD")) {
+                    addedDemonstrative = true;
+                  }
+                  if (atr.getPOSTag().startsWith("D") && !atr.getPOSTag().startsWith("DN") && !addedDemonstrative
+                  && !atr.getLemma().equalsIgnoreCase("quant")) {
+                    stop = true;
+                  }
+                } else {
+                  // only before "el/aquest/aquell...": tota l'estona, tota aquella estona
+                  if (atr.getLemma().equals("tot")) {
+                    String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender,
+                      desiredNumber, synth);
+                    if (!s.isEmpty()) {
+                      addTot = s + " ";
+                      startPos = i;
+                    }
+                  }
                   stop = true;
                 }
-              } else {
-                if (atr.getLemma().equals("tot")) {
-                  String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
-                  if (!s.isEmpty()) {
-                    addTot = s + " ";
-                    startPos = i;
-                  }
+              }
+            } else if (tokens[i].hasPosTag("SPS00") || tokens[i].hasPosTag("LOC_PREP")) {
+              if (addDeterminer) {
+                String preposition = tokens[i].getToken().toLowerCase();
+                if (preposition.equals("pe")) {
+                  preposition = "per";
                 }
-                stop = true;
+                if (preposition.equals("d'")) {
+                  preposition = "de";
+                }
+                if (preposition.equals("a") || preposition.equals("de") || preposition.equals("per")) {
+                  prepositionToAdd = preposition;
+                  startPos = i;
+                }
               }
-            }
-          } else if (tokens[i].hasPosTag("SPS00") || tokens[i].hasPosTag("LOC_PREP")) {
-            if (addDeterminer) {
-              String preposition = tokens[i].getToken().toLowerCase();
-              if (preposition.equals("pe")) {
-                preposition = "per";
-              }
-              if (preposition.equals("d'")) {
-                preposition = "de";
-              }
-              if (preposition.equals("a") || preposition.equals("de") || preposition.equals("per")) {
-                prepositionToAdd = preposition;
-                startPos = i;
-              }
-            }
-            stop = true;
-          } else if (tokens[i].hasPosTag("_PUNCT_CONT") || tokens[i].hasPosTag("CC")) {
-            if (posWord - i == 1) {
               stop = true;
-            } else {
+            } else if (tokens[i].hasPosTag("_PUNCT_CONT") || tokens[i].hasPosTag("CC")) {
+              if ((posWord - i == 1) ||
+                // tot i que
+                (i > 1 && (tokens[i].getToken().equalsIgnoreCase("i")
+                  && tokens[i - 1].getToken().equalsIgnoreCase("tot")))) {
+                stop = true;
+              } else {
+                conditionalAddedString.insert(0, tokens[i].getToken() + " ");
+              }
+            } else if (tokens[i].hasPosTagStartingWith("RG")
+              // adverbi envoltat d'elements que tenen gènere i nombre
+              && (i <= 1 || tokens[i - 1].readingWithTagRegex(splitGenderNumber) != null)
+              && (i >= tokens.length - 1 || tokens[i + 1].readingWithTagRegex(splitGenderNumber) != null)) {
               conditionalAddedString.insert(0, tokens[i].getToken() + " ");
+            } else {
+              stop = true;
             }
-          } else if (tokens[i].hasPosTag("RG")) {
-            conditionalAddedString.insert(0, tokens[i].getToken() + " ");
-          } else {
-            stop = true;
           }
-        }
-        // forwards
-        stop = false;
-        i = posWord;
-        conditionalAddedString.setLength(0);
-        boolean isThereConjunction = false;
-        while (!stop && i < tokens.length - 1) {
-          i++;
-          AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumberAdjective);
-          if (isThereConjunction && tokens[i].hasPosTagStartingWith("NC")) {
-            atr = null;
-          }
-          if (atr != null) {
-            String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber, synth);
-            if (s.isEmpty()) {
-              ignoreThisSuggestion=true;
+          // forwards
+          stop = false;
+          i = posWord;
+          conditionalAddedString.setLength(0);
+          boolean isThereConjunction = false;
+          while (!stop && i < tokens.length - 1) {
+            i++;
+            if (formsToIgnore.contains(tokens[i].getToken().toLowerCase())) {
+              break;
             }
-            suggestionBuilder.append(conditionalAddedString);
-            conditionalAddedString.setLength(0);
-            suggestionBuilder.append(" " + s);
-            endPos = i;
-          } else if (tokens[i].hasPosTag("RG")) {
-            conditionalAddedString.append(" " + tokens[i].getToken());
-          } else if (tokens[i].hasPosTag("CC")) {
-            isThereConjunction = true;
-            conditionalAddedString.append(" " + tokens[i].getToken());
-          }else if (tokens[i].hasPosTag("_PUNCT_CONT")) {
-            conditionalAddedString.append(tokens[i].getToken());
-          } else {
-            stop = true;
+            AnalyzedToken atr = tokens[i].readingWithTagRegex(splitGenderNumberAdjective);
+            if (isThereConjunction && tokens[i].hasPosTagStartingWith("NC")) {
+              atr = null;
+            }
+            if (atr != null) {
+              String s = synthesizeWithGenderAndNumber(atr, splitGenderAndNumber(atr), desiredGender, desiredNumber,
+                synth);
+              if (s.isEmpty()) {
+                ignoreThisSuggestion = true;
+              }
+              suggestionBuilder.append(conditionalAddedString);
+              conditionalAddedString.setLength(0);
+              suggestionBuilder.append(" ").append(s);
+              endPos = i;
+            } else if (tokens[i].hasPosTagStartingWith("RG")) {
+              conditionalAddedString.append(" ").append(tokens[i].getToken());
+            } else if (tokens[i].hasPosTag("CC")) {
+              isThereConjunction = true;
+              conditionalAddedString.append(" ").append(tokens[i].getToken());
+            } else if (tokens[i].hasPosTag("_PUNCT_CONT")) {
+              conditionalAddedString.append(tokens[i].getToken());
+            } else {
+              stop = true;
+            }
           }
-        }
-        if (addDeterminer) {
-          suggestionBuilder.insert(0, getPrepositionAndDeterminer(suggestionBuilder.toString(), desiredGender + desiredNumber, prepositionToAdd));
-        } else if (!prepositionToAdd.isEmpty()) {
-          suggestionBuilder.insert(0, prepositionToAdd + " ");
-        }
-        suggestionBuilder.insert(0, addTot);
-        String suggestion = StringTools.preserveCase(suggestionBuilder.toString(), tokens[startPos].getToken());
-        if (endPos == posWord && startPos == posWord && tokens[posWord].getToken().equals(suggestion)) {
-          continue;
-        }
-        //TODO: una d'aquests vessants; una dels vessants
-        if (!ignoreThisSuggestion) {
-          suggestions.add(suggestion);
+          if (addDeterminer) {
+            suggestionBuilder.insert(0, getPrepositionAndDeterminer(suggestionBuilder.toString(),
+              desiredGender + desiredNumber, prepositionToAdd));
+          } else if (!prepositionToAdd.isEmpty()) {
+            suggestionBuilder.insert(0, prepositionToAdd + " ");
+          }
+          suggestionBuilder.insert(0, addTot);
+          String originalSpan = match.getSentence().getText().substring(tokens[startPos].getStartPos(), tokens[endPos].getEndPos());
+          String suggestion = StringTools.preserveCaseWordByWord(suggestionBuilder.toString(), originalSpan);
+          if (endPos == posWord && startPos == posWord && tokens[posWord].getToken().equals(suggestion)) {
+            continue;
+          }
+          //TODO: una d'aquests vessants; una dels vessants
+          if (!ignoreThisSuggestion) {
+            suggestions.add(suggestion);
+          }
         }
       }
     }
+
     if (suggestions.isEmpty()) {
       return null;
     }
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[startPos].getStartPos(),
       tokens[endPos].getEndPos(), match.getMessage(), match.getShortMessage());
-    String originalStr = match.getSentence().getText().substring(tokens[startPos].getStartPos(), tokens[endPos].getEndPos());
+    String originalStr = match.getSentence().getText().substring(tokens[startPos].getStartPos(),
+      tokens[endPos].getEndPos());
     if (suggestions.contains(originalStr)) {
       return null;
     }
@@ -220,53 +312,63 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
     return ruleMatch;
   }
 
-  private String[] splitGenderAndNumber(AnalyzedToken atr) {
-    String[] results = new String[4];
+  static class GenderAndNumberSplit {
+    String prefix;
+    String suffix;
+    String gender;
+    String number;
+  }
+
+  private GenderAndNumberSplit splitGenderAndNumber(AnalyzedToken atr) {
+    if (atr==null || atr.getPOSTag() == null) {
+      return null;
+    }
+    GenderAndNumberSplit results = new GenderAndNumberSplit();
     Matcher matcherSplit = splitGenderNumber.matcher(atr.getPOSTag());
     if (matcherSplit.matches()) {
-      results[0] = matcherSplit.group(1);
-      results[1] = matcherSplit.group(4);
-      String gender = matcherSplit.group(2);
-      String number = matcherSplit.group(3);
-      if (results[0].startsWith("V")) {
-        results[2] = number;
-        results[3] = gender;
+      results.prefix = matcherSplit.group(1);
+      results.suffix = matcherSplit.group(4);
+      String g2 = matcherSplit.group(2);
+      String g3 = matcherSplit.group(3);
+      if (results.prefix.startsWith("V")) {
+        results.gender = g3;
+        results.number = g2;
       } else {
-        results[2] = gender;
-        results[3] = number;
+        results.gender = g2;
+        results.number = g3;
       }
       return results;
     }
     return null;
   }
 
-  private String synthesizeWithGenderAndNumber(AnalyzedToken atr, String[] splitPostag, String gender, String number,
+  private String synthesizeWithGenderAndNumber(AnalyzedToken atr, GenderAndNumberSplit splitPostag, String gender,
+                                               String number,
                                                Synthesizer synth) throws IOException {
-    if (splitPostag[0].startsWith("V")) {
+    String[] parts = atr.getToken().split(" ", 2);
+    String remainder = parts.length > 1 ? parts[1] : "";
+    if (splitPostag.prefix.startsWith("V")) {
       String keepGender = gender;
       gender = number;
       number = keepGender;
     }
     String addGender = "C";
-    if (splitPostag[0].startsWith("DA")) {
+    if (splitPostag.prefix.startsWith("DA")) {
       addGender = "";
     }
-    String[] synhtesized = synth.synthesize(atr, splitPostag[0] + "[" + gender + addGender + "]" + "[" + number + "N" +
-        "]" + splitPostag[1], true);
-    if (synhtesized.length > 0) {
-      return synhtesized[0];
+    String[] synthesized = synth.synthesize(atr, splitPostag.prefix + "[" + gender + addGender + "]"
+      + "[" + number + "N" + "]" + splitPostag.suffix, true);
+    if (synthesized.length > 0) {
+      String synthesizedSuggestion = synthesized[0];
+      if (!remainder.isEmpty()) {
+        synthesizedSuggestion = synthesizedSuggestion + " " + remainder;
+      }
+      return synthesizedSuggestion;
     } else {
       return "";
     }
   }
 
-  private AnalyzedToken getReadingWithPriority(AnalyzedTokenReadings token) {
-    AnalyzedToken atr = token.readingWithTagRegex(splitGenderNumberNoNoun);
-    if (atr != null) {
-      return atr;
-    }
-    atr = token.readingWithTagRegex(splitGenderNumber);
-    return atr;
-  }
+
 
 }

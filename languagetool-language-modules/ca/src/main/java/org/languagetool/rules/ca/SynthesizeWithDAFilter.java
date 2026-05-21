@@ -33,7 +33,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SynthesizeWithDeterminerFilter extends RuleFilter {
+public class SynthesizeWithDAFilter extends RuleFilter {
 
   private List<String> genderNumberList = Arrays.asList ("MS", "FS", "MP", "FP");
 

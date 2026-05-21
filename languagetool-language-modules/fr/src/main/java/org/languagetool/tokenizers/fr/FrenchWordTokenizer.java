@@ -18,15 +18,15 @@
  */
 package org.languagetool.tokenizers.fr;
 
+import org.languagetool.tagging.fr.FrenchTagger;
+import org.languagetool.tokenizers.WordTokenizer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.languagetool.tagging.fr.FrenchTagger;
-import org.languagetool.tokenizers.WordTokenizer;
 
 /**
  * Tokenizes a sentence into words. Punctuation and whitespace get its own
@@ -38,14 +38,6 @@ public class FrenchWordTokenizer extends WordTokenizer {
 
   private static final String wordCharacters = "§©@€£\\$_\\p{L}\\d\\-\u0300-\u036F\u00A8\u2070-\u209F°%‰‱&\uFFFD\u00AD\u00AC";
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
-  private static final Pattern SOFT_HYPHEN = Pattern.compile("\u00AD");
-  private static final Pattern CURLY_QUOTE = Pattern.compile("’");
-  private static final Pattern PATTERN_1 = Pattern.compile("xxFR_APOS_TYPEWxx");
-  private static final Pattern PATTERN_2 = Pattern.compile("xxFR_APOS_TYPOGxx");
-  private static final Pattern PATTERN_3 = Pattern.compile("xxFR_HYPHENxx");
-  private static final Pattern PATTERN_4 = Pattern.compile("xxFR_DECIMALPOINTxx");
-  private static final Pattern PATTERN_5 = Pattern.compile("xxFR_DECIMALCOMMAxx");
-  private static final Pattern PATTERN_6 = Pattern.compile("xxFR_SPACExx");
 
   // Patterns to avoid splitting words in certain special cases
 
@@ -75,7 +67,6 @@ public class FrenchWordTokenizer extends WordTokenizer {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPACE0 = Pattern.compile("xxFR_SPACE0xx");
 
   private static final List<String> doNotSplit = Arrays.asList("mers-cov", "mcgraw-hill", "sars-cov-2", "sars-cov",
       "ph-metre", "ph-metres", "anti-ivg", "anti-uv", "anti-vih", "al-qaïda", "c'est-à-dire", "add-on", "add-ons",
@@ -149,8 +140,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1xxFR_SPACE0xx");
     matcher = SPACE_DIGITS.matcher(auxText);
     auxText = matcher.replaceAll("$1xxFR_SPACExx$2");
-    matcher = SPACE0.matcher(auxText);
-    auxText = matcher.replaceAll(" ");
+    auxText = auxText.replace("xxFR_SPACE0xx", " ");
 
     Matcher tokenizerMatcher = tokenizerPattern.matcher(auxText);
     while (tokenizerMatcher.find()) {
@@ -159,12 +149,12 @@ public class FrenchWordTokenizer extends WordTokenizer {
         l.set(l.size() - 1, l.get(l.size() - 1) + s);
         continue;
       }
-      s = PATTERN_1.matcher(s).replaceAll("'");
-      s = PATTERN_2.matcher(s).replaceAll("’");
-      s = PATTERN_3.matcher(s).replaceAll("-");
-      s = PATTERN_4.matcher(s).replaceAll(".");
-      s = PATTERN_5.matcher(s).replaceAll(",");
-      s = PATTERN_6.matcher(s).replaceAll(" ");
+      s = s.replace("xxFR_APOS_TYPEWxx", "'")
+        .replace("xxFR_APOS_TYPOGxx", "’")
+        .replace("xxFR_HYPHENxx", "-")
+        .replace("xxFR_DECIMALPOINTxx", ".")
+        .replace("xxFR_DECIMALCOMMAxx", ",")
+        .replace("xxFR_SPACExx", " ");
       boolean matchFound = false;
       while (s.length() > 1 && s.startsWith("-")) {
         l.add("-");
@@ -205,8 +195,8 @@ public class FrenchWordTokenizer extends WordTokenizer {
         l.add(s);
       } else {
         // words containing hyphen (-) are looked up in the dictionary
-        String normalized = SOFT_HYPHEN.matcher(s).replaceAll("");
-        normalized = CURLY_QUOTE.matcher(normalized).replaceAll("'");
+        String normalized = s.replace("\u00AD", "");
+        normalized = normalized.replace("’", "'");
         if (FrenchTagger.INSTANCE.tag(Arrays.asList(normalized)).get(0).isTagged()) {
           // In the current POS tag, most apostrophes are curly: to be fixed
           l.add(s);

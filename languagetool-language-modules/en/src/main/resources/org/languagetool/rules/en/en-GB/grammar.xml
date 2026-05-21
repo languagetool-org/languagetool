@@ -108,7 +108,7 @@ USA
                     </marker>
                     <token regexp="yes">at|if|and|on|because|but|when|once|over|in(to)?|whether|later|before|afterwards?|after|tomorrow|here|please|,|\.|…|\?|\!</token>
                 </pattern>
-                <message>In American English, "take a look" is more commonly used.</message>
+                <message>In British English, "have a look" is more commonly used.</message>
                 <suggestion><match no="1" postag="VB.*" postag_regexp="yes">have</match> \2 \3 \4</suggestion>
                 <example correction="have a look">I promise that I will <marker>take a look</marker> later.</example>
             </rule>
@@ -166,16 +166,32 @@ USA
             <example correction="postcode">Please enter your <marker>zip code</marker>.</example>
             <example correction="Postcodes"><marker>Zip codes</marker> are not always necessary.</example>
         </rule>
-        <rule id="APARTMENT-FLAT" name="apartment/flat">
-            <pattern>
-                <token inflected="yes">apartment</token>
-            </pattern>
-            <message>The word '\1' is common for American English. Did you mean <suggestion><match no="1" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
-            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <short>AmE/BrE: apartment/flat</short>
-            <example correction="flats">These <marker>apartments</marker> are expensive.</example>
-            <example correction="flat">I just bought an <marker>apartment</marker>.</example>
-        </rule>
+        <rulegroup id="APARTMENT-FLAT" name="apartment/flat">
+            <rule>
+                <pattern>
+                    <token><exception>an</exception></token>
+                    <marker>
+                        <token inflected="yes">apartment</token>
+                    </marker>
+                </pattern>
+                <message>The word '\2' is common for American English. Did you mean <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">flat</match></suggestion>?</message>
+                <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+                <short>AmE/BrE: apartment/flat</short>
+                <example correction="flats">These <marker>apartments</marker> are expensive.</example>
+                <example correction="flat">I just bought the <marker>apartment</marker>.</example>
+                <example>I just bought an apartment.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>apartment</token>
+                </pattern>
+                <message>The word 'apartment' is common for American English. Did you mean <suggestion>a flat</suggestion>?</message>
+                <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+                <short>AmE/BrE: apartment/flat</short>
+                <example correction="a flat">I just bought <marker>an apartment</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BAND-AID_PLASTER" name="band-aid/plaster">
             <rule><!-- 'Band-Aid' is a trademark according to Merriam Webster's dictionary. Thus, it must not have postags NN or NNS. -->
                 <pattern>
@@ -211,7 +227,7 @@ USA
                 <token>movie</token>
                 <token inflected="yes">theater</token>
             </pattern>
-            <message>The term '\1 \2' is common for American English. Did you mean <suggestion><match no="2" postag="NN|NN(S)" postag_replace="NN$1(:UN)?">cinema</match></suggestion>?</message>
+            <message>The term '\1 \2' is common for American English. Did you mean <suggestion><match no="2" postag="(NN|NNS)(:UN)?" postag_replace="$1">cinema</match></suggestion>?</message>
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
             <short>AmE/BrE: movie theater/cinema</short>
             <example correction="cinema">Let's go to a <marker>movie theater</marker>.</example>

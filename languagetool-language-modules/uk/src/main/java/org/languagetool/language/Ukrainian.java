@@ -174,13 +174,9 @@ public class Ukrainian extends Language {
 
         new SimpleReplaceSoftRule(messages, this),
         new SimpleReplaceRenamedRule(messages),
-        getSpellingReplacementRule(messages),
+//        getSpellingReplacementRule(messages),
         new SimpleReplaceRule(messages, morfologikSpellerRule, this)
     );
-  }
-
-  protected Rule getSpellingReplacementRule(ResourceBundle messages) throws IOException {
-    return new SimpleReplaceSpelling1992Rule(messages, this);
   }
 
   @Override

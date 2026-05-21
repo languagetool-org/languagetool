@@ -19,9 +19,13 @@
 package org.languagetool.rules.patterns;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.languagetool.*;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.ResourceBundleTools;
+import org.languagetool.RuleEntityResolver;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tools.StringInterner;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -764,8 +768,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       AbstractPatternRule rule;
       if (tmpPatternTokens.size() > 0) {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
-                internString(message.toString()), internString(shortMessage),
-                internString(suggestionsOutMsg.toString()), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
+          StringInterner.intern(message.toString()), StringInterner.intern(shortMessage),
+          StringInterner.intern(suggestionsOutMsg.toString()), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
         rule.addTags(ruleTags);
         rule.addTags(ruleGroupTags);
         rule.addTags(categoryTags);
@@ -878,7 +882,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     rule.addToneTags(categoryToneTags);
     rule.setGoalSpecific(isGoalSpecific);
     if (inRuleGroup) {
-      rule.setSubId(internString(Integer.toString(subId)));
+      rule.setSubId(StringInterner.intern(Integer.toString(subId)));
     } else {
       rule.setSubId("1");
     }

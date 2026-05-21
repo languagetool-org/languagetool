@@ -24,7 +24,7 @@ import org.languagetool.language.GermanyGerman;
 public class GermanyGermanConcurrencyTest extends AbstractLanguageConcurrencyTest {
   @Override
   protected Language createLanguage() {
-    return new GermanyGerman();
+    return GermanyGerman.getInstance();
   }
 
   @Override

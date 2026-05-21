@@ -42,7 +42,7 @@ public class SpanishWikipediaRuleTest {
   @Before
   public void setUp() throws Exception {
     rule = new SpanishWikipediaRule(TestTools.getMessages("es"));
-    lt = new JLanguageTool(new Spanish());
+    lt = new JLanguageTool(Spanish.getInstance());
   }
 
   @Test

@@ -21,20 +21,14 @@ package org.languagetool.tagging.en;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.language.English;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Hybrid chunker-disambiguator for English.
@@ -42,8 +36,8 @@ import java.util.List;
  */
 public class EnglishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final MultiWordChunker chunker = new MultiWordChunker("/en/multiwords.txt", true, true, false);
-  private final MultiWordChunker chunkerGlobal = new MultiWordChunker("/spelling_global.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
+  private final MultiWordChunker chunker = MultiWordChunker.getInstance("/en/multiwords.txt", true, true, false);
+  private final MultiWordChunker chunkerGlobal = MultiWordChunker.getInstance("/spelling_global.txt", true, true, false, MultiWordChunker.tagForNotAddingTags);
   private final Disambiguator disambiguator;
 
   public EnglishHybridDisambiguator(Language lang) {

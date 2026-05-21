@@ -36,9 +36,9 @@ public class CatalanWordRepeatRuleTest {
    */
   @Test
   public void testRule() throws IOException {
-    final CatalanWordRepeatRule rule = new CatalanWordRepeatRule(TestTools.getMessages("ca"), new Catalan());
+    final CatalanWordRepeatRule rule = new CatalanWordRepeatRule(TestTools.getMessages("ca"), Catalan.getInstance());
     RuleMatch[] matches;
-    JLanguageTool lt = new JLanguageTool(new Catalan());
+    JLanguageTool lt = new JLanguageTool(Catalan.getInstance());
     //correct
     matches = rule.match(lt.getAnalyzedSentence("Sempre pensa en en Joan."));
     assertEquals(0, matches.length);
@@ -67,6 +67,12 @@ public class CatalanWordRepeatRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Ja fa, arreu arreu, més de quaranta anys."));
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("obrim inscripcions\uD83D\uDC4D\uD83D\uDC9A\uD83C\uDF32\uD83C\uDF32"));
+    assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("Anirem del punt A al punt B."));
+    assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("La grip A a l'abril repunta."));
+    assertEquals(0, matches.length);
+    matches = rule.match(lt.getAnalyzedSentence("L'apartat A a la part final."));
     assertEquals(0, matches.length);
         
     //incorrect

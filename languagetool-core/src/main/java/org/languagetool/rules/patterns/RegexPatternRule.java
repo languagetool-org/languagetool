@@ -93,7 +93,7 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
 
     List<RuleMatch> matches = new ArrayList<>();
     if (text.length() > MAX_SENT_LENGTH) {
-      return matches.toArray(new RuleMatch[0]);
+      return matches.toArray(RuleMatch.EMPTY_ARRAY);
     }
     Matcher patternMatcher = pattern.matcher(new InterruptibleCharSequence(text));
 
@@ -126,7 +126,7 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
         throw new RuntimeException(String.format("Unexpected exception when processing regexp in rule with id %s.", this.getFullId()), e);
       }
     }
-    return matches.toArray(new RuleMatch[0]);
+    return matches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
   @NotNull

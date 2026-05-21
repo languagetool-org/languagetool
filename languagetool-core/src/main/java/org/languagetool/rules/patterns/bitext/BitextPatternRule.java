@@ -74,7 +74,7 @@ public class BitextPatternRule extends BitextRule {
    */
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
   @Override
@@ -83,7 +83,7 @@ public class BitextPatternRule extends BitextRule {
     if (srcRule.match(sourceSentence).length > 0)  {
       return trgRule.match(targetSentence);
     }
-    return new RuleMatch[0];
+    return RuleMatch.EMPTY_ARRAY;
   }
 
 }

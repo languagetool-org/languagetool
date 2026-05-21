@@ -18,17 +18,17 @@
  */
 package org.languagetool.tagging.disambiguation.sv;
 
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Swedish;
-import org.languagetool.tagging.sv.SwedishTagger;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
+import org.languagetool.tagging.sv.SwedishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
 
 public class SwedishDisambiguationRuleTest {
       
@@ -42,7 +42,7 @@ public class SwedishDisambiguationRuleTest {
     tagger = new SwedishTagger();
     tokenizer = new WordTokenizer();
     sentenceTokenizer = new SRXSentenceTokenizer(new Swedish());
-    disambiguator = new MultiWordChunker("/sv/multiwords.txt");
+    disambiguator = MultiWordChunker.getInstance("/sv/multiwords.txt");
   }
 
   @Test

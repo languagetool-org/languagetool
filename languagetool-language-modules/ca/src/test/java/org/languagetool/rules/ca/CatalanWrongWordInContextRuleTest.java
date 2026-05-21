@@ -33,7 +33,7 @@ public class CatalanWrongWordInContextRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    Catalan catalan = new Catalan();
+    Catalan catalan = Catalan.getInstance();
     CatalanWrongWordInContextRule rule = new CatalanWrongWordInContextRule(null, catalan);
     JLanguageTool lt = new JLanguageTool(catalan);
     

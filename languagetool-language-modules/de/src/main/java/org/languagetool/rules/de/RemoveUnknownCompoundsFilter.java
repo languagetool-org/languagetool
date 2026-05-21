@@ -34,7 +34,7 @@ public class RemoveUnknownCompoundsFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) throws IOException {
     String compound = arguments.get("part1") + arguments.get("part2").toLowerCase();
-    if (GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(compound)) {
+    if (GermanyGerman.getInstance().getDefaultSpellingRule().isMisspelled(compound)) {
       //System.err.println("Ignoring match for " + compound + ": " + match.getRule().getFullId());
       return null;
     }

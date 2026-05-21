@@ -31,7 +31,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 import org.languagetool.tools.DiffsAsMatches;
 import org.languagetool.tools.PseudoMatch;
@@ -84,8 +83,8 @@ public class SentenceAnnotator {
       }
       // defaultColor="\u001B[0m"
       // highlightColor="\u001B[97m"
-      cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replaceAll("\"", "");
-      cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim().replaceAll("\"", "");
+      cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replace("\"", "");
+      cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim().replace("\"", "");
       cfg.prepareConfiguration();
       if (cfg.automaticAnnotation) {
         runAutomaticAnnotation(cfg);
@@ -269,10 +268,10 @@ public class SentenceAnnotator {
             }
           }
         }
-
+        String suggestionGolden = ""; // TODO
         if (!errorType.isEmpty()) {
           printOutputLine(cfg, sentenceHash, sentenceID, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
-              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
+              suggestionApplied, suggestionGolden, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
           if (errorType.equals("OK") || errorType.equals("IG")) {
@@ -300,21 +299,21 @@ public class SentenceAnnotator {
     System.out.println("Starting at line 1 of file " + cfg.inputFilePath);
     for (String line : lines) {
       numSentence++;
-      line = line.replaceAll("\u00A0" , " ");
+      line = line.replace("\u00A0" , " ");
       String[] parts = line.split("\t");
       if (parts.length < 2) {
         throw new Exception("Error: Lines from the input file should contain at least two tab-separated columns. "
           + "Line: " + line);
       }
-      String sentence = parts[0].replaceAll("__", "");
+      String sentence = parts[0].replace("__", "");
       String sentenceHash = md5FromSentence(sentence);
-      String correctedSentence = parts[1].replaceAll("__", "");
+      String correctedSentence = parts[1].replace("__", "");
       List<PseudoMatch> matchesGolden = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
       if (parts.length < 3) {
         List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
         correctedSentence = applyAllMatches(sentence, matches);
       } else {
-        correctedSentence = parts[2].replaceAll("__", "");
+        correctedSentence = parts[2].replace("__", "");
       }
       RemoteRuleMatch match = null;
       List<PseudoMatch> matchesEval = diffsAsMatches.getPseudoMatches(sentence, correctedSentence);
@@ -334,6 +333,7 @@ public class SentenceAnnotator {
         String formattedCorrectSentence = "";
         String detectedErrorStr = "";
         String replacement = "";
+        String replacementGolden = "";
         if (iGMatch == null) {
           errorType = "FP";
           iEval++;
@@ -365,12 +365,14 @@ public class SentenceAnnotator {
           formattedCorrectSentence = formattedOriginalSentence;
           detectedErrorStr = sentence.substring(iEMatch.getFromPos(), iEMatch.getToPos());
           replacement = iEMatch.getReplacements().get(0);
+          replacementGolden = ""; //iGMatch.getReplacements().get(0);
           break;
         case "FN":
           formattedOriginalSentence = formatedSentence2(sentence, iGMatch);
           formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
           detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
           replacement = "";
+          replacementGolden = iGMatch.getReplacements().get(0);
           break;
         case "TP":
         case "TPns":
@@ -379,10 +381,11 @@ public class SentenceAnnotator {
           formattedCorrectSentence = formattedCorrectedSentence2(sentence, iGMatch);
           detectedErrorStr = sentence.substring(iGMatch.getFromPos(), iGMatch.getToPos());
           replacement = iEMatch.getReplacements().get(0);
+          replacementGolden = iGMatch.getReplacements().get(0);
           break;
         }
         printOutputLine(cfg, sentenceHash, "N/A", formattedOriginalSentence, formattedCorrectSentence, errorType,
-            detectedErrorStr, replacement, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
+            detectedErrorStr, replacement, replacementGolden, -1, 1, getFullId(match), getRuleCategoryId(match), getRuleType(match));
       }
       writeToOutputFile(cfg);
     }
@@ -394,7 +397,7 @@ public class SentenceAnnotator {
     if (fieldValue.contains("\"") || fieldValue.contains(",")) {
       return new StringBuilder()
         .append("\"")
-        .append(fieldValue.replaceAll("\"", "\"\""))
+        .append(fieldValue.replace("\"", "\"\""))
         .append("\"");
     } else {
       return new StringBuilder(fieldValue);
@@ -421,7 +424,7 @@ public class SentenceAnnotator {
 
   private static void printOutputLine(AnnotatorConfig cfg, String sentenceHash, String sentenceID,
                                       String errorSentence, String correctedSentence, String errorType,
-                                      String detectedErrorStr, String suggestion, int suggestionPos,
+                                      String detectedErrorStr, String suggestion, String suggestionGolden, int suggestionPos,
                                       int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) {
     String[] rowFields = {
       sentenceHash,
@@ -433,6 +436,7 @@ public class SentenceAnnotator {
       errorType,
       detectedErrorStr,
       suggestion,
+      suggestionGolden,
       ruleId,
       String.valueOf(suggestionPos),
       String.valueOf(suggestionsTotal),

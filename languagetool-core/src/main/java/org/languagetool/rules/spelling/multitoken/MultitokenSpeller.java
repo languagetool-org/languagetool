@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.spelling.multitoken;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.JLanguageTool;
@@ -32,6 +34,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import static java.util.regex.Pattern.*;
@@ -40,8 +44,6 @@ public class MultitokenSpeller {
 
   private static final int MAX_LENGTH_DIFF = 3;
   private static final Pattern WHITESPACE_AND_SEP = compile("\\p{Zs}+");
-  private static final Pattern DASH_SPACE = compile("- ");
-  private static final Pattern SPACE_DASH = compile(" -");
   private static final Pattern SPACE = compile(" ");
 
   private final SpellingCheckRule spellingRule;
@@ -65,10 +67,24 @@ public class MultitokenSpeller {
     return getSuggestions(originalWord, false);
   }
 
+  private final Cache<String, List<String>> suggestionsCache =
+    CacheBuilder.newBuilder()
+      .maximumSize(2000)
+      .build();
+
   public List<String> getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
     originalWord = WHITESPACE_AND_SEP.matcher(originalWord).replaceAll(" ");
-    String word = DASH_SPACE.matcher(originalWord).replaceAll("-");
-    word = SPACE_DASH.matcher(word).replaceAll("-");
+    String normalizedWord = originalWord;
+    boolean accepted = areTokensAcceptedBySpeller;
+    try {
+      return suggestionsCache.get(normalizedWord, () -> computeSuggestions(normalizedWord, accepted));
+    } catch (ExecutionException e) {
+      throw new RuntimeException("Error generating suggestions for: " + normalizedWord, e.getCause());
+    }
+  }
+
+  private List<String> computeSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
+    String word = originalWord.replace("- ", "-").replace(" -", "-");
     if (discardRunOnWords(word)) {
      return Collections.emptyList();
     }
@@ -96,8 +112,8 @@ public class MultitokenSpeller {
         if (Math.abs(normalizedCandidate.length() - word.length()) > MAX_LENGTH_DIFF) {
           continue;
         }
-        String[] candidateParts = SPACE.split(normalizedCandidate);
-        String[] wordParts = SPACE.split(normalizedWord);
+        String[] candidateParts = splitBySpace(normalizedCandidate);
+        String[] wordParts = splitBySpace(normalizedWord);
         List<Integer> distances = distancesPerWord(candidateParts, wordParts, normalizedCandidate, normalizedWord);
         int totalDistance = distances.stream().reduce(0, Integer::sum);
         if (totalDistance < 1) {
@@ -133,6 +149,13 @@ public class MultitokenSpeller {
         }
       }
     }
+    for (WeightedSuggestion additionalSuggestion : getAdditionalSuggestions(word)) {
+      if (!additionalSuggestion.getWord().equals(originalWord)) {
+        weightedCandidates.add(additionalSuggestion);
+      } else {
+        return Collections.emptyList();
+      }
+    }
     if (weightedCandidates.isEmpty()) {
       return Collections.emptyList();
     }
@@ -148,7 +171,8 @@ public class MultitokenSpeller {
     }
     for (WeightedSuggestion weightedCandidate : weightedCandidates) {
       // keep only cadidates with the distance of the first candidate
-      if (weightedCandidate.getWeight() - weightFirstCandidate < 1) {
+      if (weightedCandidate.getWeight() - weightFirstCandidate < 1
+        && !results.contains(weightedCandidate.getWord())) {
         results.add(weightedCandidate.getWord());
       }
     }
@@ -197,8 +221,8 @@ public class MultitokenSpeller {
 
   private List<Float> firstCharacterDistances(String s1, String s2) {
     List<Float> distances = new ArrayList<>();
-    String[] parts1 = SPACE.split(s1);
-    String[] parts2 = SPACE.split(s2);
+    String[] parts1 = splitBySpace(s1);
+    String[] parts2 = splitBySpace(s2);
     // for now, only phrase with two tokens
     if (parts1.length == parts2.length && parts1.length == 2) {
       for (int i=0; i<parts1.length; i++) {
@@ -313,7 +337,7 @@ public class MultitokenSpeller {
   }
 
   private boolean discardRunOnWords(String underlinedError) throws IOException {
-    String[] parts = SPACE.split(underlinedError);
+    String[] parts = splitBySpace(underlinedError);
     if (parts.length == 2) {
       if (StringTools.isCapitalizedWord(parts[1])) {
         return false;
@@ -334,8 +358,16 @@ public class MultitokenSpeller {
     return false;
   }
 
+  private static String [] splitBySpace(String underlinedError) {
+    return StringUtils.split(underlinedError, ' ');
+  }
+
   protected boolean isException(String original, String candidate) {
     return false;
+  }
+
+  protected List<WeightedSuggestion> getAdditionalSuggestions(String originalWord) throws IOException {
+    return new ArrayList<>();
   }
 
 }

@@ -36,8 +36,6 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
-import org.languagetool.server.tools.AbTestService;
-import org.languagetool.server.tools.LocalAbTestService;
 import org.languagetool.tools.TelemetryProvider;
 import org.languagetool.tools.LtThreadPoolFactory;
 import org.languagetool.tools.Tools;
@@ -46,9 +44,13 @@ import org.slf4j.MDC;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Pattern;
@@ -67,7 +69,7 @@ abstract class TextChecker {
   private static final int PINGS_MAX_SIZE = 5000;
   private static final String SPAN_NAME_PREFIX = "/v2/check-";
   private static final Pattern COMMA_WHITESPACE_PATTERN = Pattern.compile(",\\s*");
-  private static final AbTestService AB_TEST_SERVICE = new LocalAbTestService();
+  static final AbTestService AB_TEST_SERVICE = LocalAbTestService.getAbTestService();
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -83,7 +85,6 @@ abstract class TextChecker {
   protected abstract List<String> getDisabledRuleIds(Map<String, String> parameters);
     
   protected static final int CONTEXT_SIZE = 40; // characters
-  protected static final int NUM_PIPELINES_PER_SETTING = 3; // for prewarming
 
   protected final HTTPServerConfig config;
 
@@ -103,6 +104,81 @@ abstract class TextChecker {
 
   private long pingsCleanDateMillis = System.currentTimeMillis();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
+
+  /**
+   * List of usernames for A/B testing with restricted rules.
+   * Populated from LT_TEST_ONLY_USERS environment variable.
+   * Format: comma-separated list of usernames
+   */
+  private final static List<String> onlyTestUsers;
+
+  /**
+   * List of rule IDs enabled for restricted rules A/B testing.
+   * Populated from LT_TEST_ONLY_RULES environment variable.
+   * Format: comma-separated list of rule IDs
+   */
+  private final static List<String> onlyTestRules;
+
+  /**
+   * List of languages enabled for restricted rules A/B testing.
+   * Populated from LT_TEST_ONLY_LANGUAGES environment variable.
+   * Format: comma-separated list of language codes
+   */
+  private final static List<String> onlyTestLanguages;
+
+  /**
+   * List of clients enabled for restricted rules A/B testing.
+   * Populated from LT_TEST_ONLY_CLIENTS environment variable.
+   * Format: comma-separated list of client identifiers
+   */
+  private final static List<String> onlyTestClients;
+
+  static {
+    String onlyUsersEnv = System.getenv("LT_TEST_ONLY_USERS");
+    if (onlyUsersEnv == null || onlyUsersEnv.trim().isEmpty()) {
+      onlyTestUsers = Collections.emptyList();
+    } else {
+      onlyTestUsers = Arrays.stream(onlyUsersEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    }
+
+    String onlyRulesEnv = System.getenv("LT_TEST_ONLY_RULES");
+    if (onlyRulesEnv == null || onlyRulesEnv.trim().isEmpty()) {
+      onlyTestRules = Collections.emptyList();
+    } else {
+      onlyTestRules = Arrays.stream(onlyRulesEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    }
+
+    String onlyLanguagesEnv = System.getenv("LT_TEST_ONLY_LANGUAGES");
+    if (onlyLanguagesEnv == null || onlyLanguagesEnv.trim().isEmpty()) {
+      onlyTestLanguages = Collections.emptyList();
+    } else {
+      onlyTestLanguages = Arrays.stream(onlyLanguagesEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    }
+
+    String onlyClientsEnv = System.getenv("LT_TEST_ONLY_CLIENTS");
+    if (onlyClientsEnv == null || onlyClientsEnv.trim().isEmpty()) {
+      onlyTestClients = Collections.emptyList();
+    } else {
+      onlyTestClients = Arrays.stream(onlyClientsEnv.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    }
+
+    if (!onlyTestRules.isEmpty()) {
+      log.info("Initialized A/B test restrictions - users: {}, rules: {}, languages: {}, clients: {}",
+        onlyTestUsers, onlyTestRules, onlyTestLanguages, onlyTestClients);
+    }
+  }
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
@@ -168,8 +244,10 @@ abstract class TextChecker {
     pipelinePool = new PipelinePool(config, cache, internalServer);
     if (config.isPipelinePrewarmingEnabled()) {
       log.info("Prewarming pipelines...");
+      long start = System.currentTimeMillis();
       prewarmPipelinePool();
-      log.info("Prewarming finished.");
+      long end = System.currentTimeMillis();
+      log.info("Prewarming finished in {} seconds.", (end - start) / 1000.0);
     }
     if (config.getAbTest() != null) {
       UserConfig.enableABTests();
@@ -188,60 +266,64 @@ abstract class TextChecker {
     }
   }
 
+  /**
+   * Hash a string deterministically into a 64-bit signed long; use textSessionIdParam if set, fall back to client IP.
+   */
+  protected static Long computeTextSessionID(String textSessionIdParam, String ip) {
+      String input = textSessionIdParam != null ? textSessionIdParam : ip;
+      if (input == null) {
+        return null;
+      }
+      try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] bytes = md.digest(input.getBytes(StandardCharsets.UTF_8));
+
+        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        Long textSessionId = buffer.getLong();
+        return textSessionId;
+      } catch (NoSuchAlgorithmException e) {
+        // Should not happen for SHA-256, wrap in a runtime exception
+        throw new RuntimeException("SHA-256 not supported", e);
+      }
+  }
+
   private void prewarmPipelinePool() {
     // setting + number of pipelines
     // typical addon settings at the moment (2018-11-05)
-    Map<PipelineSettings, Integer> prewarmSettings = new HashMap<>();
+    List<PipelineSettings> prewarmSettings = new ArrayList<>();
     List<Language> prewarmLanguages = new ArrayList<>();
     if (config.preferredLanguages.isEmpty()) {
       prewarmLanguages.addAll(Stream.of(
                       "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
               .map(Languages::getLanguageForShortCode)
-              .collect(Collectors.toList()));
+              .toList());
     } else {
-      config.preferredLanguages.forEach(s -> {
-        prewarmLanguages.add(Languages.getLanguageForShortCode(s));
-      });
+      config.preferredLanguages.forEach(s -> prewarmLanguages.add(Languages.getLanguageForShortCode(s)));
     }
 
-    List<String> addonDisabledRules = Collections.singletonList("WHITESPACE_RULE");
-    List<JLanguageTool.Mode> addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);
     UserConfig user = new UserConfig();
+
     for (Language language : prewarmLanguages) {
-      // add-on uses picky mode since 2021-01-20
-      for (JLanguageTool.Mode mode : addonModes) {
-        QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
+        QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
           Collections.emptyList(), Collections.emptyList(), false, true,
-          true, true, Premium.isPremiumVersion(), false, mode, JLanguageTool.Level.PICKY, null);
-        PipelineSettings settings = new PipelineSettings(language, null, params, config.globalConfig, user);
-        prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
-
-        PipelineSettings settingsMotherTongueEqual = new PipelineSettings(language, language, params, config.globalConfig, user);
-        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language,
-          Languages.getLanguageForName("English"), params, config.globalConfig, user);
-        prewarmSettings.put(settingsMotherTongueEqual, NUM_PIPELINES_PER_SETTING);
-        prewarmSettings.put(settingsMotherTongueEnglish, NUM_PIPELINES_PER_SETTING);
-      }
+          true, true, Premium.isPremiumVersion(), false, JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY, null);
+        PipelineSettings settingsEnglishWithMotherTongue = new PipelineSettings(Languages.getLanguageForShortCode("en-US"), language, params, config.globalConfig, user);
+        prewarmSettings.add(settingsEnglishWithMotherTongue);
+        PipelineSettings settingsMotherTongueEnglish = new PipelineSettings(language, Languages.getLanguageForName("English"), params, config.globalConfig, user);
+        prewarmSettings.add(settingsMotherTongueEnglish);
     }
-    try {
-      for (Map.Entry<PipelineSettings, Integer> prewarmSetting : prewarmSettings.entrySet()) {
-          int numPipelines = prewarmSetting.getValue();
-          PipelineSettings setting = prewarmSetting.getKey();
 
-          // request n pipelines first, return all afterwards -> creates multiple for same setting
-          List<Pipeline> pipelines = new ArrayList<>();
-          for (int i = 0; i < numPipelines; i++) {
-            Pipeline p = pipelinePool.getPipeline(setting);
-            p.check("LanguageTool");
-            pipelines.add(p);
-          }
-          for (Pipeline p : pipelines) {
-            pipelinePool.returnPipeline(setting, p);
-          }
+    log.info("Prewarming {} pipelines", prewarmSettings.size());
+
+    prewarmSettings.parallelStream().forEach(setting -> {
+      try {
+        Pipeline pipeline = pipelinePool.getPipeline(setting);
+        pipeline.check("LanguageTool");
+        pipelinePool.returnPipeline(setting, pipeline);
+      } catch (Exception e) {
+        throw new RuntimeException("Error while prewarming pipeline", e);
       }
-    } catch (Exception e) {
-      throw new RuntimeException("Error while prewarming pipelines", e);
-    }
+    });
   }
 
   void shutdownNow() {
@@ -249,11 +331,31 @@ abstract class TextChecker {
     RemoteRule.shutdown();
   }
 
+  private boolean isOptInThirdPartyAI(UserLimits limits, Map<String, String> params, HTTPServerConfig config) {
+    boolean optInThirdPartyAI = false;
+    if (limits.getAccount() != null) {
+      optInThirdPartyAI = limits.getAccount().isOpt_in_3rd_party_ai_grammar_checker();
+    } else if (params.containsKey("optInThirdPartyAI")) {
+      optInThirdPartyAI = "true".equals(params.get("optInThirdPartyAI"));
+    } else {
+      optInThirdPartyAI = config.getDefaultThirdPartyAI();
+    }
+    return optInThirdPartyAI;
+  }
+
+  private boolean shouldRunRestrictedRulesTest(Map<String, String> params, String agent, Language lang, List<String> abTest) {
+    String username = params.getOrDefault("username", "");
+    return (onlyTestUsers.contains(username) || (abTest != null && abTest.contains("only"))) &&
+      onlyTestLanguages.contains(lang.getShortCodeWithCountryAndVariant()) &&
+      onlyTestClients.contains(agent);
+  }
+
   void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> params, ErrorRequestLimiter errorRequestLimiter,
                  String remoteAddress) throws Exception {
     checkParams(params);
     long timeStart = System.currentTimeMillis();
-    UserLimits limits = ServerTools.getUserLimits(params, config);
+    String authHeader = ServerTools.getAuthHeader(httpExchange.getRequestHeaders());
+    UserLimits limits = ServerTools.getUserLimits(params, config, authHeader);
 
     if (Premium.isPremiumStatusCheck(aText)) {
       Language premiumStatusCheckLang = Languages.getLanguageForShortCode("en-US");
@@ -356,38 +458,7 @@ abstract class TextChecker {
 
     boolean filterDictionaryMatches = "true".equals(params.getOrDefault("filterDictionaryMatches", "true"));
 
-    Long textSessionId = null;
-    try {
-      if (params.containsKey("textSessionId")) {
-        String textSessionIdStr = params.get("textSessionId");
-        if (textSessionIdStr.startsWith("user:")) {
-          int sepPos = textSessionIdStr.indexOf(':');
-          String sessionId = textSessionIdStr.substring(sepPos + 1);
-          textSessionId = Long.valueOf(sessionId);
-        } else if (textSessionIdStr.contains(":")) { // transitioning to new format used in chrome addon
-          // format: "{random number in 0..99999}:{unix time}"
-          long random, timestamp;
-          int sepPos = textSessionIdStr.indexOf(':');
-          random = Long.parseLong(textSessionIdStr.substring(0, sepPos));
-          timestamp = Long.parseLong(textSessionIdStr.substring(sepPos + 1));
-          // use random number to choose a slice in possible range of values
-          // then choose position in slice by timestamp
-          long maxRandom = 100000;
-          long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
-          long segmentOffset = random * randomSegmentSize;
-          if (timestamp > randomSegmentSize) {
-            log.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
-          }
-          textSessionId = segmentOffset + timestamp;
-        } else {
-          textSessionId = Long.valueOf(textSessionIdStr);
-        }
-      }
-    } catch (NumberFormatException ex) {
-      log.info("Could not parse textSessionId '" + params.get("textSessionId") + "' as long: " + ex.getMessage() +
-        ", user agent: " + params.get("useragent") + ", version: " + params.get("v") +
-        ", HTTP user agent: " + getHttpUserAgent(httpExchange) + ", referrer: " + getHttpReferrer(httpExchange));
-    }
+    Long textSessionId = computeTextSessionID(params.get("textSessionId"), remoteAddress);
 
     List<String> abTest = AB_TEST_SERVICE.getActiveAbTestForClient(params, config);
 
@@ -414,12 +485,20 @@ abstract class TextChecker {
     String ltAgent = params.getOrDefault("useragent", "unknown");
     Pattern trustedSourcesPattern = config.getTrustedSources();
     boolean trustedSource = trustedSourcesPattern == null || (limits.hasPremium() || trustedSourcesPattern.matcher(ltAgent).matches());
+    boolean optInThirdPartyAI = isOptInThirdPartyAI(limits, params, config);
+
+    // set default value for tokenType
+    UserConfig.TokenType tokenType = authHeader == null ? UserConfig.TokenType.NO_TOKEN : UserConfig.TokenType.INVALID_TOKEN;
+    JwtContent jwtContent = limits.getJwtContent();
+    if (jwtContent != null && jwtContent.isValid()) {
+      tokenType = jwtContent.isPremium() ? UserConfig.TokenType.TRIAL_TOKEN : UserConfig.TokenType.TEST_TOKEN;
+    }
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs, trustedSource, optInThirdPartyAI, limits.hasPremium(), tokenType);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
@@ -463,10 +542,21 @@ abstract class TextChecker {
       }
     }
     List<String> enabledRules = getEnabledRuleIds(params);
-
     List<String> disabledRules = getDisabledRuleIds(params);
     List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", params);
     List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", params);
+
+
+    if (shouldRunRestrictedRulesTest(params, agent, lang, abTest)) {
+      log.info("Running test with restricted rules for user: {}, language: {}, client: {}",
+        params.getOrDefault("username", ""), lang.getShortCodeWithCountryAndVariant(), agent);
+      useEnabledOnly = true;
+      enabledRules = onlyTestRules;
+      // need to clear these settings, leads to conflict with useEnabledOnly otherwise
+      disabledRules = Collections.emptyList();
+      disabledCategories = Collections.emptyList();
+    }
+
 
     if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.INVALID_REQUEST);
@@ -505,12 +595,19 @@ abstract class TextChecker {
     } else {
       toneTags.add(ToneTag.ALL_WITHOUT_GOAL_SPECIFIC); //No toneTags param in request
     }
+
+    String rIp = LanguageToolHttpHandler.getRealRemoteAddressOrNull(httpExchange,config);
+    if (rIp != null && mode.equals(JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY)) {
+      log.info("L-IP{}:{}", lang.getShortCodeWithCountryAndVariant(), rIp);
+    }
+
     String callback = params.get("callback");
     // allowed to log input on errors?
     boolean inputLogging = !params.getOrDefault("inputLogging", "").equals("no");
+    boolean premiumStatus = limits.hasPremium();
     QueryParams qParams = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, toneTags, callback, inputLogging);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, premiumStatus, enableTempOffRules, mode, level, toneTags, callback, inputLogging);
 
     int textSize = length;
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
@@ -685,7 +782,7 @@ abstract class TextChecker {
             + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
             + ", r:" + reqCounter.getRequestCount()
             + ", m:" + ServerTools.getModeForLog(mode) + skipLimits
-            + ", premium: " + (limits.getPremiumUid() != null && limits.hasPremium())
+            + ", premium: " + premiumStatus
             //+ ", temporaryPremiumDisabledRuleMatches: " + temporaryPremiumDisabledRuleMatch //TODO activate if used
             //+ ", temporaryPremiumDisabledRuleMatchedIds: " + temporaryPremiumDisabledRuleMatchedIds //TODO activate if used
             + (limits.getPremiumUid() != null ? ", uid:" + limits.getPremiumUid() : ""));

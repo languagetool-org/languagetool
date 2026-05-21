@@ -64,7 +64,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   private static final Pattern PATTERN_1 = compile("[а-яіїєґa-z0-9].*");
   private static final Pattern PATTERN_2 = compile("[0-9]+([.,–—-][0-9]+)?");
   private static final Pattern PATTERN_3 = compile("два|дві|три|чотири");
-  private static final Pattern PATTERN_4 = compile(":(alt|nv|ua_\\d{4}|xp\\d)");
+  private static final Pattern PATTERN_4 = compile(":(alt|nv|up\\d{2}|xp\\d)");
   private static final Pattern PATTERN_5 = compile(":[mfn]:v_rod");
 
   private final Disambiguator chunker = new UkrainianMultiwordChunker("/uk/multiwords.txt", true);
@@ -97,6 +97,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public AnalyzedSentence preDisambiguate(AnalyzedSentence input) {
     simpleDisambiguator.removeRareForms(input);
+    removeYih(input);
     removeVmis(input);
     retagFemNames(input);
     retagInitials(input);
@@ -110,6 +111,108 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     retagPulralProp(input);
     removeVerbImpr(input);
     return input;
+  }
+
+  private static final Pattern ADJ_PRON = compile("adj.*pron.*");
+//  private static final Pattern NOUN_PRON = compile("noun.*pron.*");
+  
+  private void removeYih(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
+    for (int i = 1; i < tokens.length; i++) {
+      AnalyzedTokenReadings mainToken = tokens[i];
+
+      String cleanToken = mainToken.getCleanToken();
+      if( StringUtils.isEmpty(cleanToken) )
+        continue;
+      
+      String cleanTokenLower = cleanToken.toLowerCase();
+      
+      if( cleanTokenLower.matches("їх|його|її") ) {
+
+        if( i < tokens.length - 1 ) {
+          String nextCleanToken = tokens[i+1].getCleanToken();
+          nextCleanToken = nextCleanToken.toLowerCase();
+
+          if( LemmaHelper.hasLemma(tokens[i+1], compile("кількість|розгляд|обговорення|використання|реалізація|виконання|звільнення|виробництво|застосування|проведення|утримання|вирішення|загибель|аналоги|однолітки|перелік|затримання|створення|розміщення|лікування|втілення|арешт|формування|наявність|збереження"))
+              || PosTagHelper.hasPosTag(tokens[i+1], compile("noninfl:predic.*")) // їх можна ...
+              ) {
+            removeReadings(mainToken, ADJ_PRON, "dis_yih_pron_pos");
+            continue;
+          }
+
+//          if( LemmaHelper.hasLemma(tokens[i+1], compile("існування|друг"))
+//              ) {
+//            removeReadings(mainToken, NOUN_PRON, "dis_yih_pron_pos");
+//            continue;
+//          }
+
+          // їх було
+          if( PosTagHelper.hasPosTagStart(tokens[i+1], "verb")
+              && ! PosTagHelper.hasPosTag(tokens[i+1], compile("(adj|noun).*"))
+              ) {
+            removeReadings(mainToken, ADJ_PRON, "dis_yih_pron_pos");
+            continue;
+          }
+
+          if( nextCleanToken.matches("обох|ніхто|ніщо") // їх обох
+              || (PosTagHelper.hasPosTag(tokens[i+1], compile(".*pron:pers.*|prep.*"))
+                  && ! nextCleanToken.matches("і?з")) // їх я, їх на... але не "їх з"
+              ) {
+            removeReadings(mainToken, ADJ_PRON, "dis_yih_pron_pos");
+            continue;
+          }
+
+          if( i < tokens.length-2 && nextCleanToken.matches("н[еі]") // їх не було
+              && PosTagHelper.hasPosTagStart(tokens[i+2], "verb")
+                  ) {
+            removeReadings(mainToken, ADJ_PRON, "dis_yih_pron_pos");
+            continue;
+          }
+
+          // exclude на його душу
+          if( ! PosTagHelper.hasPosTag(tokens[i+1], compile("(adj|noun).*")) ) {
+            Set<String> caseGovernments = CaseGovernmentHelper.getCaseGovernments(tokens[i+1], Pattern.compile("verb.*"));
+            if( ! Collections.disjoint(caseGovernments, List.of("v_rod", "v_zna")) ) {
+              removeReadings(mainToken, ADJ_PRON, "dis_yih_pron_pos");
+              continue;
+            }
+          }
+        }
+
+        // посунув їх
+        if( i > 1 ) {
+          Set<String> prevCaseGovernments = CaseGovernmentHelper.getCaseGovernments(tokens[i-1], Pattern.compile("(verb|advp).*"));
+          if( ! Collections.disjoint(prevCaseGovernments, List.of("v_rod", "v_zna")) ) {
+            
+            // посунув їх швидко/у ...
+            if( i == tokens.length-1
+                || PosTagHelper.hasPosTag(tokens[i+1], compile("(adv|prep).*"))
+                || tokens[i+1].getToken().matches("[,.;\u2013\u2014-]") ) {
+              removeReadings(mainToken, ADJ_PRON, "dis_yih_pron_pos");
+              continue;
+            }
+
+            // примусили їх сказати
+            if( i <= tokens.length-1
+                && PosTagHelper.hasPosTag(tokens[i-1], compile("(verb|advp).*"))
+                && PosTagHelper.hasPosTag(tokens[i+1], compile("(verb).*:inf.*"))
+                && ! Collections.disjoint(prevCaseGovernments, List.of("v_inf")) ) {
+              removeReadings(mainToken, ADJ_PRON, "dis_yih_pron_pos");
+              continue;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private void removeReadings(AnalyzedTokenReadings mainToken, Pattern posTag, String label) {
+    List<AnalyzedToken> analyzedTokens = mainToken.getReadings();
+    for(AnalyzedToken analyzedToken: analyzedTokens) {
+      if( PosTagHelper.hasPosTag(analyzedToken, posTag) ) {
+        mainToken.removeReading(analyzedToken, label);
+      }
+    }
   }
 
   private void removeVerbImpr(AnalyzedSentence input) {

@@ -39,6 +39,8 @@ public class WordListValidatorTest {
           "ă" +
           "å" +
           "ħ" +
+          "ø" +
+          "ĉĝĥĵŝŭĈĜĤĴŜŬ" +
           "'’" +
           "./%-]+" +
           "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
@@ -46,6 +48,20 @@ public class WordListValidatorTest {
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
+          "Brașov",
+          "Iași",
+          "Częstochowa",
+          "Ceaușescu",
+          "Timișoara",
+          "Guðnadóttir",
+          "Andrić",
+          "Andrićgrad",
+          "Višegrad",
+          "Onești",
+          "Karadžić",
+          "Mladić",
+          "Vučić",
+          "Milošević",
           "Prešov",
           "Martinů",
           "Şanlıurfa",
@@ -196,6 +212,8 @@ public class WordListValidatorTest {
           "Wałęsa",
           "Çalhanoğlu",
           "Çalhanoğlu/S",
+          "İmamoğlu",
+          "İmamoğlu/S",
           "Szczęsny",
           "celebrytę", // for PL
           "antybiotykoterapię", // for PL

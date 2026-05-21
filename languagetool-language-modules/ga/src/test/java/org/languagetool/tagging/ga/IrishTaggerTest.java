@@ -37,7 +37,7 @@ public class IrishTaggerTest extends TestCase {
   }
 
   public void testDictionary() throws IOException {
-    TestTools.testDictionary(tagger, new Irish());
+    TestTools.testDictionary(tagger, Irish.getInstance());
   }
   
   public void testTagger() throws IOException {

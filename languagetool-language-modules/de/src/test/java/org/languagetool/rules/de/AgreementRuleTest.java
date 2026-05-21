@@ -665,6 +665,7 @@ public class AgreementRuleTest {
     assertGood("Es besteht durchaus die Gefahr, dass die Telekom eine solch starke monopolistische Stellung auf dem Markt hat, dass sich kaum Wettbewerb entfalten kann.");
     assertBad("Ich habe keine Zeit für solche kleinlichen Belangen.");
     assertGood("Wenn ein Tiger einen Menschen tötet, ist das Grausamkeit.");
+    assertGood("Kombinieren Sie diese zu ganzen Bewegungsprogrammen");
     assertBad("Einen Dämonen wird er nicht aufhalten.");
     assertBad("Das versetzte den Kronprinz in Schrecken.");
     assertGood("Erst später wurde Kritik hauptsächlich an den Plänen zu einem Patriot Act II laut.");

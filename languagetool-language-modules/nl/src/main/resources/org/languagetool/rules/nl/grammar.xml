@@ -206,13 +206,13 @@ regexp case-insensitive maken: (?i)
 					<example>De Nederlandse staat heeft het Standaardfries in 1956 als tweede "rijkstaal" erkend.</example>
 				</antipattern>
 				<antipattern>
-				    <token>het</token>
-				    <token case_sensitive="yes" regexp="yes">[A-Z][A-Z].*</token>
-				    <example>Wij zijn onderdeel van het LINGU.</example>
+					<token>het</token>
+					<token case_sensitive="yes" regexp="yes">[A-Z][A-Z].*</token>
+					<example>Wij zijn onderdeel van het LINGU.</example>
 				</antipattern>
 				<antipattern>
 					<token skip="-1">het</token>
-					<token regexp="yes" inflected="yes">betekenen|noemen|heten|gieten|zijn</token>
+					<token regexp="yes" inflected="yes">betekenen|noemen|heten|gieten</token>
 					<example>Anders dan in het Duits, waar het kameraad of vriend betekent.</example>
 				</antipattern>
 				<antipattern>
@@ -264,17 +264,17 @@ regexp case-insensitive maken: (?i)
 					<example>Het koffie / thee-momentje.</example>
 				</antipattern>
 				<antipattern>
-				    <token>het</token>
+					<token>het</token>
 					<token postag="ZNW:EKV:DE_"/>
-				    <token postag_regexp="yes" postag="ZNW:EKV.*|WKW:TGW:INF"><exception postag="WKW:TGW:3EP"/></token>
-				    <example>Wanneer je eenmaal het auto theorie examen gehaald hebt.</example>
-				    <example>Profiteren van het compound interest effect.</example>
+					<token postag_regexp="yes" postag="ZNW:EKV.*|WKW:TGW:INF"><exception postag="WKW:TGW:3EP"/></token>
+					<example>Wanneer je eenmaal het auto theorie examen gehaald hebt.</example>
+					<example>Profiteren van het compound interest effect.</example>
 				</antipattern>
 				<antipattern>
-				    <token><exception postag="SENT_START"/></token>
-				    <token case_sensitive="yes">Het</token>
-				    <token postag="ZNW:EKV:DE_" regexp="yes">[A-Z][a-z].*</token>
-				    <example>Een biertje doen bij Brouwerij Het Achterom.</example>
+					<token><exception postag="SENT_START"/></token>
+					<token case_sensitive="yes">Het</token>
+					<token postag="ZNW:EKV:DE_" regexp="yes">[A-Z][a-z].*</token>
+					<example>Een biertje doen bij Brouwerij Het Achterom.</example>
 				</antipattern>
 				<pattern>
 					<marker>
@@ -285,6 +285,7 @@ regexp case-insensitive maken: (?i)
 				<message>'\1' is hier waarschijnlijk niet het juiste lidwoord omdat \2 een de-woord is.</message>
 				<suggestion>de \2</suggestion>
 				<example correction="de fiets">Ik heb <marker>het fiets</marker> op slot gezet.</example>
+				<example correction="De termijn"><marker>Het termijn</marker> is afgelopen.</example>
 				<example>Is het angst dat je voelt?</example>
 			</rule>
 		</rulegroup>
@@ -552,6 +553,113 @@ regexp case-insensitive maken: (?i)
 				</pattern>
 				<message>U bedoelt vast: <suggestion><match no="3" postag_regexp="yes" postag="ZNW:EKV:(DE_|HET)"/></suggestion>.</message>
 				<example correction="prijs">Die heb ik voor een voordeligere <marker>prijzen</marker> op de kop getikt.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="VANDE" name="Vande/van de" default="temp_off">
+			<rule>
+				<antipattern><token>vande</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
+				<pattern>
+					<token>vande</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>van de</suggestion>.</message>
+				<example correction="van de">Hij baalt <marker>vande</marker> vele fouten.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TEN_GEHORE" name="ter/ten gehore" default="temp_off">
+			<rule>
+				<pattern>
+					<token negate="yes">ten</token>
+					<token>gehore</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>ten gehore</suggestion>.</message>
+				<example correction="ten gehore">Het zal die middag een aantal liedjes <marker>tegen gehore</marker> brengen.</example>
+				<example correction="ten gehore">Tijdens de Karaoke Night kun je aan iedereen je zangkunsten <marker>ter gehore</marker> brengen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="VAARDE_VOER" name="vaarde/voer" default="temp_off">
+			<rule>
+				<antipattern><token skip="-1">vaarde</token><token skip="-1">wel</token><token>bij</token></antipattern>
+				<pattern>
+					<token>vaarde</token>
+				</pattern>
+				<message>De verleden tijd van 'vaar' is meestal <suggestion>voer</suggestion>.</message>
+				<example correction="voer">Het schip <marker>vaarde</marker> uit.</example>
+				<example>Hij <marker>vaarde</marker> wel bij het verschijnsel.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="KOM_BIJ_ZIJN" name="kom(kon) er niet bij zijn">
+			<rule>
+				<pattern>
+					<marker>
+						<token skip="3">kom</token>
+					</marker>
+					<token>bij</token>
+					<token>zijn</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion>kon</suggestion>.</message>
+				<example correction="kon">Sorry, ik <marker>kom</marker> er helaas niet bij zijn.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="PLAATSE_ZONDER_TER" name="plaatse/plaatste/ter plaatse">
+			 <rule>
+				 <antipattern><token regexp="yes">ter|er|per|ten</token><token>plaatse</token></antipattern>
+				 <antipattern><token>te</token><token>bestemder</token><token>plaatse</token></antipattern>
+				 <pattern>
+					 <token case_sensitive="yes">plaatse</token>
+				 </pattern>
+				 <message>U bedoelt vast iets anders.</message>
+				 <suggestion>plaatste</suggestion>
+				 <suggestion>ter plaatse</suggestion>
+				 <suggestion>plaatsje</suggestion>
+				 <suggestion>plaatsen</suggestion>
+				 <example correction="plaatste|ter plaatse|plaatsje|plaatsen">De automobilist werd <marker>plaatse</marker> behandeld.</example>
+				 <example correction="plaatste|ter plaatse|plaatsje|plaatsen">Ook Spanje <marker>plaatse</marker> zich voor het WK.</example>
+				 <example correction="plaatste|ter plaatse|plaatsje|plaatsen">Ze liepen naar het Hongaarse <marker>plaatse</marker> Barcs.</example>
+				 <example correction="plaatste|ter plaatse|plaatsje|plaatsen">We hebben de politie gevraagd op deze <marker>plaatse</marker> te controleren.</example>
+			 </rule>
+			 <rule>
+				 <pattern>
+					 <token>te</token>
+					 <token>plaatse</token>
+				 </pattern>
+				 <message>U bedoelt vast iets anders.</message>
+				 <suggestion>ter plaatse</suggestion>
+				 <suggestion>te plaatsen</suggestion>
+				 <example correction="ter plaatse|te plaatsen">De automobilist werd <marker>te plaatse</marker> behandeld.</example>
+				 <example correction="ter plaatse|te plaatsen">We hebben gevraagd deze <marker>te plaatse</marker>.</example>
+			 </rule>
+			 <rule>
+				 <pattern>
+					 <token>er</token>
+					 <token>plaatse</token>
+				 </pattern>
+				 <message>U bedoelt vast iets anders.</message>
+				 <suggestion>ter plaatse</suggestion>
+				 <suggestion>er plaatsen</suggestion>
+				 <example correction="ter plaatse|er plaatsen">Hij zou het bord <marker>er plaatse</marker>.</example>
+			 </rule>
+			 <rule>
+				 <pattern>
+					 <token regexp="yes">per|ten</token>
+					 <token>plaatse</token>
+				 </pattern>
+				 <message>U bedoelt vast iets anders.</message>
+				 <suggestion>ter plaatse</suggestion>
+				 <example correction="ter plaatse">Hij was <marker>ten plaatse</marker>.</example>
+			 </rule>
+		</rulegroup>
+		<rulegroup id="EEN_WKW_ONV_EEN" name="een aangenomen (een) motie">
+			<rule>
+				<pattern>
+					<token>een</token>
+					<token postag="WKW:VTD:ONV"/>
+					<marker>
+						<token>een</token>
+					</marker>
+					<token postag_regexp="yes" postag="ZNW:EKV:(DE_|HET)"/>
+				</pattern>
+				<message>Dit woord lijkt overbodig: <suggestion></suggestion>.</message>
+				<example correction="">In een aangenomen <marker>een</marker> motie...</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="JAAR_GELDEN" name="jaar gel(e)den">
@@ -1080,6 +1188,41 @@ regexp case-insensitive maken: (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="SCHULDIG_VAN" name="Schuldig bevonden van(aan) plagiaat.">
+			<rule>
+				<antipattern>
+					<token skip="2">schuldig</token>
+					<token>aan</token>
+					<example>Ze is schuldig aan omkoping van een ambtenaar.</example>
+				</antipattern>
+				<pattern>
+					<token skip="2">schuldig</token>
+					<marker>
+						<token>van</token>
+					</marker>
+				</pattern>
+				<message>Correct is <suggestion>aan</suggestion>.</message>
+				<example correction="aan">Schuldig bevonden <marker>van</marker> plagiaat.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="VS" name="Het is goed vs(.) kwaad">
+			<rule>
+				<antipattern>
+					<token case_sensitive="yes">vs</token>
+					<token spacebefore="no">.</token>
+					<example>Het is goed vs. kwaad.</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token case_sensitive="yes">vs</token>
+					</marker>
+				</pattern>
+				<message>Correct is <suggestion>vs.</suggestion>, of anders <suggestion>versus</suggestion>. Of bedoelt u de <suggestion>VS</suggestion>?</message>
+				<example correction="vs.|versus|VS">Het is goed <marker>vs</marker> kwaad.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="ALS_NOG" name="als nog - alsnog">
 			<rule>
 				<pattern>
@@ -1096,6 +1239,16 @@ regexp case-insensitive maken: (?i)
 	</category>
 
 	<category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
+
+		<rulegroup id="WEL" name="Dat is juist wèl(wél) het geval.">
+			<rule>
+				<pattern>
+					<token>wèl</token>
+				</pattern>
+				<message>Correct is <suggestion>wél</suggestion>, of anders <suggestion>wel</suggestion>.</message>
+				<example correction="wél|wel">Dat is juist <marker>wèl</marker> het geval.</example>
+			</rule>
+		</rulegroup>
 
 		<rulegroup id="PIJLEN" name="-&gt; (→)">
 			<rule>
@@ -8086,6 +8239,56 @@ regexp case-insensitive maken: (?i)
 				<example correction="van de weg raken">We mogen niet <marker>van de wegraken</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="OPGANG_KOMEN" name="Toen ze opgang(op gang) kwamen.">
+			<!-- op gang komen -->
+			<rule>
+				<antipattern>
+					<token postag="SENT_START" skip="2"/>
+					<token>opgang</token>
+					<example>De grote opgang kwam in december.</example>
+				</antipattern>
+				<antipattern>
+					<token>in</token>
+					<token>opgang</token>
+					<example>De luchtvaart, die in opgang kwam.</example>
+				</antipattern>
+				<antipattern>
+					<token postag_regexp="yes" postag="VNW:AWZ.*" skip="1"/>
+					<token>opgang</token>
+					<example>Aan deze economische opgang kwam al snel een einde.</example>
+				</antipattern>
+				<pattern>
+					<marker>
+						<token>opgang</token>
+					</marker>
+					<token inflected="yes">komen</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>op gang</suggestion>.</message>
+				<example correction="op gang">Er is een discussie <marker>opgang</marker> gekomen.</example>
+			</rule>
+			<!-- komen op gang -->
+			<rule>
+				<antipattern>
+					<token>een</token>
+					<token>opgang</token>
+					<example>Fietsenstallingen worden verplaatst en er komt een opgang naar het tweede perron.</example>
+				</antipattern>
+				<antipattern>
+					<token inflected="yes">komen</token>
+					<token postag_regexp="yes" postag="VNW:PER.*BEZ"></token>
+					<token>opgang</token>
+					<example>Daarna kwam zijn opgang binnen de kerkelijke hiërarchie.</example>
+				</antipattern>
+				<pattern>
+					<token inflected="yes" skip="2">komen</token>
+					<marker>
+						<token>opgang</token>
+					</marker>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>op gang</suggestion>.</message>
+				<example correction="op gang">Al snel kwam de discussie <marker>opgang</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="EN_OF_KOPPELTEKEN" name="eet - en drinkgelegenheden/ eet- en drinkgelegenheden" >
 			<rule>
 				<antipattern>
@@ -12310,7 +12513,7 @@ regexp case-insensitive maken: (?i)
 				<pattern>
 					<token><exception postag_regexp="yes" postag="SENT_START|START"/></token>
 					<marker>
-						<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token>
+						<token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September|Oktober|November|December</token>
 					</marker>
 				</pattern>
 				<message>De dagen van de week en maanden horen (behalve aan het begin van de zin) met kleine letters: <suggestion><match no="2" case_conversion="alllower"/></suggestion>.</message>
@@ -18249,6 +18452,35 @@ regexp case-insensitive maken: (?i)
 	</category>
 
 	<category id="CONGRUENTIE" name="Congruentie">
+		<rulegroup id="WE_MAAKTE" name="we maakte(n)">
+			<rule>
+				<antipattern>
+					<token skip="5">we</token>
+					<token postag_regexp="yes" postag="WKW.*INF|VNW.*|_english_ignore_|UNKNOWN"><exception postag="VNW:AWZ:EKV:DE_"/></token>
+					<example>Nooit zullen we weten hoe de zin afliep</example>
+					<example>Haar eerste hit was in 1987, toen ze het duet 'Can't we try' met Dan Hill opnam.</example>
+				</antipattern>
+				<antipattern>
+					<token skip="1" postag_regexp="yes" postag="WKW.*INF|UNKNOWN|_english_ignore_"/>
+					<token>we</token>
+					<example>In hoofdstuk 8 lezen we hoe koning David de Arameeërs versloeg.</example>
+					<example>Time Stays, we go werd uitgebracht in 2013 en werd gevolgd door een uitgebreide tournee.</example>
+				</antipattern>
+				<antipattern>
+					<token skip="5">we</token>
+					<token regexp="yes">die|daar.*|hier.*</token>
+					<example>Weten we nog hoe daar aan getrokken werd?</example>
+				</antipattern>
+				<pattern>
+					<token case_sensitive="yes" skip="6">we</token>
+					<marker>
+						<token postag="WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW.*|WKW:VTD.*|ZNW:EKV.*"/></token>
+					</marker>
+				</pattern>
+				<message>Het lijkt erop dat dit werkwoord in de verkeerde vorm staat: <suggestion><match no="2" postag="WKW:VLT:INF"/></suggestion>.</message>
+				<example correction="maakten">Het gevolg was dat we er de auto sneller mee <marker>maakte</marker>.</example>
+			</rule>
+		</rulegroup>
 
 		<rulegroup id="WERD_VERWAARLOOST" name="verkeerde werkwoordvorm">
 			<rule>

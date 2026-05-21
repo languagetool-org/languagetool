@@ -18,7 +18,6 @@
  */
 package org.languagetool.server;
 
-import com.google.common.cache.Cache;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -134,6 +133,8 @@ abstract class DatabaseAccess {
   abstract UserInfoEntry getUserInfoWithApiKey(String username, String apiKey);
 
   abstract UserInfoEntry getUserInfoWithAddonToken(String username, String apiKey);
+
+  abstract JwtContent validateAuthHeader(String authHeader);
 
   abstract void invalidateUserInfoCache(String user);
 

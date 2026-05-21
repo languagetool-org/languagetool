@@ -26,11 +26,11 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.net.URL;
 
 
 /**
@@ -53,7 +53,7 @@ public class SpanishWikipediaRule extends AbstractSimpleReplaceRule2 {
   }
 
   public SpanishWikipediaRule(ResourceBundle messages) throws IOException {
-    super(messages, new Spanish());
+    super(messages, Spanish.getInstance());
     setCategory(Categories.WIKIPEDIA.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("<marker>a basto</marker>"),

@@ -182,9 +182,9 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   }
 
   public EnglishRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, new AmericanEnglish());
+    super(messages, AmericanEnglish.getInstance());
     setTags(Collections.singletonList(Tag.picky));
-    antiPatterns = cacheAntiPatterns(new AmericanEnglish(), ANTI_PATTERNS);
+    antiPatterns = cacheAntiPatterns(AmericanEnglish.getInstance(), ANTI_PATTERNS);
     String id = this.getId();
     if (id.equals("EN_REPEATEDWORDS_DEFINITELY")){
       this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/i-agree-synonyms/"));
@@ -228,10 +228,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     if (isAllUppercase || (isCapitalized && !sentStart)) {
       return true;
     }
-    if (tokens[i].hasPosTagStartingWith("NNP")) {
-      return true;
-    }
-    return false;
+    return tokens[i].hasPosTagStartingWith("NNP");
   }
 
 }

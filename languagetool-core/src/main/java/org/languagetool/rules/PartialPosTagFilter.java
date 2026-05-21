@@ -34,10 +34,10 @@ import java.util.regex.Pattern;
  * <ul>
  *   <li>{@code no}: an integer of the matching 'token' position to be considered. Starts with 1.</li>
  *   <li>{@code regexp}: the regular expression to specify the part of the token to be considered.
- *       For example, <tt>(?:in|un)(.*)</tt> will consider the part of the token that comes after 'in' or 'un'.
+ *       For example, <code>(?:in|un)(.*)</code> will consider the part of the token that comes after 'in' or 'un'.
  *       Note that always the first group is considered, so if you need more parenthesis you need to use
- *       non-capturing groups <tt>(?:...)</tt>, as in the example.</li>
- *   <li>{@code postag_regexp}: a regular expression to match the POS tag of the part of the word, e.g. <tt>VB.?</tt>
+ *       non-capturing groups <code>(?:...)</code>, as in the example.</li>
+ *   <li>{@code postag_regexp}: a regular expression to match the POS tag of the part of the word, e.g. <code>VB.?</code>
  *       to match any verb in English.</li>
  *   <li>{@code negate_postag}: if value is yes, then the regexp is negated (not negated if not specified).</li>
  *   <li>{@code two_groups_regexp}: if value is yes, then the regexp must contain 2 groups (if not specified - 1 groups).</li>

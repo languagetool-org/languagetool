@@ -131,6 +131,10 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
       RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos
         + word.length(), messages.getString("spelling"),
         messages.getString("desc_spelling_short"));
+      if (userConfig != null && !userConfig.isSuggestionsEnabled()){
+        ruleMatches.add(ruleMatch);
+        return ruleMatches;
+      }
       //If lower case word is not a misspelled word, return it as the only suggestion
       boolean createSuggestions = userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 ||
         ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions();

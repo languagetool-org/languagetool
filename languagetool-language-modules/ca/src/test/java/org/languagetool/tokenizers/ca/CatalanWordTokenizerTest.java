@@ -29,7 +29,7 @@ public class CatalanWordTokenizerTest {
 
   @Test
   public void testTokenize() {
-    CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
+    CatalanWordTokenizer wordTokenizer = CatalanWordTokenizer.INSTANCE;
     List<String> tokens;
 
     tokens = wordTokenizer.tokenize("-contar-se'n-");

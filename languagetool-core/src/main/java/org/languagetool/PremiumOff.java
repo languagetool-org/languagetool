@@ -20,9 +20,6 @@ package org.languagetool;
 
 import org.languagetool.rules.Rule;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Information about premium-only rules.
  */

@@ -22,11 +22,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
-import org.languagetool.rules.*;
+import org.languagetool.rules.ConfusionPair;
+import org.languagetool.rules.ConfusionSetLoader;
+import org.languagetool.rules.ConfusionString;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -53,7 +58,7 @@ public class RuleCreator {
   }
 
   private void run(File homophoneOccurrences, String homophonePath) throws IOException {
-    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new AmericanEnglish());
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(AmericanEnglish.getInstance());
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);
     Map<String,List<ConfusionPair>> confusionPairsMap = confusionSetLoader.loadConfusionPairs(inputStream);
     initMaps(homophoneOccurrences);

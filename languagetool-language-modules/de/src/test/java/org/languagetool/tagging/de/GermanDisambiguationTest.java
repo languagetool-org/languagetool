@@ -18,17 +18,17 @@
  */
 package org.languagetool.tagging.de;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.GermanyGerman;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class GermanDisambiguationTest {
 
@@ -41,10 +41,10 @@ public class GermanDisambiguationTest {
 
   @Before
   public void setUp() throws IOException {
-    language = new GermanyGerman();
+    language = GermanyGerman.getInstance();
 //    tagger = new GermanTagger();
 //    tokenizer = language.getWordTokenizer();
-//    sentenceTokenizer = new SRXSentenceTokenizer(new GermanyGerman());
+//    sentenceTokenizer = new SRXSentenceTokenizer(GermanyGerman.getInstance());
 //    disambiguator = new GermanRuleDisambiguator();
     lt = new JLanguageTool(language);
   }
@@ -65,27 +65,27 @@ public class GermanDisambiguationTest {
         tokens.toString());
 
     tokens = lt.analyzeText("3-adische System");
-    assertEquals(true, tokens.get(0).getTokens()[1].isIgnoredBySpeller());
-    assertEquals(true, tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
 
     tokens = lt.analyzeText("3-adische Systeme");
-    assertEquals(true, tokens.get(0).getTokens()[1].isIgnoredBySpeller());
-    assertEquals(true, tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
 
     tokens = lt.analyzeText("3-adischen Systems");
-    assertEquals(true, tokens.get(0).getTokens()[1].isIgnoredBySpeller());
-    assertEquals(true, tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
 
     tokens = lt.analyzeText("Kelassurier Mauer");
-    assertEquals(true, tokens.get(0).getTokens()[1].isIgnoredBySpeller());
-    assertEquals(true, tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
 
     tokens = lt.analyzeText("Kelassurier Mauern");
-    assertEquals(true, tokens.get(0).getTokens()[1].isIgnoredBySpeller());
-    assertEquals(true, tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertTrue(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
 
     tokens = lt.analyzeText("Kelassurier Mauers");
-    assertEquals(false, tokens.get(0).getTokens()[1].isIgnoredBySpeller());
-    assertEquals(false, tokens.get(0).getTokens()[2].isIgnoredBySpeller());
+    assertFalse(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
+    assertFalse(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
   }
 }

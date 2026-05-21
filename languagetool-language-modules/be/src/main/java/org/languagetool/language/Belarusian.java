@@ -20,23 +20,25 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.Language;
+import org.languagetool.LanguageWithModel;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
-import org.languagetool.rules.be.*;
+import org.languagetool.rules.be.BelarusianSpecificCaseRule;
+import org.languagetool.rules.be.MorfologikBelarusianSpellerRule;
+import org.languagetool.rules.be.SimpleReplaceRule;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
-import org.languagetool.tokenizers.be.BelarusianWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.be.BelarusianWordTokenizer;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 /**
@@ -46,9 +48,7 @@ import java.util.regex.Pattern;
  * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
 @Deprecated
-public class Belarusian extends Language implements AutoCloseable {
-
-  private LanguageModel languageModel;
+public class Belarusian extends LanguageWithModel {
 
   @Override
   public Pattern getIgnoredCharactersRegex() {
@@ -140,24 +140,6 @@ public class Belarusian extends Language implements AutoCloseable {
             new SimpleReplaceRule(messages),
             new BelarusianSpecificCaseRule(messages)
     );
-  }
-
-  /** @since 3.1 */
-  @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
-    languageModel = initLanguageModel(indexDir, languageModel);
-    return languageModel;
-  }
-
-  /**
-   * Closes the language model, if any. 
-   * @since 3.1
-   */
-  @Override
-  public void close() throws Exception {
-    if (languageModel != null) {
-      languageModel.close();
-    }
   }
 
   @Override

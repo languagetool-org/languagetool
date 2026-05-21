@@ -35,7 +35,7 @@ public class PortugueseWordRepeatBeginningRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new Portuguese());
+    JLanguageTool lt = new JLanguageTool(Portuguese.getInstance());
     TestTools.disableAllRulesExcept(lt, "PORTUGUESE_WORD_REPEAT_BEGINNING_RULE");
     // correct sentences:
     assertEquals(0, lt.check("Este exemplo está correto. Este exemplo também está.").size());

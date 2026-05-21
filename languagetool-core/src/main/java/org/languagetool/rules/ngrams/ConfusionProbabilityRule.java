@@ -135,7 +135,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     List<RuleMatch> matches = new ArrayList<>();
     if (tokens.size() == 2) {
       // 2 tokens: first is always _START_ so there's no "real" context. Ignore these cases.
-      return matches.toArray(new RuleMatch[0]);
+      return matches.toArray(RuleMatch.EMPTY_ARRAY);
     }
     int pos = 0;
     boolean realWordBefore = false;  // more advanced than simple checking for sentence start, as it skips quotes etc.
@@ -192,7 +192,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       }
       pos++;
     }
-    return matches.toArray(new RuleMatch[0]);
+    return matches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
   protected boolean isCommonWord(String token) {

@@ -53,7 +53,7 @@ public class GRPCRuleTest {
     rule = new GRPCRule(new Demo(), JLanguageTool.getMessageBundle(), config, true) {
       @Override
       protected String getMessage(MLServerProto.Match match, AnalyzedSentence sentence) {
-        return "Matched: " + match.toString().replaceAll("\n", " | ");
+        return "Matched: " + match.toString().replace("\n", " | ");
       }
 
       @Override

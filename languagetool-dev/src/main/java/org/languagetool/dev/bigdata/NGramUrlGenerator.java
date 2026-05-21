@@ -46,7 +46,7 @@ final class NGramUrlGenerator {
     }
     for (int i = 0; i < chars.length(); i++) {
       for (int j = 0; j < chars2.length(); j++) {
-        String name = String.valueOf(chars.charAt(i)) + String.valueOf(chars2.charAt(j));
+        String name = String.valueOf(chars.charAt(i)) + chars2.charAt(j);
         System.out.println(url.replace("<XX>", name));
       }
     }
@@ -54,7 +54,7 @@ final class NGramUrlGenerator {
   }
 
   public static void mainDownloadSome(String[] args) throws IOException {
-    ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader(new AmericanEnglish());
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(AmericanEnglish.getInstance());
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones.txt");
     Map<String,List<ConfusionPair>> map = confusionSetLoader.loadConfusionPairs(inputStream);
     String url = "http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-2gram-20120701-<XX>.gz";

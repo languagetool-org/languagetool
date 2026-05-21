@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 public class DateCheckFilterTest {
 
   @Test
-  public void testGetDayOfWeek() throws Exception {
+  public void testGetDayOfWeek() {
     DateCheckFilter filter = new DateCheckFilter();
     assertThat(filter.getDayOfWeek("Sun"), is(1));
     assertThat(filter.getDayOfWeek("Mon"), is(2));
@@ -41,7 +41,7 @@ public class DateCheckFilterTest {
   }
 
   @Test
-  public void testMonth() throws Exception {
+  public void testMonth() {
     DateCheckFilter filter = new DateCheckFilter();
     assertThat(filter.getMonth("jan"), is(1));
     assertThat(filter.getMonth("dec"), is(12));

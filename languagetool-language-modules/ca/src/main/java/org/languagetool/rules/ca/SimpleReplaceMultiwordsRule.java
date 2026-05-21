@@ -24,7 +24,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -44,7 +43,7 @@ public class SimpleReplaceMultiwordsRule extends AbstractSimpleReplaceRule2 {
   private static final Locale CA_LOCALE = new Locale("ca");
 
   public SimpleReplaceMultiwordsRule(final ResourceBundle messages) throws IOException {
-    super(messages, new Catalan());
+    super(messages, Catalan.getInstance());
     setCategory(Categories.GRAMMAR.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
     useSubRuleSpecificIds();

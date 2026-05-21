@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class NoDisambiguationPortuguesePartialPosTagFilter extends PartialPosTagFilter {
 
-  private final Tagger tagger = new Portuguese().getTagger();
+  private final Tagger tagger = Portuguese.getInstance().getTagger();
 
   @Override
   protected List<AnalyzedTokenReadings> tag(String token) {

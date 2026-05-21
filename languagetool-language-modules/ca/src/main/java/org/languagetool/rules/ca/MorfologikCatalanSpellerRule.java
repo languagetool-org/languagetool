@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
@@ -43,17 +42,22 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     return Arrays.asList("/ca/"+SpellingCheckRule.CUSTOM_SPELLING_FILE, SpellingCheckRule.GLOBAL_SPELLING_FILE,
       "/ca/multiwords.txt", "/ca/spelling-special.txt");
   }
+
   private static final List<String> PARTICULA_INICIAL = Arrays.asList("amb", "sota", "no", "en", "a", "el", "els", "al", "als", "pel",
     "pels", "del", "dels", "del", "de", "per", "un", "uns", "una", "unes", "la", "les", "teu", "meu", "seu", "teus", "meus", "seus");
+  private static final List<String> PREPOSICIONS = Arrays.asList("amb", "en", "sota", "a", "al", "als", "pel", "pels",
+    "pel", "dels", "del", "de", "per");
   private static final List<String> PREFIX_AMB_ESPAI = Arrays.asList("pod", "ultra", "eco", "tele", "anti", "re", "des",
-    "avant", "auto", "ex", "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post", "retro", "semi", "super", "trans", "pro", "g", "l", "m");
-  private static final List<String> ESPAI_AMB_SUFIX = Arrays.asList("a", "o", "i");
+    "sen", "sem", "s", "avant", "auto", "ex", "extra", "macro", "mega", "meta", "micro", "multi", "mono", "mini", "post",
+    "retro", "semi", "super", "trans", "pro", "g", "l", "m", "e", "pos", "acost");
+  private static final List<String> ESPAI_AMB_SUFIX_NO = Arrays.asList("mi", "lis");
+  private static final List<String> ESPAI_AMB_SUFIX_SI = Arrays.asList("a", "o", "i");
 
   private static final List<String> PRONOM_INICIAL = Arrays.asList("em", "et", "es", "se", "ens", "us", "vos", "li", "hi",
     "ho", "el", "la", "els", "les");
+
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])[90]?(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
   private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)[90]?(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])[90]?(h?[aeiouàéèíòóú]...+)$",
@@ -74,14 +78,16 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final List<String> SPLIT_DIGITS_AT_END = Arrays.asList("en", "de", "del", "al", "dels", "als", "a", "i", "o", "amb");
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
   private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V.[SI].[123]S.*|V.[SI].[23]P.*");
+  private static final Pattern NOM = Pattern.compile("V.[NG].*|V.P.*|N.*|A.*|PX.*|DD.*");
   private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].|PX..S...|DD..S.");
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private static final Pattern VERB_INF = Pattern.compile("V.N.*");
   private static final Pattern VERB_GER = Pattern.compile("V.G.*");
+  private static final Pattern VERB_BALEAR = Pattern.compile("V......B");
 
   /* lemma exceptions */
-  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar", "entimar"};
+  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar", "entimar", "pisar"};
   public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
 
   private static final List<String> inalambric = Arrays.asList("inalàmbric", "inalàmbrica", "inalàmbrics", "inal" +
@@ -95,24 +101,22 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     "nsla", "nsli", "sela", "seli", "sels", "sens", "seus", "tela", "teli", "tels", "tens", "usel", "usem", "usen",
     "ushi", "usho", "usla", "usli", "lan", "len", "les", "lhi", "lil", "lin", "los", "mel", "men", "mhi", "mho", "nhi"
     , "nos", "sel", "sem", "sen", "set", "shi", "sho", "tel", "tem", "ten", "thi", "tho", "vos", "hi", "ho", "la",
-    "li", "lo", "ls", "me", "ne", "ns", "se", "te", "us");
+    "li", "lo", "ls", "me", "ne", "ns", "se", "te", "us", "mi", "nosi", "losi", "si", "lis");
   // "l", "m", "n", "s", "t"
 
-  private CatalanTagger tagger;
+  private final CatalanTagger tagger;
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
       List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
-    String spellingFilename = "ca-ES";
-    if (language.getVariant() == "valencia") {
+    if (Objects.equals(language.getVariant(), "valencia")) {
       tagger = CatalanTagger.INSTANCE_VAL;
-      spellingFilename = "ca-ES-valencia";
     } else {
       tagger = CatalanTagger.INSTANCE_CAT;
     }
 
-    dictFilename = "/ca/" + spellingFilename + "_spelling" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    dictFilename = "/ca/ca-ES_spelling" + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 
   @Override
@@ -141,8 +145,17 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     // move some run-on-words suggestions to the top
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
+    List<String> replacements = new ArrayList<>();
     for (int i = 0; i < suggestions.size(); i++) {
-      String replacement = suggestions.get(i).getReplacement();
+      replacements.add(suggestions.get(i).getReplacement());
+    }
+    for (int i = 0; i < suggestions.size(); i++) {
+      String replacement = replacements.get(i);
+      // avoid duplicate capitalized replacement
+      if (word.equals(word.toLowerCase()) && StringTools.isCapitalizedWord(replacement)
+        && replacements.contains(replacement.toLowerCase())) {
+        continue;
+      }
       if (inalambric.contains(replacement.toLowerCase())) {
         newSuggestions = new ArrayList<>();
         newSuggestions.add(new SuggestedReplacement("sense fils"));
@@ -173,16 +186,28 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       }
       String[] parts = replacement.split(" ");
       if (parts.length == 2) {
-        if (parts[1].toLowerCase().equals("s")) {
+        if (parts[1].equalsIgnoreCase("s")) {
           continue;
         }
         // remove wrong split prefixes
         if (PREFIX_AMB_ESPAI.contains(parts[0].toLowerCase())) {
           continue;
         }
-        // allow only one-letter second part " a", " o", " i"
-        if (parts[1].length() == 1 && !ESPAI_AMB_SUFIX.contains(parts[1].toLowerCase())) {
+        // remove wrong split sufixes
+        if (ESPAI_AMB_SUFIX_NO.contains(parts[1].toLowerCase())) {
           continue;
+        }
+        // allow only one-letter second part " a", " o", " i"
+        if (parts[1].length() == 1 && !ESPAI_AMB_SUFIX_SI.contains(parts[1].toLowerCase())) {
+          continue;
+        }
+        // remove preposition + inflected verb
+        if (parts[1].length() > 1 && PREPOSICIONS.contains(parts[0].toLowerCase())) {
+          String newSuggestion = parts[1];
+          List<AnalyzedTokenReadings> atkn = tagger.tag(List.of(newSuggestion));
+          if (atkn.get(0).matchesPosTagRegex(VERB_INDSUBJ) && !atkn.get(0).matchesPosTagRegex(NOM)) {
+            continue;
+          }
         }
       }
 
@@ -196,19 +221,21 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
       // move some split words to first place
       if (parts.length == 2) {
+        List<AnalyzedTokenReadings> atkn0 = tagger.tag(List.of(parts[0]));
+        List<AnalyzedTokenReadings> atkn1 = tagger.tag(List.of(parts[1]));
+        boolean isBalear0 = atkn0.get(0).matchesPosTagRegex(VERB_BALEAR) && !atkn0.get(0).hasPosTagStartingWith("N")
+          && !atkn0.get(0).hasPosTagStartingWith("S");
+        boolean isBalear1 = atkn1.get(0).matchesPosTagRegex(VERB_BALEAR) && !atkn1.get(0).hasPosTagStartingWith("N")
+          && !atkn1.get(0).hasPosTagStartingWith("S");
+        if (isBalear0 || isBalear1) {
+          continue;
+        }
         if (parts[1].length() > 1 && PARTICULA_INICIAL.contains(parts[0].toLowerCase())) {
-          String newSuggestion = parts[1];
-          List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
-          boolean isBalear = atkn.get(0).hasPosTag("VMIP1S0B") && !atkn.get(0).hasPosTagStartingWith("N");
-          if (!isBalear) {
             newSuggestions.add(posNewSugg, suggestions.get(i));
             continue;
-          }
         }
         if (parts[1].length() > 1 && PRONOM_INICIAL.contains(parts[0].toLowerCase())) {
-          String newSuggestion = parts[1];
-          List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
-          if (atkn.get(0).matchesPosTagRegex(VERB_INDSUBJ)) {
+          if (atkn1.get(0).matchesPosTagRegex(VERB_INDSUBJ)) {
             newSuggestions.add(posNewSugg, suggestions.get(i));
             continue;
           }
@@ -246,12 +273,10 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   @Override
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word)
       throws IOException {
-    List<String> suggestionsList = suggestions.stream().map(SuggestedReplacement::getReplacement)
-        .collect(Collectors.toList());
-    return SuggestedReplacement.convert(getAdditionalTopSuggestionsString(suggestionsList, word));
+    return SuggestedReplacement.convert(getAdditionalTopSuggestionsString(word));
   }
 
-  private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
+  private List<String> getAdditionalTopSuggestionsString(String word) throws IOException {
     /*
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
@@ -267,7 +292,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     }
     parts = StringTools.splitDigitsAtEnd(word);
     if (parts.length > 1) {
-      if (tagger.tag(Arrays.asList(parts[0])).get(0).isTagged()
+      if (tagger.tag(Collections.singletonList(parts[0])).get(0).isTagged()
       && (parts[0].length() > 2 || SPLIT_DIGITS_AT_END.contains(parts[0].toLowerCase()))) {
         return Collections.singletonList(String.join(" ",parts));
       }
@@ -296,7 +321,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition) + addStr;
-      AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
+      AnalyzedTokenReadings newatr = tagger.tag(List.of(newSuggestion)).get(0);
       if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("ajust")
           || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + addStr + separator + matcher.group(2);
@@ -313,7 +338,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     String lcword = word.toLowerCase();
     String pronouns = endsWithPronoun(lcword);
     String verb = lcword.substring(0, word.length() - pronouns.length());
-    AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(verb)).get(0);
+    AnalyzedTokenReadings newatr = tagger.tag(List.of(verb)).get(0);
     if (matchPostagRegexp(newatr, VERB_INFGERIMP)) {
       return verb + PronomsFeblesHelper.transformDarrere(pronouns, verb);
     }
@@ -321,10 +346,10 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       return "";
     }
     if (lcword.startsWith("d") || lcword.startsWith("l")) {
-      verb = verb.substring(1, verb.length());
-      newatr = tagger.tag(Arrays.asList(verb)).get(0);
+      verb = verb.substring(1);
+      newatr = tagger.tag(List.of(verb)).get(0);
       if (matchPostagRegexp(newatr, VERB_INF)) {
-        return lcword.substring(0, 1) + "'" + verb + PronomsFeblesHelper.transformDarrere(pronouns, verb);
+        return lcword.charAt(0) + "'" + verb + PronomsFeblesHelper.transformDarrere(pronouns, verb);
       }
     }
     return "";

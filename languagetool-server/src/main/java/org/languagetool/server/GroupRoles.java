@@ -21,7 +21,6 @@ package org.languagetool.server;
 import com.google.common.collect.Sets;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;

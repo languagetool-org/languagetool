@@ -602,7 +602,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
     if (matches.size() > 0) {
       removeAntiPatternMatches(sentence, matchesByStart);
     }
-    return matchesByStart.values().toArray(new RuleMatch[0]);
+    return matchesByStart.values().toArray(RuleMatch.EMPTY_ARRAY);
   }
 
   private void removeAntiPatternMatches(AnalyzedSentence sentence, Map<Integer, RuleMatch> matchesByStart) {

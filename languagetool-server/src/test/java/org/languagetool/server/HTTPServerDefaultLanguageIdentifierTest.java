@@ -74,7 +74,7 @@ public class HTTPServerDefaultLanguageIdentifierTest extends HTTPServerMultiLang
     String detectedLangShort = Languages.getLanguageForShortCode(detectedLang).getShortCode();
     boolean correctDetection = detectedLangShort.equals(language.getShortCode());
     if (!correctDetection) {
-      System.out.printf("Expected %s / Detected %s -> %s%n", language.getShortCode(), detectedLangShort, textSubstring.replaceAll("\n", ""));
+      System.out.printf("Expected %s / Detected %s -> %s%n", language.getShortCode(), detectedLangShort, textSubstring.replace("\n", ""));
       synchronized (this) {
         numDetectionFailures.incrementAndGet();
       }

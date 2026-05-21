@@ -40,8 +40,9 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static java.util.Arrays.*;
-import static java.util.regex.Pattern.*;
+import static java.util.Arrays.asList;
+import static java.util.regex.Pattern.compile;
+import static org.languagetool.tools.StringInterner.intern;
 import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
 /**
@@ -75,7 +76,7 @@ public class GermanTagger extends BaseTagger {
   }
 
   // do not add noun tags to these words, e.g. don't add noun tags to "Wegstrecken" for weg_strecken from spelling.txt:
-  private static final List<String> nounTagExpansionExceptions = asList("Wegstrecken");
+  private static final List<String> nounTagExpansionExceptions = Collections.singletonList("Wegstrecken");
 
   // ordered by length: 'zurück' > 'zu' + 'rück'
   private static final String[] prefixesSeparableVerbs = new String[] {"gegeneinander", "durcheinander", "nebeneinander", "übereinander", "aufeinander", "auseinander", "beieinander", "aneinander", "ineinander", "zueinander", "gegenüber", "beisammen", "gegenüber", "hernieder", "rückwärts", "wiederauf", "wiederein", "wiederher", "zufrieden", "zwangsvor", "entgegen", "hinunter", "abhanden", "aufrecht", "aufwärts", "auswärts", "beiseite", "danieder", "drauflos", "einwärts", "herunter", "hindurch", "verrückt", "vorwärts", "zunichte", "zusammen", "zwangsum", "zwischen", "abseits", "abwärts", "entlang", "hinfort", "ähnlich", "daneben", "general", "herüber", "hierher", "hierhin", "hinüber", "schwarz", "trocken", "überein", "vorlieb", "vorüber", "wichtig", "zurecht", "zuwider", "hinweg", "allein", "besser", "daheim", "doppel", "feinst", "fertig", "herauf", "heraus", "herbei", "hinauf", "hinaus", "hinein", "kaputt", "kennen", "kürzer", "mittag", "nieder", "runter", "sicher", "sitzen", "voraus", "vorbei", "vorweg", "weiter", "wieder", "zugute", "zurück", "zwangs", "abend", "blank", "brust", "dahin", "davon", "drauf", "drein", "durch", "einig", "empor", "grund", "herum", "höher", "klein", "knapp", "krank", "krumm", "kugel", "näher", "neben", "offen", "preis", "rüber", "ruhig", "statt", "still", "übrig", "umher", "unter", "voran", "zweck", "acht", "drei", "fehl", "feil", "fort", "frei", "groß", "hand", "hart", "heim", "hier", "hoch", "klar", "lahm", "miss", "nach", "nahe", "quer", "rauf", "raus", "rein", "rück", "satt", "stoß", "teil", "über", "voll", "wach", "wahr", "warm", "wert", "wohl", "auf", "aus", "bei", "ehe", "ein", "eis", "end", "her", "hin", "los", "maß", "mit", "out", "ran", "rum", "tot", "vor", "weg", "weh", "ab", "an", "da", "um", "zu"};
@@ -179,7 +180,7 @@ public class GermanTagger extends BaseTagger {
 
   private static List<String> toPA2(List<String> tags) {
     return tags.stream().
-      map(k -> k.replaceAll("ADJ:", "PA2:")).
+      map(k -> k.replace("ADJ:", "PA2:")).
       map(k -> k + ":VER").
       collect(Collectors.toList());
   }
@@ -355,7 +356,7 @@ public class GermanTagger extends BaseTagger {
             for (TaggedWord tag : tags) {
               if (tag.getPosTag() != null && (StringUtils.startsWithAny(tag.getPosTag(), "VER:", "PA1:", "PA2:")
                 && (!StringUtils.startsWithAny(tag.getPosTag(), "VER:MOD", "VER:AUX")))) { // e.g. "schicke" is verb and adjective
-                String flektion = tag.getPosTag().substring(tag.getPosTag().length()-3, tag.getPosTag().length());
+                String flektion = tag.getPosTag().substring(tag.getPosTag().length() - 3);
                 if (StringUtils.startsWithAny(verbInfo.prefix, prefixesSeparableVerbs)
                   && (!StringUtils.containsAny(word, notAVerb))) {
                   if (StringUtils.startsWithAny(tag.getPosTag(),"VER:1", "VER:2", "VER:3") && (sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))) {
@@ -512,7 +513,7 @@ public class GermanTagger extends BaseTagger {
                                   readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
                                 }
                               } else if (taggedWord.getPosTag().startsWith("VER:IMP")) {
-                                String flekt = taggedWord.getPosTag().substring(taggedWord.getPosTag().length()-3, taggedWord.getPosTag().length());
+                                String flekt = taggedWord.getPosTag().substring(taggedWord.getPosTag().length() - 3);
                                 if ((word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
                                   if (!StringUtils.equalsAny(firstPart.toLowerCase(), prefixesSeparableVerbs)) { // Separable verbs do not have imperative form.
                                     readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
@@ -560,7 +561,7 @@ public class GermanTagger extends BaseTagger {
                                     || (taggedWord.getPosTag().startsWith("VER:1:PLU:PRÄ:NON") && (StringUtils.containsAny(taggedWord.getLemma(), partizip2contains1PluPra)))
                                     || (taggedWord.getPosTag().startsWith("VER:1:PLU:PRT:NON") && (StringUtils.containsAny(taggedWord.getLemma(), partizip2contains1PluPrt)))) {
                                       if (!firstPart.equals("un")) { // Avoids 'unbeeindruckt' -> 'VER.*'
-                                        String fl = taggedWord.getPosTag().substring(taggedWord.getPosTag().length()-3, taggedWord.getPosTag().length());
+                                        String fl = taggedWord.getPosTag().substring(taggedWord.getPosTag().length() - 3);
                                         readings.add(new AnalyzedToken(word, "VER:PA2:" + fl, firstPart + taggedWord.getLemma()));
                                       }
                                       readings.add(new AnalyzedToken(word, "PA2:PRD:GRU:VER", word));
@@ -732,7 +733,7 @@ public class GermanTagger extends BaseTagger {
       if (tagged.getPosTag().startsWith("VER:IMP:SIN")) {
         // do not overwrite manually removed tags
         if (removalTagger == null || !removalTagger.tag(w).contains(tagged)) {
-          return getAnalyzedTokens(asList(tagged), word);
+          return getAnalyzedTokens(Collections.singletonList(tagged), word);
         }
         break;
       }
@@ -822,9 +823,9 @@ public class GermanTagger extends BaseTagger {
     String infix;
     String verbBaseform;
     PrefixInfixVerb(String prefix, String infix, String verbBaseform) {
-      this.prefix = prefix;
-      this.infix = infix;
-      this.verbBaseform = verbBaseform;
+      this.prefix = intern(prefix);
+      this.infix = intern(infix);
+      this.verbBaseform = intern(verbBaseform);
     }
   }
 
@@ -833,9 +834,9 @@ public class GermanTagger extends BaseTagger {
     String fullForm;
     String tag;
     AdjInfo(String baseform, String fullForm, String tag) {
-      this.baseform = baseform;
-      this.fullForm = fullForm;
-      this.tag = tag;
+      this.baseform = intern(baseform);
+      this.fullForm = intern(fullForm);
+      this.tag = intern(tag);
     }
   }
 
@@ -843,8 +844,8 @@ public class GermanTagger extends BaseTagger {
     String prefix;
     String verbBaseform;
     NominalizedVerb(String prefix, String verbBaseform) {
-      this.prefix = prefix;
-      this.verbBaseform = verbBaseform;
+      this.prefix = intern(prefix);
+      this.verbBaseform = intern(verbBaseform);
     }
   }
 
@@ -852,8 +853,8 @@ public class GermanTagger extends BaseTagger {
     String prefix;
     String verbBaseform;
     NominalizedGenitiveVerb(String prefix, String verbBaseform) {
-      this.prefix = prefix;
-      this.verbBaseform = verbBaseform;
+      this.prefix = intern(prefix);
+      this.verbBaseform = intern(verbBaseform);
     }
   }
 

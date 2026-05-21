@@ -210,7 +210,7 @@ public abstract class RemoteRule extends Rule {
             filteredMatches.addAll(filteredSentenceMatches);
           }
         }
-        result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
+        result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), result.adjustOffsets(), filteredMatches, sentences);
       }
 
       List<RuleMatch> filteredMatches = new ArrayList<>();
@@ -221,7 +221,7 @@ public abstract class RemoteRule extends Rule {
           filteredMatches.addAll(filteredSentenceMatches);
         }
       }
-      result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
+      result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), result.adjustOffsets(), filteredMatches, sentences);
       return result;
     });
   }
@@ -238,6 +238,11 @@ public abstract class RemoteRule extends Rule {
 
   public CircuitBreaker circuitBreaker() {
     return circuitBreakers.computeIfAbsent(getId(), this::createCircuitBreaker);
+  }
+
+  @Nullable
+  public static CircuitBreaker getCircuitBreaker(String id) {
+    return circuitBreakers.get(id);
   }
 
   private List<RuleMatch> suppressMisspelled(List<RuleMatch> sentenceMatches) {

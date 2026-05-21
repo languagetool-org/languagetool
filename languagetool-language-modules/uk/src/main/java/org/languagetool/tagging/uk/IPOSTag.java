@@ -36,7 +36,7 @@ public enum IPOSTag {
   insert("insert"),
   abbr("abbr"),
   bad("bad"),
-  unknown("unknown"), 
+//  unknown("unknown"), 
   onomat("onomat"), 
   hashtag("hashtag");
 

@@ -72,7 +72,8 @@ public class StyleTooOftenUsedVerbRule extends AbstractStyleTooOftenUsedWordRule
   }
 
   @Override
-  protected boolean isException(AnalyzedTokenReadings token) {
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int n) {
+    AnalyzedTokenReadings token = tokens[n];
     return token.hasPosTagStartingWith("VER:MOD") || token.hasPosTagStartingWith("VER:AUX") || 
         token.hasPosTagStartingWith("ART") || token.hasPosTagStartingWith("ADJ");
   }
