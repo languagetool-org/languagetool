@@ -170,31 +170,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Vocês está sugerindo que pode não ter sido um acidente?</example>
         </antipattern>
 
-        <antipattern> <!-- ChatGPT 5.2: "Blocks 'ir + gerund' cases (e.g. 'ir juntando'); matches infinitive + gerund." -->
-            <token postag='VMN000+|VMN03.+' postag_regexp='yes' inflected='yes'>ir</token>
-            <token postag='VMG000+' postag_regexp='yes'/>
-            <example>É só ir juntando o texto revisto num DOCX vazio.</example>
-            <example>Ele passava o tempo a fazer perguntas desnecessárias para eu ir gastando as minhas tokens.</example>
-            <example>Mas também pode acrescentar mais polvilho e ir mexendo até "dá o ponto".</example>
-            <example>aos poucos (2/2 semanas), vai-se "apertando" de forma a ir movendo os dentes e colocá-los na posição certa.</example>
-            <example>Terá que ajeitar um jeito de ir investigando aos poucos como a ex dele era pra que não cometa os erros que ela cometeu.</example>
-            <example>Podem ir tirando o guarda-chuva do armário que chuva pouca é bobagem no último mês do ano.</example>
-            <example>Até me ofereceram carona, mas eu estava tão abismada pelo comportamento frio que quis ir andando até o ponto de ônibus.</example>
-            <example>E o legal do suco é que você pode ir variando sempre que tiver vontade.</example>
-            <example>Quanto tempo leva para ir andando daqui até a sua casa?</example>
-            <example>"Posso te ajudar com a louça?" "Se quiser, pode ir secando."</example>
-            <example>Ir caminhando da estação a casa leva apenas cinco minutos.</example>
-            <example>Um barco me apanha para uma excursão; à distância vejo a cidade ir diminuindo de tamanho.</example>
-            <example>Se eu for embora, quero ir lutando por algo que acredito. Pelo futuro dessa jovem.</example>
-            <example>Está em tratamento no Chicago Med, mas ele pode ir mancando quando o julgamento voltar.</example>
-            <example>E, em nada adiantando, ir mudando os métodos?</example>
-            <example>Você pode ir observando e aprendendo com o tempo, que “toda muda muda tudo”.</example>
-            <example>Desça a ladeira para já ir pegando o embalo.</example>
-            <example>Quanto tempo, mais ou menos, leva para ir caminhando daqui até a prefeitura?</example>
-            <example>Acho melhor eu ir andando.</example>
-            <example>É só irem juntando o texto revisto num DOCX vazio.</example>
-        </antipattern>
-
         <antipattern> <!-- #1: Verbos Auxiliares: most exceptions were taken from DeepSeek-V3 -->
             <token inflected='yes' regexp='yes'>&gerundio_verbos_auxiliares;</token>
             <token regexp='yes'>&gerundio_excecoes_verbos_auxiliares;</token>
@@ -230,7 +205,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
 
         <pattern>
-            <token inflected='yes' regexp='yes'>&gerundio_verbos_auxiliares;|&gerundio_verbos_nao_auxiliares;</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
+            <!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
+            <token inflected='yes' regexp='yes'>&gerundio_verbos_auxiliares;|&gerundio_verbos_nao_auxiliares;
+                <exception regexp='no' inflected='yes'>ir</exception></token> <!-- Verbos problemáticos: gerúndio é quase sempre natural -->
             <token postag='VMG000+' postag_regexp='yes'/>
         </pattern>
         <message>Se possível, evite o gerúndio.</message>
@@ -238,6 +215,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
         <short>Possível gerundismo.</short>
         <example correction='está a levar'>A outra pessoa o <marker>está levando</marker> à loucura.</example>
+        <example>Acho melhor eu ir andando.</example>
+        <example>É só irem juntando o texto revisto num DOCX vazio.</example>
     </rule>
 
 
