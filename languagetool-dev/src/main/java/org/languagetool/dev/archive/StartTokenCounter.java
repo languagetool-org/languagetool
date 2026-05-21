@@ -62,8 +62,8 @@ final class StartTokenCounter {
               continue;
             }
             Term ngramTerm = new Term(NGRAM_FIELD_NAME, term);
-            Query ngramQuery = new TermQuery(ngramTerm, EXPECTED_MAX_NGRAM_HITS);
-            TopDocs topDocs = searcher.search(ngramQuery);
+            TermQuery ngramQuery = new TermQuery(ngramTerm);
+            TopDocs topDocs = searcher.search(ngramQuery, EXPECTED_MAX_NGRAM_HITS);
             if (topDocs.totalHits.value == 0) {
               throw new RuntimeException("No hits for " + term + ": " + topDocs.totalHits.value);
             } else if (topDocs.totalHits.value == 1) {
