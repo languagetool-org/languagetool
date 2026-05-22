@@ -40,7 +40,7 @@ import org.languagetool.rules.patterns.PatternToken;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,11 +54,13 @@ public class IndexerSearcherTest extends LuceneTestCase {
 
   private Searcher errorSearcher;
   private Directory directory;
+  private Path indexPath;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    directory = new MMapDirectory(Paths.get("/tmp/lucenetest"));
+    indexPath = createTempDir("lucenetest");
+    directory = new MMapDirectory(indexPath);
     //directory = FSDirectory.open(new File("/tmp/lucenetest"));   // for debugging
   }
 
@@ -337,13 +339,20 @@ public class IndexerSearcherTest extends LuceneTestCase {
   }
 
   private void createIndex(String content) throws IOException {
-    directory = new MMapDirectory(Paths.get("/tmp/lucenetest"));
+    if (directory != null) {
+        directory.close();
+    }
+    indexPath = createTempDir("lucenetest");
+    directory = new MMapDirectory(indexPath);
     //directory = FSDirectory.open(new File("/tmp/lucenetest"));  // for debugging
     Indexer.run(content, directory, new English());
     errorSearcher = new Searcher(directory);
   }
 
   private void useRealIndex() throws IOException {
+    if (directory != null) {
+      directory.close();
+    }
     directory = FSDirectory.open(new File("/home/languagetool/corpus/en/").toPath());  // for debugging with more data
     errorSearcher = new Searcher(directory);
   }

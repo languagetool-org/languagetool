@@ -48,6 +48,9 @@ final class LargestNGramFinder {
     IndexReader reader = DirectoryReader.open(fsDir);
     IndexSearcher searcher = new IndexSearcher(reader);
     Terms terms = MultiTerms.getTerms(reader, "ngram");
+    if (terms == null) {
+      throw new IllegalStateException("Field 'ngram' not found in index");
+    }
     long max = 0;
     String maxTerm = "";
     TermsEnum termsEnum = terms.iterator();

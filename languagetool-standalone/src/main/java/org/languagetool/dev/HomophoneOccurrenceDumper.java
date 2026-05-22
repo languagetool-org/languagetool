@@ -112,6 +112,9 @@ class HomophoneOccurrenceDumper extends LuceneSingleIndexLanguageModel {
   private TermsEnum getIterator() throws IOException {
     LuceneSearcher luceneSearcher = getLuceneSearcher(3);
     Terms terms = MultiTerms.getTerms(luceneSearcher.getReader(), "ngram");
+    if (terms == null) {
+      throw new IllegalStateException("Field 'ngram' not found in index");
+    }
     return terms.iterator();
   }
 
