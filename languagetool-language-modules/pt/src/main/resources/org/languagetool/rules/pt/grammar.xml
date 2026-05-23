@@ -31832,6 +31832,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='CONFUSÃO_À_HÁ' name="[Confusão] à/há (expressões de tempo/quantidade)">
+
+            <antipattern>
+                <token postag='N.+|AQ.+' postag_regexp='yes'><exception postag_regexp='yes' postag='V.+'/></token>
+                <token>a</token>
+                <token postag='[DP].+|Z0.+' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes'>&expressoes_de_tempo;</token>
+                <token postag='RG'/>
+                <token postag='N.+|AQ.+' postag_regexp='yes'/>
+                <example>Para prestar o meu contributo a um dia tão especial como este.</example>
+            </antipattern>
+
             <antipattern>
                 <token postag='SPS.+|_PUNCT|V.+|NC.+|AQ.+|RG|DI.+|DP.+|PP.+|AO.+|CC|NP.+|UNKNOWN|CS|I|Z0.+|PI.+|_QUOT|RM|DD.+' postag_regexp='yes'/>
                 <token postag='NC.+|AQ.+|_PUNCT|UNKNOWN|NP.+|DP.+|I|V.+|PP.+|RM|DD.+|_QUOT' postag_regexp='yes'/>
