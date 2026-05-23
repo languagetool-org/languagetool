@@ -5110,7 +5110,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="N.*" postag_regexp="yes" inflected="yes">diagnòstic</token>
             </marker>
         </pattern>
-        <disambig action="filter" postag="N.*"></disambig>
+        <disambig action="filter" postag="N.*"/>
     </rule>
     <rulegroup id="nDet" name="no Determinant">
         <!--  paraules comunes que no solen ser determinants gairebé mai -->
@@ -6355,6 +6355,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">grup</token>
+                <marker>
+                    <token regexp="yes">vinil|al·lil|propenil|isopropenil|estiril|etenil|etinil|etil|fenil</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0MN0"/>
         </rule>
         <rule>
             <pattern>
@@ -24082,6 +24091,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup id="MATEMATIQUES" name="notació matemàtica">
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+k</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
         <rule>
             <pattern>
                 <token postag="DN.*" postag_regexp="yes"/>
