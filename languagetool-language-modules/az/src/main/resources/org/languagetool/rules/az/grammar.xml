@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Azerbaijani Grammar and Typo Rules for LanguageTool
+Copyright (C) 2026 LanguageTool contributors
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+-->
+<rules lang="az" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+    <category id="CAT_TYPO" name="Mümkün orfoqrafiya səhvi">
+
+        <rule id="HALBUKI" name="halbu ki → halbuki">
+            <pattern>
+                <token>halbu</token>
+                <token>ki</token>
+            </pattern>
+            <message>"<suggestion>halbuki</suggestion>" bitişik yazılır.</message>
+            <short>Bitişik yazılan söz</short>
+            <example correction="halbuki"><marker>halbu ki</marker> hava soyuq idi.</example>
+            <example>Halbuki hava soyuq idi.</example>
+        </rule>
+
+        <rule id="HEMCININ" name="həm çinin → həmçinin">
+            <pattern>
+                <token>həm</token>
+                <token>çinin</token>
+            </pattern>
+            <message>"<suggestion>həmçinin</suggestion>" bitişik yazılır.</message>
+            <short>Bitişik yazılan söz</short>
+            <example correction="həmçinin">O, <marker>həm çinin</marker> mənim dostumdur.</example>
+            <example>O, həmçinin mənim dostumdur.</example>
+        </rule>
+
+        <rule id="UMUMIYYETLE" name="ümumiyyət lə → ümumiyyətlə">
+            <pattern>
+                <token>ümumiyyət</token>
+                <token>lə</token>
+            </pattern>
+            <message>"<suggestion>ümumiyyətlə</suggestion>" bitişik yazılır.</message>
+            <short>Bitişik yazılan söz</short>
+            <example correction="ümumiyyətlə"><marker>ümumiyyət lə</marker> bu məsələ aktualdır.</example>
+            <example>Ümumiyyətlə bu məsələ aktualdır.</example>
+        </rule>
+
+        <rule id="VESAIRE" name="vesaire / vəsairə → və saire">
+            <pattern>
+                <token regexp="yes">vesaire|vəsairə|vəsayre|vesayre</token>
+            </pattern>
+            <message>Düzgün forma: "<suggestion>və saire</suggestion>" (və ya qısaldılmış "və s.").</message>
+            <short>Yazılış səhvi</short>
+            <example correction="və saire">Kitablar, jurnallar <marker>vəsairə</marker> var idi.</example>
+            <example>Kitablar, jurnallar və saire var idi.</example>
+        </rule>
+
+    </category>
+
+</rules>
