@@ -58,9 +58,10 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
 
   @Override
   public String getMessage() {
-    return "Majúscules i minúscules recomanades. Alguns llibres d'estil poden suggerir solucions diferents en alguns casos.";
+    return System.getProperty("lt.ca.checkcase.message",
+      "Majúscules i minúscules recomanades. Alguns llibres d'estil poden suggerir solucions diferents en alguns casos.");
   }
-  
+
   @Override
   public Locale getLocale() {
     return CA_LOCALE;

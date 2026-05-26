@@ -12694,6 +12694,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="RG"/>
     </rule>
+    <rulegroup id="eclipsi" name="eclipsi (nom)">
+        <rule>
+            <pattern>
+                <token postag="[AD].*|V.P.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes">eclipsi</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[MS].*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes">eclipsi</token>
+                <token postag_regexp="yes" postag="A.*|V.P.*" inflected="yes" regexp="yes">antic|anular|anunciat|astrofísic|astronòmic|breu|calculat|central|circumsolar|complet|consecutiu|curt|cíclic|definitiu|doble|documentat|durador|efímer|espectacular|esperat|estudiat|excepcional|extraordinari|feble|fosc|fotografiat|freqüent|futur|galàctic|global|gradual|històric|híbrid|imminent|impressionant|inevitable|intens|inusual|invisible|irreversible|jovià|llarg|local|lunar|magnífic|marcià|mesurat|metafòric|misteriós|momentani|mundial|màgic|màxim|mínim|notable|obscur|observable|observat|parcial|passat|passatger|penumbral|perfecte|perfectíssim|perifèric|periòdic|poètic|previst|primer|prolongat|proper|pròxim|rar|recurrent|regional|registrar|segon|silenciós|simbòlic|simultani|singular|sobtà|solar|successiu|tenebrós|terrestre|total|triple|tènue|universal|visible|últim|únic</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes">eclipsi</token>
+                </marker>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.[MS].*"/>
+        </rule>
+    </rulegroup>
     <rule id="dosi0" name="dosi (nom no verb)">
         <pattern>
             <token postag="D.*|A.*|S.*|LOC_PREP" postag_regexp="yes"/>
