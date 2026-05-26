@@ -70,6 +70,13 @@ public class Azerbaijani extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  @Override
+  public String getCommonWordsPath() {
+    // No common-words file shipped yet; returning null keeps CommonWordsDetector
+    // from rejecting the language at startup (it will just print a WARN).
+    return null;
+  }
+
   @NotNull
   @Override
   public Tagger createDefaultTagger() {
