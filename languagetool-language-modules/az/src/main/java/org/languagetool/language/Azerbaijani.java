@@ -29,11 +29,13 @@ import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WordRepeatRule;
+import org.languagetool.rules.az.AzerbaijaniSimpleReplaceRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -81,14 +83,15 @@ public class Azerbaijani extends Language {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig,
-                                     Language motherTongue, List<Language> altLanguages) {
+                                     Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages),
         new DoublePunctuationRule(messages),
         new GenericUnpairedBracketsRule(messages),
         new UppercaseSentenceStartRule(messages, this),
         new WordRepeatRule(messages, this),
-        new MultipleWhitespaceRule(messages, this)
+        new MultipleWhitespaceRule(messages, this),
+        new AzerbaijaniSimpleReplaceRule(messages)
     );
   }
 }
