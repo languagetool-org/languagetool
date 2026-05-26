@@ -12694,6 +12694,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="RG"/>
     </rule>
+    <rule id="dosi0" name="dosi (nom no verb)">
+        <pattern>
+            <token postag="D.*|A.*|S.*|LOC_PREP" postag_regexp="yes"/>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">dosi|dosis</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.[MS].*"/>
+    </rule>
     <!--en l'obra, en la causa, en(s) el porten -->
     <!-- pronom personal + pronom personal + verb -->
     <rulegroup id="PPdos_VERB" name="dos o més pronoms personals i verb">
