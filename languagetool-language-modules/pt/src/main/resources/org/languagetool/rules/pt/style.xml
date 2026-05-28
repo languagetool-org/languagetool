@@ -3749,6 +3749,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='QUESTAO_BOA_PERTINENTE' name="🤵 questão 'boa' → pertinente/relevante" type='style' tone_tags='formal' is_goal_specific='true' default='temp_off'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
+            <antipattern>
+                <token regexp='yes'>pontos?</token>
+                <token min='0' max='1'>de</token>
+                <token regexp='yes'>vista|partida|forte|fraco</token>
+                <example>É um bom ponto de vista.</example>
+                <example>É um bom ponto de partida.</example>
+                <example>É um ponto forte.</example>
+                <example>É um ponto fraco.</example>
+                <example>É um bom ponto de vista, Tina.</example>
+            </antipattern>
+
+            <antipattern>
+                <token regexp='yes'>quest(ão|ões)</token>
+                <token>de</token>
+                <token>bom</token>
+                <example>É uma questão de bom senso.</example>
+                <example>São questões de bom senso.</example>
+                <example>É uma questão de bom senso.</example>
+                <example>Não é uma questão de bom ou ruim, mas de melhor ou pior.</example>
+            </antipattern>
+
             <rule> <!-- #1a: "questão" + É + "boa" -->
                 <pattern>
                     <token regexp='yes' inflected='yes'>questão|pergunta|observação|proposta|sugestão|reflexão|análise|argumento|ponto</token>
