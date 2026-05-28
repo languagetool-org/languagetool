@@ -3746,6 +3746,86 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rulegroup id='QUESTAO_BOA_PERTINENTE' name="🤵 questão 'boa' → pertinente/relevante" type='style' tone_tags='formal' is_goal_specific='true' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token regexp='yes'>pontos?</token>
+                <token min='0' max='1'>de</token>
+                <token regexp='yes'>vista|partida|forte|fraco</token>
+                <example>É um bom ponto de vista.</example>
+                <example>É um bom ponto de partida.</example>
+                <example>É um ponto forte.</example>
+                <example>É um ponto fraco.</example>
+                <example>É um bom ponto de vista, Tina.</example>
+            </antipattern>
+
+            <antipattern>
+                <token regexp='yes'>quest(ão|ões)</token>
+                <token>de</token>
+                <token>bom</token>
+                <example>É uma questão de bom senso.</example>
+                <example>São questões de bom senso.</example>
+                <example>É uma questão de bom senso.</example>
+                <example>Não é uma questão de bom ou ruim, mas de melhor ou pior.</example>
+            </antipattern>
+
+            <rule> <!-- #1a: "questão" + É + "boa" -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>questão|pergunta|observação|proposta|sugestão|reflexão|análise|argumento|ponto</token>
+                    <token skip='1' inflected='yes'>ser</token>
+                    <marker>
+                        <token regexp='yes'>boas?|bo(m|ns)</token>
+                    </marker>
+                </pattern>
+                <message>Em contexto formal, &quot;bom/boa&quot; pode ser substituído por um adjetivo mais preciso.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_replace='AQ0C$10'>pertinente</match></suggestion>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_replace='AQ0C$10'>relevante</match></suggestion>
+                <example correction="pertinente|relevante">Essa questão é <marker>boa</marker>.</example>
+                <example correction="pertinentes|relevantes">Essas questões são <marker>boas</marker>.</example>
+                <example correction="pertinente|relevante">Esse argumento é <marker>bom</marker>.</example>
+                <example correction="pertinentes|relevantes">Esses argumentos são <marker>bons</marker>.</example>
+                <example>O argumento é muito relevante.</example>
+            </rule>
+
+            <rule> <!-- #1b: É + "questão" + "boa" -->
+                <pattern>
+                    <token skip='1' inflected='yes'>ser</token>
+                    <token skip='1' regexp='yes' inflected='yes'>questão|pergunta|observação|proposta|sugestão|reflexão|análise|argumento|ponto</token>
+                    <marker>
+                        <token regexp='yes'>boas?|bo(m|ns)</token>
+                    </marker>
+                </pattern>
+                <message>Em contexto formal, &quot;bom/boa&quot; pode ser substituído por um adjetivo mais preciso.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_replace='AQ0C$10'>pertinente</match></suggestion>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_replace='AQ0C$10'>relevante</match></suggestion>
+                <example correction="pertinente|relevante">Essa é uma questão <marker>boa</marker>.</example>
+                <example correction="pertinentes|relevantes">Essas são questões <marker>boas</marker>.</example>
+                <example correction="pertinente|relevante">Esse é um argumento <marker>bom</marker>.</example>
+                <example correction="pertinentes|relevantes">Esses são argumentos <marker>bons</marker>.</example>
+                <example>É um argumento muito pertinente.</example>
+            </rule>
+
+            <rule> <!-- #2: É + "boa" + "questão" -->
+                <pattern>
+                    <token skip='1' inflected='yes'>ser</token>
+                    <marker>
+                        <token regexp='yes'>boas?|bo(m|ns)</token>
+                        <token regexp='yes' inflected='yes'>questão|pergunta|observação|proposta|sugestão|reflexão|análise|argumento|ponto</token>
+                    </marker>
+                </pattern>
+                <message>Em contexto formal, &quot;bom/boa&quot; pode ser substituído por um adjetivo mais preciso.</message>
+                <suggestion>\3 <match no='2' postag='AQ0.(.)0' postag_replace='AQ0C$10'>pertinente</match></suggestion>
+                <suggestion>\3 <match no='2' postag='AQ0.(.)0' postag_replace='AQ0C$10'>relevante</match></suggestion>
+                <example correction="questão pertinente|questão relevante">Essa é uma <marker>boa questão</marker>.</example>
+                <example correction="questões pertinentes|questões relevantes">Essas são umas <marker>boas questões</marker>.</example>
+                <example correction="argumento pertinente|argumento relevante">Esse é um <marker>bom argumento</marker>.</example>
+                <example correction="argumentos pertinentes|argumentos relevantes">Esses são uns <marker>bons argumentos</marker>.</example>
+                <example>É um argumento pertinente.</example>
+            </rule>
+        </rulegroup>
+
+
         <rulegroup id='ANIMO_ALENTO_PARA' name="🤵 Não ter mais ânimo/alento para [emocional]" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <!-- I had to create three MAIN rules because of the "me" appearing as "me" and "mim" -->
