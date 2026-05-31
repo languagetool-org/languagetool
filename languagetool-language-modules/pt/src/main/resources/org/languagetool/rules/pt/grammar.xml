@@ -22977,6 +22977,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rule id='EM_PREVISTO_IMPREVISTO' name="❓ 'em previsto' → 'imprevisto'" default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token skip='1' regexp='yes' inflected='yes'>ter|surgir|haver</token>
+                <marker>
+                    <token>em</token>
+                    <token regexp='yes'>previstos?</token>
+                </marker>
+            </pattern>
+            <message>Possível confusão entre &quot;em previsto&quot; e &quot;imprevisto&quot;.</message>
+            <suggestion>imprevisto<match no='3' regexp_match='previsto(s?)' regexp_replace='$1'/></suggestion>
+            <example correction="imprevisto">Tive um <marker>em previsto</marker> de última hora.</example>
+            <example correction="imprevistos">Surgiram vários <marker>em previstos</marker> na última hora.</example>
+            <example>Houve um imprevisto durante a reunião.</example>
+        </rule>
+
+
         <rule id='ESTAR_TER_CONFUSAO' name="❓ estar/ter">
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <antipattern> <!-- Expressões idiomáticas -->
