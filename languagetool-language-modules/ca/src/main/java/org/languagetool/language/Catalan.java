@@ -692,7 +692,7 @@ public class Catalan extends Language {
     s = m1.replaceAll("$1");
     Matcher m2 = CA_APOSTROPHES2.matcher(s);
     s = m2.replaceAll("e$1 $2");
-    if (!s.contains("en el")) {
+    if (!s.contains("en el") && !s.contains("-se")) {
       Matcher m3 = CA_APOSTROPHES3.matcher(s);
       s = m3.replaceAll("$1'$2");
     }
