@@ -49,35 +49,36 @@ final class StartTokenCounter {
     try (FSDirectory directory = FSDirectory.open(dir.toPath());
          IndexReader reader = DirectoryReader.open(directory)) {
       IndexSearcher searcher = new IndexSearcher(reader);
-      for (String field : FieldInfos.getIndexedFields(reader)) {
-        Terms ngrams = MultiTerms.getTerms(reader, field);
-        TermsEnum iterator = ngrams.iterator();
-        BytesRef next;
-        int i = 0;
-        while ((next = iterator.next()) != null) {
-          String term = next.utf8ToString();
-          if (term.startsWith(LanguageModel.GOOGLE_SENTENCE_START)) {
-            if (term.matches(".*_(ADJ|ADV|NUM|VERB|ADP|NOUN|PRON|CONJ|DET|PRT)$")) {
-              //System.out.println("ignore: " + term);
-              continue;
+      Terms ngrams = MultiTerms.getTerms(reader, NGRAM_FIELD_NAME);
+      if (ngrams == null) {
+        throw new RuntimeException("Field '" + NGRAM_FIELD_NAME + "' has no terms in " + dir);
+      }
+      TermsEnum iterator = ngrams.iterator();
+      BytesRef next;
+      int i = 0;
+      while ((next = iterator.next()) != null) {
+        String term = next.utf8ToString();
+        if (term.startsWith(LanguageModel.GOOGLE_SENTENCE_START)) {
+          if (term.matches(".*_(ADJ|ADV|NUM|VERB|ADP|NOUN|PRON|CONJ|DET|PRT)$")) {
+            //System.out.println("ignore: " + term);
+            continue;
+          }
+          Term ngramTerm = new Term(NGRAM_FIELD_NAME, term);
+          TermQuery ngramQuery = new TermQuery(ngramTerm);
+          TopDocs topDocs = searcher.search(ngramQuery, EXPECTED_MAX_NGRAM_HITS);
+          if (topDocs.totalHits.value == 0) {
+            throw new RuntimeException("No hits for " + term + ": " + topDocs.totalHits.value);
+          } else if (topDocs.totalHits.value == 1) {
+            int docId = topDocs.scoreDocs[0].doc;
+            Document document = reader.document(docId);
+            long count = document.getField("count").numericValue().longValue();
+            //System.out.println(term + " -> " + count);
+            totalCount += count;
+            if (++i % 10_000 == 0) {
+              System.out.println(i + " ... " + totalCount);
             }
-            Term ngramTerm = new Term(NGRAM_FIELD_NAME, term);
-            TermQuery ngramQuery = new TermQuery(ngramTerm);
-            TopDocs topDocs = searcher.search(ngramQuery, EXPECTED_MAX_NGRAM_HITS);
-            if (topDocs.totalHits.value == 0) {
-              throw new RuntimeException("No hits for " + term + ": " + topDocs.totalHits.value);
-            } else if (topDocs.totalHits.value == 1) {
-              int docId = topDocs.scoreDocs[0].doc;
-              Document document = reader.document(docId);
-              long count = document.getField("count").numericValue().longValue();
-              //System.out.println(term + " -> " + count);
-              totalCount += count;
-              if (++i % 10_000 == 0) {
-                System.out.println(i + " ... " + totalCount);
-              }
-            } else {
-              throw new RuntimeException("More hits than expected for " + term + ": " + topDocs.totalHits);
-            }
+          } else {
+            throw new RuntimeException("More hits than expected for " + term + ": " + topDocs.totalHits);
           }
         }
       }
