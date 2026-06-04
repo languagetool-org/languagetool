@@ -51,6 +51,7 @@ public class SimpleReplaceBalearicRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Això està força bé.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Prosper Mérimée.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Index Librorum Prohibitorum")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("El calcul del telefon."));
