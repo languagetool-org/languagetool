@@ -3883,6 +3883,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rule id='PENSAR_REFLETIR_PONDERAR' name="🤵 pensar → refletir/ponderar" type='style' tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token regexp='yes'>após|depois</token>
+                <token min='0' max='1'>de</token>
+                <marker>
+                    <token inflected='yes'>pensar</token>
+                </marker>
+                <token>melhor</token>
+            </pattern>
+            <message>Em contextos formais, pode preferir &quot;refletir&quot; ou &quot;ponderar&quot; em vez de &quot;pensar&quot;.</message>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>refletir</match></suggestion>
+            <suggestion><match no='3' postag='V.+' postag_regexp='yes'>ponderar</match></suggestion>
+            <example correction="refletir|ponderar">Depois de <marker>pensar</marker> melhor, alterei a proposta.</example>
+            <example correction="refletir|ponderar">Após <marker>pensar</marker> melhor, decidi adiar o projeto.</example>
+            <example>Após ponderar melhor, decidi aceitar a proposta.</example>
+        </rule>
+
+
         <rule id='A_VOLTA_DE_EM_TORNO_DE' name="🤵 'à/em volta' de → 'em torno'" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
