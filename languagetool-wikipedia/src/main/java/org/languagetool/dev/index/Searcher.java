@@ -35,7 +35,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.SimpleFSDirectory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Counter;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -101,7 +101,7 @@ public class Searcher {
   private int getDocCount(IndexSearcher indexSearcher) throws IOException {
     Term searchTerm = new Term(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL);
     TopDocs search = indexSearcher.search(new TermQuery(searchTerm), 1);
-    if (search.totalHits != 1) {
+    if (search.totalHits.value != 1) {
       return -1;
     }
     ScoreDoc scoreDoc = search.scoreDocs[0];
@@ -200,7 +200,7 @@ public class Searcher {
   }
 
   private PossiblyLimitedTopDocs getTopDocs(Query query) throws IOException {
-    TopScoreDocCollector topCollector = TopScoreDocCollector.create(maxHits);
+    TopScoreDocCollector topCollector = TopScoreDocCollector.create(maxHits, Integer.MAX_VALUE);
     Counter clock = Counter.newCounter(true);
     int waitMillis = 1000;
     // TODO: if we interrupt the whole thread anyway, do we still need the TimeLimitingCollector?
@@ -334,7 +334,7 @@ public class Searcher {
     private List<MatchingSentence> matchingSentences;
     private Exception exception;
     private boolean tooManyLuceneMatches;
-    private int luceneMatchCount;
+    private long luceneMatchCount;
     private int maxDocChecked;
     private int docsChecked;
     private int numDocs;
@@ -356,7 +356,7 @@ public class Searcher {
         PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query);
         long luceneTime = System.currentTimeMillis() - t2;
         long t3 = System.currentTimeMillis();
-        luceneMatchCount = limitedTopDocs.topDocs.totalHits;
+        luceneMatchCount = limitedTopDocs.topDocs.totalHits.value;
         tooManyLuceneMatches = limitedTopDocs.topDocs.scoreDocs.length >= maxHits;
         MatchingSentencesResult res = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
         matchingSentences = res.matchingSentences;
@@ -382,7 +382,7 @@ public class Searcher {
       return tooManyLuceneMatches;
     }
 
-    int getLuceneMatchCount() {
+    long getLuceneMatchCount() {
       return luceneMatchCount;
     }
 
@@ -411,7 +411,7 @@ public class Searcher {
     Language language = Languages.getLanguageForShortCode(languageCode);
     File indexDir = new File(args[2]);
     boolean limitSearch = !(args.length > 3 && "--no_limit".equals(args[3]));
-    Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir.toPath()));
+    Searcher searcher = new Searcher(FSDirectory.open(indexDir.toPath()));
     if (!limitSearch) {
       searcher.setMaxHits(100_000);
     }

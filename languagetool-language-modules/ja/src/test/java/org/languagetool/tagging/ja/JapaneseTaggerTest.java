@@ -39,11 +39,11 @@ public class JapaneseTaggerTest {
   @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("これは簡単なテストです。",
-        "これ/[これ]名詞-代名詞-一般 -- は/[は]助詞-係助詞 -- 簡単/[簡単]名詞-形容動詞語幹 -- な/[だ]助動詞 -- テスト/[テスト]名詞-サ変接続 -- です/[です]助動詞 -- 。/[。]記号-句点", tokenizer, tagger);
+        "これ/[これ]名詞 -- は/[は]助詞 -- 簡単/[簡単]名詞 -- な/[だ]助動詞 -- テスト/[テスト]名詞 -- です/[です]助動詞 -- 。/[。]記号", tokenizer, tagger);
     TestTools.myAssert("私は眠い。",
-        "私/[私]名詞-代名詞-一般 -- は/[は]助詞-係助詞 -- 眠い/[眠い]形容詞-自立 -- 。/[。]記号-句点", tokenizer, tagger);
+        "私/[私]名詞 -- は/[は]助詞 -- 眠い/[眠い]形容詞 -- 。/[。]記号", tokenizer, tagger);
     TestTools.myAssert("とても冷たい飲み物。",
-        "とても/[とても]副詞-助詞類接続 -- 冷たい/[冷たい]形容詞-自立 -- 飲み物/[飲み物]名詞-一般 -- 。/[。]記号-句点", tokenizer, tagger);
+        "とても/[とても]副詞 -- 冷たい/[冷たい]形容詞 -- 飲み物/[飲み物]名詞 -- 。/[。]記号", tokenizer, tagger);
   }
   
 

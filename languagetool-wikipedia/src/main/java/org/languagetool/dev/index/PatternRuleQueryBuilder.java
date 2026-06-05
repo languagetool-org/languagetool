@@ -20,11 +20,11 @@ package org.languagetool.dev.index;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queries.spans.SpanMultiTermQueryWrapper;
+import org.apache.lucene.queries.spans.SpanNearQuery;
+import org.apache.lucene.queries.spans.SpanQuery;
+import org.apache.lucene.queries.spans.SpanTermQuery;
 import org.apache.lucene.search.*;
-import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
-import org.apache.lucene.search.spans.SpanNearQuery;
-import org.apache.lucene.search.spans.SpanQuery;
-import org.apache.lucene.search.spans.SpanTermQuery;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
@@ -123,11 +123,7 @@ public class PatternRuleQueryBuilder {
       return new SpanMultiTermQueryWrapper<>((MultiTermQuery) query.getQuery());
     } else {
       Set<Term> terms = new HashSet<>();
-      try {
-        indexSearcher.createWeight(query.getQuery(), false).extractTerms(terms);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      query.getQuery().visit(QueryVisitor.termCollector(terms));
       if (terms.size() != 1) {
         throw new RuntimeException("Expected term set of size 1: " + terms);
       }

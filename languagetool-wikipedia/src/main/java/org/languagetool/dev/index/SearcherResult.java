@@ -35,7 +35,7 @@ public class SearcherResult {
   private int docCount;
   private int maxDocChecked;
   private boolean hasTooManyLuceneMatches;
-  private int luceneMatchCount;
+  private long luceneMatchCount;
   private int skipHits;
   private int numDocs;
 
@@ -81,11 +81,11 @@ public class SearcherResult {
     return hasTooManyLuceneMatches;
   }
 
-  public void setLuceneMatchCount(int luceneMatchCount) {
+  public void setLuceneMatchCount(long luceneMatchCount) {
     this.luceneMatchCount = luceneMatchCount;
   }
 
-  public int getLuceneMatchCount() {
+  public long getLuceneMatchCount() {
     return luceneMatchCount;
   }
 

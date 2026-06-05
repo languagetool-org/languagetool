@@ -31,10 +31,10 @@ public class JapaneseWordTokenizerTest {
   public void testTokenize() {
     JapaneseWordTokenizer w = new JapaneseWordTokenizer();
     List<String> testList = w.tokenize("これはペンです。");
-    assertEquals(testList.size(), 5);
-    assertEquals("[これ 名詞-代名詞-一般 これ, は 助詞-係助詞 は, ペン 名詞-一般 ペン, です 助動詞 です, 。 記号-句点 。]", testList.toString());
+    assertEquals(5, testList.size());
+    assertEquals("[これ 名詞 これ, は 助詞 は, ペン 名詞 ペン, です 助動詞 です, 。 記号 。]", testList.toString());
     testList = w.tokenize("私は「うん、そうだ」と答えた。");
-    assertEquals(testList.size(), 12);
-    assertEquals("[私 名詞-代名詞-一般 私, は 助詞-係助詞 は, 「 記号-括弧開 「, うん 感動詞 うん, 、 記号-読点 、, そう 副詞-助詞類接続 そう, だ 助動詞 だ, 」 記号-括弧閉 」, と 助詞-格助詞-引用 と, 答え 動詞-自立 答える, た 助動詞 た, 。 記号-句点 。]", testList.toString());
+    assertEquals(12, testList.size());
+    assertEquals("[私 名詞 私, は 助詞 は, 「 記号 「, うん 感動詞 うん, 、 記号 、, そう 副詞 そう, だ 助動詞 だ, 」 記号 」, と 助詞 と, 答え 動詞 答える, た 助動詞 た, 。 記号 。]", testList.toString());
   }
 }
