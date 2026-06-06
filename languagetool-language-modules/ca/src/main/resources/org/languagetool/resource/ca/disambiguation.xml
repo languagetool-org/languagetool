@@ -11653,6 +11653,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup id="molt" name="molt adv">
+        <rule id="molt_adverbi2" name="molt (adverbi)">
+            <pattern>
+                <marker>
+                    <token postag="RG.*" postag_regexp="yes">molt</token>
+                </marker>
+                <token postag="A.*|RG|LOC_ADV" postag_regexp="yes"><exception postag="A.*|RG|LOC_ADV|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="RG.*"/>
+        </rule>
         <rule>
             <pattern>
                 <token>qui</token>
