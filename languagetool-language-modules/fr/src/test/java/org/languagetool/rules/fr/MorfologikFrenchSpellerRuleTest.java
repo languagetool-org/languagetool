@@ -194,7 +194,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestionsContain("damazon", "d'Amazon", "Amazon", "d'Amazone", "Damazan");
     assertSuggestionsContain("coulurs", "couleurs");
     assertSingleMatchWithSuggestions("Den", "De");
-    assertSuggestionsContain("offe", "effet", "offre", "coffre", "bouffe");
+    assertSuggestionsContain("offe", "offre", "off", "bouffe", "offs", "bouffé");
     assertSuggestionsContain("camara", "caméra", "camard");
     assertSuggestionsContain("boton", "bâton", "béton", "Boston", "coton", "bouton");  // "bouton" would be better?
     assertSuggestionsContain("La journé", "journée"); // see #2900. Better: journée

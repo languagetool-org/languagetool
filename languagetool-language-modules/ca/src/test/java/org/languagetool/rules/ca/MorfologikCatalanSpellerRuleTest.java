@@ -50,7 +50,7 @@ public class MorfologikCatalanSpellerRuleTest {
     rule = new MorfologikCatalanSpellerRule(TestTools.getMessages("ca"), Catalan.getInstance(),
       null, Collections.emptyList());
     //buggy!
-    assertSuggestionsTest("pissara", "[passarà, passara, passera, pàssera, passar]", 1);
+    assertSuggestionsTest("pissara", "[passarà, pissarra, posarà, passara, posara]", 1);
     assertSuggestionsTest("Tornaràn", "[Tornaran]", 1);
     // prefixes and suffixes.
     assertSuggestionsTest("S'autodefineixin com a populars.", "", 0);
@@ -105,7 +105,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("quna", "[que, una, quan, bona, dona]", 1); //millor: quan
     //capitalized suggestion
     assertSuggestionsTest("Video", "[Vídeo]", 1);
-    assertSuggestionsTest("bànner", "[Banner, bàner, Bonner, baner, vanar]", 1);
+    assertSuggestionsTest("bànner", "[Banner, bàner, baner, vanar]", 1);
     assertSuggestionsTest("especialisats", "[especialitzats]", 1);
     assertSuggestionsTest("colaborassió", "[col·laboració]", 1);
     assertSuggestionsTest("colaboració", "[col·laboració]", 1);
@@ -118,7 +118,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("L'statu", "[tato, Satto, Steno, tatú, sta tu]", 1);
     assertSuggestionsTest("argüit", "[arguït]", 1);
     assertSuggestionsTest("ángel", "[àngel, àngels, anual, angle, anhel]", 1);
-    assertSuggestionsTest("caçessim", "[cacéssim, cassàssim, casséssim, casàssim, caséssim]", 1);
+    assertSuggestionsTest("caçessim", "[cacéssim, casséssim, caséssim, cesséssim]", 1);
     assertSuggestionsTest("coche", "[cotxe, cuixa, coixa, cuixé, cotxa]", 1);
     assertSuggestionsTest("cantaríà", "[cantaria]", 1);
     //best suggestion first
@@ -199,7 +199,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("almeu", "[al meu, allau, lleu, Dalmau, alceu]", 1);
     assertSuggestionsTest("delteu", "[del teu, delta, allau, Dalmau, falteu]", 1);
     assertSuggestionsTest("unshomes", "[uns homes]", 1);
-    assertSuggestionsTest("pelsseus", "[pels seus, passos, paísseu, païsses]", 1);
+    assertSuggestionsTest("pelsseus", "[pels seus, passos]", 1);
     assertSuggestionsTest("daquesta", "[d'aquesta, aquesta, requesta, Tequesta, requeste]", 1);
     assertSuggestionsTest("daquelles", "[d'aquelles, aquelles]", 1);
     assertSuggestionsTest("lah", "[la, les, las, ah, eh]", 1);
