@@ -6971,7 +6971,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">retrats?|fotos?</token>
+                <token regexp="yes">retrats?|fotos?|gos|gossos|gossa|gosses</token>
                 <marker>
                     <token>robot</token>
                 </marker>
@@ -8540,7 +8540,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="V.[NISM].*" postag_regexp="yes" inflected="yes">ser</token>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">mentida|dificultat|pecat|dada</token>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">mentida|dificultat|pecat|dada|fuita</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*"/>
@@ -12136,6 +12136,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="V.*"/>
     </rule>
     <rulegroup id="ens_nom" name="ens (nom)">
+        <rule>
+            <pattern>
+                <token postag="D..MP." postag_regexp="yes"/>
+                <marker>
+                    <token>ens</token>
+                </marker>
+                <token postag="RG" min="0"/>
+                <token postag="AQ.[MC]P.|V.P..PM." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"/>
+        </rule>
         <rule>
             <pattern>
                 <token regexp="yes">un|altre|aquest|aqueix|este|eixe|aquell</token>
