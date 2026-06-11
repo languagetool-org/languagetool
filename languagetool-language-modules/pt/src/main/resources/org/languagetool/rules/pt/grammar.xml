@@ -844,6 +844,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id='AUXILIARY_VERB_INFINITIVE' name="Erro de concordância: Verbo auxiliar + verbo no infinitivo">
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-conceito-de-verbo-auxiliar/24055</url>
+
+            <antipattern>
+                <token regexp='yes' inflected='yes'>ser|estar</token> <!-- Later try postag='V.+' -->
+                <token postag_regexp='yes' postag='VMP00.+'/>
+                <token postag_regexp='yes' postag='V.+'/>
+                <example>O que lhe era devido devia ser afetado de retroativos.</example>
+            </antipattern>
             <antipattern>
                 <token postag_regexp="yes" postag="V(MN0000|MN0[13]S0|...1P0|.SF[13]S0):PP.+"/>
             </antipattern>
