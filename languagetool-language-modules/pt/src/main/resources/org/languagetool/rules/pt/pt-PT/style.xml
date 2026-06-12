@@ -3414,10 +3414,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rulegroup id='FORMAL_MONTES_DE' name="🇵🇹👔 'montes de' → inúmeros/imensos" tone_tags='formal'>
           <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
+          <antipattern>
+              <token postag_regexp='yes' postag='(SPS00:)?[DP]..MP.+'/>
+              <token>montes</token>
+              <token>de</token>
+              <token postag_regexp='yes' postag='NC.+'/>
+              <example>Genes que possuem a característica de resistência a metais entre as gramíneas dentro e fora dos montes de rejeito.</example>
+              <example>Eles finalmente localizam o que parece ser um antigo cemitério com sete montes de pedras pequenos.</example>
+              <example>Estes montes de terra e pirâmides continham estruturas subterrâneas, que eram revestidas com paredes de tijolos.</example>
+          </antipattern>
+
           <rule> <!-- NCC.+ -->
               <pattern>
                   <marker>
-                      <token>montes</token>
+                      <token>montes
+                          <exception postag_regexp='yes' postag='NP.+'/><exception scope='previous' postag_regexp='yes' postag='Z0.+'/></token>
                       <token>de</token>
                   </marker>
                   <token postag_regexp='yes' postag='NCC.+'/>
@@ -3426,12 +3437,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <suggestion><match no='3' postag='NC(.)(.)000' postag_replace='AQ0.$20'>imenso</match></suggestion>
               <suggestion><match no='3' postag='NC(.)(.)000' postag_replace='AQ0.$20'>inúmero</match></suggestion>
               <example correction="imensas|imensos|inúmeras|inúmeros">Deparei-me com <marker>montes de</marker> agentes.</example>
+              <example>Na manhã do quarto dia, eles encontram três montes de agentes.</example>
           </rule>
 
           <rule> <!-- NC[MF].+ -->
               <pattern>
                   <marker>
-                      <token>montes</token>
+                      <token>montes
+                          <exception postag_regexp='yes' postag='NP.+'/><exception scope='previous' postag_regexp='yes' postag='Z0.+'/></token>
                       <token>de</token>
                   </marker>
                   <token postag_regexp='yes' postag='NC[MF].+'/>
@@ -3440,6 +3453,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <suggestion><match no='3' postag='NC(..)000' postag_replace='AQ0$10'>imenso</match></suggestion>
               <suggestion><match no='3' postag='NC(..)000' postag_replace='AQ0$10'>inúmero</match></suggestion>
               <example correction="imensos|inúmeros">Deparei-me com <marker>montes de</marker> obstáculos.</example>
+              <example>Na manhã do quarto dia, eles encontram três montes de pedras.</example>
           </rule>
       </rulegroup>
 
