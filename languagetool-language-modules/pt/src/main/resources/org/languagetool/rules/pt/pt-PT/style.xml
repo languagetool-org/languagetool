@@ -2193,6 +2193,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <short>Coloquialismo</short>
         <example correction='rapidamente|em pouco tempo|de imediato'><marker>num piscar de olhos</marker></example>
     </rule>
+    <rule id='É_IGUAL_AO_LITRO'>
+        <antipattern>
+            <token>é</token>
+            <token>igual</token>
+            <token>ao</token>
+            <token>litro</token>
+            <token regexp='yes'>d[ao]s?|de</token>
+            <token postag='N.+|AQ.+' postag_regexp='yes'/>
+            <example>É igual ao litro de gasolina.</example>
+            <example>É igual ao litro de leite.</example>
+        </antipattern>
+        <pattern>
+            <token>é</token>
+            <marker>
+                <token>igual</token>
+                <token>ao</token>
+                <token>litro</token>
+            </marker>
+        </pattern>
+        <message>&colloquialism_msg;</message>
+        <suggestion>indiferente</suggestion>
+        <suggestion>irrelevante</suggestion>
+        <example correction="indiferente|irrelevante">Tudo o que me diz é <marker>igual ao litro</marker>.</example>
+    </rule>
     </rulegroup>
 
 
@@ -2268,22 +2292,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Para aqueles que passaram por muitos anos tiveram dificuldades na colaboração entre projetos.</example>
             <example>Tomava esteroides para ganhar massa muscular e foi por isso que passou a ter dificuldades para emagrecer.</example>
          </rule>
-
-
-        <rule id='É_IGUAL_AO_LITRO' name="🇵🇹👔 'igual ao litro' → 'indiferente'" tone_tags="formal">
-            <pattern>
-                <token>é</token>
-                <marker>
-                    <token>igual</token>
-                    <token>ao</token>
-                    <token>litro</token>
-                </marker>
-                <token negate="yes" regexp='yes'>d[ao]s?|de</token>
-            </pattern>
-            <message>&informal_msg;</message>
-            <suggestion>indiferente</suggestion>
-            <example correction="indiferente">Tudo o que me diz é <marker>igual ao litro</marker>.</example>
-        </rule>
 
 
         <rule id='CHUMBAR_REPROVAR_PT_PT' name="🇵🇹👔 Chumbar → reprovar" type='style' tone_tags='formal' tags='picky'>
