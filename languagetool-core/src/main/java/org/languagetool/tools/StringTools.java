@@ -616,7 +616,13 @@ public final class StringTools {
     String s = Normalizer.normalize(str, Normalizer.Form.NFD);
     return DIACRIT_MARKS.matcher(s).replaceAll("");
   }
-  
+
+  public static boolean equalsIgnoreCaseAndDiacritics(String s1, String s2) {
+    if (s1 == null || s2 == null) {
+      return s1 == s2;
+    }
+    return removeDiacritics(s1).equalsIgnoreCase(removeDiacritics(s2));
+  }
   public static String normalizeNFKC(String str) {
     return Normalizer.normalize(str, Normalizer.Form.NFKC);
   }

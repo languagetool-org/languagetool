@@ -539,10 +539,6 @@ public class Catalan extends Language {
     return true;
   }
 
-  @Override
-  public int getSpellerMaxWeightDiff() {
-    return 15;
-  }
 
   @Override
   public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
