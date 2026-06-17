@@ -17545,48 +17545,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- SERVE PARA permite -->
-        <rule id='SERVIR_PARA_PERMITIR' name="✂️ V.Servir + para → V.Permitir" type="style" tags="picky">
+        <rule id='SERVIR_PARA_PERMITIR' name="✂️ 'servir para' → 'permitir/possibilitar'" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-20 (2-MAR-2023+) -->
-            <!--
-      Este botão serve para gravar ficheiros JPEG. → Este botão permite gravar ficheiros JPEG.
-      Estes botões servem para gravar ficheiros JPEG. → Estes botões permitem gravar ficheiros JPEG.
-      -->
-            <antipattern>
-                <token skip='-1'>que</token>
-                <token regexp='yes'>servem?</token>
-                <token>para</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <example>é uma herança da cultura popular que serve para contar as histórias do Japão antigo.</example>
-                <example>Parece que serve para torturar.</example>
-                <example>é um instrumento que serve para espancar.</example>
-            </antipattern>
-            <antipattern>
-                <token regexp='yes'>servem?</token>
-                <token>para</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='VMP.+' postag_regexp='yes'/>
-                <example>A informação serve para ser lida.</example>
-            </antipattern>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token negate_pos='yes' postag='PI.+' postag_regexp='yes'/>
                 <marker>
-                    <token regexp='yes'>servem?
-                        <exception scope="previous" postag_regexp='yes' postag='RN|RG|V.+'/>
-                    </token>
+                    <token regexp='yes'>servem?<exception scope='previous' postag_regexp='yes' postag='CS|RN|RG'/></token>
                     <token>para</token>
                 </marker>
-                <token postag='V.+' postag_regexp='yes'>
-                    <exception postag='RN'/>
-                    <exception postag_regexp='yes' postag='N.+'/>
-                </token>
+                <token postag_regexp='yes' postag='V.+'><exception scope='next' postag_regexp='yes' postag='VMP.+'/></token>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>possibilitar</match></suggestion>
+            <message>Formulação possivelmente mais direta:</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>possibilitar</match></suggestion>
             <example correction="permite|possibilita">Este botão <marker>serve para</marker> gravar ficheiros JPEG.</example>
             <example correction="permitem|possibilitam">Estes botões <marker>servem para</marker> gravar ficheiros JPEG.</example>
+            <example>A informação serve para ser lida.</example>
+            <example>É uma herança da cultura popular que serve para contar as histórias do Japão antigo.</example>
+            <example>Parece que serve para torturar.</example>
+            <example>É um instrumento que serve para espancar.</example>
+            <example>Ela não serve para criar essa criança.</example>
+            <example>Nada de bom pode vir de algo que só serve para matar.</example>
+            <example>Pão bolorento ainda serve para comer?</example>
         </rule>
 
 
