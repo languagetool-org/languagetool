@@ -844,10 +844,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rule id='CASO_INDICATIVO_CONJUNTIVO' name="caso + 'indicativo' → conjuntivo" default='temp_off'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token postag_regexp='yes' postag='SENT_START|_PUNCT|CS|CC'/>
+                <token postag_regexp='yes' postag='SENT_START|_PUNCT|CC'><exception postag='RG'/></token> <!-- exception "segundo" -->
                 <token>caso</token>
                 <marker>
-                    <token postag='VMIP[23].+' postag_regexp='yes'/>
+                    <token postag='VMIP[23].+' postag_regexp='yes'><exception postag_regexp='yes' postag='VMSP3S0|NC.+|AQ.+'/></token>
                 </marker>
             </pattern>
             <message>Depois de &quot;caso&quot;, é normalmente usado o conjuntivo.</message>
@@ -855,6 +855,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="pareças">Caso <marker>pareces</marker> cansado, descansa.</example>
             <example correction="pareça">Caso <marker>parece</marker> necessário, avisa-me.</example>
             <example correction="pareçam">Caso <marker>parecem</marker> úteis, usa-os.</example>
+            <example>Eu acho melhor levares um guarda chuva, caso chova.</example>
+            <example>No segundo caso é chamada de Trombose Venosa Profunda.</example>
         </rule>
 
 
