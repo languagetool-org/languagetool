@@ -841,6 +841,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id='CASO_INDICATIVO_CONJUNTIVO' name="caso + 'indicativo' → conjuntivo" default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag_regexp='yes' postag='SENT_START|_PUNCT|CS|CC'/>
+                <token>caso</token>
+                <marker>
+                    <token postag='VMIP[23].+' postag_regexp='yes'/>
+                </marker>
+            </pattern>
+            <message>Depois de &quot;caso&quot;, é normalmente usado o conjuntivo.</message>
+            <suggestion><match no='3' postag='VMIP(..)0' postag_regexp='yes' postag_replace='VMSP$10'/></suggestion>
+            <example correction="pareças">Caso <marker>pareces</marker> cansado, descansa.</example>
+            <example correction="pareça">Caso <marker>parece</marker> necessário, avisa-me.</example>
+            <example correction="pareçam">Caso <marker>parecem</marker> úteis, usa-os.</example>
+        </rule>
+
 
         <rulegroup id='AUXILIARY_VERB_INFINITIVE' name="Erro de concordância: Verbo auxiliar + verbo no infinitivo">
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-conceito-de-verbo-auxiliar/24055</url>
