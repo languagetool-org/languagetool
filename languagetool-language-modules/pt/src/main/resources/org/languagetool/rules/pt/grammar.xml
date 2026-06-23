@@ -173,6 +173,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <category id='GRAMMAR' name="Gramática Geral" type="grammar">
 
+
+        <rule id="SUBST_DE_QUE_TER_DIREITO_A_QUE" name="Substantivo 'de que' … tem direito' → 'a que'" default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <pattern>
+                <token postag_regexp='yes' postag='NC.+|AQ.+'><exception regexp='yes' inflected='yes'>suposição|certeza|ideia|convicção|noção|hipótese|possibilidade|facto|fato|afirmação|alegação|crença|opinião|teoria</exception></token>
+                <marker>
+                    <token>de</token>
+                    <token skip='3'>que</token>
+                </marker>
+                <token inflected='yes'>ter</token>
+                <token>direito</token>
+                <token postag_regexp='yes' postag='_PUNCT|SENT_END|V.+|RM|RG'/>
+            </pattern>
+            <message>A expressão é &quot;ter direito a&quot;; neste contexto, a forma esperada é:</message>
+            <suggestion>a que</suggestion>
+            <example correction="a que">Nem a classificação <marker>de que</marker> ela tem direito dão.</example>
+            <example correction="a que">É o apoio <marker>de que</marker> todos têm direito.</example>
+            <example correction="a que">É o apoio <marker>de que</marker> ela tem direito hoje.</example>
+            <example correction="a que">É o benefício <marker>de que</marker> ela tem direito legalmente.</example>
+            <example>A suposição de que eles têm direito legal à cerveja é falsa.</example>
+            <example>Tenho a certeza de que ela tem direito.</example>
+        </rule>
+
+
         <rulegroup id="A_TRAVES_ATRAVÉS_CONFUSAO" name="Confusão entre 'a traves' e 'através'">
             <rule>
                 <pattern>
