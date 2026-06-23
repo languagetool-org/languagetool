@@ -36,6 +36,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.UNICODE_CHARACTER_CLASS;
+
 public class PatternRuleHandler extends XMLRuleHandler {
 
   @Override

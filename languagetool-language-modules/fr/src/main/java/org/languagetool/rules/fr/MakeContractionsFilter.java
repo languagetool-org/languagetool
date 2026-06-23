@@ -25,11 +25,12 @@ import java.util.regex.Pattern;
 import org.languagetool.rules.AbstractMakeContractionsFilter;
 
 public class MakeContractionsFilter extends AbstractMakeContractionsFilter {
-  
-  private static final Pattern DE_LE = Pattern.compile("\\bde le\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern A_LE = Pattern.compile("\\bà le\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern DE_LES = Pattern.compile("\\bde les\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern A_LES = Pattern.compile("\\bà les\\b", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+  private static final int FLAGS = Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.UNICODE_CHARACTER_CLASS;
+  private static final Pattern DE_LE = Pattern.compile("\\bde le\\b", FLAGS);
+  private static final Pattern A_LE = Pattern.compile("\\bà le\\b", FLAGS);
+  private static final Pattern DE_LES = Pattern.compile("\\bde les\\b", FLAGS);
+  private static final Pattern A_LES = Pattern.compile("\\bà les\\b", FLAGS);
 
   protected String fixContractions(String suggestion) {
     Matcher matcher = DE_LE.matcher(suggestion);
