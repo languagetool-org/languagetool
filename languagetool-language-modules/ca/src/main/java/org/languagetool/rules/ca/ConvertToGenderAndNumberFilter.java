@@ -126,6 +126,27 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
           desiredGenderStr = splitPostag2.gender;
         }
       }
+      if (desiredGenderStr.equals("C")) {
+        desiredGenderStr = "M";
+      }
+
+      //if number = N, look into the words before and after
+      if (desiredNumberStr.equals("N") && posWord - 1 > 0) {
+        GenderAndNumberSplit splitPostag2 = splitGenderAndNumber(tokens[posWord - 1].readingWithTagRegex(splitGenderNumber));
+        if (splitPostag2 != null && (splitPostag2.number.equals("S") || splitPostag2.number.equals("P"))) {
+          desiredNumberStr = splitPostag2.number;
+        }
+      }
+      if (desiredNumberStr.equals("N") && posWord + 1 < tokens.length) {
+        GenderAndNumberSplit splitPostag2 = splitGenderAndNumber(tokens[posWord + 1].readingWithTagRegex(splitGenderNumber));
+        if (splitPostag2 != null && (splitPostag2.number.equals("S") || splitPostag2.number.equals("P"))) {
+          desiredNumberStr = splitPostag2.number;
+        }
+      }
+      if (desiredNumberStr.equals("N")) {
+        desiredNumberStr = "S";
+      }
+
       // Prioritize gender and number in the original
       if (splitPostag != null) {
         if (desiredGenderStr.contains(splitPostag.gender)) {
