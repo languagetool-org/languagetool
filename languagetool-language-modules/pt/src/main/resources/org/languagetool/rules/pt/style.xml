@@ -4672,6 +4672,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rule id='PEDIR_SOLICITAR_V3' name="Pedir → solicitar" tone_tags='formal' tags='picky'>
+
+            <antipattern> <!-- Expressão idiomática -->
+                <token regexp='yes'>[ao]s?|el[ea]s?|tu|vocês?</token>
+                <token min='0' max='2' postag_regexp='yes' postag='N.+|AQ.+|RM'/>
+                <token regexp='yes' inflected='yes'>andar|estar</token>
+                <token>a</token>
+                <token min='0' max='1' postag='_QUOT'/>
+                <token>pedi-las</token>
+                <example>Ele andava a pedi-las.</example>
+                <example>Os batoteiros estavam a pedi-las.</example>
+                <example>O jornalista andava a "pedi-las"…</example>
+                <example>Ela deliberadamente andava a pedi-las.</example>
+            </antipattern>
+
             <antipattern>
                 <token postag='SENT_START|Z0.+|DI.+|_PUNCT|VMN0000|VMG0000|_QUOT' postag_regexp='yes'>
                     <exception regexp='yes' inflected='yes'>estar|ter|ser</exception>
