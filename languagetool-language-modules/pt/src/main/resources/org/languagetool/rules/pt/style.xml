@@ -13213,16 +13213,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>\2 o que</suggestion>
             <example correction="ela o que">Pergunta a <marker>ela o que ela</marker> achou do texto.</example>
         </rule>
+
+
         <rulegroup id='EU_NÓS_REMOVAL' name="Omitir pronome pessoal eu/nós" type='style' tone_tags="povrem">
             <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+
+            <antipattern> <!-- "até/somente/só/apenas/mesmo/também eu/nós" é enfático/inclusivo; o pronome não deve ser removido. -->
+                <token regexp='yes'>até|somente|só|apenas|mesmo|também</token>
+                <token regexp='yes'>eu|nós</token>
+                <token postag='V.+' postag_regexp='yes'/>
+                <example>Somente eu sei como é duro.</example>
+                <example>Somente nós sabemos como é duro.</example>
+                <example>Até eu posso ser um "idiota útil" sem saber. </example>
+                <example>Mesmo eu posso estar enganado.</example>
+                <example>Mesmo nós podemos cometer erros.</example>
+                <example>Também eu pensei nisso.</example>
+                <example>1 João 4:11 Amados, se Deus assim nos amou, também nós devemos amar uns aos outros.</example>
+                <example>Até eu entendo esta frase. É muito fácil de entender.</example>
+                <example>Até eu sei isto.</example>
+                <example>Lembro uma frase dele: “Também eu fui algum tempo integralista.</example>
+                <example>Ontem mesmo eu pensei em desistir.</example>
+            </antipattern>
+
             <rule tags="picky">
                 <!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
                 <!-- ! or ? or . at the end -->
-                <antipattern>
-                    <token regexp='yes'>somente|só|apenas</token>
-                    <token>eu</token>
-                    <example>Somente eu sei como é duro.</example>
-                </antipattern>
                 <antipattern case_sensitive='yes'>
                     <token regexp='yes' min='0'>\p{Ll}+</token>
                     <token>EU</token>
@@ -13273,11 +13288,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule tags="picky">
                 <!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
                 <!-- ! or ? or . at the end -->
-                <antipattern>
-                    <token regexp='yes'>somente|só|apenas</token>
-                    <token>nós</token>
-                    <example>Somente nós sabemos como é duro.</example>
-                </antipattern>
                 <antipattern case_sensitive='yes'>
                     <token regexp='yes' min='0'>\p{Ll}+</token>
                     <token case_sensitive='yes'>NÓS</token>
