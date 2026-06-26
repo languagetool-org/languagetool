@@ -86,8 +86,14 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         }
         GenderAndNumberSplit splitPostag = splitGenderAndNumber(at);
         StringBuilder newPostag = new StringBuilder(splitPostag.prefix);
-        String number = !desiredNumberOrigStr.isEmpty() ? desiredNumberOrigStr
-          : (splitNounOrigPostag != null ? splitNounOrigPostag.number : splitPostag.number);
+        String number;
+        if (!desiredNumberOrigStr.isEmpty()) {
+          number = desiredNumberOrigStr;
+        } else if (splitNounOrigPostag != null && !"N".equals(splitNounOrigPostag.number)) {
+          number = splitNounOrigPostag.number;
+        } else {
+          number = splitPostag.number;
+        }
         String gender = !desiredGenderOrigStr.isEmpty() ? desiredGenderOrigStr : splitPostag.gender;
         if (splitPostag.prefix.startsWith("V")) {
           newPostag.append(number).append(gender);
@@ -97,7 +103,7 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         newPostag.append(splitPostag.suffix);
         String completeForm = at.getLemma();
         if (!remainder.isEmpty()) {
-          completeForm = completeForm + " " + remainder;
+          completeForm = word + " " + remainder;
         }
         AnalyzedToken at2 = new AnalyzedToken(completeForm, newPostag.toString(), at.getLemma());
         atrNounList.add(at2);
@@ -126,9 +132,9 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
           desiredGenderStr = splitPostag2.gender;
         }
       }
-      if (desiredGenderStr.equals("C")) {
+      /*if (desiredGenderStr.equals("C")) {
         desiredGenderStr = "M";
-      }
+      }*/
 
       //if number = N, look into the words before and after
       if (desiredNumberStr.equals("N") && posWord - 1 > 0) {
@@ -143,9 +149,9 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
           desiredNumberStr = splitPostag2.number;
         }
       }
-      if (desiredNumberStr.equals("N")) {
+      /*if (desiredNumberStr.equals("N")) {
         desiredNumberStr = "S";
-      }
+      }*/
 
       // Prioritize gender and number in the original
       if (splitPostag != null) {

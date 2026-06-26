@@ -149,6 +149,11 @@ public class SimpleReplaceAnglicismTest {
     // diverses coincidències en una mateixa frase:
     matches = rule.match(lt.getAnalyzedSentence("El spam i el troll fan malbé les discussions en línia."));
     assertEquals(2, matches.length);
+
+    matches = rule.match(lt.getAnalyzedSentence("La primera masterclass serà la de literatura barroca."));
+    assertEquals(1, matches.length);
+    assertEquals("[La primera classe magistral, Les primeres classes magistrals]", matches[0].getSuggestedReplacements().toString());
+
   }
 
 }

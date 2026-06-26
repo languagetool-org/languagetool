@@ -85,6 +85,10 @@ public class SimpleReplaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals("[Un absis, Una àbsida]", matches[0].getSuggestedReplacements().toString());
 
+    matches = rule.match(lt.getAnalyzedSentence("Sumats als kms d'anar i tornar."));
+    assertEquals(1, matches.length);
+    assertEquals("[als km]", matches[0].getSuggestedReplacements().toString());
+
   }
 
 }
