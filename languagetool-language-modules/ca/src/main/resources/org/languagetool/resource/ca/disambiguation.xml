@@ -489,6 +489,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="replace" postag="NPFSO00"/>
     </rule>
+    <rule id="VIST" name="vist per a sentència">
+        <pattern>
+            <marker>
+                <token postag="V.P.*" postag_regexp="yes" regexp="yes">vist|vists|vistos|vista|vistes</token>
+            </marker>
+            <token>per</token>
+            <token min="0">a</token>
+            <token>sentència</token>
+        </pattern>
+        <disambig action="filter" postag="V.P.*"/>
+    </rule>
     <rulegroup id="peca_fem" name="peça (femení)">
         <rule>
             <pattern>
@@ -9943,7 +9954,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">es|em|el|la|els|les|ens|us|se|me|vos|jo|ell</token>
+                <token regexp="yes">es|em|la|els|les|ens|us|se|me|vos|jo|ell</token>
+                <!-- el -->
                 <marker>
                     <token postag="V.*V" postag_regexp="yes">vist</token>
                 </marker>
