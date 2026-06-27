@@ -95,7 +95,7 @@ org.apache.commons:commons-pool2:2.9.0 - Apache License, Version 2.0
 org.apache.commons:commons-text:1.9 - Apache License, Version 2.0
 org.apache.lucene:lucene-backward-codecs:5.5.5 - Apache 2
 org.apache.lucene:lucene-core:5.5.5 - Apache 2
-org.apache.opennlp:opennlp-tools:1.9.4 - Apache License, Version 2.0
+org.apache.opennlp:opennlp-tools:2.5.9 - Apache License, Version 2.0
 org.carrot2:morfologik-fsa:2.1.7 - BSD
 org.carrot2:morfologik-fsa-builders:2.1.7 - BSD
 org.carrot2:morfologik-speller:2.1.7 - BSD

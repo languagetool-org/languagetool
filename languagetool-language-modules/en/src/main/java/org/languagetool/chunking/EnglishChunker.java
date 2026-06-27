@@ -21,6 +21,7 @@ package org.languagetool.chunking;
 import opennlp.tools.chunker.ChunkerME;
 import opennlp.tools.chunker.ChunkerModel;
 import opennlp.tools.postag.POSModel;
+import opennlp.tools.postag.POSTagFormat;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
@@ -118,7 +119,10 @@ public class EnglishChunker implements Chunker {
   }
 
   private String[] posTag(String[] tokens) {
-    POSTaggerME posTagger = new POSTaggerME(posModel);
+    // The bundled model uses Penn Treebank tags. Since OpenNLP 2.x, POSTaggerME maps tags to
+    // Universal Dependencies by default, which breaks the chunker and our Penn-based rules, so
+    // we pin the format to PENN to keep the original tag set.
+    POSTaggerME posTagger = new POSTaggerME(posModel, POSTagFormat.PENN);
     return posTagger.tag(tokens);
   }
 
