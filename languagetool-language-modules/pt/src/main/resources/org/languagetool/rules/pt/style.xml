@@ -18382,16 +18382,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- NADA ME VEM À MENTE nada me ocorre -->
-        <rule id='NADA_PRONOME_VEM_À_MENTE_NADA_OCORRE' name="Nada + Pron. + vem à mente → Nada + Pron. + ocorre">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-01 (27-FEB-2023+) -->
-            <!--
-            Contudo, nada lhe vem à mente. → Contudo, nada lhe ocorre.
-            Contudo, nada vos vem à mente. → Contudo, nada vos ocorre.
-            Contudo, nada me vem à mente. → Contudo, nada me ocorre.
-            -->
+        <rule id='NADA_PRONOME_VEM_A_MENTE_NADA_OCORRE' name="✂️ Nada me/nos/lhe/vos 'vem à mente' → ocorre" type='style'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token>nada</token>
+                <token skip='1'>nada</token>
                 <token regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</token>
                 <marker>
                     <token>vem</token>
@@ -18399,11 +18393,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>mente</token>
                 </marker>
             </pattern>
-            <message>A gramática poderá ser melhorada nesta perífrase.</message>
+            <message>Formulação possivelmente mais direta:</message>
             <suggestion>ocorre</suggestion>
+            <example correction="ocorre">Contudo, nada me <marker>vem à mente</marker>.</example>
+            <example correction="ocorre">Contudo, nada vos <marker>vem à mente</marker>.</example>
             <example correction="ocorre">Contudo, nada lhe <marker>vem à mente</marker>.</example>
             <example correction="ocorre">Contudo, nada vos <marker>vem à mente</marker>.</example>
-            <example correction="ocorre">Contudo, nada me <marker>vem à mente</marker>.</example>
+            <example correction="ocorre">Contudo, nada melhor me <marker>vem à mente</marker>.</example>
+            <example correction="ocorre">Contudo, nada mais lhe <marker>vem à mente</marker>.</example>
         </rule>
 
 
