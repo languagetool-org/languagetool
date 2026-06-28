@@ -18361,25 +18361,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="fisicamente">A área é delimitada <marker>por fronteiras físicas</marker>.</example>
             <example>A área é delimitada <marker>fisicamente</marker>.</example>
         </rule>
-        <!-- AS QUE quais -->
-        <rule id='AS_OS_QUE_QUAIS' name="✂️ [ao]s que → quais" type="style">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-01 (25-JUL-2022+) -->
-            <!--
-            E determinar as que obtiveram melhores resultados. → E determinar quais obtiveram melhores resultados.
-            -->
+
+
+        <rule id='AS_OS_QUE_QUAIS' name="✂️ 'as/os que' → quais" type='style'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token postag='VMN0000|VMG0000|VMIP.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
-                </token>
+                <token regexp='yes' inflected='yes'>determinar|identificar|indicar|selecionar|seleccionar|escolher|definir|decidir|verificar|apurar|saber|descobrir</token>
                 <marker>
                     <token regexp='yes'>[ao]s</token>
                     <token>que</token>
                 </marker>
-                <token postag='VMI[MS]3P0' postag_regexp='yes'/>
+                <token postag='VMI.3P.+' postag_regexp='yes'/>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>quais</suggestion>
             <example correction="quais">E determinar <marker>as que</marker> obtiveram melhores resultados.</example>
+            <example correction="quais">É preciso identificar <marker>os que</marker> falharam.</example>
+            <example>A maioria das suas biografias, incluindo <marker>as que</marker> foram escritas pelas suas filhas.</example>
+            <example>A confusão se dá por que deveria dizer "ajudamos <marker>os que</marker> partiram".</example>
         </rule>
 
 
