@@ -2,6 +2,10 @@
 
 ## 6.8 (2026-05-??)
 
+#### General
+  * Apache OpenNLP (opennlp-tools) has been updated from 1.9.4 to 2.5.9 to fix
+    CVE-2026-42027, CVE-2026-40682 and CVE-2026-42440.
+
 #### Ukrainian
   * new words in the POS dictionary
   * new rules
