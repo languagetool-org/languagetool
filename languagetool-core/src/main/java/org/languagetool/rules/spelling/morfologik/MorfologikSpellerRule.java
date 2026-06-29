@@ -564,13 +564,21 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     };
   }
 
+  private List<SuggestedReplacement> convertWeighted(List<WeightedSuggestion> suggestions) {
+    return suggestions.stream().map(ws -> {
+      SuggestedReplacement sr = new SuggestedReplacement(ws.getWord());
+      sr.setWeight(ws.getWeight());
+      return sr;
+    }).collect(Collectors.toList());
+  }
+
   private List<SuggestedReplacement> calcSpellerSuggestions(String word, boolean fullResults) throws IOException {
     List<SuggestedReplacement> onlySuggestions = getOnlySuggestions(word);
     if (!onlySuggestions.isEmpty()) {
       return onlySuggestions;
     }
-    List<SuggestedReplacement> defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));
-    List<SuggestedReplacement> userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));
+    List<SuggestedReplacement> defaultSuggestions = convertWeighted(speller1.getWeightedSuggestionsFromDefaultDicts(word));
+    List<SuggestedReplacement> userSuggestions = convertWeighted(speller1.getWeightedSuggestionsFromUserDicts(word));
     //System.out.println("speller1: " + suggestions);
     boolean onlyCaseDiffers = false;
     if (defaultSuggestions.size() > 0 && word.equalsIgnoreCase(defaultSuggestions.get(0).getReplacement())) {
@@ -581,12 +589,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (word.length() >= 3 && (onlyCaseDiffers || fullResults || defaultSuggestions.isEmpty())) {
       // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
       //System.out.println("speller2: " + speller2.getSuggestions(word));
-      defaultSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromDefaultDicts(word)));
-      userSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromUserDicts(word)));
+      defaultSuggestions.addAll(convertWeighted(speller2.getWeightedSuggestionsFromDefaultDicts(word)));
+      userSuggestions.addAll(convertWeighted(speller2.getWeightedSuggestionsFromUserDicts(word)));
       if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
         //System.out.println("speller3: " + speller3.getSuggestions(word));
-        defaultSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromDefaultDicts(word)));
-        userSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromUserDicts(word)));
+        defaultSuggestions.addAll(convertWeighted(speller3.getWeightedSuggestionsFromDefaultDicts(word)));
+        userSuggestions.addAll(convertWeighted(speller3.getWeightedSuggestionsFromUserDicts(word)));
       }
     }
     //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));

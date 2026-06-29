@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.languagetool.JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
@@ -359,7 +360,7 @@ public class MorfologikMultiSpeller {
   }
 
   @NotNull
-  private List<String> getSuggestionsFromSpellers(String word, List<MorfologikSpeller> spellerList) {
+  private List<WeightedSuggestion> getSuggestionsFromSpellers(String word, List<MorfologikSpeller> spellerList) {
     List<WeightedSuggestion> result = new ArrayList<>();
     Set<String> seenWords = new HashSet<>();
     for (MorfologikSpeller speller : spellerList) {
@@ -372,24 +373,15 @@ public class MorfologikMultiSpeller {
       }
     }
     Collections.sort(result);
-    List<String> wordResults = new ArrayList<>();
-    int maxWeightDiff = (language != null ? language.getSpellerMaxWeightDiff() : -1);
-    int prevWeight = -1;
-    for (WeightedSuggestion weightedSuggestion : result) {
-      if (maxWeightDiff > 0 && prevWeight > 0 && (weightedSuggestion.getWeight() - prevWeight > maxWeightDiff)) {
-        break;
-      }
-      wordResults.add(weightedSuggestion.getWord());
-      prevWeight = weightedSuggestion.getWeight();
-    }
-    return wordResults;
+    List<WeightedSuggestion> finalResults = new ArrayList<>(result);
+    return finalResults;
   }
 
   /**
    * The suggestions from all dictionaries (without duplicates).
    */
   public List<String> getSuggestions(String word) {
-    return getSuggestionsFromSpellers(word, spellers);
+    return getSuggestionsFromSpellers(word, spellers).stream().map(WeightedSuggestion::getWord).collect(Collectors.toList());
   }
 
   /**
@@ -398,10 +390,14 @@ public class MorfologikMultiSpeller {
    * @since 4.5
    */
   public List<String> getSuggestionsFromUserDicts(String word) {
+    return getWeightedSuggestionsFromUserDicts(word).stream().map(WeightedSuggestion::getWord).collect(Collectors.toList());
+  }
+
+  public List<WeightedSuggestion> getWeightedSuggestionsFromUserDicts(String word) {
     return getSuggestionsFromSpellers(word, userDictSpellers);
   }
 
-  private final Cache<String, List<String>> defaultDictSuggestionsCache =
+  private final Cache<String, List<WeightedSuggestion>> defaultDictSuggestionsCache =
     CacheBuilder.newBuilder()
       .maximumSize(2000)
       .build();
@@ -412,6 +408,10 @@ public class MorfologikMultiSpeller {
    * @since 4.5
    */
   public List<String> getSuggestionsFromDefaultDicts(String word) {
+    return getWeightedSuggestionsFromDefaultDicts(word).stream().map(WeightedSuggestion::getWord).collect(Collectors.toList());
+  }
+
+  public List<WeightedSuggestion> getWeightedSuggestionsFromDefaultDicts(String word) {
     try {
       return defaultDictSuggestionsCache.get(word, () -> getSuggestionsFromSpellers(word, defaultDictSpellers));
     } catch (ExecutionException e) {

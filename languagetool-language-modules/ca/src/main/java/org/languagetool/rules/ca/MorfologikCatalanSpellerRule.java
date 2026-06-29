@@ -36,6 +36,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private final String dictFilename;
   private static final String SPELLING_FILE = "/ca/spelling.txt";
   private static final Pattern QUOTE_OR_HYPHEN = Pattern.compile("['-]");
+  private static final int MAX_WEIGHT_DIFF = 10;
 
   @Override
   public List<String> getAdditionalSpellingFileNames() {
@@ -267,7 +268,24 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       }
       newSuggestions.add(suggestions.get(i));
     }
-    return newSuggestions;
+
+    // filter by weight jump
+    Integer prevWeight = null;
+    String prevReplacementStr = "";
+    List<SuggestedReplacement> filteredSuggestions = new ArrayList<>();
+    for (SuggestedReplacement sr : newSuggestions) {
+      if (!StringTools.equalsIgnoreCaseAndDiacritics(sr.getReplacement(), prevReplacementStr)) {
+        if (sr.getWeight() != null && prevWeight != null && (sr.getWeight() - prevWeight > MAX_WEIGHT_DIFF)) {
+          break;
+        }
+        if (sr.getWeight() != null) {
+          prevWeight = sr.getWeight();
+        }
+      }
+      filteredSuggestions.add(sr);
+      prevReplacementStr = sr.getReplacement();
+    }
+    return filteredSuggestions;
   }
 
   @Override

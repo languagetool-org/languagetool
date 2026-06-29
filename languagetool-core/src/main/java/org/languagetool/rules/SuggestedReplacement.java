@@ -41,6 +41,7 @@ public class SuggestedReplacement {
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private Float confidence = null;
   private SuggestionType type = SuggestionType.Default;
+  private Integer weight = null;
 
   /**
     classify the type of the suggestion
@@ -76,6 +77,7 @@ public class SuggestedReplacement {
     setConfidence(repl.getConfidence());
     setFeatures(repl.getFeatures());
     setType(repl.getType());
+    setWeight(repl.getWeight());
   }
 
   public String getReplacement() {
@@ -153,6 +155,15 @@ public class SuggestedReplacement {
 
   public void setFeatures(@NotNull SortedMap<String, Float> features) {
     this.features = features;
+  }
+
+  @Nullable
+  public Integer getWeight() {
+    return weight;
+  }
+
+  public void setWeight(@Nullable Integer weight) {
+    this.weight = weight;
   }
 
   public static List<SuggestedReplacement> convert(List<String> suggestions) {
