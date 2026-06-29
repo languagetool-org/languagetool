@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Helper methods to list all supported languages and to get language objects
@@ -43,9 +44,9 @@ public final class Languages {
   private static final Language NOOP_LANGUAGE = new NoopLanguage();
 
   private static final List<Language> languages = getAllLanguages();
-  private static final List<Language> dynLanguages = new ArrayList<>();
+  private static final List<Language> dynLanguages = new CopyOnWriteArrayList<>();
 
-  private static final List<Language> staticAndDynamicLanguages = new ArrayList<>(languages);
+  private static final List<Language> staticAndDynamicLanguages = new CopyOnWriteArrayList<>(languages);
   private static final List<Language> staticAndDynamicLanguagesImmutable = Collections.unmodifiableList(staticAndDynamicLanguages);
 
   private Languages() {
