@@ -13626,6 +13626,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
+        <rule id='PASSAR_ATRAVES_LUGAR_ATRAVESSAR' name="✂️ 'passar através de' → 'atravessar'">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>passar</token>
+                    <token>através</token>
+                    <token regexp='yes'>d[ao]s?</token>
+                </marker>
+                <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
+                <token inflected='yes' regexp='yes'>fronteira|porta|portão|entrada|saída|passagem|túnel|galeria|corredor|passadiço|ponte|viaduto|passarela|estrada|rua|avenida|travessa|autoestrada|caminho|atalho|trilho|vereda|obstáculo|barreira|muralha|vedação|cerca|grade|barricada|bloqueio|multidão</token> <!-- Safelist muito conservadora -->
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atravessar</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+            <example correction="atravessar a">Vou <marker>passar através da</marker> fronteira.</example>
+            <example correction="atravessar as">Vou <marker>passar através das</marker> fronteiras.</example>
+            <example correction="atravessar o">Vou <marker>passar através do</marker> túnel.</example>
+            <example correction="atravessar os">Vou <marker>passar através dos</marker> portões.</example>
+            <example correction="atravessar o">Vou <marker>passar através do</marker> seu túnel.</example>
+        </rule>
+
+
         <rule id='DEPOIS_DE_APÓS' name="✂️ Depois de → após">
             <antipattern>
                 <token>depois</token>
