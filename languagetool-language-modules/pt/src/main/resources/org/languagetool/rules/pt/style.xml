@@ -16980,12 +16980,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <!-- VERB + QUE + É/SÃO verb + ser(em) -->
-        <rulegroup id='VERB_QUE_É_VERB_SER' name="✂️ Que é/são → ser(em)" type="style" tags="picky">
+        <rulegroup id='VERB_QUE_É_VERB_SER' name="✂️ Que é/são → ser(em)" type='style' tags='picky'>
             <!--IDEA shorten_it-->
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-14 + 2021-07-06 (Enhanced) (1-JAN-2021+)      -->
             <!--
       Eu acho que é perigoso subir aquela montanha sozinho. → Eu acho ser perigoso subir aquela montanha sozinho.
       -->
+
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='_PUNCT_COMMA'/>
+                <token>que</token>
+                <token inflected='yes'>ser</token>
+                <token postag='[DP].+' postag_regexp='yes'/>
+                <token min='1' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='_PUNCT_COMMA'/>
+                <example>A leitura flui, que é uma beleza, sem entraves e sem dor.</example>
+                <example>Lá no museu que ele fez, que é muito bonito, ele deixou a coisa árida.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='VMSF.+' postag_regexp='yes'/>
