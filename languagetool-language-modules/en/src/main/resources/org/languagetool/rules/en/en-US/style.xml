@@ -508,5 +508,17 @@ USA
                 <example correction="reach out to our|inform our">Could you please <marker>contact our</marker> lawyer?</example>
             </rule>
         </rulegroup>
+        <rule id="EX_FORMER" name="ex- (former)">
+        <pattern>
+        <marker>
+            <token>ex</token>
+        </marker>
+        <token postag='JJ.*' postag_regexp='yes'><exception regexp='yes'>officio|parte|ante|on|post|tempore|cathedra</exception></token>
+        <token postag='NN.*' postag_regexp='yes'></token>
+        </pattern>
+        <message>Consider using <suggestion>former</suggestion> instead of "ex".</message>
+        <example correction='former'>He was a <marker>ex</marker> political prisoner.</example>
+        <example>He was an ex officio member.</example>
+        </rule>
     </category>
 </rules>
