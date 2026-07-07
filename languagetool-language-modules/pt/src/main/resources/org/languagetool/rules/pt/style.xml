@@ -13193,25 +13193,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- ELA O QUE ELA ACHOU ela o que achou -->
-        <rule id='PRONOME_PESS_O_QUE_MESMO_PRONOME_PESS' name="✂️ Pronome P. + o + que + Pronome P. → Omitir segundo Pronome P." type="style">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-29 (25-JUL-2022+) -->
-            <!--
-            Pergunta a ela o que ela achou do texto. → Pergunta a ela o que achou do texto.
-            -->
+        <rule id='PRONOME_RETO_REPETIDO_APOS_O_QUE' name="✂️ Pronome reto repetido após 'o que' → omitir repetição" type='style'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
-                <token/>
                 <marker>
                     <token regexp='yes'>&pronomes_retos;</token>
                     <token>o</token>
                     <token>que</token>
-                    <token><match no="1"/></token>
+                    <token><match no='0'/></token>
                 </marker>
                 <token postag='V.+' postag_regexp='yes'/>
             </pattern>
-            <message>Nesta perífrase poderá omitir o segundo pronome pessoal.</message>
-            <suggestion>\2 o que</suggestion>
+            <message>Nesta construção, a repetição do pronome após &quot;o que&quot; pode ser omitida.</message>
+            <suggestion>\1 o que</suggestion>
             <example correction="ela o que">Pergunta a <marker>ela o que ela</marker> achou do texto.</example>
+            <example correction="você o que">Pergunto a <marker>você o que você</marker> achou do texto.</example>
         </rule>
 
 
