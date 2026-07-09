@@ -363,6 +363,14 @@ class Main {
     }
   }
 
+  @FunctionalInterface
+  interface SystemExitHandler {
+    void exit(int status);
+    SystemExitHandler DEFAULT = System::exit;
+  }
+
+  static SystemExitHandler exitHandler = SystemExitHandler.DEFAULT;
+
   /**
    * Command line tool to check plain text files.
    */
@@ -374,10 +382,10 @@ class Main {
        options = commandLineParser.parseOptions(args);
     } catch (WrongParameterNumberException e) {
       commandLineParser.printUsage();
-      System.exit(1);
+      exitHandler.exit(1);
     } catch (IllegalArgumentException e) {
       System.err.println(e);
-      System.exit(1);
+      exitHandler.exit(1);
     } catch (UnknownParameterException e) {
       if (e.getMessage() != null) {
         System.err.println(e.getMessage());
@@ -385,19 +393,19 @@ class Main {
         System.err.println(e);
       }
       commandLineParser.printUsage(System.err);
-      System.exit(1);
+      exitHandler.exit(1);
     }
     if (options.isPrintUsage()) {
       commandLineParser.printUsage();
-      System.exit(1);
+      exitHandler.exit(1);
     }
     if (options.isPrintVersion()) {
       System.out.println("LanguageTool version " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID + ")");
-      System.exit(0);
+      exitHandler.exit(0);
     }
     if (options.isPrintLanguages()) {
       printLanguages();
-      System.exit(0);
+      exitHandler.exit(0);
     }
     if (options.getFilename() == null) {
       options.setFilename("-");

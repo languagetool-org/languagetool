@@ -22,8 +22,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.security.Permission;
-
 /**
  * @author Charlie Collins (Maven Test Example from
  * http://www.screaming-penguin.com/node/7570)
@@ -39,33 +37,17 @@ public class AbstractSecurityTestCase {
     }
   }
 
-  private static class NoExitSecurityManager extends SecurityManager {
-    @Override
-    public void checkPermission(@SuppressWarnings("unused") Permission perm) {
-      // allow anything.
-    }
-
-    @Override
-    @SuppressWarnings("unused")
-    public void checkPermission(Permission perm, Object context) {
-      // allow anything.
-    }
-
-    @Override
-    public void checkExit(int status) {
-      super.checkExit(status);
-      throw new ExitException(status);
-    }
-  }
+  private Main.SystemExitHandler savedHandler;
 
   @Before
   public void setUp() throws Exception {
-    System.setSecurityManager(new NoExitSecurityManager());
+    savedHandler = Main.exitHandler;
+    Main.exitHandler = status -> { throw new ExitException(status); };
   }
 
   @After
   public void tearDown() throws Exception {
-    System.setSecurityManager(null);
+    Main.exitHandler = savedHandler;
   }
 
   //get rid of JUnit warning for this helper class

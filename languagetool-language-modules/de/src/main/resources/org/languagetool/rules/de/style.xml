@@ -997,13 +997,13 @@ USA
             <example correction="perfekte">Die <marker>perfekteste</marker> Lösung ist das nicht.</example>
         </rule>
         <rule id="NICHT_ADAEQUAT_GENUG" name="'nicht adäquat genug'" tone_tags="general">
-            <regexp>\bnicht adäquat genug\b</regexp>
+<regexp>(?U)\bnicht adäquat genug\b</regexp>
             <message>Meinten Sie <suggestion>nicht adäquat</suggestion>, <suggestion>inadäquat</suggestion> oder <suggestion>unpassend</suggestion>?</message>
             <example>Das schien mir <marker>nicht adäquat</marker> (unpassend).</example>
             <example correction="nicht adäquat|inadäquat|unpassend">Das schien mir <marker>nicht adäquat genug</marker>.</example>
         </rule>
         <rule id="MEISTE_ALLER" name="'die meisten aller ...'" tone_tags="clarity">
-            <regexp>\b(den|die) (meisten) (aller)\b</regexp>
+<regexp>(?U)\b(den|die) (meisten) (aller)\b</regexp>
             <message>Was halten Sie von der Formulierung: <suggestion>\1 \2 der</suggestion>?</message>
             <example correction="Die meisten der"><marker>Die meisten aller</marker> Hollywoodfilme spielen in den USA.</example>
             <example><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
@@ -1516,7 +1516,7 @@ USA
             </rule>
         </rulegroup>
         <rule id="SO_DERMASSEN" name="'so dermaßen (so/dermaßen)'" tone_tags="formal">
-            <regexp>\bso derma(ß|ss)en\b</regexp>
+<regexp>(?U)\bso derma(ß|ss)en\b</regexp>
             <message>'So dermaßen' ist eine Doppelung oder umgangssprachlich.</message>
             <suggestion>so</suggestion>
             <suggestion>dermaßen</suggestion>
@@ -1636,43 +1636,43 @@ USA
         </rule>
         <rulegroup id="WEGEN_DIR" name="'wegen dir (deinetwegen)' etc." tone_tags="formal">
             <rule>
-                <regexp>\b(wegen) (mir)\b</regexp>
+<regexp>(?U)\b(wegen) (mir)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>meinetwegen</suggestion>
                 <example correction="Meinetwegen"><marker>Wegen mir</marker> ist sie zu spät gekommen.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (dir)\b</regexp>
+<regexp>(?U)\b(wegen) (dir)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>deinetwegen</suggestion>
                 <example correction="Deinetwegen"><marker>Wegen dir</marker> komme ich zu spät.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (ihr)\b</regexp>
+<regexp>(?U)\b(wegen) (ihr)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>ihretwegen</suggestion>
                 <example correction="Ihretwegen"><marker>Wegen ihr</marker> komme ich zu spät.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (ihnen)\b</regexp>
+<regexp>(?U)\b(wegen) (ihnen)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>ihretwegen</suggestion>
                 <example correction="Ihretwegen"><marker>Wegen Ihnen</marker> komme ich zu spät.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (ihm)\b</regexp>
+<regexp>(?U)\b(wegen) (ihm)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>seinetwegen</suggestion>
                 <example correction="Seinetwegen"><marker>Wegen ihm</marker> komme ich zu spät.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (uns)\b</regexp>
+<regexp>(?U)\b(wegen) (uns)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>unseretwegen</suggestion>
                 <example correction="Unseretwegen"><marker>Wegen uns</marker> kommt er zu spät.</example>
             </rule>
             <rule>
-                <regexp>\b(wegen) (euch)\b</regexp>
+<regexp>(?U)\b(wegen) (euch)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich.</message>
                 <suggestion>euretwegen</suggestion>
                 <example correction="Euretwegen"><marker>Wegen euch</marker> kommt er zu spät.</example>
@@ -1763,7 +1763,7 @@ USA
             </rule>
         </rulegroup>
         <rule id="BAUCHWEH" name="'Bauchweh (Bauchschmerz)'" tone_tags="formal">
-            <regexp>(Bauch|Kopf|Hals|Zahn)(wehs?)\b</regexp>
+<regexp>(?U)(Bauch|Kopf|Hals|Zahn)(wehs?)\b</regexp>
             <message>'\0' ist umgangssprachlich.</message>
             <suggestion>\1schmerz</suggestion>
             <suggestion>\1schmerzen</suggestion>
@@ -1860,7 +1860,7 @@ USA
             <example>Wenn der Brief <marker>echt</marker> ist.</example>
         </rule>
         <rule id="GEHIESSEN" name="'gehießen (geheißen)'" tone_tags="formal">
-            <regexp>\b(gehießen|gehiessen)\b</regexp>
+<regexp>(?U)\b(gehießen|gehiessen)\b</regexp>
             <message>'\1' ist umgangssprachlich.</message>
             <suggestion>geheißen</suggestion>
             <example correction="geheißen">Sie hat früher Müller <marker>gehießen</marker>.</example>
@@ -1913,7 +1913,7 @@ USA
         </rulegroup>
         <rulegroup id="MATHE" name="'Mathe (Mathematik) etc.'" tone_tags="formal">
             <rule><!--1-->
-                <regexp>\bMathe\b</regexp>
+<regexp>(?U)\bMathe\b</regexp>
                 <message>'Mathe' ist umgangssprachlich.</message>
                 <suggestion>Mathematik</suggestion>
                 <example correction="Mathematik">Ich liebe <marker>Mathe</marker>.</example>
@@ -2609,7 +2609,7 @@ USA
         </rulegroup>
         <rulegroup id="MACHEN_UMGANGSSPRACHE" name="umgangssprachliche Verwendung von 'machen'" tone_tags="formal">
             <rule>
-                <regexp>\bzumachen\b</regexp>
+<regexp>(?U)\bzumachen\b</regexp>
                 <message>'Zumachen'&umgangsspr;</message>
                 <suggestion>schließen</suggestion>
                 <suggestion>sich verschließen</suggestion>
@@ -2617,7 +2617,7 @@ USA
                 <example correction="schließen|sich verschließen|sich beeilen">Kannst du das Fenster <marker>zumachen</marker>?</example>
             </rule>
             <rule>
-                <regexp>\bmach zu\b</regexp>
+<regexp>(?U)\bmach zu\b</regexp>
                 <message>'Zumachen'&umgangsspr;</message>
                 <suggestion>schließen</suggestion>
                 <suggestion>sich verschließen</suggestion>
@@ -3313,7 +3313,7 @@ USA
             <example>"Und" sollte nicht am Satzanfang stehen.</example>
         </rule>
         <rule id="MIT_OHNE" name="'mit ohne'" tone_tags="formal">
-            <regexp>\bmit ohne\b</regexp>
+<regexp>(?U)\bmit ohne\b</regexp>
             <message>Meinten Sie <suggestion>ohne</suggestion>? 'Mit ohne' ist eine umgangssprachliche Wendung.</message>
             <example correction="ohne">Internet <marker>mit ohne</marker> Schnur</example>
         </rule>
@@ -3367,19 +3367,19 @@ USA
                 <example correction="vermasselt|vergeigt|verpatzt|verunstaltet">Die Zunge drückt gegen die Vorderzähne und <marker>vermurkst</marker> meinen Biss.</example>
             </rule>
             <rule><!--6-->
-                <regexp>\b((ab|abzu|herum|herumzu|ver)?(murksen|knutschen|wichsen))\b</regexp>
+<regexp>(?U)\b((ab|abzu|herum|herumzu|ver)?(murksen|knutschen|wichsen))\b</regexp>
                 <message>'\1' ist umgangssprachlich.</message>
                 <example correction="">Jetzt hör schon auf, an dem Ding <marker>herumzumurksen</marker>!</example>
                 <example>Jetzt hör schon auf, daran <marker>herumzubasteln</marker>!</example>
             </rule>
             <rule  default="off"><!--7-->
-                <regexp>\b((ab|herum)?(murks|knutsch|wichs)(t|te|ten))\b</regexp>
+<regexp>(?U)\b((ab|herum)?(murks|knutsch|wichs)(t|te|ten))\b</regexp>
                 <message>'\1' ist umgangssprachlich.</message>
                 <example correction="">Widerlich, wie sie ihn <marker>abknutscht</marker>!</example>
                 <example>Sie küsste <marker>ihn</marker>.</example>
             </rule>
             <rule default="off"><!--8-->
-                <regexp>\b((abge|herumge)(murkst|knutscht|wichst))\b</regexp>
+<regexp>(?U)\b((abge|herumge)(murkst|knutscht|wichst))\b</regexp>
                 <message>'\1' ist umgangssprachlich.</message>
                 <example correction="">Widerlich, sie hat ihn <marker>abgeknutscht</marker>!</example>
                 <example>Sie hat ihn <marker>geküsst</marker>.</example>
@@ -4760,14 +4760,14 @@ USA
                 <example correction="und|sowie">Bund <marker>und sowie</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
             </rule>
             <rule default="off"><!--2--> <!--trying a different rule structure - see rule above-->
-                <regexp case_sensitive='yes'>\bund sowie\b</regexp>
+<regexp case_sensitive='yes'>(?U)\bund sowie\b</regexp>
                 <message>Mögliche Verdoppelung.</message>
                 <suggestion>und</suggestion>
                 <suggestion>sowie</suggestion>
                 <example correction="und|sowie">Bund <marker>und sowie</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
             </rule>
             <rule><!--3-->
-                <regexp case_sensitive='yes'>\bsowie und\b</regexp>
+<regexp case_sensitive='yes'>(?U)\bsowie und\b</regexp>
                 <message>Mögliche Verdoppelung.</message>
                 <suggestion>und</suggestion>
                 <suggestion>sowie</suggestion>
@@ -4906,13 +4906,13 @@ USA
                 <example correction="plötzlich|auf einmal">Es lief <marker>plötzlich auf einmal</marker> wieder alles glatt.</example>
             </rule>
             <rule><!--3-->
-                <regexp>\bauf einmal plötzlich\b</regexp>
+<regexp>(?U)\bauf einmal plötzlich\b</regexp>
                 <message>&redundanz; Meinten Sie <suggestion>plötzlich</suggestion> oder <suggestion>auf einmal</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example correction="plötzlich|auf einmal">Es lief <marker>auf einmal plötzlich</marker> wieder alles glatt.</example>
             </rule>
             <rule><!--4-->
-                <regexp>\bexakt genau\b</regexp>
+<regexp>(?U)\bexakt genau\b</regexp>
                 <message>&redundanz; Meinten Sie <suggestion>exakt</suggestion> oder <suggestion>genau</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example>Es lief <marker>exakt</marker> wie beim letzten Mal.</example>
@@ -4920,7 +4920,7 @@ USA
                 <example correction="exakt|genau">Es war <marker>exakt genau</marker> wie beim letzten Mal.</example>
             </rule>
             <rule><!--5-->
-                <regexp>\bexakt genauso\b</regexp>
+<regexp>(?U)\bexakt genauso\b</regexp>
                 <message>&redundanz; Meinten Sie <suggestion>exakt so</suggestion> oder <suggestion>genauso</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example>Es lief <marker>exakt so</marker> wie beim letzten Mal.</example>
@@ -4928,13 +4928,13 @@ USA
                 <example correction="exakt so|genauso">Es lief wieder <marker>exakt genauso</marker> wie beim letzten Versuch.</example>
             </rule>
             <rule><!--6-->
-                <regexp>\b(also|folglich|demnach|deshalb|mithin|somit) (also|folglich|demnach|deshalb|mithin|somit)\b</regexp>
+<regexp>(?U)\b(also|folglich|demnach|deshalb|mithin|somit) (also|folglich|demnach|deshalb|mithin|somit)\b</regexp>
                 <message>&redundanz; Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
                 <short>&redundanz;</short>
                 <example correction="also|folglich">Wir sollten <marker>also folglich</marker> sofort handeln.</example>
             </rule>
             <rule><!--7-->
-                <regexp>\b(annähernd|beinahe?|fast|nahezu|ungefähr) (annähernd|beinahe?|fast|nahezu|ungefähr)\b</regexp>
+<regexp>(?U)\b(annähernd|beinahe?|fast|nahezu|ungefähr) (annähernd|beinahe?|fast|nahezu|ungefähr)\b</regexp>
                 <message>&redundanz; Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
                 <short>&redundanz;</short>
                 <example correction="ungefähr|fast">Das ist <marker>ungefähr fast</marker> richtig.</example>
@@ -5054,7 +5054,7 @@ USA
                 <example correction="eventuell|vielleicht">Das ist <marker>vielleicht eventuell</marker> so passiert; zumindest steht es in der Zeitung.</example>
             </rule>
             <rule><!--16-->
-                <regexp>\bschon bereits\b</regexp>
+<regexp>(?U)\bschon bereits\b</regexp>
                 <message>&redundanz; Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example>Das ist <marker>bereits</marker> geschehen.</example>
@@ -5062,7 +5062,7 @@ USA
                 <example correction="schon|bereits">Das ist <marker>schon bereits</marker> gestern passiert.</example>
             </rule>
             <rule><!--17-->
-                <regexp>\bbereits schon\b</regexp>
+<regexp>(?U)\bbereits schon\b</regexp>
                 <message>&redundanz; Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example>Das ist <marker>bereits</marker> geschehen.</example>
@@ -5070,7 +5070,7 @@ USA
                 <example correction="schon|bereits">Das ist <marker>bereits schon</marker> gestern passiert.</example>
             </rule>
             <rule><!--18-->
-                <regexp>\bbald demnächst\b</regexp>
+<regexp>(?U)\bbald demnächst\b</regexp>
                 <message>&redundanz; Meinten Sie <suggestion>bald</suggestion> oder <suggestion>demnächst</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example>Das Gebäude ist <marker>bald</marker> fertig.</example>
@@ -5108,7 +5108,7 @@ USA
                 <example correction="meistens|immer">Ich gehe <marker>meistens immer</marker> am Samstag einkaufen.</example>
             </rule>
             <rule><!--22-->
-                <regexp>\b(immer) (meist(ens)?|jederzeit)</regexp>
+<regexp>(?U)\b(immer) (meist(ens)?|jederzeit)</regexp>
                 <message>&redundanz; Meinten Sie <suggestion><match no="2"/></suggestion> oder <suggestion>immer</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example>Ich gehe <marker>meist</marker> am Samstag einkaufen.</example>
@@ -5285,14 +5285,14 @@ USA
                 <example correction="Papst">Der <marker>katholische Papst</marker> kommt zu Besuch.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b([eE]invernehmliche[nr]?) (Konsens)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b([eE]invernehmliche[nr]?) (Konsens)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
                 <example correction="Konsens">Der <marker>einvernehmliche Konsens</marker> war, dass wir es tun sollten.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b([aA]ndere[nr]?) (Alternativen?)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b([aA]ndere[nr]?) (Alternativen?)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <suggestion>\1 Möglichkeit(en)</suggestion>
@@ -5312,7 +5312,7 @@ USA
                 <example>Wir haben keine <marker>andere Wahl</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b([aA]kustische[nr]?) (Klang)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b([aA]kustische[nr]?) (Klang)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
@@ -5321,7 +5321,7 @@ USA
                 <example>Die <marker>Akustik</marker> war gut.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b([oO]ptische[snr]?|[vV]isuelle[srnm]?) (Bild(ern?)?)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b([oO]ptische[snr]?|[vV]isuelle[srnm]?) (Bild(ern?)?)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
@@ -5330,7 +5330,7 @@ USA
                 <example>Ich habe einen <marker>visuellen Eindruck</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b([bB]rutale[nr]?) (Gewalt)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b([bB]rutale[nr]?) (Gewalt)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv wie 'roh' aus.</message>
                 <short>&redundanz;</short>
                 <example correction="Gewalt">Mit <marker>brutaler Gewalt</marker> kann ich das auch.</example>
@@ -5344,7 +5344,7 @@ USA
                 <example>Das ist ein wirklich <marker>schwieriges Problem</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(schriftlichen?) (Klausur(en)?)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b(schriftlichen?) (Klausur(en)?)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
@@ -5352,7 +5352,7 @@ USA
                 <example>Das sind die <marker>Klausuren</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(üblichen?) (Gepflogenheit(en)?)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b(üblichen?) (Gepflogenheit(en)?)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
@@ -5360,14 +5360,14 @@ USA
                 <example>Das sind die hiesigen <marker>Gepflogenheiten</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(jüdischen?) (Synagogen?)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b(jüdischen?) (Synagogen?)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
                 <example correction="Synagoge">Die <marker>jüdische Synagoge</marker> befindet sich in einer Seitenstraße.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(islamischen?) (Moscheen?)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b(islamischen?) (Moscheen?)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <url>https://de.wikipedia.org/wiki/Moschee</url>
@@ -5383,7 +5383,7 @@ USA
                 <example correction="Artefakt">Das ist ein <marker>künstliches Artefakt</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(wahren?) (Tatsachen?|Fakten)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b(wahren?) (Tatsachen?|Fakten)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
@@ -5391,7 +5391,7 @@ USA
                 <example>Da unwahre Tatsachenbehauptungen grundsätzlich nicht vom Schutz der Meinungsfreiheit umfasst sind,...</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(runde[rn]?|kreisrunde[rn]?) (Kugeln?|Kreis(e[ns]?)?)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b(runde[rn]?|kreisrunde[rn]?) (Kugeln?|Kreis(e[ns]?)?)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
@@ -5406,7 +5406,7 @@ USA
                 <example>Die <marker>Quadrate</marker> – wen wundert's – sind rechteckig.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(tote[rn]?) (Leichen?)\b</regexp>
+<regexp case_sensitive='yes'>(?U)\b(tote[rn]?) (Leichen?)\b</regexp>
                 <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
                 <suggestion>\2</suggestion>
                 <short>&redundanz;</short>
@@ -5422,7 +5422,7 @@ USA
         </rulegroup>
         <rulegroup id="VON_WOHER" name="'von woher'" tone_tags="clarity">
             <rule>
-                <regexp>\b(von) (woher)\b</regexp>
+<regexp>(?U)\b(von) (woher)\b</regexp>
                 <message>&redundanz;</message>
                 <suggestion>\2</suggestion>
                 <suggestion>von wo</suggestion>
@@ -5664,13 +5664,13 @@ USA
                 <example>Das Versenden von <marker>SMS</marker> ist besonders günstig.</example>
             </rule>
             <rule>
-                <regexp>\bSEK-Kommandos?</regexp>
+<regexp>(?U)\bSEK-Kommandos?</regexp>
                 <message>&redundanz; 'SEK' steht u.&nbsp;a. für 'Spezialeinsatzkommando' – ersetzen durch <suggestion>SEK</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example correction="SEK">Das <marker>SEK-Kommando</marker> wurde aufgelöst.</example>
             </rule>
             <rule>
-                <regexp>\bIT-Technik\b</regexp>
+<regexp>(?U)\bIT-Technik\b</regexp>
                 <message>&redundanz; 'IT' steht u.&nbsp;a. für 'Informationstechnologie' – ersetzen durch <suggestion>IT</suggestion>?</message>
                 <short>&redundanz;</short>
                 <example correction="IT">Die Nutzung der <marker>IT-Technik</marker> in unserem Haus ist kostenlos.</example>
@@ -5796,7 +5796,7 @@ USA
                 <example correction="Marionetten">Sie sind bloß <marker>Marionettenpuppen</marker> der eigentlich Mächtigen.</example>
             </rule>
             <rule>
-                <regexp>\bZeitverzögerung(en)?</regexp>
+<regexp>(?U)\bZeitverzögerung(en)?</regexp>
                 <message>Redundantes Kompositum: Verzögerungen sind immer zeitlicher Natur. Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Zeitv"/></suggestion>?</message>
                 <url>https://www.dwds.de/wb/Verz%C3%B6gerung</url>
                 <short>Redundantes Kompositum</short>
@@ -6706,7 +6706,7 @@ USA
                 <example correction="zustande">An diesem Tag brachte er nichts <marker>zu Stande</marker>.</example>
             </rule>
             <rule><!--6-->
-                <regexp>\bso (dass|genannte[mnrs]?)\b</regexp>
+<regexp>(?U)\bso (dass|genannte[mnrs]?)\b</regexp>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)o (dass|genannte[mnrs]?)" regexp_replace="$1o$2"/></suggestion> verwenden?</message>
                 <url>https://languagetool.org/insights/de/beitrag/wir-erklaren-kommasetzung-so-dass-sie-sie-verstehen/</url>
                 <short>&getrennt;.</short>
@@ -6714,7 +6714,7 @@ USA
                 <example correction="sogenannte">Die <marker>so genannte</marker> Gerichtsverhandlung empfand er als blanker Hohn.</example>
             </rule>
             <rule><!--7-->
-                <regexp>\bviel (verheiß|verheiss|sag|versprech)end\w*\b</regexp>
+<regexp>(?U)\bviel (verheiß|verheiss|sag|versprech)end\w*\b</regexp>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)iel (.*)" regexp_replace="$1iel$2"/></suggestion> verwenden?</message>
                 <short>&getrennt;.</short>
                 <example correction="vielsagenden">Sie warf ihm einen <marker>viel sagenden</marker> Blick zu.</example>
@@ -6729,7 +6729,7 @@ USA
                 <example correction="Nichtzutreffendes"><marker>Nicht Zutreffendes</marker> bitte streichen.</example>
             </rule>
             <rule><!--9-->
-                <regexp>\becht (silbern|golden)\w*\b</regexp>
+<regexp>(?U)\becht (silbern|golden)\w*\b</regexp>
                 <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)cht (.*)" regexp_replace="$1cht$2"/></suggestion> verwenden?</message>
                 <short>&getrennt;.</short>
                 <example correction="echtgoldene">Er trug eine <marker>echt goldene</marker> Uhr.</example>
