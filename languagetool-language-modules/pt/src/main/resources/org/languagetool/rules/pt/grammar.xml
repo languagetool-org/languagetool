@@ -41612,7 +41612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rulegroup id="GRAU_EM_COORDENADAS_ESPACAMENTO" name="Dar espaçamento entre o símbolo de grau e pontos cardeais em coordenadas geográficas" tags="picky">
             <rule>
-                <regexp case_sensitive="yes" type="exact">\b(&number_token;)\s?&deg;\s?(&cardinal_points;)\b</regexp>
+                <regexp case_sensitive="yes" type="exact">\b(&number_token;)[ \t]?&deg;[ \t]?(&cardinal_points;)\b</regexp>
                 <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:\d&deg;\s&cardinal_points;"/>
                 <message>Em coordenadas geográficas, prefira a formato <suggestion>\1&deg;&nbsp;\2</suggestion>.</message>
                 <example correction="60&deg;&nbsp;N">Fica a <marker>60 &deg;N</marker>.</example>
