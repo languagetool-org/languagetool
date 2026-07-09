@@ -95,6 +95,7 @@ public class JLanguageToolTest {
     //more error-free sentences to deal with possible regressions
     if (System.getProperty("disableHardcodedTests") == null) {
       JLanguageTool lt = new JLanguageTool(new English());
+      assertNoError("Old values may remain although they are ignored.", lt);
       assertNoError("A test that should not give errors.", lt);
       assertNoError("As long as you have hope, a chance remains.", lt);
       assertNoError("A rolling stone gathers no moss.", lt);
