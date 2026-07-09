@@ -3699,6 +3699,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='FORMAL' name='🤵 Linguagem formal' type='style' tone_tags="formal">
 
 
+
+        <rule id='IR_AOS_POUCOS_GRADUALMENTE' name="🤵 Ir 'aos poucos/pouquinhos' → gradualmente/pouco a pouco" tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token inflected='yes'>ir</token>
+                <marker>
+                    <token>aos</token>
+                    <token regexp="yes">poucos|pouquinhos<exception scope='next'>que</exception></token>
+                </marker>
+            </pattern>
+            <message>&informal_msg;</message>
+            <suggestion>gradualmente</suggestion>
+            <suggestion>pouco a pouco</suggestion>
+            <example correction="gradualmente|pouco a pouco">O Rui começa da base indo <marker>aos poucos</marker> aumentando a dificuldade.</example>
+            <example correction="gradualmente|pouco a pouco">O Rui começa da base indo <marker>aos pouquinhos</marker> aumentando a pressão.</example>
+            <example>Ir aos poucos que restaram.</example>
+        </rule>
+
+
         <rulegroup id='LENTO_MOROSO' name="🤵 Lento → moroso" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
@@ -9686,33 +9706,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
 
         </rulegroup>
-
-
-        <rule id='IR_AOS_POUCOS_BOCADOS_BOCADINHOS' name="gradualmente" tags='picky'>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-10 (Enhanced) (25-JUN-2021+)      -->
-
-            <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-            <antipattern>
-                <token>aos</token>
-                <token regexp="yes">(?:pouc|bocad)(?:os|inhos)</token>
-                <token postag_regexp='yes' postag="NC.+|AQ.+">
-                    <exception postag_regexp='yes' postag='V.+|RG'/>
-                </token>
-                <example>Deixo um agradecimento especial aos poucos amigos que tenho.</example>
-            </antipattern>
-            <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-            <pattern>
-                <marker>
-                    <token>aos</token>
-                    <token regexp="yes">(?:pouc|bocad)(?:os|inhos)</token>
-                </marker>
-            </pattern>
-            <message>&informal_msg;</message>
-            <suggestion>gradualmente</suggestion>
-            <suggestion>lentamente</suggestion>
-            <example correction="gradualmente|lentamente">O Rui começa da base indo <marker>aos poucos</marker> aumentando a dificuldade.</example>
-        </rule>
 
 
         <rulegroup id='SEM_DAR_NAS_VISTAS_V2' name="Sem dar nas vistas → discretamente">
