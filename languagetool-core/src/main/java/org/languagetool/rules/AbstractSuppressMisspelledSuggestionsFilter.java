@@ -46,17 +46,23 @@ public abstract class AbstractSuppressMisspelledSuggestionsFilter extends RuleFi
     List<String> newReplacements = new ArrayList<>();
     String suppressMatch = getRequired("suppressMatch", arguments);
     String suppressPostag = getOptional("SuppressPostag", arguments);
+    String filterPostag = getOptional("FilterPostag", arguments);
     List<AnalyzedTokenReadings> atrs = new ArrayList<>();
-    if (tagger != null && suppressPostag != null) {
+    if (tagger != null && (suppressPostag != null || filterPostag != null)) {
       atrs = tagger.tag(replacements);
     }
     for (int i = 0; i < replacements.size(); i++) {
       if (!isMisspelled(replacements.get(i), language)) {
-        if (tagger != null && suppressPostag != null) {
-          if (!atrs.get(i).matchesPosTagRegex(suppressPostag)) {
-            newReplacements.add(replacements.get(i));
+        boolean addReplacement = true;
+        if (tagger != null) {
+          if (suppressPostag != null && atrs.get(i).matchesPosTagRegex(suppressPostag)) {
+            addReplacement = false;
           }
-        } else {
+          if (filterPostag != null && !atrs.get(i).matchesPosTagRegex(filterPostag)) {
+            addReplacement = false;
+          }
+        }
+        if (addReplacement) {
           newReplacements.add(replacements.get(i));
         }
       }
