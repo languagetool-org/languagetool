@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -27,335 +27,210 @@ import java.util.*;
 
 /**
  * Implements unification of features over tokens.
- * 
+ *
+ * <h2>What unification computes</h2>
+ *
+ * <p>A unification runs over a sequence of tokens. Every token carries one or
+ * more <em>readings</em> (morphological interpretations). A set of
+ * <em>features</em> is checked (e.g. {@code number}, {@code gender}). Each
+ * feature has a number of <em>type</em> values (e.g. {@code number} &rarr;
+ * {@code singular}, {@code plural}); a reading matches a type when the
+ * {@link PatternToken} configured for that {@code (feature, type)} pair matches
+ * the reading.</p>
+ *
+ * <p>The sequence unifies when a single <em>combination</em> of type values (one
+ * per feature) is shared by all tokens: for every token at least one reading has
+ * to match all the chosen types simultaneously. In set terms, each token
+ * contributes the set of feature-value combinations that some reading of it
+ * supports, and the sequence unifies iff the intersection of these sets over all
+ * (non-neutral) tokens is non-empty. A reading is kept in the unified output iff
+ * it supports one of the surviving combinations. Readings are OR-ed within a
+ * token, tokens are AND-ed. Neutral elements (punctuation, connectives added via
+ * {@link #addNeutralElement}) never constrain the intersection and are always
+ * kept.</p>
+ *
+ * <p>Tokens and their readings arrive incrementally through {@link #isSatisfied}
+ * (or the higher-level {@link #isUnified}). The first token is collected up to
+ * {@link #startUnify}; every following token is delimited by
+ * {@link #startNextToken} (or, for the final token, by the query methods
+ * themselves). This class therefore keeps the running intersection of shared
+ * combinations up to date as tokens come in.</p>
+ *
  * @author Marcin Milkowski
  */
 public class Unifier {
 
   private static final String UNIFY_IGNORE = "unify-ignore";
-    
-  private final List<AnalyzedTokenReadings> tokSequence = new ArrayList<>();
 
-  /**
-   * List of all equivalences matched per tokens in the sequence, kept exactly
-   * in sync with the list in tokSequence, so that a reading 2 of token 1 has its
-   * equivalence map addressable as tokSequenceEquivalences.get(1).get(2).
-   */
-  private final List<List<Map<String, Set<String>>>> tokSequenceEquivalences = new ArrayList<>();
-
-  /**
-   * A Map for storing the equivalence types for features. Features are
-   * specified as Strings, and map into types defined as maps from Strings to
-   * Elements.
-   */
+  /** Configured matcher per {@code (feature, type)} pair. */
   private final Map<EquivalenceTypeLocator, PatternToken> equivalenceTypes;
 
-  /**
-   * A Map that stores all possible equivalence types listed for features.
-   */
+  /** All type values known for each feature, used when a feature is queried with a blank type list. */
   private final Map<String, List<String>> equivalenceFeatures;
 
+  /** Positions already delimited (the first token, plus any neutral element or token closed by {@link #startNextToken}). */
+  private final List<Position> committed = new ArrayList<>();
+
+  /** The token currently being read in (between two delimiters); {@code null} when no reading has been collected yet. */
+  @Nullable
+  private Position current;
+
   /**
-   * Map of sets of matched equivalences in the unified sequence.
+   * Running intersection of shared feature-value combinations over the committed
+   * non-neutral positions. A combination is a list of type names aligned to
+   * {@link #featureOrder}. {@code null} until the first non-neutral position is
+   * committed.
    */
-  private final List<Map<String, Set<String>>> equivalencesMatched = new ArrayList<>();
+  @Nullable
+  private Set<List<String>> agreed;
 
+  /** Stable feature ordering used to build combination tuples; derived from the queried features. */
+  @Nullable
+  private List<String> featureOrder;
+
+  /** True once {@link #startUnify} has closed the first token. */
   private boolean allFeatsIn;
-  private int tokCnt;
-  private int readingsCounter;
 
-  // Marks found interpretations in subsequent tokens:
-  private List<Boolean> featuresFound = new ArrayList<>();
-
-  // For checking the current token:
-  private List<Boolean> tmpFeaturesFound = new ArrayList<>();
-
-  // Maps that store equivalences to be removed or kept after every next token has been analyzed:
-  private final Map<String, Set<String>> equivalencesToBeKept = new HashMap<>();
-
-  // stores uFeatures to keep the same signature of some methods...:
-  private Map<String, List<String>> unificationFeats;
-
+  // State for the higher-level isUnified() driver:
   private boolean inUnification;
   private boolean uniMatched;
   private boolean uniAllMatched;
 
-  /**
-   * Instantiates the unifier.
-   */
+  /** One token slot in the sequence: a normal token holds its matching readings, a neutral one is passed through verbatim. */
+  private static final class Position {
+    private final boolean neutral;
+    private final List<AnalyzedToken> tokens = new ArrayList<>();
+    /** Per reading, the set of matched type values for each feature. */
+    private final List<Map<String, Set<String>>> matched = new ArrayList<>();
+    @Nullable
+    private final AnalyzedTokenReadings neutralReadings;
+
+    Position(boolean neutral, @Nullable AnalyzedTokenReadings neutralReadings) {
+      this.neutral = neutral;
+      this.neutralReadings = neutralReadings;
+    }
+
+    void add(AnalyzedToken token, Map<String, Set<String>> matchedTypes) {
+      tokens.add(token);
+      matched.add(matchedTypes);
+    }
+
+    boolean isEmpty() {
+      return tokens.isEmpty();
+    }
+  }
+
   public Unifier(Map<EquivalenceTypeLocator, PatternToken> equivalenceTypes, Map<String, List<String>> equivalenceFeatures) {
-    tokCnt = 0;
-    readingsCounter = 1;
     this.equivalenceTypes = equivalenceTypes;
     this.equivalenceFeatures = equivalenceFeatures;
   }
 
   /**
-   * Tests if a token has shared features with other tokens.
-   * 
-   * @param aToken token to be tested
-   * @param uFeatures features to be tested
-   * @return true if the token shares this type of feature with other tokens
+   * Tests whether a reading shares features with the readings collected so far.
+   *
+   * <p>Before {@link #startUnify} this simply records the first token's readings
+   * and reports whether the reading matches every queried feature. Afterwards it
+   * reports whether the reading is compatible with a combination still shared by
+   * all previous tokens, adding it to the current token when so.</p>
+   *
+   * @param aToken reading to test
+   * @param uFeatures features to test
+   * @return true if the reading is (still) part of a unified sequence
    */
-  protected final boolean isSatisfied(AnalyzedToken aToken,
-      Map<String, List<String>> uFeatures) {
+  protected final boolean isSatisfied(AnalyzedToken aToken, Map<String, List<String>> uFeatures) {
+    if (uFeatures == null) {
+      throw new IllegalArgumentException("uFeatures must not be null");
+    }
+    setFeatures(uFeatures);
 
-    if (allFeatsIn && equivalencesMatched.isEmpty()) {
+    if (allFeatsIn && (agreed == null || agreed.isEmpty())) {
       return false;
     }
-    if (uFeatures == null) {
-      throw new RuntimeException("isSatisfied called without features being set");
-    }
-    unificationFeats = uFeatures;
 
-    boolean unified = true;
-    if (allFeatsIn) {
-      unified = checkNext(aToken, uFeatures);
-    } else {
-      while (equivalencesMatched.size() <= tokCnt) {
-        equivalencesMatched.add(new HashMap<>());
-      }
-      for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
-        List<String> types = feat.getValue();
-        if (types == null || types.isEmpty()) {
-          types = equivalenceFeatures.get(feat.getKey());
-        }
-        for (String typeName : types) {
-          PatternToken testElem = equivalenceTypes
-              .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
-          if (testElem == null) {
-            return false;
-          }
-          if (testElem.isMatched(aToken)) {
-            equivalencesMatched.get(tokCnt).computeIfAbsent(feat.getKey(), __ -> new HashSet<>()).add(typeName);
-          }
-        }
-        unified = equivalencesMatched.get(tokCnt).containsKey(feat.getKey());
-        if (!unified) {
-          equivalencesMatched.remove(tokCnt);
-          break;
-        }
-      }
-      if (unified) {
-        if (tokCnt == 0 || tokSequence.isEmpty()) {
-          tokSequence.add(new AnalyzedTokenReadings(aToken, 0));
-          List<Map<String, Set<String>>> equivList = new ArrayList<>();
-          equivList.add(equivalencesMatched.get(tokCnt));
-          tokSequenceEquivalences.add(equivList);
-        } else {
-          tokSequence.get(0).addReading(aToken, "");
-          tokSequenceEquivalences.get(0).add(equivalencesMatched.get(tokCnt));
-        }
-        tokCnt++;
-      }
-    }
-    return unified;
-  }
+    Map<String, Set<String>> matched = matchedTypes(aToken, uFeatures);
+    boolean allFeaturesMatched = matched != null && noEmptyFeature(matched);
 
-  private boolean checkNext(AnalyzedToken aToken,
-                            Map<String, List<String>> uFeatures) {
-    boolean anyFeatUnified = false;
-    List<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
-    Map<String, Set<String>> equivalencesMatchedHere = new HashMap<>();
-    if (allFeatsIn) {
-      for (int i = 0; i < tokCnt; i++) {
-        boolean allFeatsUnified = true;
-        for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
-          boolean featUnified = false;
-          List<String> types = feat.getValue();
-          if (types == null || types.isEmpty()) {
-            types = equivalenceFeatures.get(feat.getKey());
-          }
-          for (String typeName : types) {
-            Set<String> set = equivalencesMatched.get(i).get(feat.getKey());
-            if (set != null && set.contains(typeName)) {
-              PatternToken testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
-              boolean matched = testElem.isMatched(aToken);
-              featUnified = featUnified || matched;
-              //Stores equivalences to be kept
-              if (matched) {
-                equivalencesToBeKept.computeIfAbsent(feat.getKey(), __ -> new HashSet<>()).add(typeName);
-                equivalencesMatchedHere.computeIfAbsent(feat.getKey(), __ -> new HashSet<>()).add(typeName);
-              }
-            }
-          }
-          allFeatsUnified &= featUnified;
-        }
-        tokenFeaturesFound.set(i, tokenFeaturesFound.get(i) || allFeatsUnified);
-        anyFeatUnified = anyFeatUnified || allFeatsUnified;
+    if (!allFeatsIn) {
+      // First token: collect every reading that matches all features.
+      if (allFeaturesMatched) {
+        openCurrent(false, null).add(aToken, matched);
       }
-      if (anyFeatUnified) {
-        if (tokSequence.size() == readingsCounter) {
-          tokSequence.add(new AnalyzedTokenReadings(aToken, 0));
-          List<Map<String, Set<String>>> equivList = new ArrayList<>();
-          equivList.add(equivalencesMatchedHere);
-          tokSequenceEquivalences.add(equivList);
-        } else {
-          if (readingsCounter < tokSequence.size()) {
-            tokSequence.get(readingsCounter).addReading(aToken, "");
-            tokSequenceEquivalences.get(readingsCounter).add(equivalencesMatchedHere);
-          } else {
-            anyFeatUnified = false;
-          }
-        }
-        tmpFeaturesFound = tokenFeaturesFound;
-      }
+      return allFeaturesMatched;
     }
-    return anyFeatUnified;
+
+    // Subsequent token: open its slot (so a token that matches nothing still
+    // narrows the intersection to empty on commit) and keep the reading only if
+    // it supports a combination still shared by all previous tokens.
+    Position token = openCurrent(false, null);
+    boolean compatible = allFeaturesMatched && supportsAny(matched, agreed);
+    if (compatible) {
+      token.add(aToken, matched);
+    }
+    return compatible;
   }
 
   /**
-   * Call after every complete token (AnalyzedTokenReadings) checked.
-   */
-  public final void startNextToken() {
-    featuresFound = new ArrayList<>(tmpFeaturesFound);
-    readingsCounter++;
-    // Removes features
-    for (int j = 0; j < tokSequence.size(); j++) {
-      for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
-        for (Map.Entry<String, List<String>> feat : equivalenceFeatures.entrySet()) {
-          if (!UNIFY_IGNORE.equals(feat.getKey())) {
-            if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey())) {
-              if (equivalencesToBeKept.containsKey(feat.getKey())) {
-                tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).retainAll(equivalencesToBeKept.get(feat.getKey()));
-              } else {
-                tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
-              }
-            } else {
-              tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
-            }
-          }
-        }
-      }
-    }
-    equivalencesToBeKept.clear();
-  }
-
-  /**
-   * Starts testing only those equivalences that were previously matched.
+   * Closes the first token and starts testing the following tokens against it.
    */
   public final void startUnify() {
+    commitCurrent();
     allFeatsIn = true;
-    for (int i = 0; i < tokCnt; i++) {
-      featuresFound.add(false);
-    }
-    tmpFeaturesFound = new ArrayList<>(featuresFound);
   }
 
   /**
-   * Make sure that we really matched all the required features of the unification.
-   * @param uFeatures Features to be checked
-   * @return True if the token sequence has been found.
+   * Call after every complete token ({@link AnalyzedTokenReadings}) has been checked.
+   */
+  public final void startNextToken() {
+    commitCurrent();
+  }
+
+  /**
+   * Adds a neutral element (e.g. punctuation or a connective) to the unified
+   * sequence. Neutral elements never constrain unification and are always kept.
+   * @since 2.5
+   */
+  public final void addNeutralElement(AnalyzedTokenReadings analyzedTokenReadings) {
+    commitCurrent();
+    committed.add(new Position(true, analyzedTokenReadings));
+  }
+
+  /**
+   * Makes sure all required features of the unification were really matched.
+   * @param uFeatures features to be checked
+   * @return true if a unified token sequence was found
    * @since 2.5
    */
   public final boolean getFinalUnificationValue(Map<String, List<String>> uFeatures) {
-    int tokUnified = 0;
-    for (int j = 0; j < tokSequence.size(); j++) {
-      boolean unifiedTokensFound = false; // assume that nothing has been found
-      for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
-        int featUnified = 0;
-        if (tokSequenceEquivalences.get(j).get(i).containsKey(UNIFY_IGNORE)) {
-          if (i == 0) {
-            tokUnified++;
-          }
-          unifiedTokensFound = true;
-          continue;
-        } else {
-          for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
-            Set<String> set = tokSequenceEquivalences.get(j).get(i).get(feat.getKey());
-            if (set != null && set.isEmpty()) {
-              featUnified = 0;
-            } else {
-              featUnified++;
-            }
-            if (featUnified == unificationFeats.size() && tokUnified <= j) {
-              tokUnified++;
-              unifiedTokensFound = true;
-              break;
-            }
-          }
-        }
-
-      }
-      if (!unifiedTokensFound) {
-        return false;
-      }
-    }
-    if (tokUnified == tokSequence.size()) {
-      return true;
-    }
-    return false;
+    setFeatures(uFeatures);
+    Set<List<String>> shared = finalAgreed();
+    return !shared.isEmpty() && hasNonNeutral();
   }
 
   /**
-   * Resets after use of unification. Required.
-   */
-  public final void reset() {
-    equivalencesMatched.clear();
-    allFeatsIn = false;
-    tokCnt = 0;
-    featuresFound.clear();
-    tmpFeaturesFound.clear();
-    tokSequence.clear();
-    tokSequenceEquivalences.clear();
-    readingsCounter = 1;
-    uniMatched = false;
-    uniAllMatched = false;
-    inUnification = false;
-  }
-
-  /**
-   * Gets a full sequence of filtered tokens.
-   * @return Array of AnalyzedTokenReadings that match equivalence relation
-   *         defined for features tested, or {@code null}
+   * Gets the full sequence of filtered tokens.
+   * @return readings that satisfy the unification, or {@code null} if the sequence does not unify
    */
   @Nullable
   public final AnalyzedTokenReadings[] getUnifiedTokens() {
-    if (tokSequence.isEmpty()) {
+    List<Position> sequence = orderedPositions();
+    if (sequence.isEmpty()) {
       return null;
     }
-    List<AnalyzedTokenReadings> uTokens = new ArrayList<>();
-    for (int j = 0; j < tokSequence.size(); j++) {
-      boolean unifiedTokensFound = false; // assume that nothing has been found
-      for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
-        int featUnified = 0;
-        if (tokSequenceEquivalences.get(j).get(i).containsKey(UNIFY_IGNORE)) {
-          addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
-          unifiedTokensFound = true;
-        } else {
-          for (Map.Entry<String, List<String>> feat : unificationFeats.entrySet()) {
-            Set<String> set = tokSequenceEquivalences.get(j).get(i).get(feat.getKey());
-            if (set != null && set.isEmpty()) {
-              featUnified = 0;
-            } else {
-              featUnified++;
-            }
-            if (featUnified == unificationFeats.size()) {
-              addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
-              unifiedTokensFound = true;
-            }
-          }
-        }
-      }
-      if (!unifiedTokensFound) {
+    Set<List<String>> shared = finalAgreed();
+    List<AnalyzedTokenReadings> result = new ArrayList<>();
+    for (Position position : sequence) {
+      AnalyzedTokenReadings atr = unify(position, shared);
+      if (atr == null) {
         return null;
       }
+      result.add(atr);
     }
-    return uTokens.toArray(new AnalyzedTokenReadings[0]);
-  }
-
-  private void addTokenToSequence(List<AnalyzedTokenReadings> tokenSequence, AnalyzedToken token, int pos) {
-    if (tokenSequence.size() <= pos || tokenSequence.isEmpty()) {
-      AnalyzedTokenReadings tmpATR = new AnalyzedTokenReadings(token, 0);
-      tokenSequence.add(tmpATR);
-    } else {
-      tokenSequence.get(pos).addReading(token, "");
-    }
+    return result.toArray(new AnalyzedTokenReadings[0]);
   }
 
   /**
    * Tests if the token sequence is unified.
-   * 
+   *
    * <p>Usage note: to test if the sequence of tokens is unified (i.e.,
    * shares a group of features, such as the same gender, number,
    * grammatical case etc.), you need to test all tokens but the last one
@@ -364,11 +239,11 @@ public class Unifier {
    * truth value returned by this method. In previous cases, it may actually be
    * discarded before the final check. See {@link AbstractPatternRule} for
    * an example.</p>
-   * 
+   *
    * To make it work in XML rules, the Elements built based on {@code <token>}s inside
    * the unify block have to be processed in a special way: namely the last Element has to be
    * marked as the last one (by using {@link PatternToken#setLastInUnification}).
-   * 
+   *
    * @param matchToken {@link AnalyzedToken} token to unify
    * @param lastReading true when the matchToken is the last reading in the {@link AnalyzedTokenReadings}
    * @param isMatched true if the reading matches the element in the pattern rule,
@@ -382,7 +257,6 @@ public class Unifier {
         uniMatched |= isSatisfied(matchToken, uFeatures);
       }
       uniAllMatched = uniMatched;
-
       if (lastReading) {
         startNextToken();
         uniMatched = false;
@@ -407,24 +281,6 @@ public class Unifier {
   }
 
   /**
-   * Used to add neutral elements ({@link AnalyzedTokenReadings} to the
-   * unified sequence. Useful if the sequence contains punctuation or connectives, for example.
-   * @param analyzedTokenReadings A neutral element to be added.
-   * @since 2.5
-   */
-  public final void addNeutralElement(AnalyzedTokenReadings analyzedTokenReadings) {
-    tokSequence.add(analyzedTokenReadings);
-    List<Map<String, Set<String>>> tokEquivs = new ArrayList<>(analyzedTokenReadings.getReadingsLength());
-    Map<String, Set<String>> map = new HashMap<>();
-    map.put(UNIFY_IGNORE, new HashSet<>());
-    for (int i = 0; i < analyzedTokenReadings.getReadingsLength(); i++) {
-      tokEquivs.add(map);
-    }
-    tokSequenceEquivalences.add(tokEquivs);
-    readingsCounter++;
-  }
-
-  /**
    * Used for getting a unified sequence in case when simple test method
    * {@link #isUnified(AnalyzedToken, Map, boolean)}} was used.
    * @return An array of {@link AnalyzedTokenReadings} or {@code null} when not in unification
@@ -435,5 +291,221 @@ public class Unifier {
       return getUnifiedTokens();
     }
     return null;
+  }
+
+  /**
+   * Resets after use of unification. Required.
+   */
+  public final void reset() {
+    committed.clear();
+    current = null;
+    agreed = null;
+    featureOrder = null;
+    allFeatsIn = false;
+    inUnification = false;
+    uniMatched = false;
+    uniAllMatched = false;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Internal helpers
+  // ---------------------------------------------------------------------------
+
+  private void setFeatures(Map<String, List<String>> uFeatures) {
+    if (featureOrder == null) {
+      featureOrder = new ArrayList<>(uFeatures.keySet());
+    }
+  }
+
+  /**
+   * Computes, per queried feature, the set of type values the reading matches.
+   * @return the per-feature matches, or {@code null} if a queried type has no configured matcher
+   */
+  @Nullable
+  private Map<String, Set<String>> matchedTypes(AnalyzedToken aToken, Map<String, List<String>> uFeatures) {
+    Map<String, Set<String>> matched = new HashMap<>();
+    for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
+      List<String> types = feat.getValue();
+      if (types == null || types.isEmpty()) {
+        types = equivalenceFeatures.get(feat.getKey());
+      }
+      Set<String> matchedForFeat = new HashSet<>();
+      for (String typeName : types) {
+        PatternToken testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
+        if (testElem == null) {
+          return null;
+        }
+        if (testElem.isMatched(aToken)) {
+          matchedForFeat.add(typeName);
+        }
+      }
+      matched.put(feat.getKey(), matchedForFeat);
+    }
+    return matched;
+  }
+
+  private static boolean noEmptyFeature(Map<String, Set<String>> matched) {
+    for (Set<String> types : matched.values()) {
+      if (types.isEmpty()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private Position openCurrent(boolean neutral, @Nullable AnalyzedTokenReadings neutralReadings) {
+    if (current == null) {
+      current = new Position(neutral, neutralReadings);
+    }
+    return current;
+  }
+
+  /** Commits the current token (if any reading was collected for it) and folds it into the running intersection. */
+  private void commitCurrent() {
+    if (current == null) {
+      return;
+    }
+    intersect(current);
+    committed.add(current);
+    current = null;
+  }
+
+  /** Narrows {@link #agreed} to the combinations still supported by the given non-neutral position. */
+  private void intersect(Position position) {
+    if (position.neutral) {
+      return;
+    }
+    if (agreed == null) {
+      agreed = combinationsOf(position);
+    } else {
+      agreed.removeIf(combination -> !supports(position, combination));
+    }
+  }
+
+  /**
+   * Returns the intersection over all positions <em>including</em> the token still
+   * being read in, without mutating the running state (query methods may be called
+   * mid-token).
+   */
+  private Set<List<String>> finalAgreed() {
+    if (current == null || current.neutral) {
+      return agreed == null ? Collections.emptySet() : agreed;
+    }
+    // A fed-but-empty current is a token that matched nothing: it must narrow the
+    // intersection to empty rather than be ignored.
+    if (agreed == null) {
+      return combinationsOf(current);
+    }
+    Set<List<String>> shared = new LinkedHashSet<>(agreed);
+    shared.removeIf(combination -> !supports(current, combination));
+    return shared;
+  }
+
+  private boolean hasNonNeutral() {
+    if (current != null && !current.neutral && !current.isEmpty()) {
+      return true;
+    }
+    for (Position position : committed) {
+      if (!position.neutral) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private List<Position> orderedPositions() {
+    if (current == null) {
+      return committed;
+    }
+    List<Position> all = new ArrayList<>(committed);
+    all.add(current);
+    return all;
+  }
+
+  /** All feature-value combinations supported by at least one reading of the position. */
+  private Set<List<String>> combinationsOf(Position position) {
+    Set<List<String>> combinations = new LinkedHashSet<>();
+    for (Map<String, Set<String>> matched : position.matched) {
+      addCombinations(matched, 0, new ArrayList<>(), combinations);
+    }
+    return combinations;
+  }
+
+  private void addCombinations(Map<String, Set<String>> matched, int featureIdx,
+      List<String> prefix, Set<List<String>> out) {
+    if (featureIdx == featureOrder.size()) {
+      out.add(new ArrayList<>(prefix));
+      return;
+    }
+    for (String type : matched.get(featureOrder.get(featureIdx))) {
+      prefix.add(type);
+      addCombinations(matched, featureIdx + 1, prefix, out);
+      prefix.remove(prefix.size() - 1);
+    }
+  }
+
+  /** True if some reading of the position supports the combination. */
+  private boolean supports(Position position, List<String> combination) {
+    for (Map<String, Set<String>> matched : position.matched) {
+      if (supports(matched, combination)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** True if the reading's matches cover the combination (one type per feature). */
+  private boolean supports(Map<String, Set<String>> matched, List<String> combination) {
+    for (int i = 0; i < featureOrder.size(); i++) {
+      if (!matched.get(featureOrder.get(i)).contains(combination.get(i))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /** True if the reading supports at least one of the given combinations. */
+  private boolean supportsAny(Map<String, Set<String>> matched, @Nullable Set<List<String>> combinations) {
+    if (combinations == null) {
+      return false;
+    }
+    for (List<String> combination : combinations) {
+      if (supports(matched, combination)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Builds the {@link AnalyzedTokenReadings} for one position, keeping the readings
+   * that support a surviving combination. Neutral positions are passed through whole.
+   * @return the readings, or {@code null} if a non-neutral position keeps nothing
+   */
+  @Nullable
+  private AnalyzedTokenReadings unify(Position position, Set<List<String>> shared) {
+    if (position.neutral) {
+      AnalyzedTokenReadings neutral = position.neutralReadings;
+      AnalyzedTokenReadings atr = null;
+      for (int i = 0; i < neutral.getReadingsLength(); i++) {
+        atr = append(atr, neutral.getAnalyzedToken(i));
+      }
+      return atr;
+    }
+    AnalyzedTokenReadings atr = null;
+    for (int i = 0; i < position.tokens.size(); i++) {
+      if (supportsAny(position.matched.get(i), shared)) {
+        atr = append(atr, position.tokens.get(i));
+      }
+    }
+    return atr;
+  }
+
+  private static AnalyzedTokenReadings append(@Nullable AnalyzedTokenReadings atr, AnalyzedToken token) {
+    if (atr == null) {
+      return new AnalyzedTokenReadings(token, 0);
+    }
+    atr.addReading(token, "");
+    return atr;
   }
 }
