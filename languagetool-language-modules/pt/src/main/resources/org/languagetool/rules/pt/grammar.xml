@@ -41452,7 +41452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id="SIMBOLO_DE_GRAUS_COM_UNIDADE_EM_MINUSCULA" name="Pôr em maiúscula o símbolo da escala em graus nomeados (e.g. &deg;c => &deg;C)." default="on">
             <!-- p-goulart@2023-12-19 - DESC: the rules to fix the spacing are elsewhere. The capitalisation should be prioritised. -->
             <rule>
-                <regexp case_sensitive="yes" mark="1">&deg;(&degree_abbrevs_lower;)\b</regexp>
+                <regexp case_sensitive="yes" mark="1">(?U)&deg;(&degree_abbrevs_lower;)\b</regexp>
                 <message>Ponha o símbolo da escala em maiúscula.</message>
                 <suggestion><match no="1" case_conversion='startupper' regexp_match="(\p{Ll}+)" regexp_replace="$1"/></suggestion>
                 <example correction="Rø">Fez 69,5&deg;<marker>rø</marker> ontem.</example>
@@ -41466,7 +41466,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule id="DEGREE_SYMBOL_WITH_DEGREE_TYPE">
                 <!-- This rule, unlike SIMBOLO_DE_GRAU_ESPACAMENTO, preserves the user's spaces.
                 This is only here to turn the ordinal into a degree sign. That's the rule that fixes spaces.-->
-                <regexp case_sensitive="yes" mark="1">\d+\s?(&any_masc_ord;(\s?(?:&degree_abbrevs;|&cardinal_points;)))\b</regexp>
+                <regexp case_sensitive="yes" mark="1">(?U)\d+\s?(&any_masc_ord;(\s?(?:&degree_abbrevs;|&cardinal_points;)))\b</regexp>
                 <filter class="org.languagetool.rules.patterns.RegexAntiPatternFilter" args="antipatterns:&any_masc_ord;\s?e|\.&any_masc_ord;"/>
                 <message>&degree_ordinal_msg;</message>
                 <suggestion>&deg;\2</suggestion>

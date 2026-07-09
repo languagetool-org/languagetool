@@ -44,6 +44,12 @@ import java.nio.charset.StandardCharsets;
  */
 public final class XMLValidator {
 
+  static {
+    // JDK 17+ limits XML entity expansion, but LT grammar files use many entity references for abbreviations.
+    System.setProperty("jdk.xml.totalEntitySizeLimit", "2000000");
+    System.setProperty("jdk.xml.entityExpansionLimit", "2000000");
+  }
+
   public XMLValidator() {
     Tools.setPasswordAuthenticator();
   }
