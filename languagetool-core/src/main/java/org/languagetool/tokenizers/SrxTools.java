@@ -45,7 +45,8 @@ final class SrxTools {
     try {
       String srx;
       try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
-        srx = readFully(inputStream).replaceAll("<(beforebreak|afterbreak)>(?!</)", "<$1>(?U)");
+        srx = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8)
+          .replaceAll("<(beforebreak|afterbreak)>(?!</)", "<$1>(?U)");
       }
       Map<String, Object> parserParameters = new HashMap<>();
       parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);
@@ -54,16 +55,6 @@ final class SrxTools {
     } catch (IOException e) {
       throw new RuntimeException("Could not load SRX rules", e);
     }
-  }
-
-  private static String readFully(InputStream inputStream) throws IOException {
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    byte[] chunk = new byte[8192];
-    int read;
-    while ((read = inputStream.read(chunk)) != -1) {
-      buffer.write(chunk, 0, read);
-    }
-    return buffer.toString(StandardCharsets.UTF_8.name());
   }
 
   static List<String> tokenize(String text, SrxDocument srxDocument, String code) {
