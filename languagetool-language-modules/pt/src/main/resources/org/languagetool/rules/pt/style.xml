@@ -19751,16 +19751,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- PARA O DOMINGO DE HOJE para este domingo -->
-        <rulegroup id='SIMPLIFICAR_PARA_DIA_SEMANA_PARA_ESTE_DIA' name="✂️ Para dia semana → Para este dia" type="style">
+        <rulegroup id='SIMPLIFICAR_DIA_DE_HOJE' name="✂️ 'dia/weekday de hoje' → hoje/este dia" type='style'>
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-14/15 (1-JAN-2022+)      -->
-            <!--
-            Quero isto para o domingo de hoje. → Quero isto para este domingo.
-            Quero isto para a terça-feira de hoje. → Quero isto para esta terça-feira.
-            Quero isto para o dia de hoje. → Quero isto para este dia.
-            -->
-            <rule>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1: dia da semana de hoje -->
                 <pattern>
                     <token>para</token>
                     <marker>
@@ -19774,6 +19769,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no='2' postag='DA0(.)S0' postag_replace='DD0$1S0'>este</match> \3</suggestion>
                 <example correction="este domingo">Quero isto para <marker>o domingo de hoje</marker>.</example>
                 <example correction="esta segunda-feira">Quero isto para <marker>a segunda-feira de hoje</marker>.</example>
+            </rule>
+
+            <rule> <!-- #2: dia de hoje -->
+                <pattern>
+                    <token>para</token>
+                    <marker>
+                        <token>o</token>
+                        <token>dia</token>
+                        <token>de</token>
+                        <token>hoje</token>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\5</suggestion>
+                <example correction="hoje">Quero isto para <marker>o dia de hoje</marker>.</example>
             </rule>
         </rulegroup>
 
