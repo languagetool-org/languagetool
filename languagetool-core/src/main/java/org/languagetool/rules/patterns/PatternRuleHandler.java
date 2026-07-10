@@ -780,7 +780,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.setDistanceTokens(distanceTokens);
         rule.setXmlLineNumber(xmlLineNumber);
       } else if (regex.length() > 0) {
-        int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
+        // UNICODE_CHARACTER_CLASS (equivalent to the inline (?U) flag) makes \b, \w, \d and \s
+        // Unicode-aware. Without it the behavior of word boundaries next to non-ASCII letters
+        // depends on the JDK version (it changed between JDK 17 and JDK 21), which breaks many
+        // <regexp> rules. Setting it here avoids adding (?U) by hand to every <regexp> pattern.
+        int flags = Pattern.UNICODE_CHARACTER_CLASS | (regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
         String regexStr = regex.toString();
         if (regexMode == RegexpMode.SMART) {
           // Note: it's not that easy to add \b because the regex might look like '(foo)' or '\d' so we cannot just look at the last character
