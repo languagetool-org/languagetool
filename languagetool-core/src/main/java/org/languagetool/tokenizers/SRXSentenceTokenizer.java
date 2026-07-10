@@ -66,7 +66,7 @@ public class SRXSentenceTokenizer implements SentenceTokenizer {
 
   /**
    * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a
-   *   paragraph; if <code>false</code>, only two ore more consecutive line breaks end a paragraph
+   *   paragraph; if <code>false</code>, only two or more consecutive line breaks end a paragraph
    */
   @Override
   public final void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs) {

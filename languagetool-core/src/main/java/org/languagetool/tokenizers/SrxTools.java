@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -28,38 +28,42 @@ import org.languagetool.JLanguageTool;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Tools for loading an SRX tokenizer file.
+ *
  * @since 2.6
  */
 final class SrxTools {
+
+  private static final Map<String, Object> VALIDATION_PARAMETERS = Map.of(Srx2SaxParser.VALIDATE_PARAMETER, true);
+
+  private static final Map<String, Object> TOKENIZE_PARAMETERS =
+    Map.of(SrxTextIterator.DEFAULT_PATTERN_FLAGS_PARAMETER, Pattern.UNICODE_CHARACTER_CLASS);
 
   private SrxTools() {
   }
 
   static SrxDocument createSrxDocument(String path) {
     try {
-      String srx;
-      try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
-        srx = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8)
-          .replaceAll("<(beforebreak|afterbreak)>(?!</)", "<$1>(?U)");
+      try (
+        InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+        BufferedReader srxReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+      ) {
+        SrxParser srxParser = new Srx2SaxParser(VALIDATION_PARAMETERS);
+        return srxParser.parse(srxReader);
       }
-      Map<String, Object> parserParameters = new HashMap<>();
-      parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);
-      SrxParser srxParser = new Srx2SaxParser(parserParameters);
-      return srxParser.parse(new StringReader(srx));
     } catch (IOException e) {
       throw new RuntimeException("Could not load SRX rules", e);
     }
   }
 
-  static List<String> tokenize(String text, SrxDocument srxDocument, String code) {
+  static List<String> tokenize(String text, SrxDocument srxDocument, String languageCode) {
     List<String> segments = new ArrayList<>();
-    TextIterator textIterator = new SrxTextIterator(srxDocument, code, text);
+    TextIterator textIterator = new SrxTextIterator(srxDocument, languageCode, text, TOKENIZE_PARAMETERS);
     while (textIterator.hasNext()) {
       segments.add(textIterator.next());
     }
