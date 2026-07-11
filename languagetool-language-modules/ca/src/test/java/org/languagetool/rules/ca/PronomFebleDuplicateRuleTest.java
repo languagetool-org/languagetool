@@ -242,6 +242,11 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals("he arribat mai a processar-ho", matches[0].getSuggestedReplacements().get(0));
     assertEquals("ho he arribat mai a processar", matches[0].getSuggestedReplacements().get(1));
 
+    matches = rule.match(lt.getAnalyzedSentence("Moltes escoles l'estan deixant d'utilitzar-lo."));
+    assertEquals(1, matches.length);
+    assertEquals("estan deixant d'utilitzar-lo", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("l'estan deixant d'utilitzar", matches[0].getSuggestedReplacements().get(1));
+
     /*matches = rule.match(lt.getAnalyzedSentence("Això et fa adonar-te del que passa."));
     assertEquals(1, matches.length);
     assertEquals("et fa adonar", matches[0].getSuggestedReplacements().get(0));*/
