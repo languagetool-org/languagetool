@@ -50,6 +50,8 @@ public class Indexer implements AutoCloseable {
 
   static final String TITLE_FIELD_NAME = "title";
 
+  static final String PROGRESS_FILE_NAME = "progress.txt";
+
   private final Random random = new Random(4235);
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
@@ -61,9 +63,13 @@ public class Indexer implements AutoCloseable {
   }
 
   public Indexer(Directory dir, Language language, Analyzer analyzer) {
+    this(dir, language, analyzer, false);
+  }
+
+  public Indexer(Directory dir, Language language, Analyzer analyzer, boolean resume) {
     try {
       IndexWriterConfig writerConfig = getIndexWriterConfig(analyzer);
-      writerConfig.setOpenMode(OpenMode.CREATE);
+      writerConfig.setOpenMode(resume ? OpenMode.CREATE_OR_APPEND : OpenMode.CREATE);
       writer = new IndexWriter(dir, writerConfig);
       sentenceTokenizer = language.getSentenceTokenizer();
     } catch (Exception e) {
@@ -111,12 +117,32 @@ public class Indexer implements AutoCloseable {
           + "' does not exist or is not readable, please check the path");
       System.exit(1);
     }
-    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+    File progressFile = new File(indexDir, PROGRESS_FILE_NAME);
+    boolean resume = progressFile.exists();
+    long linesToSkip = 0;
+    if (resume) {
+      try (BufferedReader pf = new BufferedReader(new FileReader(progressFile))) {
+        String line = pf.readLine();
+        if (line != null) {
+          linesToSkip = Long.parseLong(line.trim());
+        }
+      }
+      System.out.println("Resuming from line " + linesToSkip + " (progress file: " + progressFile + ")");
+    } else {
       System.out.println("Indexing to directory '" + indexDir + "'...");
+    }
+    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+      for (long i = 0; i < linesToSkip; i++) {
+        if (reader.readLine() == null) {
+          System.out.println("Progress file indicates " + linesToSkip + " lines but file has fewer; starting from beginning.");
+          linesToSkip = 0;
+          break;
+        }
+      }
       try (FSDirectory directory = FSDirectory.open(new File(indexDir).toPath())) {
         Language language = Languages.getLanguageForShortCode(languageCode);
-        try (Indexer indexer = new Indexer(directory, language)) {
-          indexer.indexText(reader);
+        try (Indexer indexer = new Indexer(directory, language, getAnalyzer(language), resume)) {
+          indexer.indexText(reader, progressFile, linesToSkip);
         }
       }
     }
@@ -139,46 +165,53 @@ public class Indexer implements AutoCloseable {
   }
 
   public void indexText(BufferedReader reader) throws IOException {
+    indexText(reader, null);
+  }
+
+  public void indexText(BufferedReader reader, File progressFile) throws IOException {
+    indexText(reader, progressFile, 0);
+  }
+
+  public void indexText(BufferedReader reader, File progressFile, long lineOffset) throws IOException {
     String line;
-    StringBuilder paragraph = new StringBuilder();
     int i = 0;
     int addCount = 0;
+    int lastProgressSave = 0;
     while ((line = reader.readLine()) != null) {
-      if (!(line.equals("")) && paragraph.length() + line.length() < Integer.MAX_VALUE) {
-        paragraph.append(line).append('\n');
-      } else {
-        List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
+      // "Line end implies sentence end": tokenize each line into sentences and index them as they
+      // stream in. This keeps memory bounded regardless of file size (the old code accumulated the
+      // whole file into one paragraph when it contained no blank lines) and avoids re-tokenizing
+      // already-segmented corpora. A line holding several sentences is still split correctly.
+      if (!line.isEmpty()) {
+        List<String> sentences = sentenceTokenizer.tokenize(line);
         for (String sentence : sentences) {
           if (sentence.trim().length() > 0) {
             if (++addCount % 1000 == 0) {
-              System.out.println("(1) Adding item " + addCount);
-            }
-            add(sentence.replace(" \n"," "), null, null, -1);
-          }
-        }
-        if (paragraph.length() + line.length() >= Integer.MAX_VALUE) {
-          List<String> lastSentences = sentenceTokenizer.tokenize(line);
-          for (String sentence : lastSentences) {
-            if (++addCount % 1000 == 0) {
-              System.out.println("(2) Adding item " + addCount);
+              System.out.println("Adding item " + addCount);
             }
             add(sentence, null, null, -1);
           }
         }
-        paragraph.setLength(0);
       }
       if (++i % 10_000 == 0) {
-        System.out.println("Loading line " + i);
+        System.out.println("Loading line " + (lineOffset + i));
+      }
+      if (progressFile != null && i - lastProgressSave >= 10_000) {
+        saveProgress(progressFile, lineOffset + i);
+        lastProgressSave = i;
       }
     }
-    if (paragraph.length() > 0) {
-      List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
-      for (String sentence : sentences) {
-        if (++addCount % 1000 == 0) {
-          System.out.println("(3) Adding item " + addCount);
-        }
-        add(sentence, null, null, -1);
-      }
+    if (progressFile != null) {
+      saveProgress(progressFile, lineOffset + i);
+    }
+  }
+
+  private void saveProgress(File progressFile, long lineCount) {
+    try (FileWriter fw = new FileWriter(progressFile)) {
+      fw.write(String.valueOf(lineCount));
+      fw.write('\n');
+    } catch (IOException e) {
+      System.err.println("Warning: could not save progress to " + progressFile + ": " + e.getMessage());
     }
   }
 
@@ -187,6 +220,14 @@ public class Indexer implements AutoCloseable {
   }
 
   private void add(String sentence, String source, String title, int docCount) throws IOException {
+    // Trim leading/trailing whitespace and skip whitespace-only sentences: the LT analyzer
+    // emits one token per whitespace character, so pathological runs (e.g. a "sentence" that is
+    // only spaces/newlines) produce huge, useless documents. Storing the trimmed form is safe
+    // because Searcher re-analyzes the stored field from scratch and recomputes offsets.
+    sentence = sentence.trim();
+    if (sentence.isEmpty()) {
+      return;
+    }
     Document doc = new Document();
     FieldType type = new FieldType();
     type.setStored(true);
@@ -218,7 +259,16 @@ public class Indexer implements AutoCloseable {
     }
     int rnd = random.nextInt();
     doc.add(new SortedNumericDocValuesField(RANDOM_FIELD, rnd)); // allow random sorting on search
-    writer.addDocument(doc);
+    try {
+      writer.addDocument(doc);
+    } catch (IllegalArgumentException e) {
+      if (e.getMessage() != null && e.getMessage().contains("bytes can be at most 32766")) {
+        System.err.println("Warning: skipping sentence of " + sentence.length() + " chars because its token exceeds Lucene's 32766 byte limit: " +
+          sentence.substring(0, Math.min(200, sentence.length())) + "...");
+      } else {
+        throw e;
+      }
+    }
   }
 
   @Override
