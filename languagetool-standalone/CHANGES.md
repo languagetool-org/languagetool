@@ -1,11 +1,24 @@
 # LanguageTool Change Log
 
-## 6.8 (2026-05-??)
+## 6.9 (unreleased)
+
+#### General
+  * Requires Java 17 up to 21.
+
+#### Catalan
+  * added and improved rules
+
+## 6.8 (2026-05-5)
 
 #### Ukrainian
   * new words in the POS dictionary
   * new rules
   * tagging and disambiguation improvements
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-3.3)
+  * new multitoken proper names from Wikidata (ca-ES_spelling_multitoken.dict)
 
 ## 6.7 (2025-10-01)
 
@@ -13,6 +26,9 @@
   * new words in the POS dictionary
   * new rules
   * tagging and disambiguation improvements
+
+#### Catalan
+  * added and improved rules
 
 ## 6.6 (2025-03-27)
 
