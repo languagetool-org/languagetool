@@ -720,9 +720,11 @@ public class VerbAgreementRule extends TextLevelRule {
           posWir = i;
           break;
       }
-      
+
       if (tokens[i].hasPartialPosTag("VER")
-          && (Character.isLowerCase(tokens[i].getToken().charAt(0)) || i == 1 || isQuotationMark(tokens[i-1])) ) {
+        && (Character.isLowerCase(tokens[i].getToken().charAt(0))
+        || i == 1
+        || isQuotationMark(tokens[i-1]))) {
         if (hasUnambiguouslyPersonAndNumber(tokens[i], "1", "SIN")
             && !(strToken.equals("bin") && (BIN_IGNORE.contains(tokens[i-1].getToken())
                   || (tokens.length != i + 1 && tokens[i+1].getToken().startsWith("Laden")) ))) {
@@ -845,7 +847,30 @@ public class VerbAgreementRule extends TextLevelRule {
   private boolean isQuotationMark(AnalyzedTokenReadings token) {
     return QUOTATION_MARKS.contains(token.getToken());
   }
-  
+
+  private boolean isAdjectiveVerbAmbiguity(AnalyzedTokenReadings token) {
+    boolean hasAdjectiveReading = false;
+    boolean hasVerbReading = false;
+
+    for (AnalyzedToken reading : token) {
+      String posTag = reading.getPOSTag();
+
+      if (posTag == null) {
+        continue;
+      }
+
+      if (posTag.startsWith("ADJ:")) {
+        hasAdjectiveReading = true;
+      }
+
+      if (posTag.startsWith("VER:")) {
+        hasVerbReading = true;
+      }
+    }
+
+    return hasAdjectiveReading && hasVerbReading;
+  }
+
   /**
    * @return true if the verb @param token (if it is a verb) matches @param person and @param number, and matches no other person/number
    */
@@ -872,15 +897,44 @@ public class VerbAgreementRule extends TextLevelRule {
    */
   private boolean isFiniteVerb(AnalyzedTokenReadings token) {
     if (token.getToken().length() == 0
-        || (Character.isUpperCase(token.getToken().charAt(0)) && token.getStartPos() != 0)
-        || !token.hasPosTagStartingWith("VER")
-        || token.hasAnyPartialPosTag("PA2", "PRO:", "ZAL")
-        || "einst".equals(token.getToken())) {
+      || (Character.isUpperCase(token.getToken().charAt(0)) && token.getStartPos() != 0)
+      || !token.hasPosTagStartingWith("VER")
+      || token.hasAnyPartialPosTag("PA2", "PRO:", "ZAL")
+      || "einst".equals(token.getToken())) {
       return false;
     }
+
+    // Ignore words that are primarily adjectives but have incorrect verb readings
+    boolean hasAdjectiveReading = false;
+    boolean hasRealFiniteVerbReading = false;
+
+    for (AnalyzedToken reading : token) {
+      String posTag = reading.getPOSTag();
+
+      if (posTag == null) {
+        continue;
+      }
+
+      if (posTag.startsWith("ADJ:")) {
+        hasAdjectiveReading = true;
+      }
+
+      if (posTag.startsWith("VER:")
+        && (posTag.contains(":1:")
+        || posTag.contains(":2:")
+        || posTag.contains(":3:"))
+        && !posTag.endsWith(":SFT")) {
+        hasRealFiniteVerbReading = true;
+      }
+    }
+
+    if (hasAdjectiveReading && !hasRealFiniteVerbReading) {
+      return false;
+    }
+
     return token.hasAnyPartialPosTag(":1:", ":2:", ":3:");
   }
-  
+
   /**
    * @return false if neither the verb @param token1 (if any) nor @param token2 match @param person and @param number, and none of them is "und" or ","
    * if a finite verb is found, it is saved in finiteVerb
@@ -893,7 +947,7 @@ public class VerbAgreementRule extends TextLevelRule {
     }
    
     boolean foundFiniteVerb = false;
-    
+
     if (isFiniteVerb(token1)) {
       foundFiniteVerb = true;
       finiteVerb = token1;
@@ -901,7 +955,7 @@ public class VerbAgreementRule extends TextLevelRule {
         return new BooleanAndFiniteVerb(true, finiteVerb);
       }
     }
-    
+
     if (isFiniteVerb(token2)) {
       foundFiniteVerb = true;
       finiteVerb = token2;
@@ -912,7 +966,7 @@ public class VerbAgreementRule extends TextLevelRule {
     
     return new BooleanAndFiniteVerb(!foundFiniteVerb, finiteVerb);
   }
-  
+
   /**
    * @return a list of forms of @param verb which match @param expectedVerbPOS (person:number)
    * @param toUppercase true when the suggestions should be capitalized
