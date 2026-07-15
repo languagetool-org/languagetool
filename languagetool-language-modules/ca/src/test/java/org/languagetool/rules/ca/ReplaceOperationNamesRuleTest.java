@@ -94,9 +94,9 @@ public class ReplaceOperationNamesRuleTest {
     
     matches = rule.match(lt.getAnalyzedSentence("Els rentats de cervell."));
     assertEquals(1, matches.length);
-    assertEquals ("rentades", matches[0].getSuggestedReplacements().get(0));
-    assertEquals ("rentatges", matches[0].getSuggestedReplacements().get(1));
-    assertEquals ("rentaments", matches[0].getSuggestedReplacements().get(2));
+    assertEquals ("Les rentades", matches[0].getSuggestedReplacements().get(0));
+    assertEquals ("Els rentatges", matches[0].getSuggestedReplacements().get(1));
+    assertEquals ("Els rentaments", matches[0].getSuggestedReplacements().get(2));
   }
 
   private void assertCorrect(String sentence) throws IOException {

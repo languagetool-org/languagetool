@@ -61,6 +61,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
   
   private static final Pattern PUNTUACIO = Pattern.compile("PUNCT.*|SENT_START");
   private static final Pattern DETERMINANT = Pattern.compile("D[^R].M.*");
+  private static final Map<String, String> argumentsMap = Map.of("lemmaSelect", "[NA].*");
   
 
   public ReplaceOperationNamesRule(final ResourceBundle messages, Language language) throws IOException {
@@ -184,7 +185,29 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
         }
       }
     }
-    return toRuleMatchArray(ruleMatches);
+
+    List<RuleMatch> filteredRuleMatches = new ArrayList<>();
+    ConvertToGenderAndNumberFilter filter = new ConvertToGenderAndNumberFilter();
+    filter.setLanguage(getLanguage());
+    // Adjust determinants and adjectives
+    for (RuleMatch potentialRuleMatch : ruleMatches) {
+      // For multi-word expressions, skip the filter: it cannot adjust gender/number
+      // reliably across tokens and causes incorrect position adjustments.
+      if (!potentialRuleMatch.isUnderlinedErrorSingleToken()) {
+        filteredRuleMatches.add(potentialRuleMatch);
+        continue;
+      }
+      RuleMatch finalMatch = null;
+      try {
+        finalMatch = filter.acceptRuleMatch(potentialRuleMatch, argumentsMap, 0, null, null);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      if (finalMatch != null) {
+        filteredRuleMatches.add(finalMatch);
+      }
+    }
+    return toRuleMatchArray(filteredRuleMatches);
   }
   
   /**
