@@ -26,7 +26,11 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleMatcher;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.RuleMatchesAsJsonSerializer;
@@ -37,8 +41,10 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
@@ -127,6 +133,9 @@ public final class CommandLineTools {
       out.print(json);
     } else {
       printMatches(ruleMatches, prevMatches, contents, contextSize, lt.getLanguage(), verbose);
+      if (verbose) {
+        printActivatedAntiPatterns(contents, lt);
+      }
     }
 
     //display stats if it's not in a buffered mode
@@ -136,6 +145,60 @@ public final class CommandLineTools {
       displayTimeStats(startTime, sentenceCount);
     }
     return ruleMatches.size();
+  }
+
+  private static void printActivatedAntiPatterns(String contents, JLanguageTool lt) throws IOException {
+    List<AnalyzedSentence> sentences;
+    lt.setOutput(null);
+    try {
+      sentences = lt.analyzeText(contents);
+    } finally {
+      lt.setOutput(System.err);
+    }
+    Map<String, List<String>> tokensByAntipattern = new LinkedHashMap<>();
+    for (Rule rule : lt.getAllActiveRules()) {
+      if (!(rule instanceof PatternRule) || rule.getAntiPatterns().isEmpty()) {
+        continue;
+      }
+      PatternRule patternRule = (PatternRule) rule;
+      PatternRuleMatcher matcher = new PatternRuleMatcher(patternRule, false);
+      for (AnalyzedSentence sentence : sentences) {
+        if (matcher.match(sentence).length == 0) {
+          continue;
+        }
+        for (int i = 0; i < rule.getAntiPatterns().size(); i++) {
+          DisambiguationPatternRule antiPattern = rule.getAntiPatterns().get(i);
+          AnalyzedSentence immunizedSentence = antiPattern.replace(sentence.copy(sentence));
+          if (matcher.match(immunizedSentence).length > 0) {
+            continue;
+          }
+          int line = antiPattern.getXmlLineNumber();
+          String key = patternRule.getFullId() + " <antipattern> " + (i + 1) + " (line " + line + ") "
+              + patternToString(antiPattern.getPatternTokens());
+          for (AnalyzedTokenReadings token : immunizedSentence.getTokens()) {
+            if (token.isImmunized() && token.getImmunizationSourceLine() == line) {
+              List<String> tokens = tokensByAntipattern.computeIfAbsent(key, k -> new ArrayList<>());
+              if (!tokens.contains(token.getToken())) {
+                tokens.add(token.getToken());
+              }
+            }
+          }
+        }
+      }
+    }
+    if (tokensByAntipattern.isEmpty()) {
+      return;
+    }
+    System.err.println("Antipatterns activated:");
+    for (Map.Entry<String, List<String>> entry : tokensByAntipattern.entrySet()) {
+      System.err.println("  " + entry.getKey() + ": " + String.join(" ", entry.getValue()));
+    }
+  }
+
+  private static String patternToString(List<PatternToken> patternTokens) {
+    return patternTokens.stream()
+        .map(PatternToken::toString)
+        .collect(Collectors.joining(" "));
   }
 
   private static void displayTimeStats(long startTime, long sentCount) {
