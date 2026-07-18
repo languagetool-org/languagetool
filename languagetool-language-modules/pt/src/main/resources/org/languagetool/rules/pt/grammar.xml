@@ -9415,6 +9415,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
 
             <antipattern>
+                <token regexp='yes'>entre|a</token>
+                <token regexp='yes'>nós|vocês|vós</token>
+                <token min='0' max='1' postag='RN'/>
+                <token postag='VM...S.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
+                <example>Entre nós aconteceu uma magia nunca vista.</example>
+                <example>Entre nós não há nenhum engenheiro.</example>
+                <example>Entre nós nasceu uma agradável cumplicidade.</example>
+                <example>Quando se juntou a nós trouxe o caos de agora.</example>
+            </antipattern>
+
+            <antipattern>
                 <token min='2' postag='(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
                 <token postag='AQ..[SN].+|N..[SN].+' postag_regexp='yes'/>
                 <token postag='RN' postag_regexp='no'/>
