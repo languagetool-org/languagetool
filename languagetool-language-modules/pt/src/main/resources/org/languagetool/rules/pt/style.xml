@@ -4832,12 +4832,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rule id='ESTAR_LIXADO_ZANGADO_COM_PROBLEMAS' name="Lixado → zangado/'com problemas'" tone_tags='formal'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
             <pattern>
-                <token skip='2' inflected='yes' regexp='no'>estar</token>
+                <token skip='2' inflected='yes' regexp='yes'>andar|estar</token>
                 <marker>
                     <token skip='1' regexp='yes'>lixad[ao]s?</token>
                 </marker>
-                <token postag='SPS00' postag_regexp='no'/> <!-- com|para|por -->
+                <token regexp='yes'>com|comigo|contigo|consigo</token>
             </pattern>
             <message>&informal_msg;</message>
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>zangar</match></suggestion>
@@ -4846,10 +4848,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion><match no='2' postag='V.+' postag_regexp='yes'>aborrecer</match></suggestion>
             <suggestion>com problemas</suggestion>
             <example correction="zangado|irritado|descontente|aborrecido|com problemas">Estou <marker>lixado</marker> com o meu chefe.</example>
+            <example correction="zangado|irritado|descontente|aborrecido|com problemas">Ando <marker>lixado</marker> com o meu chefe.</example>
+            <example correction="zangadas|irritadas|descontentes|aborrecidas|com problemas">Elas andam <marker>lixadas</marker> com a tarefa.</example>
+            <example>A chefe está zangada comigo.</example> 
             <example>O Rui está zangado com a Ana.</example>
             <example>A Ana está mais que aborrecida com a Rute.</example>
             <example>O Rui está bastante descontente com a Ana.</example>
             <example>Estou com problemas com o meu PC novo.</example>
+            <example>Ando com problemas com o meu PC novo.</example>
         </rule>
 
 
