@@ -3700,6 +3700,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
+        <rule id='POUCO_IMPORTA_IRRELEVANTE' name="🤵 Pouco importa → é irrelevante" type='style' tone_tags='formal' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token postag='CC|CS|SPS00|(SPS00:)?[DP].+|SENT_START|_PUNCT' postag_regexp='yes'/>
+                <token min='0' max='2' postag='N.+|AQ.+' postag_regexp='yes'><exception>pouco</exception></token>
+                <marker>
+                    <token>pouco</token>
+                    <token regexp='yes'>importam?</token>
+                </marker>
+            </pattern>
+            <message>Em textos formais, considere uma formulação mais impessoal e objetiva.</message>
+            <suggestion><match no='4' postag='VMIP3(.)0' postag_replace='VMIP3$10'>ser</match> <match no='4' postag='VMIP3(.)0' postag_replace='AQ0C$10'>irrelevante</match></suggestion>
+            <example correction="é irrelevante">Isso <marker>pouco importa</marker> ao dono da empresa.</example>
+            <example correction="é irrelevante">Para o Rui <marker>pouco importa</marker> o que pensam dele.</example>
+            <example correction="são irrelevantes">Os detalhes <marker>pouco importam</marker> para mim.</example>
+            <example>Para o Pedro é irrelevante como o processo decorre.</example>
+            <example>É irrelevante o processo entregue para análise.</example>
+        </rule>
+
+
         <rule id='IR_AOS_POUCOS_GRADUALMENTE' name="🤵 Ir 'aos poucos/pouquinhos' → gradualmente/pouco a pouco" tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
