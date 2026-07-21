@@ -157,6 +157,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         && replacements.contains(replacement.toLowerCase())) {
         continue;
       }
+      // avoid capitalized suggestions if there are previous all lower case suggestions
+      if (i > 0 && StringTools.IsAllLowercase(word) && StringTools.isCapitalizedWord(replacement)
+      && StringTools.IsAllLowercase(newSuggestions.get(0).getReplacement())) {
+        continue;
+      }
       if (inalambric.contains(replacement.toLowerCase())) {
         newSuggestions = new ArrayList<>();
         newSuggestions.add(new SuggestedReplacement("sense fils"));

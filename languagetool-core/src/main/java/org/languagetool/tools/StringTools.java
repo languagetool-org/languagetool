@@ -228,6 +228,10 @@ public final class StringTools {
     return false;
   }
 
+  public static boolean IsAllLowercase(String str) {
+    return !isNotAllLowercase(str);
+  }
+
   /**
    * @param str input string
    * @return true if word starts with an uppercase letter and all other letters are lowercase

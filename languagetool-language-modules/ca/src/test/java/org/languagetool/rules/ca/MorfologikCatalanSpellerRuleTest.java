@@ -51,6 +51,7 @@ public class MorfologikCatalanSpellerRuleTest {
     rule = new MorfologikCatalanSpellerRule(TestTools.getMessages("ca"), Catalan.getInstance(),
         null, Collections.emptyList());
     // buggy!
+    assertSuggestionsTest("La part grosa", "[grossa]", 1);
     assertSuggestionsTest("pissara", "[passarà, pissarra, posarà, passara, posara]", 1);
     assertSuggestionsTest("Tornaràn", "[Tornaran]", 1);
     // prefixes and suffixes.
@@ -106,17 +107,17 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("quna", "[que, una, quan, bona, dona]", 1); // millor: quan
     // capitalized suggestion
     assertSuggestionsTest("Video", "[Vídeo]", 1);
-    assertSuggestionsTest("bànner", "[Banner, bàner, baner, vanar]", 1);
+    assertSuggestionsTest("bànner", "[bàner, baner, vanar]", 1);
     assertSuggestionsTest("especialisats", "[especialitzats]", 1);
     assertSuggestionsTest("colaborassió", "[col·laboració]", 1);
     assertSuggestionsTest("colaboració", "[col·laboració]", 1);
     assertSuggestionsTest("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", "[]", 1);
-    assertSuggestionsTest("plassa", "[plaça]", 1);
+    assertSuggestionsTest("plassa", "[plaça, plaçà]", 1);
     assertSuggestionsTest("Deú", "[Deu, Déu, Dau, De, Del]", 1);
     assertSuggestionsTest("joan", "[Joan]", 1);
     assertSuggestionsTest("abatusats", "[abatussats]", 1);
     // incomplete multiword
-    assertSuggestionsTest("L'statu", "[tato, Satto, Steno, tatú, sta tu]", 1);
+    assertSuggestionsTest("L'statu", "[tato, tatú, sta tu]", 1);
     assertSuggestionsTest("argüit", "[arguït]", 1);
     assertSuggestionsTest("ángel", "[àngel]", 1);
     assertSuggestionsTest("caçessim", "[cacéssim, casséssim, caséssim, cesséssim]", 1);
@@ -170,7 +171,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("nordment", "[normant, nord ment]", 1);
     assertSuggestionsTest("milisegons", "[mil·lisegons]", 1);
     /* change in Speller necessary: words of length = 4 */
-    assertSuggestionsTest("nula", "[nul·la, Nola, Nole, Nule, nova]", 1);
+    assertSuggestionsTest("nula", "[nul·la]", 1);
     assertSuggestionsTest("En la Pecra", "[Para, Pare, Pere, Pedra, Pacte]", 1);
     assertSuggestionsTest("IVa", "[Iva, IVA]", 1);
     assertSuggestionsTest("Dvd", "[DVD]", 1);
@@ -187,7 +188,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("tenvio", "[t'envio, teniu, tensió, canvio, envio]", 1);
     assertSuggestionsTest("consultins", "[consulti'ns, consultius, consultis, consulti's, consultin]", 1);
     assertSuggestionsTest("portarvos", "[portar-vos, portar vos]", 1);
-    assertSuggestionsTest("portemne", "[portem-ne, Portainé]", 1);
+    assertSuggestionsTest("portemne", "[portem-ne]", 1);
     assertSuggestionsTest("dacontentar", "[d'acontentar, acontentar, descontentar]", 1);
     assertSuggestionsTest("devidents", "[de vidents, d'evidents, evidents]", 1);
     assertSuggestionsTest("lacomplexat", "[la complexat, l'acomplexat, acomplexat]", 1);
@@ -195,12 +196,12 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("lacomplexats", "[la complexats, acomplexats]", 1);
     assertSuggestionsTest("veurehi", "[veure-hi, beure-hi, veure hi]", 1);
     assertSuggestionsTest("veureles", "[veure-les, beure-les, vorells, barrales, beurades]", 1);
-    assertSuggestionsTest("lilla", "[Lilla]", 1);
+    assertSuggestionsTest("lilla", "[l'illa, l'Illa, filla, illa, lila]", 1);
     assertSuggestionsTest("portas", "[portàs, portes]", 1);
     assertSuggestionsTest("mantenir'me", "[mantenir-me]", 1);
     assertSuggestionsTest("elcap", "[el cap, alçar, alça, alçat, alcem]", 1);
-    assertSuggestionsTest("almeu", "[al meu, allau, lleu, Dalmau, alceu]", 1);
-    assertSuggestionsTest("delteu", "[del teu, delta, allau, Dalmau, falteu]", 1);
+    assertSuggestionsTest("almeu", "[al meu, allau, lleu, alceu, alau]", 1);
+    assertSuggestionsTest("delteu", "[del teu, delta, allau, falteu, salteu]", 1);
     assertSuggestionsTest("unshomes", "[uns homes]", 1);
     assertSuggestionsTest("pelsseus", "[pels seus, passos]", 1);
     assertSuggestionsTest("daquesta", "[d'aquesta, aquesta]", 1);
@@ -218,23 +219,23 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("portan", "[porten, porta'n]", 1);
     assertSuggestionsTest("portans", "[porta'ns, portes, porten, portant, portals]", 1);
     assertSuggestionsTest("porta'nshi", "[porta'ns-hi, porta'ns hi]", 1);
-    assertSuggestionsTest("porto'nz", "[porta'ns, portons, Portorož, porta'n, porte'ns]", 1);
+    assertSuggestionsTest("porto'nz", "[porta'ns, portons, porta'n, porte'ns, porti'n]", 1);
     assertSuggestionsTest("portalhi", "[porta-l'hi, porta-hi, portal hi]", 1);
     // assertEquals("porta-l'hi", matches[0].getSuggestedReplacements().get(2));
     assertSuggestionsTest("veurels", "[veure'ls, veure's, verals, barrals, beures]", 1);
     assertSuggestionsTest("veuret", "[veure, veure't, veurem, beure, veureu]", 1);
     assertSuggestionsTest("veures", "[veure's, beures]", 1);
     assertSuggestionsTest("serlo", "[ser-lo, parlo, saló, sarau, sereu]", 1);
-    assertSuggestionsTest("verlo", "[parlo, baró, Abelló, vareu, baló]", 1);
+    assertSuggestionsTest("verlo", "[parlo, baró, vareu, baló, verso]", 1);
     assertSuggestionsTest("relajarme", "[relaxar-me, relaxara, relaxarem, relaxaria, relaxaré]", 1);
     assertSuggestionsTest("aborrirnos", "[avorrir-nos]", 1);
     assertSuggestionsTest("aburrirnos", "[avorrir-nos]", 1);
     assertSuggestionsTest("aborirnos", "[abolir-nos, avorrir-nos, borinos]", 1);
     assertSuggestionsTest("sescontaminarla", "[descontaminar-la, descontaminara, descontaminaria, descontaminarà]", 1);
-    assertSuggestionsTest("anarsen", "[anar-se'n, anaren, Andersen, anassen, anessen]", 1);
+    assertSuggestionsTest("anarsen", "[anar-se'n, anaren, anassen, anessen, enarcen]", 1);
     assertSuggestionsTest("danarsen", "[d'anar-se'n, denerven]", 1);
     assertSuggestionsTest("enviartela", "[enviar-te-la, enviar tela]", 1);
-    assertSuggestionsTest("enviartel", "[enviar-te'l, Innviertel, enviar tel]", 1);
+    assertSuggestionsTest("enviartel", "[enviar-te'l, enviar tel]", 1);
     assertSuggestionsTest("dirtho", "[dir-t'ho, dir-ho]", 1);
     assertSuggestionsTest("sentimen", "[sentiment, sentien, sentiran, sentiren, sentim en]", 1);
     assertSuggestionsTest("fesmho", "[fes-m'ho, fes-ho, fes mho]", 1);
