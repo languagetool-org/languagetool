@@ -3700,7 +3700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-        <rule id='POUCO_IMPORTA_IRRELEVANTE' name="🤵 Pouco importa → é irrelevante" type='style' tone_tags='formal' default='temp_off'>
+        <rule id='POUCO_IMPORTA_IRRELEVANTE' name="🤵 Pouco importa → é irrelevante" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
             <pattern>
@@ -4891,24 +4891,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="consta">O conteúdo que <marker>está</marker> em edital é relevante.</example>
             <example correction="constam">As condições <marker>estão</marker> no contrato.</example>
             <example>O que consta nos autos deve ser bastante levado em conta.</example>
-        </rule>
-
-
-        <rule id='ESTAR_AQUI_PARA_INF_VIR_INF' name="'Estar aqui para' Inf. → 'Vir Inf.'" tone_tags='formal'>
-            <pattern>
-                <marker>
-                    <token postag='VMIP.+' postag_regexp='yes' inflected='yes'>estar<exception scope='previous' postag_regexp='no' postag='RG'/></token>
-                    <token>aqui</token>
-                    <token>para</token>
-                    <token regexp='yes' inflected='yes'>ajudar|apresentar|buscar|debater|defender|discutir|entregar|esclarecer|negociar|oferecer|participar|propor|reclamar|resolver|solicitar</token> <!-- Add verbs as they are found. -->
-                </marker>
-            </pattern>
-            <message>&informal_msg;</message>
-            <suggestion><match no='1' postag='VMIP(...)' postag_replace='VMIS$1'>vir</match> \4</suggestion>
-            <example correction="vim defender">Bom dia, <marker>estou aqui para defender</marker> a minha tese.</example>
-            <example correction="vim ajudar">Eu <marker>estou aqui para ajudar</marker>.</example>
-            <example correction="viemos ajudar">Nós <marker>estamos aqui para ajudar</marker>.</example>
-            <example>Nós sempre estamos aqui para ajudar.</example>
         </rule>
 
 
@@ -13519,6 +13501,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <category id='SHORTEN_IT' name="✂️ Linguagem concisa" type="style">
+
+
+        <rule id='ESTAR_AQUI_PARA_INFINITIVO' name="✂️ Estar aqui para + infinitivo → vir + infinitivo" type='style' tags='picky'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- A substituição pode alterar o sentido, pois "estar aqui para" também pode indicar função, presença ou disponibilidade, e não necessariamente o motivo de uma deslocação. -->
+
+            <pattern>
+                <marker>
+                    <token postag='VMIP.+' postag_regexp='yes' inflected='yes'>estar
+                    <exception scope='previous' regexp='yes'>frequentemente|geralmente|habitualmente|normalmente|regularmente|sempre</exception></token>
+                    <token>aqui</token>
+                    <token>para</token>
+                    <token regexp='yes'>apresentar|debater|defender|discutir|entregar|esclarecer|negociar|propor|reclamar|solicitar</token>
+                </marker>
+            </pattern>
+            <message>Se a expressão indicar o motivo da deslocação, considere uma formulação mais direta com &quot;vir&quot;.</message>
+            <suggestion><match no='1' postag='VMIP(...)' postag_replace='VMIS$1'>vir</match> \4</suggestion>
+            <example correction="vim apresentar">Bom dia, <marker>estou aqui para apresentar</marker> o projeto.</example>
+            <example correction="vim defender">Bom dia, <marker>estou aqui para defender</marker> a minha tese.</example>
+            <example correction="vim entregar">Bom dia, <marker>estou aqui para entregar</marker> estes documentos.</example>
+            <example correction="vim esclarecer">Bom dia, <marker>estou aqui para esclarecer</marker> algumas dúvidas.</example>
+            <example correction="vim negociar">Bom dia, <marker>estou aqui para negociar</marker> as condições do contrato.</example>
+            <example correction="vim propor">Bom dia, <marker>estou aqui para propor</marker> uma solução.</example>
+            <example correction="vim reclamar">Bom dia, <marker>estou aqui para reclamar</marker> desta cobrança.</example>
+            <example correction="vim solicitar">Bom dia, <marker>estou aqui para solicitar</marker> uma certidão.</example>
+            <example correction="vieste entregar">Tu <marker>estás aqui para entregar</marker> os documentos.</example>
+            <example correction="veio apresentar">Ela <marker>está aqui para apresentar</marker> o projeto.</example>
+            <example correction="viemos discutir">Nós <marker>estamos aqui para discutir</marker> a proposta.</example>
+            <example correction="viestes negociar">Vós <marker>estais aqui para negociar</marker> as condições.</example>
+            <example correction="vieram debater">Eles <marker>estão aqui para debater</marker> o problema.</example>
+            <example>Nós sempre estamos aqui para apresentar os resultados.</example>
+        </rule>
 
 
         <rulegroup id='LOCALIZADA_SITUADA_EM_NA_NO_V3' name="✂️ Localizada/situada em/na(s)/no(s) → em/na(s)/no(s)" tone_tags='objective'>
