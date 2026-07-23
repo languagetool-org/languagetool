@@ -14145,8 +14145,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='DAR_VALOR_VALORIZAR' name="✂️ Verbo 'dar' + valor → valorizar" tags="picky">
+        <rule id='DAR_VALOR_VALORIZAR' name="✂️ 'dar valor' → valorizar" type='style' tags='picky'>
             <!-- IDEA shorten_it -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token skip='5' regexp='yes' inflected='yes'>avaliador|perito|banco|seguradora|tribunal</token>
+                <token inflected='yes'>dar</token>
+                <token>valor</token>
+                <token regexp='yes'>às?|aos?</token>
+                <example>O avaliador deu valor ao imóvel com base nos preços de mercado.</example>
+                <example>O perito e a Ana Silva deram valor ao imóvel com base nos preços de mercado.</example>
+            </antipattern>
+
             <pattern>
                 <marker>
                     <token inflected='yes'>dar</token>
@@ -14154,7 +14165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp='yes'>às?|aos?</token>
                 </marker>
             </pattern>
-            <message>&simplify_msg;</message>
+            <message>Se a expressão significar reconhecer a importância de algo ou alguém, considere &quot;valorizar&quot;.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>valorizar</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
             <example correction="valoriza a">Ele não <marker>dá valor à</marker> mulher.</example>
             <example correction="valoriza o">Ele <marker>dá valor ao</marker> trabalho do Rui.</example>
