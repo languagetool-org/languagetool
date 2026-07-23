@@ -22,6 +22,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -78,6 +79,11 @@ public class SimpleReplaceDNVSecondaryRule extends AbstractSimpleReplaceLemmasRu
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
     return "Paraula o forma secundària.";
+  }
+
+  @Override
+  public boolean isTokenException(AnalyzedTokenReadings atr) {
+    return atr.hasPosTag("_english_ignore_");
   }
   
 }

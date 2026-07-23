@@ -49,6 +49,7 @@ public class SimpleReplaceDNVSecondaryRuleTest {
 
     // correct sentences:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Estan dispostes, estan indisposts, dispost a tot.")).length);
+    //assertEquals(0, rule.match(lt.getAnalyzedSentence("Els naturals els demanaven ice sandwich")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("S'ha dispost a fer-ho."));
