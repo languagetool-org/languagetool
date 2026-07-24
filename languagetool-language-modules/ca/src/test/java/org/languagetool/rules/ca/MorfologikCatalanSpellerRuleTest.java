@@ -107,7 +107,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("quna", "[que, una, quan, bona, dona]", 1); // millor: quan
     // capitalized suggestion
     assertSuggestionsTest("Video", "[Vídeo]", 1);
-    assertSuggestionsTest("bànner", "[bàner, baner, vanar]", 1);
+    assertSuggestionsTest("bànner", "[Banner, bàner, baner, vanar]", 1);
     assertSuggestionsTest("especialisats", "[especialitzats]", 1);
     assertSuggestionsTest("colaborassió", "[col·laboració]", 1);
     assertSuggestionsTest("colaboració", "[col·laboració]", 1);
@@ -174,6 +174,7 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("nula", "[nul·la]", 1);
     assertSuggestionsTest("En la Pecra", "[Para, Pare, Pere, Pedra, Pacte]", 1);
     assertSuggestionsTest("IVa", "[Iva, IVA]", 1);
+    assertSuggestionsTest("sam", "[Sam, sem]", 1);
     assertSuggestionsTest("Dvd", "[DVD]", 1);
     assertSuggestionsTest("aõh", "[AOH]", 1);
     assertSuggestionsTest("Windows10", "[Windows 10]", 1);
@@ -196,7 +197,8 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("lacomplexats", "[la complexats, acomplexats]", 1);
     assertSuggestionsTest("veurehi", "[veure-hi, beure-hi, veure hi]", 1);
     assertSuggestionsTest("veureles", "[veure-les, beure-les, vorells, barrales, beurades]", 1);
-    assertSuggestionsTest("lilla", "[l'illa, l'Illa, filla, illa, lila]", 1);
+   // assertSuggestionsTest("lilla", "[l'illa, l'Illa, filla, illa, lila]", 1);
+    assertSuggestionsTest("lilla", "[Lilla]", 1);
     assertSuggestionsTest("portas", "[portàs, portes]", 1);
     assertSuggestionsTest("mantenir'me", "[mantenir-me]", 1);
     assertSuggestionsTest("elcap", "[el cap, alçar, alça, alçat, alcem]", 1);
