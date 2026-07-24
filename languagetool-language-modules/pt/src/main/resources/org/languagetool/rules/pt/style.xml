@@ -14461,30 +14461,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- ATÉ QUE SURGIRAM  até surgirem -->
-        <rulegroup id='SIMPLIFICAR_ATÉ_QUE_ATÉ_VERBO' name="✂️ Até que + Verbo → Até + V.Inf." type='style'>
+        <rule id='ATE_QUE_VERBO_ATE_INFINITIVO' name="✂️ Até que + verbo → até + infinitivo" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-23 (25-JUL-2022+) -->
-            <!--
-      Foi-lhe dada demasiada importância até que surgira uma nova teoria. → Foi-lhe dada demasiada importância até surgir uma nova teoria.
-      Foi-lhes dada demasiada importância até que surgiram novas teorias. → Foi-lhes dada demasiada importância até surgirem novas teorias.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>até</token>
-                        <token>que</token>
-                        <token postag='VMIM3.+' postag_regexp='yes'/>
-                    </marker>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion>\1 <match no='3' postag='VMIM3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-                <example correction="até surgir">Foi-lhe dada demasiada importância <marker>até que surgira</marker> uma nova teoria.</example>
-                <example correction="até surgirem">Foi-lhes dada demasiada importância <marker>até que surgiram</marker> novas teorias.</example>
-            </rule>
+            <pattern>
+                <marker>
+                    <token>até<exception scope='previous' postag='SENT_START'/></token>
+                    <token>que</token>
+                    <token regexp='yes' inflected='yes' postag='VMI[SM]3.+' postag_regexp='yes'>aparecer|começar|chegar|ocorrer|surgir|terminar
+                        <exception scope='next' regexp='yes'>e|ou</exception></token>
+                </marker>
+            </pattern>
+            <message>Considere uma construção mais concisa com &quot;até&quot; seguido de infinitivo.</message>
+            <suggestion>\1 <match no='3' postag='VMI(.)3(.)0' postag_regexp='yes' postag_replace='VMN03$20'/></suggestion>
+            <example correction="até surgir">Foi-lhe dada demasiada importância <marker>até que surgiu</marker> uma nova teoria.</example>
+            <example correction="até surgir">Foi-lhe dada demasiada importância <marker>até que surgira</marker> uma nova teoria.</example>
+            <example correction="até surgirem">Foi-lhes dada demasiada importância <marker>até que surgiram</marker> novas teorias.</example>
+            <example correction="até terminar">A sessão continuou <marker>até que terminou</marker> o debate.</example>
+            <example correction="até aparecerem">Tudo permaneceu calmo <marker>até que apareceram</marker> novos problemas.</example>
+            <example>A estrela que os magos viram no Oriente os precedia, até que chegou e parou sobre o lugar onde estava o menino.</example>
+            <example>Até que chegou um soninho... e o colo do papai foi o lugar de descanso!</example>
+        </rule>
 
-        </rulegroup>
 
         <!-- COMO É VISTO conforme visto -->
         <rule id='COMO_É_CONFORME' name="✂️ Como é → Conforme" type='style'>
