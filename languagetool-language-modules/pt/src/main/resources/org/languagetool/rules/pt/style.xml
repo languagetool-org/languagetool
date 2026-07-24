@@ -14204,80 +14204,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="nada vai">Em princípio <marker>as coisas não vão</marker> melhorar.</example>
         </rule>
 
-        <!-- É NECESSÁRIO ESTAR PRESENTE é presencial -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-02 (21-OCT-2020+)  *START*   -->
-        <rulegroup id='PRESENTE_PRESENCIAL' name="✂️ é presencial">
+
+        <rule id='PRESENTE_PRESENCIAL' name="✂️ 'Necessário estar presente' → presencial" type='style'>
             <!--IDEA shorten_it-->
-            <rule>
-                <pattern>
-                    <token>é</token>
-                    <token>necessário</token>
-                    <token>estar</token>
-                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
-                    <token>presente</token>
-                    <token regexp='yes'>[\.,!\?]</token>
-                </pattern>
-                <message>Substitua por <suggestion>é presencial\6</suggestion>.</message>
-                <example correction="É presencial?"><marker>É necessário estar presente?</marker></example>
-            </rule>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
-            <rule>
-                <pattern>
-                    <token>é</token>
-                    <token>necessário</token>
-                    <token>estar</token>
-                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
-                    <token>presente</token>
-                    <token>na</token>
-                    <token postag='NC.+' postag_regexp='yes'/>
-                </pattern>
-                <message>Substitua por <suggestion>a \7 é presencial</suggestion>.</message>
-                <example correction="A reunião é presencial"><marker>É necessário estar presente na reunião</marker>?</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token>é</token>
-                    <token>necessário</token>
-                    <token>estar</token>
-                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
-                    <token>presente</token>
-                    <token>nas</token>
-                    <token postag='NC.+' postag_regexp='yes'/>
-                </pattern>
-                <message>Substitua por <suggestion>as \7 são presenciais</suggestion>.</message>
-                <example correction="As aulas são presenciais"><marker>É necessário estar presente nas aulas</marker>?</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token>é</token>
-                    <token>necessário</token>
-                    <token>estar</token>
-                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
-                    <token>presente</token>
-                    <token>no</token>
-                    <token postag='NC.+' postag_regexp='yes'/>
-                </pattern>
-                <message>Substitua por <suggestion>o \7 é presencial</suggestion>.</message>
-                <example correction="O curso é presencial"><marker>É necessário estar presente no curso</marker>?</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token>é</token>
-                    <token>necessário</token>
-                    <token>estar</token>
-                    <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
-                    <token>presente</token>
-                    <token>nos</token>
-                    <token postag='NC.+' postag_regexp='yes'/>
-                </pattern>
-                <message>Substitua por <suggestion>os \7 são presenciais</suggestion>.</message>
-                <example correction="Os cursos são presenciais"><marker>É necessário estar presente nos cursos</marker>?</example>
-            </rule>
-
-        </rulegroup>
+            <pattern>
+                <token>é</token>
+                <token>necessário</token>
+                <token>estar</token>
+                <token regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
+                <token>presente</token>
+                <token regexp='yes'>n[ao]s?</token>
+                <token regexp='yes' inflected='yes'>aula|cerimónia|conferência|consulta|curso|evento|exame|formação|reunião|sessão</token>
+            </pattern>
+            <message>Considere uma formulação mais direta com &quot;presencial&quot;.</message>
+            <suggestion><match no='6' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match> \7 <match no='6' postag='SPS00:DA0(.)(.)0' postag_replace='VMIP3$20'>ser</match> <match no='6' postag='SPS00:DA0(.)(.)0' postag_replace='AQ0C$20'>presencial</match></suggestion>
+            <example correction="A reunião é presencial"><marker>É necessário estar pessoalmente presente na reunião</marker>?</example>
+            <example correction="As aulas são presenciais"><marker>É necessário estar fisicamente presente nas aulas</marker>?</example>
+            <example correction="O curso é presencial"><marker>É necessário estar pessoalmente presente no curso</marker>?</example>
+            <example correction="Os cursos são presenciais"><marker>É necessário estar fisicamente presente nos cursos</marker>?</example>
+        </rule>
 
 
         <rule id='ESTAR_NO_ECRA' name="✂️ Estar no ecrã">
