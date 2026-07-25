@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -212,7 +213,18 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           }
           AnalyzedToken newTok = new AnalyzedToken(token,
               newTokenReadings[i].getPOSTag(), lemma);
-          whTokens[position].addReading(newTok, rule.getFullId());
+          boolean exists = false;
+          for (AnalyzedToken existingToken : whTokens[position].getReadings()) {
+            if (Objects.equals(existingToken.getToken(), newTok.getToken()) &&
+                Objects.equals(existingToken.getPOSTag(), newTok.getPOSTag()) &&
+                Objects.equals(existingToken.getLemma(), newTok.getLemma())) {
+              exists = true;
+              break;
+            }
+          }
+          if (!exists) {
+            whTokens[position].addReading(newTok, rule.getFullId());
+          }
         }
       }
       break;
