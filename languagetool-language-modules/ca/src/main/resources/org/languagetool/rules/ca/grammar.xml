@@ -96667,17 +96667,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="abocament|buidatge">El <marker>bolcat</marker> de totes les dades.</example>
             </rule>
         </rulegroup>
-        <rule id="TOM_TOMB" name="tom -> tomb">
-            <pattern>
-                <token regexp="yes" inflected="yes">donar|fer</token>
-                <token postag_regexp="yes" postag="D.*"/>
-                <marker>
-                    <token case_sensitive="yes">tom</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>tomb</suggestion> (volta, passejada)?</message>
-            <example correction="tomb">Vaig a fer un <marker>tom</marker>.</example>
-        </rule>
+        <rulegroup id="TOM_TOMB" name="tom/tomb">
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">donar|fer</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    <token postag_regexp="yes" postag="D.*" min="0"/>
+                    <marker>
+                        <token regexp="yes">toms?</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="4" regexp_match="(?iu)tom" regexp_replace="tomb" case_conversion="preserve"/></suggestion> (volta, canvi, passejada)? "Tom" vol dir 'volum, part d'una obra impresa'.</message>
+                <example correction="tomb">¿Vols que fem un <marker>tom</marker>?</example>
+                <example correction="tombs">Tot el dia donant <marker>toms</marker></example>
+                <example correction="tomb">Vaig a fer un <marker>tom</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">venir</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                    <token>a</token>
+                    <marker>
+                        <token>tom</token>
+                    </marker>
+                </pattern>
+                <message>Cal escriure <suggestion>tomb</suggestion>.</message>
+                <example correction="tomb">No ve a <marker>tom</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="FLOR_DE_PASQUA" name="*flor de Pasqua -> flor de Nadal">
             <pattern>
                 <token inflected="yes">flor</token>
@@ -130609,9 +130626,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">[mtsln]'</token>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">estar</token>
-                        <token postag="V.G.*" postag_regexp="yes" inflected="yes">fer</token>
+                        <token postag="V.G.*" postag_regexp="yes" inflected="yes" regexp="yes">fer|donar</token>
                     </marker>
-                    <token>servir</token>
+                    <token regexp="yes">servir|voltes|tombs</token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.G.* postagFrom:2 postagSelect:V.(.*) postagReplace:V.\b1"/>
                 <message>És preferible evitar la perífrasi "estar + gerundi" per a fer més fluida la redacció.</message>
@@ -130622,9 +130639,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes">estar</token>
-                        <token postag="V.G.*" postag_regexp="yes" inflected="yes">fer</token>
+                        <token postag="V.G.*" postag_regexp="yes" inflected="yes" regexp="yes">fer|donar</token>
                     </marker>
-                    <token>servir</token>
+                    <token regexp="yes">servir|voltes|tombs</token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V.G.* postagFrom:1 postagSelect:V.(.*) postagReplace:V.\b1"/>
                 <message>És preferible evitar la perífrasi "estar + gerundi" per a fer més fluida la redacció.</message>
