@@ -34649,6 +34649,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
+        <rule id="TOTA_TOTS_TENIM" name="tota tenim -> tots tenim" default="temp_off">
+            <pattern>
+                <token postag=".*SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token>tota</token>
+                </marker>
+                <token min="0" max="2" postag_regexp="yes" postag="&pronom_feble;"/>
+                <token postag="V.[SI]..P.." postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>tots</suggestion>?</message>
+            <example correction="Tots"><marker>Tota</marker> tenim clar per què s'han exclòs aquests alumnes de l'enquesta.</example>
+        </rule>
         <rulegroup id="THE_TE_PREVIST" name="t'he previst -> té previst">
             <rule>
                 <!-- casos ambigus: preparat, entès, vist, sentit, escoltat, trucat, -->
