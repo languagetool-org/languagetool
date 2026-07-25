@@ -26517,7 +26517,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <!--eliminat: equivocar, part (hauria de ser prendre part),|participació|participant|participar |creure-->
-                    <token inflected="yes" regexp="yes" skip="3">èmfasi|expert|enfocar|conformar|segon|primer|únic|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|focalitzar|complaença|complaure|confiar|convertir|creença|delit|delitar|entestar|entossudir|entretenir|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar|dubtar|pioner|coincidir<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">així|ronda|divisió|lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*|(?-i)Primera</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
+                    <token inflected="yes" regexp="yes" skip="3">èmfasi|expert|enfocar|conformar|segon|primer|únic|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|focalitzar|complaença|complaure|confiar|convertir|creença|delit|delitar|entestar|entossudir|encabotar|entretenir|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar|dubtar|pioner|coincidir<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">així|ronda|divisió|lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*|(?-i)Primera</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -45984,6 +45984,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>cal</token>
+                    <token postag="DP.MS.|PX.MS..." postag_regexp="yes"/>
+                    <token postag="NC[MC][SN].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>cal</token>
                     <token>que</token>
                 </antipattern>
                 <antipattern>
@@ -46008,6 +46013,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Però aquesta cal que torni.</example>
                 <example>L'origen d'aquesta cal buscar-lo en el passat.</example>
                 <example>Davant de situacions com aquesta cal molt de trellat.</example>
+                <example>El riurau de cal nostre parent.</example>
             </rule>
             <rule>
                 <pattern>
@@ -91326,7 +91332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="les dades avalen|les dades demostren|les proves indiquen">Això no és el que <marker>l'evidència suporta</marker>.</example>
             <example correction="Les dades no avalaven|Les dades no demostraven|Les proves no indicaven"><marker>L'evidència no suportava</marker> aquesta conclusió.</example>
         </rule>
-        <rule id="EVIDENCIA_ARQUEOLOGICA" name="evidencia -> indicis">
+        <rule id="EVIDENCIA_ARQUEOLOGICA" name="evidència -> indicis">
             <pattern>
                 <marker>
                     <token inflected="yes">evidència</token>
