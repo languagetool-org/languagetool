@@ -69603,7 +69603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>què</token>
-                    <token regexp="yes">no|potser|tal|,|\?|\.|…|!|:|&dashes;|son</token>
+                    <token regexp="yes">no|potser|tal|,|\?|\.|…|!|:|;|&dashes;|son</token>
                 </antipattern>
                 <antipattern>
                     <token skip="3">què</token>
@@ -69614,6 +69614,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>què</token>
                     <token regexp="yes">&substantius_darrere_que;</token>
+                </antipattern>
+                <antipattern>
+                    <!-- més expletius (com collons/coi): què putes/fotons/llamps... -->
+                    <token>què</token>
+                    <token regexp="yes">putes|fotons|llamps|trons|redéu</token>
+                    <example>Què putes fas?</example>
+                    <example>Què llamps insinues?</example>
+                </antipattern>
+                <antipattern>
+                    <!-- vocatiu: què + nom propi + (coma o interrogant) -->
+                    <token>què</token>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <token regexp="yes">\?|,</token>
+                    <example>Què Clarke?</example>
+                    <example>Què Kim, t'agrada el poble?</example>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
@@ -69994,6 +70009,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Que passen gana els monjos?</example>
             </rule>
             <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="3"><exception>ho</exception></token>
+                    <token min="0" max="3" chunk="GV"><exception inflected="yes">tenir</exception></token>
+                    <token inflected="yes">tenir</token>
+                    <token inflected="yes" min="0">el</token>
+                    <token>intenció</token>
+                    <token>de</token>
+                    <token inflected="yes" skip="-1">fer</token>
+                    <token>?</token>
+                </pattern>
+                <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
+                <suggestion>què</suggestion>
+                <example correction="Què"><marker>Que</marker> tens intenció de fer?</example>
+                <example correction="Què"><marker>Que</marker> té la intenció de fer?</example>
+                <example>Que tens intenció de venir?</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token postag="VS..3S.." postag_regexp="yes"/>
                     <token regexp="yes">el|en|la|na</token>
@@ -70011,15 +70048,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">ser</token>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 </antipattern>
-                <antipattern>
+                <antipattern> 
                     <token postag="V...[12]..." postag_regexp="yes" inflected="yes">ser</token>
                     <token postag="N.*" postag_regexp="yes"/>
-                    <example>Que ets bruixa?</example>
+                    <example>Que ets bruixa?</example> 
                 </antipattern>
                 <antipattern>
                     <token>que</token>
                     <token>hi</token>
                     <token regexp="yes">és|era</token>
+                </antipattern>
+                <antipattern>
+                    <!-- locatiu/complement de règim amb "ser": "Que era a casa?", "Que és per a tu?" -->
+                    <token inflected="yes">ser</token>
+                    <token postag="SPS.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <!-- exclamatiu: "Que en sóc de feliç?", "Que en són de gossos?" -->
+                    <token>que</token>
+                    <token>en</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="2"/>
+                    <token inflected="yes">ser</token>
+                    <token regexp="yes">de|d'</token>
+                </antipattern>
+                <antipattern>
+                    <!-- "un/una + N, això" és atribut amb subjecte dislocat, no subjecte postverbal -->
+                    <token>que</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" min="0"/>
+                    <token chunk="GV" min="0" max="3"><exception inflected="yes">ser</exception></token>
+                    <token inflected="yes">ser</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <!--un|una|uns|unes</token>-->
+                    <token postag="N.*" postag_regexp="yes" skip="4"/>
+                    <token>,</token>
+                    <token postag="PD.*|DD.*" postag_regexp="yes"/>
+                    <example>Que és una taca, això?</example>
+                    <example>Que ha estat una taca, aquell cercle?</example>
+                    <example>Que és un raspall de dents, això?</example>
+                    <!--  <token inflected="yes" regexp="yes">cop|vegada|volta|mica|miqueta|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;</token> -->
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="D.*|PX.*" postag_regexp="yes" min="0" max="3"/>
+                    <token inflected="yes" regexp="yes">amic|fill|pare|mare|avi|oncle|tia|net|nét|nebot|besavi|besoncle|bestia|germà|cosí|col·lega|company</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -70041,6 +70112,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que sou ric?</example>
                 <example>Que està malalt?</example>
                 <example>Que hi és, en Pau?</example>
+                <example>Que és una taca, això?</example>
+                <example>Que eren amics?</example>
+                <example>Que sóc amiga seva?</example>
+                <example>Que són amics seus?</example>
+                <example>Que és fill teu?</example>
+                <example reason="pot ser ambigu">Que és la teva tia?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -70095,6 +70172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token postag="V.I.2.*" postag_regexp="yes"/>
                     <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cop|vegada|volta|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;</exception></token>
                     <example>Que fas la figuereta?</example>
                 </antipattern>
                 <antipattern>
@@ -70349,6 +70427,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.I.*" postag_regexp="yes" skip="-1"/>
                     <token>?</token>
                 </pattern>
+                <filter class="org.languagetool.rules.ca.QueIniciFilter" args="none:none"/>
                 <message>Si és un pronom interrogatiu (=quina cosa), s'escriu amb accent. S'escriu sense accent si la resposta és "sí" o "no" ("Que vindràs?").</message>
                 <suggestion>què</suggestion>
                 <example correction="Què">¿<marker>Que</marker> es pot plantejar l'any que ve?</example>
@@ -70375,14 +70454,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> et va agradar de la cançó?</example>
                 <example correction="Què"><marker>Que</marker> t'agrada més de la cançó?</example>
                 <example correction="Què"><marker>Que</marker> t'ha agradat més?</example>
+                <example correction="Què"><marker>Que</marker> et fa mal?</example>
+                <example correction="Què"><marker>Que</marker> et fa por?</example>
                 <example correction="Què"><marker>Que</marker> creus que és això?</example>
                 <example correction="Què"><marker>Que</marker> deis que fareu?</example>
-                <example correction="Què"><marker>Que</marker> expressa l'oració?</example>
+                <example correction="Què"><marker>Que</marker> busca la Mercè?</example>
                 <example correction="Què"><marker>Que</marker> t'ajuda a tirar avant?</example>
+                <example correction="Què"><marker>Que</marker> fas tot el dia a l'estudi?</example>
                 <example>Que em podries ajudar?</example>
                 <example type="triggers_error">Que es creu que faria bromes amb això?</example>
                 <example type="triggers_error">Que et creus que sóc un antropòfag?</example>
                 <example>Que en vols ara més?</example>
+                <example>Que et fa por que ressusciti?</example>
                 <example>Que no em coneixes?</example>
                 <example>Que abans corria en carreres a galop?</example>
                 <example>Que ho feia bé?</example>
@@ -70390,6 +70473,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que ho fa vostè, potser?</example>
                 <example>Que bé, no? </example>
                 <example>Que bé sona, oi?</example>
+                <!-- TODO
+                <example correction="Què"><marker>Que</marker> expressa l'oració?</example>
+                -->
             </rule>
             <rule>
                 <antipattern>
@@ -70430,7 +70516,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> et sembla Frank?</example>
             </rule>
             <!-- el grup nominal és el subjecte -->
-            <rule default="off">
+            <rule default="on">
                 <antipattern>
                     <token regexp="yes">de|d'</token>
                     <token><exception postag="V.N.*" postag_regexp="yes"/></token>
@@ -70453,6 +70539,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="D.*"/>
                     <example>Que hi ha un indret on puc deixar la bici a casa teva?</example>
                 </antipattern>
+                <antipattern>
+                    <!-- complements temporals/de mesura: no són subjectes postverbals -->
+                    <token postag="V.I.3S.." postag_regexp="yes"/>
+                    <token min="0" max="3" chunk="GV"/>
+                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <token inflected="yes" regexp="yes">cop|vegada|volta|mica|miqueta|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;</token>
+                    <!-- PTtime, LOC_ADV ? -->
+                    <example>Que va venir un dilluns?</example>
+                    <example>Que fa una mica de fred?</example>
+                    <example>Que fa gaire temps que sou aquí?</example>
+                </antipattern>
+                <antipattern>
+                    <!-- "fer cap/algun mal" és polar; "fer mal" lexicalitzat sí que pot tenir "què" subjecte -->
+                    <token inflected="yes">fer</token>
+                    <token regexp="yes">cap|algun|alguna</token>
+                    <token>mal</token>
+                    <example>Que fa algun mal la persona que fa música?</example>
+                    <example>Que feia cap mal, la noia?</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">ser</token>
+                    <token postag="D.*|PX.*" postag_regexp="yes" min="0" max="3"/>
+                    <token inflected="yes" regexp="yes">amic|fill|pare|mare|avi|oncle|tia|net|nét|nebot|besavi|besoncle|bestia|germà|cosí|col·lega|company</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="1">beure</token>
+                    <token>l'</token>
+                    <token>enteniment</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="1">prendre</token>
+                    <token>el</token>
+                    <token>pèl</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">tenir</token>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token>problema</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token min="0" chunk="GV"><exception inflected="yes">dormir</exception></token>
+                    <token inflected="yes">dormir</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" regexp="yes">\p{P}</token>
@@ -70472,14 +70602,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què">¿<marker>Que</marker> ha de fer la Joana?</example>
                 <example correction="Què">¿<marker>Que</marker> ha de fer la teva dona?</example>
                 <example correction="Què">¿<marker>Que</marker> va comprar el teu germà?</example>
+                <example>Que va venir un dilluns?</example>
+                <example>Que fa una mica de fred?</example>
+                <example>Que fa gaire temps que sou aquí?</example>
+                <example>Que fa algun mal la persona que fa música?</example>
+                <example>Que feia cap mal, la noia?</example>
+                <example>Que t'has begut l'enteniment?</example>
+                <example>Em em vols prendre el pèl?</example>
+                <example>Que té algun problema amb la targeta?</example>
+                <example>Que dorm la Wendy?</example>
             </rule>
-            <rule default="off">
+            <rule default="on">
                 <antipattern>
                     <token>que</token>
                     <token>hi</token>
                     <token inflected="yes">ser</token>
                     <token postag_regexp="yes" postag="DA.*"/>
                     <example>Que hi són els cosins?</example>
+                </antipattern>
+                <antipattern>
+                    <!-- complements temporals/de mesura: no són subjectes postverbals -->
+                    <token postag="V.I.3P.." postag_regexp="yes"/>
+                    <token min="0" max="3" chunk="GV"/>
+                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <token inflected="yes" regexp="yes">cop|vegada|volta|mica|miqueta|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;</token>
+                    <!-- PTime, LOC_ADV -->
+                    <example>Que van passar dos anys?</example>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -70499,9 +70647,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què">¿<marker>Que</marker> han fet els homes?</example>
                 <example correction="Què">¿<marker>Que</marker> han de fer els teus amics?</example>
                 <example correction="Què">¿<marker>Que</marker> van comprar els teus germans?</example>
+                <example>Que van passar dos anys?</example>
             </rule>
         </rulegroup>
-        <rule id="QUE_INICIAL_SENSEACCENT_VERB" name="què -> que (a l'inici de frase)" default="off">
+        <rule id="QUE_INICIAL_SENSEACCENT_VERB" name="què -> que (a l'inici de frase)" default="on">
             <pattern>
                 <token postag="SENT_START"/>
                 <token min="0" max="3" regexp="yes">\p{P}</token>
@@ -70518,8 +70667,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Que"><marker>Què</marker> hi ha la Maria?</example>
             <example correction="Que"><marker>Què</marker> has trobat la cartera?</example>
             <example correction="Que"><marker>Què</marker> fas la figuereta?</example>
+            <example correction="Que"><marker>Què</marker> són amics seus?</example>
+            <example correction="Que"><marker>Què</marker> és el teu fill?</example>
             <example>¿Què vols que faci?</example>
             <example>¿Què vols fer avui?</example>
+            <example>Què et fa mal, amor meu?</example>
+            <example>Què et fa por?</example>
+            <example>Què fareu el dia que es canse i ho venga tot?</example>
+            <example>Què tens intenció de fer?</example>
             <example>¿Què es pot plantejar l'any que ve?</example>
             <example>¿Què s'empatollaven, doncs, els mestres i els professors?</example>
             <example>Què s'empatollaven, doncs, els mestres i els professors?</example>
@@ -70530,6 +70685,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Que ho fa vostè, potser?</example>
             <example>Que bé, no? </example>
             <example>Que bé sona, oi?</example>
+            <example>Què fas tot el dia a l'estudi?</example>
+            <example>Que us heu beugt l'enteniment?</example>
+            <example>Que em volies prendre el pèl?</example>
         </rule>
         <rulegroup id="SON" name="son/són">
             <url>https://oiec.iec.cat/textortografia/codi/3.1.3</url>
