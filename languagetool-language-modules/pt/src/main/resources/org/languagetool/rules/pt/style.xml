@@ -3700,6 +3700,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
+        <rule id='BAIXAR_DOSE_REDUZIR' name="🤵 'Baixar' dose/quantidade → reduzir" type='style' tone_tags='formal' tags='picky' default='temp_off'>
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- Evita o sentido informático de "baixar", equivalente a transferir/descarregar. -->
+
+            <pattern>
+                <marker>
+                    <token inflected='yes'>baixar</token>
+                </marker>
+                <token min='0' regexp='yes'>[ao]s?|um(?:a)?|est[ae]s?|ess[ae]s?|su[ae]s?|minh[ao]s?|noss[ao]s?</token>
+                <token inflected='yes' regexp='yes'>concentração|dosagem|dose|frequência|intensidade|nível|quantidade|ritmo|valor|velocidade|volume</token>
+            </pattern>
+            <message>Se a expressão indicar uma redução deliberada, considere &quot;reduzir&quot;.</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>reduzir</match></suggestion>
+            <example correction="reduzi">Eu <marker>baixei</marker> a dose.</example>
+            <example correction="reduziu">O médico <marker>baixou</marker> a dosagem.</example>
+            <example correction="reduziram">Eles <marker>baixaram</marker> os níveis de ruído.</example>
+            <example correction="reduzi">Eu <marker>baixei</marker> doses e quantidades.</example>
+            <example>Eu baixei o ficheiro ontem.</example>
+            <example>Ela baixou a aplicação para o telemóvel.</example>
+        </rule>
+
+
         <rule id='POUCO_IMPORTA_IRRELEVANTE' name="🤵 Pouco importa → é irrelevante" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
 
