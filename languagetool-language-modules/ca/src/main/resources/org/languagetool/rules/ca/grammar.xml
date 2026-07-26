@@ -34649,7 +34649,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
-        <rule id="TOTA_TOTS_TENIM" name="tota tenim -> tots tenim" default="temp_off">
+        <rule id="TOTA_TOTS_TENIM" name="tota tenim -> tots tenim">
             <pattern>
                 <token postag=".*SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
@@ -46026,6 +46026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>L'origen d'aquesta cal buscar-lo en el passat.</example>
                 <example>Davant de situacions com aquesta cal molt de trellat.</example>
                 <example>El riurau de cal nostre parent.</example>
+                <example>Què en diuen a cal teu barber, d'aquest embolic, Toni?</example>
             </rule>
             <rule>
                 <pattern>
@@ -96674,13 +96675,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
                     <token postag_regexp="yes" postag="D.*" min="0"/>
                     <marker>
-                        <token regexp="yes">toms?</token>
+                        <token regexp="yes" case_sensitive="yes">toms?</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="4" regexp_match="(?iu)tom" regexp_replace="tomb" case_conversion="preserve"/></suggestion> (volta, canvi, passejada)? "Tom" vol dir 'volum, part d'una obra impresa'.</message>
                 <example correction="tomb">¿Vols que fem un <marker>tom</marker>?</example>
                 <example correction="tombs">Tot el dia donant <marker>toms</marker></example>
                 <example correction="tomb">Vaig a fer un <marker>tom</marker>.</example>
+                <example>He fet bàsicament el mateix que ha fet el Tom.</example>
+                <example>Què havia de fer Tom?</example>
             </rule>
             <rule>
                 <pattern>
@@ -96688,7 +96691,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
                     <token>a</token>
                     <marker>
-                        <token>tom</token>
+                        <token case_sensitive="yes">tom</token>
                     </marker>
                 </pattern>
                 <message>Cal escriure <suggestion>tomb</suggestion>.</message>
@@ -150030,6 +150033,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example>El rebuig al que va ser forà va despertar l'interès.</example>
                 <example>L'associació fou un referent del que posteriorment va ser l'Institut d'Estudis Comarcals.</example>
                 <example>L'associació fou un referent del que després va ser l'Institut d'Estudis Comarcals.</example>
+                <example>En el drama creatiu per damunt del que podria ser un desastre per a tota la regió.</example>
             </antipattern>
             <antipattern>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
