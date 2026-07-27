@@ -650,6 +650,8 @@ public class Catalan extends Language {
 
   private static final Pattern CA_CONTRACTIONS = compile("\\b([Aa]|[DdPp]e)r? e(ls?)\\b",
     Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern CA_CONTRACTIONS2 = compile("\\b([Dd])[' ]+(els?)\\b",
+    Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern CA_APOSTROPHES1 = compile("\\b([LDNSTMldnstm]['’]) ", Pattern.UNICODE_CHARACTER_CLASS);
   // exceptions: l'FBI, l'statu quo
   private static final Pattern CA_APOSTROPHES2 = compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])",
@@ -684,6 +686,8 @@ public class Catalan extends Language {
     s = s.replace("gens facilitat", "gens de facilitat");
     Matcher m = CA_CONTRACTIONS.matcher(s);
     s = m.replaceAll("$1$2");
+    Matcher m0 = CA_CONTRACTIONS2.matcher(s);
+    s = m0.replaceAll("$1$2");
     Matcher m1 = CA_APOSTROPHES1.matcher(s);
     s = m1.replaceAll("$1");
     Matcher m2 = CA_APOSTROPHES2.matcher(s);

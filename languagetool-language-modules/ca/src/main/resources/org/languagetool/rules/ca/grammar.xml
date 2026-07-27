@@ -70048,10 +70048,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">ser</token>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 </antipattern>
-                <antipattern> 
+                <antipattern>
                     <token postag="V...[12]..." postag_regexp="yes" inflected="yes">ser</token>
                     <token postag="N.*" postag_regexp="yes"/>
-                    <example>Que ets bruixa?</example> 
+                    <example>Que ets bruixa?</example>
                 </antipattern>
                 <antipattern>
                     <token>que</token>
@@ -88300,6 +88300,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="QUI_L_ENCERTA_COMA" name="qui l'encerta(,) l'endevina">
+            <pattern>
+                <token>qui</token>
+                <token regexp="yes">l'|la</token>
+                <marker>
+                    <token regexp="yes">encerta|fa</token>
+                    <token>,</token>
+                </marker>
+                <token regexp="yes">l'|la</token>
+                <token regexp="yes">endevina|paga</token>
+            </pattern>
+            <message>Aquesta coma entre subjecte i verb és incorrecta.</message>
+            <suggestion>\3</suggestion>
+            <example correction="encerta">Qui l'<marker>encerta,</marker> l'endevina.</example>
+        </rule>
         <rule id="LS_LA" name="ls seva -> la seva">
             <antipattern>
                 <token regexp="yes">a|de|pe</token>
@@ -101165,7 +101180,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="20">esclerosi|símptoma|discapacitat|epilèpsia|malalt|insuficiència|dispnea|apnea|malaltia|lesió|ferida|ferit|crisi|deterioració|virus|ictus|atac|pulmonia|infecció|bacteri|tòxic|intoxicació|covid|covid-19</token>
+                    <token regexp="yes" inflected="yes" skip="20">esclerosi|símptoma|discapacitat|epilèpsia|malalt|insuficiència|dispnea|apnea|malaltia|lesió|ferida|ferit|crisi|deterioració|virus|ictus|atac|pulmonia|infecció|bacteri|tòxic|intoxicació|covid|covid-19|diagnòstic|diagnosi</token>
                     <marker>
                         <token inflected="yes">sever</token>
                     </marker>
@@ -129065,6 +129080,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="Expressions preferibles" default="on" type="style">
+        <rulegroup id="ALLO_QUE_EL_QUE" name="allò que -> el que" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">d'|a|per</token>
+                        <token>allò</token>
+                    </marker>
+                    <token>que</token>
+                    <token>sí</token>
+                    <token>que</token>
+                </pattern>
+                <filter class="org.languagetool.rules.AdaptSuggestionsFilter" args="none:none"/>
+                <message>La frase és més natural amb "el que".</message>
+                <suggestion>\1 el</suggestion>
+                <example correction="del">Podem parlar <marker>d'allò</marker> que sí que podem fer.</example>
+                <example correction="al">Ens referim <marker>a allò</marker> que sí que podem fer.</example>
+                <example correction="pel">Ens encaminem <marker>per allò</marker> que sí que podem fer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>allò</token>
+                    </marker>
+                    <token>que</token>
+                    <token>sí</token>
+                    <token>que</token>
+                </pattern>
+                <message>La frase és més natural amb "el que".</message>
+                <suggestion>el</suggestion>
+                <example correction="El"><marker>Allò</marker> que sí que podem fer és parlar-ne.</example>
+            </rule>
+        </rulegroup>
         <rule id="POSAR_BONA_CARA" name="posar bona cara -> fer bona cara">
             <pattern>
                 <marker>
