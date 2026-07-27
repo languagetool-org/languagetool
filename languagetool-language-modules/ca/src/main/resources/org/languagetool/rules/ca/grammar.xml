@@ -88303,6 +88303,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="LS_LA" name="ls seva -> la seva">
+            <antipattern>
+                <token regexp="yes">a|de|pe</token>
+                <token spacebefore="no">ls</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ls</token>
+                </marker>
+                <token regexp="yes">[mts]e[uv]a|[nv]ostra</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>la</suggestion>?</message>
+            <example correction="la">A <marker>ls</marker> meua caseta.</example>
+        </rule>
+        <rule id="LS_LES" name="ls seves -> les seves">
+            <antipattern>
+                <token regexp="yes">a|de|pe</token>
+                <token spacebefore="no">ls</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ls</token>
+                </marker>
+                <token regexp="yes">[mts]e[uv]es|[nv]ostres</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>les</suggestion>?</message>
+            <example correction="les">A <marker>ls</marker> meues casetes.</example>
+        </rule>
         <rule id="SENSE_EMBARGAMENT" name="sense embargament -> tanmateix">
             <antipattern>
                 <token skip="-1" inflected="yes" regexp="yes">nòmina|indemnització|conciliació</token>
