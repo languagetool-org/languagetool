@@ -15301,22 +15301,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='EM_QUE_NAO_HA_PRONOME-INDEFINIDO' name="✂️ Em que não há + Pron.Indef. → Sem Pron.Indef." type="style" tags="picky">
+        <rule id='EM_QUE_NAO_HA_SEM' name="✂️ 'em que não há' → 'sem'" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-31 (Checked/Enhanced) (2-MAR-2023+) -->
-            <!--
-      Temos um período em que não há qualquer registo histórico. → Temos um período sem qualquer registo histórico.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
             <pattern>
                 <token>em</token>
                 <token>que</token>
                 <token>não</token>
                 <token>há</token>
-                <token postag_regexp='yes' postag='DI.+'/>
+                <token regexp='yes' inflected='yes'>qualquer|nenhum</token>
             </pattern>
-            <message>&simplify_msg;</message>
+            <message>Considere uma construção mais concisa com &quot;sem&quot;.</message>
             <suggestion>sem \5</suggestion>
             <example correction="sem qualquer">Temos um período <marker>em que não há qualquer</marker> registo histórico.</example>
+            <example correction="sem quaisquer">Temos um período <marker>em que não há quaisquer</marker> registos históricos.</example>
+            <example correction="sem nenhum">Temos um período <marker>em que não há nenhum</marker> registo histórico.</example>
+            <example correction="sem nenhuns">Temos um período <marker>em que não há nenhuns</marker> registos históricos.</example>
+            <example correction="sem nenhuma">Temos uma época <marker>em que não há nenhuma</marker> referência ao acontecimento.</example>
+            <example correction="sem nenhumas">Temos uma época <marker>em que não há nenhumas</marker> referências ao acontecimento.</example>
         </rule>
 
 
