@@ -91,7 +91,7 @@ public class QueIniciFilter extends RuleFilter {
   private static final Set<String> TEMPORAL_ADJUNCT_NOUNS = new HashSet<>(Arrays.asList(
       "cop", "vegada", "volta",
       "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge",
-      "dia", "nit", "nit1", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
+      "dia", "nit", "nit_1", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
   private static final Set<String> WEEKDAY_NOUNS = new HashSet<>(Arrays.asList(
       "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge"));
   private static final Set<String> ACCUSATIVE_PRONOUNS = new HashSet<>(Arrays.asList(
