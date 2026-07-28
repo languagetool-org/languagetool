@@ -58618,16 +58618,11 @@ USA
         <rule id="AM_I" name="missing 'I' in 'am I'">
             <antipattern>
                 <token case_sensitive="yes">I</token>
-                <token>,</token>
-                <!-- John Smith -->
-                <token chunk="B-NP-singular"/>
-                <token chunk="E-NP-singular"/>
-                <token>,</token>
-                <!-- CEO/CMO of X -->
-                <token skip="5"/>
-                <token>,</token>
+                <token skip="-1">,</token>
                 <token>am</token>
                 <token postag="VBG"/>
+                <example>I, Cher, am writing to accept the invitation.</example>
+                <example>I, Dr. John A. Smith Jr., acting chief executive officer of the European subsidiary, am writing to clarify our position.</example>
                 <example>I, John Smith, CEO of Acme Corp, am writing to follow up on your application.</example>
                 <example>I, John Smith, project manager at Acme Corp, am contacting you regarding the schedule.</example>
             </antipattern>
@@ -107325,9 +107320,9 @@ The accident victim died from her injuries.
                 <token regexp="yes">'s|is|was</token>
             </pattern>
             <message>Consider adding a comma here or splitting the sentence.</message>
-            <suggestion>\3, \4</suggestion>
-            <suggestion>\3! <match no="4" case_conversion="startupper" /></suggestion>
-            <suggestion>\3. <match no="4" case_conversion="startupper" /></suggestion>
+            <suggestion><match no="3" case_conversion="startupper" />, \4</suggestion>
+            <suggestion><match no="3" case_conversion="startupper" />! <match no="4" case_conversion="startupper" /></suggestion>
+            <suggestion><match no="3" case_conversion="startupper" />. <match no="4" case_conversion="startupper" /></suggestion>
             <example correction="Awesome, that|Awesome! That|Awesome. That"><marker>Awesome that</marker> is by far your best idea yet.</example>
         </rule>
         <rule id="HAPPY_BIRTHDAY_COMMA" name="Happy Birthday (,) Peter">
