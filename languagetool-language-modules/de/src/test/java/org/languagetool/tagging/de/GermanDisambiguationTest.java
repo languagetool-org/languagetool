@@ -88,4 +88,43 @@ public class GermanDisambiguationTest {
     assertFalse(tokens.get(0).getTokens()[1].isIgnoredBySpeller());
     assertFalse(tokens.get(0).getTokens()[2].isIgnoredBySpeller());
   }
+
+  @Test
+  public void testUnificationKeepsReadingsForPotentialAgreementErrors() throws IOException {
+    assertAnalysisContains(
+        "Wer, wie ich, seit vielen Jahre in dieser Branche tätig ist, kennt sich damit gut aus.",
+        "vielen[viel/PRO:IND:DAT:PLU:NEU:B/S,viel/PRO:IND:GEN:PLU:NEU");
+    assertAnalysisContains(
+        "Der Ort bekam eine Schule samt ansässigen Lehrer.",
+        "ansässig/ADJ:DAT:SIN:MAS:GRU:DEF");
+    assertAnalysisContains(
+        "Die Norm formuliert, was Unternehmen tun können und sollten, um den Qualitätsanforderungen ihrer Kunden gerecht zu werden.",
+        "ihr/PRO:POS:GEN:PLU:MAS:BEG");
+    assertAnalysisContains(
+        "Mit welches Verkehrsmittel fahrt ihr in die Schule?",
+        "welches[welch/PRO:RIN:AKK:SIN:NEU:B/S");
+    assertAnalysisContains(
+        "Er hat zu meiner Fragen nichts gesagt.",
+        "mein/PRO:POS:GEN:PLU:FEM:BEG");
+    assertAnalysisContains(
+        "Sie verlangen das von viele europäischen Bürgern.",
+        "viel/PRO:IND:AKK:PLU:MAS:B/S");
+    assertAnalysisContains(
+        "Die regelmäßigen Begegnungen junge Menschen in diesem Haus dienen der Friedensförderung.",
+        "junge[jung/ADJ:AKK:PLU:MAS:GRU:SOL");
+    assertAnalysisContains(
+        "Sie hatte zwei kleiner Fragen.",
+        "klein/ADJ:GEN:PLU:FEM:GRU:SOL");
+    assertAnalysisContains(
+        "Die Erkennung von typischen Fehler bereitet viel Mühe.",
+        "typisch/ADJ:DAT:SIN:MAS:GRU:DEF");
+    assertAnalysisContains(
+        "Sie wollte nie etwas mit deinem Freunden unternehmen.",
+        "dein/PRO:POS:DAT:SIN:NEU:BEG");
+  }
+
+  private void assertAnalysisContains(String sentence, String expectedReading) throws IOException {
+    String analyzed = lt.analyzeText(sentence).toString();
+    assertTrue(analyzed, analyzed.contains(expectedReading));
+  }
 }
