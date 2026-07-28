@@ -2385,12 +2385,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="CA_NOSTRA" name="ca nostre -> ca nostra">
             <pattern>
-                <token>ca<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
+                <token regexp="yes">ca|casa<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
                 <token postag="PX.MS..." postag_regexp="yes"/>
             </pattern>
-            <message>Error de concordança si useu "ca" amb el sentit de "casa".</message>
-            <suggestion>ca <match no="2" postag_regexp="yes" postag="(PX.)MS(...)" postag_replace="$1FS$2"/></suggestion>
+            <message>Error de concordança.</message>
+            <suggestion>\1 <match no="2" postag_regexp="yes" postag="(PX.)MS(...)" postag_replace="$1FS$2"/></suggestion>
             <example correction="ca vostra">Venim a <marker>ca vostre</marker>.</example>
+            <example correction="casa vostra">Quines normes poseu a <marker>casa vostre</marker> respecte a les joguines?</example>
             <example>El ca nostre no fa res.</example>
         </rule>
         <rule id="UNA_SOU" name="una sou > un sou">
@@ -158004,8 +158005,13 @@ No t'ho explicaré, no cal que em burxis més-->
                 <token>tot</token>
             </antipattern>
             <antipattern>
-                <token>exactament</token>
+                <token regexp="yes">exactament|precisament|justament|concretament|especialment|particularment</token>
                 <token>així</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">exactament|precisament|justament|concretament|especialment|particularment</token>
+                <token postag="DD.*" postag_regexp="yes"/>
+                <example>Exactament aquesta va ser la tasca de la redactora.</example>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
