@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
 
 public class VerbClassifier {
 
@@ -68,7 +67,7 @@ public class VerbClassifier {
         if (line.isEmpty()) {
           continue;
         }
-        String parts[] = line.split("=");
+        String[] parts = line.split("=");
         String lemma = parts[0];
         String tags = parts[1];
         //abs, aux, cop, imp, intr, pron, vtr

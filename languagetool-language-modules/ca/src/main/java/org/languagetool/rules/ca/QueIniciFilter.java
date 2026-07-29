@@ -83,7 +83,7 @@ public class QueIniciFilter extends RuleFilter {
       "tia", "tio", "oncle", "cosí", "cosina", "veí", "veïna", "client", "clienta",
       "jutge", "gos", "gossa", "gat", "gata", "nena", "criatura", "company", "companya",
       "merdós", "cabró", "imbècil", "idiota", "desgraciat", "malparit", "beneit", "tio",
-      "individu", "paio", "tipus", "subjecte", "element"));
+      "individu", "paio", "tipus", "subjecte", "element", "marit", "muller", "xiquet"));
   private static final Set<String> NEVER_SUBJECT_NOUNS = new HashSet<>(Arrays.asList(
       "cop", "vegada", "volta", "mica", "miqueta",
       "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge",
