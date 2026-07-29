@@ -15388,27 +15388,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='QUALQUER_QUE_SEJA' name="'qualquer/quaisquer que seja(m)/fosse(m)' → 'independentemente'" tone_tags="formal" type="style">
+        <rule id='QUALQUER_QUE_SEJA_INDEPENDENTEMENTE_DE' name="✂️ 'qualquer que seja' → 'independentemente de'" type='style' tags='picky'>
             <!--IDEA shorten_it-->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
             <pattern>
                 <marker>
-                    <token regexp="yes">qua(l|is)quer
-                        <exception scope="previous" postag='SPS00'/>
-                    </token>
+                    <token regexp='yes'>qualquer|quaisquer<exception scope='previous' postag='SPS00'/></token>
                     <token>que</token>
-                    <token regexp="yes">(seja|fosse)m?</token>
-                    <token regexp="yes">[ao]s?
-                        <exception scope='next' regexp='yes'>d[ao]s?</exception>
-                    </token>
+                    <token regexp='yes'>sejam?|fossem?</token>
+                    <token regexp='yes'>[ao]s?</token>
                 </marker>
             </pattern>
-            <message>&simplify_msg;</message>
+            <message>Considere uma formulação mais concisa com &quot;independentemente de&quot;.</message>
             <suggestion>independentemente <match no='4' postag='DA0(..)0' postag_replace='SPS00:DA0$10'>de:o</match></suggestion>
             <example correction="independentemente do">O Rui vencerá <marker>qualquer que seja o</marker> resultado.</example>
             <example correction="independentemente do">O Rui vencia <marker>qualquer que fosse o</marker> desfecho.</example>
             <example correction="independentemente dos">Os resultados mantêm-se <marker>quaisquer que sejam os</marker> valores.</example>
+            <example correction="independentemente da">A decisão mantém-se <marker>qualquer que seja a</marker> razão apresentada.</example>
             <example>Maria é uma pessoa muito espontânea; explode por qualquer que seja o motivo.</example>
-            <example>...heiro que mais me remete à minha mãe é o do perfume dela: sempre forte, com presença e notas doces (qualquer que seja o do momento... rs).</example>
+            <example>A proposta pode ser aplicada em qualquer que seja o contexto.</example>
         </rule>
 
 
