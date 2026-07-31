@@ -107308,23 +107308,43 @@ The accident victim died from her injuries.
             <suggestion>\3. <match no="4" case_conversion="startupper" /></suggestion>
             <example correction="Great, please|Great! Please|Great. Please"><marker>Great please</marker> have a look at the next issue.</example>
         </rule>
-        <rule id="SENT_START_JJ_THAT_COMMA" name="Great(,) that is ...">
-            <pattern>
-                <token postag="SENT_START" />
-                <token min="0" regexp="yes">very|really|quite|pretty</token>
-                <marker>
-                    <token regexp="yes">great|good|terrific|terrible|horrible|sweet|cool|nice|awesome|fantastic|brilliant|excellent|wow|perfect|thanks|wonderful|beautiful|splendid|superb|correct|done|right|neat</token>
-                    <token>that</token>
-                </marker>
-                <token regexp="yes" min="0">&apostrophe;</token>
-                <token regexp="yes">'s|is|was</token>
-            </pattern>
-            <message>Consider adding a comma here or splitting the sentence.</message>
-            <suggestion><match no="3" case_conversion="startupper" />, \4</suggestion>
-            <suggestion><match no="3" case_conversion="startupper" />! <match no="4" case_conversion="startupper" /></suggestion>
-            <suggestion><match no="3" case_conversion="startupper" />. <match no="4" case_conversion="startupper" /></suggestion>
-            <example correction="Awesome, that|Awesome! That|Awesome. That"><marker>Awesome that</marker> is by far your best idea yet.</example>
-        </rule>
+        <rulegroup id="SENT_START_JJ_THAT_COMMA" name="Great(,) that is ...">
+            <!-- Case 1: the adjective is the first word -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">great|good|terrific|terrible|horrible|sweet|cool|nice|awesome|fantastic|brilliant|excellent|wow|perfect|thanks|wonderful|beautiful|splendid|superb|correct|done|right|neat</token>
+                        <token>that</token>
+                    </marker>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes">'s|is|was</token>
+                </pattern>
+                <message>Consider adding a comma here or splitting the sentence.</message>
+                <suggestion><match no="2" case_conversion="startupper" />, \3</suggestion>
+                <suggestion><match no="2" case_conversion="startupper" />! <match no="3" case_conversion="startupper" /></suggestion>
+                <suggestion><match no="2" case_conversion="startupper" />. <match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Awesome, that|Awesome! That|Awesome. That"><marker>Awesome that</marker> is by far your best idea yet.</example>
+            </rule>
+            <!-- Case 2: an adverb comes before the adjective -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes">very|really|quite|pretty</token>
+                    <marker>
+                        <token regexp="yes">great|good|terrific|terrible|horrible|sweet|cool|nice|awesome|fantastic|brilliant|excellent|wow|perfect|thanks|wonderful|beautiful|splendid|superb|correct|done|right|neat</token>
+                        <token>that</token>
+                    </marker>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes">'s|is|was</token>
+                </pattern>
+                <message>Consider adding a comma here or splitting the sentence.</message>
+                <suggestion>\3, \4</suggestion>
+                <suggestion>\3! <match no="4" case_conversion="startupper" /></suggestion>
+                <suggestion>\3. <match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="awesome, that|awesome! That|awesome. That">Really <marker>awesome that</marker> is by far your best idea yet.</example>
+            </rule>
+        </rulegroup>
         <rule id="HAPPY_BIRTHDAY_COMMA" name="Happy Birthday (,) Peter">
             <pattern>
                 <token postag="PCT|SENT_START|CC" postag_regexp="yes" />
