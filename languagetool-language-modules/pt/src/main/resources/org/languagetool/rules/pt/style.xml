@@ -15694,32 +15694,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- DE SOFTWARE PARA O PÚBLICO de software público -->
-        <rule id='PARA_O_PÚBLICO_PÚBLICO_PÚBLICA' name="✂️ Para o público → público(a)" type="style">
+        <rule id='PARA_O_PUBLICO_PUBLICO' name="✂️ 'para o público' → 'público(a)'" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-17 (25-JUL-2022+) -->
-            <!--
-      Esta é a primeira versão do software para o público. → Esta é a primeira versão pública do software.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
             <pattern>
                 <marker>
-                    <token postag='NC[FM].+' postag_regexp='yes'/>
-                    <token postag='SPS00:.+' postag_regexp='yes'/>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='NC[FM].+' postag_regexp='yes' regexp='yes' inflected='yes'>apresentação|consulta|demonstração|distribuição|edição|exibição|sessão|versão|visita</token>
+                    <token regexp='yes'>d[ao]s?</token>
+                    <token postag='NC.+' postag_regexp='yes'/>
                     <token>para</token>
                     <token>o</token>
                     <token>público</token>
                 </marker>
-                <token negate_pos='yes' postag='AQ0MS0'/>
             </pattern>
-            <message>&simplify_msg;</message>
+            <message>Se a expressão indicar que algo está aberto ou se destina ao público, considere usar o adjetivo &quot;público&quot;.</message>
             <suggestion>\1 <match no='1' postag='NC(..)000' postag_replace='AQ0$10'>público</match> \2 \3</suggestion>
+            <example correction="edição pública da tese">Esta é a primeira <marker>edição da tese para o público</marker>.</example>
             <example correction="versão pública do software">Esta é a primeira <marker>versão do software para o público</marker>.</example>
+            <example correction="apresentação pública do projeto">Foi realizada uma <marker>apresentação do projeto para o público</marker>.</example>
+            <example correction="exibição pública do documentário">Haverá uma <marker>exibição do documentário para o público</marker>.</example>
+            <example correction="versões públicas dos programas">Foram lançadas <marker>versões dos programas para o público</marker>.</example>
         </rule>
 
 
         <!-- PARA QUANDO quando -->
-        <rule id='PARA_QUANDO_QUANDO' name="✂️ Para quando → quando" type="style">
+        <rule id='PARA_QUANDO_QUANDO' name="✂️ Para quando → quando" type='style'>
             <!--IDEA shorten_it-->
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-03 (25-JUL-2022+) -->
             <!--
