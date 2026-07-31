@@ -8618,6 +8618,14 @@ USA
             <!--FIXME: this is a very crude rule, should be refined.-->
             <url>https://languagetool.org/insights/post/where-vs-wear-vs-were-vs-we-re/</url>
             <rule>
+                <!-- were functioning as an auxiliary, not a typo for "where" or "we" -->
+                <antipattern>
+                    <token chunk="E-NP-singular"/>
+                    <token>were</token>
+                    <token postag="VB|VBP" postag_regexp="yes" chunk="I-VP"/>
+                    <token chunk_re="B-NP.*"/>
+                    <example>The employee were give the documents.</example>
+                </antipattern>
                 <antipattern><!-- #2555 were people who -->
                     <token chunk="B-VP">were</token>
                     <token chunk="E-NP-plural" postag="NNS"/>
@@ -58609,6 +58617,16 @@ USA
         </rule>
         <rule id="AM_I" name="missing 'I' in 'am I'">
             <antipattern>
+                <token case_sensitive="yes">I</token>
+                <token skip="-1">,</token>
+                <token>am</token>
+                <token postag="VBG"/>
+                <example>I, Cher, am writing to accept the invitation.</example>
+                <example>I, Dr. John A. Smith Jr., acting chief executive officer of the European subsidiary, am writing to clarify our position.</example>
+                <example>I, John Smith, CEO of Acme Corp, am writing to follow up on your application.</example>
+                <example>I, John Smith, project manager at Acme Corp, am contacting you regarding the schedule.</example>
+            </antipattern>
+            <antipattern>
                 <token case_sensitive="yes">AM</token>
                 <token postag="NN:U"/>
             </antipattern>
@@ -59797,7 +59815,7 @@ USA
                     <token regexp='yes'>an?</token>
                     <token postag='VB|VBP' postag_regexp='yes'>
                         <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
-                        <exception regexp="yes">re.+|submit|ret|post-process|bamboozle|unban|unblock|overplay|overfocus|blindside|nerf|blanco|pre-?fill|pre-?build|pre-?schedule|pre-?screen|re-?color|re-?connect|re-?locate|unplug|co-?pay|re-?dispatch|re-?master|re-?state|re-?focus|re-?contact|re-?bill|re-?sync|re-?measure|shanghai|cherry\-?pick|commit|remix|hula-hoop|roger|booby-trap|long-running|spend|merge|thank|add|create|re(map|store|place|quire|factor)|occupy|emotes?|Vex|am|humph</exception>
+                        <exception regexp="yes">re.+|submit|ret|post-process|bamboozle|unban|unblock|overplay|overfocus|blindside|nerf|blanco|pre-?fill|pre-?build|pre-?schedule|pre-?screen|re-?color|re-?connect|re-?locate|unplug|co-?pay|re-?dispatch|re-?master|re-?state|re-?focus|re-?contact|re-?bill|re-?sync|re-?measure|shanghai|cherry\-?pick|commit|remix|hula-hoop|roger|booby-trap|long-running|spend|merge|thank|add|create|re(map|store|place|quire|factor)|occupy|emotes?|Vex|am|humph|pre-?train</exception>
                         <exception>bach</exception><!-- informal noun in NZ: https://www.lexico.com/definition/bach -->
                         <exception>GOOGLE</exception><!-- uppercase only tagged as VB, not sure why -->
                         <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes' regexp='yes'>(?!tell$).+</exception>
@@ -107290,23 +107308,43 @@ The accident victim died from her injuries.
             <suggestion>\3. <match no="4" case_conversion="startupper" /></suggestion>
             <example correction="Great, please|Great! Please|Great. Please"><marker>Great please</marker> have a look at the next issue.</example>
         </rule>
-        <rule id="SENT_START_JJ_THAT_COMMA" name="Great(,) that is ...">
-            <pattern>
-                <token postag="SENT_START" />
-                <token min="0" regexp="yes">very|really|quite|pretty</token>
-                <marker>
-                    <token regexp="yes">great|good|terrific|terrible|horrible|sweet|cool|nice|awesome|fantastic|brilliant|excellent|wow|perfect|thanks|wonderful|beautiful|splendid|superb|correct|done|right|neat</token>
-                    <token>that</token>
-                </marker>
-                <token regexp="yes" min="0">&apostrophe;</token>
-                <token regexp="yes">'s|is|was</token>
-            </pattern>
-            <message>Consider adding a comma here or splitting the sentence.</message>
-            <suggestion>\3, \4</suggestion>
-            <suggestion>\3! <match no="4" case_conversion="startupper" /></suggestion>
-            <suggestion>\3. <match no="4" case_conversion="startupper" /></suggestion>
-            <example correction="Awesome, that|Awesome! That|Awesome. That"><marker>Awesome that</marker> is by far your best idea yet.</example>
-        </rule>
+        <rulegroup id="SENT_START_JJ_THAT_COMMA" name="Great(,) that is ...">
+            <!-- Case 1: the adjective is the first word -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">great|good|terrific|terrible|horrible|sweet|cool|nice|awesome|fantastic|brilliant|excellent|wow|perfect|thanks|wonderful|beautiful|splendid|superb|correct|done|right|neat</token>
+                        <token>that</token>
+                    </marker>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes">'s|is|was</token>
+                </pattern>
+                <message>Consider adding a comma here or splitting the sentence.</message>
+                <suggestion><match no="2" case_conversion="startupper" />, \3</suggestion>
+                <suggestion><match no="2" case_conversion="startupper" />! <match no="3" case_conversion="startupper" /></suggestion>
+                <suggestion><match no="2" case_conversion="startupper" />. <match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Awesome, that|Awesome! That|Awesome. That"><marker>Awesome that</marker> is by far your best idea yet.</example>
+            </rule>
+            <!-- Case 2: an adverb comes before the adjective -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes">very|really|quite|pretty</token>
+                    <marker>
+                        <token regexp="yes">great|good|terrific|terrible|horrible|sweet|cool|nice|awesome|fantastic|brilliant|excellent|wow|perfect|thanks|wonderful|beautiful|splendid|superb|correct|done|right|neat</token>
+                        <token>that</token>
+                    </marker>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes">'s|is|was</token>
+                </pattern>
+                <message>Consider adding a comma here or splitting the sentence.</message>
+                <suggestion>\3, \4</suggestion>
+                <suggestion>\3! <match no="4" case_conversion="startupper" /></suggestion>
+                <suggestion>\3. <match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="awesome, that|awesome! That|awesome. That">Really <marker>awesome that</marker> is by far your best idea yet.</example>
+            </rule>
+        </rulegroup>
         <rule id="HAPPY_BIRTHDAY_COMMA" name="Happy Birthday (,) Peter">
             <pattern>
                 <token postag="PCT|SENT_START|CC" postag_regexp="yes" />
@@ -108579,11 +108617,12 @@ The accident victim died from her injuries.
                     </token>
                  </pattern>
                  <message>Interjections are usually punctuated.</message>
-                   <suggestion>\2,</suggestion>
-                   <suggestion>\2!</suggestion>
-                   <suggestion>\2?</suggestion>
-                   <suggestion>\2.</suggestion>
+                    <suggestion><match no="2" case_conversion="startupper"/>,</suggestion>
+                    <suggestion><match no="2" case_conversion="startupper"/>!</suggestion>
+                    <suggestion><match no="2" case_conversion="startupper"/>?</suggestion>
+                    <suggestion><match no="2" case_conversion="startupper"/>.</suggestion>
                  <example correction='Oh,|Oh!|Oh?|Oh.'><marker>Oh</marker> horrid examples...</example>
+                 <example correction="Ahh,|Ahh!|Ahh?|Ahh."><marker>ahh</marker> finally they got told off.</example>
                  <example><marker>Oh,</marker> horrid examples...</example>
                  <example><marker>Oh my God</marker>, I can’t believe this.</example>
                  <example><marker>Oh my</marker>, that's horrible!</example>
@@ -109201,6 +109240,13 @@ The accident victim died from her injuries.
                 * xxx(,) but there would ...
             -->
             <url>https://languagetool.org/insights/post/types-of-sentences/#compound-sentence</url>
+            <antipattern>
+                <token>every</token>
+                <token>now</token>
+                <token>and</token>
+                <token>then</token>
+                <example>It's very important to her that we drink water, but every now and then I'm allowed a cola.</example>
+            </antipattern>
             <antipattern>
                 <token><exception inflected="yes">be</exception></token>
                 <token>even</token>
