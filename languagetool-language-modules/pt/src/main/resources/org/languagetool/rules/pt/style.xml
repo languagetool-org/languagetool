@@ -15721,15 +15721,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- PARA QUANDO quando -->
-        <rule id='PARA_QUANDO_QUANDO' name="✂️ Para quando → quando" type='style'>
+        <rule id='PARA_QUANDO_QUANDO' name="✂️ 'para quando' → 'quando'" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-03 (25-JUL-2022+) -->
-            <!--
-      A fiabilidade das equações é necessária para quando se quer transmitir dados. → A fiabilidade das equações é necessária quando se quer transmitir dados.
-      -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+            <!-- A substituição só é adequada quando "para" é dispensável
+                 e não exprime finalidade, preparação ou disponibilidade futura. -->
+
             <pattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes' inflected='yes' postag='AQ.+' postag_regexp='yes'>importante|necessário|relevante</token>
                 <marker>
                     <token>para</token>
                     <token>quando</token>
@@ -15737,9 +15736,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</token>
                 <token postag='V.+' postag_regexp='yes'/>
             </pattern>
-            <message>&simplify_msg;</message>
+            <message>Considere eliminar a preposição &quot;para&quot; nesta construção temporal.</message>
             <suggestion>quando</suggestion>
             <example correction="quando">A fiabilidade das equações é necessária <marker>para quando</marker> se quer transmitir dados.</example>
+            <example correction="quando">Esta distinção é importante <marker>para quando</marker> se pretende comparar os resultados.</example>
+            <example correction="quando">A confirmação é relevante <marker>para quando</marker> nos pedem informações adicionais.</example>
         </rule>
 
 
@@ -20247,10 +20248,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
     </category>
 
+
+
     <category id="GENERAL" name="🖌️ Regras gerais de estilo" type="style" tone_tags="general">
+
+
         <rule id="GRAU_KELVIN" name="🖌️ Evitar 'grau' antes da unidade Kelvin">
             <pattern>
-                <token regexp="yes">graus?</token>
+                <token regexp='yes'>graus?</token>
                 <token>kelvin</token>
             </pattern>
             <message>Não se deve referir à unidade de temperatura Kelvin como um &quot;grau&quot;.</message>
@@ -20259,12 +20264,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="kelvins">O sol tem a temperatura de 15,7 milhões de <marker>graus kelvin</marker>.</example>
         </rule>
 
-        <rule id="OK_EM_MINUSCULA" name="🖌️ Preferência por 'OK' em vez de 'ok'" tags="picky">
+
+        <rule id="OK_EM_MINUSCULA" name="🖌️ Preferência por 'OK' em vez de 'ok'" tags='picky'>
             <pattern>
-                <token case_sensitive="yes">ok</token>
+                <token case_sensitive='yes'>ok</token>
             </pattern>
             <message>Prefira <suggestion>OK</suggestion>.</message>
             <example correction="OK">Está tudo <marker>ok</marker> com ela?</example>
         </rule>
+
+
     </category>
+
+
+
 </rules>
