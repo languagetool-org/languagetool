@@ -3427,6 +3427,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
 
+
+
+     <rulegroup id='BRASILEIRISMO_GAROTA_DE_PROGRAMA' name="🇵🇹🇧🇷 'garota/o de programa' → prostituta/o / trabalhador(a) do sexo">
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <!-- #1: garota de programa -->
+          <rule>
+              <pattern>
+                  <token regexp='yes'>garotas?</token>
+                  <token>de</token>
+                  <token regexp='yes'>programas?</token>
+              </pattern>
+              <message>Expressão característica do português do Brasil. Em português europeu, prefira:</message>
+              <suggestion><match no='1' postag='NC.+' postag_regexp='yes'>prostituta</match></suggestion>
+              <suggestion>trabalhadora<match no='1' regexp_match='garota(s?)' regexp_replace='$1'/> do sexo</suggestion>
+              <example correction='prostituta|trabalhadora do sexo'>A Ana é uma <marker>garota de programa</marker>.</example>
+              <example correction='prostitutas|trabalhadoras do sexo'>Elas são <marker>garotas de programa</marker>.</example>
+          </rule>
+
+          <!-- #2: garoto de programa -->
+          <rule>
+              <pattern>
+                  <token regexp='yes'>garotos?</token>
+                  <token>de</token>
+                  <token regexp='yes'>programas?</token>
+              </pattern>
+              <message>Expressão característica do português do Brasil. Em português europeu, prefira:</message>
+              <suggestion><match no='1' postag='NC.+' postag_regexp='yes'>prostituto</match></suggestion>
+              <suggestion><match no='1' postag='NC.+' postag_regexp='yes'>trabalhador</match> do sexo</suggestion>
+              <example correction='prostituto|trabalhador do sexo'>O Rui é um <marker>garoto de programa</marker>.</example>
+              <example correction='prostitutos|trabalhadores do sexo'>Eles são <marker>garotos de programa</marker>.</example>
+          </rule>
+      </rulegroup>
+
+
+
      <rule id='BRASILEIRISMO_ESTAR_DE_SACO_CHEIO' name="🇵🇹🇧🇷 estar 'de saco cheio' → farto/saturado">
           <pattern>
               <token skip='2' postag='VM.+' postag_regexp='yes' inflected='yes' regexp='no'>estar</token>
@@ -3436,7 +3472,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                   <token>cheio</token>
               </marker>
           </pattern>
-          <message>Grafia do Brasil. Substitua por:</message>
+          <message>Expressão característica do português do Brasil. Em português europeu, prefira:</message>
           <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0M$10'>farto</match></suggestion>
           <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0F$10'>farto</match></suggestion>
           <suggestion><match no='1' postag='VM...(.).' postag_replace='AQ0M$10'>saturado</match></suggestion>
@@ -3452,7 +3488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <pattern>
               <token inflected='yes' regexp='no'>machucar</token>
           </pattern>
-          <message>Grafia do Brasil. Substitua por:</message>
+          <message>Expressão característica do português do Brasil. Em português europeu, prefira:</message>
           <suggestion><match no='1' postag='V.+' postag_regexp='yes'>magoar</match></suggestion>
           <suggestion><match no='1' postag='V.+' postag_regexp='yes'>aleijar</match></suggestion>
           <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ferir</match></suggestion>
