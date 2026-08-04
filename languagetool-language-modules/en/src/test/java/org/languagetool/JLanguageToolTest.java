@@ -112,6 +112,7 @@ public class JLanguageToolTest {
       assertNoError("And the few must win what the many lose, for the opposite arrangement would not support markets as we know them at all, and is, in fact, unimaginable.", lt);
       assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason he had fled the army.", lt);
       assertNoError("I think it's better, and it's not a big deal.", lt);
+      assertNoError("The files .edu and .htaccess are special", lt);
 
       // with hidden characters, separated with annotated text
       assertNoError("This\u202D\u202C \u202D\u202Cis\u202D\u202C \u202D\u202Ca\u202D\u202C "

@@ -264,6 +264,9 @@ public class JLanguageToolTest {
     RuleMatch[] matches = rule.match(tool.getAnalyzedSentence("Sol Picó (\uD83D\uDC0C+\uD83D\uDC1A)"));
     assertEquals(0, matches.length);
 
+    matches = rule.match(tool.getAnalyzedSentence("Els fitxers .edu i .htaccess són especials."));
+    assertEquals(0, matches.length);
+
     List<RuleMatch> matches1 = tool.check("Continuo veien cada dia gent amb ID baixa ");
     assertEquals("GERUNDI_PERD_T", matches1.get(0).getRule().getId());
 

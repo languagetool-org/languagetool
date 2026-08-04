@@ -145,7 +145,8 @@ public class CommaWhitespaceRule extends Rule {
           if (i + 1 < tokens.length && !tokens[i+1].isWhitespace()) {
             suggestionText = getCommaCharacter() + " ";
           }
-        } else if (token.equals(".") && !isDomain(tokens, i+1) && !isFileExtension(tokens, i+1)) {
+        } else if (token.equals(".") && !isDomain(tokens, i + 1) && !isFileExtension(tokens, i + 1)
+          && !isProperNoun(tokens[i])) {
           msg = messages.getString("no_space_before_dot");
           suggestionText = ".";
           // exception case for figures such as ".5" and ellipsis
@@ -188,6 +189,18 @@ public class CommaWhitespaceRule extends Rule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isProperNoun(AnalyzedTokenReadings token) {
+    // English proper noun
+    if (token.hasPosTag("NNP") || token.hasPosTag("NNPS")) {
+      return true;
+    }
+    // Catalan, Spanish, Portuguese...
+    if (token.hasPosTagStartingWith("NP")) {
+      return true;
+    }
+    return false;
   }
 
   /**
