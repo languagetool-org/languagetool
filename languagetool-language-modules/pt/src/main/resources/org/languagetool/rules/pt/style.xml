@@ -15801,37 +15801,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rulegroup id='TORNAR_MELHOR_PIOR_MELHORAR_PIORAR' name="✂️ Tornar melhor/pior → melhorar/simplificar">
+        <rulegroup id='TORNAR_MELHOR_PIOR_MELHORAR_PIORAR' name="✂️ Tornar melhor/pior → melhorar/piorar">
             <!--IDEA shorten_it-->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
             <!-- #1: melhorar -->
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected='yes'>tornar</token>
-                        <token postag='D[AD].+' postag_regexp='yes'/>
-                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token skip='1' inflected='yes'>tornar
+                            <exception scope='previous' postag_regexp='yes' postag='PP.+|DA.+'/>
+                            <exception postag_regexp='yes' postag='V.+:.+'/></token>
+                        <token postag='NC.+' postag_regexp='yes'/>
                         <token regexp="yes">melhor(es)?</token>
                     </marker>
                 </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>melhorar</match> \2 \3</suggestion>
+                <message>Considere uma construção mais concisa com &quot;melhorar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'  include_skipped='all'>melhorar</match> \2</suggestion>
                 <example correction="melhora as coisas">Isto só <marker>torna as coisas melhores</marker>.</example>
+                <example correction="melhorou a situação">A alteração <marker>tornou a situação melhor</marker>.</example>
+                <example correction="melhorará as condições">A medida <marker>tornará as condições melhores</marker>.</example>
+                <example>Eu gostaria de me tornar uma pessoa melhor.</example>
+                <example>Espero que se torne um pai melhor do que eu fui.</example>
+                <example>Assim elas se corrigem e tornam-se pessoas melhores!</example>
+                <example>Fazer aquilo não as torna pessoas melhores.</example>
             </rule>
 
             <!-- #2: piorar -->
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected='yes'>tornar</token>
-                        <token postag='D[AD].+' postag_regexp='yes'/>
-                        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                        <token skip='1' inflected='yes'>tornar
+                            <exception scope='previous' postag_regexp='yes' postag='PP.+|DA.+'/>
+                            <exception postag_regexp='yes' postag='V.+:.+'/></token>
+                        <token postag='NC.+' postag_regexp='yes'/>
                         <token regexp="yes">pior(es)?</token>
                     </marker>
                 </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>piorar</match> \2 \3</suggestion>
+                <message>Considere uma construção mais concisa com &quot;piorar&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes' include_skipped='all'>piorar</match> \2</suggestion>
                 <example correction="piora as coisas">Isto só <marker>torna as coisas piores</marker>.</example>
+                <example correction="piorou a situação">A decisão <marker>tornou a situação pior</marker>.</example>
+                <example correction="piorará as condições">O atraso <marker>tornará as condições piores</marker>.</example>
+                <example>Eu gostaria de me tornar uma pessoa pior.</example>
+                <example>Espero que se torne um pai pior do que eu fui.</example>
+                <example>Assim elas se corrigem e tornam-se pessoas piores!</example>
+                <example>Fazer aquilo não as torna pessoas piores.</example>
             </rule>
 
         </rulegroup>
