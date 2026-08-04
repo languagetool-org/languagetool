@@ -15809,7 +15809,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <rule>
                 <pattern>
                     <marker>
-                        <token skip='1' inflected='yes'>tornar</token>
+                        <token skip='1' inflected='yes'>tornar
+                            <exception scope='previous' postag_regexp='yes' postag='PP.+|DA.+'/>
+                            <exception postag_regexp='yes' postag='V.+:.+'/></token>
                         <token postag='NC.+' postag_regexp='yes'/>
                         <token regexp="yes">melhor(es)?</token>
                     </marker>
@@ -15819,13 +15821,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="melhora as coisas">Isto só <marker>torna as coisas melhores</marker>.</example>
                 <example correction="melhorou a situação">A alteração <marker>tornou a situação melhor</marker>.</example>
                 <example correction="melhorará as condições">A medida <marker>tornará as condições melhores</marker>.</example>
+                <example>Eu gostaria de me tornar uma pessoa melhor.</example>
+                <example>Espero que se torne um pai melhor do que eu fui.</example>
+                <example>Assim elas se corrigem e tornam-se pessoas melhores!</example>
+                <example>Fazer aquilo não as torna pessoas melhores.</example>
             </rule>
 
             <!-- #2: piorar -->
             <rule>
                 <pattern>
                     <marker>
-                        <token skip='1' inflected='yes'>tornar</token>
+                        <token skip='1' inflected='yes'>tornar
+                            <exception scope='previous' postag_regexp='yes' postag='PP.+|DA.+'/>
+                            <exception postag_regexp='yes' postag='V.+:.+'/></token>
                         <token postag='NC.+' postag_regexp='yes'/>
                         <token regexp="yes">pior(es)?</token>
                     </marker>
@@ -15835,6 +15843,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="piora as coisas">Isto só <marker>torna as coisas piores</marker>.</example>
                 <example correction="piorou a situação">A decisão <marker>tornou a situação pior</marker>.</example>
                 <example correction="piorará as condições">O atraso <marker>tornará as condições piores</marker>.</example>
+                <example>Eu gostaria de me tornar uma pessoa pior.</example>
+                <example>Espero que se torne um pai pior do que eu fui.</example>
+                <example>Assim elas se corrigem e tornam-se pessoas piores!</example>
+                <example>Fazer aquilo não as torna pessoas piores.</example>
             </rule>
 
         </rulegroup>
