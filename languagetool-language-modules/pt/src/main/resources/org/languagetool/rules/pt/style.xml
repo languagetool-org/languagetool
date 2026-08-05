@@ -15817,7 +15817,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                 </pattern>
                 <message>Considere uma construção mais concisa com &quot;melhorar&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'  include_skipped='all'>melhorar</match> \2</suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes' include_skipped='all'>melhorar</match> \2</suggestion>
                 <example correction="melhora as coisas">Isto só <marker>torna as coisas melhores</marker>.</example>
                 <example correction="melhorou a situação">A alteração <marker>tornou a situação melhor</marker>.</example>
                 <example correction="melhorará as condições">A medida <marker>tornará as condições melhores</marker>.</example>
@@ -16590,43 +16590,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- QUE + VERB + COM verb_inf + com -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 + 2020-11-14 (21-OCT-2020+)     -->
-        <rulegroup id='QUE_VERB_COM_VERBINF_COM' name="✂️ Que + Verbo + Com → V.Inf. + com" type="style" tags="picky">
+        <rule id='VERBO_DECLARATIVO_QUE_ESTAVA_COM_INFINIT' name="✂️ Verbo declarativo + 'que estava(m) com' → infinitivo" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <rule>
-                <pattern>
-                    <token postag='V.+|RG' postag_regexp='yes'>
-                        <exception>tempo</exception>
-                        <exception postag='NC.+' postag_regexp='yes'/>
-                    </token>
-                    <marker>
-                        <token>que</token>
-                        <token postag='VMII1S0|VMII3S0' postag_regexp='yes'/>
-                    </marker>
-                    <token>com</token>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='3' postag='VMII1S0|VMII3S0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
-                <example correction="estar">O Rui disse <marker>que estava</marker> com pressa.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='V.+|RG' postag_regexp='yes'>
-                        <exception>tempo</exception>
-                        <exception postag='NC.+' postag_regexp='yes'/>
-                    </token>
-                    <marker>
-                        <token>que</token>
-                        <token postag='VMII3P0'/>
-                    </marker>
-                    <token>com</token>
-                </pattern>
-                <message>&simplify_msg;</message>
-                <suggestion><match no='3' postag='VMII3P0' postag_regexp="yes" postag_replace='VMN03P0'/></suggestion>
-                <example correction="estarem">Uns clientes disseram <marker>que estavam</marker> com pressa.</example>
-            </rule>
-        </rulegroup>
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token regexp='yes' inflected='yes'>admitir|afirmar|alegar|assegurar|confessar|declarar|dizer|garantir|referir</token>
+                <marker>
+                    <token>que</token>
+                    <token inflected='yes' postag='VMII.+' postag_regexp='yes'>estar</token>
+                </marker>
+                <token>com</token>
+            </pattern>
+            <message>Considere substituir a oração introduzida por &quot;que&quot; por uma construção com o infinitivo de &quot;estar&quot;.</message>
+            <suggestion><match no='3' postag='VMII(..)0' postag_regexp="yes" postag_replace='VMN0$10'/></suggestion>
+            <example correction="estar">O Rui disse <marker>que estava</marker> com pressa.</example>
+            <example correction="estares">Tu disseste <marker>que estavas</marker> com pressa.</example>
+            <example correction="estarmos">Nós afirmámos <marker>que estávamos</marker> com dificuldades.</example>
+            <example correction="estarem">Os clientes disseram <marker>que estavam</marker> com pressa.</example>
+            <example>Foi então que estava com fome.</example>
+            <example>O Rui percebeu que estava com pressa.</example>
+            <example>A Ana disse ao Rui que ele estava com pressa.</example>
+            <example>O Rui respondeu que estava com pressa.</example>
+        </rule>
 
 
         <!-- NA SEMANA QUE PASSOU na semana passada -->
