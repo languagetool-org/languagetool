@@ -1739,7 +1739,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>a</token>
-                    <token postag="NOUN.*" postag_regexp="yes"/>
+                    <token regexp="yes" postag="NOUN.*" postag_regexp="yes">.*[aei]</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">contenuto|stato|contratto|candidato</token>
                 </antipattern>
                 <antipattern>
                     <token>fino</token>
@@ -1748,7 +1752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- "a" + un participio passato -->
                 <pattern>
                     <token>a</token>
-                    <token postag="VER:part.+past.*" postag_regexp="yes"><exception>portata</exception></token>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha fatto">La mamma <marker>a fatto</marker> la spesa.</example>
