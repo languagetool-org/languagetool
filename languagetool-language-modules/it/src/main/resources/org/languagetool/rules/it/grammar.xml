@@ -174,6 +174,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- GRAMMATICA ARTICOLI - GR_02 -->
     <category id="CAT2" name="Grammatica - Articoli">
         <rulegroup name="uso corretto" id="GR_02_001" default="off">
+            <!-- Il/la candidato/a ideale ha: -->
+            <antipattern>
+                <token regexp="yes">il|lo|la|un|uno|una</token>
+                <token regexp="yes">/</token>
+                <token regexp="yes">il|lo|la|un|uno|una</token>
+                <token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"/>
+                <token regexp="yes">/</token>
+                <token regexp="yes">[aoe]</token>
+            </antipattern>
             <!-- la -->
             <rule>
                 <pattern>
@@ -441,6 +450,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- GRAMMATICA PREPOSIZIONI - GR_07 -->
     <category id="CAT5" name="Grammatica - Preposizioni">
         <rulegroup id="ARTICOLATA_SOSTANTIVO" name="Concordanza preposizione articolata - sostantivo">
+            <antipattern>
+                <example>Il prodotto soddisfa degli standard di qualità molto elevati.</example>
+                <token regexp="yes">degli|agli</token>
+                <token regexp="yes">standard</token>
+            </antipattern>
+            <antipattern>
+                <example>Abbiamo modificato alcuni colori della palette per migliorare il contrasto.</example>
+                <token regexp="yes">della|sulla|nella|dalla</token>
+                <token regexp="yes">palette</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag='ARTPRE-M:p'/>
@@ -1690,17 +1709,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>punto</token>
                 </antipattern>
                 <antipattern>
-                  <token>a</token>
-                  <token>seguito</token>
-                  <token regexp="yes">di|del|della|dell|degli|dello|dei|delle</token>
+                    <token>a</token>
+                    <token>seguito</token>
+                    <token regexp="yes">di|del|della|dell|degli|dello|dei|delle</token>
                 </antipattern>
                 <antipattern>
                     <token>a</token>
                     <token regexp="yes">volte|letto|posto|morte|punti|punta|cascata</token>
                 </antipattern>
                 <antipattern>
-                  <token>rispetto</token>
-                  <token>a</token>
+                    <token>rispetto</token>
+                    <token>a</token>
                 </antipattern>
                 <antipattern> <!-- verbi con "a"  -->
                     <token inflected="yes" regexp="yes">andare|portare|ricorrere|associare|contribuire|procedere|indirizzare|incentivare|abilitare|tendere|indurre|scendere</token>
@@ -1716,6 +1735,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token inflected="yes">essere</token>
                     <token regexp="yes">destinat[oaie]</token>
+                    <token>a</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token postag="NOUN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>fino</token>
                     <token>a</token>
                 </antipattern>
                 <!-- "a" + un participio passato -->
@@ -1752,7 +1779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup name="scambio di 'ai' ed 'hai'" id="ER_01_002">
           <antipattern> <!-- verbi con "ai"  -->
-            <token inflected="yes" regexp="yes">andare|portare|ricorrere|associare|contribuire|procedere|indirizzare|incentivare|abilitare|tendere|indurre|scendere</token>
+            <token inflected="yes" regexp="yes">andare|portare|ricorrere|associare|contribuire|procedere|indirizzare|incentivare|abilitare|tendere|indurre|scendere|partecipare</token>
             <token>ai</token>
           </antipattern>
           <antipattern>
@@ -1770,6 +1797,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">essere</token>
             <token regexp="yes">destinat[oaie]</token>
             <token>ai</token>
+          </antipattern>
+          <antipattern> <!-- "ai" + team/meeting -->
+            <token>ai</token>
+            <token postag="NOUN.+p" postag_regexp="yes"/>
           </antipattern>
             <rule>
                 <!-- "ai" + un participio passato -->
@@ -1966,6 +1997,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup name="scambio di 'là' e 'la'" id="ER_02_004">
+            <antipattern> <!-- è visibile là sotto -->
+                <token>là</token>
+                <token regexp="yes">sotto|sopra|dentro|fuori|davanti|dietro|vicino|lontano</token>
+            </antipattern>
             <rule>
                 <!-- 'là' + sostantivo femminile quasi certamente è 'la' -->
                 <pattern>
@@ -2003,7 +2038,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="là.">Mettilo <marker>la.</marker></example>
             </rule>
         </rulegroup>        
-        <rulegroup name="scambio di 'dà' e 'da'" id="ER_02_005">       
+        <rulegroup name="scambio di 'dà' e 'da'" id="ER_02_005">
+            <antipattern>
+                <token regexp="yes">me|te|sé|noi|voi|loro</token>
+                <token>da</token>
+            </antipattern>
             <rule>
  		       <!-- dare -->
                 <pattern>
