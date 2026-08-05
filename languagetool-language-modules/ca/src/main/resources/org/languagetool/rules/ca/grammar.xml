@@ -91595,6 +91595,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Els indicis arqueològics"><marker>L'evidència arqueològica</marker>.</example>
             <example correction="Els indicis històrics"><marker>Les evidències històriques</marker>.</example>
         </rule>
+        <rulegroup id="POCA_EVIDENCIA" name="evidència -> indicis">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">la|les</token>
+                        <token regexp="yes">poca|poques</token>
+                        <token inflected="yes">evidència</token>
+                    </marker>
+                </pattern>
+                <message>Val més usar una altra expressió per a evitar aquest anglicisme.</message>
+                <suggestion>els pocs indicis</suggestion>
+                <example correction="Els pocs indicis"><marker>La poca evidència</marker> que hi havia no era prou.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">poca|poques</token>
+                    <marker>
+                        <token inflected="yes">evidència</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.ConvertToGenderAndNumberFilter" args="lemmaSelect:N.* number:P gender:M"/>
+                <message>Val més usar una altra expressió per a evitar aquest anglicisme.</message>
+                <suggestion>indici</suggestion>
+                <example correction="pocs indicis arqueològics">Hi havia molt <marker>poca evidència arqueològica</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SOTA_LA_INFLUENCIA_ELS_EFECTES" name="sota la influència de -> sota els efectes de">
             <pattern>
                 <token regexp="yes">sota|davall</token>
@@ -134778,6 +134804,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="instal·léssim la">Ens van dir que <marker>procedíssim a la instal·lació de la</marker> porta.</example>
                 <example correction="substituir un">Van <marker>procedir a la substitució d'un</marker> videoporter.</example>
                 <example correction="Instal·là l'"><marker>Procedí a la instal·lació de l'</marker>ascensor.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INICIAR_EL_PROCES_DE" name="iniciar el proces d'instal·lació -> començar la instal·lació" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token inflected="yes">iniciar</token>
+                    <token>el</token>
+                    <token>procés</token>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Feu la redacció més fluida usant una altra expressió.</message>
+                <suggestion>de <match no="2" postag_regexp="yes" postag="(V.*)" postag_replace="$1">començar</match> a \6</suggestion>
+                <example correction="de començar a instal·lar">Has <marker>d'iniciar el procés d'instal·lar</marker> la dutxa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token inflected="yes">iniciar</token>
+                    <token>el</token>
+                    <token>procés</token>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="NC[MF][SP].*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.AdaptSuggestionsFilter" args="none:none"/>
+                <message>Feu la redacció més fluida usant una altra expressió.</message>
+                <suggestion>de <match no="2" postag_regexp="yes" postag="(V.*)" postag_replace="$1">començar</match> <match no="6" postag_regexp="yes" postag="NC(..).*" postag_replace="DA0$10">el</match> \6</suggestion>
+                <example correction="de començar la instal·lació">Han <marker>d'iniciar el procés d'instal·lació</marker> de la dutxa.</example>
+                <example correction="de començar l'acomiadament">Havies <marker>d'iniciar el procés d'acomiadament</marker> col·lectiu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">iniciar</token>
+                    <token>el</token>
+                    <token>procés</token>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Feu la redacció més fluida usant una altra expressió.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">començar</match> a \5</suggestion>
+                <example correction="començar a instal·lar">Van <marker>iniciar el procés d'instal·lar</marker> la dutxa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">iniciar</token>
+                    <token>el</token>
+                    <token>procés</token>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="NC[MF][SP].*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.AdaptSuggestionsFilter" args="none:none"/>
+                <message>Feu la redacció més fluida usant una altra expressió.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">començar</match> <match no="5" postag_regexp="yes" postag="NC(..).*" postag_replace="DA0$10">el</match> \5</suggestion>
+                <example correction="començar la instal·lació">Van <marker>iniciar el procés d'instal·lació</marker> de la dutxa.</example>
+                <example correction="començar l'acomiadament">Van <marker>iniciar el procés d'acomiadament</marker> col·lectiu.</example>
             </rule>
         </rulegroup>
         <rulegroup id="REALITZAR" name="realitzar (abusiu)">
