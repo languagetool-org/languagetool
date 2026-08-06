@@ -17238,28 +17238,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- JÁ ESTÁ OCUPADA já ocupada -->
-        <rule id='QUE_JÁ_ESTAR_PARTPASS_JÁ_PARTPASS' name="✂️ Que já + V.Estar + V.Part.Pass → Já + V.Part.Pass" type='style'>
+        <rule id='QUE_JA_ESTAR_PARTICIPIO_JA_PARTICIPIO' name="✂️ 'que já está/estão + particípio' → 'já + particípio'" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-19 (25-JUL-2022+) -->
-            <!--
-      Mova os elementos para a localização que já está ocupada com outros elementos. → Mova os elementos para a localização já ocupada com outros elementos.
-      Mova os elementos para as localizações que já estão ocupadas com outros elementos. → Mova os elementos para as localizações já ocupadas com outros elementos.
-      -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
             <pattern>
+                <token postag='NC.+|AQ.+|PD.+' postag_regexp='yes'><exception scope='previous' postag='V.+|CC' postag_regexp='yes'/></token>
                 <marker>
                     <token>que</token>
                     <token>já</token>
-                    <token regexp='yes'>está|estão|estava|estavam</token>
+                    <token regexp='yes'>está|estão</token>
                     <token postag='VMP00.+' postag_regexp='yes'/>
                 </marker>
-                <token postag='SPS00|SPS00:DA.+' postag_regexp='yes'/>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>\2 \4</suggestion>
-            <example correction="já ocupada">Mova os elementos para a localização <marker>que já está ocupada</marker> com outros elementos.</example>
-            <example correction="já ocupadas">Mova os elementos para as localizações <marker>que já estão ocupadas</marker> com outros elementos.</example>
+            <message>Considere reduzir a oração relativa, eliminando &quot;que está/estão&quot;.</message>
+            <suggestion>\3 \5</suggestion>
+            <example correction="já ocupada">Mova tudo para a localização <marker>que já está ocupada</marker> com outros elementos.</example>
+            <example correction="já ocupadas">Mova tudo para as localizações <marker>que já estão ocupadas</marker> com outros elementos.</example>
+            <example correction="já concluído">Consulte o processo <marker>que já está concluído</marker>.</example>
+            <example correction="já aprovados">Analise os pedidos <marker>que já estão aprovados</marker>.</example>
+            <example>Foi então que já estávamos preparados para partir.</example>
+            <example>Confirme que já está concluído.</example>
+            <example>É importante que já esteja concluído.</example>
+            <example>Parece provável que já esteja aprovado.</example>
+            <example>É possível que já estejam preparados.</example>
+            <example>Mas rápido que já está atrasado!</example>
+            <example>É óbvio que já está resolvido.</example>
+            <example>É provável que já estão preparados.</example>
+            <example>Parece evidente que já está concluído.</example>
         </rule>
 
 
