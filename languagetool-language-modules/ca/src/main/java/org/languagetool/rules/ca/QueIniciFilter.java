@@ -37,6 +37,8 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.ca.VerbSynthesizer;
 import org.languagetool.tagging.ca.VerbClassifier;
 
+import static org.languagetool.rules.ca.PronomsFeblesHelper.PronounPosition.NORMALIZED;
+
 /**
  * Filtre compartit per a les regles de "que/què" a l'inici de frase interrogativa.
  *
@@ -94,10 +96,11 @@ public class QueIniciFilter extends RuleFilter {
       "dia", "nit", "nit_1", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
   private static final Set<String> WEEKDAY_NOUNS = new HashSet<>(Arrays.asList(
       "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge"));
-  private static final Set<String> ACCUSATIVE_PRONOUNS = new HashSet<>(Arrays.asList(
-      "el", "la", "les", "'l", "l'", "els", "-lo", "-la", "-les", "'ls"));
+  private static final Set<String> ACCUSATIVE_PRONOUNS = new HashSet<>(Arrays.asList("em", "et", "el", "la", "ens",
+    "us", "les", "els"));
+  private static final Set<String> DATIVE_PRONOUNS = new HashSet<>(Arrays.asList("em", "et", "li", "ens", "us", "els"));
   private static final Set<String> INTERROGATIVE_WORDS = new HashSet<>(Arrays.asList(
-      "que", "què", "quin", "quina", "quins", "quines", "qui", "quant", "quants", "quanta", "quantes", "res"));
+    "que", "què", "quin", "quina", "quins", "quines", "qui", "quant", "quants", "quanta", "quantes", "res"));
 
   // que/què com a paraula sencera (usat per helpers auxiliars del test)
   private static final Set<String> CONFIRMATION_TAGS = new HashSet<>(Arrays.asList(
@@ -170,6 +173,7 @@ public class QueIniciFilter extends RuleFilter {
       List<String> pronoms = new ArrayList<>();
       boolean verb3s = false;
       boolean verb3p = false;
+      boolean verb2p = false;
       String mainVerbLemma = "";
       String firstPostagAfterVerb = "";
       int firstTokenAfterVerbPos = -1;
@@ -179,6 +183,7 @@ public class QueIniciFilter extends RuleFilter {
         int firstVerbPos = verbGroup.firstVerbIndex;
         verb3s = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].3S.*");
         verb3p = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].3P.*");
+        verb2p = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].2P.*");
         mainVerbPos = verbGroup.lastVerbIndex;
         AnalyzedToken mainVerbReading = tokens[mainVerbPos].readingWithTagRegex(ANY_VERB);
         if (mainVerbReading != null) {
@@ -196,13 +201,18 @@ public class QueIniciFilter extends RuleFilter {
       }
 
       boolean hasHo = pronoms.contains("ho");
-      boolean hasEl = false;
+      boolean hasAccusativePronoun = false;
+      boolean hasDativePronoun = false;
       for (String p : pronoms) {
         if (ACCUSATIVE_PRONOUNS.contains(p)) {
-          hasEl = true;
-          break;
+          hasAccusativePronoun = true;
+        }
+        if (DATIVE_PRONOUNS.contains(p)) {
+          hasDativePronoun = true;
         }
       }
+      boolean hasAccusativeNotDativePronoun = hasAccusativePronoun && !hasDativePronoun;
+
       String pronomStr = "";
       if (!pronoms.isEmpty()) {
         StringBuilder sb = new StringBuilder();
@@ -217,18 +227,22 @@ public class QueIniciFilter extends RuleFilter {
       // El complement posposat pot ser subjecte? Esbiaixem cap a "objecte": només si el nucli
       // del SN és un nom propi o un nom comú animat (i concorda en nombre amb el verb). Els SN
       // de nom comú inanimat es tracten com a CD (-> "que").
-      boolean complementCanBeSubject = (verb3s || verb3p) && firstTokenAfterVerbPos > 0
+      boolean complementCanBeSubject = (verb3s || verb3p || verb2p) && firstTokenAfterVerbPos > 0
           && firstTokenAfterVerbPos < tokens.length
-          && postverbalCanBeSubject(tokens, firstTokenAfterVerbPos, verb3s, verb3p);
+          && postverbalCanBeSubject(tokens, firstTokenAfterVerbPos, verb3s, verb3p, verb2p);
 
       // El complement posposat pot ser complement directe?
-      boolean complementCanBeObject = hasEl;
-      if (firstPostagAfterVerb.startsWith("N") || firstPostagAfterVerb.startsWith("A")
-          || tokens[firstTokenAfterVerbPos].getChunkTags().contains(CVERB_CHUNK)) {
+      boolean complementCanBeObject = hasAccusativeNotDativePronoun;
+      if (firstPostagAfterVerb.startsWith("N")) {
         complementCanBeObject = true;
       } else if (firstTokenAfterVerbPos > 0 && firstTokenAfterVerbPos + 1 < tokens.length
           && (tokens[firstTokenAfterVerbPos].matchesPosTagRegex(DET)
           || INTERROGATIVE_WORDS.contains(tokens[firstTokenAfterVerbPos].getToken().toLowerCase()))) {
+        complementCanBeObject = true;
+      }
+
+      // veure't
+      if (mainVerbLemma.equals("veure") && hasAccusativePronoun) {
         complementCanBeObject = true;
       }
 
@@ -239,7 +253,7 @@ public class QueIniciFilter extends RuleFilter {
         if (tokens[firstTokenAfterVerbPos + 1].getChunkTags().contains(PTIME_CHUNK)
             || tokens[firstTokenAfterVerbPos + 1].hasPosTag("_loc_unavegada")
             || tokens[firstTokenAfterVerbPos + 1].hasPosTag("_data_concreta")
-            || (tokens[firstTokenAfterVerbPos].hasLemma("tot") && !hasEl)) {
+            || (tokens[firstTokenAfterVerbPos].hasLemma("tot") && !hasAccusativeNotDativePronoun)) {
           isExceptionObject = true;
         }
         if (tokens[firstTokenAfterVerbPos + 1].getChunkTags().contains(PTIME_CHUNK)
@@ -265,7 +279,7 @@ public class QueIniciFilter extends RuleFilter {
         if (atr != null) {
           int queFoundPos = findFirst(tokens, mainVerbPos + 1, "que");
           if (atr.getLemma().equals("fer")
-              && (((mainVerbPos < queFoundPos) && (queFoundPos < mainVerbPos + 5)) || hasEl)) {
+              && (((mainVerbPos < queFoundPos) && (queFoundPos < mainVerbPos + 5)) || hasAccusativeNotDativePronoun)) {
             isQueSubject = true;
           }
         }
@@ -273,7 +287,7 @@ public class QueIniciFilter extends RuleFilter {
         if (atr != null) {
           int queFoundPos = findFirst(tokens, mainVerbPos + 1, "que");
           if (atr.getLemma().equals("fer")
-              && (((mainVerbPos < queFoundPos) && (queFoundPos < mainVerbPos + 5)) || hasEl)) {
+              && (((mainVerbPos < queFoundPos) && (queFoundPos < mainVerbPos + 5)) || hasAccusativeNotDativePronoun)) {
             isQueSubject = true;
           }
         }
@@ -327,7 +341,8 @@ public class QueIniciFilter extends RuleFilter {
    * inanimat es considera CD (retorna false).
    */
   private static boolean postverbalCanBeSubject(AnalyzedTokenReadings[] tokens, int start,
-                                                boolean verbSingular, boolean verbPlural) {
+                                                boolean verb3s, boolean verb3p, boolean verb2p) {
+    boolean verbP = verb3p || verb2p;
     for (int i = start; i < tokens.length && i <= start + 4; i++) {
       String form = tokens[i].getToken();
       if (form.equals("?") || form.equals(",")) {
@@ -342,12 +357,13 @@ public class QueIniciFilter extends RuleFilter {
         if (NEVER_SUBJECT_NOUNS.contains(commonNoun.getLemma())) {
           return false;
         }
-        if (!ANIMATE_SUBJECT_NOUNS.contains(commonNoun.getLemma())) {
+        if (!(ANIMATE_SUBJECT_NOUNS.contains(commonNoun.getLemma())
+          || tokens[i].hasPosTag("NCCN000"))) { //numeral
           return false;
         }
         boolean nounSingular = tokens[i].matchesPosTagRegex("NC.S.*");
-        boolean nounPlural = tokens[i].matchesPosTagRegex("NC.P.*");
-        return (verbSingular && nounSingular) || (verbPlural && nounPlural) || (!nounSingular && !nounPlural);
+        boolean nounPlural = tokens[i].matchesPosTagRegex("NC.P.*|NCCN000");
+        return (verb3s && nounSingular) || (verbP && nounPlural) || (!nounSingular && !nounPlural);
       }
     }
     return false;
@@ -404,7 +420,7 @@ public class QueIniciFilter extends RuleFilter {
     }
     AnalyzedToken pronoun = tokens[index].readingWithTagRegex(PRONOM);
     if (pronoun != null) {
-      pronoms.add(pronoun.getToken());
+      pronoms.add(PronomsFeblesHelper.transform(pronoun.getToken(), NORMALIZED));
     }
   }
 
