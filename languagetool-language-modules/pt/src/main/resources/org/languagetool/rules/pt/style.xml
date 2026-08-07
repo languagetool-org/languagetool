@@ -17278,7 +17278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <marker>
                     <token>que</token>
                     <token regexp='yes'>está|estão|estavam?</token>
-                    <token postag='RM'/>
+                    <token postag='RM'><exception scope='next' postag='SENT_END|_PUNCT' postag_regexp='yes'/></token>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
@@ -17288,6 +17288,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="atualmente">Isto não afetava a equação <marker>que estava atualmente</marker> no quadro.</example>
             <example correction="atualmente">Isto não afetava as equações <marker>que estavam atualmente</marker> no quadro.</example>
             <example correction="presentemente">Consulte as regras <marker>que estão presentemente</marker> em vigor.</example>
+            <example>A situação que está atualmente.</example>
+            <example>Estas são as regras que estão atualmente.</example>
+            <example>Era a situação que estava anteriormente.</example>
+            <example>Eram as condições que estavam anteriormente.</example>
         </rule>
 
 
