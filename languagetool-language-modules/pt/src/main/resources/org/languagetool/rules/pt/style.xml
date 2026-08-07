@@ -17269,27 +17269,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- QUE ESTÁ ATUALMENTE atualmente -->
-        <rule id='QUE_ESTAR_ADVERB_ADVERB' name="✂️ Que + V.Estar + Adv → Adv" type='style' tags='picky'>
+        <rule id='QUE_ESTAR_ADVERBIO_ADVERBIO' name="✂️ 'que está/estão/estava/estavam + advérbio' → advérbio" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-19 (25-JUL-2022+) -->
-            <!--
-      Isto não afeta a equação que está atualmente no quadro. → Isto não afeta a equação atualmente no quadro.
-      Isto não afeta as equações que estão atualmente no quadro. → Isto não afeta as equações atualmente no quadro.
-      -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
             <pattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <marker>
-                    <token postag='NC.+|AQ.+|DD.+|_PUNCT' postag_regexp='yes'/>
                     <token>que</token>
-                    <token regexp='yes'>está|estão|estava|estavam</token>
-                    <token postag='RM' postag_regexp='no'/>
+                    <token regexp='yes'>está|estão|estavam?</token>
+                    <token postag='RM'/>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion>\1 \4</suggestion>
-            <example correction="equação atualmente">Isto não afeta a <marker>equação que está atualmente</marker> no quadro.</example>
-            <example correction="equações atualmente">Isto não afeta as <marker>equações que estão atualmente</marker> no quadro.</example>
+            <suggestion>\4</suggestion>
+            <example correction="atualmente">Isto não afeta a equação <marker>que está atualmente</marker> no quadro.</example>
+            <example correction="atualmente">Isto não afeta as equações <marker>que estão atualmente</marker> no quadro.</example>
+            <example correction="atualmente">Isto não afetava a equação <marker>que estava atualmente</marker> no quadro.</example>
+            <example correction="atualmente">Isto não afetava as equações <marker>que estavam atualmente</marker> no quadro.</example>
+            <example correction="presentemente">Consulte as regras <marker>que estão presentemente</marker> em vigor.</example>
         </rule>
 
 
