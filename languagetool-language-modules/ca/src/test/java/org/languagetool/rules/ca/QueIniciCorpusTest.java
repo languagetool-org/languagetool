@@ -113,14 +113,22 @@ public class QueIniciCorpusTest {
   private JLanguageTool getTool() {
     Language lang = Catalan.getInstance();
     JLanguageTool tool = new JLanguageTool(lang);
-    // Desactivem tot el que no siguin les regles objectiu, però NO forcem l'activació de les
-    // objectiu: així les subregles default="off" segueixen inactives (fidel a producció).
+    // Desactivem tot el que no siguin les regles objectiu,
     for (Rule rule : tool.getAllRules()) {
       String id = rule.getId();
+      /*
+      // però NO forcem l'activació de les
+      // objectiu: així les subregles default="off" segueixen inactives (fidel a producció).
       if (!matchesAny(id, SENSE_IDS) && !matchesAny(id, AMB_IDS)) {
+        tool.disableRule(id);
+      }*/
+      if (matchesAny(id, SENSE_IDS) || matchesAny(id, AMB_IDS)) {
+        tool.enableRule(id);
+      } else {
         tool.disableRule(id);
       }
     }
+
     return tool;
   }
 

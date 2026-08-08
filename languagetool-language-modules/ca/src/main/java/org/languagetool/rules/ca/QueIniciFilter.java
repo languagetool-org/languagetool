@@ -143,6 +143,7 @@ public class QueIniciFilter extends RuleFilter {
       if (quePos < 0) {
         return null;
       }
+      boolean startsWithAccent = tokens[quePos].getToken().equalsIgnoreCase("què");
       int questionPos = findQuestionMark(tokens, quePos);
       int coreEnd = questionPos >= 0 ? stripConfirmationTag(tokens, quePos, questionPos) : tokens.length;
       String lastWord = "";
@@ -301,11 +302,16 @@ public class QueIniciFilter extends RuleFilter {
           && tokens[mainVerbPos + 1].getToken().equals("que") && !mainVerbFinite.getLemma().equals("veure")) {
         isQueObject = true;
       }
-      if (mainVerbLemma.equals("fer") && isFerPorQue(tokens, firstTokenAfterVerbPos)) {
+      boolean ferPorMalPolar = !startsWithAccent
+          && isFerPorMalPolar(tokens, mainVerbPos, firstTokenAfterVerbPos, coreEnd, hasDativePronoun);
+      if (ferPorMalPolar) {
+        isQueSubject = false;
+        complementCanBeObject = true;
+      } else if (mainVerbLemma.equals("fer") && isFerPorQue(tokens, firstTokenAfterVerbPos)) {
         isQueSubject = false;
         complementCanBeObject = true;
       }
-      if (mainVerbLemma.equals("fer") && isFerMal(tokens, firstTokenAfterVerbPos)) {
+      if (!ferPorMalPolar && mainVerbLemma.equals("fer") && isFerMal(tokens, firstTokenAfterVerbPos)) {
         isQueSubject = true;
         complementCanBeObject = false;
       }
@@ -317,6 +323,11 @@ public class QueIniciFilter extends RuleFilter {
         isQueSubject = !complementCanBeObject;
       } else if (isIntransitive) {
         isQueSubject = false;
+      }
+      if (startsWithAccent && mainVerbLemma.equals("fer") && isFerMal(tokens, firstTokenAfterVerbPos)) {
+        isIntransitive = false;
+        isQueSubject = true;
+        complementCanBeObject = false;
       }
       isQueSubject = isQueSubject && !isAnotherSubject;
 
@@ -382,6 +393,77 @@ public class QueIniciFilter extends RuleFilter {
       return false;
     }
     return tokens[start].hasLemma("mal") || (tokens[start].hasLemma("por") && !nextTokenIs(tokens, start, "que"));
+  }
+
+  private static boolean isFerPorMalPolar(AnalyzedTokenReadings[] tokens, int mainVerbPos, int start, int end,
+                                          boolean hasDativePronoun) {
+    if (mainVerbPos <= 0 || start <= 0 || start >= tokens.length || end <= start || !tokens[mainVerbPos].hasLemma("fer")) {
+      return false;
+    }
+    int nounPos = firstLexicalToken(tokens, start, end);
+    if (nounPos < 0 || !(tokens[nounPos].hasLemma("por") || tokens[nounPos].hasLemma("mal"))) {
+      return false;
+    }
+    if (tokens[nounPos].hasLemma("por") && nextTokenIs(tokens, nounPos, "que")) {
+      return false;
+    }
+    return hasDativePronoun
+        || hasInfinitiveAfterNoun(tokens, nounPos, end)
+        || hasSubjectAfterFerMal(tokens, nounPos, end)
+        || hasAuxiliaryBeforeFer(tokens, mainVerbPos);
+  }
+
+  private static int firstLexicalToken(AnalyzedTokenReadings[] tokens, int start, int end) {
+    for (int i = start; i < end && i < tokens.length; i++) {
+      String token = tokens[i].getToken();
+      if (token.equals(",") || token.equals("?")) {
+        break;
+      }
+      if (token.equalsIgnoreCase("pas") || token.equalsIgnoreCase("gaire") || token.equalsIgnoreCase("més")) {
+        continue;
+      }
+      return i;
+    }
+    return -1;
+  }
+
+  private static boolean hasSubjectAfterFerMal(AnalyzedTokenReadings[] tokens, int nounPos, int end) {
+    for (int i = nounPos + 1; i < end && i < tokens.length && i <= nounPos + 4; i++) {
+      if (tokens[i].getToken().equals(",") || tokens[i].getToken().equals("?")) {
+        break;
+      }
+      if (tokens[i].matchesPosTagRegex("D.*|N.*|NP.*|PI.*")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean hasInfinitiveAfterNoun(AnalyzedTokenReadings[] tokens, int nounPos, int end) {
+    for (int i = nounPos + 1; i < end && i < tokens.length && i <= nounPos + 3; i++) {
+      if (tokens[i].getToken().equals(",") || tokens[i].getToken().equals("?")) {
+        break;
+      }
+      if (tokens[i].matchesPosTagRegex("V.N.*")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean hasAuxiliaryBeforeFer(AnalyzedTokenReadings[] tokens, int verbPos) {
+    for (int i = verbPos - 1; i > 0 && i >= verbPos - 4; i--) {
+      if (tokens[i].getToken().equals(",") || tokens[i].getToken().equals("?")) {
+        break;
+      }
+      AnalyzedToken verb = tokens[i].readingWithTagRegex(ANY_VERB);
+      if (verb != null && verb.getLemma() != null
+          && (verb.getLemma().equals("voler") || verb.getLemma().equals("poder")
+          || verb.getLemma().equals("deure") || verb.getLemma().equals("haver"))) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private static boolean isFerPorQue(AnalyzedTokenReadings[] tokens, int start) {
