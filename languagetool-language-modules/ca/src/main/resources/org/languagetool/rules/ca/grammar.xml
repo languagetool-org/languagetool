@@ -70429,6 +70429,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>?</token>
                     <example>Que es podria girar, sisplau?</example>
                 </antipattern>
+                <antipattern>
+                    <!-- TODO: generalitzar a més verbs pronominals -->
+                    <token>que</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="3"/>
+                    <token chunk="GV" min="0" max="3"><exception inflected="yes" regexp="yes">anar|tornar|pujar|baixar|venir|casar</exception></token>
+                    <and>
+                        <token regexp="yes" inflected="yes">anar|tornar|pujar|baixar|venir|casar</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" regexp="yes">\p{P}</token>
@@ -70501,6 +70511,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que em podries ajudar?</example>
                 <example type="triggers_error">Que es creu que faria bromes amb això?</example>
                 <example type="triggers_error">Que et creus que sóc un antropòfag?</example>
+                <example>Que et voldràs casar amb mi?</example>
+                <example>Que us voldríeu casar amb mi?</example>
+                <example>Que t'has tornat boig?</example>
+                <example correction="Què"><marker>Que</marker> et vols menjar?</example>
+                <example correction="Què"><marker>Que</marker> els diràs, a aquella gent?</example>
+                <example correction="Què"><marker>Que</marker> els passarà, ara?</example>
                 <example>Que en vols ara més?</example>
                 <example>Que et fa por que ressusciti?</example>
                 <example>Que no em coneixes?</example>
@@ -70514,6 +70530,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que vindràs?</example>
                 <example>Que voldràs venir?</example>
                 <example>Que hi han anat tots?</example>
+                <example>Que me la podríeu ensenyar?</example>
+                <example>Que ens l'hauran robada?</example>
+                <example>Que ens la fas?</example>
+                <example>Que ens podem veure personalment?</example>
+                <example>Que te'n vols tornar al teu país?</example>
+                <example>Que te'n vols venir al meu país?</example>
+                <example>Que te'n vols anar al teu país?</example>
                 <!-- TODO
                 <example correction="Què"><marker>Que</marker> expressa l'oració?</example>
                 <example correction="Què"><marker>Que</marker> farem soles a l'escola?</example>

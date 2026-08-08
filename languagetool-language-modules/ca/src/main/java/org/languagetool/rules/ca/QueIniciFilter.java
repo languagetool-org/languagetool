@@ -203,6 +203,7 @@ public class QueIniciFilter extends RuleFilter {
       boolean hasHo = pronoms.contains("ho");
       boolean hasAccusativePronoun = false;
       boolean hasDativePronoun = false;
+      boolean hasAccusativeNotDativePronoun = false;
       for (String p : pronoms) {
         if (ACCUSATIVE_PRONOUNS.contains(p)) {
           hasAccusativePronoun = true;
@@ -210,8 +211,10 @@ public class QueIniciFilter extends RuleFilter {
         if (DATIVE_PRONOUNS.contains(p)) {
           hasDativePronoun = true;
         }
+        if (ACCUSATIVE_PRONOUNS.contains(p) && !DATIVE_PRONOUNS.contains(p)) {
+          hasAccusativeNotDativePronoun = true;
+        }
       }
-      boolean hasAccusativeNotDativePronoun = hasAccusativePronoun && !hasDativePronoun;
 
       String pronomStr = "";
       if (!pronoms.isEmpty()) {
