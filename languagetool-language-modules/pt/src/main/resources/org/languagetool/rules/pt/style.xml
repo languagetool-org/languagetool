@@ -17528,28 +17528,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- CONTINUA A SER TÃO continua tão -->
-        <rule id='CONTINUAR_A_SER' name="✂️ V.Continuar a ser tão/bastante → V.Continuar tão/bastante" type='style'>
+        <rule id='CONTINUAR_A_SER' name="✂️ 'Continuar a ser tão/bastante/muito/pouco' → 'continuar tão/bastante/muito/pouco'" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-06 (25-JUL-2022+) -->
-            <!--
-      O tema da pesquisa continua A SER tão atual. → O tema da pesquisa continua tão atual.
-      O tema da pesquisa continua A SER bastante atual. → O tema da pesquisa continua bastante atual.
-      -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
             <pattern>
                 <marker>
                     <token inflected='yes'>continuar</token>
                     <token>a</token>
                     <token>ser</token>
-                    <token postag='RG'/> <!-- bastante|tão -->
+                    <token regexp='yes'>bastante|muito|pouco|tão</token>
                 </marker>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token><exception postag_regexp='yes' postag='V.+'/></token>
+                <token postag='AQ.+' postag_regexp='yes'/>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>\1 \4</suggestion>
             <example correction="continua tão">O tema da pesquisa <marker>continua a ser tão</marker> atual.</example>
             <example correction="continua bastante">O tema da pesquisa <marker>continua a ser bastante</marker> atual.</example>
+            <example correction="continua muito">O tema da pesquisa <marker>continua a ser muito</marker> atual.</example>
+            <example correction="continua pouco">O tema da pesquisa <marker>continua a ser pouco</marker> conhecido.</example>
+            <example correction="continuaram muito">As conclusões <marker>continuaram a ser muito</marker> relevantes.</example>
         </rule>
 
 
