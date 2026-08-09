@@ -17391,23 +17391,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- TIRAR UMA FOTO fotografar -->
-        <rule id='TIRAR_FOTOGRAFIA_FOTOGRAFAR' name="✂️ Tirar fotografia/foto → fotografar" type='style'>
+        <rule id='TIRAR_FOTOGRAFIA_FOTOGRAFAR' name="✂️ Tirar foto/fotografia → fotografar" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      Vamos tirar uma fotografia ao Rui. → Vamos fotografar o Rui.
-      Vamos tirar uma fotografia aos barcos. → Vamos fotografar os barcos.
-      Vamos tirar uma fotografia à Ana. → Vamos fotografar a Ana.
-      Vamos tirar uma fotografia às irmãs. → Vamos fotografar as irmãs.
-      -->
+            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+
             <pattern>
                 <token inflected='yes'>tirar</token>
-                <token min="0" max="1" regexp='yes'>umas?</token>
+                <token min='0' max='1' regexp='yes'>umas?</token>
                 <token regexp='yes'>fotografias?|fotos?</token>
-                <token postag='SPS00:DA.+' postag_regexp='yes'>
-                    <exception regexp='yes'>[dn][ao]s?</exception>
-                </token>
+                <token regexp='yes'>às?|aos?<exception scope='next' regexp='yes'>lado|fundo|ar</exception></token>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> <match no='4' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
@@ -17415,6 +17407,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="fotografar os">Vamos <marker>tirar uma fotografia aos</marker> barcos.</example>
             <example correction="fotografar a">Vamos <marker>tirar uma fotografia à</marker> Ana.</example>
             <example correction="fotografar as">Vamos <marker>tirar uma fotografia às</marker> irmãs.</example>
+            <example correction="fotografar o">Vamos <marker>tirar foto ao</marker> Rui.</example>
+            <example correction="fotografar os">Vamos <marker>tirar fotos aos</marker> barcos.</example>
+            <example correction="fotografar a">Vamos <marker>tirar fotografia à</marker> Ana.</example>
+            <example correction="fotografar as">Vamos <marker>tirar fotografias às</marker> irmãs.</example>
+            <example>Tirei uma fotografia da caixa.</example>
+            <example>Tirei as fotografias do álbum.</example>
+            <example>Ela tirou a fotografia da parede.</example>
+            <example>Vamos tirar fotografias durante a viagem.</example>
+            <example>Tirámos foto ao lado do Rui.</example>
+            <example>Tire uma foto ao fundo da rua.</example>
+            <example>Tirei uma foto ao ar livre.</example>
         </rule>
 
 
