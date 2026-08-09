@@ -69999,6 +69999,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="D.*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes">voler</token>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" regexp="yes">\p{P}</token>
@@ -70009,12 +70013,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" postag="V.[ISMNGP].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">passar|voler|necessitar|desitjar|menjar</token>
                     <token>?</token>
                 </pattern>
-                <filter class="org.languagetool.rules.ca.QueIniciFilter" args="none:none"/>
+                <!-- <filter class="org.languagetool.rules.ca.QueIniciFilter" args="none:none"/> -->
                 <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
                 <example correction="Què"><marker>Que</marker> ha passat?</example>
                 <example correction="Què"><marker>Que</marker> menjaràs?</example>
                 <example correction="Què"><marker>Que</marker> vols?</example>
-                <example correction="Què">¿<marker>Que</marker> vols que faci?</example>
                 <example correction="Què"><marker>Que</marker> volen aquestes merdosos, eh?</example>
                 <example correction="Què"><marker>Que</marker> passa, que no t'agrada el que faig, potser?</example>
                 <example>Que vols que t'ho porti?</example>
@@ -70499,6 +70502,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> t'agrada més de la cançó?</example>
                 <example correction="Què"><marker>Que</marker> t'ha agradat més?</example>
                 <example correction="Què"><marker>Que</marker> se'n va fer, de la teva mare?</example>
+                <example correction="Què">¿<marker>Que</marker> vols que faci?</example>
                 <example>Que et fa mal?</example>
                 <example>Que et fa por?</example>
                 <example correction="Què"><marker>Que</marker> creus que és això?</example>
@@ -70809,12 +70813,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- completiva saturada (sí/no) escrita erròniament amb accent -> "Que" -->
             <example correction="Que"><marker>Què</marker> creus que té raó?</example>
             <example correction="Que"><marker>Què</marker> dius que sap la resposta?</example>
-            <!-- PENDENT (FN): "voler + que" el captura QUE_INICIAL_AMBACCENT_VERB[1], que encara
-                 no té el filtre QueIniciFilter, i per tant la supressió creuada no s'hi aplica.
-                 Quan s'hi afegeixi la detecció de buit, aquests exemples han de passar:
             <example correction="Que"><marker>Què</marker> vols que t'ho porti?</example>
             <example correction="Que"><marker>Què</marker> vols que et digui la veritat?</example>
-            -->
             <example>Què et fa mal, amor meu?</example>
             <example>Què et fa por?</example>
             <example>Què fareu el dia que es canse i ho venga tot?</example>
