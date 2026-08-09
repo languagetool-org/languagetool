@@ -101,6 +101,18 @@ public class QueIniciFilter extends RuleFilter {
   private static final Set<String> DATIVE_PRONOUNS = new HashSet<>(Arrays.asList("em", "et", "li", "ens", "us", "els"));
   private static final Set<String> INTERROGATIVE_WORDS = new HashSet<>(Arrays.asList(
     "que", "què", "quin", "quina", "quins", "quines", "qui", "quant", "quants", "quanta", "quantes", "res"));
+  // Verbs que introdueixen una completiva "que ..." on el "què" frontal pot lligar un buit
+  // argumental dins la subordinada ("Què creus que ha passat?" -> "què"), o bé la subordinada
+  // pot ser saturada i la interrogativa de sí/no ("Que creus que té raó?" -> "que").
+  // La decisió es delega a {@link #completiveHasGap}.
+  private static final Set<String> COMPLETIVE_GAP_VERBS = new HashSet<>(Arrays.asList(
+      "creure", "pensar", "dir", "opinar", "afirmar", "suposar", "imaginar", "saber",
+      "considerar", "sospitar", "témer", "voler", "desitjar", "necessitar", "esperar",
+      "preferir"));
+  // Pronoms/formes que, com a atribut d'un copulatiu, deixen el buit al "què"
+  // ("Que és això?" -> "Què és això?"); no saturen la subordinada.
+  private static final Set<String> NEUTER_ATTRIBUTE_WORDS = new HashSet<>(Arrays.asList(
+      "això", "allò", "açò", "ho"));
 
   // que/què com a paraula sencera (usat per helpers auxiliars del test)
   private static final Set<String> CONFIRMATION_TAGS = new HashSet<>(Arrays.asList(
@@ -297,10 +309,23 @@ public class QueIniciFilter extends RuleFilter {
         }
       }
       boolean isQueObject = false;
+      // Subordinada saturada ("que" de sí/no): força la predicció a no-accent.
+      boolean saturatedCompletive = false;
       AnalyzedToken mainVerbFinite = tokens[mainVerbPos].readingWithTagRegex(FINITE_VERB);
       if (mainVerbFinite != null && mainVerbPos + 1 < tokens.length
           && tokens[mainVerbPos + 1].getToken().equals("que") && !mainVerbFinite.getLemma().equals("veure")) {
-        isQueObject = true;
+        if (COMPLETIVE_GAP_VERBS.contains(mainVerbLemma)) {
+          // "[verb epistèmic/volitiu] que [subordinada]": decidim segons si hi ha buit.
+          Boolean gap = completiveHasGap(tokens, mainVerbPos, coreEnd, language);
+          if (Boolean.FALSE.equals(gap)) {
+            saturatedCompletive = true;
+          } else {
+            // buit detectat o no decidible: "què" lliga un argument de la subordinada.
+            isQueObject = true;
+          }
+        } else {
+          isQueObject = true;
+        }
       }
       boolean ferPorMalPolar = !startsWithAccent
           && isFerPorMalPolar(tokens, mainVerbPos, firstTokenAfterVerbPos, coreEnd, hasDativePronoun);
@@ -338,6 +363,11 @@ public class QueIniciFilter extends RuleFilter {
         predictsAccent = (!complementCanBeObject && !hasHo) || complementCanBeSubject;
       }
       predictsAccent = predictsAccent || isQueSubject || isQueObject;
+      // Subordinada saturada d'un verb epistèmic/volitiu ("Que creus que té raó?"): sí/no,
+      // tret que "què" quedi clarament com a subjecte de l'oració principal.
+      if (saturatedCompletive && !isQueSubject) {
+        predictsAccent = false;
+      }
       // Una cua "..., potser?"/"..., oi?" indica sí/no, tret que "què" sigui clarament
       // subjecte o CD (interrogativa retòrica: "Què passa, ..., potser?").
       if (isSiNoQuestion && !isQueSubject && !isQueObject) {
@@ -347,6 +377,111 @@ public class QueIniciFilter extends RuleFilter {
     } catch (IndexOutOfBoundsException | NullPointerException e) {
       return null;
     }
+  }
+
+  /**
+   * Analitza la subordinada completiva "que ..." que segueix un verb epistèmic/volitiu situat
+   * a {@code mainVerbPos}. Decideix si el "què" frontal lliga un buit argumental dins la
+   * subordinada (subjecte o CD no expressos -&gt; contingut, "què") o si la subordinada és
+   * saturada (interrogativa de confirmació de sí/no -&gt; "que").
+   *
+   * @return {@code Boolean.TRUE} si hi ha buit (accent), {@code Boolean.FALSE} si és saturada
+   *         (sense accent), o {@code null} si no es pot decidir (es manté el comportament previ).
+   */
+  private Boolean completiveHasGap(AnalyzedTokenReadings[] tokens, int mainVerbPos, int coreEnd,
+                                   Language language) {
+    int quePos = mainVerbPos + 1;
+    VerbGroupInfo emb = verbGroupAfterQue(tokens, quePos, coreEnd, language);
+    if (emb == null) {
+      return null;
+    }
+    AnalyzedToken embVerbReading = tokens[emb.lastVerbIndex].readingWithTagRegex(ANY_VERB);
+    if (embVerbReading == null || embVerbReading.getLemma() == null) {
+      return null;
+    }
+    String embLemma = embVerbReading.getLemma();
+
+    // Clítics de la subordinada (davant del primer verb i enclítics darrere l'últim).
+    List<String> embPron = new ArrayList<>();
+    for (int k = emb.firstVerbIndex - emb.numPronounsBefore; k < emb.firstVerbIndex; k++) {
+      addPronounToken(tokens, k, embPron);
+    }
+    for (int k = emb.lastVerbIndex + 1; k <= emb.lastIndex; k++) {
+      addPronounToken(tokens, k, embPron);
+    }
+    for (String p : embPron) {
+      // Un clític acusatiu o neutre/partitiu ("ho", "en") ja ocupa el CD -> saturada.
+      if ((ACCUSATIVE_PRONOUNS.contains(p) && !DATIVE_PRONOUNS.contains(p))
+          || p.equals("ho") || p.equals("en")) {
+        return false;
+      }
+    }
+
+    // Subjecte overt preverbal (pronom fort o nom propi entre "que" i el verb).
+    boolean overtSubject = false;
+    for (int k = quePos + 1; k < emb.firstVerbIndex && k < tokens.length; k++) {
+      if (tokens[k].matchesPosTagRegex("PP[123].*|NP.*")) {
+        overtSubject = true;
+      }
+    }
+
+    boolean copular = COPULAR_VERBS.contains(embLemma);
+    boolean intransitive = VerbClassifier.isIntransitive(embLemma) && !copular;
+    int contentPos = firstArgumentTokenAfter(tokens, emb.lastIndex + 1, coreEnd);
+
+    if (copular) {
+      if (contentPos < 0) {
+        return true; // atribut buit: "que ha estat?", "que és?"
+      }
+      String cForm = tokens[contentPos].getToken().toLowerCase();
+      if (NEUTER_ATTRIBUTE_WORDS.contains(cForm) || INTERROGATIVE_WORDS.contains(cForm)) {
+        return true; // "que és això?", "que és qui?"
+      }
+      // Atribut ple (adjectiu, participi, SN o complement preposicional) -> saturada.
+      if (tokens[contentPos].matchesPosTagRegex("A.*|V.P.*|N.*|D.*|PI.*|PX.*|Z.*|SPS.*")) {
+        return false;
+      }
+      return true;
+    }
+
+    if (contentPos < 0) {
+      // Res darrere el verb. Amb subjecte overt (i sense CD) la subordinada és completa;
+      // si no, el "què" pot ser el subjecte ("que ha passat?") o el CD ("que diria?").
+      return !(overtSubject && intransitive);
+    }
+
+    String cForm = tokens[contentPos].getToken().toLowerCase();
+    if (tokens[contentPos].matchesPosTagRegex("D.*|N.*|PI.*|PX.*|PD.*|Z.*")
+        && !INTERROGATIVE_WORDS.contains(cForm)) {
+      boolean verb3s = tokens[emb.firstVerbIndex].matchesPosTagRegex("V.[SI].3S.*");
+      boolean verb3p = tokens[emb.firstVerbIndex].matchesPosTagRegex("V.[SI].3P.*");
+      boolean verb2p = tokens[emb.firstVerbIndex].matchesPosTagRegex("V.[SI].2P.*");
+      // SN posposat animat/propi -> és el subjecte, el CD queda buit ("que va dir en Joan?").
+      // SN inanimat -> és el CD i la subordinada queda saturada ("que té raó?").
+      return postverbalCanBeSubject(tokens, contentPos, verb3s, verb3p, verb2p);
+    }
+
+    // Darrere el verb només hi ha un complement no nominal (preposició, adverbi, infinitiu...).
+    // Amb verb transitiu el CD continua buit ("que va dir a algú?"); amb intransitiu, no.
+    return !intransitive;
+  }
+
+  /**
+   * Primer token darrere el verb que pot fer d'argument (CD/atribut), saltant adverbis.
+   * Retorna -1 si només queden signes de puntuació o s'acaba el nucli de la interrogativa.
+   */
+  private static int firstArgumentTokenAfter(AnalyzedTokenReadings[] tokens, int start, int end) {
+    for (int i = start; i < end && i < tokens.length; i++) {
+      String form = tokens[i].getToken();
+      if (form.equals("?") || form.equals(",")) {
+        return -1;
+      }
+      if (tokens[i].matchesPosTagRegex("R.|RG|RN")) {
+        continue; // adverbis
+      }
+      return i;
+    }
+    return -1;
   }
 
   /**

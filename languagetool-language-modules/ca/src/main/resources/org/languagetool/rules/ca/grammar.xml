@@ -69905,13 +69905,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">ja|no|potser|encara</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">semblar|parèixer|creure|pensar|dir|afirmar</token>
+                <!-- semblar/parèixer + completiva: sí/no ("Que sembla que plou?"). Els verbs
+                     epistèmics/volitius (creure, pensar, dir, voler...) es deixen passar a la
+                     regla del filtre QueIniciFilter, que analitza si la subordinada té buit
+                     argumental ("Què creus que ha passat?") o és saturada ("Que creus que té raó?"). -->
+                <token inflected="yes" regexp="yes">semblar|parèixer</token>
                 <token>que</token>
                 <token><exception inflected="yes" regexp="yes">ser|fer</exception></token>
-                <!-- Hi ha molts FP:
-                Que es pensa que sóc una usurera?
-                Que es pensa que sóc morfinòman?
-                Que es creu que faria bromes amb això?-->
             </antipattern>
             <antipattern>
                 <token regexp="yes">que|què</token>
@@ -70009,6 +70009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" postag="V.[ISMNGP].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">passar|voler|necessitar|desitjar|menjar</token>
                     <token>?</token>
                 </pattern>
+                <filter class="org.languagetool.rules.ca.QueIniciFilter" args="none:none"/>
                 <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
                 <example correction="Què"><marker>Que</marker> ha passat?</example>
                 <example correction="Què"><marker>Que</marker> menjaràs?</example>
@@ -70016,6 +70017,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què">¿<marker>Que</marker> vols que faci?</example>
                 <example correction="Què"><marker>Que</marker> volen aquestes merdosos, eh?</example>
                 <example correction="Què"><marker>Que</marker> passa, que no t'agrada el que faig, potser?</example>
+                <example>Que vols que t'ho porti?</example>
                 <example>Que t'ho menjaràs tot?</example>
                 <example>Que vindràs demà?</example>
                 <example>Que vols venir?</example>
@@ -70455,7 +70457,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="3"/>
                     <token chunk="GV" min="0" max="3"><exception inflected="yes" regexp="yes">anar|tornar|pujar|baixar|venir|casar</exception></token>
                     <and>
-                        <token regexp="yes" inflected="yes">anar|tornar|pujar|baixar|venir|casar</token>
+                        <token regexp="yes" inflected="yes" postag_regexp="yes" postag="VM.*">anar|tornar|pujar|baixar|venir|casar</token>
                         <token postag="_reflexiu"/>
                     </and>
                 </antipattern>
@@ -70496,10 +70498,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> et va agradar de la cançó?</example>
                 <example correction="Què"><marker>Que</marker> t'agrada més de la cançó?</example>
                 <example correction="Què"><marker>Que</marker> t'ha agradat més?</example>
+                <example correction="Què"><marker>Que</marker> se'n va fer, de la teva mare?</example>
                 <example>Que et fa mal?</example>
                 <example>Que et fa por?</example>
                 <example correction="Què"><marker>Que</marker> creus que és això?</example>
                 <example correction="Què"><marker>Que</marker> deis que fareu?</example>
+                <!-- completiva amb buit argumental (QueIniciFilter.completiveHasGap) -> "què" -->
+                <example correction="Què"><marker>Que</marker> creus que ha passat?</example>
+                <example correction="Què"><marker>Que</marker> creieu que hauríem de fer?</example>
+                <example correction="Què"><marker>Que</marker> penses que diran?</example>
+                <example correction="Què"><marker>Que</marker> dius que va dir en Joan?</example>
+                <!-- completiva saturada (sí/no) -> es manté "que" -->
+                <example>Que creus que té raó?</example>
+                <example>Que creus que vol un cotxe?</example>
+                <example>Que vols que t'ho porti?</example>
+                <example>Que dius que sap la resposta?</example>
+                <!-- PENDENT: FP encara no resolts per completiveHasGap.
+                     "porta menjar": "menjar" s'etiqueta com a infinitiu (VMN), no com a nom, i
+                     el CD de la subordinada no es veu ocupat. -->
+                <example type="triggers_error" reason="CD etiquetat com a infinitiu">Que dius que porta menjar?</example>
+                <!-- PENDENT: l'existencial "hi ha" no el resol el grup verbal de la subordinada. -->
+                <example type="triggers_error" reason="existencial hi haver">Que creu que hi ha alguna cosa?</example>
                 <example correction="Què"><marker>Que</marker> busca la Mercè?</example>
                 <example correction="Què"><marker>Que</marker> t'ajuda a tirar avant?</example>
                 <example correction="Què"><marker>Que</marker> fas tot el dia a l'estudi?</example>
@@ -70533,8 +70552,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que ho puc venir a veure?</example>
                 <example>Que puc venir a veure-ho?</example>
                 <example>Que em podries ajudar?</example>
-                <example type="triggers_error">Que es creu que faria bromes amb això?</example>
-                <example type="triggers_error">Que et creus que sóc un antropòfag?</example>
+                <example>Que es creu que faria bromes amb això?</example>
+                <example>Que et creus que sóc un antropòfag?</example>
                 <example>Que et voldràs casar amb mi?</example>
                 <example>Que us voldríeu casar amb mi?</example>
                 <example>Que t'has tornat boig?</example>
@@ -70783,6 +70802,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Que"><marker>Què</marker> et fa mal l'esquena?</example>
             <example>¿Què vols que faci?</example>
             <example>¿Què vols fer avui?</example>
+            <!-- completiva amb buit argumental: contingut, NO s'ha de corregir -->
+            <example>Què creus que ha passat?</example>
+            <example>Què penses que hem de fer?</example>
+            <example>Què creieu que diria?</example>
+            <!-- completiva saturada (sí/no) escrita erròniament amb accent -> "Que" -->
+            <example correction="Que"><marker>Què</marker> creus que té raó?</example>
+            <example correction="Que"><marker>Què</marker> dius que sap la resposta?</example>
+            <!-- PENDENT (FN): "voler + que" el captura QUE_INICIAL_AMBACCENT_VERB[1], que encara
+                 no té el filtre QueIniciFilter, i per tant la supressió creuada no s'hi aplica.
+                 Quan s'hi afegeixi la detecció de buit, aquests exemples han de passar:
+            <example correction="Que"><marker>Què</marker> vols que t'ho porti?</example>
+            <example correction="Que"><marker>Què</marker> vols que et digui la veritat?</example>
+            -->
             <example>Què et fa mal, amor meu?</example>
             <example>Què et fa por?</example>
             <example>Què fareu el dia que es canse i ho venga tot?</example>
