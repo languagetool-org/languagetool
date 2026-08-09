@@ -17341,32 +17341,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="pondo|postas|postos">Há organizações <marker>que põem</marker> em causa a segurança internacional.</example>
             <example correction="investindo|investidas|investidos|investidoras">Há organizações <marker>que investem</marker> em causa a segurança internacional.</example>
         </rule>
-        <!-- SER CAPAZ DE conseguir -->
-        <rule id='SER_CAPAZ_DE_CONSEGUIR' name="✂️ Ser capaz de → Conseguir" type="style" tags='picky'>
+
+
+        <rule id='SER_CAPAZ_DE_CONSEGUIR_PODER' name="✂️ 'ser capaz de' → 'conseguir/poder'" type='style' tags='picky'>
             <!--IDEA shorten_it-->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
             <antipattern>
                 <token postag='V.+' postag_regexp='yes'/>
                 <token>do</token>
-                <token skip='-1'>que</token>
+                <token skip='1'>que</token>
                 <token inflected='yes'>ser</token>
-                <token regexp='yes'>capaz|capazes</token>
+                <token regexp='yes'>capaz(es)?</token>
                 <token>de</token>
-                <token postag='V.+|DI.+|PI.+|RG' postag_regexp='yes'/>
                 <example>Não sei do que ele é capaz de fazer.</example>
             </antipattern>
             <pattern>
                 <marker>
                     <token inflected='yes'>ser</token>
-                    <token regexp='yes'>capaz|capazes</token>
+                    <token regexp='yes'>capaz(es)?</token>
                     <token>de</token>
                 </marker>
-                <token postag='V.+|DI.+|PI.+|RG' postag_regexp='yes'/>
+                <token postag='VMN.+' postag_regexp='yes'/>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conseguir</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>poder</match></suggestion>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> o poder de</suggestion>
-            <example correction="conseguirem|poderem|terem o poder de">Apesar de não <marker>serem capazes de</marker> arrasar a cidade.</example>
+            <example correction="conseguirem|poderem">Apesar de não <marker>serem capazes de</marker> arrasar a cidade.</example>
+            <example correction="consegue|pode">O Rui <marker>é capaz de</marker> resolver o problema.</example>
+            <example correction="conseguimos|podemos">Nós <marker>somos capazes de</marker> terminar o trabalho hoje.</example>
         </rule>
 
 
