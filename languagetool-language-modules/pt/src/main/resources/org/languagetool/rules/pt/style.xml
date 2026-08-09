@@ -17393,7 +17393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rule id='TIRAR_FOTOGRAFIA_FOTOGRAFAR' name="✂️ Tirar foto/fotografia → fotografar" type='style'>
             <!--IDEA shorten_it-->
-            <!-- ChatGPT 5 and new disambiguator for 2026+ -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
             <pattern>
                 <token inflected='yes'>tirar</token>
@@ -17421,25 +17421,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- TORNANDO POSSÍVEL permitindo -->
-        <rule id='TORNAR_POSSÍVEL_PERMITIR_POSSIBILITAR' name="✂️ Tornar possível → permitir/possibilitar" type="style">
+        <rule id='TORNAR_POSSÍVEL_PERMITIR_POSSIBILITAR' name="✂️ Tornar possível → permitir/possibilitar" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-03 (25-JUL-2022+) -->
-            <!--
-      É preciso um estudo estocástico, tornando possível validar as hipóteses científicas. → É preciso um estudo estocástico, permitindo validar as hipóteses científicas.
-      -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
             <pattern>
-                <token><exception postag_regexp='yes' postag='PP.+'/></token>
                 <marker>
-                    <token inflected='yes'>tornar</token>
+                    <token inflected='yes'>tornar
+                      <exception scope='previous' postag_regexp='yes' postag='PP.C.+'/>
+                      <exception postag_regexp='yes' postag='V.+:PP.C.+'/></token>
                     <token>possível</token>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>possibilitar</match></suggestion>
-            <example correction="permitindo|possibilitando">É preciso um estudo estocástico, <marker>tornando possível</marker> validar as hipóteses científicas.</example>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>possibilitar</match></suggestion>
+            <example correction="permite|possibilita">O estudo <marker>torna possível</marker> validar as hipóteses científicas.</example>
+            <example correction="permitiu|possibilitou">A tecnologia <marker>tornou possível</marker> realizar os testes.</example>
+            <example correction="permitirá|possibilitará">Esta alteração <marker>tornará possível</marker> reduzir os custos.</example>
+            <example correction="permitiram|possibilitaram">As novas ferramentas <marker>tornaram possível</marker> a análise dos dados.</example>
             <example>O amor faz tudo se tornar possível.</example>
+            <example>Com esforço, tudo se tornou possível.</example>
+            <example>Isso pode tornar-se possível no futuro.</example>
         </rule>
 
 
