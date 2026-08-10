@@ -111654,6 +111654,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ara com ara|ara per ara|de moment|avui"><marker>avui per avui</marker>, encara no està arreglat</example>
             <example><marker>ara com ara</marker>, encara no està arreglat</example>
         </rule>
+        <rule id="DONAR_EL_BRAC_A_TORCER" name="donar el seu braç a tòrcer">
+            <pattern>
+                <marker>
+                    <token inflected="yes">donar</token>
+                    <token min="0">el</token>
+                    <token regexp="yes">meu|teu|seu|nostre|vostre|llur</token>
+                    <token>braç</token>
+                    <token>a</token>
+                    <token regexp="yes">t[oò]rcer</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">afluixar</match> la corda</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">abaixar</match> veles</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">amainar</match> veles</suggestion>
+            <short>Expressió incorrecta</short>
+            <example correction="afluixar la corda|abaixar veles|amainar veles">No volia <marker>donar el seu braç a tòrcer</marker>.</example>
+            <example correction="afluixarà la corda|abaixarà veles|amainarà veles">Al final <marker>donarà el seu braç a tòrcer</marker>.</example>
+        </rule>
         <rule id="DE_BRACOS_CREUATS" name="de braços creuats">
             <pattern>
                 <token>de</token>
