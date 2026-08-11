@@ -84224,6 +84224,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>FES-TE SEGUIDOR!</example>
         </rule>
         <rule id="ORDINALS_MINUSCULA" name="símbols d'ordinals en minúscules">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z\d]+</token>
+                <token>-</token>
+                <token regexp="yes">1RS?|2NS?|3RS?|4TS?|[5-9](È|NS)|\d\d+(È|NS)|\d+A|\d+ES</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes" case_sensitive="yes">1RS?|2NS?|3RS?|4TS?|[5-9](È|NS)|\d\d+(È|NS)|\d+A|\d+ES</token>
             </pattern>
@@ -84233,6 +84238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="1r"><marker>1R</marker> CONGRÉS MUNDIAL DE MEDICINA ESPORTIVA.</example>
             <example correction="3es"><marker>3ES</marker> JORNADES DE MEDICINA ESPORTIVA.</example>
             <example>El codi 4R.</example>
+            <example>Un avió C-32A.</example>
         </rule>
         <rulegroup id="ARTICLE_TOPONIM_MIN" name="article de topònims en minúscules">
             <short>&shortmessage_casing;</short>
