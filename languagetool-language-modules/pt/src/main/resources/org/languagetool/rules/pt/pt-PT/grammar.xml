@@ -3710,13 +3710,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <token regexp='yes'>ex|sota|soto|vice|vizo|grã|pós|pré|pró|recém</token>
               <!-- além|aquém|bem|sem|grão are better dealt by PortugueseCompoundRule.java -->
               <token>
-                  <exception regexp='yes'>[-,.!?\(\)]</exception>
+                  <exception regexp='yes'>[-‑‐,.!?\(\)]</exception>
                   <exception postag='C.|R.|S.+' postag_regexp='yes'/>
               </token>
           </pattern>
           <message>Palavra hifenizada.</message>
           <suggestion>\1-\2</suggestion>
           <example correction='vice-diretor'>Tem uma reunião marcada com o <marker>vice diretor</marker>.</example>
+          <example type='correct'>Fez uma <marker>Pós‑Graduação</marker> em Direito.</example>
       </rule>
       <rule>
           <pattern>
@@ -3925,12 +3926,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <pattern>
           <token regexp='yes'>extra|infra|intra|supra|ultra|mega|tele|&prefixos_i;|&prefixos_o;|&prefixos_o_2;|arqui
           <exception case_sensitive='yes'>Homo</exception></token>
+          <exception regexp='yes' case_sensitive='yes'>\p{Lu}{2,}</exception></token>
       <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
       <token regexp='yes'>r.+</token>
   </pattern>
   <message>Este prefixo não é hifenizado neste contexto.</message>
   <suggestion>\1r<match no='3' case_conversion="startlower"/></suggestion>
   <example correction='arquirrival'>O F.C. Porto é <marker>arqui-rival</marker> do S.L.Benfica.</example>
+  <example type='correct'>Domínio de ferramentas como Excel e <marker>Power BI será</marker> valorizado.</example>
       </rule>
       <rule>
           <antipattern>
