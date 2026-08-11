@@ -69992,12 +69992,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token chunk="GV" min="0" max="2"><exception inflected="yes">passar</exception></token>
                     <token inflected="yes">passar</token>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</token>
+                    <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V...[12].*|V...3P.*" postag_regexp="yes" inflected="yes">passar</token>
+                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V...[12].*|V...3P.*" postag_regexp="yes" inflected="yes" regexp="yes">menjar|passar</token>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</token>
+                    <token><exception inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">menjar</token>
+                    <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">voler</token>
@@ -70014,12 +70023,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>?</token>
                 </pattern>
                 <!-- <filter class="org.languagetool.rules.ca.QueIniciFilter" args="none:none"/> -->
-                <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
+                <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>. S’escriu sense accent si la resposta és «sí» o «no».</message>
                 <example correction="Què"><marker>Que</marker> ha passat?</example>
                 <example correction="Què"><marker>Que</marker> menjaràs?</example>
                 <example correction="Què"><marker>Que</marker> vols?</example>
                 <example correction="Què"><marker>Que</marker> volen aquestes merdosos, eh?</example>
                 <example correction="Què"><marker>Que</marker> passa, que no t'agrada el que faig, potser?</example>
+                <example>Què passarà el dijous?</example>
+                <example>Què passarà dijous?</example>
+                <example>Què passarà els dijous?</example>
+                <example>Que has menjat xocolata?</example>
+                <example>Què menjarem dissabte?</example>
                 <example>Que vols que t'ho porti?</example>
                 <example>Que t'ho menjaràs tot?</example>
                 <example>Que vindràs demà?</example>
@@ -70030,6 +70044,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Que passen gana els monjos?</example>
                 <example>Que has passat la nit ací?</example>
                 <example>Que passeu la nit ací?</example>
+                <example>Que passes les vacances a casa?</example>
+                <!-- que passes llista?
+                que passes la informació a tothom?
+               -->
             </rule>
             <rule>
                 <pattern>
@@ -70047,7 +70065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" skip="-1">fer</token>
                     <token>?</token>
                 </pattern>
-                <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
+                <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>. S’escriu sense accent si la resposta és «sí» o «no».</message>
                 <suggestion>què</suggestion>
                 <example correction="Què"><marker>Que</marker> tens intenció de fer?</example>
                 <example correction="Què"><marker>Que</marker> té la intenció de fer?</example>
