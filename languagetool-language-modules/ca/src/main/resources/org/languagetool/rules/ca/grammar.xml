@@ -34650,6 +34650,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
+        <rule id="PIC_PUC" name="pic entrar -> puc entrar">
+            <pattern>
+                <marker>
+                    <token>pic</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>puc</suggestion> (del verb 'poder')?</message>
+            <example correction="puc">Ara no <marker>pic</marker> entrar.</example>
+        </rule>
         <rule id="TOTA_TOTS_TENIM" name="tota tenim -> tots tenim">
             <pattern>
                 <token postag=".*SENT_START|_PUNCT.*" postag_regexp="yes"/>
@@ -69980,7 +69990,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">passar</token>
-                    <token regexp="yes">gana|fam|set|fred|calor</token>
+                    <!--<token regexp="yes">gana|fam|set|fred|calorllista</token> -->
+                    <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
                 </antipattern>
                 <antipattern>
                     <token skip="-1">que<exception postag_regexp="yes" postag="C.*" scope="next"/></token>
@@ -69988,25 +69999,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="V...[12].*|V...3P.*" postag_regexp="yes"/>
+                    <token postag="V.[IS].[12].*|V.[IS].3P.*" postag_regexp="yes"/>
                     <token chunk="GV" min="0" max="2"><exception inflected="yes">passar</exception></token>
                     <token inflected="yes">passar</token>
                     <token postag="D.*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="V...[12].*|V...3P.*" postag_regexp="yes" inflected="yes">passar</token>
+                    <token postag="V.[IS].[12].*|V.[IS].3P.*" postag_regexp="yes" inflected="yes">passar</token>
                     <token postag="D.*" postag_regexp="yes" min="0"/>
                     <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="V...[12].*|V...3P.*" postag_regexp="yes" inflected="yes" regexp="yes">menjar|passar</token>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="V.[IS].[12].*|V.[IS].3P.*" postag_regexp="yes" inflected="yes" regexp="yes">menjar|passar</token>
+                    <token postag="D.*" postag_regexp="yes"><exception postag="_data_concreta"/></token>
                     <token><exception inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">menjar</token>
                     <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[IS].3S.*" postag_regexp="yes" inflected="yes">passar</token>
+                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <token postag_regexp="yes" postag="NC.*"><exception regexp="yes" inflected="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vegada|volta|col?p</exception></token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">voler</token>
@@ -70029,6 +70045,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> vols?</example>
                 <example correction="Què"><marker>Que</marker> volen aquestes merdosos, eh?</example>
                 <example correction="Què"><marker>Que</marker> passa, que no t'agrada el que faig, potser?</example>
+                <example correction="Què"><marker>Que</marker> menjarien l'endemà?</example>
+                <example correction="Què"><marker>Que</marker> passa cada vegada que ho intenten?</example>
+                <example correction="Què"><marker>Que</marker> passa cada volta que ho intenten?</example>
+                <example correction="Què"><marker>Que</marker> passa cada cop que ho intenten?</example>
+                <example correction="Què"><marker>Que</marker> passa dimecres?</example>
+                <example>Que passa alguna desgràcia doctor?</example>
+                <example correction="Què"><marker>Que</marker> passa la setmana que ve?</example>
+                <example>Que passa les vacances a Menorca?</example>
                 <example>Què passarà el dijous?</example>
                 <example>Què passarà dijous?</example>
                 <example>Què passarà els dijous?</example>
@@ -70045,9 +70069,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que has passat la nit ací?</example>
                 <example>Que passeu la nit ací?</example>
                 <example>Que passes les vacances a casa?</example>
-                <!-- que passes llista?
-                que passes la informació a tothom?
-               -->
+                <example>Que passen la meitat de l'any a Nova Jersey i l'altra meitat en un clima més càlid?</example>
+                <example>Que passes llista?</example>
+                <example>Que passes la informació a tothom?</example>
             </rule>
             <rule>
                 <pattern>
@@ -70712,6 +70736,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token min="0" chunk="GV"><exception inflected="yes">dormir</exception></token>
                     <token inflected="yes">dormir</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[IS].3S.*" postag_regexp="yes" inflected="yes">passar</token>
+                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <token postag="NC.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
