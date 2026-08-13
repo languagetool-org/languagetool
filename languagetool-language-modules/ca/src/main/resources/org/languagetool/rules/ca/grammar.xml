@@ -18528,7 +18528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>cap</token>
                     <token inflected="yes">de</token>
                     <token postag="D[IN].*" min="0" postag_regexp="yes"/>
-                    <token regexp="yes" inflected="yes">&unitats_temps;|&expressions_durada;</token>
+                    <token regexp="yes" inflected="yes">&unitats_temps;|&periodes_temps;</token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.CatalanRemoteRewriteFilter" args="none:none"/>
                 <message>Construcció dubtosa: gerundi de posterioritat. Proveu de reescriure la frase sense el gerundi.</message>
@@ -20265,7 +20265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token inflected="yes">guanyar</token>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token><exception regexp="yes" inflected="yes">&unitats_temps;|&expressions_temps;|&expressions_durada;</exception></token>
+                    <token><exception regexp="yes" inflected="yes">&unitats_temps;|&expressions_temps;|&periodes_temps;</exception></token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -30874,7 +30874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>de</token>
                 <token min="0" postag="DA.*" postag_regexp="yes"/>
                 <token min="0" regexp="yes">mateixa?</token>
-                <token regexp="yes">&unitats_temps;|[XIV]+|s|&expressions_durada;|&expressions_temps;|\d+|&mesos_any;|dictadura|guerra|primera|segona</token>
+                <token regexp="yes">&unitats_temps;|[XIV]+|s|&periodes_temps;|&expressions_temps;|\d+|&mesos_any;|dictadura|guerra|primera|segona</token>
             </pattern>
             <message>Possible error de traductor automàtic.</message>
             <suggestion>la fi</suggestion>
@@ -39671,7 +39671,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="TARADA_TARDA" name="tarada -> tarda">
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="5">&parts_dia;|&expressions_temps;|&expressions_durada;</token>
+                    <token regexp="yes" skip="5">&parts_dia;|&expressions_temps;|&periodes_temps;</token>
                     <marker>
                         <token>tarada</token>
                     </marker>
@@ -42312,7 +42312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">de|d'</token>
                     <token postag="DA.*" postag_regexp="yes" min="0"/>
-                    <token regexp="yes">\d+|&dies_setmana;|&mesos_any;|&dies_setmana_abrev;|&mesos_any_abrev;|&unitats_temps;|&expressions_temps;|&estacions;|&expressions_durada;</token>
+                    <token regexp="yes">\d+|&dies_setmana;|&mesos_any;|&dies_setmana_abrev;|&mesos_any_abrev;|&unitats_temps;|&expressions_temps;|&estacions;|&periodes_temps;</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a partir</suggestion>?</message>
                 <example correction="a partir">Això, <marker>partir</marker> del 2025, serà una realitat.</example>
@@ -42372,7 +42372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>duran</token>
                     </marker>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">&unitats_temps;|&dies_setmana;|&mesos_any;|&expressions_durada;|&expressions_temps;</token>
+                    <token inflected="yes" regexp="yes">&unitats_temps;|&dies_setmana;|&mesos_any;|&expressions_temps;|&periodes_temps;</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>durant</suggestion> (preposició) en comptes de "duran" (forma del v. 'dur')?</message>
                 <example correction="Durant"><marker>Duran</marker> la temporada passada.</example>
@@ -69921,7 +69921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                      argumental ("Què creus que ha passat?") o és saturada ("Que creus que té raó?"). -->
                 <token inflected="yes" regexp="yes">semblar|parèixer</token>
                 <token>que</token>
-                <token><exception inflected="yes" regexp="yes">ser|fer</exception></token>
+                <token><exception inflected="yes" regexp="yes">ser|fer|tenir</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">que|què</token>
@@ -69991,7 +69991,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token inflected="yes">passar</token>
                     <!--<token regexp="yes">gana|fam|set|fred|calorllista</token> -->
-                    <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|&expressions_temps;</exception><exception inflected="yes" regexp="yes">pare|mare|fill|nen|xiquet|noi|sergent|caproal|general|senyor|avi|oncle|tia</exception></token>
+                    <!-- Amb un vocatiu, hi falta una coma. Caldria generalitzar amb noms que indiquen persones. -->
                 </antipattern>
                 <antipattern>
                     <token skip="-1">que<exception postag_regexp="yes" postag="C.*" scope="next"/></token>
@@ -70003,26 +70004,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token chunk="GV" min="0" max="2"><exception inflected="yes">passar</exception></token>
                     <token inflected="yes">passar</token>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació</token>
+                    <token postag="A.*" postag_regexp="yes" min="0"/>
+                    <token inflected="yes" regexp="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació|&expressions_temps;</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.[IS].[12].*|V.[IS].3P.*" postag_regexp="yes" inflected="yes">passar</token>
                     <token postag="D.*" postag_regexp="yes" min="0"/>
-                    <token inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació</token>
+                    <token inflected="yes" regexp="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació|&expressions_temps;</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.[IS].[12].*|V.[IS].3P.*" postag_regexp="yes" inflected="yes" regexp="yes">menjar|passar</token>
                     <token postag="D.*" postag_regexp="yes"><exception postag="_data_concreta"/></token>
-                    <token><exception inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
+                    <token><exception inflected="yes" regexp="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|&expressions_temps;</exception></token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">menjar</token>
-                    <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|&expressions_temps;</exception></token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.[IS].3S.*" postag_regexp="yes" inflected="yes">passar</token>
                     <token postag="D.*" postag_regexp="yes" min="0"/>
-                    <token postag_regexp="yes" postag="NC.*"><exception regexp="yes" inflected="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vegada|volta|col?p</exception></token>
+                    <token postag_regexp="yes" postag="NC.*"><exception regexp="yes" inflected="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vegada|volta|col?p|&expressions_temps;</exception></token>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">voler</token>
@@ -70052,6 +70054,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> passa dimecres?</example>
                 <example>Que passa alguna desgràcia doctor?</example>
                 <example correction="Què"><marker>Que</marker> passa la setmana que ve?</example>
+                <example correction="Què"><marker>Que</marker> passa demà mateix?</example>
+                <example correction="Què"><marker>Que</marker> passarà el febrer vinent?</example>
+                <example correction="Què"><marker>Que</marker> passarà el pròxim febrer?</example>
+                <!-- falta una coma -->
+                <example correction="Què"><marker>Que</marker> ha passat mare?</example>
+                <example correction="Què"><marker>Que</marker> ha passat nens?</example>
                 <example>Que passa les vacances a Menorca?</example>
                 <example>Què passarà el dijous?</example>
                 <example>Què passarà dijous?</example>
@@ -70072,6 +70080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que passen la meitat de l'any a Nova Jersey i l'altra meitat en un clima més càlid?</example>
                 <example>Que passes llista?</example>
                 <example>Que passes la informació a tothom?</example>
+                <example>Que has passat un bon dia?</example>
             </rule>
             <rule>
                 <pattern>
@@ -70172,6 +70181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> és Camp Joliu?</example>
                 <example correction="Què"><marker>Que</marker> et sembla que és això que ha passat?</example>
                 <example correction="Què"><marker>Que</marker> et sembla que fan ara?</example>
+                <example correction="Què"><marker>Que</marker> li sembla que té?</example>
                 <example>Que bonic és tot això!, oi?</example>
                 <example>Que és el Pere qui ha fet tot això?</example>
                 <example>Que sou ric?</example>
@@ -70809,7 +70819,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que van passar dos anys?</example>
             </rule>
         </rulegroup>
-        <rule id="QUE_INICIAL_SENSEACCENT_VERB" name="què -> que (a l'inici de frase)" default="temp_off">
+        <rule id="QUE_INICIAL_SENSEACCENT_VERB" name="què -> que (a l'inici de frase)">
             <antipattern>
                 <token>què</token>
                 <token>et</token>
@@ -70862,6 +70872,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Que"><marker>Què</marker> dius que sap la resposta?</example>
             <example correction="Que"><marker>Què</marker> vols que t'ho porti?</example>
             <example correction="Que"><marker>Què</marker> vols que et digui la veritat?</example>
+            <example>Què ha passat, mare?</example>
+            <example>Què ha passat mare?</example>
             <example>Què et fa mal, amor meu?</example>
             <example>Què et fa por?</example>
             <example>Què fareu el dia que es canse i ho venga tot?</example>
@@ -120815,7 +120827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="12" inflected="yes">auto|sobreseïment|jutges?|jutgessa|fiscals?|fiscalia|recórrer|anticorrupció|recurs|sobreseure|lletrat|forçar|revocar|procediment</token>
+                    <token regexp="yes" skip="12" inflected="yes">auto|sobreseïment|jutges?|jutgessa|fiscals?|fiscalia|recórrer|anticorrupció|recurs|sobreseure|lletrat|forçar|revocar|procediment|penal</token>
                     <marker>
                         <token inflected="yes">arxiu</token>
                     </marker>
@@ -120847,6 +120859,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>En el sentit de 'acció d'arxivar' cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">arxivament</match></suggestion>.</message>
                 <example correction="arxivament">Preferiria l'<marker>arxiu</marker> immediat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="10" inflected="yes">arxiu</token>
+                    </marker>
+                    <!-- TODO: ampliar context -->
+                    <token inflected="yes">penal</token>
+                </pattern>
+                <message>En el sentit de 'acció d'arxivar' cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">arxivament</match></suggestion>.</message>
+                <example correction="arxivament">Després d’aquest <marker>arxiu</marker> es va iniciar una causa penal.</example>
             </rule>
         </rulegroup>
         <rule id="SOBAT" name="sobat">
@@ -137271,8 +137294,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>per</token>
                 <token>si</token>
-                <token>no</token>
                 <token min="0" max="1" regexp="yes">això|açò</token>
+                <token>no</token>
                 <token regexp="yes">fos|fóra|fora</token>
                 <token>poc</token>
             </pattern>
@@ -137282,6 +137305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>per a acabar-ho d'adobar</suggestion>
             <suggestion>per si no fos prou</suggestion>
             <example correction="per si no n'hi hagués prou|per si no n'hi haguera prou|per a acabar-ho d'adobar|per si no fos prou">I <marker>per si no fos poc</marker>, va arribar tard.</example>
+            <example correction="per si no n'hi hagués prou|per si no n'hi haguera prou|per a acabar-ho d'adobar|per si no fos prou">I <marker>per si això no fora poc</marker>, va arribar tard.</example>
         </rule>
         <rule id="DE_BEN_SEGUR" name="de ben segur">
             <pattern>
