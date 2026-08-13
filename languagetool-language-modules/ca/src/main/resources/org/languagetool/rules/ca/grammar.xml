@@ -128137,15 +128137,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token postag="D..FP.|A..FP.*" postag_regexp="yes"/>
-                        <token postag="_GN_F." postag_regexp="yes">ordes</token>
+                        <token postag="_GN_F." postag_regexp="yes" skip="1">ordes</token>
                     </marker>
-                    <token skip="1">de</token>
-                    <token regexp="yes" inflected="yes">garrotera|lligacama|imperi|Fènix|mèrit|temple|sant|cavalleria|cavaller|cartoixa|Hospital|Cister|Rodes|Malta|Canadà|Montesa|toisó|&ordes;|&ordes_invariable;|sacerdoci|sacerdot|prevere|bisbe|cardenal|arquebisbe|Carlemany</token>
+                    <token skip="1" regexp="yes">de|d'</token>
+                    <token regexp="yes" inflected="yes">legió|garrotera|lligacama|imperi|Fènix|mèrit|temple|sant|cavalleria|cavaller|cartoixa|Hospital|Cister|Rodes|Malta|Canadà|Montesa|Ouissam Alauita|Calatrava|toisó|&ordes;|&ordes_invariable;|sacerdoci|sacerdot|prevere|bisbe|cardenal|arquebisbe|Carlemany</token>
                 </pattern>
                 <message>En el sentit de 'societat religiosa', 'ritu cristià' o 'cos de persones unides per una regla', "orde" és masculí.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(D..|A..)FP.*" postag_replace="$1MP.*"/> ordes</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
                 <example correction="Els ordes"><marker>Les ordes</marker> de cavalleria</example>
+                <example>L'orde del Temple.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token postag="D..FS.|A..FS.*" postag_regexp="yes"/>
+                        <token postag="_GN_F." postag_regexp="yes" skip="1">orde</token>
+                    </marker>
+                    <token skip="1" regexp="yes">de|d'</token>
+                    <token regexp="yes" inflected="yes">legió|garrotera|lligacama|imperi|Fènix|mèrit|temple|sant|cavalleria|cavaller|cartoixa|Hospital|Cister|Rodes|Malta|Canadà|Montesa|Ouissam Alauita|Calatrava|toisó|&ordes;|&ordes_invariable;|sacerdoci|sacerdot|prevere|bisbe|cardenal|arquebisbe|Carlemany</token>
+                </pattern>
+                <message>En el sentit de 'societat religiosa', 'ritu cristià' o 'cos de persones unides per una regla', "orde" és masculí.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(D..|A..)FS.*" postag_replace="$1MS.*"/> orde</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2575</url>
+                <example correction="Un orde"><marker>Una orde</marker> de cavalleria</example>
                 <example>L'orde del Temple.</example>
             </rule>
             <rule>
@@ -128158,10 +128173,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ordres?</token>
+                        <token regexp="yes" skip="1">ordres?</token>
                     </marker>
-                    <token skip="1">de</token>
-                    <token regexp="yes" inflected="yes">garrotera|lligacama|imperi|Fènix|mèrit|temple|sant|cavalleria|cavaller|cartoixa|Hospital|Cister|Rodes|Malta|Canadà|Montesa|toisó|&ordes;|&ordes_invariable;|Carlemany</token>
+                    <token skip="1" regexp="yes">de|d'</token>
+                    <token regexp="yes" inflected="yes">legió|garrotera|lligacama|imperi|Fènix|mèrit|temple|sant|cavalleria|cavaller|cartoixa|Hospital|Cister|Rodes|Malta|Canadà|Montesa|Ouissam Alauita|Calatrava|toisó|&ordes;|&ordes_invariable;|Carlemany</token>
                 </pattern>
                 <message>En el sentit de 'societat religiosa', 'ritu cristià' o 'cos de persones unides per una regla', cal dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/></suggestion>.</message>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
