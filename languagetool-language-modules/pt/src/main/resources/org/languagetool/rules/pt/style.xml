@@ -17601,25 +17601,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- ERA QUEM CHEGASSE PRIMEIRO era chegar primeiro -->
-        <rule id='SER_QUEM_VERB-ESSE_WORD' name="✂️ V.Ser + quem + V.-asse → V.Ser + V.Inf." type="style">
+        <rule id='SER_QUEM_VERB_ESSE_INFINITIVO' name="✂️ 'ser + quem + verbo' → 'ser + infinitivo'" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
-            <!--
-      A vitória na guerra era quem chegasse primeiro à bandeira inimiga. → A vitória na guerra era chegar primeiro à bandeira inimiga.
-      -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
             <pattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>objetivo|finalidade|meta|missão|vitória</token>
+                <token inflected='yes'>ser</token>
                 <marker>
-                    <token inflected='yes'>ser</token>
                     <token>quem</token>
                     <token postag='VMSI.+|VMN0000' postag_regexp='yes'/>
                 </marker>
-                <token><exception postag_regexp='no' postag='_PUNCT'/></token>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>\2 <match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
-            <example correction="era chegar">A vitória na guerra <marker>era quem chegasse</marker> primeiro à bandeira inimiga.</example>
+            <message>Use o infinitivo para exprimir a ação, em vez da construção com &quot;quem&quot;.</message>
+            <suggestion><match no='4' postag='V.+' postag_regexp='yes' postag_replace='VMN0000'/></suggestion>
+            <example correction="chegar">A vitória era <marker>quem chegasse</marker> primeiro à bandeira inimiga.</example>
+            <example correction="terminar">O objetivo é <marker>quem terminar</marker> primeiro a prova.</example>
+            <example>O vencedor é quem chegar primeiro à bandeira.</example>
+            <example>O responsável é quem decidir primeiro.</example>
+            <example>A Ana é quem organiza as reuniões.</example>
         </rule>
 
 
