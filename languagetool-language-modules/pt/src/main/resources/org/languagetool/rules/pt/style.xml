@@ -18133,19 +18133,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='TORNAR_IMPOSSÍVEL_IMPOSSIBILITAR' name="Tornar Impossível → Impossibilitar">
+        <rule id='TORNAR_IMPOSSÍVEL_IMPOSSIBILITAR' name="✂️ Tornar impossível → impossibilitar" type='style'>
             <!--IDEA shorten_it-->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
             <pattern>
-                <token inflected='yes'>tornar<exception postag_regexp='yes' postag='V.+:PP3CNO00'/></token>
-                <token>impossível</token>
+                <marker>
+                    <token inflected='yes'>tornar
+                        <exception scope='previous' postag_regexp='yes' postag='PP.C.+'/>
+                        <exception postag_regexp='yes' postag='V.+:PP.C.+'/></token>
+                    <token inflected='yes'>impossível</token>
+                </marker>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>impossibilitar</match></suggestion>
-            <example correction="impossibilitar">Vamos <marker>tornar impossível</marker> os erros gramaticais.</example>
-            <example>Vamos <marker>impossibilitar</marker> os erros gramaticais.</example>
-            <example>E assim <marker>impossibilitando</marker> falhar.</example>
+            <example correction="impossibilitou">A avaria <marker>tornou impossível</marker> o acesso ao sistema.</example>
+            <example correction="impossibilitaram">As alterações <marker>tornaram impossível</marker> a utilização do programa.</example>
+            <example correction="impossibilita">A falta de dados <marker>torna impossível</marker> a identificação da causa.</example>
             <example>Assim, torna-se impossível determinar com exatidão o resultado.</example>
             <example>A compreensão do presente torna-se impossível sem um bom entendimento do passado.</example>
+            <example>O pai de Luísa explicou à filha as tendências do artista para que o futuro casamento se tornasse impossível.</example>
         </rule>
 
 
