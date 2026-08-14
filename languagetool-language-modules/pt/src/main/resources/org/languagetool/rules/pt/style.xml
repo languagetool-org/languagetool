@@ -10104,6 +10104,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rulegroup id='SABER_QUAL_DETERMINAR' name="🎓🔬 Saber qual/quais → determinar/identificar" type='style' tone_tags='academic' tags='picky'>
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+            <!-- #1: para saber qual/quais -->
+            <rule>
+                <pattern>
+                    <token>para</token>
+                    <marker>
+                        <token>saber</token>
+                        <token regexp='yes'>qual|quais</token>
+                    </marker>
+                    <token regexp='yes'>[ao]s?</token>
+                </pattern>
+                <message>Considere substituir esta construção por um verbo mais preciso.</message>
+                <suggestion>determinar</suggestion>
+                <suggestion>identificar</suggestion>
+                <example correction="determinar|identificar">Isto serve para <marker>saber qual</marker> a melhor estratégia.</example>
+                <example correction="determinar|identificar">O teste serviu para <marker>saber quais</marker> os melhores métodos.</example>
+                <example correction="determinar|identificar">A análise foi realizada para <marker>saber qual</marker> a variável correta.</example>
+                <example>É necessário saber qual a hipótese formulada pelo autor.</example>
+            </rule>
+
+            <!-- #2: permitir saber qual/quais -->
+            <rule>
+                <pattern>
+                    <token inflected='yes'>permitir</token>
+                    <marker>
+                        <token>saber</token>
+                        <token regexp='yes'>qual|quais</token>
+                    </marker>
+                    <token regexp='yes'>[ao]s?</token>
+                </pattern>
+                <message>Considere substituir esta construção por um verbo mais preciso.</message>
+                <suggestion>determinar</suggestion>
+                <suggestion>identificar</suggestion>
+                <example correction="determinar|identificar">O teste permite <marker>saber qual</marker> a técnica mais eficaz.</example>
+                <example correction="determinar|identificar">Os dados permitem <marker>saber quais</marker> os métodos a aplicar.</example>
+                <example correction="determinar|identificar">Os ensaios permitem <marker>saber quais</marker> os compostos na amostra.</example>
+                <example>Queremos saber quais os resultados obtidos anteriormente.</example>
+            </rule>
+
+        </rulegroup>
+
+
         <rule id='BÁSICO_ELEMENTAR' name="🎓🔬 Básico → Elementar" tone_tags="academic" is_goal_specific="true">
             <antipattern>
                 <token regexp='yes'>unidades?</token>
@@ -18505,27 +18549,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>até <match no='2' case_conversion='startlower'/></suggestion>
             <example correction="até quatro">Tudo bate certo e <marker>quatro ou menos</marker> variáveis são suficientes na equação.</example>
             <example>Até quatro variáveis são suficientes na equação.</example>
-        </rule>
-
-
-        <!-- PARA SABER QUAL A para delinear/determinar a -->
-        <rule id='DELINEAR_DETERMINAR' name="Saber qual a → delinear/determinar a" tags='picky'>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <pattern>
-                <token regexp='yes'>para|permitem?|permitir</token>
-                <marker>
-                    <token>saber</token>
-                    <token regexp='yes'>qual|quais</token>
-                </marker>
-                <token regexp='yes'>[ao]s?</token>
-                <token/>
-            </pattern>
-            <message>Melhore a redação.</message>
-            <suggestion>delinear</suggestion>
-            <suggestion>determinar</suggestion>
-            <suggestion>descobrir</suggestion>
-            <suggestion>aprender</suggestion>
-            <example correction="delinear|determinar|descobrir|aprender">Isto para <marker>saber qual</marker> a melhor técnica de ataque.</example>
         </rule>
 
 
