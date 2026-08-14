@@ -18405,22 +18405,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction='serem'>Afirmaram a vossa inocência inocência alegando <marker>que eram</marker> canhotos.</example>
             </rule>
         </rulegroup>
-        <!-- DELIMITADA(O) COM/DE/POR [UMA] FONTEIRA(S) FÍSICA(S) delimitada(o) fisicamente -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
-        <rule id='DELIMITADA_COM-DE-POR_FRONTEIRAS_FISICAS' name="Delimitada(o)(s) fisicamente">
+
+
+        <rule id='DELIMITADO_POR_FRONTEIRAS_FISICAS_FISICAMENTE' name="✂️ Delimitado por fronteiras físicas → fisicamente" type='style'>
             <!--IDEA shorten_it-->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token skip='2' postag='NP.+' postag_regexp='yes'/>
+                <token regexp='yes'>delimitad[ao]s?</token>
+                <token regexp='yes'>com|por|pelas?</token>
+                <token min='0' max='1'>uma</token>
+                <token regexp='yes'>fronteiras?|barreiras?</token>
+                <token regexp='yes'>físicas?</token>
+                <example>Portugal é delimitado por fronteiras físicas.</example>
+            </antipattern>
             <pattern>
-                <token regexp="yes">delimitadas?|delimitados?</token>
+                <token regexp='yes'>delimitad[ao]s?</token>
                 <marker>
-                    <token regexp="yes">com|de|por</token>
-                    <token min="0" max="1">uma</token>
-                    <token regexp="yes">fronteiras?</token>
-                    <token regexp="yes">físicas?</token>
+                    <token regexp='yes'>com|por|pelas?</token>
+                    <token min='0' max='1'>uma</token>
+                    <token regexp='yes'>fronteiras?|barreiras?</token>
+                    <token regexp='yes'>físicas?</token>
                 </marker>
             </pattern>
-            <message>Substitua por <suggestion>fisicamente</suggestion>.</message>
+            <message>&simplify_msg;</message>
+            <suggestion>fisicamente</suggestion>
             <example correction="fisicamente">A área é delimitada <marker>por fronteiras físicas</marker>.</example>
-            <example>A área é delimitada <marker>fisicamente</marker>.</example>
+            <example correction="fisicamente">A área é delimitada <marker>por uma barreira física</marker>.</example>
+            <example correction="fisicamente">A área é delimitada <marker>pelas fronteiras físicas</marker>.</example>
+            <example correction="fisicamente">A zona encontra-se delimitada <marker>com barreiras físicas</marker>.</example>
+            <example>A área é delimitada fisicamente.</example>
         </rule>
 
 
