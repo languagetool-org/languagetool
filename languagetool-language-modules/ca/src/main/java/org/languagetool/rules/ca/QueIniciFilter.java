@@ -87,11 +87,11 @@ public class QueIniciFilter extends RuleFilter {
       "merdós", "cabró", "imbècil", "idiota", "desgraciat", "malparit", "beneit", "tio",
       "individu", "paio", "tipus", "subjecte", "element", "marit", "muller", "xiquet"));
   private static final Set<String> NEVER_SUBJECT_NOUNS = new HashSet<>(Arrays.asList(
-      "cop", "vegada", "volta", "mica", "miqueta",
+      "cop", "vegada", "volta", "mica", "miqueta", "moment", "instant",
       "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge",
       "dia", "nit", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
   private static final Set<String> TEMPORAL_ADJUNCT_NOUNS = new HashSet<>(Arrays.asList(
-      "cop", "vegada", "volta",
+      "cop", "vegada", "volta", "moment", "instant",
       "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge",
       "dia", "nit", "nit_1", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
   private static final Set<String> WEEKDAY_NOUNS = new HashSet<>(Arrays.asList(
@@ -132,7 +132,11 @@ public class QueIniciFilter extends RuleFilter {
     if (!isAmb && !isSense) {
       return match;
     }
-    Boolean predictsAccent = predictsAccent(match.getSentence(), getLanguageFromRuleMatch(match));
+    boolean completiveOnly = "completive".equals(arguments.get("mode"));
+    Boolean predictsAccent = predictsAccent(match.getSentence(), getLanguageFromRuleMatch(match), completiveOnly);
+    if ("completive".equals(arguments.get("mode")) && predictsAccent == null) {
+      return match;
+    }
     if (predictsAccent == null) {
       return match;
     }
@@ -148,7 +152,7 @@ public class QueIniciFilter extends RuleFilter {
    * Prediu si l'inici interrogatiu ha de portar accent ("què", quina cosa) o no ("que", sí/no).
    * Retorna null si no es pot analitzar.
    */
-  private Boolean predictsAccent(AnalyzedSentence sentence, Language language) {
+  private Boolean predictsAccent(AnalyzedSentence sentence, Language language, boolean completiveOnly) {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     try {
       int quePos = findQue(tokens);
@@ -213,6 +217,13 @@ public class QueIniciFilter extends RuleFilter {
         firstPostagAfterVerb = at != null && at.getPOSTag() != null ? at.getPOSTag() : "UNKNOWN";
       }
 
+      if (completiveOnly && !(mainVerbPos >= 0
+          && mainVerbPos + 1 < tokens.length
+          && tokens[mainVerbPos + 1].getToken().equals("que")
+          && COMPLETIVE_GAP_VERBS.contains(mainVerbLemma))) {
+        return null;
+      }
+
       boolean hasHo = pronoms.contains("ho");
       boolean hasAccusativePronoun = false;
       boolean hasDativePronoun = false;
@@ -266,9 +277,9 @@ public class QueIniciFilter extends RuleFilter {
       boolean isExceptionObject = false;
       boolean isExceptionSubject = false;
       if (firstTokenAfterVerbPos > 0 && firstTokenAfterVerbPos + 1 < tokens.length) {
-        if (tokens[firstTokenAfterVerbPos + 1].getChunkTags().contains(PTIME_CHUNK)
-            || tokens[firstTokenAfterVerbPos + 1].hasPosTag("_loc_unavegada")
-            || tokens[firstTokenAfterVerbPos + 1].hasPosTag("_data_concreta")
+        if ((!hasAccusativeNotDativePronoun && tokens[firstTokenAfterVerbPos + 1].getChunkTags().contains(PTIME_CHUNK))
+            || (!hasAccusativeNotDativePronoun && tokens[firstTokenAfterVerbPos + 1].hasPosTag("_loc_unavegada"))
+            || (!hasAccusativeNotDativePronoun && tokens[firstTokenAfterVerbPos + 1].hasPosTag("_data_concreta"))
             || (tokens[firstTokenAfterVerbPos].hasLemma("tot") && !hasAccusativeNotDativePronoun)) {
           isExceptionObject = true;
         }

@@ -3464,7 +3464,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>-->
             <antipattern>
                 <token inflected="yes" skip="2" regexp="yes">passar|portar|dur|fer|durant</token>
-                <token inflected="yes" regexp="yes">&unitats_temps;&parts_dia;|temps</token>
+                <token inflected="yes" regexp="yes">&unitats_temps;|&parts_dia;|temps</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&exceptions_unitatstemps_adj;</exception></token>
             </antipattern>
             <antipattern>
@@ -3842,6 +3842,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NC.*" postag_regexp="yes"/>
                 <example>Matar porcs no explica que els enginyers aeronàutics tinguin poca feina.</example>
             </antipattern>
+            <!--<antipattern>
+                <token postag="DN.*" postag_regexp="yes"/>
+                <token>o</token>
+                <token>més</token>
+                <token postag="NC.P.*" postag_regexp="yes"/>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <example>una combinació de dos o més metalls obtinguda generalment</example>
+            </antipattern>-->
             <rule>
                 <pattern>
                     <marker>
@@ -70008,12 +70016,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació|&expressions_temps;</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="V.[IS].[12].*|V.[IS].3P.*" postag_regexp="yes" inflected="yes">passar</token>
+                    <token postag="V.[IS].[12]...|V.[IS].3P.." postag_regexp="yes" inflected="yes">passar<exception postag="V.[SI].3S.." postag_regexp="yes"/></token>
                     <token postag="D.*" postag_regexp="yes" min="0"/>
                     <token inflected="yes" regexp="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vacança|vacació|&expressions_temps;</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="V.[IS].[12].*|V.[IS].3P.*" postag_regexp="yes" inflected="yes" regexp="yes">menjar|passar</token>
+                    <token postag="V.[IS].[12]...|V.[IS].3P.." postag_regexp="yes" inflected="yes" regexp="yes">menjar|passar<exception postag="V.[SI].3S.." postag_regexp="yes"/></token>
                     <token postag="D.*" postag_regexp="yes"><exception postag="_data_concreta"/></token>
                     <token><exception inflected="yes" regexp="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|&expressions_temps;</exception></token>
                 </antipattern>
@@ -70026,10 +70034,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="D.*" postag_regexp="yes" min="0"/>
                     <token postag_regexp="yes" postag="NC.*"><exception regexp="yes" inflected="yes">&mesos_any;|&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;|vegada|volta|col?p|&expressions_temps;</exception></token>
                 </antipattern>
-                <antipattern>
-                    <token inflected="yes">voler</token>
-                    <token>que</token>
-                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" regexp="yes">\p{P}</token>
@@ -70040,11 +70044,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" postag="V.[ISMNGP].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">passar|voler|necessitar|desitjar|menjar</token>
                     <token>?</token>
                 </pattern>
-                <!-- <filter class="org.languagetool.rules.ca.QueIniciFilter" args="none:none"/> -->
+                <filter class="org.languagetool.rules.ca.QueIniciFilter" args="mode:completive"/>
                 <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>. S’escriu sense accent si la resposta és «sí» o «no».</message>
                 <example correction="Què"><marker>Que</marker> ha passat?</example>
                 <example correction="Què"><marker>Que</marker> menjaràs?</example>
                 <example correction="Què"><marker>Que</marker> vols?</example>
+                <example correction="Què"><marker>Que</marker> vols que faci?</example>
                 <example correction="Què"><marker>Que</marker> volen aquestes merdosos, eh?</example>
                 <example correction="Què"><marker>Que</marker> passa, que no t'agrada el que faig, potser?</example>
                 <example correction="Què"><marker>Que</marker> menjarien l'endemà?</example>
@@ -70060,7 +70065,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- falta una coma -->
                 <example correction="Què"><marker>Que</marker> ha passat mare?</example>
                 <example correction="Què"><marker>Que</marker> ha passat nens?</example>
+                <example correction="Què"><marker>Que</marker> passava ara?</example>
+                <example correction="Què"><marker>Que</marker> passaria demà?</example>
                 <example>Que passa les vacances a Menorca?</example>
+                <example>Que vols que t'ho porti?</example>
+                <example>Que vols que et digui la veritat?</example>
                 <example>Què passarà el dijous?</example>
                 <example>Què passarà dijous?</example>
                 <example>Què passarà els dijous?</example>
@@ -70420,7 +70429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes">poder|voler</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token postag="[AN].*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&unitats_temps;&estacions;</exception></token>
+                    <token postag="[AN].*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&unitats_temps;|&estacions;</exception></token>
                     <example>Que es pot reduir el nombre de municipis?</example>
                 </antipattern>
                 <antipattern>
@@ -70431,7 +70440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.N.*" skip="3" postag_regexp="yes"/>
                     <token postag="V.N.*" postag_regexp="yes"/>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token postag="[AN].*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&unitats_temps;&estacions;</exception></token>
+                    <token postag="[AN].*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&unitats_temps;|&estacions;</exception></token>
                     <example>Que es pot plantejar també reduir el nombre de municipis?</example>
                 </antipattern>
                 <antipattern>
@@ -70529,6 +70538,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.ca.QueIniciFilter" args="none:none"/>
                 <message>Si és un pronom interrogatiu (=quina cosa), s'escriu amb accent. S'escriu sense accent si la resposta és "sí" o "no" ("Que vindràs?").</message>
                 <suggestion>què</suggestion>
+                <example>Que el deixaríeu pujar un moment…?</example>
+                <example>Que l'agafo en bon moment?</example>
+                <example>Que la pot retirar en qualsevol moment?</example>
                 <example correction="Què">¿<marker>Que</marker> es pot plantejar l'any que ve?</example>
                 <example correction="Què">¿<marker>Que</marker> s'empatollaven, doncs, els mestres i els professors?</example>
                 <example correction="Què"><marker>Que</marker> s'empatollaven, doncs, els mestres i els professors?</example>
@@ -70780,6 +70792,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Em em vols prendre el pèl?</example>
                 <example>Que té algun problema amb la targeta?</example>
                 <example>Que dorm la Wendy?</example>
+                <example>Que té un moment, si us plau?</example>
+                <example>Que em podria asseure un moment amb vostès?</example>
             </rule>
             <rule default="on">
                 <antipattern>
