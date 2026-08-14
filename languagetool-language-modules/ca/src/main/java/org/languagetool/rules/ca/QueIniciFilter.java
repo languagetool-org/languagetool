@@ -64,38 +64,38 @@ public class QueIniciFilter extends RuleFilter {
   private static final Pattern DET_PLURAL = Pattern.compile("D...P.");
   private static final Pattern DET = Pattern.compile("D.*");
   private static final Pattern VERB_OR_PRONOM =
-      Pattern.compile("V.[SI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
+    Pattern.compile("V.[SI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
 
   private static final ChunkTag PTIME_CHUNK = new ChunkTag("PTime");
-  private static final ChunkTag CVERB_CHUNK = new ChunkTag("CVerb");
+  //private static final ChunkTag CVERB_CHUNK = new ChunkTag("CVerb");
 
   private static final List<String> SINO_LAST_WORDS = Arrays.asList("potser", "oi");
   // Verbs copulatius: al classificador surten com a intransitius, però amb ells "què" fa
   // d'atribut/subjecte; els traiem del resultat intransitiu i deixem que la lògica general
   // de complements decideixi ("Que pot ser més versemblant?" -> "Què...").
   private static final Set<String> COPULAR_VERBS = new HashSet<>(Arrays.asList(
-      "ser", "ésser", "estar", "semblar", "parèixer"));
+    "ser", "ésser", "estar", "semblar", "parèixer"));
   // Noms comuns animats que poden ser subjecte posposat ("Que vol aquesta gent?" -> "Què...").
   // Llista llavor; s'anirà ampliant amb la recopilació del corpus.
   private static final Set<String> ANIMATE_SUBJECT_NOUNS = new HashSet<>(Arrays.asList(
-      "persona", "gent", "home", "dona", "noi", "noia", "nen", "nena", "nan", "senyor",
-      "senyora", "senyoreta", "pare", "mare", "fill", "filla", "germà", "germana",
-      "amic", "amiga", "professor", "professora", "mestre", "mestra", "metge", "metgessa",
-      "doctor", "doctora", "alcalde", "rei", "reina", "policia", "nadó", "avi", "àvia",
-      "tia", "tio", "oncle", "cosí", "cosina", "veí", "veïna", "client", "clienta",
-      "jutge", "gos", "gossa", "gat", "gata", "nena", "criatura", "company", "companya",
-      "merdós", "cabró", "imbècil", "idiota", "desgraciat", "malparit", "beneit", "tio",
-      "individu", "paio", "tipus", "subjecte", "element", "marit", "muller", "xiquet"));
+    "persona", "gent", "home", "dona", "noi", "noia", "nen", "nena", "nan", "senyor",
+    "senyora", "senyoreta", "pare", "mare", "fill", "filla", "germà", "germana",
+    "amic", "amiga", "professor", "professora", "mestre", "mestra", "metge", "metgessa",
+    "doctor", "doctora", "alcalde", "rei", "reina", "policia", "nadó", "avi", "àvia",
+    "tia", "tio", "oncle", "cosí", "cosina", "veí", "veïna", "client", "clienta",
+    "jutge", "gos", "gossa", "gat", "gata", "nena", "criatura", "company", "companya",
+    "merdós", "cabró", "imbècil", "idiota", "desgraciat", "malparit", "beneit", "tio",
+    "individu", "paio", "tipus", "subjecte", "element", "marit", "muller", "xiquet"));
   private static final Set<String> NEVER_SUBJECT_NOUNS = new HashSet<>(Arrays.asList(
-      "cop", "vegada", "volta", "mica", "miqueta", "moment", "instant",
-      "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge",
-      "dia", "nit", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
+    "cop", "vegada", "volta", "mica", "miqueta", "moment", "instant",
+    "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge",
+    "dia", "nit", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
   private static final Set<String> TEMPORAL_ADJUNCT_NOUNS = new HashSet<>(Arrays.asList(
-      "cop", "vegada", "volta", "moment", "instant",
-      "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge",
-      "dia", "nit", "nit_1", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
+    "cop", "vegada", "volta", "moment", "instant",
+    "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge",
+    "dia", "nit", "nit_1", "matí", "tarda", "vespre", "hora", "temps", "setmana", "mes", "any"));
   private static final Set<String> WEEKDAY_NOUNS = new HashSet<>(Arrays.asList(
-      "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge"));
+    "dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge"));
   private static final Set<String> ACCUSATIVE_PRONOUNS = new HashSet<>(Arrays.asList("em", "et", "el", "la", "ens",
     "us", "les", "els"));
   private static final Set<String> DATIVE_PRONOUNS = new HashSet<>(Arrays.asList("em", "et", "li", "ens", "us", "els"));
@@ -106,22 +106,22 @@ public class QueIniciFilter extends RuleFilter {
   // pot ser saturada i la interrogativa de sí/no ("Que creus que té raó?" -> "que").
   // La decisió es delega a {@link #completiveHasGap}.
   private static final Set<String> COMPLETIVE_GAP_VERBS = new HashSet<>(Arrays.asList(
-      "creure", "pensar", "dir", "opinar", "afirmar", "suposar", "imaginar", "saber",
-      "considerar", "sospitar", "témer", "voler", "desitjar", "necessitar", "esperar",
-      "preferir"));
+    "creure", "pensar", "dir", "opinar", "afirmar", "suposar", "imaginar", "saber",
+    "considerar", "sospitar", "témer", "voler", "desitjar", "necessitar", "esperar",
+    "preferir"));
   // Pronoms/formes que, com a atribut d'un copulatiu, deixen el buit al "què"
   // ("Que és això?" -> "Què és això?"); no saturen la subordinada.
   private static final Set<String> NEUTER_ATTRIBUTE_WORDS = new HashSet<>(Arrays.asList(
-      "això", "allò", "açò", "ho"));
+    "això", "allò", "açò", "ho"));
 
   // que/què com a paraula sencera (usat per helpers auxiliars del test)
   private static final Set<String> CONFIRMATION_TAGS = new HashSet<>(Arrays.asList(
-      "veritat", "oi", "eh", "no", "cert", "potser"));
+    "veritat", "oi", "eh", "no", "cert", "potser"));
   private static final Set<String> EXPLETIVES = new HashSet<>(Arrays.asList(
-      "collons", "coi", "cony", "dimonis", "dimoni", "carai", "diantre", "caram",
-      "carall", "punyeta", "punyetes", "redimonis", "diables", "diable", "hòstia",
-      "dimontri", "dimontris", "redéu", "redeu", "punyetera", "leche", "putes",
-      "fotons", "llamps", "trons"));
+    "collons", "coi", "cony", "dimonis", "dimoni", "carai", "diantre", "caram",
+    "carall", "punyeta", "punyetes", "redimonis", "diables", "diable", "hòstia",
+    "dimontri", "dimontris", "redéu", "redeu", "punyetera", "leche", "putes",
+    "fotons", "llamps", "trons"));
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -153,241 +153,217 @@ public class QueIniciFilter extends RuleFilter {
    * Retorna null si no es pot analitzar.
    */
   private Boolean predictsAccent(AnalyzedSentence sentence, Language language, boolean completiveOnly) {
+    /* TODO:
+    validació ↓ informació de la pregunta ↓ informació del grup verbal ↓ informació dels pronoms ↓
+    possibilitat de subjecte/objecte ↓ casos especials ↓ decisió final
+     */
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    try {
-      int quePos = findQue(tokens);
-      if (quePos < 0) {
-        return null;
-      }
-      boolean startsWithAccent = tokens[quePos].getToken().equalsIgnoreCase("què");
-      int questionPos = findQuestionMark(tokens, quePos);
-      int coreEnd = questionPos >= 0 ? stripConfirmationTag(tokens, quePos, questionPos) : tokens.length;
-      String lastWord = "";
-      boolean isSiNoQuestion = false;
-      if (tokens.length > 2) {
-        lastWord = tokens[tokens.length - 2].getToken();
-        isSiNoQuestion = SINO_LAST_WORDS.contains(lastWord.toLowerCase());
-        isSiNoQuestion = isSiNoQuestion
-            || (tokens[tokens.length - 2].getToken().equals("què") && tokens[tokens.length - 1].getToken().equals("o"));
-        isSiNoQuestion = isSiNoQuestion
-            || (tokens[tokens.length - 2].getToken().equals("no") && tokens[tokens.length - 1].getToken().equals(","));
-      }
-      boolean isAnotherSubject = lastWord.equals("això");
 
-      // Subjecte dislocat al final (", el professor?"): si el subjecte ja hi és, el SN
-      // postverbal és el CD -> no s'ha de comptar com a possible subjecte.
-      boolean trailingDislocation = false;
-      int j = tokens.length - 2;
-      boolean sawNominal = false;
-      while (j > quePos && tokens[j].matchesPosTagRegex("D.*|N.*|A.*|PP3.*|PX.*|PD.*")) {
-        sawNominal = true;
-        j--;
-      }
-      if (sawNominal && j > quePos && tokens[j].getToken().equals(",")) {
-        trailingDislocation = true;
-      }
-
-      List<String> pronoms = new ArrayList<>();
-      boolean verb3s = false;
-      boolean verb3p = false;
-      boolean verb2p = false;
-      String mainVerbLemma = "";
-      String firstPostagAfterVerb = "";
-      int firstTokenAfterVerbPos = -1;
-      int mainVerbPos = -1;
-      VerbGroupInfo verbGroup = verbGroupAfterQue(tokens, quePos, coreEnd, language);
-      if (verbGroup != null) {
-        int firstVerbPos = verbGroup.firstVerbIndex;
-        verb3s = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].3S.*");
-        verb3p = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].3P.*");
-        verb2p = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].2P.*");
-        mainVerbPos = verbGroup.lastVerbIndex;
-        AnalyzedToken mainVerbReading = tokens[mainVerbPos].readingWithTagRegex(ANY_VERB);
-        if (mainVerbReading != null) {
-          mainVerbLemma = mainVerbReading.getLemma();
-        }
-        for (int i = firstVerbPos - verbGroup.numPronounsBefore; i < firstVerbPos; i++) {
-          addPronounToken(tokens, i, pronoms);
-        }
-        for (int i = mainVerbPos + 1; i <= verbGroup.lastIndex; i++) {
-          addPronounToken(tokens, i, pronoms);
-        }
-        firstTokenAfterVerbPos = verbGroup.lastIndex + 1;
-        AnalyzedToken at = tokens[firstTokenAfterVerbPos].readingWithTagRegex(".*");
-        firstPostagAfterVerb = at != null && at.getPOSTag() != null ? at.getPOSTag() : "UNKNOWN";
-      }
-
-      if (completiveOnly && !(mainVerbPos >= 0
-          && mainVerbPos + 1 < tokens.length
-          && tokens[mainVerbPos + 1].getToken().equals("que")
-          && COMPLETIVE_GAP_VERBS.contains(mainVerbLemma))) {
-        return null;
-      }
-
-      boolean hasHo = pronoms.contains("ho");
-      boolean hasAccusativePronoun = false;
-      boolean hasDativePronoun = false;
-      boolean hasAccusativeNotDativePronoun = false;
-      for (String p : pronoms) {
-        if (ACCUSATIVE_PRONOUNS.contains(p)) {
-          hasAccusativePronoun = true;
-        }
-        if (DATIVE_PRONOUNS.contains(p)) {
-          hasDativePronoun = true;
-        }
-        if (ACCUSATIVE_PRONOUNS.contains(p) && !DATIVE_PRONOUNS.contains(p)) {
-          hasAccusativeNotDativePronoun = true;
-        }
-      }
-
-      String pronomStr = "";
-      if (!pronoms.isEmpty()) {
-        StringBuilder sb = new StringBuilder();
-        for (String p : pronoms) {
-          sb.append(p).append(" ");
-        }
-        pronomStr = PronomsFeblesHelper.transform(
-            sb.toString().replaceAll(" -", "-").replaceAll(" '", "'").replaceAll("' ", "'").trim(),
-            PronomsFeblesHelper.PronounPosition.DAVANT).replace("'", "").replaceAll(" ", "").trim();
-      }
-
-      // El complement posposat pot ser subjecte? Esbiaixem cap a "objecte": només si el nucli
-      // del SN és un nom propi o un nom comú animat (i concorda en nombre amb el verb). Els SN
-      // de nom comú inanimat es tracten com a CD (-> "que").
-      boolean complementCanBeSubject = (verb3s || verb3p || verb2p) && firstTokenAfterVerbPos > 0
-          && firstTokenAfterVerbPos < tokens.length
-          && postverbalCanBeSubject(tokens, firstTokenAfterVerbPos, verb3s, verb3p, verb2p);
-
-      // El complement posposat pot ser complement directe?
-      boolean complementCanBeObject = hasAccusativeNotDativePronoun;
-      if (firstPostagAfterVerb.startsWith("N")) {
-        complementCanBeObject = true;
-      } else if (firstTokenAfterVerbPos > 0 && firstTokenAfterVerbPos + 1 < tokens.length
-          && (tokens[firstTokenAfterVerbPos].matchesPosTagRegex(DET)
-          || INTERROGATIVE_WORDS.contains(tokens[firstTokenAfterVerbPos].getToken().toLowerCase()))) {
-        complementCanBeObject = true;
-      }
-
-      // veure't
-      if (mainVerbLemma.equals("veure") && hasAccusativePronoun) {
-        complementCanBeObject = true;
-      }
-
-      // Excepcions: complements de temps o oracions de relatiu, "tot"...
-      boolean isExceptionObject = false;
-      boolean isExceptionSubject = false;
-      if (firstTokenAfterVerbPos > 0 && firstTokenAfterVerbPos + 1 < tokens.length) {
-        if ((!hasAccusativeNotDativePronoun && tokens[firstTokenAfterVerbPos + 1].getChunkTags().contains(PTIME_CHUNK))
-            || (!hasAccusativeNotDativePronoun && tokens[firstTokenAfterVerbPos + 1].hasPosTag("_loc_unavegada"))
-            || (!hasAccusativeNotDativePronoun && tokens[firstTokenAfterVerbPos + 1].hasPosTag("_data_concreta"))
-            || (tokens[firstTokenAfterVerbPos].hasLemma("tot") && !hasAccusativeNotDativePronoun)) {
-          isExceptionObject = true;
-        }
-        if (tokens[firstTokenAfterVerbPos + 1].getChunkTags().contains(PTIME_CHUNK)
-            || tokens[firstTokenAfterVerbPos].getChunkTags().contains(CVERB_CHUNK)
-            || tokens[firstTokenAfterVerbPos + 1].hasPosTag("_loc_unavegada")
-            || tokens[firstTokenAfterVerbPos + 1].hasPosTag("_data_concreta")
-            || tokens[firstTokenAfterVerbPos].hasLemma("tot")) {
-          isExceptionSubject = true;
-        }
-      }
-      complementCanBeObject = complementCanBeObject && !isExceptionObject;
-      if (mainVerbLemma.equals("fer") && postverbalStartsTemporalAdjunct(tokens, firstTokenAfterVerbPos, coreEnd)) {
-        complementCanBeObject = false;
-      }
-      complementCanBeSubject = complementCanBeSubject && !isExceptionSubject && !isAnotherSubject
-          && !trailingDislocation;
-
-      // Transitivitat i rol de "què"
-      boolean isIntransitive = false;
-      boolean isQueSubject = false;
-      if (verb3s && mainVerbPos > 1) {
-        AnalyzedToken atr = tokens[mainVerbPos - 1].readingWithTagRegex(ANY_VERB);
-        if (atr != null) {
-          int queFoundPos = findFirst(tokens, mainVerbPos + 1, "que");
-          if (atr.getLemma().equals("fer")
-              && (((mainVerbPos < queFoundPos) && (queFoundPos < mainVerbPos + 5)) || hasAccusativeNotDativePronoun)) {
-            isQueSubject = true;
-          }
-        }
-        atr = tokens[mainVerbPos].readingWithTagRegex(ANY_VERB);
-        if (atr != null) {
-          int queFoundPos = findFirst(tokens, mainVerbPos + 1, "que");
-          if (atr.getLemma().equals("fer")
-              && (((mainVerbPos < queFoundPos) && (queFoundPos < mainVerbPos + 5)) || hasAccusativeNotDativePronoun)) {
-            isQueSubject = true;
-          }
-        }
-      }
-      boolean isQueObject = false;
-      // Subordinada saturada ("que" de sí/no): força la predicció a no-accent.
-      boolean saturatedCompletive = false;
-      AnalyzedToken mainVerbFinite = tokens[mainVerbPos].readingWithTagRegex(FINITE_VERB);
-      if (mainVerbFinite != null && mainVerbPos + 1 < tokens.length
-          && tokens[mainVerbPos + 1].getToken().equals("que") && !mainVerbFinite.getLemma().equals("veure")) {
-        if (COMPLETIVE_GAP_VERBS.contains(mainVerbLemma)) {
-          // "[verb epistèmic/volitiu] que [subordinada]": decidim segons si hi ha buit.
-          Boolean gap = completiveHasGap(tokens, mainVerbPos, coreEnd, language);
-          if (Boolean.FALSE.equals(gap)) {
-            saturatedCompletive = true;
-          } else {
-            // buit detectat o no decidible: "què" lliga un argument de la subordinada.
-            isQueObject = true;
-          }
-        } else {
-          isQueObject = true;
-        }
-      }
-      boolean ferPorMalPolar = !startsWithAccent
-          && isFerPorMalPolar(tokens, mainVerbPos, firstTokenAfterVerbPos, coreEnd, hasDativePronoun);
-      if (ferPorMalPolar) {
-        isQueSubject = false;
-        complementCanBeObject = true;
-      } else if (mainVerbLemma.equals("fer") && isFerPorQue(tokens, firstTokenAfterVerbPos)) {
-        isQueSubject = false;
-        complementCanBeObject = true;
-      }
-      if (!ferPorMalPolar && mainVerbLemma.equals("fer") && isFerMal(tokens, firstTokenAfterVerbPos)) {
-        isQueSubject = true;
-        complementCanBeObject = false;
-      }
-
-      isIntransitive = (VerbClassifier.isIntransitive(mainVerbLemma) && !COPULAR_VERBS.contains(mainVerbLemma))
-          || (mainVerbLemma.equals("ser") && pronomStr.equals("hi"));
-      if (mainVerbLemma.equals("passar") || mainVerbLemma.equals("agradar")) {
-        isIntransitive = true;
-        isQueSubject = !complementCanBeObject;
-      } else if (isIntransitive) {
-        isQueSubject = false;
-      }
-      if (startsWithAccent && mainVerbLemma.equals("fer") && isFerMal(tokens, firstTokenAfterVerbPos)) {
-        isIntransitive = false;
-        isQueSubject = true;
-        complementCanBeObject = false;
-      }
-      isQueSubject = isQueSubject && !isAnotherSubject;
-
-      boolean predictsAccent;
-      if (isIntransitive) {
-        predictsAccent = isQueSubject;
-      } else {
-        predictsAccent = (!complementCanBeObject && !hasHo) || complementCanBeSubject;
-      }
-      predictsAccent = predictsAccent || isQueSubject || isQueObject;
-      // Subordinada saturada d'un verb epistèmic/volitiu ("Que creus que té raó?"): sí/no,
-      // tret que "què" quedi clarament com a subjecte de l'oració principal.
-      if (saturatedCompletive && !isQueSubject) {
-        predictsAccent = false;
-      }
-      // Una cua "..., potser?"/"..., oi?" indica sí/no, tret que "què" sigui clarament
-      // subjecte o CD (interrogativa retòrica: "Què passa, ..., potser?").
-      if (isSiNoQuestion && !isQueSubject && !isQueObject) {
-        predictsAccent = false;
-      }
-      return predictsAccent;
-    } catch (IndexOutOfBoundsException | NullPointerException e) {
+    int quePos = findQue(tokens);
+    if (quePos < 0) {
       return null;
     }
+    boolean startsWithAccent = tokens[quePos].getToken().equalsIgnoreCase("què");
+    int questionPos = findQuestionMark(tokens, quePos);
+    int coreEnd = questionPos >= 0 ? stripConfirmationTag(tokens, quePos, questionPos) : tokens.length;
+    String lastWord = tokens.length > 2
+      ? tokens[tokens.length - 2].getToken()
+      : "";
+    boolean isSiNoQuestion =
+      tokens.length > 2
+        && (SINO_LAST_WORDS.contains(lastWord.toLowerCase())
+        || (lastWord.equals("què") && tokens[tokens.length - 1].getToken().equals("o"))
+        || (lastWord.equals("no") && tokens[tokens.length - 1].getToken().equals(",")));
+    boolean isAnotherSubject = lastWord.equals("això");
+
+    // Subjecte dislocat al final (", el professor?"): si el subjecte ja hi és, el SN
+    // postverbal és el CD -> no s'ha de comptar com a possible subjecte.
+    int j = tokens.length - 2;
+    while (j > quePos && tokens[j].matchesPosTagRegex("D.*|N.*|A.*|PP3.*|PX.*|PD.*")) {
+      j--;
+    }
+    boolean trailingDislocation =
+      j < tokens.length - 2
+        && j > quePos
+        && tokens[j].getToken().equals(",");
+
+    VerbGroupInfo verbGroup = verbGroupAfterQue(tokens, quePos, coreEnd, language);
+    if (verbGroup == null) {
+      return null;
+    }
+    int firstVerbPos = verbGroup.firstVerbIndex;
+    int mainVerbPos = verbGroup.lastVerbIndex;
+    boolean verb3s = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].3S.*");
+    boolean verb3p = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].3P.*");
+    boolean verb2p = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].2P.*");
+    AnalyzedToken mainVerbReading = tokens[mainVerbPos].readingWithTagRegex(ANY_VERB);
+    String mainVerbLemma = mainVerbReading.getLemma();
+
+    int firstTokenAfterVerbPos = verbGroup.lastIndex + 1;
+    String firstPostagAfterVerb = "";
+    if (firstTokenAfterVerbPos < tokens.length) {
+      AnalyzedToken at =
+        tokens[firstTokenAfterVerbPos].readingWithTagRegex(".*");
+      firstPostagAfterVerb =
+        at != null && at.getPOSTag() != null ? at.getPOSTag() : "UNKNOWN";
+    }
+
+    if (completiveOnly && !(mainVerbPos >= 0
+      && mainVerbPos + 1 < tokens.length
+      && tokens[mainVerbPos + 1].getToken().equals("que")
+      && COMPLETIVE_GAP_VERBS.contains(mainVerbLemma))) {
+      return null;
+    }
+
+    List<String> pronoms = new ArrayList<>();
+    for (int i = firstVerbPos - verbGroup.numPronounsBefore; i < firstVerbPos; i++) {
+      addPronounToken(tokens, i, pronoms);
+    }
+    for (int i = mainVerbPos + 1; i <= verbGroup.lastIndex; i++) {
+      addPronounToken(tokens, i, pronoms);
+    }
+    boolean hasHo = pronoms.contains("ho");
+    boolean hasAccusativePronoun = false;
+    boolean hasDativePronoun = false;
+    boolean hasAccusativeNotDativePronoun = false;
+    for (String p : pronoms) {
+      boolean accusative = ACCUSATIVE_PRONOUNS.contains(p);
+      boolean dative = DATIVE_PRONOUNS.contains(p);
+      hasAccusativePronoun |= accusative;
+      hasDativePronoun |= dative;
+      hasAccusativeNotDativePronoun |= accusative && !dative;
+    }
+    String pronomStr = "";
+    if (!pronoms.isEmpty()) {
+      pronomStr = PronomsFeblesHelper.transform(String.join(" ", pronoms), PronomsFeblesHelper.PronounPosition.DAVANT);
+    }
+
+    // El complement posposat pot ser subjecte? Esbiaixem cap a "objecte": només si el nucli
+    // del SN és un nom propi o un nom comú animat (i concorda en nombre amb el verb). Els SN
+    // de nom comú inanimat es tracten com a CD (-> "que").
+    boolean complementCanBeSubject = (verb3s || verb3p || verb2p) && firstTokenAfterVerbPos > 0
+      && firstTokenAfterVerbPos < tokens.length
+      && postverbalCanBeSubject(tokens, firstTokenAfterVerbPos, verb3s, verb3p, verb2p);
+
+    // El complement posposat pot ser complement directe?
+    boolean complementCanBeObject = hasAccusativeNotDativePronoun;
+    if (firstPostagAfterVerb.startsWith("N")) {
+      complementCanBeObject = true;
+    } else if (firstTokenAfterVerbPos > 0 && firstTokenAfterVerbPos + 1 < tokens.length
+      && (tokens[firstTokenAfterVerbPos].matchesPosTagRegex(DET)
+      || INTERROGATIVE_WORDS.contains(tokens[firstTokenAfterVerbPos].getToken().toLowerCase()))) {
+      complementCanBeObject = true;
+    }
+
+    // veure't (i potser altres verbs)
+    if (mainVerbLemma.equals("veure") && hasAccusativePronoun) {
+      complementCanBeObject = true;
+    }
+
+    // Excepcions: complements de temps o oracions de relatiu, "tot"...
+    boolean isExceptionObject = false;
+    boolean isExceptionSubject = false;
+    if (firstTokenAfterVerbPos > 0 && firstTokenAfterVerbPos + 1 < tokens.length) {
+      AnalyzedTokenReadings readingsAfterVerb = tokens[firstTokenAfterVerbPos];
+      AnalyzedTokenReadings readingsAfterVerb2 = tokens[firstTokenAfterVerbPos + 1];
+      boolean isCommonException =
+        readingsAfterVerb2.getChunkTags().contains(PTIME_CHUNK)
+          || readingsAfterVerb2.hasPosTag("_loc_unavegada")
+          || readingsAfterVerb2.hasPosTag("_data_concreta")
+          || readingsAfterVerb.hasLemma("tot");
+      isExceptionObject = !hasAccusativeNotDativePronoun && isCommonException;
+      isExceptionSubject = isCommonException;
+      // || verbToken.getChunkTags().contains(CVERB_CHUNK);
+    }
+    complementCanBeObject = complementCanBeObject && !isExceptionObject;
+    if (mainVerbLemma.equals("fer") && postverbalStartsTemporalAdjunct(tokens, firstTokenAfterVerbPos, coreEnd)) {
+      complementCanBeObject = false;
+    }
+    complementCanBeSubject = complementCanBeSubject && !isExceptionSubject && !isAnotherSubject
+      && !trailingDislocation;
+
+    // Transitivitat i rol de "què"
+    boolean isQueSubject = false;
+    if (verb3s && mainVerbPos > 1) {
+      int queFoundPos = findFirst(tokens, mainVerbPos + 1, "que");
+      boolean nearbyQue =
+        mainVerbPos < queFoundPos && queFoundPos < mainVerbPos + 5;
+      boolean ferHasSubjectQue =
+        nearbyQue || hasAccusativeNotDativePronoun;
+      AnalyzedToken previousVerb =
+        tokens[mainVerbPos - 1].readingWithTagRegex(ANY_VERB);
+      isQueSubject =
+        ferHasSubjectQue
+          && (mainVerbLemma.equals("fer")
+          || (previousVerb != null && previousVerb.getLemma().equals("fer")));
+    }
+    boolean isQueObject = false;
+    // Subordinada saturada ("que" de sí/no): força la predicció a no-accent.
+    boolean saturatedCompletive = false;
+    AnalyzedToken mainVerbFinite = tokens[mainVerbPos].readingWithTagRegex(FINITE_VERB);
+    if (mainVerbFinite != null && mainVerbPos + 1 < tokens.length
+      && tokens[mainVerbPos + 1].getToken().equals("que") && !mainVerbFinite.getLemma().equals("veure")) {
+      if (COMPLETIVE_GAP_VERBS.contains(mainVerbLemma)) {
+        // "[verb epistèmic/volitiu] que [subordinada]": decidim segons si hi ha buit.
+        Boolean gap = completiveHasGap(tokens, mainVerbPos, coreEnd, language);
+        if (Boolean.FALSE.equals(gap)) {
+          saturatedCompletive = true;
+        } else {
+          // buit detectat o no decidible: "què" lliga un argument de la subordinada.
+          isQueObject = true;
+        }
+      } else {
+        isQueObject = true;
+      }
+    }
+    boolean isFer = mainVerbLemma.equals("fer");
+    boolean ferPorMalPolar =
+      !startsWithAccent
+        && isFerPorMalPolar(
+        tokens, mainVerbPos, firstTokenAfterVerbPos, coreEnd, hasDativePronoun);
+    if (ferPorMalPolar || (isFer && isFerPorQue(tokens, firstTokenAfterVerbPos))) {
+      isQueSubject = false;
+      complementCanBeObject = true;
+    } else if (isFer && isFerMal(tokens, firstTokenAfterVerbPos)) {
+      isQueSubject = true;
+      complementCanBeObject = false;
+    }
+
+    boolean isIntransitive = (VerbClassifier.isIntransitive(mainVerbLemma) && !COPULAR_VERBS.contains(mainVerbLemma))
+      || (mainVerbLemma.equals("ser") && pronomStr.equals("hi"));
+    if (mainVerbLemma.equals("passar") || mainVerbLemma.equals("agradar")) {
+      isIntransitive = true;
+      isQueSubject = !complementCanBeObject;
+    } else if (isIntransitive) {
+      isQueSubject = false;
+    }
+    isQueSubject = isQueSubject && !isAnotherSubject;
+
+    if (startsWithAccent && mainVerbLemma.equals("fer") && isFerMal(tokens, firstTokenAfterVerbPos)) {
+      // duplicate code, except for isTransitive
+      isIntransitive = false;
+      isQueSubject = true;
+      complementCanBeObject = false;
+    }
+
+    boolean predictsAccent =
+      isQueSubject
+        || isQueObject
+        || (!isIntransitive
+        && ((!complementCanBeObject && !hasHo) || complementCanBeSubject));
+
+    // Subordinada saturada d'un verb epistèmic/volitiu ("Que creus que té raó?"): sí/no,
+    // tret que "què" quedi clarament com a subjecte de l'oració principal.
+    if (saturatedCompletive && !isQueSubject) {
+      predictsAccent = false;
+    }
+    // Una cua "..., potser?"/"..., oi?" indica sí/no, tret que "què" sigui clarament
+    // subjecte o CD (interrogativa retòrica: "Què passa, ..., potser?").
+    if (isSiNoQuestion && !isQueSubject && !isQueObject) {
+      predictsAccent = false;
+    }
+    return predictsAccent;
+
   }
 
   /**
@@ -397,7 +373,7 @@ public class QueIniciFilter extends RuleFilter {
    * saturada (interrogativa de confirmació de sí/no -&gt; "que").
    *
    * @return {@code Boolean.TRUE} si hi ha buit (accent), {@code Boolean.FALSE} si és saturada
-   *         (sense accent), o {@code null} si no es pot decidir (es manté el comportament previ).
+   * (sense accent), o {@code null} si no es pot decidir (es manté el comportament previ).
    */
   private Boolean completiveHasGap(AnalyzedTokenReadings[] tokens, int mainVerbPos, int coreEnd,
                                    Language language) {
@@ -423,7 +399,7 @@ public class QueIniciFilter extends RuleFilter {
     for (String p : embPron) {
       // Un clític acusatiu o neutre/partitiu ("ho", "en") ja ocupa el CD -> saturada.
       if ((ACCUSATIVE_PRONOUNS.contains(p) && !DATIVE_PRONOUNS.contains(p))
-          || p.equals("ho") || p.equals("en")) {
+        || p.equals("ho") || p.equals("en")) {
         return false;
       }
     }
@@ -463,7 +439,7 @@ public class QueIniciFilter extends RuleFilter {
 
     String cForm = tokens[contentPos].getToken().toLowerCase();
     if (tokens[contentPos].matchesPosTagRegex("D.*|N.*|PI.*|PX.*|PD.*|Z.*")
-        && !INTERROGATIVE_WORDS.contains(cForm)) {
+      && !INTERROGATIVE_WORDS.contains(cForm)) {
       boolean verb3s = tokens[emb.firstVerbIndex].matchesPosTagRegex("V.[SI].3S.*");
       boolean verb3p = tokens[emb.firstVerbIndex].matchesPosTagRegex("V.[SI].3P.*");
       boolean verb2p = tokens[emb.firstVerbIndex].matchesPosTagRegex("V.[SI].2P.*");
@@ -535,7 +511,7 @@ public class QueIniciFilter extends RuleFilter {
     }
     String first = tokens[start].getToken().toLowerCase();
     if (first.equals("cap") || first.equals("algun") || first.equals("alguna") || first.equals("un")
-        || first.equals("una")) {
+      || first.equals("una")) {
       return false;
     }
     return tokens[start].hasLemma("mal") || (tokens[start].hasLemma("por") && !nextTokenIs(tokens, start, "que"));
@@ -554,9 +530,9 @@ public class QueIniciFilter extends RuleFilter {
       return false;
     }
     return hasDativePronoun
-        || hasInfinitiveAfterNoun(tokens, nounPos, end)
-        || hasSubjectAfterFerMal(tokens, nounPos, end)
-        || hasAuxiliaryBeforeFer(tokens, mainVerbPos);
+      || hasInfinitiveAfterNoun(tokens, nounPos, end)
+      || hasSubjectAfterFerMal(tokens, nounPos, end)
+      || hasAuxiliaryBeforeFer(tokens, mainVerbPos);
   }
 
   private static int firstLexicalToken(AnalyzedTokenReadings[] tokens, int start, int end) {
@@ -604,8 +580,8 @@ public class QueIniciFilter extends RuleFilter {
       }
       AnalyzedToken verb = tokens[i].readingWithTagRegex(ANY_VERB);
       if (verb != null && verb.getLemma() != null
-          && (verb.getLemma().equals("voler") || verb.getLemma().equals("poder")
-          || verb.getLemma().equals("deure") || verb.getLemma().equals("haver"))) {
+        && (verb.getLemma().equals("voler") || verb.getLemma().equals("poder")
+        || verb.getLemma().equals("deure") || verb.getLemma().equals("haver"))) {
         return true;
       }
     }
@@ -632,7 +608,7 @@ public class QueIniciFilter extends RuleFilter {
       }
       AnalyzedToken noun = tokens[i].readingWithTagRegex("NC.*");
       return noun != null && TEMPORAL_ADJUNCT_NOUNS.contains(noun.getLemma())
-          && (hasDeterminer || WEEKDAY_NOUNS.contains(noun.getLemma()));
+        && (hasDeterminer || WEEKDAY_NOUNS.contains(noun.getLemma()));
     }
     return false;
   }
@@ -780,8 +756,8 @@ public class QueIniciFilter extends RuleFilter {
     int lastCore = questionIdx - 1;
     int commaIdx = lastCore - 1;
     if (commaIdx > queIdx
-        && tokens[commaIdx].getToken().equals(",")
-        && CONFIRMATION_TAGS.contains(tokens[lastCore].getToken().toLowerCase())) {
+      && tokens[commaIdx].getToken().equals(",")
+      && CONFIRMATION_TAGS.contains(tokens[lastCore].getToken().toLowerCase())) {
       return commaIdx;
     }
     return questionIdx;
