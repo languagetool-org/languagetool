@@ -260,6 +260,7 @@ public class QueIniciCorpusTest {
     List<String> fnAmb = new ArrayList<>();
     List<ErrorCase> fnSenseCases = new ArrayList<>();
     List<ErrorCase> fnAmbCases = new ArrayList<>();
+    Map<String, RuleStats> statsByRule = new HashMap<>();
     int tpSense = 0;
     int tpAmb = 0;
     // Acumulació de verbs del patró net "que/què + verb + ?", per a classificar-los (tr/intr)
@@ -331,9 +332,11 @@ public class QueIniciCorpusTest {
       if (SENSE_ACCENT.equals(firedOnOriginal)) {
         fpSense.add(firedIdOriginal + "\t" + sentence);
         fpSenseCases.add(new ErrorCase(firedIdOriginal, sentence, sentence, false));
+        statsFor(statsByRule, firedIdOriginal).fp++;
       } else if (AMB_ACCENT.equals(firedOnOriginal)) {
         fpAmb.add(firedIdOriginal + "\t" + sentence);
         fpAmbCases.add(new ErrorCase(firedIdOriginal, sentence, sentence, false));
+        statsFor(statsByRule, firedIdOriginal).fp++;
       }
       // TP/FN: invertim el que/què inicial -> la frase esdevé incorrecta -> hauria de saltar.
       // La forma invertida determina quina regla ha d'actuar:
@@ -349,18 +352,22 @@ public class QueIniciCorpusTest {
         if (SENSE_ACCENT.equals(expected)) {
           if (detected) {
             tpSense++;
+            statsFor(statsByRule, firedIdInverted).tp++;
           } else {
             ErrorCase errorCase = new ErrorCase(fnId(expected, firedIdInverted), sentence, inverted, true);
             fnSense.add(errorCase.format());
             fnSenseCases.add(errorCase);
+            statsFor(statsByRule, errorCase.id).fn++;
           }
         } else {
           if (detected) {
             tpAmb++;
+            statsFor(statsByRule, firedIdInverted).tp++;
           } else {
             ErrorCase errorCase = new ErrorCase(fnId(expected, firedIdInverted), sentence, inverted, true);
             fnAmb.add(errorCase.format());
             fnAmbCases.add(errorCase);
+            statsFor(statsByRule, errorCase.id).fn++;
           }
         }
       }
@@ -408,6 +415,7 @@ public class QueIniciCorpusTest {
     writeLines(new File(reportDir, "false_negatives_sense_accent.txt"), fnSense);
     writeLines(new File(reportDir, "false_negatives_amb_accent.txt"), fnAmb);
     writeLines(new File(reportDir, "false_positives_ambig.txt"), fpAmbig);
+    writeLines(new File(reportDir, "rule_stats.tsv"), formatRuleStats(statsByRule));
     writeLines(new File(reportDir, "verbs_after_que_accent.txt"), sortByFreq(verbsAfterQueAccent));
     writeLines(new File(reportDir, "verbs_after_que.txt"), sortByFreq(verbsAfterQue));
     writeVerbNounContextReports(reportDir, nounsAfterAccent, nounsAfterNoAccent,
@@ -712,6 +720,27 @@ public class QueIniciCorpusTest {
     return result;
   }
 
+  private RuleStats statsFor(Map<String, RuleStats> statsByRule, String ruleId) {
+    return statsByRule.computeIfAbsent(ruleId, RuleStats::new);
+  }
+
+  private List<String> formatRuleStats(Map<String, RuleStats> statsByRule) {
+    List<RuleStats> stats = new ArrayList<>(statsByRule.values());
+    stats.sort((a, b) -> {
+      int byTotal = Integer.compare(b.total(), a.total());
+      if (byTotal != 0) {
+        return byTotal;
+      }
+      return a.ruleId.compareTo(b.ruleId);
+    });
+    List<String> result = new ArrayList<>();
+    result.add("rule_id\tfp\ttp\tfn\ttotal");
+    for (RuleStats stat : stats) {
+      result.add(stat.ruleId + "\t" + stat.fp + "\t" + stat.tp + "\t" + stat.fn + "\t" + stat.total());
+    }
+    return result;
+  }
+
   private List<String> sortVerbNounContexts(Map<String, Integer> counts, Map<String, List<String>> examples) {
     List<Map.Entry<String, Integer>> entries = new ArrayList<>(counts.entrySet());
     entries.sort((a, b) -> b.getValue().compareTo(a.getValue()));
@@ -824,6 +853,21 @@ public class QueIniciCorpusTest {
 
     double accentRatio() {
       return total == 0 ? 0.0 : (double) accent / total;
+    }
+  }
+
+  private static class RuleStats {
+    final String ruleId;
+    int fp;
+    int tp;
+    int fn;
+
+    RuleStats(String ruleId) {
+      this.ruleId = ruleId;
+    }
+
+    int total() {
+      return fp + tp + fn;
     }
   }
 
