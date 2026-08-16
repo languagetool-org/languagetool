@@ -34658,6 +34658,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
+        <rulegroup id="ESTAN_ESTAR" name="poden estan fetes -> poden estar fetes" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">poder|voler|deure</token>
+                    <marker>
+                        <token regexp="yes">estan|està</token>
+                    </marker>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>estar</suggestion>?</message>
+                <example correction="estar">Les enquestes poden <marker>estan</marker> esbiaixades.</example>
+            </rule>
+        </rulegroup>
         <rule id="PIC_PUC" name="pic entrar -> puc entrar">
             <pattern>
                 <marker>
@@ -72538,6 +72551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Cal indicar el dia i el mes.</example>
             <example>Durant aquell mes humit van arribar les pluges que acabaren la secada.</example>
             <example>Destaca juliol com a mes més sec.</example>
+            <example>Faltava un mes per a l'eclipsi solar.</example>
             <!-- Ambiguous
             <example>Pots veure els actes d'un dia, d'un mes.</example>
             <example>No que hi aneu un mes a viure-hi.</example>
@@ -73924,6 +73938,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>més</token>
                     <token postag="V.P.*|AQ.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">un|una</token>
+                    <token regexp="yes">dia|setmana</token>
+                    <token>o</token>
+                    <token>més</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">dia|setmana</token>
                     <token regexp="yes">,|i|o|ni</token>
@@ -73937,6 +73957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mes">El pla del dia, la setmana o el <marker>més</marker>.</example>
                 <example correction="mes">El pla del dia, de la setmana i del <marker>més</marker>.</example>
                 <example>Fou el darrer sobresalt del dia i el més gran.</example>
+                <example>Trigarem una setmana o més a tenir-ho acabat.</example>
             </rule>
             <rule>
                 <pattern>
@@ -73953,8 +73974,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">fer|trigar|tardar</token>
-                    <token regexp="yes" min="0" max="2">més|menys|de</token>
+                    <token inflected="yes" regexp="yes">fer|trigar|tardar|faltar|mancar</token>
+                    <token regexp="yes" min="0" max="2">més|menys|de|d'</token>
                     <token>mig</token>
                     <marker>
                         <token>més</token>
@@ -73963,6 +73984,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>No s'accentua si és un nom (període de 28-31 dies).</message>
                 <suggestion>mes</suggestion>
                 <example correction="mes">Va trigar més de mig <marker>més</marker> a fer-se.</example>
+                <example correction="mes">Faltava mig <marker>més</marker> per a l'eclipsi solar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">fer|trigar|tardar|faltar|mancar</token>
+                    <token regexp="yes" min="0" max="2">més|menys|de|d'</token>
+                    <token>un</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">Hi anirem quan falti un <marker>més</marker> per a l'eclipsi solar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -94509,6 +94544,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>per a baquejar-se</suggestion>
             <example correction="per a pixar-se de riure|per a petar-se de riure|per a morir-se de riure|per a pixar-se|per a baquejar-se">És <marker>tronxant</marker>.</example>
         </rule>
+        <rulegroup id="ENTENDRE" name="entendre -> entendré" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="N.*|_GN_.*" postag_regexp="yes"/>
+                    <token>que</token>
+                    <token>no</token>
+                    <marker>
+                        <token>entendre</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>entendré</suggestion> (futur) en comptes de "entendre" (infinitiu)?</message>
+                <example correction="entendré">És una cosa que no <marker>entendre</marker> mai.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token>entendre</token>
+                    </marker>
+                    <token>mai</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>entendré</suggestion> (futur) en comptes de "entendre" (infinitiu)?</message>
+                <example correction="entendré">És una cosa que no <marker>entendre</marker> mai.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mai</token>
+                    <marker>
+                        <token>entendre</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>entendré</suggestion> (futur) en comptes de "entendre" (infinitiu)?</message>
+                <example correction="entendré">És una cosa que mai <marker>entendre</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&anar_auxiliar;</token>
+                    <marker>
+                        <token>entendré</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>entendre</suggestion> (infinitiu) en comptes de "entendré" (futur)?</message>
+                <example correction="entendre">No ho vàrem <marker>entendré</marker> bé.</example>
+            </rule>
+        </rulegroup>
         <rule id="ENTENDRES" name="entendres -> entendre's">
             <pattern>
                 <token>entendres<exception postag="_GN_MP"/></token>
@@ -135046,8 +135126,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INICIAR_EL_PROCES_DE" name="iniciar el procés d'instal·lació -> començar la instal·lació">
             <rule>
                 <pattern>
-                    <token>d'</token>
-                    <token inflected="yes">iniciar</token>
+                    <token regexp="yes">d'|de</token>
+                    <token inflected="yes" regexp="yes">iniciar|començar|engegar|endegar</token>
                     <token>el</token>
                     <token>procés</token>
                     <token regexp="yes">de|d'</token>
@@ -135059,8 +135139,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>d'</token>
-                    <token inflected="yes">iniciar</token>
+                    <token regexp="yes">d'|de</token>
+                    <token inflected="yes" regexp="yes">iniciar|començar|engegar|endegar</token>
                     <token>el</token>
                     <token>procés</token>
                     <token regexp="yes">de|d'</token>
@@ -135074,7 +135154,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">iniciar</token>
+                    <token inflected="yes" regexp="yes">iniciar|començar|engegar|endegar</token>
                     <token>el</token>
                     <token>procés</token>
                     <token regexp="yes">de|d'</token>
@@ -135086,7 +135166,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">iniciar</token>
+                    <token inflected="yes" regexp="yes">iniciar|començar|engegar|endegar</token>
                     <token>el</token>
                     <token>procés</token>
                     <token regexp="yes">de|d'</token>
@@ -139554,7 +139634,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>a escala <match no="3" postag="AQ.[MC][SN]." postag_regexp="yes" postag_replace="AQ.[FC][SN]."/></suggestion>
                 <suggestion><match no="3" postag="AQ.[MC][SN]." postag_regexp="yes" postag_replace="AQ.[FC][SN]."/>ment</suggestion>
                 <suggestion><match no="3"/></suggestion>
-                <example correction="en l'àmbit mundial|a escala mundial|mundialment|mundial">Ho varen fer <marker>a nivell mundial</marker>.</example>
+                <suggestion>des del punt de vista \3</suggestion>
+                <example correction="en l'àmbit mundial|a escala mundial|mundialment|mundial|des del punt de vista mundial">Ho varen fer <marker>a nivell mundial</marker>.</example>
                 <example>Aquest terra no és a nivell.</example>
             </rule>
             <rule>
