@@ -81745,6 +81745,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="1999-2000">Curs <marker>1999/00</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">\d\d</token>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">&mesos_any;</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">(19|20)\d\d</token>
@@ -81755,6 +81760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>És preferible escriure els anys complets i amb guionet.</message>
                 <suggestion>\1-<match no="1" regexp_match="(..).." regexp_replace="$1"/>\3</suggestion>
                 <example correction="2025-2026">Curs <marker>2025/26</marker></example>
+                <example>12 de setembre de 1927 - 13 de febrer de 2009.</example>
             </rule>
             <rule>
                 <pattern>
