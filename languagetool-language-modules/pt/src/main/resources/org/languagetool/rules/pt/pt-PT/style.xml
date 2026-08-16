@@ -4075,18 +4075,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='CIENTÍFICO_MAIS_IMPORTANTE_CHAVE_V3' name="🇵🇹🔬 mais conhecidos/importantes → -chave" type="style">
-            <pattern>
-                <marker>
-                    <token postag='NC.+' postag_regexp='yes' regexp='yes' inflected='yes'>adversário|área|aspec?to|ac?tividade|autor|batalha|carac?terística|categoria|cientista|cineasta|conceito|contribuição|decisão|descoberta|detalhe|domínio|elemento|escritor|escultor|etapa|evento|exemplo|fac?to|fac?tor|feito|ferramenta|figura|homem|ideia|indústria|informação|instituição|investigador|jogador|jornalista|líder|local|lugar|membro|momento|movimento|mulher|objec?tivo|objec?to|palavra|papel|peça|pergunta|período|pessoa|pesquisador|ponto|problema|questão|sec?tor|tarefa|tema|tópico|trabalho|vitória</token>
-                    <token>mais</token>
-                    <token regexp='yes'>conhecidos?|importantes?</token>
-                </marker>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;-chave&quot;.</message>
-            <suggestion>\1-chave</suggestion>
-            <example correction="conceitos-chave">A entropia é um dos <marker>conceitos mais conhecidos</marker> na teoria.</example>
-        </rule>
+      <rule id='CIENTÍFICO_MAIS_IMPORTANTE_CHAVE_V4' name="🇵🇹🔬 'mais importante(s)' → -chave" type='style' tone_tags='academic'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <marker>
+                  <token postag='NC.+' postag_regexp='yes' regexp='yes' inflected='yes'>aspecto|aspeto|característica|conceito|contribuição|decisão|elemento|etapa|factor|fator|ferramenta|ideia|informação|objectivo|objetivo|papel|ponto|questão|tema</token>
+                  <token>mais</token>
+                  <token regexp='yes'>importantes?</token>
+              </marker>
+          </pattern>
+          <message>Num contexto formal/científico, é preferível escrever &quot;-chave&quot;.</message>
+          <suggestion>\1-chave</suggestion>
+          <example correction="conceito-chave">A entropia é o <marker>conceito mais importante</marker> na teoria.</example>
+          <example correction="conceitos-chave">Estes são os <marker>conceitos mais importantes</marker> da teoria.</example>
+      </rule>
 
 
         <rulegroup id='GRANDES_ENORMES_RECURSOS_FINANCEIROS_AVULTADOS' name="🇵🇹🔬 'grandes/enormes' recursos financeiros → avultados" type="style" tags="picky">
