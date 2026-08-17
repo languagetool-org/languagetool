@@ -81095,6 +81095,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_VOS" name="Exigeix la forma 'vos': ¿Què vos/us sembla?" type="style" default="off">
+            <antipattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <!-- error us/ús -->
+                <token>us</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -160771,6 +160777,63 @@ No t'ho explicaré, no cal que em burxis més-->
                 <message>Adaptació al valencià.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eixir</match></suggestion>
                 <example correction="Ix"><marker>Surt</marker> del programa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">la|de</token>
+                    <token>sortida</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" regexp_match="(.)." regexp_replace="$1"/>'eixida</suggestion>
+                <example correction="L'eixida"><marker>La sortida</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">sortida</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">eixida</match></suggestion>
+                <example correction="eixides">Les <marker>sortides</marker> del programa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">amplada</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">amplària</match></suggestion>
+                <example correction="amplàries">Les <marker>amplades</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">alçada</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">alçària</match></suggestion>
+                <example correction="alçàries">Les <marker>alçades</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP|D.*" postag_regexp="yes"/>
+                    <token>obres</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">obre|obren|obres<exception postag="_GN_FP"/></token>
+                </pattern>
+                <message>Adaptació al valencià, si és del verb 'obrir'. Pot ser una forma del verb 'obrar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)obre" regexp_replace="obri"/></suggestion>
+                <example correction="Obri"><marker>Obre</marker> el menú de l'esquerra.</example>
+                <example>Les obres de la carretera.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- [^VXZ13567] -->
+                    <token postag="V.*[^Z]" postag_regexp="yes" inflected="yes">afegir</token>
+                </pattern>
+                <message>Adaptació al valencià. Formes pures, no incoatives.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)." postag_replace="$1Z"/></suggestion>
+                <example correction="Afig"><marker>Afegeix</marker> un botó.</example>
+                <!--
+                <example correction="Afegia" reason="innecessari perquè no canvia res"><marker>Afegia</marker> un botó.</example>-->
             </rule>
             <rule>
                 <pattern>
