@@ -160749,7 +160749,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
         </rulegroup>
     </category>
-    <category name="adaptador valencià" id="ADAPTADOR_VALENCIA" default="on">
+    <category name="adaptador valencià" id="ADAPTADOR_VALENCIA" default="off">
         <!-- Aquestes regles no són per a correcció. Són per a adaptar texts a la varietat valenciana -->
         <rulegroup name="adaptacions al valencià" id="ADAPTADOR_VALENCIA_LEXIC">
             <rule>
@@ -160860,14 +160860,18 @@ No t'ho explicaré, no cal que em burxis més-->
                 <pattern>
                     <!-- [^VXZ13567] -->
                     <and>
-                        <token postag="V.*[^Z]" postag_regexp="yes" inflected="yes" regexp="yes">afegir|llegir</token>
-                        <token regexp="yes">.*(eix|eixes|eixen|eixo|eixi|eixis|eixin)</token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">afegir|llegir</token>
+                        <token regexp="yes">.*(eix|eixen|eixes|eixi|eixin|eixis|eixo|ixo|esc|eixc|esca|eixca|esquen|eixquen|esques|eixques|esqui|eixqui|esquin|eixquin|esquis|eixquis|isc|ixc|isca|ixca|isquen|ixquen|isques|ixques|ix|ixen|ixes)</token>
                     </and>
                 </pattern>
+                <filter class="org.languagetool.rules.ca.RemoveSuggestionsFilter" args="removeSuggestionsRegexp:.*(eix|eixen|eixes|eixi|eixin|eixis|eixo|ixo|esc|eixc|esca|eixca|esquen|eixquen|esques|eixques|esqui|eixqui|esquin|eixquin|esquis|eixquis|isc|ixc|isca|ixca|isquen|ixquen|isques|ixques|ix|ixen|ixes)|.*gc|.*gg.+"/>
                 <message>Adaptació al valencià. Formes pures, no incoatives.</message>
-                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)." postag_replace="$1Z"/></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="(V.*)." postag_replace="$1[VXZ]"/></suggestion>
                 <example correction="Afig"><marker>Afegeix</marker> un botó.</example>
-                <example><marker>Afegia</marker> un botó.</example>
+                <example>Afegia un botó.</example>
+                <example correction="llija">Que <marker>llegesca</marker>.</example>
+                <example correction="lligen">Que <marker>llegeixin</marker>.</example>
+                <example correction="afija">Que <marker>afegeixi</marker>.</example>
             </rule>
             <rule>
                 <pattern>
