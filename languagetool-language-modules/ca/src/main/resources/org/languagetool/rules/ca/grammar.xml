@@ -160827,13 +160827,15 @@ No t'ho explicaré, no cal que em burxis més-->
             <rule>
                 <pattern>
                     <!-- [^VXZ13567] -->
-                    <token postag="V.*[^Z]" postag_regexp="yes" inflected="yes">afegir</token>
+                    <and>
+                        <token postag="V.*[^Z]" postag_regexp="yes" inflected="yes">afegir</token>
+                        <token regexp="yes">.*(eix|eixes|eixen|eixo|eixi|eixis|eixin)</token>
+                    </and>
                 </pattern>
                 <message>Adaptació al valencià. Formes pures, no incoatives.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.*)." postag_replace="$1Z"/></suggestion>
                 <example correction="Afig"><marker>Afegeix</marker> un botó.</example>
-                <!--
-                <example correction="Afegia" reason="innecessari perquè no canvia res"><marker>Afegia</marker> un botó.</example>-->
+                <example><marker>Afegia</marker> un botó.</example>
             </rule>
             <rule>
                 <pattern>
