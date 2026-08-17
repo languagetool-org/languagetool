@@ -81094,6 +81094,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Veure-us.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EXIGEIX_VOS" name="Exigeix la forma 'vos': ¿Què vos/us sembla?" type="style" default="off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>us</token>
+                    </marker>
+                    <token postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion>vos</suggestion>
+                <example correction="Vos"><marker>Us</marker> sembla bé?</example>
+                <example correction="Vos"><marker>Us</marker> assembleu molt.</example>
+                <example>vós sembleu un sant</example>
+                <example>vós sou l'únic sant</example>
+                <example>Déu vos guard</example>
+                <example>ANIMEU-VOS A PARTICIPAR.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="P0.*|PP.*" postag_regexp="yes">-us</token>
+                    </marker>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion>-vos</suggestion>
+                <example correction="-vos">Veure<marker>-us</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="LEN" name="le'n">
             <pattern>
                 <token>le</token>
