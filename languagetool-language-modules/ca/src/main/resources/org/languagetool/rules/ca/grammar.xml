@@ -34658,7 +34658,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
-        <rulegroup id="ESTAN_ESTAR" name="poden estan fetes -> poden estar fetes" default="temp_off">
+        <rulegroup id="ESTAN_ESTAR" name="poden estan fetes -> poden estar fetes">
+            <antipattern>
+                <token>poder</token>
+                <token regexp="yes">estan|està</token>
+                <example>Que poder està prohibit, menjar-ne per postres?</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">poder|voler|deure</token>
