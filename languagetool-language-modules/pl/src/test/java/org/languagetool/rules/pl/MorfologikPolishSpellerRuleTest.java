@@ -101,10 +101,10 @@ public class MorfologikPolishSpellerRuleTest {
     assertEquals(1, prunedMatches.length);
     assertEquals(6, prunedMatches[0].getSuggestedReplacements().size());
     assertEquals("Clarke", prunedMatches[0].getSuggestedReplacements().get(0));
-    assertEquals("Clarkiem", prunedMatches[0].getSuggestedReplacements().get(1));
-    assertEquals("Ciarkę", prunedMatches[0].getSuggestedReplacements().get(2));
-    assertEquals("Clarkom", prunedMatches[0].getSuggestedReplacements().get(3));
-    assertEquals("Czarkę", prunedMatches[0].getSuggestedReplacements().get(4));
+    assertEquals("Czarkę", prunedMatches[0].getSuggestedReplacements().get(1));
+    assertEquals("Clarkiem", prunedMatches[0].getSuggestedReplacements().get(2));
+    assertEquals("Ciarkę", prunedMatches[0].getSuggestedReplacements().get(3));
+    assertEquals("Clarkom", prunedMatches[0].getSuggestedReplacements().get(4));
 
     //with default ignore-camel-case == yes this was not catched at all
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Saint-Exupérymu")).length);

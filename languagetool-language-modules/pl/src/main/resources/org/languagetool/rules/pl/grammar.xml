@@ -18986,19 +18986,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
                         <rule>
                             <pattern case_sensitive="yes">
-                                <token>Al</token>
+                                <token>al</token>
                                 <token spacebefore="no">.</token>
                                 <token regexp="yes">\p{Lu}\p{Ll}+<exception postag="adj:pl.*" postag_regexp="yes"/></token>
                             </pattern>
-                            <message>W takich adresach pierwszy człon piszemy małą literą: <suggestion><match no="1" case_conversion="alllower"/><match no="2"/> <match
+                            <message>W takich adresach pierwszy człon piszemy wielką literą: <suggestion><match no="1" case_conversion="firstupper"/><match no="2"/> <match
                                     no="3"/></suggestion>.</message>
                             <url>https://sjp.pwn.pl/zasady/;629401.html</url>
                             <short>Błąd pisowni wielką i małą literą</short>
-                            <example>Mieszkał wraz z rodziną w Sopocie przy al. Niepodległości.</example>
-                            <example correction="al. Niepodległości">Mieszkał wraz z rodziną w Sopocie przy <marker>Al. Niepodległości</marker>.</example>
+                            <example>Mieszkał wraz z rodziną w Sopocie przy Al. Niepodległości.</example>
+                            <example correction="Al. Niepodległości">Mieszkał wraz z rodziną w Sopocie przy <marker>al. Niepodległości</marker>.</example>
                             <example>Kancelaria mieści się w Warszawie, pod adresem Al. Ujazdowskie 12133.</example>
-                            <example>Mieszkam przy al. Świerczewskiego.</example>
-                            <example correction="al. Świerczewskiego">Mieszkam przy <marker>Al. Świerczewskiego</marker>.</example>
+                            <example>Mieszkam przy Al. Świerczewskiego.</example>
+                            <example correction="Al. Świerczewskiego">Mieszkam przy <marker>al. Świerczewskiego</marker>.</example>
                         </rule>
 				</rulegroup>
 				<rulegroup id="REPREZENTANT_POLSKI" name="„reprezentant polski” (reprezentant Polski)">
@@ -28642,121 +28642,143 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              <example>W ten sposób nie można uzasadnić tez dotyczących psychologicznej natury przekonań.</example>
             </rule>
         </rulegroup>
-				<rule id="POSTANIE" name="„postanie” (powstanie)">
-						<pattern>
-								<token><exception>nie</exception></token>
-								<marker>
-										<token>postanie</token>
-								</marker>
-						</pattern>
-						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>powstanie</suggestion>?</message>
-						<short>Prawdopodobna literówka</short>
-						<example>Moja noga nigdy tu więcej nie postanie.</example>
-						<example correction="Powstanie"><marker>Postanie</marker> Warszawskie było wielką tragedią.</example>
-				</rule>
-				<rule id="PROSTU" name="„prostu” (po prostu)">
-                        <antipattern>
-                            <token>po</token>
-                            <token regexp="yes">[&quot;„…]</token>
-                            <marker>
-                            <token postag="adjp"/>
-                            </marker>
-                        </antipattern>
-                        <antipattern>
-                            <token>po</token>
-                            <token>.</token>
-                            <token>.</token>
-                            <token>.</token>
-                            <marker>
-                                <token postag="adjp"/>
-                            </marker>
-                        </antipattern>
-                        <antipattern>
-                            <token>po</token>
-                            <token postag="adjp"/>
-                            <token regexp="yes">oraz|i|lub|bądź|czy|,</token>
-                            <marker><token postag="adjp"/></marker>
-                        </antipattern>
-                    <antipattern>
-                        <token>po</token>
+        <rule id="POSTANIE" name="„postanie” (powstanie)">
+                <pattern>
+                        <token><exception>nie</exception></token>
+                        <marker>
+                                <token>postanie</token>
+                        </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>powstanie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example>Moja noga nigdy tu więcej nie postanie.</example>
+                <example correction="Powstanie"><marker>Postanie</marker> Warszawskie było wielką tragedią.</example>
+        </rule>
+        <rulegroup id="PROSTU" name="„prostu” (po prostu)">
+            <rule id="PROSTU_1">
+                <antipattern>
+                    <token>po</token>
+                    <token regexp="yes">[&quot;„…]</token>
+                    <marker>
                         <token postag="adjp"/>
-                        <token>,</token>
-                        <marker>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>po</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <marker>
                         <token postag="adjp"/>
-                        </marker>
-                    </antipattern>
-                    <antipattern>
-                            <token>po</token>
-                            <token postag="adjp"/>
-                            <token>,</token>
-                            <token postag="adjp"/>
-                            <token regexp="yes">oraz|i|lub|bądź|czy</token>
-                            <marker><token postag="adjp"/></marker>
-                        </antipattern>
-                    <antipattern>
-                        <token>z</token>
-                        <token regexp="yes">bliska|wolna|daleka|dawna|lekka|lewa|grubsza|nagła|osobna|prawa|pyszna|rzadka|wiejska|wysoka</token>
-                    </antipattern>
-                    <antipattern>
-                        <token>z</token>
-                        <token>bardzo</token>
-                        <marker>
-                            <token regexp="yes">bliska|daleka|dawna|wysoka</token>
-                        </marker>
-                    </antipattern>
-                    <antipattern>
-                        <token>co</token>
-                        <marker>
-                            <token>gorsza</token>
-                        </marker>
-                    </antipattern>
-                    <antipattern>
-                        <token>od</token>
-                        <marker>
-                            <token regexp="yes">dawna|niedawna|nowa</token>
-                        </marker>
-                    </antipattern>
-                    <antipattern>
-                        <token>od</token>
-                        <token regexp="yes">[tj]ak</token>
-                        <marker>
-                            <token>dawna</token>
-                        </marker>
-                    </antipattern>
-                    <antipattern>
-                        <token>bez</token>
-                        <marker>
-                            <token>mała</token>
-                        </marker>
-                    </antipattern>
-                    <antipattern>
-                        <token>do</token>
-                        <token regexp="yes">cna|czysta|naga|niedawna|pełna|późna|sucha|syta</token>
-                    </antipattern>
-                    <antipattern>
-                        <token>na</token>
-                        <token>chrupko</token>
-                    </antipattern>
-						<pattern>
-								<token><exception scope="previous" postag="adjp"/><exception regexp="yes">i|po</exception></token>
-								<marker>
-										<token postag="adjp"><exception postag="subst.*" postag_regexp="yes"/><exception regexp="yes">(?-iu)Brunszwicku</exception></token>
-								</marker>
-						</pattern>
-						<message>Prawdopodobna literówka. Czy miało być <suggestion>po <match case_conversion="startlower" no="2"></match></suggestion>?</message>
-						<short>Prawdopodobna literówka</short>
-						<example>Jadzia mówi po niemiecku i angielsku.</example>
-						<example correction="po niemiecku">Jadzia mówi <marker>niemiecku</marker> i angielsku.</example>
-						<example correction="Po prostu"><marker>Prostu</marker> się mylisz.</example>
-                        <example>Od pięciu lat istnieje w Brunszwicku w Niemieckiej Republice Federalnej zespół pieśni i tańca.</example>
-                        <example>Czy on mówi po angielsku, francusku czy niemiecku?</example>
-                        <example>Woli pan mówić po niemiecku czy angielsku?</example>
-                        <example>Od jak dawna uczysz się angielskiego?</example>
-                        <example>Wstąpił na herbatę do znajomego mieszkającego po &quot;sąsiedzku&quot;, tj. 50 km dalej.</example>
-                        <example>Nie mógł się z nimi porozumieć po... bułgarsku.</example>
-                        <example>W latach 1907-1908 w Sławiańsku na Ukrainie wspólnicy wybudowali dużą fabrykę.</example>
-                        <example>Uwielbiam skórkę wypieczoną na chrupko.</example>
-				</rule>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>po</token>
+                    <token postag="adjp"/>
+                    <token regexp="yes">oraz|i|lub|bądź|czy|,</token>
+                    <marker><token postag="adjp"/></marker>
+                </antipattern>
+                <antipattern>
+                    <token>po</token>
+                    <token postag="adjp"/>
+                    <token>,</token>
+                    <marker>
+                        <token postag="adjp"/>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>po</token>
+                    <token postag="adjp"/>
+                    <token>,</token>
+                    <token postag="adjp"/>
+                    <token regexp="yes">oraz|i|lub|bądź|czy</token>
+                    <marker><token postag="adjp"/></marker>
+                </antipattern>
+                <antipattern>
+                    <token>z</token>
+                    <token regexp="yes">bliska|wolna|daleka|dawna|lekka|lewa|grubsza|nagła|osobna|prawa|pyszna|rzadka|wiejska|wysoka</token>
+                </antipattern>
+                <antipattern>
+                    <token>z</token>
+                    <token>bardzo</token>
+                    <marker>
+                        <token regexp="yes">bliska|daleka|dawna|wysoka</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>co</token>
+                    <marker>
+                        <token>gorsza</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>od</token>
+                    <marker>
+                        <token regexp="yes">dawna|niedawna|nowa</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>od</token>
+                    <token regexp="yes">[tj]ak</token>
+                    <marker>
+                        <token>dawna</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>bez</token>
+                    <marker>
+                        <token>mała</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <token>do</token>
+                    <token regexp="yes">cna|czysta|naga|niedawna|pełna|późna|sucha|syta</token>
+                </antipattern>
+                <antipattern>
+                    <token>na</token>
+                    <token>chrupko</token>
+                </antipattern>
+                <pattern>
+                    <token><exception scope="previous" postag="adjp"/><exception regexp="yes">i|po</exception></token>
+                    <marker>
+                        <token postag="adjp"><exception postag="subst.*" postag_regexp="yes"/><exception regexp="yes">(?-iu)Brunszwicku</exception></token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy miało być <suggestion>po <match case_conversion="startlower" no="2"></match></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example>Jadzia mówi po niemiecku i angielsku.</example>
+                <example correction="po niemiecku">Jadzia mówi <marker>niemiecku</marker> i angielsku.</example>
+                <example correction="Po prostu"><marker>Prostu</marker> się mylisz.</example>
+                <example>Od pięciu lat istnieje w Brunszwicku w Niemieckiej Republice Federalnej zespół pieśni i tańca.</example>
+                <example>Czy on mówi po angielsku, francusku czy niemiecku?</example>
+                <example>Woli pan mówić po niemiecku czy angielsku?</example>
+                <example>Od jak dawna uczysz się angielskiego?</example>
+                <example>Wstąpił na herbatę do znajomego mieszkającego po &quot;sąsiedzku&quot;, tj. 50 km dalej.</example>
+                <example>Nie mógł się z nimi porozumieć po... bułgarsku.</example>
+                <example>W latach 1907-1908 w Sławiańsku na Ukrainie wspólnicy wybudowali dużą fabrykę.</example>
+                <example>Uwielbiam skórkę wypieczoną na chrupko.</example>
+                <example type="correct">To jest po chamsku.</example>
+                <example type="incorrect" correction="po chamsku">To jest <marker>chamsku</marker>.</example>
+                <example type="correct">To jest po cichutku.</example>
+                <example type="incorrect" correction="po cichutku">To jest <marker>cichutku</marker>.</example>
+            </rule>
+            <rule id="CIEMKU">
+                <antipattern>
+                    <token>po</token>
+                    <token regexp="yes">ciemku|omacku|macoszemu|troszeczku|troszku</token>
+                </antipattern>
+                <pattern>
+                    <marker><token regexp="yes">ciemku|omacku|macoszemu|troszeczku|troszku</token></marker>
+                </pattern>
+                <message>Prawdopodobna literówka; powinno być: <suggestion>po <match no="1"/></suggestion>.</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Szedł po ciemku.</example>
+                <example type="incorrect" correction="po ciemku">Szedł <marker>ciemku</marker>.</example>
+                <example type="correct">Szedł po omacku.</example>
+                <example type="incorrect" correction="po omacku">Szedł <marker>omacku</marker>.</example>
+                <example type="incorrect" correction="po macoszemu">Traktują polską literaturę <marker>macoszemu</marker>.</example>
+            </rule>
+        </rulegroup>
 				<rule id="W_ODROZNIENIU_DO" name="„w odróżnieniu do” (w odróżnieniu od)">
 						<pattern>
 								<token>w</token>
@@ -29537,34 +29559,486 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 				<rulegroup id="NA_PRZEKOR" name="„chybcika, przekór” (na chybcika, na przekór) itd.">
-						<rule>
-                            <antipattern>
-                                <token>na</token>
-                                <token>samym</token>
-                                <token regexp="yes">wyjezdnym|odjezdnym|odchodnym</token>
-                            </antipattern>
-								<pattern>
-										<token><exception regexp="yes">na|[\&quot;„]|któr.*</exception></token>
-										<marker>
-												<token regexp="yes">bakier|chybcika|płask|przekór|odchodne|odchodnym|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój</token>
-										</marker>
-								</pattern>
-								<message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
-								<short>Prawdopodobna literówka</short>
-								<example>To jest zrobione na chybcika.</example>
-								<example correction="na chybcika">To jest zrobione <marker>chybcika</marker>.</example>
-                                <example>Na samym odjezdnym karczmarz dał plebanowi jakieś papiery.</example>
-						</rule>
-						<rule>
-								<pattern>
-										<token>czele<exception regexp="yes" scope="previous">[nw]aszym|na|jej|ich|jego|której|których|którego</exception></token>
-								</pattern>
-								<message>Prawdopodobna literówka; powinno być: <suggestion>na \1</suggestion>.</message>
-								<short>Prawdopodobna literówka</short>
-								<example>On stanął na jego czele.</example>
-								<example correction="na czele">On stanął <marker>czele</marker>.</example>
-                                <example>Ty uzbrój się i jako wódz stań na naszym czele.</example>
-						</rule>
+					<rule>
+						<antipattern>
+							<token>na</token>
+							<token>samym</token>
+							<token regexp="yes">wyjezdnym|odjezdnym|odchodnym</token>
+						</antipattern>
+						<antipattern>
+							<token>na</token>
+							<token regexp="yes">przeszpiegi|odczepnego|podorędziu|odchodnym|odjezdnym|piechotkę|wyjezdnym|kulszowej|chybcika|odchodne|odczepne|odjezdne|odwyrtkę|wyjezdne|siedząco|zewnątrz|kulszową|przekór|roścież|rozcież|ścieżaj|bieżąco|bezzęby|bakier|oścież|schwał|spytki|wyrost|wskroś|płask|wynos|wznak|zabój|oślep|opak|udry|umór</token>
+						</antipattern>
+						<pattern>
+							<marker><token regexp="yes">przeszpiegi|odczepnego|podorędziu|odchodnym|odjezdnym|piechotkę|wyjezdnym|kulszowej|chybcika|odchodne|odczepne|odjezdne|odwyrtkę|wyjezdne|siedząco|zewnątrz|kulszową|przekór|roścież|rozcież|ścieżaj|bieżąco|bezzęby|bakier|oścież|schwał|spytki|wyrost|wskroś|płask|wynos|wznak|zabój|oślep|opak|udry|umór</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>na <match no="1"/></suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example>To jest zrobione na chybcika.</example>
+						<example correction="na chybcika">To jest zrobione <marker>chybcika</marker>.</example>
+						<example>Na samym odjezdnym karczmarz dał plebanowi jakieś papiery.</example>
+					</rule>
+					<rule>
+						<antipattern>
+							<token>na</token>
+							<token>czele</token>
+						</antipattern>
+						<antipattern>
+							<token>na</token>
+							<token/>
+							<token>czele</token>
+						</antipattern>
+						<pattern>
+							<token>czele</token>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>na czele</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example>On stanął na jego czele.</example>
+						<example correction="na czele">On stanął <marker>czele</marker>.</example>
+						<example>Na partii czele stał wielki mąż stanu.</example>
+					</rule>
+				</rulegroup>
+				<rulegroup id="BURKINOSTKA_XML" name="burkinostka">
+					<rule id="DUBY_SMALONE" name="„duby smalone”">
+						<antipattern>
+							<unify>
+								<feature id="number"/>
+                                <feature id="gender"/>
+                                <feature id="case"/>
+								<token inflected="yes">duby</token>
+								<token inflected="yes">smalony</token>
+							</unify>
+						</antipattern>
+						<antipattern>
+							<token>lip</token>
+							<token regexp="yes">dubach|dubami|dubom|dubów</token>
+						</antipattern>
+						<pattern>
+							<marker><token regexp="yes">dubach|dubami|dubom|dubów</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>duby smalone</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">Duby smalone są pyszne.</example>
+						<example type="incorrect" correction="duby smalone">Wbił nóż w <marker>dubach</marker>.</example>
+					</rule>
+					<rule id="BURK_001_BURKINA" name="burkinostka: Burkina">
+						<antipattern>
+							<token>Burkina</token>
+							<token>Faso</token>
+						</antipattern>
+						<pattern>
+							<marker><token case_sensitive="yes" postag=".*burk.*" postag_regexp="yes">Burkina</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>Burkina Faso</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest Burkina Faso.</example>
+						<example type="incorrect" correction="Burkina Faso">To jest <marker>Burkina</marker>.</example>
+					</rule>
+					<rule id="BURK_002_FASO" name="burkinostka: Faso">
+						<antipattern>
+							<token>Burkina</token>
+							<token>Faso</token>
+						</antipattern>
+						<pattern>
+							<marker><token case_sensitive="yes" postag=".*burk.*" postag_regexp="yes">Faso</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>Burkina Faso</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest Burkina Faso.</example>
+						<example type="incorrect" correction="Burkina Faso">To jest <marker>Faso</marker>.</example>
+					</rule>
+					<rule id="BURK_003_JANEIRO" name="burkinostka: Janeiro">
+						<antipattern>
+							<token>Rio</token>
+							<token>de</token>
+							<token>Janeiro</token>
+						</antipattern>
+						<pattern>
+							<marker><token case_sensitive="yes" postag=".*burk.*" postag_regexp="yes">Janeiro</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>Rio de Janeiro</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest Rio de Janeiro.</example>
+						<example type="incorrect" correction="Rio de Janeiro">To jest <marker>Janeiro</marker>.</example>
+					</rule>
+					<rule id="BURK_004_SANKT" name="burkinostka: Sankt">
+						<antipattern>
+							<token>Sankt</token>
+							<token inflected="yes">Petersburg</token>
+						</antipattern>
+						<pattern>
+							<marker><token case_sensitive="yes" postag=".*burk.*" postag_regexp="yes">Sankt</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>Sankt Petersburg</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest Sankt Petersburg.</example>
+						<example type="incorrect" correction="Sankt Petersburg">To jest <marker>Sankt</marker>.</example>
+					</rule>
+					<rule id="BURK_005_AUSPICJAMI" name="burkinostka: auspicjami">
+						<antipattern>
+							<token>pod</token>
+							<token>auspicjami</token>
+						</antipattern>
+						<pattern>
+							<marker><token>auspicjami</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>pod auspicjami</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest pod auspicjami.</example>
+						<example type="incorrect" correction="pod auspicjami">To jest <marker>auspicjami</marker>.</example>
+					</rule>
+					<rule id="BURK_006_BAŁYKU" name="burkinostka: bałyku">
+						<antipattern>
+							<token>na</token>
+							<token>bałyku</token>
+						</antipattern>
+						<pattern>
+							<marker><token case_sensitive="yes">bałyku</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>na bałyku</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest na bałyku.</example>
+						<example type="incorrect" correction="na bałyku">To jest <marker>bałyku</marker>.</example>
+                        <!-- handled by simple replace -->
+                        <example type="correct"> Teraz Rosjanie będą dysponowali takimi możliwościami także na Bałyku.</example>
+					</rule>
+					<rule id="BURK_007_BEZCEN" name="burkinostka: bezcen/bezdurno">
+						<antipattern>
+							<token>za</token>
+							<token regexp="yes">bezcen|bezdurno</token>
+						</antipattern>
+						<pattern>
+							<marker><token regexp="yes">bezcen|bezdurno</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>za <match no="1"/></suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest za bezcen.</example>
+						<example type="incorrect" correction="za bezcen">To jest <marker>bezcen</marker>.</example>
+						<example type="correct">To jest za bezdurno.</example>
+						<example type="incorrect" correction="za bezdurno">To jest <marker>bezdurno</marker>.</example>
+					</rule>
+					<rule id="BURK_009_BŹDZIU" name="burkinostka: bździu">
+						<antipattern>
+							<token>fiu</token>
+							<token>bździu</token>
+						</antipattern>
+						<pattern>
+							<marker><token>bździu</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>fiu bździu</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest fiu bździu.</example>
+						<example type="incorrect" correction="fiu bździu">To jest <marker>bździu</marker>.</example>
+					</rule>
+					<rule id="BURK_012_CZAMBUŁ" name="burkinostka: czambuł, czwórnasób, dwójnasób, dyrdy, dziesięćnasób, kilkanasób, trymiga...">
+						<antipattern>
+							<token>w</token>
+							<token regexp="yes">czambuł|czwórnasób|dwójnasób|dyrdy|dziesięćnasób|kilkanasób|trymiga|trójnasób</token>
+						</antipattern>
+						<pattern>
+							<marker><token regexp="yes">czambuł|czwórnasób|dwójnasób|dyrdy|dziesięćnasób|kilkanasób|trymiga|trójnasób</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>w <match no="1"/></suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">Potępiam mówienie bzdur w czambuł.</example>
+						<example type="incorrect" correction="w czambuł">To jest durne <marker>czambuł</marker>.</example>
+                        <example type="correct">To jest poprawne w czwórnasób.</example>
+                        <example type="incorrect" correction="w czwórnasób">To jest idiotyczne <marker>czwórnasób</marker>.</example>
+                        <example type="correct">Podejście sprawdziło się w dwójnasób.</example>
+                        <example type="incorrect" correction="w dwójnasób">Głupi prezydent <marker>dwójnasób</marker>.</example>
+                        <example type="incorrect" correction="w dyrdy">Leć <marker>dyrdy</marker> do sklepu.</example>
+                        <example type="correct">Leć w dyrdy do sklepu.</example>
+                        <example type="correct">Armaty zdrożały w dziesięćnasób.</example>
+                        <example type="incorrect" correction="w dziesięćnasób">Armaty zdrożały <marker>dziesięćnasób</marker>.</example>
+                        <example type="correct">Straty zwiększyły się w kilkanasób.</example>
+                        <example type="incorrect" correction="w kilkanasób">Straty zwiększyły się <marker>kilkanasób</marker>.</example>
+                    </rule>
+					<rule id="BURK_016_DYRDUM" name="burkinostka: dyrdum">
+						<antipattern>
+							<token>fiksum</token>
+							<token>dyrdum</token>
+						</antipattern>
+						<pattern>
+							<marker><token>dyrdum</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>fiksum dyrdum</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest fiksum dyrdum.</example>
+						<example type="incorrect" correction="fiksum dyrdum">To jest <marker>dyrdum</marker>.</example>
+					</rule>
+					<rule id="BURK_018_DZIEJU" name="burkinostka: dzieju">
+						<antipattern>
+							<token regexp="yes">panie|mocium</token>
+							<token>dzieju</token>
+						</antipattern>
+						<pattern>
+							<marker><token>dzieju</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>panie dzieju</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">Prawda to, panie dzieju, że liście spadają z drzew.</example>
+						<example type="incorrect" correction="panie dzieju">To jest prawda, <marker>dzieju</marker>.</example>
+					</rule>
+					<rule id="BURK_020_ELEISON" name="burkinostka: eleison">
+						<antipattern>
+							<token>Kyrie</token>
+							<token>eleison</token>
+						</antipattern>
+						<pattern>
+							<marker><token>eleison</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>Kyrie eleison</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest Kyrie eleison.</example>
+						<example type="incorrect" correction="Kyrie eleison">To jest <marker>eleison</marker>.</example>
+					</rule>
+					<rule id="BURK_021_FIKSUM" name="burkinostka: fiksum">
+						<antipattern>
+							<token>fiksum</token>
+							<token>dyrdum</token>
+						</antipattern>
+						<pattern>
+							<marker><token>fiksum</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>fiksum dyrdum</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest fiksum dyrdum.</example>
+						<example type="incorrect" correction="fiksum dyrdum">To jest <marker>fiksum</marker>.</example>
+					</rule>
+					<rule id="BURK_022_HEBRYDY" name="burkinostka: hebrydy">
+						<antipattern>
+                            <unify>
+                                <feature id="number"/>
+                                <feature id="gender"/>
+                                <feature id="case"/>
+							    <token inflected="yes">Nowy</token>
+							    <token inflected="yes">Hebrydy</token>
+                            </unify>
+						</antipattern>
+						<pattern>
+							<marker><token inflected="yes">Hebrydy</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>Nowe Hebrydy</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">Uwielbiam Nowe Hebrydy.</example>
+						<example type="incorrect" correction="Nowe Hebrydy">Jadę na <marker>hebrydy</marker>.</example>
+					</rule>
+					<rule id="BURK_023_HOPU" name="burkinostka: hopu">
+						<antipattern>
+							<token regexp="yes">(tr|h)ip</token>
+							<token>hopu</token>
+						</antipattern>
+						<pattern>
+							<marker><token>hopu</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>trip hopu</suggestion> lub <suggestion>hip hopu</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">Waldek nienawidzi trip hopu.</example>
+						<example type="incorrect" correction="trip hopu|hip hopu">To jest fan <marker>hopu</marker>.</example>
+					</rule>
+					<rule id="BURK_026_KRETESEM" name="burkinostka: kretesem, ledwością">
+						<antipattern>
+							<token>z</token>
+							<token regexp="yes">kretesem|ledwością</token>
+						</antipattern>
+						<pattern>
+                            <token regexp="yes">kretesem|ledwością</token>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>z <match no="1"/></suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">Poległ z kretesem.</example>
+						<example type="incorrect" correction="z kretesem">Poległem <marker>kretesem</marker>.</example>
+                        <example type="correct">Po francusku mówiłem z ledwością.</example>
+                        <example type="incorrect" correction="z ledwością">Po rosyjsku Karol mówi <marker>ledwością</marker>.</example>
+					</rule>
+					<rule id="BURK_030_LELUM" name="burkinostka: lelum">
+						<antipattern>
+							<token>Lelum</token>
+							<token>i</token>
+							<token>Polelum</token>
+						</antipattern>
+						<antipattern>
+							<token>lelum</token>
+							<token>polelum</token>
+						</antipattern>
+						<pattern>
+							<marker><token>lelum</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>Lelum i Polelum</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest Lelum i Polelum.</example>
+						<example type="incorrect" correction="Lelum i Polelum">To jest <marker>lelum</marker>.</example>
+					</rule>
+					<rule id="BURK_031_LIKU" name="burkinostka: liku">
+						<antipattern>
+							<token>bez</token>
+							<token regexp="yes">liku|ustanku</token>
+						</antipattern>
+						<pattern>
+							<marker><token regexp="yes">liku|ustanku</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>bez <match no="1"/></suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest bez liku.</example>
+						<example type="incorrect" correction="bez liku">To jest <marker>liku</marker>.</example>
+                        <example type="incorrect" correction="bez ustanku">Powtarzał mi to <marker>ustanku</marker>.</example>
+					</rule>
+					<rule id="BURK_035_MOTÓW" name="burkinostka: motów">
+						<antipattern>
+							<token>bon</token>
+							<token>motów</token>
+						</antipattern>
+						<pattern>
+							<marker><token>motów</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>bon motów</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest bon motów.</example>
+						<example type="incorrect" correction="bon motów">To jest <marker>motów</marker>.</example>
+					</rule>
+					<rule id="BURK_037_NIEMIARA" name="burkinostka: niemiara">
+						<antipattern>
+							<token>co</token>
+							<token>niemiara</token>
+						</antipattern>
+						<pattern>
+							<marker><token>niemiara</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>co niemiara</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest co niemiara.</example>
+						<example type="incorrect" correction="co niemiara">To jest <marker>niemiara</marker>.</example>
+					</rule>
+					<rule id="BURK_039_PENATY" name="burkinostka: penaty">
+						<antipattern>
+                            <unify>
+                                <feature id="number"/>
+                                <feature id="gender"/>
+                                <feature id="case"/>
+							    <token inflected="yes">lary</token>
+                                <unify-ignore>
+							<token>i</token>
+                                </unify-ignore>
+							<token inflected="yes">penaty</token>
+                            </unify>
+						</antipattern>
+						<pattern>
+							<marker><token inflected="yes">penaty</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion><match no="1" regexp_match="penat(.*)" regexp_replace="lar$1"/> i <match no="1"/></suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">Mówię o larach i penatach.</example>
+						<example type="incorrect" correction="larach i penatach">Cyceron nigdy nie pisał o <marker>penatach</marker>.</example>
+						<example type="incorrect" correction="larom i penatom">Oddawaj cześć <marker>penatom</marker>.</example>
+						<example type="incorrect" correction="lary i penaty">W każdym rzymskim domu są <marker>penaty</marker>.</example>
+					</rule>
+					<rule id="BURK_042_POLELUM" name="burkinostka: polelum">
+						<antipattern>
+							<token>Lelum</token>
+							<token>i</token>
+							<token>Polelum</token>
+						</antipattern>
+						<antipattern>
+							<token>lelum</token>
+							<token>polelum</token>
+						</antipattern>
+						<pattern>
+							<marker><token>polelum</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>Lelum i Polelum</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest Lelum i Polelum.</example>
+						<example type="incorrect" correction="Lelum i Polelum">To jest <marker>polelum</marker>.</example>
+					</rule>
+					<rule id="BURK_043_POPRZEK" name="burkinostka: poprzek">
+						<antipattern>
+							<token regexp="yes">w|na</token>
+							<token>poprzek</token>
+						</antipattern>
+						<pattern>
+							<marker><token>poprzek</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>w poprzek</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest na poprzek.</example>
+						<example type="incorrect" correction="w poprzek">To jest <marker>poprzek</marker>.</example>
+					</rule>
+					<rule id="BURK_047_ROZPUKU" name="burkinostka: rozpuku">
+						<antipattern>
+							<token>do</token>
+							<token regexp="yes">rozpuku|szczętu</token>
+						</antipattern>
+						<pattern>
+							<marker><token regexp="yes">rozpuku|szczętu</token></marker>
+						</pattern>
+                        <message>Prawdopodobna literówka; powinno być: <suggestion>do <match no="1"/></suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">Karol śmiał się z Jarka do rozpuku.</example>
+						<example type="incorrect" correction="do rozpuku">Jarek śmiał się <marker>rozpuku</marker>.</example>
+                        <example type="incorrect" correction="do szczętu">Spłonął mi kibel <marker>szczętu</marker>.</example>
+					</rule>
+					<rule id="BURK_048_SZCZĘTEM" name="burkinostka: szczętem">
+						<antipattern>
+							<token>ze</token>
+							<token>szczętem</token>
+						</antipattern>
+						<pattern>
+							<marker><token>szczętem</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>ze szczętem</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest ze szczętem.</example>
+						<example type="incorrect" correction="ze szczętem">To jest <marker>szczętem</marker>.</example>
+					</rule>
+					<rule id="BURK_055_WAJ" name="burkinostka: waj">
+						<antipattern>
+							<token>aj</token>
+							<token>waj</token>
+						</antipattern>
+						<pattern>
+							<marker><token>waj</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>aj waj</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest aj waj.</example>
+						<example type="incorrect" correction="aj waj">To jest <marker>waj</marker>.</example>
+					</rule>
+					<rule id="BURK_058_WYPRZÓDKI" name="burkinostka: wyprzódki">
+						<antipattern>
+							<token>na</token>
+							<token regexp="yes">czczo|powakacje|klęczkach|przestrzał|łapu\-capu|ścież|ściężaj|wskroś|wyprz[oó]dki|wściąż</token>
+						</antipattern>
+						<pattern>
+							<marker><token regexp="yes">czczo|powakacje|klęczkach|przestrzał|łapu\-?capu|ścież|ściężaj|wskroś|wyprz[oó]dki|wściąż</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>na <match no="1" regexp_match="łapuc" regexp_replace="łapu-c"/></suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest na wściąż.</example>
+						<example type="incorrect" correction="na wściąż">To jest <marker>wściąż</marker>.</example>
+                        <example type="incorrect" correction="na wyprzodki">To jest <marker>wyprzodki</marker>.</example>
+                        <example type="incorrect" correction="na łapu-capu">To jest zrobione <marker>łapucapu</marker>.</example>
+                        <example type="incorrect" correction="na łapu-capu">To jest zrobione <marker>łapu-capu</marker>.</example>
+                        <example type="incorrect" correction="na powakacje">Ćwiczę formę <marker>powakacje</marker>.</example>
+                        <example type="incorrect" correction="na czczo">Przyjdzie <marker>czczo</marker> i nie narzeka!</example>
+					</rule>
+					<rule id="BURK_060_ŁAPU" name="burkinostka: łapu">
+						<antipattern>
+							<token>na</token>
+							<token>łapu</token>
+							<token>capu</token>
+						</antipattern>
+						<antipattern>
+							<token>łapu</token>
+							<token>capu</token>
+						</antipattern>
+						<pattern>
+							<marker><token>łapu</token></marker>
+						</pattern>
+						<message>Prawdopodobna literówka; powinno być: <suggestion>na łapu capu</suggestion>.</message>
+						<short>Prawdopodobna literówka</short>
+						<example type="correct">To jest na łapu capu.</example>
+						<example type="incorrect" correction="na łapu capu">To jest <marker>łapu</marker>.</example>
+					</rule>
 				</rulegroup>
 				<rulegroup id="TYM_BARDZIE" name="„bardzie” (bardziej)">
 						<rule>

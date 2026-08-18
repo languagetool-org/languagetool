@@ -14248,6 +14248,35 @@
     	<disambig postag="burk"/>
     </rule>
 
+    <rulegroup name="opak. jako skrót od opakowanie" id="OPAK_BREV">
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token>opak</token>
+                </marker>
+                <token>.</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="opakowanie" pos="brev:pun">opak</wd>
+            </disambig>
+            <example type="ambiguous" inputform="opak[opak/adv]" outputform="opak[opakowanie/brev:pun]">Dodać 2 <marker>opak</marker>. śmietany.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="num.*" postag_regexp="yes"/>
+                <marker>
+                    <token>opak</token>
+                </marker>
+                <token>.</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="opakowanie" pos="brev:pun">opak</wd>
+            </disambig>
+            <example type="ambiguous" inputform="opak[opak/adv]" outputform="opak[opakowanie/brev:pun]">Przepis wymaga kilka <marker>opak</marker>. cukru.</example>
+        </rule>
+    </rulegroup>
+
     <rule name="Sierra Leone" id="SIERRA_LEONE">
         <pattern case_sensitive="yes">
             <marker>

@@ -8,6 +8,10 @@
 #### Catalan
   * added and improved rules
 
+#### Polish
+  * a major update of the spelling dictionary and spelling rules, conformant to the spelling reform of 2026
+  * new spelling rules for multiword items (such as 'Burkina Faso')
+
 ## 6.8 (2026-05-5)
 
 #### Ukrainian
