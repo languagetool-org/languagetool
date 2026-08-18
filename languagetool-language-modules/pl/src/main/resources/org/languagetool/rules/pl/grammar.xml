@@ -19000,7 +19000,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <example>Mieszkam przy Al. Świerczewskiego.</example>
                             <example correction="Al. Świerczewskiego">Mieszkam przy <marker>al. Świerczewskiego</marker>.</example>
                         </rule>
-				</rulegroup>
+                    <!-- Wyjątek pozostawiony w regułach -->
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <token>Ul<exception scope="previous" postag="SENT_START"/></token>
+                            <token spacebefore="no">.</token>
+                            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+                        </pattern>
+                        <message>W wypadku takich adresów pierwszy wyraz również piszemy małą literą. Poprawnie: <suggestion><match case_conversion="alllower" no="1"></match>. <match no="3"></match></suggestion>.</message>
+                        <url>https://sjp.pwn.pl/zasady/;629401.html</url>
+                        <short>Błąd pisowni wielką i małą literą</short>
+                        <example>Mieszkam przy ul. Świerczewskiego.</example>
+                        <example>Ul. Jana Pawła 2 nr 123 m. 458</example>
+                        <example correction="ul. Świerczewskiego">Kancelaria mieści się w Warszawie, <marker>Ul. Świerczewskiego</marker> 123412.</example>
+                        <example>Kancelaria mieści się w Warszawie, pod adresem Al. Ujazdowskie 12133.</example>
+                    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <token inflected="yes">ulica<exception case_sensitive="yes" regexp="yes">\p{Ll}+</exception><exception scope="previous" postag="SENT_START"/></token>
+                            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+                        </pattern>
+                        <message>W wypadku takich adresów pierwszy wyraz również piszemy małą literą. Poprawnie: <suggestion><match case_conversion="alllower" no="1"></match> <match no="2"></match></suggestion>.</message>
+                        <url>https://sjp.pwn.pl/zasady/;629401.html</url>
+                        <short>Błąd pisowni wielką i małą literą</short>
+                        <example>Mieszkam przy ulicy Kubusia Puchatka.</example>
+                        <example>Ulica Kubusia Puchatka 1</example>
+                        <example correction="ulica Świerczewskiego">Kancelaria mieści się w Warszawie, <marker>Ulica Świerczewskiego</marker> 123412.</example>
+                        <example>Kancelaria mieści się w Warszawie, pod adresem Al. Ujazdowskie 12133.</example>
+                    </rule>
+                </rulegroup>
+                <rule name="Pisownia nazw komet" id="KOMETA_RJP">
+                    <pattern case_sensitive="yes">
+                        <token inflected="yes">kometa<exception case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+                        <token regexp="yes">\p{Lu}+\p{Ll}*</token>
+                    </pattern>
+                    <message>W nazwach komet wszystkie człony zapisujemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"></match> <match no="2"></match></suggestion>.</message>
+                    <url>https://dobryslownik.pl/kompendium-regul-jezykowych/regula/64/</url>
+                    <short>Błąd pisowni wielką i małą literą</short>
+                    <example>Odkryłem Kometę Rady Języka Polskiego.</example>
+                    <example correction="Kometa Halleya">A tak, to <marker>kometa Halleya</marker>.</example>
+                    <example correction="Kometę ISON">Radzieccy uczeni na podstawie pism Lenina przewidzieli <marker>kometę ISON</marker>.</example>
+                </rule>
 				<rulegroup id="REPREZENTANT_POLSKI" name="„reprezentant polski” (reprezentant Polski)">
 						<rule>
 								<pattern case_sensitive="yes">
@@ -22400,7 +22440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <antipattern>
                             <marker>
                                 <token>nie</token>
-                                <token inflected="yes" regexp="yes">wszystek|każdy|żaden|inny|jakiś?|taki|czyj|mój|twój|nasz|wasz|ten|sam|swój|on|ów|ostatni|jeden|&numord;</token>
+                                <token inflected="yes" regexp="yes">wszystek|każdy|żaden|inny|jakiś?|taki|czyj|mój|twój|nasz|wasz|ten|sam|swój|on|ów|ostatni|jeden|cacy|serio|&numord;</token>
                             </marker>
                         </antipattern>
                         <antipattern>
@@ -22449,7 +22489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<pattern case_sensitive="yes">
 										<marker>
 												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|że|przecież</exception></token>
-												<token postag=".*:aff.*|ger:.*|adj.*:pos" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
+												<token postag=".*:aff.*|ger:.*|adj.*:(pos|com|sup)" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
 										</marker>
 										<token postag="SENT_END"><exception>,</exception></token>
 								</pattern>
@@ -22459,7 +22499,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Tu nie można palić.</example>
 								<example>To jest Marysia, a nie Hania.</example>
 								<example>Ten samochód jest drogi, a nie tani.</example>
-								<example>Ten zawodnik jest nie najlepszy.</example>
+								<example>Ten zawodnik jest nienajlepszy.</example>
 								<example>Nie każdy tak potrafi.</example>
 								<example>On jest nie lepszy od swojego poprzednika.</example>
 								<example>One nie były głupie.</example>
@@ -22471,10 +22511,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Czyż to nie zadziwiające!</example>
                                 <example> A teraz użyczcie mi znów tej głowni… co, nie łaska?</example>
                                 <example> Sancho stał za nim, trzymając w ręku czarę, nie kryształową wprawdzie, lecz rogową.</example>
+                                <example>To sąd był cacy, a teraz jest nie cacy.</example>
 								<example correction="niepalenie">Prosimy o <marker>nie palenie</marker>.</example>
 								<example correction="niepalący">To człowiek <marker>nie palący</marker>.</example>
                                 <example correction="niedobry">On jest <marker>nie dobry</marker>.</example>
                                 <example correction="niegotowe">Mięso było <marker>nie gotowe</marker>.</example>
+                                <example correction="nielepszy">Mówisz, że on jest dureń, ale tamten też <marker>nie lepszy</marker>.</example>
+                                <example correction="nienajlepsza">Ta miseczka jest <marker>nie najlepsza</marker>.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -22510,6 +22553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Bodaj czy nie jedyny to był od śmierci Marty okres w moim życiu…</example>
 						</rule>
 				</rulegroup>
+
 				<!-- błąd ortograficzny - pisownia cząstek -bym -->
 				<rule id="CZASOWNIK_BY" name="Rozłączna pisownia „bym”, „byście” z czasownikami">
 						<pattern case_sensitive="no">
@@ -23239,16 +23283,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <example correction="Arcyksiążę"><marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
                 </rule>       
                 </rulegroup>
-				<rule id="PRZEDROSTEK_NIBY" name="Przedrostki „niby” i „quasi” błędnie pisane bez łącznika">
+				<rulegroup id="PRZEDROSTEK_NIBY" name="Przedrostki „niby” i „quasi” błędnie z łącznikiem">
+                    <rule>
 						<pattern>
-								<token postag="UNKNOWN" regexp="yes">(?:niby|quasi)[^-–].*</token>
+								<token postag="UNKNOWN" regexp="yes">(?:niby|quasi)[-–]\p{Ll}.*</token>
 						</pattern>
-						<message>Tylko utarte terminy fachowe z cząstką „niby” piszemy bez łącznika. Poprawnie: <suggestion><match no="1" regexp_match="([Nn]iby|[Qq]uasi)(.*)" regexp_replace="$1-$2"></match></suggestion>.</message>
+						<message>Tylko terminy zawierające nazwę własną z „niby” piszemy z łącznikiem. Poprawnie: <suggestion><match no="1" regexp_match="([Nn]iby|[Qq]uasi)[-–—](.*)" regexp_replace="$1$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example>Ale masz śliczne nibynóżki!</example>
-						<example correction="quasi-naukę">Ten plagiator nie uprawia nauki, on uprawia <marker>quasinaukę</marker>.</example>
-						<example correction="niby-Polak">To nie jest patriota, to jest <marker>nibyPolak</marker>!</example>
-				</rule>
+						<example correction="quasinaukę">Ten plagiator nie uprawia nauki, on uprawia <marker>quasi-naukę</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token postag="UNKNOWN" regexp="yes">(?:niby|quasi)\p{Lu}\p{Ll}.*</token>
+                        </pattern>
+                        <message>Terminy zawierające nazwę własną z „niby” piszemy z łącznikiem. Poprawnie: <suggestion><match no="1" regexp_match="([Nn]iby|[Qq]uasi)(.*)" regexp_replace="$1-$2"></match></suggestion>.</message>
+                        <short>Błąd ortograficzny</short>
+                        <example>Ale masz śliczne nibynóżki!</example>
+                        <example>Spotkałem się z quasi-Europejczykiem.</example>
+                        <example correction="niby-Polak">To nie jest patriota, to jest <marker>nibyPolak</marker>!</example>
+                    </rule>
+                </rulegroup>
 				<rule id="CO_NIE_MIARA" name="„co nie miara” (co niemiara)">
 						<pattern>
 								<token>co</token>
