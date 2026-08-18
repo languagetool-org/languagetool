@@ -4060,19 +4060,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='CIENTÍFICO_DETERMINADAS_ESPECÍFICAS' name="🇵🇹🔬 Determinados → Específicos" type="style" tone_tags="academic">
-            <pattern>
-                <token regexp="yes">para|como|por</token>
-                <token skip='4' postag='V.+' postag_regexp='yes'/>
-                <marker>
-                    <token regexp="yes">determinad[ao]s</token>
-                    <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
-                </marker>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;específico&quot;.</message>
-            <suggestion>\4 <match no='3' postag='AQ0(..)0' postag_replace='AQ0$10'>específico</match></suggestion>
-            <example correction="funções específicas">Estes foram criados para desempenhar <marker>determinadas funções</marker>.</example>
-        </rule>
+      <rule id='CIENTÍFICO_DETERMINADAS_ESPECÍFICAS' name="🇵🇹🔬 Determinados → específicos" type='style' tone_tags='academic'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token skip='2' regexp='yes' inflected='yes'>cumprir|desempenhar|exercer</token>
+              <marker>
+                  <token regexp='yes'>determinad[ao]s</token>
+                  <token postag='NC.P.+' postag_regexp='yes'/>
+              </marker>
+          </pattern>
+          <message>Num contexto formal/científico, é preferível escrever &quot;específico&quot;.</message>
+          <suggestion>\3 <match no='2' postag='AQ0(..)0' postag_replace='AQ0$10'>específico</match></suggestion>
+          <example correction="funções específicas">Estes foram criados para desempenhar <marker>determinadas funções</marker>.</example>
+          <example correction="funções específicas">Cada componente foi concebido para cumprir <marker>determinadas funções</marker>.</example>
+          <example correction="funções específicas">Os diferentes módulos permitem exercer <marker>determinadas funções</marker>.</example>
+          <example>O estudo foi realizado em determinadas condições.</example>
+          <example>Os resultados variam para determinados parâmetros.</example>
+          <example>A decisão foi tomada por determinadas razões.</example>
+          <example>Determinados participantes abandonaram o estudo.</example>
+      </rule>
 
 
       <rule id='CIENTÍFICO_MAIS_IMPORTANTE_CHAVE_V4' name="🇵🇹🔬 'mais importante(s)' → -chave" type='style' tone_tags='academic'>
