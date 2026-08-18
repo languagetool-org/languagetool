@@ -4092,36 +4092,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
 
-        <rulegroup id='GRANDES_ENORMES_RECURSOS_FINANCEIROS_AVULTADOS' name="🇵🇹🔬 'grandes/enormes' recursos financeiros → avultados" type="style" tags="picky">
+        <rulegroup id='GRANDES_ENORMES_RECURSOS_FINANCEIROS_AVULTADOS' name="🇵🇹🔬 'grandes/enormes' recursos financeiros → avultados" type='style' tone_tags='academic' tags='picky'>
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
             <rule>
                 <pattern>
                     <token regexp='yes'>recursos?|ganhos?|proveitos?|meios?|quantias?|perdas?|quebras?|prejuízos?</token>
-                    <token skip='4' regexp='yes'>financeir[ao]s?|monetári[ao]s?</token>
+                    <token regexp='yes'>financeir[ao]s?|monetári[ao]s?</token>
                     <marker>
-                        <token regexp='yes'>grandes?|enormes?|elevad[ao]s?</token>
+                        <token regexp='yes'>grandes?|enormes?</token>
                     </marker>
                 </pattern>
-                <message>Num contexto formal/científico, é preferível escrever &quot;avultados&quot;.</message>
+                <message>Num contexto formal/científico, é preferível usar &quot;avultado&quot;.</message>
                 <suggestion><match no='2' postag='AQ0(..)0' postag_replace='AQ0$10'>avultado</match></suggestion>
                 <example correction="avultados">Era expectável face aos recursos financeiros <marker>grandes</marker>.</example>
-                <example correction="avultados">Era expectável face aos ganhos financeiros <marker>grandes</marker>.</example>
+                <example correction="avultados">Era expectável face aos ganhos financeiros <marker>enormes</marker>.</example>
                 <example correction="avultados">Era expectável face aos proveitos financeiros <marker>grandes</marker>.</example>
-                <example correction="avultados">Era expectável face aos meios financeiros <marker>grandes</marker>.</example>
+                <example correction="avultados">Era expectável face aos meios financeiros <marker>enormes</marker>.</example>
+                <example correction="avultadas">Era expectável face às perdas financeiras <marker>enormes</marker>.</example>
+                <example correction="avultadas">Era expectável face às quantias monetárias <marker>grandes</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp='yes'>grandes?|enormes?|elevad[ao]s?</token>
+                        <token regexp='yes'>grandes?|enormes?</token>
                     </marker>
                     <token regexp='yes'>recursos?|ganhos?|proveitos?|meios?|quantias?|perdas?|quebras?|prejuízos?</token>
                     <token regexp='yes'>financeir[ao]s?|monetári[ao]s?</token>
                 </pattern>
-                <message>Num contexto formal/científico, é preferível escrever &quot;avultados&quot;.</message>
+                <message>Num contexto formal/científico, é preferível usar &quot;avultado&quot;.</message>
                 <suggestion><match no='3' postag='AQ0(..)0' postag_replace='AQ0$10'>avultado</match></suggestion>
                 <example correction="avultados">Era expectável face aos <marker>grandes</marker> recursos financeiros envolvidos.</example>
-                <example correction="avultados">Era expectável face aos <marker>grandes</marker> ganhos financeiros envolvidos.</example>
+                <example correction="avultados">Era expectável face aos <marker>enormes</marker> ganhos financeiros envolvidos.</example>
                 <example correction="avultados">Era expectável face aos <marker>grandes</marker> proveitos financeiros envolvidos.</example>
-                <example correction="avultados">Era expectável face aos <marker>grandes</marker> meios financeiros envolvidos.</example>
+                <example correction="avultados">Era expectável face aos <marker>enormes</marker> meios financeiros envolvidos.</example>
+                <example correction="avultadas">O relatório registou <marker>grandes</marker> perdas financeiras.</example>
+                <example correction="avultadas">A operação envolveu <marker>enormes</marker> quantias monetárias.</example>
             </rule>
         </rulegroup>
 
