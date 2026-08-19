@@ -11,6 +11,8 @@
 #### Polish
   * a major update of the spelling dictionary and spelling rules, conformant to the spelling reform of 2026
   * new spelling rules for multiword items (such as 'Burkina Faso')
+  * the tagger now analyzes 'nie' joined to a comparative or superlative ('nielepiej', 'nienajlepszy'),
+    which the 2026 reform allows and the binary dictionary does not cover yet
 
 ## 6.8 (2026-05-5)
 

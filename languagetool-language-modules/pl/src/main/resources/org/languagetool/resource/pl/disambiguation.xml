@@ -149,6 +149,132 @@
         <disambig action="add"><wd pos="subst:sg:nom:f"/></disambig>
     </rule>
 
+    <!-- Joined "nie" + comparative (2026 spelling reform). PolishTagger derives these
+         by stripping the prefix, but only for words nothing else matched. The forms
+         below are also the feminine dative/genitive/locative of an adjective, so they
+         already have a reading and never reach that code; the comparative adverb has
+         to be restored here. Generated from polish.dict: these are every form with a
+         comparative or superlative reading whose joined "nie"-form is masked this way. -->
+    <rulegroup name="Stopień wyższy z „nie” zasłonięty przez formę przymiotnika" id="NIE_STOPIEN_ZASLONIETY">
+        <rule>
+            <pattern>
+                <token>niebezpośredniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="niebezpośrednio" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>niechyżej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="niechyżo" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>niedostatniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="niedostatnio" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>niedziczej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="niedziko" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>niegodniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="niegodnie" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>niegłupiej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="niegłupio" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nieintratniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nieintratnie" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nieodpowiedniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nieodpowiednio" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nieolbrzymiej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nieolbrzymio" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nieprzedniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nieprzednio" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nieprzydatniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nieprzydatnie" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nierączej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nierączo" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nieskładniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nieskładnie" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nietaniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nietanio" pos="adv:com"/></disambig>
+            <example type="ambiguous" inputform="nietaniej[nietani/adj:sg:dat:f:pos,nietani/adj:sg:gen:f:pos,nietani/adj:sg:loc:f:pos]" outputform="nietaniej[nietani/adj:sg:dat:f:pos,nietani/adj:sg:gen:f:pos,nietani/adj:sg:loc:f:pos,nietanio/adv:com]">Kupił to <marker>nietaniej</marker> niż sąsiad.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nieświeżej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nieświeżo" pos="adv:com"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>nieżywotniej</token>
+            </pattern>
+            <disambig action="add"><wd lemma="nieżywotnie" pos="adv:com"/></disambig>
+        </rule>
+    </rulegroup>
+
+    <!-- "niemniej" is the particle ("niemniej jednak"), but since the 2026 reform it is
+         also the joined comparative of "niemało" ("zapłacił niemniej niż obiecał"). Only
+         the particle reading is in the dictionary, and it keeps the tagger from deriving
+         the other one, so it is added here except where the particle is unmistakable. -->
+    <rule name="„niemniej” jako stopień wyższy" id="NIEMNIEJ_STOPIEN">
+        <antipattern>
+            <token>niemniej</token>
+            <token regexp="yes">jednak|przeto</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>niemniej<exception scope="previous">tym</exception></token>
+            </marker>
+            <token postag="adj.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="add"><wd lemma="niemało" pos="adv:com"/></disambig>
+        <example type="untouched">Niemniej jednak sprawa jest już przesądzona.</example>
+        <example type="ambiguous" inputform="niemniej[niemniej/qub]" outputform="niemniej[niemało/adv:com,niemniej/qub]">Co zaś <marker>niemniej</marker> ważne, ta reguła jest poprawna.</example>
+    </rule>
+
     <!-- conjunctions that take a comma -->
     <rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA">
         <pattern>

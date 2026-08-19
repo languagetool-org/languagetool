@@ -1,0 +1,58 @@
+# Joined "nie" + comparative/superlative forms that must NOT be analysed by
+# PolishTagger.additionalTags(), even though stripping "nie" yields a stem with
+# a com/sup reading. File Encoding: UTF-8
+#
+# Source: the pl-dict dictionary build (tools/analyze_nie.py), which is also
+# what produced the spelling dictionary hunspell/pl_PL.dict. Regenerate as the
+# concatenation of hunspell_out/nie_excluded_verb_traps.txt and
+# hunspell_out/nie_excluded_C3.txt.
+#
+# Note this is deliberately NOT the full 392-entry speller exclusion set. The
+# other 360 entries are merely corpus-unattested (nienajambiwalentniej and the
+# like); they are well formed under the 2026 reform and the speller rejects
+# them anyway, so tagging them is harmless. Only the two groups below do
+# damage if tagged.
+#
+# 1. Imperative homographs. "mdlej" is both adv:com of "mdło" and the
+# imperative of "mdleć", so tagging "niemdlej" as an adverb would give a clean
+# analysis to what is really a misspelled "nie mdlej". The upstream criterion
+# is frequency-gated (the adverb reading must be weak: stem frequency < 20 and
+# an attested verb lexeme), which cannot be reproduced here because polish.dict
+# carries no frequency data -- hence this list. Note that comparatives whose
+# adverb reading is strong stay admissible even with an imperative homograph
+# (niegorzej, niebiedniej, niebogaciej), which is why the tagger must not just
+# reject every verb:impt collision.
+niebielej
+nieczerwieniej
+niedrętwiej
+niefioletowiej
+niegnuśniej
+niekruszej
+niekwaśniej
+niemarkotniej
+niemarniej
+niemdlej
+nienikczemniej
+nieobojętniej
+nieogromniej
+niepodlej
+nieposępniej
+niepulchniej
+nierudziej
+nieróżowiej
+niesiniej
+niesiwiej
+nieszarzej
+nieszczuplej
+niesztywniej
+nietępiej
+nietężej
+nieubożej
+niewilgotniej
+niezieleniej
+niełysiej
+nieżółciej
+#
+# 2. Banned by the spelling dictionary.
+niebardziej
+nienajbardziej
