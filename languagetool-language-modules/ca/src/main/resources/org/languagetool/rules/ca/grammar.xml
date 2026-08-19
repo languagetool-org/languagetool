@@ -60384,6 +60384,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en el|al">S'esdevingué <marker>en al</marker> segle XIX.</example>
                 <example>En al-Munqīd min al-ḍalāl</example>
             </rule>
+            <rule id="DESCANSAR_EN_PAU" name="amb pau -> en pau">
+                <pattern>
+                    <token regexp="yes" inflected="yes">descansar|reposar</token>
+                    <marker>
+                        <token>amb</token>
+                    </marker>
+                    <token>pau</token>
+                </pattern>
+                <message>La preposició adequada és <suggestion>en</suggestion>.</message>
+                <example correction="en">Que descansi <marker>amb</marker> pau.</example>
+            </rule>
             <rule id="AMB_EN_AMB_EL" name="amb *en/el">
                 <pattern>
                     <token>amb</token>
@@ -114064,9 +114075,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="DE_QUAN_EN_QUAN_DE_TANT_EN_TANT" name="*de quan en quan/de tant en tant">
             <pattern>
-                <token regexp="yes">de|en<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                <token regexp="yes">de|en|amb<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                 <token regexp="yes">quant?|tant?|vegada|volta</token>
-                <token>en</token>
+                <token regexp="yes">en|amb</token>
                 <token regexp="yes">quant?|tant?</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>de tant en tant</suggestion>?</message>
@@ -114075,6 +114086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="de tant en tant">Ho feien <marker>de tant en quan</marker>.</example>
             <example correction="de tant en tant">Ho feien <marker>de tant en tan</marker>.</example>
             <example correction="de tant en tant">Ho feien <marker>de tan en tant</marker>.</example>
+            <example correction="de tant en tant">Però molt <marker>de tant amb quant</marker>.</example>
             <example>Ho feien de tant en tant.</example>
             <example>Abans de tant en tant ho feia.</example>
         </rule>
