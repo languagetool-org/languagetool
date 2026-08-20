@@ -75,7 +75,7 @@ public abstract class LemmaHelper {
 
   public static boolean hasLemma(List<AnalyzedToken> readings, Collection<String> lemmas) {
     for(AnalyzedToken analyzedToken: readings) {
-      if( lemmas.contains(analyzedToken.getLemma()) ) {
+      if( analyzedToken.getLemma() != null && lemmas.contains(analyzedToken.getLemma()) ) {
         return true;
       }
     }

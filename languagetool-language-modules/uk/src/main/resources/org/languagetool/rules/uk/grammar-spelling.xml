@@ -962,7 +962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="erroneous_space" name="Зайвий пробіл">
       <!-- |в\s+право|на\s+право - викликає FP з іменником "право" -->
-      <!--
+      <!--  
       <regexp>\b(в\s+ліво|на\s+ліво|на\s+прикінці)\b</regexp>
       -->
       <regexp>\b(на\s+прикінці)\b</regexp>
@@ -1010,6 +1010,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction=""><marker>фрілансер</marker>.</example>
       <example correction=""><marker>фрилансер</marker>.</example>
     </rule>
+
+    <rulegroup id="chip_chyp" name="чіп і чип">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">електронний|виробництво|виробник|дефіцит|поставка|вживлення|комп'ютерний|розробляти|кремнієвий|[ву]монтований|вживлювати|вживити|підшкірний|масив|біометричний|безконтактний|розробка|імпорт</token>
+          <marker>
+            <token inflected="yes">чіп</token>
+          </marker>
+        </pattern>
+        <message>За правописом напівпровідниковий пристрій пишеться через «и»: <suggestion><match no="2" regexp_match="чі(п.*)" regexp_replace="чи$1"/></suggestion></message>
+        <example correction="чипом">електронним <marker>чіпом</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">чіп</token>
+          </marker>
+          <token regexp="yes" inflected="yes">Intel|AMD|NFC|Qualcomm|iPhone|RFID|мікроконтролер|всередині|електронний|уживляти|вшити|розробка|розробляти</token>
+        </pattern>
+        <message>За правописом напівпровідниковий пристрій пишеться через «и»: <suggestion><match no="1" regexp_match="чі(п.*)" regexp_replace="чи$1"/></suggestion></message>
+        <example correction="чипом">з <marker>чіпом</marker> Intel.</example>
+      </rule>
+    </rulegroup>
 
     <!-- group: числівники та числа -->
 
@@ -1494,31 +1518,164 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- group: велика літера -->
 
-    <rule id="z_velykoiy" name="Назви з великої">
-      <antipattern>
-        <token regexp="yes">(не)?хай</token>
-        <token>господь</token>
-      </antipattern>
-      <antipattern>
-        <token>господь</token>
-        <token regexp="yes">і?з</token>
-        <token regexp="yes">тобою|вами</token>
-      </antipattern>
-      <pattern>
-        <and>
-          <token case_sensitive="yes" regexp="yes">[а-яіїєґ].*</token>
-          <token regexp="yes" inflected="yes">богородиця|господь|благовіщення|великдень|різдво|покрова|євангеліє
-            <exception regexp="yes" inflected="yes">покров|господа|великодній</exception>
+    <rulegroup id="religion_names_caps" name="Релігійні назви з великої">
+      <rule>
+        <antipattern>
+          <token regexp="yes">(не)?хай</token>
+          <token>господь</token>
+        </antipattern>
+        <antipattern>
+          <token>господь</token>
+          <token regexp="yes">і?з</token>
+          <token regexp="yes">тобою|вами</token>
+        </antipattern>
+        <pattern>
+          <and>
+            <token case_sensitive="yes" regexp="yes">[а-яіїєґ].*</token>
+            <token regexp="yes" inflected="yes">богородиця|господь|благовіщення|великдень|різдво|покрова
+              <exception regexp="yes" inflected="yes">покров|господа|великодній</exception>
+              <exception postag_regexp="yes" postag="noun:inanim:p:v_.*">євангеліє|біблія|коран</exception>
+            </token>
+          </and>
+        </pattern>
+        <message>За чинним правописом назви свят, культових книг тощо пишемо з великої літери</message>
+        <suggestion><match no="1" case_conversion ="startupper"/></suggestion>
+        <example correction="Різдва">готувався до <marker>різдва</marker></example>
+        <example>по тонкому покрову</example>
+        <example>така затишна господа</example>
+        <example>нехай господь помагає</example>
+      </rule>
+      
+      <rule>
+        <antipattern>
+          <token inflected="yes">біблія</token>
+          <token postag_regexp="yes" postag=".*v_rod(?!.*pron).*"/>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes" regexp="yes" postag_regexp="yes" postag=".*:p:.*">біблія|євангіліє|коран|тора
+            <exception postag_regexp="yes" postag=".*:[fnm]:.*"/>
           </token>
-        </and>
-      </pattern>
-      <message>За чинним правописом назви свят, культових книг тощо пишемо з великої літери</message>
-      <suggestion><match no="1" case_conversion ="startupper"/></suggestion>
-      <example correction="Різдва">готувався до <marker>різдва</marker></example>
-      <example>по тонкому покрову</example>
-      <example>така затишна господа</example>
-      <example>нехай господь помагає</example>
-    </rule>
+        </antipattern>
+        <pattern>
+          <and>
+            <token case_sensitive="yes" regexp="yes">[а-яіїєґ].*</token>
+            <token regexp="yes" inflected="yes">євангеліє|біблія|коран|тора</token>
+          </and>
+        </pattern>
+        <message>За чинним правописом назви культових книг (у конкретному значенні) пишемо з великої літери</message>
+        <suggestion><match no="1" case_conversion ="startupper"/></suggestion>
+        <example correction="Біблії">як написано у <marker>біблії</marker></example>
+        <example>біблія підприємця</example>
+        <example>різних біблій</example>
+      </rule>
+  
+      <rule>
+        <pattern>
+          <token inflected="yes">святий</token>
+          <and>
+            <token inflected="yes" regexp="yes">письмо|трійця</token>
+            <token regexp="yes" case_sensitive="yes">[а-я].*</token>
+          </and>
+        </pattern>
+        <message>За чинним правописом пишемо з великої літери</message>
+        <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startupper"/></suggestion>
+        <example correction="Святого Письма">зі <marker>святого письма</marker></example>
+        <example correction="Святої Трійці"><marker>святої трійці</marker></example>
+      </rule>
+  
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">новий|старий</token>
+          <and>
+            <token inflected="yes" regexp="yes">за(по)?віт</token>
+            <token regexp="yes" case_sensitive="yes">з.*</token>
+          </and>
+        </pattern>
+        <message>За чинним правописом назви культових книг пишемо з великої літери</message>
+        <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startupper"/></suggestion>
+        <example correction="Старого Завіту">зі <marker>старого завіту</marker></example>
+      </rule>
+  
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">Іван|Микола|Андрій</token>
+          <and>
+            <token inflected="yes" regexp="yes">хреститель|богослов|чудотворець|первозваний</token>
+            <token regexp="yes" case_sensitive="yes">[а-я].*</token>
+          </and>
+        </pattern>
+        <message>За чинним правописом назви апостолів, пророків, святих у християнстві пишемо з великої літери</message>
+        <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startupper"/></suggestion>
+        <example correction="Івана Хрестителя">від <marker>Івана хрестителя</marker></example>
+      </rule>
+  
+      <rule>
+        <pattern>
+          <token inflected="yes">пречистий</token>
+          <and>
+            <token inflected="yes">діва</token>
+            <token regexp="yes" case_sensitive="yes">[а-я].*</token>
+          </and>
+        </pattern>
+        <message>За чинним правописом назви апостолів, пророків, святих у християнстві пишемо з великої літери</message>
+        <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startupper"/></suggestion>
+        <example correction="Пречистої Діви">від <marker>Пречистої діви</marker></example>
+      </rule>
+  
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">український|вірменський</token>
+          <and>
+            <token inflected="yes" regexp="yes">православний|греко-католицький|лютеранський|апостольский</token>
+            <token regexp="yes" case_sensitive="yes">[А-Я].*</token>
+          </and>
+          <token inflected="yes">церква</token>
+        </pattern>
+        <message>За чинним правописом з великої букви пишемо лише перше слово назв церков</message>
+        <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startlower"/> <match no="3" case_conversion ="startlower"/></suggestion>
+        <example correction="Українська православна церква"><marker>Українська Православна Церква</marker></example>
+      </rule>
+  
+       <!-- Папа Римський, Католікос-Патріарх усієї Грузії -->
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">вселенський|святійший|верховний</token>
+          <and>
+            <token inflected="yes" regexp="yes">патріарх|архиєпископ</token>
+            <token regexp="yes" case_sensitive="yes">[а-я].*</token>
+          </and>
+        </pattern>
+        <message>За чинним правописом великі букви вживаємо в повних офіційних найменуваннях найвищих церковних посадових осіб</message>
+        <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startupper"/></suggestion>
+        <example correction="Вселенський Патріарх"><marker>Вселенський патріарх</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes">папа</token>
+          <and>
+            <token inflected="yes">римський</token>
+            <token regexp="yes" case_sensitive="yes">[а-я].*</token>
+          </and>
+        </pattern>
+        <message>За чинним правописом великі букви вживаємо в повних офіційних найменуваннях найвищих церковних посадових осіб</message>
+        <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startupper"/></suggestion>
+        <example correction="Папи Римського"><marker>Папи римського</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">Володимирський|Кирилівський|Києво-Печерська</token>
+          <and>
+            <token inflected="yes" regexp="yes">собор|церква|лавра</token>
+            <token regexp="yes" case_sensitive="yes">[А-Я].*</token>
+          </and>
+        </pattern>
+        <message>За чинним правописом з великої букви пишемо всі слова, крім родових найменувань, у назвах монастирів, церков, ікон</message>
+        <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startlower"/></suggestion>
+        <example correction="Володимирського собору"><marker>Володимирського Собору</marker></example>
+      </rule>
+    </rulegroup>
 
     <!-- group: інші -->
 

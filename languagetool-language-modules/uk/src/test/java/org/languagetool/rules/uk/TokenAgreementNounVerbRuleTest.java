@@ -51,11 +51,15 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     assertHasError("та з інших питань перевірка проведено не повно");
 
     assertHasError("з часом пара вирішили узаконити");
+    
+    assertHasError("як вони поводиться");
+    assertEmptyMatch("таким як я радять");
+    assertEmptyMatch("я не так само як ви думаю");
 
     assertEmptyMatch("На честь Джудіт Резнік названо кратер");
     
     //TODO:
-    //assertEmptyMatch("подружжя під прізвищем Крилови оселилося в Москві");
+//    assertEmptyMatch("подружжя під прізвищем Крилови оселилося в Москві");
     
     // inf
     assertEmptyMatch("чи зуміє наша держава забезпечити власні потреби");

@@ -412,11 +412,23 @@ public class TokenAgreementNumrNounRule extends Rule {
           else if( DVA_3_4_PATTERN.matcher(numrToken).matches() ) {
             masterInflections.removeAll(pVnazZna);
 
+            if( LemmaHelper.hasLemma(tokens[i], "друг") ) {
+              masterInflections = Arrays.asList(new Inflection("m", "v_rod", null));
+            }
+            else
             // 2 подолянина
             if( isNynCase(tokens, i) ) {
               masterInflections.add(new Inflection("m", "v_rod", null));
-              // обидва волинянина
-              if( Arrays.asList("обидва", "обидві").contains(numrToken) ) {
+              if( Arrays.asList("обидва").contains(numrToken) ) {
+                // обидва волинянина (пішли)
+                // вони обидва волиняни.
+                if( i == tokens.length - 1 
+                    || tokens[i+1].getCleanToken().matches("[.,;!?)—–-]")
+                    || PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("noun:inanim:.:v_rod:prop:geo.*")) ) {
+                  masterInflections.add(new Inflection("p", "v_naz", null));
+                }
+              }
+              if( Arrays.asList("обидві").contains(numrToken) ) {
                 masterInflections.add(new Inflection("p", "v_naz", null));
               }
             }
