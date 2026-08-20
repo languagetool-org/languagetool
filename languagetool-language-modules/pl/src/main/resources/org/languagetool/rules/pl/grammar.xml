@@ -22436,7 +22436,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="międzyczasie">W <marker>między czasie</marker> Robert zjadł kanapki z szynką.</example>
 				</rule>
 				<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
-				<rulegroup id="NIE_RZECZOWNIK" name="Rozłączna pisownia „nie” z rzeczownikami i przymiotnikami">
+				<rulegroup id="NIE_RZECZOWNIK" name="Rozłączna pisownia „nie” z rzeczownikami, przymiotnikami i przysłówkami">
                         <antipattern>
                             <marker>
                                 <token>nie</token>
@@ -22552,6 +22552,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>I żeby nie święta przysięga, to mówię panu, już bym porzucił ją.</example>
                                 <example>Bodaj czy nie jedyny to był od śmierci Marty okres w moim życiu…</example>
 						</rule>
+                        <rule id="NIE_ADV">
+                            <antipattern>
+                                <token>nie</token>
+                                <marker><token postag="adv:.*" postag_regexp="yes"/></marker>
+                                <token>,</token>
+                                <token regexp="yes">a|ale|lecz|tylko</token>
+                            </antipattern>
+                            <pattern>
+                                <token postag="qub">nie<exception scope="previous" regexp="yes">a|ale|bynajmniej|czy|gdyby|jeszcze|jeśli|jeżeli|wcale|za</exception></token>
+                                <token postag="adv:.*" postag_regexp="yes"><exception postag="verb:impt.*|num.*|adv|prep.*|qub" postag_regexp="yes"/><exception>tak</exception><exception regexp="yes" inflected="yes">\p{Lu}\p{Ll}.*</exception></token>
+                            </pattern>
+                                <message>Po reformie pisowni „nie” z przysłówkami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\2</suggestion>.</message>
+                                <short>Błąd ortograficzny</short>
+                                <example>Miał nie mniej niż 3 lata.</example>
+                                <example>Nie mdlej!</example>
+                                <example>Na szczęście dla nas, problem ten jest bolączką ogólnoświatową, a nie jedynie polską.</example>
+                                <example>Dał mi nie więcej niż dwa miliony złotych; drobna łapówka.</example>
+                                <example>Gdyby nie Franco, Hiszpania byłaby demokratycznym krajem znacznie wcześniej.</example>
+                                <example>W środowisku górniczym i handlowców mówi się o tym może nie głośno, lecz półgłosem na pewno.</example>
+                                <example correction="nielepiej">Dziunia tańczy <marker>nie lepiej</marker> niż Waldek.</example>
+                        </rule>
 				</rulegroup>
 
 				<!-- błąd ortograficzny - pisownia cząstek -bym -->
