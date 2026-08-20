@@ -3630,23 +3630,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='PERANTE_O_MESMO_IDENTICO' name="🇵🇹👔 Perante 'o mesmo' → idêntico">
-            <pattern>
-                <token regexp='yes'>ante|diante|perante</token>
-                <marker>
-                    <token regexp='yes'>d?[ao]s?|uma?</token>
-                    <token regexp='yes'>mesm[ao]s?</token>
-                </marker>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-            </pattern>
-            <message>&informal_msg;</message>
-            <suggestion><match no='3' postag='DD0(..)0' postag_replace='AQ0$10'>idêntico</match></suggestion>
-            <suggestion><match no='3' postag='DD0(..)0' postag_replace='DI0$10'>um</match> <match no='3' postag='DD0(..)0' postag_replace='AQ0$10'>idêntico</match></suggestion>
-            <example correction="idêntico|um idêntico">Perante <marker>o mesmo</marker> conjunto de dados avaliamos a média.</example>
-            <example correction="idêntico|um idêntico">Estamos perante <marker>um mesmo</marker> conjunto de dados.</example>
-            <example correction="idêntica|uma idêntica">Perante <marker>a mesma</marker> categoria de dados avaliamos a média.</example>
-            <example correction="idêntica|uma idêntica">Estamos perante <marker>uma mesma</marker> categoria de dados.</example>
-        </rule>
+      <rule id='PERANTE_O_MESMO_IDENTICO' name="🇵🇹👔 Perante 'o mesmo' → idêntico" type='style' tone_tags='formal'>
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token regexp='yes'>ante|perante</token>
+              <marker>
+                  <token regexp='yes'>[ao]s?|uma?</token>
+                  <token regexp='yes'>mesm[ao]s?</token>
+              </marker>
+              <token regexp='yes' inflected='yes'>cenário|condição|contexto|critério|circunstância|configuração|situação</token>
+          </pattern>
+          <message>Num contexto formal, considere substituir &quot;mesmo&quot; por &quot;idêntico&quot; quando se pretende exprimir igualdade e não identidade.</message>
+          <suggestion><match no='3' postag='DD0(..)0' postag_replace='AQ0$10'>idêntico</match></suggestion>
+          <suggestion><match no='3' postag='DD0(..)0' postag_replace='DI0$10'>um</match> <match no='3' postag='DD0(..)0' postag_replace='AQ0$10'>idêntico</match></suggestion>
+          <example correction="idêntico|um idêntico">Perante <marker>o mesmo</marker> cenário, os resultados foram semelhantes.</example>
+          <example correction="idênticos|uns idênticos">Perante <marker>os mesmos</marker> critérios, os resultados foram semelhantes.</example>
+          <example correction="idêntica|uma idêntica">Perante <marker>a mesma</marker> situação, o sistema reagiu de forma diferente.</example>
+          <example correction="idênticas|umas idênticas">Perante <marker>as mesmas</marker> condições, os resultados foram semelhantes.</example>
+      </rule>
 
 
       <rule id='FAZER_DESPORTO_V2' name="🇵🇹👔 'Fazer' desporto → Praticar" tone_tags='formal'>
