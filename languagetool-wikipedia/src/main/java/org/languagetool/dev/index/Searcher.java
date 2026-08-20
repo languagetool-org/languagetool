@@ -65,7 +65,9 @@ public class Searcher {
 
   private int skipHits = 0;
   private int maxHits = 1000;
-  private int maxSearchTimeMillis = 5000;
+  // 5s was too tight: on a cold OS file cache, just paging in a large index's segment
+  // files from disk can alone take several seconds, independent of query complexity
+  private int maxSearchTimeMillis = 20000;
   private IndexSearcher indexSearcher;
   private DirectoryReader reader;
   private boolean limitSearch = true;
@@ -152,7 +154,15 @@ public class Searcher {
       }
 
       System.out.println("Running query: " + query);
-      SearchRunnable runnable = new SearchRunnable(indexSearcher, query, language, rule);
+      // building the JLanguageTool (dictionaries, tagger, disambiguator) can itself take
+      // several seconds for morphologically rich languages, so do it before starting the
+      // timed search thread - otherwise the timeout races against one-time setup cost
+      // instead of actual search/check time. Some resources are loaded lazily on first use
+      // and the JIT hasn't warmed up the check/disambiguation code paths yet, so also run
+      // one throwaway check here to pay that cost upfront instead of inside the clock:
+      JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
+      languageTool.check("Warm-up sentence to trigger lazy loading and JIT compilation.");
+      SearchRunnable runnable = new SearchRunnable(indexSearcher, query, languageTool);
       Thread searchThread = new Thread(runnable);
       searchThread.start();
       try {
@@ -163,11 +173,13 @@ public class Searcher {
         } else {
           searchThread.join(Integer.MAX_VALUE);
         }
-        //searchThread.interrupt();
       } catch (InterruptedException e) {
         throw new RuntimeException("Search thread got interrupted for query " + query, e);
       }
-      if (searchThread.isInterrupted()) {
+      if (searchThread.isAlive()) {
+        // join() timed out and the thread is still running, so its result isn't ready yet -
+        // interrupt it and bail out instead of falling through with a null result
+        searchThread.interrupt();
         throw new SearchTimeoutException("Search timeout of " + maxSearchTimeMillis + "ms reached for query " + query);
       }
       Exception exception = runnable.getException();
@@ -328,8 +340,7 @@ public class Searcher {
 
     private final IndexSearcher indexSearcher;
     private final Query query;
-    private final Language language;
-    private final PatternRule rule;
+    private final JLanguageTool languageTool;
 
     private List<MatchingSentence> matchingSentences;
     private Exception exception;
@@ -339,19 +350,15 @@ public class Searcher {
     private int docsChecked;
     private int numDocs;
 
-    SearchRunnable(IndexSearcher indexSearcher, Query query, Language language, PatternRule rule) {
+    SearchRunnable(IndexSearcher indexSearcher, Query query, JLanguageTool languageTool) {
       this.indexSearcher = indexSearcher;
       this.query = query;
-      this.language = language;
-      this.rule = rule;
+      this.languageTool = languageTool;
     }
 
     @Override
     public void run() {
       try {
-        long t1 = System.currentTimeMillis();
-        JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
-        long langToolCreationTime = System.currentTimeMillis() - t1;
         long t2 = System.currentTimeMillis();
         PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query);
         long luceneTime = System.currentTimeMillis() - t2;
@@ -363,8 +370,8 @@ public class Searcher {
         maxDocChecked = res.maxDocChecked;
         docsChecked = res.docsChecked;
         numDocs = indexSearcher.getIndexReader().numDocs();
-        System.out.println("Check done in " + langToolCreationTime + "/" + luceneTime + "/" + (System.currentTimeMillis() - t3)
-            + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs");
+        System.out.println("Check done in " + luceneTime + "/" + (System.currentTimeMillis() - t3)
+            + "ms (Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs");
       } catch (Exception e) {
         exception = e;
       }
