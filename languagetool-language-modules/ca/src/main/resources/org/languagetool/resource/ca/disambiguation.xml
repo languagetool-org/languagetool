@@ -19144,6 +19144,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="A.*"/>
     </rule>
+    <rule id="polemica_nom" name="polèmica no adjectius davant d'adjectiu">
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">polèmica<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            </marker>
+            <token postag="AQ.*|V.P.*|NPCN000" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="[^AV].*"/>
+    </rule>
     <rule id="en_article" name="En article">
         <pattern>
             <unify>
