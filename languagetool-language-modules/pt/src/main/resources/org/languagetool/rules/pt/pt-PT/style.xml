@@ -236,27 +236,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
 
-        <!-- EM DETALHE detalhadamente -->
-        <rule id='EM_DETALHE_DETALHADAMENTE_PT_PT' name="🇵🇹✂️ 'em detalhe' → detalhadamente" type='style' tone_tags="objective">
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-10 (2-MAR-2023+) -->
-            <!--
-                Queira explicar em detalhe o tema. → Queira explicar detalhadamente o tema.
-                Queira explicar o tema em detalhe. → Queira explicar o tema detalhadamente.
-            -->
-            <pattern>
-                <token postag='V.+|RG|PD.+|NC.+|AQ.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                <marker>
-                    <token>em</token>
-                    <token>detalhe</token>
-                </marker>
-                <token postag='_PUNCT|SPS00|(SPS00:)?D[AI].+|PI.+' postag_regexp='yes'/>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>detalhadamente</suggestion>
-            <example correction="detalhadamente">Queira explicar <marker>em detalhe</marker> o tema.</example>
-            <example correction="detalhadamente">Queira explicar o tema <marker>em detalhe</marker>.</example>
-        </rule>
+      <rule id='EM_DETALHE_DETALHADAMENTE_PT_PT' name="🇵🇹✂️ 'em detalhe' → detalhadamente" type='style' tone_tags='objective'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token skip='2' postag='V.+' postag_regexp='yes'/>
+              <marker>
+                  <token>em</token>
+                  <token>detalhe</token>
+              </marker>
+          </pattern>
+          <message>&simplify_msg;</message>
+          <suggestion>detalhadamente</suggestion>
+          <example correction="detalhadamente">Queira explicar <marker>em detalhe</marker> o tema.</example>
+          <example correction="detalhadamente">Queira explicar o tema <marker>em detalhe</marker>.</example>
+          <example correction="detalhadamente">O relatório descreve <marker>em detalhe</marker> o procedimento.</example>
+          <example correction="detalhadamente">O autor analisou os resultados <marker>em detalhe</marker>.</example>
+          <example correction="detalhadamente">Vamos discutir esta questão <marker>em detalhe</marker>.</example>
+      </rule>
 
 
         <!-- EM RELAÇÃO À SITUAÇÃO relativamente à situação -->
