@@ -43,7 +43,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + ",.;!?\u2014\u2015:()\\[\\]{}<>/|\\\\…°$€₴=№§¿¡~×]" 
             + "|%(?![-\u2013][а-яіїєґ])" // allow 5%-й
             + "|(?<!\uE109)[\"«»„”“]"                       // quotes have special cases
-            + "|(?<=[а-яіїєґА-ЯІЇЄҐ])[\u00B9\u00B2\u2070-\u2079]"  // superscript for regular words only //
+            + "|(?<=[а-яіїєґА-ЯІЇЄҐ])[\u00B9\u00B2\u00B3\u2070-\u2079]"  // superscript for regular words only //
           // preserve * inside words (sometimes used instead of apostrophe or to mask profane words)
           // but split if it's the beginning or end of the word (often used for mark-up and footnotes)
             + "|(?<![а-яіїєґА-ЯІЇЄҐa-zA-Z])[_*]+"
@@ -51,6 +51,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + "|[\u2000-\u200F"
             + "\u201A\u2020-\u202F\u2030-\u206F"
             + "\u2400-\u27FF"    // Control Pictures
+            + "\u21B5" // wikipedia: ↵
             + String.valueOf(Character.toChars(0x1F000)) + "-" + String.valueOf(Character.toChars(0x1FFFF))          // Emojis
             + "\uf000-\uffff" // private unicode area: U+E000..U+F8FF
             + "\uE110])(?!\uE120)";
@@ -120,9 +121,9 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String INITIALS_DOT_REPL_RSP_1 = "$1" + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
 
   // abbreviation dot
-  private static final Pattern ABBR_DOT_VO_PATTERN1 = Pattern.compile("([вВу])\\.([\\h\\v]*о)\\.");
-  private static final Pattern ABBR_DOT_VO_PATTERN2 = Pattern.compile("(к)\\.([\\h\\v]*с)\\.");
-  private static final Pattern ABBR_DOT_VO_PATTERN3 = Pattern.compile("(ч|ст)\\.([\\h\\v]*л)\\.");
+  private static final Pattern ABBR_DOT_VO_PATTERN1 = Pattern.compile("\\b([вВу])\\.([\\h\\v]*о)\\.", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern ABBR_DOT_VO_PATTERN2 = Pattern.compile("\\b(к)\\.([\\h\\v]*с)\\.", Pattern.UNICODE_CHARACTER_CLASS);
+  private static final Pattern ABBR_DOT_VO_PATTERN3 = Pattern.compile("\\b(ч|ст)\\.([\\h\\v]*л)\\.", Pattern.UNICODE_CHARACTER_CLASS);
 //  private static final Pattern ABBR_DOT_VO_PATTERN4 = Pattern.compile("(р)\\.([\\s\u00A0\u202F]*х)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile("([0-9IІ][\\h\\v]+)(тис|арт)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile("(тис|арт)\\.([\\h\\v]+[а-яіїєґ0-9])");
@@ -135,7 +136,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // село, місто, річка (якщо з цифрою: секунди, метри, роки) - з роками складно
   //private static final Pattern ABBR_DOT_INVALID_DOT_PATTERN = Pattern.compile("((?:[0-9]|кв\\.|куб\\.)[\\s\u00A0\u202F]+(?:[смкд]|мк)?м)\\.(.)");
   private static final Pattern ABBR_DOT_KUB_SM_PATTERN = Pattern.compile("(кв|куб)\\.([\\h\\v]*(?:[смкд]|мк)?м)");
-  private static final Pattern ABBR_DOT_S_G_PATTERN = Pattern.compile("(с)\\.(-г)\\.");
+  private static final Pattern ABBR_DOT_S_G_PATTERN = Pattern.compile("\\b(с)\\.(-г)\\.", Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern ABBR_DOT_CHL_KOR_PATTERN = Pattern.compile("(чл)\\.(-кор)\\.");
   private static final Pattern ABBR_DOT_PN_ZAH_PATTERN = Pattern.compile("(пн|пд)\\.(-(зах|сх))\\.");
   private static final Pattern INVALID_MLN_DOT_PATTERN = Pattern.compile("(млн|млрд)\\.( [а-яіїєґ])");
