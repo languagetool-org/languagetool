@@ -1731,7 +1731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token inflected="yes">виборний</token>
-            <token inflected="yes" regexp="yes">кампанія|бюлетень|голос|закон|право|дільниця|комісія|агітація|система|збори|штаб</token>
+            <token inflected="yes" regexp="yes">кампанія|бюлетень|голос|закон|право|дільниця|комісія|агітація|система|збори</token>
           </marker>
         </pattern>
         <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="(adj.*)" postag_replace="$1">виборчий</match> \2</suggestion>?</message>
@@ -2152,36 +2152,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="zadacha_vs_zavdannya" name="Задача і завдання">
-      <rule>
-        <pattern>
-          <token inflected="yes" regexp="yes">головний|першочерговий|виконувати|бойовий|стояти|стратегічний|ключовий|пріоритетний|виконати|конкретний|отримати|поставити|практичний|технічний|актуальний|геодезичний|найважливіший|політичний|творчий|(не)?легкий|тактичний|нагальний|державний</token>
-          <marker>
-            <token inflected="yes">задача</token>
-          </marker>
-        </pattern>
-        <message>Завдання – наперед визначений обсяг робіт; питання переважно математичного характеру. Можливо тут правильно: <suggestion
-          ><match no="2" postag_regexp="yes" postag="(noun:inanim:)f?(.*)" postag_replace="$1n?$2">завдання</match></suggestion>?</message>
-        <example correction="завданням">першочерговою <marker>задачею</marker>.</example>
-        <example correction="завданнями">першочерговими <marker>задачами</marker>.</example>
-        <example>складною задачею</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected="yes">задача</token>
-          </marker>
-          <token inflected="yes" regexp="yes">держава|уряд|влада|український|державний|управління|керування|забезпечення|дослідження|ідентифікація|розвиток|перед</token>
-        </pattern>
-        <message>Завдання – наперед визначений обсяг робіт; питання переважно математичного характеру. Можливо тут правильно: <suggestion
-          ><match no="1" postag_regexp="yes" postag="(noun:inanim:)f?(.*)" postag_replace="$1n?$2">завдання</match></suggestion>?</message>
-        <example correction="завдання"><marker>задача</marker> перед вчителями стоїть непроста.</example>
-        <example correction="завдання"><marker>задача</marker> українського політикуму.</example>
-        <example>складною задачею</example>
-      </rule>
-    </rulegroup>
-
     <rulegroup id="ceglovyi_ceglyanyi" name="Цегловий і цегляний">
       <rule>
         <pattern>
@@ -2402,7 +2372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <marker>
           <token inflected="yes">хресний</token>
         </marker>
-        <token regexp="yes" inflected="yes">батько|мати|дитина|син|донька|дочка</token>
+        <token regexp="yes" inflected="yes">батько|мати|дитина</token>
       </pattern>
       <message>Правильно: <suggestion><match no="1" regexp_match="(?ui)хресн(.+)" regexp_replace="хрещен$1"/></suggestion></message>
       <example correction="хрещена">його <marker>хресна</marker> мати.</example>
@@ -3215,14 +3185,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes" inflected="yes">підняти|підійняти|підіймати|підійма(ючи|вши)|піднімавши</token>
             <token min="0" regexp="yes">би?</token>
-            <token postag_regexp="yes" postag="(adj|numr):.:v_(zna|rod).*" min="0" max="2"/>
-            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_(zna|rod).*">питання</token>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">питання</token>
           </marker>
         </pattern>
         <message>Краще: <suggestion>порушувати \2 \3 \4</suggestion></message>
         <suggestion>підносити \2 \3 \4</suggestion>
         <example correction="порушувати це питання|підносити це питання">він <marker>підняв це питання</marker> одразу.</example>
-        <example correction="порушувати цього питання|підносити цього питання">він не <marker>підняв цього питання</marker> одразу.</example>
       </rule>
 
       <rule>

@@ -202,18 +202,9 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("дві наглядачки-африканерки");
     assertEmptyMatch("дві турбопрофесії");
     assertEmptyMatch("два імені");
-
     assertEmptyMatch("один-два громадянини");
     assertEmptyMatch("Обидві ходи");
     assertEmptyMatch("обидва атентати");
-    assertEmptyMatch("обидва римляна");
-    assertEmptyMatch("обидва римляна пішли");
-    assertHasError("обидва римляни пішли");
-    assertEmptyMatch("і обидва римляни.");
-    assertEmptyMatch("і обидва громадяни Польщі.");
-    
-    assertEmptyMatch("два друга");
-    assertHasError("два друзі");
     
     assertHasError("два подоляни", "два подолянина");
     assertHasError("33 подоляни", "33 подолянина");

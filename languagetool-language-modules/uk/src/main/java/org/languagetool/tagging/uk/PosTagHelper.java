@@ -72,7 +72,6 @@ public final class PosTagHelper {
     PERSON_MAP = Collections.unmodifiableMap(map3);
   }
   public static final Pattern NOUN_V_NAZ_PATTERN = Pattern.compile("noun.*:v_naz.*");
-  public static final Pattern NOUN_NON_PRON_V_NAZ_PATTERN = Pattern.compile("noun.*:v_naz(?!.*pron).*");
   public static final Pattern ADJ_V_NAZ_PATTERN = Pattern.compile("adj:.:v_naz.*");
   public static final Pattern VERB_INF_PATTERN = Pattern.compile("verb.*:inf.*");
   public static final Pattern ADJ_V_KLY_PATTERN = Pattern.compile("adj:.:v_kly.*");

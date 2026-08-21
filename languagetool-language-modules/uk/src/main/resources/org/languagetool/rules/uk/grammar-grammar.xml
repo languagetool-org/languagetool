@@ -1827,19 +1827,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
-          <token inflected="yes">один</token>
-          <token regexp="yes">і?з</token>
-          <marker>
-            <token>кращих</token>
-          </marker>
-        </pattern>
-        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращих</suggestion></message>
-        <example correction="найкращих">один із <marker>кращих</marker> блогерів</example>
-        <example>вибирають із кращих</example>
-      </rule>
-
-      <rule>
-        <pattern>
           <token regexp="yes">за|як</token>
           <marker>
             <token>кращий</token>
@@ -2892,82 +2879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="зважаючи на">і <marker>зважаючи не</marker> ситуацію</example>
         <example>зважаючи не лише на сучасні проблеми</example>
       </rule>
-    </rulegroup>
 
-    <rulegroup id="vyniatkovo_vs_vykliuchno" name="Винятково і виключно">
-      <rule>
-        <pattern>
-          <token regexp="yes" inflected="yes">відображати|працювати|здійснюватися|майже|стосуватися|займатися|відбуватися|діяти|залежати|спрямований|складатися|керуватися|проводитися|використовувати|йтися|здійснювати</token>
-          <marker>
-            <token>винятково</token>
-          </marker>
-        </pattern>
-        <message>«Винятково» вживаємо переважно в значенні «надзвичайно» (винятково гарна), а в обмежувальному значенні краще вжити інші відповідники</message>
-        <suggestion>виключно</suggestion>
-        <suggestion>лише</suggestion>
-        <suggestion>тільки</suggestion>
-        <suggestion>суто</suggestion>
-        <example correction="виключно|лише|тільки|суто">працюють <marker>винятково</marker> на себе.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token>винятково</token>
-          </marker>
-          <token regexp="yes" inflected="yes">на|(за)?для|завдяки|заради|політичний|мирний|державний|громадянин|закон|український|польський</token>
-        </pattern>
-        <message>«Винятково» вживаємо переважно в значенні «надзвичайно» (винятково гарна), а в обмежувальному значенні краще вжити інші відповідники</message>
-        <suggestion>виключно</suggestion>
-        <suggestion>лише</suggestion>
-        <suggestion>тільки</suggestion>
-        <suggestion>суто</suggestion>
-        <example correction="виключно|лише|тільки|суто"><marker>винятково</marker> на політичній основі</example>
-      </rule>
-    </rulegroup>
-
-
-    <rulegroup id="nastoyuvaty_vs_napolyagaty" name="Настоювати і наполягати">
-      <rule>
-        <antipattern>
-          <token regexp="yes" inflected="yes">мікстура|напій</token>
-          <token inflected="yes">настоювати</token>
-        </antipattern>
-        <antipattern>
-          <token>на</token>
-          <token regexp="yes" inflected="yes">горілка|водяний|трава|гарячий|молоко|спирт|вода|корінь|картопля|[0-9][,0-9]*</token>
-        </antipattern>
-        <pattern>
-          <marker>
-            <token inflected="yes">настоювати</token>
-          </marker>
-          <token>на</token>
-        </pattern>
-        <message>Можливо неправильно вжито «настоювати» у значенні «наполягати»</message>
-        <suggestion>наполягати</suggestion>
-        <suggestion>стояти на</suggestion>
-        <suggestion>обстоювати що, за чим</suggestion>
-        <example correction="наполягати|стояти на|обстоювати що, за чим">він <marker>настоював</marker> на цьому.</example>
-        <example>мікстуру настоювали на інших розчинах.</example>
-        <example>ліки він настоював на горілці.</example>
-        <example>ліки він настоював на 0,25 л спирту.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected="yes">настоювати</token>
-          </marker>
-          <token min="0">,</token>
-          <token>що</token>
-        </pattern>
-        <message>Можливо неправильно вжито «настоювати» у значенні «наполягати»</message>
-        <suggestion>наполягати</suggestion>
-        <suggestion>стояти на</suggestion>
-        <suggestion>обстоювати що, за чим</suggestion>
-        <example correction="наполягати|стояти на|обстоювати що, за чим">він <marker>настоював</marker>, що все це неправда.</example>
-        <example>ліки він настоював на 0,25 л спирту.</example>
-      </rule>
     </rulegroup>
 
     <rulegroup id="adres_adresa" name="Адреса і адрес">
@@ -3016,72 +2928,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     </rulegroup>
 
-    <rulegroup id="shtaba_shtab" name="Штаба і штаб">
-      <rule>
-        <pattern>
-          <token inflected="yes" regexp="yes">начальник|речник|(перед)?вибор[чн]ий|генеральний|головний|командування|об'єднаний|дані|керівник|прес-?служба|перс-?центр|до|і?з|зі</token>
-          <marker>
-            <token>штаба</token>
-          </marker>
-        </pattern>
-        <message>Р.в. від «штаб» є <suggestion>штабу</suggestion></message>
-        <example correction="штабу">начальник <marker>штаба</marker>.</example>
-        <example>залізна штаба</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token>штаба</token>
-          </marker>
-          <token inflected="yes" regexp="yes">дивізія|армія|дивізіон|командування|флот|оборона</token>
-        </pattern>
-        <message>Р.в. від «штаб» є <suggestion>штабу</suggestion></message>
-        <example correction="штабу"><marker>штаба</marker> дивізії.</example>
-        <example>залізна штаба</example>
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="korpusa_korpusu" name="Корпуса і корпусу">
-      <rule>
-        <pattern>
-          <token inflected="yes" regexp="yes">депутатський|армійський|національний|суддівський|головний|дипломатичний|навчальний|офіцерський|хірургічний|лікувальний|український|кадетський|адміністративний|добровольчий|стрілецький|цивільний|металевий|старий|учбовий|громадянський|командир|командувач|штаб|[0-9]+(-й)?</token>
-          <marker>
-            <token>корпуса</token>
-          </marker>
-        </pattern>
-        <message>Р.в. від «корпус» є <suggestion>корпусу</suggestion></message>
-        <example correction="корпусу">депутатського <marker>корпуса</marker>.</example>
-        <example>могутнього корпусу</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token>корпуса</token>
-          </marker>
-          <token inflected="yes" regexp="yes">вартовий|університет|лікарня|текст|національний|обласний|сухопутний|судно|корабель|армія|граната|січовий|збройний</token>
-        </pattern>
-        <message>Р.в. від «корпус» є <suggestion>корпусу</suggestion></message>
-        <example correction="корпусу"><marker>корпуса</marker> університету.</example>
-        <example>могутнього корпусу</example>
-      </rule>
-    </rulegroup>
-
-    <rulegroup id="pochatku" name="Початку і початка">
-      <rule>
-        <pattern>
-          <marker>
-            <token>початка</token>
-          </marker>
-          <token inflected="yes" regexp="yes" postag_regexp="yes" postag="num.*|.*v_rod.*">[XVIХІ]+|[0-9]+-й|рік|війна|березень|вересень|червень|літо|осінь|минулий|наступний|повномасштабний|робота|праця|діяльність|навчання|будівництво|проектування|розробка|виконання|запуск|проведення|організація</token>
-        </pattern>
-        <message>Р.в. від «початок» є <suggestion>початку</suggestion></message>
-        <example correction="початку">від <marker>початка</marker> XX ст.</example>
-        <example>початка кукурудзи</example>
-      </rule>
-    </rulegroup>
-    
     <rule id="klad_vs_sklad_1" name="Клад і склад">
       <pattern>
         <token inflected="yes">особовий</token>
@@ -3104,18 +2950,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Можливо ви мали на увазі: <suggestion>складу</suggestion>?</message>
       <example correction="складу">до <marker>кладу</marker> якої мали увійти.</example>
       <example>Великого кладу</example>
-    </rule>
-    
-    <rule id="agarnyi_vs_agrarnyi_1" name="Агарний і аграрний">
-      <pattern>
-        <marker>
-          <token inflected="yes">агарний</token>
-        </marker>
-        <token inflected="yes" regexp="yes">політика|сектор|фонд|продукція|міністр|сфера|бізнес|наука|підприємство|комітет|рада|галузь|партія|університет|експорт|країна|право|реформа|ринок|товар</token>
-      </pattern>
-      <message>Можливо ви мали на увазі: <suggestion><match no="1" regexp_match="агар" regexp_replace="аграр"/></suggestion>?</message>
-      <example correction="аграрної"><marker>агарної</marker> політики.</example>
-      <example>агарного складу</example>
     </rule>
 
     <rulegroup id="na_vylit_vs_navylit" name="На виліт і навиліт">

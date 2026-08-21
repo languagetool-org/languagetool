@@ -857,27 +857,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
     }
 
     // тому що, як австрієць маєте
-    if( nounPos > 1
-        && tokens[nounPos-1].getCleanToken().matches("[Яя]к") ) {
-
-      if (tokens[nounPos].getCleanToken().matches("ніхто|усі")) {
-        logException();
-        return true;
-      }
-      if (tokens[nounPos].getCleanToken().matches("воно")
-          && PosTagHelper.hasPosTag(tokens[verbPos], PosTagHelper.VERB_INF_PATTERN)) {
-        logException();
-        return true;
-      }
-      if ( nounPos > 2
-          && LemmaHelper.hasLemma(tokens[nounPos-2], List.of("такий", "само"))) {
-        logException();
-        return true;
-      }
-    } 
-
-    // тому що, як австрієць маєте
-    if( PosTagHelper.hasPosTag(tokens[nounPos], PosTagHelper.NOUN_NON_PRON_V_NAZ_PATTERN)
+    if( PosTagHelper.hasPosTag(tokens[nounPos], PosTagHelper.NOUN_V_NAZ_PATTERN)
         && LemmaHelper.tokenSearch(tokens, nounPos-1, (String)null, Pattern.compile("[Яя]к"), PosTagHelper.ADJ_V_NAZ_PATTERN, Dir.REVERSE) != -1 ) {
       logException();
       return true;
