@@ -57,14 +57,14 @@ USA
           <pattern>
             <token regexp="yes">.*[ыуоа]+[бджгълмнрвйзчфхкпстыуоа]+лер</token>
           </pattern>
-          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[ыуоа]+[бджгълмнрвйзчфхкпст]+)?(лер)" regexp_replace="$1лар"/></suggestion></message>
+          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[ыуоа]+[бджгълмнрвйзчфхкпстыуоа]+)?(лер)" regexp_replace="$1лар"/></suggestion></message>
           <example correction="хаталар">Дефтеримде <marker>хаталер</marker> яптым.</example>
         </rule> 
         <rule>
           <pattern>
-            <token regexp="yes">.*[еюёя]+[бджгълмнрвйзчфхкпстеюёя]+лар</token>
+            <token regexp="yes">.*[еуюоёя]+[бджгълмнрвйзчфхкпстеуюоёя]+лар</token>
           </pattern>
-          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[еюёя]+[бджгълмнрвйзчфхкпст]+)(лар)" regexp_replace="$1лер"/></suggestion></message>
+          <message>Джеми афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[еуюоёя]+[бджгълмнрвйзчфхкпстеуюоёя]+)(лар)" regexp_replace="$1лер"/></suggestion></message>
           <example correction="Тереклер"><marker>Тереклар</marker> корьдим.</example>
         </rule>
       </rulegroup>
@@ -288,12 +288,43 @@ USA
           <example correction="ölgence"><marker>ölğanca</marker></example>
         </rule>
       </rulegroup>
+      <rulegroup id="LASTING_ADVERB_AFFIX_CYR" name="Сонъки зарф афикси хатасы">
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[ыуоа]+[шчфхкпст]+кендже</token>
+          </pattern>
+          <message>Сонъки зарф афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[ыуоа]+[шчфхкпст]+)?(кендже)" regexp_replace="$1къанджа"/></suggestion></message>
+          <example correction="къыскъанджа"><marker>къыскендже</marker></example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[ыуоа]+[бджвгълмнрйяуоаы]+гендже</token>
+          </pattern>
+          <message>Сонъки зарф афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[ыуоа]+[бджвгълмнрйяуоаы]+)?(гендже)" regexp_replace="$1гъанджа"/></suggestion></message>
+          <example correction="олгъанджа"><marker>олгендже</marker></example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[иеэуюоёя]+[шчфхкпст]+къанджа</token>
+          </pattern>
+          <message>Сонъки зарф афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[иеэуюоё]+[шчфхкпст]+)(къанджа)" regexp_replace="$1кендже"/></suggestion></message>
+          <example correction="пишкендже"><marker>пишкъанджа</marker></example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[иеэуюоёя]+[бджвгълмнрйяуоаыь]+гъанджа</token>
+          </pattern>
+          <message>Сонъки зарф афикси хатасы: <suggestion ><match no="1" regexp_match="(.*[иеэуюоёяь]+[бджвгълмнрйяуоаыь]+)(гъанджа)" regexp_replace="$1гендже"/></suggestion></message>
+          <example correction="ольгендже"><marker>ольгъанджа</marker></example>
+        </rule>
+      </rulegroup>
+
       <rulegroup id="COLLOQUIAL_TYPOS" name="Minnetdarlıq hataları">
         <rule>
           <pattern>
             <token>elbetteki</token>
           </pattern>
-          <message>Minnetdarliilq formas: <suggestion>elbette ki</suggestion></message>
+          <message>Minnetdarlılq hatası: <suggestion>elbette ki</suggestion></message>
           <example correction="elbette ki">O <marker>elbetteki</marker> evdedir.</example>
         </rule> 
         <rule>
@@ -301,17 +332,44 @@ USA
             <token regexp="yes">[sS]alam</token>
             <token regexp="yes">aleyk[uü]m</token>
           </pattern>
-          <message>Toponimika hataları: <suggestion><match no="1" regexp_match="([sS]alam)" regexp_replace="Selâm"/> <match no="2"/></suggestion></message>
+          <message>Minnetdarlılq hatası: <suggestion><match no="1" regexp_match="([sS]alam)" regexp_replace="Selâm"/> <match no="2"/></suggestion></message>
           <example correction="Selâm aleykum"><marker>Salam aleykum</marker> dostum.</example>
         </rule> 
       </rulegroup>
+      <rulegroup id="COLLOQUIAL_TYPOS_CYR" name="Миннетдарлыкъ хаталары">
+        <rule>
+          <pattern>
+            <token>эльбеттеки</token>
+          </pattern>
+          <message>Миннетдарлыкъ хатасы: <suggestion>эльбетте ки</suggestion></message>
+          <example correction="эльбетте ки">О <marker>эльбеттеки</marker> эвдедир.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <token regexp="yes">[сС]алам</token>
+            <token>алейкум</token>
+          </pattern>
+          <message>Миннетдарлыкъ хатасы: <suggestion><match no="1" regexp_match="([сС]алам)" regexp_replace="Селям"/> <match no="2"/></suggestion></message>
+          <example correction="Селям алейкум"><marker>Салам алейкум</marker> достум.</example>
+        </rule> 
+      </rulegroup>
+
       <rulegroup id="TOPONOMY_TYPOS" name="Toponimika hataları">
         <rule>
           <pattern>
-            <token regexp="yes">Qrım.*</token>
+            <token regexp="yes">Krım.*</token>
           </pattern>
-          <message>Toponimika hataları: <suggestion><match no="1" regexp_match="(Qrım)(.*)" regexp_replace="Qırım$2"/></suggestion></message>
-          <example correction="Qırımda"><marker>Qrımda</marker> yaşamız.</example>
+          <message>Toponimika hatalası: <suggestion><match no="1" regexp_match="(Krım)(.*)" regexp_replace="Qırım$2"/></suggestion></message>
+          <example correction="Qırımda"><marker>Krımda</marker> yaşamız.</example>
+        </rule> 
+      </rulegroup>
+      <rulegroup id="TOPONOMY_TYPOS_CYR" name="Топонимика хаталары">
+        <rule>
+          <pattern>
+            <token regexp="yes">Крым.*</token>
+          </pattern>
+          <message>Топонимика хатасы: <suggestion><match no="1" regexp_match="(Крым)(.*)" regexp_replace="Къырым$2"/></suggestion></message>
+          <example correction="Къырымда"><marker>Крымда</marker> яшамыз.</example>
         </rule> 
       </rulegroup>
     </category>
@@ -381,19 +439,18 @@ USA
           <example correction="меним 1">Ве <marker>меним1</marker> китабым.</example>
         </rule>
       </rulegroup>
-      <rulegroup id="COMPLEX_NUMBER_DEFIS_MISSING" name="Cemi afiksi hatası">
+      <rulegroup id="COMPLEX_NUMBER_DEFIS_MISSING" name="Sayılar arasında defis ya da boşluq yoqtur">
         <rule>
           <pattern>
             <marker>
             <token regexp="yes">[$+-]?[0-9,-]*[0-9,][A-Za-zñğüşöçâ][A-Za-zñğüşöçâ-]*[.²³]?
               <exception case_sensitive="yes">1С</exception>
               <exception regexp="yes">[0-9]+'|[0-9]+k</exception>
-              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>
-              <!-- both lat and cyr o and C, taken care by rule below -->
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][o][C]</exception>
             </token>
             </marker>
           </pattern>
-          <message>Söz ve sayı arasında defis yoqtur: </message>
+          <message>Sayılar arasında boşluq yoqtur: </message>
           <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([A-Za-zñğüşöçâ-])" regexp_replace="$1 $2"/></suggestion>
           <example correction="21 fayız"><marker>21fayız</marker>.</example>
         </rule>
@@ -403,14 +460,43 @@ USA
             <token regexp="yes">[$+-]?[0-9,-]*[0-9,][A-Za-zñğüşöçâ][A-Za-zñğüşöçâ-]*[.²³]?
               <exception case_sensitive="yes">1С</exception>
               <exception regexp="yes">[0-9]+'|[0-9]+k</exception>
-              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>
-              <!-- both lat and cyr o and C, taken care by rule below -->
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][o][C]</exception>
             </token>
             </marker>
           </pattern>
-          <message>Söz ve sayı arasında defis yoqtur: </message>
+          <message>Sayılar arasında defis yoqtur: </message>
           <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([A-Za-zñğüşöçâ-])" regexp_replace="$1-$2"/></suggestion>
           <example correction="5-nci"><marker>5nci</marker>.</example>
+        </rule>
+      </rulegroup>
+      <rulegroup id="COMPLEX_NUMBER_DEFIS_MISSING_CYR" name="Сайы арасында дефис я да бошлукъ ёкътур">
+        <rule>
+          <pattern>
+            <marker>
+              <token regexp="yes">[$+-]?[0-9,-]*[0-9,][А-Яа-яЁё][А-Яа-яЁё-]*[.²³]?
+                <exception case_sensitive="yes">1С</exception>
+                <exception regexp="yes">[0-9]+'|[0-9]+к</exception>
+                <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][о][С]</exception>
+              </token>
+            </marker>
+          </pattern>
+          <message>Сайы арасында бошлукъ ёкътур: </message>
+          <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([А-Яа-яЁё-])" regexp_replace="$1 $2"/></suggestion>
+          <example correction="21 файыз"><marker>21файыз</marker>.</example>
+        </rule>
+        <rule>
+          <pattern>
+            <marker>
+              <token regexp="yes">[$+-]?[0-9,-]*[0-9,][А-Яа-яЁё][А-Яа-яЁё-]*[.²³]?
+                  <exception case_sensitive="yes">1С</exception>
+                  <exception regexp="yes">[0-9]+'|[0-9]+к</exception>
+                  <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][о][С]</exception>
+              </token>
+            </marker>
+          </pattern>
+          <message>Сайы арасында дефис ёкътур: </message>
+          <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([А-Яа-яЁё-])" regexp_replace="$1-$2"/></suggestion>
+          <example correction="5-нджы"><marker>5нджы</marker>.</example>
         </rule>
       </rulegroup>
 
@@ -442,6 +528,26 @@ USA
           <example correction="güzelmi">Alma <marker>güzel mi</marker>?</example>
         </rule>
       </rulegroup>
+      <rulegroup id="QUESTION_PARTICLE_SEPARATION_CYR" name="Суаль эдады айырмасы">
+        <rule>
+          <pattern>
+            <token case_sensitive="yes" regexp="yes">.*[уоыаУОЫА].*</token>
+            <token regexp="yes">мы|ми</token>
+          </pattern>
+          <message>Суаль эдатлары огдеки сёзнен берабер язылмалы: <suggestion ><match no="1"/>мы</suggestion></message>
+          <example correction="яптынъмы">Ишинъни <marker>яптынъ мы</marker>?</example>
+          <example correction="къырмызымы">Алма ренги <marker>къырмызы мы</marker>?</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[эеиуюоёяЭЕИУЮОЁЯ].*</token>
+            <token regexp="yes">мы|ми</token>
+          </pattern>
+          <message>Суаль эдатлары огдеки сёзнен берабер язылмалы: <suggestion ><match no="1"/>ми</suggestion></message>
+          <example correction="Тюневинми"><marker>Тюневин ми</marker> кельдик?</example>
+          <example correction="гузельми">Алма <marker>гузель ми</marker>?</example>
+        </rule>
+      </rulegroup>
 
       <rulegroup id="QUESTION_PARTICLE_PERSONALIZED_MISSPOS" name="Sual edadı türk şeklinde yazıldı">
         <rule>
@@ -461,6 +567,24 @@ USA
           <example correction="kelersiñmi">Bizge <marker>keler misiñ</marker>?</example>
         </rule>
       </rulegroup>
+      <rulegroup id="QUESTION_PARTICLE_PERSONALIZED_MISSPOS_CYR" name="Суаль эдады тюрк шеклинде язылды">
+        <rule>
+          <pattern>
+            <token case_sensitive="yes" regexp="yes">.*[уоыаУОЫА].*</token>
+            <token regexp="yes">мы(сынъ|сынъыз)</token>
+          </pattern>
+          <message>Суаль эдады тюрк шеклинде язылмамалы: <suggestion ><match no="1"/><match no="2" regexp_match="(мы)(сынъ|сынъыз)" regexp_replace="$2$1"/></suggestion></message>
+          <example correction="япарсынъмы">Бу <marker>япар мысынъ</marker>?</example>
+        </rule>
+        <rule>
+          <pattern>
+            <token regexp="yes">.*[эеиуюоёяЭЕИУЮОЁЯ].*</token>
+            <token regexp="yes">ми(синъ|синъиз)</token>
+          </pattern>
+          <message>Суаль эдады тюрк шеклинде язылмамалы: <suggestion ><match no="1"/><match no="2" regexp_match="(ми)(синъ|синъиз)" regexp_replace="$2$1"/></suggestion></message>
+          <example correction="келерсинъми">Бизге <marker>келер мисинъ</marker>?</example>
+        </rule>
+      </rulegroup>
 
       <rule id="THANKFULLNESS_COLLOQUIAL" name="Minnetdarlıq forması">
         <pattern>
@@ -472,7 +596,7 @@ USA
         </pattern>
         <message>Minnetdarliilq formas soyle: <suggestion><match no="1" postag_regexp="yes" postag="(.*)datv(.*)" postag_replace="$1nomn$2" /></suggestion></message>
         <example correction="Sen"><marker>Saña</marker> sağ ol.</example>
-      </rule> 
+      </rule>
 
       <rulegroup id="PERSON_COORDINATION" name="Şahis uyğulaşması">
         <rule>
@@ -551,6 +675,32 @@ USA
           <example correction="ketmek">Endi <marker>ketmege</marker> kerek.</example>
         </rule>
       </rulegroup>
+      <rulegroup id="SIMPLE_INFINITIVE_CYR" name="Саде инфинитив">
+        <rule>
+          <pattern>
+            <marker>
+              <token regexp="yes">.*магъа</token>
+            </marker>
+            <token>керек</token>
+          </pattern>
+          <message>Саде инфинитив шойле къулланылмалы: 
+            <suggestion><match no="1" regexp_match="(.*)(магъа)" regexp_replace="$1макъ"/></suggestion>
+          </message>
+          <example correction="япмакъ">Энди <marker>япмагъа</marker> керек.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <marker>
+              <token regexp="yes">.*меге</token>
+            </marker>
+            <token>керек</token>
+          </pattern>
+          <message>Саде инфинитив шойле къулланылмалы: 
+            <suggestion><match no="1" regexp_match="(.*)(меге)" regexp_replace="$1мек"/></suggestion>
+          </message>
+          <example correction="кетмек">Энди <marker>кетмеге</marker> керек.</example>
+        </rule>
+      </rulegroup>
 
       <rule id="REASON_PARTICLE_CASE_COLLOCATION" name="Sebep edadındaki keliş uyğulaşması">
         <pattern>
@@ -564,6 +714,18 @@ USA
         </message>
         <example correction="sebepniñ">Şu <marker>sebepten</marker> içün.</example>
       </rule> 
+      <rule id="REASON_PARTICLE_CASE_COLLOCATION_CYR" name="Себеп эдадындаки келиш уйгъулашмасы">
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*exod.*"></token>
+          </marker>
+          <token>ичюн</token>
+        </pattern>
+        <message>Себеп эдадындаки келиш шойле уйгъулашмалы: 
+          <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)exod(.*)" postag_replace="$1gent$3"/></suggestion>
+        </message>
+        <example correction="себепнинъ">Шу <marker>себептен</marker> ичюн.</example>
+      </rule> 
 
       <rule id="TENSE_PARTICLE_CASE_COLLOCATION" name="Vaqıt edadındaki keliş uyğulaşması">
         <pattern>
@@ -576,6 +738,18 @@ USA
           <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)gent(.*)" postag_replace="$1exod$3"/></suggestion>
         </message>
         <example correction="yıldan">O <marker>yılnıñ</marker> evel.</example>
+      </rule> 
+      <rule id="TENSE_PARTICLE_CASE_COLLOCATION_CYR" name="Вакъыт эдадындаки келиш уйгъулашмасы">
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*gent.*"></token>
+          </marker>
+          <token>эвель</token>
+        </pattern>
+        <message>Вакъыт эдадындаки келиш шойле уйгъулашмалы: 
+          <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)gent(.*)" postag_replace="$1exod$3"/></suggestion>
+        </message>
+        <example correction="йылдан">О <marker>йылнынъ</marker> эвель.</example>
       </rule> 
       
       <rulegroup id="POSTPOSITION_CASE_COLLOCATION" name="Munasebetçi kelişi uyğulaşması">
@@ -617,6 +791,44 @@ USA
         </rule> 
       </rulegroup>
 
+      <rulegroup id="POSTPOSITION_CASE_COLLOCATION_CYR" name="Мунасебетчи келиши уйгъулашмасы">
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NOUN|ADJF|NUMR|PRTF).*(nomn|gent|accs|loct|exod).*"></token>
+            </marker>
+            <token regexp="yes">къаршы|коре|таба|догъру|къадар</token>
+          </pattern>
+          <message>Мунасебетчи келиши шойле уйгъулашмалы: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)(nomn|gent|accs|loct|exod)(.*)?" postag_replace="$1datv$4"/></suggestion>
+          </message>
+          <example correction="Терекке"><marker>Терекнинъ</marker> къаршы отурды.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NOUN|ADJF|NUMR|PRTF).*(nomn|gent|accs|loct|datv).*"></token>
+            </marker>
+            <token regexp="yes">гъайры|башкъа|сонъ|себеп|берли|эвель|бурун|огюне</token>
+          </pattern>
+          <message>Мунасебетчи келиши шойле уйгъулашмалы: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)(nomn|gent|accs|loct|datv)(.*)?" postag_replace="$1exod$4"/></suggestion>
+          </message>
+          <example correction="замандан">Чокъ <marker>заман</marker> берли.</example>
+        </rule> 
+        <rule>
+          <pattern>
+            <marker>
+              <token postag_regexp="yes" postag="(NOUN|ADJF|NUMR|PRTF).*(exod|accs|loct|datv).*"></token>
+            </marker>
+            <token regexp="yes">ичюн|иле|дайын|киби|акъкъында</token>
+          </pattern>
+          <message>Мунасебетчи келиши шойле уйгъулашмалы: 
+            <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)(exod|accs|loct|datv)(.*)?" postag_replace="$1nomn$4"/></suggestion>
+          </message>
+          <example correction="Дост"><marker>Досткъа</marker> дайын.</example>
+        </rule> 
+      </rulegroup>
 
       <rule id="EXODIVE_VERB_ADVB_COLLOCATION" name="Soñ sözündeki çıqış kelişi uyğulaşması">
         <pattern>
@@ -629,6 +841,19 @@ USA
           <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)nomn(.*)" postag_replace="$1exod$3"/></suggestion>
         </message>
         <example correction="Kelgenden"><marker>Kelgen</marker> soñ.</example>
+      </rule> 
+
+      <rule id="EXODIVE_VERB_ADVB_COLLOCATION_CYR" name="Сонъ сёзюндеки чыкъыш келиши уйгъулашмасы">
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="(NPRO|NOUN|ADJF|NUMR|PRTF).*nomn.*"></token>
+          </marker>
+          <token>сонъ</token>
+        </pattern>
+        <message>Фиильдеки чыкъыш келиши шойле уйгъулашмалы: 
+          <suggestion><match no="1" postag_regexp="yes" postag="((NPRO|NOUN|ADJF|NUMR|PRTF).*)nomn(.*)" postag_replace="$1exod$3"/></suggestion>
+        </message>
+        <example correction="Кельгенден"><marker>Кельген</marker> сонъ.</example>
       </rule> 
 
       <rule id="NUMERAL_PLURAL_COLLOCATION" name="Sayı cemisi uyğulaşması">
