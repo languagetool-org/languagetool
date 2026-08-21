@@ -169,7 +169,7 @@ public class English extends LanguageWithModel {
                 Example.fixed("This house is old. <marker>It</marker> was built in 1950."),
                 Tools.getUrl("https://languagetool.org/insights/post/spelling-capital-letters/")),
         new MultipleWhitespaceRule(messages, this),
-        new SentenceWhitespaceRule(messages),
+        new SentenceWhitespaceRule(messages, 2),
         new WhiteSpaceBeforeParagraphEnd(messages, this),
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages, this),

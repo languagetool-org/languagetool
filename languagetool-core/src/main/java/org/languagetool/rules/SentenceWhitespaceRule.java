@@ -42,8 +42,21 @@ import org.languagetool.tools.StringTools;
  */
 public class SentenceWhitespaceRule extends TextLevelRule {
 
+  private final int maxSpacesBetweenSentences;
+
   public SentenceWhitespaceRule(ResourceBundle messages) {
+    this(messages, 1);
+  }
+
+  /**
+   * @param maxSpacesBetweenSentences maximum number of plain spaces accepted between sentences.
+   *        For English, use {@code new SentenceWhitespaceRule(messages, 2)} to allow traditional
+   *        double spacing. For any language, use {@code Integer.MAX_VALUE} to allow any number
+   *        of spaces.
+   */
+  public SentenceWhitespaceRule(ResourceBundle messages, int maxSpacesBetweenSentences) {
     super(messages);
+    this.maxSpacesBetweenSentences = maxSpacesBetweenSentences;
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);
   }
@@ -78,7 +91,7 @@ public class SentenceWhitespaceRule extends TextLevelRule {
       } else if (!prevSentenceEndsWithLineBreak && !startsWithLineBreak(tokens)) {
         int leadingSpacesLength = getLeadingSpacesLength(tokens);
         if (isOnlySpaces(prevSentenceEndingWhitespace)
-            && prevSentenceEndingWhitespace.length() + leadingSpacesLength > 1
+            && prevSentenceEndingWhitespace.length() + leadingSpacesLength > maxSpacesBetweenSentences
             && (prevSentenceEndingWhitespace.length() > 0 || leadingSpacesLength > 0)
             && hasTextAfterLeadingSpaces(tokens, leadingSpacesLength)) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence, pos - prevSentenceEndingWhitespace.length(),
@@ -120,7 +133,7 @@ public class SentenceWhitespaceRule extends TextLevelRule {
           lastWhitespace = i;
         }
         i--;
-        if (getWhitespaceLength(tokens, firstWhitespace, lastWhitespace) > 1
+        if (getWhitespaceLength(tokens, firstWhitespace, lastWhitespace) > maxSpacesBetweenSentences
             && isFollowedByNonWhitespaceToken(tokens, lastWhitespace)) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + tokens[firstWhitespace].getStartPos(),
               pos + tokens[lastWhitespace].getEndPos(), messages.getString("whitespace_repetition"));

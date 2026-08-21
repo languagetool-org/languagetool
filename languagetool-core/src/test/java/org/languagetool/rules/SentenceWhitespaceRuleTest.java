@@ -75,6 +75,12 @@ public class SentenceWhitespaceRuleTest {
     assertThat(matches.get(0).getFromPos(), is(15));
     assertThat(matches.get(0).getToPos(), is(17));
     assertThat(matches.get(0).getSuggestedReplacements().get(0), is(" "));
+
+    SentenceWhitespaceRule twoSpacesAllowedRule = new SentenceWhitespaceRule(TestTools.getEnglishMessages(), 2);
+    JLanguageTool ltWithTwoSpacesAllowed = new JLanguageTool(new FakeLanguage());
+    ltWithTwoSpacesAllowed.addRule(twoSpacesAllowedRule);
+    assertGood("This is a text.  And there's the next sentence.", twoSpacesAllowedRule, ltWithTwoSpacesAllowed);
+    assertBad("This is a text.   And there's the next sentence.", twoSpacesAllowedRule, ltWithTwoSpacesAllowed);
   }
 
   private void assertGood(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {
