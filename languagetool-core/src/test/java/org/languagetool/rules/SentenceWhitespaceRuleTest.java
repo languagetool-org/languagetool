@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,6 +45,36 @@ public class SentenceWhitespaceRuleTest {
     assertBad("This is a text.And there's the next sentence.", rule, lt);
     assertBad("This is a text!And there's the next sentence.", rule, lt);
     assertBad("This is a text?And there's the next sentence.", rule, lt);
+
+    assertBad("This is a text.  And there's the next sentence.", rule, lt);
+    assertBad("This is a text!   And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\n And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\n\n And there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \n\n And there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \n And there's the next sentence.", rule, lt);
+    assertGood("This is a text. \n\n  And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\rAnd there's the next sentence.", rule, lt);
+    assertGood("This is a text.\r And there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \r And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\r\nAnd there's the next sentence.", rule, lt);
+    assertGood("This is a text.\r\n And there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \r\n And there's the next sentence.", rule, lt);
+    assertGood("This is a text. \r\n  And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\u2028And there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \u2028 And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\u2029And there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \u2029 And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\u0085And there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \u0085 And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\fAnd there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \f And there's the next sentence.", rule, lt);
+    assertGood("This is a text.\u000BAnd there's the next sentence.", rule, lt);
+    assertGood("This is a text.  \u000B And there's the next sentence.", rule, lt);
+
+    List<RuleMatch> matches = lt.check("This is a text.  And there's the next sentence.");
+    assertThat(matches.get(0).getFromPos(), is(15));
+    assertThat(matches.get(0).getToPos(), is(17));
+    assertThat(matches.get(0).getSuggestedReplacements().get(0), is(" "));
   }
 
   private void assertGood(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {

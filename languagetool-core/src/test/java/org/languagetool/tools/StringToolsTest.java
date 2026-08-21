@@ -161,6 +161,30 @@ public class StringToolsTest {
   }
 
   @Test
+  public void testContainsLineBreak() {
+    assertFalse(StringTools.containsLineBreak(""));
+    assertFalse(StringTools.containsLineBreak("foo bar"));
+    assertFalse(StringTools.containsLineBreak("foo\tbar"));
+    assertTrue(StringTools.containsLineBreak("foo\nbar"));
+    assertTrue(StringTools.containsLineBreak("foo\rbar"));
+    assertTrue(StringTools.containsLineBreak("foo\r\nbar"));
+    assertTrue(StringTools.containsLineBreak("foo\fbar"));
+    assertTrue(StringTools.containsLineBreak("foo\u000Bbar"));
+    assertTrue(StringTools.containsLineBreak("foo\u0085bar"));
+    assertTrue(StringTools.containsLineBreak("foo\u2028bar"));
+    assertTrue(StringTools.containsLineBreak("foo\u2029bar"));
+  }
+
+  @Test
+  public void testIsAllWhitespace() {
+    assertTrue(StringTools.isAllWhitespace(""));
+    assertTrue(StringTools.isAllWhitespace("   "));
+    assertTrue(StringTools.isAllWhitespace(" \u00A0\t"));
+    assertFalse(StringTools.isAllWhitespace(" foo "));
+    assertFalse(StringTools.isAllWhitespace("foo"));
+  }
+
+  @Test
   public void testEscapeXMLandHTML() {
     assertEquals("foo bar", StringTools.escapeXML("foo bar"));
     assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeXML("!ä\"<>&&"));

@@ -702,6 +702,27 @@ public final class StringTools {
     return isParaEnd;
   }
 
+  public static boolean containsLineBreak(String token) {
+    return token.indexOf('\n') >= 0
+        || token.indexOf('\r') >= 0
+        || token.indexOf('\f') >= 0
+        || token.indexOf('\u000B') >= 0
+        || token.indexOf('\u0085') >= 0
+        || token.indexOf('\u2028') >= 0
+        || token.indexOf('\u2029') >= 0;
+  }
+
+  public static boolean isAllWhitespace(String str) {
+    for (int i = 0; i < str.length(); ) {
+      int codePoint = str.codePointAt(i);
+      if (!isWhitespace(new String(Character.toChars(codePoint)))) {
+        return false;
+      }
+      i += Character.charCount(codePoint);
+    }
+    return true;
+  }
+
   /**
    * Loads file, ignoring comments (lines starting with {@code #}).
    * @param path path in resource dir

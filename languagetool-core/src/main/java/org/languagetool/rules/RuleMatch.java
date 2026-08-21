@@ -777,6 +777,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (errorStr.isEmpty()) {
       return this;
     }
+    if (StringTools.isAllWhitespace(errorStr)) {
+      return this;
+    }
     int fromPos = this.getFromPos();
     int toPos = this.getToPos();
     int fromPosSentence = this.getFromPosSentence();
@@ -889,5 +892,3 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
 }
-
-

@@ -109,6 +109,7 @@ public class Catalan extends Language {
         Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
         Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
       new MultipleWhitespaceRule(messages, this),
+      new SentenceWhitespaceRule(messages),
       new LongSentenceRule(messages, userConfig, 60),
       // specific to Catalan:
       new CatalanWordRepeatRule(messages, this),
