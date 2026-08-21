@@ -20152,7 +20152,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- imperativo voseante ... imperativo tuteante -->
                 <pattern>
-                    <token postag="V.M02V0.*" postag_regexp="yes" skip="-1"><exception postag="N.*|SP.*|A.*|RG|LOC_ADV|D.*|P.*" postag_regexp="yes"/></token>
+                    <!-- «tú» explícito entre los dos imperativos = cambio de interlocutor -->
+                    <token postag="V.M02V0.*" postag_regexp="yes" skip="-1"><exception postag="N.*|SP.*|A.*|RG|LOC_ADV|D.*|P.*" postag_regexp="yes"/><exception scope="next">tú</exception></token>
                     <marker>
                         <!-- dar y ser tienen el mismo imperativo en tuteo y en voseo: da(le), sé -->
                         <token postag="V.M02S0.*" postag_regexp="yes"><exception postag="N.*|SP.*|A.*|RG|LOC_ADV|D.*|P.*|V.I.*|V.S.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">dar|ser</exception></token>
@@ -20166,6 +20167,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ven y cállate un rato.</example>
                 <example>Mirá, para el auto acá.</example>
                 <example>Dale esto para que se despierte.</example>
+                <example>Vos vení conmigo y tú cállate un rato.</example>
                 <example>Tomá esto y dale una de estas.</example>
                 <example>Vení y sé bueno con ella.</example>
             </rule>
