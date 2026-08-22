@@ -3116,6 +3116,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="спідньою білизною">Балкони завішані <marker>нижньою білизною</marker>.</example>
     </rule>
 
+    <rulegroup id="stroka_vs_ryadok" name="Строка і рядок">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">командний|пустий|адресний|біжучий</token>
+          <marker>
+            <token regexp="yes">строк.*</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>рядок</suggestion></message>
+        <example correction="рядок">в командну <marker>строку</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="adj:f:v_(zna|mis).*">
+            <exception postag_regexp="yes" postag="adj:m:v_(rod|dav).*"/>
+          </token>
+          <marker>
+            <token>строку</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>рядку</suggestion></message>
+        <example correction="рядку">довгу <marker>строку</marker>.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="BIZHUCHYI_RIADOK" name="Біжучий рядок">
       <pattern>
         <marker>
@@ -5397,6 +5423,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Правильно: <suggestion>від малого до великого (до старого)</suggestion>, <suggestion>мале й велике</suggestion>, <suggestion>мале й старе</suggestion>, <suggestion>малі й старі</suggestion></message>
       <example correction="від малого до великого (до старого)|мале й велике|мале й старе|малі й старі">Всі <marker>від мала до велика</marker>.</example>
+    </rule>
+
+    <rule name="слух - bad" id="slukh_bad_1">
+      <pattern>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:p:.*">слух</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>чутка</suggestion></message>
+      <suggestion>поголоска</suggestion>
+      <suggestion>поголос</suggestion>
+      <suggestion>поголосок</suggestion>
+      <suggestion>поговір</suggestion>
+      <example correction="чутка|поголоска|поголос|поголосок|поговір">ходили <marker>слухи</marker>.</example>
+    </rule>
+
+    <rule name="слух - bad" id="slukh_bad_2">
+      <pattern>
+        <token regexp="yes">.*(ход|розповс|пус[кт]|спрост[оу]в|пошир|дивн).*</token>
+        <token min="0" regexp="yes">такі|різні|ті</token>
+        <marker>
+          <token inflected="yes">слух</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>чутка</suggestion></message>
+      <suggestion>поголоска</suggestion>
+      <suggestion>поголос</suggestion>
+      <suggestion>поголосок</suggestion>
+      <suggestion>поговір</suggestion>
+      <example correction="чутка|поголоска|поголос|поголосок|поговір">пустили <marker>слух</marker>.</example>
     </rule>
 
     <rule id="BEZ_MALOGO" name="Без малого">
