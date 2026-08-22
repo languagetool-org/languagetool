@@ -4554,18 +4554,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rulegroup>
 
 
-    <rule id='AUTO-FALANTE' name="🇵🇹❓ Auto-falante/Altifalante">
-        <pattern>
-            <token>auto</token>
-            <token regexp='yes' min='0'>&tracos_de_separacao;</token>
-            <token regexp='yes'>falantes?</token>
-        </pattern>
-        <message>Possível confusão de termos.</message>
-        <suggestion><match no='3' postag='AQ0C(.)0' postag_replace='AQ0C$10'>altifalante</match></suggestion>
-        <suggestion>alto-\3</suggestion>
-        <example correction="altifalante|alto-falante">O <marker>auto-falante</marker> está avariado.</example>
-        <example correction="altifalantes|alto-falantes">Os <marker>auto-falantes</marker> estão avariados.</example>
-    </rule>
+      <rule id='AUTO-FALANTE' name="🇵🇹 Auto-falante/altifalante">
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token>auto</token>
+              <token min='0' spacebefore='no' postag='_PUNCT_HYPHEN'/>
+              <token regexp='yes'>falantes?</token>
+          </pattern>
+          <message>Possível confusão de termos.</message>
+          <suggestion><match no='3' postag='AQ0C(.)0' postag_replace='AQ0C$10'>altifalante</match></suggestion>
+          <example correction="altifalante">O <marker>auto-falante</marker> está avariado.</example>
+          <example correction="altifalantes">Os <marker>auto-falantes</marker> estão avariados.</example>
+          <example correction="altifalante">O <marker>auto falante</marker> está avariado.</example>
+          <example correction="altifalantes">Os <marker>auto falantes</marker> estão avariados.</example>
+      </rule>
 
 
     <rule id='CRIAR_QUERER' name="🇵🇹❓ Criar/Querer">
@@ -4594,11 +4597,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-    <category id='TRANSLATION_ERRORS_PT_PT' name="🇵🇹 Erros de Tradução" type="mistranslation" tone_tags="academic">
+    <category id='TRANSLATION_ERRORS_PT_PT' name="🇵🇹🇺🇸 Erros de Tradução" type="mistranslation" tone_tags="academic">
         <!-- IDEA foreign_terms -->
 
 
-        <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="🇵🇹 Erro tradução: estimação máxima 'semelhança' → 'verosimilhança'(PT)">
+        <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="🇵🇹🇺🇸 Erro tradução: estimação máxima 'semelhança' → 'verosimilhança'">
             <!--
                 In pt_PT: verosimilhança
                 In pt_BR: verossimilhança
@@ -4616,7 +4619,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='ERRO_TRADUÇÃO_FURTO_ROUBO_IDENTIDADE' name="🇵🇹 Erro tradução: 'furto' de identidade → 'usurpação'">
+        <rule id='ERRO_TRADUÇÃO_FURTO_ROUBO_IDENTIDADE' name="🇵🇹🇺🇸 Erro tradução: 'furto' de identidade → 'usurpação'">
             <pattern>
                 <marker>
                     <token skip="4" inflected='yes' regexp='yes'>furtar|roubar</token>
