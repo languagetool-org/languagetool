@@ -4554,18 +4554,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rulegroup>
 
 
-    <rule id='AUTO-FALANTE' name="🇵🇹❓ Auto-falante/Altifalante">
-        <pattern>
-            <token>auto</token>
-            <token regexp='yes' min='0'>&tracos_de_separacao;</token>
-            <token regexp='yes'>falantes?</token>
-        </pattern>
-        <message>Possível confusão de termos.</message>
-        <suggestion><match no='3' postag='AQ0C(.)0' postag_replace='AQ0C$10'>altifalante</match></suggestion>
-        <suggestion>alto-\3</suggestion>
-        <example correction="altifalante|alto-falante">O <marker>auto-falante</marker> está avariado.</example>
-        <example correction="altifalantes|alto-falantes">Os <marker>auto-falantes</marker> estão avariados.</example>
-    </rule>
+      <rule id='AUTO_FALANTE_ALTIFALANTE' name="🇵🇹 Auto-falante/altifalante">
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token>auto</token>
+              <token min='0' spacebefore='no' postag='_PUNCT_HYPHEN'/>
+              <token regexp='yes'>falantes?</token>
+          </pattern>
+          <message>Possível confusão de termos.</message>
+          <suggestion><match no='3' postag='AQ0C(.)0' postag_replace='AQ0C$10'>altifalante</match></suggestion>
+          <example correction="altifalante">O <marker>auto-falante</marker> está avariado.</example>
+          <example correction="altifalantes">Os <marker>auto-falantes</marker> estão avariados.</example>
+          <example correction="altifalante">O <marker>auto falante</marker> está avariado.</example>
+          <example correction="altifalantes">Os <marker>auto falantes</marker> estão avariados.</example>
+      </rule>
 
 
     <rule id='CRIAR_QUERER' name="🇵🇹❓ Criar/Querer">
