@@ -4601,25 +4601,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!-- IDEA foreign_terms -->
 
 
-        <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="🇵🇹🇺🇸 Erro tradução: estimação máxima 'semelhança' → 'verosimilhança'">
-            <!--
-                In pt_PT: verosimilhança
-                In pt_BR: verossimilhança
-            -->
-            <pattern>
-                <token skip="4" regexp="yes" inflected='yes' >estimativa|estimação|estimador</token>
-                <token>máxima</token>
-                <marker>
-                    <token regexp="yes">semelhança|equivalência</token>
-                </marker>
-            </pattern>
-            <message>Expressão não pode ser traduzida literalmente.</message>
-            <suggestion>verosimilhança</suggestion>
-            <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
-        </rule>
+      <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="🇵🇹🇺🇸 Erro de tradução: estimação máxima 'semelhança' → 'verosimilhança'">
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <!--
+              In pt_PT: verosimilhança
+              In pt_BR: verossimilhança
+          -->
+          <pattern>
+              <token skip='4' regexp='yes' inflected='yes'>estimativa|estimação|estimador</token>
+              <token>máxima</token>
+              <marker>
+                  <token>semelhança</token>
+              </marker>
+          </pattern>
+          <message>Em Estatística, o inglês &quot;likelihood&quot; corresponde a &quot;verosimilhança&quot;, não a &quot;semelhança&quot;.</message>
+          <suggestion>verosimilhança</suggestion>
+          <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
+          <example correction='verosimilhança'>Foi utilizado um estimador de máxima <marker>semelhança</marker>.</example>
+          <example correction='verosimilhança'>O método de estimação por máxima <marker>semelhança</marker> foi aplicado aos dados.</example>
+      </rule>
 
 
-        <rule id='ERRO_TRADUÇÃO_FURTO_ROUBO_IDENTIDADE' name="🇵🇹🇺🇸 Erro tradução: 'furto' de identidade → 'usurpação'">
+        <rule id='ERRO_TRADUÇÃO_FURTO_ROUBO_IDENTIDADE' name="🇵🇹🇺🇸 Erro de tradução: 'furto' de identidade → 'usurpação'">
             <pattern>
                 <marker>
                     <token skip="4" inflected='yes' regexp='yes'>furtar|roubar</token>
