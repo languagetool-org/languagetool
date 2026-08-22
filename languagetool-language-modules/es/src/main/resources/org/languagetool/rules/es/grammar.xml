@@ -20119,6 +20119,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Use la forma apocopada <suggestion><match no="1" regexp_match="o$" regexp_replace=""/></suggestion> en vez de '<match no="1"/>' o ponga una coma después: <suggestion><match no="1"/>,</suggestion>.</message>
             <example correction="buen|bueno,">¡Qué <marker>bueno</marker> muchacho!</example>
         </rule>-->
+        <rulegroup id="MEZCLA_TUTEO_VOSEO" name="Mezcla de tuteo y voseo en la misma oración">
+            <url>https://www.rae.es/dpd/voseo</url>
+            <rule>
+                <!-- vos ... ti -->
+                <pattern>
+                    <token skip="-1">vos</token>
+                    <marker>
+                        <token>ti</token>
+                    </marker>
+                </pattern>
+                <message>Con «vos» la forma tónica es «vos», no «ti».</message>
+                <suggestion>vos</suggestion>
+                <example correction="vos">Vos sabés que esto es para <marker>ti</marker>.</example>
+                <example>Vos sabés que esto es para vos.</example>
+                <example>Tú sabes que esto es para ti.</example>
+            </rule>
+            <rule>
+                <!-- vos ... contigo -->
+                <pattern>
+                    <token skip="-1">vos</token>
+                    <marker>
+                        <token>contigo</token>
+                    </marker>
+                </pattern>
+                <message>Con «vos» la forma tónica es «con vos», no «contigo».</message>
+                <suggestion>con vos</suggestion>
+                <example correction="con vos">Vos sabés que quiero ir <marker>contigo</marker>.</example>
+                <example>Vos sabés que quiero ir con vos.</example>
+                <example>Tú sabes que quiero ir contigo.</example>
+            </rule>
+            <rule>
+                <!-- imperativo voseante ... imperativo tuteante -->
+                <pattern>
+                    <!-- «tú» explícito entre los dos imperativos = cambio de interlocutor -->
+                    <token postag="V.M02V0.*" postag_regexp="yes" skip="-1"><exception postag="N.*|SP.*|A.*|RG|LOC_ADV|D.*|P.*" postag_regexp="yes"/><exception scope="next">tú</exception></token>
+                    <marker>
+                        <!-- dar y ser tienen el mismo imperativo en tuteo y en voseo: da(le), sé -->
+                        <token postag="V.M02S0.*" postag_regexp="yes"><exception postag="N.*|SP.*|A.*|RG|LOC_ADV|D.*|P.*|V.I.*|V.S.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">dar|ser</exception></token>
+                    </marker>
+                </pattern>
+                <message>Si el imperativo anterior es voseante, este también debería serlo.</message>
+                <suggestion suppress_misspelled="yes"><match no="2" postag_regexp="yes" postag="(V.M02)S0(.*)" postag_replace="$1V0$2"/></suggestion>
+                <example correction="callate">Vení y <marker>cállate</marker> un rato.</example>
+                <example correction="decime">Escuchame y <marker>dime</marker> la verdad.</example>
+                <example>Vení y callate un rato.</example>
+                <example>Ven y cállate un rato.</example>
+                <example>Mirá, para el auto acá.</example>
+                <example>Dale esto para que se despierte.</example>
+                <example>Vos vení conmigo y tú cállate un rato.</example>
+                <example>Tomá esto y dale una de estas.</example>
+                <example>Vení y sé bueno con ella.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
         <rulegroup id="PRIMERO_PRIMER" name="primero ministro -> primer ministro">
