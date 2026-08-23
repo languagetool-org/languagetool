@@ -3122,45 +3122,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-      <rulegroup id='HIFEN_INTRUSIVO' name="🇵🇹 Verbo com hífen intrusivo">
+      <rule id='HIFEN_INTRUSIVO' name="🇵🇹 Verbo + te: união ou hífen">
           <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
-          <rule>
-              <pattern>
-                  <marker>
-                      <token postag='VMIP2S0:PP2CSO00'/>
-                  </marker>
-                  <token postag='SPS.+|[DP].+' postag_regexp='yes'/>
-              </pattern>
-              <message>No pretérito perfeito da segunda pessoa do singular, escreve-se sem hífen.</message>
-              <suggestion><match no='1' postag_regexp='yes' postag='V.+' postag_replace='VMIS2S0'/></suggestion>
-              <example correction="trocaste">Hoje <marker>trocas-te</marker> de computador?</example>
-              <example correction="telefonaste">Ontem <marker>telefonas-te</marker> ao João?</example>
-              <example correction="visitaste">Quando <marker>visitas-te</marker> o museu?</example>
-              <example correction="terminaste">Já <marker>terminas-te</marker> o trabalho?</example>
-              <example>Hoje andaste a cantar?</example>
-              <example>Hoje andaste à procura da chave?</example>
-          </rule>
-
-          <rule>
-              <pattern>
-                  <marker>
-                      <token postag='VMIP2S0'/>
-                      <token spacebefore='yes'>te</token>
-                  </marker>
-              </pattern>
-              <message>No pretérito perfeito, escreve-se junto; com o pronome &quot;te&quot;, usa-se hífen.</message>
-              <suggestion>\1\2</suggestion>
-              <suggestion>\1-\2</suggestion>
-              <example correction="ficaste|ficas-te">Tu também <marker>ficas te</marker> com essa canção.</example>
-              <example correction="lembraste|lembras-te">Ainda <marker>lembras te</marker> daquela história?</example>
-              <example correction="deitaste|deitas-te">Normalmente <marker>deitas te</marker> cedo?</example>
-              <example correction="levantaste|levantas-te">A que horas <marker>levantas te</marker> normalmente?</example>
-              <example correction="aproximaste|aproximas-te">Porque <marker>aproximas te</marker> tanto da janela?</example>
-              <example correction="enganaste|enganas-te">Às vezes <marker>enganas te</marker> nestas contas.</example>
-          </rule>
-
-      </rulegroup>
+          <pattern>
+              <marker>
+                  <token postag='VMIP2S0'/>
+                  <token spacebefore='yes'>te</token>
+              </marker>
+          </pattern>
+          <message>No pretérito perfeito, escreve-se junto; com o pronome &quot;te&quot;, usa-se hífen.</message>
+          <suggestion><match no='1' postag_regexp='yes' postag='V.+' postag_replace='VMIS2S0'/></suggestion>
+          <suggestion>\1-\2</suggestion>
+          <example correction="ficaste|ficas-te">Tu também <marker>ficas te</marker> com essa canção.</example>
+          <example correction="lembraste|lembras-te">Ainda <marker>lembras te</marker> daquela história?</example>
+          <example correction="deitaste|deitas-te">Normalmente <marker>deitas te</marker> cedo?</example>
+          <example correction="levantaste|levantas-te">A que horas <marker>levantas te</marker> normalmente?</example>
+          <example correction="aproximaste|aproximas-te">Porque <marker>aproximas te</marker> tanto da janela?</example>
+          <example>Tu aproximas-te da janela.</example>
+          <example>Tu sentes-te bem.</example>
+          <example>Tu lembras-te daquela história.</example>
+      </rule>
 
 
     <rulegroup id='REFLEXIVO_CONJUNTIVO' name='🇵🇹 Confusão de Tempo Verbal: Conjuntivo - Reflexivo' default='off'><!-- XXX rethink rule. too many false positives -->
