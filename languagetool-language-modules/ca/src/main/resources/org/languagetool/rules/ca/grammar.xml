@@ -45966,7 +45966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">aixecar|alçar|moure|traslladar|carregar</token>
+                    <token regexp="yes" inflected="yes">aixecar|alçar|moure|traslladar|carregar|fer</token>
                     <token postag="D.*" postag_regexp="yes" min="0"/>
                     <marker>
                         <token>peses</token>
@@ -45974,6 +45974,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Com a substantiu, cal dir <suggestion>pesos</suggestion>. Correcte si és del v. 'pesar'.</message>
                 <example correction="pesos">S'entrenava alçant <marker>peses</marker>.</example>
+                <example correction="pesos">Tenia un aparell per a fer <marker>peses</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MALTRACTAMENT" name="maltracte/maltractament">
@@ -47874,7 +47875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token chunk="GV" postag="V...[13]P.." postag_regexp="yes"/>
-                    <token min="0" max="4" chunk="GV"><exception regexp="yes" inflected="yes">estar|ésser|ser|quedar|restar|romandre</exception></token>
+                    <token min="0" max="4" chunk="GV"><exception regexp="yes" inflected="yes">estar|ésser|ser|quedar|restar|romandre</exception><exception postag="V...[123]..." postag_regexp="yes"/></token>
                     <token chunk="GV" postag="V.[NPG].*" postag_regexp="yes" regexp="yes" inflected="yes">estar|ésser|ser|quedar|restar|romandre</token>
                     <marker>
                         <token postag="A...S." postag_regexp="yes"><exception regexp="yes">aviat|després|resultat|mes|nou</exception><exception postag="_possible_nompropi"/></token>
@@ -47887,6 +47888,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>els qui havíem d'ésser rector, vicerectors i secretària general</example>
                 <example>No és que el facin ser còmic, sinó que el fan ser ridícul. </example>
                 <example>La cara que van fer els alts càrrecs que l’acompanyaven va ser antològica.</example>
+                <example>L'ensurt que vam tenir va ser gros.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VAIG_FAIG" name="vaig/faig">
@@ -88628,6 +88630,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="CONTRA_L_ESPASA_I_LA_PARET" name="contra l'espasa i la paret -> entre l'espasa i la paret">
+            <pattern>
+                <marker>
+                    <token>contra</token>
+                    <token>l'</token>
+                    <token>espasa</token>
+                    <token>i</token>
+                    <token>la</token>
+                    <token>paret</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>entre l'espasa i la paret</suggestion>
+            <suggestion>contra la paret</suggestion>
+            <example correction="entre l'espasa i la paret|contra la paret">Ens sentíem <marker>contra l'espasa i la paret</marker>.</example>
+        </rule>
         <rule id="QUI_L_ENCERTA_COMA" name="qui l'encerta(,) l'endevina">
             <pattern>
                 <token>qui</token>
