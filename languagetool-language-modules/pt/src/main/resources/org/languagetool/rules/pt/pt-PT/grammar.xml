@@ -803,25 +803,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule id='AS_CUSTAS_DE_A_CUSTA_DE' name="🇵🇹 'às custas de' → 'à custa de'">
           <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
-          <antipattern>
-              <token>às</token>
-              <token>custas</token>
-              <token regexp='yes'>d[ao]s?|de</token>
-              <token regexp='yes'>recursos?|processos?<exception scope='next' regexp='yes'>natura(l|is)|industria(l|is)|financeiros?</exception></token>
-              <example>Essa despesa foi incluída às custas do recurso.</example>
-              <example>Essa despesa foi incluída às custas dos recursos.</example>
-              <example>O montante foi acrescentado às custas do processo.</example>
-              <example>O montante foi acrescentado às custas dos processos.</example>
-          </antipattern>
-
           <pattern>
               <marker>
                   <token>às</token>
                   <token>custas</token>
               </marker>
-              <token regexp='yes'>d[ao]s?|de<exception scope='next' regexp='yes' inflected='yes'>ação|acção|auto|causa|execução|incidente|instância</exception></token> <!-- Lista de exceções ligadas à terminologia processual/jurídica. -->
+              <token regexp='yes'>d[ao]s?|de</token>
           </pattern>
-          <message>A locução &quot;à custa de&quot; emprega-se no singular.</message>
+          <message>A locução &quot;à custa de&quot; emprega-se no singular. Não se aplica quando &quot;custas&quot; pertence à terminologia processual/jurídica.</message>
           <suggestion>à custa</suggestion>
           <example correction="à custa">Ele fê-lo <marker>às custas</marker> do filho.</example>
           <example correction="à custa">Viveu durante anos <marker>às custas</marker> dos pais.</example>
@@ -830,19 +819,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example correction="à custa">Obteve bons resultados <marker>às custas</marker> de muito esforço.</example>
           <example correction="à custa">Conseguiu a promoção <marker>às custas</marker> do colega.</example>
           <example correction="à custa">A produção aumentou <marker>às custas</marker> da qualidade.</example>
-          <example correction="à custa">O projeto foi concluído <marker>às custas</marker> de muitas horas extraordinárias.</example>
-          <example correction="à custa">O projeto foi concluído <marker>às custas</marker> do recurso natural.</example>
-          <example correction="à custa">O projeto foi concluído <marker>às custas</marker> dos recursos naturais.</example>
-          <example>Ele vive à custa dos pais.</example>
-          <example>A empresa aumentou os lucros à custa da qualidade.</example>
-          <example>O consumo de gorduras n-6 aumentou à custa das gorduras n-3.</example>
-          <example>O sucesso foi alcançado à custa de muito trabalho.</example>
-          <example>A quantia foi imputada às custas da ação.</example>
-          <example>O valor foi adicionado às custas da execução.</example>
-          <example>O pagamento foi associado às custas da instância.</example>
-          <example>A verba foi incorporada às custas do incidente.</example>
-          <example>O montante foi somado às custas dos autos.</example>
-          <example>A importância foi adicionada às custas da causa.</example>
       </rule>
 
 
