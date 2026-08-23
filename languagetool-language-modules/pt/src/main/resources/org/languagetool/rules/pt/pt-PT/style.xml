@@ -3723,7 +3723,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-    <category id='ACADEMIC_SCIENTIFIC_PT_PT' name="🇵🇹🎓🔬 Regras académicas e científicas" type="other">
+  <category id='ACADEMIC_SCIENTIFIC_PT_PT' name="🇵🇹🎓🔬 Regras académicas e científicas" type="other">
+
+
+      <rule id='CIENTÍFICO_ROUBAR_FURTAR_IDENTIDADE_USURPAR' name="🇵🇹🔬 Roubar/furtar identidade → usurpar" type='style' tone_tags='academic'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <marker>
+                  <token skip='4' postag='V.+' postag_regexp='yes' inflected='yes' regexp='yes'>furtar|roubar</token>
+              </marker>
+              <token regexp='yes'>identidades?</token>
+          </pattern>
+          <message>Num contexto formal/científico, considere usar o verbo &quot;usurpar&quot;.</message>
+          <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usurpar</match></suggestion>
+          <example correction="usurpou">Alguém <marker>furtou</marker> as identidades dos funcionários da empresa.</example>
+          <example correction="usurpou">Alguém <marker>roubou</marker> a identidade do dono da empresa.</example>
+          <example>Alguém usurpou a minha identidade.</example>
+          <example>Achamos que este indivíduo usurpou a identidade dele.</example>
+          <example>Este senhor usurpou a identidade do Rui.</example>
+      </rule>
 
 
       <rule id='BARBARISMS_PT_PT_V4' name="🇵🇹🎓 Estrangeirismos específicos pt_PT" type='style' tone_tags='academic' is_goal_specific='true'>
