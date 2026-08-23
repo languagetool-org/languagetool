@@ -4644,50 +4644,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 
-<category id="TYPOGRAPHY" name="🇵🇹 Tipografia">
-    <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="🇵🇹 Posição dos símbolos de moeda: '100£ (£100)">
-        <pattern>
-            <token regexp="yes">\d+([,.]\d+)*</token>
-            <token regexp="yes">&currency_symbols;
-            <exception>€</exception>
-        </token>
-    </pattern>
-    <message>Símbolos de moeda internacionais se escrevem, via de regra, antes do valor.</message>
-    <suggestion>\2\1</suggestion>
-    <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
-    <short>Mova o símbolo da moeda para antes do valor</short>
-    <example correction="£100">Deve <marker>100£</marker>.</example>
-    <example correction="£100.00">Deve <marker>100.00£</marker>.</example>
-    <example>Preciso de 400€.</example>
-</rule>
+  <category id="TYPOGRAPHY" name="🇵🇹 Tipografia">
 
-<rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="🇵🇹 Posição do símbolo do euro: '€100 (100 €)">
-    <pattern>
-        <token>€</token>
-        <token regexp="yes">\d+([,.]\d+)*</token>
-    </pattern>
-    <message>O símbolo do euro deve seguir o valor monetário.</message>
-    <suggestion>\2&nbsp;\1</suggestion>
-    <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
-    <short>Mova &quot;€&quot; para depois do valor</short>
-    <example correction="100&nbsp;€">Deve <marker>€100</marker>.</example>
-</rule>
 
-<rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="🇵🇹 Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
-    <pattern>
-        <token regexp="yes">&currency_symbols;
-        <exception>€</exception>
-    </token>
-    <token regexp="yes" spacebefore="yes">\d+([,.]\d+)*</token>
-</pattern>
-<message>Os símbolos monetários internacionais não se separam do valor por um espaço.</message>
-<suggestion>\1\2</suggestion>
-<url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
-<short>Remover o espaço</short>
-<example correction="R$100">Custa <marker>R$ 100</marker>.</example>
+
+      <rule type="locale-violation" id='CURRENCY_PLACEMENT_PT_FOREIGN' name="🇵🇹$ Posição dos símbolos de moeda: '100£ (£100)">
+          <pattern>
+              <token regexp="yes">\d+([,.]\d+)*</token>
+              <token regexp="yes">&currency_symbols;<exception>€</exception></token>
+          </pattern>
+          <message>Símbolos de moeda internacionais se escrevem, via de regra, antes do valor.</message>
+          <suggestion>\2\1</suggestion>
+          <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+          <short>Mova o símbolo da moeda para antes do valor</short>
+          <example correction="£100">Deve <marker>100£</marker>.</example>
+          <example correction="£100.00">Deve <marker>100.00£</marker>.</example>
+          <example>Preciso de 400€.</example>
       </rule>
 
-      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="🇵🇹 Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
+
+      <rule type="locale-violation" id='CURRENCY_PLACEMENT_EUR' name="🇵🇹€ Posição do símbolo do euro: '€100 (100 €)">
+          <pattern>
+              <token>€</token>
+              <token regexp="yes">\d+([,.]\d+)*</token>
+          </pattern>
+          <message>O símbolo do euro deve seguir o valor monetário.</message>
+          <suggestion>\2&nbsp;\1</suggestion>
+          <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+          <short>Mova &quot;€&quot; para depois do valor</short>
+          <example correction="100&nbsp;€">Deve <marker>€100</marker>.</example>
+      </rule>
+
+
+      <rule type="locale-violation" id='CURRENCY_SPACE_PT_FOREIGN' name="🇵🇹$ Espaçamento entre símbolos e valores monetários: '$ 100' ($100)">
+          <pattern>
+              <token regexp="yes">&currency_symbols;<exception>€</exception></token>
+              <token regexp="yes" spacebefore="yes">\d+([,.]\d+)*</token>
+          </pattern>
+          <message>Os símbolos monetários internacionais não se separam do valor por um espaço.</message>
+          <suggestion>\1\2</suggestion>
+          <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
+          <short>Remover o espaço</short>
+          <example correction="R$100">Custa <marker>R$ 100</marker>.</example>
+      </rule>
+
+
+      <rule type="locale-violation" id='CURRENCY_SPACE_EUR' name="🇵🇹€ Espaçamento entre o símbolo do euro e valores monetários: '100€' (100 €)">
           <pattern>
               <token regexp="yes">\d+([,.]\d+)*</token>
               <token spacebefore="no">€</token>
@@ -4698,5 +4700,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <short>Adicionar um espaço</short>
           <example correction="100&nbsp;€">Custa <marker>100€</marker>.</example>
       </rule>
+
+
+
   </category>
+
 </rules>
