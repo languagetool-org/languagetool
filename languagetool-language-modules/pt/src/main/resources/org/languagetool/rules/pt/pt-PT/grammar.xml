@@ -567,20 +567,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
   </rulegroup>
 
-  <rule id="ACEITO_ACEITE" name="🇵🇹 aceito → aceite" >
-      <pattern>
-          <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
-          <exception>seres</exception></token>
-      <token min="0" max="3" postag_regexp='yes' postag='R.'/>
-      <token regexp='yes'>aceit[ao]s?</token>
-  </pattern>
-  <message>Em Portugal, a forma mais comum deste particípio é <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/>.</message>
-  <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/></suggestion>
-  <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
-      <example correction='foi aceite'>O projeto <marker>foi aceito</marker>.</example>
-      <example correction='foi aceite'>A China <marker>foi aceita</marker> na Organização Mundial do Comércio.</example>
-      <example correction='serem aceites'>Que ser de um certo tamanho e qualidade antes de <marker>serem aceitas</marker> pelos praticantes da MTC e consumidores.</example>
-  </rule>
+
+      <rule id="ACEITO_ACEITE" name="🇵🇹 aceito/aceita → aceite">
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token postag_regexp='yes' postag='V.+' regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer</token>
+              <token min='0' max='3' postag_regexp='yes' postag='R.'/>
+              <marker>
+                  <token regexp='yes'>aceit[ao]s?</token>
+              </marker>
+          </pattern>
+          <message>Em português europeu, usa-se habitualmente <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/>.</message>
+          <suggestion><match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/></suggestion>
+          <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/aceitevs-aceito/34188</url>
+          <example correction='aceite'>O projeto foi <marker>aceito</marker>.</example>
+          <example correction='aceite'>O acordo parece <marker>aceito</marker> por todas as partes.</example>
+          <example correction='aceite'>A China foi <marker>aceita</marker> na Organização Mundial do Comércio.</example>
+          <example correction='aceite'>A proposta está <marker>aceita</marker>.</example>
+          <example correction='aceites'>Os pedidos foram <marker>aceitos</marker>.</example>
+          <example correction='aceites'>Os termos ficaram definitivamente <marker>aceitos</marker>.</example>
+          <example correction='aceites'>Isso não impediu de serem <marker>aceitas</marker> pelos praticantes da MTC.</example>
+          <example correction='aceites'>As condições parecem amplamente <marker>aceitas</marker>.</example>
+          <example type='correct'>Eu aceito a proposta.</example>
+          <example type='correct'>Ela tinha aceitado a proposta.</example>
+          <example type='correct'>O projeto foi aceite.</example>
+          <example type='correct'>As propostas foram aceites.</example>
+      </rule>
 
 
       <rule id='EFEITO_ESTUFA' name="🇵🇹 Hifenização: 'efeito-estufa' → 'efeito de estufa'">
