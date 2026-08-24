@@ -2905,31 +2905,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
   </rulegroup>
 
-<rule id="CLITIC_AS_SUBJECT_TE_SER" name="🇵🇹 te → tu (sujeito)">
-  <pattern>
-    <token postag="SENT_START" postag_regexp="no"/>
-    <marker>
-      <token>te</token>
-    </marker>
-    <token>és</token>
-  </pattern>
-  <message>«Te» é pronome oblíquo. Como sujeito, use «tu».</message>
-  <suggestion>tu</suggestion>
-  <example correction="Tu"> <marker>Te</marker> és muito inteligente.</example>
-</rule>
 
-<rule id="CLITIC_AS_SUBJECT_ME_SER" name="🇵🇹 me → eu (sujeito)">
-  <pattern>
-    <token postag="SENT_START" postag_regexp="no"/>
-    <marker>
-      <token>me</token>
-    </marker>
-    <token>sou</token>
-  </pattern>
-  <message>«Me» é pronome oblíquo. Como sujeito, use «eu».</message>
-  <suggestion>eu</suggestion>
-  <example correction="Eu"> <marker>Me</marker> sou responsável por este projeto.</example>
-</rule>
+      <rulegroup id="PRONOME_OBLIQUO_COMO_SUJEITO_SER_PT_PT" name="🇵🇹 Pronome oblíquo como sujeito: te/me → tu/eu">
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <rule> <!-- #1: te → tu (sujeito) -->
+              <pattern>
+                  <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+                  <marker>
+                      <token>te</token>
+                  </marker>
+                  <token>és</token>
+              </pattern>
+              <message>&quot;Te&quot; é um pronome pessoal átono. Na função de sujeito, use &quot;tu&quot;.</message>
+              <suggestion>tu</suggestion>
+              <example correction="Tu"><marker>Te</marker> és muito inteligente.</example>
+              <example correction="Tu"><marker>Te</marker> és a pessoa certa para esta tarefa.</example>
+              <example correction="Tu"><marker>Te</marker> és responsável pelo projeto.</example>
+              <example correction="Tu"><marker>Te</marker> és quem deve tomar a decisão.</example>
+              <example correction="tu">Na minha opinião, <marker>te</marker> és a pessoa indicada.</example>
+              <example correction="tu">Segundo o João, <marker>te</marker> és muito competente.</example>
+              <example type="correct">Tu és muito inteligente.</example>
+              <example type="correct">Na minha opinião, tu és a pessoa indicada.</example>
+          </rule>
+
+          <rule> <!-- #2: me → eu (sujeito) -->
+              <pattern>
+                  <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+                  <marker>
+                      <token>me</token>
+                  </marker>
+                  <token>sou</token>
+              </pattern>
+              <message>&quot;Me&quot; é um pronome pessoal átono. Na função de sujeito, use &quot;eu&quot;.</message>
+              <suggestion>eu</suggestion>
+              <example correction="Eu"><marker>Me</marker> sou responsável por este projeto.</example>
+              <example correction="Eu"><marker>Me</marker> sou o autor deste relatório.</example>
+              <example correction="Eu"><marker>Me</marker> sou estudante universitário.</example>
+              <example correction="Eu"><marker>Me</marker> sou a pessoa responsável pela decisão.</example>
+              <example correction="eu">Na verdade, <marker>me</marker> sou o responsável pelo erro.</example>
+              <example correction="eu">Segundo o João, <marker>me</marker> sou a pessoa mais indicada.</example>
+              <example type="correct">Eu sou responsável por este projeto.</example>
+              <example type="correct">Na verdade, eu sou o responsável pelo erro.</example>
+          </rule>
+
+      </rulegroup>
 
 
   <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
