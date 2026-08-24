@@ -3288,34 +3288,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction='duns'><marker>de uns</marker> rios.</example>
         </rule>
 
-
-        <rule id='CONTRAÇÃO_EM_UM_NUM_PT_PT' name='🇵🇹[Contração] Em um(a) → num(a)' default='on'>
-            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
-
-            <pattern>
-                <marker>
-                    <token>em</token>
-                    <token regexp='yes'>um|uns|umas?</token>
-                </marker>
-                <token postag_regexp='yes' postag='NC.+|AQ.+'><exception regexp='yes'>&expressoes_de_tempo_simples;</exception></token>
-            </pattern>
-            <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
-            <example correction='num'><marker>em um</marker> belo dia.</example>
-            <example correction='nuns'><marker>em uns</marker> rios.</example>
-            <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
-            <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
-            <example type='correct'>Isto aconteceu <marker>em um ano</marker> apenas.</example>
-            <example type='correct'>Quantos dias há <marker>em uma semana</marker>? — Em uma semana há sete dias.</example>
-            <example type='correct'>Estou de saída, mas volto <marker>em uma hora</marker>.</example>
-            <example type='correct'>Ela será capaz de nadar <marker>em uma semana</marker>.</example>
-            <example type='correct'>O avião pousará <marker>em uma hora</marker>.</example>
-            <example type='correct'><marker>Em uns segundos</marker>, a sua foto estará pronta.</example>
-        </rule>
-
     </rulegroup>
 
 
-      <rule id='O_FACTO_DA_AÇÃO' name="🇵🇹 Contração: 'do/da' → 'de o/de a' antes de infinitivo" default='on'>
+      <rule id='CONTRAÇÃO_EM_UM_NUM_PT_PT' name='🇵🇹[Contração] Em um(a) → num(a)' default='on'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <marker>
+                  <token>em</token>
+                  <token regexp='yes'>um|uns|umas?</token>
+              </marker>
+              <token postag_regexp='yes' postag='NC.+|AQ.+'><exception regexp='yes'>&expressoes_de_tempo_simples;</exception></token>
+          </pattern>
+          <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
+          <example correction='num'><marker>em um</marker> belo dia.</example>
+          <example correction='nuns'><marker>em uns</marker> rios.</example>
+          <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
+          <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
+          <example type='correct'>Isto aconteceu <marker>em um ano</marker> apenas.</example>
+          <example type='correct'>Quantos dias há <marker>em uma semana</marker>? — Em uma semana há sete dias.</example>
+          <example type='correct'>Estou de saída, mas volto <marker>em uma hora</marker>.</example>
+          <example type='correct'>Ela será capaz de nadar <marker>em uma semana</marker>.</example>
+          <example type='correct'>O avião pousará <marker>em uma hora</marker>.</example>
+          <example type='correct'><marker>Em uns segundos</marker>, a sua foto estará pronta.</example>
+      </rule>
+
+
+      <rule id='CONTRAÇÃO_DO_DE_O_INFINITIVO_PT_PT' name="🇵🇹 Contração: 'do/da' → 'de o/de a' antes de infinitivo" default='on'>
           <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
           <pattern>
