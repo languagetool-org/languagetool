@@ -3253,36 +3253,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction='duns'><marker>de uns</marker> rios.</example>
         </rule>
 
+
         <rule id='CONTRAÇÃO_EM_UM_NUM_PT_PT' name='🇵🇹[Contração] Em um(a) → num(a)' default='on'>
-            <!-- MARCOAGPINTO 2023-02-03 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-            <antipattern>
-                <token regexp="no">em</token>
-                <token regexp="yes">uma?s?|uns</token>
-                <token regexp='yes'>&expressoes_de_tempo_simples;</token>	  
-                <example>Isto aconteceu em um ano apenas.</example>
-                <example>Quantos dias há em uma semana? - Em uma semana há sete dias.</example>
-                <example>Estou de saída, mas volto em uma hora.</example>
-                <example>Ela será capaz de nadar em uma semana.</example>
-                <example>A avião pousará em uma hora.</example>
-                <example>Em uns segundos, sua foto estará pronta.</example>
-            </antipattern>
-            <!-- MARCOAGPINTO 2023-02-03 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
             <pattern>
                 <marker>
                     <token>em</token>
-                    <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+                    <token regexp='yes'>um|uns|umas?</token>
                 </marker>
-                <token min='0' max='2' postag='(?:N|A).+' postag_regexp='yes'>
-                    <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
+                <token postag_regexp='yes' postag='NC.+|AQ.+'><exception regexp='yes'>&expressoes_de_tempo_simples;</exception></token>
             </pattern>
             <message>Pode também dizer <suggestion>n\2</suggestion>.</message>
             <example correction='num'><marker>em um</marker> belo dia.</example>
+            <example correction='nuns'><marker>em uns</marker> rios.</example>
             <example correction='numa'><marker>em uma</marker> bonita manhã.</example>
             <example correction='numas'><marker>em umas</marker> laranjas verdes.</example>
-            <example correction='nuns'><marker>em uns</marker> rios.</example>
             <example type='correct'>Isto aconteceu <marker>em um ano</marker> apenas.</example>
+            <example type='correct'>Quantos dias há <marker>em uma semana</marker>? — Em uma semana há sete dias.</example>
+            <example type='correct'>Estou de saída, mas volto <marker>em uma hora</marker>.</example>
+            <example type='correct'>Ela será capaz de nadar <marker>em uma semana</marker>.</example>
+            <example type='correct'>O avião pousará <marker>em uma hora</marker>.</example>
+            <example type='correct'><marker>Em uns segundos</marker>, a sua foto estará pronta.</example>
         </rule>
+
     </rulegroup>
 
 
