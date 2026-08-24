@@ -297,6 +297,10 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
 	</category>
 	<category id="WASTONG_PAGGAMIT_NG_GITLING" name="Wastong Paggamit ng Gitling">
 		<rule id="GITLING_KATINIG_PATINIG" name="Paghiwalay ng katinig sa patinig gamit ang gitling">
+			<antipattern>
+				<token>pag</token>
+				<token regexp="yes">ako|ikaw|ang|ito|iyan|iyon|isa|una|umaga|araw</token>
+			</antipattern>
 			<pattern case_sensitive="no">
 				<token regexp="yes">(pag|mag|nag)</token>
 				<token regexp="yes">^[aeiou].*</token>
@@ -309,6 +313,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
 			<example type="correct"><marker>pag-ibig</marker></example>
 			<example type="correct"><marker>mag-aral</marker></example>
 			<example type="correct"><marker>nag-iisa</marker></example>
+			<example type="correct">pag umaga</example>
 		</rule>
 		<rule id="KASUNOD_NG_DE" name="Paggamit ng gitling sa 'de'">
 			<pattern case_sensitive="no">
@@ -452,7 +457,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
                 <token>-</token>
                 <token regexp="yes">apat|lima|anim|pito|walo|siyam|sampu|daan|libo</token>
             </pattern>
-            <message>Hindi ginagamitan ng gitling ang "ika" kapag sinusundan ng salitang bilang (maliban kung ika-dalawa o ika-tatlo). Gamitin ang <suggestion>ika<match no="3"/></suggestion>.</message>
+            <message>Hindi ginagamitan ng gitling ang "ika" kapag sinusundan ng salitang bilang. Gamitin ang <suggestion>ika<match no="3"/></suggestion>.</message>
             <short>Dapat pinagdikit (hal. ikalima).</short>
             <example correction="ikalima"><marker>ika-lima</marker></example>
             <example correction="ikaapat"><marker>ika-apat</marker></example>
@@ -613,7 +618,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
 		<rule id="WALANG_GITLING_SA_IBAT_IBA" name="Walang gitling sa iba't iba">
 			<pattern case_sensitive="no">
 				<token>iba</token>
-				<token>'</token>
+				<token regexp="yes">['‘’]</token>
 				<token>t</token>
 				<token>-</token>
 				<token>iba</token>
@@ -621,6 +626,7 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
 			<message>Ang wastong baybay ay <suggestion>iba't iba</suggestion> (walang gitling).</message>
 			<short>Walang gitling; ang tamang anyo ay "iba't iba".</short>
 			<example correction="iba't iba"><marker>iba't-iba</marker></example>
+			<example correction="iba't iba"><marker>iba‘t-iba</marker></example>
 			<example type="correct">iba't iba</example>
 		</rule>
 	</category>
@@ -709,10 +715,10 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
         </rule>
         <rule id="DISIPLINA_OU" name="Disiplina sa O/U">
             <pattern case_sensitive="no">
-                <token regexp="yes">(kuryente|dunasyon|murado|sumbrero|pulitika)</token>
+                <token regexp="yes">(kuryente|dunasyon|murado|sumbrero|pulitika|kureano|kumpanya)</token>
             </pattern>
             <message>Iwasan ang balbal na ugaling gawing 'u' ang 'o' sa unahan ng salita. Isaalang-alang ang <suggestion><match no="1" regexp_match="^(\w)u(\w*)$" regexp_replace="$1o$2"/></suggestion>.</message>
-            <short>Ang tamang baybay ay 'koryente', 'Koreano', 'donasyon', 'morado', 'kompanya', 'sombrero', o 'politika'.</short>
+            <short>Ang tamang baybay ay 'koryente', 'donasyon', 'morado', 'sombrero', 'politika', 'Koreano', o 'kompanya'.</short>
             <example correction="koryente">Nawalan ng <marker>kuryente</marker>.</example>
             <example correction="donasyon">Nakatanggap ng <marker>dunasyon</marker>.</example>
             <example correction="morado">Kulay <marker>murado</marker> ang damit.</example>
@@ -783,8 +789,11 @@ See tagset.txt for the different POS, Lexical Categories, and corresponding attr
             <antipattern>
 				<token regexp="yes">(?i)(sinehan|basehan)</token>
 			</antipattern>
+			<antipattern case_sensitive="yes">
+				<token regexp="yes">^[A-Z]</token>
+			</antipattern>
 			<pattern case_sensitive="no">
-                <token regexp="yes">.*e(han|hin|in|an)$</token>
+                <token regexp="yes">.{3,}e(han|hin|in|an)$</token>
             </pattern>
             <message>Ibig mo bang sabihin <suggestion><match no="1" regexp_match="^(.*)e(han|hin|in|an)$" regexp_replace="$1i$2"/></suggestion>?</message>
             <short>Palitan ang 'e' ng 'i' kapag may hulapi.</short>
