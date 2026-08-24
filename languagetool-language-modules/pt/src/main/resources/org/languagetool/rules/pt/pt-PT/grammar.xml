@@ -583,19 +583,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   </rule>
 
 
-  <rule id="EFEITO_ESTUFA" name="🇵🇹 Hifenização: Efeito-estufa">
-      <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
-      <pattern>
-          <token regexp='yes'>efeitos?</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>estufas?</token>
-      </pattern>
-      <message>Esta expressão não é hifenizada.</message>
-      <suggestion>efeito de estufa</suggestion>
-      <suggestion>efeito estufa</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-a-formacao-dos-substantivos-compostos/13909</url>
-      <example correction="efeito de estufa|efeito estufa">O calor deve-se ao <marker>efeito-estufa</marker>.</example><!-- TODO Confirm if this is a case of AO changes. VOP (AO90) has 'efeito de estufa'. Verify per-AO. -->
-  </rule>
+      <rule id='EFEITO_ESTUFA' name="🇵🇹 Hifenização: 'efeito-estufa' → 'efeito de estufa'">
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token regexp='yes'>efeitos?</token>
+              <token spacebefore='no' postag='_PUNCT_HYPHEN'/>
+              <token>estufa</token>
+          </pattern>
+          <message>A locução &quot;efeito de estufa&quot; não é hifenizada.</message>
+          <suggestion>\1 de \3</suggestion>
+          <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-a-formacao-dos-substantivos-compostos/13909</url>
+          <example correction="efeito de estufa">O calor deve-se ao <marker>efeito-estufa</marker>.</example>
+          <example correction="efeitos de estufa">Estudaram-se vários <marker>efeitos-estufa</marker>.</example>
+      </rule>
+
 
   <rulegroup id='INVARIABLE_NOUNS' name="🇵🇹 Substantivos invariáveis">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-18 -->
