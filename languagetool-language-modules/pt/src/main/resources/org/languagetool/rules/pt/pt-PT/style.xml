@@ -2249,21 +2249,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='DIFICULDADES_PROVAÇÕES' name="🇵🇹👔 Passar 'dificuldades' → 'provações'" tags='picky' tone_tags='formal'>
-            <pattern>
-                <token skip='4' inflected='yes'>passar</token>
-                <marker>
-                    <token regexp='yes'>dificuldades?
-                        <exception scope='previous' regexp='yes' inflected='yes'>ter</exception>
-                        <exception scope='next' regexp='yes'>acrescidas?</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Num contexto formal empregue <suggestion><match no='2' postag='NCF(.)000' postag_replace='NCF$1000'>provação</match></suggestion>.</message>
-            <example correction="provações">Eles passaram muitas <marker>dificuldades</marker> ao longo da vida.</example>
-            <example>Para aqueles que passaram por muitos anos tiveram dificuldades na colaboração entre projetos.</example>
-            <example>Tomava esteroides para ganhar massa muscular e foi por isso que passou a ter dificuldades para emagrecer.</example>
-         </rule>
+      <rule id='DIFICULDADES_PROVACOES' name="🇵🇹👔 'Dificuldades' → 'provações' com 'passar'" type='style' tags='picky' tone_tags='formal'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <antipattern> <!-- passar a ter dificuldades -->
+              <token inflected='yes'>passar</token>
+              <token>a</token>
+              <token inflected='yes'>ter</token>
+              <token regexp='yes'>dificuldades?</token>
+              <example>Tomava esteroides para ganhar massa muscular e foi por isso que passou a ter dificuldades para emagrecer.</example>
+              <example>O doente passou a ter dificuldades respiratórias.</example>
+          </antipattern>
+
+          <antipattern> <!-- passar com/sem dificuldades -->
+              <token inflected='yes'>passar</token>
+              <token regexp='yes'>com|sem</token>
+              <token regexp='yes'>dificuldades?</token>
+              <example>A equipa passou com dificuldades à fase seguinte.</example>
+              <example>Apesar do problema, tudo passou sem dificuldades.</example>
+          </antipattern>
+
+          <antipattern> <!-- dificuldades de/em/para... -->
+              <token skip='2' inflected='yes'>passar</token>
+              <token regexp='yes'>dificuldades?</token>
+              <token regexp='yes'>de|em|para</token>
+              <example>O aluno passou por dificuldades de aprendizagem.</example>
+              <example>O aluno passou por dificuldades em compreender o exercício.</example>
+              <example>Ela passou por dificuldades para encontrar emprego.</example>
+          </antipattern>
+
+          <antipattern> <!-- dificuldades + adjetivo/particípio -->
+              <token skip='2' inflected='yes'>passar</token>
+              <token regexp='yes'>dificuldades?</token>
+              <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+              <example>A empresa passou por dificuldades financeiras.</example>
+              <example>O programa passou por dificuldades técnicas durante os testes.</example>
+              <example>A empresa passou por dificuldades acrescidas devido ao aumento dos custos.</example>
+          </antipattern>
+
+          <pattern>
+              <token skip='2' inflected='yes'>passar</token>
+              <marker>
+                  <token regexp='yes'>dificuldades?</token>
+              </marker>
+          </pattern>
+          <message>Num contexto formal, quando se refere a adversidades ou sofrimentos, considere <suggestion><match no='2' postag='NC.+' postag_regexp='yes'>provação</match></suggestion>.</message>
+          <example correction="provações">Eles passaram muitas <marker>dificuldades</marker> ao longo da vida.</example>
+          <example correction="provações">Eles passaram por muitas <marker>dificuldades</marker> ao longo da vida.</example>
+          <example correction="provações">A família passou por inúmeras <marker>dificuldades</marker> durante aqueles anos.</example>
+          <example correction="provações">Ao longo da guerra, a população passou por grandes <marker>dificuldades</marker>.</example>
+          <example correction="provações">Ela passou enormes <marker>dificuldades</marker> antes de reconstruir a sua vida.</example>
+          <example correction="provações">Os refugiados passaram por terríveis <marker>dificuldades</marker> durante a viagem.</example>
+          <example correction="provações">A população passou muitas <marker>dificuldades</marker> durante a ocupação.</example>
+      </rule>
 
 
         <rule id='CHUMBAR_REPROVAR_PT_PT' name="🇵🇹👔 Chumbar → reprovar" type='style' tone_tags='formal' tags='picky'>
