@@ -79188,14 +79188,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes">tenir<exception regexp="yes" scope="previous">l'|el|la|els|les</exception></token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">tenir|quedar|restar<exception regexp="yes" scope="previous">l'|el|la|els|les</exception></token>
                     <token postag="NC.*" skip="-1" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token regexp="yes">el|la|les|els<exception scope="previous" postag="SPS00"/></token>
                         <token chunk="GV" regexp="yes">h?[aeiou].*</token>
                     </marker>
-                    <token min="0" max="3" chunk="GV"><exception inflected="yes">tenir</exception></token>
-                    <token inflected="yes">tenir</token>
+                    <token min="0" max="3" chunk="GV"><exception inflected="yes" regexp="yes">tenir|quedar|restar</exception></token>
+                    <token inflected="yes" regexp="yes">tenir|quedar|restar</token>
                 </pattern>
                 <message>El pronom més adequat sembla "en" (referit a "<match no="2"/>").</message>
                 <suggestion>n'\4</suggestion>
@@ -79203,13 +79203,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes">tenir<exception regexp="yes" scope="previous">l'|el|la|els|les</exception></token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">tenir|quedar|restar<exception regexp="yes" scope="previous">l'|el|la|els|les</exception></token>
                     <token postag="NC.*" skip="-1" postag_regexp="yes"><exception postag="_GV_"/></token>
                     <marker>
                         <token regexp="yes">el|la|les|els<exception scope="previous" postag="SPS00"/></token>
                     </marker>
-                    <token min="0" max="3" chunk="GV"><exception inflected="yes">tenir</exception></token>
-                    <token inflected="yes">tenir<exception scope="next" postag="A.*|V.P.*" postag_regexp="yes"/></token>
+                    <token min="0" max="3" chunk="GV"><exception inflected="yes" regexp="yes">tenir|quedar|restar</exception></token>
+                    <token inflected="yes" regexp="yes">tenir|quedar|restar<exception scope="next" postag="A.*|V.P.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>El pronom més adequat sembla "en" (referit a "<match no="2"/>").</message>
                 <suggestion>en</suggestion>
@@ -79217,6 +79217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en">Pot tenir visites d’aquestes, es digué; sé que <marker>les</marker> pot tenir.</example>
                 <example>No tenen temps de plantar arbres als patis perquè els tenen plens de brossa.</example>
                 <example correction="en">No tenen vergonya, i no cal que <marker>la</marker> tinguin.</example>
+                <example correction="en">Trob que no li deuen quedar amigues perquè si <marker>les</marker> tingués li dirien coses per ajudar-la.</example>
             </rule>
         </rulegroup>
         <rule id="SI_VOL_EN_TINDRA" name="si vol guerra, la tindrà -> en tindrà">
