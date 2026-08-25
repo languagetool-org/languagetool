@@ -51,6 +51,15 @@ public class CatalanSentenceTokenizerTest {
     testSplit("Són del s. III dC. ", "Són importants les pintures.");
     testSplit("Primera frase.[4] ", "Segona frase");
     testSplit("23. Article vint-i-tres");
+    testSplit("Això és una frase.   ", "Això és una altra frase.");
+    testSplit("Això és una frase.\n", "Això és una altra frase.");
+    testSplit("Això és una frase. \n", "Això és una altra frase.");
+    testSplit("Això és una frase. \n  ", "Això és una altra frase.");
+    testSplit("Això és una frase.\r\n", "Això és una altra frase.");
+    testSplit("Això és una frase. \r\n  ", "Això és una altra frase.");
+    testSplit("Això és una frase. \n \n", "  Això és una altra frase.");
+    testSplit("Això és una frase? \n", "Sí, i tant.");
+    testSplit("Ja ho tinc!\n", "Què vols dir?");
     
     // N., t.
     testSplit("Vés-te’n. ", "A mi em feia estrany.");  
@@ -130,8 +139,8 @@ public class CatalanSentenceTokenizerTest {
     testSplit("{Impren. 188-disss}");
     testSplit("(Impren. Disss. Ioo)");
     testSplit("(Impren. Disss. Ioo. A. B. Garcia)");
-    testSplit("Impren. ", "\nDisss");
-    testSplit("(Impren. ", "\nDisss)");
+    testSplit("Impren. \n", "Disss");
+    testSplit("(Impren. \n", "Disss)");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");
