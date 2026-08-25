@@ -28,7 +28,7 @@
             <token postag="NNP?S|VB[PD]|SENT_END|PCT" postag_regexp="yes"/>
         </equivalence>
     </unification>
-    
+
     <rule id="INSTAL_INSTALL" name="instal/install">
         <pattern>
             <and>
@@ -78,6 +78,16 @@
             <token>,</token>
         </pattern>
         <disambig action="add"><wd pos=","/></disambig>
+    </rule>
+
+    <rule id="IMMUNIZE_ELLIPSIS" name="immunize ellipsis">
+        <pattern>
+            <token spacebefore="yes">.</token>
+            <token spacebefore="yes">.</token>
+            <token spacebefore="yes">.</token>
+        </pattern>
+        <disambig action="immunize"/>
+        <example type="untouched">This is a sentence with a space before a dot .</example>
     </rule>
 
     <rule id="REMOVE_NNS_GIVES" name="Remove NNS from 'gives' when it's a verb">

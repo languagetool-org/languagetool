@@ -138039,6 +138039,32 @@ The accident victim died from her injuries.
                 <short>Remove whitespace</short>
                 <example correction="$100">You owe me <marker>$ 100</marker>.</example>
             </rule>
+            <rulegroup id="EN_ELLIPSIS" name="Missing space before ellipsis (…)">
+                <rule>
+                <pattern>
+                <token spacebefore="no">…<exception postag="SENT_START" scope="previous"/></token>
+                </pattern>
+                <message>This punctuation mark requires whitespace: <suggestion> …</suggestion></message>
+                <url>https://communications.emory.edu/resources/style-guide/punctuation/ellipsis.html</url>
+                <short>Add whitespace</short>
+                <example>… Right …</example>
+                <example correction=" …">This is<marker>…</marker> not what I expected.</example>
+                </rule>
+                <rule>
+                <pattern>
+                <token spacebefore="no"><exception postag="SENT_START" scope="previous"/>.</token>
+                <token>.</token>
+                <token>.</token>
+                </pattern>
+                <message>This punctuation mark requires whitespace: <suggestion> . . .</suggestion></message>
+                <url>https://communications.emory.edu/resources/style-guide/punctuation/ellipsis.html</url>
+                <short>Add whitespace</short>
+                <example>Right . . .</example>
+                <example>. . . </example>
+                <example correction=" . . .">This is<marker>...</marker> not what I expected.</example>
+                <example correction=" . . .">This is<marker>. . .</marker> not what I expected.</example>
+                </rule>
+            </rulegroup>
             <rulegroup id="EN_QUOTES" name="Smart quotes (“”)" tags="picky">
                 <short>Smart quotes</short>
                 <antipattern>

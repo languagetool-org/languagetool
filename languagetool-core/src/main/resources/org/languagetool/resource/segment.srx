@@ -1442,6 +1442,16 @@
 <beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
 <afterbreak>[^\p{Lu}]</afterbreak>
 </rule>
+<!-- spaced-out ellipsis, e.g. "word . . . word" - don't break between the dots -->
+<rule break="no">
+<beforebreak>\.[\s\u00A0]</beforebreak>
+<afterbreak>\.</afterbreak>
+</rule>
+<!-- spaced-out ellipsis, e.g. "word . . . word" - don't break after the last dot if followed by lowercase -->
+<rule break="no">
+<beforebreak>(?:\.[\s\u00A0]){2,}</beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b\p{Lu}\.[\s\u00A0]\p{Lu}\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>

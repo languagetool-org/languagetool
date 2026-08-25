@@ -124,7 +124,7 @@ public class JLanguageToolTest {
       assertNoError("This is a sentence.  This is another sentence.", lt);
       assertOneError("This is a sentence.   This is another sentence.", lt);
       assertTrue(lt.getAllRules().size() > 1000);
-      assertNoError("The sea ice is highly variable — frozen solid during cold, calm weather and broke...", lt);
+      assertNoError("The sea ice is highly variable — frozen solid during cold, calm weather and broke ...", lt);
       assertTrue(lt.getAllRules().size() > 3);
       assertOneError("I can give you more a detailed description.", lt);
       lt.disableRule("MORE_A_JJ");
