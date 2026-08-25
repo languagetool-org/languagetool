@@ -3143,20 +3143,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-    <rule id='DAÍ' name="🇵🇹 Contração: de aí">
-        <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-        <pattern>
-            <marker>
-                <token postag="VMN0000"/>
-                <token>daí</token>
-            </marker>
-            <token postag="VMN0000"/>
-        </pattern>
-        <message>Será que quis dizer <suggestion>\1 de aí</suggestion>?</message>
-        <example correction="partir de aí">A <marker>partir daí</marker> deduzir o que fazer.</example>
-    </rule>
-
-
       <rule id='HIFEN_INTRUSIVO' name="🇵🇹 Verbo + te: união ou hífen">
           <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
@@ -3343,6 +3329,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Foi confirmada a veracidade do facto da agressão.</example>
           <example>Falámos do facto da semana passada.</example>
           <example>Discutimos a importância do saber.</example>
+      </rule>
+
+
+      <rule id='CONTRACAO_INDEVIDA_DAI_DE_AI' name="🇵🇹 Contração indevida: daí → de aí">
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token regexp='yes' inflected='yes' postag='VMN0000'>desistir|gostar|necessitar|parar|precisar|prescindir|tratar</token>
+              <marker>
+                  <token>daí</token>
+              </marker>
+              <token postag='VMN0000'/>
+          </pattern>
+          <message>Neste contexto, a preposição &quot;de&quot; pertence ao verbo anterior e &quot;aí&quot; modifica o infinitivo seguinte.</message>
+          <suggestion>de aí</suggestion>
+          <example correction="de aí">Ele afirma gostar <marker>daí</marker> viver.</example>
+          <example correction="de aí">Ela poderá precisar <marker>daí</marker> sair cedo.</example>
+          <example correction="de aí">O investigador diz necessitar <marker>daí</marker> retirar os dados.</example>
+          <example correction="de aí">Decidiu desistir <marker>daí</marker> participar.</example>
+          <example correction="de aí">Ela decidiu parar <marker>daí</marker> trabalhar.</example>
+          <example correction="de aí">Ele prefere prescindir <marker>daí</marker> trabalhar.</example>
+          <example correction="de aí">Convém tratar <marker>daí</marker> retirar todo o material.</example>
+          <example type='correct'>É possível a partir daí deduzir o que fazer.</example>
+          <example type='correct'>Os leitores devem poder daí retirar as suas próprias conclusões.</example>
       </rule>
 
 
