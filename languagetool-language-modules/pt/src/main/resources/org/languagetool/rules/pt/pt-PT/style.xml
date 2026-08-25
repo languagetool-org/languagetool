@@ -269,7 +269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </antipattern>
 
           <pattern>
-              <token postag='SENT_START|_PUNCT_COMMA|VMN0000' postag_regexp='yes'/>
+              <token postag='SENT_START|_PUNCT_COMMA|V.+' postag_regexp='yes'/>
               <marker>
                   <token>em</token>
                   <token>relação</token>
@@ -279,14 +279,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <token postag='N.+|AQ.+' postag_regexp='yes'/>
           </pattern>
           <message>Para uma formulação mais concisa, pode usar <suggestion>relativamente</suggestion>.</message>
-          <suggestion>relativamente</suggestion>
+
+          <!-- infinitivo -->
           <example correction="relativamente">O que fazer <marker>em relação</marker> a esta situação?</example>
           <example correction="relativamente">É necessário decidir <marker>em relação</marker> a este assunto.</example>
           <example correction="relativamente">O que fazer <marker>em relação</marker> à situação?</example>
           <example correction="relativamente">O que decidir <marker>em relação</marker> ao projeto?</example>
-          <example correction="relativamente">É necessário decidir <marker>em relação</marker> às propostas apresentadas.</example>
-          <example correction="relativamente">É necessário decidir <marker>em relação</marker> aos projetos apresentados.</example>
-          <example type='correct'>Isto é feito em relação à média.</example>
+
+          <!-- verbo finito -->
+          <example correction="relativamente">Falamos <marker>em relação</marker> à proposta.</example>
+          <example correction="relativamente">A comissão deliberou <marker>em relação</marker> ao projeto.</example>
+          <example correction="relativamente">Eles discutiram <marker>em relação</marker> aos resultados.</example>
+          <example correction="relativamente">Pronunciaram-se <marker>em relação</marker> às propostas apresentadas.</example>
+
+          <!-- depois de vírgula -->
+          <example correction="relativamente">Quanto ao relatório, <marker>em relação</marker> a esta questão, nada mudou.</example>
       </rule>
 
 
