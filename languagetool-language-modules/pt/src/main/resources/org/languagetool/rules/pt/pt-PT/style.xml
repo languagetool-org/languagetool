@@ -2261,21 +2261,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <example>O doente passou a ter dificuldades respiratórias.</example>
           </antipattern>
 
-          <antipattern> <!-- passar com/sem dificuldades -->
+          <antipattern> <!-- passar com/sem [X] dificuldades -->
               <token inflected='yes'>passar</token>
-              <token regexp='yes'>com|sem</token>
+              <token skip='1' regexp='yes'>com|sem</token>
               <token regexp='yes'>dificuldades?</token>
               <example>A equipa passou com dificuldades à fase seguinte.</example>
+              <example>A equipa passou com algumas dificuldades à fase seguinte.</example>
               <example>Apesar do problema, tudo passou sem dificuldades.</example>
+              <example>Apesar do problema, tudo passou sem grandes dificuldades.</example>
           </antipattern>
 
-          <antipattern> <!-- dificuldades de/em/para... -->
+          <antipattern> <!-- dificuldades de/em/no/na/nos/nas/para... -->
               <token skip='2' inflected='yes'>passar</token>
               <token regexp='yes'>dificuldades?</token>
-              <token regexp='yes'>de|em|para</token>
+              <token regexp='yes'>de|em|n[oa]s?|para</token>
               <example>O aluno passou por dificuldades de aprendizagem.</example>
               <example>O aluno passou por dificuldades em compreender o exercício.</example>
               <example>Ela passou por dificuldades para encontrar emprego.</example>
+              <example>O utilizador passou por dificuldades no acesso ao sistema.</example>
+              <example>A criança passou por dificuldades na aprendizagem.</example>
+              <example>Os alunos passaram por dificuldades nos exames.</example>
+              <example>As empresas passaram por dificuldades nas exportações.</example>
           </antipattern>
 
           <antipattern> <!-- dificuldades + adjetivo/particípio -->
