@@ -2732,6 +2732,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
       <rule>
+          <antipattern>
+              <token postag='V.+' postag_regexp='yes'/>
+              <token regexp='yes'>&pronomes_nao_ambiguos_pt_pt;</token>
+              <token postag='VMI.+|VMS.+|VMM.+' postag_regexp='yes'/>
+          </antipattern>
           <pattern>
               <token postag='V.+' postag_regexp='yes'>
                   <exception regexp='yes'>como|para|casa|nada|mortos?</exception></token>
@@ -3033,6 +3038,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
         <rule> <!-- #2b: Verb Infinitive -->
+            <antipattern>
+                <token regexp='yes'>não|nem|nunca|jamais</token>
+                <token min='0' max='2'/>
+                <token inflected='yes'>precisar</token>
+                <token min='0' max='1' regexp='yes' inflected='yes'>&adverbios_de_intensidade;</token>
+                <token postag='VMN000.+' postag_regexp='yes'/>
+                <example>Ela nem precisou chegar perto.</example>
+                <example>Os documentos nunca precisaram ser alterados.</example>
+                <example>Não preciso explicar tudo outra vez.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag='V.+' postag_regexp='yes' inflected='yes'>precisar</token>
