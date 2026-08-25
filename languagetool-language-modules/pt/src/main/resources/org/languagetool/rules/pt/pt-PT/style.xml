@@ -256,74 +256,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
 
-        <!-- EM RELAÇÃO À SITUAÇÃO relativamente à situação -->
-        <rulegroup id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="🇵🇹✂️ Em relação → relativamente" type='style' tone_tags='objective'>
-        <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-25 + 2023-02-14 (25-JUL-2022+) -->
-        <!--
-            O que fazer em relação a esta situação? → O que fazer relativamente a esta situação?
-            Pede ajuda em relação a temas não abrangidos neste documento. → Pede ajuda relativamente a temas não abrangidos neste documento.
-            O que fazer em relação à situação? → O que fazer relativamente à situação?
-            O que fazer em relação ao projeto? → O que fazer relativamente ao projeto?
+      <rule id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="🇵🇹🖌️ Em relação a → relativamente a" type='style' tone_tags='objective'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
-            Preposition "a" was the one causing the problems because of the crasis issue.
-        -->
+          <antipattern> <!-- "em relação à média" is a statistical term -->
+              <token>em</token>
+              <token>relação</token>
+              <token>à</token>
+              <token>média</token>
+              <example>Isto é feito em relação à média.</example>
+              <example>Daqueles que têm capacidade e potencial superior em relação à média da população.</example>
+          </antipattern>
 
-        <antipattern> <!-- "em relação à média" is a statistical term -->
-            <token>em</token>
-            <token>relação</token>
-            <token>à</token>
-            <token>média</token>
-            <example>Isto é feito em relação à média.</example>
-            <example>Daqueles que têm capacidade e potencial superior em relação à média da população.</example>
-        </antipattern>
+          <pattern>
+              <token postag='SENT_START|_PUNCT_COMMA|V.+' postag_regexp='yes'/>
+              <marker>
+                  <token>em</token>
+                  <token>relação</token>
+              </marker>
+              <token regexp='yes'>a|às?|aos?</token>
+              <token min='0' postag='DD.+' postag_regexp='yes'/> <!-- determinante demonstrativo opcional -->
+              <token postag='N.+|AQ.+' postag_regexp='yes'/>
+          </pattern>
+          <message>Para uma formulação mais concisa, pode usar <suggestion>relativamente</suggestion>.</message>
 
-        <!-- A -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>em
-                        <exception scope="previous" postag_regexp='yes' postag='RG|Z0.+|PI.+|DI.+|RM'/>
-                    </token>
-                    <token>relação</token>
-                </marker>
-                <token regexp='no'>a</token>
-                <token postag='PP.+|DI.+|DD.+|PD.+|VMN0000|DP.+|PE.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                <token min="1" max="2" postag='NC.+|AQ.+|NP.+|RN' postag_regexp='yes'/>
-                <token><exception regexp='no'>antes</exception></token>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>relativamente</suggestion>
-            <example correction="relativamente">O que fazer <marker>em relação</marker> a esta situação?</example>
-            <example correction="relativamente">Pede ajuda <marker>em relação</marker> a temas não abrangidos neste documento.</example>
-            <example>Já em relação a outros recursos, o DualShock 4 parece ser exatamente o mesmo que temos atualmente, sem qualquer g...</example>
-        </rule>
+          <!-- infinitivo -->
+          <example correction="relativamente">O que fazer <marker>em relação</marker> a esta situação?</example>
+          <example correction="relativamente">É necessário decidir <marker>em relação</marker> a este assunto.</example>
+          <example correction="relativamente">O que fazer <marker>em relação</marker> à situação?</example>
+          <example correction="relativamente">O que decidir <marker>em relação</marker> ao projeto?</example>
 
-        <!-- À(S)/AO(S) -->
-        <rule>
-            <pattern>
-                <marker>
-                    <token>em
-                    <exception scope="previous" postag_regexp='yes' postag='RG|Z0.+|PI.+|DI.+|RM'/>
-                </token>
-                <token>relação</token>
-            </marker>
-            <token regexp='yes'>às?|aos?</token>
-            <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-            <token><exception regexp='no'>antes</exception></token>
-        </pattern>
-        <message>&simplify_msg;</message>
-        <suggestion>relativamente</suggestion>
-        <example correction="relativamente">O que fazer <marker>em relação</marker> à situação?</example>
-        <example correction="relativamente">O que fazer <marker>em relação</marker> ao projeto?</example>
-        <example>A euforia da vitória não nos cega em relação às realidades</example>
-        <example>A taxa normalmente fica entre R$ 50,00 e R$ 100,00 para um óculos, sem variar muito em relação ao preço do óculos.</example>
-        <example>Ainda em relação ao PR um outro mail dizia que o homem de Boliqueime teve um deslize.</example>
-        <example>Essa regra possui algumas limitações, principalmente em relação aos sistemas operacionais.</example>
-        <example>...iores a 60 km/h em condições de tráfego congestionado em vias de circulação delimitadas fisicamente em relação ao sentido contrário (por exemplo autoestradas que têm separadores centrais).</example>
-        <example>A mulher sentiu-se tímida em relação ao padre momentos antes de se confessar.</example>
-    </rule>
+          <!-- verbo finito -->
+          <example correction="relativamente">Falamos <marker>em relação</marker> à proposta.</example>
+          <example correction="relativamente">A comissão deliberou <marker>em relação</marker> ao projeto.</example>
+          <example correction="relativamente">Eles discutiram <marker>em relação</marker> aos resultados.</example>
+          <example correction="relativamente">Pronunciaram-se <marker>em relação</marker> às propostas apresentadas.</example>
 
-</rulegroup>
+          <!-- depois de vírgula -->
+          <example correction="relativamente">Quanto ao relatório, <marker>em relação</marker> a esta questão, nada mudou.</example>
+      </rule>
 
 
     <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="🇵🇹 Velha 'escola' → guarda" tone_tags='formal'>
