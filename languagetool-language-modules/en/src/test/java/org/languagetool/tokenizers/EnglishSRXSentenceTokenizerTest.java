@@ -71,6 +71,8 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("Don't split strings like U.S.A either.");
     testSplit("Don't split... ", "Well you know. ", "Here comes more text.");
     testSplit("Don't split... well you know. ", "Here comes more text.");
+    testSplit("Don't split . . . well you know. ", "Here comes more text.");
+    testSplit("This is a sentence. ", ".Net is a platform.");
     testSplit("The \".\" should not be a delimiter in quotes.");
     testSplit("\"Here he comes!\" she said.");
     testSplit("\"Here he comes!\", she said.");
@@ -136,4 +138,3 @@ public class EnglishSRXSentenceTokenizerTest {
   }
   
 }
-
