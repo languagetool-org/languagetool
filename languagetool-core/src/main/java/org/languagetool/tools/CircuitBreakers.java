@@ -25,9 +25,9 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.micrometer.tagged.TaggedCircuitBreakerMetrics;
 import io.micrometer.core.instrument.Clock;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.prometheus.PrometheusConfig;
-import io.micrometer.prometheus.PrometheusMeterRegistry;
-import io.prometheus.client.CollectorRegistry;
+import io.micrometer.prometheusmetrics.PrometheusConfig;
+import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
+import io.prometheus.metrics.model.registry.PrometheusRegistry;
 
 /**
  * Keep a central registry of circuit breakers so that we can expose metrics for all of them
@@ -40,7 +40,7 @@ public class CircuitBreakers {
   private CircuitBreakers() {
     registry = CircuitBreakerRegistry.ofDefaults();
     MeterRegistry metricsRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT,
-      CollectorRegistry.defaultRegistry, Clock.SYSTEM);
+      PrometheusRegistry.defaultRegistry, Clock.SYSTEM);
     TaggedCircuitBreakerMetrics.ofCircuitBreakerRegistry(registry).bindTo(metricsRegistry);
   }
 
