@@ -68308,11 +68308,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>què</token>
                 <token regexp="yes">&substantius_darrere_que;</token>
             </antipattern>
+            <antipattern>
+                <token>què</token>
+                <token skip="-1">putes</token>
+                <token>?</token>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token><exception postag="SPS00"/><exception>sé</exception></token>
                     <marker>
-                        <token>què</token>
+                        <token>què<exception postag="SPS00|LOC_PREP" postag_regexp="yes" scope="previous"/><exception scope="previous">sé</exception></token>
                     </marker>
                     <token postag="AQ.*|RG|V.P.*|.*LOC_ADV.*" postag_regexp="yes"><exception regexp="yes">tal|més|menys|manco|interrogatiu|tens|ja|millor</exception></token>
                 </pattern>
@@ -68323,6 +68327,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Que"><marker>Què</marker> lluny!</example>
                 <example correction="Que"><marker>Què</marker> trist!</example>
                 <example correction="Que"><marker>Què</marker> de pressa!</example>
+                <example correction="Que"><marker>Què</marker> putes que són!</example>
+                <example>Què putes?</example>
+                <example>Què putes dius?</example>
                 <example>les fases en què tradicionalment se subdivideix</example>
                 <example>Què tal?</example>
                 <example>Què tens?</example>
@@ -69668,12 +69675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>què</token>
-                    <token regexp="yes">&substantius_darrere_que;</token>
-                </antipattern>
-                <antipattern>
-                    <!-- més expletius (com collons/coi): què putes/fotons/llamps... -->
-                    <token>què</token>
-                    <token regexp="yes">putes|fotons|llamps|trons|redéu</token>
+                    <token regexp="yes">&substantius_darrere_que;|putes</token>
                     <example>Què putes fas?</example>
                     <example>Què llamps insinues?</example>
                 </antipattern>
