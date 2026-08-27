@@ -4060,19 +4060,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
   <rulegroup id="SIM_NOUN" name="Remover substantivo da palavra 'sim'">
     <!-- ChatGPT 5 -->
-    <!-- TO-DO: With the AP below maybe the rulegroup should be reduced to all "sim" with "RG" instead of adding exceptions - 2026-08-27 -->
 
     <antipattern>
-      <token regexp='yes'>cart(ão|ões)</token>
+      <token skip='1' regexp='yes'>cart(ão|ões)<exception postag='_PUNCT'/></token>
       <token case_sensitive='yes'>SIM</token>
       <!--
       Examples:
                Temos um cartão SIM.
+               Temos um cartão tipo SIM.
                Temos os cartões SIM.
       -->
     </antipattern>
     <antipattern>
-      <token skip='1' case_sensitive='yes'>SIM</token>
+      <token skip='1' case_sensitive='yes'>SIM<exception postag='_PUNCT'/></token>
       <token regexp='yes'>cart(ão|ões)</token>
       <!--
       Examples:
