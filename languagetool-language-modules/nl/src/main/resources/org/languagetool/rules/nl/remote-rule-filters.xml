@@ -51,6 +51,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 
 <rules lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="QB_NEW_NL_OTHER_ERROR_IDS_UNNECESSARY_ORTHOGRAPHY_SPACE" name="">
+            <rule>
+                <pattern>
+                    <token>in-</token>
+                    <token>/</token>
+                    <marker>
+                        <token>uit</token>
+                        <token>laten</token>
+                    </marker>
+                </pattern>
+                <example correction="">in-/<marker>uit laten</marker> stappen</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_NL_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
                 <pattern>
