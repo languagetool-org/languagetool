@@ -25,7 +25,7 @@ import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.context.Scope;
-import io.opentelemetry.semconv.trace.attributes.SemanticAttributes;
+import io.opentelemetry.semconv.HttpAttributes;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
@@ -100,8 +100,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     String requestId = getRequestId(httpExchange);
     MDC.MDCCloseable mdcRequestID = MDC.putCloseable("rID", requestId);
     Attributes attributes = Attributes.builder()
-                  .put(SemanticAttributes.HTTP_METHOD, httpExchange.getRequestMethod())
-                  .put(SemanticAttributes.HTTP_ROUTE, httpExchange.getRequestURI().getRawPath())
+                  .put(HttpAttributes.HTTP_REQUEST_METHOD, httpExchange.getRequestMethod())
+                  .put(HttpAttributes.HTTP_ROUTE, httpExchange.getRequestURI().getRawPath())
                   .put("http.path_group", httpExchange.getRequestURI().getRawPath())
                   .put("request.id", requestId)
                   .build();
@@ -275,7 +275,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       logger.info("Handled request in {}ms; sending code {}", System.currentTimeMillis() - startTime, httpExchange.getResponseCode());
       httpExchange.close();
       mdcRequestID.close();
-      globalSpan.setAttribute(SemanticAttributes.HTTP_STATUS_CODE, httpExchange.getResponseCode());
+      globalSpan.setAttribute(HttpAttributes.HTTP_RESPONSE_STATUS_CODE, httpExchange.getResponseCode());
       globalSpan.end();
       if (incrementHandleCount) {
         reqCounter.decrementHandleCount(reqId);
