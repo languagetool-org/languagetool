@@ -3229,65 +3229,84 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction='trabalhasse'>Embora Tchecov  <marker>trabalha-se</marker> como médico, enriqueceu a sua escrita com…</example>
         </rule>
     </rulegroup>
+
+
 </category>
+
 
 
 <category id="CONTRACTIONS_PT_PT" name="🇵🇹 Contrações">
 
 
-    <rulegroup type='grammar' id="CONTRAÇÕES_2_PT_PT" name="🇵🇹 Contrações" default='on'>
-        <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
-        <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
-        <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
-        <antipattern>
-            <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-            <token>de</token>
-        </antipattern>
-        <antipattern>
-            <token regexp='yes'>aos?</token>
-            <token regexp='yes'>pontos?</token>
-            <token>de</token>
-        </antipattern>
-        <antipattern>
-            <token inflected='yes'>chamar</token>
-            <token>de</token>
-        </antipattern>
-        <antipattern>
-            <token inflected='yes'>ser</token>
-            <token>tempo</token>
-            <token>de</token>
-        </antipattern>
+      <rule id='CONTRAÇÃO_DOUTREM_PT_PT' name='🇵🇹[Contração] De outro/outrem → doutro/doutrem' default='off'>
 
-        <rule id='CONTRAÇÃO_DOUTREM_PT_PT' name='🇵🇹[Contração] De outro/outrem → doutro/doutrem' default='off'>
-            <pattern>
-                <token>de</token>
-                <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
-            </pattern>
-            <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
-            <example correction='doutrem'><marker>de outrem</marker>.</example>
-            <example correction='doutro'><marker>de outro</marker>.</example>
-            <example correction='doutros'><marker>de outros</marker>.</example>
-            <example correction='doutra'><marker>de outra</marker>.</example>
-            <example correction='doutras'><marker>de outras</marker>.</example>
-        </rule>
+          <antipattern> <!-- Common APs for two rules, that were inside the previous rulegroup -->
+              <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+              <token>de</token>
+          </antipattern>
+          <antipattern>
+              <token regexp='yes'>aos?</token>
+              <token regexp='yes'>pontos?</token>
+              <token>de</token>
+          </antipattern>
+          <antipattern>
+              <token inflected='yes'>chamar</token>
+              <token>de</token>
+          </antipattern>
+          <antipattern>
+              <token inflected='yes'>ser</token>
+              <token>tempo</token>
+              <token>de</token>
+          </antipattern>
 
-        <rule id='CONTRAÇÃO_DUM2_PT_PT' name='🇵🇹[Contração] De um(a)(s)/uns → dum(a)(s)/duns' default='off'>
-            <pattern>
-                <marker>
-                    <token>de</token>
-                    <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
-                </marker>
-                <token postag='(?:N|A).+' postag_regexp='yes'>
-                    <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
-            </pattern>
-            <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
-            <example correction='dum'><marker>de um</marker> calmo dia.</example>
-            <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
-            <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
-            <example correction='duns'><marker>de uns</marker> rios.</example>
-        </rule>
+          <pattern>
+              <token>de</token>
+              <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
+          </pattern>
+          <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
+          <example correction='doutrem'><marker>de outrem</marker>.</example>
+          <example correction='doutro'><marker>de outro</marker>.</example>
+          <example correction='doutros'><marker>de outros</marker>.</example>
+          <example correction='doutra'><marker>de outra</marker>.</example>
+          <example correction='doutras'><marker>de outras</marker>.</example>
+      </rule>
 
-    </rulegroup>
+
+      <rule id='CONTRAÇÃO_DUM2_PT_PT' name='🇵🇹[Contração] De um(a)(s)/uns → dum(a)(s)/duns' default='off'>
+
+          <antipattern> <!-- Common APs for two rules, that were inside the previous rulegroup -->
+              <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+              <token>de</token>
+          </antipattern>
+          <antipattern>
+              <token regexp='yes'>aos?</token>
+              <token regexp='yes'>pontos?</token>
+              <token>de</token>
+          </antipattern>
+          <antipattern>
+              <token inflected='yes'>chamar</token>
+              <token>de</token>
+          </antipattern>
+          <antipattern>
+              <token inflected='yes'>ser</token>
+              <token>tempo</token>
+              <token>de</token>
+          </antipattern>
+
+          <pattern>
+              <marker>
+                  <token>de</token>
+                  <token case_sensitive="yes" regexp='yes'>uma?s?|uns</token>
+              </marker>
+              <token postag='(?:N|A).+' postag_regexp='yes'>
+                  <exception negate_pos='yes' postag='(?:N|A).+' postag_regexp='yes'/></token>
+          </pattern>
+          <message>Pode também dizer <suggestion>d\2</suggestion>.</message>
+          <example correction='dum'><marker>de um</marker> calmo dia.</example>
+          <example correction='duma'><marker>de uma</marker> bonita manhã.</example>
+          <example correction='dumas'><marker>de umas</marker> laranjas verdes.</example>
+          <example correction='duns'><marker>de uns</marker> rios.</example>
+      </rule>
 
 
       <rule id='CONTRAÇÃO_EM_UM_NUM_PT_PT' name='🇵🇹[Contração] Em um(a) → num(a)' default='on'>
@@ -3314,7 +3333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
 
-      <rule id='CONTRAÇÃO_DO_DE_O_INFINITIVO_PT_PT' name="🇵🇹 Contração: 'do/da' → 'de o/de a' antes de infinitivo" default='on'>
+      <rule id='CONTRAÇÃO_DO_DE_O_INFINITIVO_PT_PT' name="🇵🇹[Contração] 'do/da' → 'de o/de a' antes de infinitivo" default='on'>
           <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
           <pattern>
