@@ -128269,6 +128269,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="croada">Una <marker>creuada</marker> inquisitorial.</example>
                 <example correction="croades">No és bona idea importar <marker>creuades</marker> religioses.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">creua(da|des)</token>
+                    </marker>
+                    <token>contra</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)creua(.+)" regexp_replace="croa$1" case_conversion="preserve"/></suggestion>?</message>
+                <example correction="croada">Una <marker>creuada</marker> contra els immigrants.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ORDRE_ORDE" name="ordre/orde">
             <!-- Podria anar en WrongWordInContext ? S'ha d'ampliar-->
