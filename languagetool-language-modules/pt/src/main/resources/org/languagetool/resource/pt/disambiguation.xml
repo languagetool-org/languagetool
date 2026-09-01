@@ -2269,6 +2269,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- 		Created by Tiago F. Santos, 2019-03-16		-->
     <rule>
       <antipattern>
+        <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós|vocês?</token>
+        <token postag='VMIP1S0'/>
+        <token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
         <token postag="SPS00"/>
         <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós|vocês?</token>
       </antipattern>
@@ -4133,6 +4138,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </marker>
     </pattern>
     <disambig postag="NCMP000"/>
+  </rule>
+
+  <rule id="PP_C_VMIP1S0_RG_VERBO_20260901" name="In this case is RG">
+    <pattern>
+      <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós|vocês?</token>
+      <marker>
+        <and>
+          <token postag='RG'/>
+          <token postag='VMIP1S0'/>
+        </and>
+      </marker>
+      <token postag='V.+' postag_regexp='yes'><exception postag='NC.+|AQ.+' postag_regexp='yes'/></token>
+    </pattern>
+    <disambig action="filter" postag="RG"/>
+    <!--
+    Examples:
+             Bem, Deus permita que eles logo possam chegar a uma decisão.
+             Com este despacho ele logo partiu para a Índia.
+             Amanhã mostrarei a você como fazer isso.
+             E conte a eles como ganhou o peixe.
+             E vocês como aproveitaram o feriado???
+    -->
   </rule>
 
   <rule id="NP_VERBO_NP_NÃO_VERBO_20260828_RARE" name="É NP.+ não V.+">
