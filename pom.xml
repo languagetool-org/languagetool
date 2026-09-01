@@ -112,26 +112,25 @@
     <properties>
         <revision>6.9-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>25</maven.compiler.release>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss Z</maven.build.timestamp.format>
         <!--Maven-Plugin-Versions -->
         <!-- NOTE: don't update without testing OpenOffice, 3.0.2 caused "Got no data stream!" after add-on installation -->
-        <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
+        <maven-jar-plugin.version>3.5.1</maven-jar-plugin.version>
         <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
-        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
-        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
-        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-        <maven-shade-plugin>3.2.4</maven-shade-plugin>
+        <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+        <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
+        <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.6.0-M1</maven-surefire-plugin.version>
+        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+        <maven-shade-plugin>3.6.2</maven-shade-plugin>
         <maven-jflex-plugin.version>1.4.3-r1</maven-jflex-plugin.version>
         <license-maven-plugin.version>2.0.0</license-maven-plugin.version>
-        <git-commit-id-plugin-17.version>5.0.1</git-commit-id-plugin-17.version>
+        <git-commit-id-plugin.version>10.0.0</git-commit-id-plugin.version>
         <!-- grpc related plugins check for updates if grpc is updated -->
         <kr.motd.maven.os-maven-plugin.version>1.7.1</kr.motd.maven.os-maven-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
-        <dependency-check-maven.pluging.version>12.2.2</dependency-check-maven.pluging.version>
+        <dependency-check-maven.pluging.version>13.0.0</dependency-check-maven.pluging.version>
         <flatten.version>1.6.0</flatten.version>
         <sortpom-maven.plugin.version>3.2.1</sortpom-maven.plugin.version>
         <nimbus-jose-jwt.version>9.37.4</nimbus-jose-jwt.version>
@@ -149,8 +148,8 @@
         <org.apache.commons.commons-compress.version>1.27.1</org.apache.commons.commons-compress.version>
         <!-- No update available TODO: Check for replacement-->
         <edu.washington.cs.knowitall.opennlp.version>1.5</edu.washington.cs.knowitall.opennlp.version>
-        <io.grpc.version>1.81.0</io.grpc.version>
-        <protoc.version>3.25.5</protoc.version>
+        <io.grpc.version>1.83.1</io.grpc.version>
+        <protoc.version>3.25.8</protoc.version>
         <!-- TODO check for update see server  & dev -->
         <!-- Updated from 2.2.3 -->
         <org.mariadb.jdbc.version>3.4.1</org.mariadb.jdbc.version>
@@ -159,7 +158,7 @@
 
         <at.favre.lib.bcrypt.version>0.10.2</at.favre.lib.bcrypt.version>
         <caffeine.version>3.2.0</caffeine.version>
-        <ch.qos.logback.version>1.5.21</ch.qos.logback.version>
+        <ch.qos.logback.version>1.6.3</ch.qos.logback.version>
 
         <com.carrotsearch.hppc.version>0.8.2</com.carrotsearch.hppc.version>
         <com.gitlab.dumonts.hunspell.version>2.1.2</com.gitlab.dumonts.hunspell.version>
@@ -214,9 +213,9 @@
         <org.languagetool.asturian-pos-dict.version>0.1</org.languagetool.asturian-pos-dict.version>
         <org.tukaani.version>1.10</org.tukaani.version>
 
-        <guava.version>33.5.0-jre</guava.version>
+        <guava.version>33.7.1-jre</guava.version>
         <jackson.version>2.18.9</jackson.version>
-        <lombok.version>1.18.34</lombok.version>
+        <lombok.version>1.18.46</lombok.version>
         <lucene.version>5.5.5</lucene.version>
         <morfologik.version>2.2.0</morfologik.version>
         <optimaize.languagedetector.language-detector.version>0.6</optimaize.languagedetector.language-detector.version>
@@ -1271,28 +1270,11 @@
                 <plugin>
                     <groupId>io.github.git-commit-id</groupId>
                     <artifactId>git-commit-id-maven-plugin</artifactId>
-                    <version>${git-commit-id-plugin-17.version}</version>
+                    <version>${git-commit-id-plugin.version}</version>
                     <configuration>
                         <generateGitPropertiesFile>true</generateGitPropertiesFile>
                         <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>get-the-git-infos</id>
-                            <goals>
-                                <goal>revision</goal>
-                            </goals>
-                            <phase>initialize</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                    <version>${git-commit-id-plugin-8.version}</version>
-                    <configuration>
-                        <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                        <commitIdGenerationMode>full</commitIdGenerationMode>
                     </configuration>
                     <executions>
                         <execution>
@@ -1310,8 +1292,15 @@
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
                         <!-- helps IntelliJ to not forget the configuration (https://stackoverflow.com/questions/29888592/): -->
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
+                        <release>${maven.compiler.release}</release>
+                        <proc>full</proc>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -1320,7 +1309,7 @@
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <trimStackTrace>false</trimStackTrace>
-                        <argLine>-Xms256m -Xmx3372m</argLine>
+                        <argLine>-Xms256m -Xmx3372m -Djdk.xml.totalEntitySizeLimit=10000000 -Djdk.xml.entityExpansionLimit=1000000 -Djdk.xml.maxGeneralEntitySizeLimit=1000000</argLine>
                         <!--<runOrder>failedfirst</runOrder>-->
                         <excludes>
                             <exclude>**/*ConcurrencyTest.java</exclude>
