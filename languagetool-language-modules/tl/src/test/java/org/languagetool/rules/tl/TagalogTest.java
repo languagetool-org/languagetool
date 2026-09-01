@@ -30,10 +30,10 @@ public class TagalogTest extends LanguageSpecificTest {
   @Test
   public void testLanguage() throws IOException {
     // NOTE: this text needs to be kept in sync with config.ts -> DEMO_TEXTS:
-    String s = "Ang LanguageTool ay maganda gamit sa araw-araw. Ang talatang ito ay nagpapakita ng ng kakayahan ng LanguageTool at hinahalimbawa kung paano ito gamitin. Litaw rin sa talatang ito na may mga bagaybagay na hindii pa kayang itama nng LanguageTool.";
+    String s = "Ginagamit ang LanguageTool para sa pagwawasto ng gramatika at ispeling, na ginagamit arawaraw ng maraming tao. Ipinapakita ng talatang ito kung paano nito mahuhuli ang mga pagkakamali, tulad ng maling baybay ng kwento. Ang pang ulo ng bansa din ay maaaring makinabang sa kakayahan ng LanguageTool.";
     Tagalog lang = new Tagalog();
     testDemoText(lang, s,
-      Arrays.asList("ADJECTIVE-V_COMMON_NOUN", "NG_NG", "MORFOLOGIK_RULE_TL", "R_WORDS", "MORFOLOGIK_RULE_TL", "MORFOLOGIK_RULE_TL", "MORFOLOGIK_RULE_TL")
+      Arrays.asList("TL_REDUPLICATION", "KAMBAL_PATINIG_KUWENTO", "TL_PANG_VOWEL_WORD", "KASONG_DIN")
     );
     runTests(lang);
   }
