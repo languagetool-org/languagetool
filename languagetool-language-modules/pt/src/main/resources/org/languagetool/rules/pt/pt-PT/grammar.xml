@@ -3395,6 +3395,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <category id='REGIONALISMS_PT_PT' name='🇵🇹 Regionalismos'>
 
 
+      <rulegroup id='BRASILEIRISMO_GALERA' name='🇵🇹🇧🇷 galera → pessoal'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <rule> <!-- #1: "aí/então, galera" -->
+              <pattern>
+                  <token regexp='yes'>a[ií]|então</token>
+                  <token postag='_PUNCT_COMMA'/>
+                  <marker>
+                      <token>galera</token>
+                  </marker>
+              </pattern>
+              <message>Brasileirismo. Em português europeu, prefira <suggestion>pessoal</suggestion>.</message>
+              <example correction='pessoal'>E aí, <marker>galera</marker>?</example>
+              <example correction='pessoal'>Então, <marker>galera</marker>?</example>
+              <example type='correct'>Aí, a galera começou a cantar.</example>
+              <example type='correct'>Então a galera saiu.</example>
+          </rule>
+
+          <rule> <!-- #2: "como/que + verbo, galera" -->
+              <pattern>
+                  <token regexp='yes'>como|que</token>
+                  <token postag='V.+' postag_regexp='yes'/>
+                  <token postag='_PUNCT_COMMA'/>
+                  <marker>
+                      <token>galera</token>
+                  </marker>
+              </pattern>
+              <message>Brasileirismo. Em português europeu, prefira <suggestion>pessoal</suggestion>.</message>
+              <example correction='pessoal'>Como é, <marker>galera</marker>?</example>
+              <example correction='pessoal'>Como estão, <marker>galera</marker>?</example>
+              <example correction='pessoal'>Que querem, <marker>galera</marker>?</example>
+              <example correction='pessoal'>Que acham, <marker>galera</marker>?</example>
+              <example type='correct'>Como a galera atracou no porto?</example>
+              <example type='correct'>Que galera é essa?</example>
+              <example type='correct'>Disse que a galera chegou.</example>
+          </rule>
+      </rulegroup>
+
+
       <rule id='BRASILEIRISMO_ATERRISAR' name='🇵🇹🇧🇷 aterrisar → aterrar'>
           <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
           <pattern>
