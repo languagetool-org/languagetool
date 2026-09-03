@@ -3395,6 +3395,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <category id='REGIONALISMS_PT_PT' name='🇵🇹 Regionalismos'>
 
 
+      <rule id='BRASILEIRISMO_GALERA' name='🇵🇹🇧🇷 galera → pessoal'>
+          <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+          <pattern>
+              <token skip='2' regexp='yes'>a[ií]|como|então|que</token>
+              <marker>
+                  <token>galera</token>
+              </marker>
+          </pattern>
+          <message>Brasileirismo. Em português europeu, prefira <suggestion>pessoal</suggestion>.</message>
+          <example correction='pessoal'>E aí, <marker>galera</marker>?</example>
+          <example correction='pessoal'>Como é, <marker>galera</marker>?</example>
+          <example correction='pessoal'>Como estão, <marker>galera</marker>?</example>
+          <example correction='pessoal'>Então, <marker>galera</marker>?</example>
+          <example correction='pessoal'>Que querem, <marker>galera</marker>?</example>
+          <example type='correct'>A galera atracou no porto.</example>
+          <example type='correct'>A antiga galera transportava mercadorias.</example>
+      </rule>
+
+
       <rule id='BRASILEIRISMO_ATERRISAR' name='🇵🇹🇧🇷 aterrisar → aterrar'>
           <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
           <pattern>
