@@ -11045,7 +11045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- 5 -->
                 <pattern>
-                    <token regexp="yes" skip="4">avui|hui|enguany<exception scope="next" postag_regexp="yes" postag="P[TR].*|C.*"/><exception scope="next" regexp="yes">\p{P}|ahir</exception></token>
+                    <token regexp="yes" skip="4">avui|hui|enguany<exception scope="next" postag_regexp="yes" postag="P[TR].*|C.*"/><exception scope="next" regexp="yes">\p{P}|ahir|ja</exception></token>
                     <marker>
                         <token postag="VA.*" postag_regexp="yes" inflected="yes">anar</token>
                         <token postag="V.N.*" postag_regexp="yes"/>
@@ -11054,6 +11054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>El temps verbal adequat per a referir-se a una acció que ocorre <match no="1" case_conversion="alllower"/> és el perfet.</message>
                 <suggestion><match no="2" postag="(VA.*)" postag_regexp="yes" postag_replace="$1">haver</match> <match no="3" postag="V.N.*" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
                 <example correction="ha dit">Avui <marker>va dir</marker> això.</example>
+                <example>Tot això que dic avui ja ho vaig dir fa un any.</example>
             </rule>
             <rule>
                 <!-- 6 -->
@@ -16349,6 +16350,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>com les de les tomaqueres que tenim a cobert</example>
                 <example>Tancava tots els contractes a dit.</example>
                 <example>Antifrau investiga Educació per un cas de plaça docent a dit.</example>
+                <example>Van canviar cap a calçat més lleuger.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -91933,6 +91935,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="les dades avalen|les dades demostren|les proves indiquen">Això no és el que <marker>l'evidència suporta</marker>.</example>
             <example correction="Les dades no avalaven|Les dades no demostraven|Les proves no indicaven"><marker>L'evidència no suportava</marker> aquesta conclusió.</example>
         </rule>
+        <rule id="FER_RUNNING" name="fer running -> córrer, anar a córrer">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">fer|practicar</token>
+                    <token min="0">el</token>
+                    <token>running</token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.ca.AdjustVerbSuggestionsFilter" args="actions:None"/>
+            <message>Val més usar una altra expressió per a evitar aquest anglicisme.</message>
+            <suggestion>córrer</suggestion>
+            <suggestion>anar a córrer</suggestion>
+            <example correction="Corro|Vaig a córrer"><marker>Faig running</marker> els dimarts.</example>
+        </rule>
         <rule id="EVIDENCIA_ARQUEOLOGICA" name="evidència -> indicis">
             <pattern>
                 <marker>
@@ -136162,6 +136178,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PX.*" postag_regexp="yes"/>
                 <token>costat</token>
                 <example>Es va estirar al seu costat.</example>
+            </antipattern>
+            <antipattern>
+                <token>nostra</token>
+                <token>llengua</token>
+                <example>Pretenien, també, de fer mal a la nostra llengua i la nostra literatura.</example>
             </antipattern>
             <rule>
                 <antipattern>
