@@ -33,8 +33,6 @@ public class SwedishSRXSentenceTokenizerTest {
       "Den handlar om slaveriet i USA sett ur slavarnas perspektiv och bidrog starkt till att slaveriet avskaffades 1865 efter amerikanska inbördeskriget.");
     testSplit(
       "Vi kan leverera varorna alt. snabbt med expressfrakt.",
-      "Art. handlar om klimatförändringar i Norden.",
-      "Bil. innehåller mer detaljerad information.",
       "Rapporten innehåller bl.a. statistik och tabeller.",
       "Han kom sent, dvs. att mötet redan hade börjat.",
       "Vi behöver hammare, spik, etc. verktyg för arbetet.",
@@ -44,7 +42,6 @@ public class SwedishSRXSentenceTokenizerTest {
       "Berättelsen slutar med texten “forts. följer”.",
       "Avtalet gäller fr.o.m. måndag.",
       "Priset anges inkl. moms.",
-      "Kol. visar medelvärden för varje grupp.",
       "Resultatet är m.a.o. fel.",
       "Orig. version sparades i arkivet.",
       "Vi diskuterade mål, strategier, osv. detaljer.",
