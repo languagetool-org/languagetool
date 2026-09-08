@@ -12229,13 +12229,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes" spacebefore="no" postag="V.[SI].3S.." postag_regexp="yes">haver</token>
                     </marker>
                     <token inflected="yes" postag="V.P..SM." postag_regexp="yes">venir</token>
-                    <token min="0">a</token>
+                    <token min="0" max="2" regexp="yes">a|l</token>
                     <token regexp="yes">sobre|damunt</token>
                 </pattern>
                 <message>El v. 'venir' no és reflexiu.</message>
                 <suggestion>\2\3</suggestion>
-                <example correction="m'ha">La tempesta que <marker>se m'ha</marker> vingut a sobre</example>
-                <example correction="t'ha">La tempesta que <marker>se t'ha</marker> vingut a sobre</example>
+                <example correction="m'ha">La tempesta que <marker>se m'ha</marker> vingut a sobre.</example>
+                <example correction="t'ha">La tempesta que <marker>se t'ha</marker> vingut a damunt.</example>
+                <example correction="t'ha">La tempesta que <marker>se t'ha</marker> vingut al damunt.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12245,7 +12246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token min="0" inflected="yes" regexp="yes" postag="V.[SI].3S.." postag_regexp="yes">anar|haver</token>
                     <token inflected="yes" postag="V.[SI].3S..|V.[NP].*" postag_regexp="yes">venir</token>
-                    <token min="0">a</token>
+                    <token min="0" max="2" regexp="yes">a|l</token>
                     <token regexp="yes">sobre|damunt</token>
                 </pattern>
                 <message>El v. 'venir' no és reflexiu.</message>
@@ -12256,6 +12257,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="els">La tempesta que <marker>se'ls</marker> vingués a sobre</example>
                 <example correction="em">La tempesta que <marker>se'm</marker> venia damunt</example>
                 <example correction="em">La tempesta que <marker>se'm</marker> va venir damunt</example>
+                <example correction="li">No sabia el que <marker>se li</marker> venia al damunt.</example>
             </rule>
         </rulegroup>
         <rule id="SOLO_SOLC" name="*solo/solc fer">
@@ -54173,7 +54175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.S.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token skip="6" regexp="yes" inflected="yes">pregunta|qüestió|dubte|preguntar|demanar|qüestionar<exception scope="next" postag="C.|PR.*" postag_regexp="yes"/></token>
+                    <token skip="6" regexp="yes" inflected="yes">pregunta|qüestió|dubte|preguntar|demanar|qüestionar<exception scope="next" postag="C.|PR.*|V[AM][ISM].*" postag_regexp="yes"/></token>
                     <token inflected="yes">ser</token>
                     <marker>
                         <token>perquè</token>
@@ -54183,6 +54185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>per què</suggestion>
                 <example correction="per què">El que hem de preguntar-nos és <marker>perquè</marker> no heu aplicat l'ordenança que vau aprovar.</example>
                 <example>Quan em demana que li escrigui és perquè no l'agafarà distreta.</example>
+                <example>Si la qüestió m'encén és perquè la veig molt fàcil de solucionar.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -116963,6 +116966,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Captaven"><marker>Capturaven</marker> adeptes entre els més desvalguts.</example>
         </rule>
         <rulegroup id="MITJA_MITJANA" name="mitja/mitjana">
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">mitja|mitges</token>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" inflected="yes">pujar|baixar|disminuir|fer|augmentar|apujar|abaixar</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">mitja|mitges</token>
+                    </marker>
+                </pattern>
+                <message>Amb el sentit de 'terme mitjà', cal dir <suggestion><match no="3" regexp_match="(?iu)mit[jg](a|es)" regexp_replace="mitjan$1" case_conversion="preserve"/></suggestion>.</message>
+                <example correction="mitjana">No és que això faci pujar la <marker>mitja</marker>.</example>
+                <example>Hem de pujar la mitja síndria al pis de dalt.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -140707,7 +140726,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="l'endemà|l'endemà al matí"><marker>al matí següent</marker> </example>
             <example>l'endemà al matí</example>
         </rule>
-        <rulegroup id="VERGONYA_ALIENA" name="vergonya aliena">
+        <rulegroup id="VERGONYA_ALIENA" name="vergonya aliena" default="off">
+            <!-- acceptat per GDLC -->
             <rule>
                 <pattern>
                     <token inflected="yes">fer</token>
@@ -140729,11 +140749,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>aliena</token>
                 </pattern>
                 <message>Val més usar una altra expressió.</message>
+                <suggestion>vergonya d'altri</suggestion>
                 <suggestion>(fer a algú) passar vergonya</suggestion>
                 <suggestion>vergonya (per algú)</suggestion>
                 <suggestion>vergonya</suggestion>
                 <suggestion>espectacle vergonyós</suggestion>
-                <example correction="(fer a algú) passar vergonya|vergonya (per algú)|vergonya|espectacle vergonyós">Tinc <marker>vergonya aliena</marker></example>
+                <example correction="vergonya d'altri|(fer a algú) passar vergonya|vergonya (per algú)|vergonya|espectacle vergonyós">Tinc <marker>vergonya aliena</marker></example>
                 <example>Em va fer passar vergonya</example>
             </rule>
         </rulegroup>
@@ -157606,28 +157627,33 @@ No t'ho explicaré, no cal que em burxis més-->
                         <token>se</token>
                         <token regexp="yes">'m|'t|li|'ns|vos|us|'ls</token>
                     </marker>
-                    <token postag="V...3..." postag_regexp="yes" inflected="yes" min="0">anar</token>
-                    <token postag="V...3...|V.N.*" postag_regexp="yes" inflected="yes">saltar</token>
+                    <token postag="V...3..." postag_regexp="yes" inflected="yes" min="0" regexp="yes">anar|haver</token>
+                    <token postag="V...3...|V.[NP].*" postag_regexp="yes" inflected="yes" regexp="yes">saltar|caure</token>
                     <token postag_regexp="yes" postag="D.*"/>
                 </pattern>
                 <message>Aquest expressió no és pronominal. Hi sobra un pronom.</message>
                 <suggestion><match no="2" regexp_match="'" regexp_replace="e"/></suggestion>
                 <example correction="Em"><marker>Se'm</marker> salten les llàgrimes.</example>
                 <example correction="Em"><marker>Se'm</marker> van saltar les llàgrimes.</example>
+                <example correction="Et"><marker>Se't</marker> cau la cara de vergonya.</example>
+                <example correction="Em"><marker>Se'm</marker> va caure la cara de vergonya.</example>
+                <example correction="Ens"><marker>Se'ns</marker> va caure la cara de vergonya.</example>
+                <example correction="Ens"><marker>Se'ns</marker> ha caigut la cara de vergonya.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>se</token>
+                        <token regexp="yes">m'|t'|li|ens|us|vos|els</token>
                     </marker>
-                    <token regexp="yes">m'|t'|li|ens|us|vos|els</token>
                     <token postag="V...3..." postag_regexp="yes" inflected="yes">haver</token>
-                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">saltar</token>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">saltar|caure</token>
                     <token postag_regexp="yes" postag="D.*"/>
                 </pattern>
                 <message>Aquest expressió no és pronominal. Hi sobra un pronom.</message>
-                <suggestion/>
-                <example correction=""><marker>Se</marker> m'ha saltat les llàgrimes.</example>
+                <suggestion>\2</suggestion>
+                <example correction="M'"><marker>Se m'</marker>ha saltat les llàgrimes.</example>
+                <example correction="M'"><marker>Se m'</marker>ha caigut la cara de vergonya.</example>
             </rule>
             <rule>
                 <antipattern>

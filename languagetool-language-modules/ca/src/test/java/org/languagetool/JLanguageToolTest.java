@@ -23,7 +23,6 @@ import org.languagetool.language.Catalan;
 import org.languagetool.language.ValencianCatalan;
 import org.languagetool.language.BalearicCatalan;
 import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ca.SimpleReplaceAnglicism;
 import org.languagetool.rules.ca.SimpleReplaceMultiwordsRule;
@@ -36,8 +35,8 @@ import static org.junit.Assert.assertEquals;
 
 public class JLanguageToolTest {
 
-  private Language lang = Catalan.getInstance();
-  private JLanguageTool tool = new JLanguageTool(lang);
+  private final Language lang = Catalan.getInstance();
+  private final JLanguageTool tool = new JLanguageTool(lang);
 
 
   @Test
@@ -142,7 +141,7 @@ public class JLanguageToolTest {
   }
 
   @Test
-  public void testAdvancedTypography() throws IOException {
+  public void testAdvancedTypography() {
     assertEquals(lang.toAdvancedTypography("És l'\"hora\"!"), "És l’«hora»!");
     assertEquals(lang.toAdvancedTypography("És l''hora'!"), "És l’‘hora’!");
     assertEquals(lang.toAdvancedTypography("És l'«hora»!"), "És l’«hora»!");
@@ -190,7 +189,7 @@ public class JLanguageToolTest {
     matches = tool.check("Se m'han saltat les llàgrimes.");
     assertEquals(1, matches.size());
     assertEquals(0, matches.get(0).getFromPosSentence());
-    assertEquals(3, matches.get(0).getToPosSentence());
+    assertEquals(5, matches.get(0).getToPosSentence());
   }
 
   @Test
@@ -318,7 +317,7 @@ public class JLanguageToolTest {
       "Henna Virkkunen ha remarcat que la venda de productes il·legals a la UE era del tot prohibida. Virkkunen ha " +
         "reivindicat la llei de serveis digitals."
       , JLanguageTool.Level.PICKY);
-    assertEquals(matches.size(), 0);
+    assertEquals(0, matches.size());
   }
 
   /*
