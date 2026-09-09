@@ -22,7 +22,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.LanguageWithModel;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
@@ -44,7 +46,7 @@ import java.util.*;
  * Actively maintained since v6.2+
  */
 @Deprecated
-public class Swedish extends Language {
+public class Swedish extends LanguageWithModel {
 
   @Override
   public String getName() {
@@ -75,6 +77,11 @@ public class Swedish extends Language {
   @Override
   public Disambiguator createDefaultDisambiguator() {
     return new SwedishHybridDisambiguator();
+  }
+
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+    return Arrays.asList(new SwedishConfusionProbabilityRule(messages, languageModel, this));
   }
 
   @Nullable
