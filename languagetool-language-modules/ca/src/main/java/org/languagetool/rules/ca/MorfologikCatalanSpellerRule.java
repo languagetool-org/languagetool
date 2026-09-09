@@ -158,9 +158,10 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         continue;
       }
       // avoid capitalized suggestions if there are previous all lower case suggestions
-      if (i > 0 && StringTools.IsAllLowercase(word) && StringTools.isCapitalizedWord(replacement)
-      && StringTools.IsAllLowercase(newSuggestions.get(0).getReplacement())
-      && !StringTools.equalsIgnoreCaseAndDiacritics(word, replacement)
+      if (i > 0 && !newSuggestions.isEmpty()
+        && StringTools.IsAllLowercase(word) && StringTools.isCapitalizedWord(replacement)
+        && StringTools.IsAllLowercase(newSuggestions.get(0).getReplacement())
+        && !StringTools.equalsIgnoreCaseAndDiacritics(word, replacement)
       ) {
         continue;
       }

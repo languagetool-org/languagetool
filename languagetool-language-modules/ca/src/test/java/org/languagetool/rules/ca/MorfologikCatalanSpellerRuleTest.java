@@ -361,6 +361,9 @@ public class MorfologikCatalanSpellerRuleTest {
     assertSuggestionsTest("(#sensepastanagues)", "", 0);
     assertSuggestionsTest("C#, F#", "", 0);
 
+    assertSuggestionsTest("árboles", "[Arboleas, Arbués, Artoles, Bárboles, ambules]", 1);
+    assertSuggestionsTest("arboles", "[Arboleas, Arbués, Artoles, Bárboles, ambules]", 1);
+
     AnalyzedTokenReadings[] atrsArray = new AnalyzedTokenReadings[2];
     AnalyzedTokenReadings atrs0 = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", ""));
     AnalyzedTokenReadings atrs1 = new AnalyzedTokenReadings(new AnalyzedToken("Yuval Noha Hariri", null, null));
