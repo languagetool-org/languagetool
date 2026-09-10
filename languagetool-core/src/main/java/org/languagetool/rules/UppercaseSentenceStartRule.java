@@ -166,6 +166,12 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         lastParagraphString = lastToken;
       }
 
+      //Should more than 2 line break be recognized as the end of a sentence?
+//      String ss = sentence.getText();
+//      if(ss.matches(".*(\\n[\\s\\t\\r]*){2}")){
+//        lastParagraphString = ".";
+//      }
+
       //allows enumeration with lowercase letters: a), iv., etc.
       if (matchTokenPos+1 < tokens.length
               && NUMERALS_EN.matcher(tokens[matchTokenPos].getToken()).matches()
