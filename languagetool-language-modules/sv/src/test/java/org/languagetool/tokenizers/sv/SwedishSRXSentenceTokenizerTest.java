@@ -52,7 +52,12 @@ public class SwedishSRXSentenceTokenizerTest {
       "Han kallar sig en s.k. expert.",
       "Varje exemplar st. kostar fem kronor.",
       "Jag gillar djur, t.ex. hundar och katter.",
-      "Vi tar upp övr. frågor på nästa möte."
+      "Vi tar upp övr. frågor på nästa möte.",
+      "Vi bjuder på kaffe, te, m.fl. drycker.",
+      "Mötet varar t.o.m. fredag.",
+      "Vi träffas kl. tre.",
+      "Han tog med sig kartor, kompass, m.m. utrustning.",
+      "Det var kallt, d.v.s. under noll grader."
     );
   }
 
