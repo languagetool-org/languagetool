@@ -70450,7 +70450,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>-->
                 <antipattern>
                     <token skip="3">que<exception postag="C.*" postag_regexp="yes" scope="next"/></token>
-                    <token inflected="yes" regexp="yes">estar|tenir|necessitar|voler|deixar|parlar</token>
+                    <token inflected="yes" regexp="yes">estar|necessitar|voler|deixar|parlar</token>
                     <token regexp="yes" min="0">més|menys</token>
                     <token postag="[AND].*|RG|LOC_ADV" postag_regexp="yes"/>
                     <example>Que sou suec?</example>
@@ -70463,6 +70463,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Que em pots deixar tot sol, si us plau?</example>
                     <example>Que parla anglès, ell?</example>
                     <example>Que puc deixar la bici a dins?</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="3">que<exception postag="C.*" postag_regexp="yes" scope="next"/></token>
+                    <token inflected="yes">tenir</token>
+                    <token regexp="yes" min="0">més|menys</token>
+                    <token postag="[AND].*" postag_regexp="yes"/>
+                    <example>Que tens fil i agulla?</example>
                 </antipattern>
                 <antipattern>
                     <token>que</token>
@@ -70523,7 +70530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="3" regexp="yes">\p{P}</token>
                     <token skip="-1">que<exception postag="C.*" postag_regexp="yes" scope="next"/></token>
                     <token regexp="yes" inflected="yes">poder|voler</token>
-                    <token postag="V.N.*" skip="3" postag_regexp="yes"/>
+                    <token postag="V.N.*" skip="3" postag_regexp="yes"><exception scope="next" regexp="yes">per|a</exception></token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                     <token postag="D.*" postag_regexp="yes"/>
                     <token postag="[AN].*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&unitats_temps;|&estacions;</exception></token>
@@ -70653,6 +70660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> t'ha agradat més?</example>
                 <example correction="Què"><marker>Que</marker> se'n va fer, de la teva mare?</example>
                 <example correction="Què">¿<marker>Que</marker> vols que faci?</example>
+                <example correction="Què">¿<marker>Que</marker> podem fer per trobar aquest botiguer?</example>
                 <example>Que et fa mal?</example>
                 <example>Que et fa por?</example>
                 <example correction="Què"><marker>Que</marker> creus que és això?</example>
@@ -70695,6 +70703,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> has fet aquesta nit?</example>
                 <example correction="Què"><marker>Que</marker> has de fer aquesta nit?</example>
                 <example correction="Què"><marker>Que</marker> has de fer aquest cap de setmana?</example>
+                <example correction="Què"><marker>Que</marker> tenen en comú el conserge d'un hotel i un mecànic?</example>
+                <example correction="Què"><marker>Que</marker> poden tenir a veure un casal d'infants i un club de caça?</example>
                 <example>Que ho farem avui o demà?</example>
                 <example>Que els faràs la bugada?</example>
                 <example>Que has fet la bugada?</example>
@@ -116966,7 +116976,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Captaven"><marker>Capturaven</marker> adeptes entre els més desvalguts.</example>
         </rule>
         <rulegroup id="MITJA_MITJANA" name="mitja/mitjana">
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">mitja|mitges</token>
                     <token postag="NC.*" postag_regexp="yes"/>
