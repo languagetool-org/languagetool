@@ -22,7 +22,7 @@ workflows:
         - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
         - equal: [ "RunFullTest", << pipeline.schedule.name >> ]
     jobs:
-      - test-and-deploy-full
+      - test-full
   on-demand-workflow:
     # run when triggered manual
     when: 
@@ -32,7 +32,7 @@ workflows:
         - not:
             equal:  [ true, << pipeline.parameters.run_on_pull >> ]
     jobs:
-      - test-and-deploy-full
+      - test-full
   commit-triggerd-workflow:
     # run on commit
     when:
@@ -41,7 +41,7 @@ workflows:
             equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
         - equal: [ true, << pipeline.parameters.run_on_pull >> ]            
     jobs:
-      - test-and-deploy-partial          
+      - test-partial
 jobs:
   security-scan:
     resource_class: medium
@@ -57,7 +57,7 @@ jobs:
             cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml clean dependency-check:aggregate -DnvdApiKey="$nvdApiKey"
       - store_artifacts:
           path: $CIRCLE_WORKING_DIRECTORY/target/dependency-check-report.html
-  test-and-deploy-full:
+  test-full:
     resource_class: medium+
     executor:
       name: docker-openjdk17
@@ -71,15 +71,11 @@ jobs:
           command: |
             cd $CIRCLE_WORKING_DIRECTORY && mvn test -fae
       - save-test-results
-      - run:
-          name: deploy full
-          command: |
-            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -DskipTests deploy
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
-  test-and-deploy-partial:
+  test-partial:
     resource_class: medium+
     executor: 
       name: docker-openjdk17
@@ -94,10 +90,6 @@ jobs:
           command: |
             cd $CIRCLE_WORKING_DIRECTORY && ./test-modules.sh
       - save-test-results
-      - run:
-          name: deploy modules
-          command: |
-            cd $CIRCLE_WORKING_DIRECTORY && ./deploy-modules.sh
       - save_cache:
           paths:
             - ~/.m2
