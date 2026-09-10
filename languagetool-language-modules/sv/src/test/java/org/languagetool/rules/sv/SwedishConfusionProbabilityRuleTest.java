@@ -39,10 +39,12 @@ public class SwedishConfusionProbabilityRuleTest {
 
   private SwedishConfusionProbabilityRule rule;
 
-  @SuppressWarnings("ResultOfObjectAllocationIgnored")
   @Test
   public void testConstructor() {
-    new SwedishConfusionProbabilityRule(TestTools.getEnglishMessages(), new FakeLanguageModel(), swedish);
+    SwedishConfusionProbabilityRule rule =
+      new SwedishConfusionProbabilityRule(TestTools.getEnglishMessages(), new FakeLanguageModel(), swedish);
+    assertEquals("CONFUSION_RULE", rule.getId());
+    assertNotNull(rule.getDescription());
   }
 
   // Needs a real ngram index at /data/ngram-index/sv, built via
