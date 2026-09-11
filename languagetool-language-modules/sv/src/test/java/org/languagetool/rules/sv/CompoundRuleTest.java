@@ -42,12 +42,32 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "IP-Adress");
     check(0, "moll-tonart");
     check(0, "e-mail");
+    check(0, "källkod");
+    check(0, "källkoden");
+    check(0, "brandvägg");
+    check(0, "integritetspolicy");
+    check(0, "lösenordshanterare");
+    check(0, "operativsystem");
+    check(0, "säkerhetskopia");
+    check(0, "säkerhetsuppdatering");
+    check(0, "tvåfaktorsautentisering");
+    check(0, "webbläsare");
     // incorrect:
     check(1, "skit bra", "skitbra");
     check(1, "skit-bra", "skitbra");
     check(1, "IP Adress", "IP-Adress");
     check(1, "moll tonart", "moll-tonart", "molltonart");
     check(1, "e mail", "e-mail");
+    check(1, "käll kod", "källkod");
+    check(1, "käll koden", "källkoden");
+    check(1, "brand vägg", "brandvägg");
+    check(1, "integritets policy", "integritetspolicy");
+    check(1, "lösenords hanterare", "lösenordshanterare");
+    check(1, "operativ system", "operativsystem");
+    check(1, "säkerhets kopia", "säkerhetskopia");
+    check(1, "säkerhets uppdatering", "säkerhetsuppdatering");
+    check(1, "tvåfaktors autentisering", "tvåfaktorsautentisering");
+    check(1, "webb läsare", "webbläsare");
   }
   
 }
