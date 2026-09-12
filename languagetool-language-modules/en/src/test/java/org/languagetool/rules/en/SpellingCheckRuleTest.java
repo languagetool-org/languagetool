@@ -28,6 +28,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -86,6 +87,33 @@ public class SpellingCheckRuleTest {
     MySpellCheckingRule rule = new MySpellCheckingRule();
     rule.test();
   }
+  
+  /**
+   * Test addIgnoreTokens and removeIgnoreTokens by overriding the isMisspelled
+   * function to return true if word is in the list of wordsToBeIgnored, and
+   * false otherwise.
+   * @throws IOException 
+   */
+    @Test
+    public void testAddRemoveIgnoreTokens() throws IOException {
+        final MySpellCheckingRule myRule = new MySpellCheckingRule() {
+            @Override
+            public boolean isMisspelled(String word) {
+                return !this.wordsToBeIgnored.contains(word);
+            }
+        };
+        // myfoo is not in the ignore list, should return misspelled = true
+        assertTrue(myRule.isMisspelled("myfoo"));
+        
+        // add myfoo to the ignore list, it should return misspelled = false
+        final ArrayList<String> ignoreList = new ArrayList<>(Arrays.asList("myfoo"));
+        myRule.addIgnoreTokens(ignoreList);
+        assertFalse(myRule.isMisspelled("myfoo"));
+
+        // remove myfoo from the ignore list, should return misspelled = true
+        myRule.removeIgnoreTokens(ignoreList);
+        assertTrue(myRule.isMisspelled("myfoo"));
+    }
 
   static class MySpellCheckingRule extends SpellingCheckRule {
     MySpellCheckingRule() {
@@ -97,7 +125,7 @@ public class SpellingCheckRuleTest {
     @Override
     public boolean isMisspelled(String word) {
       throw new RuntimeException("not implemented");
-    }
+    }        
     void test() throws IOException {
       assertTrue(isUrl("http://www.test.de"));
       assertTrue(isUrl("http://www.test-dash.com"));
