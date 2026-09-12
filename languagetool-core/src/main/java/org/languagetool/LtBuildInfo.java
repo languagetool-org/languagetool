@@ -61,7 +61,7 @@ public enum LtBuildInfo {
     }
 
     if (gitProperties != null) {
-      OffsetDateTime offsetDateTime = OffsetDateTime.parse(gitProperties.getProperty("git.build.time"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXX"));
+      OffsetDateTime offsetDateTime = OffsetDateTime.parse(gitProperties.getProperty("git.build.time"));
       this.buildDate = offsetDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z"));
       this.shortGitId = gitProperties.getProperty("git.commit.id.abbrev");
       this.version = gitProperties.getProperty("git.build.version");
