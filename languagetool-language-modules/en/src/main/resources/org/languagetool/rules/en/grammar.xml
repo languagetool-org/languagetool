@@ -2124,6 +2124,10 @@ USA
                 <token chunk_re="B-(PP|ADVP)" />
                 <example>This returns CoordinationDiagnosticsDetails.EMPTY when verbose is false, otherwise</example>
             </antipattern>
+            <!-- URLs like https://github.com/... should not trigger lowercase-after-period -->
+            <antipattern>
+                <token regexp="yes">(https?://|www\.)\S+</token>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" regexp="yes" case_sensitive="yes">.*[a-zöäüß]$</token>
                 <token spacebefore="no">.</token>
@@ -101047,7 +101051,7 @@ USA
                         <token postag="NNS">
                             <exception>pleas</exception><!-- Incorrect spelling of "please" -->
                         </token>
-                        <token regexp="yes">(https?|www).*</token>
+                        <token regexp="yes">(https?://|www\.)\S+</token>
                     </or>
                     <token postag_regexp="yes" postag="PCT|IN"/>
                 </pattern>
