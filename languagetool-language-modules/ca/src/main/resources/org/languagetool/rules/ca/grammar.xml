@@ -70891,6 +70891,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que té un moment, si us plau?</example>
                 <example>Que em podria asseure un moment amb vostès?</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.I.3S.." postag_regexp="yes" regexp="yes" inflected="yes">poder|anar|haver</token>
+                    <token postag="V.[NP].*" postag_regexp="yes" regexp="yes" inflected="yes">sortir|eixir|anar</token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és un pronom interrogatiu (=quina cosa), s'escriu amb accent. S'escriu sense accent si la resposta és "sí" o "no" ("Que vindràs?").</message>
+                <suggestion>què</suggestion>
+                <example correction="Què">¿<marker>Que</marker> pot anar malament?</example>
+            </rule>
             <rule default="on">
                 <antipattern>
                     <token>que</token>
@@ -118394,7 +118409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">pisar</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes">pisar<exception postag="NP.*" postag_regexp="yes"/></token>
+                    <token inflected="yes">pisar<exception postag="NP.*" postag_regexp="yes"/><exception case_sensitive="yes">PISA</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.AdjustVerbSuggestionsFilter" args="actions:None"/>
                 <message>Alguns diccionaris registren el verb 'pisar', però és d'ús infreqüent.</message>
