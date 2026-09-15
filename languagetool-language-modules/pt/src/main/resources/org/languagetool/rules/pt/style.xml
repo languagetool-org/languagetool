@@ -14870,33 +14870,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- DE FORMA/MODO + ADJ adv -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
-        <rule id='DE_FORMA-MODO_ADJ' name="✂️ De + forma/modo + Adj → Adv" type="style" tags="picky">
-            <!--IDEA shorten_it-->
+        <rule id='DE_FORMA_MODO_ADJ_ADV' name="✂️ de forma/modo + adjetivo → advérbio em -mente" type='style' tags='picky'>
+            <!-- IDEA shorten_it -->
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
             <antipattern>
                 <token>de</token>
-                <token regexp="yes">forma|modo</token>
-                <token postag='AQ0[CFM]S0' postag_regexp='yes'/>
+                <token regexp='yes'>forma|modo</token>
+                <token min='0' max='1' postag='RG'/>
+                <token postag='AQ0.S.+' postag_regexp='yes'/>
                 <token>com</token>
-                <example>É realizado de forma consistente com o protocolo</example>
+                <example>É realizado de forma consistente com o protocolo.</example>
             </antipattern>
+
             <antipattern>
                 <token>de</token>
-                <token regexp="yes">forma|modo</token>
-                <token postag='AQ0[CFM]S0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*|geral</exception></token>
+                <token regexp='yes'>forma|modo</token>
+                <token min='0' max='1' postag='RG'/>
+                <token postag='AQ0.S.+' postag_regexp='yes'><exception regexp='yes'>.*[áéíóúâêôãõàèìòù].*|geral</exception></token>
                 <token regexp='yes'>,|e|ou</token>
                 <token postag='AQ.+' postag_regexp='yes'/>
-                <example>Oriente de forma clara e coerente</example>
+                <example>Oriente de forma clara e coerente.</example>
             </antipattern>
+
             <pattern>
                 <token>de</token>
-                <token regexp="yes">forma|modo</token>
-                <token postag='AQ0[CFM]S0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*|inclusiv[oa]|geral|pulverizada|transparente|especial|diferente|independente</exception></token>
+                <token regexp='yes'>forma|modo</token>
+                <token min='0' max='1' postag='RG'/>
+                <token postag='AQ0.S.+' postag_regexp='yes'><exception regexp='yes'>.*[áéíóúâêôãõàèìòù].*|bastante|demasiado|mais|menos|muito|pouco|tão|inclusiv[oa]|geral|pulverizada|transparente|especial|diferente|independente</exception></token>
             </pattern>
-            <message>Substitua por</message>
-            <suggestion><match no='3' postag='AQ0[CFM]S0' postag_regexp='yes' postag_replace='AQ0[CF]S0'/>mente</suggestion>
+            <message>Esta expressão pode ser mais concisa:</message>
+            <suggestion><match no='3' regexp_match='(.+)' regexp_replace='$1 '/><match no='4' postag='AQ0[CFM]S0' postag_regexp='yes' postag_replace='AQ0[CF]S0'/>mente</suggestion>
             <example correction="permanentemente">A Ana foi banida <marker>de forma permanente</marker> por violar as regras.</example>
+            <example correction="bastante claramente">Penso que explica <marker>de forma bastante clara</marker> o que correu mal.</example>
+            <example correction="muito claramente">Explicou <marker>de modo muito claro</marker> o problema.</example>
             <example>A Ana foi banida <marker>permanentemente</marker> por violar as regras.</example>
         </rule>
 
