@@ -268,6 +268,30 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     this(messages, language, null, Collections.emptyList());
   }
 
+  //CS304 Issue link: https://github.com/languagetool-org/languagetool/issues/4704
+  /**
+   * Reorder the suggestions of English word.
+   * To match the firstUpperWord, and swap it with the word behind it according to its frequency.
+   * @param suggestions old suggestions order
+   * @param word target word
+   * @return reordered suggestions
+   */
+  @Override
+  protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
+    final int commonProperNounFrequency = 10;
+    String lowerWord = word.toLowerCase();
+    String firstUpperWord = Character.toUpperCase(lowerWord.charAt(0)) + lowerWord.substring(1);
+    for (int i = 0; i < suggestions.size(); i++) {
+      if (i != suggestions.size()-1 &&
+        firstUpperWord.equals(suggestions.get(i).getReplacement()) &&
+        speller1.getFrequency(firstUpperWord) < commonProperNounFrequency) {
+        Collections.swap(suggestions, i, i+1);
+        break;
+      }
+    }
+    return suggestions;
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     RuleMatch[] matches = super.match(sentence);
