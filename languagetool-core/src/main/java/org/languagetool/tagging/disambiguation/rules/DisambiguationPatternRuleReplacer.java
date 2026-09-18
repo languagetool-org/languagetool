@@ -82,7 +82,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
     for (DisambiguationPatternRule antiPattern : antiPatterns) {
       if (!antiPattern.canBeIgnoredFor(sentence)) {
-        RuleMatch[] matches = new PatternRuleMatcher(antiPattern, false).match(sentence);
+        // antipatterns of disambiguation rules must use the disambiguation unifier (see constructor),
+        // not the grammar unifier of the rule's language, which may not even be configured yet
+        Unifier antiPatternUnifier = rule.getLanguage().getDefaultLanguageVariant().getDisambiguationUnifier();
+        RuleMatch[] matches = new PatternRuleMatcher(antiPattern, false, antiPatternUnifier).match(sentence);
         for (RuleMatch disMatch : matches) {
           if ((disMatch.getFromPos() <= ruleMatchFromPos && disMatch.getToPos() >= ruleMatchFromPos) ||  // left overlap of rule match start
               (disMatch.getFromPos() <= ruleMatchToPos && disMatch.getToPos() >= ruleMatchToPos) ||  // right overlap of rule match end

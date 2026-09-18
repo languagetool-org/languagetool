@@ -57,7 +57,17 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
 
   @ApiStatus.Internal
   public PatternRuleMatcher(AbstractTokenBasedRule rule, boolean useList) {
-    super(rule, rule.getLanguage().getUnifier());
+    this(rule, useList, rule.getLanguage().getUnifier());
+  }
+
+  /**
+   * @param unifier the unifier to use for {@code <unify>} blocks; by default the language's
+   *                grammar unifier is used, but disambiguation rules need the disambiguation unifier
+   * @since 6.9
+   */
+  @ApiStatus.Internal
+  public PatternRuleMatcher(AbstractTokenBasedRule rule, boolean useList, Unifier unifier) {
+    super(rule, unifier);
     this.useList = useList;
     //String slowMatchThresholdStr = System.getProperty("slowMatchThreshold");
     //slowMatchThreshold = slowMatchThresholdStr != null ? Integer.parseInt(slowMatchThresholdStr) : null;
