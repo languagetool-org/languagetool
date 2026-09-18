@@ -329,13 +329,33 @@ public final class Tools {
     for (String ruleName : enabledRules) {
       lt.enableRule(ruleName);
     }
-    if (useEnabledOnly && (!enabledRules.isEmpty() || !enabledCategories.isEmpty())) {
-      // disable all rules except those enabled explicitly, either by id or by category (the union of both):
-      for (Rule rule : lt.getAllRules()) {
-        boolean enabledById = enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId());
-        boolean enabledByCategory = enabledCategories.contains(rule.getCategory().getId());
-        if (!enabledById && !enabledByCategory) {
-          lt.disableRule(rule.getFullId());
+    if (useEnabledOnly) {
+      if (!enabledRules.isEmpty() && enabledCategories.isEmpty()) {
+        // With rule IDs only, disable every rule that was not enabled explicitly.
+        for (Rule rule : lt.getAllRules()) {
+          boolean enabledById = enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId());
+          if (!enabledById) {
+            lt.disableRule(rule.getFullId());
+          }
+        }
+      } else if (!enabledCategories.isEmpty()) {
+        if (enabledRules.isEmpty()) {
+          // With categories only, disable categories outside the enabled set.
+          for (CategoryId categoryId : lt.getCategories().keySet()) {
+            if (!enabledCategories.contains(categoryId)) {
+              lt.disableCategory(categoryId);
+            }
+          }
+        } else {
+          // With both, keep each rule's current state inside enabled categories
+          // and add explicitly enabled rules from outside those categories.
+          for (Rule rule : lt.getAllRules()) {
+            boolean enabledById = enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId());
+            boolean inEnabledCategory = enabledCategories.contains(rule.getCategory().getId());
+            if (!enabledById && !inEnabledCategory) {
+              lt.disableRule(rule.getFullId());
+            }
+          }
         }
       }
     }

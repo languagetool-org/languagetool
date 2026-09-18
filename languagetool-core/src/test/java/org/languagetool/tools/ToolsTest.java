@@ -77,11 +77,12 @@ public class ToolsTest {
     JLanguageTool lt = new JLanguageTool(new Demo());
     Set<CategoryId> enabledCategories = Collections.singleton(new CategoryId("MINMAX"));
     Set<String> enabledRules = new HashSet<>(Arrays.asList("DEMO_RULE", "test_matching_tokens"));  // a rule and a rulegroup
+    lt.disableRule("TEST_MIN_OCCURRENCE");
     Tools.selectRules(lt, Collections.emptySet(), enabledCategories, Collections.emptySet(), enabledRules, true, false);
     List<String> activeIds = getRuleIds(lt);
     assertTrue(activeIds.contains("DEMO_RULE"));               // enabled by id
     assertTrue(activeIds.contains("test_matching_tokens"));    // enabled by id (rulegroup, full id has a sub id)
-    assertTrue(activeIds.contains("TEST_MIN_OCCURRENCE"));     // enabled by category
+    assertFalse(activeIds.contains("TEST_MIN_OCCURRENCE"));    // explicit rule state is preserved
     assertFalse(activeIds.contains("TEST_GO"));                // neither
     assertFalse(activeIds.contains("DEMO_RULE_ANTIPATTERN"));  // same category as DEMO_RULE, but not enabled
     assertFalse(activeIds.contains("DEMO_RULE_OFF"));          // default off, not enabled
