@@ -23594,6 +23594,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">más|menos</token>
                 <token postag="A.*|V.P.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <!-- «más/menos seguido» with a verb in front is the adverbial
+                     locution 'a menudo', invariable and general in the Americas.
+                     Without a verb («la serie más seguido») it is still a
+                     postponed adjective and stays checked. -->
+                <token postag="V.*" postag_regexp="yes" skip="-1"/>
+                <token regexp="yes">más|menos</token>
+                <token>seguido</token>
+                <example>Quiero pasear sin mi armadura más seguido.</example>
+                <example>Deberíamos hacer estas cosas más seguido.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes" regexp="yes">.*(motriz|motrices)<exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/></token>
@@ -23637,6 +23648,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="pasado">El domingo <marker>pasada</marker> hubo corrida de toros de lujo.</example>
                 <example correction="posibles">De todas las maneras <marker>posible</marker>.</example>
                 <example correction="alta">Construyeron una torre bien <marker>alto</marker>.</example>
+                <example correction="seguida">La serie más <marker>seguido</marker>.</example>
                 <example>Uno de los aspectos migratorios más <marker>criticado</marker></example>
                 <example>con la bobina y la placa electrónica montadas en una caja única</example>
                 <example>El contacto con la cultura y la historia japonesas.</example>
