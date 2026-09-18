@@ -150038,15 +150038,31 @@ No t'ho explicaré, no cal que em burxis més-->
             <example correction="prevaler">Ha de <marker>prevaldre</marker> el seny.</example>
             <example>Deu valer molt.</example>
         </rule>
-        <rule id="EXIGEIX_INFINITIUS_INDRE" name="Usa infinitius i noms en -vindre, -tindre" default="off">
-            <pattern>
-                <token regexp="yes">venir|tenir|abstenir|advenir|atenir|avenir|benavenir|captenir|cartenir|contenir|contravenir|convenir|desavenir|desconvenir|detenir|entretenir|entrevenir|esdevenir|intervenir|mantenir|menystenir|obtenir|obvenir|pervenir|prevenir|provenir|reconvenir|retenir|revenir|sobrevenir|sostenir|subvenir|viltenir|avenirs|benavenirs|esdevenirs</token>
-            </pattern>
-            <message>Usem preferentment la terminació -indre.</message>
-            <suggestion><match no="1" regexp_match="(?iu)(.*[tv])enir(s?)" regexp_replace="$1indre$2" case_conversion="preserve"/></suggestion>
-            <example correction="esdevindre">No heu d'<marker>esdevenir</marker> mandrosos.</example>
-            <example correction="vindre">No heu de <marker>venir</marker> de seguida.</example>
-        </rule>
+        <rulegroup id="EXIGEIX_INFINITIUS_INDRE" name="Usa infinitius i noms en -vindre, -tindre" default="off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">venir|tenir|abstenir|advenir|atenir|avenir|benavenir|captenir|cartenir|contenir|contravenir|convenir|desavenir|desconvenir|detenir|entretenir|entrevenir|esdevenir|intervenir|mantenir|menystenir|obtenir|obvenir|pervenir|prevenir|provenir|reconvenir|retenir|revenir|sobrevenir|sostenir|subvenir|viltenir|avenirs|benavenirs|esdevenirs<exception scope="next" regexp="yes">-(me|te|se|ne|lo|nos|los)</exception></token>
+                </pattern>
+                <message>Usem preferentment la terminació -indre.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*[tv])enir(s?)" regexp_replace="$1indre$2" case_conversion="preserve"/></suggestion>
+                <example correction="esdevindre">No heu d'<marker>esdevenir</marker> mandrosos.</example>
+                <example correction="vindre">No heu de <marker>venir</marker> de seguida.</example>
+                <example correction="tindre">Cal <marker>tenir</marker>-ho present.</example>
+            </rule>
+            <rule>
+                <!-- with a clitic that takes the elided form after the -e of the infinitive: obtenir-ne -> obtindre'n -->
+                <pattern>
+                    <token regexp="yes">venir|tenir|abstenir|advenir|atenir|avenir|benavenir|captenir|cartenir|contenir|contravenir|convenir|desavenir|desconvenir|detenir|entretenir|entrevenir|esdevenir|intervenir|mantenir|menystenir|obtenir|obvenir|pervenir|prevenir|provenir|reconvenir|retenir|revenir|sobrevenir|sostenir|subvenir|viltenir</token>
+                    <token regexp="yes">-(me|te|se|ne|lo|nos|los)</token>
+                </pattern>
+                <message>Usem preferentment la terminació -indre.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*[tv])enir" regexp_replace="$1indre" case_conversion="preserve"/><match no="2" regexp_match="-(?:([mtsnl])e|([nl])o(s))" regexp_replace="'$1$2$3"/></suggestion>
+                <example correction="obtindre'n">Feu clic per a <marker>obtenir-ne</marker> més informació.</example>
+                <example correction="mantindre's">Cal <marker>mantenir-se</marker> ferm.</example>
+                <example correction="Obtindre'ls"><marker>Obtenir-los</marker> és fàcil.</example>
+                <example correction="tindre'ns">Volen <marker>tenir-nos</marker> a prop.</example>
+            </rule>
+        </rulegroup>
         <rule id="EXIGEIX_INFINITIUS_ALDRE" name="Usa infinitius caldre, valdre, doldre" default="off">
             <pattern>
                 <token postag="V.N.*" postag_regexp="yes" regexp="yes">(preva|va|ca|do)ler</token>
@@ -156016,7 +156032,8 @@ No t'ho explicaré, no cal que em burxis més-->
         <rulegroup id="PREFERENCIES_VERBS_VALENCIANS" name="Algunes formes verbals preferibles: vam, cantara, sent, sàpia...">
             <rule>
                 <pattern>
-                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*|V.P.*|NP.*" postag_regexp="yes"/></token>
+                    <!-- exceptions: names/adjectives (país, Xinés), imperatives (fes, desfés) and Valencian spellings of gentilics not in the dictionary (xinés) -->
+                    <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*|V.P.*|NP.*|N.*|A.*|V.M02S.*" postag_regexp="yes"/><exception regexp="yes">xinés|finés</exception></token>
                 </pattern>
                 <message>Usem preferentment les formes en -r- de l'imperfet de subjuntiu.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(V.SI...)[^3]" postag_replace="$13"/></suggestion>
@@ -156032,6 +156049,13 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example>Tomàs, el seu germà</example>
                 <example>Lluís Garcia</example>
                 <example>Fes una taula</example>
+                <example>Idioma o país</example>
+                <example>Xinés</example>
+                <example>Finés</example>
+                <example>Desfés</example>
+                <example>Només fes que coincidisquen paraules senceres</example>
+                <example>Si us plau fes servir l'opció --force</example>
+                <example correction="fera">Volia que ho <marker>fes</marker>.</example>
             </rule>
             <rule>
                 <pattern>
