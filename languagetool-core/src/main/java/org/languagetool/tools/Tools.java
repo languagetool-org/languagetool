@@ -318,35 +318,24 @@ public final class Tools {
     for (CategoryId id : disabledCategories) {
       lt.disableCategory(id);
     }
-    if (enabledCategories.size() > 0) {
-      for (CategoryId id : enabledCategories) {
-        lt.enableRuleCategory(id);
-      }
-      if (useEnabledOnly) {
-        // disable all rules except those in explicitly enabled categories, if any:
-        for (Rule rule : lt.getAllRules()) {
-          Category category = rule.getCategory();
-          if (!enabledCategories.contains(category.getId())) {
-            lt.disableRule(rule.getFullId());
-          }
-        }
-      }
+    for (CategoryId id : enabledCategories) {
+      lt.enableRuleCategory(id);
     }
     // disable rules that are disabled explicitly:
     for (String disabledRule : disabledRules) {
       lt.disableRule(disabledRule);
     }
     // enable rules
-    if (enabledRules.size() > 0) {
-      for (String ruleName : enabledRules) {
-        lt.enableRule(ruleName);
-      }
-      if (useEnabledOnly) {
-        // disable all rules except those enabled explicitly, if any:
-        for (Rule rule : lt.getAllRules()) {
-          if (!(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId()))) {
-            lt.disableRule(rule.getFullId());
-          }
+    for (String ruleName : enabledRules) {
+      lt.enableRule(ruleName);
+    }
+    if (useEnabledOnly && (!enabledRules.isEmpty() || !enabledCategories.isEmpty())) {
+      // disable all rules except those enabled explicitly, either by id or by category (the union of both):
+      for (Rule rule : lt.getAllRules()) {
+        boolean enabledById = enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId());
+        boolean enabledByCategory = enabledCategories.contains(rule.getCategory().getId());
+        if (!enabledById && !enabledByCategory) {
+          lt.disableRule(rule.getFullId());
         }
       }
     }

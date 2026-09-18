@@ -31,6 +31,7 @@ import org.languagetool.rules.patterns.PatternToken;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,6 +68,23 @@ public class ToolsTest {
     expectNotDemoRuleId(Collections.singleton(CategoryIds.MISC), Collections.emptySet(), Collections.emptySet(), Collections.emptySet(), true, demo);
     expectDemoRuleId(Collections.emptySet(), Collections.singleton(CategoryIds.MISC), Collections.emptySet(), Collections.emptySet(), true, demo);
     expectNotDemoRuleId(Collections.emptySet(), Collections.singleton(CategoryIds.CASING), Collections.emptySet(), Collections.emptySet(), true, demo);
+  }
+
+  @Test
+  public void testSelectRulesWithEnabledOnlyAndBothRulesAndCategories() {
+    // enabledOnly=true with both enabledRules and enabledCategories must enable the union of both,
+    // not the intersection (which used to be empty, as the rules were disabled by their full id):
+    JLanguageTool lt = new JLanguageTool(new Demo());
+    Set<CategoryId> enabledCategories = Collections.singleton(new CategoryId("MINMAX"));
+    Set<String> enabledRules = new HashSet<>(Arrays.asList("DEMO_RULE", "test_matching_tokens"));  // a rule and a rulegroup
+    Tools.selectRules(lt, Collections.emptySet(), enabledCategories, Collections.emptySet(), enabledRules, true, false);
+    List<String> activeIds = getRuleIds(lt);
+    assertTrue(activeIds.contains("DEMO_RULE"));               // enabled by id
+    assertTrue(activeIds.contains("test_matching_tokens"));    // enabled by id (rulegroup, full id has a sub id)
+    assertTrue(activeIds.contains("TEST_MIN_OCCURRENCE"));     // enabled by category
+    assertFalse(activeIds.contains("TEST_GO"));                // neither
+    assertFalse(activeIds.contains("DEMO_RULE_ANTIPATTERN"));  // same category as DEMO_RULE, but not enabled
+    assertFalse(activeIds.contains("DEMO_RULE_OFF"));          // default off, not enabled
   }
 
   private void expectDemoRuleId(Set<CategoryId> disabledCategories, Set<CategoryId> enabledCategories,
