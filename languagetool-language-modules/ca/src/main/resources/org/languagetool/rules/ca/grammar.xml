@@ -139475,7 +139475,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception postag="&pronom_feble;|RN" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
-                        <token chunk="PTime" min="1" max="5"/>
+                        <token chunk="PTime" min="1" max="6"/>
                         <or>
                             <token postag="V.G.*|AQ.*|VMP.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">cabals?</exception></token>
                             <token regexp="yes">que|sense|així|a|en|ací|aquí|ahí|allí|allà</token>
@@ -139507,6 +139507,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fa dues hores que està">Potser <marker>porta dues hores</marker> camuflada.</example>
                 <example correction="fa ja molts anys que escriu">La novel·lista <marker>porta ja molts anys escrivint</marker>.</example>
                 <example correction="Feia mitja hora que estava"><marker>Portava mitja hora</marker> aquí.</example>
+                <example correction="Fa més de dos anys i mig que faig"><marker>Porto més de dos anys i mig fent</marker> lactància materna.</example>
                 <example>Allò li va portar més de tres anys de feina.</example>
                 <example>ha de portar algun dia la humanitat sencera</example>
                 <example>Això ens portarà molts anys.</example>
@@ -161249,12 +161250,23 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token>de</token>
+                    <marker>
+                        <token>un</token>
+                        <token regexp="yes">col?p</token>
+                    </marker>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion>una vegada</suggestion>
+                <example correction="Una vegada"><marker>Un cop</marker> baixat el programa, el descomprimim.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>cop</token>
                 </pattern>
                 <message>Adaptació al valencià.</message>
-                <suggestion>de colp</suggestion>
-                <example correction="de colp">Es tanca <marker>de cop</marker>.</example>
+                <suggestion>colp</suggestion>
+                <example correction="colp">Es tanca de <marker>cop</marker>.</example>
             </rule>
         </rulegroup>
     </category>
