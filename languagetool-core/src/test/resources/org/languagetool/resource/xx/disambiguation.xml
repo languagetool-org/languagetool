@@ -5,6 +5,16 @@
 <rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
+    <!-- note: only POS-based equivalences work in disambiguation files, token text is ignored here -->
+    <unification feature="ending">
+        <equivalence type="a">
+            <token postag="TA"/>
+        </equivalence>
+        <equivalence type="b">
+            <token postag="TB"/>
+        </equivalence>
+    </unification>
+
     <rule id="CD" name="Tag numbers">
         <pattern>
             <token regexp="yes">\d+</token>
@@ -45,6 +55,43 @@
         </pattern>
         <disambig postag="CD"/>
         <example type='untouched'>So, but <marker>this</marker> is test no1 for sure</example>
+    </rule>
+
+    <rule id="TAG_A" name="Tag test tokens ending in 'a' (used by ANTIPATTERN_UNIFY)">
+        <pattern>
+            <token regexp="yes">[xy]a</token>
+        </pattern>
+        <disambig postag="TA"/>
+        <example type="ambiguous" inputform="xa[xa]" outputform="xa[xa/TA]">so <marker>xa</marker> yb</example>
+    </rule>
+
+    <rule id="TAG_B" name="Tag test tokens ending in 'b' (used by ANTIPATTERN_UNIFY)">
+        <pattern>
+            <token regexp="yes">[xy]b</token>
+        </pattern>
+        <disambig postag="TB"/>
+        <example type="ambiguous" inputform="yb[yb]" outputform="yb[yb/TB]">so xa <marker>yb</marker> now</example>
+    </rule>
+
+    <rule id="ANTIPATTERN_UNIFY" name="Test Antipattern with unify (must use the disambiguation unifier, not the grammar one)">
+        <antipattern>
+            <unify>
+                <feature id="ending"/>
+                <token regexp="yes">x[ab]</token>
+                <token regexp="yes">y[ab]</token>
+            </unify>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token regexp="yes">x[ab]</token>
+            </marker>
+            <token regexp="yes">y[ab]</token>
+        </pattern>
+        <disambig postag="CD"/>
+        <example type="untouched">so <marker>xa</marker> ya</example>
+        <example type="untouched">so <marker>xb</marker> yb</example>
+        <example type="ambiguous" inputform="xa[xa/TA]" outputform="xa[xa/CD]">so <marker>xa</marker> yb</example>
+        <example type="ambiguous" inputform="xb[xb/TB]" outputform="xb[xb/CD]">so <marker>xb</marker> ya</example>
     </rule>
 
     <rule id="ANTIPATTERN_1" name="Test Antipattern (antipattern match, antipattern at beginning of pattern match area)">

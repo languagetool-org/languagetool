@@ -120,6 +120,11 @@ public class Unifier {
         if (types == null || types.isEmpty()) {
           types = equivalenceFeatures.get(feat.getKey());
         }
+        if (types == null) {
+          throw new IllegalStateException("Unification feature '" + feat.getKey() + "' is not defined in this unifier. " +
+            "Check that the <unification> block for it exists in the rule file that defines the rule using it " +
+            "and that the rule is matched with the unifier of that file (grammar vs. disambiguation).");
+        }
         for (String typeName : types) {
           PatternToken testElem = equivalenceTypes
               .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
