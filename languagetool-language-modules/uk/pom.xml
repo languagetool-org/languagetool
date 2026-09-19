@@ -51,7 +51,7 @@
     </developers>
 
     <properties>
-        <morfologik-ukrainian-lt.version>6.8.5</morfologik-ukrainian-lt.version>
+        <morfologik-ukrainian-lt.version>6.8.6</morfologik-ukrainian-lt.version>
     </properties>
 
     <dependencies>
@@ -101,6 +101,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <parallel>classes</parallel>
+                    <perCoreThreadCount>true</perCoreThreadCount>
+                    <threadCount>1</threadCount>
+                </configuration>
             </plugin>
         </plugins>
     </build>
