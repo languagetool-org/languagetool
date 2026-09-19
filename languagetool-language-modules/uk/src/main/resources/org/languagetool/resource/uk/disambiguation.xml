@@ -5572,6 +5572,20 @@ category: symbols -->
     <example type="untouched">Люба преференція.</example>
   </rule>
 
+  <rule name="Ролан Гаррос - турнір" id="rolan_garros">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token>Ролан</token>
+      </marker>
+      <token>Гаррос</token>
+    </pattern>
+    <disambig action="immunize" />
+    <example type="ambiguous"
+      inputform="Ролан[Ролан/noun:anim:m:v_naz:prop:fname]"
+      outputform="Ролан[Ролан/noun:anim:m:v_naz:prop:fname{!}]">на <marker>Ролан</marker> Гаррос.
+    </example>
+  </rule>
+
 
   <rule name="Едгар По" id="DIS_EDGAR_PO">
     <pattern case_sensitive="yes">
@@ -7114,6 +7128,21 @@ category: symbols -->
         outputform="Кримського[кримський/adj:m:v_rod,кримський/adj:m:v_zna:ranim,кримський/adj:n:v_rod]"
             >і <marker>Кримського</marker> півострова</example>
     <example type="untouched">до Кримського</example>
+  </rule>
+
+  <rule name="Пол Пот" id="pol_pot">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token>Пол</token>
+      </marker>
+      <token regexp="yes">Пот(а|і|у|ом)?</token>
+    </pattern>
+    <disambig action="replace" postag="noninfl:prop:fname"></disambig>
+    <example type="ambiguous" 
+        inputform="Пол[Пол/noun:anim:m:v_naz:prop:fname]"
+        outputform="Пол[Пол/noninfl:prop:fname]"
+            >до <marker>Пол</marker> Пота.</example>
+    <example type="untouched">Пол Маккартні</example>
   </rule>
 
   <rule name="Небесний - прикм'" id="nebesnyi_adj">

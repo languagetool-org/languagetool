@@ -62,6 +62,14 @@ public final class TokenAgreementVerbNounExceptionHelper {
       }
     }
 
+    // була марки Ford
+    if( nounAdjPos < tokens.length - 1
+        && LemmaHelper.hasLemma(tokens[verbPos], "бути")
+        && tokens[nounAdjPos].getCleanToken().toLowerCase().equals("марки") ) {
+        logException();
+        return true; 
+    }
+    
     if( verbPos > 1
         && LemmaHelper.hasLemma(tokens[verbPos], "бути") ) {
       // здатна була
@@ -80,6 +88,13 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true; 
     }
 
+    // глузували тим більше, чим...
+    if( nounAdjPos < tokens.length - 2
+        && tokens[nounAdjPos].getCleanToken().equalsIgnoreCase("тим")
+        && tokens[nounAdjPos+1].getCleanToken().equalsIgnoreCase("більше") ) {
+      logException();
+      return true;
+    }
     // чим могла
     if( verbPos > 1
         && LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile("з?могти"))
@@ -91,6 +106,15 @@ public final class TokenAgreementVerbNounExceptionHelper {
     // стало відомо ...
     if( tokens[verbPos].getCleanToken().equalsIgnoreCase("стало")
         && tokens[verbPos+1].getCleanToken().toLowerCase().matches("відомо|видно|зрозуміло") ) {
+      logException();
+      return true; 
+    }
+    
+    // вони мали більше прав
+    if( state.nounPos == verbPos + 2
+        && LemmaHelper.hasLemma(tokens[verbPos+1], Pattern.compile("(най)?(більше|менше)"))
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*:v_rod.*"))
+        && CaseGovernmentHelper.hasCaseGovernment(tokens[verbPos], Pattern.compile("verb.*"), "v_zna") ) {
       logException();
       return true; 
     }
@@ -534,7 +558,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
     // споживає газу менше
     if( nounAdjPos < tokens.length - 1
         &&  PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun:.*v_rod.*")) 
-        && tokens[nounAdjPos+1].getCleanToken().matches("менше|більше")
+        && tokens[nounAdjPos+1].getCleanToken().matches("менше|більше|удвічі|утричі")
         ) {
       logException();
       return true;

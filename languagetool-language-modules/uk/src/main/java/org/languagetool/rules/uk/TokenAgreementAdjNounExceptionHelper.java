@@ -64,6 +64,19 @@ final class TokenAgreementAdjNounExceptionHelper {
       }
     }
 
+    if( LemmaHelper.hasLemma(tokens[adjPos], Pattern.compile("інститутський"), Pattern.compile("adj:f:.*") )
+        && tokens[adjPos].getCleanToken().matches("І.*") ) {
+      logException();
+      return true;
+    }
+    
+    if( adjPos > 1
+        && tokens[adjPos-1].getCleanToken().equals("більшості")
+        && tokens[adjPos].getCleanToken().equals("своїй") ) {
+      logException();
+      return true;
+    }
+    
     if( adjPos > 1
         && LemmaHelper.isCapitalized(tokens[adjPos].getCleanToken())
         && LemmaHelper.isCapitalized(tokens[adjPos-1].getCleanToken())
@@ -249,7 +262,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // площею 100 кв. м
     // довжиною до 500
     if( nounPos < tokens.length -1
-        && Arrays.asList("площею", "об'ємом", "довжиною", "висотою", "зростом").contains(tokens[nounPos].getToken())
+        && Arrays.asList("площею", "об'ємом", "довжиною", "висотою", "зростом", "вагою").contains(tokens[nounPos].getToken())
         && PosTagHelper.hasPosTag(tokens[nounPos+1], "prep.*|.*num.*") ) {
       logException();
       return true;
@@ -479,19 +492,10 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
-    // на довгих чверть століття
-    if( nounPos < tokens.length-1
-        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj:p:v_rod.*")
-        && tokens[nounPos].getToken().equals("чверть")
-        && PosTagHelper.hasPosTag(tokens[nounPos+1], "noun.*v_rod.*") ) {
-      logException();
-      return true;
-    }
-
     // розділеного вже чверть століття
     // створених близько чверті століття
     if( nounPos < tokens.length-1
-        && PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp")
+        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, Pattern.compile("adj:p:v_(rod|naz).*|adj.*adjp.*"))
         && LemmaHelper.hasLemma(tokens[nounPos], Arrays.asList("чверть", "третина"))
         && PosTagHelper.hasPosTag(tokens[nounPos+1], "noun.*v_rod.*") ) {
       logException();
@@ -514,6 +518,25 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // До останніх італійці ставляться
+    if( adjPos > 1 && nounPos < tokens.length-1
+        && LemmaHelper.hasLemma(tokens[adjPos], "останній")
+        && PosTagHelper.hasPosTag(tokens[adjPos-1], "prep.*")
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun.*v_naz.*")
+        && ! LemmaHelper.hasLemma(tokens[nounPos], List.of("час", "путь", "день", "момент", "барель", "слово"))) {
+      logException();
+      return true;
+    }
+
+    // представник останньої Василь Бердников відповів
+    if( adjPos > 1 && nounPos < tokens.length-1
+        && LemmaHelper.hasLemma(tokens[adjPos], List.of("останній"), Pattern.compile("adj:.:v_rod.*"))
+        && PosTagHelper.hasPosTag(tokens[adjPos-1], "noun.*v_naz.*")
+        && PosTagHelper.hasPosTag(tokens[nounPos], "noun.*v_naz.*") ) {
+      logException();
+      return true;
+    }
+    
     // чинних станом на
     if( nounPos < tokens.length-1
         && tokens[nounPos].getToken().equals("станом")

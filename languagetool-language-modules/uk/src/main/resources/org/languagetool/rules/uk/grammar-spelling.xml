@@ -968,6 +968,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="центру даних">з <marker>дата-центру</marker>.</example>
     </rule>
 
+    <rule id="pa_vs_na" name="па і на">
+      <antipattern>
+        <token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:[np]:.*">танцювальний|балетний|наступний|знаменитий|елегантний|виразний</token>
+        <token>па</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">.*[0-9]</token>
+        <token case_sensitive="yes">Па</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes" case_sensitive="yes">ПА|пА</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token>па</token>
+        </marker>
+        <token postag_regexp="yes" postag=".*v_(zna|mis).*"/>
+      </pattern>
+      <message>Можливо тут мав бути прийменник: <suggestion>на</suggestion>?</message>
+      <example correction="на"><marker>па</marker> його обличчі.</example>
+      <example>танцювальних па</example>
+      <example>декілька па,</example>
+      <example>109-110 Па.</example>
+      <example>сесії ПА НАТО</example>
+    </rule>
+
     <rule id="erroneous_space" name="Зайвий пробіл">
       <!-- |в\s+право|на\s+право - викликає FP з іменником "право" -->
       <!--  

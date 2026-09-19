@@ -263,6 +263,11 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
   }
   
   @Test
+  public void testProperNouns() {
+    assertEmptyMatch("на Інститутській адвокати просили");
+  }
+  
+  @Test
   public void testExceptions() throws IOException {
     // adj not noun
     assertEmptyMatch("у могутні Максимові обійми");
@@ -327,6 +332,15 @@ public class TokenAgreementAdjNounRuleTest extends AbstractRuleTest {
     //TODO: too many FN with this exception
 //    assertEmptyMatch("тепер хоч по Підвальній трамваї можуть пройти");
   }
+
+
+  @Test
+  public void testExceptionsOstanni() throws IOException {
+    assertEmptyMatch("До останніх італійці ставляться");
+    assertHasError("за останні час вони прийшли до влади");
+    assertEmptyMatch("представник останньої Василь Бердников відповів");
+  }
+  
   
   @Test
   public void testExceptionsNumbers() throws IOException {

@@ -118,7 +118,7 @@ public class TokenAgreementPrepNounRule extends Rule {
         continue;
       }
 
-      if (posTag == null) {
+      if (posTag == null || tokenReadings.isImmunized() ) {
         state = null;
         continue;
       }
@@ -379,7 +379,7 @@ public class TokenAgreementPrepNounRule extends Rule {
 
   private static final List<String> approxLemmas = Arrays.asList(
       "розмір", "величина", "товщина", "вартість", "ріст", "зріст", "висота", "глибина", "діаметр", "вага", "обсяг", "площа",
-      "приблизно", "десь", "завбільшки", "завширшки", "завдовжки", "завтовшки", "заввишки", "завглибшки");
+      "приблизно", "десь", "завбільшки", "завширшки", "завдовжки", "завтовшки", "заввишки", "завглибшки", "накладом");
   private static final Pattern approxTag = Pattern.compile("noun.*v_oru.*|adv.*|part.*");
   private static final Set<String> lemmas = new HashSet<>(LemmaHelper.TIME_LEMMAS);
   static {

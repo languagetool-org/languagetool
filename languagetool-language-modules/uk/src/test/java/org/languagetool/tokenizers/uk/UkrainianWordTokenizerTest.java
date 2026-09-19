@@ -567,6 +567,12 @@ public class UkrainianWordTokenizerTest {
     
     testList = w.tokenize("щиколоток. с. жел");
     assertEquals(Arrays.asList("щиколоток", ".", " ", "с.", " ", "жел"), testList);
+
+    testList = w.tokenize("2-ге вид.,");
+    assertEquals(Arrays.asList("2-ге", " ", "вид.", ","), testList);
+
+    testList = w.tokenize("наук.-метод.");
+    assertEquals(Arrays.asList("наук.-метод."), testList);
   }
 
   @Test

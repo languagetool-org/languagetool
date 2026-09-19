@@ -127,6 +127,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 //  private static final Pattern ABBR_DOT_VO_PATTERN4 = Pattern.compile("(р)\\.([\\s\u00A0\u202F]*х)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile("([0-9IІ][\\h\\v]+)(тис|арт)\\.");
   private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile("(тис|арт)\\.([\\h\\v]+[а-яіїєґ0-9])");
+  private static final Pattern ABBR_DOT_VYD_PATTERN = Pattern.compile("([0-9IІVXХ](-[а-яєі]+)?[\\h\\v]+)(вид)\\.");
   private static final Pattern ABBR_DOT_ART_PATTERN = Pattern.compile("([Аа]рт|[Мм]ал|[Рр]ис|[Сс]пр)\\.([\\h]*(№[\\h]*)?[0-9])");
   private static final Pattern ABBR_DOT_MAN_PATTERN = Pattern.compile("(Ман)\\.([\\h]*(Сіті|[Юю]н))");
   private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]лат)\\.([\\h\\v]+[a-zA-Z])");
@@ -138,6 +139,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_KUB_SM_PATTERN = Pattern.compile("(кв|куб)\\.([\\h\\v]*(?:[смкд]|мк)?м)");
   private static final Pattern ABBR_DOT_S_G_PATTERN = Pattern.compile("\\b(с)\\.(-г)\\.", Pattern.UNICODE_CHARACTER_CLASS);
   private static final Pattern ABBR_DOT_CHL_KOR_PATTERN = Pattern.compile("(чл)\\.(-кор)\\.");
+  private static final Pattern ABBR_DOT_NAUK_PATTERN = Pattern.compile("(наук)\\.(-[а-яіїєґ]+)\\.");
   private static final Pattern ABBR_DOT_PN_ZAH_PATTERN = Pattern.compile("(пн|пд)\\.(-(зах|сх))\\.");
   private static final Pattern INVALID_MLN_DOT_PATTERN = Pattern.compile("(млн|млрд)\\.( [а-яіїєґ])");
   private static final Pattern ABBR_DOT_2_SMALL_LETTERS_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-][векнпрстцч]{1,2})\\.(\\h*(?![смкд]?м\\.)[екмнпрстч]{1,2})\\.");
@@ -342,6 +344,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = ABBR_DOT_MAN_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_TYS_PATTERN1.matcher(text).replaceAll("$1$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
       text = ABBR_DOT_TYS_PATTERN2.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
+      text = ABBR_DOT_VYD_PATTERN.matcher(text).replaceAll("$1$3" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
       text = ABBR_DOT_LAT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_PROF_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_GUB_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
@@ -356,6 +359,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = ABBR_DOT_KUB_SM_PATTERN.matcher(text).replaceAll("$1.\uE120\uE110$2");
       text = ABBR_DOT_S_G_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
       text = ABBR_DOT_CHL_KOR_PATTERN.matcher(text).replaceAll("$1.\uE120$2.\uE120\uE110");
+      text = ABBR_DOT_NAUK_PATTERN.matcher(text).replaceAll("$1.\uE120$2.\uE120\uE110");
       text = ABBR_DOT_PN_ZAH_PATTERN.matcher(text).replaceAll("$1.\uE120\uE110$2.\uE120\uE110");
       text = ABBR_DOT_I_T_P_PATTERN.matcher(text).replaceAll("$1\uE120\uE110$2\uE120\uE110");
       text = ABBR_DOT_I_T_CH_PATTERN.matcher(text).replaceAll("$1\uE120\uE110$2\uE120\uE110");

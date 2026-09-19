@@ -294,6 +294,8 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("що є сил");
     
     assertEmptyMatch("Конкурс був десь шість");
+    
+    assertEmptyMatch("глузували тим більше, чим");
 
     // ADJ + бути + v_rod
     assertEmptyMatch("повна була образів");
@@ -301,6 +303,8 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("відкрито було журнал");
     
     assertEmptyMatch("треба буде ще склянку");
+
+    assertEmptyMatch("на Ролан Гаррос");
   }
 
   @Test
@@ -625,6 +629,10 @@ public class TokenAgreementVerbNounRuleTest extends AbstractRuleTest {
     assertEmptyMatch("ніж поставили стільців");
     
     assertEmptyMatch("Росія будує трубопроводів більше");
+    
+    assertEmptyMatch("вони мали більше прав");
+    assertEmptyMatch("вони мали найменше прав");
+    assertHasError("видається найбільш наближеної");
 
     assertEmptyMatch("не стане сили");
     //TODO:

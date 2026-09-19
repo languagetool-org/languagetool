@@ -2792,6 +2792,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="rivnyatysia_vs_dorivnyuvaty" name="Рівнятися і дорівнювати">
+      <antipattern>
+        <token skip="4">на</token>
+        <token inflected="yes">рівнятися</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token inflected="yes">рівнятися</token>
+        </marker>
+        <token postag_regexp="yes" postag=".*v_dav.*"/>
+      </pattern>
+      <message>Можливо тут треба: <suggestion><match no="1" postag_regexp="yes" postag="verb:rev(.*)" postag_replace="verb$1">дорівнювати</match></suggestion>?</message>
+      <example correction="дорівнює">ширина <marker>рівняється</marker> висоті</example>
+      <example> на подвиги яких варто рівнятися сучасним українцям</example>
+    </rule>
+
     <rule id="vidryvaty_dveri" name="Відривати двері">
       <pattern>
         <marker>
