@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -32,7 +32,7 @@ import org.languagetool.tokenizers.WordTokenizer;
  * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
  * Special treatment for hyphens and apostrophes in Catalan.
  *
- * @author Jaume Ortolà 
+ * @author Jaume Ortolà
  */
 public class CatalanWordTokenizer extends WordTokenizer {
 
@@ -42,16 +42,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern tokenizerPattern = Pattern.compile("[" + wordCharacters + "]+|[^" + wordCharacters + "]");
   //all possible forms of "pronoms febles" after a verb.
   private static final String PF = "(['’]en|['’]hi|['’]ho|['’]l|['’]ls|['’]m|['’]n|['’]ns|['’]s|['’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
-  private static final Pattern PATTERN_1 = Pattern.compile("xxCA_APOS_RECTExx", Pattern.LITERAL);
-  private static final Pattern PATTERN_2 = Pattern.compile("xxCA_APOS_RODOxx", Pattern.LITERAL);
-  private static final Pattern PATTERN_3 = Pattern.compile("xxCA_HYPHENxx", Pattern.LITERAL);
-  private static final Pattern PATTERN_4 = Pattern.compile("xxCA_DECIMALPOINTxx", Pattern.LITERAL);
-  private static final Pattern PATTERN_5 = Pattern.compile("xxCA_DECIMALCOMMAxx", Pattern.LITERAL);
-  private static final Pattern PATTERN_6 = Pattern.compile("xxCA_SPACExx", Pattern.LITERAL);
-  private static final Pattern PATTERN_7 = Pattern.compile("xxELA_GEMINADAxx", Pattern.LITERAL);
-  private static final Pattern PATTERN_8 = Pattern.compile("xxELA_GEMINADA_UPPERCASExx", Pattern.LITERAL);
 
-  private static final int maxPatterns = 11;
+  private static final int maxPatterns = 9;
   private final Pattern[] patterns = new Pattern[maxPatterns];
 
   //Patterns to avoid splitting words in certain special cases
@@ -105,12 +97,6 @@ public class CatalanWordTokenizer extends WordTokenizer {
     // d'emportar
     patterns[8] = Pattern.compile("^([lnmtsd]['’])(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE|Pattern.UNICODE_CHARACTER_CLASS);
 
-    //contractions: al, als, pel, pels, del, dels, cal (!), cals (!) 
-    patterns[9] = Pattern.compile("^(a|de|pe)(ls?)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE|Pattern.UNICODE_CHARACTER_CLASS);
-
-    //contraction: can
-    patterns[10] = Pattern.compile("^(ca)(n)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE|Pattern.UNICODE_CHARACTER_CLASS);
-
   }
 
   /**
@@ -158,14 +144,14 @@ public class CatalanWordTokenizer extends WordTokenizer {
         l.set(l.size() - 1, l.get(l.size() - 1) + s);
         continue;
       }
-      s = PATTERN_1.matcher(s).replaceAll("'");
-      s = PATTERN_2.matcher(s).replaceAll("’");
-      s = PATTERN_3.matcher(s).replaceAll("-");
-      s = PATTERN_4.matcher(s).replaceAll(".");
-      s = PATTERN_5.matcher(s).replaceAll(",");
-      s = PATTERN_6.matcher(s).replaceAll(" ");
-      s = PATTERN_7.matcher(s).replaceAll("l.l");
-      s = PATTERN_8.matcher(s).replaceAll("L.L");
+      s = s.replace("xxCA_APOS_RECTExx", "'");
+      s = s.replace("xxCA_APOS_RODOxx", "’");
+      s = s.replace("xxCA_HYPHENxx", "-");
+      s = s.replace("xxCA_DECIMALPOINTxx", ".");
+      s = s.replace("xxCA_DECIMALCOMMAxx", ",");
+      s = s.replace("xxCA_SPACExx", " ");
+      s = s.replace("xxELA_GEMINADAxx", "l.l");
+      s = s.replace("xxELA_GEMINADA_UPPERCASExx", "L.L");
       boolean matchFound = false;
       while (s.length() > 1 && s.startsWith("-")) {
         l.add("-");
@@ -176,21 +162,36 @@ public class CatalanWordTokenizer extends WordTokenizer {
         s = s.substring(0, s.length() - 1);
         hyphensAtEnd++;
       }
-      int j = 0;
-      while (j < maxPatterns && !matchFound) {
-        matcher = patterns[j].matcher(s);
-        matchFound = matcher.find();
-        j++;
-      }
-      if (matchFound) {
-        for (int i = 1; i <= matcher.groupCount(); i++) {
-          String groupStr = matcher.group(i);
-          if (groupStr!=null) {
-            l.addAll(wordsToAdd(groupStr));  
-          }
+      // patterns need an apostrophe or hyphen; contractions (al, als, del, dels, pel, pels, can) are short plain words
+      boolean contractionHandled = false;
+      if (s.indexOf('\'') >= 0 || s.indexOf('’') >= 0 || s.indexOf('-') >= 0) {
+        int j = 0;
+        while (j < maxPatterns && !matchFound) {
+          matcher = patterns[j].matcher(s);
+          matchFound = matcher.find();
+          j++;
         }
-      } else {
-        l.addAll(wordsToAdd(s));
+      } else if (s.length() <= 4) {
+        // splitIndex: 1 for al/als (a+l/ls), 2 for del/dels/pel/pels/can (de/pe/ca+l/ls/n)
+        int splitIndex = (s.equalsIgnoreCase("al") || s.equalsIgnoreCase("als")) ? 1
+            : (s.equalsIgnoreCase("del") || s.equalsIgnoreCase("dels") || s.equalsIgnoreCase("pel") || s.equalsIgnoreCase("pels") || s.equalsIgnoreCase("can")) ? 2 : -1;
+        if (splitIndex > 0) {
+          l.add(s.substring(0, splitIndex));
+          l.add(s.substring(splitIndex));
+          contractionHandled = true;
+        }
+      }
+      if (!contractionHandled) {
+        if (matchFound) {
+          for (int i = 1; i <= matcher.groupCount(); i++) {
+            String groupStr = matcher.group(i);
+            if (groupStr!=null) {
+              l.addAll(wordsToAdd(groupStr));
+            }
+          }
+        } else {
+          l.addAll(wordsToAdd(s));
+        }
       }
       while (hyphensAtEnd > 0) {
         l.add("-");
@@ -200,7 +201,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
     return joinEMailsAndUrls(l);
   }
 
-  /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. 
+  /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary.
    * Split apostrophe in the last char */
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
@@ -213,8 +214,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         }
         // some camel-case words containing hyphen (is there any better fix?)
-        else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill") 
-            || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") 
+        else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill")
+            || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov")
             || s.equalsIgnoreCase("ph-metre") || s.equalsIgnoreCase("ph-metres")) {
           l.add(s);
         }
