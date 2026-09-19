@@ -23597,6 +23597,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">más|menos</token>
                 <token postag="A.*|V.P.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <!-- «más/menos seguido» with a verb in front is the adverbial
+                     locution 'a menudo', invariable and general in the Americas.
+                     Without a verb («la serie más seguido») it is still a
+                     postponed adjective and stays checked. The skipped part may
+                     not cross a clause boundary, so a verb in a matrix clause
+                     («dice que la película más seguido…») does not count. -->
+                <token postag="V.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">que|quien|quienes|cual|cuales|cuando|donde|porque|aunque|,|;|:</exception></token>
+                <token regexp="yes">más|menos</token>
+                <token>seguido</token>
+                <!-- not the participle with an agent complement: «la serie más
+                     seguido por el público» is adjectival, whatever verb the
+                     clause has. -->
+                <token><exception>por</exception></token>
+                <example>Quiero pasear sin mi armadura más seguido.</example>
+                <example>Deberíamos hacer estas cosas más seguido.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes" regexp="yes">.*(motriz|motrices)<exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/></token>
@@ -23640,6 +23657,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="pasado">El domingo <marker>pasada</marker> hubo corrida de toros de lujo.</example>
                 <example correction="posibles">De todas las maneras <marker>posible</marker>.</example>
                 <example correction="alta">Construyeron una torre bien <marker>alto</marker>.</example>
+                <example correction="seguida">La serie más <marker>seguido</marker>.</example>
+                <example correction="seguida">Dice que la película más <marker>seguido</marker> de la tele fue esa.</example>
+                <example correction="seguida">El jurado nominó la serie más <marker>seguido</marker> por el público.</example>
                 <example>Uno de los aspectos migratorios más <marker>criticado</marker></example>
                 <example>con la bobina y la placa electrónica montadas en una caja única</example>
                 <example>El contacto con la cultura y la historia japonesas.</example>
