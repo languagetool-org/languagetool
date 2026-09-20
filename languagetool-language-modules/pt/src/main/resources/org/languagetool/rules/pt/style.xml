@@ -14481,6 +14481,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <!-- 2. É útil a nível civil e militar. → É útil civil e militarmente. -->
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>nível</token>
+                    <token regexp='yes'>profissional|civil|policial|militar</token>
+                    <token>e</token>
+                    <token regexp='yes'>profissional|civil|policial|militar</token>
+                    <token>de</token>
+                </antipattern>
+
                 <pattern>
                     <token regexp='yes'>útil|úteis</token>
                     <marker>
@@ -14494,10 +14503,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&simplify_msg;</message>
                 <suggestion>\4 e \6mente</suggestion>
                 <example correction="civil e militarmente">É útil <marker>a nível civil e militar</marker>.</example>
+                <example type="correct">É útil a nível civil e militar de uma organização.</example>
             </rule>
 
             <!-- 3. É útil a nível civil, policial e militar. -->
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>nível</token>
+                    <token regexp='yes'>profissional|civil|policial|militar</token>
+                    <token>,</token>
+                    <token regexp='yes'>profissional|civil|policial|militar</token>
+                    <token>e</token>
+                    <token regexp='yes'>profissional|civil|policial|militar</token>
+                    <token>de</token>
+                </antipattern>
+
                 <pattern>
                     <token regexp='yes'>útil|úteis</token>
                     <marker>
@@ -14513,6 +14534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&simplify_msg;</message>
                 <suggestion>\4, \6 e \8mente</suggestion>
                 <example correction="civil, policial e militarmente">É útil <marker>a nível civil, policial e militar</marker>.</example>
+                <example type="correct">É útil a nível civil, policial e militar de uma organização.</example>
             </rule>
 
         </rulegroup>
