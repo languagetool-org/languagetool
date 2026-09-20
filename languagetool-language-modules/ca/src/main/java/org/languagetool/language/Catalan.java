@@ -63,12 +63,23 @@ public class Catalan extends Language {
   protected Catalan(boolean fakeValue) {
   }
 
-  public static @NotNull Catalan getInstance() {
-    Language language = Objects.requireNonNull(Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE));
-    if (language instanceof Catalan catalan) {
-      return catalan;
+  // Lazy, thread-safe, lock-free holder
+  private static class InstanceHolder {
+    private static final Catalan INSTANCE = fetchInstance();
+    private static Catalan fetchInstance() {
+      Language language = Objects.requireNonNull(
+        Languages.getLanguageForShortCode(LANGUAGE_SHORT_CODE),
+        "Language lookup returned null for code: " + LANGUAGE_SHORT_CODE
+      );
+      if (language instanceof Catalan catalan) {
+        return catalan;
+      }
+      throw new IllegalStateException("Catalan language expected, got " + language.getClass().getName());
     }
-    throw new RuntimeException("Catalan language expected, got " + language);
+  }
+
+  public static @NotNull Catalan getInstance() {
+    return InstanceHolder.INSTANCE;
   }
 
   @Override
@@ -88,7 +99,7 @@ public class Catalan extends Language {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return Languages.getLanguageForShortCode("ca-ES");
+    return InstanceHolder.INSTANCE;
   }
 
   @Override

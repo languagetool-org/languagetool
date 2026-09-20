@@ -80,11 +80,16 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
   private boolean keepByDisambig(AnalyzedSentence sentence, int ruleMatchFromPos, int ruleMatchToPos) throws IOException {
     List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
+    // Computed lazily, at most once per call: rule.getLanguage() is invariant across the loop below,
+    // so there's no need to re-resolve the default language variant / build a new Unifier per antipattern.
+    Unifier antiPatternUnifier = null;
     for (DisambiguationPatternRule antiPattern : antiPatterns) {
       if (!antiPattern.canBeIgnoredFor(sentence)) {
-        // antipatterns of disambiguation rules must use the disambiguation unifier (see constructor),
-        // not the grammar unifier of the rule's language, which may not even be configured yet
-        Unifier antiPatternUnifier = rule.getLanguage().getDefaultLanguageVariant().getDisambiguationUnifier();
+        if (antiPatternUnifier == null) {
+          // antipatterns of disambiguation rules must use the disambiguation unifier (see constructor),
+          // not the grammar unifier of the rule's language, which may not even be configured yet
+          antiPatternUnifier = rule.getLanguage().getDefaultLanguageVariant().getDisambiguationUnifier();
+        }
         RuleMatch[] matches = new PatternRuleMatcher(antiPattern, false, antiPatternUnifier).match(sentence);
         for (RuleMatch disMatch : matches) {
           if ((disMatch.getFromPos() <= ruleMatchFromPos && disMatch.getToPos() >= ruleMatchFromPos) ||  // left overlap of rule match start
