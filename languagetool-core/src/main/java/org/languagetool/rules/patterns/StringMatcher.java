@@ -250,6 +250,10 @@ public abstract class StringMatcher {
     private static final String starting = "([\\";
     private static final String nonLiteral = finishing + unsupported + starting + ".";
 
+    // Max width of a single character-range (e.g. "a-z" has width 25) that we'll still enumerate
+    // into a literal set instead of giving up and falling back to full regex matching.
+    private static final int MAX_CHAR_RANGE_WIDTH = 64;
+
     private final String regexp;
     private int pos;
 
@@ -366,7 +370,7 @@ public abstract class StringMatcher {
         if (c1 == '-' && pos != start + 1 && regexp.charAt(pos) != ']') {
           Character last = options == null ? null : options.get(options.size() - 1);
           char next = regexp.charAt(pos++);
-          if (last == null || next == '\\' || next - last > 10) {
+          if (last == null || next == '\\' || next - last > MAX_CHAR_RANGE_WIDTH) {
             options = null;
           }
           if (options != null) {
@@ -383,6 +387,11 @@ public abstract class StringMatcher {
           if (options != null) {
             options.add(simpleChar);
           }
+        }
+        // Guard against several small ranges/chars adding up to something large
+        if (options != null && options.size() > MAX_CHAR_Rtw
+        ANGE_WIDTH) {
+          options = null;
         }
       }
       if (options == null) return unknown();

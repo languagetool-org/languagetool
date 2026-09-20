@@ -45,10 +45,20 @@ public class StringMatcherTest {
     assertPossibleValues("x+");
     assertPossibleValues("a.c");
     assertPossibleValues("a{2}");
-    assertPossibleValues("[a-z]");
+    assertPossibleValues("[a-z]", IntStream.rangeClosed('a', 'z').mapToObj(c -> String.valueOf((char) c)).toArray(String[]::new));
     assertPossibleValues("[^a]");
-    assertPossibleValues("a[a-z]");
+    assertPossibleValues("a[a-z]", IntStream.rangeClosed('a', 'z').mapToObj(c -> "a" + (char) c).toArray(String[]::new));
     assertPossibleValues("(?=a)");
+
+    // A 26-letter range like [a-z] is now enumerated (cheap set/binary-search matcher) instead of
+    // falling back to full regex matching; see StringMatcher.MAX_CHAR_RANGE_WIDTH.
+    assertPossibleValues("[A-Z]", IntStream.rangeClosed('A', 'Z').mapToObj(c -> String.valueOf((char) c)).toArray(String[]::new));
+    // A range wider than MAX_CHAR_RANGE_WIDTH (64) still isn't enumerated.
+    assertPossibleValues("[ -~]"); // space (0x20) to tilde (0x7e), width 94 > 64
+    // Quantifiers are a separate mechanism from the character-range cap: even a small, enumerable
+    // class stays unenumerable once it's repeated, since the resulting set would be unbounded.
+    assertPossibleValues("[a-z]+");
+    assertPossibleValues("[a-z]*");
 
     assertPossibleValues("", "");
     assertPossibleValues("^x$", "x");
