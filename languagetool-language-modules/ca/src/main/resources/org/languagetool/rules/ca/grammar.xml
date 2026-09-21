@@ -17049,6 +17049,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tot el que fem està relacionat.</example>
                 <example>El que va fer contribuí a la grandesa de l'Església.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>que</token>
+                    <token min="0" max="2" chunk="GV"><exception inflected="yes">fer</exception></token>
+                    <token inflected="yes">fer</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">fer<exception postag="_GN.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <!-- |V.IP3S.. -->
+                        <token postag="V..P3S00" postag_regexp="yes" regexp="yes">.*[àíai]</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.)I.*" postag_regexp="yes" postag_replace="$1N.*"/></suggestion>? O bé reviseu la puntuació.</message>
+                <example correction="dubtar">Així feien <marker>dubta</marker> dubta.</example>
+                <example correction="dubtar">L'únic que em feia <marker>dubta</marker> era el color.</example>
+                <example>Tot el que fem està relacionat.</example>
+                <example>El que va fer contribuí a la grandesa de l'Església.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token postag="VA.*" postag_regexp="yes"/>
@@ -20209,7 +20228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;|semblant|semblar|parèixer|remetre|equivaler|respecte a|recordar</token>
+                    <token regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;|semblant|semblar|parèixer|remetre|equivaler|respecte a|recordar|referir</token>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <token>a</token>
                 </antipattern>
@@ -82680,7 +82699,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="XIFRES_PERCENT" name="per cent -> %">
             <pattern>
-                <token regexp="yes">[\d\., ]+</token>
+                <token regexp="yes">[\d\., ]+\d</token>
                 <token>per</token>
                 <token>cent</token>
             </pattern>
@@ -82688,6 +82707,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1&#8239;%</suggestion>
             <short>Opció de tipografia</short>
             <example correction="2.4&#8239;%">L'economia creixerà el <marker>2.4 per cent</marker>.</example>
+            <example>La va validar el 31 de juliol de 2024, per cent milions d'euros.</example>
         </rule>
         <rule id="PERCENT_AMB_ESPAI" name="tant per cent amb espai fi abans (3 %)" default="off">
             <pattern>
@@ -125121,6 +125141,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Possible error</short>
             <example correction="costanera">El projecte afecta tota la línia <marker>costera</marker>.</example>
             <example correction="costaneres">les línies <marker>costeres</marker>.</example>
+            <example correction="costanera">Guàrdia <marker>costera</marker>.</example>
+            <example correction="Costanera">Guàrdia <marker>Costera</marker>.</example>
             <example>La línia costanera</example>
             <example>És un ample coster</example>
             <example>Als suaus costers</example>
