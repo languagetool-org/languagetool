@@ -30,6 +30,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.function.IntPredicate;
 
 import static org.languagetool.tools.StringInterner.intern;
 
@@ -45,6 +46,13 @@ public abstract class StringMatcher {
   final boolean isRegExp;
   
   public final static int MAX_MATCH_LENGTH = 250;
+
+  private static final Map<String, IntPredicate> PROPERTY_PREDICATES = new HashMap<>();
+  static {
+    PROPERTY_PREDICATES.put("Ll", cp -> Character.getType(cp) == Character.LOWERCASE_LETTER);
+    PROPERTY_PREDICATES.put("Lu", cp -> Character.getType(cp) == Character.UPPERCASE_LETTER);
+    // add more here later (e.g. "P" -> punctuation) using the same map
+  }
 
   private StringMatcher(String pattern, boolean isRegExp, boolean caseSensitive) {
     this.pattern = intern(pattern);
@@ -76,6 +84,16 @@ public abstract class StringMatcher {
     if (!isRegExp || "\\0".equals(pattern)) {
       return stringEquals(pattern, isRegExp, caseSensitive);
     }
+
+    if ("\\p{P}".equals(pattern)) {
+      return punctuationMatcher(pattern, caseSensitive);
+    }
+
+    StringMatcher propertySequenceMatcher = tryCreatePropertySequenceMatcher(pattern, caseSensitive);
+    if (propertySequenceMatcher != null) {
+      return propertySequenceMatcher;
+    }
+
 
     // always compile the pattern to check it's well-formed
     Pattern compiled = Pattern.compile(pattern, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -420,6 +438,189 @@ public abstract class StringMatcher {
         return this;
       }
     };
+  }
+
+  @NotNull
+  private static StringMatcher punctuationMatcher(String pattern, boolean caseSensitive) {
+    return new StringMatcher(pattern, true, caseSensitive) {
+      @Nullable
+      @Override
+      public Set<String> getPossibleValues() {
+        return null;
+      }
+
+      @Override
+      public boolean matches(String s) {
+        if (s.length() > MAX_MATCH_LENGTH) {
+          return false;
+        }
+        // \p{P} matches exactly one punctuation code point, no more, no less
+        if (s.isEmpty()) {
+          return false;
+        }
+        int cp = s.codePointAt(0);
+        if (Character.charCount(cp) != s.length()) {
+          return false; // more than one code point in s
+        }
+        return isPunctuation(cp);
+      }
+    };
+  }
+
+  private static boolean isPunctuation(int cp) {
+    int type = Character.getType(cp);
+    return (type >= Character.DASH_PUNCTUATION && type <= Character.OTHER_PUNCTUATION)
+      || type == Character.INITIAL_QUOTE_PUNCTUATION
+      || type == Character.FINAL_QUOTE_PUNCTUATION;
+  }
+
+  @Nullable
+  private static StringMatcher tryCreatePropertySequenceMatcher(String pattern, boolean caseSensitive) {
+    PropertySequence seq = parsePropertySequence(pattern);
+    if (seq == null) {
+      return null;
+    }
+    return new StringMatcher(pattern, true, caseSensitive) {
+      @Nullable
+      @Override
+      public Set<String> getPossibleValues() {
+        return null;
+      }
+
+      @Override
+      public boolean matches(String s) {
+        if (s.length() > MAX_MATCH_LENGTH) {
+          return false;
+        }
+        return seq.matches(s);
+      }
+    };
+  }
+
+  /**
+   * Recognizes a restricted grammar: zero or more exact "\p{Prop}" terms, optionally followed
+   * by exactly one final term that is "\p{Prop}+", "\p{Prop}*", or ".*". Returns {@code null}
+   * if the pattern doesn't fit this shape, so the caller can fall back to full regex matching.
+   */
+  @Nullable
+  private static PropertySequence parsePropertySequence(String regexp) {
+    if (regexp.startsWith("\\b")) {
+      regexp = regexp.substring(2);
+    }
+    if (regexp.startsWith("^")) {
+      regexp = regexp.substring(1);
+    }
+    if (regexp.endsWith("\\b") && !regexp.endsWith("\\\\b")) {
+      regexp = regexp.substring(0, regexp.length() - 2);
+    }
+    if (regexp.endsWith("$") && !regexp.endsWith("\\$")) {
+      regexp = regexp.substring(0, regexp.length() - 1);
+    }
+
+    List<IntPredicate> exactTerms = new ArrayList<>();
+    IntPredicate finalPredicate = null;
+    boolean finalIsAny = false;
+    boolean finalRequiresOne = false;
+    boolean hasFinal = false;
+
+    int pos = 0;
+    int len = regexp.length();
+    while (pos < len) {
+      if (regexp.startsWith("\\p{", pos)) {
+        int close = regexp.indexOf('}', pos + 3);
+        if (close < 0) {
+          return null;
+        }
+        String prop = regexp.substring(pos + 3, close);
+        IntPredicate pred = PROPERTY_PREDICATES.get(prop);
+        if (pred == null) {
+          return null;
+        }
+        pos = close + 1;
+        char quant = pos < len ? regexp.charAt(pos) : 0;
+        if (quant == '+' || quant == '*') {
+          pos++;
+          if (pos != len) {
+            return null; // a quantified term must be the last thing in the pattern
+          }
+          hasFinal = true;
+          finalPredicate = pred;
+          finalRequiresOne = quant == '+';
+          break;
+        } else {
+          exactTerms.add(pred); // matches exactly one code point
+        }
+      } else if (regexp.startsWith(".*", pos)) {
+        pos += 2;
+        if (pos != len) {
+          return null; // ".*" must be the last thing in the pattern
+        }
+        hasFinal = true;
+        finalIsAny = true;
+        break;
+      } else {
+        return null; // anything else falls back to full regex matching
+      }
+    }
+
+    if (exactTerms.isEmpty() && !hasFinal) {
+      return null;
+    }
+    return new PropertySequence(exactTerms, hasFinal, finalPredicate, finalIsAny, finalRequiresOne);
+  }
+
+  private static final class PropertySequence {
+    final List<IntPredicate> exactTerms;
+    final boolean hasFinal;
+    final IntPredicate finalPredicate;
+    final boolean finalIsAny;      // true for a trailing ".*"
+    final boolean finalRequiresOne; // true for a trailing "+", false for "*" or ".*"
+
+    PropertySequence(List<IntPredicate> exactTerms, boolean hasFinal, IntPredicate finalPredicate,
+                     boolean finalIsAny, boolean finalRequiresOne) {
+      this.exactTerms = exactTerms;
+      this.hasFinal = hasFinal;
+      this.finalPredicate = finalPredicate;
+      this.finalIsAny = finalIsAny;
+      this.finalRequiresOne = finalRequiresOne;
+    }
+
+    boolean matches(String s) {
+      int len = s.length();
+      int i = 0;
+
+      for (IntPredicate pred : exactTerms) {
+        if (i >= len) {
+          return false;
+        }
+        int cp = s.codePointAt(i);
+        if (!pred.test(cp)) {
+          return false;
+        }
+        i += Character.charCount(cp);
+      }
+
+      if (!hasFinal) {
+        return i == len;
+      }
+      if (finalIsAny) {
+        return true; // rest of the string, including empty, is accepted
+      }
+
+      int count = 0;
+      while (i < len) {
+        int cp = s.codePointAt(i);
+        if (!finalPredicate.test(cp)) {
+          break;
+        }
+        count++;
+        i += Character.charCount(cp);
+      }
+      if (finalRequiresOne && count == 0) {
+        return false;
+      }
+      return i == len; // the property run must consume the rest of the string
+    }
   }
 
 }
