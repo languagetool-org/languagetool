@@ -389,8 +389,7 @@ public abstract class StringMatcher {
           }
         }
         // Guard against several small ranges/chars adding up to something large
-        if (options != null && options.size() > MAX_CHAR_Rtw
-        ANGE_WIDTH) {
+        if (options != null && options.size() > MAX_CHAR_RANGE_WIDTH) {
           options = null;
         }
       }
