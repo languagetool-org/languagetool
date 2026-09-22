@@ -31,6 +31,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.function.IntPredicate;
+import java.util.function.Supplier;
+import java.util.regex.PatternSyntaxException;
 
 import static org.languagetool.tools.StringInterner.intern;
 
@@ -188,7 +190,7 @@ public abstract class StringMatcher {
   static Substrings getRequiredSubstrings(String regexp) {
     Substrings UNKNOWN = new Substrings(false, false, new String[0]);
 
-    RegexpParser<Substrings> parser = new RegexpParser<Substrings>(regexp) {
+    RegexpParser<Substrings> parser = new RegexpParser<>(regexp) {
       @Override
       Substrings handleConcatenation(Substrings left, Substrings right) {
         return left.concat(right);
@@ -228,10 +230,10 @@ public abstract class StringMatcher {
   @Nullable
   @VisibleForTesting
   static Set<String> getPossibleRegexpValues(String regexp) {
-    RegexpParser<Stream<String>> parser = new RegexpParser<Stream<String>>(regexp) {
+    RegexpParser<Stream<String>> parser = new RegexpParser<>(regexp) {
       @Override
       Stream<String> handleConcatenation(Stream<String> left, Stream<String> right) {
-        List<String> groupResults = right.collect(Collectors.toList());
+        List<String> groupResults = right.toList();
         return left.flatMap(s1 -> groupResults.stream().map(s2 -> s1 + s2));
       }
 
@@ -412,7 +414,7 @@ public abstract class StringMatcher {
         }
       }
       if (options == null) return unknown();
-      List<T> components = options.stream().map(c -> charLiteral(c)).collect(Collectors.toList());
+      List<T> components = options.stream().map(this::charLiteral).collect(Collectors.toList());
       if (components.isEmpty()) throw TooComplexRegexp.INSTANCE;
       return components.size() == 1 ? components.get(0) : handleOr(components);
     }
@@ -495,6 +497,122 @@ public abstract class StringMatcher {
         return seq.matches(s);
       }
     };
+  }
+
+  @Nullable
+  private static StringMatcher tryCreateHybridPostagMatcher(String pattern, boolean caseSensitive,
+                                                            @Nullable Supplier<Set<String>> universeSupplier) {
+    if (pattern.indexOf('(') >= 0 || pattern.indexOf(')') >= 0) {
+      return null; // grups de captura: fora d'abast, com ja vam acordar
+    }
+    List<String> parts = splitTopLevelAlternatives(pattern);
+    if (parts == null) {
+      return null;
+    }
+
+    List<PostagTemplate> templates = new ArrayList<>();
+    Set<String> literals = new HashSet<>();
+    List<String> unresolved = new ArrayList<>();
+
+    for (String part : parts) {
+      if (isPlainLiteral(part)) {
+        // Cadena sense cap metacaràcter: sempre s'accepta tal qual, mai depèn de l'univers.
+        // Cobreix marques com LOC_ADV, _GV_, etc., encara que no siguin postags "reals".
+        literals.add(part);
+        continue;
+      }
+      PostagTemplate t = parseSingleTemplate(part);
+      if (t != null) {
+        templates.add(t);
+      } else {
+        unresolved.add(part); // p. ex. "P0.{6}", quantificador que la nostra gramàtica no cobreix
+      }
+    }
+
+    if (templates.isEmpty() && literals.isEmpty() && unresolved.isEmpty()) {
+      return null;
+    }
+
+    Set<String> internedLiterals = literals.stream().map(StringInterner::intern).collect(Collectors.toSet());
+    PostagTemplate[] templateArray = templates.toArray(new PostagTemplate[0]);
+    String unresolvedJoined = unresolved.isEmpty() ? null : String.join("|", unresolved);
+
+    return new HybridPostagMatcher(pattern, caseSensitive, internedLiterals, templateArray,
+      unresolvedJoined, universeSupplier);
+  }
+
+  private static boolean isPlainLiteral(String s) {
+    if (s.isEmpty()) return false;
+    for (int i = 0; i < s.length(); i++) {
+      if (".[]{}*+?^$\\".indexOf(s.charAt(i)) >= 0) return false;
+    }
+    return true;
+  }
+
+  private static final class HybridPostagMatcher extends StringMatcher {
+    private final Set<String> literals;
+    private final PostagTemplate[] templates;
+    @Nullable private final String unresolvedRegexp;
+    @Nullable private final Supplier<Set<String>> universeSupplier;
+
+    private volatile Object unresolvedResolved; // Set<String> (enumerat) o Pattern (fallback), calculat un cop
+
+    HybridPostagMatcher(String pattern, boolean caseSensitive, Set<String> literals, PostagTemplate[] templates,
+                        @Nullable String unresolvedRegexp, @Nullable Supplier<Set<String>> universeSupplier) {
+      super(pattern, true, caseSensitive);
+      this.literals = literals;
+      this.templates = templates;
+      this.unresolvedRegexp = unresolvedRegexp;
+      this.universeSupplier = universeSupplier;
+    }
+
+    @Nullable
+    @Override
+    public Set<String> getPossibleValues() {
+      return null; // matcher mixt: no exhaustivament enumerable en general
+    }
+
+    @Override
+    public boolean matches(String s) {
+      if (s.length() > MAX_MATCH_LENGTH) {
+        return false;
+      }
+      if (literals.contains(s)) {
+        return true;
+      }
+      for (PostagTemplate t : templates) {
+        if (t.matches(s)) {
+          return true;
+        }
+      }
+      return unresolvedRegexp != null && matchesUnresolved(s);
+    }
+
+    private boolean matchesUnresolved(String s) {
+      Object resolved = unresolvedResolved;
+      if (resolved == null) {
+        resolved = resolveUnresolved();
+        unresolvedResolved = resolved;
+      }
+      if (resolved instanceof Set) {
+        //noinspection unchecked
+        return ((Set<String>) resolved).contains(s);
+      }
+      return ((Pattern) resolved).matcher(s).matches();
+    }
+
+    private Object resolveUnresolved() {
+      if (universeSupplier != null) {
+        Set<String> universe = universeSupplier.get();
+        if (universe != null && !universe.isEmpty()) {
+          Set<String> intersected = intersectWithUniverse(unresolvedRegexp, caseSensitive, universe);
+          if (intersected != null) {
+            return intersected.stream().map(StringInterner::intern).collect(Collectors.toSet());
+          }
+        }
+      }
+      return Pattern.compile(unresolvedRegexp, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    }
   }
 
   /**
@@ -621,6 +739,248 @@ public abstract class StringMatcher {
       }
       return i == len; // the property run must consume the rest of the string
     }
+  }
+
+  @Nullable
+  private static StringMatcher tryCreatePostagTemplateMatcher(String pattern, boolean caseSensitive) {
+    PostagAlternatives alt = parsePostagAlternatives(pattern);
+    if (alt == null) {
+      return null;
+    }
+    return new StringMatcher(pattern, true, caseSensitive) {
+      @Nullable
+      @Override
+      public Set<String> getPossibleValues() {
+        return null;
+      }
+
+      @Override
+      public boolean matches(String s) {
+        if (s.length() > MAX_MATCH_LENGTH) {
+          return false;
+        }
+        return alt.matches(s);
+      }
+    };
+  }
+
+  /**
+   * Recognizes a disjunction of "postag template" alternatives: sequences of literal chars,
+   * "." wildcards, and "[...]" character classes, with an optional trailing ".*" meaning
+   * "anything after this point". No capturing groups, no other quantifiers.
+   * Returns {@code null} (fall back to full regex) for anything outside this grammar,
+   * including any pattern containing '(' or ')' — those are only used for suggestion
+   * generation (<match>), never here, so we never need to preserve capture semantics.
+   */
+  @Nullable
+  private static PostagAlternatives parsePostagAlternatives(String regexp) {
+    if (regexp.indexOf('(') >= 0 || regexp.indexOf(')') >= 0) {
+      return null;
+    }
+    List<String> parts = splitTopLevelAlternatives(regexp);
+    if (parts == null) {
+      return null;
+    }
+    PostagTemplate[] templates = new PostagTemplate[parts.size()];
+    for (int i = 0; i < parts.size(); i++) {
+      PostagTemplate t = parseSingleTemplate(parts.get(i));
+      if (t == null) {
+        return null;
+      }
+      templates[i] = t;
+    }
+    return new PostagAlternatives(templates);
+  }
+
+  @Nullable
+  private static List<String> splitTopLevelAlternatives(String regexp) {
+    List<String> parts = new ArrayList<>();
+    int start = 0;
+    int bracketDepth = 0;
+    for (int i = 0; i < regexp.length(); i++) {
+      char c = regexp.charAt(i);
+      if (c == '[') {
+        bracketDepth++;
+      } else if (c == ']') {
+        if (bracketDepth == 0) return null; // malformed class
+        bracketDepth--;
+      } else if (c == '|' && bracketDepth == 0) {
+        parts.add(regexp.substring(start, i));
+        start = i + 1;
+      }
+    }
+    if (bracketDepth != 0) return null;
+    parts.add(regexp.substring(start));
+    return parts;
+  }
+
+  @Nullable
+  private static PostagTemplate parseSingleTemplate(String s) {
+    List<PositionMatcher> positions = new ArrayList<>();
+    int pos = 0;
+    int len = s.length();
+    boolean anyTail = false;
+
+    while (pos < len) {
+      char c = s.charAt(pos);
+
+      if (c == '.' && pos + 1 < len && s.charAt(pos + 1) == '*' && pos + 2 == len) {
+        anyTail = true;
+        break; // ".*" must be the very end of the alternative
+      }
+      if (c == '.') {
+        positions.add(PositionMatcher.WILDCARD);
+        pos++;
+        continue;
+      }
+      if (c == '[') {
+        int close = s.indexOf(']', pos + 1);
+        if (close < 0) return null;
+        char[] options = parseCharClass(s, pos + 1, close);
+        if (options == null) return null;
+        positions.add(new PositionMatcher(options));
+        pos = close + 1;
+        continue;
+      }
+      if ("\\^${}*+?".indexOf(c) >= 0) {
+        return null; // outside our grammar -> fall back to full regex
+      }
+      positions.add(new PositionMatcher(new char[]{c}));
+      pos++;
+    }
+
+    if (positions.isEmpty()) {
+      return null;
+    }
+    return new PostagTemplate(positions.toArray(new PositionMatcher[0]), anyTail);
+  }
+
+  private static final int MAX_CLASS_RANGE_WIDTH = 64;
+
+  @Nullable
+  private static char[] parseCharClass(String s, int start, int end) {
+    if (start >= end || s.charAt(start) == '^') {
+      return null; // empty or negated class -> unsupported
+    }
+    List<Character> options = new ArrayList<>();
+    int i = start;
+    while (i < end) {
+      char c1 = s.charAt(i);
+      if (c1 == '-' && i != start && i + 1 < end) {
+        char last = options.get(options.size() - 1);
+        char next = s.charAt(i + 1);
+        if (next < last || next - last > MAX_CLASS_RANGE_WIDTH) return null;
+        for (char c = (char) (last + 1); c <= next; c++) options.add(c);
+        i += 2;
+        continue;
+      }
+      options.add(c1);
+      i++;
+    }
+    char[] result = new char[options.size()];
+    for (int k = 0; k < result.length; k++) result[k] = options.get(k);
+    return result;
+  }
+
+  private static final class PositionMatcher {
+    static final PositionMatcher WILDCARD = new PositionMatcher(null);
+
+    @Nullable final char[] allowed; // null = matches any char
+
+    PositionMatcher(@Nullable char[] allowed) {
+      this.allowed = allowed;
+    }
+
+    boolean test(char c) {
+      if (allowed == null) return true;
+      for (char a : allowed) if (a == c) return true;
+      return false;
+    }
+  }
+
+  private static final class PostagTemplate {
+    final PositionMatcher[] positions;
+    final boolean anyTail; // true = "...*" (length >= positions.length), false = exact length
+
+    PostagTemplate(PositionMatcher[] positions, boolean anyTail) {
+      this.positions = positions;
+      this.anyTail = anyTail;
+    }
+
+    boolean matches(String s) {
+      int n = positions.length;
+      if (anyTail ? s.length() < n : s.length() != n) {
+        return false;
+      }
+      for (int i = 0; i < n; i++) {
+        if (!positions[i].test(s.charAt(i))) return false;
+      }
+      return true;
+    }
+  }
+
+  private static final class PostagAlternatives {
+    final PostagTemplate[] templates;
+
+    PostagAlternatives(PostagTemplate[] templates) {
+      this.templates = templates;
+    }
+
+    boolean matches(String s) {
+      for (PostagTemplate t : templates) {
+        if (t.matches(s)) return true;
+      }
+      return false;
+    }
+  }
+
+  private static final int MAX_ENUMERATED_POSTAGS = 30;
+
+  /**
+   * Like {@link #create(String, boolean, boolean)}, but for patterns where a finite universe of
+   * possible values is known (e.g. every postag a language's tagger/synthesizer can actually
+   * produce). Tries, in order:
+   *   1. The postag-template grammar (see {@link #tryCreatePostagTemplateMatcher}) — purely
+   *      syntactic, never touches {@code possibleValuesUniverseSupplier}.
+   *   2. If that fails, and only then, intersecting the regexp with the supplied universe —
+   *      {@code possibleValuesUniverseSupplier.get()} is called at most once, lazily, so callers
+   *      whose universe is expensive to compute (e.g. loading a synthesizer dictionary) only pay
+   *      that cost for the patterns that actually need it.
+   *   3. Falls back to {@link #create(String, boolean, boolean)} otherwise.
+   */
+  public static StringMatcher createWithKnownValues(String pattern, boolean isRegExp, boolean caseSensitive,
+                                                    @Nullable Supplier<Set<String>> possibleValuesUniverseSupplier) {
+    if (isRegExp) {
+      StringMatcher postagTemplateMatcher = tryCreatePostagTemplateMatcher(pattern, caseSensitive);
+      if (postagTemplateMatcher != null) {
+        return postagTemplateMatcher;
+      }
+      StringMatcher hybrid = tryCreateHybridPostagMatcher(pattern, caseSensitive, possibleValuesUniverseSupplier);
+      if (hybrid != null) {
+        return hybrid;
+      }
+    }
+    return create(pattern, isRegExp, caseSensitive);
+  }
+
+  @Nullable
+  private static Set<String> intersectWithUniverse(String pattern, boolean caseSensitive, Set<String> universe) {
+    Pattern compiled;
+    try {
+      compiled = Pattern.compile(pattern, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    } catch (PatternSyntaxException e) {
+      return null;
+    }
+    Set<String> matching = new HashSet<>();
+    for (String candidate : universe) {
+      if (compiled.matcher(candidate).matches()) {
+        matching.add(candidate);
+        if (matching.size() > MAX_ENUMERATED_POSTAGS) {
+          return null; // massa genèric per valer la pena enumerar-ho
+        }
+      }
+    }
+    return matching.isEmpty() ? null : matching;
   }
 
 }

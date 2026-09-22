@@ -26,6 +26,8 @@ import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.ErrorTriggeringExample;
 import org.languagetool.rules.IncorrectExample;
+import org.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringInterner;
 import org.languagetool.tools.StringTools;
@@ -35,7 +37,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * XML rule handler that loads rules from XML and throws
@@ -670,7 +674,9 @@ public class XMLRuleHandler extends DefaultHandler {
 
   private PatternToken.PosToken obtainPosToken(String posToken, boolean regExp, boolean negated) {
     return internedPos.computeIfAbsent(Triple.of(posToken, regExp, negated), t -> {
-      StringMatcher matcher = t.getMiddle() ? internMatcher(t.getLeft(), true, true) : null;
+      StringMatcher matcher = t.getMiddle()
+        ? StringMatcher.createWithKnownValues(StringInterner.intern(t.getLeft()), true, true, getKnownPostagsSupplier())
+        : null;
       return new PatternToken.PosToken(t.getLeft(), t.getRight(), matcher);
     });
   }
@@ -701,5 +707,42 @@ public class XMLRuleHandler extends DefaultHandler {
   }
 
   private final Map<Triple<String, Boolean, Boolean>, PatternToken.PosToken> internedPos = new HashMap<>();
+
+  private Supplier<Set<String>> knownPostagsSupplier;
+
+  private Supplier<Set<String>> getKnownPostagsSupplier() {
+    if (knownPostagsSupplier == null) {
+      knownPostagsSupplier = memoize(() -> {
+        if (language == null) {
+          return null;
+        }
+        try {
+          Synthesizer synth = language.getSynthesizer();
+          if (synth instanceof BaseSynthesizer) {
+            List<String> tags = ((BaseSynthesizer) synth).getAllPossibleTags();
+            return tags == null ? null : new HashSet<>(tags);
+          }
+        } catch (IOException e) {
+          //LoggerFactory.getLogger(XMLRuleHandler.class).warn("Could not load possible postags for {}: {}", language, e.getMessage());
+        }
+        return null;
+      });
+    }
+    return knownPostagsSupplier;
+  }
+
+  /** Wraps a Supplier so its (possibly expensive) computation runs at most once. */
+  private static <T> Supplier<T> memoize(Supplier<T> delegate) {
+    Object[] cache = new Object[1]; // [0] = computed value, may itself be null
+    boolean[] computed = new boolean[1];
+    return () -> {
+      if (!computed[0]) {
+        cache[0] = delegate.get();
+        computed[0] = true;
+      }
+      //noinspection unchecked
+      return (T) cache[0];
+    };
+  }
 
 }
