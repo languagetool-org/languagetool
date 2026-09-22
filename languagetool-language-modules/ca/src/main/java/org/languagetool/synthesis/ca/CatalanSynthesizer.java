@@ -214,11 +214,6 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       return 0;
     }
   }
-
-  public List<String> getPossibleTags() throws IOException {
-    initPossibleTags();
-    return possibleTags;
-  }
   
 }
 
