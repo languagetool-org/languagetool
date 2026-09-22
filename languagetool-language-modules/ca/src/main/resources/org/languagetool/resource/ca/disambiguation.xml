@@ -14973,7 +14973,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="N.*" postag_regexp="yes"/>
-                    <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                    <token postag="V.[MSI].*" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -17106,7 +17106,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="N.*" postag_regexp="yes"/>
-                    <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                    <token postag="V.[MSI].*" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -17169,7 +17169,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception regexp="yes">surt|parla|paga|saps|pren|passa|trama|porta|treu|trau|faig|toca</exception></token>
+                        <token postag="V.[MSI].*" postag_regexp="yes"><exception regexp="yes">surt|parla|paga|saps|pren|passa|trama|porta|treu|trau|faig|toca</exception></token>
                     </and>
                 </marker>
             </pattern>
@@ -17178,7 +17178,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rule id="NoVerb" name="no verb si no és en grup verbal">
         <pattern>
-            <token postag="_GN_.*" postag_regexp="yes" regexp="yes">sexes?|capella|capelles|capallà|diputats?|diputad(a|es)|negativa|negatives|brossa<exception postag="_GV_"/></token>
+            <token postag="_GN_.*" postag_regexp="yes" regexp="yes">sexe|sexes|capella|capelles|capallà|diputat|diputats|diputada|diputades|negativa|negatives|brossa<exception postag="_GV_"/></token>
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
@@ -17226,7 +17226,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">si|en|l'|el|la|els|les|['-].+</exception></token>
+                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">si|en|l'|el|la|els|les|'.+|-.+</exception></token>
                 </marker>
                 <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
             </pattern>
@@ -17234,7 +17234,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">si|en|l'|el|la|els|les|['-].+</exception></token>
+                <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">si|en|l'|el|la|els|les|'.+|-.+</exception></token>
                 <marker>
                     <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+|acord</exception></token>
                 </marker>
@@ -17244,7 +17244,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">si|['-].+</exception></token>
+                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">si|'.+|-.+</exception></token>
                 </marker>
                 <token regexp="yes">ben|mig</token>
                 <token postag="V.[^MNPG].*|_GV_|_perfet|_obligacio" postag_regexp="yes"/>
@@ -17307,7 +17307,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="NoVerb2" name="no verb si no és en grup verbal">
         <pattern>
             <and>
-                <token postag="V.[^P].*" postag_regexp="yes" regexp="yes">capella|capelles|capallà|senzilles|senzilla|disperses|diputats?|diputad(a|es)|negativa|negatives|terminis?|brossa|ultra|rica|estesa|esteses<exception postag="_GV_"/></token>
+                <token postag="V.[^P].*" postag_regexp="yes" regexp="yes">capella|capelles|capallà|senzilles|senzilla|disperses|diputat|diputats|diputada|diputades|negativa|negatives|terminis?|brossa|ultra|rica|estesa|esteses<exception postag="_GV_"/></token>
                 <token postag="[^V].*|V.P.*" postag_regexp="yes"/>
             </and>
         </pattern>
