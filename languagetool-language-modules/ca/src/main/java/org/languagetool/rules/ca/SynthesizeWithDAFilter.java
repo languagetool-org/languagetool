@@ -81,7 +81,7 @@ public class SynthesizeWithDAFilter extends RuleFilter {
         secondGenderNumber = reading.getPOSTag().substring(3,5);
       }
     }
-    for (String tag : synth.getPossibleTags()) {
+    for (String tag : synth.getPossibleTagsForSynthesis()) {
       Matcher m = p.matcher(tag);
       if (m.matches()) {
         String[] synthForms = synth.synthesize(originalAT, tag);

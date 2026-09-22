@@ -108,7 +108,7 @@ public class SynthesizeWithAnyDeterminerFilter extends RuleFilter {
     // original word form in the first place
     potentialSuggestions.add(originalAT);
     // second-best suggestion from the determiner
-    for (String tag : synth.getPossibleTags()) {
+    for (String tag : synth.getPossibleTagsForSynthesis()) {
       Matcher m = p.matcher(tag);
       if (m.matches()) {
         String[] synthForms = synth.synthesize(originalAT, tag);
