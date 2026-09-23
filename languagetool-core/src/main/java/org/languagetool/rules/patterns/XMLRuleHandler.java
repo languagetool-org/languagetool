@@ -717,11 +717,8 @@ public class XMLRuleHandler extends DefaultHandler {
           return null;
         }
         try {
-          Synthesizer synth = language.getSynthesizer();
-          if (synth instanceof BaseSynthesizer) {
-            List<String> tags = ((BaseSynthesizer) synth).getAllPossibleTags();
-            return tags == null ? null : new HashSet<>(tags);
-          }
+          List<String> tags = language.getAllPossibleTags();
+          return tags == null ? null : new HashSet<>(tags);
         } catch (IOException e) {
           //LoggerFactory.getLogger(XMLRuleHandler.class).warn("Could not load possible postags for {}: {}", language, e.getMessage());
         }

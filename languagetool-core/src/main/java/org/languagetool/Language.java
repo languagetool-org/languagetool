@@ -1040,4 +1040,12 @@ public abstract class Language {
     return new HashMap<>();
   }
 
+  /**
+   * Used for optimizing regexp pattern matching in StringMatcher.java.
+   * Before activating for a particular language, check that there is a complete list of all postags used.
+   */
+  public List<String> getAllPossibleTags() throws IOException {
+    return Collections.emptyList();
+  }
+
 }
