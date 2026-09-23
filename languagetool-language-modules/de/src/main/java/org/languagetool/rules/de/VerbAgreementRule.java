@@ -872,12 +872,41 @@ public class VerbAgreementRule extends TextLevelRule {
    */
   private boolean isFiniteVerb(AnalyzedTokenReadings token) {
     if (token.getToken().length() == 0
-        || (Character.isUpperCase(token.getToken().charAt(0)) && token.getStartPos() != 0)
-        || !token.hasPosTagStartingWith("VER")
-        || token.hasAnyPartialPosTag("PA2", "PRO:", "ZAL")
-        || "einst".equals(token.getToken())) {
+      || (Character.isUpperCase(token.getToken().charAt(0)) && token.getStartPos() != 0)
+      || !token.hasPosTagStartingWith("VER")
+      || token.hasAnyPartialPosTag("PA2", "PRO:", "ZAL")
+      || "einst".equals(token.getToken())) {
       return false;
     }
+
+    // Ignore words that are primarily adjectives but have incorrect verb readings
+    boolean hasAdjectiveReading = false;
+    boolean hasRealFiniteVerbReading = false;
+
+    for (AnalyzedToken reading : token) {
+      String posTag = reading.getPOSTag();
+
+      if (posTag == null) {
+        continue;
+      }
+
+      if (posTag.startsWith("ADJ:")) {
+        hasAdjectiveReading = true;
+      }
+
+      if (posTag.startsWith("VER:")
+        && (posTag.contains(":1:")
+        || posTag.contains(":2:")
+        || posTag.contains(":3:"))
+        && !posTag.endsWith(":SFT")) {
+        hasRealFiniteVerbReading = true;
+      }
+    }
+
+    if (hasAdjectiveReading && !hasRealFiniteVerbReading) {
+      return false;
+    }
+
     return token.hasAnyPartialPosTag(":1:", ":2:", ":3:");
   }
   
