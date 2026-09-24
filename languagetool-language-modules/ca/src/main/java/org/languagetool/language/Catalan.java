@@ -831,7 +831,7 @@ public class Catalan extends Language {
       "allow_repetition", "allow_saxon_genitive", "allow_tant", "AQ0MN0", "comparatiu", "complement", "complement_a",
       "complement_cada", "conjuncio", "DA0CN0", "decimal_comma", "DN0CS0", "GV", "hac_aspirada", "ignore_concordance"
       , "IS_URL", "K", "LOC_ADJ", "LOC_ADV", "LOC_ADV_TEMP", "LOC_CONJ", "LOC_PREP", "mot_foraster", "no_comparatiu",
-      "NPCPO00", "PTime", "relatiu", "repeated", "repeated_negation", "RG_anteposat", "SENT_END", "SENT_START"));
+      "NPCPO00", "NPCNM00", "PTime", "relatiu", "repeated", "repeated_negation", "RG_anteposat", "SENT_END", "SENT_START"));
     return myPossibleTags;
   }
 
