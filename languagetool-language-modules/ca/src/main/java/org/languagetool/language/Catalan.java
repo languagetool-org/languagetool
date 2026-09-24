@@ -124,6 +124,7 @@ public class Catalan extends Language {
       new LongSentenceRule(messages, userConfig, 60),
       // specific to Catalan:
       new CatalanWordRepeatRule(messages, this),
+      new CatalanPhraseRepeatRule(messages, this),
       new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
       new CatalanUnpairedQuestionMarksRule(messages, this),
       new CatalanUnpairedExclamationMarksRule(messages, this),
@@ -495,6 +496,8 @@ public class Catalan extends Language {
         return -120;
       //case "APOSTROFACIO_MOT_DESCONEGUT": return -120; // lesser than MORFOLOGIK_RULE_CA_ES
       case "PHRASE_REPETITION":
+        return -150;
+      case "CATALAN_PHRASE_REPEAT_RULE":
         return -150;
       case "SUBSTANTIUS_JUNTS":
         return -150;
