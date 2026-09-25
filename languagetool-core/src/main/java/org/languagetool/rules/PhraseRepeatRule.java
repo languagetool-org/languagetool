@@ -54,8 +54,9 @@ public class PhraseRepeatRule extends Rule {
    * Implement this method to return <code>true</code> if there's
    * a potential phrase repetition of the given length starting at the current
    * position that should be ignored, i.e. if no error should be created.
-   * @param tokens the tokens of the sentence currently being checked
-   * @param position the position of the first token of the (first occurrence of the) phrase
+   *
+   * @param tokens       the tokens of the sentence currently being checked
+   * @param position     the position of the first token of the (first occurrence of the) phrase
    * @param phraseLength the number of words in the repeated phrase (2 or 3)
    * @return this implementation always returns false
    */
@@ -89,7 +90,8 @@ public class PhraseRepeatRule extends Rule {
       int matchedLength = 0;
       // check longer phrases first so we don't report a 3-word repetition as a 2-word one
       for (int phraseLength = MAX_PHRASE_LENGTH; phraseLength >= MIN_PHRASE_LENGTH; phraseLength--) {
-        if (i + 2 * phraseLength <= tokens.length && phraseRepeatedAt(tokens, i, phraseLength) && !ignore(tokens, i, phraseLength)) {
+        if (i + 2 * phraseLength <= tokens.length && phraseRepeatedAt(tokens, i, phraseLength) && !ignore(tokens, i,
+          phraseLength)) {
           matchedLength = phraseLength;
           break;
         }
@@ -111,7 +113,8 @@ public class PhraseRepeatRule extends Rule {
   }
 
   protected RuleMatch createRuleMatch(String phrase, int fromPos, int toPos, String msg, AnalyzedSentence sentence) {
-    RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, messages.getString("desc_repetition_short"));
+    RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg, messages.getString(
+      "desc_repetition_short"));
     ruleMatch.setSuggestedReplacement(phrase);
     return ruleMatch;
   }

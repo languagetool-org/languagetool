@@ -44,7 +44,6 @@ public class MultitokenSpeller {
 
   private static final int MAX_LENGTH_DIFF = 3;
   private static final Pattern WHITESPACE_AND_SEP = compile("\\p{Zs}+");
-  private static final Pattern SPACE = compile(" ");
 
   private final SpellingCheckRule spellingRule;
   private final Language language;

@@ -42,7 +42,9 @@ public class CatalanPhraseRepeatRule extends PhraseRepeatRule {
     "segle", "mil·lenni", "mil·lenari", "minutet", "segonet", "anyet"));
 
   private static final List<String> POSTAG_EXCEPTIONS = Arrays.asList("_emoji_", "_PUNCT", "_PUNCT_CONT"
-      , "allow_repetition", "LOC_ADJ", "LOC_ADV", "LOC_CONJ", "LOC_PREP", "SENT_START", "UNKNOWN");
+    , "allow_repetition", "_allow_repeat", "LOC_ADJ", "LOC_ADV", "LOC_CONJ", "LOC_PREP", "SENT_START", "UNKNOWN");
+
+  private static final List<String> CONJUNCIONS_I_O = Arrays.asList("i", "o");
 
   // fixed 2-, 3- and 4-token antipatterns from the XML rule (as literal surface sequences)
   private static final String[][] LITERAL_ANTIPATTERNS = {
@@ -52,6 +54,7 @@ public class CatalanPhraseRepeatRule extends PhraseRepeatRule {
     {"gen", "a", "gen", "a"},
     {"de", "tu", "a", "tu"},
     {"milions", "de"},
+    {"res", "de", "res", "de"}
   };
 
   public CatalanPhraseRepeatRule(final ResourceBundle messages, final Language language) {
@@ -65,16 +68,15 @@ public class CatalanPhraseRepeatRule extends PhraseRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position, int phraseLength) {
-    if (phraseLength == 2 && ignorePhraseRepetitionRule(tokens, position)) {
+    if (phraseLength == 2 && matchesAntipattern(tokens, position, position + phraseLength)) {
+      return true;
+    }
+    if (violatesPatternExceptions(tokens, position, phraseLength)) {
       return true;
     }
     return super.ignore(tokens, position, phraseLength);
   }
 
-  private boolean ignorePhraseRepetitionRule(AnalyzedTokenReadings[] tokens, int position) {
-    int matchEnd = position + 3; // word1 word2 word1 word2
-    return violatesPatternExceptions(tokens, position) || matchesAntipattern(tokens, position, matchEnd);
-  }
 
   /**
    * Reproduces the &lt;exception&gt;s inside the rule's &lt;pattern&gt;:
@@ -82,19 +84,20 @@ public class CatalanPhraseRepeatRule extends PhraseRepeatRule {
    * word2 must additionally not be a LOC_ADV/LOC_ADJ/LOC_PREP/LOC_CONJ locution;
    * word3/word4 (the repeated pair) must not be such a locution either.
    */
-  private boolean violatesPatternExceptions(AnalyzedTokenReadings[] tokens, int position) {
+  private boolean violatesPatternExceptions(AnalyzedTokenReadings[] tokens, int position, int phraseLength) {
 
-    for (int i = position; i < position + 4; i++) {
-      AnalyzedTokenReadings token = tokens[i];
-      String tokenStr = token.getToken();
-      if (token.isPosTagUnknown()) {
+    for (int i = position; i < position + phraseLength; i++) {
+      AnalyzedTokenReadings firstToken = tokens[i];
+      AnalyzedTokenReadings secondToken = tokens[i + phraseLength];
+      String tokenStr = firstToken.getToken().toLowerCase();
+      if (firstToken.isPosTagUnknown()) {
         return true;
       }
-      if (tokenStr.equalsIgnoreCase("i") || (StringTools.isPunctuationOrSymbol(tokenStr))) {
+      if (CONJUNCIONS_I_O.contains(tokenStr) || (StringTools.isPunctuationOrSymbol(tokenStr))) {
         return true;
       }
       for (String postagException : POSTAG_EXCEPTIONS) {
-        if (token.hasPosTag(postagException)) {
+        if (firstToken.hasPosTag(postagException) || secondToken.hasPosTag(postagException)) {
           return true;
         }
       }
@@ -137,7 +140,8 @@ public class CatalanPhraseRepeatRule extends PhraseRepeatRule {
         return true;
       }
       // <token postag="_QM_OPEN"/> <token spacebefore="no"/> <token postag="_QM_CLOSE" spacebefore="no"/>
-      if (tokens[j].hasPosTag("_QM_OPEN") && tokens[j + 2].hasPosTag("_QM_CLOSE") && overlaps(j, j + 2, matchStart, matchEnd)) {
+      if (tokens[j].hasPosTag("_QM_OPEN") && tokens[j + 2].hasPosTag("_QM_CLOSE") && overlaps(j, j + 2, matchStart,
+        matchEnd)) {
         return true;
       }
     }

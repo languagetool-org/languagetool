@@ -8184,7 +8184,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <token postag="P.*" postag_regexp="yes">te</token>
-                    <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no" regexp="yes">'l|'ls|'m|'n|'ns|'ns</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no" regexp="yes">'l|'ls|'m|'n|'ns</token>
                 </marker>
             </pattern>
             <disambig action="filterall"/>
@@ -23024,6 +23024,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>la</token>
                 </marker>
                 <token>la</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>molt</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                <marker>
+                    <token>molt</token>
+                </marker>
+                <token><match no="1"/></token>
             </pattern>
             <disambig action="add">
                 <wd pos="_allow_repeat"/>

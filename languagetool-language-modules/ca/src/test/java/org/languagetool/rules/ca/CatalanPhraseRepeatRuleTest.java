@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -42,7 +42,24 @@ public class CatalanPhraseRepeatRuleTest {
   @Test
   public void testRule() throws IOException {
 
+    /*
+    aquesta és la meitat de la de la població en general
+     */
+
     //correct
+    assertCorrect("sobretot, que dubta, que dubta constantment");
+    assertCorrect("no deixava de tenir febre i més febre i més febre");
+    assertCorrect("una vegada i una altra i una altra i una altra. ");
+    assertCorrect("trobava aquest títol o aquest o aquest altre,");
+    assertCorrect(" Que sí, que sí, que ho heu llegit bé.");
+    assertCorrect("—Molt bé, molt bé, tampoc cal que et posis així ");
+    assertCorrect("però la mort –la Mort–,");
+    assertCorrect("Que…, que…, ja hi ha les entrades?");
+    assertCorrect("Que et penses que parlant descobrirem res de res de per què som aquí?");
+    assertCorrect("Què es podia esperar d'un… d'un…?");
+    assertCorrect("Imperfet de subjuntiu [é] [é] [í]");
+    assertCorrect("Soc molt vella molt vella, però que encara hi soc.");
+
     assertCorrect("No volia res més que mirar i mirar i mirar.");
     assertCorrect("A més a més, ho va fer a poc a poc.");
     assertCorrect("A diferència dels dels ocells.");

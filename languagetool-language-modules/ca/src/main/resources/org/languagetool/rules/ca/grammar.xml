@@ -34708,7 +34708,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
-        <rule id="ENTRA_ENTRE" name="entra -> entre" default="temp_off">
+        <rule id="ENTRA_ENTRE" name="entra -> entre">
             <pattern>
                 <marker>
                     <token>entra</token>
@@ -88596,7 +88596,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rulegroup id="QUEL" name="quel -> qual /que el/ que" default="temp_off">
+        <rulegroup id="QUEL" name="quel -> qual /que el/ que">
             <rule>
                 <pattern>
                     <token regexp="yes">l|el</token>
@@ -143992,7 +143992,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>de biaix</suggestion>
             <example correction="de passada|de reüll|de cua d'ull|de gairó|de biaix">La va veure passar <marker>de refiló</marker>.</example>
         </rule>
-        <rulegroup id="RELACIONAT_A_AMB" name="relacionat a -> amb" default="temp_off">
+        <rulegroup id="RELACIONAT_A_AMB" name="relacionat a -> amb">
+            <antipattern>
+                <token regexp="yes">el|l|l'|la</token>
+                <token regexp="yes">principi|inici|començament|començ|fi|final</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token postag="NP..G.*|DA.*" postag_regexp="yes" min="1" max="3"/>
+                <token>amb</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="VMP.*" postag_regexp="yes" inflected="yes">relacionar</token>
@@ -144004,6 +144013,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>La preposició adequada és 'amb'.</message>
                 <suggestion>amb e\3</suggestion>
                 <example correction="amb el">Està relacionat <marker>al</marker> procés previ</example>
+                <example>Les il·lustracions figuren relacionades al final de les llistes.</example>
             </rule>
             <rule>
                 <pattern>
