@@ -20007,6 +20007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No era gens amic d'expressar-se en públic.</example>
             <example>No és gens material.</example>
             <example>No resta gens de material.</example>
+            <example>No era gens car.</example>
         </rule>
         <rulegroup id="QUANT_QUAN" name="quant/quan">
             <rule>
@@ -20100,6 +20101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quant fa?</example>
                 <example>Quant pa vols?</example>
                 <example>Quant sucre et poso al cafè?</example>
+                <example>Quant ens estalviem?</example>
             </rule>
             <rule>
                 <pattern>
@@ -44755,6 +44757,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
+                        <token>hi<exception scope="previous">n'</exception></token>
+                        <token>ho</token>
+                    </marker>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Combinació incorrecta de pronoms febles.</message>
+                <suggestion>i ho</suggestion>
+                <suggestion>ho</suggestion>
+                <suggestion>hi</suggestion>
+                <example correction="i ho|ho|hi">Ells <marker>hi ho</marker> coneixen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token>hi</token>
                         <token>a</token>
                     </marker>
@@ -50139,7 +50155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">que|què|quals?|perquè|car|puix|si|quan|com<exception postag="_IS_URL"/><exception postag="_GN_MS"/></token>
+                    <token regexp="yes">que|què|quals?|perquè|puix|si|quan|com<exception postag="_IS_URL"/><exception postag="_GN_MS"/></token>
                     <token min="0">ja</token>
                     <marker>
                         <token>i</token>
@@ -50154,6 +50170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Va dir no sé què i se'n va anar.</example>
                 <example>posa't en contacte amb nosaltres a través d'emagister.com i rebràs el dossier informatiu</example>
                 <example>en el seu si i actua benefactorament en els malalts</example>
+                <example>Cada volta era més car i calia fer una actualització.</example>
             </rule>
             <rule>
                 <pattern>
@@ -60956,10 +60973,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DE_IA" name="de IA -> d'IA">
             <pattern>
                 <token>de</token>
-                <token case_sensitive="yes">IA</token>
+                <token case_sensitive="yes" regexp="yes">IA|IAG</token>
             </pattern>
             <message>S'escriu preferentment amb apòstrof.</message>
-            <suggestion>d'IA</suggestion>
+            <suggestion>d'\2</suggestion>
             <url>https://esadir.cat/entrades/fitxa/node/intelligencia_artificial</url>
             <example correction="d'IA">Assistirem a una jornada <marker>de IA</marker> aplicada a les matemàtiques.</example>
         </rule>
@@ -61474,7 +61491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>d'</token>
-                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">uigurs?|ió|ions|iònic[as]?|iòniques|ionitza.+|h?uix.+|Iowa|UUCP|Uialfàs|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|(?-i)IU|IA|(?-i)Iu|&sigles_apostrofen;|Huez</exception></token>
+                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">uigurs?|ió|ions|iònic[as]?|iòniques|ionitza.+|h?uix.+|Iowa|UUCP|Uialfàs|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception case_sensitive="yes" regexp="yes">IU|Iu|IA|IAG|&sigles_apostrofen;|Huez</exception></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>de <match no="2"/></suggestion>
