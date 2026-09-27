@@ -30543,6 +30543,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="a ripária"><marker>a riparia</marker></example>
             </rule>
             <rule id='PARONYM_INUMERA_610' name='Parónimo: enumeras - inúmeras'>
+                <antipattern>
+                    <token postag='SPS.+|[DP].+' postag_regexp='yes'/>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='VMIP3S0'/>
+                    <token postag='SPS.+|[DP].+' postag_regexp='yes'/>
+                    <example>O anexo enumera o conjunto de instrumentos necessários.</example>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>&art_detecao_paronimos;</token>
                     <token min='0' postag='A.+' postag_regexp='yes'/>
