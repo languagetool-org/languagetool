@@ -39,6 +39,9 @@ public class MultitokenSpellerFilter extends RuleFilter {
       return null;
     }
     String underlinedError = match.getOriginalErrorStr();
+    if (isClearlyUnsuitable(underlinedError)) {
+      return null;
+    }
     Language lang = ((PatternRule) match.getRule()).getLanguage();
     // check the spelling for some languages in a different way
     boolean areTokensAcceptedBySpeller = false;
@@ -93,6 +96,23 @@ public class MultitokenSpellerFilter extends RuleFilter {
     }
     match.setSuggestedReplacements(replacements);
     return match;
+  }
+
+  private static final int MAX_UNDERLINED_LENGTH = 50;
+
+  /* Cheaply discard inputs for which the (expensive) multitoken speller search cannot yield a suggestion. */
+  private static boolean isClearlyUnsuitable(String s) {
+    if (s.length() > MAX_UNDERLINED_LENGTH) {
+      return true;
+    }
+    int letters = 0;
+    for (int i = 0; i < s.length(); i++) {
+      if (Character.isLetter(s.charAt(i))) {
+        letters++;
+      }
+    }
+    // a multiword expression needs at least two letters (e.g. the two tokens of a proper noun)
+    return letters < 2;
   }
 
   public boolean isMisspelled(String s, Language language) throws IOException {

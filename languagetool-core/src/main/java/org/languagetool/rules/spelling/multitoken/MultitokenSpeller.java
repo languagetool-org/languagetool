@@ -50,6 +50,7 @@ public class MultitokenSpeller {
 
   private HashMap<Character, HashMap<String, List<String>>> suggestionsMap;
   private HashMap<String, List<String>> suggestionsMapNoSpacesKey;
+  private HashMap<String, String[]> candidatePartsByKey;
 
   /*
    * Ultra-naive speller that provides spelling suggestions for multitoken words from a list of words.
@@ -68,7 +69,7 @@ public class MultitokenSpeller {
 
   private final Cache<String, List<String>> suggestionsCache =
     CacheBuilder.newBuilder()
-      .maximumSize(2000)
+      .maximumSize(20000)
       .build();
 
   public List<String> getSuggestions(String originalWord, boolean areTokensAcceptedBySpeller) throws IOException {
@@ -101,18 +102,21 @@ public class MultitokenSpeller {
       }
     }
     Character firstChar = normalizedWord.charAt(0);
-    if (weightedCandidates.isEmpty() && suggestionsMap.containsKey(firstChar) ) {
-      for (Map.Entry<String, List<String>> entry : suggestionsMap.get(firstChar).entrySet()) {
-        String normalizedCandidate = entry.getKey();
-        List<String> candidates = entry.getValue();
+    HashMap<String, List<String>> candidatesByKey = suggestionsMap.get(firstChar);
+    if (weightedCandidates.isEmpty() && candidatesByKey != null) {
+      String[] wordParts = splitBySpace(normalizedWord);
+      int minLength = word.length() - MAX_LENGTH_DIFF;
+      int maxLength = word.length() + MAX_LENGTH_DIFF;
+      for (String normalizedCandidate : candidatesByKey.keySet()) {
+        int candidateLength = normalizedCandidate.length();
+        if (candidateLength < minLength || candidateLength > maxLength) {
+          continue;
+        }
+        List<String> candidates = candidatesByKey.get(normalizedCandidate);
         if (stopSearching(candidates, originalWord)) {
           return Collections.emptyList();
         }
-        if (Math.abs(normalizedCandidate.length() - word.length()) > MAX_LENGTH_DIFF) {
-          continue;
-        }
-        String[] candidateParts = splitBySpace(normalizedCandidate);
-        String[] wordParts = splitBySpace(normalizedWord);
+        String[] candidateParts = candidatePartsByKey.get(normalizedCandidate);
         List<Integer> distances = distancesPerWord(candidateParts, wordParts, normalizedCandidate, normalizedWord);
         int totalDistance = distances.stream().reduce(0, Integer::sum);
         if (totalDistance < 1) {
@@ -126,7 +130,7 @@ public class MultitokenSpeller {
           continue;
         }
         // for very short candidates, allow only distance=0 (casing and diacritics differences)
-        if (normalizedCandidate.length() < 7) {
+        if (candidateLength < 7) {
           continue;
         }
         boolean exceedsMaxDistancePerToken = false;
@@ -295,6 +299,7 @@ public class MultitokenSpeller {
     }
     suggestionsMap = new HashMap<>();
     suggestionsMapNoSpacesKey = new HashMap<>();
+    candidatePartsByKey = new HashMap<>();
     for (String filePath : filePaths) {
       try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
            BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
@@ -314,6 +319,9 @@ public class MultitokenSpeller {
             }
             Character firstChar = normalizedKey.charAt(0);
             HashMap<String, List<String>> suggestionsMapByChar = suggestionsMap.computeIfAbsent(firstChar, k -> new HashMap<>());
+            if (!suggestionsMapByChar.containsKey(normalizedKey)) {
+              candidatePartsByKey.put(normalizedKey, splitBySpace(normalizedKey));
+            }
             addToMap(suggestionsMapByChar, normalizedKey, line);
             addToMap(suggestionsMapNoSpacesKey, normalizedKey.replace(" ",""), line);
           }

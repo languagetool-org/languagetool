@@ -129552,7 +129552,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CARGOL_CARBASSA" name="cargol, carbassa / caragol, carabassa">
             <pattern>
-                <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">.*(car)(gol|bass).*</token>
+                <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">carbassa|carbassada|carbassaire|carbassal|carbassar|carbassat|carbassejar|carbassenc|carbasser|carbassera|carbasserar|carbasseta|carbassina|carbassí|carbassonera|carbassó|carbassot|carbassotada|cargol|cargolar|cargola|cargolada|cargoladís|cargolaire|cargolament|cargolera|cargolet|cargolina|cargolí|descargolar|descargolador|descargolament|recargolar|recargolat|recargoladament|recargoladíssim|recargolament</token>
             </pattern>
             <message>Forma secundària.</message>
             <suggestion><match no="1" regexp_match="(?iu)(.*car)(.*)" regexp_replace="$1a$2"/></suggestion>
@@ -148885,7 +148885,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <marker>
                     <token postag="P.*" postag_regexp="yes">es</token>
                 </marker>
-                <token postag="V.[SI].3.*" postag_regexp="yes" regexp="yes">s.*|c[ei].*</token>
+                <token postag="V.[SI].3.*" postag_regexp="yes" regexp="yes">s.*|ce.*|ci.*</token>
             </pattern>
             <message>Davant del so de 's' és recomanable usar la forma plena.</message>
             <suggestion>se</suggestion>
@@ -148900,7 +148900,7 @@ No t'ho explicaré, no cal que em burxis més-->
         </rule>
         <rule id="EXIGEIX_TENIR_VENIR" name="Exigeix infinitius venir i tenir" default="off">
             <pattern>
-                <token regexp="yes">[tv]indres?</token>
+                <token regexp="yes">tindre|vindre</token>
             </pattern>
             <message>Variant informal.</message>
             <suggestion><match no="1" regexp_match="(?iu)([tv])indre" regexp_replace="$1enir"/></suggestion>
@@ -148909,7 +148909,7 @@ No t'ho explicaré, no cal que em burxis més-->
         <rulegroup id="EVITA_INFINITIUS_INDRE" name="Evita infinitius i noms en -vindre, -tindre" default="on" tags="picky">
             <rule>
                 <pattern>
-                    <token regexp="yes">.+[tv]indre</token>
+                    <token regexp="yes">abstindre|advindre|atindre|avindre|benavindre|captindre|cartindre|contindre|contravindre|convindre|desavindre|desconvindre|detindre|entretindre|entrevindre|esdevindre|intervindre|mantindre|menystindre|obtindre|obvindre|pervindre|previndre|provindre|reconvindre|retindre|revindre|sobrevindre|sostindre|subvindre|viltindre</token>
                     <token regexp="yes">'[tmsn]</token>
                 </pattern>
                 <message>Variant secundària.</message>
@@ -148918,7 +148918,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.+[tv]indre</token>
+                    <token regexp="yes">abstindre|advindre|atindre|avindre|benavindre|captindre|cartindre|contindre|contravindre|convindre|desavindre|desconvindre|detindre|entretindre|entrevindre|esdevindre|intervindre|mantindre|menystindre|obtindre|obvindre|pervindre|previndre|provindre|reconvindre|retindre|revindre|sobrevindre|sostindre|subvindre|viltindre</token>
                     <token>'ns</token>
                 </pattern>
                 <message>Variant secundària.</message>
@@ -148927,7 +148927,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.+[tv]indres?</token>
+                    <token regexp="yes">abstindre|advindre|atindre|avindre|benavindre|captindre|cartindre|contindre|contravindre|convindre|desavindre|desconvindre|detindre|entretindre|entrevindre|esdevindre|intervindre|mantindre|menystindre|obtindre|obvindre|pervindre|previndre|provindre|reconvindre|retindre|revindre|sobrevindre|sostindre|subvindre|viltindre|avindres|benavindres|esdevindres</token>
                 </pattern>
                 <message>Variant secundària.</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.+[tv])indre(s?)" regexp_replace="$1enir$2" case_conversion="preserve"/></suggestion>
@@ -148947,7 +148947,7 @@ No t'ho explicaré, no cal que em burxis més-->
         </rule>
         <rule id="EXIGEIX_INFINITIUS_INDRE" name="Usa infinitius i noms en -vindre, -tindre" default="off">
             <pattern>
-                <token regexp="yes">.*[tv]enirs?</token>
+                <token regexp="yes">abstenir|advenir|atenir|avenir|benavenir|captenir|cartenir|contenir|contravenir|convenir|desavenir|desconvenir|detenir|entretenir|entrevenir|esdevenir|intervenir|mantenir|menystenir|obtenir|obvenir|pervenir|prevenir|provenir|reconvenir|retenir|revenir|sobrevenir|sostenir|subvenir|viltenir|avenirs|benavenirs|esdevenirs</token>
             </pattern>
             <message>Usem preferentment la terminació -indre.</message>
             <suggestion><match no="1" regexp_match="(?iu)(.*[tv])enir(s?)" regexp_replace="$1indre$2" case_conversion="preserve"/></suggestion>
