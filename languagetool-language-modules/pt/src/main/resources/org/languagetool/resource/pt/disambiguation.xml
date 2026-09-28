@@ -4160,6 +4160,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     -->
   </rule>
 
+  <rule id="PI_NC_V_PPC_20260928" name="It is not V.+">
+    <antipattern>
+      <token postag_regexp='yes' postag='SENT_START|_PUNCT'/>
+      <token regexp='yes'>quant[ao]s?</token>
+      <token>como</token>
+      <token>eu</token>
+    </antipattern>
+    <pattern>
+      <token postag_regexp='yes' postag='PI.+'/>
+      <marker>
+        <and>
+          <token postag='VMIP1S0|VMS.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós|vocês?</token>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             A Organização é vasta demais para alguém como você!
+             Como poderia amar alguém como eu?
+             Eu nunca conhecerei alguém como ela.
+             Eu nunca encontrarei alguém como ele.
+             Não há ninguém como tu.
+             Nós não contaremos para ninguém sobre eles.
+             Quantos doces você tinha?
+             Quantos telefones ela tem?
+    -->
+  </rule>
+
+  <rule id="PI_NC_V_SPS00PP_20260928" name="It is not V.+">
+    <pattern>
+      <token postag_regexp='yes' postag='PI.+'/>
+      <marker>
+        <and>
+          <token postag='VM[PS].+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token postag_regexp='yes' postag='SPS00:PP.+'/>
+    </pattern>
+    <disambig action="remove" postag="V.*"/>
+    <!--
+    Examples:
+             Dá uma testada nele!
+             Dê uma enrolada nele.
+             Dê uma lida nele antes, para ter certeza!
+             E se eu fizer algo errado comigo?
+             Ela ficou muito zangada comigo quando esqueci a reunião.
+             Ele fica muito frustrado consigo mesmo, mas ele não deveria – tens que ser corajoso, e ele é assim.
+    -->
+  </rule>
+
   <rule id="SPS00PLUS_VMIP1S0_NC_AQ_20260906" name="In this case is NC.+|AQ.+">
     <pattern>
       <token postag='SPS00:.+' postag_regexp='yes'/>
@@ -6640,7 +6694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                       <exception postag="_english_ignore_"/>
                   </token>
               </marker>
-              <token postag="_english_ignore_" postag_regexp="yes"/>
+              <token postag="_english_ignore_"/>
           </pattern>
           <filter class="org.languagetool.rules.IsEnglishWordFilter" args="formPositions:1"/>
           <disambig action="add">
@@ -6701,7 +6755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <pattern>
               <token postag="_english_ignore_"/>
               <marker>
-                  <token regexp="yes">to</token>
+                  <token>to</token>
                   <token regexp="yes" postag="UNKNOWN">\p{L}+
                       <exception regexp="yes">&english_no;|&english_forward;</exception>
                       <exception postag="_english_ignore_"/>
@@ -6718,7 +6772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <pattern>
               <token postag="_english_ignore_"/>
               <marker>
-                  <token regexp="yes">to</token>
+                  <token>to</token>
               </marker>
               <token postag="_english_ignore_"/>
           </pattern>
