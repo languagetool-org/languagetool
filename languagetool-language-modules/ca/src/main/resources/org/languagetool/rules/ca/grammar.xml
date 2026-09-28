@@ -5635,6 +5635,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Gaudiran molt gràcies a un excel·lent equip de professionals.</example>
                 <example>Això requereix molt capital.</example>
                 <example>Poden visitar tant àrees del sud com del nord.</example>
+                <example>Van demanar la nòmina dels dos i no sabeu quant puja.</example>
                 <!-- <example>influí molt Assíria</example> -->
                 <!-- <example>ser admesos com a tals Alemanya, el Japó,</example> -->
             </rule>
@@ -74006,10 +74007,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>o</token>
                     <token>més</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">avui|hui</token>
+                    <token min="0">en</token>
+                    <token>dia</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">dia|setmana</token>
                     <token regexp="yes">,|i|o|ni</token>
-                    <token min="0" max="2" regexp="yes">de|el|l</token>
+                    <token min="1" max="2" regexp="yes">de|el|l</token>
                     <marker>
                         <token>més</token>
                     </marker>
@@ -74020,6 +74026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mes">El pla del dia, de la setmana i del <marker>més</marker>.</example>
                 <example>Fou el darrer sobresalt del dia i el més gran.</example>
                 <example>Trigarem una setmana o més a tenir-ho acabat.</example>
+                <example>Avui dia, més del 90% dels circuits integrats.</example>
             </rule>
             <rule>
                 <pattern>
