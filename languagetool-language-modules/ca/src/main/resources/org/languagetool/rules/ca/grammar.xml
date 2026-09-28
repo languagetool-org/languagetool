@@ -32578,6 +32578,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="CONFUSIONS2" name="Confusions">
         <!-- higher priority than CONFUSIONS -->
+        <rulegroup id="HI_ENTES" name="hi entès -> he entès">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ho|t'|m'|l'|ens|us|vos|els|les|li</token>
+                    <marker>
+                        <token>hi</token>
+                        <token postag="V.P..SM." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Pronom feble solt.</message>
+                <suggestion>he \3</suggestion>
+                <suggestion>ha \3</suggestion>
+                <example correction="he entès|ha entès">No ho <marker>hi entès</marker> mai.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hi</token>
+                    <token postag="V.P..SM." postag_regexp="yes"/>
+                </pattern>
+                <message>Pronom feble solt.</message>
+                <suggestion>hi ha \2</suggestion>
+                <suggestion>hi he \2</suggestion>
+                <suggestion>he \2</suggestion>
+                <suggestion>ha \2</suggestion>
+                <example correction="hi ha fet|hi he fet|he fet|ha fet">No <marker>hi fet</marker> res.</example>
+            </rule>
+        </rulegroup>
         <rule id="COM_M_ES" name="com m'és -> com més">
             <pattern>
                 <token regexp="yes">com|quan</token>
@@ -76063,18 +76090,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>-<match no="2" regexp_match="(?iu)'e" regexp_replace="e'"/></suggestion>
                 <example correction="-te'l">Menja<marker>-t'el</marker>.</example>
                 <example correction="-te'ls">Menja<marker>-t'els</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>hi</token>
-                    <token postag="V.P..SM." postag_regexp="yes"/>
-                </pattern>
-                <message>Pronom feble solt.</message>
-                <suggestion>hi ha \2</suggestion>
-                <suggestion>hi he \2</suggestion>
-                <suggestion>he \2</suggestion>
-                <suggestion>ha \2</suggestion>
-                <example correction="hi ha fet|hi he fet|he fet|ha fet">No <marker>hi fet</marker> res.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -128405,7 +128420,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_GN_F." postag_regexp="yes" skip="1">ordes</token>
                     </marker>
                     <token skip="1" regexp="yes">de|d'</token>
-                    <token regexp="yes" inflected="yes">legió|garrotera|lligacama|imperi|Fènix|mèrit|temple|sant|cavalleria|cavaller|cartoixa|Hospital|Cister|Rodes|Malta|Canadà|Montesa|Ouissam Alauita|Calatrava|toisó|&ordes;|&ordes_invariable;|sacerdoci|sacerdot|prevere|bisbe|cardenal|arquebisbe|Carlemany</token>
+                    <token regexp="yes" inflected="yes">&ordes;|&ordes_invariable;|&context_orde;</token>
                 </pattern>
                 <message>En el sentit de 'societat religiosa', 'ritu cristià' o 'cos de persones unides per una regla', "orde" és masculí.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(D..|A..)FP.*" postag_replace="$1MP.*"/> ordes</suggestion>
@@ -128420,7 +128435,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="_GN_F." postag_regexp="yes" skip="1">orde</token>
                     </marker>
                     <token skip="1" regexp="yes">de|d'</token>
-                    <token regexp="yes" inflected="yes">legió|garrotera|lligacama|imperi|Fènix|mèrit|temple|sant|cavalleria|cavaller|cartoixa|Hospital|Cister|Rodes|Malta|Canadà|Montesa|Ouissam Alauita|Calatrava|toisó|&ordes;|&ordes_invariable;|sacerdoci|sacerdot|prevere|bisbe|cardenal|arquebisbe|Carlemany</token>
+                    <token regexp="yes" inflected="yes">&ordes;|&ordes_invariable;|&context_orde;</token>
                 </pattern>
                 <message>En el sentit de 'societat religiosa', 'ritu cristià' o 'cos de persones unides per una regla', "orde" és masculí.</message>
                 <suggestion><match no="1" postag_regexp="yes" postag="(D..|A..)FS.*" postag_replace="$1MS.*"/> orde</suggestion>
@@ -128441,7 +128456,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes" skip="1">ordres?</token>
                     </marker>
                     <token skip="1" regexp="yes">de|d'</token>
-                    <token regexp="yes" inflected="yes">legió|garrotera|lligacama|imperi|Fènix|mèrit|temple|sant|cavalleria|cavaller|cartoixa|Hospital|Cister|Rodes|Malta|Canadà|Montesa|Ouissam Alauita|Calatrava|toisó|&ordes;|&ordes_invariable;|Carlemany</token>
+                    <token regexp="yes" inflected="yes">&ordes;|&ordes_invariable;|&context_orde;</token>
                 </pattern>
                 <message>En el sentit de 'societat religiosa', 'ritu cristià' o 'cos de persones unides per una regla', cal dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/></suggestion>.</message>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
