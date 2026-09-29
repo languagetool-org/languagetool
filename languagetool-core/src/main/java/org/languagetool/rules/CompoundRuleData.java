@@ -35,6 +35,7 @@ public class CompoundRuleData {
   private final Set<String> joinedSuggestion = new ObjectOpenHashSet<>();
   private final Set<String> joinedLowerCaseSuggestion = new ObjectOpenHashSet<>();
   private final Set<String> dashSuggestion = new ObjectOpenHashSet<>();
+  private final Set<String> firstWords = new ObjectOpenHashSet<>();
   private final LineExpander expander;
   private boolean hasDigitPatterns = false;
 
@@ -71,6 +72,15 @@ public class CompoundRuleData {
 
   public Set<String> getJoinedLowerCaseSuggestion() {
 	return Collections.unmodifiableSet(joinedLowerCaseSuggestion);
+  }
+
+  /**
+   * @return the lower-cased first words of all known incorrect compounds. Used to quickly discard
+   * text positions where no compound can start.
+   * @since 6.9
+   */
+  public Set<String> getFirstWords() {
+    return Collections.unmodifiableSet(firstWords);
   }
 
   public boolean hasDigitPatterns() {
@@ -113,6 +123,13 @@ public class CompoundRuleData {
           dashSuggestion.add(expLine);
         }
         incorrectCompounds.add(expLine);
+        int spaceIndex = expLine.indexOf(' ');
+        if (spaceIndex > 0) {
+          String firstWord = expLine.substring(0, spaceIndex).toLowerCase();
+          if (!firstWord.contains("\\d")) {
+            firstWords.add(firstWord);
+          }
+        }
         if (expLine.contains("\\d")) {
           hasDigitPatterns = true;
         }

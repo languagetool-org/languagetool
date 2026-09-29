@@ -104,12 +104,18 @@ public abstract class AbstractCompoundRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    CompoundRuleData data = getCompoundRuleData();
+    boolean hasDigitPatterns = data.hasDigitPatterns();
+    // When there are digit patterns we can't reliably pre-filter by first word, so skip the optimization then.
+    Set<String> firstWords = hasDigitPatterns ? null : data.getFirstWords();
+    if (firstWords != null && !sentenceMayContainCompound(sentence, firstWords)) {
+      return RuleMatch.EMPTY_ARRAY;
+    }
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
 
     RuleMatch prevRuleMatch = null;
     ArrayDeque<AnalyzedTokenReadings> prevTokens = new ArrayDeque<>(MAX_TERMS);
-    boolean hasDigitPatterns = getCompoundRuleData().hasDigitPatterns();
     List<String> stringsToCheck = new ArrayList<>(MAX_TERMS);
     List<String> origStringsToCheck = new ArrayList<>(MAX_TERMS);
     Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>(MAX_TERMS * 2);
@@ -129,6 +135,11 @@ public abstract class AbstractCompoundRule extends Rule {
       }
 
       AnalyzedTokenReadings firstMatchToken = prevTokens.peek();
+      // quickly skip positions where no known compound can start
+      if (firstWords != null && !couldStartCompound(prevTokens, firstWords)) {
+        addToQueue(token, prevTokens);
+        continue;
+      }
       stringsToCheck.clear();      // no hyphens spelling
       origStringsToCheck.clear();  // original upper/lowercase and hyphens spelling
       stringToToken.clear();
@@ -140,22 +151,22 @@ public abstract class AbstractCompoundRule extends Rule {
         String origStringToCheck = origStringsToCheck.get(k);
         String digitsRegexp = null;
         boolean containsDigits = hasDigitPatterns && Stream.of(stringToCheck.split(" ")).anyMatch(s -> StringUtils.isNumeric(s));
-        if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck) ||
-            (containsDigits && getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp = DIGIT.matcher(stringToCheck).replaceAll("\\\\d+")))) {
+        if (data.getIncorrectCompounds().contains(stringToCheck) ||
+            (containsDigits && data.getIncorrectCompounds().contains(digitsRegexp = DIGIT.matcher(stringToCheck).replaceAll("\\\\d+")))) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
           List<String> replacement = new ArrayList<>();
-          if (getCompoundRuleData().getDashSuggestion().contains(stringToCheck) && !origStringToCheck.contains(" ")) {
+          if (data.getDashSuggestion().contains(stringToCheck) && !origStringToCheck.contains(" ")) {
             // It is already joined
             break;
           }
-          if (getCompoundRuleData().getDashSuggestion().contains(stringToCheck) ||
-              (containsDigits && getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp))) {
+          if (data.getDashSuggestion().contains(stringToCheck) ||
+              (containsDigits && data.getIncorrectCompounds().contains(digitsRegexp))) {
             replacement.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphenMessage;
           }
-          if (isNotAllUppercase(origStringToCheck) && getCompoundRuleData().getJoinedSuggestion().contains(stringToCheck)) {
-            replacement.add(mergeCompound(origStringToCheck, getCompoundRuleData().getJoinedLowerCaseSuggestion().stream().anyMatch(s -> stringToCheck.contains(s))));
+          if (isNotAllUppercase(origStringToCheck) && data.getJoinedSuggestion().contains(stringToCheck)) {
+            replacement.add(mergeCompound(origStringToCheck, data.getJoinedLowerCaseSuggestion().stream().anyMatch(s -> stringToCheck.contains(s))));
             msg = withoutHyphenMessage;
           }
           String[] parts = stringToCheck.split(" ");
@@ -235,6 +246,47 @@ public abstract class AbstractCompoundRule extends Rule {
       }
       j++;
     }
+  }
+
+  /*
+   * Cheap pre-filter: can any known compound start at the oldest token of the current window?
+   * Only prunes when the oldest (non-empty) token is a simple single word; in any other case
+   * it returns true so that no match is missed.
+   */
+  private boolean couldStartCompound(Queue<AnalyzedTokenReadings> prevTokens, Set<String> firstWords) {
+    for (AnalyzedTokenReadings atr : prevTokens) {
+      String token = atr.getToken();
+      if (token.isEmpty()) {
+        continue; // e.g. SENT_START
+      }
+      String normalized = (token.indexOf('-') < 0 && token.indexOf(' ') < 0) ? token : normalize(token);
+      if (normalized.isEmpty() || normalized.indexOf(' ') >= 0) {
+        return true; // hyphenated/multi-word token: don't risk a wrong decision
+      }
+      return firstWords.contains(normalized.toLowerCase());
+    }
+    return true;
+  }
+
+  /*
+   * Cheap sentence-level pre-filter: is there any token that could be the first word of a known
+   * compound? If not, the whole rule can be skipped for this sentence.
+   */
+  private boolean sentenceMayContainCompound(AnalyzedSentence sentence, Set<String> firstWords) {
+    for (String token : sentence.getTokenSet()) {
+      if (token.isEmpty()) {
+        continue;
+      }
+      String normalized = token.indexOf('-') < 0 ? token : normalize(token);
+      int spaceIndex = normalized.indexOf(' ');
+      if (spaceIndex > 0) {
+        normalized = normalized.substring(0, spaceIndex);
+      }
+      if (!normalized.isEmpty() && firstWords.contains(normalized.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private String normalize(String inStr) {

@@ -45,7 +45,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   private volatile boolean initialized;
   private Map<String, Integer> mStartSpace;
-  private Map<String, Integer> mStartNoSpace;
+  private Map<Character, Integer> mStartNoSpace;
   private Map<String, SuggestionWithMessage> mFullSpace;
   private Map<String, SuggestionWithMessage> mFullNoSpace;
 
@@ -194,7 +194,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           endIndex++;
         }
       }
-      if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
+      if (!mStartNoSpace.isEmpty() && mStartNoSpace.containsKey(tok.charAt(0))) {
         int endIndex = startIndex;
         StringBuilder keyBuilder = new StringBuilder();
         while (endIndex < tokens.length && endIndex - startIndex < MAX_TOKENS_IN_MULTIWORD) {
@@ -382,7 +382,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     synchronized (this) {
       if (initialized) return;
       Object2IntOpenHashMap<String> mStartSpace = new Object2IntOpenHashMap<>();
-      Object2IntOpenHashMap<String> mStartNoSpace = new Object2IntOpenHashMap<>();
+      Object2IntOpenHashMap<Character> mStartNoSpace = new Object2IntOpenHashMap<>();
       Object2ObjectOpenHashMap<String, SuggestionWithMessage> mFullSpace = new Object2ObjectOpenHashMap<>();
       Object2ObjectOpenHashMap<String, SuggestionWithMessage> mFullNoSpace = new Object2ObjectOpenHashMap<>();
       fillMaps(mStartSpace, mStartNoSpace, mFullSpace, mFullNoSpace);
@@ -398,7 +398,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     }
   }
 
-  private void fillMaps(Map<String, Integer> mStartSpace, Map<String, Integer> mStartNoSpace, Map<String,
+  private void fillMaps(Map<String, Integer> mStartSpace, Map<Character, Integer> mStartNoSpace, Map<String,
     SuggestionWithMessage> mFullSpace, Map<String, SuggestionWithMessage> mFullNoSpace) {
     try {
       for (URL filePath : getAllFilePaths()) {
@@ -452,7 +452,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             SuggestionWithMessage suggestionWithMessage = new SuggestionWithMessage(suggestion, msg);
             boolean containsSpace = wrongForm.indexOf(' ') > 0;
             if (!containsSpace) {
-              String firstChar = searchKey.substring(0, 1);
+              char firstChar = searchKey.charAt(0);
               if (mStartNoSpace.containsKey(firstChar)) {
                 if (mStartNoSpace.get(firstChar) < searchKey.length()) {
                   mStartNoSpace.put(firstChar, searchKey.length());
