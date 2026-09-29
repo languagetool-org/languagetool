@@ -27,6 +27,7 @@ import org.languagetool.tagging.Tagger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -47,23 +48,23 @@ public abstract class AbstractSuppressMisspelledSuggestionsFilter extends RuleFi
     String suppressMatch = getRequired("suppressMatch", arguments);
     String suppressPostag = getOptional("SuppressPostag", arguments);
     String filterPostag = getOptional("FilterPostag", arguments);
-    List<AnalyzedTokenReadings> atrs = new ArrayList<>();
-    if (tagger != null && (suppressPostag != null || filterPostag != null)) {
-      atrs = tagger.tag(replacements);
-    }
+    boolean checkPostag = tagger != null && (suppressPostag != null || filterPostag != null);
     for (int i = 0; i < replacements.size(); i++) {
-      if (!isMisspelled(replacements.get(i), language)) {
+      String replacement = replacements.get(i);
+      if (!isMisspelled(replacement, language)) {
         boolean addReplacement = true;
-        if (tagger != null) {
-          if (suppressPostag != null && atrs.get(i).matchesPosTagRegex(suppressPostag)) {
+        // Tag only replacements that are not misspelled (the postag is only needed for them).
+        if (checkPostag) {
+          AnalyzedTokenReadings atr = tagger.tag(Collections.singletonList(replacement)).get(0);
+          if (suppressPostag != null && atr.matchesPosTagRegex(suppressPostag)) {
             addReplacement = false;
           }
-          if (filterPostag != null && !atrs.get(i).matchesPosTagRegex(filterPostag)) {
+          if (filterPostag != null && !atr.matchesPosTagRegex(filterPostag)) {
             addReplacement = false;
           }
         }
         if (addReplacement) {
-          newReplacements.add(replacements.get(i));
+          newReplacements.add(replacement);
         }
       }
     }

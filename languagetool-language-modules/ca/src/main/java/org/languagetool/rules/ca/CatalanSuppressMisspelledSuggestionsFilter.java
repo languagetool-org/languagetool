@@ -42,6 +42,17 @@ public class CatalanSuppressMisspelledSuggestionsFilter extends AbstractSuppress
     if (spellerRule == null) {
       return true;
     }
+    // Fast path: run the speller rule without the (expensive) disambiguator. If it already
+    // finds a problem, there is no need for a full analysis. Only suggestions that pass this
+    // cheap check need the full analysis to look for the "_incorrect_verb_" chunk tag.
+    // Restricted to single tokens: multi-token suggestions may be accepted thanks to chunk
+    // tags added by the disambiguator, so they need the full analysis.
+    if (s.indexOf(' ') < 0) {
+      AnalyzedSentence rawSentence = language.createDefaultJLanguageTool().getRawAnalyzedSentence(s);
+      if (spellerRule.match(rawSentence).length > 0) {
+        return true;
+      }
+    }
     List<AnalyzedSentence> sentences = language.createDefaultJLanguageTool().analyzeText(s);
     AnalyzedSentence sentence = sentences.get(0);
     boolean hasIncorrectVerb = Arrays.stream(sentence.getTokensWithoutWhitespace())
