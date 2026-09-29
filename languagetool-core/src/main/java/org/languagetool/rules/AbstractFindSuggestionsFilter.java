@@ -27,6 +27,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -38,6 +41,12 @@ import org.languagetool.tools.StringTools;
 public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
   final protected int MAX_SUGGESTIONS = 10;
+
+  // Filters are singletons per class (see RuleFilterCreator), so this cache is shared by all rules
+  // using the filter. Spell suggestions are expensive to compute and deterministic.
+  private final Cache<String, List<String>> spellingSuggestionsCache = CacheBuilder.newBuilder()
+      .maximumSize(10000)
+      .build();
 
   abstract protected Tagger getTagger();
 
@@ -102,7 +111,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         if (removeSuggestionsRegexp != null) {
           regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.UNICODE_CASE);
         }
-        List<String> suggestions = getSpellingSuggestions(atrWord);
+        List<String> suggestions = getSpellingSuggestionsCached(atrWord);
         int usedPriorityPostagPos = 0;
         if (suggestions.size() > 0) {
           for (String suggestion : suggestions) {
@@ -242,6 +251,20 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   protected boolean isSuggestionException(AnalyzedTokenReadings analyzedSuggestion) {
     return false;
   };
+
+  /*
+   * Spell suggestions only depend on the token and whether it is tagged (some languages derive a
+   * different query for tagged words), so cache them by that key.
+   */
+  protected List<String> getSpellingSuggestionsCached(AnalyzedTokenReadings atr) throws IOException {
+    String key = atr.getToken() + '\u0000' + atr.isTagged();
+    List<String> cached = spellingSuggestionsCache.getIfPresent(key);
+    if (cached == null) {
+      cached = getSpellingSuggestions(atr);
+      spellingSuggestionsCache.put(key, cached);
+    }
+    return cached;
+  }
 
   private boolean equalWithoutDiacritics(String s, String t) {
     return StringTools.removeDiacritics(s).equalsIgnoreCase(StringTools.removeDiacritics(t));

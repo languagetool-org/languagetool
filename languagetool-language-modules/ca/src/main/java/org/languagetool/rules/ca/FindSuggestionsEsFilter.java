@@ -61,7 +61,7 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
     }
     posWord++;
     AnalyzedTokenReadings atrWord = patternTokens[posWord];
-    List<String> suggestions = getSpellingSuggestions(atrWord);
+    List<String> suggestions = getSpellingSuggestionsCached(atrWord);
     boolean usedEsAccent = false;
     boolean usedEs = false;
     if (suggestions.size() > 0) {
