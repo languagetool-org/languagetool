@@ -944,7 +944,12 @@ public final class StringTools {
    * Number of occurrences of string t inside string s
    */
   public static int numberOf(String s, String t) {
-    return s.length() - s.replace(t, "").length();
+    if (t.isEmpty()) return 0;
+    int count = 0;
+    for (int i = s.indexOf(t); i >= 0; i = s.indexOf(t, i + t.length())) {
+      count++;
+    }
+    return count;
   }
 
   public static String convertToTitleCaseIteratingChars(String text) {

@@ -157,28 +157,28 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         tok = tok + tokens[k].getToken();
         k++;
       }
-      if (getCaseSensitivy() == CaseSensitivy.CI) {
+      boolean ci = getCaseSensitivy() == CaseSensitivy.CI;
+      if (ci) {
         tok = tok.toLowerCase();
       }
-      if (mStartSpace.containsKey(tok)) {
+      Integer maxTokenLenBoxed = mStartSpace.get(tok);
+      if (maxTokenLenBoxed != null) {
+        int maxTokenLen = maxTokenLenBoxed;
         StringBuilder keyBuilder = new StringBuilder();
-        int maxTokenLen = mStartSpace.get(tok);
+        int numberOfSpaces = 0;
         int endIndex = startIndex;
         while (endIndex < tokens.length && endIndex - startIndex < MAX_TOKENS_IN_MULTIWORD) {
           if (endIndex > startIndex && tokens[endIndex].isWhitespaceBefore()) {
             keyBuilder.append(" ");
+            numberOfSpaces++;
           }
           keyBuilder.append(tokens[endIndex].getToken());
-          String originalStr = keyBuilder.toString();
-          int numberOfSpaces = StringTools.numberOf(originalStr, " ");
           if (numberOfSpaces + 1 > maxTokenLen) {
             break;
           }
           if (numberOfSpaces > 0) {
-            String keyStr = originalStr;
-            if (getCaseSensitivy() == CaseSensitivy.CI) {
-              keyStr = keyStr.toLowerCase();
-            }
+            String originalStr = keyBuilder.toString();
+            String keyStr = ci ? originalStr.toLowerCase() : originalStr;
             SuggestionWithMessage suggestionWithMessage = mFullSpace.get(keyStr);
             createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,
               sentStart, checkCaseCoveredUpto);
@@ -203,10 +203,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           keyBuilder.append(tokens[endIndex].getToken());
           String originalStr = keyBuilder.toString();
-          String keyStr = originalStr;
-          if (getCaseSensitivy() == CaseSensitivy.CI) {
-            keyStr = keyStr.toLowerCase();
-          }
+          String keyStr = ci ? originalStr.toLowerCase() : originalStr;
           SuggestionWithMessage suggestionWithMessage = mFullNoSpace.get(keyStr);
           createMatch(ruleMatches, suggestionWithMessage, startIndex, endIndex, originalStr, tokens, sentence,
             sentStart, checkCaseCoveredUpto);
