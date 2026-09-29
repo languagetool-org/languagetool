@@ -396,7 +396,9 @@ public final class CommandLineTools {
     }
     
     long ruleEndTime =  System.currentTimeMillis();
-    System.out.printf("\nTotal rule time: %d ms\n", (ruleEndTime - disambigEndTime)/iterationCount);
+    long totalRuleTime = (ruleEndTime - disambigEndTime)/iterationCount;
+    System.out.printf("\nTotal rule time: %d ms\n", totalRuleTime);
+    System.out.printf("Total time: %d ms (analyze + disambig + rules)\n", analyzeTime + disambigTime + totalRuleTime);
   }
 
   private static long median(long[] m) {

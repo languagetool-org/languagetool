@@ -111,12 +111,14 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
   static class TokenHint {
     final boolean inflected;
     final String[] lowerCaseValues;
+    final Set<String> lowerCaseValueSet;
     final int tokenIndex;
 
     private TokenHint(boolean inflected, Set<String> possibleValues, int tokenIndex) {
       this.inflected = inflected;
       this.tokenIndex = tokenIndex;
       lowerCaseValues = possibleValues.stream().map(s -> intern(s.toLowerCase())).distinct().toArray(String[]::new);
+      lowerCaseValueSet = new HashSet<>(Arrays.asList(lowerCaseValues));
     }
 
     @Override
@@ -137,19 +139,41 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
      * @return all indices inside sentence's non-blank tokens where this token could possibly match
      */
     List<Integer> getPossibleIndices(AnalyzedSentence sentence) {
+      Set<String> sentenceValues = inflected ? sentence.getLemmaSet() : sentence.getTokenSet();
       boolean needMerge = false;
       List<Integer> result = null;
-      for (String hint : lowerCaseValues) {
-        List<Integer> hintIndices = getHintIndices(sentence, hint);
-        if (hintIndices != null) {
-          if (result == null) {
-            result = hintIndices;
-          } else {
-            if (!needMerge) {
-              result = new ArrayList<>(result);
-              needMerge = true;
+      // iterate over the smaller of the two sets: for tokens with thousands of possible values this
+      // avoids scanning all of them for every sentence
+      if (lowerCaseValueSet.size() <= sentenceValues.size()) {
+        for (String hint : lowerCaseValues) {
+          List<Integer> hintIndices = getHintIndices(sentence, hint);
+          if (hintIndices != null) {
+            if (result == null) {
+              result = hintIndices;
+            } else {
+              if (!needMerge) {
+                result = new ArrayList<>(result);
+                needMerge = true;
+              }
+              result.addAll(hintIndices);
             }
-            result.addAll(hintIndices);
+          }
+        }
+      } else {
+        for (String value : sentenceValues) {
+          if (lowerCaseValueSet.contains(value)) {
+            List<Integer> hintIndices = getHintIndices(sentence, value);
+            if (hintIndices != null) {
+              if (result == null) {
+                result = hintIndices;
+              } else {
+                if (!needMerge) {
+                  result = new ArrayList<>(result);
+                  needMerge = true;
+                }
+                result.addAll(hintIndices);
+              }
+            }
           }
         }
       }
@@ -158,9 +182,18 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
     }
 
     private boolean canBeIgnoredFor(AnalyzedSentence sentence) {
-      for (String hint : lowerCaseValues) {
-        if (getHintIndices(sentence, hint) != null) {
-          return false;
+      Set<String> sentenceValues = inflected ? sentence.getLemmaSet() : sentence.getTokenSet();
+      if (lowerCaseValueSet.size() <= sentenceValues.size()) {
+        for (String hint : lowerCaseValues) {
+          if (getHintIndices(sentence, hint) != null) {
+            return false;
+          }
+        }
+      } else {
+        for (String value : sentenceValues) {
+          if (lowerCaseValueSet.contains(value)) {
+            return false;
+          }
         }
       }
       return true;
