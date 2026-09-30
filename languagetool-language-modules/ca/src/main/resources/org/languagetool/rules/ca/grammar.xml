@@ -17039,6 +17039,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="V.P..SM." postag_regexp="yes"><exception scope="previous" inflected="yes">haver</exception></token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">verb|mot|paraula</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>que</token>
@@ -17068,7 +17072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">fer<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
                         <!-- |V.IP3S.. -->
-                        <token postag="V..P3S00" postag_regexp="yes" regexp="yes">.*[àíai]</token>
+                        <token postag="V..P3S00" postag_regexp="yes" regexp="yes">.*[àíai]<exception postag_regexp="yes" postag="LOC_ADV|_perfet|NC.*"/><exception>publica</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="(V.)I.*" postag_regexp="yes" postag_replace="$1N.*"/></suggestion>? O bé reviseu la puntuació.</message>
@@ -17076,6 +17080,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dubtar">L'únic que em feia <marker>dubta</marker> era el color.</example>
                 <example>Tot el que fem està relacionat.</example>
                 <example>El que va fer contribuí a la grandesa de l'Església.</example>
+                <example>Si t'hagués volgut fer mal ja ho hauria fet fa estona?</example>
+                <example>La delimitació de la tasca que hi féu ha originat polèmiques.</example>
+                <example>Li havien fet mofa quan es va trencar el compromís.</example>
+                <example>Li he donat perquè m’ha fet pena!</example>
+                <example>He fet befa dels quilos.</example>
+                <example>No n'hi havia cap més que li fes ombra.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -17103,15 +17113,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Odien a qui menys poder té.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">deure|voler|poder|desitjar|esperar|agradar|deixar<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag_regexp="yes" postag="V.*" regexp="yes" inflected="yes">deure|voler|poder|desitjar|esperar|agradar|deixar<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="VMIS3S..|VMIP3S.." postag_regexp="yes" regexp="yes">.*[aiàíé]<exception>està</exception><exception postag="_possible_nompropi|LOC_ADV" postag_regexp="yes"/></token>
+                        <token postag="VMIS3S..|VMIP3S.." postag_regexp="yes" regexp="yes">.*[aiàíé]<exception>està</exception><exception postag="_possible_nompropi|LOC_ADV|N.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="(V.)I.*" postag_regexp="yes" postag_replace="$1N.*"/></suggestion>? O bé reviseu la puntuació.</message>
                 <example correction="concentrar">Les persones es poden <marker>concentrà</marker> on vulguin.</example>
                 <example correction="partir">Esperaven <marker>partí</marker> avui.</example>
                 <example correction="practicar">M'agrada <marker>practica</marker> esport.</example>
+                <example correction="semblar">I no voldria <marker>sembla</marker> un tafaner.</example>
                 <example>poder cal una major col·laboració del públic</example>
                 <example>qui vullga pot tornar a dinar en casa</example>
                 <example>Qualsevol que ho desitgi pot aportar-hi mostres representatives.</example>
@@ -17125,12 +17136,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ens va deixar fa gairebé tres anys.</example>
                 <example>Malauradament ens va deixar fa uns anys.</example>
                 <example>Que no la va deixar fa mesos?</example>
+                <example>La dualitat de poders produí nombrosos enfrontaments.</example>
+                <example>Que és per a nosaltres, el cafè, o esperes visita?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>fonts</token>
+                    <token>i</token>
+                    <token>deus</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">deus?|vols?|pots?|espera<exception postag="_GN_.*|_possible_nompropi|complement_a" postag_regexp="yes"/></token>
+                    <token regexp="yes">deus?|vols?|pots?|espera<exception postag="_GN_.*|_possible_nompropi|complement_a" postag_regexp="yes"/><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="VMIS3S..|VMIP3S.." postag_regexp="yes" regexp="yes">.*[aiàíé]</token>
+                        <token postag="VMIS3S..|VMIP3S.." postag_regexp="yes" regexp="yes">.*[aiàíé]<exception postag="[NA].*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="(V.)I.*" postag_regexp="yes" postag_replace="$1N.*"/></suggestion>?</message>
@@ -17140,6 +17158,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>M'he d'afanyar, el meu vol surt en una hora.</example>
                 <example>Aquest divendres l'Associació Pots celebra la seva primera gala.</example>
                 <example>Als deu va decidir deixar de fer-ho.</example>
+                <example>Vols salsa?</example>
+                <example>La velocitat de vol seria de 35 milles.</example>
             </rule>
             <rule>
                 <pattern>
@@ -70838,7 +70858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.I.3S.." postag_regexp="yes"/>
                     <token min="0" regexp="yes">de|d'</token>
                     <token min="0" postag_regexp="yes" postag="V.[PN].*"/>
-                    <token postag="D...S." postag_regexp="yes" skip="-1"/>
+                    <token postag="D...S.|D...P." postag_regexp="yes" skip="-1"/>
                     <token>?</token>
                 </pattern>
                 <message>Si és un pronom interrogatiu (=quina cosa), s'escriu amb accent. S'escriu sense accent si la resposta és "sí" o "no" ("Que vindràs?").</message>
@@ -70847,6 +70867,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què">¿<marker>Que</marker> ha de fer la Joana?</example>
                 <example correction="Què">¿<marker>Que</marker> ha de fer la teva dona?</example>
                 <example correction="Què">¿<marker>Que</marker> va comprar el teu germà?</example>
+                <example correction="Què">¿<marker>Que</marker> diferencia els reaccionaris dels conservadors?</example>
+                <example correction="Què">¿<marker>Que</marker> diferencia el preu de la qualitat?</example>
                 <example>Que va venir un dilluns?</example>
                 <example>Que fa una mica de fred?</example>
                 <example>Que fa gaire temps que sou aquí?</example>
@@ -70974,6 +70996,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>¿Què es pot plantejar l'any que ve?</example>
             <example>¿Què s'empatollaven, doncs, els mestres i els professors?</example>
             <example>Què s'empatollaven, doncs, els mestres i els professors?</example>
+            <example>Què diferencia els reaccionaris dels conservadors?</example>
             <example>Que no em coneixes?</example>
             <example>Que abans corria en carreres a galop?</example>
             <example>Que ho feia bé?</example>
@@ -74015,7 +74038,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">dia|setmana</token>
                     <token regexp="yes">,|i|o|ni</token>
-                    <token min="1" max="2" regexp="yes">de|el|l</token>
+                    <token min="0" max="2" regexp="yes">de|el|l</token>
                     <marker>
                         <token>més</token>
                     </marker>
@@ -74027,6 +74050,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fou el darrer sobresalt del dia i el més gran.</example>
                 <example>Trigarem una setmana o més a tenir-ho acabat.</example>
                 <example>Avui dia, més del 90% dels circuits integrats.</example>
+                <example correction="mes">mesura temporal (hora, dia, setmana, <marker>més</marker>):</example>
             </rule>
             <rule>
                 <pattern>
