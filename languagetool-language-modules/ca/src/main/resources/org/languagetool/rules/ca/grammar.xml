@@ -40702,6 +40702,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
+                        <token inflected="yes">anomenar<exception postag="_reflexiu"/></token>
+                    </marker>
+                    <token inflected="yes">fill</token>
+                    <token regexp="yes" inflected="yes">predilecte|adoptiu</token>
+                </pattern>
+                <message>En el sentit de 'designar per a un càrrec', cal usar el verb 'nomenar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)^a" regexp_replace=""/></suggestion>
+                <example correction="nomenat">Va ser <marker>anomenat</marker> fill predilecte del municipi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">anomenar<exception postag="_reflexiu"/></token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">&carrecs;<exception inflected="yes">doctor</exception></token>
+                </pattern>
+                <message>En el sentit de 'designar per a un càrrec', cal usar el verb 'nomenar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)^a" regexp_replace=""/></suggestion>
+                <example correction="nomenat">Va ser <marker>anomenat</marker> president del país.</example>
+                <example>Els caps provincials, que actualment s'anomenen directors de Salut.</example>
+                <example>Es fa anomenar doctora Brooklyn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token inflected="yes">anomenar</token>
                     </marker>
                     <token regexp="yes" max="2">com|per|a</token>
@@ -70847,6 +70872,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[IS].3S.*" postag_regexp="yes" inflected="yes">passar</token>
                     <token postag="D.*" postag_regexp="yes" min="0"/>
                     <token postag="NC.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&dies_setmana;|&parts_dia;|&unitats_temps;|&periodes_temps;|&estacions;</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">abaixar|abandonar|acabar|amagar|amenaçar|apujar|augmentar|baixar|buscar|cercar|col·leccionar|contar|conèixer|costar|deixar|desar|disminuir|donar|dur|elegir|emportar|endur|ensenyar|enviar|escollir|entendre|estendre|explicar|fer|guardar|incloure|jutjar|manar|mossegar|perdre|perfumar|portar|preferir|prestar|pujar|quedar|rebre|recomanar|remenar|rentar|repassar|ressuscitar|restar|saber|seleccionar|ser|tenir|tirar|trametre|treballar|treure|triar|trobar|veure</token>
+                    <token postag="D...P." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
