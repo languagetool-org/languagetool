@@ -833,8 +833,15 @@ public abstract class StringMatcher {
     return cp -> cp == c || Character.toLowerCase(cp) == lower || Character.toUpperCase(cp) == upper;
   }
 
-  private static IntPredicate caseInsensitivePredicate(IntPredicate base) {
-    return cp -> base.test(cp) || base.test(Character.toLowerCase(cp)) || base.test(Character.toUpperCase(cp));
+  // Mirrors java.util.regex CharPredicates.forProperty(name, caseIns=true)
+  private static IntPredicate caseInsensitivePredicate(String name, IntPredicate base) {
+    if (name.equals("Lu") || name.equals("Ll")) {
+      return cp -> {
+        int t = Character.getType(cp);
+        return t == Character.UPPERCASE_LETTER || t == Character.LOWERCASE_LETTER || t == Character.TITLECASE_LETTER;
+      };
+    }
+    return base;
   }
 
   /** A single atom together with how many times it may repeat. */
