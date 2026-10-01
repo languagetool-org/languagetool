@@ -830,7 +830,8 @@ public class Catalan extends Language {
       "_es_impersonal_sg", "_es_personal_pl", "_es_personal_sg", "_frances_", "_GN_FP", "_GN_FS", "_GN_MP", "_GN_MS",
       "_GV_", "_Latin_", "_loc_enma", "_loc_meitat", "_loc_nosequi", "_loc_unavegada", "_marca_passat", "_no_relatiu"
       , "_obligacio", "_perfet", "_possible_nompropi", "_PUNCT", "_PUNCT_CONT", "_PUNCT_SENT_START", "_QM_CLOSE",
-      "_QM_OPEN", "_reflexiu", "_reflexiu_complement", "_trespunts", "allow_com", "allow_masculine",
+      "_QM_OPEN", "_reflexiu", "_reflexiu_complement", "_trespunts", "UNKNOWN", "_IS_URL", "_C_TEMPS",
+      "contraccio", "allow_com", "allow_masculine",
       "allow_repetition", "allow_saxon_genitive", "allow_tant", "AQ0MN0", "comparatiu", "complement", "complement_a",
       "complement_cada", "conjuncio", "DA0CN0", "decimal_comma", "DN0CS0", "GV", "hac_aspirada", "ignore_concordance"
       , "IS_URL", "K", "LOC_ADJ", "LOC_ADV", "LOC_ADV_TEMP", "LOC_CONJ", "LOC_PREP", "mot_foraster", "no_comparatiu",
