@@ -616,7 +616,8 @@ public abstract class StringMatcher {
           if (close < 0) return null;
           IntPredicate base = PROPERTY_PREDICATES.get(s.substring(pos + 3, close));
           if (base == null) return null;
-          predicate = caseSensitive ? base : caseInsensitivePredicate(base);
+          String name = s.substring(pos + 3, close);
+          predicate = caseSensitive ? base : caseInsensitivePredicate(name, base);
           next = close + 1;
         } else if (escaped == 'd') {
           predicate = ASCII_DIGIT;
