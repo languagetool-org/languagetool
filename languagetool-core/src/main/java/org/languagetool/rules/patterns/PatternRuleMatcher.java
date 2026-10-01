@@ -79,6 +79,17 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    return match(sentence, 0, Integer.MAX_VALUE);
+  }
+
+  /**
+   * Like {@link #match(AnalyzedSentence)}, but only considers matches starting at token indices within
+   * {@code [minStartIndex, maxStartIndex]}. Only safe if the caller knows that every match it is interested
+   * in starts within that range.
+   * @since 6.9
+   */
+  @ApiStatus.Internal
+  public RuleMatch[] match(AnalyzedSentence sentence, int minStartIndex, int maxStartIndex) throws IOException {
 //    long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = new ArrayList<>();
     String key = monitorRules ? rule.getFullId() + ": " + sentence.getText() : null;
@@ -89,7 +100,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       AnalyzedTokenReadings[] tokens = isInterpretPosTagsPreDisambiguation()
                                        ? sentence.getPreDisambigTokensWithoutWhitespace()
                                        : sentence.getTokensWithoutWhitespace();
-      doMatch(sentence, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
+      doMatch(sentence, tokens, minStartIndex, maxStartIndex, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
         RuleMatch ruleMatch = createRuleMatch(tokenPositions, tokens, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken, sentence);
         if (ruleMatch != null) {
           ruleMatches.add(ruleMatch);

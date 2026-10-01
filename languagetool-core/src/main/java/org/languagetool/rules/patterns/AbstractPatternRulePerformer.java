@@ -63,6 +63,15 @@ public abstract class AbstractPatternRulePerformer {
   }
 
   protected void doMatch(AnalyzedSentence sentence, AnalyzedTokenReadings[] tokens, MatchConsumer consumer) throws IOException {
+    doMatch(sentence, tokens, 0, Integer.MAX_VALUE, consumer);
+  }
+
+  /**
+   * Like {@link #doMatch(AnalyzedSentence, AnalyzedTokenReadings[], MatchConsumer)}, but only tries to start a match
+   * at token indices within {@code [minStartIndex, maxStartIndex]}. This is safe only if the caller knows that every
+   * match it is interested in starts within that range.
+   */
+  protected void doMatch(AnalyzedSentence sentence, AnalyzedTokenReadings[] tokens, int minStartIndex, int maxStartIndex, MatchConsumer consumer) throws IOException {
     AbstractTokenBasedRule.TokenHint anchor = rule.anchorHint;
     List<Integer> anchorIndices = anchor == null || isInterpretPosTagsPreDisambiguation() ? null : anchor.getPossibleIndices(sentence);
 
@@ -71,12 +80,14 @@ public abstract class AbstractPatternRulePerformer {
     if (anchorIndices != null) {
       for (Integer anchorIndex : anchorIndices) {
         int i = anchorIndex - anchor.tokenIndex;
-        if (i >= 0 && i < limit) {
+        if (i >= minStartIndex && i <= maxStartIndex && i >= 0 && i < limit) {
           matchFrom(i, tokens, consumer, tokenPositions);
         }
       }
     } else {
-      for (int i = 0; i < limit; i++) {
+      int from = Math.max(0, minStartIndex);
+      int to = Math.min(limit - 1, maxStartIndex);
+      for (int i = from; i <= to; i++) {
         matchFrom(i, tokens, consumer, tokenPositions);
       }
     }

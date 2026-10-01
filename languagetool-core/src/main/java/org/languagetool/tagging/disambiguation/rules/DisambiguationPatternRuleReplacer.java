@@ -67,7 +67,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         tokenCount++;
       }
       int matchingTokens = (int)Arrays.stream(tokenPositions).filter(i -> i != 0).count();
-      if (keepDespiteFilter(tokens, tokenPositions, firstMatchToken, lastMatchToken) && keepByDisambig(sentence, ruleMatchFromPos, ruleMatchToPos)) {
+      if (keepDespiteFilter(tokens, tokenPositions, firstMatchToken, lastMatchToken) && keepByDisambig(sentence, ruleMatchFromPos, ruleMatchToPos, firstMatchToken, lastMatchToken)) {
         whTokens[0] = executeAction(sentence, whTokens[0], unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);
         changed[0] = true;
       }
@@ -78,7 +78,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     return sentence;
   }
 
-  private boolean keepByDisambig(AnalyzedSentence sentence, int ruleMatchFromPos, int ruleMatchToPos) throws IOException {
+  private boolean keepByDisambig(AnalyzedSentence sentence, int ruleMatchFromPos, int ruleMatchToPos, int firstMatchToken, int lastMatchToken) throws IOException {
     List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
     // Computed lazily, at most once per call: rule.getLanguage() is invariant across the loop below,
     // so there's no need to re-resolve the default language variant / build a new Unifier per antipattern.
@@ -90,7 +90,13 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           // not the grammar unifier of the rule's language, which may not even be configured yet
           antiPatternUnifier = rule.getLanguage().getDefaultLanguageVariant().getDisambiguationUnifier();
         }
-        RuleMatch[] matches = new PatternRuleMatcher(antiPattern, false, antiPatternUnifier).match(sentence);
+        // Restrict the search to the tokens that can overlap the rule's match: an antipattern match that
+        // overlaps must start at or before the rule match's last token. If the antipattern cannot skip tokens,
+        // it can also span at most `maxSpanTokens`, which bounds how far before the match it can start.
+        int maxSpanTokens = antiPattern.getMaxSpanTokens();
+        int minStartIndex = maxSpanTokens < 0 ? 0 : Math.max(0, firstMatchToken - maxSpanTokens);
+        int maxStartIndex = lastMatchToken;
+        RuleMatch[] matches = new PatternRuleMatcher(antiPattern, false, antiPatternUnifier).match(sentence, minStartIndex, maxStartIndex);
         for (RuleMatch disMatch : matches) {
           if ((disMatch.getFromPos() <= ruleMatchFromPos && disMatch.getToPos() >= ruleMatchFromPos) ||  // left overlap of rule match start
               (disMatch.getFromPos() <= ruleMatchToPos && disMatch.getToPos() >= ruleMatchToPos) ||  // right overlap of rule match end
