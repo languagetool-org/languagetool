@@ -41,6 +41,13 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
   @Nullable
   final TokenHint anchorHint;
 
+  // POS tags that each pattern token requires (used as a fast discard check)
+  @Nullable
+  private final List<Set<String>> posHints;
+
+  // Maximum number of tokens a match can span, or -1 if unbounded. Used to limit matching to a window.
+  private final int maxSpanTokens;
+
   private final byte minTokenCount;
 
   protected AbstractTokenBasedRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified) {
@@ -48,13 +55,30 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
 
     Set<TokenHint> tokenHints = new HashSet<>();
     TokenHint anchorHint = null;
+    List<Set<String>> collectedPosHints = new ArrayList<>();
 
     boolean fixedOffset = true;
     int minTokenCount = patternTokens.isEmpty() || canMatchSentenceStart(patternTokens.get(0)) ? 0 : 1;
+    int maxSpanTokens = 0;
+    boolean maxSpanBounded = true;
     for (int i = 0; i < patternTokens.size(); i++) {
       PatternToken token = patternTokens.get(i);
       if (token.getMinOccurrence() > 0) {
         minTokenCount++;
+      }
+
+      Set<String> posHints = token.calcPosHints();
+      if (posHints != null) {
+        collectedPosHints.add(posHints);
+      }
+
+      if (maxSpanBounded) {
+        int maxOccurrence = token.getMaxOccurrence();
+        if (token.getSkipNext() != 0 || maxOccurrence < 0) {
+          maxSpanBounded = false;
+        } else {
+          maxSpanTokens += Math.max(1, maxOccurrence);
+        }
       }
 
       boolean inflected = false;
@@ -82,6 +106,8 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
         .thenComparing(th -> -Arrays.stream(th.lowerCaseValues).mapToInt(String::length).min().orElse(0))
       ).toArray(TokenHint[]::new);
     this.anchorHint = anchorHint;
+    this.posHints = collectedPosHints.isEmpty() ? null : collectedPosHints;
+    this.maxSpanTokens = maxSpanBounded ? maxSpanTokens : -1;
     this.minTokenCount = (byte) Math.min(minTokenCount, Byte.MAX_VALUE);
   }
 
@@ -96,13 +122,42 @@ public abstract class AbstractTokenBasedRule extends AbstractPatternRule {
   @ApiStatus.Internal
   public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
     if (sentence.getNonWhitespaceTokenCount() < minTokenCount) return true;
-    if (tokenHints == null) return false;
-    for (TokenHint th : tokenHints) {
-      if (th.canBeIgnoredFor(sentence)) {
-        return true;
+    if (tokenHints != null) {
+      for (TokenHint th : tokenHints) {
+        if (th.canBeIgnoredFor(sentence)) {
+          return true;
+        }
+      }
+    }
+    if (posHints != null && !isInterpretPosTagsPreDisambiguation()) {
+      Set<String> sentencePosTags = sentence.getPosTagSet();
+      for (Set<String> posHint : posHints) {
+        boolean found = false;
+        for (String posTag : posHint) {
+          if (sentencePosTags.contains(posTag)) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          return true;
+        }
       }
     }
     return false;
+  }
+
+  /**
+   * @return the maximum number of tokens a match of this rule can span, or {@code -1} if unbounded.
+   * Used internally for performance optimization.
+   */
+  @ApiStatus.Internal
+  public int getMaxSpanTokens() {
+    return maxSpanTokens;
+  }
+
+  private boolean isInterpretPosTagsPreDisambiguation() {
+    return this instanceof PatternRule && ((PatternRule) this).isInterpretPosTagsPreDisambiguation();
   }
 
   /**

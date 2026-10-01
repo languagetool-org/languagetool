@@ -51,9 +51,13 @@ public abstract class StringMatcher {
 
   private static final Map<String, IntPredicate> PROPERTY_PREDICATES = new HashMap<>();
   static {
+    PROPERTY_PREDICATES.put("L", Character::isLetter);
     PROPERTY_PREDICATES.put("Ll", cp -> Character.getType(cp) == Character.LOWERCASE_LETTER);
     PROPERTY_PREDICATES.put("Lu", cp -> Character.getType(cp) == Character.UPPERCASE_LETTER);
-    // add more here later (e.g. "P" -> punctuation) using the same map
+    PROPERTY_PREDICATES.put("N", cp -> Character.getType(cp) >= Character.DECIMAL_DIGIT_NUMBER
+                                      && Character.getType(cp) <= Character.OTHER_NUMBER);
+    PROPERTY_PREDICATES.put("P", StringMatcher::isPunctuation);
+    // add more here later (e.g. others) using the same map
   }
 
   private StringMatcher(String pattern, boolean isRegExp, boolean caseSensitive) {
@@ -90,12 +94,6 @@ public abstract class StringMatcher {
     if ("\\p{P}".equals(pattern)) {
       return punctuationMatcher(pattern, caseSensitive);
     }
-
-    StringMatcher propertySequenceMatcher = tryCreatePropertySequenceMatcher(pattern, caseSensitive);
-    if (propertySequenceMatcher != null) {
-      return propertySequenceMatcher;
-    }
-
 
     // always compile the pattern to check it's well-formed
     Pattern compiled = Pattern.compile(pattern, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -138,6 +136,11 @@ public abstract class StringMatcher {
           return set.contains(s);
         }
       };
+    }
+
+    StringMatcher sequenceMatcher = tryCreateSequenceMatcher(pattern, caseSensitive, compiled);
+    if (sequenceMatcher != null) {
+      return sequenceMatcher;
     }
 
     Substrings required = getRequiredSubstrings(pattern);
@@ -476,27 +479,501 @@ public abstract class StringMatcher {
       || type == Character.FINAL_QUOTE_PUNCTUATION;
   }
 
+  private static final IntPredicate ANY_CODE_POINT = cp -> !isLineTerminator(cp);
+  private static final IntPredicate ASCII_DIGIT = cp -> cp >= '0' && cp <= '9';
+  private static final IntPredicate ASCII_WORD = cp ->
+    (cp >= 'a' && cp <= 'z') || (cp >= 'A' && cp <= 'Z') || (cp >= '0' && cp <= '9') || cp == '_';
+  private static final IntPredicate ASCII_SPACE = cp -> cp == ' ' || cp == '\t' || cp == '\n' || cp == 0x0B || cp == '\f' || cp == '\r';
+
+  private static boolean isLineTerminator(int cp) {
+    return cp == '\n' || cp == '\r' || cp == 0x85 || cp == 0x2028 || cp == 0x2029;
+  }
+
+  /**
+   * Tries to build a specialized matcher for a regexp that consists only of a disjunction of
+   * sequences of "simple" atoms: literal characters, {@code .}, {@code [..]} character classes,
+   * {@code \p{..}} properties and the {@code \d}/{@code \w}/{@code \s} classes, each optionally
+   * followed by a {@code ?}/{@code *}/{@code +}/{@code {m,n}} quantifier. Groups, backreferences,
+   * lookaround and other advanced constructs make the method return {@code null}, so the caller
+   * falls back to full regexp matching.
+   *
+   * <p>This avoids the costly {@link java.util.regex} engine for the many simple patterns used in
+   * {@code grammar.xml} and {@code disambiguation.xml}, and mirrors its case-sensitivity semantics.
+   */
   @Nullable
-  private static StringMatcher tryCreatePropertySequenceMatcher(String pattern, boolean caseSensitive) {
-    PropertySequence seq = parsePropertySequence(pattern);
-    if (seq == null) {
+  private static StringMatcher tryCreateSequenceMatcher(String pattern, boolean caseSensitive, Pattern regexFallback) {
+    String regexp = pattern;
+    boolean effectiveCaseSensitive = caseSensitive;
+    // A leading inline flag that disables case-insensitivity applies to the rest of the pattern.
+    if (regexp.startsWith("(?-i)")) {
+      regexp = regexp.substring(5);
+      effectiveCaseSensitive = true;
+    }
+    List<List<IntTerm>> alternatives = parseAlternatives(regexp, effectiveCaseSensitive);
+    if (alternatives == null) {
       return null;
     }
-    return new StringMatcher(pattern, true, caseSensitive) {
-      @Nullable
-      @Override
-      public Set<String> getPossibleValues() {
+    List<RunAlternative> runAlternatives = new ArrayList<>(alternatives.size());
+    for (List<IntTerm> terms : alternatives) {
+      RunAlternative runAlternative = toRunAlternative(terms);
+      if (runAlternative == null) {
+        return null; // more than one quantified atom: let java.util.regex handle it
+      }
+      runAlternatives.add(runAlternative);
+    }
+    // The matcher is built with the original case-sensitivity flag (not the one overridden by a
+    // leading "(?-i)"), because PatternToken.isCaseSensitive() is used to inherit the case
+    // sensitivity of exceptions. The effective flag is already baked into the predicates.
+    return new RunSequenceMatcher(pattern, caseSensitive, runAlternatives, regexFallback);
+  }
+
+  @Nullable
+  private static RunAlternative toRunAlternative(List<IntTerm> terms) {
+    int runIndex = -1;
+    for (int i = 0; i < terms.size(); i++) {
+      IntTerm term = terms.get(i);
+      if (term.min != 1 || term.max != 1) {
+        if (runIndex >= 0) {
+          return null;
+        }
+        runIndex = i;
+      }
+    }
+    if (runIndex < 0) {
+      CharPredicate[] all = new CharPredicate[terms.size()];
+      for (int i = 0; i < terms.size(); i++) {
+        all[i] = toCharPredicate(terms.get(i).predicate);
+      }
+      return new RunAlternative(all, null, 0, 0, EMPTY_PREDICATES);
+    }
+    CharPredicate[] prefix = new CharPredicate[runIndex];
+    for (int i = 0; i < runIndex; i++) {
+      prefix[i] = toCharPredicate(terms.get(i).predicate);
+    }
+    IntTerm run = terms.get(runIndex);
+    CharPredicate[] suffix = new CharPredicate[terms.size() - runIndex - 1];
+    for (int i = 0; i < suffix.length; i++) {
+      suffix[i] = toCharPredicate(terms.get(runIndex + 1 + i).predicate);
+    }
+    return new RunAlternative(prefix, toCharPredicate(run.predicate), run.min, run.max, suffix);
+  }
+
+  private static final CharPredicate[] EMPTY_PREDICATES = new CharPredicate[0];
+
+  private static CharPredicate toCharPredicate(IntPredicate predicate) {
+    boolean[] ascii = new boolean[128];
+    for (int c = 0; c < ascii.length; c++) {
+      ascii[c] = predicate.test(c);
+    }
+    return new CharPredicate(ascii, predicate);
+  }
+
+  @Nullable
+  private static List<List<IntTerm>> parseAlternatives(String regexp, boolean caseSensitive) {
+    String r = regexp;
+    if (r.startsWith("\\b")) {
+      r = r.substring(2);
+    }
+    if (r.startsWith("^")) {
+      r = r.substring(1);
+    }
+    if (r.endsWith("\\b") && !r.endsWith("\\\\b")) {
+      r = r.substring(0, r.length() - 2);
+    }
+    if (r.endsWith("$") && !r.endsWith("\\$")) {
+      r = r.substring(0, r.length() - 1);
+    }
+    List<String> parts = splitTopLevelAlternatives(r);
+    if (parts == null) {
+      return null;
+    }
+    List<List<IntTerm>> result = new ArrayList<>(parts.size());
+    for (String part : parts) {
+      List<IntTerm> terms = parseSequence(part, caseSensitive);
+      if (terms == null) {
         return null;
       }
+      result.add(terms);
+    }
+    return result;
+  }
 
-      @Override
-      public boolean matches(String s) {
-        if (s.length() > MAX_MATCH_LENGTH) {
+  @Nullable
+  private static List<IntTerm> parseSequence(String s, boolean caseSensitive) {
+    List<IntTerm> terms = new ArrayList<>();
+    int pos = 0;
+    int len = s.length();
+    while (pos < len) {
+      char c = s.charAt(pos);
+      IntPredicate predicate;
+      int next;
+      if (c == '\\') {
+        if (pos + 1 >= len) return null;
+        char escaped = s.charAt(pos + 1);
+        if (escaped == 'p') {
+          if (pos + 2 >= len || s.charAt(pos + 2) != '{') return null;
+          int close = s.indexOf('}', pos + 3);
+          if (close < 0) return null;
+          IntPredicate base = PROPERTY_PREDICATES.get(s.substring(pos + 3, close));
+          if (base == null) return null;
+          predicate = caseSensitive ? base : caseInsensitivePredicate(base);
+          next = close + 1;
+        } else if (escaped == 'd') {
+          predicate = ASCII_DIGIT;
+          next = pos + 2;
+        } else if (escaped == 'w') {
+          predicate = ASCII_WORD;
+          next = pos + 2;
+        } else if (escaped == 's') {
+          predicate = ASCII_SPACE;
+          next = pos + 2;
+        } else if (Character.isLetterOrDigit(escaped)) {
+          return null; // \b, \n, \1, ... not supported
+        } else {
+          predicate = literalPredicate(escaped, caseSensitive);
+          next = pos + 2;
+        }
+      } else if (c == '.') {
+        predicate = ANY_CODE_POINT;
+        next = pos + 1;
+      } else if (c == '[') {
+        int close = findCharClassEnd(s, pos);
+        if (close < 0) return null;
+        IntPredicate classPredicate = parseCharClassPredicate(s, pos + 1, close, caseSensitive);
+        if (classPredicate == null) return null;
+        predicate = classPredicate;
+        next = close + 1;
+      } else if (c == '(' || c == ')' || c == '*' || c == '+' || c == '?' || c == '{' || c == '}'
+                 || c == '^' || c == '$' || c == '|' || c == ']') {
+        return null;
+      } else {
+        predicate = literalPredicate(c, caseSensitive);
+        next = pos + 1;
+      }
+      int min = 1;
+      int max = 1;
+      if (next < len) {
+        char q = s.charAt(next);
+        if (q == '?') {
+          min = 0;
+          next++;
+        } else if (q == '*') {
+          min = 0;
+          max = Integer.MAX_VALUE;
+          next++;
+        } else if (q == '+') {
+          max = Integer.MAX_VALUE;
+          next++;
+        } else if (q == '{') {
+          int close = s.indexOf('}', next + 1);
+          if (close < 0) return null;
+          int[] bounds = parseOccurrenceBounds(s.substring(next + 1, close));
+          if (bounds == null) return null;
+          min = bounds[0];
+          max = bounds[1];
+          next = close + 1;
+        }
+        if (next < len) {
+          char lazy = s.charAt(next);
+          if (lazy == '?') {
+            next++; // lazy quantifier accepts the same strings as a greedy one for a full match
+          } else if (lazy == '+') {
+            return null; // possessive quantifier changes which strings are accepted
+          }
+        }
+      }
+      terms.add(new IntTerm(predicate, min, max));
+      pos = next;
+    }
+    return terms;
+  }
+
+  @Nullable
+  private static int[] parseOccurrenceBounds(String body) {
+    int comma = body.indexOf(',');
+    try {
+      if (comma < 0) {
+        int n = Integer.parseInt(body);
+        return new int[]{n, n};
+      }
+      int min = body.substring(0, comma).isEmpty() ? 0 : Integer.parseInt(body.substring(0, comma));
+      String maxPart = body.substring(comma + 1);
+      int max = maxPart.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(maxPart);
+      if (min > max) return null;
+      return new int[]{min, max};
+    } catch (NumberFormatException e) {
+      return null;
+    }
+  }
+
+  private static int findCharClassEnd(String s, int start) {
+    int i = start + 1;
+    int len = s.length();
+    if (i < len && s.charAt(i) == '^') {
+      i++;
+    }
+    if (i < len && s.charAt(i) == ']') {
+      i++; // a ']' in the first position is a literal
+    }
+    while (i < len) {
+      char c = s.charAt(i);
+      if (c == '\\') {
+        i += 2;
+        continue;
+      }
+      if (c == ']') {
+        return i;
+      }
+      if (c == '[') {
+        return -1; // nested classes are not supported
+      }
+      i++;
+    }
+    return -1;
+  }
+
+  @Nullable
+  private static IntPredicate parseCharClassPredicate(String s, int start, int end, boolean caseSensitive) {
+    boolean negated = false;
+    int i = start;
+    if (i < end && s.charAt(i) == '^') {
+      negated = true;
+      i++;
+    }
+    List<int[]> ranges = new ArrayList<>();
+    List<Integer> singles = new ArrayList<>();
+    List<IntPredicate> extras = new ArrayList<>();
+    while (i < end) {
+      char c = s.charAt(i);
+      if (c == '\\') {
+        if (i + 1 >= end) return null;
+        char escaped = s.charAt(i + 1);
+        if (escaped == 'd') {
+          extras.add(ASCII_DIGIT);
+          i += 2;
+          continue;
+        }
+        if (escaped == 'w') {
+          extras.add(ASCII_WORD);
+          i += 2;
+          continue;
+        }
+        if (escaped == 's') {
+          extras.add(ASCII_SPACE);
+          i += 2;
+          continue;
+        }
+        if (Character.isLetterOrDigit(escaped)) {
+          return null;
+        }
+        c = escaped;
+        i += 2;
+      } else {
+        i++;
+      }
+      if (i < end - 1 && s.charAt(i) == '-') {
+        char rangeEnd = s.charAt(i + 1);
+        int afterRange = i + 2;
+        if (rangeEnd == '\\') {
+          if (i + 2 >= end) return null;
+          char escapedEnd = s.charAt(i + 2);
+          if (Character.isLetterOrDigit(escapedEnd)) return null;
+          rangeEnd = escapedEnd;
+          afterRange = i + 3;
+        }
+        if (rangeEnd < c || rangeEnd - c > MAX_CLASS_RANGE_WIDTH) {
+          return null;
+        }
+        ranges.add(new int[]{c, rangeEnd});
+        i = afterRange;
+      } else {
+        singles.add((int) c);
+      }
+    }
+    int[] sortedSingles = new int[singles.size()];
+    for (int k = 0; k < sortedSingles.length; k++) {
+      sortedSingles[k] = singles.get(k);
+    }
+    Arrays.sort(sortedSingles);
+    boolean neg = negated;
+    return cp -> {
+      boolean member = containsInClass(cp, ranges, sortedSingles, extras);
+      if (!caseSensitive) {
+        member = member
+          || containsInClass(Character.toLowerCase(cp), ranges, sortedSingles, extras)
+          || containsInClass(Character.toUpperCase(cp), ranges, sortedSingles, extras);
+      }
+      return neg ^ member;
+    };
+  }
+
+  private static boolean containsInClass(int cp, List<int[]> ranges, int[] sortedSingles, List<IntPredicate> extras) {
+    for (int[] range : ranges) {
+      if (cp >= range[0] && cp <= range[1]) {
+        return true;
+      }
+    }
+    if (cp <= Character.MAX_VALUE && Arrays.binarySearch(sortedSingles, (char) cp) >= 0) {
+      return true;
+    }
+    for (IntPredicate extra : extras) {
+      if (extra.test(cp)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static IntPredicate literalPredicate(char c, boolean caseSensitive) {
+    if (caseSensitive) {
+      return cp -> cp == c;
+    }
+    int lower = Character.toLowerCase(c);
+    int upper = Character.toUpperCase(c);
+    return cp -> cp == c || Character.toLowerCase(cp) == lower || Character.toUpperCase(cp) == upper;
+  }
+
+  private static IntPredicate caseInsensitivePredicate(IntPredicate base) {
+    return cp -> base.test(cp) || base.test(Character.toLowerCase(cp)) || base.test(Character.toUpperCase(cp));
+  }
+
+  /** A single atom together with how many times it may repeat. */
+  private static final class IntTerm {
+    final IntPredicate predicate;
+    final int min;
+    final int max;
+
+    IntTerm(IntPredicate predicate, int min, int max) {
+      this.predicate = predicate;
+      this.min = min;
+      this.max = max;
+    }
+  }
+
+  /**
+   * Tests a single code point, with an ASCII lookup table to keep the common case fast.
+   * All predicates share this class so that {@link #test} stays monomorphic and gets inlined.
+   */
+  private static final class CharPredicate {
+    private final boolean[] ascii;
+    private final IntPredicate fallback;
+
+    CharPredicate(boolean[] ascii, IntPredicate fallback) {
+      this.ascii = ascii;
+      this.fallback = fallback;
+    }
+
+    boolean test(char c) {
+      return c < 128 ? ascii[c] : fallback.test(c);
+    }
+  }
+
+  /** One alternative of a pattern that contains at most one quantified atom. */
+  private static final class RunAlternative {
+    final CharPredicate[] prefix;
+    final CharPredicate run;  // null if there is no quantified atom
+    final int runMin;
+    final int runMax;
+    final CharPredicate[] suffix;
+
+    RunAlternative(CharPredicate[] prefix, CharPredicate run, int runMin, int runMax, CharPredicate[] suffix) {
+      this.prefix = prefix;
+      this.run = run;
+      this.runMin = runMin;
+      this.runMax = runMax;
+      this.suffix = suffix;
+    }
+  }
+
+  /**
+   * A specialized matcher for a disjunction of sequences that contain at most one quantified atom,
+   * implemented with plain character loops instead of {@link java.util.regex}. Supplementary code
+   * points are delegated to the compiled regexp to preserve exact semantics.
+   */
+  private static final class RunSequenceMatcher extends StringMatcher {
+    private final List<RunAlternative> alternatives;
+    private final Pattern regexFallback;
+
+    RunSequenceMatcher(String pattern, boolean caseSensitive, List<RunAlternative> alternatives, Pattern regexFallback) {
+      super(pattern, true, caseSensitive);
+      this.alternatives = alternatives;
+      this.regexFallback = regexFallback;
+    }
+
+    @Nullable
+    @Override
+    public Set<String> getPossibleValues() {
+      return null;
+    }
+
+    @Override
+    public boolean matches(String s) {
+      int len = s.length();
+      if (len > MAX_MATCH_LENGTH) {
+        return false;
+      }
+      if (containsSurrogate(s, len)) {
+        return regexFallback.matcher(new InterruptibleCharSequence(s)).matches();
+      }
+      for (RunAlternative alt : alternatives) {
+        if (matchesAlternative(alt, s, len)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private static boolean containsSurrogate(String s, int len) {
+      for (int i = 0; i < len; i++) {
+        if (Character.isSurrogate(s.charAt(i))) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private static boolean matchesAlternative(RunAlternative alt, String s, int len) {
+      int i = 0;
+      CharPredicate[] prefix = alt.prefix;
+      for (int k = 0; k < prefix.length; k++) {
+        if (i >= len || !prefix[k].test(s.charAt(i))) {
           return false;
         }
-        return seq.matches(s);
+        i++;
       }
-    };
+      CharPredicate run = alt.run;
+      if (run == null) {
+        if (len - i != alt.suffix.length) {
+          return false;
+        }
+        return suffixMatches(alt.suffix, s, i);
+      }
+      int maxEnd = i;
+      while (maxEnd < len && run.test(s.charAt(maxEnd))) {
+        maxEnd++;
+      }
+      int runCount = maxEnd - i;
+      if (alt.suffix.length == 0) {
+        return maxEnd == len && runCount >= alt.runMin && runCount <= alt.runMax;
+      }
+      int upper = Math.min(runCount, alt.runMax);
+      for (int rc = upper; rc >= alt.runMin; rc--) {
+        int pos = i + rc;
+        if (len - pos == alt.suffix.length && suffixMatches(alt.suffix, s, pos)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private static boolean suffixMatches(CharPredicate[] suffix, String s, int pos) {
+      for (int k = 0; k < suffix.length; k++) {
+        if (!suffix[k].test(s.charAt(pos + k))) {
+          return false;
+        }
+      }
+      return true;
+    }
   }
 
   @Nullable
@@ -612,132 +1089,6 @@ public abstract class StringMatcher {
         }
       }
       return Pattern.compile(unresolvedRegexp, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    }
-  }
-
-  /**
-   * Recognizes a restricted grammar: zero or more exact "\p{Prop}" terms, optionally followed
-   * by exactly one final term that is "\p{Prop}+", "\p{Prop}*", or ".*". Returns {@code null}
-   * if the pattern doesn't fit this shape, so the caller can fall back to full regex matching.
-   */
-  @Nullable
-  private static PropertySequence parsePropertySequence(String regexp) {
-    if (regexp.startsWith("\\b")) {
-      regexp = regexp.substring(2);
-    }
-    if (regexp.startsWith("^")) {
-      regexp = regexp.substring(1);
-    }
-    if (regexp.endsWith("\\b") && !regexp.endsWith("\\\\b")) {
-      regexp = regexp.substring(0, regexp.length() - 2);
-    }
-    if (regexp.endsWith("$") && !regexp.endsWith("\\$")) {
-      regexp = regexp.substring(0, regexp.length() - 1);
-    }
-
-    List<IntPredicate> exactTerms = new ArrayList<>();
-    IntPredicate finalPredicate = null;
-    boolean finalIsAny = false;
-    boolean finalRequiresOne = false;
-    boolean hasFinal = false;
-
-    int pos = 0;
-    int len = regexp.length();
-    while (pos < len) {
-      if (regexp.startsWith("\\p{", pos)) {
-        int close = regexp.indexOf('}', pos + 3);
-        if (close < 0) {
-          return null;
-        }
-        String prop = regexp.substring(pos + 3, close);
-        IntPredicate pred = PROPERTY_PREDICATES.get(prop);
-        if (pred == null) {
-          return null;
-        }
-        pos = close + 1;
-        char quant = pos < len ? regexp.charAt(pos) : 0;
-        if (quant == '+' || quant == '*') {
-          pos++;
-          if (pos != len) {
-            return null; // a quantified term must be the last thing in the pattern
-          }
-          hasFinal = true;
-          finalPredicate = pred;
-          finalRequiresOne = quant == '+';
-          break;
-        } else {
-          exactTerms.add(pred); // matches exactly one code point
-        }
-      } else if (regexp.startsWith(".*", pos)) {
-        pos += 2;
-        if (pos != len) {
-          return null; // ".*" must be the last thing in the pattern
-        }
-        hasFinal = true;
-        finalIsAny = true;
-        break;
-      } else {
-        return null; // anything else falls back to full regex matching
-      }
-    }
-
-    if (exactTerms.isEmpty() && !hasFinal) {
-      return null;
-    }
-    return new PropertySequence(exactTerms, hasFinal, finalPredicate, finalIsAny, finalRequiresOne);
-  }
-
-  private static final class PropertySequence {
-    final List<IntPredicate> exactTerms;
-    final boolean hasFinal;
-    final IntPredicate finalPredicate;
-    final boolean finalIsAny;      // true for a trailing ".*"
-    final boolean finalRequiresOne; // true for a trailing "+", false for "*" or ".*"
-
-    PropertySequence(List<IntPredicate> exactTerms, boolean hasFinal, IntPredicate finalPredicate,
-                     boolean finalIsAny, boolean finalRequiresOne) {
-      this.exactTerms = exactTerms;
-      this.hasFinal = hasFinal;
-      this.finalPredicate = finalPredicate;
-      this.finalIsAny = finalIsAny;
-      this.finalRequiresOne = finalRequiresOne;
-    }
-
-    boolean matches(String s) {
-      int len = s.length();
-      int i = 0;
-
-      for (IntPredicate pred : exactTerms) {
-        if (i >= len) {
-          return false;
-        }
-        int cp = s.codePointAt(i);
-        if (!pred.test(cp)) {
-          return false;
-        }
-        i += Character.charCount(cp);
-      }
-
-      if (!hasFinal) {
-        return i == len;
-      }
-      if (finalIsAny) {
-        return true; // rest of the string, including empty, is accepted
-      }
-
-      int count = 0;
-      while (i < len) {
-        int cp = s.codePointAt(i);
-        if (!finalPredicate.test(cp)) {
-          break;
-        }
-        count++;
-        i += Character.charCount(cp);
-      }
-      if (finalRequiresOne && count == 0) {
-        return false;
-      }
-      return i == len; // the property run must consume the rest of the string
     }
   }
 
@@ -940,17 +1291,31 @@ public abstract class StringMatcher {
    * Like {@link #create(String, boolean, boolean)}, but for patterns where a finite universe of
    * possible values is known (e.g. every postag a language's tagger/synthesizer can actually
    * produce). Tries, in order:
-   *   1. The postag-template grammar (see {@link #tryCreatePostagTemplateMatcher}) — purely
-   *      syntactic, never touches {@code possibleValuesUniverseSupplier}.
-   *   2. If that fails, and only then, intersecting the regexp with the supplied universe —
+   *   1. Intersecting the regexp with the supplied universe; if no more than
+   *      {@link #MAX_ENUMERATED_POSTAGS} values match, the result is a set matcher that also
+   *      exposes those values via {@link #getPossibleValues()} (used for POS hints).
    *      {@code possibleValuesUniverseSupplier.get()} is called at most once, lazily, so callers
    *      whose universe is expensive to compute (e.g. loading a synthesizer dictionary) only pay
    *      that cost for the patterns that actually need it.
+   *   2. The postag-template grammar (see {@link #tryCreatePostagTemplateMatcher}) — purely
+   *      syntactic, for patterns too broad to enumerate.
    *   3. Falls back to {@link #create(String, boolean, boolean)} otherwise.
    */
   public static StringMatcher createWithKnownValues(String pattern, boolean isRegExp, boolean caseSensitive,
-                                                    @Nullable Supplier<Set<String>> possibleValuesUniverseSupplier) {
+                                                     @Nullable Supplier<Set<String>> possibleValuesUniverseSupplier) {
     if (isRegExp) {
+      // Enumerating the regexp against the known universe of postags, when it stays small enough, gives the
+      // fastest possible matcher (a set lookup) and - unlike the specialized matchers below - one whose
+      // getPossibleValues() is not null, so that rules can be pre-filtered with POS hints.
+      if (possibleValuesUniverseSupplier != null) {
+        Set<String> universe = possibleValuesUniverseSupplier.get();
+        if (universe != null && !universe.isEmpty()) {
+          Set<String> matching = intersectWithUniverse(pattern, caseSensitive, universe);
+          if (matching != null) {
+            return enumeratedSetMatcher(pattern, caseSensitive, matching);
+          }
+        }
+      }
       StringMatcher postagTemplateMatcher = tryCreatePostagTemplateMatcher(pattern, caseSensitive);
       if (postagTemplateMatcher != null) {
         return postagTemplateMatcher;
@@ -961,6 +1326,27 @@ public abstract class StringMatcher {
       }
     }
     return create(pattern, isRegExp, caseSensitive);
+  }
+
+  private static StringMatcher enumeratedSetMatcher(String pattern, boolean caseSensitive, Set<String> set) {
+    Set<String> interned = new HashSet<>(set.size());
+    for (String s : set) {
+      interned.add(intern(s));
+    }
+    return new StringMatcher(pattern, true, caseSensitive) {
+      @Override
+      public Set<String> getPossibleValues() {
+        return Collections.unmodifiableSet(interned);
+      }
+
+      @Override
+      public boolean matches(String s) {
+        if (s.length() > MAX_MATCH_LENGTH) {
+          return false;
+        }
+        return interned.contains(s);
+      }
+    };
   }
 
   @Nullable

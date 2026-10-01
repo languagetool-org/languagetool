@@ -720,6 +720,25 @@ public class PatternToken implements Cloneable {
     return calcStringHints(true);
   }
 
+  /**
+   * @return all possible POS tags that this token pattern can accept, or {@code null} if that set
+   * is unknown/unbounded. This is used internally for performance optimizations.
+   */
+  @Nullable
+  Set<String> calcPosHints() {
+    if (posToken == null || posToken.negation || posToken.posUnknown) {
+      return null;
+    }
+    if (hasFlag(MAY_BE_OMITTED_MASK) || isReferenceElement()) {
+      return null;
+    }
+    if (posToken.posPattern != null) {
+      Set<String> possibleValues = posToken.posPattern.getPossibleValues();
+      return possibleValues == null || possibleValues.isEmpty() ? null : possibleValues;
+    }
+    return posToken.posTag == null ? null : Collections.singleton(posToken.posTag);
+  }
+
   private Set<String> calcStringHints(boolean inflected) {
     Set<String> result = inflected != isInflected() ? null : calcOwnPossibleStringValues();
     if (result == null) return null;

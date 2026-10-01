@@ -22,7 +22,9 @@ import com.google.common.collect.Sets;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
@@ -142,8 +144,46 @@ public class StringMatcherTest {
     }
   }
 
-  private static void assertRequiredSubstrings(String regexp, @Nullable String expected) {
-    Substrings actual = StringMatcher.getRequiredSubstrings(regexp);
+  /**
+   * The specialized sequence matcher must accept exactly the same strings as java.util.regex,
+   * for both case-sensitive and case-insensitive matching.
+   */
+  @Test
+  public void specializedSequenceMatcherIsConsistent() {
+    String[] regexps = {
+      "[a-z]+|,", "['-].+", "[^'-].+", "\\p{L}", "\\p{Ll}.+", "\\p{Lu}.+", "[a-z]+", "\\d+",
+      "[1234567890]{1,2}", "[1234567890][1234567890., ]+[1234567890]", "\\p{P}\\p{P}+", "[_~°]+",
+      "0o[0-7]+", "0x[0-9A-Fa-f]+", "[A-Z]+\\d+", "#.+", "@.+", ".+e", ".+[aei]sses", "a.*b", "a.+b",
+      "aa?", "a{2,3}b", "[a-c]?[0-9]*x", "(?-i)Han", "\\.|\\-", "[\\d ,\\.]+", "−?[\\d .,]+%?",
+      "[a-z]+|,|[0-9]", "\\p{Lu}.*", "\\w+", "\\d?", "a|", "|a", "\\p{N}+", "[^a-z]+", "[abc]*d",
+      "x*", "x+", "x?", "[^\\d]+"
+    };
+    char[] alphabet = {'a', 'A', 'b', 'B', '1', '-', '.', ' ', 'à', 'À', 'ç', 'Ç', '·', 'é', 'É', '_', 'x', 'X'};
+    List<String> samples = new ArrayList<>();
+    samples.add("");
+    for (char c1 : alphabet) {
+      samples.add(String.valueOf(c1));
+      for (char c2 : alphabet) {
+        samples.add("" + c1 + c2);
+        for (char c3 : alphabet) {
+          samples.add("" + c1 + c2 + c3);
+        }
+      }
+    }
+    for (String regexp : regexps) {
+      for (boolean caseSensitive : new boolean[]{true, false}) {
+        Pattern reference = Pattern.compile(regexp,
+          caseSensitive ? 0 : Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+        StringMatcher matcher = StringMatcher.create(regexp, true, caseSensitive);
+        for (String sample : samples) {
+          assertEquals("regexp '" + regexp + "', caseSensitive=" + caseSensitive + ", input '" + sample + "'",
+            reference.matcher(sample).matches(), matcher.matches(sample));
+        }
+      }
+    }
+  }
+
+  private static void assertRequiredSubstrings(String regexp, @Nullable String expected) {    Substrings actual = StringMatcher.getRequiredSubstrings(regexp);
     assertEquals(expected, actual == null ? null : actual.toString());
 
     trySomeMutations(regexp, regexp);

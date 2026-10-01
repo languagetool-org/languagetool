@@ -40,6 +40,7 @@ public final class AnalyzedSentence {
   private final int[] whPositions;  // maps positions without whitespace to positions that include whitespaces
   private final Map<String, List<Integer>> tokenOffsets;
   private final Map<String, List<Integer>> lemmaOffsets;
+  private final Set<String> posTagSet;
 
   /**
    * Creates an AnalyzedSentence from the given {@link AnalyzedTokenReadings}. Whitespace is also a token.
@@ -59,6 +60,7 @@ public final class AnalyzedSentence {
     this.nonBlankPreDisambigTokens = getNonBlankReadings(preDisambigTokens, whCounter, nonWhCounter, mapping).toArray(new AnalyzedTokenReadings[0]);
     tokenOffsets = indexTokens(nonBlankTokens);
     lemmaOffsets = indexLemmas(nonBlankTokens);
+    posTagSet = indexPosTags(nonBlankTokens);
   }
 
   @NotNull
@@ -83,6 +85,7 @@ public final class AnalyzedSentence {
     this.nonBlankPreDisambigTokens = nonBlankPreDisambigTokens;
     tokenOffsets = indexTokens(nonBlankTokens);
     lemmaOffsets = indexLemmas(nonBlankTokens);
+    posTagSet = indexPosTags(nonBlankTokens);
   }
 
   private static Map<String, List<Integer>> indexTokens(AnalyzedTokenReadings[] tokens) {
@@ -109,6 +112,19 @@ public final class AnalyzedSentence {
       }
     }
     return makeUnmodifiable(result);
+  }
+
+  private static Set<String> indexPosTags(AnalyzedTokenReadings[] tokens) {
+    Set<String> result = new HashSet<>();
+    for (AnalyzedTokenReadings tokenReadings : tokens) {
+      for (AnalyzedToken token : tokenReadings) {
+        String posTag = token.getPOSTag();
+        if (posTag != null) {
+          result.add(posTag);
+        }
+      }
+    }
+    return result.isEmpty() ? Collections.emptySet() : Collections.unmodifiableSet(result);
   }
 
   private static Map<String, List<Integer>> makeUnmodifiable(Map<String, List<Integer>> result) {
@@ -332,6 +348,16 @@ public final class AnalyzedSentence {
    */
   public Set<String> getLemmaSet() {
     return lemmaOffsets.keySet();
+  }
+
+  /**
+   * Get all POS tags occurring in this sentence.
+   * Used internally for performance optimization.
+   * @since 6.9
+   */
+  @ApiStatus.Internal
+  public Set<String> getPosTagSet() {
+    return posTagSet;
   }
 
   /**
