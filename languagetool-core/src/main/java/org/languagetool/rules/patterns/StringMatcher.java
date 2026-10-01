@@ -572,13 +572,13 @@ public abstract class StringMatcher {
   private static List<List<IntTerm>> parseAlternatives(String regexp, boolean caseSensitive) {
     String r = regexp;
     if (r.startsWith("\\b")) {
-      r = r.substring(2);
+      return null; // \b semantics depend on the first char; let java.util.regex handle it
     }
     if (r.startsWith("^")) {
       r = r.substring(1);
     }
     if (r.endsWith("\\b") && !r.endsWith("\\\\b")) {
-      r = r.substring(0, r.length() - 2);
+      return null;
     }
     if (r.endsWith("$") && !r.endsWith("\\$")) {
       r = r.substring(0, r.length() - 1);
