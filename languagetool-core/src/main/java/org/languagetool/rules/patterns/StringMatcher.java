@@ -734,6 +734,9 @@ public abstract class StringMatcher {
 
   @Nullable
   private static IntPredicate parseCharClassPredicate(String s, int start, int end, boolean caseSensitive) {
+    if (s.substring(start, end).contains("&&")) {
+      return null; // class intersection is not supported
+    }
     boolean negated = false;
     int i = start;
     if (i < end && s.charAt(i) == '^') {
