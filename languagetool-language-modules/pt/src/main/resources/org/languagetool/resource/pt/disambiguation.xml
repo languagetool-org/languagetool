@@ -4138,6 +4138,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <disambig postag="NCMP000"/>
   </rule>
 
+  <rule id="SURGIR_INDICATIVO_3PPC_COM_CLITICO_20261002" name="O verbo 'surgir' está na terceira pessoa">
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP3S0:PP.C.+' postag_regexp='yes' inflected='yes'>surgir<exception regexp='no'>surge-te</exception></token>
+          <token postag='VMM02S0:PP.C.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMM02S.*"/>
+    <!--
+    Examples:
+             Surge-nos então o problema de como transformar os dados em Informação útil.
+             Surge-me então o problema de como transformar os dados em Informação útil.
+             Surge-lhe então o problema de como transformar os dados em Informação útil.
+    -->
+  </rule>
+
   <rule id="PP_C_VMIP1S0_RG_VERBO_20260901" name="In this case is RG">
     <pattern>
       <token regexp='yes'>eu|tu|el[ea]s?|[nv]ós|vocês?</token>
