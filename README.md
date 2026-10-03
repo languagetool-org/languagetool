@@ -81,7 +81,7 @@ Commands:
 
 ## Alternate way to build from source
 
-Before start: you will need to clone from GitHub and install Java 17 and Apache Maven.
+Before start: you will need to clone from GitHub and install Java 25 and Apache Maven.
 
 Warning: a complete clone requires downloading more than 500 MiB and needs more than 1 500 MiB on disk.
 This can be reduced, if you only need the last few revisions of the master branch
