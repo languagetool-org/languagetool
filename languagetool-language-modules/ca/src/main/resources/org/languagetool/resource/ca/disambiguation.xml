@@ -6305,6 +6305,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="mitja" pos="NCFS000"/>
         </disambig>
     </rule>
+    <rule id="davant" name="davant (preposició)">
+        <pattern>
+            <marker>
+                <token postag="SPS00">davant</token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="SPS00"/>
+    </rule>
     <rule id="punta" name="punta (nom, no adjectiu) ">
         <pattern>
             <token><exception postag="NC.*" postag_regexp="yes"/></token>
@@ -6335,6 +6344,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="replace" postag="NPCSG00"/>
     </rule>
     <rulegroup id="noms_aposicio" name="noms en aposició">
+        <rule>
+            <pattern>
+                <token inflected="yes">raig</token>
+                <marker>
+                    <token regexp="yes">alfa|beta|gamma</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0CN0"/>
+        </rule>
         <rule>
             <pattern>
                 <token inflected="yes">vector</token>

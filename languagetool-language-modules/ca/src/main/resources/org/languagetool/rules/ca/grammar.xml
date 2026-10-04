@@ -2618,13 +2618,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify-ignore>
                     <marker>
                         <!-- només alguns adjectius concrets, es pot ampliar -->
-                        <token postag="AQ.M[SP]." postag_regexp="yes"/>
+                        <token postag="AQ.M[SP]." postag_regexp="yes"><exception postag="AQ0FS0|AQ0CS0" postag_regexp="yes"/></token>
                     </marker>
                 </unify>
             </pattern>
             <message>Possible error de concordança. La forma femenina és <suggestion><match no="5" postag="AQ.*" postag_regexp="yes" postag_replace="AQ0FS0"/></suggestion>.</message>
             <example correction="cortesa">Es van comportar d'una manera poc <marker>cortès</marker>.</example>
             <example correction="cortesa">Es van comportar de manera poc <marker>cortès</marker>.</example>
+            <example>Apareix de manera múltiple.</example>
         </rule>
         <rule id="ORDENANCA_FEMENI" name="ordenança (femení)">
             <pattern>
@@ -8851,7 +8852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">parells?</token>
                     <token regexp="yes">de|d'</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="NC.[PN].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">sortida|costat|gir|color|quark|mostra|fusta|forma|coca|re|mig|col·lecció|vuit_1|terra|sis_1|cent_2|vòrtex|tot|torsió|tirs|serratge|redreçament|recanvi|quatre_1|pols_2|mini|manera|la|funcionament|fricció|fraret|dos_1|coure|cors|calçat|engegada|interlletratge|traducció|muntatge|mitjana</exception></token>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="NC.[PN].*|_GN_.*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">sortida|costat|gir|color|quark|mostra|fusta|forma|coca|re|mig|col·lecció|vuit_1|terra|sis_1|cent_2|vòrtex|tot|torsió|tirs|serratge|redreçament|recanvi|quatre_1|pols_2|mini|manera|la|funcionament|fricció|fraret|dos_1|coure|cors|calçat|engegada|interlletratge|traducció|muntatge|mitjana|espín</exception></token>
                     </marker>
                 </pattern>
                 <message>Sembla més adequat el nom en plural.</message>
@@ -8859,6 +8860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estufes">Hi havia un parell d'<marker>estufa</marker>.</example>
                 <example>El parell de traducció anglès-català.</example>
                 <example>Cal inscriure-s'hi amb parella de ball.</example>
+                <example>cada parell d'espín</example>
             </rule>
             <rule>
                 <antipattern>
@@ -19275,6 +19277,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">dir</token>
                     <token postag="NP.*" postag_regexp="yes"/>
                     <example>Ara es diu Iran.</example>
+                </antipattern>
+                <antipattern>
+                    <token>Vaticà</token>
+                    <token regexp="yes">I|II</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -44391,7 +44397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">pregar</token>
                 <token inflected="yes" skip="3">per</token>
-                <token inflected="yes" regexp="yes">difunt|mort</token>
+                <token inflected="yes" regexp="yes">difunt|mort|ànima</token>
             </antipattern>
             <pattern>
                 <token skip="20" regexp="yes">que|què|qual|quals</token>
@@ -45972,6 +45978,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="TAL_TAN" name="tal/tan">
+            <antipattern>
+                <token>com</token>
+                <token>a</token>
+                <token>tal</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -59679,7 +59690,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">d'|de|que</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">&unitats_temps;|temps|instant|moment|estona</token>
+                <token regexp="yes" inflected="yes">&unitats_temps;|temps|instant|moment|estona|poc</token>
                 <token>després</token>
             </antipattern>
             <pattern>
@@ -60737,7 +60748,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token postag="DN.*|DI.*" postag_regexp="yes"/>
                     <token regexp="yes">més|menys</token>
                 </antipattern>
                 <antipattern>
@@ -60759,6 +60770,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>2 més 2 són quatre.</example>
                 <example>És el mateix el que va venir.</example>
                 <example>És la mateixa la que va venir.</example>
+                <example>Però no en el sentit d'un més un.</example>
             </rule>
         </rulegroup>
         <rule id="REPETICIO_INFINITIU" name="infinitiu repetit">
@@ -73417,6 +73429,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="DN.*" postag_regexp="yes"/>
                     <token>més</token>
                 </antipattern>
+                <antipattern>
+                    <token>allò</token>
+                    <token>més</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>més</token>
@@ -73428,6 +73444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mes">El <marker>més</marker> gratuït se suma al teu compte.</example>
                 <example>En tindràs dos més gratis.</example>
                 <example>Aconsegueix el teu pròxim mes gratis.</example>
+                <example>Un final d'allò més gratuït.</example>
             </rule>
             <rule>
                 <pattern>
@@ -87848,11 +87865,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="ESPAI_DARRERE_PUNTICOMA" name="espai darrere de punt i coma">
                 <antipattern>
-                    <marker>
-                        <token>;</token>
-                        <token>-</token>
-                        <token>)</token>
-                    </marker>
+                    <token>;</token>
+                    <token>-</token>
+                    <token>)</token>
+                </antipattern>
+                <antipattern>
+                    <!-- Wikipedia -->
+                    <token>;</token>
+                    <token>[</token>
+                    <token regexp="yes">\d+</token>
+                    <token>]</token>
                 </antipattern>
                 <pattern>
                     <token>;</token>
@@ -88272,6 +88294,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="19"/>
                 <token postag="SENT_END"/>
             </antipattern>
+            <antipattern>
+                <!-- wikipedia footnotes -->
+                <token>.</token>
+                <token>[</token>
+                <token regexp="yes">\d+</token>
+                <token>]</token>
+            </antipattern>
+            <antipattern>
+                <!-- wikipedia footnotes -->
+                <token>[</token>
+                <token regexp="yes">\d+</token>
+                <token>]</token>
+                <token>[</token>
+                <token regexp="yes">\d+</token>
+                <token>]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -88573,6 +88611,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="—|«|»|“|”">Ara i ací <marker>„</marker>sempre.</example>
         </rule>
         <rulegroup id="PUNT_EN_UNITATS_SI" name="unitats sense punt: *km./km">
+            <antipattern>
+                <!-- Wikipedia footnotes -->
+                <token>.</token>
+                <token>[</token>
+                <token regexp="yes">\d+</token>
+                <token postag="SENT_END">]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -113556,7 +113601,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">junt|juntament</token>
                         <token>a</token>
                     </marker>
-                    <token negate="yes" regexp="yes">ls?</token>
+                    <token><exception regexp="yes">ls|l</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>al costat de</suggestion>
@@ -113583,6 +113628,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>amb e<match no="3"/></suggestion>
                 <example correction="al costat del|tocant al|a prop del|junt amb el|juntament amb el|amb el"><marker>junt al</marker> partit</example>
                 <example>Es cou tot junt al forn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>conjuntament</token>
+                        <token>a</token>
+                    </marker>
+                    <token><exception regexp="yes">ls|l</exception></token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>conjuntament amb</suggestion>
+                <example correction="conjuntament amb">Ara <marker>conjuntament a</marker> aquests altres.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>conjuntament</token>
+                        <token>a</token>
+                        <token regexp="yes">ls|l</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>conjuntament amb e\3</suggestion>
+                <example correction="conjuntament amb els">Ara <marker>conjuntament als</marker> altres.</example>
             </rule>
         </rulegroup>
         <rule id="MATERIA_GRIS" name="matèria gris">
@@ -130180,10 +130249,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>o</token>
                 <token regexp="yes">millor|pitjor</token>
             </antipattern>
-            <antipattern>
+            <!--<antipattern>
                 <token postag="RG_anteposat"/>
                 <token regexp="yes">millor|pitjor</token>
-            </antipattern>
+            </antipattern>-->
             <rule>
                 <pattern>
                     <marker>
@@ -130194,6 +130263,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Podeu fer més natural la frase usant una altra expressió.</message>
                 <suggestion>més ben</suggestion>
                 <example correction="més ben">És un dels edificis <marker>millor</marker> conservats.</example>
+                <example correction="més ben">El polític sistemàticament <marker>millor</marker> valorat en les enquestes.</example>
                 <example>Premi a la millor coberta de llibre.</example>
                 <example>O millor separats?</example>
             </rule>
@@ -141823,7 +141893,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vaig escriure a Twitter alguna cosa així com que volia ser Wajdi Mouawad.</example>
             </antipattern>
             <antipattern>
-                <token>i</token>
+                <token regexp="yes">i|però</token>
+                <token>així</token>
+                <token>com</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">i|però</token>
+                <token>,</token>
                 <token>així</token>
                 <token>com</token>
             </antipattern>
@@ -144643,7 +144719,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">major</token>
                         <and>
-                            <token inflected="yes" regexp="yes">esdeveniment|organització|empresa|companyia|institució|promesa|accionista|activitat|actor|actriu|afectat|agent|aliat|amenaça|argument|assumpte|atemptat|atractiu|avantatge|batalla|benefici|beneficiari|característica|carnívor|causa|centre|client|col·laborador|competidor|component|conflagració|conseqüència|derrota|desavantatge|dificultat|dirigent|eix|element|enemic|escull|expert|factor|font|fracàs|gesta|guerra|impulsor|inconvenient|infraestructura|interès|limitació|motiu|motor|necessitat|novetat|objectiu|obra|obstacle|origen|parc|preocupació|prioritat|problema|producte|programa|projecte|promotor|propòsit|protagonista|proveïdor|punt|qualitat|qüestió|raó|realització|recurs|referent|repte|responsable|risc|sector|servei|sospitós|tema|usuari|via|victòria|àmbit|èxit|ciutat|carrer|avinguda|estació|port|aeroport|plat|àpat|ingredient|residència|habitatge|soci|mercat|ingrés|despesa|seu|oficina|despatx|indústria|idea|tesi|hipòtesi|teoria|funció|tret|variable|acusat|testimoni|culpable|llei|norma|riu|afluent|serralada|muntanya|espècie|patrimoni<exception postag="PX.*" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">focus|potència|poder|esdeveniment|organització|empresa|companyia|institució|promesa|accionista|activitat|actor|actriu|afectat|agent|aliat|amenaça|argument|assumpte|atemptat|atractiu|avantatge|batalla|benefici|beneficiari|característica|carnívor|causa|centre|client|col·laborador|competidor|component|conflagració|conseqüència|derrota|desavantatge|dificultat|dirigent|eix|element|enemic|escull|expert|factor|font|fracàs|gesta|guerra|impulsor|inconvenient|infraestructura|interès|limitació|motiu|motor|necessitat|novetat|objectiu|obra|obstacle|origen|parc|preocupació|prioritat|problema|producte|programa|projecte|promotor|propòsit|protagonista|proveïdor|punt|qualitat|qüestió|raó|realització|recurs|referent|repte|responsable|risc|sector|servei|sospitós|tema|usuari|via|victòria|àmbit|èxit|ciutat|carrer|avinguda|estació|port|aeroport|plat|àpat|ingredient|residència|habitatge|soci|mercat|ingrés|despesa|seu|oficina|despatx|indústria|idea|tesi|hipòtesi|teoria|funció|tret|variable|acusat|testimoni|culpable|llei|norma|riu|afluent|serralada|muntanya|espècie|patrimoni<exception postag="PX.*" postag_regexp="yes"/></token>
                             <token postag="_GN_.*" postag_regexp="yes"/>
                         </and>
                     </marker>
