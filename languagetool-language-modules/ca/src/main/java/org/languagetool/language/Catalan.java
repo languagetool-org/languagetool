@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.*;
@@ -98,7 +99,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public Language getDefaultLanguageVariant() {
+  public @NonNull Language getDefaultLanguageVariant() {
     return InstanceHolder.INSTANCE;
   }
 
@@ -567,13 +568,13 @@ public class Catalan extends Language {
     String errorStr = ruleMatch.getOriginalErrorStr();
     List<String> suggestedReplacements = ruleMatch.getSuggestedReplacements();
     // Avoid two white spaces after removing a word
-    if (suggestedReplacements.size() == 1 && suggestedReplacements.get(0).equals("")) {
+    if (suggestedReplacements.size() == 1 && suggestedReplacements.get(0).isEmpty()) {
       String sentenceText = ruleMatch.getSentence().getText();
       int fromSent = ruleMatch.getFromPosSentence();
       int toSent = ruleMatch.getToPosSentence();
       if (fromSent >= 0 && toSent + 1 <= sentenceText.length()
-        && (fromSent == 0 || sentenceText.substring(fromSent - 1, fromSent).equals(" "))
-        && sentenceText.substring(toSent, toSent + 1).equals(" ")) {
+        && (fromSent == 0 || sentenceText.charAt(fromSent - 1) == ' ')
+        && sentenceText.charAt(toSent) == ' ') {
         RuleMatch newRuleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(),
           ruleMatch.getFromPos(), ruleMatch.getToPos() + 1,
           ruleMatch.getMessage(), ruleMatch.getShortMessage());
@@ -649,7 +650,7 @@ public class Catalan extends Language {
       .replace("dónes", "dones")
       .replace("sóc", "soc")
       .replace("vénen", "venen")
-      .replace("véns", "véns")
+      .replace("véns", "vens")
       .replace("fóra", "fora")
       .replace("Vés", "Ves")
       .replace("Féu", "Feu")
@@ -721,7 +722,7 @@ public class Catalan extends Language {
     s = m7.replaceAll("$1 l'$2");
     // T'comença -> Et comença
     Matcher m8 = CA_APOSTROPHES8.matcher(s);
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     while (m8.find()) {
       String group1 = m8.group(1).toLowerCase();
       String group2 = m8.group(2);
@@ -749,22 +750,22 @@ public class Catalan extends Language {
   public List<String> prepareLineForSpeller(String line) {
     String[] parts = line.split("#");
     if (parts.length == 0) {
-      return Arrays.asList(line);
+      return List.of(line);
     }
     String[] formTag = parts[0].split("[\t;]");
     String form = formTag[0].trim();
     if (spellerExceptions.contains(form)) {
-      return Arrays.asList("");
+      return List.of("");
     }
     if (formTag.length > 1) {
       String tag = formTag[1].trim();
       if (tag.startsWith("N") || tag.equals("_Latin_")) {
-        return Arrays.asList(form);
+        return List.of(form);
       } else {
-        return Arrays.asList("");
+        return List.of("");
       }
     }
-    return Arrays.asList(line);
+    return List.of(line);
   }
 
   public MultitokenSpeller getMultitokenSpeller() {
@@ -773,10 +774,7 @@ public class Catalan extends Language {
 
   @Override
   public List<RuleMatch> filterRuleMatchesAfterOverlapping(List<RuleMatch> ruleMatches) {
-    List<RuleMatch> result =
-      ruleMatches.stream().map(RuleMatch::trimMatchEnds).collect(java.util.stream.Collectors.toList());
-    Collections.sort(result);
-    return result;
+    return ruleMatches.stream().map(RuleMatch::trimMatchEnds).sorted().collect(java.util.stream.Collectors.toList());
   }
 
   @Override

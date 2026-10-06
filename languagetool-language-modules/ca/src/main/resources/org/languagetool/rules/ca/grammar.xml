@@ -88664,6 +88664,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\d+</token>
                 <token postag="SENT_END">]</token>
             </antipattern>
+            <antipattern>
+                <!-- Wikipedia footnotes -->
+                <token>.</token>
+                <token>[</token>
+                <token regexp="yes">\d+</token>
+                <token>]</token>
+                <token>[</token>
+                <token regexp="yes">\d+</token>
+                <token>]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -113677,27 +113687,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>conjuntament</token>
                         <token>a</token>
                     </marker>
                     <token><exception regexp="yes">ls|l</exception></token>
                 </pattern>
-                <message>Expressió incorrecta.</message>
+                <message>La preposició adequada és 'amb'.</message>
                 <suggestion>conjuntament amb</suggestion>
-                <example correction="conjuntament amb">Ara <marker>conjuntament a</marker> aquests altres.</example>
+                <example correction="Conjuntament amb"><marker>Conjuntament a</marker> aquests altres.</example>
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>conjuntament</token>
                         <token>a</token>
                         <token regexp="yes">ls|l</token>
                     </marker>
                 </pattern>
-                <message>Expressió incorrecta.</message>
-                <suggestion>conjuntament amb e\3</suggestion>
-                <example correction="conjuntament amb els">Ara <marker>conjuntament als</marker> altres.</example>
+                <message>La preposició adequada és 'amb'.</message>
+                <suggestion>conjuntament amb e\4</suggestion>
+                <example correction="Conjuntament amb els"><marker>Conjuntament als</marker> altres.</example>
             </rule>
         </rulegroup>
         <rule id="MATERIA_GRIS" name="matèria gris">
@@ -130321,6 +130333,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="RG_anteposat"/>
                 <token regexp="yes">millor|pitjor</token>
             </antipattern>-->
+            <antipattern>
+                <token postag="RG_anteposat">encara</token>
+                <token regexp="yes">millor|pitjor</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -153467,6 +153483,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example>un MOS de porta flotant</example>
                 <example>El de parla francoprovençal.</example>
                 <example>Es va efectuar per deixa paterna.</example>
+                <example>Saps quines de les persones que tens davant pots llevar?</example>
             </rule>
             <rule name="de la > de la que">
                 <pattern>
