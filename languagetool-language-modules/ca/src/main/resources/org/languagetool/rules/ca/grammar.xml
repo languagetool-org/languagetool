@@ -5265,6 +5265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els 96 diputats provincials catalans.</example>
                 <example>Sou uns pollosos i uns rates.</example>
                 <example>El seu fruit és igual al d'una nou pelada.</example>
+                <example>Des de fa uns nou mil anys.</example>
             </rule>
         </rulegroup>
         <rule id="A_LES_AFORES" name="a les afores -> als afores">
@@ -6023,6 +6024,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONCORDANCES_PARTICIPI_NOM" name="Concordances participi i nom">
             <antipattern>
+                <token regexp="yes">nord|sud|est|oest</token>
+                <token>-</token>
+                <token regexp="yes">nord|sud|est|oest</token>
+            </antipattern>
+            <antipattern>
                 <token inflected="yes">tenir</token>
                 <token postag="V.P.*" postag_regexp="yes"/>
                 <token postag="_possible_nompropi"/>
@@ -6041,7 +6047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- inusual com a participi -->
-                <token regexp="yes">continguts?|parada|SL|empresa|empreses|capacitats?</token>
+                <token regexp="yes">continguts?|parada|SL|empresa|empreses|capacitats?|coordenada|coordenades</token>
                 <example>capacitat anotadora</example>
             </antipattern>
             <antipattern>
@@ -17039,11 +17045,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.N.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="V.P..SM." postag_regexp="yes"><exception scope="previous" inflected="yes">haver</exception></token>
+                <token postag="V.P..SM." postag_regexp="yes"><exception scope="previous" inflected="yes" regexp="yes">haver</exception></token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">verb|mot|paraula</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">estar</token>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">estar|quedar|restar|ser</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <antipattern>
@@ -17070,6 +17084,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="2" chunk="GV"><exception inflected="yes">fer</exception></token>
                     <token inflected="yes">fer</token>
                 </antipattern>
+                <antipattern>
+                    <token>fa</token>
+                    <token>desfà</token>
+                </antipattern>
+                <antipattern> </antipattern>
                 <pattern>
                     <token inflected="yes">fer<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
@@ -17088,6 +17107,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Li he donat perquè m’ha fet pena!</example>
                 <example>He fet befa dels quilos.</example>
                 <example>No n'hi havia cap més que li fes ombra.</example>
+                <example>aquell que la fa està situat a llarga distància</example>
+                <example>Fets està buscant entitats promotores.</example>
+                <example>l’aportació semàntica que hi pot fer queda coberta pel significat</example>
             </rule>
             <rule>
                 <antipattern>
@@ -18544,6 +18566,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token chunk="GV"/>
                 <token postag="V.G.*" postag_regexp="yes" chunk="GV"/>
+            </antipattern>
+            <antipattern>
+                <token>incloent</token>
+                <token>-hi</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -28332,30 +28358,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La possibilitat <marker>que</marker> ho facis</example>
             </rule>
         </rulegroup>
-        <rule id="D_ENCA" name="d'ençà *(de|que)">
-            <antipattern>
-                <token>d'</token>
-                <token>ençà</token>
-                <token>potser</token>
-                <token regexp="yes">d'|de|que</token>
-            </antipattern>
-            <pattern>
-                <marker>
+        <rulegroup id="D_ENCA" name="d'ençà *(de|que)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token>ençà</token>
+                        <token regexp="yes">el|els</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>d'ençà d\3</suggestion>
+                <suggestion>d'ençà que \3</suggestion>
+                <suggestion>des d\3</suggestion>
+                <suggestion>de llavors ençà \3</suggestion>
+                <suggestion>d'aleshores ençà \3</suggestion>
+                <suggestion>des d'aleshores \3</suggestion>
+                <example correction="D'ençà del|D'ençà que el|Des del|De llavors ençà el|D'aleshores ençà el|Des d'aleshores el"><marker>D'ençà el</marker> segle XIII.</example>
+                <example>D'ençà de llavors, no ha fet res de bo.</example>
+            </rule>
+            <rule>
+                <antipattern>
                     <token>d'</token>
                     <token>ençà</token>
-                </marker>
-                <token negate="yes" regexp="yes">d'|de|que</token>
-            </pattern>
-            <message>Construcció incorrecta.</message>
-            <suggestion>d'ençà de</suggestion>
-            <suggestion>d'ençà que</suggestion>
-            <suggestion>de llavors ençà</suggestion>
-            <suggestion>d'aleshores ençà</suggestion>
-            <suggestion>des d'aleshores</suggestion>
-            <suggestion>des de</suggestion>
-            <example correction="D'ençà de|D'ençà que|De llavors ençà|D'aleshores ençà|Des d'aleshores|Des de"><marker>D'ençà</marker>, no ha fet res de bo.</example>
-            <example>D'ençà de llavors, no ha fet res de bo.</example>
-        </rule>
+                    <token>potser</token>
+                    <token regexp="yes">d'|de|que</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>d'</token>
+                        <token>ençà</token>
+                    </marker>
+                    <token><exception regexp="yes">d'|de|que</exception></token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>d'ençà de</suggestion>
+                <suggestion>d'ençà que</suggestion>
+                <suggestion>de llavors ençà</suggestion>
+                <suggestion>d'aleshores ençà</suggestion>
+                <suggestion>des de</suggestion>
+                <example correction="D'ençà de|D'ençà que|De llavors ençà|D'aleshores ençà|Des de"><marker>D'ençà</marker>, no ha fet res de bo.</example>
+                <example>D'ençà de llavors, no ha fet res de bo.</example>
+            </rule>
+        </rulegroup>
         <rule id="ENCA_DE" name="ençà de -> d'ençà de" default="off">
             <antipattern>
                 <token skip="15" regexp="yes">de|d'</token>
@@ -62416,6 +62461,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>gentq ue</example>
                 <example>cad avegada</example>
                 <example>vem arivar ahir</example>
+                <example>I fan ben fet.</example>
                 <!--<example>La peça, titulada The reader, és un espot sud-africà de la marca </example>-->
             </rule>
             <rule>
@@ -101765,7 +101811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="20">esclerosi|símptoma|discapacitat|epilèpsia|malalt|insuficiència|dispnea|apnea|malaltia|lesió|ferida|ferit|crisi|deterioració|virus|ictus|atac|pulmonia|infecció|bacteri|tòxic|intoxicació|covid|covid-19|diagnòstic|diagnosi</token>
+                    <token regexp="yes" inflected="yes" skip="20">esclerosi|símptoma|discapacitat|epilèpsia|malalt|insuficiència|dispnea|apnea|malaltia|lesió|ferida|ferit|crisi|deterioració|virus|ictus|atac|pulmonia|infecció|bacteri|tòxic|intoxicació|covid|covid-19|diagnòstic|diagnosi|pneumònia</token>
                     <marker>
                         <token inflected="yes">sever</token>
                     </marker>
@@ -101779,7 +101825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="10">sever</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">esclerosi|símptoma|discapacitat|epilèpsia|malalt|insuficiència|dispnea|apnea|malaltia|lesió|ferida|ferit|crisi|deterioració|virus|ictus|atac|pulmonia|infecció|bacteri|tòxic|intoxicació|covid|covid-19</token>
+                    <token regexp="yes" inflected="yes">esclerosi|símptoma|discapacitat|epilèpsia|malalt|insuficiència|dispnea|apnea|malaltia|lesió|ferida|ferit|crisi|deterioració|virus|ictus|atac|pulmonia|infecció|bacteri|tòxic|intoxicació|covid|covid-19|pneumònia</token>
                 </pattern>
                 <message>En aquest context (<match no="2" case_conversion="alllower"/>), "sever" pot ser un calc inapropiat de l'anglès.</message>
                 <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ0C$10">greu</match></suggestion>
@@ -123148,6 +123194,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Toca música de cambra.</example>
                 <example>Ajudant de càmera.</example>
                 <example>Ajudant de cambra.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="2">dissoldre</token>
+                    <marker>
+                        <token>càmera</token>
+                    </marker>
+                </pattern>
+                <message>Paraula incorrecta en aquest context. "Càmera" només és vàlid en el sentit d'aparell per a reproduir imatges.</message>
+                <suggestion>cambra</suggestion>
+                <example correction="cambra">És il·legal dissoldre la <marker>càmera</marker> en aquest context.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="2">dissoldre</token>
+                    <marker>
+                        <token>càmeres</token>
+                    </marker>
+                </pattern>
+                <message>Paraula incorrecta en aquest context. "Càmera" només és vàlid en el sentit d'aparell per a reproduir imatges.</message>
+                <suggestion>cambres</suggestion>
+                <example correction="cambres">És il·legal dissoldre les <marker>càmeres</marker> en aquest context.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CAMBRA_CAMERA" name="cambra -> càmera">
