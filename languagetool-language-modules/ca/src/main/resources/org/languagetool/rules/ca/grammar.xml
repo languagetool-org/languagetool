@@ -17078,7 +17078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tot el que fem està relacionat.</example>
                 <example>El que va fer contribuí a la grandesa de l'Església.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>que</token>
                     <token min="0" max="2" chunk="GV"><exception inflected="yes">fer</exception></token>
@@ -45070,6 +45070,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="S_OBRE" name="s'obra/s'obre">
             <rule>
+                <antipattern>
+                    <token>obra</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token inflected="yes">miracle</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">m'|t'|s'|li|ens|us|vos|els|'ns|n'|hi</token>
                     <marker>
@@ -45078,6 +45083,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Volíeu dir <suggestion>obre</suggestion> (del v. 'obrir')? Correcte si és del v. 'obrar'.</message>
                 <example correction="obre">El programa només s'<marker>obra</marker> en anglès.</example>
+                <example>Llavors s'obra un miracle.</example>
             </rule>
             <rule>
                 <pattern>
@@ -56712,6 +56718,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" skip="4">rotació</token>
                 <token>angles</token>
                 <example>Limitarà la rotació en angles de 15 graus.</example>
+            </antipattern>
+            <antipattern>
+                <token>angles</token>
+                <token>de</token>
+                <token regexp="yes">\d.*</token>
+                <example>Per a aquestes longituds d'ona els objectes que més reflecteixen són aquells amb angles de 90° entre les superfícies.</example>
             </antipattern>
             <rule>
                 <pattern>
