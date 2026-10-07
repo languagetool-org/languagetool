@@ -147,7 +147,7 @@ public class Catalan extends Language {
       new SimpleReplaceDNVColloquialRule(messages, this),
       new SimpleReplaceDNVSecondaryRule(messages, this),
       new WordCoherencyRule(messages),
-      new PunctuationMarkAtParagraphEnd(messages, this),
+      new CatalanPunctuationMarkAtParagraphEnd(messages, this),
       new CatalanRemoteRule(messages, userConfig),
       new CatalanSplitLongSentenceRule(messages, userConfig, 60),
       new IgnoreProperNouns(messages)

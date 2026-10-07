@@ -69,7 +69,18 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   public String getDescription() {
     return messages.getString("punctuation_mark_paragraph_end_desc");
   }
-  
+
+  /**
+   * Language-specific hook to ignore whole paragraphs that do not end with a
+   * punctuation mark, e.g. cross-reference lines like "Annex: ..." or
+   * "Article principal: ...". The first sentence of the paragraph is passed in.
+   * By default no paragraph is ignored.
+   * @since 6.9
+   */
+  protected boolean isIgnoredParagraph(AnalyzedSentence firstSentenceInParagraph) {
+    return false;
+  }
+
   private static boolean stringEqualsAny(String token, String[] any) {
     for (String s : any) {
       if (token.equals(s)) {
@@ -117,7 +128,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
             ignoreSentence = true;
           }
           // paragraphs containing less than two sentences (e.g. headlines, listings) are excluded from rule
-          if (n - lastPara > 1 && isFirstWord && !ignoreSentence) {
+          if (n - lastPara > 1 && isFirstWord && !ignoreSentence && !isIgnoredParagraph(sentences.get(lastPara + 1))) {
             int lastNWToken = tokens.length - 1;
             while (tokens[lastNWToken].isLinebreak()) {
               lastNWToken--;

@@ -23,7 +23,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.rules.PunctuationMarkAtParagraphEnd;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 
@@ -34,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 public class EndOfParagraphPunctuationRuleTest {
   private Language lang = Languages.getLanguageForShortCode("ca");
   private JLanguageTool lt = new JLanguageTool(lang);
-  private TextLevelRule rule = new PunctuationMarkAtParagraphEnd(TestTools.getMessages("ca"), lang, true);
+  private TextLevelRule rule = new CatalanPunctuationMarkAtParagraphEnd(TestTools.getMessages("ca"), lang);
 
   @Test
   public void testRule() throws IOException {
@@ -57,6 +56,15 @@ public class EndOfParagraphPunctuationRuleTest {
     matches = rule.match(lt.analyzeText("Això és un paràgraf amb una frase només.\\n"
     +"Això és una única frase en un paràgraf"));
     assertEquals(0, matches.length);
+
+    matches = rule.match(lt.analyzeText("Això és un paràgraf.\n\nAnnex: Videojocs cancel·lats"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(lt.analyzeText("Això és un paràgraf.\n\nArticle principal: Videojocs cancel·lats"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(lt.analyzeText("Això és un paràgraf.\n\nAltre prefix: Videojocs cancel·lats"));
+    assertEquals(1, matches.length);
 
   }
 
