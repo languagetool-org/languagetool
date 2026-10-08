@@ -13747,6 +13747,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id="USAR_UTILIZAR_POUCAS_VEZES" name="✂️ Usar/utilizar 'poucas vezes' → ocasionalmente/esporadicamente/pontualmente" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token regexp='yes'>muito|tão|demasiado</token>
+                <token>poucas</token>
+                <token>vezes</token>
+            </antipattern>
+            <antipattern>
+                <token>poucas</token>
+                <token>vezes</token>
+                <token regexp='yes'>por|ao|à|na|no</token>
+                <token regexp='yes'>dia|semana|mês|ano|trimestre|semestre</token>
+            </antipattern>
+            <pattern>
+                <token skip='2' inflected='yes' regexp='yes'>usar|utilizar</token>
+                <marker>
+                    <token>poucas</token>
+                    <token>vezes</token>
+                </marker>
+            </pattern>
+            <message>&simplify_msg;</message>
+            <suggestion>ocasionalmente</suggestion>
+            <suggestion>esporadicamente</suggestion>
+            <suggestion>pontualmente</suggestion>
+            <example correction="ocasionalmente|esporadicamente|pontualmente">Este programa é utilizado <marker>poucas vezes</marker>.</example>
+            <example correction="ocasionalmente|esporadicamente|pontualmente">Esta aplicação é usada <marker>poucas vezes</marker>.</example>
+            <example correction="ocasionalmente|esporadicamente|pontualmente">Ela usa <marker>poucas vezes</marker> esta função.</example>
+            <example correction="ocasionalmente|esporadicamente|pontualmente">Os técnicos utilizaram a ferramenta <marker>poucas vezes</marker>.</example>
+            <example correction="ocasionalmente|esporadicamente|pontualmente">A equipa utilizava o software <marker>poucas vezes</marker>.</example>
+            <example correction="ocasionalmente|esporadicamente|pontualmente">O laboratório usou o equipamento <marker>poucas vezes</marker>.</example>
+            <example correction="ocasionalmente|esporadicamente|pontualmente">Eles utilizam <marker>poucas vezes</marker> esta funcionalidade.</example>
+            <example correction="ocasionalmente|esporadicamente|pontualmente">Usar <marker>poucas vezes</marker> esse recurso não é aconselhável.</example>
+            <example>Este programa é utilizado ocasionalmente.</example>
+            <example>A aplicação é usada esporadicamente.</example>
+            <example>O equipamento foi utilizado muitas vezes.</example>
+            <example>A ferramenta foi usada muito poucas vezes.</example>
+            <example>O equipamento é utilizado poucas vezes por semana.</example>
+            <example>Esta funcionalidade é usada poucas vezes por mês.</example>
+            <example>O sistema foi utilizado poucas vezes por ano.</example>
+            <example>Os técnicos usaram poucas ferramentas.</example>
+            <example>Ela utiliza sempre esta função.</example>
+        </rule>
+
+
         <rule id='DEPOIS_DE_APÓS' name="✂️ Depois de → após">
             <antipattern>
                 <token>depois</token>
