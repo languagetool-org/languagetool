@@ -54,26 +54,29 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     boolean[] changed = {false};
 
     doMatch(sentence, tokens, (tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken) -> {
-      int ruleMatchFromPos = -1;
-      int ruleMatchToPos = -1;
-      int tokenCount = 0;
-      for (AnalyzedTokenReadings token : tokens) {
-        if (ruleMatchFromPos == -1 && tokenCount == firstMatchToken) {
-          ruleMatchFromPos = token.getStartPos();
-        }
-        if (ruleMatchToPos == -1 && tokenCount == lastMatchToken) {
-          ruleMatchToPos = token.getEndPos();
-        }
-        tokenCount++;
-      }
+      // direct lookup instead of a scan over all tokens (which made each match O(n) on long sentences)
+      int ruleMatchFromPos = firstMatchToken >= 0 && firstMatchToken < tokens.length ? tokens[firstMatchToken].getStartPos() : -1;
+      int ruleMatchToPos = lastMatchToken >= 0 && lastMatchToken < tokens.length ? tokens[lastMatchToken].getEndPos() : -1;
       int matchingTokens = (int)Arrays.stream(tokenPositions).filter(i -> i != 0).count();
       if (keepDespiteFilter(tokens, tokenPositions, firstMatchToken, lastMatchToken) && keepByDisambig(sentence, ruleMatchFromPos, ruleMatchToPos, firstMatchToken, lastMatchToken)) {
+        if (!changed[0]) {
+          // copy-on-first-write: sentence.getTokens() must not be modified, but the copy can be reused for
+          // all further matches of this rule (instead of cloning the whole array per match)
+          whTokens[0] = whTokens[0].clone();
+        }
         whTokens[0] = executeAction(sentence, whTokens[0], unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);
         changed[0] = true;
       }
     });
     if (changed[0]) {
-      return new AnalyzedSentence(whTokens[0], preDisambigTokens);
+      DisambiguationPatternRule.DisambiguatorAction action = ((DisambiguationPatternRule) rule).getAction();
+      // these actions only set flags on the tokens, they don't touch the readings:
+      boolean readingsUnchanged = action == DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE ||
+                                  action == DisambiguationPatternRule.DisambiguatorAction.IGNORE_SPELLING;
+      // ADD modifies the shared token objects in place and may change their surface string
+      // (AnalyzedTokenReadings.addReading), so the previous token index can't be trusted then:
+      AnalyzedSentence previous = action == DisambiguationPatternRule.DisambiguatorAction.ADD ? null : sentence;
+      return new AnalyzedSentence(whTokens[0], preDisambigTokens, previous, readingsUnchanged);
     }
     return sentence;
   }
@@ -127,7 +130,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
                                                 AnalyzedTokenReadings[] unifiedTokens,
                                                 int firstMatchToken, int lastMatchToken,
                                                 int matchingTokens, int[] tokenPositions) {
-    AnalyzedTokenReadings[] whTokens = whiteTokens.clone();
+    AnalyzedTokenReadings[] whTokens = whiteTokens; // already a private copy, see replace()
     DisambiguationPatternRule rule = (DisambiguationPatternRule) this.rule;
 
     int correctedStPos = 0;

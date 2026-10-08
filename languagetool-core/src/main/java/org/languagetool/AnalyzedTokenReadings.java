@@ -53,6 +53,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private int startPos;
   private int fixPos;
   private String token;
+  private String tokenLowerCase;  // lazily computed from token, reset when token changes
   private String cleanToken;
   private List<ChunkTag> chunkTags = Collections.emptyList();
   private boolean isSentEnd;
@@ -123,7 +124,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       setTypographicApostrophe();
     }
     setHistoricalAnnotations(oldAtr.getHistoricalAnnotations());
-    addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
+    if (isRecordingHistoricalAnnotations(ruleApplied)) {
+      addHistoricalAnnotations(oldAtr.toString(), ruleApplied);
+    }
   }
 
   public AnalyzedTokenReadings(AnalyzedToken token) {
@@ -325,7 +328,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token new reading, given as {@link AnalyzedToken}
    */
   public void addReading(AnalyzedToken token, String ruleApplied) {
-    String oldValue = this.toString();
+    String oldValue = isRecordingHistoricalAnnotations(ruleApplied) ? this.toString() : null;
     List<AnalyzedToken> l = new ArrayList<>(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
@@ -335,6 +338,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     anTokReadings = l.toArray(new AnalyzedToken[0]);
     if (token.getToken().length() > this.token.length()) { //in case a longer token is added
       this.token = token.getToken();
+      this.tokenLowerCase = null;
     }
     anTokReadings[anTokReadings.length - 1].setWhitespaceBefore(isWhitespaceBefore);
     isParaEnd = hasPosTag(PARAGRAPH_END_TAGNAME);
@@ -351,7 +355,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token reading to be removed
    */
   public void removeReading(AnalyzedToken token, String ruleApplied) {
-    String oldValue = this.toString();
+    String oldValue = isRecordingHistoricalAnnotations(ruleApplied) ? this.toString() : null;
     List<AnalyzedToken> l = new ArrayList<>();
     AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
@@ -606,8 +610,12 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
   }
   
+  private static boolean isRecordingHistoricalAnnotations(String ruleApplied) {
+    return !ruleApplied.isEmpty() && GlobalConfig.isVerbose();
+  }
+
   private void addHistoricalAnnotations(String oldValue, String ruleApplied) {
-    if (!ruleApplied.isEmpty() && GlobalConfig.isVerbose()) {
+    if (isRecordingHistoricalAnnotations(ruleApplied)) {
       this.historicalAnnotations = this.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldValue + " -> "
           + this;
     }
@@ -616,6 +624,18 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   /**
    * @since 2.3
    */
+  /**
+   * Lowercased {@link #getToken()}, cached.
+   */
+  String getTokenLowerCase() {
+    String result = tokenLowerCase;
+    if (result == null) {
+      result = token.toLowerCase();
+      tokenLowerCase = result;
+    }
+    return result;
+  }
+
   public void setChunkTags(List<ChunkTag> chunkTags) {
     this.chunkTags = Objects.requireNonNull(chunkTags);
   }

@@ -18,6 +18,8 @@
  */
 package org.languagetool.chunking;
 
+import java.util.regex.Pattern;
+
 /**
  * The name of a chunk. Just a string - this class exists mostly for better type safety.
  * @since 2.3
@@ -26,6 +28,7 @@ public class ChunkTag {
 
   private final String chunkTag;
   private final boolean isRegexp;
+  private final Pattern pattern;  // only for regexp chunk tags
 
   public ChunkTag(String chunkTag) {
     this(chunkTag, false);
@@ -38,6 +41,7 @@ public class ChunkTag {
     }
     this.chunkTag = chunkTag;
     this.isRegexp = isRegexp;
+    this.pattern = isRegexp ? Pattern.compile(chunkTag) : null;
   }
 
   public String getChunkTag() {
@@ -47,6 +51,16 @@ public class ChunkTag {
   /** @since 5.1 */
   public boolean isRegexp() {
     return isRegexp;
+  }
+
+  /**
+   * For regexp chunk tags: whether the given chunk tag fully matches this regular expression
+   * (same as {@code tag.getChunkTag().matches(getChunkTag())}, but without compiling the regex each time).
+   * For non-regexp chunk tags: whether the given chunk tag equals this one.
+   * @since 6.9
+   */
+  public boolean matches(ChunkTag tag) {
+    return pattern != null ? pattern.matcher(tag.getChunkTag()).matches() : chunkTag.equals(tag.getChunkTag());
   }
 
   @Override

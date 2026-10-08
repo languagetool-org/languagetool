@@ -36,6 +36,7 @@ public final class AnalyzedToken {
   private final String posTag;
   private final String lemma;
   private final String lemmaOrToken;  // used only for matching with Elements
+  private String lemmaOrTokenLowerCase;  // lazily computed, benign race (deterministic value)
 
   private boolean isWhitespaceBefore;
   private boolean hasNoPOSTag;
@@ -73,6 +74,19 @@ public final class AnalyzedToken {
   @Nullable
   public String getLemma() {
     return lemma;
+  }
+
+  /**
+   * Lowercased lemma, or lowercased token if there's no lemma. Cached, as it's needed for every
+   * {@link AnalyzedSentence} built from this token.
+   */
+  String getLemmaOrTokenLowerCase() {
+    String result = lemmaOrTokenLowerCase;
+    if (result == null) {
+      result = lemmaOrToken.toLowerCase();
+      lemmaOrTokenLowerCase = result;
+    }
+    return result;
   }
 
   public void setWhitespaceBefore(boolean whitespaceBefore) {

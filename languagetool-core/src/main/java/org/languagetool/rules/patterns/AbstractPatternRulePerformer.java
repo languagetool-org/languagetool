@@ -257,7 +257,7 @@ public abstract class AbstractPatternRulePerformer {
     ChunkTag chunkTag = matcher.getPatternToken().getChunkTag();
     if (chunkTag != null) {
       if (chunkTag.isRegexp()) {
-        anyMatched &= tokens[tokenNo].getChunkTags().stream().anyMatch(k -> k.getChunkTag().matches(chunkTag.getChunkTag()))
+        anyMatched &= tokens[tokenNo].getChunkTags().stream().anyMatch(chunkTag::matches)
                         ^ matcher.getPatternToken().getNegation();
       } else {
         anyMatched &= tokens[tokenNo].getChunkTags().contains(chunkTag)
