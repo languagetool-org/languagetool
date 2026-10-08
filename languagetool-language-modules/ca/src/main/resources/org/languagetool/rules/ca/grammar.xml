@@ -23556,14 +23556,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">posterior|següent|proper|pròxim</token>
             </antipattern>
             <rule>
-                <pattern raw_pos="yes">
-                    <marker>
-                        <token>per</token>
-                        <token min="0">a</token>
-                        <token regexp="yes">dins|dintre</token>
-                        <token regexp="yes">d'|de</token>
-                        <token chunk="PTime"/>
-                    </marker>
+                <pattern>
+                    <token>per</token>
+                    <token min="0">a</token>
+                    <token regexp="yes">dins|dintre</token>
+                    <token regexp="yes">d'|de</token>
+                    <token chunk="PTime"/>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>per a d'aquí a \5</suggestion>
@@ -40505,6 +40503,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">de|d'</token>
                     <example>Hi anàvem a punta de clar.</example>
                 </antipattern>
+                <antipattern>
+                    <token postag="LOC_ADV">a</token>
+                </antipattern>
                 <pattern raw_pos="yes">
                     <token inflected="yes">anar</token>
                     <token>a</token>
@@ -54744,6 +54745,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aleshores|a les hores"><marker>ales hores</marker></example>
             </rule>
             <rule>
+                <pattern>
+                    <marker>
+                        <token>ales<exception postag="_possible_nompropi"/></token>
+                    </marker>
+                    <token inflected="yes">numeral</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>a les</suggestion>?</message>
+                <suggestion>les</suggestion>
+                <short>Possible confusió</short>
+                <example correction="a les|les">De les 9 <marker>ales</marker> 10.</example>
+                <example correction="A LES|LES"><marker>ALES</marker> 12,30 HORES</example>
+                <example correction="a les|les">De les 9 h <marker>ales</marker> 19.30 h.</example>
+                <example>un ocell amb les ales desplegades</example>
+                <example>va batre les seves ales fosques</example>
+                <example>Li sortien com ales vermelles.</example>
+                <example>les seves ales retallades</example>
+                <example>Les enormes ales fosques</example>
+                <example>més llarg que les ales violetes fins a un lila pàl·lid</example>
+                <example>bat les ales 85 cops per segon</example>
+            </rule>
+            <rule>
                 <pattern raw_pos="yes">
                     <marker>
                         <token>ales<exception postag="_possible_nompropi"/></token>
@@ -54755,10 +54777,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>les</suggestion>
                 <short>Possible confusió</short>
                 <example correction="a les|les">Llavors va assistir <marker>ales</marker> onze.</example>
-                <example correction="a les|les">De les 9 <marker>ales</marker> 10.</example>
                 <example correction="a les|les">De les nou <marker>ales</marker> deu.</example>
-                <example correction="a les|les">De les 9 h <marker>ales</marker> 19.30 h.</example>
-                <example correction="A LES|LES"><marker>ALES</marker> 12,30 HORES</example>
                 <example correction="a les|les">el respecte <marker>ales</marker> diferències</example>
                 <example correction="a les|les">tots dos <marker>ales</marker> portes</example>
                 <example correction="a les|les">abocà xocolata <marker>ales</marker> tasses</example>

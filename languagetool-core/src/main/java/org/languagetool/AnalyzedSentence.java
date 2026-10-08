@@ -184,6 +184,31 @@ public final class AnalyzedSentence {
   }
 
   /**
+   * Returns an independent copy of the given token readings, suitable as a pre-disambiguation snapshot.
+   * Both the {@link AnalyzedTokenReadings} and their {@link AnalyzedToken} readings are copied, so later
+   * in-place modifications of {@code tokens} (e.g. by disambiguation actions {@code add}/{@code remove},
+   * or the mutable {@code hasNoPOSTag} flag set by {@code setNoRealPOStag()}) don't affect the copy.
+   * @since 6.9
+   */
+  public static AnalyzedTokenReadings[] copyReadings(AnalyzedTokenReadings[] tokens) {
+    AnalyzedTokenReadings[] copy = new AnalyzedTokenReadings[tokens.length];
+    for (int i = 0; i < tokens.length; i++) {
+      AnalyzedTokenReadings analyzedTokens = tokens[i];
+      // copy the readings themselves, not just the AnalyzedTokenReadings wrapper: hasNoPOSTag is a
+      // mutable flag that setNoRealPOStag() writes on the shared AnalyzedToken objects
+      List<AnalyzedToken> readings = new ArrayList<>(analyzedTokens.getReadingsLength());
+      for (int j = 0; j < analyzedTokens.getReadingsLength(); j++) {
+        AnalyzedToken t = analyzedTokens.getAnalyzedToken(j);
+        AnalyzedToken c = new AnalyzedToken(t.getToken(), t.getPOSTag(), t.getLemma());
+        c.setWhitespaceBefore(t.isWhitespaceBefore());
+        readings.add(c);
+      }
+      copy[i] = new AnalyzedTokenReadings(analyzedTokens, readings, "");
+    }
+    return copy;
+  }
+
+  /**
    * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace
    * is also a token.
    */
@@ -332,7 +357,7 @@ public final class AnalyzedSentence {
         }
       }
       if (!element.isWhitespace()) {
-        if (includeChunks && element.getChunkTags().size() > 0) {
+        if (includeChunks && !element.getChunkTags().isEmpty()) {
           sb.append(',');
           sb.append(StringUtils.join(element.getChunkTags(), "|"));
         }
@@ -433,7 +458,8 @@ public final class AnalyzedSentence {
   @Override
   public int hashCode() {
     // tokenSet and lemmaSet are a subset of tokens and don't need to be included
-    return Objects.hash(nonBlankTokens, tokens, whPositions);
+    final int hash = Objects.hash(Arrays.hashCode(nonBlankTokens), tokens, whPositions);
+    return hash;
   }
 
 }

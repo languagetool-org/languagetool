@@ -1769,8 +1769,11 @@ public class JLanguageTool {
       return cachedSentence;
     } else {
       AnalyzedSentence raw = getRawAnalyzedSentence(sentence);
+      // The disambiguator modifies some readings in place, so keep an independent copy of the
+      // tagger output: <pattern raw_pos="yes"> must still see the pre-disambiguation tags
+      AnalyzedTokenReadings[] preDisambigTokens = AnalyzedSentence.copyReadings(raw.getTokens());
       AnalyzedSentence disambig = language.getDisambiguator().disambiguate(raw, checkCancelledCallback);
-      AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), raw.getTokens());
+      AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), preDisambigTokens);
       if (language.getPostDisambiguationChunker() != null) {
         language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
       }
