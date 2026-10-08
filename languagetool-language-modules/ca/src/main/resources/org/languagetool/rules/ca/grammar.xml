@@ -12497,7 +12497,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V.[MGN].*" postag_regexp="yes" inflected="yes">dormir</token>
                     </marker>
-                    <token postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes"/>
+                    <token postag="P0.*|PP3..A00|PP3CP000" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a<match no="1" case_conversion="alllower"/></suggestion>?</message>
                 <example correction="Adormint"><marker>Dormint</marker>-se</example>
@@ -12505,7 +12505,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes"/>
+                    <token postag="P0.*|PP3..A00|PP3CP000" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.[SI].*" postag_regexp="yes" inflected="yes">dormir</token>
                     </marker>
@@ -12517,7 +12517,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes" skip="1"/>
+                    <token postag="P0.*|PP3..A00|PP3CP000" postag_regexp="yes" skip="1"/>
                     <token postag="VA.*" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.[PGN].*" postag_regexp="yes" inflected="yes">dormir</token>
@@ -12551,7 +12551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes"/></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.*|PP3..A00|PP3CP000" postag_regexp="yes"/></token>
                     <token postag="VA.*" postag_regexp="yes"/>
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">adormir</token>
@@ -12566,11 +12566,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.{6}|PP3..A00|PP3CP000" postag_regexp="yes"/></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="P0.*|PP3..A00|PP3CP000" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.[^P].*" postag_regexp="yes" inflected="yes">adormir</token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3..A00|PP3CP000|_GN_.*" postag_regexp="yes"/></token>
+                    <token><exception postag="P0.*|PP3..A00|PP3CP000|_GN_.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" regexp_match="a(dorm.*)" regexp_replace="$1"/></suggestion>?</message>
                 <example correction="dormir">Joan va <marker>adormir</marker>.</example>
@@ -64148,7 +64148,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- formes valencianes i balears -->
                 <pattern>
                     <and>
-                        <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|V.SP...V|N.*|AQ.*|SPS00|RG|_GN_.*|&lt;/?NP.*|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|africa</exception></token>
+                        <token postag="V......[VBZ34567]" postag_regexp="yes"><exception postag="V......[0CXY12]|V.SP...V|N.*|AQ.*|SPS00|RG|_GN_.*|&lt;/?NP.*|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|africa</exception></token>
                         <token postag="_possible_nompropi"/>
                     </and>
                 </pattern>
@@ -64182,7 +64182,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="D.*" postag_regexp="yes" min="0"/>
                     <marker>
                         <and>
-                            <token postag="V.{6}[0CXY12]|V.SP...V" postag_regexp="yes"><exception postag="N.*|AQ.*|V.P.*|SPS00|RG|_GN_.*|&lt;/?NP.*|_english_ignore_|_IS_URL" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|cal|africa|Gabi</exception></token>
+                            <token postag="V......[0CXY12]|V.SP...V" postag_regexp="yes"><exception postag="N.*|AQ.*|V.P.*|SPS00|RG|_GN_.*|&lt;/?NP.*|_english_ignore_|_IS_URL" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|cal|africa|Gabi</exception></token>
                             <token postag="_possible_nompropi"/>
                         </and>
                     </marker>
@@ -121360,7 +121360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ANTICIP" name="anticip">
             <pattern>
                 <!-- PP3..A00| -->
-                <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+                <token><exception postag="P0.*|PP3CN000|PP3NN000|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
                 <marker>
                     <token>anticip</token>
                 </marker>
@@ -129082,7 +129082,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception regexp="yes">què|no|que</exception></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                        <token postag="P0.*|PP3CP000|PP3CSD00" postag_regexp="yes"/>
                         <token inflected="yes" regexp="yes">parèixer|semblar</token>
                     </marker>
                     <token>?</token>
@@ -129102,7 +129102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>no</token>
                     <marker>
-                        <token postag="P0.{6}|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                        <token postag="P0.*|PP3CP000|PP3CSD00" postag_regexp="yes"/>
                         <token inflected="yes" regexp="yes">parèixer|semblar</token>
                     </marker>
                     <token>?</token>
@@ -129121,7 +129121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>si</token>
-                    <token postag="P0.{6}|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                    <token postag="P0.*|PP3CP000|PP3CSD00" postag_regexp="yes"/>
                     <marker>
                         <token inflected="yes" regexp="yes">parèixer|semblar</token>
                     </marker>
@@ -142185,7 +142185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Forma col·loquial de <suggestion>vosaltres</suggestion>.</message>
             <example correction="Vosaltres"><marker>Voltros</marker> veniu?</example>
         </rule>
-        <rule id="ENCONSTIPAT" name="enconstipat">
+        <rule id="ENCONSTIPAT" name="enconstipat" default="off">
             <!-- TODO: remove after dictionary update -->
             <pattern>
                 <token regexp="yes">(enconstip|costip|encostip)[aeiàé].*</token>
@@ -152744,8 +152744,8 @@ No t'ho explicaré, no cal que em burxis més-->
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|LOC_ADV|_loc_meitat" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes" inflected="yes">neologismes?|prefix|prefixos|projectes?|símbols?|factors?|mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|entrad(a|es)|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|ocasió|ocasions|noms?|majoria|substantius?|objectes?|&dies_setmana;|&unitats_temps;|tipus|tema|mini|micro|macro|feu|&parts_dia;|col·lega|col·legues|anomenada</exception></token>
-                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}[\p{Ll}·]+<exception postag="A.*|V.P.*|V.[NMSI].*|_GN_.*|DN.*|_loc_enma|LOC_ADV|_loc_meitat" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*|fra|don|&dies_setmana;|.+ador(a|s|es)?|caser(a|s|es)?|insígnia|top|fetitxe|crec|bleda|bledes|torracollons|tocacollons|alfa|beta</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}.+<exception postag="A.*|V.P.*|V.[NMSI].*|complement.*|DN.*|_GV_|LOC_ADV|_loc_meitat" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes" inflected="yes">neologismes?|prefix|prefixos|projectes?|símbols?|factors?|mots?|paraul(a|es)|termes?|expressi(ó|ons)|vocables?|nombres?|entrad(a|es)|lletr(a|es)|colors?|vegad(a|es)|volt(a|es)|cops?|ocasió|ocasions|noms?|majoria|substantius?|objectes?|&dies_setmana;|&unitats_temps;|tipus|tema|mini|micro|macro|feu|&parts_dia;|col·lega|col·legues|anomenada</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" regexp="yes">\p{Ll}.+<exception postag="A.*|V.P.*|V.[NMSI].*|_GN_.*|DN.*|_loc_enma|LOC_ADV|_loc_meitat" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*|fra|don|&dies_setmana;|.+ador(a|s|es)?|caser(a|s|es)?|insígnia|top|fetitxe|crec|bleda|bledes|torracollons|tocacollons|alfa|beta</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.AdaptSuggestionsFilter" args="none:none"/>
@@ -154076,7 +154076,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues</exception></token>
+                        <token postag="V......[VBZ34567]" postag_regexp="yes"><exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\1 postag:[AN].*"/>
@@ -154127,7 +154127,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VMSI[13]S03" postag_regexp="yes" regexp="yes">.*[ai]ra<exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
+                    <token postag="VMSI[13]S03" postag_regexp="yes" regexp="yes">.*[ai]ra<exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(VMSI[13]S0)3" postag_regexp="yes" postag_replace="VMIF3S00"/></suggestion>?</message>
                 <suggestion><match no="1" postag="(VMSI[13]S0)3" postag_regexp="yes" postag_replace="$11"/></suggestion>
@@ -154147,7 +154147,7 @@ No t'ho explicaré, no cal que em burxis més-->
             <rule>
                 <pattern>
                     <!-- TODO: generalitzar, amb tot el que no sigui central -->
-                    <token postag="VMIP1S0B"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues</exception></token>
+                    <token postag="VMIP1S0B"><exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:1 desiredPostag:.*[^BV] suppressMatch:false"/>
                 <message>Possible error ortogràfic. "<match no="1" case_conversion="firstupper"/>" és correcte com a forma balear (1a persona del singular, present d'indicatiu).</message>
@@ -154166,7 +154166,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <pattern>
                     <token postag_regexp="yes" postag="&pronom_feble;"><exception postag="D.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="VMSP[13]S0V" postag_regexp="yes" regexp="yes">.*e<exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/></token>
+                        <token postag="VMSP[13]S0V" postag_regexp="yes" regexp="yes">.*e<exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Aquest verb no es correspon amb la varietat en ús.</message>
@@ -154184,7 +154184,7 @@ No t'ho explicaré, no cal que em burxis més-->
                     <token postag="V.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="VMIP1P0B" regexp="yes">.*am<exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/><exception regexp="yes">aviam|anam|estam|viam</exception></token>
+                    <token postag="VMIP1P0B" regexp="yes">.*am<exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/><exception regexp="yes">aviam|anam|estam|viam</exception></token>
                 </pattern>
                 <message>Possible error ortogràfic. Aquesta forma verbal no es correspon amb la varietat seleccionada (central).</message>
                 <suggestion><match no="1" postag="VMIP1P0B" postag_regexp="yes" postag_replace="VMM02S00" case_conversion="preserve"/>'m</suggestion>
@@ -154198,7 +154198,7 @@ No t'ho explicaré, no cal que em burxis més-->
                     <token postag="P[P0].*" postag_regexp="yes" spacebefore="no"/>
                 </antipattern>
                 <pattern>
-                    <token postag="VMSP2S0V" regexp="yes">.*gues<exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/><exception>hagues</exception></token>
+                    <token postag="VMSP2S0V" regexp="yes">.*gues<exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/><exception>hagues</exception></token>
                 </pattern>
                 <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (central).</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="VMSI3S01" case_conversion="preserve"/></suggestion>
@@ -154212,7 +154212,7 @@ No t'ho explicaré, no cal que em burxis més-->
                     <token postag="P[P0].*" postag_regexp="yes" spacebefore="no"/>
                 </antipattern>
                 <pattern>
-                    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues|ferme</exception></token>
+                    <token postag="V......[VBZ34567]" postag_regexp="yes"><exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues|ferme</exception></token>
                 </pattern>
                 <!--<filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:1 desiredPostag:V.[^M].*[^VBZ34567] undesiredPostag:V......[VBZ34567] suppressMatch:true"/>-->
                 <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (central).</message>
@@ -154243,7 +154243,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <!-- TODO: copiar en valencià i balear -->
                 <pattern>
                     <marker>
-                        <token postag="V.{6}[VBZ34567]" postag_regexp="yes" regexp="yes">.*[aeiíé]n<exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/></token>
+                        <token postag="V......[VBZ34567]" postag_regexp="yes" regexp="yes">.*[aeiíé]n<exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/></token>
                     </marker>
                     <token postag_regexp="yes" postag="&pronom_feble;" spacebefore="no"/>
                 </pattern>
@@ -154254,7 +154254,7 @@ No t'ho explicaré, no cal que em burxis més-->
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="VMM03S0V" regexp="yes">.*e<exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/></token>
+                        <token postag="VMM03S0V" regexp="yes">.*e<exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/></token>
                     </marker>
                     <token postag_regexp="yes" postag="&pronom_feble;" spacebefore="no"/>
                 </pattern>
@@ -154263,7 +154263,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues|ferme</exception></token>
+                    <token postag="V......[VBZ34567]" postag_regexp="yes"><exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues|ferme</exception></token>
                 </pattern>
                 <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (central).</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[CXY012]" case_conversion="preserve"/></suggestion>
@@ -154495,7 +154495,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VMIP1S0B"><exception postag="V.{6}[0VXZ13567]|N.*|AQ.*|_GN_.*|_possible_nompropi|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">aixo|aixi|music</exception></token>
+                    <token postag="VMIP1S0B"><exception postag="V......[0VXZ13567]|N.*|AQ.*|_GN_.*|_possible_nompropi|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">aixo|aixi|music</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:1 desiredPostag:.*[^BCY] suppressMatch:false"/>
                 <message>Possible error ortogràfic. "<match no="1" case_conversion="firstupper"/>" és correcte com a forma balear (1a persona del singular, present d'indicatiu).</message>
@@ -154516,7 +154516,7 @@ No t'ho explicaré, no cal que em burxis més-->
                     <token postag="V.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="VMIP1P0B" regexp="yes">.*am<exception postag="V.{6}[0VXZ13567]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/><exception regexp="yes">aviam|anam|estam</exception></token>
+                    <token postag="VMIP1P0B" regexp="yes">.*am<exception postag="V......[0VXZ13567]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/><exception regexp="yes">aviam|anam|estam</exception></token>
                 </pattern>
                 <message>Possible error ortogràfic. Aquesta forma verbal no es correspon amb la varietat seleccionada (valencià).</message>
                 <suggestion><match no="1" postag="VMIP1P0B" postag_regexp="yes" postag_replace="VMM02S00" case_conversion="preserve"/>'m</suggestion>
@@ -154526,7 +154526,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.{6}[CBY24]" postag_regexp="yes"><exception postag="V.{6}[0VXZ13567]|N.*|AQ.*|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/><exception regexp="yes">aixo|aixi|music</exception></token>
+                    <token postag="V......[CBY24]" postag_regexp="yes"><exception postag="V......[0VXZ13567]|N.*|AQ.*|_GN_.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/><exception regexp="yes">aixo|aixi|music</exception></token>
                 </pattern>
                 <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (valencià).</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ13567]"/></suggestion>
@@ -154666,7 +154666,7 @@ No t'ho explicaré, no cal que em burxis més-->
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|N.*|AQ.*|SPS00|_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aixo|hagues</exception></token>
+                        <token postag="V......[CVX356]" postag_regexp="yes"><exception postag="V......[0BYZ1247]|N.*|AQ.*|SPS00|_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aixo|hagues</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DiacriticsCheckFilter" args="form:\1 postag:[AN].*"/>
@@ -154676,7 +154676,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VMSI[13]S03" postag_regexp="yes" regexp="yes">.*[ai]ra<exception postag="V.{6}[0BYZ1247]|N.*|AQ.*|SPS00|_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
+                    <token postag="VMSI[13]S03" postag_regexp="yes" regexp="yes">.*[ai]ra<exception postag="V......[0BYZ1247]|N.*|AQ.*|SPS00|_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(VMSI[13]S0)3" postag_regexp="yes" postag_replace="VMIF3S00"/></suggestion>?</message>
                 <suggestion><match no="1" postag="(VMSI[13]S0)3" postag_regexp="yes" postag_replace="$17"/></suggestion>
@@ -154693,7 +154693,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|N.*|AQ.*|SPS00|_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aixo|hagues</exception></token>
+                    <token postag="V......[CVX356]" postag_regexp="yes"><exception postag="V......[0BYZ1247]|N.*|AQ.*|SPS00|_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aixo|hagues</exception></token>
                 </pattern>
                 <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (balear).</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ1247]"/></suggestion>
