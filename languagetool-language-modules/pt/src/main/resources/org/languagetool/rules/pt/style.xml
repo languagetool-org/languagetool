@@ -9986,6 +9986,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id="SEM_MARGEM_PARA_DUVIDAS" name="🎓🤵 Sem margem para dúvidas → inequivocamente" type='style' tone_tags='academic scientific'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token postag='V.+' postag_regexp='yes'>
+                    <exception inflected='yes' regexp='yes'>ser|deixar|ficar</exception></token> <!-- Added more exceptions as found -->
+                <marker>
+                    <token>sem</token>
+                    <token regexp='yes'>marge(m|ns)</token> <!-- Added also plural if the user types it by mistake -->
+                    <token>para</token>
+                    <token regexp='yes'>dúvidas?</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal/científico, pondere substituir esta expressão por &quot;inequivocamente&quot;.</message>
+            <suggestion>inequivocamente</suggestion>
+            <example correction="inequivocamente">Os resultados demonstram <marker>sem margem para dúvidas</marker> que a hipótese está correta.</example>
+            <example correction="inequivocamente">Os documentos comprovam <marker>sem margem para dúvida</marker> a existência de irregularidades.</example>
+            <example correction="inequivocamente">Os dados confirmam <marker>sem margem para dúvidas</marker> as conclusões anteriores.</example>
+            <example correction="inequivocamente">As provas mostram <marker>sem margem para dúvidas</marker> a responsabilidade do acusado.</example>
+            <example correction="inequivocamente">A investigação revelou <marker>sem margem para dúvidas</marker> a origem do problema.</example>
+            <example correction="inequivocamente">Os resultados indicam <marker>sem margem para dúvidas</marker> uma melhoria significativa.</example>
+            <example type="correct">É sem margem para dúvidas que os dados confirmam a hipótese.</example>
+            <example type="correct">Foi sem margem para dúvidas que o investigador apresentou as conclusões.</example>
+            <example type="correct">Será sem margem para dúvidas que a decisão terá consequências.</example>
+            <example type="correct">O relatório deixou sem margem para dúvidas a existência do problema.</example>
+            <example type="correct">Os investigadores deixaram sem margem para dúvidas a validade da descoberta.</example>
+            <example type="correct">O relatório apresenta uma conclusão sem margem para dúvidas.</example>
+            <example type="correct">Trata-se de uma vitória sem margem para dúvidas.</example>
+        </rule>
+
+
         <rule id='AO_LONGO_DO_TEMPO' name="🎓 Ao longo do tempo → gradualmente/progressivamente" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
