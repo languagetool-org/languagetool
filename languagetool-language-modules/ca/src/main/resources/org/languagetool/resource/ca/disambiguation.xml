@@ -6346,6 +6346,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token>cèl·lula</token>
+                <marker>
+                    <token regexp="yes">progenitora|mare|filla|destí|destinació|diana</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0FS0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>cèl·lules</token>
+                <marker>
+                    <token regexp="yes">progenitores|mare|filles|destí|destinació|diana</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0FP0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes">raig</token>
                 <marker>
                     <token regexp="yes">alfa|beta|gamma</token>
@@ -8004,6 +8022,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="dar"/>
         </disambig>
     </rule>
+    <rule id="deure" name="deure/dar + infinitiu">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">deure</token>
+            </marker>
+            <token regexp="yes">obediència|diners|diner</token>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rulegroup id="menjar_substantiu" name="menjar substantiu">
         <rule>
             <pattern>
@@ -9368,7 +9395,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <and>
-                        <token postag="V.*" postag_regexp="yes" regexp="yes">punta|puntes|davall|només|noms?|norma|normes|sexes?<exception postag="_GV_"/></token>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">punta|puntes|davall|només|noms?|norma|normes|sexe|sexes|humana|humanes<exception postag="_GV_"/></token>
                         <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>

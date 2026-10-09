@@ -31,6 +31,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static org.languagetool.JLanguageTool.PARAGRAPH_END_TAGNAME;
+import static org.languagetool.JLanguageTool.SENTENCE_END_TAGNAME;
+
 /**
  * Adds simple replacement using lemmas
  *
@@ -82,7 +85,9 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
         continue;
       }
       for (AnalyzedToken at : tokens[i].getReadings()) {
-        if (getWrongWords().containsKey(at.getLemma())) {
+        boolean isEndTag = at.getPOSTag() != null && at.getPOSTag().equals(SENTENCE_END_TAGNAME) &&
+          !at.getPOSTag().equals(PARAGRAPH_END_TAGNAME);
+        if (!isEndTag && getWrongWords().containsKey(at.getLemma())) {
           replacementLemmas = getWrongWords().get(at.getLemma());
           replacePOSTag = at.getPOSTag();
           bRuleMatches = true;

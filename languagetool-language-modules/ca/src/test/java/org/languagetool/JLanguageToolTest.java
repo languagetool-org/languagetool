@@ -77,7 +77,14 @@ public class JLanguageToolTest {
   public void testValencianVariant() throws IOException {
     Language lang = ValencianCatalan.getInstance();
     JLanguageTool tool = new JLanguageTool(lang);
+
     List<RuleMatch> matches = tool.check("Cal usar mètodes d'anàlisi adequats.");
+    assertEquals(0, matches.size());
+
+    matches = tool.check("Tant de bo s'imposen el diàleg i la diplomàcia");
+    assertEquals(0, matches.size());
+
+    matches = tool.check("Persones humanes");
     assertEquals(0, matches.size());
 
     matches = tool.check("Aquests ganivets no corresponen amb estes forquilles.");

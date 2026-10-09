@@ -784,6 +784,13 @@ public class Catalan extends Language {
     RuleMatch previousRuleMatch = null;
     for (int i = 0; i < ruleMatches.size(); i++) {
       RuleMatch ruleMatch = ruleMatches.get(i);
+      // ignore rules that change nothing
+      if (!ruleMatch.getRule().getId().equals("MORFOLOGIK_RULE_CA_ES")) {
+        if ((ruleMatch.getSuggestedReplacements().size() == 1) &&
+          ruleMatch.getOriginalErrorStr().equals(ruleMatch.getSuggestedReplacements().get(0))) {
+          continue;
+        }
+      }
       // remove rules IGNORE_PROPER_NOUNS and MORFOLOGIK_RULE_CA_ES if they are in the same position
       if (ruleMatch.getRule().getId().equals("IGNORE_PROPER_NOUNS")) {
         if (previousRuleMatch != null && previousRuleMatch.getRule().getId().equals("MORFOLOGIK_RULE_CA_ES")
