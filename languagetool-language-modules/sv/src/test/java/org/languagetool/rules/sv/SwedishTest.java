@@ -20,9 +20,11 @@ package org.languagetool.rules.sv;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Swedish;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.assertThat;
@@ -32,7 +34,11 @@ public class SwedishTest extends LanguageSpecificTest {
   
   @Test
   public void testLanguage() throws IOException {
-    runTests(new Swedish());
+    Language sv = new Swedish();
+    JLanguageTool ltSwedish = sv.createDefaultJLanguageTool();
+    File svNgramsIndex = new File("/data/ngram-index");
+    ltSwedish.activateLanguageModelRules(svNgramsIndex);
+    runTests(sv);
   }
 
   @Test
