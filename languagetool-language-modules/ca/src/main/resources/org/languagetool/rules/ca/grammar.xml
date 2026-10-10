@@ -3082,6 +3082,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Va ser més d'onze punts superior a l’elecció anterior.</example>
             </antipattern>
             <antipattern>
+                <token>resultat</token>
+                <token regexp="yes">de|d'</token>
+            </antipattern>
+            <antipattern>
                 <token>bla</token>
                 <token min="0">,</token>
                 <token>bla</token>
@@ -34822,7 +34826,76 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
+        <rulegroup id="PEN" name="pen -> per/en/pel" default="temp_off">
+            <antipattern>
+                <token>pen</token>
+                <token min="0">-</token>
+                <token regexp="yes">drive|drives|pal|pals|friend|friends|USB</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">el|l</token>
+                <token>pen</token>
+            </antipattern>
+            <antipattern>
+                <token>pen</token>
+                <token>-</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D..MS." postag_regexp="yes"/>
+                <token postag="PX.*" postag_regexp="yes" min="0"/>
+                <token>pen</token>
+            </antipattern>
+            <antipattern>
+                <token>pen</token>
+                <token postag="UNKNOWN" regexp="yes">a.*</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token regexp="yes">pen|pén|pèn</token>
+                </pattern>
+                <message>¿Volíeu usar una forma del verb 'dependre'?</message>
+                <suggestion>depèn</suggestion>
+                <suggestion>depén</suggestion>
+                <example correction="depèn|depén">això <marker>de pen</marker> del que vulguis fer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>pen</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="V.N.*"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>per</suggestion> o <suggestion>per a</suggestion>?</message>
+                <example correction="per|per a">Ho dic així <marker>pen</marker> explicar-ho millor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>pen</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>pena</suggestion></message>
+                <example correction="pena">No valia la <marker>pen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pen<exception postag="_english_ignore"/></token>
+                </pattern>
+                <message>Possible confusió</message>
+                <suggestion>per</suggestion>
+                <suggestion>en</suggestion>
+                <suggestion>pel</suggestion>
+                <example correction="per|en|pel">Això <marker>pen</marker> a ell.</example>
+            </rule>
+        </rulegroup>
         <rule id="ANS_ENS" name="ans ha dit -> ens ha dit" default="temp_off">
+            <antipattern>
+                <token skip="-1">no</token>
+                <token>,</token>
+                <token>ans</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>ans</token>
@@ -34832,6 +34905,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>ens</suggestion> ('a nosaltres')? "Ans" ens correcte com a conjunció ('sinó que') o adverbi ('abans').</message>
             <example correction="Ens"><marker>Ans</marker> han dit que no vindran.</example>
             <example>ans deslliureu-nos del qualsevol mal</example>
+            <example>No destrueix, ans perfecciona.</example>
         </rule>
         <rule id="ENTRA_ENTRE" name="entra -> entre">
             <pattern>
@@ -56872,13 +56946,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="N.*" postag_regexp="yes" regexp="yes" skip="10" inflected="yes">&noms_llengues;|idioma|llengua|dialecte</token>
                     <marker>
-                        <token>angles</token>
+                        <token>angles<exception postag="_GN_MP"/></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>anglès</suggestion> (nom d'una llengua)?</message>
                 <suggestion>anglés</suggestion>
                 <example correction="anglès|anglés">En català o <marker>angles</marker>.</example>
                 <example correction="anglès|anglés">En altres dialectes o en <marker>angles</marker>.</example>
+                <example>Els danesos i els angles.</example>
             </rule>
             <rule>
                 <pattern>
@@ -146690,7 +146765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="[AN].*" postag_regexp="yes" regexp="yes">cegos?</token>
             </pattern>
             <message>Forma col·loquial.</message>
-            <suggestion><match no="1" regexp_match="cego(s?)" regexp_replace="cec$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)cego(s?)" regexp_replace="cec$1" case_conversion="preserve"/></suggestion>
             <example correction="cec">Un home <marker>cego</marker></example>
         </rule>
         <rule id="PASSACARRER" name="passacarrer">
@@ -154241,7 +154316,7 @@ No t'ho explicaré, no cal que em burxis més-->
             <rule>
                 <pattern>
                     <!-- TODO: generalitzar, amb tot el que no sigui central -->
-                    <token postag="VMIP1S0B"><exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues</exception></token>
+                    <token postag="VMIP1S0B"><exception postag="V......[0CXY12]|N.*|AQ.*|SPS00|RG|_GN_.*|_possible_nompropi|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues|pen</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:1 desiredPostag:.*[^BV] suppressMatch:false"/>
                 <message>Possible error ortogràfic. "<match no="1" case_conversion="firstupper"/>" és correcte com a forma balear (1a persona del singular, present d'indicatiu).</message>
@@ -154589,7 +154664,7 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VMIP1S0B"><exception postag="V......[0VXZ13567]|N.*|AQ.*|_GN_.*|_possible_nompropi|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">aixo|aixi|music</exception></token>
+                    <token postag="VMIP1S0B"><exception postag="V......[0VXZ13567]|N.*|AQ.*|_GN_.*|_possible_nompropi|_english_ignore_" postag_regexp="yes"/><exception regexp="yes">aixo|aixi|music|pen</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.FindSuggestionsFilter" args="wordFrom:1 desiredPostag:.*[^BCY] suppressMatch:false"/>
                 <message>Possible error ortogràfic. "<match no="1" case_conversion="firstupper"/>" és correcte com a forma balear (1a persona del singular, present d'indicatiu).</message>
