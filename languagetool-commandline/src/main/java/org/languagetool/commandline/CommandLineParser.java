@@ -32,7 +32,7 @@ import java.util.Arrays;
 class CommandLineParser {
 
   CommandLineOptions parseOptions(String[] args) {
-    if (args.length < 1 || args.length > 14) {
+    if (args.length < 1) {
       throw new WrongParameterNumberException();
     }
     CommandLineOptions options = new CommandLineOptions();
@@ -54,6 +54,7 @@ class CommandLineParser {
       } else if (args[i].equals("--clean-overlapping")) {
         options.setCleanOverlapping(true);
       } else if (args[i].equals("--level")) {
+        checkArguments("--level", i, args);
         String level = args[++i];
         try {
           options.setLevel(JLanguageTool.Level.valueOf(level));
