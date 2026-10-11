@@ -217,6 +217,9 @@ public class VerbAgreementRuleTest {
   @Test
   public void testWrongVerbSubject() throws IOException {
     // correct sentences:
+    assertGood("Während er faul auf der Couch saß, musste ich putzen.");
+    assertGood("Er ist krank und bleibt zu Hause.");
+    assertGood("Das Kind ist müde.");
     assertGood("Auch morgen lebe ich.");
     assertGood("Auch morgen leben wir noch.");
     assertGood("Auch morgen lebst du.");
