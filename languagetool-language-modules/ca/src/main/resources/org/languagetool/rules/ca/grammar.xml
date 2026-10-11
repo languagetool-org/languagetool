@@ -34826,14 +34826,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
-        <rulegroup id="PEN" name="pen -> per/en/pel" default="temp_off">
+        <rulegroup id="PEN" name="pen -> per/en/pel">
             <antipattern>
                 <token>pen</token>
                 <token min="0">-</token>
-                <token regexp="yes">drive|drives|pal|pals|friend|friends|USB</token>
+                <token regexp="yes">drive|drives|pal|pals|friend|friends|USB|club|clubs|internacional|international</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">el|l</token>
+                <token regexp="yes">el|l|le</token>
                 <token>pen</token>
             </antipattern>
             <antipattern>
@@ -34873,7 +34873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>la</token>
                     <marker>
-                        <token>pen</token>
+                        <token case_sensitive="yes">pen</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>pena</suggestion></message>
@@ -34881,7 +34881,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>pen<exception postag="_english_ignore"/></token>
+                    <token case_sensitive="yes">pen<exception postag="_english_ignore"/></token>
                 </pattern>
                 <message>Possible confusió</message>
                 <suggestion>per</suggestion>
@@ -34890,7 +34890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="per|en|pel">Això <marker>pen</marker> a ell.</example>
             </rule>
         </rulegroup>
-        <rule id="ANS_ENS" name="ans ha dit -> ens ha dit" default="temp_off">
+        <rule id="ANS_ENS" name="ans ha dit -> ens ha dit">
             <antipattern>
                 <token skip="-1">no</token>
                 <token>,</token>
