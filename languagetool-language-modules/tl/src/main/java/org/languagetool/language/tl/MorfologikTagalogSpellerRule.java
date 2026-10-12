@@ -41,6 +41,11 @@ public class MorfologikTagalogSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
+  public String getSpellingFileName() {
+    return "/tl/hunspell/spelling.txt";
+  }
+
+  @Override
   public final String getId() {
     return "MORFOLOGIK_RULE_TL";
   }
