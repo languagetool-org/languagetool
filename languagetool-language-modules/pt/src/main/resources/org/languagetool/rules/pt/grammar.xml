@@ -41400,6 +41400,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id='BEM_HIFEN_VERBO' name="Bem-dizer (hifenizar o verbo composto)">
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!-- Aplicar apenas ao verbo composto com o sentido de elogiar. -->
+
+            <antipattern>
+                <token>bem</token>
+                <token>dizer</token>
+                <token>de</token>
+                <token regexp='yes'>onde|quando|que|como</token>
+                <example>Ela sabia bem dizer de onde vinha.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>bem</token>
+                    <token>dizer</token>
+                </marker>
+                <token regexp='yes'>de|d[ao]s?</token>
+            </pattern>
+            <message>Quando significa &quot;elogiar&quot; ou &quot;dizer bem de alguém&quot;, o verbo composto escreve-se com hífen.</message>
+            <suggestion>\1-\2</suggestion>
+            <example correction="bem-dizer">Ela procura <marker>bem dizer</marker> dos colegas que a ajudaram.</example>
+            <example correction="bem-dizer">É importante <marker>bem dizer</marker> das pessoas que nos apoiaram.</example>
+            <example correction="bem-dizer">O escritor procurou <marker>bem dizer</marker> dos seus professores.</example>
+            <example>Na parte em que digo ser uma pessoa de palavra, ficaria bem dizer que algumas pessoas se serviram disso.</example>
+            <example>Ela sabia bem dizer de onde vinha.</example>
+            <example>É importante bem dizer o que se pensa.</example>
+            <example>A arte de bem viver exige equilíbrio.</example>
+            <example>Os alunos devem aprender a bem escrever em português.</example>
+            <example>A bem dizer, não havia outras alternativas.</example>
+            <example>Ele bem disse que ia chover.</example>
+            <example>Ela sabe bem explicar os conceitos científicos.</example>
+        </rule>
+
+
         <rulegroup id='FRENCH_HIPHENATED_NAMES' name="Nomes franceses hifenizados" tags='picky'>
             <!--      Localized from French grammar.xml by Tiago F. Santos, Portuguese rule, 2017-05-30      -->
             <rule>
