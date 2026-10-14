@@ -32,11 +32,12 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tools.StringTools;
 
+import static org.languagetool.rules.ca.ApostophationHelper.needsApostrophationMS;
+
 public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
 
   // es + unknown -> és + noun/adj | es + verb 3rd person
 
-  Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
   Pattern pPostagNominal = Pattern.compile("NP..[^0].*|NC.[SN].*|A...[SN].|V.P..S..|V.[NG].*|RG|PX..S...");
   Pattern pPostagVerb3person = Pattern.compile("V...3.*");
 
@@ -78,8 +79,7 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
             usedEsAccent = true;
           }
           if (analyzedSuggestion.matchesPosTagRegex(pPostagVerb3person)) {
-            Matcher m = pApostropheNeeded.matcher(analyzedSuggestion.getToken());
-            if (!m.matches()) {
+            if (!needsApostrophationMS(analyzedSuggestion.getToken())) {
               replacements.add("es " + analyzedSuggestion.getToken().toLowerCase());
               usedEs = true;
             }

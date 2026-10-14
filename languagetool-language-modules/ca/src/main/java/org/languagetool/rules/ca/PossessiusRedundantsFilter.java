@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static org.languagetool.rules.ca.ApostophationHelper.needsApostrophationMS;
 import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
 
 public class PossessiusRedundantsFilter extends RuleFilter {
@@ -70,7 +71,7 @@ public class PossessiusRedundantsFilter extends RuleFilter {
     }
     // Cal apostrofar
     boolean apostropheNeeded = tokens[posPossessive-1].hasAnyPartialPosTag("DA0MS0", "DA0FS0")
-      && pApostropheNeeded.matcher(tokens[posPossessive + 1].getToken()).matches();
+      && needsApostrophationMS(tokens[posPossessive + 1].getToken());
     if (pronounFound) {
       if (apostropheNeeded) {
         match.setOffsetPosition(tokens[posPossessive-1].getStartPos(), tokens[posPossessive+1].getEndPos());

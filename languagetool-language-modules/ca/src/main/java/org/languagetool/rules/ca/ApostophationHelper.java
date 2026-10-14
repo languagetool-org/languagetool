@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 public class ApostophationHelper {
 
-  private static Map<String, String> prepDet = new HashMap<>();
+  private static final Map<String, String> prepDet = new HashMap<>();
 
   static {
     prepDet.put("MS", "el ");
@@ -57,14 +57,15 @@ public class ApostophationHelper {
   /**
    * Patterns for apostrophation
    **/
-  private static final Pattern pMascYes = Pattern.compile("h?[aeiouàèéíòóú].*",
+  private static final Pattern pApostropheMascYes = Pattern.compile("h?[aeiouàèéíòóú].*",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern pMascNo = Pattern.compile("h?[ui][aeioàèéóò].+",
+  private static final Pattern pApostropheMascNo = Pattern.compile("h?[ui][aeioàèéóò].+",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern pFemYes = Pattern.compile("h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs"
+  private static final Pattern pApostropheFemYes = Pattern.compile("h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs"
     , Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern pFemNo = Pattern.compile("host|ira|inxa",
+  private static final Pattern pApostropheFemNo = Pattern.compile("host|ira|inxa",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  public static final Pattern pApostropheNeededEnd = Pattern.compile(".*[aei]", Pattern.CASE_INSENSITIVE);
 
   // From mots_HAC_ASPIRADA2 and mots_HAC_ASPIRADA in entities.ent
   private static final Pattern pHacAspirada = Pattern.compile("Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip" +
@@ -109,16 +110,19 @@ public class ApostophationHelper {
     }
     if (!pHacAspirada.matcher(newForm).matches()) {
       if (genderNumber.equals("MS")) {
-        if (pMascYes.matcher(newForm).matches() && !pMascNo.matcher(newForm).matches()) {
+        if (pApostropheMascYes.matcher(newForm).matches() && !pApostropheMascNo.matcher(newForm).matches()) {
           apos = "apos";
         }
       } else if (genderNumber.equals("FS")) {
-        if (pFemYes.matcher(newForm).matches() && !pFemNo.matcher(newForm).matches()) {
+        if (pApostropheFemYes.matcher(newForm).matches() && !pApostropheFemNo.matcher(newForm).matches()) {
           apos = "apos";
         }
       }
     }
-    String suggestion = prepDet.get(preposition + genderNumber + apos);
-    return suggestion;
+    return prepDet.get(preposition + genderNumber + apos);
+  }
+
+  public static boolean needsApostrophationMS(String word) {
+    return pApostropheMascYes.matcher(word).matches() && !pApostropheMascNo.matcher(word).matches() && !pHacAspirada.matcher(word).matches();
   }
 }

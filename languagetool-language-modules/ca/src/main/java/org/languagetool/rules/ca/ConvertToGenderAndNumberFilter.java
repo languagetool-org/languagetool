@@ -33,7 +33,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.languagetool.rules.ca.ApostophationHelper.getPrepositionAndDeterminer;
+import static org.languagetool.rules.ca.ApostophationHelper.*;
+import static org.languagetool.rules.ca.ApostophationHelper.needsApostrophationMS;
 
 public class ConvertToGenderAndNumberFilter extends RuleFilter {
 
@@ -249,6 +250,15 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
                   prepositionToAdd = preposition;
                   startPos = i;
                 }
+              } else if (tokens[i].getToken().equals("d'")
+                && !needsApostrophationMS(suggestionBuilder.toString())) {
+                // de + vowel > d', but the new word starts with a consonant: restore "de"
+                prepositionToAdd = "de";
+                startPos = i;
+              } else if (tokens[i].getToken().equals("de")
+                && needsApostrophationMS(suggestionBuilder.toString())) {
+                prepositionToAdd = "d'";
+                startPos = i;
               }
               stop = true;
             } else if (tokens[i].hasPosTag("_PUNCT_CONT") || tokens[i].hasPosTag("CC")) {
@@ -308,7 +318,11 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             suggestionBuilder.insert(0, getPrepositionAndDeterminer(suggestionBuilder.toString(),
               desiredGender + desiredNumber, prepositionToAdd));
           } else if (!prepositionToAdd.isEmpty()) {
-            suggestionBuilder.insert(0, prepositionToAdd + " ");
+            String whiteSpace = " ";
+            if (prepositionToAdd.equals("d'")) {
+              whiteSpace = "";
+            }
+            suggestionBuilder.insert(0, prepositionToAdd + whiteSpace);
           }
           suggestionBuilder.insert(0, addTot);
           String originalSpan = match.getSentence().getText().substring(tokens[startPos].getStartPos(), tokens[endPos].getEndPos());

@@ -157,10 +157,6 @@ public abstract class RuleFilter {
 
   private Language language= null;
 
-  public Language getLanguage() {
-    return language;
-  };
-
   public void setLanguage(Language language) {
     this.language = language;
   }

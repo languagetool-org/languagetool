@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -36,6 +35,8 @@ import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
+import static org.languagetool.rules.ca.ApostophationHelper.needsApostrophationMS;
+
 /*
  * Suggestions for rule OBLIDARSE: se m'ha oblidat -> me n'he oblidat, m'he oblidat de
  */
@@ -44,9 +45,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
 
   Language lang = Languages.getLanguageForShortCode("ca");
 
-  Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
-
-  private static Map<String, String> addReflexiveVowel = new HashMap<>();
+  private static final Map<String, String> addReflexiveVowel = new HashMap<>();
   static {
     addReflexiveVowel.put("1S", "m'");
     addReflexiveVowel.put("2S", "t'");
@@ -56,7 +55,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     addReflexiveVowel.put("3P", "s'");
   }
 
-  private static Map<String, String> addReflexiveConsonant = new HashMap<>();
+  private static final Map<String, String> addReflexiveConsonant = new HashMap<>();
   static {
     addReflexiveConsonant.put("1S", "em ");
     addReflexiveConsonant.put("2S", "et ");
@@ -66,7 +65,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     addReflexiveConsonant.put("3P", "es ");
   }
 
-  private static Map<String, String> addReflexiveEnVowel = new HashMap<>();
+  private static final Map<String, String> addReflexiveEnVowel = new HashMap<>();
   static {
     addReflexiveEnVowel.put("1S", "me n'");
     addReflexiveEnVowel.put("2S", "te n'");
@@ -76,7 +75,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
     addReflexiveEnVowel.put("3P", "se n'");
   }
 
-  private static Map<String, String> addReflexiveEnConsonant = new HashMap<>();
+  private static final Map<String, String> addReflexiveEnConsonant = new HashMap<>();
   static {
     addReflexiveEnConsonant.put("1S", "me'n ");
     addReflexiveEnConsonant.put("2S", "te'n ");
@@ -97,7 +96,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       posWord++;
     }
     String pronomPostag = tokens[posWord + 1].readingWithTagRegex("P.*").getPOSTag();
-    String pronomGenderNumber = pronomPostag.substring(2, 3) + pronomPostag.substring(4, 5);
+    String pronomGenderNumber = pronomPostag.substring(2, 3) + pronomPostag.charAt(4);
     int indexMainVerb = posWord + 2;
     while (!tokens[indexMainVerb].hasAnyLemma("oblidar", "descuidar", "passar")) {
       indexMainVerb++;
@@ -119,7 +118,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       newVerb = newVerb + tokens[i].getWhitespaceBefore() + tokens[i].getToken().replace("passar", "descuidar")
           .replace("passat", "descuidat").replace("passant", "descuidant");
     }
-    boolean verbVowel = pApostropheNeeded.matcher(newVerb).matches();
+    boolean verbVowel = needsApostrophationMS(newVerb);
     String wordAfter = "";
 
     if (indexMainVerb + 1 < tokens.length) {
@@ -152,7 +151,7 @@ public class OblidarseSugestionsFilter extends RuleFilter {
       // apostrofació: de | d'
     } else if (!wordAfter.isEmpty() && !wordAfter.equalsIgnoreCase("de") && !wordAfter.equalsIgnoreCase("d'")
       && !wordAfter.equalsIgnoreCase("que")) {
-      wordAfterApostrophe = pApostropheNeeded.matcher(wordAfter).matches();
+      wordAfterApostrophe = needsApostrophationMS(wordAfter);
       suggBld.append(wordAfterApostrophe ? " d'" : " de");
       charactersAfterCorrection = (wordAfterApostrophe ? 1 : 0);
     }
