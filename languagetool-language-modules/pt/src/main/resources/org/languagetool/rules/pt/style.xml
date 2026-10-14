@@ -10127,6 +10127,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id="QUEM_GANHA_COM" name="🎓🔬 Quem 'ganha' com → beneficia" type='style' tags='picky' tone_tags='academic scientific'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token skip='2'>quem</token>
+                <marker>
+                    <token>ganha</token>
+                </marker>
+                <token>com</token>
+            </pattern>
+            <message>Num contexto formal/científico, considere <suggestion>beneficia</suggestion>.</message>
+            <example correction="beneficia">Quem <marker>ganha</marker> com esta decisão?</example>
+            <example correction="beneficia">Afinal, quem <marker>ganha</marker> com esta medida?</example>
+            <example correction="beneficia">Quem é que <marker>ganha</marker> com esta decisão?</example>
+            <example type="correct">Quem ganha o campeonato?</example>
+        </rule>
+
+
         <rule id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true">
             <pattern>
                 <marker>
