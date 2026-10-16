@@ -36388,6 +36388,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>entre</suggestion>?</message>
             <example correction="entre">No era <marker>enter</marker> les elegides.</example>
         </rule>
+        <rulegroup id="SENCER_ENTER" name="sencer -> enter">
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">nombre|número|exponent|potència</token>
+                    <marker>
+                        <token inflected="yes">sencer</token>
+                    </marker>
+                </pattern>
+                <message>El terme adequat en matemàtiques és <suggestion><match no="2" regexp_match="(?iu)sencer" regexp_replace="enter" case_conversion="preserve"/></suggestion>.</message>
+                <example correction="enters">Són nombres <marker>sencers</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">sencer</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">positiu|negatiu</token>
+                </pattern>
+                <message>El terme adequat en matemàtiques és <suggestion><match no="1" regexp_match="(?iu)sencer" regexp_replace="enter" case_conversion="preserve"/></suggestion>.</message>
+                <example correction="enters">Són <marker>sencers</marker> negatius.</example>
+            </rule>
+        </rulegroup>
         <rule id="PRESSUPOST_PRESSUPOSIT" name="pressupost -> pressupòsit">
             <pattern>
                 <token inflected="yes" skip="2">concórrer</token>
@@ -121325,7 +121347,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CANCERIGEN_CANCEROS" name="cancerigen / cancerós">
             <pattern>
-                <token regexp="yes" inflected="yes">cèl·lula|tumor</token>
+                <token regexp="yes" inflected="yes">cèl·lula|tumor|teixit</token>
                 <marker>
                     <token inflected="yes">cancerigen</token>
                 </marker>
@@ -130103,6 +130125,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="Expressions preferibles" default="on" type="style">
+        <rule id="MAJOR_A" name="major a -> superior a, més gran que" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>major</token>
+                    <token>a</token>
+                </marker>
+                <token regexp="yes">\d.*</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion>superior a</suggestion>
+            <suggestion>més gran que</suggestion>
+            <example correction="superior a|més gran que">La temperatura era <marker>major a</marker> 30 graus.</example>
+        </rule>
         <rulegroup id="ALLO_QUE_EL_QUE" name="allò que -> el que">
             <rule>
                 <pattern>
@@ -145052,7 +145087,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">major</token>
                         <and>
-                            <token inflected="yes" regexp="yes">focus|potència|poder|esdeveniment|organització|empresa|companyia|institució|promesa|accionista|activitat|actor|actriu|afectat|agent|aliat|amenaça|argument|assumpte|atemptat|atractiu|avantatge|batalla|benefici|beneficiari|característica|carnívor|causa|centre|client|col·laborador|competidor|component|conflagració|conseqüència|derrota|desavantatge|dificultat|dirigent|eix|element|enemic|escull|expert|factor|font|fracàs|gesta|guerra|impulsor|inconvenient|infraestructura|interès|limitació|motiu|motor|necessitat|novetat|objectiu|obra|obstacle|origen|parc|preocupació|prioritat|problema|producte|programa|projecte|promotor|propòsit|protagonista|proveïdor|punt|qualitat|qüestió|raó|realització|recurs|referent|repte|responsable|risc|sector|servei|sospitós|tema|usuari|via|victòria|àmbit|èxit|ciutat|carrer|avinguda|estació|port|aeroport|plat|àpat|ingredient|residència|habitatge|soci|mercat|ingrés|despesa|seu|oficina|despatx|indústria|idea|tesi|hipòtesi|teoria|funció|tret|variable|acusat|testimoni|culpable|llei|norma|riu|afluent|serralada|muntanya|espècie|patrimoni<exception postag="PX.*" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">territori|poble|focus|potència|poder|esdeveniment|organització|empresa|companyia|institució|promesa|accionista|activitat|actor|actriu|afectat|agent|aliat|amenaça|argument|assumpte|atemptat|atractiu|avantatge|batalla|benefici|beneficiari|característica|carnívor|causa|centre|client|col·laborador|competidor|component|conflagració|conseqüència|derrota|desavantatge|dificultat|dirigent|eix|element|enemic|escull|expert|factor|font|fracàs|gesta|guerra|impulsor|inconvenient|infraestructura|interès|limitació|motiu|motor|necessitat|novetat|objectiu|obra|obstacle|origen|parc|preocupació|prioritat|problema|producte|programa|projecte|promotor|propòsit|protagonista|proveïdor|punt|qualitat|qüestió|raó|realització|recurs|referent|repte|responsable|risc|sector|servei|sospitós|tema|usuari|via|victòria|àmbit|èxit|ciutat|carrer|avinguda|estació|port|aeroport|plat|àpat|ingredient|residència|habitatge|soci|mercat|ingrés|despesa|seu|oficina|despatx|indústria|idea|tesi|hipòtesi|teoria|funció|tret|variable|acusat|testimoni|culpable|llei|norma|riu|afluent|serralada|muntanya|espècie|patrimoni<exception postag="PX.*" postag_regexp="yes"/></token>
                             <token postag="_GN_.*" postag_regexp="yes"/>
                         </and>
                     </marker>
