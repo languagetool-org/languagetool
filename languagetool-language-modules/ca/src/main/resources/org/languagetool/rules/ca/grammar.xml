@@ -34849,6 +34849,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
+        <rule id="VEN_BEN" name="ven -> ben" default="temp_off">
+            <antipattern>
+                <token>es</token>
+                <token>ven</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>ven</token>
+                    <token regexp="yes">be|bé</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ben bé</suggestion>? "Ven" és una forma del verb 'vendre'.</message>
+            <example correction="ben bé">És <marker>ven bé</marker> el que em pensava.</example>
+            <example>És un llibre que es ven bé.</example>
+        </rule>
         <rule id="PERDUDA_PERDUA" name="perduda -> pèrdua" default="temp_off">
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -68063,6 +68078,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Se"><marker>Sé</marker> l'emportaren aviat.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>ven</token>
+                    <token regexp="yes">be|bé</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>sé</token>
@@ -89045,6 +89064,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="N_EN" name="n aquest -> en aquest" default="temp_off">
+            <antipattern>
+                <token>e</token>
+                <token>n</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>n</token>
+                    </marker>
+                    <token postag="DD.*|PD.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>en</suggestion>?</message>
+                <example correction="en">No passa <marker>n</marker> aquest cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>n</token>
+                    </marker>
+                    <token postag="DD.*|PD.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>En</suggestion>?</message>
+                <example correction="En"><marker>n</marker> aquest cas.</example>
+            </rule>
+        </rulegroup>
+        <rule id="D_E_DE" name="d e -> de" default="temp_off">
+            <antipattern>
+                <token>d</token>
+                <token>e</token>
+                <token regexp="yes">[a-z]</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[a-z]</token>
+                <token>d</token>
+                <token>e</token>
+            </antipattern>
+            <pattern>
+                <token>d</token>
+                <token>e</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>de</suggestion>?</message>
+            <example correction="de">Un exemple <marker>d e</marker> redacció.</example>
+        </rule>
         <rulegroup id="QUEL" name="quel -> qual /que el/ que">
             <rule>
                 <pattern>
@@ -128420,6 +128484,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion>mèdics</suggestion>?</message>
                 <example correction="mèdics">Demanaré els informes <marker>metges</marker></example>
                 <example correction="mèdics">uns certificats <marker>metges</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">teràpica|cura|atenció</token>
+                    <marker>
+                        <token>metgessa</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>mèdica</suggestion> (adjectiu)?</message>
+                <example correction="mèdica">Demanaré atenció <marker>metgessa</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEDIS_MITJANS_MIG" name="alguns usos erronis de medi/mitjà/mig">
