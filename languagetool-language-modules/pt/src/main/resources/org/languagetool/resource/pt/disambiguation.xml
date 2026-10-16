@@ -1424,6 +1424,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- DNA : Det + Nome + adjetivo-->
     <!-- 		based on from Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule>
+      <antipattern> <!-- "A história divide-se em três eixos, todos eles pacíficos." -->
+        <token regexp='yes'>tod[ao]s?</token>
+        <token postag='PP.+' postag_regexp='yes'/>
+      </antipattern>
       <antipattern>
         <token>mal</token><!-- XXX 'mal' errors caught by MAL_MAU_CONFUSION -->
         <token postag="N.+" postag_regexp="yes"/>
