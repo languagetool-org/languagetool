@@ -1575,6 +1575,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
 
+            <antipattern>
+                <token postag='SPS00'/>
+                <token postag='DD.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?[DP]..[CM]S.+' postag_regexp='yes'/>
+                <token postag='CS'/>
+                <example>Eu podia fazer com estas o que bem me entendesse.</example>
+            </antipattern>
+
             <antipattern> <!-- no(s) porta NCP - triggered by rule id:PORTA_SUBSTANTIVO_PLURAL -->
                 <token regexp='yes'>nos?</token>
                 <token>porta</token>
