@@ -19,7 +19,10 @@
 
 package org.languagetool.rules.ca;
 
+import org.languagetool.AnalyzedToken;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -124,5 +127,13 @@ public class ApostophationHelper {
 
   public static boolean needsApostrophationMS(String word) {
     return pApostropheMascYes.matcher(word).matches() && !pApostropheMascNo.matcher(word).matches() && !pHacAspirada.matcher(word).matches();
+  }
+
+  public static boolean allNeedSameApostrophationMS(String firstword, List<AnalyzedToken> words) {
+    if (words == null || words.isEmpty()) {
+      return true;
+    }
+    boolean first = needsApostrophationMS(firstword);
+    return words.stream().allMatch(w -> needsApostrophationMS(w.getLemma()) == first);
   }
 }

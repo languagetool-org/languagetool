@@ -114,6 +114,9 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
     }
     int startPos = posWord;
     int endPos = posWord;
+
+    boolean allNeedSameApostrophationMS = allNeedSameApostrophationMS(tokens[posWord].getToken(), atrNounList);
+
     for (AnalyzedToken atrNoun : atrNounList) {
       startPos = posWord;
       endPos = posWord;
@@ -250,15 +253,10 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
                   prepositionToAdd = preposition;
                   startPos = i;
                 }
-              } else if (tokens[i].getToken().equals("d'")
-                && !needsApostrophationMS(suggestionBuilder.toString())) {
-                // de + vowel > d', but the new word starts with a consonant: restore "de"
+              } else if (!allNeedSameApostrophationMS &&
+                (tokens[i].getToken().equalsIgnoreCase("d'") ||tokens[i].getToken().equalsIgnoreCase("de"))) {
+                startPos = i;
                 prepositionToAdd = "de";
-                startPos = i;
-              } else if (tokens[i].getToken().equals("de")
-                && needsApostrophationMS(suggestionBuilder.toString())) {
-                prepositionToAdd = "d'";
-                startPos = i;
               }
               stop = true;
             } else if (tokens[i].hasPosTag("_PUNCT_CONT") || tokens[i].hasPosTag("CC")) {
@@ -318,11 +316,12 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
             suggestionBuilder.insert(0, getPrepositionAndDeterminer(suggestionBuilder.toString(),
               desiredGender + desiredNumber, prepositionToAdd));
           } else if (!prepositionToAdd.isEmpty()) {
-            String whiteSpace = " ";
-            if (prepositionToAdd.equals("d'")) {
-              whiteSpace = "";
+            if (prepositionToAdd.equals("de") && needsApostrophationMS(suggestionBuilder.toString())) {
+              prepositionToAdd = "d'";
+            } else {
+              prepositionToAdd = prepositionToAdd + " ";
             }
-            suggestionBuilder.insert(0, prepositionToAdd + whiteSpace);
+            suggestionBuilder.insert(0, prepositionToAdd);
           }
           suggestionBuilder.insert(0, addTot);
           String originalSpan = match.getSentence().getText().substring(tokens[startPos].getStartPos(), tokens[endPos].getEndPos());
@@ -337,17 +336,16 @@ public class ConvertToGenderAndNumberFilter extends RuleFilter {
         }
       }
     }
-
     if (suggestions.isEmpty()) {
       return null;
     }
-    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[startPos].getStartPos(),
-      tokens[endPos].getEndPos(), match.getMessage(), match.getShortMessage());
     String originalStr = match.getSentence().getText().substring(tokens[startPos].getStartPos(),
       tokens[endPos].getEndPos());
     if (suggestions.contains(originalStr)) {
       return null;
     }
+    RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), tokens[startPos].getStartPos(),
+      tokens[endPos].getEndPos(), match.getMessage(), match.getShortMessage());
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacements(suggestions);
     return ruleMatch;

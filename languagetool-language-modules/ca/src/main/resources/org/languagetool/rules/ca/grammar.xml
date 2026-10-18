@@ -1731,8 +1731,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és nom, "\1" ha de ser masculí. Correcte com a adjectiu.</message>
                 <short>Error de concordança</short>
                 <example correction="pendents bonics">Eren <marker>pendents boniques</marker></example>
-                <example correction="corrents polítics diferents">de <marker>corrents polítiques diferents</marker></example>
-                <example correction="corrents polítics alternatius">de <marker>corrents polítiques alternatives</marker></example>
+                <example correction="corrents polítics diferents">De <marker>corrents polítiques diferents</marker></example>
+                <example correction="corrents polítics alternatius">De <marker>corrents polítiques alternatives</marker></example>
                 <example>Pendents salvatges.</example>
                 <example>van anar corrents baixada avall.</example>
                 <example>Les transferències corrents rebudes i enviades</example>
@@ -12839,11 +12839,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Li"><marker>L'hi</marker> va explicar a on podia anar.</example>
                 <example correction="Li"><marker>L'hi</marker> va explicar per què no podia venir.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token inflected="yes" regexp="yes">donar|fer</token>
                     <token postag="D.*" postag_regexp="yes" min="0"/>
                     <token chunk="PTime"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">donar|fer</token>
+                    <token postag="D.*" postag_regexp="yes" min="0"/>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </antipattern>
+                <antipattern>
+                    <token>l'</token>
+                    <token skip="-1">hi</token>
+                    <token>?</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -12852,7 +12862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token chunk="GV" min="0" max="3"><exception inflected="yes" regexp="yes">donar|fer</exception></token>
                     <token inflected="yes" regexp="yes">donar|fer</token>
-                    <token postag="[DAN].*|_GN_.*" postag_regexp="yes"/>
+                    <token postag="D.*|A.*|NC.*|_GN_.*" postag_regexp="yes"/>
                 </pattern>
                 <message>El pronom adequat és probablement <suggestion>li</suggestion> (a ell, a ella).</message>
                 <example correction="Li"><marker>L'hi</marker> he donat accés.</example>
@@ -12860,6 +12870,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Li"><marker>L'hi</marker> vaig donar tota la documentació.</example>
                 <example correction="li">Ja <marker>l'hi</marker> he donat una ullada.</example>
                 <example>L'hi va donar la setmana passada.</example>
+                <example>-L'hi ha fet l'Alfred -va dir Ellen.</example>
+                <example>Que l'hi ha donat el meu marit?</example>
             </rule>
         </rulegroup>
         <rulegroup id="LHI_LI_PERMET" name="l'hi permet -> li ho permet">
@@ -34849,7 +34861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
-        <rule id="VEN_BEN" name="ven -> ben" default="temp_off">
+        <rule id="VEN_BEN" name="ven -> ben">
             <antipattern>
                 <token>es</token>
                 <token>ven</token>
@@ -34864,17 +34876,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ben bé">És <marker>ven bé</marker> el que em pensava.</example>
             <example>És un llibre que es ven bé.</example>
         </rule>
-        <rule id="PERDUDA_PERDUA" name="perduda -> pèrdua" default="temp_off">
+        <rule id="PERDUDA_PERDUA" name="perduda -> pèrdua">
             <antipattern>
                 <token postag="N.*" postag_regexp="yes"/>
                 <token>perduda</token>
+            </antipattern>
+            <antipattern>
+                <token>d'</token>
+                <token regexp="yes">avançada|entrada</token>
             </antipattern>
             <pattern>
                 <marker>
                     <token>perduda</token>
                 </marker>
                 <token min="0">important</token>
-                <token regexp="yes">de|d'</token>
+                <token regexp="yes">de|d'<exception postag="LOC_ADV"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>pèrdua</suggestion>? "Perduda" és el participi del verb 'perdre'.</message>
             <example correction="Pèrdua"><marker>Perduda</marker> de poder adquisitiu.</example>
@@ -84945,7 +84961,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Ja</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">\.|\?|!|&guions;</token>
+                <token regexp="yes">\p{P}<exception regexp="yes">,|;</exception></token>
                 <token>Ja</token>
             </antipattern>
             <pattern case_sensitive="yes">
@@ -89064,9 +89080,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
-        <rulegroup id="N_EN" name="n aquest -> en aquest" default="temp_off">
+        <rulegroup id="N_EN" name="n aquest -> en aquest">
             <antipattern>
-                <token>e</token>
+                <token regexp="yes">e|índex|enter</token>
                 <token>n</token>
             </antipattern>
             <rule>
@@ -89074,7 +89090,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>n</token>
                     </marker>
-                    <token postag="DD.*|PD.*" postag_regexp="yes"/>
+                    <token postag="DD.*|PD.*" postag_regexp="yes"><exception>tal</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>en</suggestion>?</message>
                 <example correction="en">No passa <marker>n</marker> aquest cas.</example>
@@ -89091,14 +89107,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="En"><marker>n</marker> aquest cas.</example>
             </rule>
         </rulegroup>
-        <rule id="D_E_DE" name="d e -> de" default="temp_off">
+        <rule id="D_E_DE" name="d e -> de">
             <antipattern>
                 <token>d</token>
                 <token>e</token>
-                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[a-z]|&guions;</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">[a-z]|&guions;</token>
                 <token>d</token>
                 <token>e</token>
             </antipattern>
@@ -130199,7 +130215,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="Expressions preferibles" default="on" type="style">
-        <rule id="MAJOR_A" name="major a -> superior a, més gran que" default="temp_off">
+        <rule id="MAJOR_A" name="major a -> superior a, més gran que">
             <pattern>
                 <marker>
                     <token>major</token>
