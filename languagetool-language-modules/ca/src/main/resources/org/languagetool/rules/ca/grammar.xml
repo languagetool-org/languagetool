@@ -22790,6 +22790,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>millor</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>doncs</token>
+                <token min="0">és</token>
+                <token>clar</token>
+                <token>que</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">[,;]</token>
@@ -26401,6 +26407,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>hi</token>
                 <token min="0" postag="V.*" postag_regexp="yes"/>
                 <token inflected="yes">confiar</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">implicar|involucrar</token>
+                <token>amb</token>
+                <token regexp="yes">mi|tu|ell|ella|nosaltres|vosaltres|ells|elles</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">implicar|involucrar</token>
+                <token>amb</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <token postag="NP.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">basar|centrar|fixar|confiar|implicar|involucrar</token>
@@ -34168,6 +34185,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Hi havia"><marker>H ihavia</marker> un problema.</example>
             <example correction="hi ha">N'<marker>h iha</marker> quatre.</example>
             <example correction="hi hagués">És possible que <marker>h ihagues</marker> un problema.</example>
+        </rule>
+        <rule id="S_OBRE_SOBRE" name="s'obrepassa -> sobrepassa">
+            <pattern>
+                <token>s'</token>
+                <token postag="UNKNOWN" regexp="yes">obre.+</token>
+            </pattern>
+            <filter class="org.languagetool.rules.ca.CatalanSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+            <message>¿Volíeu dir <suggestion>s<match no="2"/></suggestion>?</message>
+            <example correction="Sobrepassa"><marker>S'obrepassa</marker> les expectatives.</example>
         </rule>
         <rulegroup id="CA_SPLIT_WORDS" name="paraules mal partides">
             <antipattern>
@@ -45567,7 +45593,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">s'|t'|m'</token>
-                    <token regexp="yes">ensurt|ensurts|ensurto</token>
+                    <token regexp="yes">ensurt|ensurts|ensurto|ensurti|ensurtin|ensurten|ensort[ií].+</token>
                 </pattern>
                 <message>Cal escriure <suggestion><match no="1" regexp_match="'" regexp_replace="e'n"/> <match no="2" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>.</message>
                 <example correction="se'n surt">No <marker>s'ensurt</marker>.</example>
@@ -45575,11 +45601,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">s'|t'|m'</token>
+                    <token regexp="yes">ensurt[ií].+</token>
+                </pattern>
+                <message>Cal escriure <suggestion><match no="1" regexp_match="'" regexp_replace="e'n"/> <match no="2" regexp_match="(?iu)^ensu" regexp_replace="so"/></suggestion>.</message>
+                <example correction="se'n sortiran">No <marker>s'ensurtiran</marker>.</example>
+                <example correction="me'n sortiré">No <marker>m'ensurtiré</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">me|te|se</token>
                     <token>n'</token>
-                    <token regexp="yes">ensurt|ensurts|ensurto|ensurten|ensort[ií].+</token>
+                    <token regexp="yes">ensurt|ensurts|ensurto|ensurti|ensurten|ensort[ií].+</token>
                 </pattern>
-                <message>Cal escriure <suggestion><match no="1"/>'n <match no="3" regexp_match="(?iu)^en" regexp_replace=""/></suggestion>.</message>
+                <message>Cal escriure <suggestion><match no="1"/>'n <match no="3" regexp_match="(?iu)^en" regexp_replace="" case_conversion="preserve"/></suggestion>.</message>
                 <example correction="se'n surt">No <marker>se n'ensurt</marker>.</example>
                 <example correction="se'n sortien">No <marker>se n'ensortien</marker>.</example>
                 <example correction="me'n surto">No <marker>me n'ensurto</marker>.</example>
@@ -45590,10 +45625,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">n'|en</token>
                     <token regexp="yes">ensurt|ensurts|ensurto|ensurten|ensort[ií].+</token>
                 </pattern>
-                <message>Cal escriure <suggestion><match no="1"/> en <match no="3" regexp_match="(?iu)en" regexp_replace=""/></suggestion>.</message>
+                <message>Cal escriure <suggestion><match no="1"/> en <match no="3" regexp_match="(?iu)en" regexp_replace="" case_conversion="preserve"/></suggestion>.</message>
                 <example correction="us en sortíeu">No <marker>us n'ensortíeu</marker>.</example>
                 <example correction="ens en sortíem">No <marker>ens en ensortíem</marker>.</example>
                 <example correction="ens en sortim">No <marker>ens en ensortim</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">me|te|se</token>
+                    <token>n'</token>
+                    <token regexp="yes">ensurt[ií].+</token>
+                </pattern>
+                <message>Cal escriure <suggestion><match no="1"/>'n <match no="3" regexp_match="(?iu)^ensu" regexp_replace="so" case_conversion="preserve"/></suggestion>.</message>
+                <example correction="se'n sortirien">No <marker>se n'ensurtirien</marker>.</example>
+                <example correction="se'n sortien">No <marker>se n'ensurtien</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">us|vos|ens</token>
+                    <token regexp="yes">n'|en</token>
+                    <token regexp="yes">ensurt[ií].+</token>
+                </pattern>
+                <message>Cal escriure <suggestion><match no="1"/> en <match no="3" regexp_match="(?iu)ensu" regexp_replace="so" case_conversion="preserve"/></suggestion>.</message>
+                <example correction="us en sortíeu">No <marker>us n'ensurtíeu</marker>.</example>
+                <example correction="ens en sortíem">No <marker>ens en ensurtíem</marker>.</example>
+                <example correction="ens en sortim">No <marker>ens en ensurtim</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">us|vos|ens</token>
+                    <token regexp="yes">ensurt[ií].+|ensort[ií].+</token>
+                </pattern>
+                <message>Cal escriure <suggestion><match no="1"/> en <match no="3" regexp_match="(?iu)ens[ou]" regexp_replace="so" case_conversion="preserve"/></suggestion>.</message>
+                <example correction="us en sortíeu">No <marker>us ensurtíeu</marker>.</example>
+                <example correction="ens en sortíem">No <marker>ens ensurtíem</marker>.</example>
+                <example correction="ens en sortim">No <marker>ens ensurtim</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ENTORNAR" name="entornar-se'n/tornar-se'n">
@@ -49921,7 +49987,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>per</suggestion>?</message>
-                <example correction="Per"><marker>Par</marker> no dir una altra cosa.</example>
+                <suggestion>per a</suggestion>
+                <example correction="Per|Per a"><marker>Par</marker> no dir una altra cosa.</example>
             </rule>
             <rule>
                 <pattern>
