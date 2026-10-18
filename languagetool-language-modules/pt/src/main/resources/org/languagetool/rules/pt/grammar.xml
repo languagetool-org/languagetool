@@ -1575,6 +1575,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
             <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
 
+            <antipattern>
+                <token postag='SPS00'/>
+                <token postag='DD.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?[DP]..[CM]S.+' postag_regexp='yes'/>
+                <token postag='CS'/>
+                <example>Eu podia fazer com estas o que bem me entendesse.</example>
+            </antipattern>
+
             <antipattern> <!-- no(s) porta NCP - triggered by rule id:PORTA_SUBSTANTIVO_PLURAL -->
                 <token regexp='yes'>nos?</token>
                 <token>porta</token>
@@ -8108,6 +8116,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- Created by Tiago F. Santos, 2017-01-17 -->
 
             <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
+
+            <antipattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>e|ou</token>
+                <token min='0' max='1' postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token postag='VM...P.+' postag_regexp='yes'/>
+                <token postag='NC.S.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?[DP]...S.+' postag_regexp='yes'/>
+                <example>O software e a tese eram trabalho meu.</example>
+            </antipattern>
 
             <antipattern>
                 <token postag='VM...S.+' postag_regexp='yes'/>
