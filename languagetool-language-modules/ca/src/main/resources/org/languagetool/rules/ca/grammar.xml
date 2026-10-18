@@ -31549,9 +31549,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="evidència">Els deixava a tots en <marker>evidencia</marker>.</example>
         </rule>
         <rulegroup id="CONTINUA" name="continua -> contínua">
+            <antipattern>
+                <token>continua</token>
+                <token postag="V.G.*|A..[FC]S.|V.P..SF.|RG.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
+                <antipattern>
+                    <token>continua</token>
+                    <token regexp="yes">en|a</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">formació|educació</token>
+                    <token regexp="yes">formació|educació|avaluació|millora|recerca|investigació|capacitació|actualització|renovació|adaptació|vigilància|supervisió|atenció|assistència|activitat|feina|tasca|producció|emissió|reproducció|evolució|expansió|circulació|comunicació|exposició|presència|pressió|tensió|línia|seqüència|successió|sèrie|pluja|caiguda|interrupció|conversa|negociació|cooperació|col·laboració|integració|participació|pràctica|utilització|funció|operació|mobilitat|transició|transformació|revisió|observació|estimació</token>
                     <marker>
                         <token>continua</token>
                     </marker>
@@ -31559,10 +31567,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és un adjectiu, s'escriu amb accent. Correcte sense accent si és una forma del v. 'continuar'.</message>
                 <suggestion>contínua</suggestion>
                 <example correction="contínua">Cursos de formació <marker>continua</marker>.</example>
+                <example>La pressió continua augmentant.</example>
+                <example>La pressió continua alta.</example>
+                <example>La pluja continua caient.</example>
+                <example>La investigació continua avançant.</example>
+                <example>La pressió continua augmentant.</example>
+                <example>La pressió continua alta.</example>
+                <example>La situació continua igual.</example>
+                <example>La situació continua estable.</example>
+                <example>La feina continua pendent.</example>
+                <example>La reunió continua demà.</example>
+                <example>La sessió continua després de dinar.</example>
+                <example>La situació continua sense resoldre's.</example>
+                <example>La discussió continua oberta.</example>
+                <example>La situació continua greu.</example>
+                <example>La tendència continua estable.</example>
+                <example>La sessió continua més tard.</example>
+                <example>La investigació continua en curs.</example>
+                <example>La feina continua a casa.</example>
+                <example>La pluja continua fent-se sentir.</example>
+                <example>La situació continua sent preocupant.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">formacions|educacions</token>
+                    <token regexp="yes">formacions|educacions|avaluacions|millores|recerques|investigacions|capacitacions|actualitzacions|renovacions|adaptacions|vigilàncies|supervisions|atencions|assistències|activitats|feines|tasques|produccions|emissions|reproduccions|evolucions|expansions|circulacions|comunicacions|exposicions|presències|pressions|tensions|línies|seqüències|successions|sèries|pluges|caigudes|interrupcions|converses|negociacions|cooperacions|col·laboracions|integracions|participacions|pràctiques|utilitzacions|funcions|operacions|mobilitats|transicions|transformacions|revisions|observacions|estimacions</token>
                     <marker>
                         <token>continues</token>
                     </marker>
@@ -34887,6 +34915,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
+        <rule id="TE_LA_COPIA" name="te la copia -> té la còpia">
+            <pattern>
+                <marker>
+                    <token>te</token>
+                    <token>la</token>
+                    <token>copia</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir "té" (verb 'tenir') i "còpia" (substantiu)? És correcte si és del verb 'copiar'.</message>
+            <suggestion>té la còpia</suggestion>
+            <example correction="té la còpia">Ell ja <marker>te la copia</marker>.</example>
+        </rule>
+        <rule id="PETO" name="peto -> petó">
+            <pattern>
+                <token regexp="yes" inflected="yes">fer|donar|enviar</token>
+                <token regexp="yes" min="0">&pronom_feble_formes_darrere;</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token>peto</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>petó</suggestion>?</message>
+            <example correction="petó">Envia-li un <marker>peto</marker>.</example>
+        </rule>
         <rule id="VEN_BEN" name="ven -> ben">
             <antipattern>
                 <token>es</token>
@@ -45590,6 +45642,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ENSORTIR" name="ensortir/sortir">
+            <!-- FIXME: ens ensurtiriem -> ens en sortiríem -->
             <rule>
                 <pattern>
                     <token regexp="yes">s'|t'|m'</token>
@@ -118896,6 +118949,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
+            <rule id="MAJORA" name="majora -> majoria">
+                <pattern>
+                    <token>majora</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>majoria</suggestion>? "Majora", en terminologia militar, és el femení de "major".</message>
+                <example correction="majoria">La <marker>majora</marker> dels votants.</example>
+            </rule>
+            <rule id="MAJORES" name="majores -> majors">
+                <pattern>
+                    <token>majores</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>majors</suggestion>? "Majores", en terminologia militar, és el femení de "majors".</message>
+                <suggestion>majories</suggestion>
+                <example correction="majors|majories">Les persones <marker>majores</marker>.</example>
+            </rule>
             <rule id="CRISTALLINA" name="cristallina -> cristal·lina">
                 <pattern>
                     <token regexp="yes">cristallina|cristallines</token>
