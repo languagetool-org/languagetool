@@ -9967,6 +9967,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='ACADEMIC' name='🎓 Linguagem acadêmica' type='style' tone_tags="academic">
 
 
+        <rule id="CUMPRIR_COM_TUDO_O_QUE" name="🎓🤵 Cumprir 'com tudo' o que → integralmente" type='style' tone_tags='academic scientific'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token inflected="yes">cumprir</token>
+                <marker>
+                    <token>com</token>
+                    <token>tudo</token>
+                </marker>
+                <token>o</token>
+                <token>que</token>
+            </pattern>
+            <message>Em contextos formais ou académicos, considere uma formulação mais concisa e precisa: <suggestion>integralmente</suggestion> ou <suggestion>na íntegra</suggestion>.</message>
+            <example correction="integralmente|na íntegra">Cumpri <marker>com tudo</marker> o que me foi pedido.</example>
+            <example correction="integralmente|na íntegra">A equipa cumpriu <marker>com tudo</marker> o que estava previsto.</example>
+            <example correction="integralmente|na íntegra">Cumprimos <marker>com tudo</marker> o que foi acordado.</example>
+            <example correction="integralmente|na íntegra">A empresa cumprirá <marker>com tudo</marker> o que foi estabelecido.</example>
+            <example correction="integralmente|na íntegra">Temos cumprido <marker>com tudo</marker> o que nos foi solicitado.</example>
+            <example type="correct">Cumpri tudo o que me foi pedido.</example>
+            <example type="correct">Cumpri integralmente o que me foi pedido.</example>
+            <example type="correct">Cumpri na íntegra o que me foi pedido.</example>
+            <example type="correct">A empresa cumpriu com todas as exigências.</example>
+            <example type="correct">Cumpri com tudo, o que não foi fácil.</example>
+        </rule>
+
+
         <rule id='COISA_DE_CERCA_DE_APROXIMADAMENTE' name="🎓🤵 Há 'coisa de' → 'cerca de'/aproximadamente" type='style' tone_tags='formal'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
