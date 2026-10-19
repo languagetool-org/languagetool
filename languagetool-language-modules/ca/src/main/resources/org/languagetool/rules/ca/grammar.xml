@@ -31556,7 +31556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>continua</token>
-                    <token regexp="yes">en|a</token>
+                    <token regexp="yes">en|a|sense</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">formació|educació|avaluació|millora|recerca|investigació|capacitació|actualització|renovació|adaptació|vigilància|supervisió|atenció|assistència|activitat|feina|tasca|producció|emissió|reproducció|evolució|expansió|circulació|comunicació|exposició|presència|pressió|tensió|línia|seqüència|successió|sèrie|pluja|caiguda|interrupció|conversa|negociació|cooperació|col·laboració|integració|participació|pràctica|utilització|funció|operació|mobilitat|transició|transformació|revisió|observació|estimació</token>
@@ -31587,6 +31587,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La feina continua a casa.</example>
                 <example>La pluja continua fent-se sentir.</example>
                 <example>La situació continua sent preocupant.</example>
+                <example>La sèrie continua sense interrompre's.</example>
             </rule>
             <rule>
                 <pattern>
@@ -52874,6 +52875,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes" inflected="yes">anual|benèfic|formal|commemoratiu|celebrar</token>
             </antipattern>
+            <antipattern>
+                <token>Gal·la</token>
+                <token>Placídia</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception postag="D..FS." postag_regexp="yes"/></token>
@@ -62564,7 +62569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="UNKNOWN|_english_ignore_" postag_regexp="yes"><exception regexp="yes">&particles_of;</exception></token>
+                    <token postag="UNKNOWN|_english_ignore_" postag_regexp="yes"><exception regexp="yes">&particles_of;|/</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&exceptions_multitoken_spell2;|&exceptions_multitoken_sensitive;</exception></token>
                     <token regexp="yes">\p{Lu}.*<exception regexp="yes">&exceptions_multitoken_spell;|&particles_of;|&exceptions_multitoken_sensitive;</exception></token>
@@ -85075,10 +85080,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Decret legislatiu"><marker>Decret Legislatiu</marker> 21/2010</example>
             </rule>
         </rulegroup>
-        <rule id="JA_MINUSCULA" name="Ja -> ja" default="temp_off">
+        <rule id="JA_MINUSCULA" name="Ja -> ja">
             <antipattern>
-                <token postag="SENT_START|_PUNCT_SENT_START" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT_SENT_START|_emoji_" postag_regexp="yes"/>
                 <token>Ja</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Ja</token>
+                <token>t'</token>
+                <token>ho</token>
+                <token>diré</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\p{P}<exception regexp="yes">,|;</exception></token>
@@ -118950,6 +118961,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
             <rule id="MAJORA" name="majora -> majoria">
+                <antipattern>
+                    <token>senyora</token>
+                    <token>i</token>
+                    <token>majora</token>
+                </antipattern>
                 <pattern>
                     <token>majora</token>
                 </pattern>
@@ -120095,6 +120111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">raig</token>
                 <token inflected="yes">de</token>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
                 <token postag="[NA].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -120126,6 +120143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aquell raig d'aigua no va poder apagar l'incendi.</example>
                 <example>Pel maig cada dia un raig.</example>
                 <example>La gotera de la sala de professors cau a raig sobre el quadre de llums, i qualsevol dia algú quedarà enrampat per l'electricitat.</example>
+                <example>L'angle en què incideixen els rajos del sol és menor, cosa que provoca que aquestes zones siguin més fredes.</example>
             </rule>
         </rulegroup>
         <rule id="BRUIXES_BRUGES" name="Bruixes/Bruges">
@@ -128690,6 +128708,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Els mitjans impresos</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>ministeri</token>
+                    <token>de</token>
+                    <token min="0">l</token>
+                    <token>medi</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">medis?|mitjos</token>
