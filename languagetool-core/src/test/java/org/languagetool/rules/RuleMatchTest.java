@@ -58,6 +58,21 @@ public class RuleMatchTest {
     assertThat(trimmed.getSuggestedReplacements().get(0), is("qux"));
   }
 
+  @Test
+  public void testTrimMatchEndsDoesNotCreateInvalidRangeWithExtraWhitespace() {
+    // "fins  tot" (two spaces) used to make trimMatchEnds compute fromPos == toPos,
+    // which threw "fromPos must be less than toPos" (see #500 errors in the ca server).
+    RuleMatch ruleMatch = new RuleMatch(new TestRule(), null, 0, 9, "msg");
+    ruleMatch.setOriginalErrorStr("fins  tot");
+    ruleMatch.setSuggestedReplacement("fins i tot");
+
+    RuleMatch trimmed = ruleMatch.trimMatchEnds();
+
+    assertThat(trimmed.getFromPos(), is(0));
+    assertThat(trimmed.getToPos(), is(5));
+    assertThat(trimmed.getFromPos() < trimmed.getToPos(), is(true));
+  }
+
   private static class TestRule extends Rule {
 
     TestRule() {
