@@ -25,11 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.ForeignLanguageChecker;
-import org.languagetool.rules.spelling.RuleWithLanguage;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
@@ -96,7 +94,6 @@ public class HunspellRule extends SpellingCheckRule {
   protected Pattern nonWordPattern;
 
   private final UserConfig userConfig;
-  private final List<RuleWithLanguage> enSpellRules;
 
   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -114,32 +111,6 @@ public class HunspellRule extends SpellingCheckRule {
     super(messages, language, userConfig, altLanguages, languageModel);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
-    enSpellRules = getEnglishSpellingRules();
-  }
-
-  private List<RuleWithLanguage> getEnglishSpellingRules() {
-    List<RuleWithLanguage> spellingRules = new ArrayList<>();
-    Language en;
-    try {
-      en = Languages.getLanguageForShortCode("en-US");
-    } catch (IllegalArgumentException e) {
-      logger.warn("Could not create en-US language for spell-check fallback, multi-lingual spell checking is not available");
-      return spellingRules;
-    }
-    List<Rule> rules;
-    try {
-      rules = new ArrayList<>(en.getRelevantRules(messages, userConfig, null, Collections.emptyList()));
-      rules.addAll(en.getRelevantLanguageModelCapableRules(messages, null,
-              null, userConfig, null, Collections.emptyList()));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-    for (Rule rule : rules) {
-      if (rule.isDictionaryBasedSpellingRule()) {
-        spellingRules.add(new RuleWithLanguage(rule, en));
-      }
-    }
-    return spellingRules;
   }
 
   @Override
@@ -335,24 +306,6 @@ public class HunspellRule extends SpellingCheckRule {
         return false;
       }
       return true;
-    }
-    return false;
-  }
-
-  private boolean isEnglish(String word) throws IOException {
-    for (RuleWithLanguage altRule : enSpellRules) {
-      AnalyzedToken token = new AnalyzedToken(word, null, null);
-      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
-      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);
-      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);
-      RuleMatch[] matches = altRule.getRule().match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));
-      if (matches.length == 0) {
-        return true;
-      } else {
-        if (word.endsWith(".")) {
-          return isEnglish(word.substring(0, word.length() - 1));
-        }
-      }
     }
     return false;
   }
