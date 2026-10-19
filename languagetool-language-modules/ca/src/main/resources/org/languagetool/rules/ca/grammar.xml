@@ -26633,6 +26633,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>La preposició adequada és <suggestion>amb</suggestion>.</message>
             <example correction="amb">Allò anava <marker>en</marker> segones.</example>
         </rule>
+        <rule id="FER_BE_DE_INF" name="fer bé en no passar -> fer bé de" default="temp_off">
+            <pattern>
+                <token inflected="yes">fer</token>
+                <token>bé</token>
+                <marker>
+                    <token>en</token>
+                </marker>
+                <token min="0">no</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>La preposició adequada és <suggestion>de</suggestion>.</message>
+            <example correction="de">Vas fer bé <marker>en</marker> no assistir a la reunió.</example>
+        </rule>
         <rulegroup id="CANVI_PREPOSICIONS" name="canvi de preposicions davant d'infinitiu">
             <!--<url>http://esadir.cat/entrades/fitxa/node/prepcancaig</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=canvi+de+preposicions+davant+infinitu&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=13037&amp;idHit=13037&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=7&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Canvi+o+manteniment+de+la+preposici%F3+%27en%27+davant+d%27infinitiu+%2F+%27pensar+en+fer%27%2C+%27pensar+a+fer%27+o+%27pensar+de+fer%27%3F+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
@@ -45710,7 +45723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">us|vos|ens</token>
                     <token regexp="yes">ensurt[ií].+|ensort[ií].+</token>
                 </pattern>
-                <message>Cal escriure <suggestion><match no="1"/> en <match no="3" regexp_match="(?iu)ens[ou]" regexp_replace="so" case_conversion="preserve"/></suggestion>.</message>
+                <message>Cal escriure <suggestion><match no="1"/> en <match no="2" regexp_match="(?iu)ens[ou]" regexp_replace="so" case_conversion="preserve"/></suggestion>.</message>
                 <example correction="us en sortíeu">No <marker>us ensurtíeu</marker>.</example>
                 <example correction="ens en sortíem">No <marker>ens ensurtíem</marker>.</example>
                 <example correction="ens en sortim">No <marker>ens ensurtim</marker>.</example>
