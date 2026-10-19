@@ -79,6 +79,9 @@ public class VerbSynthesizer {
   }
 
   private void setIndexes(int startPos) {
+    if (startPos < 0 || startPos >= tokens.length) {
+      return; // no verb found; isUndefined() will be true
+    }
     int j = startPos;
     // single participle
     if (tokens[j].readingWithTagRegex(pParticiple) != null && !tokens[j].hasPosTag("_GV_") &&

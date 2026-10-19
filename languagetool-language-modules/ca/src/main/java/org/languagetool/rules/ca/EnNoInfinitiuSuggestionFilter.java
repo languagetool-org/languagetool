@@ -71,7 +71,9 @@ public class EnNoInfinitiuSuggestionFilter extends RuleFilter {
     verbSynthInfinitiu.setPostag(postagPrefix + postagTempsVerbal.substring(4));
     synthVerbs.add(verbSynthInfinitiu.synthesize());
     int startPos = verbSynthInfinitiu.getFirstVerbIndex() - 2;
-    if (tokens[startPos].getToken().equalsIgnoreCase("l")) {
+    if (startPos < 0) {
+      startPos = 0;
+    } else if (tokens[startPos].getToken().equalsIgnoreCase("l")) {
       startPos--;
     }
     int endPos = verbSynthInfinitiu.getLastIndex();
