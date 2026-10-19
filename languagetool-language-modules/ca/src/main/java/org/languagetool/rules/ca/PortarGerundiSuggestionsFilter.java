@@ -68,7 +68,7 @@ public class PortarGerundiSuggestionsFilter extends RuleFilter {
     // faig
     String[] synthForms3 = synth.synthesize(new AnalyzedToken("", "", lemma), "V." + atr1.getPOSTag().substring(2),
       true);
-    if (synthForms3 != null) {
+    if (synthForms3 != null && synthForms3.length > 0) {
       replacements.add(synthForms3[0]);
     }
     if (replacements.isEmpty()) {

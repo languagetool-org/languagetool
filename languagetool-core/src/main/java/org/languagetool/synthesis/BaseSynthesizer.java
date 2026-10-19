@@ -358,7 +358,9 @@ public class BaseSynthesizer implements Synthesizer {
 
   public List<String> getPossibleTagsForSynthesis() throws IOException {
     initPossibleTags();
-    return possibleTags;
+    // return a copy: callers may modify it (e.g. Catalan.getAllPossibleTags), and the
+    // shared possibleTags list must not be mutated while other threads iterate it
+    return new ArrayList<>(possibleTags);
   }
 
 }

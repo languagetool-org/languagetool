@@ -144,6 +144,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         }
       }
       String targetPostag = synth.getTargetPosTag(postags, "");
+      if (targetPostag.isEmpty()) {
+        return null;
+      }
       String verbStr = "";
       if (!targetPostag.isEmpty()) {
         verbSynthesizer.setLemmaAndPostag(newLemma, targetPostag);
