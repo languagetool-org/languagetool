@@ -60557,6 +60557,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">l'|la|el|els|les</token>
                 <token postag="V.[IS].*|UNKNOWN" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token>la</token>
+                <token>land</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>pe</token>
@@ -107240,7 +107245,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>York</token>
-                    <token regexp="yes">College|University|Casino</token>
+                    <token regexp="yes">College|University|Casino|Film|Festival</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">New|Nueva</token>
@@ -126501,7 +126506,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="4">posar<exception regexp="yes" scope="next">sota|davall</exception></token>
+                        <token inflected="yes" skip="4">posar<exception regexp="yes" scope="next">sota|davall|peu</exception></token>
                     </marker>
                     <token regexp="yes">el|la</token>
                     <token regexp="yes">sol|lluna</token>
@@ -126510,6 +126515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">pondre</match></suggestion>
                 <example correction="post">Encara no s'ha <marker>posat</marker> el sol.</example>
                 <example correction="ponga">Quan es <marker>pose</marker> el sol.</example>
+                <example>El fals documental ens fa creure que l'ésser humà mai no va posar un peu a la Lluna.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONFOS_CONFUS" name="confós/confús">
