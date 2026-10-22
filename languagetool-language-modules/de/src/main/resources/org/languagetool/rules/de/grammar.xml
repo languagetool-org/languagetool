@@ -78398,97 +78398,119 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Mrd.">Auf der Erde leben 2 <marker>Mrd</marker> Menschen.</example>
             </rule>
         </rulegroup>
-        <rule id="LEERZEICHEN_VOR_KLAMMER" name="Fehlendes Leerzeichen vor einer Klammer">
-            <antipattern>
-                <token skip="5">(</token>
-                <token regexp="yes">;|=</token>
-            </antipattern>
-            <antipattern>
-                <token skip="5">=</token>
-                <token>(</token>
-            </antipattern>
-            <antipattern>
-                <token spacebefore="no">.</token>
-                <token spacebefore="no" />
-                <token spacebefore="no">(</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">new|def|private|public|static|class|raise|SELECT</token>
-                <token />
-                <token spacebefore="no">(</token>
-            </antipattern>
-            <antipattern>
-                <token spacebefore="no">(</token>
-                <token spacebefore="no" />
-                <token spacebefore="no">.</token>
-                <token spacebefore="no">
-                    <exception>)</exception>
-                </token>
-            </antipattern>
-            <antipattern>
-                <token>(</token>
-                <token regexp="yes" case_sensitive="yes">
-                    [A-Z]{2,3}
-                    <exception regexp="yes">SPD|C[SD]U|AFD|FDP|ARD|ZDF|RTL|FBI|CIA|USA|HSV|ETF|NRW</exception>
-                </token>
-            </antipattern>
-            <antipattern>
-                <token>(</token>
-                <token>den</token>
-                <token>)</token>
-            </antipattern>
-            <antipattern>
-                <token>(</token>
-                <token>st</token>
-                <token>)</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\d+</token>
-                <token>(</token>
-                <token regexp="yes">\d+</token>
-                <token>)</token>
-            </antipattern>
-            <antipattern>
-                <token skip="3" regexp="yes">[_\{]</token>
-                <token>(</token>
-            </antipattern>
-            <antipattern><!-- schweben(den) -->
-                <token regexp="yes">.+n</token>
-                <token>(</token>
-                <token>den</token>
-                <token>)</token>
-            </antipattern>
-            <antipattern><!-- schweben(den) -->
-                <token>(</token>
-                <token>miss</token>
-                <token>)</token>
-            </antipattern>
-            <antipattern>
-                <token>(</token>
-                <token regexp="yes">-.+</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">
-                    .*[a-z0-9].*
-                    <exception case_sensitive="yes" regexp="yes">.*_.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|plot|varchar|int|if|while|for|return|resolve|reject|print|sleep|setTimeout|log|switch|min|max|foreach|each|exp|ever|.*-</exception>
-                    <exception postag="UNKNOWN" regexp="yes">.*[a-zA-Z][0-9].*</exception>
-                </token>
-                <marker>
-                    <token spacebefore="no">(</token>
-                </marker>
-                <token regexp="yes">
-                    .*[a-z0-9]{2,30}.*
-                    <exception case_sensitive="yes" regexp="yes">.*_.*|0[Xx].*|.*\$.*|.*[a-z][A-Z][a-z].*|function|true|false|0|e.?|in(nen)?</exception>
-                    <exception postag="UNKNOWN" />
-                    <exception scope="next" regexp="yes">\(|\=</exception>
-                </token>
-            </pattern>
-            <message>Hier scheint ein Leerzeichen vor der Klammer zu fehlen.</message>
-            <suggestion> (</suggestion>
+        <rulegroup id="LEERZEICHEN_VOR_KLAMMER" name="Fehlendes Leerzeichen vor einer Klammer">
             <url>https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen</url>
             <short>Fehlendes Leerzeichen</short>
-            <example correction=" (">Ich komme aus Altona<marker>(</marker>Hamburg).</example>
-        </rule>
+            <rule><!-- general case -->
+                <antipattern>
+                    <token skip="5">(</token>
+                    <token regexp="yes">;|=</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="5">=</token>
+                    <token>(</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" />
+                    <token spacebefore="no">(</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">new|def|private|public|static|class|raise|SELECT</token>
+                    <token />
+                    <token spacebefore="no">(</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="no">(</token>
+                    <token spacebefore="no" />
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">
+                        <exception>)</exception>
+                    </token>
+                </antipattern>
+                <antipattern>
+                    <token>(</token>
+                    <token regexp="yes" case_sensitive="yes">
+                        [A-Z]{2,3}
+                        <exception regexp="yes">SPD|C[SD]U|AFD|FDP|ARD|ZDF|RTL|FBI|CIA|USA|HSV|ETF|NRW</exception>
+                    </token>
+                </antipattern>
+                <antipattern>
+                    <token>(</token>
+                    <token>den</token>
+                    <token>)</token>
+                </antipattern>
+                <antipattern>
+                    <token>(</token>
+                    <token>st</token>
+                    <token>)</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>(</token>
+                    <token regexp="yes">\d+</token>
+                    <token>)</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="3" regexp="yes">[_\{]</token>
+                    <token>(</token>
+                </antipattern>
+                <antipattern><!-- schweben(den) -->
+                    <token regexp="yes">.+n</token>
+                    <token>(</token>
+                    <token>den</token>
+                    <token>)</token>
+                </antipattern>
+                <antipattern><!-- schweben(den) -->
+                    <token>(</token>
+                    <token>miss</token>
+                    <token>)</token>
+                </antipattern>
+                <antipattern>
+                    <token>(</token>
+                    <token regexp="yes">-.+</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">
+                        .*[a-z0-9].*
+                        <exception case_sensitive="yes" regexp="yes">.*_.*|.*\$.*|.*[a-z][A-Z][a-z].*|function|plot|varchar|int|if|while|for|return|resolve|reject|print|sleep|setTimeout|log|switch|min|max|foreach|each|exp|ever|.*-</exception>
+                        <exception postag="UNKNOWN" regexp="yes">.*[a-zA-Z][0-9].*</exception>
+                    </token>
+                    <marker>
+                        <token spacebefore="no">(</token>
+                    </marker>
+                    <token regexp="yes">
+                        .*[a-z0-9]{2,30}.*
+                        <exception case_sensitive="yes" regexp="yes">.*_.*|0[Xx].*|.*\$.*|.*[a-z][A-Z][a-z].*|function|true|false|0|e.?|in(nen)?</exception>
+                        <exception postag="UNKNOWN" />
+                        <exception scope="next" regexp="yes">\(|\=</exception>
+                    </token>
+                </pattern>
+                <message>Hier scheint ein Leerzeichen vor der Klammer zu fehlen.</message>
+                <suggestion> (</suggestion>
+                <example correction=" (">Ich komme aus Altona<marker>(</marker>Hamburg).</example>
+            </rule>
+            <rule><!-- (m/w), (m/w/d), (m/w/d/x) in job ads -->
+                <pattern>
+                    <token regexp="yes">.*[a-zäöüß]</token>
+                    <marker>
+                        <token spacebefore="no">(</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">[mwdfx]</token>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no" regexp="yes">[mwdfx]</token>
+                    <token spacebefore="no" min="0">/</token>
+                    <token spacebefore="no" min="0" regexp="yes">[mwdfx]</token>
+                    <token spacebefore="no" min="0">/</token>
+                    <token spacebefore="no" min="0" regexp="yes">[mwdfx]</token>
+                    <token spacebefore="no">)</token>
+                </pattern>
+                <message>Hier scheint ein Leerzeichen vor der Klammer zu fehlen.</message>
+                <suggestion> (</suggestion>
+                <example correction=" (">Wir suchen Lehrer<marker>(</marker>m/w/d) für eine Schule.</example>
+                <example>Wir suchen Lehrer (m/w/d) für eine Schule.</example>
+            </rule>
+        </rulegroup>
         <rule id="DOPPELTES_LEERZEICHEN" name="Doppeltes Leerzeichen">
             <regexp type="exact" mark="1">[A-Za-zéèëêïîìáàâçôòüûùäöüß,.;]([&nbsp; ]{2})[A-Za-zéèëêïîìáàâçôòüûùäöüß,.;]</regexp><!-- TODO: add "nnbsp" -->
             <message>Hier scheint ein Leerzeichen zu viel zu sein.</message>
