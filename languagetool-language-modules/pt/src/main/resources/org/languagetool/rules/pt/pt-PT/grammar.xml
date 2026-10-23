@@ -3383,6 +3383,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <category id='REGIONALISMS_PT_PT' name='🇵🇹 Regionalismos'>
 
 
+      <rule id='BRASILEIRISMO_TER_EXISTENCIAL_AQUI' name="🇵🇹🇧🇷 'ter' com valor existencial" tags='picky'>
+          <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+          <!-- Ter existencial: português brasileiro -> português europeu -->
+
+          <pattern>
+              <token postag='SENT_START'/>
+              <token regexp='yes' min='0'>oi|olá|ei|então</token>
+              <token postag='_PUNCT_COMMA' min='0'/>
+              <marker>
+                  <token>tem</token>
+              </marker>
+              <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+              <token min='0'>por</token>
+              <token>aqui</token>
+              <token postag='_PUNCT_INTERROGATION'/>
+          </pattern>
+          <message>Em português europeu, quando &quot;ter&quot; exprime existência, prefira <suggestion>há</suggestion>.</message>
+          <example correction="Há"><marker>Tem</marker> mulher por aqui?</example>
+          <example correction="Há"><marker>Tem</marker> mulher aqui?</example>
+          <example correction="Há"><marker>Tem</marker> pessoas por aqui?</example>
+          <example correction="Há"><marker>Tem</marker> problemas aqui?</example>
+          <example correction="há">Oi, <marker>tem</marker> mulher por aqui?</example>
+          <example correction="há">Olá, <marker>tem</marker> mulher aqui?</example>
+          <example correction="há">Então, <marker>tem</marker> pessoas por aqui?</example>
+          <example type="correct">Há alguma mulher por aqui?</example>
+          <example type="correct">Há pessoas aqui?</example>
+          <example type="correct">O João tem família aqui?</example>
+          <example type="correct">Senhor, tem carro aqui?</example>
+          <example type="correct">Professor, tem livros aqui?</example>
+          <example type="correct">Maria, tem família aqui?</example>
+      </rule>
+
+
       <rulegroup id='BRASILEIRISMO_GALERA' name='🇵🇹🇧🇷 galera → pessoal'>
           <!-- ChatGPT 5.6 and new disambiguator for 2026+ -->
 
