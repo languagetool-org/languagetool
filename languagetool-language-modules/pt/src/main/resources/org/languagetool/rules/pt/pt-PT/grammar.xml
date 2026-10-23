@@ -3389,7 +3389,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <!-- Ter existencial: português brasileiro -> português europeu -->
 
           <pattern>
-              <token postag='SENT_START|_PUNCT_COMMA' postag_regexp='yes'/>
+              <token postag='SENT_START'/>
+              <token regexp='yes' min='0'>oi|olá|ei|então</token>
+              <token postag='_PUNCT_COMMA' min='0'/>
               <marker>
                   <token>tem</token>
               </marker>
@@ -3409,6 +3411,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example type="correct">Há alguma mulher por aqui?</example>
           <example type="correct">Há pessoas aqui?</example>
           <example type="correct">O João tem família aqui?</example>
+          <example type="correct">Senhor, tem carro aqui?</example>
+          <example type="correct">Professor, tem livros aqui?</example>
+          <example type="correct">Maria, tem família aqui?</example>
       </rule>
 
 
