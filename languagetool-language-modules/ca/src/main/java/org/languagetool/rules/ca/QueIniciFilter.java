@@ -170,10 +170,10 @@ public class QueIniciFilter extends RuleFilter {
       ? tokens[tokens.length - 2].getToken()
       : "";
     boolean isSiNoQuestion =
-      tokens.length > 2
+      tokens.length > 3
         && (SINO_LAST_WORDS.contains(lastWord.toLowerCase())
-        || (lastWord.equals("què") && tokens[tokens.length - 1].getToken().equals("o"))
-        || (lastWord.equals("no") && tokens[tokens.length - 1].getToken().equals(",")));
+        || (lastWord.equals("què") && tokens[tokens.length - 3].getToken().equals("o"))
+        || (lastWord.equals("no") && tokens[tokens.length - 3].getToken().equals(",")));
     boolean isAnotherSubject = lastWord.equals("això");
 
     // Subjecte dislocat al final (", el professor?"): si el subjecte ja hi és, el SN
@@ -221,6 +221,9 @@ public class QueIniciFilter extends RuleFilter {
     // object logic treats that noun phrase as the object and wrongly drops the accent.
     Boolean volerDir = volerDirPrediction(tokens, verbGroup, coreEnd);
     if (volerDir != null) {
+      if (isSiNoQuestion) {
+        return false;
+      }
       return volerDir;
     }
 

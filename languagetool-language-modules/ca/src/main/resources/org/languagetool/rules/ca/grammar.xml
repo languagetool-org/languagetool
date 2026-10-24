@@ -23518,10 +23518,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">en|amb|a</token>
                     </marker>
+                    <token min="0">no</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>La preposició adequada en aquesta expressió és <suggestion>de</suggestion>.</message>
                 <example correction="de">Fas molt bé <marker>en</marker> vindre enjorn a la faena!</example>
+                <example correction="de">Vas fer bé <marker>en</marker> no assistir a la reunió.</example>
             </rule>
         </rulegroup>
         <rule id="AMB_QUE_PUC_AJUDAR" name="amb què puc ajudar -> en què puc ajudar">
@@ -26632,19 +26634,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>La preposició adequada és <suggestion>amb</suggestion>.</message>
             <example correction="amb">Allò anava <marker>en</marker> segones.</example>
-        </rule>
-        <rule id="FER_BE_DE_INF" name="fer bé en no passar -> fer bé de" default="temp_off">
-            <pattern>
-                <token inflected="yes">fer</token>
-                <token>bé</token>
-                <marker>
-                    <token>en</token>
-                </marker>
-                <token min="0">no</token>
-                <token postag="V.N.*" postag_regexp="yes"/>
-            </pattern>
-            <message>La preposició adequada és <suggestion>de</suggestion>.</message>
-            <example correction="de">Vas fer bé <marker>en</marker> no assistir a la reunió.</example>
         </rule>
         <rulegroup id="CANVI_PREPOSICIONS" name="canvi de preposicions davant d'infinitiu">
             <!--<url>http://esadir.cat/entrades/fitxa/node/prepcancaig</url>-->
@@ -34929,15 +34918,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusions" type="grammar">
-        <rule id="TAT_TANT" name="tat -> tant" default="temp_off">
+        <rule id="TAT_TANT" name="tat -> tant">
             <pattern>
                 <marker>
-                    <token skip="6">tat</token>
+                    <token skip="8">tat</token>
                 </marker>
                 <token>com</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>tant</suggestion>?</message>
-            <example correction="tant">Em va passat <marker>tat</marker> amb l'un com amb l'altre.</example>
+            <example correction="tant">Em va passar <marker>tat</marker> amb l'un com amb l'altre.</example>
         </rule>
         <rule id="TE_LA_COPIA" name="te la copia -> té la còpia">
             <pattern>
@@ -70571,6 +70560,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> vol dir-me?</example>
                 <example>Que vol dir alguna cosa?</example>
                 <example>Que vols dir res?</example>
+                <example>Que vol dir el mateix que no haver-me unit al teu clan, oi?</example>
+                <example>Que vol dir això, no?</example>
             </rule>
             <rule>
                 <antipattern>
