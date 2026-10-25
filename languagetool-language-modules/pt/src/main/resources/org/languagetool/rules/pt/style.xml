@@ -18726,22 +18726,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- PERDER A VIDA A morrer/falecer/perecer -->
-        <rule id='PERDER_A_VIDA' name="Perder a vida → morrer/falecer/perecer">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-16 (Checked/Enhanced) (1-JAN-2022+)      -->
+        <rule id='PERDER_A_VIDA' name="✂️ perder a vida → morrer/falecer/perecer" tags='picky' tone_tags='clarity'>
+            <!-- STYLE: Simplification / Conciseness -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
             <pattern>
                 <token inflected='yes'>perder</token>
                 <token regexp='yes'>as?</token>
-                <token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
+                <token min='0' postag='DP.+' postag_regexp='yes'/>
                 <token regexp='yes'>vidas?</token>
             </pattern>
-            <message>Melhore a redação.</message>
+            <message>A expressão &quot;perder a vida&quot; é correta, mas pode ser substituída por um verbo mais direto e conciso, conforme o contexto.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
             <example correction="morreu|faleceu|pereceu">Ele <marker>perdeu a vida</marker> num acidente.</example>
+            <example correction="morreu|faleceu|pereceu">O soldado <marker>perdeu a sua vida</marker> durante o combate.</example>
             <example correction="morreram|faleceram|pereceram">Um milhão de pessoas <marker>perderam as suas vidas</marker> na guerra.</example>
+            <example correction="morreram|faleceram|pereceram">Muitos soldados <marker>perderam as vidas</marker> durante o conflito.</example>
         </rule>
 
 
