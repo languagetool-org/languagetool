@@ -13078,39 +13078,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <message>Substitua por <suggestion>\1 \4</suggestion>.</message>
             <example correction="apresentar cumprimentos">Aproveito a oportunidade para <marker>apresentar os melhores cumprimentos</marker>.</example>
         </rule>
-        <!-- MAIS REDUZIDA(O)(S) inferior(es) -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-25 (21-OCT-2020+)     -->
-        <rulegroup id='MAIS_REDUZIDA_INFERIOR' name="Inferior(es)/menor(es)/menos" tone_tags="objective">
+
+
+        <rule id='MAIS_REDUZIDA_INFERIOR' name="✂️ Mais reduzido(a)(s) → menor(es)/inferior(es)" tags='picky' tone_tags='clarity'>
             <!-- IDEA shorten_it -->
-            <rule>
-                <pattern>
-                    <token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
-                    <marker>
-                        <token>mais</token>
-                        <token regexp='yes'>reduzida|reduzido</token>
-                    </marker>
-                </pattern>
-                <message>Substitua por</message>
-                <suggestion>inferior</suggestion>
-                <suggestion>menor</suggestion>
-                <suggestion>menos</suggestion>
-                <example correction="inferior|menor|menos">Temos um grau de incerteza, embora <marker>mais reduzido</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
-                    <marker>
-                        <token>mais</token>
-                        <token regexp='yes'>reduzidas|reduzidos</token>
-                    </marker>
-                </pattern>
-                <message>Substitua por</message>
-                <suggestion>inferiores</suggestion>
-                <suggestion>menores</suggestion>
-                <suggestion>menos</suggestion>
-                <example correction="inferiores|menores|menos">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
-            </rule>
-        </rulegroup>
+            <!-- Simplificação estilística: substituir "mais reduzido" por um comparativo mais conciso. -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token postag='V.+|CS|I|RG|AQ.+|DI.+|CC|NC.+' postag_regexp='yes'/>
+                <marker>
+                    <token>mais</token>
+                    <token regexp='yes'>reduzid[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>Esta expressão pode ser simplificada. Considere utilizar &quot;menor&quot; ou &quot;inferior&quot;, conforme o contexto.</message>
+            <suggestion><match no='3' regexp_match='(?i)^(?:r(e)duzid[ao](s)|reduzid[ao])$' regexp_replace='menor$1$2'/></suggestion>
+            <suggestion><match no='3' regexp_match='(?i)^(?:r(e)duzid[ao](s)|reduzid[ao])$' regexp_replace='inferior$1$2'/></suggestion>
+            <short>Expressão passível de simplificação</short>
+            <example correction="menor|inferior">Temos um grau de incerteza, embora <marker>mais reduzido</marker>.</example>
+            <example correction="menores|inferiores">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
+            <example correction="menor|inferior">O impacto ambiental foi <marker>mais reduzido</marker> neste cenário.</example>
+            <example correction="menor|inferior">A taxa de erro foi <marker>mais reduzida</marker> na segunda experiência.</example>
+            <example correction="menores|inferiores">Os custos operacionais foram <marker>mais reduzidos</marker> este ano.</example>
+            <example correction="menores|inferiores">As despesas foram <marker>mais reduzidas</marker> no último trimestre.</example>
+            <example correction="menor|inferior">O novo sistema apresenta um consumo energético <marker>mais reduzido</marker>.</example>
+            <example correction="menor|inferior">A probabilidade de falha é <marker>mais reduzida</marker> neste modelo.</example>
+            <example correction="menores|inferiores">Os resultados apresentaram valores <marker>mais reduzidos</marker> do que os anteriores.</example>
+            <example correction="menores|inferiores">As perdas económicas foram <marker>mais reduzidas</marker> após a intervenção.</example>
+            <example>O impacto ambiental foi reduzido.</example>
+            <example>A taxa de erro diminuiu significativamente.</example>
+            <example>Os custos operacionais foram menores este ano.</example>
+            <example>As despesas foram inferiores às previstas.</example>
+        </rule>
+
+
         <!-- ESTAR + ADVÉRBIO + A + VERBO verbo + advérbio -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-05 (21-OCT-2020+)     -->
         <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="✂️ Estar + Adv + A + Verbo → Verbo + Adv" type="style" tone_tags="objective">
@@ -18726,22 +18729,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- PERDER A VIDA A morrer/falecer/perecer -->
-        <rule id='PERDER_A_VIDA' name="Perder a vida → morrer/falecer/perecer">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-16 (Checked/Enhanced) (1-JAN-2022+)      -->
+        <rule id='PERDER_A_VIDA' name="✂️ perder a vida → morrer/falecer/perecer" tags='picky' tone_tags='clarity'>
+            <!-- STYLE: Simplification / Conciseness -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
             <pattern>
                 <token inflected='yes'>perder</token>
                 <token regexp='yes'>as?</token>
-                <token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
+                <token min='0' postag='DP.+' postag_regexp='yes'/>
                 <token regexp='yes'>vidas?</token>
             </pattern>
-            <message>Melhore a redação.</message>
+            <message>A expressão &quot;perder a vida&quot; é correta, mas pode ser substituída por um verbo mais direto e conciso, conforme o contexto.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
             <example correction="morreu|faleceu|pereceu">Ele <marker>perdeu a vida</marker> num acidente.</example>
+            <example correction="morreu|faleceu|pereceu">O soldado <marker>perdeu a sua vida</marker> durante o combate.</example>
             <example correction="morreram|faleceram|pereceram">Um milhão de pessoas <marker>perderam as suas vidas</marker> na guerra.</example>
+            <example correction="morreram|faleceram|pereceram">Muitos soldados <marker>perderam as vidas</marker> durante o conflito.</example>
         </rule>
 
 
