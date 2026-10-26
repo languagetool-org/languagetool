@@ -109595,26 +109595,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="pagarà ell els plats trencats|pagarà ell la festa">Al final <marker>pagarà ell el pato</marker>.</example>
             <example>Pagaràs la festa.</example>
         </rule>
-        <rule id="MEREIXER_LA_PENA" name="merèixer la pena">
+        <rulegroup id="MEREIXER_LA_PENA" name="merèixer la pena">
             <antipattern>
-                <marker>
-                    <token>pena</token>
-                    <token>de</token>
-                    <token>mort</token>
-                </marker>
-            </antipattern>
-            <pattern>
-                <token inflected="yes">merèixer</token>
-                <token>la</token>
                 <token>pena</token>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valer</match> la pena</suggestion>
-            <suggestion>s'ho <match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valer</match></suggestion>
-            <example correction="val la pena|s'ho val">No <marker>mereix la pena</marker>.</example>
-            <example correction="valdrà la pena|s'ho valdrà">No <marker>mereixerà la pena</marker>.</example>
-            <example>Van merèxier la pena de mort.</example>
-        </rule>
+                <token>de</token>
+                <token>mort</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes" postag="V.[SI].*" postag_regexp="yes">merèixer</token>
+                    <token>la</token>
+                    <token>pena</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valer</match> la pena</suggestion>
+                <suggestion>s'ho <match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valer</match></suggestion>
+                <example correction="val la pena|s'ho val">No <marker>mereix la pena</marker>.</example>
+                <example correction="valdrà la pena|s'ho valdrà">No <marker>mereixerà la pena</marker>.</example>
+                <example>Van merèxier la pena de mort.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">merèixer</token>
+                    </marker>
+                    <token>la</token>
+                    <token>pena</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valer</match></suggestion>
+                <example correction="valgut">Haurà <marker>merescut</marker> la pena. </example>
+                <example>Van merèxier la pena de mort.</example>
+            </rule>
+        </rulegroup>
         <rule id="MENYS_MAL" name="menys mal">
             <antipattern>
                 <marker>
@@ -149300,6 +149313,11 @@ No t'ho explicaré, no cal que em burxis més-->
                 <token min="0" postag="DA..P." postag_regexp="yes"/>
                 <token regexp="yes">\d+(\.\d\d\d)*</token>
             </antipattern>
+            <antipattern>
+                <token>(</token>
+                <token regexp="yes" skip="3">\d+</token>
+                <token>)</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token regexp="yes">\d+(\.\d\d\d)*<exception>1</exception></token>
@@ -149322,6 +149340,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example>Ha de casar-se als 14 o 15 anys.</example>
                 <example>Dels 10 als 14 anys d'edat.</example>
                 <example>2009 Any internacional del llibre.</example>
+                <example>(70 anys)</example>
             </rule>
             <rule>
                 <antipattern>
