@@ -10061,6 +10061,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rule id='ENSINOS_SUPERIORES' name="🎓 Ensinos superiores → ensino superior" tags='picky' tone_tags='academic'>
+            <!-- Preferência terminológica: o nível educativo é habitualmente designado por "ensino superior", no singular. -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token>de</token>
+                <marker>
+                    <token>ensinos</token>
+                    <token>superiores</token>
+                </marker>
+            </pattern>
+            <message>Quando se refere ao nível educativo, a designação habitual é &quot;ensino superior&quot;, no singular. Considere utilizar <suggestion>ensino superior</suggestion>.</message>
+            <short>Preferência pela designação no singular.</short>
+            <example correction="ensino superior">Temos instituições de <marker>ensinos superiores</marker> muito prestigiadas.</example>
+            <example correction="ensino superior">Existem vários estabelecimentos de <marker>ensinos superiores</marker> nesta região.</example>
+            <example correction="ensino superior">O relatório apresenta estatísticas de <marker>ensinos superiores</marker> em Portugal.</example>
+            <example>Portugal possui instituições de ensino superior públicas e privadas.</example>
+            <example>O ensino superior português inclui o ensino universitário e o politécnico.</example>
+            <example>Os ensinos superiores português e espanhol apresentam características diferentes.</example>
+            <example>As instituições de ensino superior desempenham um papel importante na investigação científica.</example>
+        </rule>
+
+
         <rule id='OBTER_ALCANCAR' name="🎓 Obter → alcançar" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <pattern>
@@ -13054,18 +13078,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </pattern>
             <message>Substitua por <suggestion>o</suggestion>.</message>
             <example correction="o">Desculpem <marker>este</marker> desabafo.</example>
-        </rule>
-
-        <rule id='ENSINOS_SUPERIORES' name="Ensino superior" tone_tags="objective">
-            <!-- IDEA shorten_it -->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <token>ensinos</token>
-                <token>superiores</token>
-            </pattern>
-            <message>Esta palavra é referida no singular.</message>
-            <suggestion>ensino superior</suggestion>
-            <example correction="ensino superior">Temos instituições de <marker>ensinos superiores</marker> muito prestigiadas.</example>
         </rule>
 
 
