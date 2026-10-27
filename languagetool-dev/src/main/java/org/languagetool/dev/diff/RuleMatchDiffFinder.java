@@ -42,6 +42,7 @@ public class RuleMatchDiffFinder {
   private static final int IFRAME_MAX = -1;
 
   private boolean fullMode;
+  private boolean showTitle;
 
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
     System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches), step 1");
@@ -204,6 +205,10 @@ public class RuleMatchDiffFinder {
         iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         printMarkerCol(fw, null, match);
         fw.write("  <td>" + match.getSuggestions().stream().map(k -> showTrimSpace(k)).collect(Collectors.joining(", ")) + "</td>\n");
+      }
+      if (showTitle) {
+        String title = oldMatch != null ? oldMatch.getTitle() : newMatch.getTitle();
+        fw.write("  <td class='small'>" + (title != null ? StringTools.escapeHTML(title) : "") + "</td>\n");
       }
       fw.write("</tr>\n");
     }
@@ -381,6 +386,9 @@ public class RuleMatchDiffFinder {
     fw.write("  <th>Message and Text</th>\n");
     fw.write("  <th>Marked</th>\n");
     fw.write("  <th>Suggestions</th>\n");
+    if (showTitle) {
+      fw.write("  <th>Corpus file</th>\n");
+    }
     fw.write("</tr>\n");
     fw.write("</thead>\n");
     fw.write("<tbody>\n");
@@ -631,15 +639,21 @@ public class RuleMatchDiffFinder {
   }
 
   private static void printUsageAndExit() {
-    System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir> <date>");
+    System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir> <date> [--show-title]");
     System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
     System.out.println("                           or JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
+    System.out.println(" --show-title adds a 'Corpus file' column with the 'Title:' of each match (off by default)");
     System.exit(1);
   }
 
   public static void main(String[] args) throws IOException {
     RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();
     LightRuleMatchParser parser = new LightRuleMatchParser();
+    List<String> argList = new ArrayList<>(Arrays.asList(args));
+    if (argList.remove("--show-title")) {
+      diffFinder.showTitle = true;
+    }
+    args = argList.toArray(new String[0]);
     if (args.length == 0) {
       printUsageAndExit();
     }
@@ -673,7 +687,7 @@ public class RuleMatchDiffFinder {
       }
     } else {
       if (args.length != 5) {
-        System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir> <langCode> <date>");
+        System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir> <langCode> <date> [--show-title]");
         System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
         System.out.println("                           or JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
         System.exit(1);
