@@ -13067,16 +13067,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>ensino superior</suggestion>
             <example correction="ensino superior">Temos instituições de <marker>ensinos superiores</marker> muito prestigiadas.</example>
         </rule>
-        <rule id='APRESENTAR_OS_MELHORES_CUMPRIMENTOS' name="Apresentar cumprimentos">
-            <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+
+
+        <rule id='APRESENTAR_OS_MELHORES_CUMPRIMENTOS' name="✂️ 'Apresentar os melhores' cumprimentos → apresentar" tags='picky' tone_tags='clarity'>
+            <!-- IDEA shorten_it -->
+            <!-- Simplificação estilística de fórmulas de cortesia na correspondência formal. -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
-                <token inflected='yes'>apresentar</token>
-                <token>os</token>
-                <token>melhores</token>
-                <token>cumprimentos</token>
+                <marker>
+                    <token inflected='yes'>apresentar</token>
+                    <token>os</token>
+                    <token>melhores</token>
+                    <token>cumprimentos</token>
+                </marker>
             </pattern>
-            <message>Substitua por <suggestion>\1 \4</suggestion>.</message>
+            <message>Esta fórmula de cortesia pode ser simplificada sem perder o tom respeitoso. Considere utilizar <suggestion>\1 \4</suggestion>.</message>
+            <short>Fórmula de cortesia mais concisa.</short>
             <example correction="apresentar cumprimentos">Aproveito a oportunidade para <marker>apresentar os melhores cumprimentos</marker>.</example>
+            <example correction="Apresento cumprimentos"><marker>Apresento os melhores cumprimentos</marker> a todos os participantes.</example>
+            <example correction="apresentou cumprimentos">O diretor <marker>apresentou os melhores cumprimentos</marker> aos convidados.</example>
+            <example>Com os melhores cumprimentos, Marco Pinto.</example>
+            <example>Apresento os meus melhores cumprimentos.</example>
+            <example>Envio os meus cumprimentos aos participantes.</example>
+            <example>Os melhores cumprimentos foram transmitidos pessoalmente.</example>
         </rule>
 
 
