@@ -432,6 +432,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <category id='FORMAL_SPEECH_PT_PT' name='🇵🇹🤵 Linguagem Formal' type='register' tone_tags="formal">
 
 
+        <rule id='BICHA_DE_ESPERA' name="🇵🇹🤵 'Bicha' de espera → fila" type='style' tone_tags='formal'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <pattern>
+                <marker>
+                    <token postag='NC.+' postag_regexp='yes' regexp='yes'>bichas?</token>
+                </marker>
+                <token>de</token>
+                <token>espera</token>
+            </pattern>
+            <message>Em textos formais, prefira <suggestion><match no='1' postag='NC.+' postag_regexp='yes'>fila</match></suggestion>.</message>
+            <example correction="fila">Estou na <marker>bicha</marker> de espera.</example>
+            <example correction="filas">Estou a ver tantas <marker>bichas</marker> de espera.</example>
+            <example>Estou na fila de espera.</example>
+        </rule>
+
+
         <rule id='SER_CARO_ONEROSO_DISPENDIOSO' name="🇵🇹🤵 Ser 'caro' → oneroso/dispendioso" type='style' tone_tags='formal' tags='picky'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <!-- It is a Portuguese European rule only because "cara(s)" is commonly used in Brazil to address people informally -->
