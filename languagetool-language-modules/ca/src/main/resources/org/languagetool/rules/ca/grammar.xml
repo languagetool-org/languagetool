@@ -23186,8 +23186,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[0-9]{4}|[0-9][0-9]</token>
                 </pattern>
                 <message>És preferible la construcció sense preposició.</message>
-                <suggestion><match no="1" case_conversion="preserve" regexp_match="^.*$" regexp_replace="el"/> <match no="3" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" case_conversion="preserve" regexp_match="^.*$" regexp_replace="e"/>l <match no="3" case_conversion="alllower"/></suggestion>
                 <example correction="el novembre">Va passar <marker>al novembre</marker> de 1997.</example>
+                <example correction="El desembre"><marker>Al desembre</marker> del 1982.</example>
+                <example correction="El desembre"><marker>Pel desembre</marker> del 1982.</example>
                 <example>Del juny al novembre de 1999.</example>
                 <example>Va convocar eleccions per al maig d3l 2013.</example>
             </rule>
@@ -23202,8 +23204,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">passat|vinent|ve</token>
                 </pattern>
                 <message>És preferible la construcció sense preposició.</message>
-                <suggestion><match no="1" case_conversion="preserve" regexp_match="^.*$" regexp_replace="el"/> <match no="3" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" case_conversion="preserve" regexp_match="^.*$" regexp_replace="e"/>l <match no="3" case_conversion="alllower"/></suggestion>
                 <example correction="el novembre">Ens vam veure <marker>al novembre</marker> passat.</example>
+                <example correction="El novembre"><marker>Al novembre</marker> passat.</example>
                 <example>Del juny al novembre de 1999.</example>
             </rule>
             <rule>
@@ -114918,7 +114921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="QUAN_ABANS" name="quan abans -> com més aviat">
             <pattern>
-                <token postag="SENT_START|_PUNCT.*|CC" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*|C.*" postag_regexp="yes"/>
                 <marker>
                     <token regexp="yes">com|quan|quant</token>
                     <token>abans</token>
@@ -114933,6 +114936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Com més aviat|Com més prompte"><marker>Quan abans</marker> hi anem, abans acabarem.</example>
             <example correction="Com més aviat|Com més prompte"><marker>Quan abans</marker> es derogui el nyap, millor per a tothom.</example>
             <example correction="com més aviat|com més prompte">I <marker>quan abans</marker> es derogui el nyap, millor per a tothom.</example>
+            <example correction="com més aviat|com més prompte">I això vol dir que <marker>quan abans</marker> entengui quin és el seu bàndol millor.</example>
         </rule>
         <rulegroup id="QUANT_ABANS" name="*quant abans">
             <rule>
