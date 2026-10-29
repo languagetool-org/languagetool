@@ -25236,7 +25236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="3" regexp="yes">caldre|servir|usar|emprar|aprofitar|preparar|necessari|fonamental|essencial|imprescindible|suficient|prou|motiu|raó|clau</token>
+                    <token inflected="yes" skip="3" regexp="yes">caldre|servir|usar|emprar|aprofitar|preparar|necessari|fonamental|essencial|imprescindible|suficient|prou|motiu|raó|clau|diner</token>
                     <marker>
                         <token>per</token>
                     </marker>
@@ -59218,7 +59218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>diferència</token>
                 </antipattern>
                 <antipattern>
-                    <token>la</token>
+                    <token postag="D..FS." postag_regexp="yes"/>
                     <token>diferència</token>
                     <token regexp="yes" postag="V...3S.." postag_regexp="yes" inflected="yes">ser|estar</token>
                 </antipattern>
@@ -59244,6 +59244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una altra petita diferència és que hi ha una inclinació en el carregador.</example>
                 <example>i la poca diferència que hi havia</example>
                 <example>La primera gran diferència que notareu és aquesta.</example>
+                <example>Encara que algunes vegades aquesta diferència és subtil.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -97146,10 +97147,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Val més evitar aquesta construcció.</message>
                 <suggestion>d'ara endavant</suggestion>
+                <suggestion>des de llavors</suggestion>
                 <suggestion>d'avui endavant</suggestion>
                 <suggestion>d'ara en avant</suggestion>
                 <suggestion>de hui en avant</suggestion>
-                <example correction="d'ara endavant|d'avui endavant|d'ara en avant|de hui en avant"><marker>en endavant</marker> no es podrà fer més.</example>
+                <example correction="d'ara endavant|des de llavors|d'avui endavant|d'ara en avant|de hui en avant"><marker>en endavant</marker> no es podrà fer més.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PAVOS" name="pavos">
@@ -104848,6 +104850,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És el de menys importància.</example>
             </rule>
         </rulegroup>
+        <rule id="ASSEURE_LES_BASES" name="asseure -> assentar, establir">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">asseure|seure</token>
+                </marker>
+                <token postag_regexp="yes" postag="D.*"/>
+                <token regexp="yes">base|principi|fonament</token>
+            </pattern>
+            <message>Verb incorrecte en aquest context.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="yes">assentar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="yes">establir</match></suggestion>
+            <example correction="assentar|establir">Van <marker>asseure</marker> les bases de tota l'evolució posterior.</example>
+            <example correction="assentat|establit">Han <marker>assegut</marker> les bases de tota l'evolució posterior.</example>
+        </rule>
         <rulegroup id="VOLTA_INCORRECTE" name="*a volta de correu">
             <rule>
                 <pattern>
