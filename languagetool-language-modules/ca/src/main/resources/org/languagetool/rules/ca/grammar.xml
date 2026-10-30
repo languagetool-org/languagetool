@@ -39065,6 +39065,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El primer objectiu va ser avaluar.</example>
         </rule>
         <rulegroup id="CONFUSIO_FEM_HEM" name="confusió fem>hem">
+            <antipattern>
+                <token postag="SPS00"/>
+                <token min="0" postag="D..MS." postag_regexp="yes"/>
+                <token>fem</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -70082,6 +70087,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="què">Sabeu <marker>que</marker> li va passar?</example>
                 <example correction="què">Sabeu <marker>que</marker> li ha passat?</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>ni</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'quina cosa' s'escriu amb accent.</message>
+                <suggestion>què</suggestion>
+                <example correction="què">No sé què dir ni <marker>que</marker> fer.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">saber</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="&pronom_feble;|RN" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="_PUNCT.*|C.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'quina cosa' s'escriu amb accent.</message>
+                <suggestion>què</suggestion>
+                <example correction="què">No sé <marker>que</marker> feia.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="QUE_INICIAL_SENSEACCENT_NOVERB" name="que -> què (a l'inici de frase)">
             <rule>
@@ -81016,7 +81047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>hagut<exception postag="_obligacio"/></token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>hi <match no="2"/> hagut</suggestion>?</message>
+                <message>¿Volíeu dir <suggestion>hi <match no="2" case_conversion="alllower"/> hagut</suggestion>?</message>
                 <example correction="hi ha hagut"><marker>ha hagut</marker> un xoc de trens</example>
                 <example correction="hi ha hagut">Sempre <marker>ha hagut</marker> moltes maneres de celebrar Nadal.</example>
                 <example>hi ha hagut un xoc</example>
@@ -93961,6 +93992,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>si</token>
                     <token>cap</token>
                 </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>cap</token>
+                    <token>no</token>
+                </antipattern>
                 <pattern>
                     <token>si</token>
                     <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -104856,11 +104892,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">asseure|seure</token>
                 </marker>
                 <token postag_regexp="yes" postag="D.*"/>
-                <token regexp="yes">base|principi|fonament</token>
+                <token inflected="yes" regexp="yes">base_1|base_2|principi|fonament</token>
             </pattern>
             <message>Verb incorrecte en aquest context.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="yes">assentar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="yes">establir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">assentar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">establir</match></suggestion>
             <example correction="assentar|establir">Van <marker>asseure</marker> les bases de tota l'evolució posterior.</example>
             <example correction="assentat|establit">Han <marker>assegut</marker> les bases de tota l'evolució posterior.</example>
         </rule>
