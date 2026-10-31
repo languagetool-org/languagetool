@@ -20,7 +20,6 @@
 
 package org.languagetool;
 
-import org.checkerframework.checker.units.qual.C;
 import org.junit.Test;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
