@@ -116376,8 +116376,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>famille</exception>
-                            <exception>godot</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">réparation|confirmation|famille|godot|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|début|mi-.*|fin</exception>
+                            <exception regexp="yes">\d{4}</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -116387,6 +116389,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>des \2</suggestion>
                 <example correction="un voiture|une voiture|des voiture">J'attends <marker>voiture</marker>.</example>
                 <example>J'attends <marker>famille</marker>.</example>
+                <example>J'attends <marker>fin</marker> mars.</example>
+                <example>J'attends <marker>2050</marker>.</example>
+                <example>J'attends <marker>son</marker> 92e anniversaire</example>
             </rule>
             <rule id="ATTRAPER_PLUS_NOM_INCORRECT" name="attraper suivi d'un nom incorrect" default="temp_off">
                 <pattern>
@@ -116396,6 +116401,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>froid</exception>
                         </token>
                     </marker>
@@ -116404,7 +116411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un rhume|une rhume|des rhume">J'attrape <marker>rhume</marker>.</example>
+                <example correction="un lapin|une lapin|des lapin">J'attrape <marker>lapin</marker>.</example>
                 <example>J'attrape <marker>froid</marker>.</example>
             </rule>
             <!-- Because of formulations like "j'ai piscine", we cannot use a strong rule here -->
@@ -116430,6 +116437,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>pavillon</exception>
                         </token>
                     </marker>
@@ -116449,9 +116458,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>froid</exception>
-                            <exception>monnaie</exception>
-                            <exception>pavillon</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">froid|monnaie|pavillon</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -116470,6 +116479,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>bobo</exception>
                         </token>
                     </marker>
@@ -116489,6 +116500,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>maison</exception>
                         </token>
                     </marker>
@@ -116497,7 +116510,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un fenêtre|une fenêtre|des fenêtre">Je casse <marker>fenêtre</marker>.</example>
+                <example correction="un tirelire|une tirelire|des tirelire">Je casse <marker>tirelire</marker>.</example>
                 <example>Je casse <marker>maison</marker>.</example>
             </rule>
             <rule id="CHERCHER_PLUS_NOM_INCORRECT" name="chercher suivi d'un nom incorrect" default="temp_off">
@@ -116508,6 +116521,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">carrière|chicane|garouille|justice|noise|pied|prise</exception>
                         </token>
                     </marker>
@@ -116527,6 +116542,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>carbone</exception>
                         </token>
                     </marker>
@@ -116546,8 +116563,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>fleurette</exception>
-                            <exception>florette</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">fleurette|florette</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -116566,6 +116584,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">famine|gare|grâce|misère|miséricorde|vengeance|victoire</exception>
                         </token>
                     </marker>
@@ -116585,6 +116605,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>forfait</exception>
                         </token>
                     </marker>
@@ -116604,6 +116626,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">asile|justice|obéissance|pardon|patience|raison|réparation</exception>
                         </token>
                     </marker>
@@ -116612,7 +116636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>son \2</suggestion>
                 <suggestion>sa \2</suggestion>
                 <suggestion>ses \2</suggestion>
-                <example correction="son aide|sa aide|ses aide">Il demande <marker>aide</marker>.</example>
+                <example correction="son avis|sa avis|ses avis">Il demande <marker>avis</marker>.</example>
                 <example>Il demande <marker>pardon</marker>.</example>
             </rule>
             <rule id="DONNER_PLUS_NOM_INCORRECT" name="donner suivi d'un nom incorrect" default="temp_off">
@@ -116623,6 +116647,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">acte|assignation|assurance|attention|barre|carrière|chasse|chaud|confiance|congé|corps|créance|exemple|faim|froid|goût|haleine|lieu|loisir|occasion|peur|pratique|prise|raison|sens|soif|suite|sujet</exception>
                         </token>
                     </marker>
@@ -116642,7 +116668,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>raison</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">raison</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -116650,7 +116678,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un musique|une musique|des musique">Il entend <marker>musique</marker>.</example>
+                <example correction="un avion|une avion|des avion">Il entend <marker>avion</marker>.</example>
                 <example>Il entend <marker>raison</marker>.</example>
             </rule>
             <rule id="FAIRE_PLUS_NOM_INCORRECT" name="faire suivi d'un nom incorrect" default="temp_off">
@@ -116661,6 +116689,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">abstraction|acte|alliance|allusion|antichambre|appel|assaut|attention|autorité
                                 |babache|banco|banqueroute|barrage|binet|bloc|bombance|boucherie|brèche|buisson|caca|cadeau|carousse
                                 |carrière|ceinture|chabrol|chabrot|chaud|chorus|chou|classe|codille|confiance|connaissance|contraste
@@ -116691,6 +116721,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>compagnie</exception>
                         </token>
                     </marker>
@@ -116701,6 +116733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>les \2</suggestion>
                 <example correction="le jeu|la jeu|les jeu">Il fausse <marker>jeu</marker>.</example>
                 <example>Il fausse <marker>compagnie</marker>.</example>
+                <example>Il est tombé dans la fosse commune.</example>
             </rule>
             <rule id="FERMER_PLUS_NOM_INCORRECT" name="fermer suivi d'un nom incorrect" default="temp_off">
                 <pattern>
@@ -116710,6 +116743,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>boutique</exception>
                         </token>
                     </marker>
@@ -116718,7 +116753,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un porte|une porte|des porte">Il ferme <marker>porte</marker>.</example>
+                <example correction="un sac|une sac|des sac">Il ferme <marker>sac</marker>.</example>
                 <example>Il ferme <marker>boutique</marker>.</example>
             </rule>
             <rule id="GAGNER_PLUS_NOM_INCORRECT" name="gagner suivi d'un nom incorrect" default="temp_off">
@@ -116729,6 +116764,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>chemin</exception>
                         </token>
                     </marker>
@@ -116747,6 +116784,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         jaspiner
                     </token>
                     <token postag="N.*" postag_regexp="yes">
+                        <exception postag="[^N].*" postag_regexp="yes"/>
+                        <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                         <exception>bigorne</exception>
                     </token>
                 </pattern>
@@ -116762,6 +116801,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>pièce</exception>
                         </token>
                     </marker>
@@ -116770,7 +116811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un carte|une carte|des carte">Il joue <marker>carte</marker>.</example>
+                <example correction="un pion|une pion|des pion">Il joue <marker>pion</marker>.</example>
                 <example>Il joue <marker>pièce</marker>.</example>
             </rule>
             <rule id="LACHER_PLUS_NOM_INCORRECT" name="lâcher suivi d'un nom incorrect" default="temp_off">
@@ -116781,8 +116822,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>pied</exception>
-                            <exception>prise</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">pied|prise</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -116801,9 +116843,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>bataille</exception>
-                            <exception>combat</exception>
-                            <exception>passage</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">bataille|combat|passage</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -116822,6 +116864,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>ruine</exception>
                         </token>
                     </marker>
@@ -116842,6 +116886,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">bas|fin|habit|misère|pavillon|terme</exception>
                         </token>
                     </marker>
@@ -116879,8 +116925,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>tribut</exception>
-                            <exception>cash</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">tribut|cash</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -116888,7 +116935,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un facture|une facture|des facture">Il paie <marker>facture</marker>.</example>
+                <example correction="un verre|une verre|des verre">Il paie <marker>verre</marker>.</example>
                 <example>Il paie <marker>tribut</marker>.</example>
             </rule>
             <rule id="PERDRE_PLUS_NOM_INCORRECT" name="perdre suivi d'un nom incorrect" default="temp_off">
@@ -116899,6 +116946,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">confiance|connaissance|conscience|contenance|goût|haleine|notion|patience|pied|prise|sens|terre|vie</exception>
                         </token>
                     </marker>
@@ -116918,6 +116967,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">abonde|affection|amitié|assistance|atteinte|bateau|coup|malheur|ombrage|ombre|plainte|préjudice|secours</exception>
                         </token>
                     </marker>
@@ -116937,6 +116988,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">culotte|problème|question|souci</exception>
                         </token>
                     </marker>
@@ -116945,7 +116998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un limites|une limites|des limites">Il pose <marker>limites</marker>.</example>
+                <example correction="un bouquet|une bouquet|des bouquet">Il pose <marker>bouquet</marker>.</example>
                 <example>Il pose <marker>culotte</marker>.</example>
             </rule>
             <rule id="PRENDRE_PLUS_NOM_INCORRECT" name="prendre suivi d'un nom incorrect" default="temp_off">
@@ -116956,6 +117009,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">
                                 attache|confiance|connaissance|conscience|époux|femme|langue|note|notion|occasion|ombrage
                                 |patience|part|parti|peur|pied|place|plaisir|port|position|sens|vie
@@ -116967,7 +117022,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un café|une café|des café">Il prend <marker>café</marker>.</example>
+                <example correction="un thé|une thé|des thé">Il prend <marker>thé</marker>.</example>
                 <example>Il prend <marker>plaisir</marker>.</example>
             </rule>
             <rule id="PRETER_PLUS_NOM_INCORRECT" name="prêter suivi d'un nom incorrect" default="temp_off">
@@ -116978,6 +117033,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">attention|allégeance|intérêt|main|secours|serment</exception>
                         </token>
                     </marker>
@@ -116997,6 +117054,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>chemin</exception>
                         </token>
                     </marker>
@@ -117016,6 +117075,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">
                                 abstraction|acte|alliance|allusion|antichambre|appel|assaut|attention|autorité|babache|banco|banqueroute
                                 |barrage|binet|bloc|bombance|boucherie|brèche|buisson|caca|cadeau|carousse|carrière|ceinture|chabrol|chabrot
@@ -117047,6 +117108,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">grâce|haleine|hommage|service</exception>
                         </token>
                     </marker>
@@ -117066,8 +117129,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>contact</exception>
-                            <exception>connaissance</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">contact|connaissance</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -117086,6 +117150,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">
                                 attache|confiance|connaissance|conscience|contact|contenance|époux|femme|goût|haleine
                                 |langue|lien|note|notion|ombrage|patience|part|parti|peur|pied|place|plaisir|port|position|prise|sens|vie
@@ -117108,6 +117174,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">ami|axe|calme|chaud|ennemi|froid|frais</exception>
                         </token>
                     </marker>
@@ -117116,7 +117184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un crêpe|une crêpe|des crêpe">Il reste <marker>crêpe</marker>.</example>
+                <example correction="un biscuit|une biscuit|des biscuit">Il reste <marker>biscuit</marker>.</example>
                 <example>Il reste <marker>calme</marker>.</example>
             </rule>
             <rule id="RETROUVER_PLUS_NOM_INCORRECT" name="retrouver suivi d'un nom incorrect" default="temp_off">
@@ -117127,6 +117195,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">asile|attache|confiance|contenance|goût|grâce|patience|place|preneur|prise|sens</exception>
                         </token>
                     </marker>
@@ -117135,7 +117205,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>un \2</suggestion>
                 <suggestion>une \2</suggestion>
                 <suggestion>des \2</suggestion>
-                <example correction="un souvenir|une souvenir|des souvenir">Il retrouve <marker>souvenir</marker>.</example>
+                <example correction="un clé|une clé|des clé">Il retrouve <marker>clé</marker>.</example>
                 <example>Il retrouve <marker>confiance</marker>.</example>
             </rule>
             <rule id="ROULER_PLUS_NOM_INCORRECT" name="rouler suivi d'un nom incorrect" default="temp_off">
@@ -117146,6 +117216,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception>carrosse</exception>
                         </token>
                     </marker>
@@ -117165,9 +117237,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>patience</exception>
-                            <exception>empereur</exception>
-                            <exception>roi</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">patience|empereur|roi</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -117178,6 +117250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="son fils|sa fils|ses fils">Il a sacré <marker>fils</marker> empereur.</example>
                 <example>Tu es un sacré <marker>menteur</marker>.</example>
                 <example>Il est sacré <marker>empereur</marker>.</example>
+                <example>Ils sont sacrés <marker>roi</marker>.</example>
             </rule>
             <rule id="TENIR_PLUS_NOM_INCORRECT" name="tenir suivi d'un nom incorrect" default="temp_off">
                 <pattern>
@@ -117187,9 +117260,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>tête</exception>
-                            <exception>parole</exception>
-                            <exception>promesse</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">tête|parole|promesse</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -117208,6 +117281,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
                             <exception regexp="yes">bride|casaque|manège|rond|voile</exception>
                         </token>
                     </marker>
@@ -117224,7 +117299,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.*" postag_regexp="yes" inflected="yes">trouver</token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception regexp="yes">asile|attache|confiance|contenance|grâce|place|preneur|sens</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">asile|attache|chaussure|confiance|contenance|femme|grâce|place|preneur|sens</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -117243,13 +117320,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <marker>
                         <token postag="N.*" postag_regexp="yes">
-                            <exception>prêtre</exception>
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                            <exception regexp="yes">prêtre|diacre|évêque|sœur</exception>
                         </token>
                     </marker>
                 </pattern>
                 <message>Après le verbe 'ordonner', ce nom n'est généralement pas utilisé.</message>
                 <suggestion>prêtre</suggestion>
-                <example correction="prêtre">Il ordonne <marker>objet</marker>.</example>
+                <suggestion>diacre</suggestion>
+                <suggestion>évêque</suggestion>
+                <suggestion>sœur</suggestion>
+                <example correction="prêtre|diacre|évêque|sœur">Il ordonne <marker>objet</marker>.</example>
                 <example>Il a été ordonné <marker>prêtre</marker>.</example>
             </rule>
             <rule id="VERBE_PLUS_NOM_INCORRECT" name="verbe non listé suivi d'un nom incorrect" default="temp_off">
@@ -117258,13 +117340,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag="N.*" postag_regexp="yes"/>
                         <exception regexp="yes" inflected="yes">
                             attendre|attraper|avoir|baisser|battre|becquer|casser|chercher|compenser|conter|crier|déclarer|demander
-                            |donner|élir|faire|fausser|fermer|gagner|jaspiner|jouer|lâcher|livrer|menacer|mettre|nommer|ordonner|parler
+                            |donner|élir|être|faire|fausser|fermer|gagner|jaspiner|jouer|lâcher|livrer|menacer|mettre|nommer|ordonner|parler
                             |payer|perdre|porter|poser|prendre|prêter|rebrousser|rendre|renouer|reprendre|rester|retrouver|rouler|sacrer
                             |tenir|tourner|trouver
                         </exception>
                     </token>
                     <marker>
-                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes">
+                            <exception postag="[^N].*" postag_regexp="yes"/>
+                            <exception regexp="yes" case_sensitive="yes">[A-ZÉÈÀÙÂÊÎÔÛÄËÏÖÜÇ].*</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Le nom utilisé après ce verbe n'est généralement pas approprié dans cette construction.</message>
@@ -117274,6 +117359,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="un voiture|une voiture|des voiture">Il conduit <marker>voiture</marker>.</example>
                 <example>Il a piscine</example>
                 <example>architecture 3D</example>
+                <example>Voir "Abreuvoir"</example>
+                <example>Je suis pilote</example>
             </rule>
         </rulegroup>
     
