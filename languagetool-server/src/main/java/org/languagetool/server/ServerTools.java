@@ -243,6 +243,9 @@ final class ServerTools {
    * @since 5.0
    */
   public static String cleanUserTextFromMessage(String s, Map<String, String> params) {
+    if (s == null) {
+      return "null";
+    }
     if (params.getOrDefault("inputLogging", "").equals("no")) {
       return sentContentPattern.matcher(s).replaceAll("<< content removed >>");
     }
