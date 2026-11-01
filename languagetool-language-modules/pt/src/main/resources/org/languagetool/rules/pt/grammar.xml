@@ -23069,6 +23069,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/bem-dizer-ou-bendizer/12909</url>
 
             <rule> <!-- #1: Deus, Jesus, Cristo, Senhor e Satanás. -->
+                <!-- Evitar tratamentos formais, como "Senhor Presidente". -->
+                <antipattern>
+                    <token case_sensitive='yes'>Senhor</token>
+                    <token case_sensitive='yes'>Presidente</token>
+                </antipattern>
+
                 <pattern>
                     <marker>
                         <token>bem</token>
@@ -23087,6 +23093,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="bendito">Na oração, escreveu-se: «<marker>bem dito</marker> seja o Senhor».</example>
                 <example correction="bendito">O sacerdote afirmou: «<marker>bem dito</marker> é o Senhor».</example>
                 <example>O discurso foi bem dito pelo padre.</example>
+                <example>bem dito o Senhor Presidente.</example>
+                <example>No discurso, escreveu-se: «bem dito seja o Senhor Presidente».</example>
             </rule>
 
             <rule> <!-- #2: Santos com o título São. -->
