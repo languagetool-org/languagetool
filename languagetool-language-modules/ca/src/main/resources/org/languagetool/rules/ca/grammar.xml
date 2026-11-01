@@ -34616,7 +34616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token postag="D..[FC]S." postag_regexp="yes"/>
-                    <token postag="A.*|V.P.*|RG" postag_regexp="yes" min="0" max="4"/>
+                    <token postag="A.*|V.P.*|RG|PX.*" postag_regexp="yes" min="0" max="4"/>
                     <token inflected="yes" postag="NCF.*" postag_regexp="yes" regexp="yes">estrateg|rapsode|psiquiatre|pediatre</token>
                 </antipattern>
                 <pattern>
@@ -34629,14 +34629,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una gran estratega.</example>
                 <example>Ella és una molt bona psiquiatra.</example>
                 <example>Vol ser missionera, pediatra o veterinària.</example>
+                <example>Com una pacient amb la seva psiquiatra.</example>
+                <example>La jove psiquiatra.</example>
             </rule>
         </rulegroup>
         <rule id="L_ESTRATEGA" name="l'estratega">
             <antipattern>
-                <marker>
-                    <token postag="D..FS." postag_regexp="yes"/>
-                    <token>gran</token>
-                </marker>
+                <token postag="D..FS." postag_regexp="yes"/>
+                <token>gran</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">l'|gran</token>
@@ -66331,7 +66331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">fito|zoo</token>
                     <token min="0">-</token>
-                    <token regexp="yes">..+</token>
+                    <token regexp="yes">...+</token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.CatalanSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
                 <message>S'escriu junt.</message>
@@ -66339,6 +66339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fitosanitària"><marker>fito sanitària</marker></example>
                 <example correction="zoosanitaris"><marker>zoo sanitaris</marker></example>
                 <example>El cantant Fito Luri farà una actuació.</example>
+                <example>Des de llavors el zoo s'ha ampliat.</example>
             </rule>
             <rule>
                 <pattern>
@@ -140746,35 +140747,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A nivell de terra, no hi havia res.</example>
             </rule>
         </rulegroup>
-        <rule id="ALS_TRES_ANYS" name="Revisa: als tres anys/a tres anys/al cap de tres anys">
+        <rulegroup id="ALS_TRES_ANYS" name="Revisa: als tres anys/a tres anys/al cap de tres anys">
             <antipattern>
                 <token regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;</token>
                 <token postag="RG|LOC_ADV" postag_regexp="yes" min="1" max="3"/>
                 <token>a</token>
                 <example>Arriben almenys als 5000 anys.</example>
             </antipattern>
-            <pattern>
-                <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;|homenatge|premi</exception><exception postag="LOC_PREP|DN.*" postag_regexp="yes"/></token>
-                <marker>
-                    <token>a</token>
-                    <token spacebefore="no">ls</token>
-                    <token postag="DN.*|DI.*" postag_regexp="yes"/>
-                    <token>anys</token>
-                </marker>
-                <token><exception regexp="yes">de|d'|que|llargs</exception></token>
-            </pattern>
-            <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>. Referit a l'edat d'una persona, també es pot dir <suggestion><match no="2"/> <match no="4"/> <match no="5"/></suggestion>.</message>
-            <suggestion><match no="4"/> <match no="5"/> després</suggestion>
-            <example correction="Al cap de tres anys|A tres anys|Tres anys després"><marker>Als tres anys</marker>.</example>
-            <example>Tres minuts després</example>
-            <example>corresponents als dotze mesos de l'any</example>
-            <example>L'ensenyament és gratuït i obligatori dels 6 als 15 anys.</example>
-            <example>L'ensenyament és gratuït i obligatori dels sis als quinze anys.</example>
-            <example>Fa referència als tres anys que hi va dedicar</example>
-            <example>Gràcies als cinquanta anys de feina que vam fer.</example>
-            <example>A mesura que ens acostem als catorze anys, el mestre compta més.</example>
-            <example>Podria situar-se cap als tretze anys i coincidiria.</example>
-        </rule>
+            <antipattern>
+                <token regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;|homenatge|premi</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="LOC_PREP|DN.*" postag_regexp="yes"/>
+                <token>a</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token spacebefore="no">ls</token>
+                        <token regexp="yes">\d+</token>
+                        <token>anys</token>
+                    </marker>
+                    <token><exception regexp="yes">de|d'|que|llargs</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.AdaptSuggestionsFilter" args="none:none"/>
+                <message>Incorrecte si equival a <suggestion>al cap de <match no="3" postag="_spell_number_"/> <match no="4"/></suggestion>. Referit a l'edat d'una persona, també es pot dir <suggestion><match no="1"/> <match no="3" postag="_spell_number_"/> <match no="4"/></suggestion>.</message>
+                <suggestion><match no="3" postag="_spell_number_"/> <match no="4"/> després</suggestion>
+                <example correction="Al cap de tres anys|A tres anys|Tres anys després"><marker>Als 3 anys</marker>.</example>
+                <example correction="Al cap d'onze anys|A onze anys|Onze anys després"><marker>Als 11 anys</marker>.</example>
+                <example>Tres minuts després</example>
+                <example>corresponents als dotze mesos de l'any</example>
+                <example>L'ensenyament és gratuït i obligatori dels 6 als 15 anys.</example>
+                <example>L'ensenyament és gratuït i obligatori dels sis als quinze anys.</example>
+                <example>Fa referència als tres anys que hi va dedicar</example>
+                <example>Gràcies als cinquanta anys de feina que vam fer.</example>
+                <example>A mesura que ens acostem als catorze anys, el mestre compta més.</example>
+                <example>Podria situar-se cap als tretze anys i coincidiria.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;|homenatge|premi</exception><exception postag="LOC_PREP|DN.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>a</token>
+                        <token spacebefore="no">ls</token>
+                        <token postag="DN.*|DI.*" postag_regexp="yes"/>
+                        <token>anys</token>
+                    </marker>
+                    <token><exception regexp="yes">de|d'|que|llargs</exception></token>
+                </pattern>
+                <message>Incorrecte si equival a <suggestion>al cap de <match no="4"/> <match no="5"/></suggestion>. Referit a l'edat d'una persona, també es pot dir <suggestion><match no="2"/> <match no="4"/> <match no="5"/></suggestion>.</message>
+                <suggestion><match no="4"/> <match no="5"/> després</suggestion>
+                <example correction="Al cap de tres anys|A tres anys|Tres anys després"><marker>Als tres anys</marker>.</example>
+                <example>Tres minuts després</example>
+                <example>corresponents als dotze mesos de l'any</example>
+                <example>L'ensenyament és gratuït i obligatori dels 6 als 15 anys.</example>
+                <example>L'ensenyament és gratuït i obligatori dels sis als quinze anys.</example>
+                <example>Fa referència als tres anys que hi va dedicar</example>
+                <example>Gràcies als cinquanta anys de feina que vam fer.</example>
+                <example>A mesura que ens acostem als catorze anys, el mestre compta més.</example>
+                <example>Podria situar-se cap als tretze anys i coincidiria.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_RAN_DE" name="a ran de">
             <pattern>
                 <marker>
