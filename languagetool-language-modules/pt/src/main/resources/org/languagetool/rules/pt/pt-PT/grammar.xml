@@ -942,6 +942,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- 31-DEC-2025: entity pronomes_possessivos_pt_pt had "minhas?" missing, this may affect several APs here and in other parts -->
 
       <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token regexp='yes'>te|tas?|lh[ae]s?</token>
+          <token regexp='yes'>&pronomes_possessivos_pt_pt;</token>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+          <example>Eu amo te minha flor.</example>
+      </antipattern>
+
+      <antipattern>
           <token>em</token>
           <token regexp='yes'>&pronomes_possessivos_pt_pt;</token>
           <token regexp='yes' inflected='yes'>homenagem|honra|memória|lembrança|louvor|defesa|benefício|favor|proveito|interesse|vantagem|desvantagem|prejuízo|detrimento|nome|lugar|representação|substituição|companhia|presença|ausência|posse|poder|auxílio|socorro|apoio|ajuda|serviço|conhecimento|opinião|entendimento</token> <!-- ChatGPT 5.5 - 2026-06-25 -->
