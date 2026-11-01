@@ -67,6 +67,11 @@
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectár(eas)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 	
+    <!-- Product names, version numbers, keyboard keys and spreadsheet cells are often shaped
+         like a chemical formula (F3, B2, S3, W3C, POP3, K3B). Nothing in the token tells them
+         apart, so they are listed here and excluded from CHEMICAL_FORMULAS_TYPOGRAPHY. -->
+    <!ENTITY non_formula "(?:[A-Z][0-9]{1,4}|2F[0-9]+|W3C|POP3|CC0|K3B|F2FS|WFPC2|CSS[0-9]+|CSV[0-9]+|OCFS[0-9]+|OSS[0-9]+|PKCS[0-9]+|PIN[0-9]+|PUK[0-9]+|USB[0-9]+|VP[0-9]+|FP[0-9]+|Pm[0-9]|Tm[0-9])">
+
     <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
     <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|ll?[aeo]s?|vos|che)">
     <!ENTITY pronomes_atonos "me|te|che|lle|nos|vos|lles|o|a|os|as|lo|la|los|las|mo|ma|mos|mas|cho|cha|chos|chas|llo|lla|llos|llas|nolo|nola|nolos|nolas|volo|vola|volos|volas|llelo|llela|llelos|llelas">
@@ -189,7 +194,7 @@
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
     <rule>
-      <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
+      <regexp case_sensitive='yes'>(?&lt;![\w%(.@-])(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Debe dar un espazo entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
     <!-- url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
       <example correction="25 °C">A temperatura é de <marker>25°C</marker>.</example>
@@ -213,6 +218,9 @@
       <example correction="2.000 kWh">Consumíronse <marker>2.000kWh</marker></example>
       <example>Os xuros son de 5 <marker>%</marker>.</example>
       <example>jbo:1901moi</example>
+      <example>Intervalo: <marker>%1h:%2m</marker></example>
+      <example>Media de carga (<marker>5m</marker>)</example>
+      <example>Correo <marker>nik@f0.am</marker> e ficheiro <marker>*.p7m</marker>.</example>
     </rule>
     <rule>
       <regexp>((\-)?[0-9]+[0-9.,]{1,10}) (°[^CFK])</regexp>
@@ -337,13 +345,17 @@
           <token>:</token>
           <token regexp="yes">[0-5][0-9]</token>
       </antipattern>
+      <!-- Widths and heights (352×240, 19×19) are written without spaces, and so are
+           scientific notation (1E+09) and formulas embedded in markup (=SUM(B4:C10)). -->
       <pattern>
         <marker>
-          <token regexp="yes">(?:[0-9]+[a-z]*)
+          <token spacebefore="yes" regexp="yes">(?:[0-9]+[a-z]*)
             <exception scope="previous" regexp="yes">escalas?</exception>
             <exception scope="previous" regexp="yes">\d\d\d\d-\d\d-\d\d</exception>
+            <exception regexp="yes">[0-9]+[Ee]</exception>
+            <exception scope="previous" regexp="yes">[;\(\[=]|.*[;\(\[=]</exception>
           </token>
-          <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
+          <token spacebefore="no" regexp="yes">[\*\+÷:=]</token>
           <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+
             <exception regexp="yes">\d\dh</exception></token>
         </marker>
@@ -352,8 +364,8 @@
       <message>Separe as fórmulas con espazos (protexidos).</message>
       <suggestion>\1 \2 \3</suggestion>
       <short>Separe as fórmulas con espazos</short>
-      <example correction="5 * 5"><marker>5*5</marker>.</example>
-      <example correction="3a = 2"><marker>3a=2</marker>.</example>
+      <example correction="5 * 5">O resultado de <marker>5*5</marker> é 25.</example>
+      <example correction="3a = 2">Temos que <marker>3a=2</marker>.</example>
       <example>a = 2 · x² + 5</example>
       <example>Un mapa na escala 1:80000.</example>
       <example>Teño unha reunión ás 7:00 h.</example>
@@ -361,6 +373,9 @@
       <example>Enviado a 2014-01-23 10:32 :</example>
       <example>4,5 × 2,5</example>
       <example>Entre as 9:00 e as 16:45.</example>
+      <example>Imaxe de <marker>352×240</marker> píxeles.</example>
+      <example>O prefixo exa é <marker>1E+18</marker>.</example>
+      <example>Escriba <marker>«=2+3»</marker> na cela.</example>
     </rule>
   </rulegroup>
 
@@ -439,8 +454,11 @@
     <!-- Created by Tiago F. Santos, 2017-03-28 -->
     <rule>
       <pattern>
-          <token>+</token>
+          <token regexp='yes'>[0-9]+(?:[.,][0-9]+)?</token>
+        <marker>
+          <token spacebefore='yes'>+</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
+        </marker>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
       <suggestion>±</suggestion>
@@ -449,8 +467,11 @@
     </rule>
     <rule>
       <pattern>
+          <token regexp='yes'>[0-9]+(?:[.,][0-9]+)?</token>
+        <marker>
           <token regexp='yes'>&hifen;</token>
           <token spacebefore='no'>+</token>
+        </marker>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
       <suggestion>±</suggestion>
@@ -462,13 +483,19 @@
   <rulegroup id="EQUAL_OR_X" name="Números: &gt;= (≥)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
     <rule>
-      <regexp>&gt;=</regexp>
+      <pattern>
+        <marker>
+          <token spacebefore="yes">&gt;</token>
+          <token spacebefore="no">=</token>
+        </marker>
+      </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
       <suggestion>≥</suggestion>
       <suggestion>≧</suggestion>
       <short>Prefire un carácter tipográfico?</short>
       <example>1 ≥ 1</example>
       <example correction="≥|≧">1 <marker>&gt;=</marker> 0</example>
+      <example>Escriba <marker>&lt;keycap&gt;=&lt;/keycap&gt;</marker> na cela.</example>
     </rule>
     <rule>
       <pattern>
@@ -489,11 +516,14 @@
 
   <rulegroup id="ARROWS" name="-&gt; (→)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
+    <!-- Arrow shaped operators in code and output (p->p*k, # -> certo) and the end of an
+         XML comment are not arrows; menu paths (Ficheiro -> Abrir) still are. -->
     <rule>
       <pattern>
           <token negate="yes">&lt;</token>
         <marker>
-          <token regexp="yes">(?:\-|=){1,2}</token>
+          <token regexp="yes">-{1,2}
+            <exception scope="previous" regexp="yes">(?:.|.*[\)\]:=#-])</exception></token>
           <token>&gt;</token>
         </marker>
       </pattern>
@@ -507,6 +537,9 @@
         <suggestion>≥</suggestion>
         <short>Pretende empregar unha frecha?</short>
       <example correction="→|⇾|⇉|⇒|⇨|⇛|≥"><marker>-&gt;</marker> Punto 1</example>
+      <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Vaia a Ficheiro <marker>-&gt;</marker> Abrir.</example>
+      <example>O resultado de <marker>p-&gt;p*k</marker> é o mesmo.</example>
+      <example>Comentario <marker>&lt;!-- TODO --&gt;</marker> no código.</example>
     </rule>
     <rule>
       <pattern>
@@ -923,7 +956,8 @@
     <!-- Created by Tiago F. Santos, 2017-09-01 -->
     <rule>
       <pattern case_sensitive='yes'>
-          <token>H0</token>
+          <token>H0
+            <exception scope="next">&gt;</exception></token>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₀</suggestion>
@@ -931,7 +965,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token>H1</token>
+          <token>H1
+            <exception scope="next">&gt;</exception></token>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₁</suggestion>
@@ -939,7 +974,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token>H2</token>
+          <token>H2
+            <exception scope="next">&gt;</exception></token>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₂</suggestion>
@@ -947,7 +983,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token>H3</token>
+          <token>H3
+            <exception scope="next">&gt;</exception></token>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₃</suggestion>
@@ -955,7 +992,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token>H4</token>
+          <token>H4
+            <exception scope="next">&gt;</exception></token>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₄</suggestion>
@@ -963,7 +1001,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token>H5</token>
+          <token>H5
+            <exception scope="next">&gt;</exception></token>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₅</suggestion>
@@ -971,7 +1010,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token>H6</token>
+          <token>H6
+            <exception scope="next">&gt;</exception></token>
       </pattern>
       <message>O símbolo tipográfico é máis claro.</message>
         <suggestion>H₆</suggestion>
@@ -1007,7 +1047,8 @@
     <!-- Created by Tiago F. Santos, 2017-02-12 -->
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)(?:&tabela_periodica;)+(?:[₁₂₃₄₅₆₇₈₉]+)((&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)(?:&tabela_periodica;)+(?:[₁₂₃₄₅₆₇₈₉]+)((&tabela_periodica;)+)?
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os multiplicadores deben ir separados.</message>
       <suggestion><match no='1' regexp_match='(\d+)((&tabela_periodica;)+)([₁₂₃₄₅₆₇₈₉₀]+)(((&tabela_periodica;)+)?)' regexp_replace='$1 $2$4$5'/></suggestion>
@@ -1017,18 +1058,23 @@
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]2</exception></token>
+            <exception regexp='yes'>I[CP]2</exception>
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
       <short>Empregue subíndices</short>
-      <example correction='O₂'><marker>O2</marker></example>
+      <example correction='H₂O'><marker>H2O</marker></example>
       <example correction='4H₂O'><marker>4H2O</marker></example>
+      <example>Prema <marker>F3</marker> para buscar.</example>
+      <example>Cela <marker>B2</marker> da folla de cálculo.</example>
+      <example>O estándar <marker>W3C</marker> e o protocolo <marker>POP3</marker>.</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]3</exception></token>
+            <exception regexp='yes'>I[CP]3</exception>
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
@@ -1038,7 +1084,8 @@
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+4((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]4</exception></token>
+            <exception regexp='yes'>I[CP]4</exception>
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
@@ -1048,7 +1095,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₂$6'/></suggestion>
@@ -1058,7 +1106,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₃$6'/></suggestion>
@@ -1067,7 +1116,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?2((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)2(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₂$6'/></suggestion>
@@ -1076,7 +1126,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3₃$6'/></suggestion>
@@ -1085,7 +1136,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?4((?:&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?4((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)4(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₄$6'/></suggestion>
@@ -1094,7 +1146,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?5((?:&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?5((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)5(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₅$6'/></suggestion>
@@ -1103,7 +1156,8 @@
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?6((?:&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?6((?:&tabela_periodica;)+)?
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)6(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₆$6'/></suggestion>
@@ -1114,7 +1168,8 @@
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+7((?:&tabela_periodica;)+)?
             <exception regexp='yes'>I[CP]7</exception>
-            <exception>V7</exception></token>
+            <exception>V7</exception>
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)7(((&tabela_periodica;)+)?)' regexp_replace='$1₇$3'/></suggestion>
@@ -1125,7 +1180,8 @@
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+8((?:&tabela_periodica;)+)?
             <exception regexp='yes'>I[CP]8</exception>
-            <exception>V8</exception></token>
+            <exception>V8</exception>
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)8(((&tabela_periodica;)+)?)' regexp_replace='$1₈$3'/></suggestion>
@@ -1136,7 +1192,8 @@
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+9((?:&tabela_periodica;)+)?
             <exception regexp='yes'>I[CP]9</exception>
-            <exception>V9</exception></token>
+            <exception>V9</exception>
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)9(((&tabela_periodica;)+)?)' regexp_replace='$1₉$3'/></suggestion>
@@ -1147,7 +1204,8 @@
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+0((?:&tabela_periodica;)+)?
-            <exception>V0</exception></token>
+            <exception>V0</exception>
+            <exception regexp='yes'>&non_formula;</exception></token>
       </pattern>
       <message>Nas fórmulas químicas os números deben estar en subíndice.</message>
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)0(((&tabela_periodica;)+)?)' regexp_replace='$1₀$3'/></suggestion>
@@ -1178,12 +1236,15 @@
       <pattern>
           <token regexp="yes">\d+</token>
         <marker>
-          <token regexp="yes">(?:&unidades_de_medida;)s</token>
+          <token regexp="yes">(?:&unidades_de_medida;)s
+            <exception regexp="yes">m{1,2}s</exception></token>
         </marker>
       </pattern>
       <message>As abreviaturas de unidades de medida estándar non teñen plural.</message>
         <suggestion><match no='2' regexp_match='(&unidades_de_medida;)s' regexp_replace='$1'/></suggestion>
       <example correction="kg">Son 2 <marker>kgs</marker> de mazás.</example>
+      <example>O intervalo é de <marker>500 ms</marker>.</example>
+      <example>O servidor é <marker>mms://exemplo.com</marker>.</example>
     </rule>
     </rulegroup>
 
@@ -1240,12 +1301,13 @@
     <rulegroup id='LOOSE_ACCENTS' name="Acentos soltos">
     <rule>
     <!-- Based on Catalan grammar.xml, by Tiago F. Santos on 11-02-2017 -->
-      <regexp>[`´]</regexp>
+      <regexp>´</regexp>
       <message>Carácter incorrecto. Utilice antes o apóstrofo ou revise a acentuación.</message>
         <suggestion>’</suggestion>
         <suggestion/>
       <short>Carácter incorrecto</short>
       <example correction="’|">Non e<marker>´</marker> común encontrar erros deste tipo.</example>
+      <example>O módulo de Python <marker>`pycodestyle`</marker> debe estar instalado.</example>
     </rule>
     </rulegroup>
 
@@ -1346,7 +1408,8 @@
 
     <!--     Typography rules from English grammar.xml      - START-->
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
-  <rulegroup id='TRADEMARK' name="Tipografia: Trademark - ™">
+  <rulegroup id='TRADEMARK' name="Tipografia: Trademark - ™" default='off'>
+    <!-- Plain text output often writes the trademark mark as (TM); that is not an error. -->
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>\p{Lu}.*</token>
@@ -1398,7 +1461,8 @@
         </marker>
       </antipattern>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>\p{Lu}.*</token>
+          <token regexp='yes'>\p{Lu}.*
+            <exception postag='V.*' postag_regexp='yes'/></token>
         <marker>
           <token>(</token>
           <token>R</token>
@@ -1731,13 +1795,15 @@
       </antipattern>
       <pattern>
         <marker>
-          <token>;</token>
+          <token>;
+            <exception scope="previous" regexp="yes">&amp;[a-zA-Z]+</exception></token>
           <token spacebefore="no" regexp="yes">“|»|«|"|”|‘|‹|›|'</token>
         </marker>
           <token spacebefore="yes"/>
       </pattern>
       <message>Xeralmente, non se coloca punto e vírgula antes de comiñas.</message>
       <example type="incorrect">«Non me incomode con súa leria infantil<marker>;»</marker> dixen Maria; «eu escribo versos inmortais.»</example>
+      <example>Garda o carácter <marker>&amp;»</marker> para usalo no texto.</example>
     </rule>
     </rulegroup>
 
@@ -2878,7 +2944,8 @@
 			</antipattern>
 			<pattern>
 				<token regexp="yes">[ndc]?un|[nd]?algún|ningún</token>
-				<token regexp="yes" postag="NCFS000">h?[aá].*</token>
+				<token regexp="yes" postag="NCFS000">h?[aá].*
+					<exception regexp="yes">apóstrofes?|abra|axuda|arranca|ata</exception></token>
 			</pattern>		
 			<message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)(.*)[úu]n" regexp_replace="$1unha" /> \2</suggestion>?</message>
 			<short>Posíbel erro de concordancia de xénero</short>
@@ -2898,7 +2965,8 @@
 			</antipattern>
 			<pattern>
 				<token regexp="yes">[nd]?o</token>
-				<token regexp="yes" postag="NCFS000">h?[aá].*</token>
+				<token regexp="yes" postag="NCFS000">h?[aá].*
+					<exception regexp="yes">apóstrofes?|abra|axuda|arranca|ata</exception></token>
 			</pattern>		
 			<message>Posíbel erro: os substantivos femininos que comezan por «a-» inicial tónico non implican modificacións no determinante que os precede. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)([ndc])?o" regexp_replace="$1a" /> \2</suggestion>?</message>
 			<short>Posíbel erro de concordancia de xénero</short>
@@ -2958,6 +3026,14 @@
   <rulegroup id="VEN_VEN" name="vén vs. ven">
     <rule name="vén + xerundio (vén brincando)">
     <!-- Created by Susana Sotelo Docío -->
+      <antipattern>
+          <token regexp="yes">se|non</token>
+          <token regexp="yes">ven|ves</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">ven|ves</token>
+          <token postag="VMN0000|VSN0000" postag_regexp="yes"/>
+      </antipattern>
       <pattern>
         <marker>
           <token regexp="yes">ven|ves</token>
@@ -3309,8 +3385,9 @@
       <example correction="gran">Resultou ser un <marker>grande</marker> curso.</example>
       <example>Resultou ser un <marker>gran</marker> curso.</example>
     </rule>
-    <rule name="gran">
+    <rule name="gran" default="off">
     <!-- Created by Susana Sotelo Docío, modified by Xosé Calvo -->
+    <!-- Apocope before a vowel-initial noun is common and correct (un gran esforzo). -->
       <pattern>
         <marker>
           <token>gran</token>
@@ -3341,7 +3418,8 @@
         <marker>
           <token>san</token>
         </marker>
-          <token regexp="yes">^[AEIOUÁÉÍÓÚH].*</token>
+          <token regexp="yes">^[AEIOUÁÉÍÓÚH].*
+            <exception regexp="yes">Ignacio|Antonio|Angelo</exception></token>
       </pattern>
       <message>O adxectivo «santo» non vai apocopado cando precede palabras que comezan por vogal. Non haberá que empregar <suggestion>santo</suggestion>?</message>
       <example correction="santo">Foi á romaría de <marker>san</marker> André.</example>
@@ -3367,11 +3445,15 @@
       <antipattern>
       	<token>santo</token><token postag="A.*|R.*|SP.*|V.*|_PUNCT" postag_regexp="yes" /> <!-- The problem with negating a postag for nouns is that many aren't tagged (see rule ToméTomásToribio) -->
       </antipattern>    
+      <antipattern>
+       	<token>santo</token><token regexp="yes">&lt;.*</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>santo</token>
         </marker>
-          <token regexp="yes" negate="yes">[AEIOUÁÉÍÓÚH].*</token>
+          <token regexp="yes" negate="yes">[AEIOUÁÉÍÓÚH].*
+            <exception regexp="yes">Domingo|Tomé</exception></token>
       </pattern>
       <message>O adxectivo «santo» vai apocopado cando precede palabras que comezan por consoante. Quería vostede dicir <suggestion>san</suggestion>?</message>
       <example correction="san">Foi á romaría de <marker>santo</marker> Rosendo.</example>
@@ -3889,7 +3971,8 @@
     <rule id="VELETA" name="veleta (catavento)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token regexp="yes">veletas?</token>
+          <token regexp="yes">veletas?
+            <exception case_sensitive="yes">Veleta</exception></token>
       </pattern>
       <message>Palabra incorrecta: a forma «\1» non existe en galego. Quería vostede dicir <suggestion>catavento</suggestion> (masculino)?</message>
       <example correction="catavento">Ten unha <marker>veleta</marker> no pincho da casa.</example>
@@ -3988,7 +4071,8 @@
     <rule id="RINCON" name="rincón (recuncho)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token regexp="yes">rincóns?</token>
+          <token regexp="yes">rincóns?
+            <exception case_sensitive="yes">Rincón</exception></token>
       </pattern>
       <message>Palabra incorrecta: a forma «\1» non existe en galego. Quería vostede dicir <suggestion>recuncho</suggestion> ou <suggestion>cornello</suggestion>?</message>
       <example correction="recuncho|cornello">Puxo ao neno nun <marker>rincón</marker>.</example>
@@ -4028,7 +4112,8 @@
     <rule id="CALAMAR" name="calamar (lura)">
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token regexp="yes">calamar(es)?</token>
+          <token regexp="yes">calamar(es)?
+            <exception case_sensitive="yes">Calamares</exception></token>
       </pattern>
       <message>Palabra incorrecta: a forma «<match no="1"/>» non existe en galego. Quería vostede dicir <suggestion><match no="1" regexp_match="calamare?(s)?$" regexp_replace="lura$1"/></suggestion> (feminino)?</message>
       <example correction="luras">Traían uns <marker>calamares</marker> do mercado.</example>
@@ -4473,12 +4558,14 @@
 
     <rule id="RECORD" name="record (marca)">
     <!-- Created by Susana Sotelo Docío -->
+    <!-- «Récord» is the Galician form, and «record» is also a register in computing. -->
       <pattern>
-          <token regexp="yes">r[eé]cords?
-            <exception scope="previous">the</exception></token>
+          <token regexp="yes">records?
+            <exception scope="previous" regexp="yes">the|Boot|un|nos|os|.*-</exception></token>
       </pattern>
       <message>A palabra «<match no="1"/>» é un anglicismo. Empregue mellor <suggestion>marca</suggestion> (feminino).</message>
       <example correction="marca">O atleta non conseguíu bater o <marker>record</marker>.</example>
+      <example>%1 non é un modo válido para «<marker>--record</marker>».</example>
       <example>O atleta non conseguíu bater a <marker>marca</marker>.</example>
     </rule>
  	</rulegroup>
@@ -4501,8 +4588,18 @@
 	<rulegroup id="FALSOS_HOMÓNIMOS" name="Falsos homónimos"> 
     <rule id="RACHA" name="racha (refacho)">
     <!-- Created by Susana Sotelo Docío -->
-      <pattern>
+      <antipattern>
           <token regexp="yes">rachas?</token>
+          <token regexp="yes">os|as|o|a|un|unha</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">rachas?</token>
+          <token>de</token>
+          <token regexp="yes">pantalla</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">rachas?
+            <exception scope="next" regexp="yes">-.*</exception></token>
       </pattern>
       <message>Unha racha é unha fenda ou ben un anaco de pedra ou madeira. A forma correcta para facer referencia a un golpe forte de vento é <suggestion>refacho</suggestion> (masculino).</message>
       <short>Posíbel confusión con homónima</short>
@@ -4834,7 +4931,8 @@
 	<rulegroup id="ACRONYMS_PLURAL" name="Siglas: Plural">
 		<rule>	
 			<pattern>
-				<token regexp="yes">(?:\p{Lu}{2,})s</token>
+				<token regexp="yes">(?:\p{Lu}{2,})s
+					<exception regexp="yes">(?:ID|UID|URL|URI|UUID|CRL|MDN|DPI|BTU|OCSP|PID|GID)s</exception></token>
 			</pattern>
 			<message>O plural dunha sigla só se marca no artigo ou nalgunha das palabras que a acompañan. Empregue <suggestion><match
 			no="1" regexp_match="(\p{Lu}*)s"
@@ -4842,7 +4940,8 @@
 			</message>
 			<url>https://www.usc.gal/gl/servizos/snl/asesoramento/fundamentos/criterios/abreviacion.html</url>
 			<short>As siglas non teñen forma de plural</short>
-			<example correction="DNI">Temos os <marker>DNIs</marker> caducados.</example> 	
+			<example correction="DNI">Temos os <marker>DNIs</marker> caducados.</example>
+			<example>Os <marker>UIDs</marker> e as <marker>URLs</marker> son identificadores.</example> 	
  		</rule>
 	</rulegroup>
 
@@ -5032,6 +5131,11 @@
           <token regexp='yes'>amig[ao]</token>
           <token>de</token>
       </antipattern>
+      <antipattern>
+          <token regexp='yes'>[Aa]sunto</token>
+          <token>moi</token>
+          <token>longo</token>
+      </antipattern>
       <pattern>
           <token negate_pos="yes" postag="SENT_START" regexp="yes">
             <exception/>\p{L}+</token>
@@ -5052,6 +5156,16 @@
           <token regexp='yes'>cara|día|face|lado|paso|pouco|terra</token>
           <token>a </token>
           <token><match no="0"/></token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>un(?:ha)?</token>
+          <token>a</token>
+          <token regexp='yes'>un(?:ha)?</token>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>[Aa]sunto</token>
+          <token>moi</token>
+          <token>longo</token>
       </antipattern>
       <pattern>
           <token negate_pos="yes" postag="SENT_START" regexp="yes">
