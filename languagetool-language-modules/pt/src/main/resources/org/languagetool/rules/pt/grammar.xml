@@ -23072,7 +23072,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <!-- Evitar tratamentos formais, como "Senhor Presidente". -->
                 <antipattern>
                     <token case_sensitive='yes'>Senhor</token>
-                    <token case_sensitive='yes'>Presidente</token>
+                    <token case_sensitive='yes' regexp='yes'>Presidente|Doutor</token>
+                    <example>bem dito o Senhor Presidente.</example>
+                    <example>No discurso, escreveu-se: «bem dito seja o Senhor Presidente».</example>
+                    <example>bem dito o Senhor Doutor.</example>
                 </antipattern>
 
                 <pattern>
@@ -23082,7 +23085,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     </marker>
                     <token min='0' regexp='yes'>seja|é</token>
                     <token min='0'>o</token>
-                    <token case_sensitive='yes' regexp='yes'>Deus|Jesus|Cristo|Senhor|Satanás</token>
+                    <token case_sensitive='yes' regexp='yes'>[Dd]eus|Jesus|Cristo|Senhor|[Ss]atanás</token>
                 </pattern>
                 <message>Em expressões de louvor ou bênção, utilize <suggestion>bendito</suggestion>.</message>
                 <suggestion>bendito</suggestion>
@@ -23093,8 +23096,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="bendito">Na oração, escreveu-se: «<marker>bem dito</marker> seja o Senhor».</example>
                 <example correction="bendito">O sacerdote afirmou: «<marker>bem dito</marker> é o Senhor».</example>
                 <example>O discurso foi bem dito pelo padre.</example>
-                <example>bem dito o Senhor Presidente.</example>
-                <example>No discurso, escreveu-se: «bem dito seja o Senhor Presidente».</example>
             </rule>
 
             <rule> <!-- #2: Santos com o título São. -->
