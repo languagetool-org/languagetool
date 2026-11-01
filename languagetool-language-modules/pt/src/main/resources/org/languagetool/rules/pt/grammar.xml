@@ -23053,10 +23053,136 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="deve">Acho que o meu pai ainda não <marker>dever</marker> ter chegado lá.</example>
             </rule>
         </rulegroup>
+
+
     </category>
 
 
     <category id='CONFUSED_WORDS' name="❓ Confusão de Palavras">
+
+
+        <rulegroup id='BEM_DITO_BENDITO_RELIGIOSO' name="❓ Bem dito/dita → bendito/bendita (invocações religiosas)">
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!-- Correção lexical e ortográfica em contextos de louvor ou bênção. -->
+            <!-- Inclui variantes de nomes religiosos em PT-PT e PT-BR. -->
+
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/bem-dizer-ou-bendizer/12909</url>
+
+            <rule> <!-- #1: Deus, Jesus, Cristo, Senhor e Satanás. -->
+                <!-- Evitar tratamentos formais, como "Senhor Presidente". -->
+                <antipattern>
+                    <token case_sensitive='yes'>Senhor</token>
+                    <token case_sensitive='yes'>Presidente</token>
+                </antipattern>
+
+                <pattern>
+                    <marker>
+                        <token>bem</token>
+                        <token regexp='yes'>dit[ao]</token>
+                    </marker>
+                    <token min='0' regexp='yes'>seja|é</token>
+                    <token min='0'>o</token>
+                    <token case_sensitive='yes' regexp='yes'>Deus|Jesus|Cristo|Senhor|Satanás</token>
+                </pattern>
+                <message>Em expressões de louvor ou bênção, utilize <suggestion>bendito</suggestion>.</message>
+                <suggestion>bendito</suggestion>
+                <example correction="bendito">És a vida, <marker>bem dito</marker> Deus.</example>
+                <example correction="bendito">Na oração, escreveu-se: «<marker>bem dito</marker> seja Deus».</example>
+                <example correction="bendito">O texto dizia: «<marker>bem dito</marker> Jesus».</example>
+                <example correction="bendito">Na sátira, lia-se: «<marker>bem dito</marker> Satanás».</example>
+                <example correction="bendito">Na oração, escreveu-se: «<marker>bem dito</marker> seja o Senhor».</example>
+                <example correction="bendito">O sacerdote afirmou: «<marker>bem dito</marker> é o Senhor».</example>
+                <example>O discurso foi bem dito pelo padre.</example>
+                <example>bem dito o Senhor Presidente.</example>
+                <example>No discurso, escreveu-se: «bem dito seja o Senhor Presidente».</example>
+            </rule>
+
+            <rule> <!-- #2: Santos com o título São. -->
+                <pattern>
+                    <marker>
+                        <token>bem</token>
+                        <token regexp='yes'>dit[ao]</token>
+                    </marker>
+                    <token min='0' regexp='yes'>seja|é</token>
+                    <token min='0'>o</token>
+                    <token case_sensitive='yes'>São</token>
+                    <token case_sensitive='yes' regexp='yes'>Pedro|Paulo|João|José|Francisco|Jorge|Bento|Vicente|Sebastião|Gonçalo|Tiago|Lucas|Marcos|Mateus|Tomé|Tomás|Nicolau|Valentim|Martinho</token>
+                </pattern>
+                <message>Em expressões de louvor ou bênção, utilize <suggestion>bendito</suggestion>.</message>
+                <suggestion>bendito</suggestion>
+                <example correction="bendito">A oração dizia: «<marker>bem dito</marker> São Pedro».</example>
+                <example correction="bendito">O devoto escreveu: «<marker>bem dito</marker> seja São João».</example>
+                <example correction="bendito">Na homenagem, lia-se: «<marker>bem dito</marker> São Francisco».</example>
+                <example correction="bendito">No texto religioso, escreveu-se: «<marker>bem dita</marker> São José».</example>
+                <example correction="bendito">Na homenagem, escreveu-se: «<marker>bem dito</marker> seja o São Pedro».</example>
+                <example>«Bem dito, Pedro!», comentou Ana.</example>
+                <example>O discurso foi bem dito por São Pedro.</example>
+            </rule>
+
+            <rule> <!-- #3: Santos com o título Santo. -->
+                <pattern>
+                    <marker>
+                        <token>bem</token>
+                        <token regexp='yes'>dit[ao]</token>
+                    </marker>
+                    <token min='0' regexp='yes'>seja|é</token>
+                    <token min='0'>o</token>
+                    <token case_sensitive='yes'>Santo</token>
+                    <token case_sensitive='yes' regexp='yes'>Ant[óô]nio|Agostinho|Inácio|Ambrósio|Estêvão|Estevão|Tomás</token>
+                </pattern>
+                <message>Em expressões de louvor ou bênção, utilize <suggestion>bendito</suggestion>.</message>
+                <suggestion>bendito</suggestion>
+                <example correction="bendito">Em Portugal, escreveu-se: «<marker>bem dito</marker> Santo António».</example>
+                <example correction="bendito">No Brasil, escreveu-se: «<marker>bem dito</marker> Santo Antônio».</example>
+                <example correction="bendito">Na oração, lia-se: «<marker>bem dito</marker> seja Santo Agostinho».</example>
+                <example correction="bendito">Na homenagem, escreveu-se: «<marker>bem dito</marker> seja o Santo António».</example>
+                <example>O nome de Santo António foi bem dito.</example>
+            </rule>
+
+            <rule> <!-- #4: Santas, incluindo variantes de PT-PT e PT-BR. -->
+                <pattern>
+                    <marker>
+                        <token>bem</token>
+                        <token regexp='yes'>dit[ao]</token>
+                    </marker>
+                    <token min='0' regexp='yes'>seja|é</token>
+                    <token min='0'>a</token>
+                    <token case_sensitive='yes'>Santa</token>
+                    <token case_sensitive='yes' regexp='yes'>Maria|Ana|Rita|Teresa|Tere[sz]inha|Clara|Isabel|Catarina|Luzia|Bárbara|Cecília|Inês|Joana|M[óô]nica|Apol[óô]nia|Paulina|Dulce|Filomena|Edwiges|Águeda</token>
+                </pattern>
+                <message>Em expressões de louvor ou bênção, utilize <suggestion>bendita</suggestion>.</message>
+                <suggestion>bendita</suggestion>
+                <example correction="bendita">Na oração, lia-se: «<marker>bem dita</marker> Santa Maria».</example>
+                <example correction="bendita">A devota escreveu: «<marker>bem dito</marker> Santa Ana».</example>
+                <example correction="bendita">Na homenagem, escreveu-se: «<marker>bem dita</marker> Santa Rita de Cássia».</example>
+                <example correction="bendita">Em Portugal, escreveu-se: «<marker>bem dita</marker> Santa Mónica».</example>
+                <example correction="bendita">No Brasil, escreveu-se: «<marker>bem dita</marker> Santa Mônica».</example>
+                <example correction="bendita">A oração dizia: «<marker>bem dita</marker> Santa Teresinha».</example>
+                <example correction="bendita">No Brasil, escreveu-se: «<marker>bem dita</marker> Santa Terezinha».</example>
+                <example correction="bendita">Na homenagem, escreveu-se: «<marker>bem dita</marker> seja a Santa Rita de Cássia».</example>
+                <example>O elogio a Santa Rita foi bem dito.</example>
+            </rule>
+
+            <rule> <!-- #5: Invocação mariana: Nossa Senhora. -->
+                <pattern>
+                    <marker>
+                        <token>bem</token>
+                        <token regexp='yes'>dit[ao]</token>
+                    </marker>
+                    <token min='0' regexp='yes'>seja|é</token>
+                    <token min='0'>a</token>
+                    <token case_sensitive='yes'>Nossa</token>
+                    <token case_sensitive='yes'>Senhora</token>
+                </pattern>
+                <message>Em expressões de louvor ou bênção, utilize <suggestion>bendita</suggestion>.</message>
+                <suggestion>bendita</suggestion>
+                <example correction="bendita">Na oração, repetiu-se: «<marker>bem dita</marker> Nossa Senhora».</example>
+                <example correction="bendita">Na invocação, escreveu-se: «<marker>bem dito</marker> seja Nossa Senhora».</example>
+                <example correction="bendita">Na oração, escreveu-se: «<marker>bem dita</marker> seja a Nossa Senhora».</example>
+                <example correction="bendita">O devoto afirmou: «<marker>bem dito</marker> é a Nossa Senhora».</example>
+                <example>O nome de Nossa Senhora foi bem dito.</example>
+            </rule>
+        </rulegroup>
 
 
         <rulegroup id="CONFUSÃO_VESTIR_CALÇAR" name="❓ vestir/calçar">
