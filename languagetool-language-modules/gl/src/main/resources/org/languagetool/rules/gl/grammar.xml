@@ -521,17 +521,40 @@
 
   <rulegroup id="ARROWS" name="-&gt; (→)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
-    <!-- Arrow shaped operators in code and output (p->p*k, P->campo, # -> certo) and the
-         end of an XML comment are not arrows; menu paths (Ficheiro -> Abrir) and text
-         arrows (A -> B) still are. -->
+    <!-- A hyphen glued to a preceding word is code (p->p*k, P->campo), and output such as
+         # -> certo or the end of an XML comment is not a text arrow. Menu paths
+         (Ficheiro ->Abrir) and text arrows (A -> B) are. -->
     <rule>
       <pattern case_sensitive="yes">
           <token negate="yes">&lt;</token>
         <marker>
-          <token regexp="yes">-{1,2}
-            <exception scope="previous" regexp="yes">(?:[a-z!#]|.*[\)\]:=#-])</exception></token>
-          <token>&gt;
-            <exception scope="next" spacebefore="no" regexp="yes">.*</exception></token>
+          <token regexp="yes" spacebefore="yes">-{1,2}
+            <exception scope="previous" regexp="yes">.*[\)\]:=#!-]</exception></token>
+          <token>&gt;</token>
+        </marker>
+      </pattern>
+      <message>As frechas tipográficas acrecentan a claridade dun texto.</message>
+        <suggestion>→</suggestion>
+        <suggestion>⇾</suggestion>
+        <suggestion>⇉</suggestion>
+        <suggestion>⇒</suggestion>
+        <suggestion>⇨</suggestion>
+        <suggestion>⇛</suggestion>
+        <suggestion>≥</suggestion>
+        <short>Pretende empregar unha frecha?</short>
+      <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Vaia a Ficheiro <marker>-&gt;</marker> Abrir.</example>
+      <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Vaia a Ficheiro <marker>-&gt;</marker>Abrir.</example>
+      <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Pase de A <marker>-&gt;</marker> B.</example>
+      <example>O resultado de <marker>p-&gt;p*k</marker> é o mesmo.</example>
+      <example>O campo <marker>P-&gt;campo</marker> é o mesmo.</example>
+      <example>Comentario <marker>&lt;!-- TODO --&gt;</marker> no código.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes">
+        <token postag="SENT_START"/>
+        <marker>
+          <token regexp="yes">-{1,2}</token>
+          <token>&gt;</token>
         </marker>
       </pattern>
       <message>As frechas tipográficas acrecentan a claridade dun texto.</message>
@@ -544,11 +567,7 @@
         <suggestion>≥</suggestion>
         <short>Pretende empregar unha frecha?</short>
       <example correction="→|⇾|⇉|⇒|⇨|⇛|≥"><marker>-&gt;</marker> Punto 1</example>
-      <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Vaia a Ficheiro <marker>-&gt;</marker> Abrir.</example>
-      <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Pase de A <marker>-&gt;</marker> B.</example>
-      <example>O resultado de <marker>p-&gt;p*k</marker> é o mesmo.</example>
-      <example>O campo <marker>P-&gt;campo</marker> é o mesmo.</example>
-      <example>Comentario <marker>&lt;!-- TODO --&gt;</marker> no código.</example>
+      <example>→ Punto 1</example>
     </rule>
     <rule>
       <pattern>
