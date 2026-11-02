@@ -525,6 +525,18 @@
          # -> certo or the end of an XML comment is not a text arrow. Menu paths
          (Ficheiro ->Abrir) and text arrows (A -> B) are. -->
     <rule>
+      <!-- shortcut: a comment body with a hyphen, or with more than 20 tokens, is
+           still reported; revisit if such comments show up in real text. -->
+      <antipattern>
+        <token>&lt;</token>
+        <token>!</token>
+        <token>-</token>
+        <token>-</token>
+        <token regexp="yes" min="0" max="20">[^-].*</token>
+        <token>-</token>
+        <token>-</token>
+        <token>&gt;</token>
+      </antipattern>
       <pattern case_sensitive="yes">
           <token negate="yes">&lt;</token>
         <marker>
@@ -549,7 +561,7 @@
       <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Pase de A <marker>--&gt;</marker> B.</example>
       <example>O resultado de <marker>p-&gt;p*k</marker> é o mesmo.</example>
       <example>O campo <marker>P-&gt;campo</marker> é o mesmo.</example>
-      <example>Comentario <marker>&lt;!-- TODO --&gt;</marker> no código.</example>
+      <example>Comentario &lt;!-- TODO --&gt; no código.</example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
