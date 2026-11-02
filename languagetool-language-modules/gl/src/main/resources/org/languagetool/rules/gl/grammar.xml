@@ -67,10 +67,11 @@
     <!ENTITY unidades_de_medida_por_extenso "(?:quil[oó]|dec[ií]|cent[ií]|mil[ií]|micr[oó])?(grama|metro|litro|segundo)s?|hectár(eas)?|(grau|(quilo)?tonelada)s?">
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
 	
-    <!-- Product names, version numbers, keyboard keys and spreadsheet cells are often shaped
-         like a chemical formula (F3, B2, S3, W3C, POP3, K3B). Nothing in the token tells them
-         apart, so they are listed here and excluded from CHEMICAL_FORMULAS_TYPOGRAPHY. -->
-    <!ENTITY non_formula "(?:[A-Z][0-9]{1,4}|2F[0-9]+|W3C|POP3|CC0|K3B|F2FS|WFPC2|CSS[0-9]+|CSV[0-9]+|OCFS[0-9]+|OSS[0-9]+|PKCS[0-9]+|PIN[0-9]+|PUK[0-9]+|USB[0-9]+|VP[0-9]+|FP[0-9]+|Pm[0-9]|Tm[0-9])">
+    <!-- Product names, version numbers, keyboard keys, paper sizes and spreadsheet cells
+         are often shaped like a chemical formula (F3, B2, S3, W3C, POP3, K3B). Letters
+         whose single-element formulas are common as text (O2, N2) stay out of this list; H
+         stays in it because of HTML headings and comet or camera identifiers. -->
+    <!ENTITY non_formula "(?:[ABCFHPSV][0-9]{1,4}|2F[0-9]+|W3C|POP3|CC0|K3B|F2FS|WFPC2|CSS[0-9]+|CSV[0-9]+|OCFS[0-9]+|OSS[0-9]+|PKCS[0-9]+|PIN[0-9]+|PUK[0-9]+|USB[0-9]+|VP[0-9]+|FP[0-9]+|Pm[0-9]|Tm[0-9])">
 
     <!ENTITY pronomes_ambiguos "(?:[ao]s?|mas|nos|se)">
     <!ENTITY pronomes_nao_ambiguos "(?:m(?:a|e|os?)|t(?:a|e|o)s?|ll?[aeo]s?|vos|che)">
@@ -194,11 +195,12 @@
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
     <rule>
-      <regexp case_sensitive='yes'>(?&lt;![\w%(.@-])(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
+      <regexp case_sensitive='yes'>(?:(?&lt;![\w%(.@-])|(?&lt;=\()(?=-))(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Debe dar un espazo entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
     <!-- url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
       <example correction="25 °C">A temperatura é de <marker>25°C</marker>.</example>
       <example correction="-25 °C">A temperatura é de <marker>-25°C</marker>.</example>
+      <example correction="-25 °C">A variación é de (<marker>-25°C</marker>).</example>
       <example correction="25,5 °F">A temperatura é de <marker>25,5°F</marker>.</example>
       <example>A temperatura é de <marker>25,5 °C</marker>.</example>
       <example>A temperatura é de <marker>25,5 °Ra</marker>.</example>
@@ -517,13 +519,14 @@
   <rulegroup id="ARROWS" name="-&gt; (→)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
     <!-- Arrow shaped operators in code and output (p->p*k, # -> certo) and the end of an
-         XML comment are not arrows; menu paths (Ficheiro -> Abrir) still are. -->
+         XML comment are not arrows; menu paths (Ficheiro -> Abrir) and text arrows
+         (A -> B) still are. -->
     <rule>
-      <pattern>
+      <pattern case_sensitive="yes">
           <token negate="yes">&lt;</token>
         <marker>
           <token regexp="yes">-{1,2}
-            <exception scope="previous" regexp="yes">(?:.|.*[\)\]:=#-])</exception></token>
+            <exception scope="previous" regexp="yes">(?:[a-z!#]|.*[\)\]:=#-])</exception></token>
           <token>&gt;</token>
         </marker>
       </pattern>
@@ -538,6 +541,7 @@
         <short>Pretende empregar unha frecha?</short>
       <example correction="→|⇾|⇉|⇒|⇨|⇛|≥"><marker>-&gt;</marker> Punto 1</example>
       <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Vaia a Ficheiro <marker>-&gt;</marker> Abrir.</example>
+      <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Pase de A <marker>-&gt;</marker> B.</example>
       <example>O resultado de <marker>p-&gt;p*k</marker> é o mesmo.</example>
       <example>Comentario <marker>&lt;!-- TODO --&gt;</marker> no código.</example>
     </rule>
@@ -1065,6 +1069,8 @@
       <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
       <short>Empregue subíndices</short>
       <example correction='H₂O'><marker>H2O</marker></example>
+      <example correction='O₂'><marker>O2</marker></example>
+      <example correction='N₂'><marker>N2</marker></example>
       <example correction='4H₂O'><marker>4H2O</marker></example>
       <example>Prema <marker>F3</marker> para buscar.</example>
       <example>Cela <marker>B2</marker> da folla de cálculo.</example>
