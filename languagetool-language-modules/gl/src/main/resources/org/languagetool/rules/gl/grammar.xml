@@ -673,6 +673,7 @@
       <antipattern><!-- XXX Command line options -->
           <token regexp="yes">&hifen;</token>
           <token spacebefore="no" regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\w+</token>
       </antipattern>
       <antipattern><!-- XXX Negative numbers at the start of a sentence -->
           <token postag="SENT_START"/>
@@ -707,6 +708,7 @@
       <example>«-1» é negativo.</example>
       <example>«--lang» está obsoleto.</example>
       <example correction='—'><marker>-</marker>Si, grazas.</example>
+      <example correction='—'><marker>-</marker>- Si, grazas.</example>
     </rule>
     <rule>
       <antipattern>
@@ -861,6 +863,7 @@
       <antipattern><!-- XXX Command line options -->
           <token regexp="yes">&hifen;</token>
           <token spacebefore="no" regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\w+</token>
       </antipattern>
       <antipattern><!-- XXX Negative numbers at the start of a sentence -->
           <token postag="SENT_START"/>
@@ -1659,7 +1662,7 @@
           <token regexp="yes">versi[óo]n(?:es)?</token>
           <token min="0" max="3"/>
           <token regexp="yes">superior|posterior|anterior|inferior|igual|recente|nova|actual|m[aá]is</token>
-          <token regexp='yes'>ás?|das?</token>
+          <token regexp='yes'>á|das?</token>
           <token regexp="yes">[012]?\d[,\.][012345]\d</token>
       </antipattern>
       <pattern>
@@ -1926,8 +1929,8 @@
       </antipattern>
       <antipattern><!-- XXX Entity names split at hyphens and periods, like &amp;kde-apps; -->
           <token regexp="yes">&amp;\w+</token>
-          <token min="1" max="20" regexp="yes">[-.]|\w+</token>
-          <token>;</token>
+          <token min="1" max="20" regexp="yes" spacebefore="no">[-.]|\w+</token>
+          <token spacebefore="no">;</token>
       </antipattern>
       <antipattern>
           <token>;</token>
