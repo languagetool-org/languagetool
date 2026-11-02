@@ -1739,7 +1739,7 @@
         </marker>
           <token spacebefore='no'>
             <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-]</exception>
-            <exception regexp="yes">[&lt;>&amp;]</exception>
+            <exception regexp="yes">[&lt;>&amp;].*</exception>
             <exception postag='SENT_END'/></token>
       </pattern>
       <message>Coloque un espazo despois dos puntos suspensivos</message>
@@ -1748,6 +1748,7 @@
       <example correction='… '><marker>...</marker>e os votos de Bo Aninovo.</example>
       <example>Peque aquí o seu texto<marker>...</marker></example>
       <example>Prema o botón &lt;interface&gt;Engadir...&lt;/interface&gt; embaixo.</example>
+      <example>Prema o botón &lt;interface&gt;Engadir...&amp;kde;&lt;/interface&gt; embaixo.</example>
     </rule>
     <rule>
       <pattern>
@@ -1757,7 +1758,7 @@
         </marker>
           <token spacebefore='no'>
             <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-&quot;“]</exception>
-            <exception regexp="yes">[&lt;>&amp;]</exception>
+            <exception regexp="yes">[&lt;>&amp;].*</exception>
             <exception postag='SENT_END'/></token>
       </pattern>
       <message>Coloque un espazo despois dos puntos suspensivos</message>
@@ -1767,6 +1768,7 @@
       <example>Pegue aquí o seu texto<marker>…</marker></example>
       <example>Alén diso<marker>…</marker> </example>
       <example>Prema o botón &lt;interface&gt;Engadir…&lt;/interface&gt; embaixo.</example>
+      <example>Prema o botón &lt;interface&gt;Engadir…&amp;kde;&lt;/interface&gt; embaixo.</example>
     </rule>
   </rulegroup>
 
@@ -1836,7 +1838,7 @@
         <marker>
           <token regexp="yes">„|“|«|"|\(</token>
           <token spacebefore="yes">
-            <exception regexp="yes">[&lt;>&amp;]</exception></token>
+            <exception regexp="yes">[&lt;>&amp;].*</exception></token>
         </marker>
       </pattern>
       <message>Espazamento incorrecto.</message>
@@ -1846,6 +1848,7 @@
       <example correction="«é">«O xardín», dixo ela, <marker>« é</marker> verdadeiramente bonito.»</example>
       <example>A galiña di «Quiquiriquiqui» o porco di «Oinc, Oinc», o pato di «Cuá, Cuá» e o gato «Miau».</example>
       <example>Vexa <marker>(</marker> &lt;link linkend="glosario"&gt;glosario&lt;/link&gt;).</example>
+      <example>Nota: ( &amp;kde; e &amp;kmymoney;).</example>
       <example>p, li { white-space: pre-wrap; }</example>
     </rule>
     <rule>
