@@ -195,12 +195,15 @@
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
     <rule>
-      <regexp case_sensitive='yes'>(?:(?&lt;![\w%(.@-])|(?&lt;=\()(?=-))(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
+      <!-- A value glued to an opening parenthesis is still a value, except for the bare
+           millisecond or minute unit of machine output such as a load average (5m). -->
+      <regexp case_sensitive='yes'>(?:(?&lt;![\w%(.@-])|(?&lt;=\()(?![0-9]+[0-9,.]*m\b))(\-?[0-9]+[0-9,\.]{0,10}(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Debe dar un espazo entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
     <!-- url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
       <example correction="25 °C">A temperatura é de <marker>25°C</marker>.</example>
       <example correction="-25 °C">A temperatura é de <marker>-25°C</marker>.</example>
       <example correction="-25 °C">A variación é de (<marker>-25°C</marker>).</example>
+      <example correction="25 °C">A variación é de (<marker>25°C</marker>).</example>
       <example correction="25,5 °F">A temperatura é de <marker>25,5°F</marker>.</example>
       <example>A temperatura é de <marker>25,5 °C</marker>.</example>
       <example>A temperatura é de <marker>25,5 °Ra</marker>.</example>
@@ -518,16 +521,17 @@
 
   <rulegroup id="ARROWS" name="-&gt; (→)">
     <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
-    <!-- Arrow shaped operators in code and output (p->p*k, # -> certo) and the end of an
-         XML comment are not arrows; menu paths (Ficheiro -> Abrir) and text arrows
-         (A -> B) still are. -->
+    <!-- Arrow shaped operators in code and output (p->p*k, P->campo, # -> certo) and the
+         end of an XML comment are not arrows; menu paths (Ficheiro -> Abrir) and text
+         arrows (A -> B) still are. -->
     <rule>
       <pattern case_sensitive="yes">
           <token negate="yes">&lt;</token>
         <marker>
           <token regexp="yes">-{1,2}
             <exception scope="previous" regexp="yes">(?:[a-z!#]|.*[\)\]:=#-])</exception></token>
-          <token>&gt;</token>
+          <token>&gt;
+            <exception scope="next" spacebefore="no" regexp="yes">.*</exception></token>
         </marker>
       </pattern>
       <message>As frechas tipográficas acrecentan a claridade dun texto.</message>
@@ -543,6 +547,7 @@
       <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Vaia a Ficheiro <marker>-&gt;</marker> Abrir.</example>
       <example correction="→|⇾|⇉|⇒|⇨|⇛|≥">Pase de A <marker>-&gt;</marker> B.</example>
       <example>O resultado de <marker>p-&gt;p*k</marker> é o mesmo.</example>
+      <example>O campo <marker>P-&gt;campo</marker> é o mesmo.</example>
       <example>Comentario <marker>&lt;!-- TODO --&gt;</marker> no código.</example>
     </rule>
     <rule>
