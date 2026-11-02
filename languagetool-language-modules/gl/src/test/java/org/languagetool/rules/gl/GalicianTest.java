@@ -19,11 +19,14 @@
 package org.languagetool.rules.gl;
 
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Galician;
 
 import java.io.IOException;
 import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 public class GalicianTest extends LanguageSpecificTest {
   
@@ -36,5 +39,16 @@ public class GalicianTest extends LanguageSpecificTest {
       Arrays.asList("IR_A_INF", "WORD_REPETITION", "WHITESPACE_RULE")
     );
     runTests(lang);
+  }
+
+  @Test
+  public void testArrowsAndXmlComments() throws IOException {
+    JLanguageTool lt = new JLanguageTool(new Galician());
+    assertEquals(0, arrowMatches(lt, "Comentario <!-- TODO --> no código."));
+    assertEquals(1, arrowMatches(lt, "Pase de A --> B."));
+  }
+
+  private int arrowMatches(JLanguageTool lt, String text) throws IOException {
+    return (int) lt.check(text).stream().filter(match -> match.getRule().getId().equals("ARROWS")).count();
   }
 }
