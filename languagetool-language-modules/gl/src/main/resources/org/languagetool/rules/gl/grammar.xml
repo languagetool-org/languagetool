@@ -692,7 +692,7 @@
           <token postag='SENT_START'/>
           <token min='0' regexp='yes'>["'«»“”]</token>
         <marker>
-          <token regexp='yes'>-|–</token>
+          <token regexp='yes' min='1' max='2'>-|–</token>
         </marker>
       </pattern>
       <message>En diálogos e enumeracións debe utilizar trazo longo.</message>
@@ -708,7 +708,7 @@
       <example>«-1» é negativo.</example>
       <example>«--lang» está obsoleto.</example>
       <example correction='—'><marker>-</marker>Si, grazas.</example>
-      <example correction='—'><marker>-</marker>- Si, grazas.</example>
+      <example correction='—'><marker>--</marker> Si, grazas.</example>
     </rule>
     <rule>
       <antipattern>
@@ -881,7 +881,7 @@
           <token postag="SENT_START"/>
           <marker>
             <token regexp="yes">[–‒—]|&hifen;</token>
-            <token spacebefore="no"/>
+            <token spacebefore="no"><exception regexp="yes">&hifen;</exception></token>
           </marker>
       </pattern>
       <message>En diálogos, debe dar espazo despois do trazo longo.</message>
@@ -897,6 +897,7 @@
       <example>«-1» é negativo.</example>
       <example>--add é incompatíbel con --strip-old-alarms.</example>
       <example correction="— Si"><marker>-Si</marker>, grazas.</example>
+      <example>-- Si, grazas.</example>
     </rule>
     </rulegroup>
 
