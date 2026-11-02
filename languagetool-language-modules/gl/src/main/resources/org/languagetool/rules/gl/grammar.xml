@@ -670,14 +670,21 @@
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>&hifen;</token>
       </antipattern>
-      <antipattern><!-- XXX Negative numbers and command line options -->
+      <antipattern><!-- XXX Command line options -->
           <token regexp="yes">&hifen;</token>
-          <token spacebefore="no" regexp="yes">&hifen;|\d.*</token>
+          <token spacebefore="no" regexp="yes">&hifen;</token>
       </antipattern>
-      <antipattern><!-- XXX Option lists such as «-v» followed by «,» -->
+      <antipattern><!-- XXX Negative numbers at the start of a sentence -->
+          <token postag="SENT_START"/>
+          <token min="0" max="1" regexp="yes">["'«»“”]</token>
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\d.*</token>
+      </antipattern>
+      <antipattern><!-- XXX Option lists such as «-v» followed by another option -->
           <token regexp="yes">&hifen;</token>
           <token spacebefore="no" regexp="yes">\w+</token>
           <token spacebefore="no">,</token>
+          <token regexp="yes">&hifen;</token>
       </antipattern>
     <rule>
       <pattern>
@@ -697,7 +704,9 @@
       <example>2560-657 TORRES VEDRAS</example>
       <example>---------------------------------------</example>
       <example>-1 para o comezo.</example>
+      <example>«-1» é negativo.</example>
       <example>«--lang» está obsoleto.</example>
+      <example correction='—'><marker>-</marker>Si, grazas.</example>
     </rule>
     <rule>
       <antipattern>
@@ -778,6 +787,7 @@
         <suggestion>\1–\3</suggestion>
       <short>En intervalos numéricos/temporais, debe utilizar o medio-trazo</short>
       <example correction='1812 – 1888|1812–1888'>Antonio Casares Rodríguez (<marker>1812 - 1888</marker>) — primeiro catedrático de Química da USC.</example>
+      <example correction='1812 – 1888|1812–1888'>O período <marker>1812-1888</marker> está documentado.</example>
   <!--example correction='10 – 20%|10–20%'><marker>10-20%</marker></example--> <!-- XXX add half dash to tokenizer split characters and uncomment -->
       <example>1466–1469 — Gran Guerra Irmandiña</example>
       <example>2560-657 TORRES VEDRAS</example>
@@ -848,14 +858,21 @@
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>&hifen;</token>
       </antipattern>
-      <antipattern><!-- XXX Negative numbers and command line options -->
+      <antipattern><!-- XXX Command line options -->
           <token regexp="yes">&hifen;</token>
-          <token spacebefore="no" regexp="yes">&hifen;|\d.*</token>
+          <token spacebefore="no" regexp="yes">&hifen;</token>
       </antipattern>
-      <antipattern><!-- XXX Option lists such as «-v» followed by «,» -->
+      <antipattern><!-- XXX Negative numbers at the start of a sentence -->
+          <token postag="SENT_START"/>
+          <token min="0" max="1" regexp="yes">["'«»“”]</token>
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\d.*</token>
+      </antipattern>
+      <antipattern><!-- XXX Option lists such as «-v» followed by another option -->
           <token regexp="yes">&hifen;</token>
           <token spacebefore="no" regexp="yes">\w+</token>
           <token spacebefore="no">,</token>
+          <token regexp="yes">&hifen;</token>
       </antipattern>
       <pattern>
           <token postag="SENT_START"/>
@@ -874,7 +891,9 @@
       <example>— Rastrear</example>
       <example>---------------------------------------</example>
       <example>-1 para o comezo.</example>
+      <example>«-1» é negativo.</example>
       <example>--add é incompatíbel con --strip-old-alarms.</example>
+      <example correction="— Si"><marker>-Si</marker>, grazas.</example>
     </rule>
     </rulegroup>
 
@@ -1638,7 +1657,8 @@
     <rule>
       <antipattern><!-- XXX Version numbers, e.g. «unha versión superior á 5.10» -->
           <token regexp="yes">versi[óo]n(?:es)?</token>
-          <token skip="5"/>
+          <token min="0" max="3"/>
+          <token regexp="yes">superior|posterior|anterior|inferior|igual|recente|nova|actual|m[aá]is</token>
           <token regexp='yes'>ás?|das?</token>
           <token regexp="yes">[012]?\d[,\.][012345]\d</token>
       </antipattern>
@@ -1653,6 +1673,7 @@
       <example correction="Da 01:00"><marker>Da 01.00</marker> a as… </example>
       <example correction="ás 10:50">Das 10:00 <marker>ás 10.50</marker>.</example>
       <example>Instala unha versión superior á 5.10.</example>
+      <example correction="ás 10:00">A versión estará dispoñible <marker>ás 10.00</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -1903,6 +1924,11 @@
           <token regexp="yes">&amp;[\w.-]+</token>
           <token>;</token>
       </antipattern>
+      <antipattern><!-- XXX Entity names split at hyphens and periods, like &amp;kde-apps; -->
+          <token regexp="yes">&amp;\w+</token>
+          <token min="1" max="20" regexp="yes">[-.]|\w+</token>
+          <token>;</token>
+      </antipattern>
       <antipattern>
           <token>;</token>
           <token regexp="yes">“|»|«|"|”</token>
@@ -1931,6 +1957,7 @@
       <example correction=": «">El dixo<marker>:«</marker>O xardín é verdadeiramente bonito.»</example>
       <example>A cea estará lista ás 18:30.</example>
       <example>O &amp;kde; e o &amp;kmymoney;, os dous.</example>
+      <example>O &amp;kde-apps;, o &amp;kde;, os dous.</example>
     </rule>
     </rulegroup>
 
