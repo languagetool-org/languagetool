@@ -965,8 +965,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag="A...P.+|Z.+" postag_regexp="yes"/>
         <token>alertas</token>
       </antipattern>
-      <!-- "alertas" como substantivo: seguido de complemento nominal ou de verbo no plural -->
+      <!-- "alertas" como substantivo: seguido de complemento nominal ou de verbo no plural
+           (mas não depois de verbo de ligação: "ficaram alertas sobre o perigo" continua sendo erro) -->
       <antipattern>
+        <token><exception inflected="yes" regexp="yes">ficar|estar|permanecer|manter|continuar|andar</exception></token>
         <token>alertas</token>
         <token regexp="yes">de|do|da|dos|das|sobre</token>
       </antipattern>
@@ -985,8 +987,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         Substitua &quot;alertas&quot; por <suggestion>alerta</suggestion>.</message>
       <example correction="alerta">O comandante nos disse que ficássemos <marker>alertas</marker>.</example>
       <example correction="alerta">Os seguranças permaneceram <marker>alertas</marker> durante a noite.</example>
+      <example correction="alerta">Todos ficaram <marker>alertas</marker> sobre o perigo.</example>
       <example>Novos alertas representam problemas reais.</example>
       <example>Recebi alertas de segurança no celular.</example>
+      <example>Esses são alertas de segurança importantes.</example>
       <example>Três alertas foram emitidos ontem.</example>
     </rule>
 
