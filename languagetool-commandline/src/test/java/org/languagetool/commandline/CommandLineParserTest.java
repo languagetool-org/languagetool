@@ -19,6 +19,7 @@
 package org.languagetool.commandline;
 
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 
 import static org.junit.Assert.*;
 
@@ -43,6 +44,13 @@ public class CommandLineParserTest {
       parser.parseOptions(new String[]{"--apply", "--taggeronly"});
       fail();
     } catch (IllegalArgumentException ignored) {}
+
+    try {
+      parser.parseOptions(new String[]{"--level"});
+      fail();
+    } catch (IllegalArgumentException e) {
+      assertEquals("Missing argument to --level command line option.", e.getMessage());
+    }
   }
 
   @Test
@@ -75,6 +83,38 @@ public class CommandLineParserTest {
 
     options = parser.parseOptions(new String[]{"--list"});
     assertTrue(options.isPrintLanguages());
+  }
+
+  @Test
+  public void testLongOptionList() throws Exception {
+    CommandLineParser parser = new CommandLineParser();
+    CommandLineOptions options = parser.parseOptions(new String[]{
+            "--language", "xx",
+            "--mothertongue", "xx",
+            "--encoding", "utf-8",
+            "--disable", "RULE_ONE,RULE_TWO",
+            "--enable", "RULE_THREE",
+            "--enablecategories", "CAT_ONE",
+            "--disablecategories", "CAT_TWO",
+            "--line-by-line",
+            "--enable-temp-off",
+            "--clean-overlapping",
+            "--level", "PICKY",
+            "filename.txt"
+    });
+
+    assertEquals("xx", options.getLanguage().getShortCode());
+    assertEquals("xx", options.getMotherTongue().getShortCode());
+    assertEquals("utf-8", options.getEncoding());
+    assertEquals("filename.txt", options.getFilename());
+    assertEquals(JLanguageTool.Level.PICKY, options.getLevel());
+    assertEquals(2, options.getDisabledRules().size());
+    assertEquals(1, options.getEnabledRules().size());
+    assertEquals(1, options.getEnabledCategories().size());
+    assertEquals(1, options.getDisabledCategories().size());
+    assertTrue(options.isLineByLine());
+    assertTrue(options.isEnableTempOff());
+    assertTrue(options.isCleanOverlapping());
   }
 
 }
