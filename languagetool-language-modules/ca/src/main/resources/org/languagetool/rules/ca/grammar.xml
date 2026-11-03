@@ -3875,7 +3875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/><exception regexp="yes">primer|junts|juntes|plegats|plegades|segur|extra|estant|tocant</exception><exception regexp="yes">\p{Lu}.*</exception><exception scope="previous" postag="_loc_meitat"/></token>
+                    <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/><exception regexp="yes">primer|junts|juntes|plegats|plegades|segur|extra|estant|tocant|prompte</exception><exception regexp="yes">\p{Lu}.*</exception><exception scope="previous" postag="_loc_meitat"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.PostponedAdjectiveConcordanceFilter" args="key:value"/>
                 <message>Reviseu la concordança de «\1» amb els noms precedents o bé reviseu la puntuació.</message>
@@ -19091,6 +19091,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ARTICLE_EN_PAISOS" name="països que solen dur article">
             <antipattern>
+                <token regexp="yes">nació|confederació|comunitat|regió|mar</token>
+                <token regexp="yes">Argentina|Índia</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">nom|denominació</token>
                 <token postag="A.*|V.P.*" postag_regexp="yes" min="0"/>
                 <token>de</token>
@@ -25724,16 +25728,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--<url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>-->
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22com+a%22&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11958&amp;idHit=11958&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=%27com%27+o+%27com+a%27%3F+%2F+Usos+de+la+preposici%F3+%27com+i+%27com+a%27+%2F+Nova+gram%E0tica&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
             <antipattern>
-                <marker>
-                    <token regexp="yes">tant|tanta|tants|tantes|de|paraula|paraules|mots?|substantius?</token>
-                    <token>com</token>
-                </marker>
+                <token regexp="yes">tant|tanta|tants|tantes|de|paraula|paraules|mots?|substantius?</token>
+                <token>com</token>
             </antipattern>
             <antipattern>
-                <marker>
-                    <token inflected="yes" skip="1">haver</token>
-                    <token>vist</token>
-                </marker>
+                <token inflected="yes" skip="1">haver</token>
+                <token>vist</token>
+            </antipattern>
+            <antipattern>
+                <!-- com qualsevol -->
+                <token>com</token>
+                <token postag="DI.*" postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <antipattern>
@@ -35060,7 +35065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes">pen<exception postag="_english_ignore"/></token>
+                    <token case_sensitive="yes">pen<exception postag="_english_ignore_"/></token>
                 </pattern>
                 <message>Possible confusió</message>
                 <suggestion>per</suggestion>
@@ -41152,7 +41157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>as</token>
+                        <token>as<exception postag="_english_ignore_"/></token>
                     </marker>
                     <token postag="N.[MC]N.*|A..[MC]N." postag_regexp="yes"/>
                 </pattern>
@@ -41163,7 +41168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>as</token>
+                        <token>as<exception postag="_english_ignore_"/></token>
                     </marker>
                     <token postag="N.[MC][PN].*|A..[MC][PN].|V.P..PM." postag_regexp="yes"/>
                 </pattern>
@@ -44283,7 +44288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ALL_AL" name="all -> al">
             <pattern>
                 <marker>
-                    <token>all<exception postag="_english_ignore"/></token>
+                    <token>all<exception postag="_english_ignore_"/></token>
                 </marker>
                 <token postag="N.[MC][SN].*" postag_regexp="yes"><exception postag="V.P..SM.|AQ.[MC][SN]." postag_regexp="yes"/><exception regexp="yes">stars?</exception></token>
             </pattern>
@@ -119095,7 +119100,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="RARE_WORDS" name="paraules molt infreqüents">
-            <rule id="QUERA" name="quera -> que era" default="temp_off">
+            <rule id="QUERA" name="quera -> que era">
                 <pattern>
                     <token case_sensitive="yes">quera</token>
                 </pattern>
@@ -132503,7 +132508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>casa</token>
                 <token min="0">-</token>
-                <token>museu</token>
+                <token regexp="yes">museu|taller</token>
             </antipattern>
             <rule>
                 <pattern>
