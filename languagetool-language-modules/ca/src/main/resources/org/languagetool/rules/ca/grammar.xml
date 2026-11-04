@@ -79051,17 +79051,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[aeiï]</token>
+                    <token postag="V.[MN].*" postag_regexp="yes" regexp="yes">.+[aeiï]</token>
                     <marker>
-                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-nos|-vos|-los</token>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-nos|-los</token>
                     </marker>
                     <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token>
                     <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"/>
                 </pattern>
                 <message>Hi falta un apòstrof.</message>
-                <short>Hi falta un apòstrof</short>
-                <example correction="">Porta<marker>-los</marker>-en.</example>
-                <example>Porta'ls-en.</example>
+                <suggestion><match no="2" regexp_match="(?iu)-(.)o(.)" regexp_replace="'$1$2" case_conversion="preserve"/></suggestion>
+                <example correction="'ls">Porta<marker>-los</marker>-en.</example>
+                <example correction="'ns">Porta<marker>-nos</marker>-en un.</example>
             </rule>
             <rule>
                 <pattern>
@@ -81755,6 +81755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Forma preferible.</message>
                 <suggestion>-us</suggestion>
                 <example correction="-us">Veure<marker>-vos</marker>.</example>
+                <example correction="-us">Us animem a inscriure<marker>-vos</marker>-hi.</example>
                 <example>Veure-us.</example>
             </rule>
         </rulegroup>
