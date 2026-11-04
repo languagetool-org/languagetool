@@ -223,6 +223,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MIN_MESES" name="Meses en minúscula">
             <short>&shortmessage_casing;</short>
             <rule>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">escribir|enviar|mandar</token>
+                    <token regexp="yes" min="0" max="1">un|una|el|la</token>
+                    <token regexp="yes">mensaje|correo|email|carta|nota</token>
+                    <token>a</token>
+                    <token regexp="yes" case_sensitive="yes">Abril|Mayo|Junio|Julio</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">pedir|decir|preguntar|avisar|contar|escribir</token>
+                    <token>a</token>
+                    <token regexp="yes" case_sensitive="yes">Abril|Mayo|Junio|Julio</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="no">buenos|buenas</token>
+                    <token regexp="yes" case_sensitive="no">días|dias|tardes|noches</token>
+                    <token min="0" max="1">,</token>
+                    <token regexp="yes" case_sensitive="yes">Abril|Mayo|Junio|Julio</token>
+                    <example>Buenos dias Julio, como estas?</example>
+                </antipattern>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">&meses_ano_may;</token>
                     <token regexp="yes">\p{Lu}..+<exception postag="CC|SPS00" postag_regexp="yes"/></token>
@@ -271,7 +290,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">cariño|amistad|amor|hola|días|noches|tardes|buenas|saludos|cumple|cumpleaños</token>
                     <token regexp="yes">de|,</token>
-                    <token case_sensitive="yes">Julio</token>
+                    <token regexp="yes" case_sensitive="yes">Abril|Mayo|Junio|Julio</token>
                 </antipattern>
                 <pattern>
                     <marker>
