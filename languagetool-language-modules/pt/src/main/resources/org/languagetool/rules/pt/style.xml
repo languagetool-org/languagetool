@@ -1303,7 +1303,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rulegroup id='CAPACIDADE_ESTRATEGIA_OFENSIVA_DEFENSIVA' name="✂️ Capacidade/estratégia de ataque/defesa → ofensiva/defensiva" type='style' tags='picky' tone_tags='clarity'>
+        <rulegroup id='CAPACIDADE_ESTRATEGIA_OFENSIVA_DEFENSIVA' name="✂️ Capacidade/estratégia de ataque/defesa → ofensiva/defensiva" type='style' tone_tags='clarity'>
             <!-- ChatGPT 6: simplificação estilística; a equivalência depende do contexto. -->
 
             <rule> <!-- #1: Com 'e/ou' e com ou sem a segunda preposição 'de'. -->
@@ -1317,7 +1317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>defesa</token>
                     </marker>
                 </pattern>
-                <message>Para uma formulação mais concisa, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?i)^(?:capacidade|estratégia)(s?)$' regexp_replace='ofensiva$1' case_conversion='alllower'/> <match no='4'/> <match no='1' regexp_match='(?i)^(?:capacidade|estratégia)(s?)$' regexp_replace='defensiva$1' case_conversion='alllower'/></suggestion>, se o significado se mantiver.</message>
+                <message>Para uma formulação mais concisa, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?iu)^(?:capacidade|estratégia)(s?)$' regexp_replace='ofensiva$1' case_conversion='alllower'/> <match no='4'/> <match no='1' regexp_match='(?iu)^(?:capacidade|estratégia)(s?)$' regexp_replace='defensiva$1' case_conversion='alllower'/></suggestion>, se o significado se mantiver.</message>
                 <example correction='capacidade ofensiva e defensiva'>A <marker>capacidade de ataque e de defesa</marker> aumentou.</example>
                 <example correction='capacidade ofensiva e defensiva'>A <marker>capacidade de ataque e defesa</marker> aumentou.</example>
                 <example correction='capacidade ofensiva ou defensiva'>A <marker>capacidade de ataque ou de defesa</marker> será avaliada.</example>
@@ -1382,7 +1382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>ataque</token>
                     </marker>
                 </pattern>
-                <message>Se o contexto o permitir, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?i)^(?:capacidade|estratégia)(s?)$' regexp_replace='ofensiva$1' case_conversion='alllower'/></suggestion>.</message>
+                <message>Se o contexto o permitir, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?iu)^(?:capacidade|estratégia)(s?)$' regexp_replace='ofensiva$1' case_conversion='alllower'/></suggestion>.</message>
                 <example correction='capacidade ofensiva'>A <marker>capacidade de ataque</marker> aumentou.</example>
                 <example correction='capacidades ofensivas'>As <marker>capacidades de ataque</marker> aumentaram.</example>
                 <example correction='estratégia ofensiva'>A <marker>estratégia de ataque</marker> foi revista.</example>
@@ -1397,7 +1397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>defesa</token>
                     </marker>
                 </pattern>
-                <message>Se o contexto o permitir, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?i)^(?:capacidade|estratégia)(s?)$' regexp_replace='defensiva$1' case_conversion='alllower'/></suggestion>.</message>
+                <message>Se o contexto o permitir, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?iu)^(?:capacidade|estratégia)(s?)$' regexp_replace='defensiva$1' case_conversion='alllower'/></suggestion>.</message>
                 <example correction='capacidade defensiva'>A <marker>capacidade de defesa</marker> aumentou.</example>
                 <example correction='capacidades defensivas'>As <marker>capacidades de defesa</marker> aumentaram.</example>
                 <example correction='estratégia defensiva'>A <marker>estratégia de defesa</marker> foi revista.</example>
