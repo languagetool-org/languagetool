@@ -19255,6 +19255,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Balears</token>
             </antipattern>
             <antipattern>
+                <token>diari</token>
+                <token>de</token>
+                <token>Balears</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">dòlars?</token>
                 <token>EUA</token>
             </antipattern>
@@ -19327,6 +19332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>a l'illa de Honshū (Japó).</example>
                 <example>És un municipi de Vall de Cardós (Pallars Sobirà).</example>
                 <example>Lawrence d'Aràbia, de David Lean.</example>
+                <example>Diari de Balears.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -38553,7 +38559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token regexp="yes">de|d'<exception scope="previous" inflected="yes">tant</exception></token>
-                        <token regexp="yes">&unitats_temps;|&periodes_temps;</token>
+                        <token postag="[NA].*" postag_regexp="yes" regexp="yes">&unitats_temps;|&periodes_temps;</token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">anterior|passar|posterior|següent|vinent</token>
                 </pattern>
@@ -38562,12 +38568,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="De l'any"><marker>d'any</marker> passat que no sé res de tu.</example>
                 <example>el cap de setmana vinent haurà d’anar a casa</example>
                 <example>els períodes de temps passats</example>
+                <example>Una obra pot fer referència a una altra de molt anterior.</example>
+                <example>el mercat en el quart d'hora següent</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">de|d'</token>
-                        <token regexp="yes">&unitats_temps;|&periodes_temps;</token>
+                        <token postag="[NA].*" postag_regexp="yes" regexp="yes">&unitats_temps;|&periodes_temps;</token>
                     </marker>
                     <token>que</token>
                     <token>ve</token>
