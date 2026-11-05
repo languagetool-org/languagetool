@@ -1,9 +1,8 @@
 ## LanguageTool
 
-**LanguageTool** is open-source proofreading software for English, Spanish, French, German,
+**LanguageTool** is an open-source proofreading software for English, Spanish, French, German,
 Portuguese, Polish, Dutch, and [more than 20 other languages](https://languagetool.org/languages/).
-It finds many errors that a simple spell checker cannot detect.
-
+It detects many errors that a simple spell checker cannot detect.
 * [LanguageTool Forum](https://forum.languagetool.org)
 
 * [How to run your own LanguageTool server](https://dev.languagetool.org/http-server)
@@ -148,3 +147,11 @@ Now, you can use the bleeding edge development copy of LanguageTool `*.jar` file
 
 Unless otherwise noted, this software – the LanguageTool core – is distributed under the LGPL; see
 [`COPYING.txt`](https://github.com/languagetool-org/languagetool/blob/master/COPYING.txt).
+
+## Quick Installation Test
+
+After installing LanguageTool, you can verify it is working by testing a simple incorrect sentence.
+Example:
+"This are bad sentence."
+LanguageTool should suggest:
+"This is a bad sentence."
