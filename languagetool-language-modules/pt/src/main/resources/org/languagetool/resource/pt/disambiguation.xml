@@ -4151,15 +4151,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </and>
       </marker>
       <token regexp='yes'>te|tas?|lh[ae]s?|me|vos<exception scope='previous' postag='RG'/></token>
+      <token min='0' regexp='yes'>del[ae]s?|meus?|minhas?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?</token>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="[NA].*"/>
+      <!--
+      Examples:
+               Amo te minha flor.
+               Amo vos minha flor.
+               Amo me meu irmão.
+               Amo te flor.
+               Amo vos Rita.
+      -->
+  </rule>
+
+  <rule id="VMIP1S0_NC_AQ_A_AS_O_OS_20261106" name="É verbo">
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP1S0' postag_regexp='no'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token regexp='yes'>[ao]s|ess[ae]s?|est[ae]s?|ness[ae]s?<exception scope='previous' postag='RG'/></token>
       <token regexp='yes'>del[ae]s?|meus?|minhas?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?</token>
       <token postag='N.+|AQ.+' postag_regexp='yes'/>
     </pattern>
     <disambig action="remove" postag="[NA].*"/>
       <!--
       Examples:
-               Eu amo te minha flor.
-               Eu amo vos minha flor.
-               Eu amo me meu irmão.
+               A ideia que me fica sempre que provo os seus vinhos é a qualidade extrema e sobretudo uma consistência ímpar.
+               Amo os meus irmãos.
+               Amo os meus pais.
+               Amo essas suas irmãs.
+               Amo estas tuas irmãs.
+               Amo nessas suas casas.
+               Quanto a você, fique na enfermaria! Senão, tiro as suas funções! Entendido?
+               Tento me alimentar saudavelmente e comer quando me satisfaz, e me exercitar.
       -->
   </rule>
 
