@@ -4142,6 +4142,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <disambig postag="NCMP000"/>
   </rule>
 
+  <rule id="VMIP1S0_NC_AQ_20261106" name="É verbo">
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP1S0' postag_regexp='no'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token regexp='yes'>te|tas?|lh[ae]s?|me|vos<exception scope='previous' postag='RG'/></token>
+      <token regexp='yes'>del[ae]s?|meus?|minhas?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?</token>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="[NA].*"/>
+      <!--
+      Examples:
+               Eu amo te minha flor.
+               Eu amo vos minha flor.
+               Eu amo me meu irmão.
+      -->
+  </rule>
+
   <rule id="SE_VMIP3S0_VMM02S0_20261021" name="O verbo é na terceira pessoa VMIP3S0">
     <pattern>
       <token>se</token>
