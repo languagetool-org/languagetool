@@ -5547,6 +5547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="altre cas|altres casos">No coneixem cap <marker>altra cas</marker> en la geografia menorquina.</example>
                 <example correction="un &quot;arreplec|uns &quot;arreplecs">Farem <marker>una &quot;arreplec</marker> de pistrincs.</example>
                 <example correction="uns taxis|un taxi">Vam demanar <marker>un taxis</marker></example>
+                <example correction="pocs dies|poc dia">Fa <marker>poc dies</marker> no hi havia ningú apuntat.</example>
                 <example>Aquests pisos.</example>
                 <example>Aqueixos pins.</example>
                 <example>Porta eixos camions.</example>
@@ -70101,9 +70102,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="què">Sabeu <marker>que</marker> li va passar?</example>
                 <example correction="què">Sabeu <marker>que</marker> li ha passat?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">saber</token>
+                    <token>ni</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Amb el sentit de 'quina cosa' s'escriu amb accent.</message>
+                <suggestion>què</suggestion>
+                <example correction="què">No sé ni <marker>que</marker> fer.</example>
+            </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token>ni</token>
+                    <token>què</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token regexp="yes">ni|i|o</token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -70120,7 +70136,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                     <token postag="&pronom_feble;|RN" postag_regexp="yes" min="0" max="2"/>
-                    <token postag="V.*" postag_regexp="yes"/>
+                    <token min="0" max="1" chunk="GV"><exception inflected="yes" regexp="yes">passar|fer|dir</exception></token>
+                    <token inflected="yes" regexp="yes">passar|fer|dir</token>
                     <token postag="_PUNCT.*|C.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Amb el sentit de 'quina cosa' s'escriu amb accent.</message>
@@ -73556,6 +73573,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>més</token>
                     <token regexp="yes">aviat|prompte</token>
+                </antipattern>
+                <antipattern>
+                    <token>més</token>
+                    <token>de</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="D[IN].*" postag_regexp="yes"/>
@@ -151856,6 +151878,16 @@ No t'ho explicaré, no cal que em burxis més-->
         </rule>
         <rulegroup id="RELATIUS" name="Comprova les construccions de relatiu: amb el que/amb el qual" default="on">
             <url>http://esadir.cat/entrades/fitxa/node/Relatius_preposicio</url>
+            <antipattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token regexp="yes">el|l</token>
+                <token>que</token>
+                <token regexp="yes" inflected="yes">semblar|parèixer</token>
+                <token>que</token>
+                <token chunk="GV" min="0" max="2"><exception inflected="yes">ser</exception></token>
+                <token inflected="yes" postag="V.*" postag_regexp="yes">ser</token>
+                <example>Un tros de tela al voltant del coll en el que sembla que va ser un primer intent.</example>
+            </antipattern>
             <antipattern>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
                 <token regexp="yes">el|l</token>
