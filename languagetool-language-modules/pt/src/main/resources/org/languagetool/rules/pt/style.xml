@@ -9941,64 +9941,97 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- ADJ PARA CARAÇAS/CARAMBA muito/bastante adj -->
-        <rulegroup id='ADJ_PARA_PRA_CARAÇAS_CARAMBA' name="Adj + para/pra + caraças/caramba → Muito/Bastante + Adj" type='style'>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 + 2021-06-27 (25-JUN-2021+)      -->
+        <rulegroup id='ADJ_PARA_PRA_CARAÇAS_CARAMBA' name="🤵 Para/pra caraças/caramba → muito/bastante" type='style' tone_tags='formal'>
+            <!-- ChatGPT 6: revisão dos padrões gramaticais, sugestões e prevenção de falsos positivos. -->
             <!--
+            Expressões coloquiais de intensidade, usadas sobretudo na linguagem informal.
+            A regra propõe alternativas mais neutras, preservando a estrutura da frase.
+
+            #1: Adjetivos e particípios
             O Rui é bom para caraças. → O Rui é muito bom.
-            O Rui é bom para caramba. → O Rui é muito bom.
+            O Rui é bom para caramba. → O Rui é bastante bom.
+            Estou cansado pra caramba. → Estou muito cansado.
+
+            #2: Advérbios
+            Ele joga bem para caraças. → Ele joga muito bem.
+            Estamos longe pra caramba. → Estamos bastante longe.
+
+            #3: Verbos
+            Isso dói para caraças. → Isso dói muito.
+            Ela trabalha pra caramba. → Ela trabalha bastante.
+
+            Nota: "bastante" pode transmitir uma intensidade inferior a "muito".
+            As substituições são sugestões estilísticas, não correções obrigatórias.
             -->
-            <rule>
+
+            <rule> <!-- #1: Adjetivos qualificativos e particípios passados. -->
                 <pattern>
                     <marker>
-                        <token postag='AQ0.+|NC.+' postag_regexp='yes'>
-                            <exception postag_regexp='yes' postag='V.+'/>
-                        </token>
-                        <token regexp="yes">para|pra</token>
-                        <token regexp="yes">caraças|caramba</token>
+                        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+                        <token regexp='yes'>para|pra</token>
+                        <token regexp='yes'>caraças|caramba</token>
                     </marker>
                 </pattern>
-                <message>&informal_msg;</message>
+                <message>Expressão coloquial de intensidade, pouco adequada a textos formais. Considere uma alternativa mais neutra.</message>
                 <suggestion>muito \1</suggestion>
                 <suggestion>bastante \1</suggestion>
+                <short>Expressão coloquial</short>
                 <example correction="muito bom|bastante bom">O Rui é <marker>bom para caraças</marker>.</example>
+                <example correction="muito bonito|bastante bonito">O quadro é <marker>bonito para caramba</marker>.</example>
+                <example correction="muito cansado|bastante cansado">Estou <marker>cansado para caraças</marker>.</example>
+                <example correction="muito cansada|bastante cansada">Ela está <marker>cansada pra caramba</marker>.</example>
+                <example correction="muito complicados|bastante complicados">Estes problemas são <marker>complicados para caraças</marker>.</example>
+                <example>O Rui é muito bom.</example>
+                <example>Estou bastante cansado.</example>
+                <example>O Rui é bom para a equipa.</example>
             </rule>
-            <rule>
-                <!--
-                Dói pra caramba! → Dói muito!
-                -->
+
+            <rule> <!-- #2: Advérbios de modo, lugar e tempo. -->
                 <pattern>
                     <marker>
-                        <and>
-                            <token postag='V.+' postag_regexp='yes'/>
-                            <token negate_pos="yes" postag='VMP.+' postag_regexp='yes'/>
-                        </and>
-                        <token regexp="yes">para|pra</token>
-                        <token regexp="yes">caraças|caramba</token>
+                        <token postag='RG' regexp='yes'>bem|mal|longe|perto|cedo|tarde</token>
+                        <token regexp='yes'>para|pra</token>
+                        <token regexp='yes'>caraças|caramba</token>
                     </marker>
                 </pattern>
-                <message>&informal_msg;</message>
+                <message>Expressão coloquial de intensidade. Num registo mais formal, considere uma construção com &quot;muito&quot; ou &quot;bastante&quot;.</message>
+                <suggestion>muito \1</suggestion>
+                <suggestion>bastante \1</suggestion>
+                <short>Expressão coloquial</short>
+                <example correction="muito bem|bastante bem">Ele joga <marker>bem para caraças</marker>.</example>
+                <example correction="muito mal|bastante mal">Ela canta <marker>mal pra caramba</marker>.</example>
+                <example correction="muito longe|bastante longe">Estamos <marker>longe para caraças</marker>.</example>
+                <example correction="muito perto|bastante perto">A estação fica <marker>perto pra caramba</marker>.</example>
+                <example correction="muito cedo|bastante cedo">Ele chegou <marker>cedo para caramba</marker>.</example>
+                <example correction="muito tarde|bastante tarde">Chegámos <marker>tarde para caraças</marker>.</example>
+                <example>Ele joga muito bem.</example>
+                <example>A estação fica bastante perto.</example>
+            </rule>
+
+            <rule> <!-- #3: Verbos, excluindo particípios e verbos auxiliares/copulativos. -->
+                <pattern>
+                    <marker>
+                        <token postag='V.+' postag_regexp='yes'>
+                            <exception postag='VMP.+' postag_regexp='yes'/>
+                            <exception inflected='yes' regexp='yes'>ser|estar|ficar|parecer|ter|haver|ir|vir</exception>
+                        </token>
+                        <token regexp='yes'>para|pra</token>
+                        <token regexp='yes'>caraças|caramba</token>
+                    </marker>
+                </pattern>
+                <message>Expressão coloquial de intensidade. Num texto formal, considere substituir a locução por &quot;muito&quot; ou &quot;bastante&quot;.</message>
                 <suggestion>\1 muito</suggestion>
                 <suggestion>\1 bastante</suggestion>
-                <suggestion>\1 demais</suggestion>
-                <suggestion>\1 excessivamente</suggestion>
-                <example correction="dói muito|dói bastante|dói demais|dói excessivamente">Isso <marker>dói para caraças</marker>.</example>
-            </rule>
-            <rule>
-                <!--
-                Estou cansado pra caramba! → Estou muito cansado!
-                -->
-                <pattern>
-                    <marker>
-                        <token postag='VMP.+' postag_regexp='yes'/>
-                        <token regexp="yes">para|pra</token>
-                        <token regexp="yes">caraças|caramba</token>
-                    </marker>
-                </pattern>
-                <message>&informal_msg;</message>
-                <suggestion>muito \1</suggestion>
-                <suggestion>bastante \1</suggestion>
-                <example correction="muito cansado|bastante cansado">Estou <marker>cansado para caraças</marker>.</example>
+                <short>Expressão coloquial</short>
+                <example correction="dói muito|dói bastante">Isso <marker>dói para caraças</marker>.</example>
+                <example correction="trabalha muito|trabalha bastante">Ela <marker>trabalha pra caramba</marker>.</example>
+                <example correction="estudou muito|estudou bastante">Ele <marker>estudou para caraças</marker>.</example>
+                <example correction="choveu muito|choveu bastante">Ontem <marker>choveu pra caramba</marker>.</example>
+                <example correction="chorou muito|chorou bastante">A criança <marker>chorou para caraças</marker>.</example>
+                <example>Isso dói muito.</example>
+                <example>Ela trabalha bastante.</example>
+                <example>Isso é para caramba!</example>
+                <example>Ele vai para a escola.</example>
             </rule>
         </rulegroup>
 
