@@ -742,15 +742,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite → Imagem de satélite" tags="picky">
-            <!--      Created by Tiago F. Santos, 2019-09-07      -->
+        <rule id='IMAGEM_DE_SATELITE' name="🛰️ Imagem satélite → imagem de satélite" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: melhoria da mensagem, classificação e exemplos de teste. -->
+            <!--
+            Recomenda a construção com a preposição «de» para designar
+            imagens obtidas por satélite.
+
+            O substantivo «satélite» permanece no singular, mesmo
+            quando «imagem» está no plural.
+
+            imagem satélite → imagem de satélite
+            imagens satélite → imagens de satélite
+            imagens satélites → imagens de satélite
+            -->
             <pattern>
-                <token regexp="yes">image(?:m|ns)</token>
+                <token regexp='yes'>image(?:m|ns)</token>
                 <token regexp='yes'>satélites?</token>
             </pattern>
-            <message>Substitua por <suggestion>\1 de satélite</suggestion>.</message>
-            <example correction="imagens de satélite"><marker>imagens satélite</marker>.</example>
+            <message>Prefira a construção com a preposição &quot;de&quot;: <suggestion><match no='1'/> de satélite</suggestion>.</message>
+            <example correction="imagem de satélite">Esta <marker>imagem satélite</marker> apresenta uma resolução elevada.</example>
+            <example correction="imagens de satélite">As <marker>imagens satélite</marker> foram obtidas ontem.</example>
+            <example correction="imagens de satélite">Estas <marker>imagens satélites</marker> mostram as alterações no território.</example>
+            <example correction="Imagem de satélite"><marker>Imagem satélite</marker> obtida pela NASA.</example>
+            <example type="correct">Esta imagem de satélite apresenta uma resolução elevada.</example>
+            <example type="correct">As imagens de satélite foram obtidas ontem.</example>
+            <example type="correct">As imagens dos satélites foram analisadas.</example>
+            <example type="correct">As imagens satelitais estão disponíveis.</example>
         </rule>
+
 
         <!-- CAMINHAR CAMINHOS percorrer/trilhar caminhos -->
         <rule id='ERRO_TRADUÇÃO_CAMINHAR_CAMINHOS' name="[Erro tradução] 'caminhar' caminhos → 'percorrer/trilhar'" tone_tags="clarity">
