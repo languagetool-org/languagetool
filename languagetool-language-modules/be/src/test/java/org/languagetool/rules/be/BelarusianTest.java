@@ -41,6 +41,10 @@ public class BelarusianTest extends LanguageSpecificTest {
     runTests(lang);
   }
 
+  /**
+   * Verifies that both spellings of «гэта значыць» stay within one sentence,
+   * ordinary sentences still split, and standalone «зн.» is not accepted.
+   */
   @Test
   public void testAbbreviationSentenceBoundary() throws IOException {
     Belarusian lang = new Belarusian();
