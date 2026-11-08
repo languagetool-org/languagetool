@@ -448,6 +448,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
+        <rulegroup id='IR_EMBORA_INFORMAL' name="🇵🇹🤵 Dar à sola/dar de frosques/bazar → ir embora" type='style' tone_tags='formal'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <short>Expressão coloquial</short>
+
+            <rule> <!-- #1: Dar à sola → ir embora. -->
+                <!-- Excluir utilizações literais de «sola», como a sola de um sapato. -->
+                <antipattern>
+                    <token>dar</token>
+                    <token>à</token>
+                    <token>sola</token>
+                    <token regexp='yes'>d[ao]s?|um|uns|umas?</token>
+                </antipattern>
+
+                <pattern>
+                    <token inflected='yes'>ir</token>
+                    <token regexp='yes' min='0'>já|agora|mesmo</token>
+                    <marker>
+                        <token>dar</token>
+                        <token>à</token>
+                        <token>sola</token>
+                    </marker>
+                </pattern>
+                <message>Esta expressão é coloquial. Num registo mais formal, prefira &quot;ir embora&quot;.</message>
+                <suggestion>embora</suggestion>
+                <example correction="embora">Vou <marker>dar à sola</marker>.</example>
+                <example correction="embora">Vou já <marker>dar à sola</marker>.</example>
+                <example correction="embora">Vamos <marker>dar à sola</marker> antes que seja tarde.</example>
+                <example correction="embora">Eles iam <marker>dar à sola</marker> quando começou a chover.</example>
+                <example>Vou dar à sola do sapato uma nova camada de borracha.</example>
+                <example>Vou dar à sola uma camada de tinta.</example>
+                <example>Vou embora antes que seja tarde.</example>
+            </rule>
+
+            <rule> <!-- #2: Dar de frosques → ir embora. -->
+                <pattern>
+                    <token inflected='yes'>ir</token>
+                    <token regexp='yes' min='0'>já|agora|mesmo</token>
+                    <marker>
+                        <token>dar</token>
+                        <token>de</token>
+                        <token>frosques</token>
+                    </marker>
+                </pattern>
+                <message>Esta expressão é coloquial. Num registo mais formal, prefira &quot;ir embora&quot;.</message>
+                <suggestion>embora</suggestion>
+                <example correction="embora">Vou <marker>dar de frosques</marker>.</example>
+                <example correction="embora">Vou já <marker>dar de frosques</marker>.</example>
+                <example correction="embora">Vamos <marker>dar de frosques</marker> antes da confusão.</example>
+                <example correction="embora">Eles iam <marker>dar de frosques</marker> quando a polícia chegou.</example>
+                <example>Vamos embora antes da confusão.</example>
+                <example>Ele foi embora sem dizer nada.</example>
+            </rule>
+
+            <rule> <!-- #3: Bazar → ir embora. -->
+                <pattern>
+                    <token inflected='yes'>ir</token>
+                    <token regexp='yes' min='0'>já|agora|mesmo</token>
+                    <marker>
+                        <token>bazar</token>
+                    </marker>
+                </pattern>
+                <message>O verbo «bazar» é informal. Num registo mais formal, prefira &quot;ir embora&quot;.</message>
+                <suggestion>embora</suggestion>
+                <example correction="embora">Vou <marker>bazar</marker>.</example>
+                <example correction="embora">Vou já <marker>bazar</marker>.</example>
+                <example correction="embora">Vamos <marker>bazar</marker> antes que seja tarde.</example>
+                <example correction="embora">Eles iam <marker>bazar</marker> quando chegámos.</example>
+                <example>Vou embora agora.</example>
+                <example>Vamos embora antes que seja tarde.</example>
+            </rule>
+        </rulegroup>
+
+
         <rule id='SER_CARO_ONEROSO_DISPENDIOSO' name="🇵🇹🤵 Ser 'caro' → oneroso/dispendioso" type='style' tone_tags='formal' tags='picky'>
             <!-- ChatGPT 5 and new disambiguator for 2026+ -->
             <!-- It is a Portuguese European rule only because "cara(s)" is commonly used in Brazil to address people informally -->
