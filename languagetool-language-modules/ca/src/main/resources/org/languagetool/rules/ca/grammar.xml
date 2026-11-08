@@ -26416,6 +26416,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">fixar<exception postag="_reflexiu"/></token>
             </antipattern>
             <antipattern>
+                <token>amb</token>
+                <token>el</token>
+                <token>temps</token>
+            </antipattern>
+            <antipattern>
                 <and>
                     <token inflected="yes">confiar</token>
                     <token postag="_reflexiu"/>
@@ -95367,6 +95372,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Blancaneu"><marker>Blancaneus</marker> i els set nans.</example>
         </rule>
         <rulegroup id="RES_GENS" name="res -> gens">
+            <antipattern>
+                <token>res</token>
+                <token>de</token>
+                <token>res</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">moure|menejar|bellugar|agradar|estimar</token>
@@ -95413,6 +95423,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Probablement l'adverbi adequat és <suggestion>gens</suggestion>.</message>
                 <example correction="gens">Això és <marker>res</marker> o escassament patriòtic.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">ploure</token>
+                    <marker>
+                        <token regexp="yes">re|res</token>
+                    </marker>
+                </pattern>
+                <message>Probablement l'adverbi adequat és <suggestion>gens</suggestion>.</message>
+                <example correction="gens">No havia plogut <marker>res</marker> aquell mes.</example>
+                <example>Ja tenim el sol fora i de ploure res de res.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_A_RES_GENS" name="per a res -> fens">
@@ -112477,6 +112498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Va anar directament al front, on va ser ferit.</example>
                 <example>després de sortir Willhaus cap al front,</example>
                 <example>Va servir al front durant la Segona Guerra Mundial.</example>
+                <example>Amb plomes blanques al front i al clatell.</example>
                 <!-- <example correction="Al davant|Al capdavant">La ciutat de Tunis va posar <marker>al front</marker> el cap militar Abd al-Hakk</example>  -->
                 <!-- dóna error, si es posa 'militar' en la llista -->
             </rule>
@@ -140723,7 +140745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>nivell</token>
-                <token regexp="yes">atòmic|subatòmic|nuclear|planetari|astronòmic|molecular|cel·lular</token>
+                <token regexp="yes">atòmic|subatòmic|nuclear|planetari|astronòmic|molecular|cel·lular|nadiu|natiu</token>
             </antipattern>
             <rule>
                 <pattern>
