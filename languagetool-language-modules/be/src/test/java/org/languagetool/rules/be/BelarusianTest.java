@@ -19,11 +19,14 @@
 package org.languagetool.rules.be;
 
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Belarusian;
 
 import java.io.IOException;
 import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 public class BelarusianTest extends LanguageSpecificTest {
   
@@ -36,6 +39,21 @@ public class BelarusianTest extends LanguageSpecificTest {
       Arrays.asList("I", "U_KAROTKAJE", "I")
     );
     runTests(lang);
+  }
+
+  @Test
+  public void testAbbreviationSentenceBoundary() throws IOException {
+    Belarusian lang = new Belarusian();
+    JLanguageTool lt = new JLanguageTool(lang);
+    for (String abbreviation : Arrays.asList("г.зн.", "г. зн.")) {
+      String sentence = "Гэта значыць, " + abbreviation + " кожным атрыбутам.";
+      assertEquals(Arrays.asList(sentence), lang.getSentenceTokenizer().tokenize(sentence));
+      assertEquals(0, lt.check(sentence).size());
+    }
+    assertEquals(Arrays.asList("Гэта сказ. ", "Тут іншы сказ."),
+      lang.getSentenceTokenizer().tokenize("Гэта сказ. Тут іншы сказ."));
+    assertEquals(1, lt.check("Гэта зн.").stream()
+      .filter(match -> match.getRule().getId().equals("MORFOLOGIK_RULE_BE_BY")).count());
   }
 
 }
