@@ -10008,11 +10008,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>A estação fica bastante perto.</example>
             </rule>
 
-            <rule> <!-- #3: Verbos, excluindo particípios e verbos auxiliares/copulativos. -->
+            <rule> <!-- #3: Verbos, excluindo particípios, adjetivos, advérbios e verbos auxiliares/copulativos. -->
                 <pattern>
                     <marker>
                         <token postag='V.+' postag_regexp='yes'>
-                            <exception postag='VMP.+' postag_regexp='yes'/>
+                            <exception postag='VMP.+|AQ.+|RG' postag_regexp='yes'/>
                             <exception inflected='yes' regexp='yes'>ser|estar|ficar|parecer|ter|haver|ir|vir</exception>
                         </token>
                         <token regexp='yes'>para|pra</token>
