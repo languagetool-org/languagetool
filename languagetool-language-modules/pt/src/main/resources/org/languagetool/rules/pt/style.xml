@@ -9791,16 +9791,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='É_SUPOSTO_QUE' name="Supõe-se que">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+        <rule id='É_SUPOSTO_QUE' name="✂️ É suposto que → supõe-se que/espera-se que" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: revisão estilística, distinção semântica e prevenção de sugestões inadequadas. -->
+            <!--
+            A construção "é suposto que" é gramaticalmente aceitável,
+            mas pode ser substituída por expressões mais diretas.
+
+            "Supõe-se que" exprime uma pressuposição ou suposição.
+            "Espera-se que" exprime uma expectativa.
+
+            As alternativas não são semanticamente equivalentes
+            em todos os contextos. A escolha depende do sentido.
+
+            É suposto que o documento esteja correto.
+            → Supõe-se que o documento esteja correto.
+
+            É suposto que a reunião comece às nove.
+            → Espera-se que a reunião comece às nove.
+            -->
             <pattern>
                 <token>é</token>
                 <token>suposto</token>
                 <token>que</token>
             </pattern>
-            <message>Substitua por <suggestion>supõe-se que</suggestion>.</message>
-            <example correction="supõe-se que">Assim, <marker>é suposto que</marker> aconteça.</example>
+            <message>Esta construção é aceitável, mas pode ser reformulada de acordo com o sentido: <suggestion>supõe-se que</suggestion> (pressuposição) ou <suggestion>espera-se que</suggestion> (expectativa).</message>
+            <example correction="supõe-se que|espera-se que">Neste caso, <marker>é suposto que</marker> o documento esteja correto.</example>
+            <example>Supõe-se que o documento esteja correto.</example>
+            <example>Espera-se que a reunião comece às nove.</example>
         </rule>
+
 
         <rule id="SOB_O_PONTO_DE_VISTA" name="do ponto de vista">
             <!--      Created by Marco A.G.Pinto, 2017-07-04      -->
