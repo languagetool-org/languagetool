@@ -960,6 +960,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- CONFUNDIR ALERTA POR ALERTAS -->
 
     <rule id="ALERTAS_BR" name="🇧🇷 Alerta">
+      <!-- "alertas" como substantivo: precedido de adjetivo no plural ou numeral -->
+      <antipattern>
+        <token postag="A...P.+|Z.+" postag_regexp="yes"/>
+        <token>alertas</token>
+      </antipattern>
+      <!-- "alertas" como substantivo: seguido de complemento nominal ou de verbo no plural
+           (mas não depois de verbo de ligação: "ficaram alertas sobre o perigo" continua sendo erro) -->
+      <antipattern>
+        <token><exception inflected="yes" regexp="yes">ficar|estar|permanecer|continuar|andar</exception></token>
+        <token>alertas</token>
+        <token regexp="yes">de|do|da|dos|das|sobre</token>
+      </antipattern>
+      <antipattern>
+        <token>alertas</token>
+        <token postag="V...3P.*" postag_regexp="yes"/>
+      </antipattern>
       <pattern>
         <token negate_pos="yes" postag="D...P.+|SPS00:....P.+" postag_regexp="yes"/>
         <marker>
@@ -970,6 +986,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <message>Alerta é invariável para indicar número ou gênero com exceção de quando está acompanhado de um artigo (Ex: os).
         Substitua &quot;alertas&quot; por <suggestion>alerta</suggestion>.</message>
       <example correction="alerta">O comandante nos disse que ficássemos <marker>alertas</marker>.</example>
+      <example correction="alerta">Os seguranças permaneceram <marker>alertas</marker> durante a noite.</example>
+      <example correction="alerta">Todos ficaram <marker>alertas</marker> sobre o perigo.</example>
+      <example>Novos alertas representam problemas reais.</example>
+      <example>Recebi alertas de segurança no celular.</example>
+      <example>Esses são alertas de segurança importantes.</example>
+      <example>Eles mantiveram alertas de segurança durante a semana.</example>
+      <example>Três alertas foram emitidos ontem.</example>
     </rule>
 
     <!-- FIM ALERTA POR ALERTAS -->
