@@ -9791,8 +9791,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='É_SUPOSTO_QUE' name="✂️ É suposto que → supõe-se que/espera-se que" type='style' tags='picky' tone_tags='clarity'>
-            <!-- ChatGPT 6: revisão estilística, distinção semântica e prevenção de sugestões inadequadas. -->
+        <rulegroup id='É_SUPOSTO_QUE' name="✂️ É suposto que → supõe-se que/espera-se que" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: revisão estilística, distinção semântica e colocação pronominal. -->
             <!--
             A construção "é suposto que" é gramaticalmente aceitável,
             mas pode ser substituída por expressões mais diretas.
@@ -9803,22 +9803,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             As alternativas não são semanticamente equivalentes
             em todos os contextos. A escolha depende do sentido.
 
+            A negação exige próclise em português europeu.
+
             É suposto que o documento esteja correto.
             → Supõe-se que o documento esteja correto.
 
             É suposto que a reunião comece às nove.
             → Espera-se que a reunião comece às nove.
+
+            Não é suposto que o documento esteja correto.
+            → Não se supõe que o documento esteja correto.
+
+            Não é suposto que a reunião comece às nove.
+            → Não se espera que a reunião comece às nove.
             -->
-            <pattern>
-                <token>é</token>
-                <token>suposto</token>
-                <token>que</token>
-            </pattern>
-            <message>Esta construção é aceitável, mas pode ser reformulada de acordo com o sentido: <suggestion>supõe-se que</suggestion> (pressuposição) ou <suggestion>espera-se que</suggestion> (expectativa).</message>
-            <example correction="supõe-se que|espera-se que">Neste caso, <marker>é suposto que</marker> o documento esteja correto.</example>
-            <example>Supõe-se que o documento esteja correto.</example>
-            <example>Espera-se que a reunião comece às nove.</example>
-        </rule>
+
+            <rule> <!-- #1: Construções imediatamente precedidas de negação. -->
+                <pattern>
+                    <token regexp='yes'>não|nunca|jamais|nem|tampouco</token>
+                    <marker>
+                        <token>é</token>
+                        <token>suposto</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Esta construção é aceitável, mas pode ser reformulada de acordo com o sentido, mantendo a próclise exigida pela negação: <suggestion>se supõe que</suggestion> (pressuposição) ou <suggestion>se espera que</suggestion> (expectativa).</message>
+                <example correction="se supõe que|se espera que">Não <marker>é suposto que</marker> o documento esteja correto.</example>
+                <example correction="se supõe que|se espera que">Não <marker>é suposto que</marker> a reunião comece às nove.</example>
+                <example correction="se supõe que|se espera que">Nunca <marker>é suposto que</marker> isso aconteça.</example>
+                <example>Não se espera que a reunião comece às nove.</example>
+                <example>Nunca se supõe que isso aconteça.</example>
+            </rule>
+
+            <rule> <!-- #2: Construções sem negação imediatamente anterior. -->
+                <antipattern>
+                    <token regexp='yes'>não|nunca|jamais|nem|tampouco</token>
+                    <token>é</token>
+                    <token>suposto</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token>é</token>
+                    <token>suposto</token>
+                    <token>que</token>
+                </pattern>
+                <message>Esta construção é aceitável, mas pode ser reformulada de acordo com o sentido: <suggestion>supõe-se que</suggestion> (pressuposição) ou <suggestion>espera-se que</suggestion> (expectativa).</message>
+                <example correction="supõe-se que|espera-se que">Neste caso, <marker>é suposto que</marker> o documento esteja correto.</example>
+                <example correction="supõe-se que|espera-se que">Segundo o programa, <marker>é suposto que</marker> a reunião comece às nove.</example>
+                <example>Supõe-se que o documento esteja correto.</example>
+                <example>Espera-se que a reunião comece às nove.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id="SOB_O_PONTO_DE_VISTA" name="do ponto de vista">
