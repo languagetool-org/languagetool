@@ -9827,7 +9827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
             <rule> <!-- #1: Próclise após negação ou elementos subordinativos. -->
                 <pattern>
-                    <token regexp='yes'>não|nunca|jamais|nem|tampouco|que|se|quando|porque|como|onde|enquanto</token>
+                    <token regexp='yes'>não|nunca|jamais|nem|tampouco|que|se|quando|porque|como|onde|enquanto|já|ainda|só|também</token>
                     <marker>
                         <token>é</token>
                         <token>suposto</token>
@@ -9842,11 +9842,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="se supõe que|se espera que">Se <marker>é suposto que</marker> isso aconteça, devemos preparar-nos.</example>
                 <example>Não se espera que a reunião comece às nove.</example>
                 <example>Acho que se supõe que o documento esteja correto.</example>
+                <example correction="se supõe que|se espera que">Já <marker>é suposto que</marker> o relatório esteja pronto.</example>
+                <example correction="se supõe que|se espera que">Ainda <marker>é suposto que</marker> o plano entre em vigor.</example>
+                <example correction="se supõe que|se espera que">Só <marker>é suposto que</marker> os participantes autorizados tenham acesso.</example>
+                <example correction="se supõe que|se espera que">Também <marker>é suposto que</marker> os resultados sejam publicados.</example>
             </rule>
 
             <rule> <!-- #2: Ênclise quando não existe um elemento proclítico imediatamente anterior. -->
                 <antipattern>
-                    <token regexp='yes'>não|nunca|jamais|nem|tampouco|que|se|quando|porque|como|onde|enquanto</token>
+                    <token regexp='yes'>não|nunca|jamais|nem|tampouco|que|se|quando|porque|como|onde|enquanto|já|ainda|só|também</token>
                     <token>é</token>
                     <token>suposto</token>
                     <token>que</token>
