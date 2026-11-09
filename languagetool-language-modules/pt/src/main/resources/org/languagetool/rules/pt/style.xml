@@ -9791,16 +9791,84 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='É_SUPOSTO_QUE' name="Supõe-se que">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <token>é</token>
-                <token>suposto</token>
-                <token>que</token>
-            </pattern>
-            <message>Substitua por <suggestion>supõe-se que</suggestion>.</message>
-            <example correction="supõe-se que">Assim, <marker>é suposto que</marker> aconteça.</example>
-        </rule>
+        <rulegroup id='É_SUPOSTO_QUE' name="✂️ É suposto que → supõe-se que/espera-se que" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: revisão estilística, distinção semântica e colocação pronominal. -->
+            <!--
+            A construção "é suposto que" é gramaticalmente aceitável,
+            mas pode ser substituída por expressões mais diretas.
+
+            "Supõe-se que" exprime uma pressuposição ou suposição.
+            "Espera-se que" exprime uma expectativa.
+
+            As alternativas não são semanticamente equivalentes
+            em todos os contextos. A escolha depende do sentido.
+
+            Em português europeu, a negação e determinados elementos
+            subordinativos exigem próclise.
+
+            É suposto que o documento esteja correto.
+            → Supõe-se que o documento esteja correto.
+
+            É suposto que a reunião comece às nove.
+            → Espera-se que a reunião comece às nove.
+
+            Não é suposto que o documento esteja correto.
+            → Não se supõe que o documento esteja correto.
+
+            Não é suposto que a reunião comece às nove.
+            → Não se espera que a reunião comece às nove.
+
+            Acho que é suposto que o documento esteja correto.
+            → Acho que se supõe que o documento esteja correto.
+
+            Disseram que é suposto que a reunião comece às nove.
+            → Disseram que se espera que a reunião comece às nove.
+            -->
+
+            <rule> <!-- #1: Próclise após negação ou elementos subordinativos. -->
+                <pattern>
+                    <token regexp='yes'>não|nunca|jamais|nem|tampouco|que|quem|se|quando|porque|como|onde|enquanto|já|ainda|só|apenas|também|sempre</token>
+                    <marker>
+                        <token>é</token>
+                        <token>suposto</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Esta construção é aceitável, mas pode ser reformulada de acordo com o sentido, respeitando a próclise: <suggestion>se supõe que</suggestion> (pressuposição) ou <suggestion>se espera que</suggestion> (expectativa).</message>
+                <example correction="se supõe que|se espera que">Não <marker>é suposto que</marker> o documento esteja correto.</example>
+                <example correction="se supõe que|se espera que">Nunca <marker>é suposto que</marker> isso aconteça.</example>
+                <example correction="se supõe que|se espera que">Acho que <marker>é suposto que</marker> o documento esteja correto.</example>
+                <example correction="se supõe que|se espera que">Disseram que <marker>é suposto que</marker> a reunião comece às nove.</example>
+                <example correction="se supõe que|se espera que">Se <marker>é suposto que</marker> isso aconteça, devemos preparar-nos.</example>
+                <example>Não se espera que a reunião comece às nove.</example>
+                <example>Acho que se supõe que o documento esteja correto.</example>
+                <example correction="se supõe que|se espera que">Já <marker>é suposto que</marker> o relatório esteja pronto.</example>
+                <example correction="se supõe que|se espera que">Ainda <marker>é suposto que</marker> o plano entre em vigor.</example>
+                <example correction="se supõe que|se espera que">Só <marker>é suposto que</marker> os participantes autorizados tenham acesso.</example>
+                <example correction="se supõe que|se espera que">Também <marker>é suposto que</marker> os resultados sejam publicados.</example>
+                <example correction="se supõe que|se espera que">Sempre <marker>é suposto que</marker> ele venha.</example>
+            </rule>
+
+            <rule> <!-- #2: Ênclise quando não existe um elemento proclítico imediatamente anterior. -->
+                <antipattern>
+                    <token regexp='yes'>não|nunca|jamais|nem|tampouco|que|quem|se|quando|porque|como|onde|enquanto|já|ainda|só|apenas|também|sempre</token>
+                    <token>é</token>
+                    <token>suposto</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token>é</token>
+                    <token>suposto</token>
+                    <token>que</token>
+                </pattern>
+                <message>Esta construção é aceitável, mas pode ser reformulada de acordo com o sentido: <suggestion>supõe-se que</suggestion> (pressuposição) ou <suggestion>espera-se que</suggestion> (expectativa).</message>
+                <example correction="supõe-se que|espera-se que">Neste caso, <marker>é suposto que</marker> o documento esteja correto.</example>
+                <example correction="supõe-se que|espera-se que">Segundo o programa, <marker>é suposto que</marker> a reunião comece às nove.</example>
+                <example>Supõe-se que o documento esteja correto.</example>
+                <example>Espera-se que a reunião comece às nove.</example>
+            </rule>
+        </rulegroup>
+
 
         <rule id="SOB_O_PONTO_DE_VISTA" name="do ponto de vista">
             <!--      Created by Marco A.G.Pinto, 2017-07-04      -->
