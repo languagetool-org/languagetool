@@ -26,6 +26,8 @@ import org.languagetool.language.Portuguese;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -51,6 +53,9 @@ public class BrazilianPortugueseSimpleReplaceRuleTest {
     checkSimpleReplaceRule("O lançamento de dardo é um desporto.", "esporte");
     checkSimpleReplaceRule("Está no meu ADN!", "DNA");
 
+    // entries with several suggestions on one line (a repeated key used to keep only its last suggestion)
+    checkSuggestions("Esqueci os auscultadores em casa.", Arrays.asList("fones de ouvido", "fones"));
+    checkSuggestions("Jogamos matraquilhos no bar.", Arrays.asList("pebolim", "fla-flu", "fla-flus", "pacau", "pacaus"));
     // these are dialect-dependent but are marked as exceptions (e.g. named entities)
     assertNoMatches("José António Miranda Coutinho");
     assertNoMatches("Jerónimo Soares");
@@ -69,6 +74,14 @@ public class BrazilianPortugueseSimpleReplaceRuleTest {
       + sentence, 1, matches[0].getSuggestedReplacements().size());
     assertEquals("Invalid suggested replacement while checking sentence: "
       + sentence, word, matches[0].getSuggestedReplacements().get(0));
+  }
+
+  private void checkSuggestions(String sentence, List<String> suggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
+    assertEquals("Invalid matches.length while checking sentence: "
+      + sentence, 1, matches.length);
+    assertEquals("Invalid suggested replacements while checking sentence: "
+      + sentence, suggestions, matches[0].getSuggestedReplacements());
   }
 
   private void assertNoMatches(String sentence) throws IOException {
