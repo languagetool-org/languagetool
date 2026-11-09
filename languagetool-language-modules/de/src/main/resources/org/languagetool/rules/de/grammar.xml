@@ -78428,8 +78428,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>)</exception>
                     </token>
                 </antipattern>
-                <antipattern>
+                <antipattern><!-- Wert(AB/2), Typ(AB.1): abbreviation with attached characters other than ")" -->
                     <token>(</token>
+                    <token regexp="yes" case_sensitive="yes">
+                        [A-Z]{2,3}
+                        <exception regexp="yes">SPD|C[SD]U|AFD|FDP|ARD|ZDF|RTL|FBI|CIA|USA|HSV|ETF|NRW</exception>
+                    </token>
+                    <token spacebefore="no">
+                        <exception>)</exception>
+                    </token>
+                </antipattern>
+                <antipattern><!-- ISO(TC), A4(XL): abbreviation after a token that doesn't end in a lowercase letter -->
+                    <token regexp="yes" case_sensitive="yes">.*[^\p{Ll}]</token>
+                    <token spacebefore="no">(</token>
                     <token regexp="yes" case_sensitive="yes">
                         [A-Z]{2,3}
                         <exception regexp="yes">SPD|C[SD]U|AFD|FDP|ARD|ZDF|RTL|FBI|CIA|USA|HSV|ETF|NRW</exception>
@@ -78482,13 +78493,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">
                         .*[a-z0-9]{2,30}.*
                         <exception case_sensitive="yes" regexp="yes">.*_.*|0[Xx].*|.*\$.*|.*[a-z][A-Z][a-z].*|function|true|false|0|e.?|in(nen)?</exception>
-                        <exception postag="UNKNOWN" />
+                        <!-- unknown tokens are excluded, except abbreviations of 2-3 capitals (Abteilungen(IT und Einkauf)) and hyphenated compounds (monatlich(KPI-gestützt)) -->
+                        <exception postag="UNKNOWN" case_sensitive="yes" regexp="yes">(?![A-Z]{2,3}$)(?!.*\p{L}-\p{L}{2,}).+</exception>
                         <exception scope="next" regexp="yes">\(|\=</exception>
                     </token>
                 </pattern>
                 <message>Hier scheint ein Leerzeichen vor der Klammer zu fehlen.</message>
                 <suggestion> (</suggestion>
                 <example correction=" (">Ich komme aus Altona<marker>(</marker>Hamburg).</example>
+                <example correction=" (">Die Abstimmung erfolgt mit den Abteilungen<marker>(</marker>IT und Einkauf).</example>
+                <example correction=" (">Die Auswertung erfolgt monatlich<marker>(</marker>KPI-gestützt).</example>
+                <example>Die Auswertung erfolgt monatlich (KPI-gestützt).</example>
+                <example correction=" (">Ich komme aus Altona<marker>(</marker>HH).</example>
+                <example correction=" (">Die Firma<marker>(</marker>XYZ) liefert pünktlich.</example>
+                <example>Die Norm ISO(TC) gilt weiterhin.</example>
+                <example>Der Wert(AB/2) wird berechnet.</example>
+                <example>Wir suchen Lehrer(innen) für unsere Schule.</example>
+                <example>Wir suchen Freund(e).</example>
             </rule>
             <rule><!-- (m/w), (m/w/d), (m/w/d/x) in job ads -->
                 <pattern>
@@ -78509,6 +78530,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion> (</suggestion>
                 <example correction=" (">Wir suchen Lehrer<marker>(</marker>m/w/d) für eine Schule.</example>
                 <example>Wir suchen Lehrer (m/w/d) für eine Schule.</example>
+            </rule>
+            <rule><!-- single letter or digit followed by a separate word: mit(z. B. Ausweis), lange(5 Stunden) -->
+                <antipattern>
+                    <token skip="5">(</token>
+                    <token regexp="yes">;|=</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">
+                        \p{L}+\p{Ll}
+                        <exception case_sensitive="yes" regexp="yes">.*[a-z][A-Z][a-z].*|function|plot|if|while|for|return|print|log|switch|min|max|exp|sum|len|count</exception>
+                    </token>
+                    <marker>
+                        <token spacebefore="no">(</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">[\p{L}\d]</token>
+                    <token spacebefore="no" min="0">.</token>
+                    <token spacebefore="yes" regexp="yes">\p{L}.*</token>
+                </pattern>
+                <message>Hier scheint ein Leerzeichen vor der Klammer zu fehlen.</message>
+                <suggestion> (</suggestion>
+                <example correction=" (">Bitte bringen Sie Ihre Unterlagen mit<marker>(</marker>z. B. Ausweis).</example>
+                <example correction=" (">Die Besprechung dauert lange<marker>(</marker>5 Stunden).</example>
+                <example>Bitte bringen Sie Ihre Unterlagen mit (z. B. Ausweis).</example>
+                <example>Die Formel lautet f(x + y) = z.</example>
+                <example>Setze den Wert mit max(a, b) fest.</example>
+                <example>Der Arbeit(s)vertrag liegt vor.</example>
             </rule>
         </rulegroup>
         <rule id="DOPPELTES_LEERZEICHEN" name="Doppeltes Leerzeichen">
