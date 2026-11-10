@@ -38648,10 +38648,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>fa<exception regexp="yes" scope="previous">es|hi|el|ho|&substantius_darrere_que;</exception></token>
                 </marker>
-                <token postag="V.P..SM." postag_regexp="yes"/>
+                <token postag="V.P..SM." postag_regexp="yes"><exception>sostingut</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>ha</suggestion> (del verb 'haver')?</message>
             <example correction="ha">El mecanisme <marker>fa</marker> funcionat.</example>
+            <example>En fa sostingut menor.</example>
         </rule>
         <rule id="FAN_HAN" name="fan funcionat -> han funcionat">
             <pattern>
@@ -59688,7 +59689,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception>de</exception></token>
                     <marker>
-                        <token>con<exception postag="_GN_MS"/></token>
+                        <token>con<exception postag="_GN_MS|LOC_ADV" postag_regexp="yes"/></token>
                     </marker>
                     <!-- <token regexp="yes">a|si</token> -->
                 </pattern>
@@ -126828,6 +126829,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>procés</token>
                 <token regexp="yes">diagnòstic|analític</token>
             </antipattern>
+            <antipattern>
+                <token>procés</token>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes">remodelació|anàlisi|retauració</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -145545,7 +145551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://esadir.cat/entrades/fitxa/id/2536</url>
             <!-- Casos específics amb prioritat més alta -->
             <antipattern>
-                <token inflected="yes" regexp="yes">un|festa</token>
+                <token inflected="yes" regexp="yes">un|festa|estat</token>
                 <token inflected="yes">major</token>
             </antipattern>
             <antipattern>
@@ -145832,6 +145838,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>major</token>
                 <token>oferent</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">festa|estat</token>
+                <token inflected="yes">major</token>
+            </antipattern>
+            <antipattern>
+                <token>major</token>
+                <token>part</token>
             </antipattern>
             <rule>
                 <pattern>
