@@ -9550,6 +9550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
+
         <rule id='ENQUANTO_POSSA_SER' name="Expressão: Enquanto puder ser" type='style' tone_tags="formal">
             <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
             <pattern>
@@ -9563,6 +9564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="puder">Vou estudar enquanto <marker>possa</marker> ser possível.</example>
         </rule>
 
+
         <rulegroup id='CHILDISH_LANGUAGE' name="3. Linguagem infantil" default='off' tags='picky'>
             <url>https://pt.wiktionary.org/wiki/Categoria:Infantil_(Portugu%C3%AAs)</url>
             <short>Linguagem infantil</short>
@@ -9573,14 +9575,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token>costas</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp='yes'>[«»“”"'‘’]</token>
-                    <token regexp="yes">(?:&infantil;)s?</token>
-                    <token regexp='yes'>[«»“”"'‘’]</token>
+                    <token postag='_QUOT'/>
+                    <token regexp='yes' spacebefore='no'>(?:&infantil;)s?</token>
+                    <token spacebefore='no' postag='_QUOT'/>
                     <example>O cão fez "auau".</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">(?:&infantil;)s?
-                        <exception>papeis</exception></token>
+                    <token regexp='yes'>(?:&infantil;)s?<exception>papeis</exception></token>
                 </pattern>
                 <message>Linguagem infantil. Considere colocar entre aspas.</message>
                 <suggestion>“<match no='1'/>”</suggestion>
@@ -9588,19 +9589,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp='yes'>[«»“”"'‘’]</token>
-                    <token regexp="yes" spacebefore='yes'>ãos?</token>
-                    <token regexp='yes'>[«»“”"'‘’]</token>
+                    <token postag='_QUOT'/>
+                    <token regexp='yes' spacebefore='no'>ãos?</token>
+                    <token spacebefore='no' postag='_QUOT'/>
                     <example>O cão fez "ão".</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" spacebefore='yes'>ãos?</token>
+                    <token regexp='yes' spacebefore='yes'>ãos?</token>
                 </pattern>
                 <message>Linguagem infantil.colocar entre aspas.</message>
                 <suggestion>“<match no='1'/>”</suggestion>
                 <example correction='“ão”'>O cão fez <marker>ão</marker> para mim.</example>
             </rule>
         </rulegroup>
+
 
         <rulegroup id='PROFANITY' name="5. Profanidade" default='off'>
             <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
