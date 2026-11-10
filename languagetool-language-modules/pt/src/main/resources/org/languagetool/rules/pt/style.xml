@@ -9905,48 +9905,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- TENHO PENA lamento -->
-        <rulegroup id='TER_PENA_LAMENTAR' name="👔 Ter pena → Lamentar" tags="picky">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-04 (2-MAR-2023+) -->
+        <rulegroup id='TER_PENA_LAMENTAR' name="👔 Ter pena → lamentar" type='style' tags='picky' tone_tags='formal'>
+            <!-- ChatGPT 6: revisão estilística, conjugação verbal, colocação pronominal e prevenção de falsos positivos. -->
             <!--
-            Subrule1:
-            Tenho pena de que as coisas tenham corrido mal. → Lamento que as coisas tenham corrido mal.
+            Num registo formal, "lamentar" pode constituir uma alternativa mais concisa
+            a "ter pena", sobretudo em comunicações e manifestações de pesar.
 
-            Subrule2:
-            Tenho pena em vos informar que hoje não dá. → Lamento vos informar que hoje não dá.
-            Tenho pena de lhe informar que hoje não dá. → Lamento lhe informar que hoje não dá.
+            A substituição é facultativa, pois as expressões não são equivalentes
+            em todos os contextos.
+
+            #1: Ter pena (de) que → lamentar que.
+            #2: Ter pena de/em + pronome + verbo de comunicação.
+            #3: Construções com os pronomes indiretos "lhe" e "lhes".
+            #4: Construções com os pronomes diretos "o", "a", "os" e "as".
             -->
 
-            <!-- Subrule1: -->
-            <rule>
+            <rule> <!-- #1: Ter pena (de) que → lamentar que. -->
                 <pattern>
                     <marker>
-                        <token inflected='yes'>ter</token>
+                        <token inflected='yes' postag='V.+' postag_regexp='yes'>ter</token>
                         <token>pena</token>
-                        <token min="0" max="1">de</token>
+                        <token min='0' max='1'>de</token>
                     </marker>
                     <token>que</token>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever:</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match></suggestion>
+                <message>Num registo formal, considere a forma mais concisa <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match></suggestion>.</message>
                 <example correction="Lamento"><marker>Tenho pena de</marker> que as coisas tenham corrido mal.</example>
+                <example correction="Lamentamos"><marker>Temos pena</marker> que a situação não tenha sido resolvida.</example>
             </rule>
 
-            <!-- Subrule2: -->
-            <rule>
+            <rule> <!-- #2: Pronomes me/te/nos/vos com verbos de comunicação. -->
                 <pattern>
                     <marker>
-                        <token inflected='yes'>ter</token>
+                        <token inflected='yes' postag='V.+' postag_regexp='yes'>ter</token>
                         <token>pena</token>
-                        <token regexp='yes'>em|de</token>
-                        <token regexp='yes'>&pronomes_obliquos;</token>
+                        <token regexp='yes'>de|em</token>
+                        <token regexp='yes'>me|te|nos|vos</token>
+                        <token regexp='yes'>informar|dizer|comunicar|anunciar|contar|revelar</token>
                     </marker>
-                    <token postag='V.+' postag_regexp='yes'/>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever:</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> \4</suggestion>
-                <example correction="Lamento vos"><marker>Tenho pena em vos</marker> informar que hoje não dá.</example>
-                <example correction="Lamento lhe"><marker>Tenho pena de lhe</marker> informar que hoje não dá.</example>
+                <message>Num registo formal, considere a construção mais concisa <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> \5-\4</suggestion>.</message>
+                <example correction="Lamento informar-vos"><marker>Tenho pena em vos informar</marker> que a reunião foi cancelada.</example>
+                <example correction="Lamentamos comunicar-te"><marker>Temos pena de te comunicar</marker> esta decisão.</example>
+            </rule>
+
+            <rule> <!-- #3: Pronomes lhe/lhes com verbos de comunicação compatíveis. -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes' postag='V.+' postag_regexp='yes'>ter</token>
+                        <token>pena</token>
+                        <token regexp='yes'>de|em</token>
+                        <token regexp='yes'>lhes?</token>
+                        <token regexp='yes'>dizer|comunicar|anunciar|contar|revelar</token>
+                    </marker>
+                </pattern>
+                <message>Num registo formal, considere a construção mais concisa <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> \5-\4</suggestion>.</message>
+                <example correction="Lamento dizer-lhe"><marker>Tenho pena de lhe dizer</marker> que o pedido foi recusado.</example>
+                <example correction="Lamentamos anunciar-lhes"><marker>Temos pena em lhes anunciar</marker> esta decisão.</example>
+            </rule>
+
+            <rule> <!-- #4: Pronomes o/a/os/as com o verbo informar. -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes' postag='V.+' postag_regexp='yes'>ter</token>
+                        <token>pena</token>
+                        <token regexp='yes'>de|em</token>
+                        <token regexp='yes'>[ao]s?</token>
+                        <token>informar</token>
+                    </marker>
+                </pattern>
+                <message>Num registo formal, considere a construção mais concisa <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> informá-l\4</suggestion>.</message>
+                <example correction="Lamento informá-lo"><marker>Tenho pena de o informar</marker> de que o prazo terminou.</example>
+                <example correction="Lamentamos informá-las"><marker>Temos pena em as informar</marker> de que a reunião foi adiada.</example>
             </rule>
 
         </rulegroup>
