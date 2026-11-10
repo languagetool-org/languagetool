@@ -9870,21 +9870,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id="SOB_O_PONTO_DE_VISTA" name="do ponto de vista">
-            <!--      Created by Marco A.G.Pinto, 2017-07-04      -->
+        <rule id='SOB_O_PONTO_DE_VISTA' name="✂️ 'Sob o' ponto de vista → 'do'" type='style' tags='picky'>
+            <!-- ChatGPT 6: preferência estilística e prevenção de falsos positivos. -->
+            <!--
+            A expressão «sob o ponto de vista» é tradicionalmente
+            desaconselhada, sendo preferível «do ponto de vista».
+
+            A regra não abrange «sobre o ponto de vista», pois esta
+            construção pode ser legítima quando o ponto de vista
+            constitui o assunto de uma afirmação.
+
+            Aceita um modificador opcional (adjetivo ou determinante)
+            entre o artigo e a expressão «ponto de vista».
+            -->
             <pattern>
                 <marker>
-                    <token regexp='yes'>sob(?:re)?</token>
+                    <token>sob</token>
                     <token>o</token>
                 </marker>
-                <token min='0' postag_regexp='yes' postag='[AD]P.+'/>
+                <token min='0' postag_regexp='yes' postag='(?:AQ|DP).*'/>
                 <token>ponto</token>
                 <token>de</token>
                 <token>vista</token>
             </pattern>
-            <message>Substitua por <suggestion>do</suggestion>.</message>
+            <message>Prefira <suggestion>do</suggestion> nesta construção.</message>
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/do-ponto-de-vista/450</url>
             <example correction="do">Está tudo bem <marker>sob o</marker> ponto de vista da Ana.</example>
+            <example correction="Do"><marker>Sob o</marker> ponto de vista jurídico, a decisão é válida.</example>
+            <example correction="do">A decisão é questionável <marker>sob o</marker> estrito ponto de vista económico.</example>
+            <example correction="do">A situação é aceitável <marker>sob o</marker> seu ponto de vista.</example>
+            <example>O artigo é sobre o ponto de vista do autor.</example>
+            <example>Do ponto de vista jurídico, a decisão é válida.</example>
+            <example>O problema foi analisado sob o microscópio.</example>
         </rule>
 
 
