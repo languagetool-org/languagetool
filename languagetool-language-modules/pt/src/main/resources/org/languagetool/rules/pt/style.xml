@@ -11139,9 +11139,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="🎓🔬 Falhas de precisão → imprecisões" type='style' tone_tags='academic' default='on'>
             <!-- ChatGPT 6: regra restrita para evitar substituir erros ou falhas reais por imprecisões. -->
+            <!-- Exclui modificadores posteriores de "precisão" que possam causar problemas de concordância. -->
+            <antipattern>
+                <token>falhas</token>
+                <token>de</token>
+                <token>precisão</token>
+                <token postag='RG.+' postag_regexp='yes' min='0' max='1'/>
+                <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+            </antipattern>
             <pattern>
                 <token inflected='yes'>corrigir</token>
-                <token regexp='yes' min='0' max='1'>algumas|pequenas|ligeiras|várias</token>
+                <token regexp='yes' min='0' max='1'>as|algumas|pequenas|ligeiras|várias</token>
                 <marker>
                     <token>falhas</token>
                     <token>de</token>
@@ -11153,10 +11161,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="imprecisões">Vou corrigir pequenas <marker>falhas de precisão</marker> no texto.</example>
             <example correction="imprecisões">É necessário corrigir algumas <marker>falhas de precisão</marker> na descrição dos resultados.</example>
             <example correction="imprecisões">Devemos corrigir <marker>falhas de precisão</marker> no relatório.</example>
+            <example correction="imprecisões">É necessário corrigir as <marker>falhas de precisão</marker> no texto.</example>
             <example>Vou corrigir algumas imprecisões no texto.</example>
             <example>Vou corrigir pequenos erros de cálculo.</example>
             <example>É necessário corrigir as falhas de segurança.</example>
             <example>O investigador procurou corrigir erros científicos.</example>
+            <example>É necessário corrigir falhas de precisão numérica nos cálculos.</example>
+            <example>Devemos corrigir falhas de precisão estatística no relatório.</example>
         </rule>
 
 
