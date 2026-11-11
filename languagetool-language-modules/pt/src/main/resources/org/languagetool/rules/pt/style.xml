@@ -11033,22 +11033,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger" tone_tags="academic">
+        <rule id='COBRIR_ABRANGER' name="🎓 Coberto → Abrangido (âmbito documental)" type='style' tags='picky' tone_tags='academic'>
+            <!--
+            Sugestão estilística para textos académicos e técnicos.
+
+            O verbo "cobrir" também pode significar "abranger" em português,
+            pelo que a sua utilização não constitui necessariamente
+            um erro de tradução.
+
+            A regra limita-se a assuntos, temas e outras matérias
+            abrangidos por documentos, relatórios, estudos ou textos.
+
+            A substituição preserva o género e o número:
+            coberto  → abrangido
+            coberta  → abrangida
+            cobertos → abrangidos
+            cobertas → abrangidas
+
+            A regra não interfere com outros sentidos de "cobrir",
+            nomeadamente os relacionados com proteção, revestimento
+            ou cobertura jornalística.
+            -->
             <pattern>
-                <token regexp='yes' inflected='yes'>alinha|artigo|assunto|matéria|ponto|problema|problemática|questão|tema|temática|termo|tópico</token>
-                <token min="0" max="1" postag="RN" postag_regexp="no"/> <!-- "não" -->
-                <token min="0" max="1" regexp='yes' inflected='yes'>ser|estar</token>
+                <token regexp='yes'>assuntos?|temas?|temáticas?|tópicos?|questão|questões|problemáticas?|matérias?</token>
+                <token min='0' max='1'>não</token>
+                <token min='0' max='1' regexp='yes'>é|são|foi|foram|será|serão|está|estão|esteve|estiveram</token>
                 <marker>
-                    <token inflected='yes'>cobrir</token>
+                    <token regexp='yes'>cobert[oa]s?</token>
                 </marker>
-                <token postag="SPS00|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+" postag_regexp="yes"/>
+                <token regexp='yes'>por|pel[oa]s?</token>
+                <token min='0' max='1' postag='D.+' postag_regexp='yes'/>
+                <token regexp='yes'>documentos?|relatórios?|estudos?|artigos?|textos?|manuais?|capítulos?|teses?|dissertação|dissertações</token>
             </pattern>
-            <message>Expressão não pode ser traduzida literalmente.</message>
-            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>abranger</match></suggestion>
+            <message>Em textos académicos, &quot;abrangido&quot; pode ser mais preciso para indicar o âmbito de um documento.</message>
+            <suggestion><match no='4' regexp_match='^cobert' regexp_replace='abrangid'/></suggestion>
             <example correction="abrangidos">Em relação a temas não <marker>cobertos</marker> por este documento.</example>
             <example correction="abrangidos">Temos assuntos <marker>cobertos</marker> pelo documento.</example>
             <example correction="abrangido">Este tema não é <marker>coberto</marker> por este documento.</example>
             <example correction="abrangido">Este tema está <marker>coberto</marker> por este documento.</example>
+            <example correction="abrangidas">As questões foram <marker>cobertas</marker> pelo relatório.</example>
+            <example correction="abrangida">A matéria é <marker>coberta</marker> por este estudo.</example>
+            <example>O ponto foi coberto com tinta.</example>
+            <example>Os temas foram cobertos pela imprensa.</example>
+            <example>O relatório cobre todos os temas previstos.</example>
         </rule>
 
 
