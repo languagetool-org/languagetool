@@ -11136,18 +11136,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="oposto">A Ana percebeu exatamente o <marker>contrário</marker>.</example>
         </rule>
 
-        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="🎓🔬 Corrigir 'erros/falhas' → 'imprecisões'" type="style" tone_tags="academic" default="off">
+
+        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="🎓🔬 Falhas de precisão → imprecisões" type='style' tone_tags='academic' default='on'>
+            <!-- ChatGPT 6: regra restrita para evitar substituir erros ou falhas reais por imprecisões. -->
+            <!-- Exclui modificadores posteriores de "precisão" que possam causar problemas de concordância. -->
+            <antipattern>
+                <token>falhas</token>
+                <token>de</token>
+                <token>precisão</token>
+                <token postag='RG.+' postag_regexp='yes' min='0' max='1'/>
+                <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+            </antipattern>
             <pattern>
                 <token inflected='yes'>corrigir</token>
-                <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|algum|inúmero|pequeno</token>
+                <token regexp='yes' min='0' max='1'>as|algumas|pequenas|ligeiras|várias</token>
                 <marker>
-                    <token regexp='yes'>erros|falhas</token>
+                    <token>falhas</token>
+                    <token>de</token>
+                    <token>precisão</token>
                 </marker>
             </pattern>
-            <message>&scientific_intro; pondere empregar o termo &quot;imprecisão&quot;.</message>
-            <example>Vou corrigir algumas <marker>imprecisões</marker> no texto.</example>
-            <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
+            <message>&scientific_intro; a expressão &quot;falhas de precisão&quot; pode ser simplificada para:</message>
+            <suggestion>imprecisões</suggestion>
+            <example correction="imprecisões">Vou corrigir pequenas <marker>falhas de precisão</marker> no texto.</example>
+            <example correction="imprecisões">É necessário corrigir algumas <marker>falhas de precisão</marker> na descrição dos resultados.</example>
+            <example correction="imprecisões">Devemos corrigir <marker>falhas de precisão</marker> no relatório.</example>
+            <example correction="imprecisões">É necessário corrigir as <marker>falhas de precisão</marker> no texto.</example>
+            <example>Vou corrigir algumas imprecisões no texto.</example>
+            <example>Vou corrigir pequenos erros de cálculo.</example>
+            <example>É necessário corrigir as falhas de segurança.</example>
+            <example>O investigador procurou corrigir erros científicos.</example>
+            <example>É necessário corrigir falhas de precisão numérica nos cálculos.</example>
+            <example>Devemos corrigir falhas de precisão estatística no relatório.</example>
         </rule>
+
 
         <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="🔬 'de propósito' → 'deliberadamente'" type="style" tags="picky" tone_tags="formal">
             <rule>
