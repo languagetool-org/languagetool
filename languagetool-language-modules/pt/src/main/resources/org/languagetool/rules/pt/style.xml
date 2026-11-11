@@ -11171,23 +11171,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="🔬 'de propósito' → 'deliberadamente'" type="style" tags="picky" tone_tags="formal">
-            <rule>
-                <pattern>
-                    <token inflected='yes'>fazer</token>
-                    <token min='0' max='1' postag='(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
-                    <marker>
-                        <token>de</token>
-                        <token>propósito</token>
-                    </marker>
-                </pattern>
-                <message>Num contexto formal/científico, é preferível escrever &quot;deliberadamente&quot;.</message>
-                <suggestion>deliberadamente</suggestion>
-                <example correction="deliberadamente">Eles fizeram <marker>de propósito</marker>.</example>
-                <example correction="deliberadamente">Eles fizeram aquilo <marker>de propósito</marker>.</example>
-                <example correction="deliberadamente">Eles fizeram-no <marker>de propósito</marker>.</example>
-            </rule>
-        </rulegroup>
+        <rule id='DE_PROPOSITO_DELIBERADAMENTE' name="🔬 De propósito → deliberadamente" type='style' tags='picky' tone_tags='formal'>
+            <!-- ChatGPT 6: sugestão estilística para contextos formais ou científicos. -->
+            <!--
+            A expressão "de propósito" é correta, mas "deliberadamente"
+            pode constituir uma alternativa mais adequada em determinados
+            contextos formais.
+
+            Restringe-se a deteção ao verbo "fazer", eventualmente seguido
+            de até dois determinantes ou pronomes, para reduzir os falsos
+            positivos e preservar o sentido da expressão.
+            -->
+            <pattern>
+                <token inflected='yes'>fazer</token>
+                <token min='0' max='2' postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+                <marker>
+                    <token>de</token>
+                    <token>propósito</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal ou científico, considere substituir esta expressão por:</message>
+            <suggestion>deliberadamente</suggestion>
+            <example correction="deliberadamente">Eles fizeram <marker>de propósito</marker>.</example>
+            <example correction="deliberadamente">Eles fizeram aquilo <marker>de propósito</marker>.</example>
+            <example correction="deliberadamente">Eles fizeram isso tudo <marker>de propósito</marker>.</example>
+            <example correction="deliberadamente">Eles fizeram tudo aquilo <marker>de propósito</marker>.</example>
+            <example correction="deliberadamente">Eles fizeram-no <marker>de propósito</marker>.</example>
+            <example type="correct">Foi de propósito que eles se atrasaram.</example>
+        </rule>
 
 
         <rule id='CIENTÍFICO_EMPREGAR_TERMO' name="🔬 'usar/utilizar' termo → empregar" type='style' tags='picky' tone_tags='formal' is_goal_specific='true'>
