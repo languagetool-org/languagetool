@@ -14397,7 +14397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>a</token>
                     </marker>
                     <token min="1" max="6" postag="[DAN].*|PX.*|SPS00|CC" postag_regexp="yes"><exception inflected="yes">tot</exception><exception postag="SPS00" negate="yes" regexp="yes">de|d'</exception></token>
-                    <token>a</token>
+                    <token>a<exception scope="previous" postag="CC"/></token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Aquest verb és transitiu i cal eliminar la preposició 'a'.</message>
@@ -14411,6 +14411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ha obligat a tots a fer-ho.</example>
                 <example>Va obligar a tots els alumnes a córrer.</example>
                 <example>La maduresa et porta a la reflexió i la reflexió a admetre els errors.</example>
+                <example>Han ajudat a les datacions i a comprendre la forma de vida.</example>
             </rule>
             <rule>
                 <pattern>
@@ -104766,7 +104767,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">en|a</token>
                 </marker>
                 <token min="0" postag="DA.*" postag_regexp="yes"/>
-                <token postag="NP..G.." postag_regexp="yes"/>
+                <token postag="NP..G.." postag_regexp="yes"><exception>Java</exception></token>
             </pattern>
             <message>Amb el sentit de 'radicat a', aquesta expressió és un calc de l'anglès.</message>
             <suggestion><match no="1" regexp_match="(?iu)basa" regexp_replace="radica"/> \2</suggestion>
@@ -104775,6 +104776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>amb seu a</suggestion>
             <suggestion>a</suggestion>
             <example correction="radicat a|establert a|establit a|amb seu a|a">Un empresari <marker>basat a</marker> Berlín.</example>
+            <example>Programari de codi obert basat en Java.</example>
         </rule>
         <rulegroup id="AMB_BASE_EN" name="amb base en (anglicisme)">
             <rule>
