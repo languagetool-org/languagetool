@@ -9551,17 +9551,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='ENQUANTO_POSSA_SER' name="Expressão: Enquanto puder ser" type='style' tone_tags="formal">
-            <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
+        <rule id='ENQUANTO_POSSA_SER' name="Enquanto 'possa ser' possível → for" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: simplificação estilística e prevenção de falsos positivos. -->
+            <!--
+            A construção "possa ser possível" é redundante.
+            A regra limita-se à expressão "enquanto possa ser possível",
+            evitando substituições automáticas noutras construções.
+            -->
             <pattern>
                 <token>enquanto</token>
                 <marker>
                     <token>possa</token>
+                    <token>ser</token>
                 </marker>
-                <token>ser</token>
+                <token>possível</token>
             </pattern>
-            <message>Substitua por <suggestion>puder</suggestion>.</message>
-            <example correction="puder">Vou estudar enquanto <marker>possa</marker> ser possível.</example>
+            <message>Evite a construção redundante &quot;possa ser possível&quot;. Prefira <suggestion>for</suggestion>.</message>
+            <example correction="for">Vou estudar enquanto <marker>possa ser</marker> possível.</example>
+            <example type="correct">Vou estudar enquanto for possível.</example>
+            <example type="correct">Vou estudar enquanto puder.</example>
+            <example type="correct">Continuarei a ajudar enquanto puder ser útil.</example>
         </rule>
 
 
