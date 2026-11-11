@@ -11050,19 +11050,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="abrangido">Este tema não é <marker>coberto</marker> por este documento.</example>
             <example correction="abrangido">Este tema está <marker>coberto</marker> por este documento.</example>
         </rule>
-        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="Atenção devida" tone_tags="formal">
-            <!-- IDEA shorten_it -->
+
+
+        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="👔 Atenção 'que merece(m)' → devida" type='style' tags='picky' tone_tags='formal'>
+            <!--
+            Sugestão estilística de concisão em contextos formais.
+
+            Não vos posso dar a atenção que merecem.
+            → Não vos posso dar a atenção devida.
+
+            Esta questão não recebeu a atenção que merece.
+            → Esta questão não recebeu a atenção devida.
+
+            A regra restringe a conjugação de "merecer" ao presente
+            do indicativo, na terceira pessoa do singular ou plural.
+
+            Exige pontuação imediatamente a seguir ao verbo para
+            evitar substituições em construções mais complexas.
+            -->
             <pattern>
                 <token>atenção</token>
                 <marker>
                     <token>que</token>
-                    <token inflected='yes'>merecer</token>
+                    <token regexp='yes'>merece|merecem</token>
                 </marker>
+                <token regexp='yes'>[.,;:!?]</token>
             </pattern>
-            <message>Substitua por <suggestion>devida</suggestion>.</message>
+            <message>Num contexto formal, pode utilizar uma formulação mais concisa, se o significado se mantiver.</message>
+            <suggestion>devida</suggestion>
             <example correction="devida">Não vos posso dar a atenção <marker>que merecem</marker>.</example>
+            <example correction="devida">Esta questão não recebeu a atenção <marker>que merece</marker>.</example>
+            <example type="correct">A atenção que merece ser dada a este assunto é considerável.</example>
+            <example type="correct">Esta situação exige a atenção que merece qualquer problema desta gravidade.</example>
         </rule>
-        <!-- PARA TER ACONTECIDO para acontecer -->
 
 
         <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='🎓 Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style" tone_tags="academic">
