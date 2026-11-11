@@ -1112,44 +1112,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         </rulegroup>
 
-        <rulegroup id='TOKENS_QUE_É_SÃO_TOKENS' name="[Redundância] Evitar redundância de tokens em redor de 'que é/são'" tags="picky">
-            <!--IDEA shorten_it-->
 
-            <rule> <!-- two repeated tokens -->
+        <rulegroup id='TOKENS_QUE_É_SÃO_TOKENS' name="[Redundância] Repetição de palavras após 'que é/são'" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: deteção de repetições lexicais em orações relativas. -->
+            <!--
+            Regra estilística para identificar a repetição desnecessária
+            de nomes e adjetivos após as expressões "que é" e "que são".
+
+            As correspondências exigem a repetição exata das palavras,
+            reduzindo o risco de falsos positivos.
+
+            #1: Repetição de nome + adjetivo, seguida de qualificativo.
+            #2: Repetição de nome, após nome + adjetivo.
+            #3: Repetição de nome, após nome isolado.
+
+            A regra permanece no nível picky porque a repetição pode
+            ser intencional ou justificar-se em determinados contextos.
+            -->
+
+            <rule> <!-- #1: Repetição de nome + adjetivo. -->
                 <pattern>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='V.+'/>
-                    </token>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='NC.+' postag_regexp='yes'><exception postag='V.+' postag_regexp='yes'/></token>
+                    <token postag='AQ.+' postag_regexp='yes'/>
                     <marker>
                         <token>que</token>
-                        <token regexp="yes">é|são</token>
-                        <token><match no="0"/></token>
-                        <token><match no="1"/></token>
-                        <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+                        <token regexp='yes'>é|são</token>
+                        <token><match no='0'/></token>
+                        <token><match no='1'/></token>
+                        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>Possível redundância ao redor de &quot;que é/são&quot;.</message>
+                <message>Possível repetição desnecessária de palavras. Considere simplificar a expressão.</message>
                 <suggestion>\3 \4 \7</suggestion>
                 <example correction="que são internas">Temos as guerras civis <marker>que são guerras civis internas</marker> em Estados soberanos.</example>
+                <example>As guerras civis que são conflitos internos podem prolongar-se.</example>
             </rule>
 
-            <rule> <!-- one repeated token -->
+            <rule> <!-- #2: Repetição de nome após nome + adjetivo. -->
                 <pattern>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='V.+'/>
-                    </token>
-                    <token min="0" max="1" postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='NC.+' postag_regexp='yes'><exception postag='V.+' postag_regexp='yes'/></token>
+                    <token postag='AQ.+' postag_regexp='yes'/>
                     <marker>
                         <token>que</token>
-                        <token regexp="yes">é|são</token>
-                        <token><match no="0"/></token>
-                        <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+                        <token regexp='yes'>é|são</token>
+                        <token><match no='0'/></token>
+                        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>Possível redundância ao redor de &quot;que é/são&quot;.</message>
-                <suggestion>\3 \4 \7</suggestion>
+                <message>Possível repetição desnecessária de palavras. Considere simplificar a expressão.</message>
+                <suggestion>\3 \4 \6</suggestion>
                 <example correction="que são internas">Temos as guerras civis <marker>que são guerras internas</marker> em Estados soberanos.</example>
+                <example>As guerras civis que são guerras de libertação têm características próprias.</example>
+            </rule>
+
+            <rule> <!-- #3: Repetição de nome após nome isolado. -->
+                <pattern>
+                    <token postag='NC.+' postag_regexp='yes'><exception postag='V.+' postag_regexp='yes'/></token>
+                    <marker>
+                        <token>que</token>
+                        <token regexp='yes'>é|são</token>
+                        <token><match no='0'/></token>
+                        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+                    </marker>
+                </pattern>
+                <message>Possível repetição desnecessária de palavras. Considere simplificar a expressão.</message>
+                <suggestion>\2 \3 \5</suggestion>
+                <example correction="que são históricas">Existem cidades <marker>que são cidades históricas</marker>.</example>
+                <example>Existem cidades que são centros históricos importantes.</example>
             </rule>
 
         </rulegroup>
