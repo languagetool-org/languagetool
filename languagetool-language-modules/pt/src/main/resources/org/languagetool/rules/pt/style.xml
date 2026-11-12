@@ -10694,32 +10694,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-       <rule id='SER_CONSISTIR_RESIDIR' name="🎓🔬 V.Ser → V.Consistir/V.Residir" tone_tags="academic" is_goal_specific="true">
+
+        <rule id='SER_CONSISTIR_RESIDIR' name="🎓🔬 Ser → Residir/Consistir" type='style' tags='picky' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!--
+            Sugere "residir" ou "consistir" em construções comparativas
+            nas quais estes verbos podem conferir maior precisão ao texto.
+
+            A regra exige:
+            - Um substantivo relacionado com diferença ou distinção.
+            - A preposição "entre", com um complemento limitado.
+            - Uma forma selecionada do verbo "ser".
+            - Uma preposição compatível com os verbos sugeridos.
+
+            O padrão evita atravessar verbos, pontuação e determinados
+            conectores, reduzindo o risco de falsos positivos.
+
+            A substituição é estilística e deve preservar o significado.
+            -->
+
             <pattern>
-                <token regexp='yes' inflected='yes'>assimetria|diferença|dissemelhança|disparidade|distinção|oposição|oposto</token>
-                <token min='0' max='1' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
-                    <exception regexp='no'>entre</exception>
+                <!-- Substantivos associados a diferenças ou distinções. -->
+                <token regexp='yes' inflected='yes'>assimetria|diferença|dissemelhança|disparidade|distinção</token>
+
+                <!-- Modificador adjetival ou particípio opcional. -->
+                <token min='0' max='1' postag='AQ.+|VMP.+' postag_regexp='yes'/>
+
+                <!-- Introdução da comparação. -->
+                <token>entre</token>
+
+                <!-- Complemento limitado a oito tokens, sem atravessar orações. -->
+                <token min='1' max='8'>
+                    <exception postag='V.+|F.+|_PUNCT.+' postag_regexp='yes'/>
+                    <exception regexp='yes'>como|que|quando|onde|porque|se|mas|porém|contudo</exception>
                 </token>
-                <token skip="-1" regexp='no'>entre</token>
+
+                <!-- Negação opcional. -->
+                <token min='0' max='1'>não</token>
+
+                <!-- Formas verbais selecionadas para preservar a conjugação. -->
                 <marker>
-                    <token inflected='yes' regexp='no'>ser
-                    <exception scope='previous' regexp='no'>como</exception>
-                    </token>
+                    <token regexp='yes'>é|são|era|eram|foi|foram|será|serão</token>
                 </marker>
-                <token min='0' max='1' postag='CC|RM' postag_regexp='yes'/>
-                <token regexp='yes'>em|n[ao]s?</token>
+
+                <!-- Advérbio opcional. -->
+                <token min='0' max='1' regexp='yes'>apenas|simplesmente|essencialmente|principalmente|sobretudo|fundamentalmente|exclusivamente|precisamente</token>
+
+                <!-- Preposições compatíveis com as alternativas propostas. -->
+                <token regexp='yes'>em|n[ao]s?|num|nuns|numas?</token>
             </pattern>
-            <message>Num contexto formal/universitário, é preferível escrever &quot;consistir&quot; ou &quot;residir&quot;.</message>
-            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>consistir</match></suggestion>
-            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>residir</match></suggestion>
-            <example correction="consiste|reside">A distinção entre A e B <marker>é</marker> apenas na complexidade.</example>
-            <example correction="consiste|reside">A diferença existente entre A e B <marker>é</marker> apenas na complexidade.</example>
-            <example correction="consiste|reside">A diferença existente entre A e B <marker>é</marker> simplesmente em bits.</example>
-            <example correction="consiste|reside">A diferença existente entre Rui e Pedro <marker>é</marker> no vestuário.</example>
-            <example correction="consiste|reside">A diferença existindo entre o Rui e o Pedro <marker>é</marker> no vestuário.</example>
-            <example correction="consiste|reside">A diferença entre ambos <marker>é</marker> na beleza.</example>
-            <example>Já que existe diferença entre monarquia parlamentarista x monarquia absolutista como é nos países do Oriente Médio totalmente ditatorial.</example>
+
+            <message>Num contexto académico, pondere substituir &quot;ser&quot; por &quot;residir&quot; ou &quot;consistir&quot;, caso não altere o sentido.</message>
+
+            <suggestion><match no='6' postag='V.+' postag_regexp='yes'>residir</match></suggestion>
+            <suggestion><match no='6' postag='V.+' postag_regexp='yes'>consistir</match></suggestion>
+
+            <!-- Exemplos que devem desencadear a regra. -->
+            <example correction="reside|consiste">A distinção entre A e B <marker>é</marker> apenas na complexidade.</example>
+            <example correction="reside|consiste">A diferença existente entre A e B <marker>é</marker> apenas na complexidade.</example>
+            <example correction="reside|consiste">A diferença existente entre A e B <marker>é</marker> simplesmente em bits.</example>
+            <example correction="reside|consiste">A diferença entre o Rui e o Pedro <marker>é</marker> no vestuário.</example>
+            <example correction="reside|consiste">A diferença entre ambos <marker>é</marker> na beleza.</example>
+            <example correction="reside|consiste">A disparidade entre os resultados <marker>é</marker> na precisão.</example>
+            <example correction="reside|consiste">A assimetria entre os modelos <marker>é</marker> principalmente na distribuição.</example>
+            <example correction="reside|consiste">A diferença entre os sistemas não <marker>é</marker> na velocidade.</example>
+
+            <!-- Exemplos que não devem desencadear a regra. -->
+            <example>A diferença entre os modelos é que um utiliza mais memória.</example>
+            <example>A diferença entre os sistemas é significativa.</example>
+            <example>A diferença entre os resultados está na precisão.</example>
+            <example>A diferença entre os métodos consiste na abordagem utilizada.</example>
+            <example>A oposição entre as equipas é no estádio municipal.</example>
+            <example>A diferença entre A e B, como sabemos, é na complexidade.</example>
+            <example>Já que existe diferença entre monarquia parlamentarista e monarquia absolutista, como é nos países referidos.</example>
         </rule>
+
 
         <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="🎓 Ir_verbo + [a/de seguir/seguida] + V.Inf." type="style" tone_tags="academic">
             <!--IDEA shorten_it-->
