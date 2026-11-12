@@ -10596,29 +10596,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='TOMAR_ASSUMIR' name="🎓🔬 V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
-            <pattern>
-                <token postag='SENT_START|AQ.+|NC.+|NP.+|CS|CC' postag_regexp='yes'/>
-                <marker>
-                    <token inflected='yes'>tomar
-                        <exception scope='previous' postag_regexp='yes' postag='V.+|PP.+'/>
-                        <exception scope='previous' regexp='yes'>decis(ão|ões)</exception>
-                    </token>
-                </marker>
-                <token min='0' max='2' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|RG' postag_regexp='yes'/>
-                <token regexp='yes'>cert[ao]s?|determinad[ao]s?|diferentes?|divers[ao]s?|enormes?|formas?|imens[ao]s?|inúmer[ao]s|múltipl[ao]s|vári[ao]s|variad[ao]s</token>
-                <token postag='AQ.+|NC.+|PI.+|SPS00' postag_regexp='yes'>
-                    <exception regexp='yes' inflected='yes'>bebida|café|caneca|cerveja|chá|colher|copo|drink|frasco|garfo|garrafa|garrafão|xícara|shot|su[mc]o|vinho|gelado|sorvete|blíster|caixa|comprimido|contracetivo|embalagem|medicação|medicamento|pílula|remédio|autocarro|automóvel|avião|carrinha|carro|jato|ônibus|táxi|veículo|comboio|trem|voo|barc[ao]|bote|canoa|ferry|banho|duche</exception> <!-- Add more words as they are found -->
-                </token>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;assumir&quot;.</message>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
-            <example correction="assume">O crime <marker>toma</marker> formas impensáveis.</example>
-            <example correction="assume">O crime <marker>toma</marker> formas diversas.</example>
-            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> diversas formas.</example>
-            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> as mais diversas formas.</example>
-            <example correction="assumindo">Assobiar é produzir um som agudo com a boca <marker>tomando</marker> a forma de um O.</example>
-        </rule>
+        <rulegroup id='TOMAR_ASSUMIR' name="🎓🔬 V. Tomar → V. Assumir" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!--
+            Sugestão estilística para contextos formais/científicos.
+            Substituir "tomar" por "assumir" quando se refere à
+            forma adquirida ou apresentada por algo.
+
+            #1: Tomar a/uma forma → Assumir a/uma forma
+            #2: Tomar formas → Assumir formas
+
+            Exclui a expressão "tomar forma" sem determinante,
+            uma vez que é uma construção natural e idiomática.
+            -->
+
+            <rule> <!-- #1: Forma singular com determinante -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tomar</token>
+                    </marker>
+                    <token regexp='yes'>a|uma</token>
+                    <token min='0' max='1' regexp='yes'>determinada|diferente|diversa|nova|outra</token>
+                    <token>forma</token>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere à forma adquirida por algo, pode preferir-se o verbo &quot;assumir&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
+                <example correction="assumiu">O objeto <marker>tomou</marker> a forma de uma esfera.</example>
+                <example correction="assume">O fenómeno <marker>toma</marker> uma forma diferente.</example>
+                <example correction="assumindo">Assobiar é produzir um som agudo com a boca <marker>tomando</marker> a forma de um O.</example>
+            </rule>
+
+            <rule> <!-- #2: Formas plurais, com ou sem modificadores -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tomar</token>
+                    </marker>
+                    <token min='0' max='1' regexp='yes'>as|umas</token>
+                    <token min='0' max='1'>mais</token>
+                    <token min='0' max='1' regexp='yes'>certas|determinadas|diferentes|diversas|enormes|imensas|inúmeras|múltiplas|novas|outras|variadas|várias</token>
+                    <token>formas</token>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere às formas adquiridas por algo, pode preferir-se o verbo &quot;assumir&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
+                <example correction="assume">O crime <marker>toma</marker> formas impensáveis.</example>
+                <example correction="assume">O crime <marker>toma</marker> formas diversas.</example>
+                <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> diversas formas.</example>
+                <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> as mais diversas formas.</example>
+                <example correction="assumiram">As estruturas <marker>tomaram</marker> diferentes formas.</example>
+                <example>O fenómeno começou a tomar forma.</example>
+                <example>O investigador tomou várias decisões.</example>
+                <example>O doente tomou vários medicamentos.</example>
+            </rule>
+        </rulegroup>
+
 
         <!-- SENDO CONSIDERADA considerada -->
         <rulegroup id='SENDO_PARTPASS_PARTPASS' name="🎓 sendo + V.Part.Pass → V.Part.Pass" type='style' tone_tags="academic">
