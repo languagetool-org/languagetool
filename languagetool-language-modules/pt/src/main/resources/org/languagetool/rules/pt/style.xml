@@ -10564,19 +10564,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="🎓🤵 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true">
+        <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="🎓🤵 Ficar parado no tempo → estagnar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!--
+            Sugere o verbo "estagnar" como alternativa mais concisa à expressão
+            figurada "ficar parado no tempo", em contextos académicos e formais.
+
+            Reconhece as quatro formas do adjetivo:
+            parado, parada, parados, paradas.
+
+            Preserva a conjugação verbal através da flexão de "estagnar".
+
+            A sugestão deve ser interpretada como uma alternativa estilística,
+            pois a expressão original não está gramaticalmente incorreta.
+            -->
             <pattern>
                 <marker>
                     <token inflected='yes'>ficar</token>
-                    <token regexp='yes' >parad[ao]s?</token>
+                    <token regexp='yes'>parad[oa]s?</token>
                     <token>no</token>
                     <token>tempo</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal/universitário, é preferível escrever &quot;estagnar&quot;.</message>
+            <message>Num contexto académico ou formal, a expressão &quot;ficar parado no tempo&quot; pode ser substituída pelo verbo mais conciso &quot;estagnar&quot;, quando se pretende transmitir a ideia de ausência de evolução ou desenvolvimento.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estagnar</match></suggestion>
-            <example correction="estagnou">A Ana <marker>ficou parada no tempo</marker>.</example>
-            <example correction="estagnaram">Eles <marker>ficaram parados no tempo</marker>.</example>
+            <example correction="estagnou">A investigação <marker>ficou parada no tempo</marker>.</example>
+            <example correction="estagnou">A economia <marker>ficou parada no tempo</marker>.</example>
+            <example correction="estagnaram">As instituições <marker>ficaram paradas no tempo</marker>.</example>
+            <example correction="estagna">A sociedade <marker>fica parada no tempo</marker>.</example>
+            <example correction="estagnaremos">Sem inovação, <marker>ficaremos parados no tempo</marker>.</example>
         </rule>
 
 
