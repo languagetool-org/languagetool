@@ -10528,25 +10528,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="🎓 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true">
+       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="🎓 'Dar exemplo' → exemplificar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-            <!-- #1 - Without d[ao]s? -->
-            <rule>
+            <rule> <!-- #1: Expressão sem complemento, seguida de pontuação final. -->
                 <pattern>
                     <marker>
                         <token inflected='yes'>dar</token>
                         <token regexp='yes'>um|uns|algum|alguns</token>
                         <token regexp='yes'>exemplos?</token>
                     </marker>
-                    <token postag='_PUNCT|SPS00|CC|CS' postag_regexp='yes'/>
+                    <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
                 </pattern>
-                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
+                <message>Num contexto académico, pode optar por &quot;exemplificar&quot;, desde que o sentido seja preservado.</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match></suggestion>
                 <example correction="exemplificou">A Ana <marker>deu um exemplo</marker>.</example>
+                <example correction="exemplificaram">Os investigadores <marker>deram alguns exemplos</marker>.</example>
+                <example>A Ana deu um exemplo de aplicação.</example>
+                <example>A Ana deu um exemplo ao aluno.</example>
             </rule>
 
-            <!-- #2 - With d[ao]s? -->
-            <rule>
+            <rule> <!-- #2: Expressão seguida de do/da/dos/das. -->
                 <pattern>
                     <marker>
                         <token inflected='yes'>dar</token>
@@ -10555,10 +10557,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp='yes'>d[ao]s?</token>
                     </marker>
                 </pattern>
-                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match> <match no='4' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <message>Num contexto académico, pode optar por &quot;exemplificar&quot;, eliminando a preposição e preservando o artigo definido.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match> <match no='4' regexp_match='(?i)^d([ao]s?)$' regexp_replace='$1' case_conversion='alllower'/></suggestion>
                 <example correction="exemplificou a">A Ana <marker>deu um exemplo da</marker> equação.</example>
                 <example correction="exemplificou o">O Rui <marker>deu um exemplo do</marker> problema.</example>
+                <example correction="exemplificaram os">Os investigadores <marker>deram alguns exemplos dos</marker> resultados.</example>
+                <example correction="exemplificaram as">As investigadoras <marker>deram alguns exemplos das</marker> alterações.</example>
+                <example>A Ana deu um exemplo de aplicação.</example>
             </rule>
 
         </rulegroup>
