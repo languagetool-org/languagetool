@@ -10416,22 +10416,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true">
-            <pattern>
-                <marker>
-                    <token>que
-                        <exception scope="previous" postag_regexp='no' postag='SENT_START'/>
-                    </token>
-                    <token>não</token>
-                    <token>se</token>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token>apagar</token>
-                </marker>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;indelével&quot;.</message>
-            <suggestion>indelével</suggestion>
-            <example correction="indelével">O passado é algo <marker>que não se consegue apagar</marker>.</example>
-        </rule>
+        <rulegroup id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1 - Singular -->
+                <pattern>
+                    <token regexp='yes'>algo|cicatriz|impressão|lembrança|marca|memória|recordação|rasto|sinal|traço|vestígio</token>
+                    <marker>
+                        <token>que</token>
+                        <token>não</token>
+                        <token>se</token>
+                        <token regexp='yes'>consegue|pode</token>
+                        <token>apagar</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere a algo permanente, é preferível escrever &quot;indelével&quot;.</message>
+                <suggestion>indelével</suggestion>
+                <example correction="indelével">O passado é algo <marker>que não se consegue apagar</marker>.</example>
+                <example correction="indelével">Ela guardou uma memória <marker>que não se pode apagar</marker>.</example>
+                <example>É uma marca que não se quer apagar.</example>
+            </rule>
+
+            <rule> <!-- #2 - Plural -->
+                <pattern>
+                    <token regexp='yes'>cicatrizes|impressões|lembranças|marcas|memórias|recordações|rastos|sinais|traços|vestígios</token>
+                    <marker>
+                        <token>que</token>
+                        <token>não</token>
+                        <token>se</token>
+                        <token regexp='yes'>conseguem|podem</token>
+                        <token>apagar</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere a algo permanente, é preferível escrever &quot;indeléveis&quot;.</message>
+                <suggestion>indeléveis</suggestion>
+                <example correction="indeléveis">São memórias <marker>que não se conseguem apagar</marker>.</example>
+                <example correction="indeléveis">Estas marcas <marker>que não se podem apagar</marker> permanecem visíveis.</example>
+                <example>São recordações que não se querem apagar.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <rulegroup id='SABER_QUAL_DETERMINAR' name="🎓🔬 Saber qual/quais → determinar/identificar" type='style' tone_tags='academic' tags='picky'>
@@ -10478,35 +10502,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='BÁSICO_ELEMENTAR' name="🎓🔬 Básico → Elementar" tone_tags="academic" is_goal_specific="true">
-            <antipattern>
-                <token regexp='yes'>unidades?</token>
-                <token regexp='yes'>básicas?</token>
-                <token>de</token>
-                <token>saúde</token>
-                <example>IND-0295/2018 Indica a reforma completa da UBS (Unidade Básica de Saúde) da Vila Cretti.</example>
-                <example>Existem na cidade Unidades Básicas de Saúde e Unidade de Serviço de Apoio de Diagnose e Terapia.</example>
-            </antipattern>
-            <pattern>
-                <!-- Triggering (good) words below. Add more as found -->
-                <token skip='4' regexp='yes' inflected='yes'>abordagem|adição|algo|algoritmo|aritmética|aspec?to|biologia|cálculo|catástrofe|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|constituinte|diferença|disciplina|divisão|elemento|equação|erro|expressão|fac?to|ferramenta|física|forma|fórmula|função|fundamento|informação|interpretação|matemática|medida|método|métrica|motivo|multiplicação|noção|norma|obra|operação|palavra|prevenção|produto|questão|química|razão|regra|subtração|subunidade|suporte|técnica|tipo|unidade|valor|versão</token>
-                <marker>
-                    <token regexp='yes'>básic[ao]s?
-                        <exception scope='previous' inflected='yes' regexp="yes">a:o|necessidade|princípio|saneamento</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
-            <suggestion><match no='2' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
-            <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
-            <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
-            <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
-            <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
-            <example>Newton também deu andamento a obras de saneamento básico no Jequitinhonha.</example>
-            <example>Assim despertando a criatividade e a compreensão das necessidades básicas para o desenvolvimento de jogos.</example>
-            <example>A partir desses valores, possui como princípios básicos: "feedback" rápido e presumir simplicidade.</example>
-            <example>Para mim não chegam as palavras despojadas e reduzidas ao básico: os taninos, os citrinos.</example>
-        </rule>
+        <rulegroup id='BÁSICO_ELEMENTAR' name="🎓🔬 Básico → Elementar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1 - Academic concepts and knowledge -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>abordagem|aritmética|cálculo|compreensão|conceito|conhecimento|explicação|matemática|noção|raciocínio</token>
+                    <token min='0' max='1'>mais</token>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básico&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_regexp='yes' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementar">A Ana tem uma noção <marker>básica</marker> do assunto.</example>
+                <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
+                <example correction="elementares">Estes são conceitos <marker>básicos</marker> de matemática.</example>
+                <example>As necessidades básicas devem ser satisfeitas.</example>
+                <example>Os princípios básicos foram respeitados.</example>
+                <example>O saneamento básico é essencial para a saúde pública.</example>
+                <example>As palavras foram reduzidas ao básico.</example>
+            </rule>
+
+            <rule> <!-- #2 - The most basic form -->
+                <pattern>
+                    <token>forma</token>
+                    <token>mais</token>
+                    <marker>
+                        <token>básica</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básica&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion>elementar</suggestion>
+                <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
+                <example correction="elementar">Esta é a forma mais <marker>básica</marker> de representação.</example>
+                <example>Esta é uma forma básica de comunicação.</example>
+            </rule>
+
+            <rule> <!-- #3 - Elementary units of data/information -->
+                <pattern>
+                    <token regexp='yes'>unidades?</token>
+                    <token>mais</token>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                    <token regexp='yes'>da|de|dos</token>
+                    <token regexp='yes'>dados|informação</token>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básico&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_regexp='yes' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
+                <example correction="elementares">Estas são as unidades mais <marker>básicas</marker> de informação.</example>
+                <example>As unidades básicas de saúde foram renovadas.</example>
+                <example>Uma unidade básica de medida foi definida.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="🎓🔬 Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky">
@@ -20424,31 +20474,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- ,POIS : -->
-        <rule id='SIMPLIFICAR_POIS_REMOVER' name="✂️ Remoção de “pois” com ela(s)/ele(s)" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-04/05/07 (1-JAN-2022+)      -->
-            <!--
-            Não tenho médica de família, pois ela está ausente até dezembro. → Não tenho médica de família: ela está ausente até dezembro.
-            -->
+        <rule id='SIMPLIFICAR_POIS_REMOVER' name="✂️ Remoção de «pois» com ela(s)/ele(s)" type='style' tags='picky'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!-- Avoid splitting unfinished subordinate clauses -->
+            <antipattern>
+                <token regexp='yes' skip='-1'>se|caso|quando|embora|enquanto|conquanto
+                    <exception scope='next' regexp='yes'>[;:.!?]</exception></token>
+                <token>,</token>
+                <token>pois</token>
+                <token regexp='yes'>el[ae]s?</token>
+                <example>Se eles desistiram, pois eles não tinham financiamento, o projeto terá de parar.</example>
+                <example>Quando os alunos chegaram, pois eles estavam atrasados, a aula já tinha começado.</example>
+            </antipattern>
+
             <pattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='V.+'/>
-                </token>
+                <token postag='N.+|AQ.+|V.+' postag_regexp='yes'/>
                 <marker>
                     <token spacebefore='no'>,</token>
                     <token spacebefore='yes'>pois</token>
                     <token regexp='yes'>el[ae]s?</token>
                 </marker>
+                <token min='0' max='2' postag='RN|RG' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>, \3</suggestion>
+            <message>É possível simplificar a frase eliminando a conjunção &quot;pois&quot; e utilizando pontuação adequada. Verifique se a relação causal permanece clara.</message>
             <suggestion>. <match no='4' case_conversion='startupper'/></suggestion>
             <suggestion>: \4</suggestion>
             <suggestion>; \4</suggestion>
-            <suggestion>– \4</suggestion>
-            <example correction=", pois|. Ela|: ela|; ela|– ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
+            <suggestion> — \4</suggestion>
+            <example correction=". Ela|: ela|; ela| — ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
+            <example correction=". Ele|: ele|; ele| — ele">O relatório ficou incompleto<marker>, pois ele</marker> não contém todos os dados.</example>
+            <example correction=". Elas|: elas|; elas| — elas">As alunas faltaram<marker>, pois elas</marker> estavam doentes.</example>
+            <example correction=". Eles|: eles|; eles| — eles">Os investigadores desistiram<marker>, pois eles</marker> não tinham financiamento.</example>
         </rule>
 
 
