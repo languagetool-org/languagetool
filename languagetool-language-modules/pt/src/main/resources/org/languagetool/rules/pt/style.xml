@@ -10416,7 +10416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rulegroup id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" tone_tags='academic' is_goal_specific='true'>
+        <rulegroup id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" type='style' tone_tags='academic' is_goal_specific='true'>
             <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
             <rule> <!-- #1 - Singular -->
@@ -10502,35 +10502,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='BÁSICO_ELEMENTAR' name="🎓🔬 Básico → Elementar" tone_tags="academic" is_goal_specific="true">
-            <antipattern>
-                <token regexp='yes'>unidades?</token>
-                <token regexp='yes'>básicas?</token>
-                <token>de</token>
-                <token>saúde</token>
-                <example>IND-0295/2018 Indica a reforma completa da UBS (Unidade Básica de Saúde) da Vila Cretti.</example>
-                <example>Existem na cidade Unidades Básicas de Saúde e Unidade de Serviço de Apoio de Diagnose e Terapia.</example>
-            </antipattern>
-            <pattern>
-                <!-- Triggering (good) words below. Add more as found -->
-                <token skip='4' regexp='yes' inflected='yes'>abordagem|adição|algo|algoritmo|aritmética|aspec?to|biologia|cálculo|catástrofe|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|constituinte|diferença|disciplina|divisão|elemento|equação|erro|expressão|fac?to|ferramenta|física|forma|fórmula|função|fundamento|informação|interpretação|matemática|medida|método|métrica|motivo|multiplicação|noção|norma|obra|operação|palavra|prevenção|produto|questão|química|razão|regra|subtração|subunidade|suporte|técnica|tipo|unidade|valor|versão</token>
-                <marker>
-                    <token regexp='yes'>básic[ao]s?
-                        <exception scope='previous' inflected='yes' regexp="yes">a:o|necessidade|princípio|saneamento</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
-            <suggestion><match no='2' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
-            <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
-            <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
-            <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
-            <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
-            <example>Newton também deu andamento a obras de saneamento básico no Jequitinhonha.</example>
-            <example>Assim despertando a criatividade e a compreensão das necessidades básicas para o desenvolvimento de jogos.</example>
-            <example>A partir desses valores, possui como princípios básicos: "feedback" rápido e presumir simplicidade.</example>
-            <example>Para mim não chegam as palavras despojadas e reduzidas ao básico: os taninos, os citrinos.</example>
-        </rule>
+        <rulegroup id='BÁSICO_ELEMENTAR' name="🎓🔬 Básico → Elementar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1 - Academic concepts and knowledge -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>abordagem|aritmética|cálculo|compreensão|conceito|conhecimento|explicação|matemática|noção|raciocínio</token>
+                    <token min='0' max='1'>mais</token>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básico&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_regexp='yes' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementar">A Ana tem uma noção <marker>básica</marker> do assunto.</example>
+                <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
+                <example correction="elementares">Estes são conceitos <marker>básicos</marker> de matemática.</example>
+                <example>As necessidades básicas devem ser satisfeitas.</example>
+                <example>Os princípios básicos foram respeitados.</example>
+                <example>O saneamento básico é essencial para a saúde pública.</example>
+                <example>As palavras foram reduzidas ao básico.</example>
+            </rule>
+
+            <rule> <!-- #2 - The most basic form -->
+                <pattern>
+                    <token>forma</token>
+                    <token>mais</token>
+                    <marker>
+                        <token>básica</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básica&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion>elementar</suggestion>
+                <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
+                <example correction="elementar">Esta é a forma mais <marker>básica</marker> de representação.</example>
+                <example>Esta é uma forma básica de comunicação.</example>
+            </rule>
+
+            <rule> <!-- #3 - Elementary units of data/information -->
+                <pattern>
+                    <token regexp='yes'>unidades?</token>
+                    <token>mais</token>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                    <token regexp='yes'>da|de|dos</token>
+                    <token regexp='yes'>dados|informação</token>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básico&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_regexp='yes' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
+                <example correction="elementares">Estas são as unidades mais <marker>básicas</marker> de informação.</example>
+                <example>As unidades básicas de saúde foram renovadas.</example>
+                <example>Uma unidade básica de medida foi definida.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="🎓🔬 Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky">
