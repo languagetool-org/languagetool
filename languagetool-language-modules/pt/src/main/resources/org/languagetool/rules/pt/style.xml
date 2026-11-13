@@ -10416,22 +10416,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true">
-            <pattern>
-                <marker>
-                    <token>que
-                        <exception scope="previous" postag_regexp='no' postag='SENT_START'/>
-                    </token>
-                    <token>não</token>
-                    <token>se</token>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token>apagar</token>
-                </marker>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;indelével&quot;.</message>
-            <suggestion>indelével</suggestion>
-            <example correction="indelével">O passado é algo <marker>que não se consegue apagar</marker>.</example>
-        </rule>
+        <rulegroup id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1 - Singular -->
+                <pattern>
+                    <token regexp='yes'>algo|cicatriz|impressão|lembrança|marca|memória|recordação|rasto|sinal|traço|vestígio</token>
+                    <marker>
+                        <token>que</token>
+                        <token>não</token>
+                        <token>se</token>
+                        <token regexp='yes'>consegue|pode</token>
+                        <token>apagar</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere a algo permanente, é preferível escrever &quot;indelével&quot;.</message>
+                <suggestion>indelével</suggestion>
+                <example correction="indelével">O passado é algo <marker>que não se consegue apagar</marker>.</example>
+                <example correction="indelével">Ela guardou uma memória <marker>que não se pode apagar</marker>.</example>
+                <example>É uma marca que não se quer apagar.</example>
+            </rule>
+
+            <rule> <!-- #2 - Plural -->
+                <pattern>
+                    <token regexp='yes'>cicatrizes|impressões|lembranças|marcas|memórias|recordações|rastos|sinais|traços|vestígios</token>
+                    <marker>
+                        <token>que</token>
+                        <token>não</token>
+                        <token>se</token>
+                        <token regexp='yes'>conseguem|podem</token>
+                        <token>apagar</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere a algo permanente, é preferível escrever &quot;indeléveis&quot;.</message>
+                <suggestion>indeléveis</suggestion>
+                <example correction="indeléveis">São memórias <marker>que não se conseguem apagar</marker>.</example>
+                <example correction="indeléveis">Estas marcas <marker>que não se podem apagar</marker> permanecem visíveis.</example>
+                <example>São recordações que não se querem apagar.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <rulegroup id='SABER_QUAL_DETERMINAR' name="🎓🔬 Saber qual/quais → determinar/identificar" type='style' tone_tags='academic' tags='picky'>
