@@ -20474,31 +20474,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- ,POIS : -->
-        <rule id='SIMPLIFICAR_POIS_REMOVER' name="✂️ Remoção de “pois” com ela(s)/ele(s)" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-04/05/07 (1-JAN-2022+)      -->
-            <!--
-            Não tenho médica de família, pois ela está ausente até dezembro. → Não tenho médica de família: ela está ausente até dezembro.
-            -->
+        <rule id='SIMPLIFICAR_POIS_REMOVER' name="✂️ Remoção de «pois» com ela(s)/ele(s)" type='style' tags='picky'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='V.+'/>
-                </token>
+                <token postag='N.+|AQ.+|V.+' postag_regexp='yes'/>
                 <marker>
                     <token spacebefore='no'>,</token>
                     <token spacebefore='yes'>pois</token>
                     <token regexp='yes'>el[ae]s?</token>
                 </marker>
+                <token min='0' max='2' postag='RN|RG' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>, \3</suggestion>
+            <message>É possível simplificar a frase eliminando a conjunção &quot;pois&quot; e utilizando pontuação adequada. Verifique se a relação causal permanece clara.</message>
             <suggestion>. <match no='4' case_conversion='startupper'/></suggestion>
             <suggestion>: \4</suggestion>
             <suggestion>; \4</suggestion>
-            <suggestion>– \4</suggestion>
-            <example correction=", pois|. Ela|: ela|; ela|– ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
+            <suggestion> — \4</suggestion>
+            <example correction=". Ela|: ela|; ela| — ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
+            <example correction=". Ele|: ele|; ele| — ele">O relatório ficou incompleto<marker>, pois ele</marker> não contém todos os dados.</example>
+            <example correction=". Elas|: elas|; elas| — elas">As alunas faltaram<marker>, pois elas</marker> estavam doentes.</example>
+            <example correction=". Eles|: eles|; eles| — eles">Os investigadores desistiram<marker>, pois eles</marker> não tinham financiamento.</example>
         </rule>
 
 
