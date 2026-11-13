@@ -20477,6 +20477,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <rule id='SIMPLIFICAR_POIS_REMOVER' name="✂️ Remoção de «pois» com ela(s)/ele(s)" type='style' tags='picky'>
             <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
+            <!-- Avoid splitting unfinished subordinate clauses -->
+            <antipattern>
+                <token regexp='yes' skip='-1'>se|caso|quando|embora|enquanto|conquanto
+                    <exception scope='next' regexp='yes'>[;:.!?]</exception></token>
+                <token>,</token>
+                <token>pois</token>
+                <token regexp='yes'>el[ae]s?</token>
+                <example>Se eles desistiram, pois eles não tinham financiamento, o projeto terá de parar.</example>
+                <example>Quando os alunos chegaram, pois eles estavam atrasados, a aula já tinha começado.</example>
+            </antipattern>
+
             <pattern>
                 <token postag='N.+|AQ.+|V.+' postag_regexp='yes'/>
                 <marker>
