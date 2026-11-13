@@ -20851,30 +20851,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- LEVADA A CABO efetuada/realizada/conduzida/concretizada/elaborada -->
-        <rule id='LEVAR_A_CABO' name="Levar a cabo → efetuar/realizar/conduzir/concretizar/elaborar">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29 (25-JUN-2021+)      -->
-            <!--
-            Esta foi a pesquisa levada a cabo pela Ana. → Esta foi a pesquisa realizada pela Ana.
-            Levarei a cabo este trabalho. → Realizarei este trabalho.
-            Estou determinado a levar a cabo este plano. → Estou determinado a realizar este plano.
-            -->
+        <rule id='LEVAR_A_CABO' name="🎓🔬 Levar a cabo → Realizar/Efetuar/Conduzir" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
                 <marker>
-                    <token inflected='yes'>levar</token>
+                    <token inflected='yes' postag='V.+' postag_regexp='yes'>levar</token>
                     <token>a</token>
                     <token>cabo</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal, é preferível escrever &quot;efetuar&quot;, &quot;realizar&quot;, &quot;conduzir&quot;, &quot;concretizar&quot; ou &quot;elaborar&quot;.</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
+            <message>Num contexto formal/científico, poderá optar por um verbo mais direto, como &quot;realizar&quot;, &quot;efetuar&quot; ou &quot;conduzir&quot;, conforme o contexto.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
-            <example correction="efetuada|realizada|conduzida|concretizada|elaborada">Esta foi a pesquisa <marker>levada a cabo</marker> pela Ana.</example>
+
+            <!-- Particípio passado -->
+            <example correction="realizada|efetuada|conduzida">Esta foi a pesquisa <marker>levada a cabo</marker> pela Ana.</example>
+            <example correction="realizado|efetuado|conduzido">O estudo foi <marker>levado a cabo</marker> pela equipa.</example>
+
+            <!-- Presente -->
+            <example correction="realiza|efetua|conduz">A Ana <marker>leva a cabo</marker> uma investigação.</example>
+
+            <!-- Pretérito perfeito -->
+            <example correction="realizaram|efetuaram|conduziram">Os investigadores <marker>levaram a cabo</marker> diversas experiências.</example>
+
+            <!-- Futuro -->
+            <example correction="Realizarei|Efetuarei|Conduzirei"><marker>Levarei a cabo</marker> este trabalho.</example>
+
+            <!-- Infinitivo -->
+            <example correction="realizar|efetuar|conduzir">Pretendemos <marker>levar a cabo</marker> uma investigação.</example>
+
+            <!-- Gerúndio -->
+            <example correction="realizando|efetuando|conduzindo">Estamos <marker>levando a cabo</marker> uma investigação.</example>
+
+            <!-- Frases corretas -->
+            <example>Esta foi a pesquisa realizada pela Ana.</example>
             <example>Realizarei este trabalho.</example>
             <example>Estou determinado a realizar este plano.</example>
+            <example>Os investigadores conduziram diversas experiências.</example>
         </rule>
 
 
