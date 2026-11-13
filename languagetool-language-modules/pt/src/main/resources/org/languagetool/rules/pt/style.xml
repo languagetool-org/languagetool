@@ -20672,22 +20672,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- ARRANJADOS É QUE PODEM arranjados podem -->
-        <rule id='SIMPLIFICAR_REMOVER_É_QUE_PARTICÍPIO' name="✂️ Part. Passado + é + que → Part. Passado" type="style">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-19 (1-JAN-2022+)      -->
-            <!--
-            Os dados só após serem organizados é que podem ser usados. → Os dados só após serem organizados podem ser usados.
-            -->
+        <rule id="SIMPLIFICAR_REMOVER_É_QUE_PARTICÍPIO" name="✂️ Part. Passado + é que → Part. Passado" type='style' tone_tags='formal' tags='picky'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!-- Simplificação de construções com a expressão de realce "é que". -->
+
             <pattern>
-                <token postag='VMP00.+' postag_regexp='yes'/>
-                <token>é</token>
-                <token>que</token>
-                <token postag='VMIP3.+|VMM03.+|VMSP3.+' postag_regexp='yes'/>
+                <marker>
+                    <token postag='VMP00.+' postag_regexp='yes'/>
+                    <token>é</token>
+                    <token>que</token>
+                    <token postag='V[MAS](I.|S.|M0)3[SP]0' postag_regexp='yes'/>
+                </marker>
             </pattern>
-            <message>Remova a partícula de realce &quot;é que&quot; para tornar o texto mais fluído.</message>
+            <message>Num contexto formal, considere remover a expressão de realce &quot;é que&quot; para tornar a frase mais concisa.</message>
             <suggestion>\1 \4</suggestion>
             <example correction="organizados podem">Os dados só após serem <marker>organizados é que podem</marker> ser usados.</example>
+            <example correction="concluídos foram">Os trabalhos <marker>concluídos é que foram</marker> apresentados.</example>
+            <example correction="obtidos serão">Os resultados <marker>obtidos é que serão</marker> analisados.</example>
+            <example correction="aprovadas poderão">As propostas <marker>aprovadas é que poderão</marker> avançar.</example>
+            <example>Os dados só após serem organizados podem ser usados.</example>
+            <example>Os trabalhos concluídos foram apresentados.</example>
+            <example>Os resultados obtidos serão analisados.</example>
+            <example>As propostas aprovadas poderão avançar.</example>
         </rule>
 
 
