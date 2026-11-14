@@ -25912,6 +25912,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>com</token>
                     <example>conceptes tan trepitjats com institució o burocràcia</example>
                 </antipattern>
+                <antipattern>
+                    <token>tant</token>
+                    <token/>
+                    <token>com</token>
+                    <token/>
+                    <example>Són elements tant subjectius com objectius que afecten el resultat final.</example>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">així|tant|tals?|vegades|voltes|cops|colps|pics|càrrecs?|personalitats?|personatges?</exception></token>
                     <marker>
@@ -45984,6 +45991,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>i</token>
                 <token>nous</token>
             </antipattern>
+            <antipattern>
+                <token chunk="PTime">vuit</token>
+                <token chunk="PTime"/>
+            </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">ser|estar</token>
                 <marker>
@@ -48828,7 +48839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token>pera</token>
+                    <token>pera<exception postag="NP.*" postag_regexp="yes"/></token>
                     <token min="0">a</token>
                 </marker>
                 <token postag="V.N.*|D.*|N.*" postag_regexp="yes"/>
@@ -126146,6 +126157,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="REFLEXAR" name="*reflexa/reflecteix, reflexes/reflecteixes">
+            <antipattern>
+                <token postag="_GN_FP">reflexes</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">que|no</token>
@@ -126187,6 +126201,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible error</short>
                 <example correction="reflecteix|reflecteixes">la freqüència <marker>reflexa</marker> el fet</example>
                 <example>És una reacció reflexa.</example>
+                <example>Mostren respostes reflexes difuses.</example>
             </rule>
             <rule>
                 <pattern>
