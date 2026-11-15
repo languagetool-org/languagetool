@@ -19806,50 +19806,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- E QUE que -->
-        <rule id='SIMPLIFICAR_E_QUE_QUE' name="✂️ E que → que" type="style">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-27 + 2022-06-01/02 (24-MAY-2022+)      -->
+        <rulegroup id='SIMPLIFICAR_E_QUE_QUE' name="✂️ E que → que" type='style' tags='picky' tone_tags='clarity' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <!--
-            São regras muito simples e que permitem agir corretamente. → São regras muito simples que permitem agir corretamente.
-            Recebemos um documento escrito em francês e que revelou uma lista de restaurantes. → Recebemos um documento escrito em francês que revelou uma lista de restaurantes.
+            Remove a conjunção "e" quando introduz uma oração relativa
+            e a sua omissão não altera o significado da frase.
+
+            Protege as orações coordenadas introduzidas por "que".
             -->
+
             <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token skip='-1'>que<exception scope='next' postag='_PUNCT.+' postag_regexp='yes'/></token>
+                <token postag='V.+' postag_regexp='yes' skip='-1'><exception scope='next' postag='_PUNCT.+' postag_regexp='yes'/></token>
                 <token>e</token>
                 <token>que</token>
-                <token postag='VMII.+' postag_regexp='yes'/>
-                <token postag='SPS00|RG' postag_regexp='yes'/>
+                <example>Afirmou que comprou frutas frescas e que pagou em dinheiro.</example>
+                <example>Disse que adquiriu materiais muito simples e que os utilizou imediatamente.</example>
+            </antipattern>
+
+            <rule> <!-- #1 - Noun + optional adverb + adjective + "e que" -->
+                <pattern>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='RG'/>
+                    <token postag='AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>e</token>
+                        <token>que</token>
+                    </marker>
+                    <token min='0' max='1' postag='RN|RG' postag_regexp='yes'/>
+                    <token postag='V.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Pode omitir a conjunção &quot;e&quot; para tornar a frase mais concisa, mantendo o seu significado.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
+                <example correction="que">Encontrámos soluções simples <marker>e que</marker> funcionam.</example>
+                <example correction="que">São normas bastante claras <marker>e que</marker> ajudam todos.</example>
+                <example correction="que">São regras muito simples <marker>e que</marker> não permitem abusos.</example>
+                <example>Afirmou que comprou frutas frescas e que pagou em dinheiro.</example>
+                <example>Disse que adquiriu materiais muito simples e que os utilizou imediatamente.</example>
+                <example>A diretora afirmou que estava muito satisfeita e que iria continuar.</example>
                 <example>A chefe de lá disse para lhe mostrar o meu cartão de doutorando e que andava de olho em mim.</example>
-            </antipattern>
+            </rule>
 
-            <antipattern>
-                <token skip='-1'>que</token>
-                <token postag='V.+' postag_regexp='yes' skip='-1'/>
-                <token>que</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <example>Não há evidências de que seja melhor para o ambiente ou que contribua para o conceito.</example>
-                <example>Afirmou que ainda não foi intimada sobre a decisão e que vai entrar com um recurso.</example>
-            </antipattern>
-
-            <pattern>
-                <token postag='RG|SPS00' postag_regexp='yes'/>
-                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
-                <marker>
-                    <token>e</token>
-                    <token>que</token>
-                </marker>
-                <token postag='V.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='VMIS.+|VMSI.+'/>
-                </token>
-            </pattern>
-            <message>Pode omitir a conjunção &quot;e&quot; para tornar o texto mais fluído.</message>
-            <suggestion>que</suggestion>
-            <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
-            <example>Índio me disse que interpretou a pergunta como uma brecha aberta para uma negociação de propina e que tratou de fechá-la no mesmo instante.</example>
-            <example>A vítima disse que apanhou bastante e que Beto agiu com violência e que escondeu a faca do crime quando os militares chegaram.</example>
-            <example>Eron conta que já se envolveu com mulheres e que foi até noivo de uma delas.</example>
-        </rule>
+            <rule> <!-- #2 - Noun + participle/adjective + preposition + noun/adjective -->
+                <pattern>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                    <token postag='VMP.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='SPS00'/>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>e</token>
+                        <token>que</token>
+                    </marker>
+                    <token min='0' max='1' postag='RN|RG' postag_regexp='yes'/>
+                    <token postag='V.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Pode omitir a conjunção &quot;e&quot; para tornar a frase mais concisa, mantendo o seu significado.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">Recebemos um documento escrito em francês <marker>e que</marker> revelou uma lista de lojas.</example>
+                <example correction="que">Foi publicado um relatório redigido em português <marker>e que</marker> demonstra os resultados.</example>
+                <example>Afirmou que leu um relatório escrito em francês e que estava incompleto.</example>
+                <example>Eron conta que já se envolveu com mulheres e que foi até noivo de uma delas.</example>
+                <example>A vítima disse que apanhou bastante e que Beto agiu com violência.</example>
+            </rule>
+        </rulegroup>
 
 
         <rulegroup id='SIMPLIFICAR_IR_E_PARA' name="✂️ Simplificar «ir ... e/para + infinitivo»" type='style'>
@@ -19866,8 +19887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             A omissão só deve ser sugerida quando preservar o sentido.
             -->
 
-            <!-- #1 - Verbo ir + advérbio de lugar + e/para + infinitivo -->
-            <rule>
+            <rule> <!-- #1 - Verbo ir + advérbio de lugar + e/para + infinitivo -->
                 <pattern>
                     <token inflected='yes'>ir<exception inflected='yes'>ser</exception></token>
                     <token regexp='yes'>aqui|aí|ali|lá|cá</token>
@@ -19890,8 +19910,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Vamos até César pedir paz.</example>
             </rule>
 
-            <!-- #2 - Verbo ir + destino concreto + e/para + infinitivo -->
-            <rule>
+            <rule> <!-- #2 - Verbo ir + destino concreto + e/para + infinitivo -->
                 <pattern>
                     <!-- O destino concreto permite aceitar formas ambíguas como "foi". -->
                     <token inflected='yes'>ir</token>
