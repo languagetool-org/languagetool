@@ -14910,13 +14910,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="✂️ Fazer uso de → usar/recorrer" tags="picky">
-            <!-- IDEA shorten_it -->
+        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="✂️ Fazer uso de → usar/recorrer a" type='style' tags='picky'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-            <!-- DE -->
-            <rule>
+            <rule> <!-- #1 - DE -->
                 <pattern>
-                    <token inflected='yes'>fazer</token>
+                    <token inflected='yes'>fazer<exception regexp='yes'>feit[ao]s?</exception></token>
                     <token>uso</token>
                     <token>de</token>
                 </pattern>
@@ -14924,35 +14923,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> a</suggestion>
                 <example correction="usar|recorrer a">Vamos <marker>fazer uso de</marker> simuladores.</example>
+                <example correction="usamos|recorremos a">Nós <marker>fazemos uso de</marker> recursos digitais.</example>
+                <example correction="usou|recorreu a">A Ana <marker>fez uso de</marker> ferramentas especiais.</example>
             </rule>
 
-            <!-- DA(S)/DO(S) -->
-            <rule>
+            <rule> <!-- #2 - DA/DAS -->
                 <pattern>
-                    <token inflected='yes'>fazer</token>
+                    <token inflected='yes'>fazer<exception regexp='yes'>feit[ao]s?</exception></token>
                     <token>uso</token>
-                    <token regexp='yes'>d[ao]s?</token>
+                    <token regexp='yes'>das?</token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='SPS00:DA0$10'>a:o</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> <match no='3' regexp_match='da(s?)' regexp_replace='a$1'/></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> <match no='3' regexp_match='da(s?)' regexp_replace='à$1'/></suggestion>
                 <example correction="usar a|recorrer à">Vamos <marker>fazer uso da</marker> tecnologia.</example>
                 <example correction="usar as|recorrer às">Vamos <marker>fazer uso das</marker> tecnologias.</example>
-                <example correction="usar o|recorrer ao">Vamos <marker>fazer uso do</marker> computador.</example>
-                <example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
+                <example correction="usou a|recorreu à">A Ana <marker>fez uso da</marker> ferramenta.</example>
+                <example correction="usaram as|recorreram às">Eles <marker>fizeram uso das</marker> ferramentas.</example>
             </rule>
 
-            <!-- DELA(S)/DELE(S) -->
-            <rule>
+            <rule> <!-- #3 - DO/DOS -->
+                <pattern>
+                    <token inflected='yes'>fazer<exception regexp='yes'>feit[ao]s?</exception></token>
+                    <token>uso</token>
+                    <token regexp='yes'>dos?</token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> <match no='3' regexp_match='do(s?)' regexp_replace='o$1'/></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> <match no='3' regexp_match='do(s?)' regexp_replace='ao$1'/></suggestion>
+                <example correction="usar o|recorrer ao">Vamos <marker>fazer uso do</marker> computador.</example>
+                <example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
+                <example correction="usou o|recorreu ao">A Ana <marker>fez uso do</marker> equipamento.</example>
+                <example correction="usaram os|recorreram aos">Eles <marker>fizeram uso dos</marker> equipamentos.</example>
+            </rule>
+
+            <rule> <!-- #4 - DELA/DELAS (infinitive only) -->
                 <pattern>
                     <token>fazer</token>
                     <token>uso</token>
-                    <token regexp='yes'>del[ae]s?</token>
+                    <token regexp='yes'>delas?</token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>usá-l<match no='3' postag='SPS00:PP3(..)...' postag_replace='DA0$10'>o</match></suggestion>
+                <suggestion>usá-l<match no='3' regexp_match='dela(s?)' regexp_replace='a$1'/></suggestion>
                 <example correction="usá-la">Vamos <marker>fazer uso dela</marker> para o bem.</example>
                 <example correction="usá-las">Vamos <marker>fazer uso delas</marker> para o bem.</example>
+            </rule>
+
+            <rule> <!-- #5 - DELE/DELES (infinitive only) -->
+                <pattern>
+                    <token>fazer</token>
+                    <token>uso</token>
+                    <token regexp='yes'>deles?</token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>usá-l<match no='3' regexp_match='dele(s?)' regexp_replace='o$1'/></suggestion>
                 <example correction="usá-lo">Vamos <marker>fazer uso dele</marker> para o bem.</example>
                 <example correction="usá-los">Vamos <marker>fazer uso deles</marker> para o bem.</example>
             </rule>
