@@ -6353,6 +6353,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token regexp="yes" inflected="yes">avió|pilot|cotxe|vehicle|moto|motociclista|conductor</token>
+                <marker>
+                    <token>kamikaze</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes">vector</token>
                 <marker>
                     <token regexp="yes">fila|columna</token>
@@ -12239,7 +12248,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="V.[GIS].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">nom|persona|ritme|sexe</exception><exception postag="VMIP1S0B"/><exception regexp="yes">dona|dones</exception></token>
+                    <token postag="V.[GIS].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">nom|persona|ritme|sexe</exception><exception postag="VMIP1S0B"/><exception regexp="yes">dona|dones|comandant</exception></token>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="_GN.*|A.*|PX.*|V.P.*|D.*|SPS.*" postag_regexp="yes"/></token>
                 </and>
             </marker>
