@@ -19810,19 +19810,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
             <!--
-            Remove a conjunção "e" quando introduz uma oração relativa
-            e a sua omissão não altera o significado da frase.
+            Remove a conjunção "e" em determinadas orações relativas,
+            desde que a omissão não altere o significado da frase.
 
-            Protege as orações coordenadas introduzidas por "que".
+            Protege as orações coordenadas e as construções diretivas.
             -->
 
+            <!-- Protect coordinated clauses introduced by "que". -->
             <antipattern>
-                <token skip='-1'>que<exception scope='next' postag='_PUNCT.+' postag_regexp='yes'/></token>
-                <token postag='V.+' postag_regexp='yes' skip='-1'><exception scope='next' postag='_PUNCT.+' postag_regexp='yes'/></token>
+                <token skip='-1'>que<exception scope='next' postag='_PUNCT.*' postag_regexp='yes'/></token>
+                <token postag='V.+' postag_regexp='yes' skip='-1'><exception scope='next' postag='_PUNCT.*' postag_regexp='yes'/></token>
                 <token>e</token>
                 <token>que</token>
                 <example>Afirmou que comprou frutas frescas e que pagou em dinheiro.</example>
                 <example>Disse que adquiriu materiais muito simples e que os utilizou imediatamente.</example>
+            </antipattern>
+
+            <!-- Protect reported speech and directive constructions. -->
+            <antipattern>
+                <token regexp='yes' inflected='yes'>dizer|pedir|mandar|ordenar|solicitar|recomendar|sugerir</token>
+                <token skip='-1'>para<exception scope='next' postag='_PUNCT.*' postag_regexp='yes'/></token>
+                <token>e</token>
+                <token>que</token>
+                <example>A chefe disse para lhe mostrar o meu cartão novo e que andava de olho em mim.</example>
+                <example>A chefe disse para entregar um documento escrito em francês e que voltaria cedo.</example>
             </antipattern>
 
             <rule> <!-- #1 - Noun + optional adverb + adjective + "e que" -->
@@ -19843,10 +19854,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="que">Encontrámos soluções simples <marker>e que</marker> funcionam.</example>
                 <example correction="que">São normas bastante claras <marker>e que</marker> ajudam todos.</example>
                 <example correction="que">São regras muito simples <marker>e que</marker> não permitem abusos.</example>
+                <example>A chefe disse para lhe mostrar o meu cartão novo e que andava de olho em mim.</example>
                 <example>Afirmou que comprou frutas frescas e que pagou em dinheiro.</example>
                 <example>Disse que adquiriu materiais muito simples e que os utilizou imediatamente.</example>
                 <example>A diretora afirmou que estava muito satisfeita e que iria continuar.</example>
-                <example>A chefe de lá disse para lhe mostrar o meu cartão de doutorando e que andava de olho em mim.</example>
             </rule>
 
             <rule> <!-- #2 - Noun + participle/adjective + preposition + noun/adjective -->
@@ -19866,6 +19877,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion>que</suggestion>
                 <example correction="que">Recebemos um documento escrito em francês <marker>e que</marker> revelou uma lista de lojas.</example>
                 <example correction="que">Foi publicado um relatório redigido em português <marker>e que</marker> demonstra os resultados.</example>
+                <example>A chefe disse para entregar um documento escrito em francês e que voltaria cedo.</example>
                 <example>Afirmou que leu um relatório escrito em francês e que estava incompleto.</example>
                 <example>Eron conta que já se envolveu com mulheres e que foi até noivo de uma delas.</example>
                 <example>A vítima disse que apanhou bastante e que Beto agiu com violência.</example>
