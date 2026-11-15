@@ -19893,9 +19893,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- #2 - Verbo ir + destino concreto + e/para + infinitivo -->
             <rule>
                 <pattern>
-                    <token inflected='yes'>ir<exception inflected='yes'>ser</exception></token>
-                    <token regexp='yes'>a|às?|aos?|para</token>
-                    <token regexp='yes'>biblioteca|casa|cidade|cinema|computador|consultório|escola|escritório|estação|farmácia|hospital|igreja|loja|mercado|parque|PC|praia|restaurante|secretaria|supermercado|teatro|universidade</token>
+                    <!-- O destino concreto permite aceitar formas ambíguas como "foi". -->
+                    <token inflected='yes'>ir</token>
+                    <token regexp='yes'>a|ao|à|aos|às|para</token>
+                    
+                    <token regexp='yes'>aeroporto|banco|bar|biblioteca|café|casa|cidade|cinema|clínica|computador|consultório|escola|escritório|estação|estádio|farmácia|ginásio|hospital|igreja|jardim|loja|mercado|museu|parque|PC|piscina|praia|restaurante|secretaria|supermercado|teatro|trabalho|universidade</token>
                     <marker>
                         <token regexp='yes'>e|para</token>
                         <token postag='VMN0000'><exception regexp='yes'>poder|dever|querer|ter|ser|estar|ficar|voltar|regressar|retornar|vir|sair|entrar|chegar|partir</exception></token>
@@ -19909,6 +19911,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="estudar">Quero ir à escola <marker>para estudar</marker>.</example>
                 <example correction="passear">Quero ir à cidade <marker>para passear</marker>.</example>
                 <example correction="consultar">Vou à biblioteca <marker>para consultar</marker> alguns livros.</example>
+                <example correction="ver">Ele foi ao cinema <marker>para ver</marker> um filme.</example>
+                <example correction="levantar">Vou ao banco <marker>para levantar</marker> dinheiro.</example>
+                <example correction="beber">Quero ir ao bar <marker>para beber</marker> um copo de água.</example>
+                <example correction="tomar">Vou ao café <marker>para tomar</marker> o pequeno-almoço.</example>
+                <example correction="treinar">Vou ao ginásio <marker>para treinar</marker>.</example>
+                <example correction="visitar">Quero ir ao museu <marker>para visitar</marker> a exposição.</example>
+                <example correction="passear">Vou ao jardim <marker>para passear</marker>.</example>
+                <example correction="nadar">Quero ir à piscina <marker>para nadar</marker>.</example>
+                <example correction="marcar">Vou à clínica <marker>para marcar</marker> uma consulta.</example>
+                <example correction="apanhar">Vou ao aeroporto <marker>para apanhar</marker> o avião.</example>
+                <example correction="assistir">Quero ir ao estádio <marker>para assistir</marker> ao jogo.</example>
+                <example correction="trabalhar">Vou ao trabalho <marker>para trabalhar</marker>.</example>
                 <example>Ela vai ao hospital para ser operada.</example>
                 <example>Vou à loja para voltar a reclamar.</example>
                 <example>Quero ir à escola para poder estudar.</example>
@@ -19916,7 +19930,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Quero ir à praia desfrutar de um pouco de sol.</example>
                 <example>Gostaria de ir ao supermercado comprar pão.</example>
                 <example>Tenho de ir a orais para passar.</example>
-                <example>Ele foi ao cinema para ver um filme.</example>
                 <example>Para reativar a funcionalidade, vá às definições para voltar a ativá-la.</example>
             </rule>
         </rulegroup>
