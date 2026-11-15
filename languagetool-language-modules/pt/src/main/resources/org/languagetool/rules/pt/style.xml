@@ -19852,66 +19852,87 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- PODE IR AO PC E IDENTIFICAR O UTILIZADOR? Pode ir ao PC identificar o utilizador? -->
-        <rule id='SIMPLIFICAR_IR_E_PARA' name="✂️ Locução com verbo ‘ir’" type="style">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-26 + 2022-06-01 + 2022-09-09 (24-MAY-2022+)      -->
+        <rulegroup id='SIMPLIFICAR_IR_E_PARA' name="✂️ Simplificar «ir ... e/para + infinitivo»" type='style'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <!--
-            Pode ir ao PC e identificar o utilizador? → Pode ir ao PC identificar o utilizador?
-            Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá marcar a consulta.
+            Simplificação facultativa:
+            Vou ao supermercado para comprar pão.
+            → Vou ao supermercado comprar pão.
+
+            Quero ir ali e comprar pão.
+            → Quero ir ali comprar pão.
+
+            A omissão só deve ser sugerida quando preservar o sentido.
             -->
 
-            <antipattern>
-                <token regexp='yes'>e|para</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SPS00|DA.+' postag_regexp='yes'/>
-                <token postag='V.+' postag_regexp='yes'/>
-                <example>Para reativar a funcionalidade vá às definições para voltar a ativá-la.</example>
-                <example>"Eles" [imprensa] "disseram que eu não jogaria por ele e que esperaria até ele ir embora para voltar a jogar.</example>
-            </antipattern>
+            <!-- #1 - Verbo ir + advérbio de lugar + e/para + infinitivo -->
+            <rule>
+                <pattern>
+                    <token inflected='yes'>ir<exception inflected='yes'>ser</exception></token>
+                    <token regexp='yes'>aqui|aí|ali|lá|cá</token>
+                    <marker>
+                        <token regexp='yes'>e|para</token>
+                        <token postag='VMN0000'><exception regexp='yes'>poder|dever|querer|ter|ser|estar|ficar|voltar|regressar|retornar|vir|sair|entrar|chegar|partir</exception></token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, pode omitir &quot;e&quot; ou &quot;para&quot; para tornar a frase mais concisa, desde que o sentido se mantenha.</message>
+                <suggestion><match no='4'/></suggestion>
+                <example correction="marcar">Vão-me obrigar a ir lá <marker>para marcar</marker> a consulta.</example>
+                <example correction="comprar">Quero ir ali <marker>e comprar</marker> pão.</example>
+                <example correction="resolver">Vou lá <marker>para resolver</marker> o problema.</example>
+                <example correction="conversar">Quero ir aí <marker>para conversar</marker> contigo.</example>
+                <example>Tenho de ir lá para poder esclarecer o assunto.</example>
+                <example>Quero ir lá para estar sozinho.</example>
+                <example>Quero ir ali e voltar rapidamente.</example>
+                <example>Vou lá para ter uma resposta.</example>
+                <example>Quero ir à escola estudar de verdade.</example>
+                <example>Vamos até César pedir paz.</example>
+            </rule>
 
-            <antipattern>
-                <token inflected='yes'>ir</token>
-                <token postag='SPS00|D[AI].+' postag_regexp='yes'/>
-                <token postag='N.+|AQ.+' postag_regexp='yes'/>
-                <token regexp='yes'>e|para</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SENT_END|SPS00:DA.+' postag_regexp='yes'/>
-                <example>Havia colegas que gozavam por eu estar sempre a ir a orais para passar.</example>
-                <example>As idas ao hospital só dá para ir de táxi para chegar à morada.</example>
-            </antipattern>
-
-            <pattern>
-                <token inflected='yes'>ir
-                    <exception inflected='yes'>ser</exception>
-                </token>
-                <token postag='SPS00:[DP][ADIP].+|CC|SPS00|RG' postag_regexp='yes'/>
-                <token min="0" max="1" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
-                    <exception postag='VMN0000'/>
-                </token>
-                <marker>
-                    <token regexp='yes'>e|para</token>
-                    <token postag='VMN0000'>
-                        <exception scope='next' regexp='no'>até</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Pode omitir a conjunção ‘e’ ou a preposição ‘para’ para tornar o texto mais fluido.</message>
-            <suggestion>\5</suggestion>
-            <example correction="identificar">Pode ir ao PC <marker>e identificar</marker> o utilizador?</example>
-            <example correction="marcar">Vão-me obrigar a ir lá <marker>para marcar</marker> a consulta.</example>
-            <example>Ir à praia tomar um banho de mar... ou dois... ou três!</example>
-            <example>Quero ir à escola estudar de verdade.</example>
-            <example>Tom pedalou 30 quilômetros para ir à loja comprar morangos para a esposa dele que está grávida.</example>
-            <example>Gostaria de ir à praia desfrutar de um pouco de sol.</example>
-            <example>Você poderia por favor ir ao supermercado comprar pão?</example>
-            <example>Você gostaria de ir à praia ver os pescadores de mariscos ao pôr do sol?</example>
-            <example>Vamos até César pedir paz.</example>
-            <example>Eu vou à cidade passear.</example>
-            <example>Eu vou ao Rio aproveitar a praia.</example>
-            <example>Eu gosto de ir ao cinema ver filmes estrangeiros.</example>
-            <example>Temos o caso de servidores de páginas web irem abaixo e demorar até se conseguir que funcionem novamente.</example>
-        </rule>
+            <!-- #2 - Verbo ir + destino concreto + e/para + infinitivo -->
+            <rule>
+                <pattern>
+                    <!-- O destino concreto permite aceitar formas ambíguas como "foi". -->
+                    <token inflected='yes'>ir</token>
+                    <token regexp='yes'>a|ao|à|aos|às|para</token>
+                    
+                    <token regexp='yes'>aeroporto|banco|bar|biblioteca|café|casa|cidade|cinema|clínica|computador|consultório|escola|escritório|estação|estádio|farmácia|ginásio|hospital|igreja|jardim|loja|mercado|museu|parque|PC|piscina|praia|restaurante|secretaria|supermercado|teatro|trabalho|universidade</token>
+                    <marker>
+                        <token regexp='yes'>e|para</token>
+                        <token postag='VMN0000'><exception regexp='yes'>poder|dever|querer|ter|ser|estar|ficar|voltar|regressar|retornar|vir|sair|entrar|chegar|partir</exception></token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, pode omitir &quot;e&quot; ou &quot;para&quot; para tornar a frase mais concisa, desde que o sentido se mantenha.</message>
+                <suggestion><match no='5'/></suggestion>
+                <example correction="identificar">Pode ir ao PC <marker>e identificar</marker> o utilizador?</example>
+                <example correction="comprar">Vou ao supermercado <marker>para comprar</marker> pão.</example>
+                <example correction="descansar">Quero ir para casa <marker>para descansar</marker>.</example>
+                <example correction="estudar">Quero ir à escola <marker>para estudar</marker>.</example>
+                <example correction="passear">Quero ir à cidade <marker>para passear</marker>.</example>
+                <example correction="consultar">Vou à biblioteca <marker>para consultar</marker> alguns livros.</example>
+                <example correction="ver">Ele foi ao cinema <marker>para ver</marker> um filme.</example>
+                <example correction="levantar">Vou ao banco <marker>para levantar</marker> dinheiro.</example>
+                <example correction="beber">Quero ir ao bar <marker>para beber</marker> um copo de água.</example>
+                <example correction="tomar">Vou ao café <marker>para tomar</marker> o pequeno-almoço.</example>
+                <example correction="treinar">Vou ao ginásio <marker>para treinar</marker>.</example>
+                <example correction="visitar">Quero ir ao museu <marker>para visitar</marker> a exposição.</example>
+                <example correction="passear">Vou ao jardim <marker>para passear</marker>.</example>
+                <example correction="nadar">Quero ir à piscina <marker>para nadar</marker>.</example>
+                <example correction="marcar">Vou à clínica <marker>para marcar</marker> uma consulta.</example>
+                <example correction="apanhar">Vou ao aeroporto <marker>para apanhar</marker> o avião.</example>
+                <example correction="assistir">Quero ir ao estádio <marker>para assistir</marker> ao jogo.</example>
+                <example correction="trabalhar">Vou ao trabalho <marker>para trabalhar</marker>.</example>
+                <example>Ela vai ao hospital para ser operada.</example>
+                <example>Vou à loja para voltar a reclamar.</example>
+                <example>Quero ir à escola para poder estudar.</example>
+                <example>Quero ir ao cinema e voltar cedo.</example>
+                <example>Quero ir à praia desfrutar de um pouco de sol.</example>
+                <example>Gostaria de ir ao supermercado comprar pão.</example>
+                <example>Tenho de ir a orais para passar.</example>
+                <example>Para reativar a funcionalidade, vá às definições para voltar a ativá-la.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="🎓 Não + V. + nada → nada + V." type="style" tags='picky' tone_tags="academic" is_goal_specific="true">
