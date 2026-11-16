@@ -155455,6 +155455,49 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example>de les distàncies carboni-clor</example>
             </rule>
             <rule>
+                <!-- after «no» a noun reading of a subjunctive form is implausible: no demanis, no passi -->
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token postag="V......[CBY24]" postag_regexp="yes"><exception postag="V......[0VXZ13567]|AQ.*|_possible_nompropi|VMIP1S0B" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (valencià).</message>
+                <suggestion><match no="2" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ13567]"/></suggestion>
+                <short>Forma verbal que no correspon a la varietat seleccionada</short>
+                <example correction="demanes">No <marker>demanis</marker> la confirmació de l'usuari.</example>
+                <example correction="passe">De manera que no <marker>passi</marker> res.</example>
+                <example>No passa res.</example>
+            </rule>
+            <rule>
+                <!-- «premi» is tagged as the noun when it is the verb «prémer» followed by its object -->
+                <antipattern>
+                    <token postag="D.*|Z.*|AO.*|SPS00" postag_regexp="yes"/>
+                    <token>premi</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">gran|bon|millor|mateix|darrer|últim|nou</token>
+                    <token>premi</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>premi</token>
+                    </marker>
+                    <or>
+                        <token postag="D[AIDP].*" postag_regexp="yes"/>
+                        <token regexp="yes">['"«‘“&lt;]</token>
+                    </or>
+                </pattern>
+                <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (valencià).</message>
+                <suggestion><match no="1" regexp_match="(?iu)premi" regexp_replace="prema" case_conversion="preserve"/></suggestion>
+                <short>Forma verbal que no correspon a la varietat seleccionada</short>
+                <example correction="prema">Retard abans que l'usuari <marker>premi</marker> un botó.</example>
+                <example correction="prema">La sèrie acabarà quan l'usuari <marker>premi</marker> 'Finalitzar'.</example>
+                <example correction="prema">Escriga un usuari, aleshores <marker>premi</marker> &lt;key&gt;Retorn&lt;/key&gt;.</example>
+                <example>Va rebre el primer premi el 2020.</example>
+                <example>Li van concedir el gran premi la setmana passada.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token inflected="yes" skip="1">heure<exception inflected="yes">haver</exception></token>
@@ -156239,6 +156282,22 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example correction="ajaure">Es va <marker>ajeure</marker>.</example>
                 <example correction="traguen">Quan el <marker>treguen</marker>.</example>
                 <example correction="jau">Ara <marker>jeu</marker>.</example>
+            </rule>
+            <rule>
+                <!-- «treu» is also a noun (a sail), which always follows a determiner; at sentence start
+                     before «de» the disambiguator keeps only the noun reading, and the rule above misses it -->
+                <antipattern>
+                    <token postag="D.*|A.*|Z.*" postag_regexp="yes"/>
+                    <token regexp="yes">treus?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">treus?</token>
+                </pattern>
+                <message>Usem preferentment la forma amb -a-.</message>
+                <suggestion><match no="1" regexp_match="(?iu)tre(us?)" regexp_replace="tra$1" case_conversion="preserve"/></suggestion>
+                <example correction="Trau"><marker>Treu</marker> de la llista</example>
+                <example correction="trau">Aquesta opció <marker>treu</marker> de sobre la finestra.</example>
+                <example>Van hissar el treu de proa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -162099,6 +162158,17 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example correction="Guarda"><marker>Desa</marker> el fitxer.</example>
             </rule>
             <rule>
+                <!-- participle with only a noun or adjective reading: una desada automàtica, la partida desada -->
+                <pattern>
+                    <token regexp="yes">desa(da|des|t|ts)<exception postag="V.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" regexp_match="(?iu)^desa" regexp_replace="guarda" case_conversion="preserve"/></suggestion>
+                <example correction="guardada">Recupera l'estat d'una instantània <marker>desada</marker>.</example>
+                <example correction="guardada">S'ha recuperat d'una <marker>desada</marker> automàtica.</example>
+                <example correction="guardada">La vostra partida <marker>desada</marker> s'obrirà de nou.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token regexp="yes">de|em|et</token>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">sortir</token>
@@ -162376,6 +162446,19 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example correction="rojos">Ulls <marker>vermells</marker>.</example>
                 <example correction="roja">La línia <marker>vermella</marker>.</example>
                 <example correction="roges">Les línies <marker>vermelles</marker>.</example>
+            </rule>
+            <rule>
+                <!-- «de color vermell» is tagged as a fixed adjectival phrase (LOC_ADJ), which the rule above does not see -->
+                <pattern>
+                    <token>color</token>
+                    <marker>
+                        <token>vermell</token>
+                    </marker>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="2" regexp_match="(?iu)vermell" regexp_replace="roig" case_conversion="preserve"/></suggestion>
+                <example correction="roig">La bateria es mostra de color <marker>vermell</marker>.</example>
+                <example correction="roig">Sol ser de color <marker>vermell</marker> clar.</example>
             </rule>
             <rule>
                 <pattern>
