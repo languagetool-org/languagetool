@@ -162400,6 +162400,76 @@ No t'ho explicaré, no cal que em burxis més-->
                 <suggestion>colp</suggestion>
                 <example correction="colp">Es tanca de <marker>cop</marker>.</example>
             </rule>
+            <rule>
+                <!-- sortint as an adjective (correus sortints); as a gerund the verb rule gives eixint -->
+                <pattern>
+                    <token postag="A.*" postag_regexp="yes" inflected="yes">sortint<exception postag="V.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="(A.*)" postag_regexp="yes" postag_replace="$1">ixent</match></suggestion>
+                <example correction="ixents">Els correus <marker>sortints</marker>.</example>
+                <example correction="ixent">Una trucada <marker>sortint</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>de</token>
+                    <token>franc</token>
+                    <token regexp="yes">suís|suïssos|francès|francesos|belga|belgues|luxemburguès|CFA</token>
+                </antipattern>
+                <pattern>
+                    <token>de</token>
+                    <token>franc</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion>debades</suggestion>
+                <example correction="debades">Ho tens <marker>de franc</marker>.</example>
+                <example>Val deu cèntims de franc suís.</example>
+            </rule>
+            <rule>
+                <!-- ordinal n-è / n-èssim -->
+                <pattern>
+                    <token regexp="yes">\p{L}</token>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no" regexp="yes">è(s?sim(a|s|es)?)?</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1"/>-<match no="3" regexp_match="è" regexp_replace="é"/></suggestion>
+                <example correction="n-é">L'element <marker>n-è</marker> de la llista.</example>
+                <example correction="K-éssim"><marker>K-èssim</marker> més petit</example>
+            </rule>
+            <rule>
+                <!-- préssec -> bresquilla changes gender: the determiner changes with it (a following adjective is not handled) -->
+                <pattern>
+                    <token postag="D...S." postag_regexp="yes"><exception regexp="yes">l|l'</exception></token>
+                    <token>préssec</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="(D..)[MC]S(.)" postag_regexp="yes" postag_replace="$1FS$2"/> bresquilla</suggestion>
+                <example correction="una bresquilla">Menja <marker>un préssec</marker>.</example>
+                <example correction="La bresquilla"><marker>El préssec</marker> és madur.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D...P." postag_regexp="yes"><exception>ls</exception></token>
+                    <token>préssecs</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="(D..)[MC]P(.)" postag_regexp="yes" postag_replace="$1FP$2"/> bresquilles</suggestion>
+                <example correction="les bresquilles">Cull <marker>els préssecs</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token regexp="yes">préssecs?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">préssecs?</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion><match no="1" postag="NCM(.)000" postag_regexp="yes" postag_replace="NCF$1000">bresquilla</match></suggestion>
+                <example correction="bresquilla">Color groc <marker>préssec</marker>.</example>
+                <example correction="bresquilles">Melmelada de <marker>préssecs</marker>.</example>
+            </rule>
         </rulegroup>
     </category>
 </rules>
