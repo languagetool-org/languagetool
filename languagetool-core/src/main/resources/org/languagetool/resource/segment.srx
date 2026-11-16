@@ -1165,7 +1165,7 @@
 <!-- Legal citation: Id. at 138 -->
 <rule break="no">
 <beforebreak>\b[Ii]d\.[\s\u00A0]</beforebreak>
-<afterbreak>at[\s\u00A0]+\d</afterbreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Quantity abbreviation: 50,000 nos. for each item -->
 <rule break="no">
@@ -7432,9 +7432,9 @@
 <beforebreak>(?m)(?:^|[\r\n])\s*\d+[a-z]?\.\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
-<!-- Number followed by a dot anywhere in the text, then lowercase: 32. avos, 3. cm, 2. fecha, 1. poderá, 10.a. digerdöden -->
+<!-- Number followed by a dot anywhere in the text, then lowercase: 2. fecha, 3. cm, 1. poderá. Longer numbers (32., 1994.) are not covered -->
 <rule break="no">
-<beforebreak>\b\d+\.(?:\p{L}\.)?[\s\u00A0]+</beforebreak>
+<beforebreak>\b\d\.(?:\p{L}\.)?[\s\u00A0]+</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Parenthetical of any length ending with sentence punctuation, followed by lowercase: (really?) a, (sic!) and, (what do you think?) and -->
