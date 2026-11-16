@@ -27877,6 +27877,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 (Bass ''et al'' 1986).
             -->
         </rulegroup>
+        <rule id="A_LA_PRIMAVERA_DE" name="a la primavera de 1996 -> la primavera de 1996" default="temp_off">
+            <antipattern>
+                <token>amb</token>
+                <token>vista</token>
+                <token>a</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>a<exception scope="previous" regexp="yes">entorno|torn|entorn|por|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*|AO0CN0" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">&exceptions_A_L_ANY;</exception><exception postag="LOC_PREP"/></token>
+                    <token regexp="yes">l'|la</token>
+                </marker>
+                <token regexp="yes">&estacions;</token>
+                <token regexp="yes">de|d'</token>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes">\d{1,4}|any</token>
+            </pattern>
+            <message>Aquesta expressió s'escriu sense la preposició 'a'.</message>
+            <suggestion>\2</suggestion>
+            <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
+            <short>Sobra la preposició 'a'</short>
+            <example correction="L'"><marker>A l'</marker>estiu de 1992 foren les olimpíades de Barcelona.</example>
+            <example correction="l'">S'esdevingué <marker>a l'</marker>hivern de 1905.</example>
+            <example correction="la">S'esdevingué <marker>a la</marker> tardor d'aquell any.</example>
+            <example correction="la">S'esdevingué <marker>a la</marker> tardor de l'any passat.</example>
+        </rule>
         <rule id="SENSE_CAP_NI_UN_SENSE_CAP" name="sense cap ni un/sense cap">
             <pattern>
                 <token>sense</token>
@@ -102408,7 +102433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>sever</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="6">clima|calor|fred</token>
+                    <token inflected="yes" regexp="yes" skip="6">clima|calor|fred|hivern|estiu</token>
                     <marker>
                         <token inflected="yes">sever</token>
                     </marker>
@@ -130598,6 +130623,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="Expressions preferibles" default="on" type="style">
+        <rulegroup id="A_CAUSA_DEL_FET_QUE" name="a causa del fet que -> pel fet que">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT_SENT_START" postag_regexp="yes"/>
+                    <marker>
+                        <token>a</token>
+                        <token>causa</token>
+                        <token>de</token>
+                        <token>l</token>
+                        <token>fet</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Podeu usar una expressió més simple.</message>
+                <suggestion>pel fet que</suggestion>
+                <suggestion>com que</suggestion>
+                <example correction="Pel fet que|Com que"><marker>A causa del fet que</marker> no hi havia aigua, vam anar a buscar-ne.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>causa</token>
+                        <token>de</token>
+                        <token>l</token>
+                        <token>fet</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Podeu usar una expressió més simple.</message>
+                <suggestion>pel fet que</suggestion>
+                <example correction="pel fet que">Vam anar a buscar aigua, <marker>a causa del fet que</marker> no n'hi havia.</example>
+            </rule>
+        </rulegroup>
         <rule id="MAJOR_A" name="major a -> superior a, més gran que">
             <pattern>
                 <marker>
@@ -160232,8 +160291,8 @@ No t'ho explicaré, no cal que em burxis més-->
                 </antipattern>
                 <antipattern>
                     <token>banda</token>
-                    <token>de</token>
-                    <token>música</token>
+                    <token regexp="yes">de|d'</token>
+                    <token inflected="yes" regexp="yes">música|tambor|instrument|trompeta|clarí|vent</token>
                 </antipattern>
                 <antipattern>
                     <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">perseguir|acaçar|empaitar|encalçar|assetjar|atacar|molestar</token>
