@@ -1154,7 +1154,7 @@
 <languagerule languagerulename="English">
 <!-- Nonstandard English abbreviations found in user texts -->
 <rule break="no">
-<beforebreak>\b(?:hrs|compl|[Cc]alc|ack|appt|tom|agmt|med|[Mm]od|mfg|eff|info|Rt|kgs|tbs|[Tt]r|Bd)\.[\s\u00A0]</beforebreak>
+<beforebreak>(?:\b|\d)(?:hrs|compl|[Cc]alc|ack|appt|tom|agmt|med|[Mm]od|mfg|eff|info|Rt|kgs|tbs|[Tt]r|Bd|Adj)\.[\s\u00A0]</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Legal citations: certif. denied / cert. denied -->
@@ -1359,6 +1359,11 @@
 <rule break="no">
 <beforebreak>\be[sx]p\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<!-- Capitalized "Esp." (especially) followed by lowercase: Esp. since -->
+<rule break="no">
+<beforebreak>\bEsp\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!--"Etc." can end the sentence, so we check for the uppercase letter after it.-->
 <rule break="no">
@@ -7015,9 +7020,9 @@
 <beforebreak>\b(abbr|acron|agg|art|avv|card|compar|conf|cong|det|dim|f|fonosimb|ger|impers|indef|indet|inter|intr|inv|lat|loc|m|n|num|ord|p|pers|pl|pass|pres|pref|prep|pron|ponom|rel|s|sost|simb|suff|ter|tr|v|var)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
-<!-- Italian abbreviations followed by lowercase: gov. (governo), mm. (millimetri) -->
+<!-- Italian abbreviations followed by lowercase: gov. (governo), mm. (millimetri), Es. (esempio), ing. (ingegneria) -->
 <rule break="no">
-  <beforebreak>\b([Gg]ov|mm)\.[\s\u00A0]</beforebreak>
+  <beforebreak>\b([Gg]ov|mm|Es|ing)\.[\s\u00A0]</beforebreak>
   <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Do not break after an ellipsis (\u2026 or ...) when the next word starts lowercase -->
@@ -7361,6 +7366,13 @@
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="TwoDots">
+<!-- Do not split after two dots (also before a closing bracket: ..] or ..) when the next word is lowercase. Mapped to all languages except Russian (RussianTest demo text expects a split after ".."). -->
+<rule break="no">
+<beforebreak>\.\.[\]\)]?[\s\u00A0]+</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 <languagerule languagerulename="GeneralImportant">
 <!--Don't split up URLs.-->
 <rule break="no">
@@ -7395,9 +7407,9 @@
 <beforebreak>A[eur]\.[\s\u00A0]*</beforebreak>
 <afterbreak>(aegypti|aferensis|ramidus)</afterbreak>
 </rule>
-<!-- Do not split after three or more consecutive periods when the next word is lowercase -->
+<!-- Do not split after three or more consecutive periods (also inside brackets: [...] or […]) when the next word is lowercase -->
 <rule break="no">
-<beforebreak>\.{3,}\s+</beforebreak>
+<beforebreak>(?:\.{3,}[\]\)]?|[\[\(]…[\]\)])[\s\u00A0]+</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Roman numeral list markers: i., ii., iii., iv., etc. -->
@@ -7408,6 +7420,11 @@
 <!-- Numbered and alphanumeric list markers: 1., 1a., 2b., etc. -->
 <rule break="no">
 <beforebreak>(?m)(?:^|[\r\n])\s*\d+[a-z]?\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Number followed by a dot anywhere in the text, then lowercase: 32. avos, 3. cm, 2. fecha, 1. poderá, 10.a. digerdöden -->
+<rule break="no">
+<beforebreak>\b\d+\.(?:\p{L}\.)?[\s\u00A0]+</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Parenthetical of any length ending with sentence punctuation, followed by lowercase: (really?) a, (sic!) and, (what do you think?) and -->
@@ -7505,6 +7522,11 @@
 <beforebreak>\b(u\.a|ex|[Pp]ostop|preop|[Jj]fr)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- Swedish abbreviations followed by lowercase: op. (operation), Väs. (väsentligen) -->
+<rule break="no">
+<beforebreak>\b(op|[Vv]äs)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!-- Latin anatomical abbreviation: arteria -->
 <rule break="no">
 <beforebreak>\b[aA]\.\s</beforebreak>
@@ -7534,6 +7556,7 @@
 </languagerules>
 <maprules>
 <languagemap languagepattern=".*" languagerulename="GeneralImportant"></languagemap>
+<languagemap languagepattern="(?!(RU|ru)).*" languagerulename="TwoDots"></languagemap>
 <languagemap languagepattern="[a-z]{2,3}_one" languagerulename="ByLineBreak"></languagemap>
 <languagemap languagepattern="[a-z]{2,3}_two" languagerulename="ByTwoLineBreaks"></languagemap>
 <languagemap languagepattern="(EL|el).*" languagerulename="Greek"></languagemap>
