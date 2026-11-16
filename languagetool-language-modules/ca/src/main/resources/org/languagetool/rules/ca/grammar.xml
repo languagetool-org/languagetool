@@ -156101,6 +156101,25 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example correction="fera">Volia que ho <marker>fes</marker>.</example>
             </rule>
             <rule>
+                <!-- the imperative reading can survive disambiguation after a subject pronoun or a subordinator
+                     (si jo fes, si ell refés), where no imperative is possible; «tu/vosaltres» excluded: «Tu fes la feina» -->
+                <pattern>
+                    <token regexp="yes">si|que|jo|ell|ella|vostè|nosaltres|ells|elles|vostés</token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="2"/>
+                    <marker>
+                        <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*|V.P.*|NP.*|N.*|A.*" postag_regexp="yes"/><exception regexp="yes">xinés|finés</exception></token>
+                    </marker>
+                </pattern>
+                <message>Usem preferentment les formes en -r- de l'imperfet de subjuntiu.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(V.SI...)[^3]" postag_replace="$13"/></suggestion>
+                <url>https://salt.gva.es/documents/165514261/165514298/CRITERIS+LING%C3%9C%C3%8DSTICS+DE+L%E2%80%99ADMINISTRACI%C3%93%20DE+LA+GENERALITAT/60079cdc-27cd-483f-8366-a56a4908f1bd#page=52</url>
+                <example correction="fera">Si jo <marker>fes</marker> això, ho sabries.</example>
+                <example correction="refera">Si ell <marker>refés</marker> el càlcul.</example>
+                <example correction="desfera">Volia que ho <marker>desfés</marker> tot.</example>
+                <example>Tu fes la feina.</example>
+                <example>Desfés i refés</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">[sc]àpi(ga|gues|guen)|[cs]apigue[mu]</token>
