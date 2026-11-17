@@ -14891,13 +14891,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='ESTAR_NO_ECRA' name="✂️ Estar no ecrã">
-            <!--IDEA shorten_it-->
+        <rule id='ESTAR_NO_ECRA' name="✂️ Estar no ecrã" type='style'>
+            <!-- IDEA shorten_it -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!--
+            Simplifica construções relativas com "estar"
+            no presente do indicativo.
+
+            Aceita demonstrativos classificados como PD ou DD.
+            -->
+
             <pattern>
-                <token postag='(SPS00:)?PD.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?(PD|DD).+' postag_regexp='yes'/>
                 <marker>
                     <token>que</token>
-                    <token regexp='yes' inflected='yes'>aparecer|estar|exibir|mostrar|observar|ver</token>
+                    <token regexp='yes'>está|estão</token>
                     <token regexp='yes'>n[ao]s?</token>
                 </marker>
                 <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
@@ -14907,6 +14916,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>\4</suggestion>
             <example correction="no">Veja tudo aquilo <marker>que está no</marker> ecrã.</example>
             <example correction="no">Veja tudo aquilo <marker>que está no</marker> seu ecrã.</example>
+            <example correction="no">Observe aquilo <marker>que está no</marker> monitor.</example>
+            <example correction="na">Veja aquilo <marker>que está na</marker> televisão.</example>
+            <example correction="nos">Observe aqueles <marker>que estão nos</marker> monitores.</example>
+            <example correction="nas">Veja aquelas <marker>que estão nas</marker> telas.</example>
+            <example>Veja aquilo que apareceu no ecrã.</example>
+            <example>Veja aquilo que estava no ecrã.</example>
+            <example>Observe aquilo que vejo no monitor.</example>
+            <example>Veja aquilo que não está no ecrã.</example>
+            <example>Observe aquilo que aparece no seu monitor.</example>
         </rule>
 
 
