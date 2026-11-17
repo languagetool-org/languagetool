@@ -51,7 +51,7 @@ public class SwedishDisambiguationRuleTest {
     //TestTools.myAssert("blablabla","/[null]SENT_START blablabla/[null]SENT_END", tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("Att testa ... disambiguering",
-        "/[null]SENT_START Att/[att]KN  /[null]null testa/[testa]VB:IMP|testa/[testa]VB:INF  /[null]null ./[...]<ELLIPS> ./[null]null ./[...]</ELLIPS>  /[null]null/[null]SENT_START disambiguering/[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
+        "/[null]SENT_START Att/[att]KN  /[null]null testa/[testa]VB:IMP|testa/[testa]VB:INF  /[null]null ./[...]<ELLIPS> ./[null]null ./[...]</ELLIPS>  /[null]null disambiguering/[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("Att testa disambiguering är, en passant, kul.",
         "/[null]SENT_START Att/[att]KN  /[null]null testa/[testa]VB:IMP|testa/[testa]VB:INF  /[null]null disambiguering/[null]null  /[null]null är/[vara]VB:PRS ,/[null]null  /[null]null en/[en passant]<NN:OF:SIN:NOM:UTR>|en/[en]NN:OF:SIN:NOM:UTR|en/[en]PN  /[null]null passant/[en passant]</NN:OF:SIN:NOM:UTR> ,/[null]null  /[null]null kul/[kul]JJ:PU ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);

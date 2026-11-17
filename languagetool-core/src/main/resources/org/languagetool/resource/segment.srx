@@ -11,6 +11,41 @@
 <body>
 <languagerules>
 <languagerule languagerulename="Greek">
+<!-- Internal periods in Greek initialisms: Ε.Μ.Π., Ο.Ε.Φ.Ε., ΚΕ.Δ.Α.Σ.Υ. -->
+<rule break="no">
+<beforebreak>\b\p{Lu}{1,2}\.</beforebreak>
+<afterbreak>\p{Lu}{1,2}\.</afterbreak>
+</rule>
+<!-- Nonstandard Greek abbreviation: πχ. instead of π.χ. -->
+<rule break="no">
+<beforebreak>\bπχ\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Greek institutional, educational and business abbreviations -->
+<rule break="no">
+<beforebreak>(?:Β\.Μ|Τ\.Ε|ΚΕ\.Δ\.Α\.Σ\.Υ|ΚΕ\.Δ\.Δ\.Υ|Ο\.Ε|Δ\.Π\.Θ|Ο\.Ε\.Φ\.Ε|Α\.Ε\.Ε|Π\.Σ)\.[\)\]]?\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Greek time abbreviations: π.μ. and μ.μ. -->
+<rule break="no">
+<beforebreak>(?:π|μ)\.\s?μ\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Greek abbreviations: κεφ., κλπ., κ.ά., ΥΓ. -->
+<rule break="no">
+<beforebreak>(?:\bκεφ|\bκλπ|\bκ\.ά|\bΥΓ)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- HO.RE.CA. = hospitality and catering sector -->
+<rule break="no">
+<beforebreak>\bHO\.RE\.CA\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Εθνικό Μετσόβιο Πολυτεχνείο -->
+<rule break="no">
+<beforebreak>\bΕ\.Μ\.Π\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <!--κ.λπ. - και λοιπά-->
 <rule break="no">
 <beforebreak>\bκ\.λπ\.\s</beforebreak>
@@ -40,6 +75,21 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Polish">
+<!-- lo. = liceum ogólnokształcące (nonstandard form of LO) -->
+<rule break="no">
+<beforebreak>\blo\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Years written without a space before r. -->
+<rule break="no">
+<beforebreak>\b\d{4}r\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Polish abbreviations found in user texts -->
+<rule break="no">
+<beforebreak>\b(?:[Pp][Pp][Oo][Żż]|mies|ee|wys|HR|[Ww]oj|op|os|[Dd]ł)\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!--includes v"ad." misused as abbreviation-->
 <rule break="no">
 <beforebreak>\b[Aa]dw?\.\s</beforebreak>
@@ -473,7 +523,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\btj\.\s</beforebreak>
+<beforebreak>\b[Tt]j\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -979,7 +1029,7 @@
 </rule>
 <!--min. 30 zł lub cena min. od 30 zł-->
 <rule break="no">
-<beforebreak>\bmin\.\s</beforebreak>
+<beforebreak>\b[Mm]in\.\s</beforebreak>
 <afterbreak>[\p{Ll}\d]</afterbreak>
 </rule>
 <!--W 1991 r. Józef Stalin nie żył.-->
@@ -1107,6 +1157,76 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="English">
+<!-- Nonstandard English abbreviations found in user texts -->
+<rule break="no">
+<beforebreak>(?:\b|\d)(?:hrs|compl|[Cc]alc|ack|appt|tom|agmt|med|[Mm]od|mfg|eff|info|Rt|kgs|tbs|[Tt]r|Bd|Adj)\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Legal citations: certif. denied / cert. denied -->
+<rule break="no">
+<beforebreak>\bcert(?:if)?\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Legal citation: Id. at 138 -->
+<rule break="no">
+<beforebreak>\b[Ii]d\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Quantity abbreviation: 50,000 nos. for each item -->
+<rule break="no">
+<beforebreak>\b\d[\d,]*[\s\u00A0]+nos\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Building abbreviation -->
+<rule break="no">
+<beforebreak>\b[Bb]ldg\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Malaysian company suffix: Bhd. -->
+<rule break="no">
+<beforebreak>\bBhd\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Equation abbreviation before lowercase text -->
+<rule break="no">
+<beforebreak>\b[Ee]q\.[\s\u00A0]</beforebreak>
+<afterbreak>of\b</afterbreak>
+</rule>
+<!-- Estimated: Est. age unknown -->
+<rule break="no">
+<beforebreak>\b[Ee]st\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Miscellaneous -->
+<rule break="no">
+<beforebreak>\b[Mm]isc\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Director of Finance -->
+<rule break="no">
+<beforebreak>\b[Dd]ir\.[\s\u00A0]</beforebreak>
+<afterbreak>of\b</afterbreak>
+</rule>
+<!-- Biblical book abbreviations -->
+<rule break="no">
+<beforebreak>\b(Eph|Rom)\.\s</beforebreak>
+<afterbreak>(?=\p{Ll}|\d)</afterbreak>
+</rule>
+<!-- Years and pounds after numbers -->
+<rule break="no">
+<beforebreak>\b\d+\s+(yrs|lb)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- US political party and state abbreviations -->
+<rule break="no">
+<beforebreak>\b[DRI]-(Vt|Mass|Md)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Legal citation: et seq. -->
+<rule break="no">
+<beforebreak>\bet\sseq\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!-- unknown abbreviations inside parentheses/brackets/braces -->
 <rule break="no">
 <beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
@@ -1245,10 +1365,25 @@
 <beforebreak>\be[sx]p\.[\s\u00A0]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- Capitalized "Esp." (especially) followed by lowercase: Esp. since -->
+<rule break="no">
+<beforebreak>\bEsp\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!--"Etc." can end the sentence, so we check for the uppercase letter after it.-->
 <rule break="no">
 <beforebreak>\b[Ee]tc\.[\s\u00A0]</beforebreak>
 <afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<!-- Typo "etc.." with two dots, followed by a non-uppercase letter -->
+<rule break="no">
+<beforebreak>\b[Ee]tc\.\.[\s\u00A0]</beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<!-- Version-like numbers ending with a dot, followed by lowercase: 4.0. the, 1.2.3. and -->
+<rule break="no">
+<beforebreak>\b\d+\.[\d\.]*\d\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b([Bb]tw|BTW)\.[\s\u00A0]</beforebreak>
@@ -1494,6 +1629,21 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Romanian">
+<!-- Hungarian company designation Kft. in Romanian text -->
+<rule break="no">
+<beforebreak>\bKft\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Additional abbreviations found in Romanian user texts -->
+<rule break="no">
+<beforebreak>\b(?:acum|[Cc]dt|part|eg)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Romanian abbreviations -->
+<rule break="no">
+<beforebreak>\b(?:[Ee]x|[Pp]rof|lit)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
 <afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
@@ -1588,6 +1738,26 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Dutch">
+<!-- Nonstandard Dutch abbreviations: menr. = meneer, dwz. = dat wil zeggen -->
+<rule break="no">
+<beforebreak>\b(?:[Mm]enr|dwz)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Dutch abbreviations found in user texts -->
+<rule break="no">
+<beforebreak>\b(?:t\.n\.v|vb|[Mm]nr|blz|pers|eg|Inv|afh|onbep)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Belgian Dutch time expressions: 8u. and 8 u. -->
+<rule break="no">
+<beforebreak>\b\d+\s?u\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Number + p. (e.g., 7p. huren) -->
+<rule break="no">
+<beforebreak>\b\d+p\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!-- unknown abbreviations inside parentheses/brackets/braces -->
 <rule break="no">
 <beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
@@ -1987,6 +2157,20 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Slovak">
+<!-- Slovak abbreviations -->
+<rule break="no">
+<beforebreak>\b(?:[Pp]ozn|bilat|hod)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Hospital name: Nem. arm. generála -->
+<rule break="no">
+<beforebreak>\b[Nn]em\.\s</beforebreak>
+<afterbreak>arm\.\s+generála\b</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\barm\.\s</beforebreak>
+<afterbreak>generála\b</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b(Bc|Mgr|RNDr|PharmDr|PhDr|JUDr|PaedDr|ThDr|Ing|MUDr|MDDr|MVDr|Dr|ThLic|PhD|ArtD|ThDr|Dr|DrSc|CSs|prof)\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -4660,6 +4844,16 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Slovenian">
+<!-- Nonstandard Slovenian abbreviation: kontr. = kontrolnimi -->
+<rule break="no">
+<beforebreak>\bkontr\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Slovenian abbreviations, including closing parentheses -->
+<rule break="no">
+<beforebreak>\b(?:ipd|t\.\s?i)\.[\)\]]?\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b[dD]r\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -4810,6 +5004,16 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Catalan">
+<!-- freq. = freqüència -->
+<rule break="no">
+<beforebreak>\b[Ff]req\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Eq. = equació; mathematical labels -->
+<rule break="no">
+<beforebreak>\bEq\.\s</beforebreak>
+<afterbreak>(angle|posició|velocitat|moviment)\b</afterbreak>
+</rule>
 <!-- spaced-out ellipsis, e.g. "word . . . word" - don't break between the dots -->
 <rule break="no">
 <beforebreak>\.[\s\u00A0]</beforebreak>
@@ -4996,6 +5200,16 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Spanish">
+<!-- Nonstandard Spanish medical abbreviations found in user texts-->
+<rule break="no">
+<beforebreak>\b(?:prob|[Ss]ag|[Dd]esc|[Ee]nf)\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Pcia. = provincia -->
+<rule break="no">
+<beforebreak>\b[Pp]cia\.\s</beforebreak>
+<afterbreak>\p{L}</afterbreak>
+</rule>
 <!-- 1. Punto primero-->
 <rule break="no">
 <beforebreak>^\d+\.[\s\u00A0]</beforebreak>
@@ -5432,6 +5646,31 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Danish">
+<!-- Nonstandard abbreviations found in Danish user texts -->
+<rule break="no">
+<beforebreak>\b(?:eksl|sq|[Aa][Pp][Ss])\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Additional Danish abbreviations found in user texts -->
+<rule break="no">
+<beforebreak>\b(?:[Ll]ig|hø|[Mm]hp|div|svt|[Ss]v\.t|ve|ifb|[Tt]idl)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- jf. = jævnfør -->
+<rule break="no">
+<beforebreak>\b[Jj]f\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- dxt. = dexter (right-sided) -->
+<rule break="no">
+<beforebreak>\bdxt\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- sin. = sinister (left-sided) -->
+<rule break="no">
+<beforebreak>\bsin\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!-- Split e.g.: He won't. Really. -->
 <rule break="yes">
 <beforebreak>'\p{L}[\.!?…]\s</beforebreak>
@@ -5554,7 +5793,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(ca|cand|Chr|cirk|cit|co|d|da|dagl|dans|dat|dec|def|demonstr|dep|dial|diam|dim|dipl|disp|distr|distrib|dobb|dok|dr|dvs|e|egl|ejd|eks|eksam|ekskl|eksp|ekspl|el|ell|ellipt|emb|endv|eng|enk|ent|etnogr|eufem|eur|event|evt)\.\s</beforebreak>
+<beforebreak>\b(ca|cand|Chr|cirk|cit|co|d|da|dagl|dans|dat|dec|def|demonstr|dep|dial|diam|dim|dipl|disp|distr|distrib|dobb|dok|dr|dvs|e|egl|ejd|eks|eksam|ekskl|eksp|ekspl|el|ell|ellipt|emb|endv|eng|enk|ent|etnogr|eufem|eur|event|[Ee]vt)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5570,11 +5809,11 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(m|maj|maks|mal|man|mar|mark|mat|mdl|mdr|med|medl|meng|merc|meteorol|meton|metr|mf|mfl|mht|mia|mil|min|mineral|mio|ml|mlat|mm|mnt|mods|modsætn|modt|mr|mrk|mur|mvh|mytol|møl|mønt|n|naturv|ndf|Ndr|nedsæt|nht|no|nom|nov|nr|nt|num|nyda|nydann|nylat|naal)\.\s</beforebreak>
+<beforebreak>\b(m|maj|maks|[Mm]al|man|mar|mark|mat|mdl|mdr|med|medl|meng|merc|meteorol|meton|metr|mf|mfl|mht|mia|mil|min|mineral|mio|ml|mlat|mm|mnt|mods|modsætn|modt|mr|mrk|mur|mvh|mytol|møl|mønt|n|naturv|ndf|Ndr|nedsæt|nht|no|nom|nov|nr|nt|num|nyda|nydann|nylat|naal)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(obj|obl|oblik|obs|odont|oecon|oeng|ofl|ogs|oht|okt|oldfr|oldfris|oldn|olgn|omg|omkr|omtr|ons|opr|ordspr|org|osax|ovenst|overf|overs|ovf|p|pag|parl|part|pass|pat|pct|perf|pers|pga|ph|pharm|phil|pk|pkt|pl|plur|poet|pol|polit|pop|port|poss|post|pott|pr|prod|pron|propr|prov|præd|præp|præs|præt|psych|pt|pæd|paavirkn)\.\s</beforebreak>
+<beforebreak>\b(obj|obl|oblik|[Oo]bs|odont|oecon|oeng|ofl|ogs|oht|okt|oldfr|oldfris|oldn|olgn|omg|omkr|omtr|ons|opr|ordspr|org|osax|ovenst|overf|overs|ovf|p|pag|parl|part|pass|pat|pct|perf|pers|pga|ph|pharm|phil|pk|pkt|pl|plur|poet|pol|polit|pop|port|poss|post|pott|pr|prod|pron|propr|prov|præd|præp|præs|præt|psych|[Pp]t|pæd|paavirkn)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5586,7 +5825,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(vs?|var|varem|vbs|vedk|vedl|vedr|vejl|verb|vet|vha|vol|vsa|vulg|væv|zool|æ|æda|ænht|ænyd|æstet|ø|økon|å|årg|årh)\.\s</beforebreak>
+<beforebreak>\b(vs?|var|varem|vbs|vedk|vedl|[Vv]edr|vejl|verb|vet|vha|vol|vsa|vulg|væv|zool|æ|æda|ænht|ænyd|æstet|ø|økon|å|årg|årh)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Danish abbreviations - These can appear at the end of sentence, so watch out for the next letter: it shouldn't be uppercase. -->
@@ -5637,6 +5876,21 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="French">
+<!-- Time with hours: 9h. au magasin, 14 h. le matin -->
+<rule break="no">
+<beforebreak>\b\d{1,2}[\s\u00A0]?h\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- French abbreviations: rep. = représentation, prop. = proportionnelle, min. = minimum -->
+<rule break="no">
+<beforebreak>\b(?:[Rr]ep|[Pp]rop|[Mm]in)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- prof. = professeur -->
+<rule break="no">
+<beforebreak>\b[Pp]rof\.\s</beforebreak>
+<afterbreak>(?:d['’]|\p{Lu})</afterbreak>
+</rule>
 <!-- unknown abbreviations inside parentheses/brackets/braces -->
 <rule break="no">
 <beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
@@ -6253,6 +6507,16 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Galician">
+<!-- coef. = coeficiente -->
+<rule break="no">
+<beforebreak>\b[Cc]oef\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- sr. = señor -->
+<rule break="no">
+<beforebreak>\b[Ss]r\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!-- s. XIX; s.IX; sec. XX; séc. XX -->
 <rule break="no">
 <beforebreak>\bs([eé]c)?\.\s?</beforebreak>
@@ -6431,6 +6695,16 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Portuguese">
+<!-- Portuguese business and administrative abbreviations found in user texts -->
+<rule break="no">
+<beforebreak>\b(?:[Aa]dic|[Oo]p|parc|[Cc]onf|[Oo][Bb][Ss]|un|VLR|sub|[Pp]rest)\.[\s\u00A0]</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- ref. = referente / referência -->
+<rule break="no">
+<beforebreak>\b[Rr]ef\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <!-- unknown abbreviations inside parentheses/brackets/braces -->
 <rule break="no">
 <beforebreak>\([^\)]*?[\.:][\s\u00A0]</beforebreak>
@@ -6634,7 +6908,7 @@
 </rule>
 <!-- Units -->
 <rule break="no">
-<beforebreak>\b([Ee]sc|K[gm]s?|[mc]?[gml]s]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"”'’]*\s</beforebreak>
+<beforebreak>\b([Ee]sc|[Kk][gm]s?|[mc]?[gml]s]|[Hh](rs)?)\.[\p{Pe}\p{Pf}\p{Pd}"”'’]*\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Split at e.g. "1a. There is..." -->
@@ -6716,6 +6990,11 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Italian">
+<!-- Italian administrative and reference abbreviations -->
+<rule break="no">
+<beforebreak>\b(cfr|prot)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <!-- Italian abbreviations A - C-->
 <rule break="no">
 <beforebreak>\b(a\.c|a\.C|ad es|all|Amn|Arch|Avv|Bcc|Cav|c\.a|C\.A\.P|Cc|cd|banc|post|c\.c\.p|c\.m|Co|c\.p|C\.P|C\.p\.r|corr|c\.s|c\.v)\.\s</beforebreak>
@@ -6766,9 +7045,19 @@
 <beforebreak>\b(abbr|acron|agg|art|avv|card|compar|conf|cong|det|dim|f|fonosimb|ger|impers|indef|indet|inter|intr|inv|lat|loc|m|n|num|ord|p|pers|pl|pass|pres|pref|prep|pron|ponom|rel|s|sost|simb|suff|ter|tr|v|var)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
-<!-- Do not break if punctuation is followed by closing brackets/quotes and next word starts lowercase -->
+<!-- Italian abbreviations followed by lowercase: gov. (governo), mm. (millimetri), Es. (esempio), ing. (ingegneria) -->
 <rule break="no">
-  <beforebreak>[\.!?]+[\)\]\}"'\u00BB\u2019\u201D\u203A]+\s</beforebreak>
+  <beforebreak>\b([Gg]ov|mm|Es|ing)\.[\s\u00A0]</beforebreak>
+  <afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Do not break after an ellipsis (\u2026 or ...) when the next word starts lowercase -->
+<rule break="no">
+  <beforebreak>(\u2026|\.{2,})[\s\u00A0]+</beforebreak>
+  <afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Do not break if punctuation is followed by closing brackets/quotes of any type and next word starts lowercase -->
+<rule break="no">
+  <beforebreak>[\.!?\u2026]+[\p{Pe}\p{Pf}\p{Pi}"'\u201E\u201A]+[\s\u00A0]</beforebreak>
   <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Scientific names combinations -->
@@ -7102,6 +7391,13 @@
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="TwoDots">
+<!-- Do not split after two dots (also before a closing bracket: ..] or ..) when the next word is lowercase. Mapped to all languages except Russian (RussianTest demo text expects a split after ".."). -->
+<rule break="no">
+<beforebreak>\.\.[\]\)]?\h+</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 <languagerule languagerulename="GeneralImportant">
 <!--Don't split up URLs.-->
 <rule break="no">
@@ -7135,6 +7431,31 @@
 <rule break="no">
 <beforebreak>A[eur]\.[\s\u00A0]*</beforebreak>
 <afterbreak>(aegypti|aferensis|ramidus)</afterbreak>
+</rule>
+<!-- Do not split after three or more consecutive periods (also inside brackets: [...] or […]) when the next word is lowercase -->
+<rule break="no">
+<beforebreak>(?:\.{3,}[\]\)]?|[\[\(]…[\]\)])\h+</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Roman numeral list markers: i., ii., iii., iv., etc. -->
+<rule break="no">
+<beforebreak>(?m)(?:^|[\r\n])\s*(?i:i|ii|iii|iv|v|vi|vii|viii|ix|x)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Numbered and alphanumeric list markers: 1., 1a., 2b., etc. -->
+<rule break="no">
+<beforebreak>(?m)(?:^|[\r\n])\s*\d+[a-z]?\.\h</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Number followed by a dot anywhere in the text, then lowercase: 2. fecha, 3. cm, 1. poderá. Longer numbers (32., 1994.) are not covered -->
+<rule break="no">
+<beforebreak>\b\d\.(?:\p{L}\.)?\h+</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Parenthetical of any length ending with sentence punctuation, followed by lowercase: (really?) a, (sic!) and, (what do you think?) and -->
+<rule break="no">
+<beforebreak>[\.!?…]+['"\p{Pf}]*\)\h+</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Arabic">
@@ -7216,8 +7537,28 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Swedish">
+<!-- Nonstandard Swedish abbreviation: pga. (standard form: p.g.a., på grund av) -->
 <rule break="no">
-<beforebreak>\b(alt|bl\.a|dvs|d\.v\.s|etc|ev|forts|inkl|fr\.o\.m|[Ff]\.d|kl|m\.a\.o|m\.fl|m\.m|[Oo]rig|osv|p\.g\.a|prel|[Rr]ef|resp|s\.k|st|t\.ex|t\.o\.m|[Ff]ig)\.\s</beforebreak>
+<beforebreak>\bpga\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Swedish medical and general abbreviations: u.a. (utan anmärkning), ex. (exempel), Postop. (postoperativ), preop. (preoperativ), jfr. (jämför) -->
+<rule break="no">
+<beforebreak>\b(u\.a|ex|[Pp]ostop|preop|[Jj]fr)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Swedish abbreviations followed by lowercase: op. (operation), Väs. (väsentligen) -->
+<rule break="no">
+<beforebreak>\b(op|[Vv]äs)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!-- Latin anatomical abbreviation: arteria -->
+<rule break="no">
+<beforebreak>\b[aA]\.\s</beforebreak>
+<afterbreak>communicans\s</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(alt|bl\.a|dvs|d\.v\.s|etc|[Ee]v|forts|inkl|fr\.o\.m|[Ff]\.d|kl|m\.a\.o|m\.fl|m\.m|[Oo]rig|osv|p\.g\.a|prel|[Rr]ef|resp|s\.k|st|t\.ex|t\.o\.m|[Ff]ig)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -7240,6 +7581,7 @@
 </languagerules>
 <maprules>
 <languagemap languagepattern=".*" languagerulename="GeneralImportant"></languagemap>
+<languagemap languagepattern="(?!(RU|ru)).*" languagerulename="TwoDots"></languagemap>
 <languagemap languagepattern="[a-z]{2,3}_one" languagerulename="ByLineBreak"></languagemap>
 <languagemap languagepattern="[a-z]{2,3}_two" languagerulename="ByTwoLineBreaks"></languagemap>
 <languagemap languagepattern="(EL|el).*" languagerulename="Greek"></languagemap>
