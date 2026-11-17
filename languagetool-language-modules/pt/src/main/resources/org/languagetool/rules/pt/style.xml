@@ -15031,34 +15031,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>simultaneamente, enquanto</suggestion>
             <example correction="Enquanto|Simultaneamente, enquanto"><marker>Ao mesmo tempo que</marker> tenta entender as situações antes de criticar.</example>
         </rule>
-        <!-- MAS NÃO TERÁ UTILIDADE mas sem utilidade -->
-        <rule id='MAS_EMBORA_CONTUDO_SEM' name="✂️ Expressões do tipo: 'não ter utilidade' → 'sem utilidade'" type='style'>
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 + 2023-03-01 (25-JUL-2022+) -->
-            <!--
-      Concluirei o doutoramento, embora não terá utilidade profissional. → Concluirei o doutoramento, embora sem utilidade profissional.
-      Concluirei o doutoramento, embora não terá grande utilidade profissional. → Concluirei o doutoramento, embora sem grande utilidade profissional.
-      Concluirei o doutoramento, embora não terá nenhuma utilidade profissional. → Concluirei o doutoramento, embora sem nenhuma utilidade profissional.
-      Fizeram estudos importantes, mas estes não tinham objetivos militares. → Fizeram estudos importantes, mas estes sem objetivos militares.
-      -->
+
+
+        <rule id='MAS_EMBORA_CONTUDO_SEM' name="✂️ Embora não tenha → embora sem" type='style' tags='picky'>
+            <!-- IDEA shorten_it -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!-- Conservative approach: subjunctive only, without explicit subjects. -->
+
             <pattern>
-                <token regexp='yes'>mas|embora|contudo</token>
-                <token min="0" max="1" postag='DD.+|PD.+' postag_regexp='yes'/>
+                <token>embora</token>
                 <marker>
                     <token>não</token>
-                    <token regexp='yes'>tinha|tinham|tenha|tenham|tem|têm|terá|terão</token>
+                    <token regexp='yes'>tenha|tenham</token>
                 </marker>
-                <token min="0" max="1" postag='AQ.+|(SPS00:)?D[AI].+' postag_regexp='yes'>
-                    <exception regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|fim|finalidade|intenção|intento|interesse|juízo|meta|mira|objetivo|precisão|propósito|prudência|seriedade|tino|uso|utilidade|utilização</exception>
-                </token>
-                <token regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|fim|finalidade|intenção|intento|interesse|juízo|meta|mira|objetivo|precisão|propósito|prudência|seriedade|tino|uso|utilidade|utilização</token>
+                <token min='0' max='1'>grande</token>
+                <token regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|finalidade|intenção|interesse|objetivo|precisão|propósito|utilidade|utilização</token>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>sem</suggestion>
-            <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> utilidade profissional.</example>
-            <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> grande utilidade profissional.</example>
-            <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> nenhuma utilidade profissional.</example>
-            <example correction="sem">Fizeram estudos importantes, mas estes <marker>não tinham</marker> objetivos militares.</example>
+            <example correction="sem">Concluirei o doutoramento, embora <marker>não tenha</marker> utilidade profissional.</example>
+            <example correction="sem">A solução é interessante, embora <marker>não tenha</marker> grande utilidade prática.</example>
+            <example correction="sem">Os estudos foram publicados, embora <marker>não tenham</marker> objetivos militares.</example>
+            <example type='correct'>O projeto avançou, embora tenha utilidade limitada.</example>
+            <example type='correct'>O projeto avançou, embora não tenha nenhuma finalidade comercial.</example>
+            <example type='correct'>Fizeram estudos importantes, mas estes não tinham objetivos militares.</example>
         </rule>
 
 
