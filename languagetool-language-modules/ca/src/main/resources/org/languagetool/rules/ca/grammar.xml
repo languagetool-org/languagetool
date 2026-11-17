@@ -3076,6 +3076,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_POSTPONED_ADJ" name="concordança d'adjectiu posposat a substantius">
             <antipattern>
+                <token>dret</token>
+                <token regexp="yes">a|de|d'</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token postag="DN.*" postag_regexp="yes"/>
                 <token inflected="yes" regexp="yes">punt|grau</token>
                 <token regexp="yes">inferior|superior</token>
@@ -32030,7 +32035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">copio|baixo|tremolo|tremoli|venia|venies|tenia|tenies|faria|faries|espero|continua|continues|cantar|diferencia</exception><exception scope="previous" regexp="yes">que|qui|què</exception><exception scope="previous" postag="RG|LOC_ADV|VA.*|PP.*|P0.*|VSP.*" postag_regexp="yes"/></token>
+                        <token postag="V.[SI].*" postag_regexp="yes"><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/><exception regexp="yes">copio|baixo|tremolo|tremoli|venia|venies|tenia|tenies|faria|faries|espero|continua|continues|cantar|diferencia|feria|feries</exception><exception scope="previous" regexp="yes">que|qui|què</exception><exception scope="previous" postag="RG|LOC_ADV|VA.*|PP.*|P0.*|VSP.*" postag_regexp="yes"/></token>
                     </marker>
                     <token regexp="yes">de|d'<exception postag="LOC_.*" postag_regexp="yes"/></token>
                     <token><exception postag="V.N.*" postag_regexp="yes"/></token>
@@ -86304,6 +86309,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>fra</token>
                 <token regexp="yes">angélico|angèlico</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">Dicasteri|Congregació</token>
+                <token>per</token>
+                <token>a</token>
+                <token>ls</token>
+                <token>Bisbes</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <and>
@@ -89391,6 +89403,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="ENESIM" name="n-èsim">
+            <pattern>
+                <token regexp="yes">[a-z]</token>
+                <token>-</token>
+                <token regexp="yes">éssim|éssima|éssims|éssimes|èssim|èssima|èssims|èssimes|ésim|ésima|ésims|ésimes</token>
+            </pattern>
+            <message>S'escriu amb accent obert i una essa.</message>
+            <suggestion>\1-<match no="3" regexp_match="[éè]s?(sim|sima|sims|simes)" regexp_replace="è$1"/></suggestion>
+            <example correction="i-èsim">L'element <marker>i-èssim</marker></example>
+            <example correction="i-èsim">L'element <marker>i-ésim</marker></example>
+            <example correction="i-èsim">L'element <marker>i-éssim</marker></example>
+        </rule>
         <rulegroup id="N_EN" name="n aquest -> en aquest">
             <antipattern>
                 <token regexp="yes">e|índex|enter</token>
@@ -93473,7 +93497,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>a</token>
                     <token regexp="yes">l'|l</token>
-                    <token>escondite</token>
+                    <token regexp="yes">escondite|escondit</token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>a fet a amagar</suggestion>
@@ -116219,7 +116243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1 \3 \2</suggestion>
             <example correction="És normal això"><marker>És això normal</marker>?</example>
         </rule>
-        <rulegroup id="ORIENT_PROXIM" name="Orient Pròxim -> Pròxim Orient">
+        <rulegroup id="ORIENT_PROXIM" name="Orient Pròxim -> Pròxim Orient" default="off">
             <antipattern>
                 <token>pròxim</token>
                 <token>i</token>
@@ -125724,7 +125748,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes" inflected="yes" skip="2">abrigar|albergar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">il·lusió|esperança|dubte|inquietud|sospita|intenció|pla|certesa<exception regexp="yes">plana|planes</exception></token>
+                    <token regexp="yes" inflected="yes">il·lusió|esperança|dubte|inquietud|sospita|intenció|pla|certesa|sentiment<exception regexp="yes">plana|planes</exception></token>
                 </pattern>
                 <message>Ús inapropiat en el sentit de <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">tenir</match></suggestion>.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>
