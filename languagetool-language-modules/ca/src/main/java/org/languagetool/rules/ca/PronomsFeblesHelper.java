@@ -26,6 +26,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.languagetool.rules.ca.ApostophationHelper.needsApostrophationMS;
+import static org.languagetool.rules.ca.ApostophationHelper.pApostropheNeededEnd;
+
 public class PronomsFeblesHelper {
 
   enum PronounPosition {
@@ -145,8 +148,6 @@ public class PronomsFeblesHelper {
     incorrectOrders.put("s'en", "se'n");
   }
 
-  final static Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
-  final static Pattern pApostropheNeededEnd = Pattern.compile(".*[aei]", Pattern.CASE_INSENSITIVE);
   public final static Pattern pPronomFeble = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP[123]CP000|PP3CSD00");
 
   final private static Map<String, String> reflexivePronoun = new HashMap<>();
@@ -201,7 +202,7 @@ public class PronomsFeblesHelper {
 
   public static String transformDavant(String inputPronom, String nextWord) {
     nextWord = nextWord.toLowerCase();
-    if (pApostropheNeeded.matcher(nextWord).matches()) {
+    if (needsApostrophationMS(nextWord)) {
       return transform(inputPronom, PronounPosition.DAVANT_APOS);
     } else {
       String pronom = transform(inputPronom, PronounPosition.DAVANT);

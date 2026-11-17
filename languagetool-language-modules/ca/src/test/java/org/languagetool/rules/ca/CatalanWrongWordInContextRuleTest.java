@@ -56,6 +56,10 @@ public class CatalanWrongWordInContextRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Vam comprar xocolate de mànec.")).length);
     
     assertEquals(1, rule.match(lt.getAnalyzedSentence("El pic de l'ocell.")).length);
+
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("En el teatre grec, la tosquedat dels decorats es "
+      + "compensava per mitjà de màscares, tràgiques o còmiques, i les túniques estilitzades dels actors, "
+      + "l'objecte de les quals era ressaltar el caràcter arquetípic dels personatges.")).length);
   }
   
 }

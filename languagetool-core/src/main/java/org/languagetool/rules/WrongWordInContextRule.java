@@ -281,7 +281,9 @@ public abstract class WrongWordInContextRule extends Rule {
         str = str.substring(4);
         ignoreCase = "(?i)";
       }
-      return ignoreCase + "\\b(" + str + ")\\b";
+      // (?U) makes \b Unicode-aware: since Java 21 \b uses ASCII word characters by default, which would
+      // wrongly match e.g. "pic" inside "arquetípic" (accented letters count as non-word characters).
+      return "(?U)" + ignoreCase + "\\b(" + str + ")\\b";
     }
 
     void setWord(int i, String word) {

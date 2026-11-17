@@ -79,6 +79,9 @@ public class VerbSynthesizer {
   }
 
   private void setIndexes(int startPos) {
+    if (startPos < 0 || startPos >= tokens.length) {
+      return; // no verb found; isUndefined() will be true
+    }
     int j = startPos;
     // single participle
     if (tokens[j].readingWithTagRegex(pParticiple) != null && !tokens[j].hasPosTag("_GV_") &&
@@ -176,19 +179,27 @@ public class VerbSynthesizer {
     } else {
       for (int i = iFirstVerb; i <= iLastVerb; i++) {
         if (i == iFirstVerb) {
-          String[] synthesized = synth.synthesize(firstVerb, adjustPostagTolemma(firstVerb.getLemma(), newPostag));
-          if (synthesized != null && synthesized.length > 0) {
-            result.append(synthesized[0]);
+          if (firstVerb != null) {
+            String[] synthesized = synth.synthesize(firstVerb, adjustPostagTolemma(firstVerb.getLemma(), newPostag));
+            if (synthesized != null && synthesized.length > 0) {
+              result.append(synthesized[0]);
+            }
           }
         } else if (i == iLastVerb) {
           if (tokens[i].isWhitespaceBefore()) {
             result.append(" ");
           }
-          String postag = tokens[iLastVerb].readingWithTagRegex(pVerb).getPOSTag();
-          AnalyzedToken toSynthesize = new AnalyzedToken("", postag, newLemma);
-          String[] synthesized = synth.synthesize(toSynthesize, adjustPostagTolemma(newLemma, postag));
-          if (synthesized != null && synthesized.length > 0) {
-            result.append(synthesized[0]);
+          AnalyzedToken lastVerb = tokens[iLastVerb].readingWithTagRegex(pVerb);
+          if (lastVerb == null) {
+            lastVerb = firstVerb;
+          }
+          if (lastVerb != null) {
+            String postag = lastVerb.getPOSTag();
+            AnalyzedToken toSynthesize = new AnalyzedToken("", postag, newLemma);
+            String[] synthesized = synth.synthesize(toSynthesize, adjustPostagTolemma(newLemma, postag));
+            if (synthesized != null && synthesized.length > 0) {
+              result.append(synthesized[0]);
+            }
           }
         } else {
           if (tokens[i].isWhitespaceBefore()) {

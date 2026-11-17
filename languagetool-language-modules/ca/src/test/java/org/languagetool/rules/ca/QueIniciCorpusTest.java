@@ -27,6 +27,7 @@ import org.languagetool.Language;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.synthesis.ca.VerbSynthesizer;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -41,16 +42,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertTrue;
-import org.languagetool.synthesis.ca.VerbSynthesizer;
 
 /**
- * Corpus test per a les regles QUE_INICI_SENSE_ACCENT i QUE_INICI_AMB_ACCENT.
+ * Eina estadística per a les regles QUE_INICIAL_*.
  *
  * <p>Compta:
  * <ul>
@@ -58,7 +59,7 @@ import org.languagetool.synthesis.ca.VerbSynthesizer;
  *       en principi són correctes i, per tant, no haurien de generar cap avís.</li>
  *   <li>TP (positius verdaders) i FN (falsos negatius): invertint el que/què inicial
  *       de cada frase del corpus la fem incorrecta; llavors la regla hauria de
- *       saltar (TP) i, si no ho fa, és un FN.</li>
+ *       proposar una substitució que restitueixi la frase original (TP); si no, és un FN.</li>
  * </ul>
  *
  * <p>El fitxer d'exemples ambigus (les dues solucions són vàlides) només s'usa per
@@ -73,7 +74,7 @@ public class QueIniciCorpusTest {
   private static final String SENSE_ACCENT = "SENSE (què->que)";
   private static final String AMB_ACCENT = "AMB (que->què)";
 
-  // Ids de regla mesurats per a cada direcció. Configurables amb -DqueInici.sense=... i
+  // Selecció de regles, NO classificació de la direcció. Configurables amb -DqueInici.sense=... i
   // -DqueInici.amb=... (llistes separades per comes) per a poder comparar regles (p. ex.
   // les QUE_INICIAL_* existents) amb les noves QUE_INICI_*.
   private static final List<String> SENSE_IDS = idsFromProperty("queInici.sense",
@@ -83,7 +84,8 @@ public class QueIniciCorpusTest {
 
   // que/què com a paraula sencera (sense lletres a banda i banda)
   private static final Pattern QUE_WORD = Pattern.compile("(?<!\\p{L})[Qq][Uu][EeÈè](?!\\p{L})");
-  private static final String AMBACCENT_VERB_ID = "QUE_INICIAL_AMBACCENT_VERB";
+  private static final String CONTRAST_HEADER = "total\taccent_count\tnoaccent_count\taccent_ratio\tverb\tnoun"
+      + "\taccent_subject_compatible_count\tnoaccent_subject_compatible_count\taccent_examples\tnoaccent_examples";
   private static final Set<String> EXPLETIVES = new HashSet<>(Arrays.asList(
       "collons", "coi", "cony", "dimonis", "dimoni", "carai", "diantre", "caram",
       "carall", "punyeta", "punyetes", "redimonis", "diables", "diable", "hòstia",
@@ -113,15 +115,9 @@ public class QueIniciCorpusTest {
   private JLanguageTool getTool() {
     Language lang = Catalan.getInstance();
     JLanguageTool tool = new JLanguageTool(lang);
-    // Desactivem tot el que no siguin les regles objectiu,
+    // Activem explícitament els grups seleccionats, com en les passades històriques.
     for (Rule rule : tool.getAllRules()) {
       String id = rule.getId();
-      /*
-      // però NO forcem l'activació de les
-      // objectiu: així les subregles default="off" segueixen inactives (fidel a producció).
-      if (!matchesAny(id, SENSE_IDS) && !matchesAny(id, AMB_IDS)) {
-        tool.disableRule(id);
-      }*/
       if (matchesAny(id, SENSE_IDS) || matchesAny(id, AMB_IDS)) {
         tool.enableRule(id);
       } else {
@@ -132,15 +128,20 @@ public class QueIniciCorpusTest {
     return tool;
   }
 
-  private File findCorpusFile(String name) {
-    String[] candidates = {"var/" + name, "../../var/" + name, "../../../var/" + name};
-    for (String c : candidates) {
-      File f = new File(c);
-      if (f.exists()) {
-        return f;
+  private File findCorpusDirectory() {
+    String configured = System.getProperty("queInici.corpusDir");
+    if (configured != null) {
+      return new File(configured);
+    }
+    for (String directory : Arrays.asList("var-languagetool-que-inici", "var")) {
+      for (String prefix : Arrays.asList("", "../../", "../../../")) {
+        File candidate = new File(prefix + directory);
+        if (new File(candidate, "que_inici.txt").isFile()) {
+          return candidate;
+        }
       }
     }
-    return new File("var/" + name);
+    return new File("var-languagetool-que-inici");
   }
 
   /** Inverteix l'accent del primer que/què que apareix a la frase, conservant les majúscules. */
@@ -164,52 +165,43 @@ public class QueIniciCorpusTest {
   }
 
   /**
-   * Retorna la direcció de la regla que ha saltat sobre la frase ({@link #SENSE_ACCENT} o
-   * {@link #AMB_ACCENT}), o {@code null} si cap. Com que en una frase concreta el que/què
-   * inicial només pot activar una direcció (segons si té accent o no), no cal desambiguar.
+   * Només comptem avisos que cobreixen el primer que/què. Un TP requereix una proposta
+   * que desfaci exactament la inversió, inclosos els matches de més d'un token ("que tal").
+   * El nom del grup no determina la direcció; es revisen tots els matches i suggeriments.
    */
-  private String matchedRuleId(JLanguageTool tool, String sentence) throws IOException {
-    for (RuleMatch match : tool.check(sentence)) {
+  static TargetMatches evaluateMatches(String sentence, List<RuleMatch> matches) {
+    TargetMatches result = new TargetMatches();
+    Matcher target = QUE_WORD.matcher(sentence);
+    if (!target.find()) {
+      return result;
+    }
+    String corrected = invertQue(sentence);
+    for (RuleMatch match : matches) {
       String id = match.getRule().getId();
-      if (matchesAny(id, SENSE_IDS) || matchesAny(id, AMB_IDS)) {
-        return match.getRule().getFullId();
+      if ((!matchesAny(id, SENSE_IDS) && !matchesAny(id, AMB_IDS))
+          || match.getFromPos() < 0 || match.getToPos() > sentence.length()
+          || match.getFromPos() > target.start() || match.getToPos() < target.end()) {
+        continue;
+      }
+      if (result.firstMatchId == null) {
+        result.firstMatchId = match.getRule().getFullId();
+      }
+      String expectedReplacement = corrected.substring(match.getFromPos(), match.getToPos());
+      if (match.getSuggestedReplacements().contains(expectedReplacement)) {
+        result.correctionRuleId = match.getRule().getFullId();
+        break;
       }
     }
-    return null;
+    return result;
   }
 
-  private List<String> matchedRuleIds(JLanguageTool tool, String sentence) throws IOException {
-    List<String> ids = new ArrayList<>();
-    for (RuleMatch match : tool.check(sentence)) {
-      String id = match.getRule().getId();
-      if (matchesAny(id, SENSE_IDS) || matchesAny(id, AMB_IDS)) {
-        ids.add(match.getRule().getFullId());
-      }
-    }
-    return ids;
+  static class TargetMatches {
+    String firstMatchId;
+    String correctionRuleId;
   }
 
-  private boolean matchesAmbaccentVerb(JLanguageTool tool, String sentence) throws IOException {
-    for (String id : matchedRuleIds(tool, sentence)) {
-      if (id.startsWith(AMBACCENT_VERB_ID)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /** Direcció (SENSE/AMB) d'un id de regla, o null. */
-  private String directionOf(String ruleId) {
-    if (ruleId == null) {
-      return null;
-    }
-    if (matchesAny(ruleId, SENSE_IDS)) {
-      return SENSE_ACCENT;
-    }
-    if (matchesAny(ruleId, AMB_IDS)) {
-      return AMB_ACCENT;
-    }
-    return null;
+  private TargetMatches evaluateSentence(JLanguageTool tool, String sentence) throws IOException {
+    return evaluateMatches(sentence, tool.check(sentence));
   }
 
   private static boolean matchesAny(String ruleId, List<String> ids) {
@@ -238,15 +230,20 @@ public class QueIniciCorpusTest {
     boolean errorsOnly = Boolean.getBoolean("queInici.errorsOnly");
     Assume.assumeTrue("Eina estadística desactivada; executeu-la amb -DqueInici.run=true o -DqueInici.errorsOnly=true",
         Boolean.getBoolean("queInici.run") || errorsOnly);
-    File mainCorpus = findCorpusFile("que_inici.txt");
-    File ambigCorpus = findCorpusFile("que_inici_ambigu.txt");
-    File reportDir = new File(mainCorpus.getParentFile(), "que_inici_report");
+    File corpusDir = findCorpusDirectory();
+    File mainCorpus = new File(corpusDir, "que_inici.txt");
+    File ambigCorpus = new File(corpusDir, "que_inici_ambigu.txt");
+    File reportDir = new File(System.getProperty("queInici.reportDir",
+        new File(corpusDir, "que_inici_report").getPath()));
     if (errorsOnly) {
-      Assume.assumeTrue("Report dir not found: " + reportDir.getAbsolutePath(), reportDir.exists());
+      assertTrue("Report dir not found: " + reportDir.getAbsolutePath(), reportDir.isDirectory());
       writeVerbNounContextReportsFromExistingErrors(reportDir);
       return;
     }
-    Assume.assumeTrue("Corpus file not found: " + mainCorpus.getAbsolutePath(), mainCorpus.exists());
+    if (System.getProperty("queInici.corpusDir") != null) {
+      assertTrue("Corpus file not found: " + mainCorpus.getAbsolutePath(), mainCorpus.isFile());
+    }
+    Assume.assumeTrue("Corpus file not found: " + mainCorpus.getAbsolutePath(), mainCorpus.isFile());
 
     JLanguageTool tool = getTool();
 
@@ -266,14 +263,7 @@ public class QueIniciCorpusTest {
     // Acumulació de verbs del patró net "que/què + verb + ?", per a classificar-los (tr/intr)
     Map<String, Integer> verbsAfterQueAccent = new HashMap<>();
     Map<String, Integer> verbsAfterQue = new HashMap<>();
-    // Recopilació de noms comuns darrere el verb (per lema), per accent: els que surten amb
-    // "Què" són subjecte-candidats (animats); els que surten amb "Que", objecte-candidats.
-    Map<String, Integer> nounsAfterAccent = new HashMap<>();
-    Map<String, Integer> nounsAfterNoAccent = new HashMap<>();
-    Map<String, Integer> verbNounAfterAccent = new HashMap<>();
-    Map<String, Integer> verbNounAfterNoAccent = new HashMap<>();
-    Map<String, List<String>> verbNounExamplesAccent = new HashMap<>();
-    Map<String, List<String>> verbNounExamplesNoAccent = new HashMap<>();
+    VerbNounReports contexts = new VerbNounReports();
     // Comprovació de la hipòtesi "sense estructura verbal -> que": distribució accent x té-verb
     int accentVerb = 0;
     int accentNoVerb = 0;
@@ -327,13 +317,12 @@ public class QueIniciCorpusTest {
         }
       }
       // FP: la frase original és (en principi) correcta -> no hauria de saltar cap regla
-      String firedIdOriginal = matchedRuleId(tool, sentence);
-      String firedOnOriginal = directionOf(firedIdOriginal);
-      if (SENSE_ACCENT.equals(firedOnOriginal)) {
+      String firedIdOriginal = evaluateSentence(tool, sentence).firstMatchId;
+      if (firedIdOriginal != null && Boolean.TRUE.equals(origAccent)) {
         fpSense.add(firedIdOriginal + "\t" + sentence);
         fpSenseCases.add(new ErrorCase(firedIdOriginal, sentence, sentence, false));
         statsFor(statsByRule, firedIdOriginal).fp++;
-      } else if (AMB_ACCENT.equals(firedOnOriginal)) {
+      } else if (firedIdOriginal != null && Boolean.FALSE.equals(origAccent)) {
         fpAmb.add(firedIdOriginal + "\t" + sentence);
         fpAmbCases.add(new ErrorCase(firedIdOriginal, sentence, sentence, false));
         statsFor(statsByRule, firedIdOriginal).fp++;
@@ -346,13 +335,13 @@ public class QueIniciCorpusTest {
       if (inverted != null && !inverted.equals(sentence)) {
         Boolean invAccent = firstQueHasAccent(inverted);
         String expected = Boolean.TRUE.equals(invAccent) ? SENSE_ACCENT : AMB_ACCENT;
-        String firedIdInverted = matchedRuleId(tool, inverted);
-        String fired = directionOf(firedIdInverted);
-        boolean detected = expected.equals(fired);
+        TargetMatches invertedMatches = evaluateSentence(tool, inverted);
+        String firedIdInverted = invertedMatches.firstMatchId;
+        boolean detected = invertedMatches.correctionRuleId != null;
         if (SENSE_ACCENT.equals(expected)) {
           if (detected) {
             tpSense++;
-            statsFor(statsByRule, firedIdInverted).tp++;
+            statsFor(statsByRule, invertedMatches.correctionRuleId).tp++;
           } else {
             ErrorCase errorCase = new ErrorCase(fnId(expected, firedIdInverted), sentence, inverted, true);
             fnSense.add(errorCase.format());
@@ -362,7 +351,7 @@ public class QueIniciCorpusTest {
         } else {
           if (detected) {
             tpAmb++;
-            statsFor(statsByRule, firedIdInverted).tp++;
+            statsFor(statsByRule, invertedMatches.correctionRuleId).tp++;
           } else {
             ErrorCase errorCase = new ErrorCase(fnId(expected, firedIdInverted), sentence, inverted, true);
             fnAmb.add(errorCase.format());
@@ -374,18 +363,10 @@ public class QueIniciCorpusTest {
     }
 
     Set<String> seenVerbNounContextSentences = new HashSet<>();
-    collectVerbNounContextsFromErrors(tool, fpSenseCases, seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent,
-        verbNounAfterAccent, verbNounAfterNoAccent, verbNounExamplesAccent, verbNounExamplesNoAccent);
-    collectVerbNounContextsFromErrors(tool, fpAmbCases, seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent,
-        verbNounAfterAccent, verbNounAfterNoAccent, verbNounExamplesAccent, verbNounExamplesNoAccent);
-    collectVerbNounContextsFromErrors(tool, fnSenseCases, seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent,
-        verbNounAfterAccent, verbNounAfterNoAccent, verbNounExamplesAccent, verbNounExamplesNoAccent);
-    collectVerbNounContextsFromErrors(tool, fnAmbCases, seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent,
-        verbNounAfterAccent, verbNounAfterNoAccent, verbNounExamplesAccent, verbNounExamplesNoAccent);
+    collectVerbNounContextsFromErrors(tool, fpSenseCases, seenVerbNounContextSentences, contexts);
+    collectVerbNounContextsFromErrors(tool, fpAmbCases, seenVerbNounContextSentences, contexts);
+    collectVerbNounContextsFromErrors(tool, fnSenseCases, seenVerbNounContextSentences, contexts);
+    collectVerbNounContextsFromErrors(tool, fnAmbCases, seenVerbNounContextSentences, contexts);
 
     // Fitxer ambigu: cap forma (original ni invertida) hauria de generar avisos
     List<String> fpAmbig = new ArrayList<>();
@@ -395,13 +376,13 @@ public class QueIniciCorpusTest {
         if (sentence.isEmpty()) {
           continue;
         }
-        String firedOrig = matchedRuleId(tool, sentence);
+        String firedOrig = evaluateSentence(tool, sentence).firstMatchId;
         if (firedOrig != null) {
           fpAmbig.add("[orig][" + firedOrig + "] " + sentence);
         }
         String inverted = invertQue(sentence);
         if (inverted != null && !inverted.equals(sentence)) {
-          String firedInv = matchedRuleId(tool, inverted);
+          String firedInv = evaluateSentence(tool, inverted).firstMatchId;
           if (firedInv != null) {
             fpAmbig.add("[inv] [" + firedInv + "] " + inverted);
           }
@@ -409,7 +390,7 @@ public class QueIniciCorpusTest {
       }
     }
 
-    reportDir.mkdirs();
+    Files.createDirectories(reportDir.toPath());
     writeLines(new File(reportDir, "false_positives_sense_accent.txt"), fpSense);
     writeLines(new File(reportDir, "false_positives_amb_accent.txt"), fpAmb);
     writeLines(new File(reportDir, "false_negatives_sense_accent.txt"), fnSense);
@@ -418,8 +399,7 @@ public class QueIniciCorpusTest {
     writeLines(new File(reportDir, "rule_stats.tsv"), formatRuleStats(statsByRule));
     writeLines(new File(reportDir, "verbs_after_que_accent.txt"), sortByFreq(verbsAfterQueAccent));
     writeLines(new File(reportDir, "verbs_after_que.txt"), sortByFreq(verbsAfterQue));
-    writeVerbNounContextReports(reportDir, nounsAfterAccent, nounsAfterNoAccent,
-        verbNounAfterAccent, verbNounAfterNoAccent, verbNounExamplesAccent, verbNounExamplesNoAccent);
+    writeVerbNounContextReports(reportDir, contexts);
     writeLines(new File(reportDir, "hipotesi_que_accent_sense_verb.txt"), accentNoVerbExamples);
 
     int applicableSense = tpSense + fnSense.size();
@@ -432,10 +412,14 @@ public class QueIniciCorpusTest {
     String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     report.append("========================================================\n");
     report.append("=== QUE_INICI corpus report -- ").append(timestamp).append(" ===\n");
+    report.append("Avaluador v2: match sobre el primer que/què; TP per restitució exacta, no per ID.\n");
+    report.append("Corpus dir: ").append(corpusDir.getCanonicalPath()).append("\n");
+    report.append("Report dir: ").append(reportDir.getCanonicalPath()).append("\n");
     report.append("Corpus principal (").append(mainCorpus.getName()).append("): ")
         .append(lines.size()).append(" línies\n");
-    report.append("Regles SENSE (què->que): ").append(SENSE_IDS).append("\n");
-    report.append("Regles AMB (que->què):   ").append(AMB_IDS).append("\n");
+    report.append("Selecció queInici.sense (activació explícita): ").append(SENSE_IDS).append("\n");
+    report.append("Selecció queInici.amb (activació explícita):   ").append(AMB_IDS).append("\n");
+    report.append("Corpus ambigu: ").append(ambigCorpus.isFile() ? ambigCorpus.getCanonicalPath() : "ABSENT").append("\n");
     appendRuleStats(report, SENSE_ACCENT, fpSense.size(), tpSense, fnSense.size(), applicableSense);
     appendRuleStats(report, AMB_ACCENT, fpAmb.size(), tpAmb, fnAmb.size(), applicableAmb);
     report.append("--- Global ---\n");
@@ -460,47 +444,28 @@ public class QueIniciCorpusTest {
 
   private void writeVerbNounContextReportsFromExistingErrors(File reportDir) throws IOException {
     JLanguageTool tool = getTool();
-    Map<String, Integer> nounsAfterAccent = new HashMap<>();
-    Map<String, Integer> nounsAfterNoAccent = new HashMap<>();
-    Map<String, Integer> verbNounAfterAccent = new HashMap<>();
-    Map<String, Integer> verbNounAfterNoAccent = new HashMap<>();
-    Map<String, List<String>> verbNounExamplesAccent = new HashMap<>();
-    Map<String, List<String>> verbNounExamplesNoAccent = new HashMap<>();
+    VerbNounReports contexts = new VerbNounReports();
     Set<String> seenVerbNounContextSentences = new HashSet<>();
 
     int errors = 0;
     errors += collectVerbNounContextsFromErrorFile(tool, new File(reportDir, "false_positives_sense_accent.txt"), false,
-        seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent, verbNounAfterAccent, verbNounAfterNoAccent,
-        verbNounExamplesAccent, verbNounExamplesNoAccent);
+        seenVerbNounContextSentences, contexts);
     errors += collectVerbNounContextsFromErrorFile(tool, new File(reportDir, "false_positives_amb_accent.txt"), false,
-        seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent, verbNounAfterAccent, verbNounAfterNoAccent,
-        verbNounExamplesAccent, verbNounExamplesNoAccent);
+        seenVerbNounContextSentences, contexts);
     errors += collectVerbNounContextsFromErrorFile(tool, new File(reportDir, "false_negatives_sense_accent.txt"), true,
-        seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent, verbNounAfterAccent, verbNounAfterNoAccent,
-        verbNounExamplesAccent, verbNounExamplesNoAccent);
+        seenVerbNounContextSentences, contexts);
     errors += collectVerbNounContextsFromErrorFile(tool, new File(reportDir, "false_negatives_amb_accent.txt"), true,
-        seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent, verbNounAfterAccent, verbNounAfterNoAccent,
-        verbNounExamplesAccent, verbNounExamplesNoAccent);
+        seenVerbNounContextSentences, contexts);
 
-    writeVerbNounContextReports(reportDir, nounsAfterAccent, nounsAfterNoAccent,
-        verbNounAfterAccent, verbNounAfterNoAccent, verbNounExamplesAccent, verbNounExamplesNoAccent);
+    writeVerbNounContextReports(reportDir, contexts);
     System.out.println("Regenerats els TSV de context verb+nom a partir de " + errors
         + " casos FP/FN de: " + reportDir.getAbsolutePath());
     assertTrue("No s'ha trobat cap cas FP/FN a " + reportDir.getAbsolutePath(), errors > 0);
   }
 
   private int collectVerbNounContextsFromErrorFile(JLanguageTool tool, File file, boolean inverted,
-                                                   Set<String> seenVerbNounContextSentences,
-                                                   Map<String, Integer> nounsAfterAccent,
-                                                   Map<String, Integer> nounsAfterNoAccent,
-                                                   Map<String, Integer> verbNounAfterAccent,
-                                                   Map<String, Integer> verbNounAfterNoAccent,
-                                                   Map<String, List<String>> verbNounExamplesAccent,
-                                                   Map<String, List<String>> verbNounExamplesNoAccent)
+                                                    Set<String> seenVerbNounContextSentences,
+                                                    VerbNounReports contexts)
       throws IOException {
     if (!file.exists()) {
       return 0;
@@ -512,9 +477,7 @@ public class QueIniciCorpusTest {
         errors.add(error);
       }
     }
-    collectVerbNounContextsFromErrors(tool, errors, seenVerbNounContextSentences,
-        nounsAfterAccent, nounsAfterNoAccent,
-        verbNounAfterAccent, verbNounAfterNoAccent, verbNounExamplesAccent, verbNounExamplesNoAccent);
+    collectVerbNounContextsFromErrors(tool, errors, seenVerbNounContextSentences, contexts);
     return errors.size();
   }
 
@@ -537,30 +500,23 @@ public class QueIniciCorpusTest {
     return new ErrorCase(parts[0], parts[1], parts[1], false);
   }
 
-  private void writeVerbNounContextReports(File reportDir,
-                                           Map<String, Integer> nounsAfterAccent,
-                                           Map<String, Integer> nounsAfterNoAccent,
-                                           Map<String, Integer> verbNounAfterAccent,
-                                           Map<String, Integer> verbNounAfterNoAccent,
-                                           Map<String, List<String>> verbNounExamplesAccent,
-                                           Map<String, List<String>> verbNounExamplesNoAccent)
-      throws IOException {
-    writeLines(new File(reportDir, "nouns_after_verb_accent.txt"), sortByFreq(nounsAfterAccent));
-    writeLines(new File(reportDir, "nouns_after_verb_noaccent.txt"), sortByFreq(nounsAfterNoAccent));
+  private void writeVerbNounContextReports(File reportDir, VerbNounReports contexts) throws IOException {
+    writeLines(new File(reportDir, "nouns_after_verb_accent.txt"), sortByFreq(contexts.nounsAfterAccent));
+    writeLines(new File(reportDir, "nouns_after_verb_noaccent.txt"), sortByFreq(contexts.nounsAfterNoAccent));
     writeLines(new File(reportDir, "verb_noun_after_verb_accent.tsv"),
-        sortVerbNounContexts(verbNounAfterAccent, verbNounExamplesAccent));
+        sortVerbNounContexts(contexts.verbNounAfterAccent, contexts.verbNounExamplesAccent));
     writeLines(new File(reportDir, "verb_noun_after_verb_noaccent.tsv"),
-        sortVerbNounContexts(verbNounAfterNoAccent, verbNounExamplesNoAccent));
+        sortVerbNounContexts(contexts.verbNounAfterNoAccent, contexts.verbNounExamplesNoAccent));
     writeLines(new File(reportDir, "verb_noun_after_verb_contrast.tsv"),
-        sortVerbNounContrast(verbNounAfterAccent, verbNounAfterNoAccent,
-            verbNounExamplesAccent, verbNounExamplesNoAccent));
-    List<VerbNounStats> verbNounStats = sortedVerbNounStats(verbNounAfterAccent, verbNounAfterNoAccent);
+        sortVerbNounContrast(contexts));
+    List<VerbNounStats> verbNounStats = sortedVerbNounStats(contexts);
     writeLines(new File(reportDir, "verb_noun_subject_candidates.tsv"),
-        filterVerbNounCandidates(verbNounStats, verbNounExamplesAccent, verbNounExamplesNoAccent, CandidateKind.SUBJECT));
+        filterVerbNounCandidates(verbNounStats, contexts, CandidateKind.SUBJECT));
     writeLines(new File(reportDir, "verb_noun_object_candidates.tsv"),
-        filterVerbNounCandidates(verbNounStats, verbNounExamplesAccent, verbNounExamplesNoAccent, CandidateKind.OBJECT));
+        filterVerbNounCandidates(verbNounStats, contexts, CandidateKind.OBJECT));
     writeLines(new File(reportDir, "verb_noun_manual_review.tsv"),
-        filterVerbNounCandidates(verbNounStats, verbNounExamplesAccent, verbNounExamplesNoAccent, CandidateKind.REVIEW));
+        filterVerbNounCandidates(verbNounStats, contexts, CandidateKind.REVIEW));
+    writeLines(new File(reportDir, "verb_noun_contexts.tsv"), contexts.details);
   }
 
   private void appendRuleStats(StringBuilder sb, String ruleId, int fp, int tp, int fn, int applicable) {
@@ -573,7 +529,7 @@ public class QueIniciCorpusTest {
     double recall = applicable == 0 ? 0 : (double) tp / applicable;
     sb.append("  FP: ").append(fp).append("   TP: ").append(tp).append("   FN: ").append(fn)
         .append("   (aplicables: ").append(applicable).append(")\n");
-    sb.append(String.format("  Precisió: %.4f   Recall: %.4f%n", precision, recall));
+    sb.append(String.format(Locale.ROOT, "  Precisió: %.4f   Recall: %.4f%n", precision, recall));
   }
 
   /** Afegeix (append) el report al fitxer de log, per anar acumulant els resultats de cada execució. */
@@ -595,12 +551,7 @@ public class QueIniciCorpusTest {
 
   private void collectVerbNounContextsFromErrors(JLanguageTool tool, List<ErrorCase> errors,
                                                  Set<String> seenVerbNounContextSentences,
-                                                 Map<String, Integer> nounsAfterAccent,
-                                                 Map<String, Integer> nounsAfterNoAccent,
-                                                 Map<String, Integer> verbNounAfterAccent,
-                                                 Map<String, Integer> verbNounAfterNoAccent,
-                                                 Map<String, List<String>> verbNounExamplesAccent,
-                                                 Map<String, List<String>> verbNounExamplesNoAccent)
+                                                 VerbNounReports contexts)
       throws IOException {
     for (ErrorCase error : errors) {
       Boolean correctAccent = firstQueHasAccent(error.correctSentence);
@@ -621,11 +572,7 @@ public class QueIniciCorpusTest {
       }
       VerbNounContext context = exactVerbNounContextAfterQue(candidateToks, candidateQi, candidateCoreEnd);
       if (context != null) {
-        boolean subjectContext = correctAccent && context.subjectCompatible;
-        (subjectContext ? nounsAfterAccent : nounsAfterNoAccent).merge(context.nounLemma, 1, Integer::sum);
-        addVerbNounContext(subjectContext ? verbNounAfterAccent : verbNounAfterNoAccent,
-            subjectContext ? verbNounExamplesAccent : verbNounExamplesNoAccent,
-            context.verbLemma, context.nounLemma, "[" + error.id + "] " + error.correctSentence);
+        contexts.add(correctAccent, context, error.id, error.correctSentence);
       }
     }
   }
@@ -667,7 +614,7 @@ public class QueIniciCorpusTest {
     return new VerbNounContext(mainVerbReading.getLemma(), nounReading.getLemma(), subjectCompatible);
   }
 
-  private static class VerbNounContext {
+  static class VerbNounContext {
     final String verbLemma;
     final String nounLemma;
     final boolean subjectCompatible;
@@ -676,6 +623,39 @@ public class QueIniciCorpusTest {
       this.verbLemma = verbLemma;
       this.nounLemma = nounLemma;
       this.subjectCompatible = subjectCompatible;
+    }
+  }
+
+  /** Accent observat i compatibilitat de subjecte són dimensions independents. */
+  static class VerbNounReports {
+    final Map<String, Integer> nounsAfterAccent = new HashMap<>();
+    final Map<String, Integer> nounsAfterNoAccent = new HashMap<>();
+    final Map<String, Integer> verbNounAfterAccent = new HashMap<>();
+    final Map<String, Integer> verbNounAfterNoAccent = new HashMap<>();
+    final Map<String, List<String>> verbNounExamplesAccent = new HashMap<>();
+    final Map<String, List<String>> verbNounExamplesNoAccent = new HashMap<>();
+    final Map<String, Integer> subjectCompatibleAccent = new HashMap<>();
+    final Map<String, Integer> subjectCompatibleNoAccent = new HashMap<>();
+    final List<String> details = new ArrayList<>();
+
+    VerbNounReports() {
+      details.add("correct_accent\tsubject_compatible\tnoun_role_candidate\tverb\tnoun\terror_id\tsentence");
+    }
+
+    void add(boolean correctAccent, VerbNounContext context, String errorId, String sentence) {
+      String key = context.verbLemma + "\t" + context.nounLemma;
+      (correctAccent ? nounsAfterAccent : nounsAfterNoAccent).merge(context.nounLemma, 1, Integer::sum);
+      addVerbNounContext(correctAccent ? verbNounAfterAccent : verbNounAfterNoAccent,
+          correctAccent ? verbNounExamplesAccent : verbNounExamplesNoAccent,
+          context.verbLemma, context.nounLemma, "[" + errorId + "] " + sentence);
+      if (context.subjectCompatible) {
+        (correctAccent ? subjectCompatibleAccent : subjectCompatibleNoAccent).merge(key, 1, Integer::sum);
+      }
+      // La concordança només indica una possibilitat: no prova que el nom sigui el subjecte.
+      // La manca de concordança tampoc prova que sigui un objecte (pot ser atribut, adjunt...).
+      details.add(correctAccent + "\t" + context.subjectCompatible + "\t"
+          + (context.subjectCompatible ? "subject_possible" : "undetermined") + "\t"
+          + key + "\t" + errorId + "\t" + sentence);
     }
   }
 
@@ -700,7 +680,7 @@ public class QueIniciCorpusTest {
     }
   }
 
-  private void addVerbNounContext(Map<String, Integer> counts, Map<String, List<String>> examples,
+  private static void addVerbNounContext(Map<String, Integer> counts, Map<String, List<String>> examples,
                                   String verbLemma, String nounLemma, String sentence) {
     String key = verbLemma + "\t" + nounLemma;
     counts.merge(key, 1, Integer::sum);
@@ -754,68 +734,66 @@ public class QueIniciCorpusTest {
     return result;
   }
 
-  private List<String> sortVerbNounContrast(Map<String, Integer> accentCounts, Map<String, Integer> noAccentCounts,
-                                            Map<String, List<String>> accentExamples,
-                                            Map<String, List<String>> noAccentExamples) {
-    List<VerbNounStats> entries = sortedVerbNounStats(accentCounts, noAccentCounts);
+  private List<String> sortVerbNounContrast(VerbNounReports contexts) {
+    List<VerbNounStats> entries = sortedVerbNounStats(contexts);
     List<String> result = new ArrayList<>();
-    result.add("total\taccent_count\tnoaccent_count\taccent_ratio\tverb\tnoun\taccent_examples\tnoaccent_examples");
+    result.add(CONTRAST_HEADER);
     for (VerbNounStats e : entries) {
-      result.add(formatVerbNounStats(e, accentExamples, noAccentExamples));
+      result.add(formatVerbNounStats(e, contexts));
     }
     return result;
   }
 
-  private List<VerbNounStats> sortedVerbNounStats(Map<String, Integer> accentCounts, Map<String, Integer> noAccentCounts) {
+  private List<VerbNounStats> sortedVerbNounStats(VerbNounReports contexts) {
     Map<String, Integer> all = new HashMap<>();
-    for (Map.Entry<String, Integer> e : accentCounts.entrySet()) {
+    for (Map.Entry<String, Integer> e : contexts.verbNounAfterAccent.entrySet()) {
       all.merge(e.getKey(), e.getValue(), Integer::sum);
     }
-    for (Map.Entry<String, Integer> e : noAccentCounts.entrySet()) {
+    for (Map.Entry<String, Integer> e : contexts.verbNounAfterNoAccent.entrySet()) {
       all.merge(e.getKey(), e.getValue(), Integer::sum);
     }
     List<Map.Entry<String, Integer>> entries = new ArrayList<>(all.entrySet());
     entries.sort((a, b) -> b.getValue().compareTo(a.getValue()));
     List<VerbNounStats> result = new ArrayList<>();
     for (Map.Entry<String, Integer> e : entries) {
-      int accent = accentCounts.getOrDefault(e.getKey(), 0);
-      int noAccent = noAccentCounts.getOrDefault(e.getKey(), 0);
+      int accent = contexts.verbNounAfterAccent.getOrDefault(e.getKey(), 0);
+      int noAccent = contexts.verbNounAfterNoAccent.getOrDefault(e.getKey(), 0);
       String[] parts = e.getKey().split("\t", 2);
-      result.add(new VerbNounStats(parts[0], parts[1], accent, noAccent));
+      result.add(new VerbNounStats(parts[0], parts[1], accent, noAccent,
+          contexts.subjectCompatibleAccent.getOrDefault(e.getKey(), 0),
+          contexts.subjectCompatibleNoAccent.getOrDefault(e.getKey(), 0)));
     }
     return result;
   }
 
   private List<String> filterVerbNounCandidates(List<VerbNounStats> stats,
-                                                Map<String, List<String>> accentExamples,
-                                                Map<String, List<String>> noAccentExamples,
+                                                 VerbNounReports contexts,
                                                 CandidateKind kind) {
     List<String> result = new ArrayList<>();
-    result.add("total\taccent_count\tnoaccent_count\taccent_ratio\tverb\tnoun\taccent_examples\tnoaccent_examples");
+    result.add(CONTRAST_HEADER);
     for (VerbNounStats stat : stats) {
       if (kind.accepts(stat)) {
-        result.add(formatVerbNounStats(stat, accentExamples, noAccentExamples));
+        result.add(formatVerbNounStats(stat, contexts));
       }
     }
     return result;
   }
 
-  private String formatVerbNounStats(VerbNounStats stats,
-                                     Map<String, List<String>> accentExamples,
-                                     Map<String, List<String>> noAccentExamples) {
+  private String formatVerbNounStats(VerbNounStats stats, VerbNounReports contexts) {
     String key = stats.verb + "\t" + stats.noun;
     return stats.total + "\t" + stats.accent + "\t" + stats.noAccent + "\t"
-        + String.format("%.4f", stats.accentRatio()) + "\t"
+        + String.format(Locale.ROOT, "%.4f", stats.accentRatio()) + "\t"
         + stats.verb + "\t" + stats.noun + "\t"
-        + String.join(" || ", accentExamples.getOrDefault(key, new ArrayList<>())) + "\t"
-        + String.join(" || ", noAccentExamples.getOrDefault(key, new ArrayList<>()));
+        + stats.accentSubjectCompatible + "\t" + stats.noAccentSubjectCompatible + "\t"
+        + String.join(" || ", contexts.verbNounExamplesAccent.getOrDefault(key, new ArrayList<>())) + "\t"
+        + String.join(" || ", contexts.verbNounExamplesNoAccent.getOrDefault(key, new ArrayList<>()));
   }
 
   private enum CandidateKind {
     SUBJECT {
       @Override
       boolean accepts(VerbNounStats stats) {
-        return stats.total >= 5 && stats.accent >= 5 && stats.accentRatio() >= 0.90
+        return stats.total >= 5 && stats.accentSubjectCompatible >= 5 && stats.accentRatio() >= 0.90
             && !QueIniciFilter.isAnimateSubjectNoun(stats.noun)
             && !QueIniciFilter.isNeverSubjectNoun(stats.noun);
       }
@@ -842,13 +820,18 @@ public class QueIniciCorpusTest {
     final int accent;
     final int noAccent;
     final int total;
+    final int accentSubjectCompatible;
+    final int noAccentSubjectCompatible;
 
-    VerbNounStats(String verb, String noun, int accent, int noAccent) {
+    VerbNounStats(String verb, String noun, int accent, int noAccent,
+                 int accentSubjectCompatible, int noAccentSubjectCompatible) {
       this.verb = verb;
       this.noun = noun;
       this.accent = accent;
       this.noAccent = noAccent;
       this.total = accent + noAccent;
+      this.accentSubjectCompatible = accentSubjectCompatible;
+      this.noAccentSubjectCompatible = noAccentSubjectCompatible;
     }
 
     double accentRatio() {

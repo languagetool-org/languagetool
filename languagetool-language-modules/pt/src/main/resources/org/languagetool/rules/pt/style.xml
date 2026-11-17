@@ -742,15 +742,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite → Imagem de satélite" tags="picky">
-            <!--      Created by Tiago F. Santos, 2019-09-07      -->
+        <rule id='IMAGEM_DE_SATELITE' name="🛰️ Imagem satélite → imagem de satélite" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: melhoria da mensagem, classificação e exemplos de teste. -->
+            <!--
+            Recomenda a construção com a preposição «de» para designar
+            imagens obtidas por satélite.
+
+            O substantivo «satélite» permanece no singular, mesmo
+            quando «imagem» está no plural.
+
+            imagem satélite → imagem de satélite
+            imagens satélite → imagens de satélite
+            imagens satélites → imagens de satélite
+            -->
             <pattern>
-                <token regexp="yes">image(?:m|ns)</token>
+                <token regexp='yes'>image(?:m|ns)</token>
                 <token regexp='yes'>satélites?</token>
             </pattern>
-            <message>Substitua por <suggestion>\1 de satélite</suggestion>.</message>
-            <example correction="imagens de satélite"><marker>imagens satélite</marker>.</example>
+            <message>Prefira a construção com a preposição &quot;de&quot;: <suggestion><match no='1'/> de satélite</suggestion>.</message>
+            <example correction="imagem de satélite">Esta <marker>imagem satélite</marker> apresenta uma resolução elevada.</example>
+            <example correction="imagens de satélite">As <marker>imagens satélite</marker> foram obtidas ontem.</example>
+            <example correction="imagens de satélite">Estas <marker>imagens satélites</marker> mostram as alterações no território.</example>
+            <example correction="Imagem de satélite"><marker>Imagem satélite</marker> obtida pela NASA.</example>
+            <example type="correct">Esta imagem de satélite apresenta uma resolução elevada.</example>
+            <example type="correct">As imagens de satélite foram obtidas ontem.</example>
+            <example type="correct">As imagens dos satélites foram analisadas.</example>
+            <example type="correct">As imagens satelitais estão disponíveis.</example>
         </rule>
+
 
         <!-- CAMINHAR CAMINHOS percorrer/trilhar caminhos -->
         <rule id='ERRO_TRADUÇÃO_CAMINHAR_CAMINHOS' name="[Erro tradução] 'caminhar' caminhos → 'percorrer/trilhar'" tone_tags="clarity">
@@ -1050,25 +1069,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="As pessoas"><marker>Os homens e mulheres</marker> saíram à rua.</example>
         </rule>
 
-        <rule id='PODER_SER_POSSIVEL' name="[Redundância] Poder/possível">
-            <antipattern>
-                <token postag='V....P.+' postag_regexp='yes'/>
-                <token>ser</token>
-                <token>possíveis</token>
-                <example>As vitórias podem ser possíveis.</example>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token inflected='yes'>poder</token>
-                    <token inflected='yes'>ser</token>
-                </marker>
-                <token regexp="yes">possível|possíveis</token>
-            </pattern>
-            <message>Possível redundância com poder/possível. Substitua por:</message>
-            <suggestion><match no='1' postag='VMI.+|VMN0000' postag_regexp='yes'>dever</match> \2</suggestion>
-            <suggestion><match no='3' postag='NCM(.)000' postag_replace='VMIP3$10'>ser</match></suggestion>
-            <example correction="deve ser|é">A vitória <marker>pode ser</marker> possível.</example>
-        </rule>
 
         <rulegroup id='CADA_VEZ_MAIOR_MENOR_CRESCENTE_DECRESCENTE' name="Cada vez maior/menor → crescente/decrescente" tags='picky'>
             <!--IDEA shorten_it-->
@@ -1112,44 +1112,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         </rulegroup>
 
-        <rulegroup id='TOKENS_QUE_É_SÃO_TOKENS' name="[Redundância] Evitar redundância de tokens em redor de 'que é/são'" tags="picky">
-            <!--IDEA shorten_it-->
 
-            <rule> <!-- two repeated tokens -->
+        <rulegroup id='TOKENS_QUE_É_SÃO_TOKENS' name="[Redundância] Repetição de palavras após 'que é/são'" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: deteção de repetições lexicais em orações relativas. -->
+            <!--
+            Regra estilística para identificar a repetição desnecessária
+            de nomes e adjetivos após as expressões "que é" e "que são".
+
+            As correspondências exigem a repetição exata das palavras,
+            reduzindo o risco de falsos positivos.
+
+            #1: Repetição de nome + adjetivo, seguida de qualificativo.
+            #2: Repetição de nome, após nome + adjetivo.
+            #3: Repetição de nome, após nome isolado.
+
+            A regra permanece no nível picky porque a repetição pode
+            ser intencional ou justificar-se em determinados contextos.
+            -->
+
+            <rule> <!-- #1: Repetição de nome + adjetivo. -->
                 <pattern>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='V.+'/>
-                    </token>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='NC.+' postag_regexp='yes'><exception postag='V.+' postag_regexp='yes'/></token>
+                    <token postag='AQ.+' postag_regexp='yes'/>
                     <marker>
                         <token>que</token>
-                        <token regexp="yes">é|são</token>
-                        <token><match no="0"/></token>
-                        <token><match no="1"/></token>
-                        <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+                        <token regexp='yes'>é|são</token>
+                        <token><match no='0'/></token>
+                        <token><match no='1'/></token>
+                        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>Possível redundância ao redor de &quot;que é/são&quot;.</message>
+                <message>Possível repetição desnecessária de palavras. Considere simplificar a expressão.</message>
                 <suggestion>\3 \4 \7</suggestion>
                 <example correction="que são internas">Temos as guerras civis <marker>que são guerras civis internas</marker> em Estados soberanos.</example>
+                <example>As guerras civis que são conflitos internos podem prolongar-se.</example>
             </rule>
 
-            <rule> <!-- one repeated token -->
+            <rule> <!-- #2: Repetição de nome após nome + adjetivo. -->
                 <pattern>
-                    <token postag='NC.+|AQ.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='V.+'/>
-                    </token>
-                    <token min="0" max="1" postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='NC.+' postag_regexp='yes'><exception postag='V.+' postag_regexp='yes'/></token>
+                    <token postag='AQ.+' postag_regexp='yes'/>
                     <marker>
                         <token>que</token>
-                        <token regexp="yes">é|são</token>
-                        <token><match no="0"/></token>
-                        <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+                        <token regexp='yes'>é|são</token>
+                        <token><match no='0'/></token>
+                        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
                     </marker>
                 </pattern>
-                <message>Possível redundância ao redor de &quot;que é/são&quot;.</message>
-                <suggestion>\3 \4 \7</suggestion>
+                <message>Possível repetição desnecessária de palavras. Considere simplificar a expressão.</message>
+                <suggestion>\3 \4 \6</suggestion>
                 <example correction="que são internas">Temos as guerras civis <marker>que são guerras internas</marker> em Estados soberanos.</example>
+                <example>As guerras civis que são guerras de libertação têm características próprias.</example>
+            </rule>
+
+            <rule> <!-- #3: Repetição de nome após nome isolado. -->
+                <pattern>
+                    <token postag='NC.+' postag_regexp='yes'><exception postag='V.+' postag_regexp='yes'/></token>
+                    <marker>
+                        <token>que</token>
+                        <token regexp='yes'>é|são</token>
+                        <token><match no='0'/></token>
+                        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+                    </marker>
+                </pattern>
+                <message>Possível repetição desnecessária de palavras. Considere simplificar a expressão.</message>
+                <suggestion>\2 \3 \5</suggestion>
+                <example correction="que são históricas">Existem cidades <marker>que são cidades históricas</marker>.</example>
+                <example>Existem cidades que são centros históricos importantes.</example>
             </rule>
 
         </rulegroup>
@@ -1301,6 +1330,110 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example correction="Comeu"><marker>Comeu a refeição</marker> sem vontade.</example>
             </rule>
         </rulegroup>
+
+
+        <rulegroup id='CAPACIDADE_ESTRATEGIA_OFENSIVA_DEFENSIVA' name="✂️ Capacidade/estratégia de ataque/defesa → ofensiva/defensiva" type='style' tone_tags='clarity'>
+            <!-- ChatGPT 6: simplificação estilística; a equivalência depende do contexto. -->
+
+            <rule> <!-- #1: Com 'e/ou' e com ou sem a segunda preposição 'de'. -->
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>capacidades?|estratégias?</token>
+                        <token>de</token>
+                        <token>ataque</token>
+                        <token regexp='yes'>e|ou</token>
+                        <token min='0'>de</token>
+                        <token>defesa</token>
+                    </marker>
+                </pattern>
+                <message>Para uma formulação mais concisa, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?iu)^(?:capacidade|estratégia)(s?)$' regexp_replace='ofensiva$1' case_conversion='alllower'/> <match no='4'/> <match no='1' regexp_match='(?iu)^(?:capacidade|estratégia)(s?)$' regexp_replace='defensiva$1' case_conversion='alllower'/></suggestion>, se o significado se mantiver.</message>
+                <example correction='capacidade ofensiva e defensiva'>A <marker>capacidade de ataque e de defesa</marker> aumentou.</example>
+                <example correction='capacidade ofensiva e defensiva'>A <marker>capacidade de ataque e defesa</marker> aumentou.</example>
+                <example correction='capacidade ofensiva ou defensiva'>A <marker>capacidade de ataque ou de defesa</marker> será avaliada.</example>
+                <example correction='capacidade ofensiva ou defensiva'>A <marker>capacidade de ataque ou defesa</marker> será avaliada.</example>
+                <example correction='capacidades ofensivas e defensivas'>As <marker>capacidades de ataque e de defesa</marker> aumentaram.</example>
+                <example correction='capacidades ofensivas e defensivas'>As <marker>capacidades de ataque e defesa</marker> aumentaram.</example>
+                <example correction='capacidades ofensivas ou defensivas'>As <marker>capacidades de ataque ou de defesa</marker> serão avaliadas.</example>
+                <example correction='capacidades ofensivas ou defensivas'>As <marker>capacidades de ataque ou defesa</marker> serão avaliadas.</example>
+                <example correction='estratégia ofensiva e defensiva'>A <marker>estratégia de ataque e de defesa</marker> foi revista.</example>
+                <example correction='estratégia ofensiva e defensiva'>A <marker>estratégia de ataque e defesa</marker> foi revista.</example>
+                <example correction='estratégia ofensiva ou defensiva'>A <marker>estratégia de ataque ou de defesa</marker> será escolhida.</example>
+                <example correction='estratégia ofensiva ou defensiva'>A <marker>estratégia de ataque ou defesa</marker> será escolhida.</example>
+                <example correction='estratégias ofensivas e defensivas'>As <marker>estratégias de ataque e de defesa</marker> foram revistas.</example>
+                <example correction='estratégias ofensivas e defensivas'>As <marker>estratégias de ataque e defesa</marker> foram revistas.</example>
+                <example correction='estratégias ofensivas ou defensivas'>As <marker>estratégias de ataque ou de defesa</marker> serão escolhidas.</example>
+                <example correction='estratégias ofensivas ou defensivas'>As <marker>estratégias de ataque ou defesa</marker> serão escolhidas.</example>
+            </rule>
+
+            <rule> <!-- #2: Com artigo explícito 'a' (singular). -->
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>capacidade|estratégia</token>
+                        <token>de</token>
+                        <token>ataque</token>
+                        <token regexp='yes'>e|ou</token>
+                        <token>a</token>
+                        <token>de</token>
+                        <token>defesa</token>
+                    </marker>
+                </pattern>
+                <message>Para uma formulação mais concisa, pondere <suggestion><match no='1'/> ofensiva <match no='4'/> a defensiva</suggestion>, se o significado se mantiver.</message>
+                <example correction='capacidade ofensiva e a defensiva'>A <marker>capacidade de ataque e a de defesa</marker> foram avaliadas.</example>
+                <example correction='capacidade ofensiva ou a defensiva'>A <marker>capacidade de ataque ou a de defesa</marker> será avaliada.</example>
+                <example correction='estratégia ofensiva e a defensiva'>A <marker>estratégia de ataque e a de defesa</marker> foram discutidas.</example>
+                <example correction='estratégia ofensiva ou a defensiva'>A <marker>estratégia de ataque ou a de defesa</marker> será escolhida.</example>
+            </rule>
+
+            <rule> <!-- #3: Com artigo explícito 'as' (plural). -->
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>capacidades|estratégias</token>
+                        <token>de</token>
+                        <token>ataque</token>
+                        <token regexp='yes'>e|ou</token>
+                        <token>as</token>
+                        <token>de</token>
+                        <token>defesa</token>
+                    </marker>
+                </pattern>
+                <message>Para uma formulação mais concisa, pondere <suggestion><match no='1'/> ofensivas <match no='4'/> as defensivas</suggestion>, se o significado se mantiver.</message>
+                <example correction='capacidades ofensivas e as defensivas'>As <marker>capacidades de ataque e as de defesa</marker> foram avaliadas.</example>
+                <example correction='capacidades ofensivas ou as defensivas'>As <marker>capacidades de ataque ou as de defesa</marker> serão avaliadas.</example>
+                <example correction='estratégias ofensivas e as defensivas'>As <marker>estratégias de ataque e as de defesa</marker> foram discutidas.</example>
+                <example correction='estratégias ofensivas ou as defensivas'>As <marker>estratégias de ataque ou as de defesa</marker> serão escolhidas.</example>
+            </rule>
+
+            <rule> <!-- #4a: Expressões simples: podem ter leituras técnicas distintas. -->
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>capacidades?|estratégias?</token>
+                        <token>de</token>
+                        <token>ataque</token>
+                    </marker>
+                </pattern>
+                <message>Se o contexto o permitir, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?iu)^(?:capacidade|estratégia)(s?)$' regexp_replace='ofensiva$1' case_conversion='alllower'/></suggestion>.</message>
+                <example correction='capacidade ofensiva'>A <marker>capacidade de ataque</marker> aumentou.</example>
+                <example correction='capacidades ofensivas'>As <marker>capacidades de ataque</marker> aumentaram.</example>
+                <example correction='estratégia ofensiva'>A <marker>estratégia de ataque</marker> foi revista.</example>
+                <example correction='estratégias ofensivas'>As <marker>estratégias de ataque</marker> foram revistas.</example>
+            </rule>
+
+            <rule> <!-- #4b: Expressões simples: podem ter leituras técnicas distintas. -->
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>capacidades?|estratégias?</token>
+                        <token>de</token>
+                        <token>defesa</token>
+                    </marker>
+                </pattern>
+                <message>Se o contexto o permitir, pondere <suggestion><match no='1'/> <match no='1' regexp_match='(?iu)^(?:capacidade|estratégia)(s?)$' regexp_replace='defensiva$1' case_conversion='alllower'/></suggestion>.</message>
+                <example correction='capacidade defensiva'>A <marker>capacidade de defesa</marker> aumentou.</example>
+                <example correction='capacidades defensivas'>As <marker>capacidades de defesa</marker> aumentaram.</example>
+                <example correction='estratégia defensiva'>A <marker>estratégia de defesa</marker> foi revista.</example>
+                <example correction='estratégias defensivas'>As <marker>estratégias de defesa</marker> foram revistas.</example>
+            </rule>
+        </rulegroup>
+
 
         <rulegroup id='WORDINESS' name='Expressões prolixas' type='style' tags="picky">
             <!--IDEA shorten_it-->
@@ -9427,18 +9560,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id='ENQUANTO_POSSA_SER' name="Expressão: Enquanto puder ser" type='style' tone_tags="formal">
-            <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
+
+        <rule id='ENQUANTO_POSSA_SER' name="Enquanto 'possa ser' possível → for" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: simplificação estilística e prevenção de falsos positivos. -->
+            <!--
+            A construção "possa ser possível" é redundante.
+            A regra limita-se à expressão "enquanto possa ser possível",
+            evitando substituições automáticas noutras construções.
+            -->
             <pattern>
                 <token>enquanto</token>
                 <marker>
                     <token>possa</token>
+                    <token>ser</token>
                 </marker>
-                <token>ser</token>
+                <token>possível</token>
             </pattern>
-            <message>Substitua por <suggestion>puder</suggestion>.</message>
-            <example correction="puder">Vou estudar enquanto <marker>possa</marker> ser possível.</example>
+            <message>Evite a construção redundante &quot;possa ser possível&quot;. Prefira <suggestion>for</suggestion>.</message>
+            <example correction="for">Vou estudar enquanto <marker>possa ser</marker> possível.</example>
+            <example type="correct">Vou estudar enquanto for possível.</example>
+            <example type="correct">Vou estudar enquanto puder.</example>
+            <example type="correct">Continuarei a ajudar enquanto puder ser útil.</example>
         </rule>
+
 
         <rulegroup id='CHILDISH_LANGUAGE' name="3. Linguagem infantil" default='off' tags='picky'>
             <url>https://pt.wiktionary.org/wiki/Categoria:Infantil_(Portugu%C3%AAs)</url>
@@ -9448,16 +9592,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                     <token regexp='yes'>palmadinhas?</token>
                     <token>nas</token>
                     <token>costas</token>
+                    <example>Quer umas palmadinhas nas costas?</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp='yes'>[«»“”"'‘’]</token>
-                    <token regexp="yes">(?:&infantil;)s?</token>
-                    <token regexp='yes'>[«»“”"'‘’]</token>
+                    <token postag='_QUOT'/>
+                    <token regexp='yes'>(?:&infantil;)s?</token>
+                    <token postag='_QUOT'/>
                     <example>O cão fez "auau".</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">(?:&infantil;)s?
-                        <exception>papeis</exception></token>
+                    <token regexp='yes'>(?:&infantil;)s?<exception>papeis</exception></token>
                 </pattern>
                 <message>Linguagem infantil. Considere colocar entre aspas.</message>
                 <suggestion>“<match no='1'/>”</suggestion>
@@ -9465,19 +9609,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp='yes'>[«»“”"'‘’]</token>
-                    <token regexp="yes" spacebefore='yes'>ãos?</token>
-                    <token regexp='yes'>[«»“”"'‘’]</token>
+                    <token postag='_QUOT'/>
+                    <token regexp='yes'>ãos?</token>
+                    <token postag='_QUOT'/>
                     <example>O cão fez "ão".</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" spacebefore='yes'>ãos?</token>
+                    <token regexp='yes'>ãos?</token>
                 </pattern>
                 <message>Linguagem infantil.colocar entre aspas.</message>
                 <suggestion>“<match no='1'/>”</suggestion>
                 <example correction='“ão”'>O cão fez <marker>ão</marker> para mim.</example>
             </rule>
         </rulegroup>
+
 
         <rulegroup id='PROFANITY' name="5. Profanidade" default='off'>
             <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
@@ -9668,87 +9813,192 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='BASEIA-SE_EM' name="Tem por base" default='off'>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <token inflected='yes' postag_regexp="yes" postag="V.+:PP3CNO00">basear</token>
-                <token>em</token>
-            </pattern>
-            <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='(V.+):PP3CNO00' postag_replace="$1">ter</match> por base</suggestion>.</message>
-            <example correction="tem por base">O estudo <marker>baseia-se em</marker> dados estatísticos.</example>
-        </rule>
+        <rulegroup id='É_SUPOSTO_QUE' name="✂️ É suposto que → supõe-se que/espera-se que" type='style' tags='picky' tone_tags='clarity'>
+            <!-- ChatGPT 6: revisão estilística, distinção semântica e colocação pronominal. -->
+            <!--
+            A construção "é suposto que" é gramaticalmente aceitável,
+            mas pode ser substituída por expressões mais diretas.
 
-        <rule id='É_SUPOSTO_QUE' name="Supõe-se que">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <token>é</token>
-                <token>suposto</token>
-                <token>que</token>
-            </pattern>
-            <message>Substitua por <suggestion>supõe-se que</suggestion>.</message>
-            <example correction="supõe-se que">Assim, <marker>é suposto que</marker> aconteça.</example>
-        </rule>
+            "Supõe-se que" exprime uma pressuposição ou suposição.
+            "Espera-se que" exprime uma expectativa.
 
-        <rule id="SOB_O_PONTO_DE_VISTA" name="do ponto de vista">
-            <!--      Created by Marco A.G.Pinto, 2017-07-04      -->
+            As alternativas não são semanticamente equivalentes
+            em todos os contextos. A escolha depende do sentido.
+
+            Em português europeu, a negação e determinados elementos
+            subordinativos exigem próclise.
+
+            É suposto que o documento esteja correto.
+            → Supõe-se que o documento esteja correto.
+
+            É suposto que a reunião comece às nove.
+            → Espera-se que a reunião comece às nove.
+
+            Não é suposto que o documento esteja correto.
+            → Não se supõe que o documento esteja correto.
+
+            Não é suposto que a reunião comece às nove.
+            → Não se espera que a reunião comece às nove.
+
+            Acho que é suposto que o documento esteja correto.
+            → Acho que se supõe que o documento esteja correto.
+
+            Disseram que é suposto que a reunião comece às nove.
+            → Disseram que se espera que a reunião comece às nove.
+            -->
+
+            <rule> <!-- #1: Próclise após negação ou elementos subordinativos. -->
+                <pattern>
+                    <token regexp='yes'>não|nunca|jamais|nem|tampouco|que|quem|se|quando|porque|como|onde|enquanto|já|ainda|só|apenas|também|sempre</token>
+                    <marker>
+                        <token>é</token>
+                        <token>suposto</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Esta construção é aceitável, mas pode ser reformulada de acordo com o sentido, respeitando a próclise: <suggestion>se supõe que</suggestion> (pressuposição) ou <suggestion>se espera que</suggestion> (expectativa).</message>
+                <example correction="se supõe que|se espera que">Não <marker>é suposto que</marker> o documento esteja correto.</example>
+                <example correction="se supõe que|se espera que">Nunca <marker>é suposto que</marker> isso aconteça.</example>
+                <example correction="se supõe que|se espera que">Acho que <marker>é suposto que</marker> o documento esteja correto.</example>
+                <example correction="se supõe que|se espera que">Disseram que <marker>é suposto que</marker> a reunião comece às nove.</example>
+                <example correction="se supõe que|se espera que">Se <marker>é suposto que</marker> isso aconteça, devemos preparar-nos.</example>
+                <example>Não se espera que a reunião comece às nove.</example>
+                <example>Acho que se supõe que o documento esteja correto.</example>
+                <example correction="se supõe que|se espera que">Já <marker>é suposto que</marker> o relatório esteja pronto.</example>
+                <example correction="se supõe que|se espera que">Ainda <marker>é suposto que</marker> o plano entre em vigor.</example>
+                <example correction="se supõe que|se espera que">Só <marker>é suposto que</marker> os participantes autorizados tenham acesso.</example>
+                <example correction="se supõe que|se espera que">Também <marker>é suposto que</marker> os resultados sejam publicados.</example>
+                <example correction="se supõe que|se espera que">Sempre <marker>é suposto que</marker> ele venha.</example>
+            </rule>
+
+            <rule> <!-- #2: Ênclise quando não existe um elemento proclítico imediatamente anterior. -->
+                <antipattern>
+                    <token regexp='yes'>não|nunca|jamais|nem|tampouco|que|quem|se|quando|porque|como|onde|enquanto|já|ainda|só|apenas|também|sempre</token>
+                    <token>é</token>
+                    <token>suposto</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token>é</token>
+                    <token>suposto</token>
+                    <token>que</token>
+                </pattern>
+                <message>Esta construção é aceitável, mas pode ser reformulada de acordo com o sentido: <suggestion>supõe-se que</suggestion> (pressuposição) ou <suggestion>espera-se que</suggestion> (expectativa).</message>
+                <example correction="supõe-se que|espera-se que">Neste caso, <marker>é suposto que</marker> o documento esteja correto.</example>
+                <example correction="supõe-se que|espera-se que">Segundo o programa, <marker>é suposto que</marker> a reunião comece às nove.</example>
+                <example>Supõe-se que o documento esteja correto.</example>
+                <example>Espera-se que a reunião comece às nove.</example>
+            </rule>
+        </rulegroup>
+
+
+        <rule id='SOB_O_PONTO_DE_VISTA' name="✂️ 'Sob o' ponto de vista → 'do'" type='style' tags='picky'>
+            <!-- ChatGPT 6: preferência estilística e prevenção de falsos positivos. -->
+            <!--
+            A expressão «sob o ponto de vista» é tradicionalmente
+            desaconselhada, sendo preferível «do ponto de vista».
+
+            A regra não abrange «sobre o ponto de vista», pois esta
+            construção pode ser legítima quando o ponto de vista
+            constitui o assunto de uma afirmação.
+
+            Aceita um modificador opcional (adjetivo ou determinante)
+            entre o artigo e a expressão «ponto de vista».
+            -->
             <pattern>
                 <marker>
-                    <token regexp='yes'>sob(?:re)?</token>
+                    <token>sob</token>
                     <token>o</token>
                 </marker>
-                <token min='0' postag_regexp='yes' postag='[AD]P.+'/>
+                <token min='0' postag_regexp='yes' postag='(?:AQ|DP).*'/>
                 <token>ponto</token>
                 <token>de</token>
                 <token>vista</token>
             </pattern>
-            <message>Substitua por <suggestion>do</suggestion>.</message>
+            <message>Prefira <suggestion>do</suggestion> nesta construção.</message>
             <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/do-ponto-de-vista/450</url>
             <example correction="do">Está tudo bem <marker>sob o</marker> ponto de vista da Ana.</example>
+            <example correction="Do"><marker>Sob o</marker> ponto de vista jurídico, a decisão é válida.</example>
+            <example correction="do">A decisão é questionável <marker>sob o</marker> estrito ponto de vista económico.</example>
+            <example correction="do">A situação é aceitável <marker>sob o</marker> seu ponto de vista.</example>
+            <example>O artigo é sobre o ponto de vista do autor.</example>
+            <example>Do ponto de vista jurídico, a decisão é válida.</example>
+            <example>O problema foi analisado sob o microscópio.</example>
         </rule>
 
 
-        <!-- TENHO PENA lamento -->
-        <rulegroup id='TER_PENA_LAMENTAR' name="👔 Ter pena → Lamentar" tags="picky">
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-04 (2-MAR-2023+) -->
+        <rulegroup id='TER_PENA_LAMENTAR' name="👔 Ter pena → lamentar" type='style' tags='picky' tone_tags='formal'>
+            <!-- ChatGPT 6: revisão estilística, conjugação verbal, colocação pronominal e prevenção de falsos positivos. -->
             <!--
-            Subrule1:
-            Tenho pena de que as coisas tenham corrido mal. → Lamento que as coisas tenham corrido mal.
+            Num registo formal, "lamentar" pode constituir uma alternativa mais concisa
+            a "ter pena", sobretudo em comunicações e manifestações de pesar.
 
-            Subrule2:
-            Tenho pena em vos informar que hoje não dá. → Lamento vos informar que hoje não dá.
-            Tenho pena de lhe informar que hoje não dá. → Lamento lhe informar que hoje não dá.
+            A substituição é facultativa, pois as expressões não são equivalentes
+            em todos os contextos.
+
+            #1: Ter pena (de) que → lamentar que.
+            #2: Ter pena de/em + pronome + verbo de comunicação.
+            #3: Construções com os pronomes indiretos "lhe" e "lhes".
+            #4: Construções com os pronomes diretos "o", "a", "os" e "as".
             -->
 
-            <!-- Subrule1: -->
-            <rule>
+            <rule> <!-- #1: Ter pena (de) que → lamentar que. -->
                 <pattern>
                     <marker>
-                        <token inflected='yes'>ter</token>
+                        <token inflected='yes' postag='V.+' postag_regexp='yes'>ter</token>
                         <token>pena</token>
-                        <token min="0" max="1">de</token>
+                        <token min='0' max='1'>de</token>
                     </marker>
                     <token>que</token>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever:</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match></suggestion>
+                <message>Num registo formal, considere a forma mais concisa <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match></suggestion>.</message>
                 <example correction="Lamento"><marker>Tenho pena de</marker> que as coisas tenham corrido mal.</example>
+                <example correction="Lamentamos"><marker>Temos pena</marker> que a situação não tenha sido resolvida.</example>
             </rule>
 
-            <!-- Subrule2: -->
-            <rule>
+            <rule> <!-- #2: Pronomes me/te/nos/vos com verbos de comunicação. -->
                 <pattern>
                     <marker>
-                        <token inflected='yes'>ter</token>
+                        <token inflected='yes' postag='V.+' postag_regexp='yes'>ter</token>
                         <token>pena</token>
-                        <token regexp='yes'>em|de</token>
-                        <token regexp='yes'>&pronomes_obliquos;</token>
+                        <token regexp='yes'>de|em</token>
+                        <token regexp='yes'>me|te|nos|vos</token>
+                        <token regexp='yes'>informar|dizer|comunicar|anunciar|contar|revelar</token>
                     </marker>
-                    <token postag='V.+' postag_regexp='yes'/>
                 </pattern>
-                <message>Num contexto formal, é preferível escrever:</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> \4</suggestion>
-                <example correction="Lamento vos"><marker>Tenho pena em vos</marker> informar que hoje não dá.</example>
-                <example correction="Lamento lhe"><marker>Tenho pena de lhe</marker> informar que hoje não dá.</example>
+                <message>Num registo formal, considere a construção mais concisa <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> \5-\4</suggestion>.</message>
+                <example correction="Lamento informar-vos"><marker>Tenho pena em vos informar</marker> que a reunião foi cancelada.</example>
+                <example correction="Lamentamos comunicar-te"><marker>Temos pena de te comunicar</marker> esta decisão.</example>
+            </rule>
+
+            <rule> <!-- #3: Pronomes lhe/lhes com verbos de comunicação compatíveis. -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes' postag='V.+' postag_regexp='yes'>ter</token>
+                        <token>pena</token>
+                        <token regexp='yes'>de|em</token>
+                        <token regexp='yes'>lhes?</token>
+                        <token regexp='yes'>dizer|comunicar|anunciar|contar|revelar</token>
+                    </marker>
+                </pattern>
+                <message>Num registo formal, considere a construção mais concisa <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> \5-\4</suggestion>.</message>
+                <example correction="Lamento dizer-lhe"><marker>Tenho pena de lhe dizer</marker> que o pedido foi recusado.</example>
+                <example correction="Lamentamos anunciar-lhes"><marker>Temos pena em lhes anunciar</marker> esta decisão.</example>
+            </rule>
+
+            <rule> <!-- #4: Pronomes o/a/os/as com o verbo informar. -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes' postag='V.+' postag_regexp='yes'>ter</token>
+                        <token>pena</token>
+                        <token regexp='yes'>de|em</token>
+                        <token regexp='yes'>[ao]s?</token>
+                        <token>informar</token>
+                    </marker>
+                </pattern>
+                <message>Num registo formal, considere a construção mais concisa <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> informá-l\4</suggestion>.</message>
+                <example correction="Lamento informá-lo"><marker>Tenho pena de o informar</marker> de que o prazo terminou.</example>
+                <example correction="Lamentamos informá-las"><marker>Temos pena em as informar</marker> de que a reunião foi adiada.</example>
             </rule>
 
         </rulegroup>
@@ -9809,162 +10059,159 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="semelhante a|de modo a|para|a fim de">Isto é feito <marker>afim de</marker> proteger as testemunhas.</example>
         </rule>
 
-        <rule id='A_POUCO_E_POUCO' name="Aos poucos">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+
+        <rule id='A_POUCO_E_POUCO' name="✂️ A pouco e pouco → aos poucos/gradualmente/lentamente" type='style' tags='picky' tone_tags='clarity'>
+            <!-- Simplificação estilística: substituir uma locução correta por uma alternativa mais concisa. -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
             <pattern>
-                <token>a</token>
-                <token>pouco</token>
-                <token>e</token>
-                <token>pouco</token>
+                <marker>
+                    <token>a</token>
+                    <token>pouco</token>
+                    <token>e</token>
+                    <token>pouco</token>
+                </marker>
             </pattern>
-            <message>&informal_msg;</message>
-            <example correction="">Vamos <marker>a pouco e pouco</marker> construindo o futuro.</example>
-            <example>Vamos <marker>aos poucos</marker> construindo o futuro.</example>
+            <message>Esta expressão está correta, mas pode ser simplificada para tornar a redação mais concisa.</message>
+            <suggestion>aos poucos</suggestion>
+            <suggestion>gradualmente</suggestion>
+            <suggestion>lentamente</suggestion>
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-expressao-a-pouco-e-pouco/30716</url>
+            <example correction="aos poucos|gradualmente|lentamente">Vamos <marker>a pouco e pouco</marker> construindo o futuro.</example>
+            <example correction="aos poucos|gradualmente|lentamente">A situação melhorou <marker>a pouco e pouco</marker>.</example>
+            <example correction="aos poucos|gradualmente|lentamente">Os investigadores foram <marker>a pouco e pouco</marker> obtendo resultados.</example>
+            <example correction="aos poucos|gradualmente|lentamente">A empresa recuperou <marker>a pouco e pouco</marker> da crise.</example>
+            <example>Vamos aos poucos construindo o futuro.</example>
+            <example>A situação melhorou gradualmente.</example>
+            <example>O projeto avançou pouco a pouco.</example>
+            <example>Os investigadores analisaram os resultados progressivamente.</example>
         </rule>
 
-        <!-- ADJ PARA CARAÇAS/CARAMBA muito/bastante adj -->
-        <rulegroup id='ADJ_PARA_PRA_CARAÇAS_CARAMBA' name="Adj + para/pra + caraças/caramba → Muito/Bastante + Adj" type='style'>
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 + 2021-06-27 (25-JUN-2021+)      -->
+
+        <rulegroup id='ADJ_PARA_PRA_CARAÇAS_CARAMBA' name="🤵 Para/pra caraças/caramba → muito/bastante" type='style' tone_tags='formal'>
+            <!-- ChatGPT 6: revisão dos padrões gramaticais, sugestões e prevenção de falsos positivos. -->
             <!--
+            Expressões coloquiais de intensidade, usadas sobretudo na linguagem informal.
+            A regra propõe alternativas mais neutras, preservando a estrutura da frase.
+
+            #1: Adjetivos e particípios
             O Rui é bom para caraças. → O Rui é muito bom.
-            O Rui é bom para caramba. → O Rui é muito bom.
+            O Rui é bom para caramba. → O Rui é bastante bom.
+            Estou cansado pra caramba. → Estou muito cansado.
+
+            #2: Advérbios
+            Ele joga bem para caraças. → Ele joga muito bem.
+            Estamos longe pra caramba. → Estamos bastante longe.
+
+            #3: Verbos
+            Isso dói para caraças. → Isso dói muito.
+            Ela trabalha pra caramba. → Ela trabalha bastante.
+
+            Nota: "bastante" pode transmitir uma intensidade inferior a "muito".
+            As substituições são sugestões estilísticas, não correções obrigatórias.
             -->
-            <rule>
+
+            <rule> <!-- #1: Adjetivos qualificativos e particípios passados. -->
                 <pattern>
                     <marker>
-                        <token postag='AQ0.+|NC.+' postag_regexp='yes'>
-                            <exception postag_regexp='yes' postag='V.+'/>
-                        </token>
-                        <token regexp="yes">para|pra</token>
-                        <token regexp="yes">caraças|caramba</token>
+                        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+                        <token regexp='yes'>para|pra</token>
+                        <token regexp='yes'>caraças|caramba</token>
                     </marker>
                 </pattern>
-                <message>&informal_msg;</message>
+                <message>Expressão coloquial de intensidade, pouco adequada a textos formais. Considere uma alternativa mais neutra.</message>
                 <suggestion>muito \1</suggestion>
                 <suggestion>bastante \1</suggestion>
+                <short>Expressão coloquial</short>
                 <example correction="muito bom|bastante bom">O Rui é <marker>bom para caraças</marker>.</example>
+                <example correction="muito bonito|bastante bonito">O quadro é <marker>bonito para caramba</marker>.</example>
+                <example correction="muito cansado|bastante cansado">Estou <marker>cansado para caraças</marker>.</example>
+                <example correction="muito cansada|bastante cansada">Ela está <marker>cansada pra caramba</marker>.</example>
+                <example correction="muito complicados|bastante complicados">Estes problemas são <marker>complicados para caraças</marker>.</example>
+                <example>O Rui é muito bom.</example>
+                <example>Estou bastante cansado.</example>
+                <example>O Rui é bom para a equipa.</example>
             </rule>
-            <rule>
-                <!--
-                Dói pra caramba! → Dói muito!
-                -->
+
+            <rule> <!-- #2: Advérbios de modo, lugar e tempo. -->
                 <pattern>
                     <marker>
-                        <and>
-                            <token postag='V.+' postag_regexp='yes'/>
-                            <token negate_pos="yes" postag='VMP.+' postag_regexp='yes'/>
-                        </and>
-                        <token regexp="yes">para|pra</token>
-                        <token regexp="yes">caraças|caramba</token>
+                        <token postag='RG' regexp='yes'>bem|mal|longe|perto|cedo|tarde</token>
+                        <token regexp='yes'>para|pra</token>
+                        <token regexp='yes'>caraças|caramba</token>
                     </marker>
                 </pattern>
-                <message>&informal_msg;</message>
+                <message>Expressão coloquial de intensidade. Num registo mais formal, considere uma construção com &quot;muito&quot; ou &quot;bastante&quot;.</message>
+                <suggestion>muito \1</suggestion>
+                <suggestion>bastante \1</suggestion>
+                <short>Expressão coloquial</short>
+                <example correction="muito bem|bastante bem">Ele joga <marker>bem para caraças</marker>.</example>
+                <example correction="muito mal|bastante mal">Ela canta <marker>mal pra caramba</marker>.</example>
+                <example correction="muito longe|bastante longe">Estamos <marker>longe para caraças</marker>.</example>
+                <example correction="muito perto|bastante perto">A estação fica <marker>perto pra caramba</marker>.</example>
+                <example correction="muito cedo|bastante cedo">Ele chegou <marker>cedo para caramba</marker>.</example>
+                <example correction="muito tarde|bastante tarde">Chegámos <marker>tarde para caraças</marker>.</example>
+                <example>Ele joga muito bem.</example>
+                <example>A estação fica bastante perto.</example>
+            </rule>
+
+            <rule> <!-- #3: Verbos, excluindo particípios, adjetivos, advérbios e verbos auxiliares/copulativos. -->
+                <pattern>
+                    <marker>
+                        <token postag='V.+' postag_regexp='yes'>
+                            <exception postag='VMP.+|AQ.+|RG' postag_regexp='yes'/>
+                            <exception inflected='yes' regexp='yes'>ser|estar|ficar|parecer|ter|haver|ir|vir</exception>
+                        </token>
+                        <token regexp='yes'>para|pra</token>
+                        <token regexp='yes'>caraças|caramba</token>
+                    </marker>
+                </pattern>
+                <message>Expressão coloquial de intensidade. Num texto formal, considere substituir a locução por &quot;muito&quot; ou &quot;bastante&quot;.</message>
                 <suggestion>\1 muito</suggestion>
                 <suggestion>\1 bastante</suggestion>
-                <suggestion>\1 demais</suggestion>
-                <suggestion>\1 excessivamente</suggestion>
-                <example correction="dói muito|dói bastante|dói demais|dói excessivamente">Isso <marker>dói para caraças</marker>.</example>
-            </rule>
-            <rule>
-                <!--
-                Estou cansado pra caramba! → Estou muito cansado!
-                -->
-                <pattern>
-                    <marker>
-                        <token postag='VMP.+' postag_regexp='yes'/>
-                        <token regexp="yes">para|pra</token>
-                        <token regexp="yes">caraças|caramba</token>
-                    </marker>
-                </pattern>
-                <message>&informal_msg;</message>
-                <suggestion>muito \1</suggestion>
-                <suggestion>bastante \1</suggestion>
-                <example correction="muito cansado|bastante cansado">Estou <marker>cansado para caraças</marker>.</example>
+                <short>Expressão coloquial</short>
+                <example correction="dói muito|dói bastante">Isso <marker>dói para caraças</marker>.</example>
+                <example correction="trabalha muito|trabalha bastante">Ela <marker>trabalha pra caramba</marker>.</example>
+                <example correction="estudou muito|estudou bastante">Ele <marker>estudou para caraças</marker>.</example>
+                <example correction="choveu muito|choveu bastante">Ontem <marker>choveu pra caramba</marker>.</example>
+                <example correction="chorou muito|chorou bastante">A criança <marker>chorou para caraças</marker>.</example>
+                <example>Isso dói muito.</example>
+                <example>Ela trabalha bastante.</example>
+                <example>Isso é para caramba!</example>
+                <example>Ele vai para a escola.</example>
             </rule>
         </rulegroup>
 
-
-        <!-- IR_EMBORA INFORMAL -->
-        <rulegroup id='IR_EMBORA_INFORMAL' name="dar à sola/dar de frosques/bazar → ir embora">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 (25-JUN-2021+)      -->
-            <!--
-            Vou dar à sola. → Vou embora.
-            -->
-            <rule>
-                <pattern>
-                    <token inflected='yes'>ir</token>
-                    <marker>
-                        <token>dar</token>
-                        <token>à</token>
-                        <token>sola</token>
-                    </marker>
-                </pattern>
-                <message>&informal_msg;</message>
-                <suggestion>embora</suggestion>
-                <example correction="embora">Vou <marker>dar à sola</marker>.</example>
-            </rule>
-            <!--
-            Vou dar de frosques. → Vou embora.
-            -->
-            <rule>
-                <pattern>
-                    <token inflected='yes'>ir</token>
-                    <marker>
-                        <token>dar</token>
-                        <token>de</token>
-                        <token>frosques</token>
-                    </marker>
-                </pattern>
-                <message>&informal_msg;</message>
-                <suggestion>embora</suggestion>
-                <example correction="embora">Vou <marker>dar de frosques</marker>.</example>
-            </rule>
-            <!--
-            Vou bazar. → Vou embora.
-            -->
-            <rule>
-                <pattern>
-                    <token inflected='yes'>ir</token>
-                    <marker>
-                        <token>bazar</token>
-                    </marker>
-                </pattern>
-                <message>&informal_msg;</message>
-                <suggestion>embora</suggestion>
-                <example correction="embora">Vou <marker>bazar</marker>.</example>
-            </rule>
-        </rulegroup>
-
-        <rule id='BEM_DITO_DEUS-SATANÁS' name="Bem dito Deus-Satanás">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <marker>
-                    <token>bem</token>
-                    <token>dito</token>
-                </marker>
-                <token regexp="yes">Deus|Satanás</token>
-            </pattern>
-            <message>Substitua por <suggestion>bendito</suggestion>.</message>
-            <example correction="bendito">És a vida, <marker>bem dito</marker> Deus.</example>
-        </rule>
-
-        <rule id='BICHA_DE_ESPERA' name="Fila de espera">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-            <pattern>
-                <marker>
-                    <token>bicha</token>
-                </marker>
-                <token>de</token>
-                <token>espera</token>
-            </pattern>
-            <message>Substitua por <suggestion>fila</suggestion>.</message>
-            <example correction="fila">Estou na <marker>bicha</marker> de espera.</example>
-        </rule>
 
     </category>
 
 
     <category id='ACADEMIC' name='🎓 Linguagem acadêmica' type='style' tone_tags="academic">
+
+
+        <rule id="CUMPRIR_COM_TUDO_O_QUE" name="🎓🤵 Cumprir 'com tudo' o que → integralmente" type='style' tone_tags='academic scientific'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token inflected='yes'>cumprir</token>
+                <marker>
+                    <token>com</token>
+                    <token>tudo</token>
+                </marker>
+                <token>o</token>
+                <token>que</token>
+            </pattern>
+            <message>Em contextos formais ou académicos, considere uma formulação mais concisa e precisa: <suggestion>integralmente</suggestion> ou <suggestion>na íntegra</suggestion>.</message>
+            <example correction="integralmente|na íntegra">Cumpri <marker>com tudo</marker> o que me foi pedido.</example>
+            <example correction="integralmente|na íntegra">A equipa cumpriu <marker>com tudo</marker> o que estava previsto.</example>
+            <example correction="integralmente|na íntegra">Cumprimos <marker>com tudo</marker> o que foi acordado.</example>
+            <example correction="integralmente|na íntegra">A empresa cumprirá <marker>com tudo</marker> o que foi estabelecido.</example>
+            <example correction="integralmente|na íntegra">Temos cumprido <marker>com tudo</marker> o que nos foi solicitado.</example>
+            <example type="correct">Cumpri tudo o que me foi pedido.</example>
+            <example type="correct">Cumpri integralmente o que me foi pedido.</example>
+            <example type="correct">Cumpri na íntegra o que me foi pedido.</example>
+            <example type="correct">A empresa cumpriu com todas as exigências.</example>
+            <example type="correct">Cumpri com tudo, o que não foi fácil.</example>
+        </rule>
 
 
         <rule id='COISA_DE_CERCA_DE_APROXIMADAMENTE' name="🎓🤵 Há 'coisa de' → 'cerca de'/aproximadamente" type='style' tone_tags='formal'>
@@ -10032,6 +10279,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>gradualmente</suggestion>
             <suggestion>progressivamente</suggestion>
             <example correction="gradualmente|progressivamente">É assim que o sistema evolui <marker>ao longo do tempo</marker>.</example>
+        </rule>
+
+
+        <rule id='ENSINOS_SUPERIORES' name="🎓 Ensinos superiores → ensino superior" tags='picky' tone_tags='academic'>
+            <!-- Preferência terminológica: o nível educativo é habitualmente designado por "ensino superior", no singular. -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token>de</token>
+                <marker>
+                    <token>ensinos</token>
+                    <token>superiores</token>
+                </marker>
+            </pattern>
+            <message>Quando se refere ao nível educativo, a designação habitual é &quot;ensino superior&quot;, no singular. Considere utilizar <suggestion>ensino superior</suggestion>.</message>
+            <short>Preferência pela designação no singular.</short>
+            <example correction="ensino superior">Temos instituições de <marker>ensinos superiores</marker> muito prestigiadas.</example>
+            <example correction="ensino superior">Existem vários estabelecimentos de <marker>ensinos superiores</marker> nesta região.</example>
+            <example correction="ensino superior">O relatório apresenta estatísticas de <marker>ensinos superiores</marker> em Portugal.</example>
+            <example>Portugal possui instituições de ensino superior públicas e privadas.</example>
+            <example>O ensino superior português inclui o ensino universitário e o politécnico.</example>
+            <example>Os ensinos superiores português e espanhol apresentam características diferentes.</example>
+            <example>As instituições de ensino superior desempenham um papel importante na investigação científica.</example>
         </rule>
 
 
@@ -10127,22 +10398,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" tone_tags="academic" is_goal_specific="true">
+        <rule id="QUEM_GANHA_COM" name="🎓🔬 Quem 'ganha' com → beneficia" type='style' tags='picky' tone_tags='academic scientific'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
+                <token skip='2'>quem</token>
                 <marker>
-                    <token>que
-                        <exception scope="previous" postag_regexp='no' postag='SENT_START'/>
-                    </token>
-                    <token>não</token>
-                    <token>se</token>
-                    <token postag='V.+' postag_regexp='yes'/>
-                    <token>apagar</token>
+                    <token>ganha</token>
                 </marker>
+                <token>com</token>
             </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;indelével&quot;.</message>
-            <suggestion>indelével</suggestion>
-            <example correction="indelével">O passado é algo <marker>que não se consegue apagar</marker>.</example>
+            <message>Num contexto formal/científico, considere <suggestion>beneficia</suggestion>.</message>
+            <example correction="beneficia">Quem <marker>ganha</marker> com esta decisão?</example>
+            <example correction="beneficia">Afinal, quem <marker>ganha</marker> com esta medida?</example>
+            <example correction="beneficia">Quem é que <marker>ganha</marker> com esta decisão?</example>
+            <example type="correct">Quem ganha o campeonato?</example>
         </rule>
+
+
+        <rulegroup id='APAGAR_INDELÉVEL' name="🎓🔬 Não conseguir apagar → Indelével" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1 - Singular -->
+                <pattern>
+                    <token regexp='yes'>algo|cicatriz|impressão|lembrança|marca|memória|recordação|rasto|sinal|traço|vestígio</token>
+                    <marker>
+                        <token>que</token>
+                        <token>não</token>
+                        <token>se</token>
+                        <token regexp='yes'>consegue|pode</token>
+                        <token>apagar</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere a algo permanente, é preferível escrever &quot;indelével&quot;.</message>
+                <suggestion>indelével</suggestion>
+                <example correction="indelével">O passado é algo <marker>que não se consegue apagar</marker>.</example>
+                <example correction="indelével">Ela guardou uma memória <marker>que não se pode apagar</marker>.</example>
+                <example>É uma marca que não se quer apagar.</example>
+            </rule>
+
+            <rule> <!-- #2 - Plural -->
+                <pattern>
+                    <token regexp='yes'>cicatrizes|impressões|lembranças|marcas|memórias|recordações|rastos|sinais|traços|vestígios</token>
+                    <marker>
+                        <token>que</token>
+                        <token>não</token>
+                        <token>se</token>
+                        <token regexp='yes'>conseguem|podem</token>
+                        <token>apagar</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere a algo permanente, é preferível escrever &quot;indeléveis&quot;.</message>
+                <suggestion>indeléveis</suggestion>
+                <example correction="indeléveis">São memórias <marker>que não se conseguem apagar</marker>.</example>
+                <example correction="indeléveis">Estas marcas <marker>que não se podem apagar</marker> permanecem visíveis.</example>
+                <example>São recordações que não se querem apagar.</example>
+            </rule>
+
+        </rulegroup>
 
 
         <rulegroup id='SABER_QUAL_DETERMINAR' name="🎓🔬 Saber qual/quais → determinar/identificar" type='style' tone_tags='academic' tags='picky'>
@@ -10189,35 +10502,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='BÁSICO_ELEMENTAR' name="🎓🔬 Básico → Elementar" tone_tags="academic" is_goal_specific="true">
-            <antipattern>
-                <token regexp='yes'>unidades?</token>
-                <token regexp='yes'>básicas?</token>
-                <token>de</token>
-                <token>saúde</token>
-                <example>IND-0295/2018 Indica a reforma completa da UBS (Unidade Básica de Saúde) da Vila Cretti.</example>
-                <example>Existem na cidade Unidades Básicas de Saúde e Unidade de Serviço de Apoio de Diagnose e Terapia.</example>
-            </antipattern>
-            <pattern>
-                <!-- Triggering (good) words below. Add more as found -->
-                <token skip='4' regexp='yes' inflected='yes'>abordagem|adição|algo|algoritmo|aritmética|aspec?to|biologia|cálculo|catástrofe|coisa|componente|comportamento|compreensão|conceito|conhecimento|conjunto|constituinte|diferença|disciplina|divisão|elemento|equação|erro|expressão|fac?to|ferramenta|física|forma|fórmula|função|fundamento|informação|interpretação|matemática|medida|método|métrica|motivo|multiplicação|noção|norma|obra|operação|palavra|prevenção|produto|questão|química|razão|regra|subtração|subunidade|suporte|técnica|tipo|unidade|valor|versão</token>
-                <marker>
-                    <token regexp='yes'>básic[ao]s?
-                        <exception scope='previous' inflected='yes' regexp="yes">a:o|necessidade|princípio|saneamento</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;elementar&quot;.</message>
-            <suggestion><match no='2' postag='AQ0.(.)0' postag_replace='AQ0C$10'>elementar</match></suggestion>
-            <example correction="elementar">O Ana tem uma noção <marker>básica</marker> do assunto.</example>
-            <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
-            <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
-            <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
-            <example>Newton também deu andamento a obras de saneamento básico no Jequitinhonha.</example>
-            <example>Assim despertando a criatividade e a compreensão das necessidades básicas para o desenvolvimento de jogos.</example>
-            <example>A partir desses valores, possui como princípios básicos: "feedback" rápido e presumir simplicidade.</example>
-            <example>Para mim não chegam as palavras despojadas e reduzidas ao básico: os taninos, os citrinos.</example>
-        </rule>
+        <rulegroup id='BÁSICO_ELEMENTAR' name="🎓🔬 Básico → Elementar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <rule> <!-- #1 - Academic concepts and knowledge -->
+                <pattern>
+                    <token regexp='yes' inflected='yes'>abordagem|aritmética|cálculo|compreensão|conceito|conhecimento|explicação|matemática|noção|raciocínio</token>
+                    <token min='0' max='1'>mais</token>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básico&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_regexp='yes' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementar">A Ana tem uma noção <marker>básica</marker> do assunto.</example>
+                <example correction="elementares">O Rui possui conhecimentos <marker>básicos</marker> de informática.</example>
+                <example correction="elementares">Estes são conceitos <marker>básicos</marker> de matemática.</example>
+                <example>As necessidades básicas devem ser satisfeitas.</example>
+                <example>Os princípios básicos foram respeitados.</example>
+                <example>O saneamento básico é essencial para a saúde pública.</example>
+                <example>As palavras foram reduzidas ao básico.</example>
+            </rule>
+
+            <rule> <!-- #2 - The most basic form -->
+                <pattern>
+                    <token>forma</token>
+                    <token>mais</token>
+                    <marker>
+                        <token>básica</token>
+                    </marker>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básica&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion>elementar</suggestion>
+                <example correction="elementar">Esta é a forma mais <marker>básica</marker> do conhecimento.</example>
+                <example correction="elementar">Esta é a forma mais <marker>básica</marker> de representação.</example>
+                <example>Esta é uma forma básica de comunicação.</example>
+            </rule>
+
+            <rule> <!-- #3 - Elementary units of data/information -->
+                <pattern>
+                    <token regexp='yes'>unidades?</token>
+                    <token>mais</token>
+                    <marker>
+                        <token regexp='yes'>básic[ao]s?</token>
+                    </marker>
+                    <token regexp='yes'>da|de|dos</token>
+                    <token regexp='yes'>dados|informação</token>
+                </pattern>
+                <message>Num contexto formal/científico, pondere substituir &quot;básico&quot; por &quot;elementar&quot;, se o sentido se mantiver.</message>
+                <suggestion><match no='3' postag='AQ0.(.)0' postag_regexp='yes' postag_replace='AQ0C$10'>elementar</match></suggestion>
+                <example correction="elementares">Os bits são as unidades mais <marker>básicas</marker> dos dados.</example>
+                <example correction="elementares">Estas são as unidades mais <marker>básicas</marker> de informação.</example>
+                <example>As unidades básicas de saúde foram renovadas.</example>
+                <example>Uma unidade básica de medida foi definida.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='MUITO_BASTANTE_EXTENSIVAMENTE' name="🎓🔬 Muito/bastante/enormemente → Extensivamente/amplamente" tone_tags="academic" is_goal_specific="true" tags="picky">
@@ -10239,25 +10578,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="🎓 'Dar exemplo' → exemplificar" tone_tags="academic" is_goal_specific="true">
+       <rulegroup id='DAR_EXEMPLO_EXEMPLIFICAR' name="🎓 'Dar exemplo' → exemplificar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-            <!-- #1 - Without d[ao]s? -->
-            <rule>
+            <rule> <!-- #1: Expressão sem complemento, seguida de pontuação final. -->
                 <pattern>
                     <marker>
                         <token inflected='yes'>dar</token>
                         <token regexp='yes'>um|uns|algum|alguns</token>
                         <token regexp='yes'>exemplos?</token>
                     </marker>
-                    <token postag='_PUNCT|SPS00|CC|CS' postag_regexp='yes'/>
+                    <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
                 </pattern>
-                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
+                <message>Num contexto académico, pode optar por &quot;exemplificar&quot;, desde que o sentido seja preservado.</message>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match></suggestion>
                 <example correction="exemplificou">A Ana <marker>deu um exemplo</marker>.</example>
+                <example correction="exemplificaram">Os investigadores <marker>deram alguns exemplos</marker>.</example>
+                <example>A Ana deu um exemplo de aplicação.</example>
+                <example>A Ana deu um exemplo ao aluno.</example>
             </rule>
 
-            <!-- #2 - With d[ao]s? -->
-            <rule>
+            <rule> <!-- #2: Expressão seguida de do/da/dos/das. -->
                 <pattern>
                     <marker>
                         <token inflected='yes'>dar</token>
@@ -10266,54 +10607,104 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token regexp='yes'>d[ao]s?</token>
                     </marker>
                 </pattern>
-                <message>Num contexto formal/universitário, é preferível escrever &quot;exemplificar&quot;.</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match> <match no='4' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+                <message>Num contexto académico, pode optar por &quot;exemplificar&quot;, eliminando a preposição e preservando o artigo definido.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exemplificar</match> <match no='4' regexp_match='(?i)^d([ao]s?)$' regexp_replace='$1' case_conversion='alllower'/></suggestion>
                 <example correction="exemplificou a">A Ana <marker>deu um exemplo da</marker> equação.</example>
                 <example correction="exemplificou o">O Rui <marker>deu um exemplo do</marker> problema.</example>
+                <example correction="exemplificaram os">Os investigadores <marker>deram alguns exemplos dos</marker> resultados.</example>
+                <example correction="exemplificaram as">As investigadoras <marker>deram alguns exemplos das</marker> alterações.</example>
+                <example>A Ana deu um exemplo de aplicação.</example>
             </rule>
 
         </rulegroup>
 
 
-       <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="🎓🤵 'Ficar parado no tempo' → estagnar" tone_tags="academic" is_goal_specific="true">
+        <rule id='FICAR_PARADO_TEMPO_ESTAGNAR' name="🎓🤵 Ficar parado no tempo → estagnar" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!--
+            Sugere o verbo "estagnar" como alternativa mais concisa à expressão
+            figurada "ficar parado no tempo", em contextos académicos e formais.
+
+            Reconhece as quatro formas do adjetivo:
+            parado, parada, parados, paradas.
+
+            Preserva a conjugação verbal através da flexão de "estagnar".
+
+            A sugestão deve ser interpretada como uma alternativa estilística,
+            pois a expressão original não está gramaticalmente incorreta.
+            -->
             <pattern>
                 <marker>
                     <token inflected='yes'>ficar</token>
-                    <token regexp='yes' >parad[ao]s?</token>
+                    <token regexp='yes'>parad[oa]s?</token>
                     <token>no</token>
                     <token>tempo</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal/universitário, é preferível escrever &quot;estagnar&quot;.</message>
+            <message>Num contexto académico ou formal, a expressão &quot;ficar parado no tempo&quot; pode ser substituída pelo verbo mais conciso &quot;estagnar&quot;, quando se pretende transmitir a ideia de ausência de evolução ou desenvolvimento.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estagnar</match></suggestion>
-            <example correction="estagnou">A Ana <marker>ficou parada no tempo</marker>.</example>
-            <example correction="estagnaram">Eles <marker>ficaram parados no tempo</marker>.</example>
+            <example correction="estagnou">A investigação <marker>ficou parada no tempo</marker>.</example>
+            <example correction="estagnou">A economia <marker>ficou parada no tempo</marker>.</example>
+            <example correction="estagnaram">As instituições <marker>ficaram paradas no tempo</marker>.</example>
+            <example correction="estagna">A sociedade <marker>fica parada no tempo</marker>.</example>
+            <example correction="estagnaremos">Sem inovação, <marker>ficaremos parados no tempo</marker>.</example>
         </rule>
 
 
-        <rule id='TOMAR_ASSUMIR' name="🎓🔬 V. Tomar → V. Assumir" tone_tags="academic" is_goal_specific="true">
-            <pattern>
-                <token postag='SENT_START|AQ.+|NC.+|NP.+|CS|CC' postag_regexp='yes'/>
-                <marker>
-                    <token inflected='yes'>tomar
-                        <exception scope='previous' postag_regexp='yes' postag='V.+|PP.+'/>
-                        <exception scope='previous' regexp='yes'>decis(ão|ões)</exception>
-                    </token>
-                </marker>
-                <token min='0' max='2' postag='SPS00|(SPS00:)?[DP][ADIPRT].+|RG' postag_regexp='yes'/>
-                <token regexp='yes'>cert[ao]s?|determinad[ao]s?|diferentes?|divers[ao]s?|enormes?|formas?|imens[ao]s?|inúmer[ao]s|múltipl[ao]s|vári[ao]s|variad[ao]s</token>
-                <token postag='AQ.+|NC.+|PI.+|SPS00' postag_regexp='yes'>
-                    <exception regexp='yes' inflected='yes'>bebida|café|caneca|cerveja|chá|colher|copo|drink|frasco|garfo|garrafa|garrafão|xícara|shot|su[mc]o|vinho|gelado|sorvete|blíster|caixa|comprimido|contracetivo|embalagem|medicação|medicamento|pílula|remédio|autocarro|automóvel|avião|carrinha|carro|jato|ônibus|táxi|veículo|comboio|trem|voo|barc[ao]|bote|canoa|ferry|banho|duche</exception> <!-- Add more words as they are found -->
-                </token>
-            </pattern>
-            <message>Num contexto formal/científico, é preferível escrever &quot;assumir&quot;.</message>
-            <suggestion><match no='2' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
-            <example correction="assume">O crime <marker>toma</marker> formas impensáveis.</example>
-            <example correction="assume">O crime <marker>toma</marker> formas diversas.</example>
-            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> diversas formas.</example>
-            <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> as mais diversas formas.</example>
-            <example correction="assumindo">Assobiar é produzir um som agudo com a boca <marker>tomando</marker> a forma de um O.</example>
-        </rule>
+        <rulegroup id='TOMAR_ASSUMIR' name="🎓🔬 V. Tomar → V. Assumir" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!--
+            Sugestão estilística para contextos formais/científicos.
+            Substituir "tomar" por "assumir" quando se refere à
+            forma adquirida ou apresentada por algo.
+
+            #1: Tomar a/uma forma → Assumir a/uma forma
+            #2: Tomar formas → Assumir formas
+
+            Exclui a expressão "tomar forma" sem determinante,
+            uma vez que é uma construção natural e idiomática.
+            -->
+
+            <rule> <!-- #1: Forma singular com determinante -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tomar</token>
+                    </marker>
+                    <token regexp='yes'>a|uma</token>
+                    <token min='0' max='1' regexp='yes'>determinada|diferente|diversa|nova|outra</token>
+                    <token>forma</token>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere à forma adquirida por algo, pode preferir-se o verbo &quot;assumir&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
+                <example correction="assumiu">O objeto <marker>tomou</marker> a forma de uma esfera.</example>
+                <example correction="assume">O fenómeno <marker>toma</marker> uma forma diferente.</example>
+                <example correction="assumindo">Assobiar é produzir um som agudo com a boca <marker>tomando</marker> a forma de um O.</example>
+            </rule>
+
+            <rule> <!-- #2: Formas plurais, com ou sem modificadores -->
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>tomar</token>
+                    </marker>
+                    <token min='0' max='1' regexp='yes'>as|umas</token>
+                    <token min='0' max='1'>mais</token>
+                    <token min='0' max='1' regexp='yes'>certas|determinadas|diferentes|diversas|enormes|imensas|inúmeras|múltiplas|novas|outras|variadas|várias</token>
+                    <token>formas</token>
+                </pattern>
+                <message>Num contexto formal/científico, quando se refere às formas adquiridas por algo, pode preferir-se o verbo &quot;assumir&quot;.</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assumir</match></suggestion>
+                <example correction="assume">O crime <marker>toma</marker> formas impensáveis.</example>
+                <example correction="assume">O crime <marker>toma</marker> formas diversas.</example>
+                <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> diversas formas.</example>
+                <example correction="assume">O crime é perigoso e o seu financiamento <marker>toma</marker> as mais diversas formas.</example>
+                <example correction="assumiram">As estruturas <marker>tomaram</marker> diferentes formas.</example>
+                <example>O fenómeno começou a tomar forma.</example>
+                <example>O investigador tomou várias decisões.</example>
+                <example>O doente tomou vários medicamentos.</example>
+            </rule>
+        </rulegroup>
+
 
         <!-- SENDO CONSIDERADA considerada -->
         <rulegroup id='SENDO_PARTPASS_PARTPASS' name="🎓 sendo + V.Part.Pass → V.Part.Pass" type='style' tone_tags="academic">
@@ -10405,32 +10796,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-       <rule id='SER_CONSISTIR_RESIDIR' name="🎓🔬 V.Ser → V.Consistir/V.Residir" tone_tags="academic" is_goal_specific="true">
+
+        <rule id='SER_CONSISTIR_RESIDIR' name="🎓🔬 Ser → Residir/Consistir" type='style' tags='picky' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!--
+            Sugere "residir" ou "consistir" em construções comparativas
+            nas quais estes verbos podem conferir maior precisão ao texto.
+
+            A regra exige:
+            - Um substantivo relacionado com diferença ou distinção.
+            - A preposição "entre", com um complemento limitado.
+            - Uma forma selecionada do verbo "ser".
+            - Uma preposição compatível com os verbos sugeridos.
+
+            O padrão evita atravessar verbos, pontuação e determinados
+            conectores, reduzindo o risco de falsos positivos.
+
+            A substituição é estilística e deve preservar o significado.
+            -->
+
             <pattern>
-                <token regexp='yes' inflected='yes'>assimetria|diferença|dissemelhança|disparidade|distinção|oposição|oposto</token>
-                <token min='0' max='1' postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
-                    <exception regexp='no'>entre</exception>
+                <!-- Substantivos associados a diferenças ou distinções. -->
+                <token regexp='yes' inflected='yes'>assimetria|diferença|dissemelhança|disparidade|distinção</token>
+
+                <!-- Modificador adjetival ou particípio opcional. -->
+                <token min='0' max='1' postag='AQ.+|VMP.+' postag_regexp='yes'/>
+
+                <!-- Introdução da comparação. -->
+                <token>entre</token>
+
+                <!-- Complemento limitado a oito tokens, sem atravessar orações. -->
+                <token min='1' max='8'>
+                    <exception postag='V.+|F.+|_PUNCT.+' postag_regexp='yes'/>
+                    <exception regexp='yes'>como|que|quando|onde|porque|se|mas|porém|contudo</exception>
                 </token>
-                <token skip="-1" regexp='no'>entre</token>
+
+                <!-- Negação opcional. -->
+                <token min='0' max='1'>não</token>
+
+                <!-- Formas verbais selecionadas para preservar a conjugação. -->
                 <marker>
-                    <token inflected='yes' regexp='no'>ser
-                    <exception scope='previous' regexp='no'>como</exception>
-                    </token>
+                    <token regexp='yes'>é|são|era|eram|foi|foram|será|serão</token>
                 </marker>
-                <token min='0' max='1' postag='CC|RM' postag_regexp='yes'/>
-                <token regexp='yes'>em|n[ao]s?</token>
+
+                <!-- Advérbio opcional. -->
+                <token min='0' max='1' regexp='yes'>apenas|simplesmente|essencialmente|principalmente|sobretudo|fundamentalmente|exclusivamente|precisamente</token>
+
+                <!-- Preposições compatíveis com as alternativas propostas. -->
+                <token regexp='yes'>em|n[ao]s?|num|nuns|numas?</token>
             </pattern>
-            <message>Num contexto formal/universitário, é preferível escrever &quot;consistir&quot; ou &quot;residir&quot;.</message>
-            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>consistir</match></suggestion>
-            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>residir</match></suggestion>
-            <example correction="consiste|reside">A distinção entre A e B <marker>é</marker> apenas na complexidade.</example>
-            <example correction="consiste|reside">A diferença existente entre A e B <marker>é</marker> apenas na complexidade.</example>
-            <example correction="consiste|reside">A diferença existente entre A e B <marker>é</marker> simplesmente em bits.</example>
-            <example correction="consiste|reside">A diferença existente entre Rui e Pedro <marker>é</marker> no vestuário.</example>
-            <example correction="consiste|reside">A diferença existindo entre o Rui e o Pedro <marker>é</marker> no vestuário.</example>
-            <example correction="consiste|reside">A diferença entre ambos <marker>é</marker> na beleza.</example>
-            <example>Já que existe diferença entre monarquia parlamentarista x monarquia absolutista como é nos países do Oriente Médio totalmente ditatorial.</example>
+
+            <message>Num contexto académico, pondere substituir &quot;ser&quot; por &quot;residir&quot; ou &quot;consistir&quot;, caso não altere o sentido.</message>
+
+            <suggestion><match no='6' postag='V.+' postag_regexp='yes'>residir</match></suggestion>
+            <suggestion><match no='6' postag='V.+' postag_regexp='yes'>consistir</match></suggestion>
+
+            <!-- Exemplos que devem desencadear a regra. -->
+            <example correction="reside|consiste">A distinção entre A e B <marker>é</marker> apenas na complexidade.</example>
+            <example correction="reside|consiste">A diferença existente entre A e B <marker>é</marker> apenas na complexidade.</example>
+            <example correction="reside|consiste">A diferença existente entre A e B <marker>é</marker> simplesmente em bits.</example>
+            <example correction="reside|consiste">A diferença entre o Rui e o Pedro <marker>é</marker> no vestuário.</example>
+            <example correction="reside|consiste">A diferença entre ambos <marker>é</marker> na beleza.</example>
+            <example correction="reside|consiste">A disparidade entre os resultados <marker>é</marker> na precisão.</example>
+            <example correction="reside|consiste">A assimetria entre os modelos <marker>é</marker> principalmente na distribuição.</example>
+            <example correction="reside|consiste">A diferença entre os sistemas não <marker>é</marker> na velocidade.</example>
+
+            <!-- Exemplos que não devem desencadear a regra. -->
+            <example>A diferença entre os modelos é que um utiliza mais memória.</example>
+            <example>A diferença entre os sistemas é significativa.</example>
+            <example>A diferença entre os resultados está na precisão.</example>
+            <example>A diferença entre os métodos consiste na abordagem utilizada.</example>
+            <example>A oposição entre as equipas é no estádio municipal.</example>
+            <example>A diferença entre A e B, como sabemos, é na complexidade.</example>
+            <example>Já que existe diferença entre monarquia parlamentarista e monarquia absolutista, como é nos países referidos.</example>
         </rule>
+
 
         <rulegroup id='IR_VERBO-A_DE-SEGUIR-SEGUIDA-INFINITIVO' name="🎓 Ir_verbo + [a/de seguir/seguida] + V.Inf." type="style" tone_tags="academic">
             <!--IDEA shorten_it-->
@@ -10744,36 +11184,83 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger" tone_tags="academic">
+        <rule id='COBRIR_ABRANGER' name="🎓 Coberto → Abrangido (âmbito documental)" type='style' tags='picky' tone_tags='academic'>
+            <!--
+            Sugestão estilística para textos académicos e técnicos.
+
+            O verbo "cobrir" também pode significar "abranger" em português,
+            pelo que a sua utilização não constitui necessariamente
+            um erro de tradução.
+
+            A regra limita-se a assuntos, temas e outras matérias
+            abrangidos por documentos, relatórios, estudos ou textos.
+
+            A substituição preserva o género e o número:
+            coberto  → abrangido
+            coberta  → abrangida
+            cobertos → abrangidos
+            cobertas → abrangidas
+
+            A regra não interfere com outros sentidos de "cobrir",
+            nomeadamente os relacionados com proteção, revestimento
+            ou cobertura jornalística.
+            -->
             <pattern>
-                <token regexp='yes' inflected='yes'>alinha|artigo|assunto|matéria|ponto|problema|problemática|questão|tema|temática|termo|tópico</token>
-                <token min="0" max="1" postag="RN" postag_regexp="no"/> <!-- "não" -->
-                <token min="0" max="1" regexp='yes' inflected='yes'>ser|estar</token>
+                <token regexp='yes'>assuntos?|temas?|temáticas?|tópicos?|questão|questões|problemáticas?|matérias?</token>
+                <token min='0' max='1'>não</token>
+                <token min='0' max='1' regexp='yes'>é|são|foi|foram|será|serão|está|estão|esteve|estiveram</token>
                 <marker>
-                    <token inflected='yes'>cobrir</token>
+                    <token regexp='yes'>cobert[oa]s?</token>
                 </marker>
-                <token postag="SPS00|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+" postag_regexp="yes"/>
+                <token regexp='yes'>por|pel[oa]s?</token>
+                <token min='0' max='1' postag='D.+' postag_regexp='yes'/>
+                <token regexp='yes'>documentos?|relatórios?|estudos?|artigos?|textos?|manuais?|capítulos?|teses?|dissertação|dissertações</token>
             </pattern>
-            <message>Expressão não pode ser traduzida literalmente.</message>
-            <suggestion><match no='4' postag='V.+' postag_regexp='yes'>abranger</match></suggestion>
+            <message>Em textos académicos, &quot;abrangido&quot; pode ser mais preciso para indicar o âmbito de um documento.</message>
+            <suggestion><match no='4' regexp_match='^cobert' regexp_replace='abrangid'/></suggestion>
             <example correction="abrangidos">Em relação a temas não <marker>cobertos</marker> por este documento.</example>
             <example correction="abrangidos">Temos assuntos <marker>cobertos</marker> pelo documento.</example>
             <example correction="abrangido">Este tema não é <marker>coberto</marker> por este documento.</example>
             <example correction="abrangido">Este tema está <marker>coberto</marker> por este documento.</example>
+            <example correction="abrangidas">As questões foram <marker>cobertas</marker> pelo relatório.</example>
+            <example correction="abrangida">A matéria é <marker>coberta</marker> por este estudo.</example>
+            <example>O ponto foi coberto com tinta.</example>
+            <example>Os temas foram cobertos pela imprensa.</example>
+            <example>O relatório cobre todos os temas previstos.</example>
         </rule>
-        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="Atenção devida" tone_tags="formal">
-            <!-- IDEA shorten_it -->
+
+
+        <rule id='ATENÇÃO_QUE_VERB_MERECER_atenção_devida' name="👔 Atenção 'que merece(m)' → devida" type='style' tags='picky' tone_tags='formal'>
+            <!--
+            Sugestão estilística de concisão em contextos formais.
+
+            Não vos posso dar a atenção que merecem.
+            → Não vos posso dar a atenção devida.
+
+            Esta questão não recebeu a atenção que merece.
+            → Esta questão não recebeu a atenção devida.
+
+            A regra restringe a conjugação de "merecer" ao presente
+            do indicativo, na terceira pessoa do singular ou plural.
+
+            Exige pontuação imediatamente a seguir ao verbo para
+            evitar substituições em construções mais complexas.
+            -->
             <pattern>
                 <token>atenção</token>
                 <marker>
                     <token>que</token>
-                    <token inflected='yes'>merecer</token>
+                    <token regexp='yes'>merecem?</token>
                 </marker>
+                <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
             </pattern>
-            <message>Substitua por <suggestion>devida</suggestion>.</message>
+            <message>Num contexto formal, pode utilizar uma formulação mais concisa, se o significado se mantiver.</message>
+            <suggestion>devida</suggestion>
             <example correction="devida">Não vos posso dar a atenção <marker>que merecem</marker>.</example>
+            <example correction="devida">Esta questão não recebeu a atenção <marker>que merece</marker>.</example>
+            <example type="correct">A atenção que merece ser dada a este assunto é considerável.</example>
+            <example type="correct">Esta situação exige a atenção que merece qualquer problema desta gravidade.</example>
         </rule>
-        <!-- PARA TER ACONTECIDO para acontecer -->
 
 
         <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='🎓 Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style" tone_tags="academic">
@@ -10833,50 +11320,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="🎓🔬 Contrário → Oposto" type="style" tags="picky" tone_tags="academic" is_goal_specific="true">
-            <pattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='RM'/>
-                <token postag='[DP][ADIP]0MS0|SPS00:[DP][ADIP]0MS0' postag_regexp='yes'/>
-                <marker>
-                    <token>contrário</token>
-                </marker>
-            </pattern>
-            <message>&scientific_intro; pondere melhorar a linguagem.</message>
-            <suggestion>oposto</suggestion>
-            <example correction="oposto">A Ana percebeu exatamente o <marker>contrário</marker>.</example>
-        </rule>
 
-        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="🎓🔬 Corrigir 'erros/falhas' → 'imprecisões'" type="style" tone_tags="academic" default="off">
+        <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="🎓🔬 Falhas de precisão → imprecisões" type='style' tone_tags='academic' default='on'>
+            <!-- ChatGPT 6: regra restrita para evitar substituir erros ou falhas reais por imprecisões. -->
+            <!-- Exclui modificadores posteriores de "precisão" que possam causar problemas de concordância. -->
+            <antipattern>
+                <token>falhas</token>
+                <token>de</token>
+                <token>precisão</token>
+                <token postag='RG.+' postag_regexp='yes' min='0' max='1'/>
+                <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+            </antipattern>
             <pattern>
                 <token inflected='yes'>corrigir</token>
-                <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|algum|inúmero|pequeno</token>
+                <token regexp='yes' min='0' max='1'>as|algumas|pequenas|ligeiras|várias</token>
                 <marker>
-                    <token regexp='yes'>erros|falhas</token>
+                    <token>falhas</token>
+                    <token>de</token>
+                    <token>precisão</token>
                 </marker>
             </pattern>
-            <message>&scientific_intro; pondere empregar o termo &quot;imprecisão&quot;.</message>
-            <example>Vou corrigir algumas <marker>imprecisões</marker> no texto.</example>
-            <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
+            <message>&scientific_intro; a expressão &quot;falhas de precisão&quot; pode ser simplificada para:</message>
+            <suggestion>imprecisões</suggestion>
+            <example correction="imprecisões">Vou corrigir pequenas <marker>falhas de precisão</marker> no texto.</example>
+            <example correction="imprecisões">É necessário corrigir algumas <marker>falhas de precisão</marker> na descrição dos resultados.</example>
+            <example correction="imprecisões">Devemos corrigir <marker>falhas de precisão</marker> no relatório.</example>
+            <example correction="imprecisões">É necessário corrigir as <marker>falhas de precisão</marker> no texto.</example>
+            <example>Vou corrigir algumas imprecisões no texto.</example>
+            <example>Vou corrigir pequenos erros de cálculo.</example>
+            <example>É necessário corrigir as falhas de segurança.</example>
+            <example>O investigador procurou corrigir erros científicos.</example>
+            <example>É necessário corrigir falhas de precisão numérica nos cálculos.</example>
+            <example>Devemos corrigir falhas de precisão estatística no relatório.</example>
         </rule>
 
-        <rulegroup id='DE_PROPOSITO_DELIBERADAMENTE' name="🔬 'de propósito' → 'deliberadamente'" type="style" tags="picky" tone_tags="formal">
-            <rule>
-                <pattern>
-                    <token inflected='yes'>fazer</token>
-                    <token min='0' max='1' postag='(SPS00:)?[DP][ADIPRT].+' postag_regexp='yes'/>
-                    <marker>
-                        <token>de</token>
-                        <token>propósito</token>
-                    </marker>
-                </pattern>
-                <message>Num contexto formal/científico, é preferível escrever &quot;deliberadamente&quot;.</message>
-                <suggestion>deliberadamente</suggestion>
-                <example correction="deliberadamente">Eles fizeram <marker>de propósito</marker>.</example>
-                <example correction="deliberadamente">Eles fizeram aquilo <marker>de propósito</marker>.</example>
-                <example correction="deliberadamente">Eles fizeram-no <marker>de propósito</marker>.</example>
-            </rule>
-        </rulegroup>
+
+        <rule id='DE_PROPOSITO_DELIBERADAMENTE' name="🔬 De propósito → deliberadamente" type='style' tags='picky' tone_tags='formal'>
+            <!-- ChatGPT 6: sugestão estilística para contextos formais ou científicos. -->
+            <!--
+            A expressão "de propósito" é correta, mas "deliberadamente"
+            pode constituir uma alternativa mais adequada em determinados
+            contextos formais.
+
+            Restringe-se a deteção ao verbo "fazer", eventualmente seguido
+            de até dois determinantes ou pronomes, para reduzir os falsos
+            positivos e preservar o sentido da expressão.
+            -->
+            <pattern>
+                <token inflected='yes'>fazer</token>
+                <token min='0' max='2' postag='(SPS00:)?[DP].+' postag_regexp='yes'/>
+                <marker>
+                    <token>de</token>
+                    <token>propósito</token>
+                </marker>
+            </pattern>
+            <message>Num contexto formal ou científico, considere substituir esta expressão por:</message>
+            <suggestion>deliberadamente</suggestion>
+            <example correction="deliberadamente">Eles fizeram <marker>de propósito</marker>.</example>
+            <example correction="deliberadamente">Eles fizeram aquilo <marker>de propósito</marker>.</example>
+            <example correction="deliberadamente">Eles fizeram isso tudo <marker>de propósito</marker>.</example>
+            <example correction="deliberadamente">Eles fizeram tudo aquilo <marker>de propósito</marker>.</example>
+            <example correction="deliberadamente">Eles fizeram-no <marker>de propósito</marker>.</example>
+            <example type="correct">Foi de propósito que eles se atrasaram.</example>
+        </rule>
 
 
         <rule id='CIENTÍFICO_EMPREGAR_TERMO' name="🔬 'usar/utilizar' termo → empregar" type='style' tags='picky' tone_tags='formal' is_goal_specific='true'>
@@ -13012,61 +13518,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="o">Desculpem <marker>este</marker> desabafo.</example>
         </rule>
 
-        <rule id='ENSINOS_SUPERIORES' name="Ensino superior" tone_tags="objective">
+
+        <rule id='APRESENTAR_OS_MELHORES_CUMPRIMENTOS' name="✂️ 'Apresentar os melhores' cumprimentos → apresentar" tags='picky' tone_tags='clarity'>
             <!-- IDEA shorten_it -->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <!-- Simplificação estilística de fórmulas de cortesia na correspondência formal. -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
-                <token>ensinos</token>
-                <token>superiores</token>
+                <marker>
+                    <token inflected='yes'>apresentar</token>
+                    <token>os</token>
+                    <token>melhores</token>
+                    <token>cumprimentos</token>
+                </marker>
             </pattern>
-            <message>Esta palavra é referida no singular.</message>
-            <suggestion>ensino superior</suggestion>
-            <example correction="ensino superior">Temos instituições de <marker>ensinos superiores</marker> muito prestigiadas.</example>
-        </rule>
-        <rule id='APRESENTAR_OS_MELHORES_CUMPRIMENTOS' name="Apresentar cumprimentos">
-            <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-            <pattern>
-                <token inflected='yes'>apresentar</token>
-                <token>os</token>
-                <token>melhores</token>
-                <token>cumprimentos</token>
-            </pattern>
-            <message>Substitua por <suggestion>\1 \4</suggestion>.</message>
+            <message>Esta fórmula de cortesia pode ser simplificada sem perder o tom respeitoso. Considere utilizar <suggestion>\1 \4</suggestion>.</message>
+            <short>Fórmula de cortesia mais concisa.</short>
             <example correction="apresentar cumprimentos">Aproveito a oportunidade para <marker>apresentar os melhores cumprimentos</marker>.</example>
+            <example correction="Apresento cumprimentos"><marker>Apresento os melhores cumprimentos</marker> a todos os participantes.</example>
+            <example correction="apresentou cumprimentos">O diretor <marker>apresentou os melhores cumprimentos</marker> aos convidados.</example>
+            <example>Com os melhores cumprimentos, Marco Pinto.</example>
+            <example>Apresento os meus melhores cumprimentos.</example>
+            <example>Envio os meus cumprimentos aos participantes.</example>
+            <example>Os melhores cumprimentos foram transmitidos pessoalmente.</example>
         </rule>
-        <!-- MAIS REDUZIDA(O)(S) inferior(es) -->
-        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-25 (21-OCT-2020+)     -->
-        <rulegroup id='MAIS_REDUZIDA_INFERIOR' name="Inferior(es)/menor(es)/menos" tone_tags="objective">
+
+
+        <rule id='MAIS_REDUZIDA_INFERIOR' name="✂️ Mais reduzido(a)(s) → menor(es)/inferior(es)" tags='picky' tone_tags='clarity'>
             <!-- IDEA shorten_it -->
-            <rule>
-                <pattern>
-                    <token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
-                    <marker>
-                        <token>mais</token>
-                        <token regexp='yes'>reduzida|reduzido</token>
-                    </marker>
-                </pattern>
-                <message>Substitua por</message>
-                <suggestion>inferior</suggestion>
-                <suggestion>menor</suggestion>
-                <suggestion>menos</suggestion>
-                <example correction="inferior|menor|menos">Temos um grau de incerteza, embora <marker>mais reduzido</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='V.+|CS|I|RG|AQ0[CFM][SP]0|DI0MS0|CC|NC[CFM][SP]000' postag_regexp='yes'/>
-                    <marker>
-                        <token>mais</token>
-                        <token regexp='yes'>reduzidas|reduzidos</token>
-                    </marker>
-                </pattern>
-                <message>Substitua por</message>
-                <suggestion>inferiores</suggestion>
-                <suggestion>menores</suggestion>
-                <suggestion>menos</suggestion>
-                <example correction="inferiores|menores|menos">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
-            </rule>
-        </rulegroup>
+            <!-- Simplificação estilística: substituir "mais reduzido" por um comparativo mais conciso. -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <pattern>
+                <token postag='V.+|CS|I|RG|AQ.+|DI.+|CC|NC.+' postag_regexp='yes'/>
+                <marker>
+                    <token>mais</token>
+                    <token regexp='yes'>reduzid[ao]s?</token>
+                </marker>
+            </pattern>
+            <message>Esta expressão pode ser simplificada. Considere utilizar &quot;menor&quot; ou &quot;inferior&quot;, conforme o contexto.</message>
+            <suggestion><match no='3' regexp_match='(?i)^(?:r(e)duzid[ao](s)|reduzid[ao])$' regexp_replace='menor$1$2'/></suggestion>
+            <suggestion><match no='3' regexp_match='(?i)^(?:r(e)duzid[ao](s)|reduzid[ao])$' regexp_replace='inferior$1$2'/></suggestion>
+            <short>Expressão passível de simplificação</short>
+            <example correction="menor|inferior">Temos um grau de incerteza, embora <marker>mais reduzido</marker>.</example>
+            <example correction="menores|inferiores">Temos graus de incerteza, embora <marker>mais reduzidos</marker>.</example>
+            <example correction="menor|inferior">O impacto ambiental foi <marker>mais reduzido</marker> neste cenário.</example>
+            <example correction="menor|inferior">A taxa de erro foi <marker>mais reduzida</marker> na segunda experiência.</example>
+            <example correction="menores|inferiores">Os custos operacionais foram <marker>mais reduzidos</marker> este ano.</example>
+            <example correction="menores|inferiores">As despesas foram <marker>mais reduzidas</marker> no último trimestre.</example>
+            <example correction="menor|inferior">O novo sistema apresenta um consumo energético <marker>mais reduzido</marker>.</example>
+            <example correction="menor|inferior">A probabilidade de falha é <marker>mais reduzida</marker> neste modelo.</example>
+            <example correction="menores|inferiores">Os resultados apresentaram valores <marker>mais reduzidos</marker> do que os anteriores.</example>
+            <example correction="menores|inferiores">As perdas económicas foram <marker>mais reduzidas</marker> após a intervenção.</example>
+            <example>O impacto ambiental foi reduzido.</example>
+            <example>A taxa de erro diminuiu significativamente.</example>
+            <example>Os custos operacionais foram menores este ano.</example>
+            <example>As despesas foram inferiores às previstas.</example>
+        </rule>
+
+
         <!-- ESTAR + ADVÉRBIO + A + VERBO verbo + advérbio -->
         <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-05 (21-OCT-2020+)     -->
         <rulegroup id='ESTAR_ADVÉRBIO_A_VERBO_VERBO_ADVÉRBIO' name="✂️ Estar + Adv + A + Verbo → Verbo + Adv" type="style" tone_tags="objective">
@@ -14379,13 +14891,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='ESTAR_NO_ECRA' name="✂️ Estar no ecrã">
-            <!--IDEA shorten_it-->
+        <rule id='ESTAR_NO_ECRA' name="✂️ Estar no ecrã" type='style'>
+            <!-- IDEA shorten_it -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!--
+            Simplifica construções relativas com "estar"
+            no presente do indicativo.
+
+            Aceita demonstrativos classificados como PD ou DD.
+            -->
+
             <pattern>
-                <token postag='(SPS00:)?PD.+' postag_regexp='yes'/>
+                <token postag='(SPS00:)?(PD|DD).+' postag_regexp='yes'/>
                 <marker>
                     <token>que</token>
-                    <token regexp='yes' inflected='yes'>aparecer|estar|exibir|mostrar|observar|ver</token>
+                    <token regexp='yes'>está|estão</token>
                     <token regexp='yes'>n[ao]s?</token>
                 </marker>
                 <token min='0' max='1' postag='DP.+' postag_regexp='yes'/>
@@ -14395,16 +14916,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <suggestion>\4</suggestion>
             <example correction="no">Veja tudo aquilo <marker>que está no</marker> ecrã.</example>
             <example correction="no">Veja tudo aquilo <marker>que está no</marker> seu ecrã.</example>
+            <example correction="no">Observe aquilo <marker>que está no</marker> monitor.</example>
+            <example correction="na">Veja aquilo <marker>que está na</marker> televisão.</example>
+            <example correction="nos">Observe aqueles <marker>que estão nos</marker> monitores.</example>
+            <example correction="nas">Veja aquelas <marker>que estão nas</marker> telas.</example>
+            <example>Veja aquilo que apareceu no ecrã.</example>
+            <example>Veja aquilo que estava no ecrã.</example>
+            <example>Observe aquilo que vejo no monitor.</example>
+            <example>Veja aquilo que não está no ecrã.</example>
+            <example>Observe aquilo que aparece no seu monitor.</example>
         </rule>
 
 
-        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="✂️ Fazer uso de → usar/recorrer" tags="picky">
-            <!-- IDEA shorten_it -->
+        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="✂️ Fazer uso de → usar/recorrer a" type='style' tags='picky'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-            <!-- DE -->
-            <rule>
+            <rule> <!-- #1 - DE -->
                 <pattern>
-                    <token inflected='yes'>fazer</token>
+                    <token inflected='yes'>fazer<exception regexp='yes'>feit[ao]s?</exception></token>
                     <token>uso</token>
                     <token>de</token>
                 </pattern>
@@ -14412,35 +14941,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match></suggestion>
                 <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> a</suggestion>
                 <example correction="usar|recorrer a">Vamos <marker>fazer uso de</marker> simuladores.</example>
+                <example correction="usamos|recorremos a">Nós <marker>fazemos uso de</marker> recursos digitais.</example>
+                <example correction="usou|recorreu a">A Ana <marker>fez uso de</marker> ferramentas especiais.</example>
             </rule>
 
-            <!-- DA(S)/DO(S) -->
-            <rule>
+            <rule> <!-- #2 - DA/DAS -->
                 <pattern>
-                    <token inflected='yes'>fazer</token>
+                    <token inflected='yes'>fazer<exception regexp='yes'>feit[ao]s?</exception></token>
                     <token>uso</token>
-                    <token regexp='yes'>d[ao]s?</token>
+                    <token regexp='yes'>das?</token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
-                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> <match no='3' postag='SPS00:DA0(..)0' postag_replace='SPS00:DA0$10'>a:o</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> <match no='3' regexp_match='da(s?)' regexp_replace='a$1'/></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> <match no='3' regexp_match='da(s?)' regexp_replace='à$1'/></suggestion>
                 <example correction="usar a|recorrer à">Vamos <marker>fazer uso da</marker> tecnologia.</example>
                 <example correction="usar as|recorrer às">Vamos <marker>fazer uso das</marker> tecnologias.</example>
-                <example correction="usar o|recorrer ao">Vamos <marker>fazer uso do</marker> computador.</example>
-                <example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
+                <example correction="usou a|recorreu à">A Ana <marker>fez uso da</marker> ferramenta.</example>
+                <example correction="usaram as|recorreram às">Eles <marker>fizeram uso das</marker> ferramentas.</example>
             </rule>
 
-            <!-- DELA(S)/DELE(S) -->
-            <rule>
+            <rule> <!-- #3 - DO/DOS -->
+                <pattern>
+                    <token inflected='yes'>fazer<exception regexp='yes'>feit[ao]s?</exception></token>
+                    <token>uso</token>
+                    <token regexp='yes'>dos?</token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> <match no='3' regexp_match='do(s?)' regexp_replace='o$1'/></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> <match no='3' regexp_match='do(s?)' regexp_replace='ao$1'/></suggestion>
+                <example correction="usar o|recorrer ao">Vamos <marker>fazer uso do</marker> computador.</example>
+                <example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
+                <example correction="usou o|recorreu ao">A Ana <marker>fez uso do</marker> equipamento.</example>
+                <example correction="usaram os|recorreram aos">Eles <marker>fizeram uso dos</marker> equipamentos.</example>
+            </rule>
+
+            <rule> <!-- #4 - DELA/DELAS (infinitive only) -->
                 <pattern>
                     <token>fazer</token>
                     <token>uso</token>
-                    <token regexp='yes'>del[ae]s?</token>
+                    <token regexp='yes'>delas?</token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>usá-l<match no='3' postag='SPS00:PP3(..)...' postag_replace='DA0$10'>o</match></suggestion>
+                <suggestion>usá-l<match no='3' regexp_match='dela(s?)' regexp_replace='a$1'/></suggestion>
                 <example correction="usá-la">Vamos <marker>fazer uso dela</marker> para o bem.</example>
                 <example correction="usá-las">Vamos <marker>fazer uso delas</marker> para o bem.</example>
+            </rule>
+
+            <rule> <!-- #5 - DELE/DELES (infinitive only) -->
+                <pattern>
+                    <token>fazer</token>
+                    <token>uso</token>
+                    <token regexp='yes'>deles?</token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>usá-l<match no='3' regexp_match='dele(s?)' regexp_replace='o$1'/></suggestion>
                 <example correction="usá-lo">Vamos <marker>fazer uso dele</marker> para o bem.</example>
                 <example correction="usá-los">Vamos <marker>fazer uso deles</marker> para o bem.</example>
             </rule>
@@ -16722,7 +17276,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>\5</suggestion>
-            <suggestion suppress_misspelled='yes'><match no='4' postag='VMM0.S0' postag_replace='AQ0CS0' postag_regexp='yes'>presente</match> \5</suggestion>
+            <suggestion suppress_misspelled='yes'><match no='4' postag='VMIP3S0' postag_replace='AQ0CS0' postag_regexp='yes'>presente</match> \5</suggestion>
             <suggestion suppress_misspelled='yes'><match no='4' postag='VMIP3P0' postag_replace='AQ0CP0' postag_regexp='yes'>presente</match> \5</suggestion>
             <example correction="nesta|presente nesta">Vamos resolver o problema <marker>que se encontra nesta</marker> equação.</example>
         </rule>
@@ -18682,22 +19236,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- PERDER A VIDA A morrer/falecer/perecer -->
-        <rule id='PERDER_A_VIDA' name="Perder a vida → morrer/falecer/perecer">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-16 (Checked/Enhanced) (1-JAN-2022+)      -->
+        <rule id='PERDER_A_VIDA' name="✂️ perder a vida → morrer/falecer/perecer" tags='picky' tone_tags='clarity'>
+            <!-- STYLE: Simplification / Conciseness -->
+
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
             <pattern>
                 <token inflected='yes'>perder</token>
                 <token regexp='yes'>as?</token>
-                <token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
+                <token min='0' postag='DP.+' postag_regexp='yes'/>
                 <token regexp='yes'>vidas?</token>
             </pattern>
-            <message>Melhore a redação.</message>
+            <message>A expressão &quot;perder a vida&quot; é correta, mas pode ser substituída por um verbo mais direto e conciso, conforme o contexto.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perecer</match></suggestion>
             <example correction="morreu|faleceu|pereceu">Ele <marker>perdeu a vida</marker> num acidente.</example>
+            <example correction="morreu|faleceu|pereceu">O soldado <marker>perdeu a sua vida</marker> durante o combate.</example>
             <example correction="morreram|faleceram|pereceram">Um milhão de pessoas <marker>perderam as suas vidas</marker> na guerra.</example>
+            <example correction="morreram|faleceram|pereceram">Muitos soldados <marker>perderam as vidas</marker> durante o conflito.</example>
         </rule>
 
 
@@ -19292,112 +19848,164 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- E QUE que -->
-        <rule id='SIMPLIFICAR_E_QUE_QUE' name="✂️ E que → que" type="style">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-27 + 2022-06-01/02 (24-MAY-2022+)      -->
+        <rulegroup id='SIMPLIFICAR_E_QUE_QUE' name="✂️ E que → que" type='style' tags='picky' tone_tags='clarity' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <!--
-            São regras muito simples e que permitem agir corretamente. → São regras muito simples que permitem agir corretamente.
-            Recebemos um documento escrito em francês e que revelou uma lista de restaurantes. → Recebemos um documento escrito em francês que revelou uma lista de restaurantes.
+            Remove a conjunção "e" em determinadas orações relativas,
+            desde que a omissão não altere o significado da frase.
+
+            Protege as orações coordenadas e as construções diretivas.
             -->
+
+            <!-- Protect coordinated clauses introduced by "que". -->
             <antipattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token skip='-1'>que<exception scope='next' postag='_PUNCT.*' postag_regexp='yes'/></token>
+                <token postag='V.+' postag_regexp='yes' skip='-1'><exception scope='next' postag='_PUNCT.*' postag_regexp='yes'/></token>
                 <token>e</token>
                 <token>que</token>
-                <token postag='VMII.+' postag_regexp='yes'/>
-                <token postag='SPS00|RG' postag_regexp='yes'/>
-                <example>A chefe de lá disse para lhe mostrar o meu cartão de doutorando e que andava de olho em mim.</example>
+                <example>Afirmou que comprou frutas frescas e que pagou em dinheiro.</example>
+                <example>Disse que adquiriu materiais muito simples e que os utilizou imediatamente.</example>
             </antipattern>
 
+            <!-- Protect reported speech and directive constructions. -->
             <antipattern>
-                <token skip='-1'>que</token>
-                <token postag='V.+' postag_regexp='yes' skip='-1'/>
+                <token regexp='yes' inflected='yes'>dizer|pedir|mandar|ordenar|solicitar|recomendar|sugerir</token>
+                <token skip='-1'>para<exception scope='next' postag='_PUNCT.*' postag_regexp='yes'/></token>
+                <token>e</token>
                 <token>que</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <example>Não há evidências de que seja melhor para o ambiente ou que contribua para o conceito.</example>
-                <example>Afirmou que ainda não foi intimada sobre a decisão e que vai entrar com um recurso.</example>
+                <example>A chefe disse para lhe mostrar o meu cartão novo e que andava de olho em mim.</example>
+                <example>A chefe disse para entregar um documento escrito em francês e que voltaria cedo.</example>
             </antipattern>
 
-            <pattern>
-                <token postag='RG|SPS00' postag_regexp='yes'/>
-                <token postag='AQ.+|NC.+' postag_regexp='yes'/>
-                <marker>
-                    <token>e</token>
-                    <token>que</token>
-                </marker>
-                <token postag='V.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='VMIS.+|VMSI.+'/>
-                </token>
-            </pattern>
-            <message>Pode omitir a conjunção &quot;e&quot; para tornar o texto mais fluído.</message>
-            <suggestion>que</suggestion>
-            <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
-            <example>Índio me disse que interpretou a pergunta como uma brecha aberta para uma negociação de propina e que tratou de fechá-la no mesmo instante.</example>
-            <example>A vítima disse que apanhou bastante e que Beto agiu com violência e que escondeu a faca do crime quando os militares chegaram.</example>
-            <example>Eron conta que já se envolveu com mulheres e que foi até noivo de uma delas.</example>
-        </rule>
+            <rule> <!-- #1 - Noun + optional adverb + adjective + "e que" -->
+                <pattern>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                    <token min='0' max='1' postag='RG'/>
+                    <token postag='AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>e</token>
+                        <token>que</token>
+                    </marker>
+                    <token min='0' max='1' postag='RN|RG' postag_regexp='yes'/>
+                    <token postag='V.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Pode omitir a conjunção &quot;e&quot; para tornar a frase mais concisa, mantendo o seu significado.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
+                <example correction="que">Encontrámos soluções simples <marker>e que</marker> funcionam.</example>
+                <example correction="que">São normas bastante claras <marker>e que</marker> ajudam todos.</example>
+                <example correction="que">São regras muito simples <marker>e que</marker> não permitem abusos.</example>
+                <example>A chefe disse para lhe mostrar o meu cartão novo e que andava de olho em mim.</example>
+                <example>Afirmou que comprou frutas frescas e que pagou em dinheiro.</example>
+                <example>Disse que adquiriu materiais muito simples e que os utilizou imediatamente.</example>
+                <example>A diretora afirmou que estava muito satisfeita e que iria continuar.</example>
+            </rule>
+
+            <rule> <!-- #2 - Noun + participle/adjective + preposition + noun/adjective -->
+                <pattern>
+                    <token postag='NC.+' postag_regexp='yes'/>
+                    <token postag='VMP.+|AQ.+' postag_regexp='yes'/>
+                    <token postag='SPS00'/>
+                    <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>e</token>
+                        <token>que</token>
+                    </marker>
+                    <token min='0' max='1' postag='RN|RG' postag_regexp='yes'/>
+                    <token postag='V.+' postag_regexp='yes'/>
+                </pattern>
+                <message>Pode omitir a conjunção &quot;e&quot; para tornar a frase mais concisa, mantendo o seu significado.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">Recebemos um documento escrito em francês <marker>e que</marker> revelou uma lista de lojas.</example>
+                <example correction="que">Foi publicado um relatório redigido em português <marker>e que</marker> demonstra os resultados.</example>
+                <example>A chefe disse para entregar um documento escrito em francês e que voltaria cedo.</example>
+                <example>Afirmou que leu um relatório escrito em francês e que estava incompleto.</example>
+                <example>Eron conta que já se envolveu com mulheres e que foi até noivo de uma delas.</example>
+                <example>A vítima disse que apanhou bastante e que Beto agiu com violência.</example>
+            </rule>
+        </rulegroup>
 
 
-        <!-- PODE IR AO PC E IDENTIFICAR O UTILIZADOR? Pode ir ao PC identificar o utilizador? -->
-        <rule id='SIMPLIFICAR_IR_E_PARA' name="✂️ Locução com verbo ‘ir’" type="style">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-26 + 2022-06-01 + 2022-09-09 (24-MAY-2022+)      -->
+        <rulegroup id='SIMPLIFICAR_IR_E_PARA' name="✂️ Simplificar «ir ... e/para + infinitivo»" type='style'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <!--
-            Pode ir ao PC e identificar o utilizador? → Pode ir ao PC identificar o utilizador?
-            Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá marcar a consulta.
+            Simplificação facultativa:
+            Vou ao supermercado para comprar pão.
+            → Vou ao supermercado comprar pão.
+
+            Quero ir ali e comprar pão.
+            → Quero ir ali comprar pão.
+
+            A omissão só deve ser sugerida quando preservar o sentido.
             -->
 
-            <antipattern>
-                <token regexp='yes'>e|para</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SPS00|DA.+' postag_regexp='yes'/>
-                <token postag='V.+' postag_regexp='yes'/>
-                <example>Para reativar a funcionalidade vá às definições para voltar a ativá-la.</example>
-                <example>"Eles" [imprensa] "disseram que eu não jogaria por ele e que esperaria até ele ir embora para voltar a jogar.</example>
-            </antipattern>
+            <rule> <!-- #1 - Verbo ir + advérbio de lugar + e/para + infinitivo -->
+                <pattern>
+                    <token inflected='yes'>ir<exception inflected='yes'>ser</exception></token>
+                    <token regexp='yes'>aqui|aí|ali|lá|cá</token>
+                    <marker>
+                        <token regexp='yes'>e|para</token>
+                        <token postag='VMN0000'><exception regexp='yes'>poder|dever|querer|ter|ser|estar|ficar|voltar|regressar|retornar|vir|sair|entrar|chegar|partir</exception></token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, pode omitir &quot;e&quot; ou &quot;para&quot; para tornar a frase mais concisa, desde que o sentido se mantenha.</message>
+                <suggestion><match no='4'/></suggestion>
+                <example correction="marcar">Vão-me obrigar a ir lá <marker>para marcar</marker> a consulta.</example>
+                <example correction="comprar">Quero ir ali <marker>e comprar</marker> pão.</example>
+                <example correction="resolver">Vou lá <marker>para resolver</marker> o problema.</example>
+                <example correction="conversar">Quero ir aí <marker>para conversar</marker> contigo.</example>
+                <example>Tenho de ir lá para poder esclarecer o assunto.</example>
+                <example>Quero ir lá para estar sozinho.</example>
+                <example>Quero ir ali e voltar rapidamente.</example>
+                <example>Vou lá para ter uma resposta.</example>
+                <example>Quero ir à escola estudar de verdade.</example>
+                <example>Vamos até César pedir paz.</example>
+            </rule>
 
-            <antipattern>
-                <token inflected='yes'>ir</token>
-                <token postag='SPS00|D[AI].+' postag_regexp='yes'/>
-                <token postag='N.+|AQ.+' postag_regexp='yes'/>
-                <token regexp='yes'>e|para</token>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SENT_END|SPS00:DA.+' postag_regexp='yes'/>
-                <example>Havia colegas que gozavam por eu estar sempre a ir a orais para passar.</example>
-                <example>As idas ao hospital só dá para ir de táxi para chegar à morada.</example>
-            </antipattern>
-
-            <pattern>
-                <token inflected='yes'>ir
-                    <exception inflected='yes'>ser</exception>
-                </token>
-                <token postag='SPS00:[DP][ADIP].+|CC|SPS00|RG' postag_regexp='yes'/>
-                <token min="0" max="1" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
-                    <exception postag='VMN0000'/>
-                </token>
-                <marker>
-                    <token regexp='yes'>e|para</token>
-                    <token postag='VMN0000'>
-                        <exception scope='next' regexp='no'>até</exception>
-                    </token>
-                </marker>
-            </pattern>
-            <message>Pode omitir a conjunção ‘e’ ou a preposição ‘para’ para tornar o texto mais fluido.</message>
-            <suggestion>\5</suggestion>
-            <example correction="identificar">Pode ir ao PC <marker>e identificar</marker> o utilizador?</example>
-            <example correction="marcar">Vão-me obrigar a ir lá <marker>para marcar</marker> a consulta.</example>
-            <example>Ir à praia tomar um banho de mar... ou dois... ou três!</example>
-            <example>Quero ir à escola estudar de verdade.</example>
-            <example>Tom pedalou 30 quilômetros para ir à loja comprar morangos para a esposa dele que está grávida.</example>
-            <example>Gostaria de ir à praia desfrutar de um pouco de sol.</example>
-            <example>Você poderia por favor ir ao supermercado comprar pão?</example>
-            <example>Você gostaria de ir à praia ver os pescadores de mariscos ao pôr do sol?</example>
-            <example>Vamos até César pedir paz.</example>
-            <example>Eu vou à cidade passear.</example>
-            <example>Eu vou ao Rio aproveitar a praia.</example>
-            <example>Eu gosto de ir ao cinema ver filmes estrangeiros.</example>
-            <example>Temos o caso de servidores de páginas web irem abaixo e demorar até se conseguir que funcionem novamente.</example>
-        </rule>
+            <rule> <!-- #2 - Verbo ir + destino concreto + e/para + infinitivo -->
+                <pattern>
+                    <!-- O destino concreto permite aceitar formas ambíguas como "foi". -->
+                    <token inflected='yes'>ir</token>
+                    <token regexp='yes'>a|ao|à|aos|às|para</token>
+                    
+                    <token regexp='yes'>aeroporto|banco|bar|biblioteca|café|casa|cidade|cinema|clínica|computador|consultório|escola|escritório|estação|estádio|farmácia|ginásio|hospital|igreja|jardim|loja|mercado|museu|parque|PC|piscina|praia|restaurante|secretaria|supermercado|teatro|trabalho|universidade</token>
+                    <marker>
+                        <token regexp='yes'>e|para</token>
+                        <token postag='VMN0000'><exception regexp='yes'>poder|dever|querer|ter|ser|estar|ficar|voltar|regressar|retornar|vir|sair|entrar|chegar|partir</exception></token>
+                    </marker>
+                </pattern>
+                <message>Neste contexto, pode omitir &quot;e&quot; ou &quot;para&quot; para tornar a frase mais concisa, desde que o sentido se mantenha.</message>
+                <suggestion><match no='5'/></suggestion>
+                <example correction="identificar">Pode ir ao PC <marker>e identificar</marker> o utilizador?</example>
+                <example correction="comprar">Vou ao supermercado <marker>para comprar</marker> pão.</example>
+                <example correction="descansar">Quero ir para casa <marker>para descansar</marker>.</example>
+                <example correction="estudar">Quero ir à escola <marker>para estudar</marker>.</example>
+                <example correction="passear">Quero ir à cidade <marker>para passear</marker>.</example>
+                <example correction="consultar">Vou à biblioteca <marker>para consultar</marker> alguns livros.</example>
+                <example correction="ver">Ele foi ao cinema <marker>para ver</marker> um filme.</example>
+                <example correction="levantar">Vou ao banco <marker>para levantar</marker> dinheiro.</example>
+                <example correction="beber">Quero ir ao bar <marker>para beber</marker> um copo de água.</example>
+                <example correction="tomar">Vou ao café <marker>para tomar</marker> o pequeno-almoço.</example>
+                <example correction="treinar">Vou ao ginásio <marker>para treinar</marker>.</example>
+                <example correction="visitar">Quero ir ao museu <marker>para visitar</marker> a exposição.</example>
+                <example correction="passear">Vou ao jardim <marker>para passear</marker>.</example>
+                <example correction="nadar">Quero ir à piscina <marker>para nadar</marker>.</example>
+                <example correction="marcar">Vou à clínica <marker>para marcar</marker> uma consulta.</example>
+                <example correction="apanhar">Vou ao aeroporto <marker>para apanhar</marker> o avião.</example>
+                <example correction="assistir">Quero ir ao estádio <marker>para assistir</marker> ao jogo.</example>
+                <example correction="trabalhar">Vou ao trabalho <marker>para trabalhar</marker>.</example>
+                <example>Ela vai ao hospital para ser operada.</example>
+                <example>Vou à loja para voltar a reclamar.</example>
+                <example>Quero ir à escola para poder estudar.</example>
+                <example>Quero ir ao cinema e voltar cedo.</example>
+                <example>Quero ir à praia desfrutar de um pouco de sol.</example>
+                <example>Gostaria de ir ao supermercado comprar pão.</example>
+                <example>Tenho de ir a orais para passar.</example>
+                <example>Para reativar a funcionalidade, vá às definições para voltar a ativá-la.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="🎓 Não + V. + nada → nada + V." type="style" tags='picky' tone_tags="academic" is_goal_specific="true">
@@ -19960,31 +20568,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- ,POIS : -->
-        <rule id='SIMPLIFICAR_POIS_REMOVER' name="✂️ Remoção de “pois” com ela(s)/ele(s)" type="style" tags="picky">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-04/05/07 (1-JAN-2022+)      -->
-            <!--
-            Não tenho médica de família, pois ela está ausente até dezembro. → Não tenho médica de família: ela está ausente até dezembro.
-            -->
+        <rule id='SIMPLIFICAR_POIS_REMOVER' name="✂️ Remoção de «pois» com ela(s)/ele(s)" type='style' tags='picky'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!-- Avoid splitting unfinished subordinate clauses -->
+            <antipattern>
+                <token regexp='yes' skip='-1'>se|caso|quando|embora|enquanto|conquanto
+                    <exception scope='next' regexp='yes'>[;:.!?]</exception></token>
+                <token>,</token>
+                <token>pois</token>
+                <token regexp='yes'>el[ae]s?</token>
+                <example>Se eles desistiram, pois eles não tinham financiamento, o projeto terá de parar.</example>
+                <example>Quando os alunos chegaram, pois eles estavam atrasados, a aula já tinha começado.</example>
+            </antipattern>
+
             <pattern>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'>
-                    <exception postag_regexp='yes' postag='V.+'/>
-                </token>
+                <token postag='N.+|AQ.+|V.+' postag_regexp='yes'/>
                 <marker>
                     <token spacebefore='no'>,</token>
                     <token spacebefore='yes'>pois</token>
                     <token regexp='yes'>el[ae]s?</token>
                 </marker>
+                <token min='0' max='2' postag='RN|RG' postag_regexp='yes'/>
                 <token postag='V.+' postag_regexp='yes'/>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>, \3</suggestion>
+            <message>É possível simplificar a frase eliminando a conjunção &quot;pois&quot; e utilizando pontuação adequada. Verifique se a relação causal permanece clara.</message>
             <suggestion>. <match no='4' case_conversion='startupper'/></suggestion>
             <suggestion>: \4</suggestion>
             <suggestion>; \4</suggestion>
-            <suggestion>– \4</suggestion>
-            <example correction=", pois|. Ela|: ela|; ela|– ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
+            <suggestion> — \4</suggestion>
+            <example correction=". Ela|: ela|; ela| — ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
+            <example correction=". Ele|: ele|; ele| — ele">O relatório ficou incompleto<marker>, pois ele</marker> não contém todos os dados.</example>
+            <example correction=". Elas|: elas|; elas| — elas">As alunas faltaram<marker>, pois elas</marker> estavam doentes.</example>
+            <example correction=". Eles|: eles|; eles| — eles">Os investigadores desistiram<marker>, pois eles</marker> não tinham financiamento.</example>
         </rule>
 
 
@@ -20150,22 +20766,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- ARRANJADOS É QUE PODEM arranjados podem -->
-        <rule id='SIMPLIFICAR_REMOVER_É_QUE_PARTICÍPIO' name="✂️ Part. Passado + é + que → Part. Passado" type="style">
-            <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-19 (1-JAN-2022+)      -->
-            <!--
-            Os dados só após serem organizados é que podem ser usados. → Os dados só após serem organizados podem ser usados.
-            -->
-            <pattern>
+        <rule id="SIMPLIFICAR_REMOVER_É_QUE_PARTICÍPIO" name="✂️ Part. Passado + é que → Part. Passado" type='style' tone_tags='formal' tags='picky'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!-- Simplificação de construções com a expressão de realce "é que". -->
+
+            <!-- Evitar a remoção do verbo copulativo em construções explicativas. -->
+            <antipattern>
+                <token regexp='yes'>problema|questão|fac?to|verdade|realidade|razão|dificuldade|inconveniente|novidade|situação</token>
+                <token regexp='yes' skip='4'>de|d[ao]s?
+                    <exception scope='next' regexp='yes'>[,;:.!?]</exception></token>
                 <token postag='VMP00.+' postag_regexp='yes'/>
                 <token>é</token>
                 <token>que</token>
-                <token postag='VMIP3.+|VMM03.+|VMSP3.+' postag_regexp='yes'/>
+                <token postag='V[MAS](I.|S.|M0)3[SP]0' postag_regexp='yes'/>
+            </antipattern>
+
+            <pattern>
+                <marker>
+                    <token postag='VMP00.+' postag_regexp='yes'/>
+                    <token>é</token>
+                    <token>que</token>
+                    <token postag='V[MAS](I.|S.|M0)3[SP]0' postag_regexp='yes'/>
+                </marker>
             </pattern>
-            <message>Remova a partícula de realce &quot;é que&quot; para tornar o texto mais fluído.</message>
+            <message>Num contexto formal, considere remover a expressão de realce &quot;é que&quot; para tornar a frase mais concisa.</message>
             <suggestion>\1 \4</suggestion>
             <example correction="organizados podem">Os dados só após serem <marker>organizados é que podem</marker> ser usados.</example>
+            <example correction="concluídos foram">Os trabalhos <marker>concluídos é que foram</marker> apresentados.</example>
+            <example correction="obtidos serão">Os resultados <marker>obtidos é que serão</marker> analisados.</example>
+            <example correction="aprovadas poderão">As propostas <marker>aprovadas é que poderão</marker> avançar.</example>
+            <example>Os dados só após serem organizados podem ser usados.</example>
+            <example>Os trabalhos concluídos foram apresentados.</example>
+            <example>Os resultados obtidos serão analisados.</example>
+            <example>As propostas aprovadas poderão avançar.</example>
+            <example>O problema dos trabalhos concluídos é que foram apresentados tarde.</example>
+            <example>A questão dos resultados obtidos é que serão analisados demasiado tarde.</example>
+            <example>A dificuldade das propostas aprovadas é que poderão avançar sem financiamento.</example>
         </rule>
 
 
@@ -20309,55 +20945,127 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- LEVADA A CABO efetuada/realizada/conduzida/concretizada/elaborada -->
-        <rule id='LEVAR_A_CABO' name="Levar a cabo → efetuar/realizar/conduzir/concretizar/elaborar">
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29 (25-JUN-2021+)      -->
-            <!--
-            Esta foi a pesquisa levada a cabo pela Ana. → Esta foi a pesquisa realizada pela Ana.
-            Levarei a cabo este trabalho. → Realizarei este trabalho.
-            Estou determinado a levar a cabo este plano. → Estou determinado a realizar este plano.
-            -->
+        <rule id='LEVAR_A_CABO' name="🎓🔬 Levar a cabo → Realizar/Efetuar/Conduzir" type='style' tone_tags='academic' is_goal_specific='true'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
                 <marker>
-                    <token inflected='yes'>levar</token>
+                    <token inflected='yes' postag='V.+' postag_regexp='yes'>levar</token>
                     <token>a</token>
                     <token>cabo</token>
                 </marker>
             </pattern>
-            <message>Num contexto formal, é preferível escrever &quot;efetuar&quot;, &quot;realizar&quot;, &quot;conduzir&quot;, &quot;concretizar&quot; ou &quot;elaborar&quot;.</message>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
+            <message>Num contexto formal/científico, poderá optar por um verbo mais direto, como &quot;realizar&quot;, &quot;efetuar&quot; ou &quot;conduzir&quot;, conforme o contexto.</message>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
             <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
-            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
-            <example correction="efetuada|realizada|conduzida|concretizada|elaborada">Esta foi a pesquisa <marker>levada a cabo</marker> pela Ana.</example>
+
+            <!-- Particípio passado -->
+            <example correction="realizada|efetuada|conduzida">Esta foi a pesquisa <marker>levada a cabo</marker> pela Ana.</example>
+            <example correction="realizado|efetuado|conduzido">O estudo foi <marker>levado a cabo</marker> pela equipa.</example>
+
+            <!-- Presente -->
+            <example correction="realiza|efetua|conduz">A Ana <marker>leva a cabo</marker> uma investigação.</example>
+
+            <!-- Pretérito perfeito -->
+            <example correction="realizaram|efetuaram|conduziram">Os investigadores <marker>levaram a cabo</marker> diversas experiências.</example>
+
+            <!-- Futuro -->
+            <example correction="Realizarei|Efetuarei|Conduzirei"><marker>Levarei a cabo</marker> este trabalho.</example>
+
+            <!-- Infinitivo -->
+            <example correction="realizar|efetuar|conduzir">Pretendemos <marker>levar a cabo</marker> uma investigação.</example>
+
+            <!-- Gerúndio -->
+            <example correction="realizando|efetuando|conduzindo">Estamos <marker>levando a cabo</marker> uma investigação.</example>
+
+            <!-- Frases corretas -->
+            <example>Esta foi a pesquisa realizada pela Ana.</example>
             <example>Realizarei este trabalho.</example>
             <example>Estou determinado a realizar este plano.</example>
+            <example>Os investigadores conduziram diversas experiências.</example>
         </rule>
 
 
-        <rule id='QUE_TER_COMO_POR_NOME_ADJ' name="cujo(a) + substantivo + verbo ser">
-            <pattern>
-                <marker>
-                    <token>que<exception scope='previous' postag_regexp='yes' postag='V.+'/></token>
-                    <token postag='VM..3.0' postag_regexp='yes' inflected='yes'>ter</token>
-                    <token regexp='yes'>como|por</token>
-                    <token postag='NC[^C].+' postag_regexp='yes'/>
-                </marker>
-                <token postag='VMN0000'/>
-            </pattern>
-            <message>Com o pronome relativo &quot;cujo&quot;, o seu texto poderia ficar mais claro e elegante.</message>
-            <suggestion><match no='4' postag='NC(..)000' postag_replace='PR0$1000'>cujo</match> \4 <match no='2' postag='V(...)3(.)0' postag_replace='V$13S0'>ser</match></suggestion>
-            <example correction="cuja meta é">Assim surgiu o ISIS <marker>que tem como meta</marker> criar um califado.</example>
-            <example correction="cuja meta era">Assim surgiu o ISIS <marker>que tinha como meta</marker> criar um califado.</example>
-            <example correction="cujo objetivo é">Assim surgiu o ISIS <marker>que tem como objetivo</marker> criar um califado.</example>
-            <example correction="cujo objetivo era">Assim surgiu o ISI <marker>que tinha como objetivo</marker> criar um califado.</example>
-            <example>O que o Rui diz é que tem como objetivo ajudar na pesquisa.</example>
-        </rule>
+        <rulegroup id='QUE_TER_COMO_POR_NOME_ADJ' name="🎓 Que tem como/por objetivo → Cujo objetivo é" type='style'>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
+            <!-- Exclude preceding verbs without a nominal reading -->
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'><exception postag='NC.+|NP.+' postag_regexp='yes'/></token>
+                <token>que</token>
+                <token postag='VM..3.0' postag_regexp='yes' inflected='yes'>ter</token>
+                <token regexp='yes'>como|por</token>
+            </antipattern>
+
+            <!-- Exclude complement clauses with an intervening adverb -->
+            <antipattern>
+                <token postag='V.+' postag_regexp='yes'><exception postag='NC.+|NP.+' postag_regexp='yes'/></token>
+                <token postag='RG|RM' postag_regexp='yes'/>
+                <token>que</token>
+                <token postag='VM..3.0' postag_regexp='yes' inflected='yes'>ter</token>
+                <token regexp='yes'>como|por</token>
+            </antipattern>
+
+            <rule> <!-- #1 - Singular nouns: cujo/cuja + noun + ser -->
+                <pattern>
+                    <marker>
+                        <token>que</token>
+                        <token postag='VM..3.0' postag_regexp='yes' inflected='yes'>ter</token>
+                        <token regexp='yes'>como|por</token>
+                        <token postag='NC[MF]S000' postag_regexp='yes'/>
+                    </marker>
+                    <token postag='VMN0000'/>
+                </pattern>
+                <message>Com o pronome relativo &quot;cujo&quot;, esta construção pode tornar-se mais concisa e elegante.</message>
+                <suggestion><match no='4' postag='NC(..)000' postag_regexp='yes' postag_replace='PR0$1000'>cujo</match> \4 <match no='2' postag='V(...)3(.)0' postag_regexp='yes' postag_replace='V$13S0'>ser</match></suggestion>
+                <example correction="cuja meta é">Foi criada uma associação <marker>que tem como meta</marker> promover a leitura.</example>
+                <example correction="cuja meta era">Foi criada uma associação <marker>que tinha como meta</marker> promover a leitura.</example>
+                <example correction="cujo objetivo é">Foi desenvolvido um programa <marker>que tem como objetivo</marker> melhorar a educação.</example>
+                <example correction="cujo objetivo era">Foi desenvolvido um programa <marker>que tinha como objetivo</marker> melhorar a educação.</example>
+                <example correction="cuja finalidade é">A equipa criou uma aplicação <marker>que tem por finalidade</marker> facilitar a aprendizagem.</example>
+                <example correction="cujo propósito é">Foi lançado um projeto <marker>que tem por propósito</marker> apoiar os investigadores.</example>
+                <example correction="cujo objetivo será">A universidade desenvolverá um programa <marker>que terá como objetivo</marker> incentivar a investigação.</example>
+                <example correction="cujo objetivo seria">Pretendíamos criar um programa <marker>que teria como objetivo</marker> incentivar a investigação.</example>
+                <example correction="cujo objetivo seja">Precisamos de uma iniciativa <marker>que tenha como objetivo</marker> reduzir o desperdício.</example>
+                <example correction="cujo objetivo fosse">Precisávamos de uma iniciativa <marker>que tivesse como objetivo</marker> reduzir o desperdício.</example>
+                <example>O que o Rui diz é que tem como objetivo ajudar na pesquisa.</example>
+                <example>A diretora explicou que tem como objetivo melhorar os resultados.</example>
+                <example>A diretora explicou ontem que tem como objetivo melhorar os resultados.</example>
+                <example>A diretora explicou recentemente que tem como objetivo melhorar os resultados.</example>
+            </rule>
+
+            <rule> <!-- #2 - Plural nouns: cujos/cujas + noun + ser -->
+                <pattern>
+                    <marker>
+                        <token>que</token>
+                        <token postag='VM..3.0' postag_regexp='yes' inflected='yes'>ter</token>
+                        <token regexp='yes'>como|por</token>
+                        <token postag='NC[MF]P000' postag_regexp='yes'/>
+                    </marker>
+                    <token postag='VMN0000'/>
+                </pattern>
+                <message>Com o pronome relativo &quot;cujo&quot;, esta construção pode tornar-se mais concisa e elegante.</message>
+                <suggestion><match no='4' postag='NC(..)000' postag_regexp='yes' postag_replace='PR0$1000'>cujo</match> \4 <match no='2' postag='V(...)3(.)0' postag_regexp='yes' postag_replace='V$13P0'>ser</match></suggestion>
+                <example correction="cujos objetivos são">A associação lançou programas <marker>que têm como objetivos</marker> incentivar a leitura e apoiar os estudantes.</example>
+                <example correction="cujos objetivos eram">A instituição desenvolveu projetos <marker>que tinham como objetivos</marker> melhorar o ensino e apoiar a investigação.</example>
+                <example correction="cujas metas são">Foram anunciadas iniciativas <marker>que têm como metas</marker> reduzir o consumo e melhorar a eficiência.</example>
+                <example correction="cujas metas eram">Conhecemos projetos <marker>que tinham como metas</marker> reduzir o desperdício e preservar os recursos.</example>
+                <example correction="cujos propósitos serão">Estão previstos programas <marker>que terão como propósitos</marker> promover a ciência e divulgar o conhecimento.</example>
+                <example correction="cujas finalidades sejam">Procuramos ferramentas <marker>que tenham como finalidades</marker> simplificar o trabalho e aumentar a produtividade.</example>
+                <example>O investigador afirmou que tem como objetivos melhorar os resultados e publicar os estudos.</example>
+                <example>O investigador afirmou ontem que tem como objetivos melhorar os resultados e publicar os estudos.</example>
+                <example>O investigador afirmou recentemente que tem como objetivos melhorar os resultados e publicar os estudos.</example>
+            </rule>
+        </rulegroup>
 
     </category>
+
+
+
     <category id="INFORMAL" name="Linguagem informal" type="style" tone_tags="informal">
+
+
         <rulegroup id='ARCHAISMS' name='1. Arcaísmos (Palavras que caíram em desuso)' default='off' tone_tags="informal">
             <!--      Created by Tiago F. Santos, Portuguese rule, BARBARISMS 2017-05-08      -->
             <url>https://pt.wiktionary.org/wiki/Categoria:Arca%C3%ADsmo_(Portugu%C3%AAs)</url>

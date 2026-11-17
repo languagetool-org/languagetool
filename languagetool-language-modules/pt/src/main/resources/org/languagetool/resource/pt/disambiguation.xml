@@ -1424,6 +1424,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- DNA : Det + Nome + adjetivo-->
     <!-- 		based on from Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule>
+      <antipattern> <!-- "A história divide-se em três eixos, todos eles pacíficos." -->
+        <token regexp='yes'>tod[ao]s?</token>
+        <token postag='PP.+' postag_regexp='yes'/>
+      </antipattern>
       <antipattern>
         <token>mal</token><!-- XXX 'mal' errors caught by MAL_MAU_CONFUSION -->
         <token postag="N.+" postag_regexp="yes"/>
@@ -4136,6 +4140,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </marker>
     </pattern>
     <disambig postag="NCMP000"/>
+  </rule>
+
+  <rule id="VMIP1S0_NC_AQ_20261106" name="É verbo">
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP1S0' postag_regexp='no'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token regexp='yes'>te|tas?|lh[ae]s?|me|vos<exception scope='previous' postag='RG'/></token>
+      <token min='0' regexp='yes'>del[ae]s?|meus?|minhas?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?</token>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="[NA].*"/>
+      <!--
+      Examples:
+               Amo te minha flor.
+               Amo vos minha flor.
+               Amo me meu irmão.
+               Amo te flor.
+               Amo vos Rita.
+      -->
+  </rule>
+
+  <rule id="VMIP1S0_NC_AQ_A_AS_O_OS_20261106" name="É verbo">
+    <pattern>
+      <marker>
+        <and>
+          <token postag='VMIP1S0' postag_regexp='no'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </and>
+      </marker>
+      <token regexp='yes'>[ao]s?|ess[ae]s?|est[ae]s?|ness[ae]s?<exception scope='previous' postag='RG'/></token>
+      <token regexp='yes'>del[ae]s?|meus?|minhas?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?</token>
+      <token postag='N.+|AQ.+' postag_regexp='yes'/>
+    </pattern>
+    <disambig action="remove" postag="[NA].*"/>
+      <!--
+      Examples:
+               A ideia que me fica sempre que provo os seus vinhos é a qualidade extrema e sobretudo uma consistência ímpar.
+               Amo os meus irmãos.
+               Amo os meus pais.
+               Amo essas suas irmãs.
+               Amo estas tuas irmãs.
+               Amo nessas suas casas.
+               Quanto a você, fique na enfermaria! Senão, tiro as suas funções! Entendido?
+               Tento me alimentar saudavelmente e comer quando me satisfaz, e me exercitar.
+      -->
+  </rule>
+
+  <rule id="SE_VMIP3S0_VMM02S0_20261021" name="O verbo é na terceira pessoa VMIP3S0">
+    <pattern>
+      <token>se</token>
+      <marker>
+        <and>
+          <token postag='VMIP3S0'/>
+          <token postag='VMM02S0'/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="VMM02S0"/>
+    <!--
+    Examples:
+             "Apeiron" se opõe ao que tem "peras" (limite).
+             "Beware of the Mouse" (1958) se passa na Idade Média e explica a origem histórica de Grande Fenwick.
+             Aparentemente é a partir dela que o mal se espalha por todo o globo.
+             Apesar de ser rica, ela se veste com bastante simplicidade.
+             Após a luta, em um ato de extrema arrogância, Turbo se recusa a dar as mãos a Bam.
+             Após esta derradeira negação, Jesus se vira para Pedro e ele relembra da profecia e se arrepende.
+             Como vou saber em que acredita, se mente para mim?
+             Comprar em massa coisas que se usa frequentemente pode ajudar a poupar dinheiro.
+    -->
   </rule>
 
   <rule id="SURGIR_INDICATIVO_3PPC_COM_CLITICO_20261002" name="O verbo 'surgir' está na terceira pessoa">

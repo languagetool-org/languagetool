@@ -56334,6 +56334,13 @@ USA
         </rule>
 
         <rule id="COLLECTIVE_NOUN_VERB_AGREEMENT_VBP" name="a fleet of ships are (is)">
+            <antipattern><!-- "summary of findings table" -->
+                <token>summary</token>
+                <token>of</token>
+                <token>findings</token>
+                <token>table</token>
+                <example>We will prepare a summary of findings table for each comparison.</example>
+            </antipattern>
             <antipattern>
                 <token>have</token>
                 <token min="1" max="4" chunk_re=".-NP-plural" />
@@ -91323,6 +91330,14 @@ USA
             <example correction="o'clock">Let's meet at 7 <marker>clock</marker>.</example>
         </rule>
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
+            <antipattern>
+                <token>Risk</token>
+                <token>of</token>
+                <token>bias</token>
+                <token postag="CD"/>
+                <token>tool</token>
+                <example>The risk of bias for randomized controlled trials was assessed independently by two reviewers using the Risk of bias 2 tool (RoB 2).</example>
+            </antipattern>
             <antipattern case_sensitive="yes">
                 <token>Six</token>
                 <token>Flags</token>
@@ -96328,7 +96343,14 @@ USA
             <example correction="it|the IT">Please send it to <marker>the it</marker>.</example>
         </rule>
         <rule id="DT_PRP" name="The you (you)">
-             <antipattern>
+            <antipattern><!-- the I² statistic-->
+                <token regexp="yes">an?|the</token>
+                <token>I</token>
+                <token spacebefore="no" regexp="yes">[¹²³⁰ⁱ⁴⁵⁶⁷⁸⁹]</token>
+                <token regexp="yes">statistics?</token>
+                <example>We assessed it using the I² statistic.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">an?|the</token>
                 <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
                 <token min="0" regexp="yes">'.+</token>
@@ -139627,6 +139649,159 @@ The accident victim died from her injuries.
                 <example>Alexander von Bach.</example>
                 <example>RMN-GP Foto</example>
                 <example>General Admin Tickets fo New Year's Eve.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GENUS_SPECIES_SPELLING" name="Abbreviated genus without period">
+            <rule><!-- A. : Acinetobacter, Arabidopsis, Aspergillus -->
+                <pattern case_sensitive="yes">
+                    <token>A</token>
+                    <token regexp="yes">baumannii|thaliana|fumigatus|flavus</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="A. baumannii">The culture grew <marker>A baumannii</marker> after 24 hours.</example>
+                <example>The culture grew A. baumannii after 24 hours.</example>
+            </rule>
+            <rule><!-- B. : Bacillus, Bacteroides, Bordetella, Borrelia -->
+                <pattern case_sensitive="yes">
+                    <token>B</token>
+                    <token regexp="yes">subtilis|anthracis|cereus|fragilis|pertussis|burgdorferi</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="B. subtilis">The culture grew <marker>B subtilis</marker> after 24 hours.</example>
+                <example>The culture grew B. subtilis after 24 hours.</example>
+            </rule>
+            <rule><!-- C. : Caenorhabditis, Campylobacter, Candida, Chlamydia, Clostridioides, Clostridium, Corynebacterium, Cryptococcus -->
+                <pattern case_sensitive="yes">
+                    <token>C</token>
+                    <token regexp="yes">elegans|jejuni|albicans|auris|glabrata|trachomatis|difficile|perfringens|botulinum|tetani|diphtheriae|neoformans</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="C. elegans">The culture grew <marker>C elegans</marker> after 24 hours.</example>
+                <example>The culture grew C. elegans after 24 hours.</example>
+            </rule>
+            <rule><!-- D. : Drosophila -->
+                <pattern case_sensitive="yes">
+                    <token>D</token>
+                    <token>melanogaster</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="D. melanogaster">The culture grew <marker>D melanogaster</marker> after 24 hours.</example>
+                <example>The culture grew D. melanogaster after 24 hours.</example>
+            </rule>
+            <rule><!-- E. : Enterobacter, Enterococcus, Escherichia -->
+                <pattern case_sensitive="yes">
+                    <token>E</token>
+                    <token regexp="yes">cloacae|faecalis|faecium|coli</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="E. coli">The culture grew <marker>E coli</marker> after 24 hours.</example>
+                <example>The culture grew E. coli after 24 hours.</example>
+            </rule>
+            <rule><!-- H. : Haemophilus, Helicobacter -->
+                <pattern case_sensitive="yes">
+                    <token>H</token>
+                    <token regexp="yes">influenzae|pylori</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="H. influenzae">The culture grew <marker>H influenzae</marker> after 24 hours.</example>
+                <example>The culture grew H. influenzae after 24 hours.</example>
+            </rule>
+            <rule><!-- K. : Klebsiella -->
+                <pattern case_sensitive="yes">
+                    <token>K</token>
+                    <token regexp="yes">pneumoniae|oxytoca</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="K. pneumoniae">The culture grew <marker>K pneumoniae</marker> after 24 hours.</example>
+                <example>The culture grew K. pneumoniae after 24 hours.</example>
+            </rule>
+            <rule><!-- L. : Legionella, Listeria -->
+                <pattern case_sensitive="yes">
+                    <token>L</token>
+                    <token regexp="yes">pneumophila|monocytogenes</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="L. pneumophila">The culture grew <marker>L pneumophila</marker> after 24 hours.</example>
+                <example>The culture grew L. pneumophila after 24 hours.</example>
+            </rule>
+            <rule><!-- M. : Moraxella, Mycobacterium, Mycoplasma -->
+                <pattern case_sensitive="yes">
+                    <token>M</token>
+                    <token regexp="yes">catarrhalis|tuberculosis|leprae|avium|pneumoniae|genitalium</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="M. catarrhalis">The culture grew <marker>M catarrhalis</marker> after 24 hours.</example>
+                <example>The culture grew M. catarrhalis after 24 hours.</example>
+            </rule>
+            <rule><!-- N. : Neisseria -->
+                <pattern case_sensitive="yes">
+                    <token>N</token>
+                    <token regexp="yes">gonorrhoeae|meningitidis</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="N. gonorrhoeae">The culture grew <marker>N gonorrhoeae</marker> after 24 hours.</example>
+                <example>The culture grew N. gonorrhoeae after 24 hours.</example>
+            </rule>
+            <rule><!-- P. : Plasmodium, Porphyromonas, Proteus, Pseudomonas -->
+                <pattern case_sensitive="yes">
+                    <token>P</token>
+                    <token regexp="yes">falciparum|vivax|gingivalis|mirabilis|aeruginosa|putida|fluorescens</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="P. falciparum">The culture grew <marker>P falciparum</marker> after 24 hours.</example>
+                <example>The culture grew P. falciparum after 24 hours.</example>
+            </rule>
+            <rule><!-- S. : Saccharomyces, Salmonella, Serratia, Shigella, Staphylococcus, Streptococcus -->
+                <pattern case_sensitive="yes">
+                    <token>S</token>
+                    <token regexp="yes">cerevisiae|enterica|marcescens|flexneri|sonnei|dysenteriae|aureus|epidermidis|saprophyticus|haemolyticus|lugdunensis|pneumoniae|pyogenes|agalactiae|mutans|sanguinis</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="S. aureus">The culture grew <marker>S aureus</marker> after 24 hours.</example>
+                <example correction="S. epidermidis">The culture grew <marker>S epidermidis</marker> after 24 hours.</example>
+                <example>The culture grew S. aureus after 24 hours.</example>
+            </rule>
+            <rule><!-- T. : Toxoplasma, Treponema -->
+                <pattern case_sensitive="yes">
+                    <token>T</token>
+                    <token regexp="yes">gondii|pallidum</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="T. gondii">The culture grew <marker>T gondii</marker> after 24 hours.</example>
+                <example>The culture grew T. gondii after 24 hours.</example>
+            </rule>
+            <rule><!-- V. : Vibrio -->
+                <pattern case_sensitive="yes">
+                    <token>V</token>
+                    <token regexp="yes">cholerae|parahaemolyticus|vulnificus</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="V. cholerae">The culture grew <marker>V cholerae</marker> after 24 hours.</example>
+                <example>The culture grew V. cholerae after 24 hours.</example>
+            </rule>
+            <rule><!-- Y. : Yersinia -->
+                <pattern case_sensitive="yes">
+                    <token>Y</token>
+                    <token regexp="yes">pestis|enterocolitica</token>
+                </pattern>
+                <message>An abbreviated genus name is followed by a period.</message>
+                <suggestion>\1. \2</suggestion>
+                <example correction="Y. pestis">The culture grew <marker>Y pestis</marker> after 24 hours.</example>
+                <example>The culture grew Y. pestis after 24 hours.</example>
             </rule>
         </rulegroup>
     </category>

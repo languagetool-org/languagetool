@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static org.languagetool.rules.ca.ApostophationHelper.needsApostrophationMS;
 import static org.languagetool.rules.ca.PronomsFeblesHelper.*;
 
 public class AdjustVerbSuggestionsFilter extends RuleFilter {
@@ -143,6 +144,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
         }
       }
       String targetPostag = synth.getTargetPosTag(postags, "");
+      if (targetPostag.isEmpty()) {
+        return null;
+      }
       String verbStr = "";
       if (!targetPostag.isEmpty()) {
         verbSynthesizer.setLemmaAndPostag(newLemma, targetPostag);
@@ -276,9 +280,9 @@ public class AdjustVerbSuggestionsFilter extends RuleFilter {
   }
 
   private boolean anyChangeVowelConsonant(String originalVerb, List<String> replacements) {
-    boolean originalVerbNeedsApostrophe = pApostropheNeeded.matcher(originalVerb).matches();
+    boolean originalVerbNeedsApostrophe = needsApostrophationMS(originalVerb);
     for (String replacement : replacements) {
-      if (originalVerbNeedsApostrophe != pApostropheNeeded.matcher(replacement).matches()) {
+      if (originalVerbNeedsApostrophe != needsApostrophationMS(replacement)) {
         return true;
       }
     }

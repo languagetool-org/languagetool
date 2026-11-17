@@ -45,6 +45,10 @@ public class AnnotatedText {
   private final Map<MetaDataKey, String> metaData;
   private final Map<String, String> customMetaData;
 
+  // Lazily computed and cached: rebuilding the whole text for every call is O(n) and callers
+  // like the JSON serializer invoke it once per match, turning that into O(n^2) on large texts.
+  private volatile String textWithMarkup;
+
   AnnotatedText(List<TextPart> parts, Map<Integer, MappingValue> mapping, Map<MetaDataKey, String> metaData, Map<String, String> customMetaData) {
     this.parts = Objects.requireNonNull(parts);
     this.mapping = Objects.requireNonNull(mapping);
@@ -90,13 +94,18 @@ public class AnnotatedText {
    * @since 4.3
    */
   public String getTextWithMarkup() {
-    StringBuilder sb = new StringBuilder();
-    for (TextPart part : parts) {
-      if (part.getType() != TextPart.Type.FAKE_CONTENT) {
-        sb.append(part.getPart());
+    String result = textWithMarkup;
+    if (result == null) {
+      StringBuilder sb = new StringBuilder();
+      for (TextPart part : parts) {
+        if (part.getType() != TextPart.Type.FAKE_CONTENT) {
+          sb.append(part.getPart());
+        }
       }
+      result = sb.toString();
+      textWithMarkup = result;
     }
-    return sb.toString();
+    return result;
   }
 
   /**

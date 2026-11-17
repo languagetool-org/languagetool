@@ -87,18 +87,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <!-- Grammatik -->
   <!-- ====================================================================== -->
   <category id="GRAMMAR" name="Grammatik">
-    <rule id="JJ.OCH_n-ord.NN" name="Rätt böjning av adjektivet">
-      <pattern>
+    <rulegroup id="JJ.OCH_n-ord.NN" name="Rätt böjning av adjektivet">
+      <antipattern><!-- ett rum med en stängd dörr: "rum" is a noun, "med" a preposition -->
         <token>ett</token>
-        <token postag="JJ:P." postag_regexp="yes">
-          <exception postag="JJ:PN"/>
-        </token>
-        <!-- All adjectives except the ones in neuter -->
-        <token postag="NN:OF:S.*" postag_regexp="yes"/>
-      </pattern>
-      <message>Adjektivet är böjt i positiv utrum (\2) och bör då föregås av ordet "en" istället för "ett", alternativt böjas i positiv neutrum. Menade du: <suggestion>en \2 \3</suggestion>?</message>
-      <example correction="en mörk kväll">Det var <marker>ett mörk kväll</marker>. </example>
-    </rule>
+        <token postag="NN:OF:SIN:NOM:NEU"/>
+        <token postag="PP"/>
+        <token postag="NN.*|JJ.*|PN.*|PM.*" postag_regexp="yes"/>
+        <example>Patienten vårdas i ett rum med egen toalett.</example>
+      </antipattern>
+      <antipattern><!-- preposition + number: ett rum med två sängar ("två" is tagged as a verb) -->
+        <token>ett</token>
+        <token postag="NN:OF:SIN:NOM:NEU"/>
+        <token postag="PP"/>
+        <token regexp="yes">\d+([,.]\d+)?|ett|två|tre|fyra|fem|sex|sju|åtta|nio|tio|elva|tolv|tretton|fjorton|femton|sexton|sjutton|arton|nitton|(tjugo|trettio|fyrtio|femtio|sextio|sjuttio|åttio|nittio)(en|ett|två|tre|fyra|fem|sex|sju|åtta|nio)?|hundra|tusen</token>
+        <example>Hotellet erbjuder ett rum med två sängar.</example>
+      </antipattern>
+      <rule><!-- n-ord: change the article -->
+        <pattern>
+          <token>ett</token>
+          <token postag="JJ:P." postag_regexp="yes">
+            <exception postag="JJ:PN"/>
+            <exception>nästa</exception><!-- invariable: ett nästa steg -->
+            <exception regexp="yes" case_sensitive="yes">\p{Lu}.*</exception><!-- name, e.g. ett Nobel pris -->
+          </token>
+          <token postag="NN:OF:SIN:.*:UTR" postag_regexp="yes">
+            <exception postag="NN:.*:NEU" postag_regexp="yes"/>
+          </token>
+        </pattern>
+        <message>Substantivet "\3" är ett n-ord, så artikeln ska vara "en". Menade du: <suggestion>en \2 \3</suggestion>?</message>
+        <example correction="en mörk kväll">Det var <marker>ett mörk kväll</marker>. </example>
+        <example correction="en punktformig förkalkning">Datortomografin visar <marker>ett punktformig förkalkning</marker> i höger lunga.</example>
+        <example>Vi bokade ett rum med havsutsikt för helgen.</example>
+        <example>Familjen fick ett rum med fyra bäddar.</example>
+        <example>Vi har ett rum med ett fönster mot gården.</example>
+      </rule>
+      <rule><!-- t-ord: inflect the adjective in neuter -->
+        <pattern>
+          <token>ett</token>
+          <token postag="JJ:PU">
+            <exception postag="JJ:PN"/>
+            <exception>nästa</exception>
+            <exception regexp="yes" case_sensitive="yes">\p{Lu}.*</exception>
+          </token>
+          <token postag="NN:OF:SIN:.*:NEU" postag_regexp="yes"/>
+        </pattern>
+        <message>Substantivet "\3" är ett t-ord, så adjektivet ska böjas i neutrum. Menade du: <suggestion>\1 <match no="2" postag="JJ:PN"/> \3</suggestion>?</message>
+        <example correction="ett tätt samarbete">Projektet bygger på <marker>ett tät samarbete</marker> mellan skolan och kommunen.</example>
+        <example correction="ett propert sätt">Hon lärde mig att duka bordet på <marker>ett proper sätt</marker> inför middagen.</example>
+        <example>Kursen är ett nästa steg mot en ny tjänst.</example>
+        <example>Forskaren hoppades en dag få ett Nobel pris för sin upptäckt.</example>
+      </rule>
+    </rulegroup>
     <rule id="JJ.OCH_t-ord.NN" name="Rätt böjning av adjektivet">
       <pattern>
         <token>en</token>

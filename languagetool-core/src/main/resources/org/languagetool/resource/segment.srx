@@ -5013,6 +5013,15 @@
 <rule break="no">
 <beforebreak>\bEq\.\s</beforebreak>
 <afterbreak>(angle|posició|velocitat|moviment)\b</afterbreak>
+<!-- spaced-out ellipsis, e.g. "word . . . word" - don't break between the dots -->
+<rule break="no">
+<beforebreak>\.[\s\u00A0]</beforebreak>
+<afterbreak>\.(?=[\s\u00A0])</afterbreak>
+</rule>
+<!-- spaced-out ellipsis, e.g. "word . . . word" - don't break after the last dot if followed by lowercase -->
+<rule break="no">
+<beforebreak>(?:\.[\s\u00A0]){2,}</beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>Yahoo![\s\u00A0]</beforebreak>

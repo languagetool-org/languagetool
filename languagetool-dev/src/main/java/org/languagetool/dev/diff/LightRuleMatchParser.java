@@ -55,9 +55,9 @@ class LightRuleMatchParser {
     List<LightRuleMatch> ruleMatches = new ArrayList<>();
     Set<String> buildDates = new HashSet<>();
     int lineCount = 1;
-    try (Scanner scanner = new Scanner(inputFile)) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(inputFile), 1 << 20)) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         JsonNode node = mapper.readTree(line);
         JsonNode matches = node.get("matches");
         JsonNode software = node.get("software");

@@ -170,10 +170,10 @@ public class QueIniciFilter extends RuleFilter {
       ? tokens[tokens.length - 2].getToken()
       : "";
     boolean isSiNoQuestion =
-      tokens.length > 2
+      tokens.length > 3
         && (SINO_LAST_WORDS.contains(lastWord.toLowerCase())
-        || (lastWord.equals("què") && tokens[tokens.length - 1].getToken().equals("o"))
-        || (lastWord.equals("no") && tokens[tokens.length - 1].getToken().equals(",")));
+        || (lastWord.equals("què") && tokens[tokens.length - 3].getToken().equals("o"))
+        || (lastWord.equals("no") && tokens[tokens.length - 3].getToken().equals(",")));
     boolean isAnotherSubject = lastWord.equals("això");
 
     // Subjecte dislocat al final (", el professor?"): si el subjecte ja hi és, el SN
@@ -213,6 +213,18 @@ public class QueIniciFilter extends RuleFilter {
       && tokens[mainVerbPos + 1].getToken().equals("que")
       && COMPLETIVE_GAP_VERBS.contains(mainVerbLemma))) {
       return null;
+    }
+
+    // "voler dir" ('to mean') is a lexicalized predicate: "què" is the thing meant, which
+    // takes the accent ("Què vol dir X?" = 'what does X mean?'), and the postverbal noun
+    // phrase is normally its subject, not the object of "dir". Without this, the generic
+    // object logic treats that noun phrase as the object and wrongly drops the accent.
+    Boolean volerDir = volerDirPrediction(tokens, verbGroup, coreEnd);
+    if (volerDir != null) {
+      if (isSiNoQuestion) {
+        return false;
+      }
+      return volerDir;
     }
 
     List<String> pronoms = new ArrayList<>();
@@ -364,6 +376,50 @@ public class QueIniciFilter extends RuleFilter {
     }
     return predictsAccent;
 
+  }
+
+  /**
+   * Detecta el predicat lexicalitzat "voler dir" ('significar'). "què" n'és la cosa
+   * significada, que porta accent ("Què vol dir X?" = "quina cosa significa X?"), i el SN
+   * posposat sol ser-ne el subjecte, no el CD de "dir". Una lectura de sí/no requereix un
+   * objecte indefinit just darrere el verb ("Que em vols dir res?"), que aquí no accentua.
+   *
+   * @return {@code Boolean.TRUE} si és "voler dir" i toca accent, {@code Boolean.FALSE} si és
+   * "voler dir" amb objecte indefinit (sí/no), o {@code null} si no és aquest predicat.
+   */
+  private static Boolean volerDirPrediction(AnalyzedTokenReadings[] tokens, VerbGroupInfo verbGroup,
+                                            int coreEnd) {
+    if (verbGroup == null || verbGroup.lastVerbIndex <= verbGroup.firstVerbIndex) {
+      return null;
+    }
+    AnalyzedToken lastVerb = tokens[verbGroup.lastVerbIndex].readingWithTagRegex(ANY_VERB);
+    if (lastVerb == null || !"dir".equals(lastVerb.getLemma())) {
+      return null;
+    }
+    boolean hasVoler = false;
+    for (int i = verbGroup.firstVerbIndex; i <= verbGroup.lastVerbIndex; i++) {
+      AnalyzedToken verb = tokens[i].readingWithTagRegex(ANY_VERB);
+      if (verb != null && "voler".equals(verb.getLemma())) {
+        hasVoler = true;
+      }
+    }
+    if (!hasVoler) {
+      return null;
+    }
+    // Objecte indefinit immediat ("res", "alguna cosa"...): lectura de sí/no.
+    int objectPos = verbGroup.lastIndex + 1;
+    while (objectPos < coreEnd && objectPos < tokens.length
+      && tokens[objectPos].matchesPosTagRegex(DET)) {
+      objectPos++;
+    }
+    if (objectPos < coreEnd && objectPos < tokens.length) {
+      String form = tokens[objectPos].getToken().toLowerCase();
+      if (form.equals("res") || form.equals("quelcom") || form.equals("alguna")
+        || form.equals("algun") || form.equals("cap")) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

@@ -793,8 +793,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
         String lastToken = errorStr.substring(lastSpaceIdx + 1);
         String endSuffix = " " + lastToken;
         boolean allEndWith = replacements.stream().allMatch(r -> r.getReplacement().endsWith(endSuffix));
-        if (allEndWith) {
-          int errorTrimLen = errorStr.length() - lastSpaceIdx;
+        int endTrimLen = errorStr.length() - lastSpaceIdx;
+        // Don't trim if it would leave an empty (invalid) range, e.g. with extra whitespace
+        if (allEndWith && toPos - endTrimLen > fromPos) {
+          int errorTrimLen = endTrimLen;
           List<SuggestedReplacement> trimmed = new ArrayList<>();
           for (SuggestedReplacement r : replacements) {
             SuggestedReplacement newR = new SuggestedReplacement(r);
@@ -816,8 +818,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
         String firstToken = errorStr.substring(0, firstSpaceIdx);
         String startPrefix = firstToken + " ";
         boolean allStartWith = replacements.stream().allMatch(r -> r.getReplacement().startsWith(startPrefix));
-        if (allStartWith) {
-          int errorTrimLen = firstSpaceIdx + 1;
+        int startTrimLen = firstSpaceIdx + 1;
+        // Don't trim if it would leave an empty (invalid) range, e.g. with extra whitespace
+        if (allStartWith && fromPos + startTrimLen < toPos) {
+          int errorTrimLen = startTrimLen;
           List<SuggestedReplacement> trimmed = new ArrayList<>();
           for (SuggestedReplacement r : replacements) {
             SuggestedReplacement newR = new SuggestedReplacement(r);
