@@ -24,14 +24,14 @@
 <!ENTITY weekdays "панядзелак|аўторак|серада|сераду|чацвер|пятніца|пятніцу|субота|суботу|нядзеля|нядзелю|пн|аў|ср|чц|пт|сб|нд">
 <!ENTITY months "студзень|люты|сакавік|красавік|май|травень|чэрвень|ліпень|жнівень|верасень|кастрычнік|лістапад|снежань|студзеня|лютага|сакавіка|красавіка|мая|траўня|чэрвеня|ліпеня|жніўня|верасня|кастрычніка|лістапада|снежня">
 <!ENTITY abbrevMonths "сту|лют|сак|кра|мая|май|тра|чэр|ліп|жні|вер|кас|ліс|сне">
-<!ENTITY uAfterVowels "аука|аул|баул|вакуум|подыум|прэзідыум|калегіум|кансіліум|кантынуум|ноу-хау|радыус|соус|страус|трыумвір|трыумвірат|трыумф|трыумфава|трыумфальн|трыумфатар|ток-шоу|фрау|шоу|Дахау|Каратау|Ландау|Цеміртау|Саудаўск|Сеул|сауд">
+<!ENTITY uAfterVowels "аука|аул|баул|вакуум|подыум|прэзідыум|прэміум|калегіум|кансіліум|кантынуум|індывідуум|ноу-хау|радыус|соус|страус|трыумвір|трыумвірат|трыумф|трыумфава|трыумфальн|трыумфатар|ток-шоу|фрау|шоу|хауса|гагаузск|Атырау|Науру|Гвінея-Бісау|Дахау|Каратау|Ландау|Цеміртау|Саудаўск|Сеул|сауд">
 <!ENTITY beginningU "унія|унію|уніі|урн|унтэр-афіцэр|унтэр|уйма|унікум">
 ]>
 <!-- «» -->
 
 <rules lang="be" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
-    
+
     <category id="CAT1" name="Правапіс">
         <rulegroup name="Правапіс У-Ў" id="U_KAROTKAJE">
             <!--Напісанне у несладовага ўнутры слова-->
@@ -51,6 +51,9 @@
                 <example correction="жанчына-ўрач"><marker>жанчына-урач</marker></example>
                 <example>вакуумны пыласос</example>
                 <example>Трыумфальная арка</example>
+                <example>Мова хауса, гагаузская мова.</example>
+                <example>Атырау, Науру, Гвінея-Бісау.</example>
+                <example>Індывідуум глядзіць шоу.</example>
             </rule>
             <!--Напісанне у несладовага ў пачатку слова-->
             <rule>
@@ -93,7 +96,7 @@
             <rule>
                 <antipattern>
                     <token regexp="yes">.*[аеёіоуыэюя]</token>
-                    <token regexp="yes" min="0">[«»„“]</token>
+                    <token regexp="yes" min="0">[«»„“"]</token>
                     <token regexp="yes">ў.*</token>
                 </antipattern>
                 <pattern>
@@ -108,6 +111,9 @@
                 <example>ён у Полацку</example>
                 <example>кліча «ў Пагоню!»</example>
                 <example>пачуў «будзь ласкавы» ўпершыню</example>
+                <example>Акцыя "Чорная Пятніца" адбудзецца ў чацвер.</example>
+                <example>Акцыя «Чорная Пятніца» адбудзецца ў чацвер.</example>
+                <example correction="ужыты">Тэрмін "сервер" <marker>ўжыты</marker> тут.</example>
                 <example correction="у">ён <marker>ў</marker> Полацку</example>
                 <example correction="у">вокліч «<marker>ў</marker> бой!».</example>
                 <example correction="увайшоў">Карабель «Вараг» <marker>ўвайшоў</marker> у гавань.</example>
@@ -161,7 +167,7 @@
             <example>«New York Times» была створана ў 1851-м годзе.</example>
             <example>У XII стагоддзі.</example>
             <example>мікрахва́леўка</example>
-            <example>З'ява, зʼява, з’ява</example>	    
+            <example>З'ява, зʼява, з’ява</example>
             <example>У яго тэмпература каля 37,8 ºC.</example>
             <example correction=""> <marker>Pаніцай</marker> было суха.</example>
             <example correction=""> <marker>Tак</marker> не пойдзе...</example>
@@ -217,11 +223,12 @@
         <rulegroup name="рі" id="RI">
             <rule>
                 <pattern>
-                    <token regexp="yes">.*рі.*</token>
+                    <token regexp="yes">.*(?&lt;!гіпе|супе|конт)рі.*</token>
                 </pattern>
-                <message>Неўласцівае беларускай мове спалучэнне літар: «рі»: <suggestion><match no="1" regexp_match="(.*)рі(.*)" regexp_replace="$1ры$2" /></suggestion></message>
+                <message>Неўласцівае беларускай мове спалучэнне літар: «рі»: <suggestion><match no="1" regexp_match="(.*)(?&lt;!гіпе|супе|конт)рі(.*)" regexp_replace="$1ры$2" /></suggestion></message>
                 <short>«рі» замест «ры»</short>
                 <example>крытыка</example>
+                <example>Гіперінфляцыя, суперінтэлект, контрідэя.</example>
                 <example correction="крытыка"><marker>крітыка</marker></example>
             </rule>
         </rulegroup>
@@ -247,7 +254,7 @@
                     <token>двукоссях</token>
                 </pattern>
                 <message>Назоўнік «двукоссе», ад яго вытворны ўстойлівы выраз «у двукоссі»: <suggestion>\1 двукоссі</suggestion></message>
-                <short>«У двукоссі», а не «ў двукоссях»</short>  
+                <short>«У двукоссі», а не «ў двукоссях»</short>
                 <example>Падаём гэты выраз у двукоссі.</example>
                 <example correction="ў двукоссі">Таварышы, вы зразумелі гэтага «смяротніка» <marker>ў двукоссях</marker>?</example>
             </rule>
@@ -271,6 +278,12 @@
         </rule>
         <rulegroup default="on" id="szto_ci" name="Ужыванне злучніка «што» в даданай частцы пры наяўнасці «ці»">
             <rule>
+                <antipattern>
+                    <token>што</token>
+                    <token min="0" max="2"></token>
+                    <token skip="-1">ці</token>
+                    <token>ці</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>,</token>
@@ -282,10 +295,11 @@
                 <message>Лішні злучнік «што»: <suggestion>\1</suggestion></message>
                 <short>Лішні злучнік «што»</short>
                 <example>Я не заўважыў, ці знаходзіцца ён у комнаце.</example>
+                <example>Я ведаю, што ці ён, ці яна прыйдзе.</example>
                 <example correction=",">Я не заўважыў<marker>, што</marker> ці знаходзіцца ён у комнаце.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DoubleIH" name="Два «іх» у сказе"> 
+        <rulegroup id="DoubleIH" name="Два «іх» у сказе">
             <rule>
                 <!-- 2 "іх" у сказе, need exception in BelarusianWordRepeatRule.java to more accurate checking (copied from Russian).-->
                 <pattern>
@@ -295,7 +309,7 @@
                     </marker>
                     <token regexp="yes">[.!?:;]</token>
                 </pattern>
-                <message>Стыль: не стаўце два «іх» у сказе.</message>            
+                <message>Стыль: не стаўце два «іх» у сказе.</message>
                 <example>Не стаўце два «іх» запар.</example>
                 <example correction="">Гэта іх ідэя перавезці <marker>іх</marker> машыну.</example>
             </rule>
@@ -321,7 +335,7 @@
                     <token>грам</token>
                 </pattern>
                 <message>Рэкамендуецца ўжываць цэльны выраз: <suggestion>ні на гран</suggestion>.</message>
-                <url>https://be.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>            
+                <url>https://be.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>
                 <short>Цэльны выраз</short>
                 <example correction="ні на гран"><marker>ні на грам</marker></example>
                 <example>ні на гран</example>
@@ -444,6 +458,11 @@
 
     <category id="CAT5" name="Семантычныя памылкі">
         <rule id="REPETITION" name="Паўтор аднаго слова два разы">
+            <!-- Устойлівыя паўторы не трэба выпраўляць выдаленнем слова. -->
+            <antipattern>
+                <token regexp="yes">ха|ледзь</token>
+                <token><match no="0"/></token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">[а-яёіў]+</token>
                 <token><match no="0"/></token>
@@ -451,6 +470,9 @@
             <message>Паўтор аднаго слова 2 разы. Вы мелі на ўвазе: <suggestion>\1</suggestion>?</message>
             <example correction="ведаю">Я <marker>ведаю ведаю</marker> гэта.</example>
             <example>Я ведаю, ведаю гэта.</example>
+            <example>Ха ха!</example>
+            <example>Яна ледзь ледзь ішла.</example>
+            <example correction="слова">Ён паўтарыў <marker>слова слова</marker>.</example>
         </rule>
         <rulegroup id="INVALID_DATE" name="Няправільная дата, напр.: «31 лютага 2014»">
             <rule>
@@ -487,7 +509,7 @@
             <example>Тавары ў асартыменце.</example>
         </rule>
 	    <rulegroup id="na_pavierku" name="Лагічныя памылкі: «на паверку» або «на праверку»">
-            <rule> 
+            <rule>
                 <pattern>
                     <token>на</token>
                     <token>праверку</token>
@@ -499,7 +521,7 @@
                 <example>На паверку аказалася, што была дапушчана памылка.</example>
                 <example>Здайце сшыткі на праверку!</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern>
                     <token>на</token>
                     <token>паверку</token>
@@ -511,7 +533,7 @@
             </rule>
         </rulegroup>
         <rulegroup id="uzrovien_pavialiczyusia" name="Лагічныя памылкі: «уровень павысіўся або павялічыўся">
-            <rule> 
+            <rule>
                 <pattern>
                     <token skip="5">узровень</token>
                     <token regexp="yes">павяліч(ыўся|ыцца|ваецца)</token>
@@ -534,7 +556,7 @@
             </rule>
         </rulegroup>
         <rulegroup id="zily_zulliovy" name="Лагічныя памылкі: «жылы» або «жыллёвы»">
-            <rule> 
+            <rule>
                 <pattern>
                    <token>жыллёвы</token>
                    <token regexp="yes">дом|будынак|пакой|квартал</token>
@@ -544,7 +566,7 @@
                 <example correction="жылы дом"><marker>жыллёвы дом</marker></example>
                 <example>жылы пакой</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern>
                    <token>жыллёвая</token>
                    <token regexp="yes">хата|вуліца|кватэра|прастора</token>
@@ -556,41 +578,41 @@
             </rule>
         </rulegroup>
         <rulegroup id="liczba_zanizana" name="Лагічныя памылкі: «лічба заніжана»">
-            <rule> 
+            <rule>
                 <pattern>
                     <token skip="4">лічба</token>
                     <token>заніжана</token>
-                </pattern>            
+                </pattern>
                 <message>Замест выразу: «лічба заніжана» лепш ўжываць: «колькасць (значэнне, ...) заніжана».</message>
                 <short>Лагічная памылка</short>
                 <example correction="">Гэта <marker>лічба ў справаздачы заніжана</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="zrabic_ukol" name="Лагічныя памылкі: «зрабіць укол»">
-            <rule> 
+            <rule>
                 <pattern>
                     <token>паставіць</token>
                     <token>укол</token>
-                </pattern>              
+                </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>зрабіць \2</suggestion>?</message>
                 <short>Лагічная памылка</short>
                 <example correction="зрабіць укол"><marker>паставіць укол</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="sud_da_delo" name="Лагічныя памылкі: «суд да дело»">
-            <rule> 
+            <rule>
                 <pattern>
                     <token>сутнасць</token>
                     <token regexp="yes">д[ыа]</token>
                     <token>справа</token>
-                </pattern>              
+                </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>суд ды \3</suggestion>?</message>
                 <short>Лагічная памылка</short>
                 <example correction="суд ды справа"><marker>сутнасць ды справа</marker></example>
             </rule>
         </rulegroup>
 	    <rulegroup id="KWT.H" name="Азначэнне фізічных велічынь: «кВт⋅г»">
-            <rule> 
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>кВт</token>
                     <token>/</token>
@@ -603,7 +625,7 @@
                 <example>Расходаванне электраэнергіі склала 100 кВт*г.</example>
                 <example>Расходаванне электраэнергіі складае 100 кВт⋅г.</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern>
                     <token>kW</token>
                     <token>/</token>
@@ -615,14 +637,14 @@
                 <example correction="kW·h">Расходаванне электраэнергіі складае 100 <marker>kW/h</marker>.</example>
                 <example>Расходаванне электраэнергіі склала 100 kWh.</example>
                 <example>Расходаванне электраэнергіі склала 100 kW·h.</example>
-            </rule>           
+            </rule>
         </rulegroup>
         <rulegroup id="А.H" name="Азначэнне фізічных велічынь: «А⋅г»">
-            <rule> 
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>А</token>
-                    <token>/</token>  
-                    <token>г</token>          
+                    <token>/</token>
+                    <token>г</token>
                 </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>А⋅г</suggestion>?</message>
                 <url>https://be.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
@@ -631,11 +653,11 @@
                 <example>Ёмістасць акумулятара складае 60 А*г.</example>
                 <example>Ёмістасць акумулятара складае 60 А⋅г.</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>A</token>
-                    <token>/</token>  
-                    <token>h</token>          
+                    <token>/</token>
+                    <token>h</token>
                 </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>A⋅h</suggestion>?</message>
                 <url>https://be.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
@@ -644,11 +666,11 @@
                 <example>Ёмістасць акумулятара складае 60 A*h.</example>
                 <example>Ёмістасць акумулятара складае 60 A⋅h.</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>мА</token>
-                    <token>/</token>  
-                    <token>г</token>          
+                    <token>/</token>
+                    <token>г</token>
                 </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>мА⋅г</suggestion>?</message>
                 <url>https://be.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
@@ -657,11 +679,11 @@
                 <example>Ёмістасць акумулятара складае 900 мА*г.</example>
                 <example>Ёмістасць акумулятара складае 900 мА⋅г.</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>mA</token>
-                    <token>/</token>  
-                    <token>h</token>          
+                    <token>/</token>
+                    <token>h</token>
                 </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>mA⋅h</suggestion>?</message>
                 <url>https://be.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
@@ -669,14 +691,14 @@
                 <example correction="mA⋅h">Ёмістасць акумулятара складае 500 <marker>mA/h</marker>.</example>
                 <example>Ёмістасць акумулятара складае 500 mA*h.</example>
                 <example>Ёмістасць акумулятара складае 500 mA⋅h.</example>
-            </rule>            
+            </rule>
         </rulegroup>
         <rulegroup id="V.А" name="Азначэнне фізічных велічынь: «В⋅А»">
-            <rule> 
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>В</token>
-                    <token>/</token>  
-                    <token>А</token>          
+                    <token>/</token>
+                    <token>А</token>
                 </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>В⋅А</suggestion>?</message>
                 <url>https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D1%8C%D1%82-%D0%B0%D0%BC%D0%BF%D0%B5%D1%80</url>
@@ -685,11 +707,11 @@
                 <example>Магутнасць КБЗ складае 500 В*А.</example>
                 <example>Магутнасць КБЗ складае 500 В⋅А.</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern case_sensitive="yes">
                     <token>V</token>
-                    <token>/</token>  
-                    <token>A</token>          
+                    <token>/</token>
+                    <token>A</token>
                 </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>V⋅A</suggestion>?</message>
                 <url>https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D1%8C%D1%82-%D0%B0%D0%BC%D0%BF%D0%B5%D1%80</url>
@@ -698,9 +720,9 @@
                 <example>Магутнасць КБЗ складае 500 V*A.</example>
                 <example>Магутнасць КБЗ складае 500 V⋅A.</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern>
-                    <token case_sensitive="yes">ВА</token> 
+                    <token case_sensitive="yes">ВА</token>
                 </pattern>
                 <message>Магчыма мелася на ўвазе: <suggestion>В⋅А</suggestion>?</message>
                 <url>https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D1%8C%D1%82-%D0%B0%D0%BC%D0%BF%D0%B5%D1%80</url>
@@ -723,7 +745,7 @@
             </rule>
         </rulegroup>
         <rulegroup id="Stolki_szmat" name="Словазлучэнне: «столькі шмат»">
-            <rule> 
+            <rule>
                 <pattern>
                     <token regexp="yes">(на)?столькі</token>
                     <token>шмат</token>
@@ -733,7 +755,7 @@
                 <example correction="Так шмат"><marker>Настолькі шмат</marker> тавару!</example>
                 <example>Так шмат тавару!</example>
             </rule>
-            <rule> 
+            <rule>
                 <pattern>
                     <token regexp="yes">(на)?колькі</token>
                     <token>шмат</token>
@@ -745,7 +767,7 @@
             </rule>
         </rulegroup>
         <rulegroup id="Logical_padarazeli_ceny" name="Лагічныя памылкі: «падаражэлі цэны»">
-            <rule>  
+            <rule>
                 <pattern>
                     <token>падаражэлі</token>
                     <token regexp="yes">цэны|кошты</token>
@@ -756,7 +778,7 @@
                 <example correction="цэны ўзраслі">На рынку <marker>падаражэлі цэны</marker></example>
                 <example>На рынку цэны ўзраслі</example>
             </rule>
-            <rule>  
+            <rule>
                 <pattern>
                     <token>дарагія</token>
                     <token regexp="yes">цэны|кошты</token>
@@ -766,7 +788,7 @@
                 <short>Лагічная памылка</short>
                 <example correction="высокія цэны">На рынку сёння былі <marker>дарагія цэны</marker>.</example>
             </rule>
-            <rule>  
+            <rule>
                 <pattern>
                     <token>танныя</token>
                     <token regexp="yes">цэны|кошты</token>
@@ -782,7 +804,7 @@
             <rule>
                 <pattern>
                     <token>круг</token>
-                    <token>круглы</token>                  
+                    <token>круглы</token>
                 </pattern>
                 <message>Плеаназмы могуць нашкодзіць успрыманню тэксту: <suggestion>\1</suggestion>?</message>
                 <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
@@ -792,7 +814,7 @@
             <rule>
                 <pattern>
                     <token>масла</token>
-                    <token>масленае</token>                  
+                    <token>масленае</token>
                 </pattern>
                 <message>Плеаназмы могуць нашкодзіць успрыманню тэксту: <suggestion>\1</suggestion>?</message>
                 <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
@@ -802,7 +824,7 @@
             <rule tags="picky">
                 <pattern>
                     <token>асабіста</token>
-                    <token>я</token>                  
+                    <token>я</token>
                 </pattern>
                 <message>Плеаназмы могуць нашкодзіць успрыманню тэксту: <suggestion>\2</suggestion>?</message>
                 <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
@@ -813,7 +835,7 @@
         <rulegroup default="on" id="Tautalohija" name="Таўталогія" tags="picky">
             <rule id="Tautalohija_sionniaszni_dzien" name="Таўталогія: «сённяшні дзень»">
                 <pattern>
-                    <token>сённяшні</token>
+                    <token>сённяшні<exception scope="previous">па</exception></token>
                     <token>дзень</token>
                 </pattern>
                 <message>Маўленне з лішкам можа нашкодзіць успрыманню тэксту: <suggestion>сёння</suggestion>?</message>
@@ -875,7 +897,7 @@
                     <token>ажанілася</token>
                 </pattern>
                 <message>«Ажаніцца» можна толькі на асобе жаночага полу, можа мелася на ўвазе: <suggestion>\1 пайшла замуж</suggestion>.</message>
-                <url>https://verbum.by/?q=%D0%B0%D0%B6%D0%B0%D0%BD%D1%96%D1%86%D1%86%D0%B0</url>  
+                <url>https://verbum.by/?q=%D0%B0%D0%B6%D0%B0%D0%BD%D1%96%D1%86%D1%86%D0%B0</url>
                 <example><marker>Ён ажаніўся</marker>.</example>
                 <example correction="Яна пайшла замуж"><marker>Яна ажанілася</marker>.</example>
             </rule>
@@ -944,6 +966,178 @@
             <example>Так апавядае, нібы сама бачыла.</example>
             <example>Цікавае апавяданне.</example>
         </rule>
+        <!-- AI-assisted additions: narrow lexical and contextual rules. -->
+        <rule id="BE_IDZEM" name="Ідзем: загадны або абвесны лад" tags="picky">
+            <pattern><token>ідзем</token></pattern>
+            <message>«Ідзем» — форма загаднага ладу першай асобы, якая часцей у беларускай літаратуры замяняецца формай «хадзем». Калі вы мелі на ўвазе абвесны лад, то форма «ідзем» лічыцца парушэннем нормы, патрабуецца форма «ідзём».</message>
+            <suggestion>ідзём</suggestion>
+            <suggestion>хадзем</suggestion>
+            <example correction="ідзём|хадзем">Мы <marker>ідзем</marker> дадому.</example>
+            <example>Мы ідзём дадому. Хадзем дадому.</example>
+        </rule>
+        <rule id="BE_NA_SHYI" name="Сядзець на карку" tags="picky">
+            <pattern>
+                <token regexp="yes">сядзець|сяджу|сядзіш|сядзіць|сядзім|сядзіце|сядзяць|сядзеў|сядзела|сядзелі</token>
+                <token>на</token><token>шыі</token>
+            </pattern>
+            <message>У пераносным значэнні прапануем выраз <suggestion>\1 на карку</suggestion>. Калі гаворка пра літаральнае становішча на шыі, выпраўленне не патрабуецца.</message>
+            <example correction="сядзець на карку">Ён хоча <marker>сядзець на шыі</marker>.</example>
+            <example>Ён хоча сядзець на карку.</example>
+        </rule>
+        <rule id="BE_PA_SIONNIASHNI_DZIEN" name="Па сённяшні дзень — дагэтуль" tags="picky">
+            <pattern><token>па</token><token>сённяшні</token><token>дзень</token></pattern>
+            <message>Рэкамендуем выраз: <suggestion>дагэтуль</suggestion>.</message>
+            <example correction="дагэтуль">Ён тут <marker>па сённяшні дзень</marker>.</example>
+            <example>Ён тут дагэтуль.</example>
+        </rule>
+        <rule id="BE_PAUSIUL" name="Паўсюль — усюды" tags="picky">
+            <pattern><token>паўсюль</token></pattern>
+            <message>Замест размоўнага «паўсюль» прапануем літаратурнае <suggestion>усюды</suggestion>.</message>
+            <example correction="усюды">Ён <marker>паўсюль</marker>.</example>
+            <example>Ён усюды.</example>
+        </rule>
+        <rule id="BE_PAPA_RYMSKI" name="Папа Рымскі">
+            <pattern><token>тата</token><token>Рымскі</token></pattern>
+            <message>Назва тытула: <suggestion>папа Рымскі</suggestion>, а не «тата Рымскі».</message>
+            <example correction="папа Рымскі">Гэта <marker>тата Рымскі</marker>.</example>
+            <example>Гэта папа Рымскі. Мой тата дома.</example>
+        </rule>
+        <rule id="BE_PRECH" name="Пайсці прэч">
+            <pattern><token regexp="yes">прыбрацца|убрацца|ўбрацца</token><token>прэч</token></pattern>
+            <message>Прапануем <suggestion>пайсці прэч</suggestion>, <suggestion>знікнуць</suggestion> або <suggestion>вымесціся</suggestion>. Улічыце кантэкст і стылістыку: сказ можа патрабаваць адаптацыі або перафармулявання.</message>
+            <example correction="пайсці прэч|знікнуць|вымесціся">Трэба <marker>прыбрацца прэч</marker>.</example>
+            <example correction="пайсці прэч|знікнуць|вымесціся">Трэба <marker>ўбрацца прэч</marker>.</example>
+            <example>Яму прыйдзецца пайсці прэч. Яму тут не радыя.</example>
+        </rule>
+        <rule id="BE_OCR_3" name="Лічба 3 замест літары З у слове">
+            <pattern><token regexp="yes" case_sensitive="yes">3[А-ЯЁІЎа-яёіў]+</token></pattern>
+            <message>Магчыма, пры распазнаванні тэксту лічба 3 замяніла літару З: <suggestion><match no="1" regexp_match="^3" regexp_replace="З"/></suggestion>.</message>
+            <example correction="Змітрок"><marker>3мітрок</marker> пісаў.</example>
+            <example>Змітрок пісаў гэтыя кнігі. 3. Бядуля. 3 кнігі.</example>
+        </rule>
+        <rule id="BE_INITIAL_U" name="У замест Ў у пачатку сказа">
+            <antipattern><token case_sensitive="yes">Ў</token><token regexp="yes">[»“"]</token></antipattern>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0">[«„"(]</token>
+                <marker><token regexp="yes" case_sensitive="yes">Ў[а-яёіў]*</token></marker>
+            </pattern>
+            <message>У пачатку сказа трэба пісаць «У»: <suggestion><match no="3" regexp_match="^Ў" regexp_replace="У"/></suggestion>.</message>
+            <example correction="У"><marker>Ў</marker> пачатку сказа.</example>
+            <example correction="Увесь">«<marker>Ўвесь</marker> дзень».</example>
+            <example>У гэтым і справа… «Ў» — літара беларускага алфавіта.</example>
+        </rule>
+        <rule id="BE_PREPOSITION_S" name="Прыназоўнік с замест з">
+            <pattern>
+                <marker><token case_sensitive="yes">с</token></marker>
+                <token regexp="yes">намі|вамі|імі|ім|ёй|ёю|табой</token>
+            </pattern>
+            <message>У беларускай мове тут патрэбны прыназоўнік <suggestion>з</suggestion>.</message>
+            <example correction="з">Хадзем <marker>с</marker> намі.</example>
+            <example>Хадзем з намі. Літара с. С. Самахвалаў.</example>
+        </rule>
+        <rule id="BE_JAKRAZ" name="Якраз пішацца разам">
+            <pattern><token>як</token><token>раз<exception scope="next" regexp="yes">,|так</exception></token></pattern>
+            <message>Прыслоўе пішацца разам: <suggestion>якраз</suggestion>.</message>
+            <example correction="якраз">Гэта <marker>як раз</marker> ён.</example>
+            <example>Гэта якраз ён. Як раз, так і два.</example>
+        </rule>
+    </category>
+
+    <!-- AI-assisted additions: fixed expressions and picky conjunction checks. -->
+    <category id="BE_PUNCTUATION" name="Пунктуацыя">
+        <rule id="BE_FIXED_JAK" name="Устойлівыя выразы з як без коскі">
+            <regexp>\b(памінай,\h+як\h+звалі|тут,\h+як\h+тут)\b</regexp>
+            <message>Ва ўстойлівым выразе коска не патрэбная: <suggestion><match no="1" regexp_match="," regexp_replace=""/></suggestion>.</message>
+            <example correction="памінай як звалі">І <marker>памінай, як звалі</marker>.</example>
+            <example correction="тут як тут">Ён <marker>тут, як тут</marker>.</example>
+            <example>І памінай як звалі. Ён тут як тут.</example>
+        </rule>
+        <rule id="BE_FIXED_NI" name="Устойлівыя выразы з ні без коскі">
+            <regexp>\b(ні\h+з\h+таго,\h+ні\h+з\h+сяго|ні\h+тое,\h+ні\h+(?:другое|сёе)|ні\h+больш,\h+ні\h+менш)\b</regexp>
+            <message>Ва ўстойлівым выразе коска не патрэбная: <suggestion><match no="1" regexp_match="," regexp_replace=""/></suggestion>.</message>
+            <example correction="Ні з таго ні з сяго"><marker>Ні з таго, ні з сяго</marker>.</example>
+            <example correction="Ні тое ні другое"><marker>Ні тое, ні другое</marker>.</example>
+            <example correction="Ні тое ні сёе"><marker>Ні тое, ні сёе</marker>.</example>
+            <example correction="Ні больш ні менш"><marker>Ні больш, ні менш</marker>.</example>
+            <example>Ні з таго ні з сяго. Ні тое ні другое. Ні тое ні сёе. Ні больш ні менш.</example>
+        </rule>
+        <rule id="BE_NI_BOLSH_JAK" name="Ні больш ні менш як без коскі">
+            <pattern><token>ні</token><token>больш</token><token>ні</token><token>менш</token><token>,</token><token>як</token></pattern>
+            <message>У гэтым выразе коска перад «як» не патрэбная: <suggestion>\1 \2 \3 \4 \6</suggestion>.</message>
+            <example correction="ні больш ні менш як">Іх было <marker>ні больш ні менш, як</marker> дзесяць.</example>
+            <example>Іх было ні больш ні менш як дзесяць.</example>
+        </rule>
+        <rule id="BE_FIXED_TAK" name="Устойлівыя выразы з так без коскі">
+            <regexp>\b(ці\h+так,\h+ці\h+сяк|і\h+так,\h+і\h+гэтак|то\h+так,\h+то\h+(?:сяк|гэтак))\b</regexp>
+            <message>Ва ўстойлівым выразе коска не патрэбная: <suggestion><match no="1" regexp_match="," regexp_replace=""/></suggestion>.</message>
+            <example correction="Ці так ці сяк"><marker>Ці так, ці сяк</marker>.</example>
+            <example correction="І так і гэтак"><marker>І так, і гэтак</marker>.</example>
+            <example correction="То так то сяк"><marker>То так, то сяк</marker>.</example>
+            <example correction="То так то гэтак"><marker>То так, то гэтак</marker>.</example>
+            <example>Ці так ці сяк. І так і гэтак. То так то сяк. То так то гэтак.</example>
+        </rule>
+        <rule id="BE_USE_JAK_ADZIN" name="Усе як адзін" tags="picky">
+            <regexp>\b(усе),\h+(як\h+адзін)\b,?</regexp>
+            <message>Калі маецца на ўвазе ўстойлівы выраз «усе разам, без выключэння», коскі не патрэбныя: <suggestion>\1 \2</suggestion>.</message>
+            <example correction="Усе як адзін"><marker>Усе, як адзін,</marker> прыйшлі.</example>
+            <example correction="Усе як адзін"><marker>Усе, як адзін</marker> прыйшлі.</example>
+            <example>Усе як адзін прыйшлі.</example>
+            <example>Усе, як адзіны арганізм, працавалі зладжана.</example>
+        </rule>
+        <rule id="BE_SHTO_BUDZE" name="Што будзе, тое будзе">
+            <pattern><token>што</token><token>будзе</token><token>тое</token><token>будзе</token></pattern>
+            <message>Паміж часткамі сказа патрэбная коска: <suggestion>\1 \2, \3 \4</suggestion>.</message>
+            <example correction="Што будзе, тое будзе"><marker>Што будзе тое будзе</marker>.</example>
+            <example>Што будзе, тое будзе.</example>
+        </rule>
+        <rule id="BE_KAB_COMMA" name="Няма таго, каб; не сказаць, каб">
+            <regexp>\b(няма\h+таго|не\h+сказаць)\h+(каб)\b</regexp>
+            <message>Перад даданай часткай патрэбная коска: <suggestion>\1, \2</suggestion>.</message>
+            <example correction="Няма таго, каб"><marker>Няма таго каб</marker> ён не ведаў.</example>
+            <example correction="Не сказаць, каб"><marker>Не сказаць каб</marker> ён спяшаўся.</example>
+            <example>Няма таго, каб ён не ведаў. Не сказаць, каб ён спяшаўся.</example>
+        </rule>
+        <rule id="BE_U_TYM_VYPADKU" name="У тым выпадку, калі">
+            <pattern><token>у</token><token>тым</token><token>выпадку</token><token>калі</token></pattern>
+            <message>Перад «калі» патрэбная коска: <suggestion>\1 \2 \3, \4</suggestion>.</message>
+            <example correction="У тым выпадку, калі"><marker>У тым выпадку калі</marker> ён прыйдзе, пачнём.</example>
+            <example>У тым выпадку, калі ён прыйдзе, пачнём.</example>
+        </rule>
+        <rule id="BE_COMPOUND_JAK" name="Месца коскі пры састаўных злучніках з як" tags="picky">
+            <regexp>\b(з\h+таго\h+часу\h+як|пасля\h+таго\h+як|у\h+той\h+час\h+як)\b</regexp>
+            <message>Калі гэта суцэльны злучнік, коска аддзяляе ўсю даданую частку. Калі словы перад «як» належаць галоўнай частцы або лагічна выдзяляюцца, коска ставіцца перад «як»: «пасля таго, як…». Не трэба аўтаматычна раздзяляць злучнік у кожным сказе.</message>
+            <example correction=""><marker>З таго часу як</marker> ён прыйшоў, усё змянілася.</example>
+            <example correction=""><marker>Пасля таго як</marker> ён прыйшоў, усё змянілася.</example>
+            <example correction="">Ён чытаў, <marker>у той час як</marker> я пісаў.</example>
+            <example>Ён прыйшоў пасля таго, як адведаў сябра.</example>
+        </rule>
+        <rule id="BE_COMPOUND_SHTO" name="Месца коскі пры састаўных злучніках з што" tags="picky">
+            <regexp>\b(дзякуючы\h+таму\h+што|з\h+прычыны\h+таго\h+што|да\h+таго\h+што|за\h+тое\h+што|нягледзячы\h+на\h+тое\h+што)\b</regexp>
+            <message>Коска аддзяляе даданую частку перад усім злучнікам. Калі ўказальныя словы належаць галоўнай частцы або выдзяляюцца паводле сэнсу, патрэбная коска перад «што»: «за тое, што…», «дзякуючы таму, што…». Месца коскі залежыць ад будовы сказа.</message>
+            <example correction=""><marker>Дзякуючы таму што</marker> ён дапамог, мы паспелі.</example>
+            <example correction=""><marker>З прычыны таго што</marker> ішоў дождж, мы засталіся.</example>
+            <example correction="">Дайшло <marker>да таго што</marker> ён сышоў.</example>
+            <example correction="">Дзякуй <marker>за тое што</marker> дапамог.</example>
+            <example correction=""><marker>Нягледзячы на тое што</marker> ішоў дождж, ён прыйшоў.</example>
+            <example>Дзякуй за тое, што дапамог.</example>
+        </rule>
+        <rule id="BE_COMPOUND_KALI" name="Месца коскі перад пакуль і калі" tags="picky">
+            <regexp>\b(да\h+тых\h+пор\h+пакуль|пасля\h+таго\h+калі)\b</regexp>
+            <message>Даданая частка аддзяляецца коскай: перад усім састаўным злучнікам або перад «пакуль» ці «калі», калі папярэднія ўказальныя словы належаць галоўнай частцы. Параўнайце: «да таго часу, пакуль…», «пасля таго, калі…».</message>
+            <example correction="">Чакай <marker>да тых пор пакуль</marker> ён не прыйдзе.</example>
+            <example correction="">Гэта было <marker>пасля таго калі</marker> ён вярнуўся.</example>
+            <example>Гэта было пасля таго, калі ён вярнуўся.</example>
+        </rule>
+        <rule id="BE_COMPOUND_KAB" name="Месца коскі пры злучніках мэты" tags="picky">
+            <regexp>\b(для\h+таго\h+каб|дзеля\h+таго\h+каб|з\h+тым\h+каб|затым\h+каб)\b</regexp>
+            <message>Даданая частка мэты аддзяляецца коскай перад усім злучнікам. Пры сэнсавым выдзяленні папярэдніх слоў магчымая коска перад «каб»: «для таго, каб…», «з тым, каб…». Не стаўце коску ўнутры злучніка механічна.</message>
+            <example correction="">Ён прыйшоў, <marker>для таго каб</marker> дапамагчы.</example>
+            <example correction="">Ён прыйшоў, <marker>дзеля таго каб</marker> дапамагчы.</example>
+            <example correction="">Ён прыйшоў, <marker>з тым каб</marker> дапамагчы.</example>
+            <example correction="">Ён прыйшоў, <marker>затым каб</marker> дапамагчы.</example>
+            <example>Ён прыйшоў для таго, каб дапамагчы.</example>
+        </rule>
     </category>
 
     <!-- Праблема са сказамі тыпу «адзін з арганізатараў і кіраўнікоў літаратурных аб'яднанняў «Маладняк» і «Узвышша»»
@@ -952,7 +1146,7 @@
             <pattern>
                 <token regexp="yes" skip="-1">ані|ні|і|або|альбо|ці|ды<exception scope="next">,</exception></token>
                 <token><match no="0"/></token>
-            </pattern>          
+            </pattern>
             <message>Пропуск коскі ў пералічэнні са злучальнымі або раздзяляльнымі злучнікамі.</message>
             <short>Нелітаратурнае слова</short>
             <example correction=""><marker>І ты і</marker> я і ўся наша сям’я</example>

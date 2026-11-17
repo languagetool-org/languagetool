@@ -5,6 +5,12 @@
 #### General
   * Requires Java 17 up to 21.
 
+#### Belarusian
+  * Accepted wordforms, lexical corrections, contextual rules, and picky-mode style
+    and conjunction guidance.
+  * Improved fixed-expression punctuation and detection of repeated spaces between
+    sentences; preserved abbreviation handling.
+
 #### Catalan
   * added and improved rules
 
