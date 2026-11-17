@@ -15347,7 +15347,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='_PUNCT_INTERROGATION'/>
             </antipattern>
 
-            <!-- Singular: como é o caso do/da -->
+            <!-- Singular: como é o caso do/da/dos/das -->
             <rule>
                 <pattern>
                     <marker>
@@ -15355,18 +15355,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>é</token>
                         <token>o</token>
                         <token>caso</token>
-                        <token regexp='yes'>d[ao]</token>
+                        <token regexp='yes'>d[ao]s?</token>
                     </marker>
                     <token min='1' max='2' postag='DP.+|DD.+|NC.+|NP.+|AQ.+' postag_regexp='yes'/>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>\1 <match no='5' regexp_match='d([ao])' regexp_replace='$1'/></suggestion>
+                <suggestion>\1 <match no='5' regexp_match='d([ao]s?)' regexp_replace='$1'/></suggestion>
                 <example correction="como a">Temos novidades matemáticas <marker>como é o caso da</marker> nossa equação.</example>
                 <example correction="como o">Existem vários projetos, <marker>como é o caso do</marker> nosso programa.</example>
+                <example correction="como os">Existem vários projetos, <marker>como é o caso dos</marker> nossos programas.</example>
+                <example correction="como as">Foram apresentadas soluções, <marker>como é o caso das</marker> nossas propostas.</example>
                 <example correction="como a">Algumas áreas estão a evoluir rapidamente, <marker>como é o caso da</marker> tecnologia médica.</example>
                 <example type='correct'>Como é o caso do João?</example>
                 <example type='correct'>Como é o caso do nosso João?</example>
                 <example type='correct'>Como é o caso da nossa equação?</example>
+                <example type='correct'>Como é o caso dos nossos programas?</example>
                 <example type='correct'>Como é o caso do nosso João nesta situação?</example>
             </rule>
 
