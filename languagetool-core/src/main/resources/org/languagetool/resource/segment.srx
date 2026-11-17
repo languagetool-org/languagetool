@@ -11,6 +11,11 @@
 <body>
 <languagerules>
 <languagerule languagerulename="Greek">
+<!-- Internal periods in Greek initialisms: Ε.Μ.Π., Ο.Ε.Φ.Ε., ΚΕ.Δ.Α.Σ.Υ. -->
+<rule break="no">
+<beforebreak>\b\p{Lu}{1,2}\.</beforebreak>
+<afterbreak>\p{Lu}{1,2}\.</afterbreak>
+</rule>
 <!-- Nonstandard Greek abbreviation: πχ. instead of π.χ. -->
 <rule break="no">
 <beforebreak>\bπχ\.\s</beforebreak>
@@ -1740,7 +1745,7 @@
 </rule>
 <!-- Dutch abbreviations found in user texts -->
 <rule break="no">
-<beforebreak>\b(?:t\.n\.v|vb|[Mm]nr|blz|pers|eg|Inv|afh|as|onbep)\.\s</beforebreak>
+<beforebreak>\b(?:t\.n\.v|vb|[Mm]nr|blz|pers|eg|Inv|afh|onbep)\.\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Belgian Dutch time expressions: 8u. and 8 u. -->
@@ -7379,7 +7384,7 @@
 <languagerule languagerulename="TwoDots">
 <!-- Do not split after two dots (also before a closing bracket: ..] or ..) when the next word is lowercase. Mapped to all languages except Russian (RussianTest demo text expects a split after ".."). -->
 <rule break="no">
-<beforebreak>\.\.[\]\)]?[\s\u00A0]+</beforebreak>
+<beforebreak>\.\.[\]\)]?\h+</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 </languagerule>
@@ -7419,7 +7424,7 @@
 </rule>
 <!-- Do not split after three or more consecutive periods (also inside brackets: [...] or […]) when the next word is lowercase -->
 <rule break="no">
-<beforebreak>(?:\.{3,}[\]\)]?|[\[\(]…[\]\)])[\s\u00A0]+</beforebreak>
+<beforebreak>(?:\.{3,}[\]\)]?|[\[\(]…[\]\)])\h+</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Roman numeral list markers: i., ii., iii., iv., etc. -->
@@ -7429,17 +7434,17 @@
 </rule>
 <!-- Numbered and alphanumeric list markers: 1., 1a., 2b., etc. -->
 <rule break="no">
-<beforebreak>(?m)(?:^|[\r\n])\s*\d+[a-z]?\.\s</beforebreak>
+<beforebreak>(?m)(?:^|[\r\n])\s*\d+[a-z]?\.\h</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Number followed by a dot anywhere in the text, then lowercase: 2. fecha, 3. cm, 1. poderá. Longer numbers (32., 1994.) are not covered -->
 <rule break="no">
-<beforebreak>\b\d\.(?:\p{L}\.)?[\s\u00A0]+</beforebreak>
+<beforebreak>\b\d\.(?:\p{L}\.)?\h+</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- Parenthetical of any length ending with sentence punctuation, followed by lowercase: (really?) a, (sic!) and, (what do you think?) and -->
 <rule break="no">
-<beforebreak>[\.!?…]+['"\p{Pf}]*\)[\s\u00A0]+</beforebreak>
+<beforebreak>[\.!?…]+['"\p{Pf}]*\)\h+</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 </languagerule>
