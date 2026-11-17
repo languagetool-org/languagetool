@@ -15038,6 +15038,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- ChatGPT 6 and new disambiguator for 2026+ -->
             <!-- Conservative approach: subjunctive only, without explicit subjects. -->
 
+            <!-- Exclude coordinated predicates without an adjective. -->
+            <antipattern>
+                <token>embora</token>
+                <token>não</token>
+                <token regexp='yes'>tenha|tenham</token>
+                <token min='0' max='1'>grande</token>
+                <token regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|finalidade|intenção|interesse|objetivo|precisão|propósito|utilidade|utilização</token>
+                <token regexp='yes'>e|ou|nem</token>
+                <token postag='V.+' postag_regexp='yes'/>
+            </antipattern>
+
+            <!-- Exclude coordinated predicates with an adjective. -->
+            <antipattern>
+                <token>embora</token>
+                <token>não</token>
+                <token regexp='yes'>tenha|tenham</token>
+                <token min='0' max='1'>grande</token>
+                <token regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|finalidade|intenção|interesse|objetivo|precisão|propósito|utilidade|utilização</token>
+                <token postag='AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>e|ou|nem</token>
+                <token postag='V.+' postag_regexp='yes'/>
+            </antipattern>
+
             <pattern>
                 <token>embora</token>
                 <marker>
@@ -15052,6 +15075,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="sem">Concluirei o doutoramento, embora <marker>não tenha</marker> utilidade profissional.</example>
             <example correction="sem">A solução é interessante, embora <marker>não tenha</marker> grande utilidade prática.</example>
             <example correction="sem">Os estudos foram publicados, embora <marker>não tenham</marker> objetivos militares.</example>
+            <example type='correct'>A ferramenta será mantida, embora não tenha utilidade e ocupe muito espaço.</example>
+            <example type='correct'>A ferramenta será mantida, embora não tenha utilidade prática e ocupe muito espaço.</example>
+            <example type='correct'>O projeto continuará, embora não tenha interesse comercial e exija financiamento.</example>
+            <example type='correct'>O sistema será utilizado, embora não tenha aplicabilidade prática ou apresente limitações.</example>
             <example type='correct'>O projeto avançou, embora tenha utilidade limitada.</example>
             <example type='correct'>O projeto avançou, embora não tenha nenhuma finalidade comercial.</example>
             <example type='correct'>Fizeram estudos importantes, mas estes não tinham objetivos militares.</example>
