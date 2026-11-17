@@ -150053,14 +150053,29 @@ No t'ho explicaré, no cal que em burxis més-->
                 <!-- with a clitic that takes the elided form after the -e of the infinitive: obtenir-ne -> obtindre'n -->
                 <pattern>
                     <token regexp="yes">venir|tenir|abstenir|advenir|atenir|avenir|benavenir|captenir|cartenir|contenir|contravenir|convenir|desavenir|desconvenir|detenir|entretenir|entrevenir|esdevenir|intervenir|mantenir|menystenir|obtenir|obvenir|pervenir|prevenir|provenir|reconvenir|retenir|revenir|sobrevenir|sostenir|subvenir|viltenir</token>
-                    <token regexp="yes">-(me|te|se|ne|lo|nos|los)</token>
+                    <token regexp="yes">-(me|te|se|ne|lo|nos|los)<exception scope="next" regexp="yes">['’]\p{L}+|-\p{L}+</exception></token>
                 </pattern>
                 <message>Usem preferentment la terminació -indre.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.*[tv])enir" regexp_replace="$1indre" case_conversion="preserve"/><match no="2" regexp_match="-(?:([mtsnl])e|([nl])o(s))" regexp_replace="'$1$2$3"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*[tv])enir" regexp_replace="$1indre" case_conversion="preserve"/><match no="2" regexp_match="-(?:([mtsnl])e|([nl])o(s?))" regexp_replace="'$1$2$3"/></suggestion>
                 <example correction="obtindre'n">Feu clic per a <marker>obtenir-ne</marker> més informació.</example>
                 <example correction="mantindre's">Cal <marker>mantenir-se</marker> ferm.</example>
                 <example correction="Obtindre'ls"><marker>Obtenir-los</marker> és fàcil.</example>
                 <example correction="tindre'ns">Volen <marker>tenir-nos</marker> a prop.</example>
+                <example correction="obtindre'l">Cal <marker>obtenir-lo</marker>.</example>
+            </rule>
+            <rule>
+                <!-- the first clitic of a cluster keeps its full form: venir-se'n -> vindre-se'n, obtenir-se-la -> obtindre-se-la -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">venir|tenir|abstenir|advenir|atenir|avenir|benavenir|captenir|cartenir|contenir|contravenir|convenir|desavenir|desconvenir|detenir|entretenir|entrevenir|esdevenir|intervenir|mantenir|menystenir|obtenir|obvenir|pervenir|prevenir|provenir|reconvenir|retenir|revenir|sobrevenir|sostenir|subvenir|viltenir</token>
+                    </marker>
+                    <token regexp="yes">-(me|te|se|ne|lo|nos|los)</token>
+                    <token regexp="yes">['’]\p{L}+|-\p{L}+</token>
+                </pattern>
+                <message>Usem preferentment la terminació -indre.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*[tv])enir" regexp_replace="$1indre" case_conversion="preserve"/></suggestion>
+                <example correction="vindre">Vol <marker>venir</marker>-se'n amb nosaltres.</example>
+                <example correction="obtindre">Cal <marker>obtenir</marker>-se-la.</example>
             </rule>
         </rulegroup>
         <rule id="EXIGEIX_INFINITIUS_ALDRE" name="Usa infinitius caldre, valdre, doldre" default="off">
@@ -155470,16 +155485,13 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example>No passa res.</example>
             </rule>
             <rule>
-                <!-- «premi» is tagged as the noun when it is the verb «prémer» followed by its object -->
-                <antipattern>
-                    <token postag="D.*|Z.*|AO.*|SPS00" postag_regexp="yes"/>
-                    <token>premi</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">gran|bon|millor|mateix|darrer|últim|nou</token>
-                    <token>premi</token>
-                </antipattern>
+                <!-- «premi» is tagged as the noun when it is the verb «prémer» followed by its object.
+                     Only in verbal contexts: here, a subject after a subordinator -->
                 <pattern>
+                    <token regexp="yes">que|quan|si|mentre|perquè</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*|AQ.*" postag_regexp="yes"><exception regexp="yes">gran|bon|millor|primer|darrer|últim|mateix|nou</exception></token>
+                    <token postag="AQ.*" postag_regexp="yes" min="0"/>
                     <marker>
                         <token>premi</token>
                     </marker>
@@ -155489,13 +155501,38 @@ No t'ho explicaré, no cal que em burxis més-->
                     </or>
                 </pattern>
                 <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (valencià).</message>
-                <suggestion><match no="1" regexp_match="(?iu)premi" regexp_replace="prema" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="5" regexp_match="(?iu)premi" regexp_replace="prema" case_conversion="preserve"/></suggestion>
                 <short>Forma verbal que no correspon a la varietat seleccionada</short>
                 <example correction="prema">Retard abans que l'usuari <marker>premi</marker> un botó.</example>
                 <example correction="prema">La sèrie acabarà quan l'usuari <marker>premi</marker> 'Finalitzar'.</example>
-                <example correction="prema">Escriga un usuari, aleshores <marker>premi</marker> &lt;key&gt;Retorn&lt;/key&gt;.</example>
+                <example correction="prema">Quan un usuari <marker>premi</marker> el botó.</example>
+                <example correction="prema">Que l'usuari final <marker>premi</marker> el botó.</example>
                 <example>Va rebre el primer premi el 2020.</example>
+                <example>Va rebre un prestigiós premi el 2020.</example>
+                <example>Va dir que el gran premi el va guanyar ella.</example>
+            </rule>
+            <rule>
+                <!-- «premi» read as the noun: at the start of a clause, followed by its object -->
+                <pattern>
+                    <or>
+                        <token postag="SENT_START"/>
+                        <token regexp="yes">[,;:]|i|aleshores|llavors|després|ara</token>
+                    </or>
+                    <marker>
+                        <token>premi</token>
+                    </marker>
+                    <or>
+                        <token postag="D[AIDP].*" postag_regexp="yes"/>
+                        <token regexp="yes">['"«‘“&lt;]</token>
+                    </or>
+                </pattern>
+                <message>Aquesta forma verbal no es correspon amb la varietat seleccionada (valencià).</message>
+                <suggestion><match no="2" regexp_match="(?iu)premi" regexp_replace="prema" case_conversion="preserve"/></suggestion>
+                <short>Forma verbal que no correspon a la varietat seleccionada</short>
+                <example correction="prema">Escriga un usuari, aleshores <marker>premi</marker> &lt;key&gt;Retorn&lt;/key&gt;.</example>
+                <example correction="Prema"><marker>Premi</marker> la tecla Retrocés.</example>
                 <example>Li van concedir el gran premi la setmana passada.</example>
+                <example>El primer premi i el segon.</example>
             </rule>
             <rule>
                 <pattern>
@@ -156104,7 +156141,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <!-- the imperative reading can survive disambiguation after a subject pronoun or a subordinator
                      (si jo fes, si ell refés), where no imperative is possible; «tu/vosaltres» excluded: «Tu fes la feina» -->
                 <pattern>
-                    <token regexp="yes">si|que|jo|ell|ella|vostè|nosaltres|ells|elles|vostés</token>
+                    <token regexp="yes">si|que|jo|ell|ella|vostè|vosté|nosaltres|ells|elles|vostés</token>
                     <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="2"/>
                     <marker>
                         <token postag="V.SI..0[^3]" postag_regexp="yes"><exception postag="_GN_.*|V.P.*|NP.*|N.*|A.*" postag_regexp="yes"/><exception regexp="yes">xinés|finés</exception></token>
@@ -156115,6 +156152,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <url>https://salt.gva.es/documents/165514261/165514298/CRITERIS+LING%C3%9C%C3%8DSTICS+DE+L%E2%80%99ADMINISTRACI%C3%93%20DE+LA+GENERALITAT/60079cdc-27cd-483f-8366-a56a4908f1bd#page=52</url>
                 <example correction="fera">Si jo <marker>fes</marker> això, ho sabries.</example>
                 <example correction="refera">Si ell <marker>refés</marker> el càlcul.</example>
+                <example correction="fera">Si vosté <marker>fes</marker> això, ho sabria.</example>
                 <example correction="desfera">Volia que ho <marker>desfés</marker> tot.</example>
                 <example>Tu fes la feina.</example>
                 <example>Desfés i refés</example>
