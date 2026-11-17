@@ -670,12 +670,36 @@
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>&hifen;</token>
       </antipattern>
+      <antipattern><!-- XXX Command line options -->
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\w+</token>
+      </antipattern>
+      <antipattern><!-- XXX Negative numbers at the start of a sentence -->
+          <token postag="SENT_START"/>
+          <token min="0" max="1" regexp="yes">["'«»“”]</token>
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\d.*</token>
+      </antipattern>
+      <antipattern><!-- XXX Option lists such as «-v» followed by another option -->
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\w+</token>
+          <token spacebefore="no">,</token>
+          <token regexp="yes">&hifen;</token>
+      </antipattern>
+      <antipattern><!-- XXX Spaced minus sign, e.g. «- -1» -->
+          <token postag="SENT_START"/>
+          <token min="0" max="1" regexp="yes">["'«»“”]</token>
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="yes" regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\d.*</token>
+      </antipattern>
     <rule>
       <pattern>
           <token postag='SENT_START'/>
           <token min='0' regexp='yes'>["'«»“”]</token>
         <marker>
-          <token regexp='yes'>-|–</token>
+          <token regexp='yes' min='1' max='2'>-|–</token>
         </marker>
       </pattern>
       <message>En diálogos e enumeracións debe utilizar trazo longo.</message>
@@ -687,6 +711,12 @@
       <example>1466–1469 — Gran Guerra Irmandiña</example>
       <example>2560-657 TORRES VEDRAS</example>
       <example>---------------------------------------</example>
+      <example>-1 para o comezo.</example>
+      <example>«-1» é negativo.</example>
+      <example>«--lang» está obsoleto.</example>
+      <example correction='—'><marker>-</marker>Si, grazas.</example>
+      <example correction='—'><marker>--</marker> Si, grazas.</example>
+      <example>- -1 é un número negativo.</example>
     </rule>
     <rule>
       <antipattern>
@@ -750,6 +780,13 @@
           <token regexp="yes" spacebefore='no'>–|&hifen;</token>
           <token regexp="yes" spacebefore='no'>\d{2}|\d{4}</token>
       </antipattern>
+      <antipattern><!-- XXX Identifiers like ISO-8859-1 -->
+          <token regexp="yes">\p{L}+</token>
+          <token regexp="yes" spacebefore='no'>–|&hifen;</token>
+          <token regexp="yes" spacebefore='no'>\d+</token>
+          <token regexp="yes" spacebefore='no'>–|&hifen;</token>
+          <token regexp="yes" spacebefore='no'>\d+</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
           <token regexp="yes">—|&hifen;</token>
@@ -760,6 +797,7 @@
         <suggestion>\1–\3</suggestion>
       <short>En intervalos numéricos/temporais, debe utilizar o medio-trazo</short>
       <example correction='1812 – 1888|1812–1888'>Antonio Casares Rodríguez (<marker>1812 - 1888</marker>) — primeiro catedrático de Química da USC.</example>
+      <example correction='1812 – 1888|1812–1888'>O período <marker>1812-1888</marker> está documentado.</example>
   <!--example correction='10 – 20%|10–20%'><marker>10-20%</marker></example--> <!-- XXX add half dash to tokenizer split characters and uncomment -->
       <example>1466–1469 — Gran Guerra Irmandiña</example>
       <example>2560-657 TORRES VEDRAS</example>
@@ -767,6 +805,7 @@
       <example>10-10-10 — Data</example>
       <example>10-10-2010 — Data</example>
       <example>2010-10-10 — Data</example>
+      <example>O conxunto ISO-8859-1 tamén é frecuente.</example>
     </rule>
   </rulegroup>
 
@@ -829,11 +868,28 @@
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>&hifen;</token>
       </antipattern>
+      <antipattern><!-- XXX Command line options -->
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\w+</token>
+      </antipattern>
+      <antipattern><!-- XXX Negative numbers at the start of a sentence -->
+          <token postag="SENT_START"/>
+          <token min="0" max="1" regexp="yes">["'«»“”]</token>
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\d.*</token>
+      </antipattern>
+      <antipattern><!-- XXX Option lists such as «-v» followed by another option -->
+          <token regexp="yes">&hifen;</token>
+          <token spacebefore="no" regexp="yes">\w+</token>
+          <token spacebefore="no">,</token>
+          <token regexp="yes">&hifen;</token>
+      </antipattern>
       <pattern>
           <token postag="SENT_START"/>
           <marker>
             <token regexp="yes">[–‒—]|&hifen;</token>
-            <token spacebefore="no"/>
+            <token spacebefore="no"><exception regexp="yes">&hifen;</exception></token>
           </marker>
       </pattern>
       <message>En diálogos, debe dar espazo despois do trazo longo.</message>
@@ -845,6 +901,11 @@
       <example>— Correr</example>
       <example>— Rastrear</example>
       <example>---------------------------------------</example>
+      <example>-1 para o comezo.</example>
+      <example>«-1» é negativo.</example>
+      <example>--add é incompatíbel con --strip-old-alarms.</example>
+      <example correction="— Si"><marker>-Si</marker>, grazas.</example>
+      <example>-- Si, grazas.</example>
     </rule>
     </rulegroup>
 
@@ -1606,6 +1667,13 @@
       <example>A subida demora 8, 10 horas.</example>
     </rule>
     <rule>
+      <antipattern><!-- XXX Version numbers, e.g. «unha versión superior á 5.10» -->
+          <token regexp="yes">versi[óo]n(?:es)?</token>
+          <token min="0" max="3"/>
+          <token regexp="yes">superior|posterior|anterior|inferior|igual|recente|nova|actual|m[aá]is</token>
+          <token regexp='yes'>á|das?</token>
+          <token regexp="yes">[012]?\d[,\.][012345]\d</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>ás?|das?</token>
           <token regexp="yes">[012]?\d[,\.][012345]\d</token>
@@ -1616,6 +1684,8 @@
       <example correction="Ás 10:00"><marker>Ás 10.00</marker>.</example>
       <example correction="Da 01:00"><marker>Da 01.00</marker> a as… </example>
       <example correction="ás 10:50">Das 10:00 <marker>ás 10.50</marker>.</example>
+      <example>Instala unha versión superior á 5.10.</example>
+      <example correction="ás 10:00">A versión estará dispoñible <marker>ás 10.00</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -1669,6 +1739,7 @@
         </marker>
           <token spacebefore='no'>
             <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-]</exception>
+            <exception regexp="yes">[&lt;>&amp;].*</exception>
             <exception postag='SENT_END'/></token>
       </pattern>
       <message>Coloque un espazo despois dos puntos suspensivos</message>
@@ -1676,6 +1747,8 @@
       <example correction='… '>Pegue aquí o seu texto<marker>...</marker>ou comprobe este texto.</example>
       <example correction='… '><marker>...</marker>e os votos de Bo Aninovo.</example>
       <example>Peque aquí o seu texto<marker>...</marker></example>
+      <example>Prema o botón &lt;interface&gt;Engadir...&lt;/interface&gt; embaixo.</example>
+      <example>Prema o botón &lt;interface&gt;Engadir...&amp;kde;&lt;/interface&gt; embaixo.</example>
     </rule>
     <rule>
       <pattern>
@@ -1685,6 +1758,7 @@
         </marker>
           <token spacebefore='no'>
             <exception regexp="yes">[,;:!?…”»()\[\]&#8210;&#8211;&#8212;&#8213;\-&quot;“]</exception>
+            <exception regexp="yes">[&lt;>&amp;].*</exception>
             <exception postag='SENT_END'/></token>
       </pattern>
       <message>Coloque un espazo despois dos puntos suspensivos</message>
@@ -1693,21 +1767,24 @@
       <example correction='… '><marker>…</marker>e os votos de Bo Aninovo.</example>
       <example>Pegue aquí o seu texto<marker>…</marker></example>
       <example>Alén diso<marker>…</marker> </example>
+      <example>Prema o botón &lt;interface&gt;Engadir…&lt;/interface&gt; embaixo.</example>
+      <example>Prema o botón &lt;interface&gt;Engadir…&amp;kde;&lt;/interface&gt; embaixo.</example>
     </rule>
   </rulegroup>
 
   <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espazos antes de puntuación">
     <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
     <rule>
-      <regexp>\b([\p{L}\d]+) ([!?»”’,….])</regexp>
+      <regexp>\b([\p{L}\d]+) ([!?»”’,]|\.(?![\p{L}\d]))</regexp>
       <message>Retire o espazo antes deste sinal de puntuación.</message>
         <suggestion>\1\2</suggestion>
       <example correction="escapou!">Como <marker>escapou !</marker></example>
+      <example>Indicar un ficheiro .kexic de atallo.</example>
     <!--example correction="escapou!">Como é que isto me <marker>escapou   !</marker></example-->
       <example correction="roda.">Existen dúas estratexias posíbeis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
     </rule>
     <rule>
-      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/D])</regexp>
+      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/D])(?!\w+:)</regexp>
       <message>Retire o espazo antes deste sinal de puntuación.</message>
       <suggestion>\1\2</suggestion>
       <example correction="posíbeis:">Existen dúas estratexias <marker>posíbeis :</marker> aproveitar o que existe ou reinventar a roda.</example>
@@ -1749,9 +1826,9 @@
           <token spacebefore="no" regexp="yes">»|«|"</token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">„|»|«|"|\(|\{</token>
+          <token regexp="yes">„|»|«|"|\(</token>
           <token regexp="yes">:|,|;</token>
-          <token regexp="yes">“|»|«|"|\)|\}</token>
+          <token regexp="yes">“|»|«|"|\)</token>
       </antipattern>
       <pattern>
         <or>
@@ -1759,8 +1836,9 @@
           <token regexp="yes">:|,|;</token>
         </or>
         <marker>
-          <token regexp="yes">„|“|«|"|\(|\{</token>
-          <token spacebefore="yes"/>
+          <token regexp="yes">„|“|«|"|\(</token>
+          <token spacebefore="yes">
+            <exception regexp="yes">[&lt;>&amp;].*</exception></token>
         </marker>
       </pattern>
       <message>Espazamento incorrecto.</message>
@@ -1769,27 +1847,30 @@
       <example correction="«O">Ela dixo: <marker>« O</marker> xardín é verdadeiramente bonito.»</example>
       <example correction="«é">«O xardín», dixo ela, <marker>« é</marker> verdadeiramente bonito.»</example>
       <example>A galiña di «Quiquiriquiqui» o porco di «Oinc, Oinc», o pato di «Cuá, Cuá» e o gato «Miau».</example>
+      <example>Vexa <marker>(</marker> &lt;link linkend="glosario"&gt;glosario&lt;/link&gt;).</example>
+      <example>Nota: ( &amp;kde; e &amp;kmymoney;).</example>
+      <example>p, li { white-space: pre-wrap; }</example>
     </rule>
     <rule>
       <antipattern>
           <token regexp='yes'>&abreviaturas;|ex</token>
           <token spacebefore='no'>.</token>
-          <token regexp="yes">“|»|«|"|\)|\}</token>
+          <token regexp="yes">“|»|«|"|\)</token>
       </antipattern>
       <antipattern>
           <token regexp="yes">[a-z]</token>
           <token>.</token>
-          <token regexp="yes">“|»|«|"|\)|\}</token>
+          <token regexp="yes">“|»|«|"|\)</token>
       </antipattern>
       <antipattern>
-          <token regexp="yes">„|»|«|"|\(|\{</token>
+          <token regexp="yes">„|»|«|"|\(</token>
           <token regexp="yes">\.|\?|!</token>
-          <token regexp="yes">“|»|«|"|\)|\}</token>
+          <token regexp="yes">“|»|«|"|\)</token>
       </antipattern>
       <pattern>
         <marker>
           <token regexp="yes">\.|\?|!</token>
-          <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
+          <token spacebefore="yes" regexp="yes">“|»|«|"|\)</token>
         </marker>
       </pattern>
       <message>Espazamento incorrecto.</message>
@@ -1800,14 +1881,14 @@
     </rule>
     <rule>
       <antipattern>
-          <token regexp="yes">„|»|«|"|\(|\{</token>
+          <token regexp="yes">„|»|«|"|\(</token>
           <token>,</token>
-          <token regexp="yes">“|»|«|"|\)|\}</token>
+          <token regexp="yes">“|»|«|"|\)</token>
       </antipattern>
       <pattern>
         <marker>
           <token/>
-          <token spacebefore="yes" regexp="yes">“|»|«|"|\)|\}</token>
+          <token spacebefore="yes" regexp="yes">“|»|«|"|\)</token>
         </marker>
           <token>,</token>
       </pattern>
@@ -1817,7 +1898,7 @@
     </rule>
     <rule>
       <pattern>
-          <token spacebefore="yes" regexp="yes">“|‚|\(|\{</token>
+          <token spacebefore="yes" regexp="yes">“|‚|\(</token>
           <token spacebefore="yes"/>
       </pattern>
       <message>Espazamento incorrecto.</message>
@@ -1854,6 +1935,15 @@
           <token regexp="yes">&codigos_de_pais;</token>
           <token spacebefore="no">:</token>
       </antipattern>
+      <antipattern><!-- XXX Entity references like &amp;kde; -->
+          <token regexp="yes">&amp;[\w.-]+</token>
+          <token>;</token>
+      </antipattern>
+      <antipattern><!-- XXX Entity names split at hyphens and periods, like &amp;kde-apps; -->
+          <token regexp="yes">&amp;\w+</token>
+          <token min="1" max="20" regexp="yes" spacebefore="no">[-.]|\w+</token>
+          <token spacebefore="no">;</token>
+      </antipattern>
       <antipattern>
           <token>;</token>
           <token regexp="yes">“|»|«|"|”</token>
@@ -1881,6 +1971,8 @@
         <suggestion>\1 \2</suggestion>
       <example correction=": «">El dixo<marker>:«</marker>O xardín é verdadeiramente bonito.»</example>
       <example>A cea estará lista ás 18:30.</example>
+      <example>O &amp;kde; e o &amp;kmymoney;, os dous.</example>
+      <example>O &amp;kde-apps;, o &amp;kde;, os dous.</example>
     </rule>
     </rulegroup>
 
@@ -3382,6 +3474,11 @@
 
   <rulegroup id="CARA" name="cara a">
     <short>Pode faltar a preposición «a»</short>
+    <antipattern><!-- XXX Relative clause: «na dirección cara a que sinalan» -->
+        <token>cara</token>
+        <token>a</token>
+        <token regexp="yes">que|quen|canto|cal</token>
+    </antipattern>
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern case_sensitive="yes">
@@ -3409,6 +3506,7 @@
       <message>A preposición «cara» vai seguida de «a». Quería vostede dicir <suggestion><match no="1"/> a</suggestion>?</message>
       <short>Forma incorrecta</short>
       <example correction="Cara a"> <marker>Cara</marker> un novo modelo.</example>
+      <example>Na dirección cara a que sinalan.</example>
     </rule>
 
     <!-- *cara + adxectivo/substantivo plural -->
@@ -3419,11 +3517,13 @@
           <token>cara
             <exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
         </marker>
-          <token postag="A...P.|NC.P..." postag_regexp="yes"/>
+          <token postag="A...P.|NC.P..." postag_regexp="yes">
+            <exception regexp="yes">ás|aos|ós</exception></token>
       </pattern>
       <message>A preposición «cara» vai seguida de «a». Quería vostede dicir <suggestion><match no="1"/> a</suggestion>?</message>
       <short>Forma incorrecta</short>
       <example correction="Cara a"> <marker>Cara</marker> novos retos.</example>
+      <example>Corre cara ás escaleiras do extremo esquerdo.</example>
     </rule>
 
     <!-- *cara a/as ... -->
@@ -4254,13 +4354,14 @@
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
-          <token regexp="yes">(corteza|cortiza)s?</token>
+          <token regexp="yes">cortezas?</token>
         </marker>
           <token regexp="yes" negate="yes">cerebra(l|is|les)</token>
       </pattern>
       <message>A palabra «\1» non existe en galego. Empregue no seu sitio <suggestion>codia</suggestion>.</message>
       <short>Castelanismo léxico</short>
       <example correction="codia">Do pan prefiro comer a <marker>corteza</marker>.</example>
+      <example>As láminas de cortiza flotan na auga.</example>
     </rule>
     <rule id="CORTEZA_CEREBRAL" name="corteza cerebral (córtex cerebral)">
     <!-- Created by Susana Sotelo Docío -->
