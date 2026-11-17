@@ -46304,6 +46304,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>la crisi de la Fiat</example>
             </rule>
         </rulegroup>
+        <rulegroup id="LA_LHA_TRETA" name="la / l'ha treta" default="temp_off">
+            <rule>
+                <pattern raw_pos="yes">
+                    <token postag="PT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>la</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="V.P..SF."/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>l'ha</suggestion> (del verb 'haver')?</message>
+                <example correction="l'ha">D'on <marker>la</marker> treta?</example>
+                <example correction="l'ha">Qui <marker>la</marker> feta?</example>
+            </rule>
+            <rule>
+                <!-- too greedy -->
+                <pattern raw_pos="yes">
+                    <marker>
+                        <token>la<exception scope="previous" postag="SPS00|LOC_PREP|V.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V.P..SF." postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>l'ha</suggestion> (del verb 'haver')?</message>
+                <example correction="l'ha">La invitació <marker>la</marker> recollida la seva filla.</example>
+                <example>Què hi havia que la fes enfadar tant?</example>
+                <example>la crisi de la Fiat</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LHA_LA" name="l'ha > la">
             <rule>
                 <pattern>
@@ -162588,6 +162615,19 @@ No t'ho explicaré, no cal que em burxis més-->
                 <suggestion>alguna cosa</suggestion>
                 <example correction="alguna cosa">Si <marker>quelcom</marker> falla.</example>
                 <example correction="Alguna cosa"><marker>Quelcom</marker> ha fallat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>cada</token>
+                    <marker>
+                        <token>cop</token>
+                    </marker>
+                    <token regexp="yes">que|més|menys|major|menor|superior|inferior</token>
+                </pattern>
+                <message>Adaptació al valencià.</message>
+                <suggestion>vegada</suggestion>
+                <example correction="vegada">Cada <marker>cop</marker> que ve.</example>
+                <example correction="vegada">Cada <marker>cop</marker> més gran.</example>
             </rule>
             <rule>
                 <pattern>
