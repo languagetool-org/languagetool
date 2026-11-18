@@ -15952,6 +15952,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.N.*" postag_regexp="yes"/>
                     <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
                 </antipattern>
+                <antipattern>
+                    <token skip="20">entre</token>
+                    <token>hi</token>
+                    <token regexp="yes">ha|havia</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <example>Entre els objectius d’aquest pla hi ha reforçar la cobertura.</example>
+                </antipattern>
                 <pattern>
                     <token postag="VA.*" postag_regexp="yes" inflected="yes">haver<exception postag="_obligacio|V.P.*" postag_regexp="yes"/></token>
                     <token min="0" max="2" postag="RG.*|LOC_ADV" postag_regexp="yes"><exception postag="[DP].*" postag_regexp="yes"/></token>
@@ -44197,13 +44204,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>set<exception postag="_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                     <token skip="3" postag="V...3P.." postag_regexp="yes"/>
-                    <token postag="A...S.|_GN_.S" postag_regexp="yes"/>
+                    <token postag="A...S." postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>se't</suggestion>?</message>
                 <example correction="Se't"><marker>Set</marker> menjaran viu.</example>
                 <example>D'aquests, set corresponen a les produccions més destacades.</example>
                 <example>La Llibreria Alguer Set va obrir al setembre de l'any 2006.</example>
                 <example>Dos dels set van ser alliberats a final de juny.</example>
+                <example>Set tenien només una dosi.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DI_DIR" name="di > dir / si">
