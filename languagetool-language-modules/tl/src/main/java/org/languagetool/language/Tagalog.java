@@ -22,10 +22,13 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.language.tl.MorfologikTagalogSpellerRule;
 import org.languagetool.language.tokenizers.TagalogWordTokenizer;
 import org.languagetool.rules.*;
+import org.languagetool.rules.tl.PangVowelWordRule;
+import org.languagetool.rules.tl.ReduplicationRule;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.tl.TagalogTagger;
@@ -34,11 +37,9 @@ import org.languagetool.tokenizers.*;
 import java.io.IOException;
 import java.util.*;
 
-/** 
+/**
  * @author Nathaniel Oco
- * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
-@Deprecated
 public class Tagalog extends Language {
 
   @Override
@@ -73,10 +74,18 @@ public class Tagalog extends Language {
   }
 
   @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
+  }
+
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
+            new Contributor("Luis Miguel Robles"),
+            new Contributor("Anton Luis Vale"),
+            new Contributor("Ian Gabriel De Jesus"),
             new Contributor("Nathaniel Oco"),
-            new Contributor("Allan Borra")
+            new Contributor("Allan Borra"),
     };
   }
 
@@ -88,8 +97,9 @@ public class Tagalog extends Language {
             new GenericUnpairedBracketsRule(messages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
-            // specific to Tagalog:
-            new MorfologikTagalogSpellerRule(messages, this, userConfig, altLanguages)
+            new PangVowelWordRule(messages, this),
+            new MorfologikTagalogSpellerRule(messages, this, userConfig, altLanguages),
+            new ReduplicationRule(messages, this)
     );
   }
 
