@@ -15619,22 +15619,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='MADRUGADA_MATINAL' name="✂️ da madrugada/manhã → matinal" type="style">
-            <!--IDEA shorten_it-->
+        <rule id='MADRUGADA_MATINAL' name="✂️ da manhã → matinal" type='style'>
+            <!-- IDEA shorten_it -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!--
+            Simplifica "da manhã" para "matinal", respeitando
+            o número do substantivo anterior.
+
+            A expressão "da madrugada" foi excluída porque
+            nem sempre é semanticamente equivalente a "matinal".
+            -->
+
             <pattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token regexp='yes'>[ao]s?</token>
-                <token regexp='yes' inflected='yes'>banho|chá|exercício|leite|névoa|orvalho|passeio|sexo|sol</token> <!-- Add more words as found -->
+                <token regexp='yes' inflected='yes' postag='NC.[SP]000' postag_regexp='yes'>banho|chá|exercício|leite|névoa|orvalho|passeio|sexo|sol</token>
                 <marker>
-                    <token regexp='yes'>das?</token>
-                    <token regexp='yes'>madrugadas?|manhãs?</token>
+                    <token>da</token>
+                    <token>manhã</token>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion><match no='5' postag='NCF(.)000' postag_replace='AQ0C$10'>matinal</match></suggestion>
-            <example correction="matinal">Vamos fazer o exercício <marker>da madrugada</marker>.</example>
+            <suggestion><match no='1' postag='NC.([SP])000' postag_regexp='yes' postag_replace='AQ0C$10'>matinal</match></suggestion>
+            <example correction="matinal">Vamos fazer o exercício <marker>da manhã</marker>.</example>
             <example correction="matinal">Eu sempre tomo o banho <marker>da manhã</marker>.</example>
             <example correction="matinal">Eu tinha o costume de dar o passeio <marker>da manhã</marker>.</example>
+            <example correction="matinal">A névoa <marker>da manhã</marker> cobria a cidade.</example>
+            <example correction="matinais">Os passeios <marker>da manhã</marker> são agradáveis.</example>
+            <example correction="matinais">Os exercícios <marker>da manhã</marker> são importantes.</example>
+            <example>O passeio da madrugada foi longo.</example>
+            <example>O passeio das manhãs tornou-se habitual.</example>
+            <example>Os passeios matinais são agradáveis.</example>
         </rule>
 
 
