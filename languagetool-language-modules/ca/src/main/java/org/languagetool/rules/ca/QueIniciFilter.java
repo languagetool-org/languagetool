@@ -75,6 +75,13 @@ public class QueIniciFilter extends RuleFilter {
   // de complements decideixi ("Que pot ser més versemblant?" -> "Què...").
   private static final Set<String> COPULAR_VERBS = new HashSet<>(Arrays.asList(
     "ser", "ésser", "estar", "semblar", "parèixer"));
+  // Verbs intransitius/estatals que sovint tenen "què" com a subjecte en 3a persona
+  // ("Què queda per fer?", "Què falta?", "Què costa?"). No s'aplica a 1a/2a persona,
+  // on "què" no pot ser subjecte ("Que vens?"). "venir" i "arribar" queden fora: en
+  // 3a persona són massa sovint preguntes de sí/no ("Que ha vingut la Maria?").
+  private static final Set<String> SUBJECT_QUE_VERBS = new HashSet<>(Arrays.asList(
+    "quedar", "faltar", "caldre", "costar", "sobrar",
+    "ocórrer", "succeir", "esdevenir"));
   // Noms comuns animats que poden ser subjecte posposat ("Que vol aquesta gent?" -> "Què...").
   // Llista llavor; s'anirà ampliant amb la recopilació del corpus.
   private static final Set<String> ANIMATE_SUBJECT_NOUNS = new HashSet<>(Arrays.asList(
@@ -108,7 +115,12 @@ public class QueIniciFilter extends RuleFilter {
   private static final Set<String> COMPLETIVE_GAP_VERBS = new HashSet<>(Arrays.asList(
     "creure", "pensar", "dir", "opinar", "afirmar", "suposar", "imaginar", "saber",
     "considerar", "sospitar", "témer", "voler", "desitjar", "necessitar", "esperar",
-    "preferir"));
+    "preferir", "semblar", "parèixer"));
+  // Verbs impersonals (sobretot meteorològics) que no admeten "què" com a subjecte:
+  // la completiva "que plou" és saturada ("Que et sembla que plou?" -> sense accent).
+  private static final Set<String> IMPERSONAL_VERBS = new HashSet<>(Arrays.asList(
+    "ploure", "nevar", "tronar", "llampegar", "granissar", "calamarsejar", "gelar",
+    "glaçar", "ploviscar", "nevisquejar", "pedregar"));
   // Pronoms/formes que, com a atribut d'un copulatiu, deixen el buit al "què"
   // ("Que és això?" -> "Què és això?"); no saturen la subordinada.
   private static final Set<String> NEUTER_ATTRIBUTE_WORDS = new HashSet<>(Arrays.asList(
@@ -198,6 +210,10 @@ public class QueIniciFilter extends RuleFilter {
     boolean verb2p = tokens[firstVerbPos].matchesPosTagRegex("V.[SI].2P.*");
     AnalyzedToken mainVerbReading = tokens[mainVerbPos].readingWithTagRegex(ANY_VERB);
     String mainVerbLemma = mainVerbReading.getLemma();
+    // Un verb pot tenir lectures amb llemes diferents ("pareix" = parir/parèixer):
+    // mirem totes les lectures per decidir si introdueix una completiva.
+    boolean completiveMainVerb = COMPLETIVE_GAP_VERBS.contains(mainVerbLemma)
+      || verbHasLemmaIn(tokens[mainVerbPos], COMPLETIVE_GAP_VERBS);
 
     int firstTokenAfterVerbPos = verbGroup.lastIndex + 1;
     String firstPostagAfterVerb = "";
@@ -211,7 +227,7 @@ public class QueIniciFilter extends RuleFilter {
     if (completiveOnly && !(mainVerbPos >= 0
       && mainVerbPos + 1 < tokens.length
       && tokens[mainVerbPos + 1].getToken().equals("que")
-      && COMPLETIVE_GAP_VERBS.contains(mainVerbLemma))) {
+      && completiveMainVerb)) {
       return null;
     }
 
@@ -249,6 +265,8 @@ public class QueIniciFilter extends RuleFilter {
     if (!pronoms.isEmpty()) {
       pronomStr = PronomsFeblesHelper.transform(String.join(" ", pronoms), PronomsFeblesHelper.PronounPosition.DAVANT);
     }
+    // "quedar-se" no és el "quedar" existencial: "Que es queda a classe?" és sí/no.
+    boolean hasReflexivePronoun = pronoms.contains("es") || pronoms.contains("se") || pronoms.contains("s'");
 
     // El complement posposat pot ser subjecte? Esbiaixem cap a "objecte": només si el nucli
     // del SN és un nom propi o un nom comú animat (i concorda en nombre amb el verb). Els SN
@@ -315,7 +333,7 @@ public class QueIniciFilter extends RuleFilter {
     AnalyzedToken mainVerbFinite = tokens[mainVerbPos].readingWithTagRegex(FINITE_VERB);
     if (mainVerbFinite != null && mainVerbPos + 1 < tokens.length
       && tokens[mainVerbPos + 1].getToken().equals("que") && !mainVerbFinite.getLemma().equals("veure")) {
-      if (COMPLETIVE_GAP_VERBS.contains(mainVerbLemma)) {
+      if (completiveMainVerb) {
         // "[verb epistèmic/volitiu] que [subordinada]": decidim segons si hi ha buit.
         Boolean gap = completiveHasGap(tokens, mainVerbPos, coreEnd, language);
         if (Boolean.FALSE.equals(gap)) {
@@ -344,6 +362,9 @@ public class QueIniciFilter extends RuleFilter {
     boolean isIntransitive = (VerbClassifier.isIntransitive(mainVerbLemma) && !COPULAR_VERBS.contains(mainVerbLemma))
       || (mainVerbLemma.equals("ser") && pronomStr.equals("hi"));
     if (mainVerbLemma.equals("passar") || mainVerbLemma.equals("agradar")) {
+      isIntransitive = true;
+      isQueSubject = !complementCanBeObject;
+    } else if ((verb3s || verb3p) && SUBJECT_QUE_VERBS.contains(mainVerbLemma) && !hasReflexivePronoun) {
       isIntransitive = true;
       isQueSubject = !complementCanBeObject;
     } else if (isIntransitive) {
@@ -453,9 +474,11 @@ public class QueIniciFilter extends RuleFilter {
       addPronounToken(tokens, k, embPron);
     }
     for (String p : embPron) {
-      // Un clític acusatiu o neutre/partitiu ("ho", "en") ja ocupa el CD -> saturada.
+      // Un clític acusatiu o neutre ("ho") ja ocupa el CD -> saturada. El partitiu
+      // "en" sovint acompanya un "què" objecte ("Què vols que en faci?"), així que
+      // no el tractem com a saturació.
       if ((ACCUSATIVE_PRONOUNS.contains(p) && !DATIVE_PRONOUNS.contains(p))
-        || p.equals("ho") || p.equals("en")) {
+        || p.equals("ho")) {
         return false;
       }
     }
@@ -471,6 +494,10 @@ public class QueIniciFilter extends RuleFilter {
     boolean copular = COPULAR_VERBS.contains(embLemma);
     boolean intransitive = VerbClassifier.isIntransitive(embLemma) && !copular;
     int contentPos = firstArgumentTokenAfter(tokens, emb.lastIndex + 1, coreEnd);
+
+    if (IMPERSONAL_VERBS.contains(embLemma)) {
+      return false; // "que plou", "que neva"...: no hi ha cap buit per a "què".
+    }
 
     if (copular) {
       if (contentPos < 0) {
@@ -501,7 +528,8 @@ public class QueIniciFilter extends RuleFilter {
       boolean verb2p = tokens[emb.firstVerbIndex].matchesPosTagRegex("V.[SI].2P.*");
       // SN posposat animat/propi -> és el subjecte, el CD queda buit ("que va dir en Joan?").
       // SN inanimat -> és el CD i la subordinada queda saturada ("que té raó?").
-      return postverbalCanBeSubject(tokens, contentPos, verb3s, verb3p, verb2p);
+      // Amb verb intransitiu, el SN només pot ser subjecte: no hi ha buit de CD.
+      return postverbalCanBeSubject(tokens, contentPos, verb3s, verb3p, verb2p) && !intransitive;
     }
 
     // Darrere el verb només hi ha un complement no nominal (preposició, adverbi, infinitiu...).
@@ -827,6 +855,17 @@ public class QueIniciFilter extends RuleFilter {
       }
     }
     return null;
+  }
+
+  private static boolean verbHasLemmaIn(AnalyzedTokenReadings token, Set<String> lemmas) {
+    for (AnalyzedToken reading : token.getReadings()) {
+      String posTag = reading.getPOSTag();
+      if (posTag != null && posTag.startsWith("V")
+        && reading.getLemma() != null && lemmas.contains(reading.getLemma())) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

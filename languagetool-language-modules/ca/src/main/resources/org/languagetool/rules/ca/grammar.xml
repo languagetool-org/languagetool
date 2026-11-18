@@ -70654,15 +70654,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">ja|no|potser|encara</token>
             </antipattern>
             <antipattern>
-                <!-- semblar/parèixer + completiva: sí/no ("Que sembla que plou?"). Els verbs
-                     epistèmics/volitius (creure, pensar, dir, voler...) es deixen passar a la
-                     regla del filtre QueIniciFilter, que analitza si la subordinada té buit
-                     argumental ("Què creus que ha passat?") o és saturada ("Que creus que té raó?"). -->
-                <token inflected="yes" regexp="yes">semblar|parèixer</token>
-                <token>que</token>
-                <token><exception inflected="yes" regexp="yes">ser|fer|tenir</exception></token>
-            </antipattern>
-            <antipattern>
                 <token regexp="yes">que|què</token>
                 <token postag="&pronom_feble;" postag_regexp="yes" min="0"><exception inflected="yes">ho</exception></token>
                 <token>ho</token>
@@ -70950,6 +70941,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1" regexp="yes" inflected="yes">ser|semblar|parèixer|estar</token>
                     <token>?</token>
                 </pattern>
+                <filter class="org.languagetool.rules.ca.QueIniciFilter" args="mode:completive"/>
                 <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>. S’escriu sense accent si la resposta és «sí» o «no».</message>
                 <example correction="Què"><marker>Que</marker> us sembla això que ha passat?</example>
                 <example correction="Què"><marker>Que</marker> és Camp Joliu?</example>
@@ -70967,6 +70959,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que són amics seus?</example>
                 <example>Que és fill teu?</example>
                 <example reason="pot ser ambigu">Que és la teva tia?</example>
+                <!-- semblar/parèixer + completiva: decideix el buit argumental -->
+                <example correction="Què"><marker>Que</marker> et sembla que digui?</example>
+                <example correction="Què"><marker>Que</marker> et sembla que falta?</example>
+                <example>Que et sembla que plou?</example>
+                <example>Que et sembla que neva?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -71109,6 +71106,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token postag_regexp="yes" postag="&pronom_feble;" min="0"/>
                     <token regexp="yes" inflected="yes">semblar|parèixer|estar</token>
+                    <!-- Si segueix una completiva, decideix QueIniciFilter; si no, és sí/no
+                         ("Que et sembla natural?"). -->
+                    <token><exception>que</exception></token>
                 </antipattern>
                 <antipattern>
                     <token>que</token>
@@ -71344,6 +71344,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que et fa por?</example>
                 <example correction="Què"><marker>Que</marker> creus que és això?</example>
                 <example correction="Què"><marker>Que</marker> deis que fareu?</example>
+                <!--FIXME: <example correction="Què"><marker>Que</marker> creu que reflecteix aquest tema?</example>-->
                 <!-- completiva amb buit argumental (QueIniciFilter.completiveHasGap) -> "què" -->
                 <example correction="Què"><marker>Que</marker> creus que ha passat?</example>
                 <example correction="Què"><marker>Que</marker> creieu que hauríem de fer?</example>
@@ -71358,8 +71359,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                      "porta menjar": "menjar" s'etiqueta com a infinitiu (VMN), no com a nom, i
                      el CD de la subordinada no es veu ocupat. -->
                 <example type="triggers_error" reason="CD etiquetat com a infinitiu">Que dius que porta menjar?</example>
-                <!-- PENDENT: l'existencial "hi ha" no el resol el grup verbal de la subordinada. -->
-                <example type="triggers_error" reason="existencial hi haver">Que creu que hi ha alguna cosa?</example>
+                <!-- existencial "hi ha": el SN postverbal satura la subordinada (sí/no). -->
+                <example>Que creu que hi ha alguna cosa?</example>
                 <example correction="Què"><marker>Que</marker> busca la Mercè?</example>
                 <example correction="Què"><marker>Que</marker> t'ajuda a tirar avant?</example>
                 <example correction="Què"><marker>Que</marker> fas tot el dia a l'estudi?</example>
@@ -71379,6 +71380,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Què"><marker>Que</marker> vols fer avui?</example>
                 <example correction="Què"><marker>Que</marker> vol fer?</example>
                 <example correction="Què"><marker>Que</marker> cal fer ara?</example>
+                <!-- verbs existencials/estatals en 3a persona: "què" pot ser el subjecte -->
+                <example correction="Què"><marker>Que</marker> queda per fer?</example>
+                <example correction="Què"><marker>Que</marker> falta?</example>
+                <example correction="Què"><marker>Que</marker> cal?</example>
+                <example correction="Què"><marker>Que</marker> costa?</example>
+                <example correction="Què"><marker>Que</marker> ocorre?</example>
+                <example correction="Què"><marker>Que</marker> esdevé?</example>
+                <example correction="Què"><marker>Que</marker> sobra?</example>
+                <example correction="Què"><marker>Que</marker> et queda?</example>
+                <example correction="Què"><marker>Que</marker> li falta?</example>
+                <example correction="Què"><marker>Que</marker> en queda?</example>
+                <!-- quedar-se (reflexiu) és sí/no: no s'ha d'accentuar -->
+                <example>Que es queda a classe?</example>
+                <example>Que s'ha quedat a dormir?</example>
                 <example correction="Què"><marker>Que</marker> has fet aquesta nit?</example>
                 <example correction="Què"><marker>Que</marker> has de fer aquesta nit?</example>
                 <example correction="Què"><marker>Que</marker> has de fer aquest cap de setmana?</example>
@@ -71686,8 +71701,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Què ha passat mare?</example>
             <example>Què et fa mal, amor meu?</example>
             <example>Què et fa por?</example>
+            <!-- semblar/parèixer + completiva: contingut, NO s'ha de corregir -->
+            <example>Què et sembla que digui?</example>
+            <example>Què et sembla que falta?</example>
+            <!-- semblar/parèixer + completiva impersonal: sí/no, sí que s'ha de corregir -->
+            <example correction="Que"><marker>Què</marker> et sembla que plou?</example>
+            <example correction="Que"><marker>Què</marker> et sembla que neva?</example>
             <example>Què fareu el dia que es canse i ho venga tot?</example>
             <example>Què tens intenció de fer?</example>
+            <!-- verbs existencials/estatals en 3a persona: "què" és subjecte, no s'ha de corregir -->
+            <example>Què queda per fer?</example>
+            <example>Què falta?</example>
+            <example>Què cal?</example>
+            <example>Què costa?</example>
+            <example>Què ocorre?</example>
+            <example>Què esdevé?</example>
+            <example>Què sobra?</example>
+            <example>Què en queda?</example>
+            <!-- quedar-se (reflexiu) és sí/no: sí que s'ha de corregir -->
+            <example correction="Que"><marker>Què</marker> es queda a classe?</example>
+            <example correction="Que"><marker>Què</marker> s'ha quedat a dormir?</example>
             <example>¿Què es pot plantejar l'any que ve?</example>
             <example>¿Què s'empatollaven, doncs, els mestres i els professors?</example>
             <example>Què s'empatollaven, doncs, els mestres i els professors?</example>
