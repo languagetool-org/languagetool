@@ -15623,19 +15623,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- IDEA shorten_it -->
             <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-            <!--
-            Simplifica "da manhã" para "matinal", respeitando
-            o número do substantivo anterior.
-
-            A expressão "da madrugada" foi excluída porque
-            nem sempre é semanticamente equivalente a "matinal".
-            -->
-
             <pattern>
                 <token regexp='yes' inflected='yes' postag='NC.[SP]000' postag_regexp='yes'>banho|chá|exercício|leite|névoa|orvalho|passeio|sexo|sol</token>
                 <marker>
                     <token>da</token>
-                    <token>manhã</token>
+                    <token>manhã
+                        <!-- Excluir modificadores dependentes de "manhã" -->
+                        <exception scope='next' regexp='yes'>seguinte|anterior|passada|próxima|última|primeira|mesma|inteira|toda|de|do|da|dos|das</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
@@ -15646,6 +15641,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="matinal">A névoa <marker>da manhã</marker> cobria a cidade.</example>
             <example correction="matinais">Os passeios <marker>da manhã</marker> são agradáveis.</example>
             <example correction="matinais">Os exercícios <marker>da manhã</marker> são importantes.</example>
+            <example>Os exercícios da manhã seguinte são importantes.</example>
+            <example>Os exercícios da manhã anterior foram difíceis.</example>
+            <example>Os passeios da manhã passada foram agradáveis.</example>
+            <example>Os passeios da manhã de ontem foram agradáveis.</example>
+            <example>O banho da manhã seguinte foi demorado.</example>
             <example>O passeio da madrugada foi longo.</example>
             <example>O passeio das manhãs tornou-se habitual.</example>
             <example>Os passeios matinais são agradáveis.</example>
