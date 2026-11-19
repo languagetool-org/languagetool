@@ -15652,48 +15652,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <rule id='DESDE_A_ALTURA_DESDE_ENTÃO' name="✂️ Desde a altura → desde então" type='style'>
+        <rulegroup id='DESDE_A_ALTURA_DESDE_ENTÃO' name="✂️ Desde a altura → desde então" type='style'>
             <!-- IDEA shorten_it -->
             <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-            <!--
-            Simplifica "desde a altura" quando a expressão
-            remete para um momento anteriormente mencionado.
+            <!-- Sem "que" -->
+            <rule>
+                <pattern>
+                    <token postag='VMI[IP].+|CC' postag_regexp='yes'/>
+                    <token min='0' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>desde</token>
+                        <token>a</token>
+                        <token>altura</token>
+                    </marker>
+                    <token postag='PP.+|_PUNCT' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>desde então</suggestion>
+                <example correction="desde então">E <marker>desde a altura</marker> ele está protegido.</example>
+                <example correction="desde então">Isso acontece <marker>desde a altura</marker>.</example>
+                <example correction="desde então">O Rui come peixe <marker>desde a altura</marker>.</example>
+                <example correction="desde então">O Rui comia peixe fresco <marker>desde a altura</marker>.</example>
+                <example type='correct'>Isso acontece desde a altura do acidente.</example>
+                <example type='correct'>O Rui come peixe desde a altura da mudança de dieta.</example>
+            </rule>
 
-            Evita construções que especificam esse momento:
-            - desde a altura em que...
-            - desde a altura do acidente...
-            - desde a altura da mudança...
-
-            A construção "desde então que" é preservada.
-            -->
-
-            <pattern>
-                <token postag='VMI[IP].+|CC' postag_regexp='yes'/>
-                <token min='0' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <marker>
-                    <token>desde</token>
-                    <token>a</token>
-                    <token>altura</token>
-                </marker>
-                <or>
+            <!-- Com "que" -->
+            <rule>
+                <pattern>
+                    <token postag='VMI[IP].+|CC' postag_regexp='yes'/>
+                    <token min='0' max='2' postag='NC.+|AQ.+' postag_regexp='yes'/>
+                    <marker>
+                        <token>desde</token>
+                        <token>a</token>
+                        <token>altura</token>
+                    </marker>
                     <token>que</token>
                     <token postag='PP.+' postag_regexp='yes'/>
-                    <token postag='_PUNCT'/>
-                </or>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>desde então</suggestion>
-            <example correction="desde então">E <marker>desde a altura</marker> ele está protegido.</example>
-            <example correction="desde então">E <marker>desde a altura</marker> que ele está protegido.</example>
-            <example correction="desde então">Isso acontece <marker>desde a altura</marker>.</example>
-            <example correction="desde então">O Rui come peixe <marker>desde a altura</marker>.</example>
-            <example correction="desde então">O Rui comia peixe fresco <marker>desde a altura</marker>.</example>
-            <example type='correct'>Isso acontece desde a altura em que o contrato entrou em vigor.</example>
-            <example type='correct'>Isso acontece desde a altura do acidente.</example>
-            <example type='correct'>O Rui come peixe desde a altura da mudança de dieta.</example>
-            <example type='correct'>O Rui comia peixe desde a altura em que vivia sozinho.</example>
-        </rule>
+                    <token inflected='yes'>estar</token>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>desde então</suggestion>
+                <example correction="desde então">E <marker>desde a altura</marker> que ele está protegido.</example>
+                <example type='correct'>Isso acontece desde a altura que mencionaste.</example>
+                <example type='correct'>Isso acontece desde a altura que ele mencionou.</example>
+                <example type='correct'>Isso acontece desde a altura em que o contrato entrou em vigor.</example>
+                <example type='correct'>O Rui comia peixe desde a altura em que vivia sozinho.</example>
+            </rule>
+        </rulegroup>
 
 
         <!-- DESDE QUE HAJA ao haver se houver-->
