@@ -15703,32 +15703,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- DESDE QUE HAJA ao haver se houver-->
-        <rule id='DESDE_QUE_VERBO_AO_VERBO_INF' name="✂️ Desde que + V. → ao + V.Inf." type='style' tags='picky'>
-            <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-03 (2-MAR-2023+) -->
+        <rule id='DESDE_QUE_VERBO_AO_VERBO_INF' name="✂️ Desde que + V. → se/caso + V." type='style' tags='picky'>
+            <!-- IDEA shorten_it -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <!--
-      O sucesso é garantido desde que exista um plano. → O sucesso é garantido ao existir um plano.
-      O sucesso é garantido desde que existam vários planos. → O sucesso é garantido ao existirem vários planos.
-      -->
+            Aplicar apenas a construções condicionais com um verbo
+            na terceira pessoa do presente do conjuntivo.
+
+            Desde que exista um plano. → Se existir um plano.
+            Desde que existam recursos. → Se existirem recursos.
+            Desde que haja tempo. → Se houver tempo.
+            Desde que seja possível. → Se for possível.
+
+            "Caso" mantém o presente do conjuntivo.
+            "Se" exige o futuro do conjuntivo nestas construções.
+
+            Não sugerir "quando" ou "ao", pois podem alterar
+            o significado condicional da expressão.
+            -->
+
             <pattern>
                 <marker>
                     <token>desde
-                        <exception scope="previous" postag='SENT_START'/>
+                        <exception scope='previous' postag='SENT_START'/>
                     </token>
                     <token>que</token>
-                    <token postag='VMM03.+' postag_regexp='yes'>
-                        <exception scope="next" postag='RG'/>
-                    </token>
+                    <token postag='VMM03[SP]0' postag_regexp='yes'/>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion>se <match no='3' postag='VMM03(.)0' postag_regexp="yes" postag_replace='VMSF3$10'/></suggestion>
+            <suggestion>se <match no='3' postag='VMM03([SP])0' postag_regexp='yes' postag_replace='VMSF3$10'/></suggestion>
             <suggestion>caso \3</suggestion>
-            <suggestion>quando <match no='3' postag='VMM03(.)0' postag_regexp="yes" postag_replace='VMSF3$10'/></suggestion>
-            <suggestion>ao <match no='3' postag='VMM03(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <example correction="se existir|caso exista|quando existir|ao existir">O sucesso é garantido <marker>desde que exista</marker> um plano.</example>
-            <example correction="se existirem|caso existam|quando existirem|ao existirem">O sucesso é garantido <marker>desde que existam</marker> vários planos.</example>
+            <example correction="se existir|caso exista">O sucesso é garantido <marker>desde que exista</marker> um plano.</example>
+            <example correction="se existirem|caso existam">O sucesso é garantido <marker>desde que existam</marker> vários planos.</example>
+            <example correction="se houver|caso haja">Podemos avançar <marker>desde que haja</marker> tempo.</example>
+            <example correction="se for|caso seja">Vamos avançar <marker>desde que seja</marker> possível.</example>
+            <example correction="se estiverem|caso estejam">Podemos começar <marker>desde que estejam</marker> preparados.</example>
+            <example>Vivo nesta cidade desde que nasci.</example>
+            <example>A situação melhorou desde que chegou.</example>
         </rule>
 
 
