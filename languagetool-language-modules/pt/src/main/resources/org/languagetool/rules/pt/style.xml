@@ -15827,14 +15827,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
         <rulegroup id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="✂️ Repetição de ser + particípio → coordenação de particípios" type='style' tags='picky'>
-            <!-- IDEA shorten_it -->
+            <!--IDEA shorten_it-->
             <!-- ChatGPT 6 and new disambiguator for 2026+ -->
-            <!-- Restrict simplification to repeated auxiliaries followed by participles. -->
+            <!-- Restrict simplification to repeated affirmative auxiliaries followed by participles. -->
 
             <!-- É ... E É ... -->
             <rule>
                 <pattern>
-                    <token>é</token>
+                    <token>é
+                        <exception scope="previous" regexp="yes">não|nunca|jamais|nem|tampouco</exception>
+                    </token>
                     <token postag="VMP00.+" postag_regexp="yes"/>
                     <marker>
                         <token>e</token>
@@ -15845,6 +15847,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&simplify_msg;</message>
                 <suggestion>e \5</suggestion>
                 <example correction="e aprovado">O trabalho é analisado <marker>e é aprovado</marker>.</example>
+                <example>O trabalho não é analisado e é aprovado.</example>
+                <example>O trabalho nunca é analisado e é aprovado.</example>
                 <example>Einstein é um génio e é considerado o pai da relatividade.</example>
                 <example>A barra de estado dá informação diversa e é atualizada em tempo real.</example>
             </rule>
@@ -15852,7 +15856,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- SÃO ... E SÃO ... -->
             <rule>
                 <pattern>
-                    <token>são</token>
+                    <token>são
+                        <exception scope="previous" regexp="yes">não|nunca|jamais|nem|tampouco</exception>
+                    </token>
                     <token postag="VMP00.+" postag_regexp="yes"/>
                     <marker>
                         <token>e</token>
@@ -15863,12 +15869,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&simplify_msg;</message>
                 <suggestion>e \5</suggestion>
                 <example correction="e arquivados">Os documentos são examinados <marker>e são arquivados</marker>.</example>
+                <example>Os documentos não são examinados e são arquivados.</example>
+                <example>Os documentos jamais são examinados e são arquivados.</example>
             </rule>
 
             <!-- FOI ... E FOI ... -->
             <rule>
                 <pattern>
-                    <token>foi</token>
+                    <token>foi
+                        <exception scope="previous" regexp="yes">não|nunca|jamais|nem|tampouco</exception>
+                    </token>
                     <token postag="VMP00.+" postag_regexp="yes"/>
                     <marker>
                         <token>e</token>
@@ -15879,6 +15889,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&simplify_msg;</message>
                 <suggestion>e \5</suggestion>
                 <example correction="e aprovada">A proposta foi apresentada <marker>e foi aprovada</marker>.</example>
+                <example>A proposta não foi apresentada e foi aprovada.</example>
+                <example>A proposta nunca foi apresentada e foi aprovada.</example>
                 <example>Ele escondeu-se e foi capturado em maio.</example>
                 <example>Tom apagou a luz e foi dormir.</example>
                 <example>Começou tímido, e foi soltando uma lista que parecia não acabar.</example>
@@ -15887,7 +15899,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- FORAM ... E FORAM ... -->
             <rule>
                 <pattern>
-                    <token>foram</token>
+                    <token>foram
+                        <exception scope="previous" regexp="yes">não|nunca|jamais|nem|tampouco</exception>
+                    </token>
                     <token postag="VMP00.+" postag_regexp="yes"/>
                     <marker>
                         <token>e</token>
@@ -15898,6 +15912,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <message>&simplify_msg;</message>
                 <suggestion>e \5</suggestion>
                 <example correction="e discutidas">As ideias foram estudadas <marker>e foram discutidas</marker>.</example>
+                <example>As ideias não foram estudadas e foram discutidas.</example>
+                <example>As ideias tampouco foram estudadas e foram discutidas.</example>
             </rule>
         </rulegroup>
 
