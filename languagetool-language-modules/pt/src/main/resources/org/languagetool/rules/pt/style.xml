@@ -15825,48 +15825,98 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </rule>
         </rulegroup>
 
-        <!-- E É/SÃO/FOI/FORAM VERBO sendo/sido/e verbo -->
-        <rule id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="✂️ E é/são/foi/foram + V. → [sendo/sido/e] + V." type="style" tags='picky'>
+
+        <rulegroup id='E_É_SÃO_FOI_FORAM_SENDO_SIDO' name="✂️ Repetição de ser + particípio → coordenação de particípios" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!--      Created byMarco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-04-25 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-      Ele escondeu-se e foi capturado em maio. → Ele escondeu-se sendo capturado em maio.
-      Einstein é um génio e é considerado o pai da relatividade. → Einstein é um génio considerado o pai da relatividade.
-      A barra de status dá informação diversa e é atualizada em tempo real. → A barra de status dá informação diversa atualizada em tempo real.
-      -->
-            <antipattern>
-                <token postag="SENT_START"/>
-                <token>e</token>
-            </antipattern>
-            <antipattern>
-                <token regexp='yes'>vitamina|\p{Lu}.*|\)|·</token>
-                <token>e</token>
-            </antipattern>
-            <antipattern>
-                <token>foi</token>
-                <token postag="V.N.*" postag_regexp="yes"/>
-            </antipattern>
-            <pattern>
-                <token negate_pos="yes" postag='SENT_START'/>
-                <marker>
-                    <token>e</token>
-                    <token regexp='yes'>é|são|foi|foram</token>
-                    <token postag='V.+' postag_regexp='yes'>
-                        <exception postag_regexp='yes' postag='NP.+|SPS00.PD0NN00|VMG0000|RG'/>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!-- Restrict simplification to repeated affirmative auxiliaries followed by participles. -->
+
+            <!-- É ... E É ... -->
+            <rule>
+                <pattern>
+                    <token>é
+                        <exception scope="previous" regexp="yes">não|nunca|jamais|nem|tampouco</exception>
                     </token>
-                </marker>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>sendo \4</suggestion>
-            <suggestion>sido \4</suggestion>
-            <suggestion>e \4</suggestion>
-            <suggestion>\4</suggestion>
-            <suggestion>tendo sido \4</suggestion>
-            <example correction="sendo considerado|sido considerado|e considerado|considerado|tendo sido considerado">Einstein é um génio <marker>e é considerado</marker> o pai da relatividade.</example>
-            <example>Ele escondeu-se sendo capturado em maio.</example>
-            <example>Começou tímido, e foi soltando uma lista que parecia não acabar, de tanto assunto.</example>
-            <example>Tom apagou a luz e foi dormir.</example>
-        </rule>
+                    <token postag="VMP00.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>e</token>
+                        <token>é</token>
+                        <token postag="VMP00.+" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>e \5</suggestion>
+                <example correction="e aprovado">O trabalho é analisado <marker>e é aprovado</marker>.</example>
+                <example>O trabalho não é analisado e é aprovado.</example>
+                <example>O trabalho nunca é analisado e é aprovado.</example>
+                <example>Einstein é um génio e é considerado o pai da relatividade.</example>
+                <example>A barra de estado dá informação diversa e é atualizada em tempo real.</example>
+            </rule>
+
+            <!-- SÃO ... E SÃO ... -->
+            <rule>
+                <pattern>
+                    <token>são
+                        <exception scope="previous" regexp="yes">não|nunca|jamais|nem|tampouco</exception>
+                    </token>
+                    <token postag="VMP00.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>e</token>
+                        <token>são</token>
+                        <token postag="VMP00.+" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>e \5</suggestion>
+                <example correction="e arquivados">Os documentos são examinados <marker>e são arquivados</marker>.</example>
+                <example>Os documentos não são examinados e são arquivados.</example>
+                <example>Os documentos jamais são examinados e são arquivados.</example>
+            </rule>
+
+            <!-- FOI ... E FOI ... -->
+            <rule>
+                <pattern>
+                    <token>foi
+                        <exception scope="previous" regexp="yes">não|nunca|jamais|nem|tampouco</exception>
+                    </token>
+                    <token postag="VMP00.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>e</token>
+                        <token>foi</token>
+                        <token postag="VMP00.+" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>e \5</suggestion>
+                <example correction="e aprovada">A proposta foi apresentada <marker>e foi aprovada</marker>.</example>
+                <example>A proposta não foi apresentada e foi aprovada.</example>
+                <example>A proposta nunca foi apresentada e foi aprovada.</example>
+                <example>Ele escondeu-se e foi capturado em maio.</example>
+                <example>Tom apagou a luz e foi dormir.</example>
+                <example>Começou tímido, e foi soltando uma lista que parecia não acabar.</example>
+            </rule>
+
+            <!-- FORAM ... E FORAM ... -->
+            <rule>
+                <pattern>
+                    <token>foram
+                        <exception scope="previous" regexp="yes">não|nunca|jamais|nem|tampouco</exception>
+                    </token>
+                    <token postag="VMP00.+" postag_regexp="yes"/>
+                    <marker>
+                        <token>e</token>
+                        <token>foram</token>
+                        <token postag="VMP00.+" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>e \5</suggestion>
+                <example correction="e discutidas">As ideias foram estudadas <marker>e foram discutidas</marker>.</example>
+                <example>As ideias não foram estudadas e foram discutidas.</example>
+                <example>As ideias tampouco foram estudadas e foram discutidas.</example>
+            </rule>
+        </rulegroup>
+
 
         <rulegroup id='E_NÃO_VERB_SEM_VERBINFINITIVE' name="✂️ E não + Verbo → Sem + V.Inf." type='style' default="off">
             <!--IDEA shorten_it-->
