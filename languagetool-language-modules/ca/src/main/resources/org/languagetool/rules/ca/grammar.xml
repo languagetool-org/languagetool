@@ -46312,7 +46312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>la crisi de la Fiat</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LA_LHA_TRETA" name="la / l'ha treta" default="temp_off">
+        <rulegroup id="LA_LHA_TRETA" name="la / l'ha treta">
             <rule>
                 <pattern raw_pos="yes">
                     <token postag="PT.*" postag_regexp="yes"/>
@@ -46329,7 +46329,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- too greedy -->
                 <pattern raw_pos="yes">
-                    <token postag="_GN_FS" postag_regexp="yes"/>
+                    <token postag="NC[FC]S000|A..[FC]S.|V.P..SF." postag_regexp="yes"/>
                     <marker>
                         <token>la<exception scope="previous" postag="SPS00|LOC_PREP|V.*" postag_regexp="yes"/></token>
                     </marker>
@@ -136501,6 +136501,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="REALITZAR" name="realitzar (abusiu)">
             <url>https://esadir.cat/entrades/fitxa/id/2226</url>
             <!-- <url>https://www.ub.edu/llibre-estil/criteri.php?id=937</url> -->
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">realitzar</token>
+                    </marker>
+                    <token>els</token>
+                    <token min="0">seus</token>
+                    <token>estudis</token>
+                </pattern>
+                <message>Ús abusiu del v. 'realitzar'. Considereu una opció alternativa.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">cursar</match></suggestion>
+                <example correction="cursar">Va <marker>realitzar</marker> els seus estudis de música al conservatori de París.</example>
+                <example correction="cursar">Va <marker>realitzar</marker> els estudis de música al conservatori de París.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token inflected="yes">sol·licitud</token>
