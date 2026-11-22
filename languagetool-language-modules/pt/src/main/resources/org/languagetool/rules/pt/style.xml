@@ -16302,18 +16302,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- QUE NÃO DÁ PARA VOLTAR ATRÁS irreversível -->
-        <rule id='NÃO_DÁ_PARA_VOLTAR_ATRÁS_IRREVERSÍVEL' name="✂️ 'que não dá para voltar atrás' → 'irreversível'" tone_tags="formal" type="style">
+        <rule id='NÃO_DÁ_PARA_VOLTAR_ATRÁS_IRREVERSÍVEL' name="✂️ 'que não dá para voltar atrás' → 'irreversível'" tone_tags='formal' type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-05-29 (2-MAR-2023+) -->
-            <!--
-            É uma situação que não dá para voltar atrás. → É uma situação irreversível.
-            É uma situação em que não dá para voltar atrás. → É uma situação irreversível.
-            São situações que não dá para voltar atrás. → São situações irreversíveis.
-            -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
                 <token postag='DA.+|DI.+|V.+' postag_regexp='yes'/>
-                <token postag='NC.+' postag_regexp='yes'/>
+                <token regexp='yes' postag='NC.[SP]000' postag_regexp='yes'>situação|situações|decisão|decisões|mudança|mudanças|alteração|alterações|transformação|transformações|medida|medidas|processo|processos</token>
                 <marker>
                     <token min='0' max='1'>em</token>
                     <token>que</token>
@@ -16325,11 +16320,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion><match no='2' postag='NC.(.)000' postag_replace='AQ0C$10'>irreversível</match></suggestion>
+            <suggestion><match no='2' postag='NC.(.)000' postag_regexp='yes' postag_replace='AQ0C$10'>irreversível</match></suggestion>
             <example correction="irreversível">É uma situação <marker>que não dá para voltar atrás</marker>.</example>
             <example correction="irreversível">É uma situação <marker>em que não dá para voltar atrás</marker>.</example>
             <example correction="irreversíveis">São situações <marker>que não dá para voltar atrás</marker>.</example>
+            <example correction="irreversíveis">São decisões <marker>em que não dá para voltar atrás</marker>.</example>
+            <example correction="irreversível">É um processo <marker>em que não dá para voltar atrás</marker>.</example>
+            <example>Foi um momento em que não dá para voltar atrás.</example>
+            <example>Chegámos a um ponto em que não dá para voltar atrás.</example>
+            <example>Existem circunstâncias em que não dá para voltar atrás.</example>
         </rule>
+
 
         <!-- O DESENVOLVIMENTO DE desenvolver -->
         <rulegroup id="VERBAL_NOUNS_TO_VERB" name="✂️ NC Verbais para V.Inf.: 'o -mento de'/'a -ção de' → '-ar/-er/-ir'" type="style" tags="picky">
