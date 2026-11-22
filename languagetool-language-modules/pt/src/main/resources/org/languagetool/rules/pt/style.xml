@@ -16170,26 +16170,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- PRONTO A ENTREGAR E QUE MAIS NADA ERA NECESSÁRIO Pronto a entregar e nada mais era necessário -->
-        <rule id='E_QUE_ADV_VERBO_NADA_E_NADA_ADV_VERBO' name="✂️ e/ou + que + Adv/Verbo + nada → e/ou + nada + Adv/Verbo" type='style'>
+        <rule id='E_QUE_ADV_VERBO_NADA_E_NADA_ADV_VERBO' name="e/ou que mais nada → e/ou que nada mais" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-05 (25-JUL-2022+) -->
-            <!--
-      Ele disse estar pronto a entregar e que mais nada era necessário. → Ele disse estar pronto a entregar e nada mais era necessário.
-      Ele disse já ter jantado, e que quer nada para comer. → Ele disse já ter jantado, e nada quer para comer.
-      -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
+                <token regexp='yes'>e|ou</token>
+                <token>que</token>
                 <marker>
-                    <token regexp='yes'>e|ou</token>
-                    <token>que</token>
-                    <token postag='V.+|RG' postag_regexp='yes'/>
+                    <token>mais</token>
                     <token>nada</token>
                 </marker>
             </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>\1 \4 \3</suggestion>
-            <example correction="e nada mais">Ele disse estar pronto a entregar <marker>e que mais nada</marker> era necessário.</example>
-            <example correction="e nada quer">Ele disse já ter jantado, <marker>e que quer nada</marker> para comer.</example>
+            <message>Considere a ordem &quot;nada mais&quot;, mantendo a estrutura da oração.</message>
+            <suggestion>nada mais</suggestion>
+            <example correction="nada mais">Ele afirmou que estava tudo preparado e que <marker>mais nada</marker> era necessário.</example>
+            <example correction="nada mais">O relatório confirmou que os testes terminaram e que <marker>mais nada</marker> precisava de ser analisado.</example>
+            <example type="correct">Ele afirmou que estava tudo preparado e que nada mais era necessário.</example>
+            <example type="correct">O relatório confirmou que os testes terminaram e que já nada precisava de ser analisado.</example>
+            <example type="correct">O relatório confirmou que os testes terminaram e que absolutamente nada precisava de ser analisado.</example>
         </rule>
 
 
