@@ -86170,7 +86170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern case_sensitive="yes">
                 <token>Palau</token>
                 <token>d'</token>
-                <token>Hivern</token>
+                <token regexp="yes">Hivern|Estiu</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token>Primavera</token>
@@ -157422,6 +157422,18 @@ No t'ho explicaré, no cal que em burxis més-->
             </rule>
         </rulegroup>
         <rulegroup id="DONAR_COMPTE" name="*donar-se compte/adonar-se">
+            <antipattern>
+                <token inflected="yes">es</token>
+                <token min="0" max="6" postag="[VSP].*" postag_regexp="yes"><exception inflected="yes">donar</exception></token>
+                <token inflected="yes">donar</token>
+                <token>compte</token>
+                <token skip="1" regexp="yes">a|en</token>
+                <token regexp="yes">ple|plenari|congrés|ajuntament|conselleria|ministeri|ministre|govern|conseller|alcalde|batl?le|senat|superior|hisenda|direcció|director|president|presidència</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SPS00"/>
+                <token>compte</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes">adonar</token>
@@ -157437,18 +157449,27 @@ No t'ho explicaré, no cal que em burxis més-->
                 <example correction="">Va adonar-se'n <marker>compte</marker> massa tard.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token inflected="yes">es</token>
-                    <token min="0" max="6" postag="[VSP].*" postag_regexp="yes"><exception inflected="yes">donar</exception></token>
-                    <token inflected="yes">donar</token>
+                <pattern>
+                    <and>
+                        <token inflected="yes">donar</token>
+                        <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                    </and>
                     <token>compte</token>
-                    <token skip="1" regexp="yes">a|en</token>
-                    <token regexp="yes">ple|plenari|congrés|ajuntament|conselleria|ministeri|ministre|govern|conseller|alcalde|batl?le|senat|superior|hisenda|direcció|director|president|presidència</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SPS00"/>
-                    <token>compte</token>
-                </antipattern>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.AdjustVerbSuggestionsFilter" args="numberFromNextWords:false"/>
+                <message>"Donar-se compte" és una expressió incorrecta si equival a 'adonar-se'; és correcta si vol dir 'retre compte'.</message>
+                <suggestion>adonar-se</suggestion>
+                <example correction="s'adonin">Això farà que alguns <marker>es donin compte</marker> que la situació és irreversible.</example>
+                <example correction="Te n'has adonat"><marker>Te n'has donat compte</marker>?</example>
+                <example correction="Es va adonar"><marker>Es va donar compte</marker> de l'error.</example>
+                <example correction="s'adona">Joan <marker>es dóna compte</marker> de l'error.</example>
+                <example correction="Ens vam tornar a adonar"><marker>Ens vàrem tornar a donar compte</marker> de l'error.</example>
+                <example>D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament</example>
+                <example>Encara em cal donar compte d'un altre recull.</example>
+                <example>Michael Kirby ens en dóna compte a Anàlisi estructural.</example>
+                <example>¿De què m’havia d’haver adonat?</example>
+            </rule>
+            <rule>
                 <pattern>
                     <and>
                         <token inflected="yes" skip="6">donar</token>
@@ -157458,13 +157479,8 @@ No t'ho explicaré, no cal que em burxis més-->
                 </pattern>
                 <message>"Donar-se compte" és una expressió incorrecta si equival a 'adonar-se'; és correcta si vol dir 'retre compte'.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">adonar</match></suggestion>
-                <example correction="adonat">Te n'has <marker>donat compte</marker>?</example>
                 <example correction="adonar a vegades">Se n'hauria hagut de <marker>donar a vegades compte</marker>?</example>
                 <example correction="adonant-nos, d'alguna manera,">Vam acabar <marker>donant-nos, d'alguna manera, compte</marker> del que passava.</example>
-                <example correction="adonar">Es va <marker>donar compte</marker> de l'error.</example>
-                <example correction="adonar-te">Vas <marker>donar-te compte</marker> de l'error.</example>
-                <example correction="adona">Joan es <marker>dóna compte</marker> de l'error.</example>
-                <example correction="adonar">Ens vàrem tornar a <marker>donar compte</marker> de l'error.</example>
                 <example>D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament</example>
                 <example>Encara em cal donar compte d'un altre recull.</example>
                 <example>Michael Kirby ens en dóna compte a Anàlisi estructural.</example>
@@ -157499,6 +157515,7 @@ No t'ho explicaré, no cal que em burxis més-->
                 <message>"Donar-se compte" és una expressió incorrecta si equival a 'adonar-se'; és correcta si vol dir 'retre compte'.</message>
                 <suggestion>adonar\2</suggestion>
                 <example correction="adonar-me">Ho vaig escriure després de <marker>donar-me compte</marker> d'això.</example>
+                <example correction="adonar-te">Vas <marker>donar-te compte</marker> de l'error.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PORTAR_EMPORTAR" name="portar-se/emportar-se">
