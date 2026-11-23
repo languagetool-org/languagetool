@@ -16899,47 +16899,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- POIS AFETA ao afetar -->
-        <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="✂️ Pois + Verbo → Ao/por/visto + V.Inf." type='style' tags='picky'>
+        <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="✂️ Pois + verbo → por/ao + infinitivo" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-02/3/4 (27-FEB-2023+) -->
-            <!--
-      O stress é importante, pois, afeta o comportamento humano. → O stress é importante ao afetar o comportamento humano.
-      Os stresses são importantes, pois, afetam o comportamento humano. → Os stresses são importantes ao afetarem o comportamento humano.
-      O que aconteceu em maio foi terrível, pois, atingiu a democracia. → O que aconteceu em maio foi terrível ao atingir a democracia.
-      -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
+            <!-- Exclude concessive constructions: "quer se veja ou não". -->
             <antipattern>
                 <token>pois</token>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                <token postag='CC' postag_regexp='no'/>
-                <token postag='PP3CNO00' postag_regexp='no'/>
+                <token min='0' max='1'>,</token>
+                <token>quer</token>
+                <token>se</token>
                 <token postag='VMSP.+' postag_regexp='yes'/>
-                <example>O parâmetro é ignorado, pois, quer se veja ou não o resultado é o correto.</example>
             </antipattern>
 
             <pattern>
-                <token><exception postag_regexp='yes' postag='SENT_START|VMIP3.+'/></token>
+                <token>
+                    <exception postag='SENT_START|VMIP3.+' postag_regexp='yes'/>
+                </token>
                 <marker>
-                    <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                    <token>pois
-                        <exception scope='previous' regexp='yes'>[/():;]|&tracos_de_separacao;</exception>
-                    </token>
-                    <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
-                    <token postag='VMI[PS]3.+' postag_regexp='yes'>
-                        <exception regexp='yes' inflected='yes'>&verbos_muito_incomuns;</exception>
-                    </token>
+                    <token>,</token>
+                    <token>pois</token>
+                    <token min='0' max='1'>,</token>
+                    <token postag='VMI[PS]3[SP]0' postag_regexp='yes'/>
                 </marker>
-                <token><exception postag_regexp='yes' postag='VMG0000|xxxx'/></token>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion>, ao <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <suggestion> ao <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <suggestion>, por <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <suggestion> por <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <example correction=", ao afetar| ao afetar|, por afetar| por afetar">O stress é importante<marker>, pois, afeta</marker> o comportamento humano.</example>
-            <example correction=", ao afetarem| ao afetarem|, por afetarem| por afetarem">Os stresses são importantes<marker>, pois, afetam</marker> o comportamento humano.</example>
-            <example correction=", ao atingir| ao atingir|, por atingir| por atingir">O que aconteceu em maio foi terrível<marker>, pois, atingiu</marker> a democracia.</example>
+            <suggestion>, por <match no='5' postag='VMI[PS]3([SP])0' postag_regexp='yes' postag_replace='VMN03$10'/></suggestion>
+            <suggestion> por <match no='5' postag='VMI[PS]3([SP])0' postag_regexp='yes' postag_replace='VMN03$10'/></suggestion>
+            <suggestion>, ao <match no='5' postag='VMI[PS]3([SP])0' postag_regexp='yes' postag_replace='VMN03$10'/></suggestion>
+            <suggestion> ao <match no='5' postag='VMI[PS]3([SP])0' postag_regexp='yes' postag_replace='VMN03$10'/></suggestion>
+            <example correction=", por afetar| por afetar|, ao afetar| ao afetar">O stress é importante<marker>, pois, afeta</marker> o comportamento humano.</example>
+            <example correction=", por afetarem| por afetarem|, ao afetarem| ao afetarem">Os stresses são importantes<marker>, pois, afetam</marker> o comportamento humano.</example>
+            <example correction=", por atingir| por atingir|, ao atingir| ao atingir">O que aconteceu em maio foi terrível<marker>, pois, atingiu</marker> a democracia.</example>
+            <example correction=", por afetar| por afetar|, ao afetar| ao afetar">O stress é importante<marker>, pois afeta</marker> o comportamento humano.</example>
+            <example correction=", por afetarem| por afetarem|, ao afetarem| ao afetarem">Os stresses são importantes<marker>, pois afetam</marker> o comportamento humano.</example>
+            <example correction=", por afetar| por afetar|, ao afetar| ao afetar">A medida<marker>, pois afeta</marker> os alunos, será revista.</example>
+            <example correction=", por afetarem| por afetarem|, ao afetarem| ao afetarem">As medidas<marker>, pois afetam</marker> os alunos, serão revistas.</example>
+            <example>O parâmetro é ignorado, pois, quer se veja ou não o resultado é o correto.</example>
+            <example>O stress não é importante, pois não afeta o comportamento humano.</example>
+            <example>O problema existe, pois ele afeta toda a população.</example>
+            <example>Ele afirma, pois faz sentido.</example>
         </rule>
 
 
