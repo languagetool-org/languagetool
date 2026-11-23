@@ -16942,95 +16942,88 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- POR ANO anuais -->
-        <rulegroup id='POR_ANO_MÊS_SEMANA_DIA_ANUAL_MENSAL_SEMANAL_DIÁRIO_V2' name="✂️ por ano/mês/semana/dia → anual/mensal/semanal/diário" type="style" tags="picky">
+        <rulegroup id='POR_ANO_MÊS_SEMANA_DIA_ANUAL_MENSAL_SEMANAL_DIÁRIO_V2' name="✂️ por ano/mês/semana/dia → anual/mensal/semanal/diário" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-08 (2-MAR-2023+) -->
-            <!--
-      O LibreOffice tem milhares de downloads por ano. → O LibreOffice tem milhares de downloads anuais.
-      O LibreOffice tem milhares de downloads por mês. → O LibreOffice tem milhares de downloads mensais.
-      O LibreOffice tem milhares de downloads por semana. → O LibreOffice tem milhares de downloads semanais.
-      O LibreOffice tem milhares de downloads por dia. → O LibreOffice tem milhares de downloads diários.
-      -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-            <!-- ano -->
+            <!-- por ano → anual/anualmente -->
             <rule>
                 <pattern>
-                    <token postag='DI.+|V.+|Z0.+|SPS00|DA.+' postag_regexp='yes'/>
-                    <token min="0" max="1" postag='DD.+' postag_regexp='yes'/>
-                    <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
-                    <token postag='SPS00' postag_regexp='no'/>
-                    <token postag='NC.P.+' postag_regexp='yes'/>
+                    <token postag='NC[MF]P000' postag_regexp='yes'/>
                     <marker>
-                        <token regexp='no'>por</token>
-                        <token regexp='no'>ano</token>
+                        <token>por</token>
+                        <token>ano</token>
                     </marker>
-                    <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'/>
+                    <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'>
+                        <exception regexp='yes'>de|d[ao]s?</exception>
+                    </token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='5' postag='NC.(.)000' postag_replace='AQ0C$10'>anual</match></suggestion>
+                <suggestion><match no='1' postag='NC.(.)000' postag_replace='AQ0C$10'>anual</match></suggestion>
                 <suggestion>anualmente</suggestion>
                 <example correction="anuais|anualmente">O LibreOffice tem milhares de downloads <marker>por ano</marker>.</example>
+                <example correction="anuais|anualmente">O programa regista muitos acessos <marker>por ano</marker> em Portugal.</example>
+                <example>O serviço custa cinquenta euros por ano de contrato.</example>
             </rule>
 
-            <!-- mês -->
+            <!-- por mês → mensal/mensalmente -->
             <rule>
                 <pattern>
-                    <token postag='DI.+|V.+|Z0.+|SPS00|DA.+' postag_regexp='yes'/>
-                    <token min="0" max="1" postag='DD.+' postag_regexp='yes'/>
-                    <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
-                    <token postag='SPS00' postag_regexp='no'/>
-                    <token postag='NC.P.+' postag_regexp='yes'/>
+                    <token postag='NC[MF]P000' postag_regexp='yes'/>
                     <marker>
-                        <token regexp='no'>por</token>
-                        <token regexp='no'>mês</token>
+                        <token>por</token>
+                        <token>mês</token>
                     </marker>
-                    <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'/>
+                    <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'>
+                        <exception regexp='yes'>de|d[ao]s?</exception>
+                    </token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='5' postag='NC.(.)000' postag_replace='AQ0C$10'>mensal</match></suggestion>
+                <suggestion><match no='1' postag='NC.(.)000' postag_replace='AQ0C$10'>mensal</match></suggestion>
                 <suggestion>mensalmente</suggestion>
                 <example correction="mensais|mensalmente">O LibreOffice tem milhares de downloads <marker>por mês</marker>.</example>
+                <example correction="mensais|mensalmente">A empresa recebe muitas encomendas <marker>por mês</marker>.</example>
+                <example>A taxa é de cinquenta euros por mês de subscrição.</example>
             </rule>
 
-            <!-- semana -->
+            <!-- por semana → semanal/semanalmente -->
             <rule>
                 <pattern>
-                    <token postag='DI.+|V.+|Z0.+|SPS00|DA.+' postag_regexp='yes'/>
-                    <token min="0" max="1" postag='DD.+' postag_regexp='yes'/>
-                    <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
-                    <token postag='SPS00' postag_regexp='no'/>
-                    <token postag='NC.P.+' postag_regexp='yes'/>
+                    <token postag='NC[MF]P000' postag_regexp='yes'/>
                     <marker>
-                        <token regexp='no'>por</token>
-                        <token regexp='no'>semana</token>
+                        <token>por</token>
+                        <token>semana</token>
                     </marker>
-                    <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'/>
+                    <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'>
+                        <exception regexp='yes'>de|d[ao]s?</exception>
+                    </token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='5' postag='NC.(.)000' postag_replace='AQ0C$10'>semanal</match></suggestion>
+                <suggestion><match no='1' postag='NC.(.)000' postag_replace='AQ0C$10'>semanal</match></suggestion>
                 <suggestion>semanalmente</suggestion>
                 <example correction="semanais|semanalmente">O LibreOffice tem milhares de downloads <marker>por semana</marker>.</example>
+                <example correction="semanais|semanalmente">A equipa realiza várias reuniões <marker>por semana</marker>.</example>
+                <example>O relatório apresenta os resultados por semana de atividade.</example>
             </rule>
 
-            <!-- dia -->
+            <!-- por dia → diário/diariamente -->
             <rule>
                 <pattern>
-                    <token postag='DI.+|V.+|Z0.+|SPS00|DA.+' postag_regexp='yes'/>
-                    <token min="0" max="1" postag='DD.+' postag_regexp='yes'/>
-                    <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
-                    <token postag='SPS00' postag_regexp='no'/>
-                    <token postag='NC.P.+' postag_regexp='yes'/>
+                    <token postag='NC[MF]P000' postag_regexp='yes'/>
                     <marker>
-                        <token regexp='no'>por</token>
-                        <token regexp='no'>dia</token>
+                        <token>por</token>
+                        <token>dia</token>
                     </marker>
-                    <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'/>
+                    <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'>
+                        <exception regexp='yes'>de|d[ao]s?</exception>
+                    </token>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion><match no='5' postag='NC(..)000' postag_replace='AQ0$10'>diário</match></suggestion>
+                <suggestion><match no='1' postag='NC(..)000' postag_replace='AQ0$10'>diário</match></suggestion>
                 <suggestion>diariamente</suggestion>
                 <example correction="diários|diariamente">O LibreOffice tem milhares de downloads <marker>por dia</marker>.</example>
+                <example correction="diárias|diariamente">O hospital recebe muitas visitas <marker>por dia</marker>.</example>
+                <example>O pagamento é calculado por dia de trabalho.</example>
             </rule>
 
         </rulegroup>
