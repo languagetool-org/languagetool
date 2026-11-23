@@ -16636,22 +16636,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- PARA QUE para -->
-        <rulegroup id='SIMPLIFICAR_PARA_QUE_PARA' name="✂️ para que → para" type='style' tags='picky'>
+        <rulegroup id='SIMPLIFICAR_PARA_QUE_PARA' name="✂️ 'para que' + sujeito + conjuntivo → 'para' + sujeito + infinitivo pessoal" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-23/24/26 (25-JUL-2022+) -->
-            <!--
-      Um salto foi suficiente para que a macaca atingisse o galho? → Um salto foi suficiente para a macaca atingir o galho?
-      Um salto foi suficiente para que as macacas atingissem o galho? → Um salto foi suficiente para as macacas atingirem o galho?
-      Os criminosos causam estragos para que o mundo saiba que eles existem. → Os criminosos causam estragos para o mundo saber que eles existem.
-      Os criminosos causam estragos para que os povos saibam que eles existem. → Os criminosos causam estragos para os povos saberem que eles existem.
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-      Um salto foi suficiente para que a sua macaca atingisse o galho? → Um salto foi suficiente para a sua macaca atingir o galho?
-      Um salto foi suficiente para que as suas macacas atingissem o galho? → Um salto foi suficiente para as suas macacas atingirem o galho?
-      Isto para que o ser humano atue segundo a vontade divina. → Isto para o ser humano atuar segundo a vontade divina.
-      Isto para que os seres humanos atuem segundo a vontade divina. → Isto para os seres humanos atuarem segundo a vontade divina.
-      -->
-
+            <!-- #1: Sujeito com determinante + nome/adjetivo -->
             <rule>
                 <pattern>
                     <marker>
@@ -16659,17 +16648,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token>que</token>
                         <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
                         <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                        <token postag='VMSI3.+|VMM03.+' postag_regexp='yes'/>
+                        <token postag='VM(S[PI]|M0)3[SP]0' postag_regexp='yes'>
+                            <exception scope='next' regexp='yes'>e|ou</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>\1 \3 \4 <match no='5' postag='VM..3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+                <suggestion>\1 \3 \4 <match no='5' postag='VM..3([SP])0' postag_regexp='yes' postag_replace='VMN03$10'/></suggestion>
                 <example correction="para a macaca atingir">Um salto foi suficiente <marker>para que a macaca atingisse</marker> o galho?</example>
                 <example correction="para as macacas atingirem">Um salto foi suficiente <marker>para que as macacas atingissem</marker> o galho?</example>
                 <example correction="para o mundo saber">Os criminosos causam estragos <marker>para que o mundo saiba</marker> que eles existem.</example>
                 <example correction="para os povos saberem">Os criminosos causam estragos <marker>para que os povos saibam</marker> que eles existem.</example>
+                <example correction="para os alunos aprenderem">Criámos esta ferramenta <marker>para que os alunos aprendam</marker> mais facilmente.</example>
+                <example>Investimos em educação para que os alunos estudem e aprendam.</example>
+                <example>Os pais trabalham para que a criança não passe dificuldades.</example>
             </rule>
 
+            <!-- #2: Sujeito com determinante + dois elementos nominais -->
             <rule>
                 <pattern>
                     <marker>
@@ -16678,18 +16673,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                         <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
                         <token postag='DP.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
                         <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                        <token postag='VMSI3.+|VMM03.+' postag_regexp='yes'/>
+                        <token postag='VM(S[PI]|M0)3[SP]0' postag_regexp='yes'>
+                            <exception scope='next' regexp='yes'>e|ou</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>&simplify_msg;</message>
-                <suggestion>\1 \3 \4 \5 <match no='6' postag='VM..3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+                <suggestion>\1 \3 \4 \5 <match no='6' postag='VM..3([SP])0' postag_regexp='yes' postag_replace='VMN03$10'/></suggestion>
                 <example correction="para a sua macaca atingir">Um salto foi suficiente <marker>para que a sua macaca atingisse</marker> o galho?</example>
                 <example correction="para as suas macacas atingirem">Um salto foi suficiente <marker>para que as suas macacas atingissem</marker> o galho?</example>
                 <example correction="para o ser humano atuar">Isto <marker>para que o ser humano atue</marker> segundo a vontade divina.</example>
                 <example correction="para os seres humanos atuarem">Isto <marker>para que os seres humanos atuem</marker> segundo a vontade divina.</example>
-
+                <example correction="para a nossa equipa vencer">Treinámos intensamente <marker>para que a nossa equipa vencesse</marker> a competição.</example>
+                <example>Trabalhamos para que a nossa equipa evolua e melhore.</example>
+                <example>Fizemos alterações para que os nossos programas não falhassem.</example>
             </rule>
-
         </rulegroup>
 
 
