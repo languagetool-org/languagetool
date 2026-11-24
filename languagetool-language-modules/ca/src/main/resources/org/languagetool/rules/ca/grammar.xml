@@ -54436,6 +54436,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.N.*" postag_regexp="yes"/>
                 <example>No vaig saber què dir-li perquè no sabia ben bé què havia passat.</example>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">ser</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
+                <token>perquè</token>
+                <example>Va ser investigada perquè aleshores era la directora executiva.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">no|tampoc|ni</token>
@@ -150956,7 +150962,7 @@ No t'ho explicaré, no cal que em burxis més-->
             <rule id="COMMA_SUBJECTE_PREDICAT_WIKI" name="Jaume I (Montpeller-Vallència), fou sobirà." default="temp_off">
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="NP.*" postag_regexp="yes" skip="6"><exception scope="next">,</exception><exception scope="next" postag="V.*1RG|LOC_ADV" postag_regexp="yes"/></token>
+                    <token postag="NP.*" postag_regexp="yes" skip="6"><exception scope="next">,</exception><exception postag="V.*|RG|LOC_ADV|A.*" postag_regexp="yes"/><exception scope="next" postag="V.*|RG|LOC_ADV" postag_regexp="yes"/><exception regexp="yes" inflected="yes">&professions;|&carrecs;</exception></token>
                     <token skip="30">(</token>
                     <token>)</token>
                     <marker>
@@ -150968,6 +150974,15 @@ No t'ho explicaré, no cal que em burxis més-->
                 <message>Probablement sobra la coma entre subjecte i predicat.</message>
                 <suggestion/>
                 <example correction="">Jaume I (Montpeller-València)<marker>,</marker> fou rei sobirà.</example>
+                <example correction="">Francesc Serés (Saidí, 1972)<marker>,</marker> és autor d’Els ventres de la terra (2000)</example>
+                <example correction="">Pinotxo (en italià Pinocchio)<marker>,</marker> és el titella de fusta protagonista del llibre “Le aventure di Pinocchio”.</example>
+                <example correction="">Pau Audouard Déglaire (Havana,1856 - Barcelona, 1918)<marker>,</marker> és un dels fotògrafs barcelonins més rellevants de finals del segle XIX i principis del XX.</example>
+                <example>Canonge d'Elna (Rosselló), fou enviat a Roma el 1657.</example>
+                <example>Presa per França (1500), fou cedida conjuntament als cantons d'Uri.</example>
+                <example>Bisbe de Neocesarea de Capadòcia (~240), evangelitzà la Capadòcia i el Pont.</example>
+                <example>Bisbe de Cadis (1879), fou enviat pel papa a Gibraltar.</example>
+                <example>Canonge arxiver d'Eivissa per oposició (1913), fundà el Centre d'Acció Social.</example>
+                <example>Sobirà d'Ambohimanga (1787), enfortí la seva autoritat.</example>
             </rule>
             <rule>
                 <pattern>
@@ -157428,11 +157443,20 @@ No t'ho explicaré, no cal que em burxis més-->
                 <token inflected="yes">donar</token>
                 <token>compte</token>
                 <token skip="1" regexp="yes">a|en</token>
-                <token regexp="yes">ple|plenari|congrés|ajuntament|conselleria|ministeri|ministre|govern|conseller|alcalde|batl?le|senat|superior|hisenda|direcció|director|president|presidència</token>
+                <token regexp="yes">ple|plenari|congrés|ajuntament|conselleria|ministeri|ministre|govern|conseller|alcalde|batl?le|senat|superior|hisenda|direcció|director|president|presidència|comissió|comitè</token>
             </antipattern>
             <antipattern>
                 <token postag="SPS00"/>
                 <token>compte</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">donar</token>
+                <token>compte</token>
+                <token regexp="yes">de|d'</token>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">pla|informe|report</token>
+                <example>També s’ha donat compte dels plans tècnics de gestió cinegètica.</example>
+                <example>En el decurs del Ple s’ha donat compte de l’Informe de la Comissió Permanent.</example>
             </antipattern>
             <rule>
                 <pattern>
