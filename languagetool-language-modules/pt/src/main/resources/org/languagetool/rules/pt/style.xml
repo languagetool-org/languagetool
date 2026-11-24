@@ -17030,32 +17030,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- POR ISSO aí/assim/daí/isso -->
-        <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="✂️ por isso → aí/assim/daí/isso" type="style" tags="picky">
+        <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="✂️ lamentar por isso + infinitivo → lamentar isso + infinitivo" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
-            <!--
-      Lamento por isso ter acontecido. → Lamento isso ter acontecido.
-      Lamento muito por isso ter acontecido. → Lamento muito isso ter acontecido.
-      -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <rule>
                 <pattern>
                     <token inflected='yes'>lamentar</token>
-                    <token min="0" max="1" negate="yes">por</token>
+                    <token min='0' max='1' regexp='yes'>muito|muitíssimo|imenso|bastante|profundamente|sinceramente|imensamente|enormemente|realmente|verdadeiramente</token>
                     <marker>
                         <token>por</token>
                         <token>isso</token>
                     </marker>
-                    <token min="0" max="1" negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+                    <token min='0' max='1' regexp='yes'>não|já|ainda|nunca|jamais|também|realmente|efetivamente|efectivamente</token>
                     <token postag='VMN0000'/>
                 </pattern>
                 <message>&simplify_msg;</message>
                 <suggestion>isso</suggestion>
                 <example correction="isso">Lamento <marker>por isso</marker> ter acontecido.</example>
                 <example correction="isso">Lamento muito <marker>por isso</marker> ter acontecido.</example>
+                <example correction="isso">Lamento profundamente <marker>por isso</marker> ter acontecido.</example>
+                <example correction="isso">Lamento <marker>por isso</marker> não ter acontecido.</example>
+                <example correction="isso">Lamento muito <marker>por isso</marker> já ter acontecido.</example>
+                <example correction="isso">Lamento sinceramente <marker>por isso</marker> nunca ter acontecido.</example>
                 <example>Lamento isso ter acontecido.</example>
+                <example>Lamento muito isso não ter acontecido.</example>
+                <example>Lamento por isso.</example>
+                <example>Lamento muito por isso.</example>
+                <example>Lamento por isso mesmo.</example>
+                <example>Lamento por isso, mas não posso ajudar.</example>
             </rule>
         </rulegroup>
+
+
         <!-- POUCO IMPORTA não importa -->
         <rule id='POUCO_IMPORTA_NÃO_IMPORTA' name="✂️ 'Pouco' importa → não" type="style" tags="picky" default="off">
             <!--IDEA shorten_it-->
