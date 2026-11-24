@@ -17130,31 +17130,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- QUANDO SE ABRE UMA DEFINIÇÃO ao abrir uma definição -->
-        <rule id='QUANDO_SE_VERBO_TIPO_ABRE_M_AO_VERBO_TIPO_ABRIR_EM_V2' name="✂️ 'Quando se V.Tipo.Abre(m)' → 'Ao [se] V.Tipo.Abrir(em)'" type="style" tags="picky">
+        <rule id='QUANDO_SE_VERBO_TIPO_ABRE_M_AO_VERBO_TIPO_ABRIR_EM_V2' name="✂️ 'Quando se V.Tipo.Abre(m)' → 'Ao V.Tipo.Abrir(em)-se'" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-26 + 2023-05-01/4 (2-MAR-2023+) -->
-            <!--
-      Quando se abre a definição em Modo Avançado. → Ao abrir a definição em Modo Avançado.
-      Quando se abrem várias definições em Modo Avançado. → Ao abrirem várias definições em Modo Avançado.
-      -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
+                <token postag='SENT_START'/>
                 <marker>
-                    <token>quando
-                        <exception scope="previous" postag_regexp='yes' postag='V.+|SPS00|SP000'/>
-                    </token>
+                    <token>quando</token>
                     <token>se</token>
-                    <token postag='VMIP3.+' postag_regexp='yes'/>
+                    <token postag='VMIP3[SP]0' postag_regexp='yes'/>
                 </marker>
-                <token min="0" max="1" postag='SPS00|NC.+|AQ.+' postag_regexp='yes'/>
                 <token postag='DA.+|DI.+' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+|NP.+|V.+|DA.+|DI.+|CS' postag_regexp='yes'/>
+                <token min='0' max='1' postag='AQ.+' postag_regexp='yes'/>
+                <token postag='NC.+' postag_regexp='yes'/>
+                <token min='0' max='1' postag='AQ.+' postag_regexp='yes'/>
+                <token>,</token>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion>ao <match no='3' postag='VMIP3(.).' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <suggestion>ao se <match no='3' postag='VMIP3(.).' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-            <example correction="Ao abrir|Ao se abrir"><marker>Quando se abre</marker> a definição em Modo Avançado.</example>
-            <example correction="Ao abrirem|Ao se abrirem"><marker>Quando se abrem</marker> várias definições em Modo Avançado.</example>
+            <suggestion>ao <match no='4' postag='VMIP3([SP])0' postag_regexp='yes' postag_replace='VMN03$10'/>-se</suggestion>
+            <example correction="Ao abrir-se"><marker>Quando se abre</marker> a definição, aparece uma nova janela.</example>
+            <example correction="Ao abrirem-se"><marker>Quando se abrem</marker> várias definições, aparecem novas janelas.</example>
+            <example correction="Ao fechar-se"><marker>Quando se fecha</marker> a janela principal, termina a execução.</example>
+            <example correction="Ao alterarem-se"><marker>Quando se alteram</marker> os valores, o gráfico é atualizado.</example>
+            <example>Quando se abre a definição?</example>
+            <example>Quando se abrem as portas?</example>
+            <example>Não sei quando se abre a definição.</example>
+            <example>É importante saber quando se alteram os valores.</example>
+            <example>Quando se trata de informática, tudo é possível.</example>
+            <example>Quando se abre a porta é que começa o problema.</example>
         </rule>
 
 
