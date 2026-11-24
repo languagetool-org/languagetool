@@ -17063,23 +17063,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- POUCO IMPORTA não importa -->
-        <rule id='POUCO_IMPORTA_NÃO_IMPORTA' name="✂️ 'Pouco' importa → não" type="style" tags="picky" default="off">
+        <rule id='POUCO_IMPORTA_NÃO_IMPORTA' name="✂️ 'Pouco' importa → não" type='style' tags='picky' default='on'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-21 (2-MAR-2023+) -->
-            <!--
-            Pouco importa a distância, a amizade é eterna. → Não importa a distância, a amizade é eterna.
-            -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
             <pattern>
+                <token postag='SENT_START'/>
                 <marker>
                     <token>pouco</token>
                 </marker>
                 <token>importa</token>
-                <token postag='SPS00|(SPS00:)?D[AI].+|PP3CN000' postag_regexp='yes'/> <!-- PP3CN000="se" -->
+                <token>se</token>
+                <token postag='VMIP[123][SP]0' postag_regexp='yes'/>
+                <token>ou</token>
+                <token>não</token>
+                <token regexp='yes'>[.!]</token>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>não</suggestion>
-            <example correction="Não"><marker>Pouco</marker> importa a distância, a amizade é eterna.</example>
+            <example correction="Não"><marker>Pouco</marker> importa se chove ou não.</example>
+            <example correction="Não"><marker>Pouco</marker> importa se concordas ou não.</example>
+            <example correction="Não"><marker>Pouco</marker> importa se funciona ou não!</example>
+            <example>Pouco importa a distância, a amizade é eterna.</example>
+            <example>Pouco importa se chove.</example>
+            <example>Este pormenor pouco importa para o resultado final.</example>
+            <example>Pouco importa o dinheiro quando temos saúde.</example>
         </rule>
 
 
