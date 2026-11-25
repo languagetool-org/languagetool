@@ -17208,12 +17208,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token>que</token>
             </antipattern>
 
-            <!-- Avoid breaking coordinated predicates. -->
+            <!-- Avoid breaking coordinated predicates,
+                 including those with long agent phrases. -->
             <antipattern>
                 <token>que</token>
                 <token regexp='yes'>é|são</token>
                 <token postag='RG|RM' postag_regexp='yes'/>
-                <token postag='VMP00.+' postag_regexp='yes' skip='5'/>
+                <token postag='VMP00.+' postag_regexp='yes' skip='-1'>
+                    <exception scope='next' regexp='yes'>[.!?;:]</exception>
+                </token>
                 <token regexp='yes'>e|ou|mas|nem</token>
             </antipattern>
 
@@ -17241,6 +17244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Mas Paulo o descreveu como um soldado famoso e valente, de forma que é frequentemente identificado com o Grande.</example>
             <example>É um documento que é posteriormente assinado pelo diretor.</example>
             <example>Recebemos um documento que é posteriormente assinado pelo diretor e que contém informações confidenciais.</example>
+            <example>Recebemos um documento que é posteriormente assinado pelo diretor do departamento de recursos humanos e que contém informações confidenciais.</example>
             <example>Conheço uma pessoa que é muito estimada pelos colegas.</example>
             <example>Este documento é mais importante que os restantes.</example>
         </rule>
