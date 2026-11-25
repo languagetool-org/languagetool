@@ -10542,7 +10542,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
-    <rule id="llavors" name="llavors">
+    
+    <rulegroup id="llavors" name="llavors">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCFP000">llavors</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <disambig action="filter" postag="NCFP000"/>
+        </rule>
+        <rule>
         <pattern>
             <token><exception postag="D[^R]0FP0" postag_regexp="yes"/></token>
             <marker>
@@ -10551,7 +10562,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception postag="AQ.[FC][NP]." postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="RG.*"/>
-    </rule>
+        </rule>
+    </rulegroup>
     <rule id="bon" name="bon (adj)">
         <pattern>
             <marker>
