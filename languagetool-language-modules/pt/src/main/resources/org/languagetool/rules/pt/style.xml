@@ -17250,92 +17250,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- QUE ESTÁ/ESTÃO EM USO em uso -->
-        <rule id='QUE_ESTA_ESTAO_EM' name="✂️ Que está/estão + contração/preposição → contração/preposição" type="style">
+        <rule id='QUE_ESTA_ESTAO_EM' name="✂️ Que está/estão em uso/funcionamento/vigor/curso/operação → em uso/funcionamento/vigor/curso/operação" type='style'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-31 (25-JUL-2022+) -->
-            <!--
-      As máscaras de host que estão em uso são as adequadas. → As máscaras de host em uso são as adequadas.
-      This rule replaces rule: QUE_ESTAR_CONTRACAO_PREPOSICAO
-      -->
-
-            <antipattern>
-                <token postag='DA.+|SPS00:DA.+|SP.00_?|_PUNCT' postag_regexp='yes'/>
-                <token postag='DP.+|DI.+|Z0.+|CC' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                <token>que</token>
-                <example>Desenrasca este cabelo ou você ficará muito deselegante para o entrevistador. É o seu emprego que está em jogo.</example>
-                <example>Recebi uma carta de um amigo que está em Londres.</example>
-                <example>Participe da nossa promoção que está no ar até 15/10!</example>
-                <example>Eu não tenho notícias do meu filho que está no exterior.</example>
-                <example>Escrevo em nome de meu marido, que está no hospital.</example>
-                <example>...to, quem der testemunho de mim diante dos homens, também eu darei testemunho dele diante de meu Pai que está nos céus.</example>
-                <example>O tricolor negocia a contratação do zagueiro Léo, de 31 anos, que está no Cruzeiro.</example>
-                <example>Antes de uma cirurgia e anestesia, informe ao seu médico (ou dentista) que está em tratamento com Zaarpress HCT, pois pode ocorrer queda repentina da pressão arterial associada à ane...</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag='DA.+|DI.+|SPS00:DA.+|SPS00:DI.+' postag_regexp='yes'>
-                    <exception scope='previous' postag_regexp='yes' postag='V.+|RG'/>
-                </token>
-                <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                <token>que</token>
-                <example>O médico, que está em boa situação, não está satisfeito.</example>
-                <example>Vou falar com um amigo que está em casa.</example>
-                <example>O pai dos filhos que estão em casa.</example>
-                <example>É difícil escrever um plano de negócios de 5 anos num mundo que está em constante mudança!</example>
-                <example>Deus nunca foi visto por alguém. O Filho unigênito, que está no seio do Pai, esse o fez conhecer.</example>
-                <example>Por que se preocupar com os dias futuros, que estão nas mãos de Deus?</example>
-                <example>Para tanto foi decisivo o advento da telefonia e do cinema sonoro que estão na génese do star system nacional que estabelece o protagonismo dos intérpretes como motor da indústri...</example>
-                <example>O contato com o ser interior, a fé e a confiança que está no caminho correto, que sabe o que quer e para onde deseja seguir é que fará com que a força de vontad...</example>
-                <example>Mas quando o ponto de referência é a rua, são o carro e a bicicleta que estão em movimento.</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='DA.+|DI.+|SPS00:DA.+|SPS00:DI.+' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token postag='SPS00' postag_regexp='no'/>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                <token>que</token>
-                <example>Isto é do tipo de pessoas que está na música pelas razões certas, lançar bons discos e dar bons espectáculos.</example>
-                <example>O que há na bolsa de praia que está no porta-malas do seu carro?</example>
-            </antipattern>
-
-            <antipattern>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='V.+' postag_regexp='yes'/>
-                <token postag='SPS00_?' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-                <example>Eu acho que ela estava planejando ir visitar a mãe, que está no hospital.</example>
-                <token>que</token>
-            </antipattern>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+            <!-- This rule replaces rule: QUE_ESTAR_CONTRACAO_PREPOSICAO -->
 
             <pattern>
-                <token postag='NC.+|AQ.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00_?|V.+' postag_regexp='yes'>
-                    <exception scope='previous' postag_regexp='yes' postag='SENT_START|V.+'/>
-                    <exception postag_regexp='no' postag='RG'/>
-                </token>
-                <token postag='NC.+|AQ.+|_PUNCT|PI.+' postag_regexp='yes'>
-                    <exception>,</exception>
-                </token>
+                <token postag='SENT_START'/>
+                <token postag='DA.+' postag_regexp='yes'/>
+                <token postag='NC.+' postag_regexp='yes'/>
+                <token min='0' max='3' postag='NC.+|AQ.+|SPS00_?|SPS00:DA.+' postag_regexp='yes'/>
                 <marker>
                     <token>que</token>
                     <token regexp='yes'>está|estão</token>
-                    <token regexp='yes'>em|n[ao]s?</token>
+                    <token>em</token>
                 </marker>
-                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+                <token regexp='yes'>uso|funcionamento|vigor|curso|operação</token>
+                <token postag='V[MAS]I.3[SP].(:PP.+)?' postag_regexp='yes'>
+                    <exception inflected='yes'>haver</exception>
+                </token>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion>\5</suggestion>
+            <suggestion>em</suggestion>
             <example correction="em">As máscaras de host <marker>que estão em</marker> uso são as adequadas.</example>
+            <example correction="em">O equipamento <marker>que está em</marker> funcionamento consome muita energia.</example>
+            <example correction="em">As máquinas industriais <marker>que estão em</marker> funcionamento produzem muito ruído.</example>
+            <example correction="em">A legislação <marker>que está em</marker> vigor estabelece novas condições.</example>
+            <example correction="em">Os regulamentos <marker>que estão em</marker> vigor aplicam-se a todos.</example>
+            <example correction="em">O projeto <marker>que está em</marker> curso terminará amanhã.</example>
+            <example correction="em">Os sistemas <marker>que estão em</marker> operação apresentam bons resultados.</example>
+            <example correction="em">A máquina <marker>que está em</marker> uso encontra-se em bom estado.</example>
             <example>Os rituais de passagem também são incentivados porque são muito benéficos a todos os que estão em luto.</example>
             <example>O que está em discussão atualmente no Reino Unido é a permanência ou não como membro da União Europeia (UE).</example>
-            <example>No mais , o site está muito bom e explicativo, e tende a melhorar, já que está em Beta.</example>
+            <example>No mais, o site está muito bom e explicativo, e tende a melhorar, já que está em Beta.</example>
             <example>Os livros são tão velhos que estão em estado de desintegração.</example>
             <example>Recebi uma carta de um amigo que está em Londres.</example>
             <example>Tom ainda não percebe que está em problemas.</example>
@@ -17346,6 +17293,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>No local, funciona um consulado móvel para atender os colombianos que estão no Rio para as competições.</example>
             <example>Só se abre a porta que está nos corações com amor.</example>
             <example>Tom tem um amigo que está na prisão.</example>
+            <example>É o seu emprego que está em jogo.</example>
+            <example>O médico, que está em boa situação, não está satisfeito.</example>
+            <example>É o equipamento que está em uso.</example>
+            <example>Os equipamentos que estão em uso e que apresentam problemas serão substituídos.</example>
+            <example>Os equipamentos que estão em uso há vários anos serão substituídos.</example>
+            <example>O equipamento que está em uso há vários meses será substituído.</example>
+            <example>Os regulamentos que estão em vigor desde janeiro serão revistos.</example>
         </rule>
 
 
