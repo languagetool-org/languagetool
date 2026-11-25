@@ -17255,6 +17255,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <!-- ChatGPT 6 and new disambiguator for 2026+ -->
             <!-- This rule replaces rule: QUE_ESTAR_CONTRACAO_PREPOSICAO -->
 
+            <!-- Exclude elapsed-time constructions with "fazer". -->
+            <antipattern>
+                <token>que</token>
+                <token regexp='yes'>está|estão</token>
+                <token>em</token>
+                <token regexp='yes'>uso|funcionamento|vigor|curso|operação</token>
+                <token inflected='yes'>fazer</token>
+                <token min='0' max='3' postag='Z.*|D[AI].+|PI.+|AQ.+|RG|SPS00' postag_regexp='yes'/>
+                <token regexp='yes'>&expressoes_de_tempo;</token>
+            </antipattern>
+
             <pattern>
                 <token postag='SENT_START'/>
                 <token postag='DA.+' postag_regexp='yes'/>
@@ -17268,7 +17279,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>uso|funcionamento|vigor|curso|operação</token>
                 <token postag='V[MAS]I.3[SP].(:PP.+)?' postag_regexp='yes'>
                     <exception inflected='yes'>haver</exception>
-                    <exception inflected='yes'>fazer</exception>
                 </token>
             </pattern>
             <message>&simplify_msg;</message>
@@ -17281,6 +17291,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example correction="em">O projeto <marker>que está em</marker> curso terminará amanhã.</example>
             <example correction="em">Os sistemas <marker>que estão em</marker> operação apresentam bons resultados.</example>
             <example correction="em">A máquina <marker>que está em</marker> uso encontra-se em bom estado.</example>
+            <example correction="em">O equipamento <marker>que está em</marker> uso faz barulho.</example>
+            <example correction="em">A máquina <marker>que está em</marker> funcionamento faz muito ruído.</example>
+            <example correction="em">Os equipamentos <marker>que estão em</marker> uso fazem parte do inventário.</example>
             <example>Os rituais de passagem também são incentivados porque são muito benéficos a todos os que estão em luto.</example>
             <example>O que está em discussão atualmente no Reino Unido é a permanência ou não como membro da União Europeia (UE).</example>
             <example>No mais, o site está muito bom e explicativo, e tende a melhorar, já que está em Beta.</example>
@@ -17304,6 +17317,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>O equipamento que está em uso faz meses será substituído.</example>
             <example>As máquinas que estão em funcionamento faz dois anos serão substituídas.</example>
             <example>A legislação que está em vigor faz três anos será revista.</example>
+            <example>O equipamento que está em uso faz muito tempo será substituído.</example>
+            <example>O sistema que está em funcionamento faz vários meses será atualizado.</example>
+            <example>O equipamento que está em uso faz mais de três semanas será substituído.</example>
+            <example>O equipamento que estava em uso fazia dois anos foi substituído.</example>
         </rule>
 
 
