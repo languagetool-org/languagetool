@@ -89986,6 +89986,9 @@ USA
                     <token postag="JJ.*" postag_regexp="yes" min="0"/>
                     <token regexp="yes">majority|minority</token>
                     <token>of</token>
+                    <token postag="DT|PRP\$" postag_regexp="yes" min="0"/>
+                    <token postag="JJ.*" postag_regexp="yes" min="0"/>
+                    <token postag="NNS|NNPS" postag_regexp="yes"/>
                     <example>There are the majority of people who face difficulties when searching for their first job.</example>
                     <example>There are the vast majority of followers who never change the default settings.</example>
                 </antipattern>
@@ -133700,6 +133703,7 @@ The accident victim died from her injuries.
             <example correction="yet">That is not <marker>jet</marker> decided.</example>
         </rule>
         <rulegroup id="YOUR_NN" name="your (you're)">
+            <url>https://languagetool.org/insights/post/your-vs-youre/</url>
             <rule>
                 <antipattern>
                     <token>you</token>
@@ -133707,6 +133711,9 @@ The accident victim died from her injuries.
                     <token regexp="yes">student|teacher|employee|manager|parent|customer|member|staff</token>
                     <token>or</token>
                     <token regexp="yes">student|teacher|employee|manager|parent|customer|member|staff</token>
+                    <token regexp="yes">student|teacher|employee|manager|parent|customer|member|staff
+                        <exception scope="next" postag="VBZ|VBP|VBD|MD" postag_regexp="yes"/>
+                    </token>
                 </antipattern>
                 <antipattern>
                     <token>you</token>
@@ -133873,7 +133880,6 @@ The accident victim died from her injuries.
                     </token>
                 </pattern>
                 <message>Did you mean <suggestion>your</suggestion>?</message>
-                <url>https://languagetool.org/insights/post/your-vs-youre/</url>
                 <short>Possible typo</short>
                 <example><marker>You're</marker> still working on it?</example>
                 <example><marker>You're</marker> right!</example>
