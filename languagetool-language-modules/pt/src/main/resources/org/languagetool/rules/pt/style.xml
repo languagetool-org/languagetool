@@ -17422,29 +17422,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- QUE RESULTAM DE resultantes de -->
-        <rule id='QUE_RESULTA_RESULTAM_DE_DA_DAS_DO_DOS_NA_NAS_NO_NOS' name="✂️ Que + resulta(m) + de/d(a/o)(s)/n(a/o)(s) → Resultante(s) + de/d(a/o)(s)/n(a/o)(s)" type='style' tags='picky'>
+        <rule id='QUE_RESULTA_RESULTAM_DE_DA_DAS_DO_DOS_NA_NAS_NO_NOS' name="✂️ que resulta(m) de → resultante(s) de" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-24 (25-JUL-2022+) -->
-            <!--
-      Há alterações nas variáveis internas que resultam de alterações nas variáveis externas. → Há alterações nas variáveis internas resultantes de alterações nas variáveis externas.
-      -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <antipattern>
+                <token inflected='yes' regexp='yes'>ser|estar|parecer</token>
+                <token postag='AQ.+' postag_regexp='yes'/>
+                <token>que</token>
+                <token regexp='yes'>resulta|resultam</token>
+            </antipattern>
+
             <pattern>
+                <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <marker>
-                    <token>que
-                        <exception scope='previous' postag_regexp='yes' postag='DA.+'/>
-                    </token>
-                    <and>
-                        <token postag='VMIP3.+' postag_regexp='yes'/>
-                        <token inflected='yes'>resultar</token>
-                    </and>
-                    <token postag='SPS00|SPS00:DA.+' postag_regexp='yes'/>
+                    <token>que</token>
+                    <token regexp='yes' postag='VMIP3[SP]0' postag_regexp='yes'>resulta|resultam</token>
+                    <token regexp='yes'>de|da|das|do|dos</token>
                 </marker>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion><match no='2' postag='VMIP3(.)0' postag_replace='NCF$1000'>resultante</match> \3</suggestion>
-            <suggestion><match no='2' postag='V.+' postag_replace='VMG0000' postag_regexp="yes"></match> \3</suggestion>
-            <example correction="resultantes de|resultando de">Há alterações nas variáveis internas <marker>que resultam de</marker> alterações nas variáveis externas.</example>
+            <suggestion><match no='3' postag='VMIP3(.)0' postag_replace='NCF$1000'>resultante</match> \4</suggestion>
+            <example correction="resultantes de">Há alterações nas variáveis internas <marker>que resultam de</marker> alterações nas variáveis externas.</example>
+            <example correction="resultante da">É um problema <marker>que resulta da</marker> falta de investimento.</example>
+            <example>Ele afirmou que resulta de um erro humano.</example>
+            <example>É evidente que resulta de um erro humano.</example>
+            <example>Existem alterações que resultam em melhorias significativas.</example>
         </rule>
 
 
