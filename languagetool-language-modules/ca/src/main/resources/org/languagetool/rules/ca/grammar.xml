@@ -25772,6 +25772,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>com</token>
                 <token postag="DI.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>com</token>
+                <token min="0" regexp="yes">['"‘“«]</token>
+                <token regexp="yes">el|els|lo|los|la|les|las|il|gli|le|the|en|na</token>
+                <example>també conegut com La Scala de Milà</example>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token inflected="yes" regexp="yes">astre|estrella|mestre|prestigi|nom|persona|personalitat|personatge|escultor|obra|empreses|actor|artista|pintor|autor|DJ|sèrie|escriptor|novel·lista</token>
@@ -25805,7 +25811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>com<exception scope="previous" regexp="yes">tals?|molt</exception><exception postag="allow_com"/></token>
                     </marker>
                     <token min="0" regexp="yes">['"‘“«]</token>
-                    <token postag="[AN].*|_possible_nompropi|UNKNOWN|_english_ignore_" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]|las|il|gli|los|le|the</exception></token>
+                    <token postag="[AN].*|_possible_nompropi|UNKNOWN|_english_ignore_" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion> ('en qualitat de', 'amb caràcter de', 'en funció de').</message>
                 <example correction="com a">Francesc Sabaté Llopart, conegut <marker>com</marker> Quico Sabaté</example>
@@ -40549,6 +40555,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>més</token>
                 <token>igual</token>
                 <token postag="V.[IS].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>cada</token>
+                <token regexp="yes">vegada|volta|cop</token>
+                <token>més</token>
             </antipattern>
             <pattern>
                 <token>més<exception scope="previous" regexp="yes">mai|com</exception><exception scope="previous" postag="_GN_MS"/></token>
