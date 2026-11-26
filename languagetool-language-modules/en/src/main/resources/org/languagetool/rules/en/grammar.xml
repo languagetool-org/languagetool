@@ -89987,6 +89987,18 @@ USA
                     <token postag="NNP?S" postag_regexp="yes" />
                     <example>There are no vendor, regulatory, or otherwise, specifications for vibrations in this range.</example>
                 </antipattern>
+                <!-- majority/minority of + noun/pronoun -->
+                <antipattern>
+                    <token regexp="yes">the|a</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0"/>
+                    <token regexp="yes">majority|minority</token>
+                    <token>of</token>
+                    <token postag="DT|PRP\$" postag_regexp="yes" min="0"/>
+                    <token postag="JJ.*" postag_regexp="yes" min="0"/>
+                    <token postag="NNS|NNPS" postag_regexp="yes"/>
+                    <example>There are the majority of people who face difficulties when searching for their first job.</example>
+                    <example>There are the vast majority of followers who never change the default settings.</example>
+                </antipattern>
                 <pattern>
                     <token>there</token>
                     <token regexp="yes">are|were</token>
@@ -95876,6 +95888,14 @@ USA
         </rule>
         <rulegroup id="MISSING_ARTICLE" name="missing article">
             <rule>
+                <antipattern><!-- you're + adjective + noun + finite verb: likely possessive "your" -->
+                    <token>you</token>
+                    <token>'re</token>
+                    <token postag="JJ"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="VBZ|VBP|VBD|MD" postag_regexp="yes"/>
+                    <example>You're new password is listed below.</example>
+                </antipattern>
                 <antipattern><!-- confusion of its -->
                     <token>it</token>
                     <token>'s</token>
@@ -103978,7 +103998,19 @@ The accident victim died from her injuries.
       <antipattern>
         <token postag="SENT_START" />
         <token>no</token>
-        <token regexp="yes">your|his|her|my</token>
+        <token regexp="yes">your|his|her|my|its|their|our</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">oh|ah|well</token>
+        <token>,</token>
+        <token>no</token>
+        <token regexp="yes">your|his|her|my|its|their|our</token>
+      </antipattern>
+      <antipattern>
+        <token postag="SENT_START"/>
+        <token regexp="yes">"|“|‘|'</token>
+        <token>no</token>
+        <token regexp="yes">your|his|her|my|its|their|our</token>
       </antipattern>
       <antipattern><!-- https://en.wikipedia.org/wiki/The_My_Hero_Project -->
         <token>my</token>
@@ -110407,6 +110439,37 @@ The accident victim died from her injuries.
                     <token postag="NNS" />
                     <token>were</token>
                 </antipattern>
+                <antipattern><!-- Short compound sentence: no comma suggestion -->
+                    <token postag="DT"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="VBD|VBZ|VBP" postag_regexp="yes"/>
+                    <token>and</token>
+                    <token postag="DT|CD|PRP\$" postag_regexp="yes"/>
+                    <token postag="JJ.*" postag_regexp="yes" min="0"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="VBD|VBZ|VBP" postag_regexp="yes"/>
+                    <example>The door opened and a tall man walked in.</example>
+                </antipattern>
+                <antipattern><!-- Short compound clauses without preceding coordination -->
+                    <token postag="SENT_START"/>
+                    <token min="1" max="3"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                    <token>and</token>
+                    <token postag="DT"/>
+                    <token postag="JJ.*" postag_regexp="yes" min="0"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                    <example>The machine stopped working and the alarm sounded.</example>
+                </antipattern>
+                <antipattern><!-- Auxiliary + verb + and + the + noun + verb -->
+                    <token postag="VB.*" postag_regexp="yes"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                    <token>and</token>
+                    <token postag="DT">the</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                    <example>It was raining and the game was called off.</example>
+                </antipattern>
                 <pattern>
                     <token />
                     <token>
@@ -110432,10 +110495,8 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Use a comma before "\5" if it connects two independent clauses (unless they are closely connected and short).</message>
                 <suggestion>, \5</suggestion>
-                <example correction=", and">It was raining<marker> and</marker> the game was called off.</example>
                 <example correction=", and">Gómez was defeated and captured<marker> and</marker> the rebellion was snuffed out.</example>
                 <example correction=", and">That is exactly what it was<marker> and</marker> your response was both thoughtful and informative.</example>
-                <example correction=", and">I looked back<marker> and</marker> the truck was ordering.</example>
                 <example correction=", or">The motor is shot<marker> or</marker> the regulator is dry and binding.</example>
                 <example>That's the same voltage that's measured when the switch is off and the wire is connected.</example>
                 <example>I can confirm the light goes on when a code is entered or the door is unlocked manually.</example>
@@ -133663,235 +133724,262 @@ The accident victim died from her injuries.
             <short>Possible typo</short>
             <example correction="yet">That is not <marker>jet</marker> decided.</example>
         </rule>
-        <rule id="YOUR_NN" name="your (you're)">
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token postag="JJ"/>
-                <token postag="VBG"/>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token regexp="yes">something|nuts|fools|wimps|nothing|geniuses|on|under|already|just|now|welcome</token>
-            </antipattern>
-            <antipattern><!-- Maybe you're available next week -->
-                <token>you</token>
-                <token>'re</token>
-                <token postag="JJ.*" postag_regexp="yes" />
-                <token regexp="yes">next|upcoming</token>
-                <token regexp="yes">hour|day|week|month|year|&weekdays;|&months;|easter|christmas|weekend</token>
-            </antipattern>
-            <antipattern><!-- Let me know when you're unavailable tomorrow. -->
-                <token>you</token>
-                <token regexp="yes">&apostrophe;</token>
-                <token>re</token>
-                <token postag="JJ.*" postag_regexp="yes" />
-                <token regexp="yes">tomorrow|yesterday|today</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token>sort</token>
-                <token>of</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token>way</token>
-                <token regexp="yes">off|behind|too|ahead|out|before|after</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token regexp="yes">way|far</token>
-                <token postag="JJR"/>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token>home</token>
-                <token regexp="yes">early|late|soon</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token/>
-                <token regexp="yes">seconds|minutes|hours|days|years|decades|centuries</token>
-                <token regexp="yes">early|late</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token>most</token>
-                <token postag="RB" />
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token regexp="yes">(second|minute|hour|week|day|month|year|moment|decade)s?</token>
-                <token min="0">away</token>
-                <token>from</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token>most</token>
-                <token>welcome</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token regexp="yes">(every|any)thing</token>
-                <token regexp="yes">to|for|I|s?he|you|we|they|it|that|what|which</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token>anything</token>
-                <token>like</token>
-                <token postag="PRP\$?|NN.*|DT" postag_regexp="yes" />
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token>friends</token>
-                <token>with</token>
-            </antipattern>
-            <antipattern>
-                <token>super</token>
-                <token>duper</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">if|once|when</token>
-                <token>you</token>
-                <token>'re</token>
-                <token postag="JJ" />
-                <token>wait</token>
-                <token postag="IN" />
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token postag="NN.*" postag_regexp="yes" />
-                <token regexp="yes" min="0">number|no|nr|#</token>
-                <token regexp="yes">\d+</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token>drop</token>
-                <token>dead</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token postag="CD" />
-                <token postag="NNS" />
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token regexp="yes">ways?</token>
-                <token>too</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token regexp="yes">only|just</token>
-            </antipattern>
-            <antipattern>
-                <token>you</token>
-                <token>'re</token>
-                <token postag="NN:UN?|NN" postag_regexp="yes" />
-                <token>'s</token>
-            </antipattern>
-            <antipattern>
-                <token>'re</token>
-                <token postag="NN(:UN?)?|NNP" postag_regexp="yes" chunk_re="B-NP-plural" />
-                <token postag="NNP?S" postag_regexp="yes" chunk_re="E-NP-plural" />
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token inflected="no">you</token>
-                    <token>'re</token>
-                </marker>
-                <token postag="JJ" min="0" max="2">
-                    <exception postag="IN" /><!-- you're big on TV -->
-                </token>
-                <token postag="NN(:UN?)?|NN" postag_regexp="yes" chunk_re=".-NP.*">
-                    <exception postag="JJ.*|CC|RB|PRP.*|MD|VBG" postag_regexp="yes" />
-                    <exception regexp="yes">one|(some|every|any|no)(body|one|thing)|still|right|in|kind|well|given|known|his|then|out|get|(in|out)doors|re|auto|today|yesterday|tomorrow|no|cause</exception>
-                    <exception case_sensitive="yes">german</exception><!-- different error -->
-                </token>
-                <token>
-                    <exception regexp="yes">enough|\p{P}</exception>
-                </token>
-            </pattern>
-            <message>Did you mean <suggestion>your</suggestion>?</message>
+        <rulegroup id="YOUR_NN" name="your (you're)">
             <url>https://languagetool.org/insights/post/your-vs-youre/</url>
-            <short>Possible typo</short>
-            <example><marker>You're</marker> still working on it?</example>
-            <example><marker>You're</marker> right!</example>
-            <example>Let me know what you're up to.</example>
-            <example>If you're drunk don't take the wheel of a car.</example>
-            <example>You're old enough to know better.</example>
-            <example>You're lucky nobody saw you do that, aren't you?</example>
-            <example>You're kinda late getting home.</example>
-            <example>You're drug dealers?</example>
-            <example>You're worth nothing dead.</example>
-            <example>You're Machete's girl.</example>
-            <example>You're forever making mistakes.</example>
-            <example>If you play a tier 2 opponent when you’re tier 1, you’ll probably lose.</example>
-            <example>You're in perky form, aren't you?</example>
-            <example>You're man enough to let her play, she's experimental and confident enough to do it.</example>
-            <example correction="Your"><marker>You're</marker> optimization is a good example.</example>
-            <example correction="Your"><marker>You're</marker> new optimization is a good example.</example>
-            <example correction="Your"><marker>You're</marker> clever new optimization is a good example.</example>
-            <example correction="your">The online group will be sending out a packet that includes this list and all the information <marker>you're</marker> group will need to get started.</example>
-            <example>You're Arthur Willis.</example>
-            <example>You're kind of amazed.</example>
-            <example>You're in better shape than I am.</example>
-            <example>Hope you're well.</example>
-            <example>You're just making noise.</example>
-            <example>When you're ready get in the car.</example>
-            <example>Maybe you're someone I know.</example>
-            <example>Make sure you're comfy while I light up the candles.</example>
-            <example>The people you're friends with.</example>
-            <example>If you're cheeky once more, I won't read you a story tonight.</example>
-            <example>It depends whether you're known as ...</example>
-            <example>Also, if you're sick then please stay at home.</example>
-            <example>You're home early.</example>
-            <example>If you're queasy wait for the answer.</example>
-            <example>You're geniuses.</example>
-            <example>Because you're closer to him.</example>
-            <example>You’re already hurt.</example>
-            <example>You're on schedule.</example>
-            <example>You're just idiots.</example>
-            <example>Hope you're well out there.</example>
-            <example>You're ten minutes late.</example>
-            <example>You're way younger than me.</example>
-            <example>You're way out of my league.</example>
-            <example>You're way too pessimistic.</example>
-            <example>No, you're on time.</example>
-            <example>You're now part of my life.</example>
-            <example>You're sort of rude.</example>
-            <example>You're most welcome to do it.</example>
-            <example>If you're super duper excited...</example>
-            <example>Just let me know when you're available next week.</example>
-            <example>Unless you're outdoors in the midst of a cold snap, chances are you can't see your breath.</example>
-            <example>Let me know when you're unavailable tomorrow.</example>
-            <example>You're big on TV!</example>
-            <example>... when you're most likely going to do it.</example>
-            <example>Incorrect grammar: You're far better then that.</example>
-            <example>Because you're german and that matters.</example>
-            <example>You're everything to me.</example>
-            <example>You're everything I need.</example>
-            <example>If you're anything like me, You bite your nails, And laugh when you're nervous.</example>
-            <example>And if you're anything to judge by, they're going to get mighty dirty indeed on this investigation.</example>
-            <example>You're ten times heavier than I am.</example><!-- #3119 -->
-            <example>Please let me know when you're free tomorrow AM, so we can discuss this with her.</example>
-        </rule>
+            <rule>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token regexp="yes">student|teacher|employee|manager|parent|customer|member|staff</token>
+                    <token>or</token>
+                    <token regexp="yes">student|teacher|employee|manager|parent|customer|member|staff</token>
+                    <token regexp="yes">student|teacher|employee|manager|parent|customer|member|staff
+                        <exception scope="next" postag="VBZ|VBP|VBD|MD" postag_regexp="yes"/>
+                    </token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token postag="JJ"/>
+                    <token postag="VBG"/>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token regexp="yes">something|nuts|fools|wimps|nothing|geniuses|on|under|already|just|now|welcome</token>
+                </antipattern>
+                <antipattern><!-- Maybe you're available next week -->
+                    <token>you</token>
+                    <token>'re</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                    <token regexp="yes">next|upcoming</token>
+                    <token regexp="yes">hour|day|week|month|year|&weekdays;|&months;|easter|christmas|weekend</token>
+                </antipattern>
+                <antipattern><!-- Let me know when you're unavailable tomorrow. -->
+                    <token>you</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>re</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                    <token regexp="yes">tomorrow|yesterday|today</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token>sort</token>
+                    <token>of</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token>way</token>
+                    <token regexp="yes">off|behind|too|ahead|out|before|after</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token regexp="yes">way|far</token>
+                    <token postag="JJR"/>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token>home</token>
+                    <token regexp="yes">early|late|soon</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token/>
+                    <token regexp="yes">seconds|minutes|hours|days|years|decades|centuries</token>
+                    <token regexp="yes">early|late</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token>most</token>
+                    <token postag="RB" />
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token regexp="yes">(second|minute|hour|week|day|month|year|moment|decade)s?</token>
+                    <token min="0">away</token>
+                    <token>from</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token>most</token>
+                    <token>welcome</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token regexp="yes">(every|any)thing</token>
+                    <token regexp="yes">to|for|I|s?he|you|we|they|it|that|what|which</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token>anything</token>
+                    <token>like</token>
+                    <token postag="PRP\$?|NN.*|DT" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token>friends</token>
+                    <token>with</token>
+                </antipattern>
+                <antipattern>
+                    <token>super</token>
+                    <token>duper</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">if|once|when</token>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token postag="JJ" />
+                    <token>wait</token>
+                    <token postag="IN" />
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token regexp="yes" min="0">number|no|nr|#</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token>drop</token>
+                    <token>dead</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token postag="CD" />
+                    <token postag="NNS" />
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token regexp="yes">ways?</token>
+                    <token>too</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token regexp="yes">only|just</token>
+                </antipattern>
+                <antipattern>
+                    <token>you</token>
+                    <token>'re</token>
+                    <token postag="NN:UN?|NN" postag_regexp="yes" />
+                    <token>'s</token>
+                </antipattern>
+                <antipattern>
+                    <token>'re</token>
+                    <token postag="NN(:UN?)?|NNP" postag_regexp="yes" chunk_re="B-NP-plural" />
+                    <token postag="NNP?S" postag_regexp="yes" chunk_re="E-NP-plural" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token inflected="no">you</token>
+                        <token>'re</token>
+                    </marker>
+                    <token postag="JJ" min="0" max="2">
+                        <exception postag="IN" /><!-- you're big on TV -->
+                    </token>
+                    <token postag="NN(:UN?)?|NN" postag_regexp="yes" chunk_re=".-NP.*">
+                        <exception postag="JJ.*|CC|RB|PRP.*|MD|VBG" postag_regexp="yes" />
+                        <exception regexp="yes">one|(some|every|any|no)(body|one|thing)|still|right|in|kind|well|given|known|his|then|out|get|(in|out)doors|re|auto|today|yesterday|tomorrow|no|cause</exception>
+                        <exception case_sensitive="yes">german</exception><!-- different error -->
+                    </token>
+                    <token>
+                        <exception regexp="yes">enough|\p{P}</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>your</suggestion>?</message>
+                <short>Possible typo</short>
+                <example><marker>You're</marker> still working on it?</example>
+                <example><marker>You're</marker> right!</example>
+                <example>Let me know what you're up to.</example>
+                <example>If you're drunk don't take the wheel of a car.</example>
+                <example>You're old enough to know better.</example>
+                <example>You're lucky nobody saw you do that, aren't you?</example>
+                <example>You're kinda late getting home.</example>
+                <example>You're drug dealers?</example>
+                <example>You're worth nothing dead.</example>
+                <example>You're Machete's girl.</example>
+                <example>You're forever making mistakes.</example>
+                <example>If you play a tier 2 opponent when you’re tier 1, you’ll probably lose.</example>
+                <example>You're in perky form, aren't you?</example>
+                <example>You're man enough to let her play, she's experimental and confident enough to do it.</example>
+                <example correction="Your"><marker>You're</marker> optimization is a good example.</example>
+                <example correction="Your"><marker>You're</marker> new optimization is a good example.</example>
+                <example correction="Your"><marker>You're</marker> clever new optimization is a good example.</example>
+                <example correction="your">The online group will be sending out a packet that includes this list and all the information <marker>you're</marker> group will need to get started.</example>
+                <example>You're Arthur Willis.</example>
+                <example>You're kind of amazed.</example>
+                <example>You're in better shape than I am.</example>
+                <example>Hope you're well.</example>
+                <example>You're just making noise.</example>
+                <example>When you're ready get in the car.</example>
+                <example>Maybe you're someone I know.</example>
+                <example>Make sure you're comfy while I light up the candles.</example>
+                <example>The people you're friends with.</example>
+                <example>If you're cheeky once more, I won't read you a story tonight.</example>
+                <example>It depends whether you're known as ...</example>
+                <example>Also, if you're sick then please stay at home.</example>
+                <example>You're home early.</example>
+                <example>If you're queasy wait for the answer.</example>
+                <example>You're geniuses.</example>
+                <example>Because you're closer to him.</example>
+                <example>You’re already hurt.</example>
+                <example>You're on schedule.</example>
+                <example>You're just idiots.</example>
+                <example>Hope you're well out there.</example>
+                <example>You're ten minutes late.</example>
+                <example>You're way younger than me.</example>
+                <example>You're way out of my league.</example>
+                <example>You're way too pessimistic.</example>
+                <example>No, you're on time.</example>
+                <example>You're now part of my life.</example>
+                <example>You're sort of rude.</example>
+                <example>You're most welcome to do it.</example>
+                <example>If you're super duper excited...</example>
+                <example>Just let me know when you're available next week.</example>
+                <example>Unless you're outdoors in the midst of a cold snap, chances are you can't see your breath.</example>
+                <example>Let me know when you're unavailable tomorrow.</example>
+                <example>You're big on TV!</example>
+                <example>... when you're most likely going to do it.</example>
+                <example>Incorrect grammar: You're far better then that.</example>
+                <example>Because you're german and that matters.</example>
+                <example>You're everything to me.</example>
+                <example>You're everything I need.</example>
+                <example>If you're anything like me, You bite your nails, And laugh when you're nervous.</example>
+                <example>And if you're anything to judge by, they're going to get mighty dirty indeed on this investigation.</example>
+                <example>You're ten times heavier than I am.</example><!-- #3119 -->
+                <example>Please let me know when you're free tomorrow AM, so we can discuss this with her.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>you</token>
+                        <token>'re</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="VBZ|VBP|VBD|MD" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>your</suggestion>?</message>
+                <example correction="your">The tracking information will be sent to you once <marker>you're</marker> order ships out.</example>
+                <example correction="your">Let me know when <marker>you're</marker> package arrives.</example>
+                <example>You're home.</example>
+                <example>You're trouble.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_YOU_RE_NN" name="you're (your)">
             <pattern>
                 <token postag="IN">
