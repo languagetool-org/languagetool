@@ -17710,32 +17710,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rulegroup>
 
 
-        <!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
-        <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="✂️ Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
+        <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="✂️ Omitir «que é/são» antes de nome, adjetivo ou particípio (com/como/em/…)" type='style'>
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
-            <!--
-      Os radicais retaliam contra Estados que são encarados como sendo os inimigos. → Os radicais retaliam contra Estados encarados como sendo os inimigos.
-      -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
 
-            <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-            <!-- This antipattern is used twice in the rules, it triggers two rules. -->
-            <!-- Zero hits in 600 000 sentence, only affects my thesis. -->
+            <!-- Preserve parenthetical explanatory clauses. -->
+            <!-- This antipattern is shared with another rule. -->
             <antipattern>
-                <token postag='_PUNCT' postag_regexp='no'/>
+                <token postag='_PUNCT'/>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-                <token postag='_PUNCT' postag_regexp='no'/>
+                <token postag='_PUNCT'/>
                 <token>que</token>
                 <token regexp='yes'>foram|foi|são|é</token>
-                <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+                <token postag='CC|DA.+|V.+|NC.+|AQ.+' postag_regexp='yes'/>
                 <example>Temos infraestruturas civis (habitações, que são obstáculos no nosso estudo).</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-            <!-- MARCOAGPINTO 2022-11-16 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-            <!-- Zero hits in 600 000 sentence, only affects a text I have read in Internet. -->
+            <!-- Preserve subordinate clauses introduced by finite verbs. -->
             <antipattern>
-                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='VM[ISM].+' postag_regexp='yes'/>
                 <token>que</token>
                 <token regexp='yes'>foram|foi|são|é</token>
                 <token postag='CC|DA.+|V.+|NC.+|AQ.+' postag_regexp='yes'/>
@@ -17743,37 +17736,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token postag='DA.+' postag_regexp='yes'/>
                 <example>Não se sabe se teria sido com a mão direita, mas penso que é irrelevante para a estória.</example>
             </antipattern>
-            <!-- MARCOAGPINTO 2022-11-16 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+            <!-- Preserve constructions containing infinitives. -->
             <antipattern>
                 <token postag='NC.+|AQ.+' postag_regexp='yes'/>
                 <token>que</token>
                 <token regexp='yes'>foram|foi|são|é</token>
-                <token postag='VMN0000' postag_regexp='no'/>
+                <token postag='VMN0000'/>
                 <token regexp='yes'>com|como|em|n[ao]s?|para|pel[ao]s?|por</token>
                 <example>Tenho uma ideia que é armazenar em variáveis os valores.</example>
-                <example>Ou seja, quando viu que poderia ficar de fora da mamata que é estar no poder como Deputado Estadual, o parlamentar resolveu voltar atrás do seu voto, dizendo que na verda...</example>
+                <example>Ou seja, quando viu que poderia ficar de fora da mamata que é estar no poder como Deputado Estadual, o parlamentar resolveu voltar atrás do seu voto, dizendo que na verdade não concordava.</example>
                 <example>Na linha 02 desativamos o padrão do protocolo que é trabalhar com IPv4, afinal estaremos trabalhando com IPv6.</example>
             </antipattern>
 
             <pattern>
-                <token negate_pos="yes" postag='SPS.+|CS|RG|DA.+|CC|V.+' postag_regexp='yes'/>
+                <token postag='NC.+|NP.+|AQ.+' postag_regexp='yes'/>
                 <marker>
                     <token>que
-                        <exception postag='SENT_START|D[DI].+|PI.+' postag_regexp='yes'/></token>
+                        <exception postag='SENT_START|D[DI].+|PI.+' postag_regexp='yes'/>
+                    </token>
                     <token regexp='yes'>é|são</token>
-                    <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'><exception regexp='yes'>fen[ôó]meno|sensação|moda|hit|referência|mania|sucesso</exception></token> <!-- Exceptions by DeepSeek-V3 -->
+                    <token postag='NC.+|AQ.+|VMP.+' postag_regexp='yes'>
+                        <!-- Lexical exceptions by DeepSeek-V3. -->
+                        <exception regexp='yes'>fen[ôó]meno|sensação|moda|hit|referência|mania|sucesso</exception>
+                    </token>
                     <token regexp='yes'>com|como|em|n[ao]s?|para|pel[ao]s?|por</token>
                 </marker>
-                <token negate_pos="yes" postag='VMN0000'/>
+                <token>
+                    <exception postag='VMN0000'/>
+                </token>
             </pattern>
             <message>&simplify_msg;</message>
             <suggestion>\4 \5</suggestion>
             <example correction="encarados como">Os radicais retaliam contra Estados <marker>que são encarados como</marker> sendo os inimigos.</example>
+            <example correction="assinados por">Os documentos <marker>que são assinados por</marker> dois responsáveis serão arquivados.</example>
+            <example correction="compatível com">Utilizamos um sistema <marker>que é compatível com</marker> esta tecnologia.</example>
+            <example correction="composto por">Analisámos um equipamento <marker>que é composto por</marker> vários componentes.</example>
             <example>Por exemplo, dados de satélite mostram uma diminuição de 10% na área coberta por neve desde os anos 1960.</example>
             <example>O poder Legislativo é exercido pela Assembléia Legislativa do Estado do Ceará composta por 46 deputados.</example>
             <example>O habitat é o ambiente sobre a qual uma espécies sabemos que ocorre e o tipo de comunidade formada como resultado.</example>
             <example>Estamos a viver uma fase de elevado desemprego, provocado por um baixo consumo.</example>
+            <example>A equipa acredita que é importante para o projeto.</example>
+            <example>Os candidatos que são aptos para trabalhar serão selecionados.</example>
+            <example>Este produto que é sucesso em Portugal será exportado.</example>
+            <example>Tenho uma ideia que é trabalhar com crianças.</example>
         </rule>
 
 
