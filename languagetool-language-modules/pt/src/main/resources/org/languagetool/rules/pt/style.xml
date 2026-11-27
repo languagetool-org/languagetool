@@ -17477,6 +17477,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <token regexp='yes'>n[ao]s?|nest[ae]s?</token>
             </antipattern>
 
+            <!-- Exclude coordinated relative-clause predicates -->
+            <antipattern>
+                <token>que</token>
+                <token>se</token>
+                <token regexp='yes'>encontram?</token>
+                <token regexp='yes'>n[ao]s?|nest[ae]s?</token>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min='0' max='12' postag='NC.+|AQ.+|NP.+|SPS.+|SP000|D.+|Z.+|RG' postag_regexp='yes'/>
+                <token regexp='yes'>e|ou|mas|nem</token>
+                <token min='0' max='1'>que</token>
+                <token min='0' max='3' postag='RG|RN|PP.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+            </antipattern>
+
             <!-- Singular -->
             <rule>
                 <pattern>
@@ -17500,6 +17514,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Tenho a certeza que se encontra na escola.</example>
                 <example>Tenho a impressão que se encontra no escritório.</example>
                 <example>Este é o documento que se encontra na pasta.</example>
+                <example>Analise o documento que se encontra no arquivo e precisa de revisão.</example>
+                <example>Analise o documento que se encontra no arquivo e que precisa de revisão.</example>
+                <example>Analise o documento que se encontra no arquivo e ainda necessita de aprovação.</example>
+                <example>Analise o documento que se encontra no arquivo e não está atualizado.</example>
+                <example>Analise o documento que se encontra no arquivo central do departamento de recursos humanos e precisa de revisão.</example>
             </rule>
 
             <!-- Plural -->
@@ -17524,6 +17543,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 <example>Procuro documentos que se encontrem nesta pasta.</example>
                 <example>Tenho a certeza que se encontram na escola.</example>
                 <example>Tenho a impressão que se encontram no escritório.</example>
+                <example>Analise os documentos que se encontram nos arquivos e precisam de revisão.</example>
+                <example>Analise os documentos que se encontram nos arquivos e que precisam de revisão.</example>
+                <example>Analise os documentos que se encontram nos arquivos e ainda necessitam de aprovação.</example>
+                <example>Analise os documentos que se encontram nos arquivos e não estão atualizados.</example>
+                <example>Analise os documentos que se encontram nos arquivos centrais do departamento de recursos humanos e precisam de revisão.</example>
             </rule>
         </rulegroup>
 
