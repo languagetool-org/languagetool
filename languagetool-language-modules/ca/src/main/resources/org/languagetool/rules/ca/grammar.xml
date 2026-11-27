@@ -22434,6 +22434,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>si</token>
             </antipattern>
             <antipattern>
+                <token>si</token>
+                <token>i</token>
+                <token regexp="yes">sols|només|solament</token>
+                <token>si</token>
+            </antipattern>
+            <antipattern>
                 <token>que</token>
                 <token>si</token>
                 <token postag="D.*" postag_regexp="yes"/>
@@ -57133,6 +57139,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>esta</token>
                     <token postag="_PUNCT"/>
                 </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>esta<exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
@@ -57143,7 +57153,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Està|Aquesta"><marker>Esta</marker> molt bé.</example>
                 <example correction="Està|Aquesta"><marker>Esta</marker> boníssim.</example>
                 <example correction="Està|Aquesta"><marker>Esta</marker> disponible.</example>
-                <example correction="Està|Aquesta"><marker>Esta</marker> escrivint la carta.</example>
                 <example correction="està|aquesta">N'<marker>esta</marker> fins al capdamunt.</example>
                 <example correction="està|aquesta">Li <marker>esta</marker> agraït.</example>
                 <example correction="està|aquesta">Li <marker>esta</marker> agraïda.</example>
@@ -57177,6 +57186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Volíeu dir <suggestion>està</suggestion> (del verb 'estar')?</message>
                 <example correction="està">M'<marker>esta</marker> començant a agradar.</example>
+                <example correction="Està"><marker>Esta</marker> escrivint la carta.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -71709,6 +71719,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Que"><marker>Què</marker> et fa mal l'esquena?</example>
             <example>¿Què vols que faci?</example>
             <example>¿Què vols fer avui?</example>
+            <example>Què en trec llavors de fer-me savi?</example>
             <!-- completiva amb buit argumental: contingut, NO s'ha de corregir -->
             <example>Què creus que ha passat?</example>
             <example>Què penses que hem de fer?</example>
@@ -84019,6 +84030,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CASING" name="Majúscules i minúscules" type="typographical">
+        <rulegroup id="PARLAMENT_MAJ" name="Parlament en majúscula" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">parlament</token>
+                    </marker>
+                    <token>de</token>
+                    <token min="0" postag="DA.*" postag_regexp="yes"/>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </pattern>
+                <message>Si es tracta d'una institució política oficial, s'escriu amb majúscula.</message>
+                <suggestion><match no="1" case_conversion="firstupper"/></suggestion>
+                <example correction="Parlament">Vam visitar el <marker>parlament</marker> del Regne Unit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">parlament</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="AQ.*" regexp="yes">&gentilicis_ONU;</token>
+                </pattern>
+                <message>Si es tracta d'una institució política oficial, s'escriu amb majúscula.</message>
+                <suggestion><match no="1" case_conversion="firstupper"/></suggestion>
+                <example correction="Parlament">Vam visitar el <marker>parlament</marker> britànic.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MOSSOS_D_ESQUADRA" name="Mossos d'Esquadra/mossos d'esquadra">
             <rule>
                 <antipattern case_sensitive="yes">
@@ -130747,6 +130784,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="Expressions preferibles" default="on" type="style">
+        <rule id="REAFIRMARSE_REFERMARSE" name="reafirmar-se -> refermar-se" default="temp_off">
+            <pattern>
+                <and>
+                    <token inflected="yes">reafirmar</token>
+                    <token postag="_reflexiu"/>
+                </and>
+            </pattern>
+            <message>És preferible usar el verb 'refermar-se' (fer-se ferm).</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">refermar</match></suggestion>
+            <example correction="refermar">Es van <marker>reafirmar</marker> en la seva posició.</example>
+        </rule>
         <rulegroup id="A_CAUSA_DEL_FET_QUE" name="a causa del fet que -> pel fet que">
             <rule>
                 <pattern>
@@ -138167,14 +138215,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">venir</token>
                     <token inflected="yes" postag="V.P.*" postag_regexp="yes">donar</token>
+                    <token inflected="yes">per</token>
                 </marker>
-                <token inflected="yes">per</token>
             </pattern>
             <message>Expressió incorrecta amb valor causal. En altres sentits també és preferible evitar-la.</message>
-            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">causar</match></suggestion>
-            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">definir</match></suggestion>
-            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">expressar</match></suggestion>
-            <example correction="eren causades|eren definides|eren expressades">Les pluges <marker>venien donades</marker> pel canvi climàtic.</example>
+            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">determinar</match> \3</suggestion>
+            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">expressar</match> \3</suggestion>
+            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">definir</match> \3</suggestion>
+            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">causar</match> \3</suggestion>
+            <suggestion><match no="1" postag="VM(.*)" postag_regexp="yes" postag_replace="VM$1">correspondre</match> a</suggestion>
+            <!-- s'obtenen a partir de -->
+            <example correction="eren determinades pe|eren expressades pe|eren definides pe|eren causades pe|corresponien a">Les pluges <marker>venien donades pe</marker>l canvi climàtic.</example>
         </rule>
         <rulegroup id="DIFERENT_A" name="diferent a">
             <!--<url>http://esadir.cat/entrades/fitxa/node/diferent</url>-->
