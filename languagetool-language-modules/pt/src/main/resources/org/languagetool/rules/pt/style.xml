@@ -17451,51 +17451,105 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- QUE SE ENCONTRA NA na -->
-        <rule id='QUE_SE_ENCONTRAR_NA_NO_NESTA_NESTE' name="✂️ que se encontr[ae](m) n[ao](s)/nest[ae](s) → n[ao](s)/nest[ae](s)" type="style" tags="picky">
+        <rulegroup id='QUE_SE_ENCONTRAR_NA_NO_NESTA_NESTE' name="✂️ que se encontra(m) na/no/nesta/neste → na/no/nesta/neste" type='style' tags='picky'>
             <!--IDEA shorten_it-->
-            <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-13 (25-JUL-2022+) -->
-            <!--
-      Vamos resolver o problema que se encontra nesta equação. → Vamos resolver o problema nesta equação.
-      -->
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!-- Exclude copulative constructions -->
             <antipattern>
                 <token inflected='yes'>ser</token>
-                <token postag='D.+' postag_regexp='yes'/>
-                <token postag='DD.+|SPS00:DD.+|NC.+|AQ.+|NP.+|_PUNCT' postag_regexp='yes' skip='-1'/>
+                <token postag='D[AI].+' postag_regexp='yes'/>
+                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes' skip='6'>
+                    <exception scope='next' postag='V.+|_PUNCT' postag_regexp='yes'/>
+                </token>
                 <token>que</token>
                 <token>se</token>
-                <token regexp='yes'>encontr[ae]m?</token>
-                <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
-                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-                <example>A Spondylus foi um tipo de molusco que se encontra nas águas quentes do oceano Pacífico</example>
+                <token regexp='yes'>encontram?</token>
+                <token regexp='yes'>n[ao]s?|nest[ae]s?</token>
             </antipattern>
+
+            <!-- Exclude nouns introducing complement clauses -->
             <antipattern>
-                <token inflected='yes'>ser</token>
-                <token>a</token>
-                <token postag='DD.+|SPS00:DD.+|NC.+|AQ.+|NP.+|_PUNCT' postag_regexp='yes' skip='-1'/>
+                <token inflected='yes' regexp='yes'>certeza|dúvida|convicção|impressão|sensação|suspeita|esperança|receio|medo|ideia|noção|hipótese|possibilidade|probabilidade|notícia|informação|facto|fato</token>
                 <token>que</token>
                 <token>se</token>
-                <token regexp='yes'>encontr[ae]m?</token>
-                <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
+                <token regexp='yes'>encontram?</token>
+                <token regexp='yes'>n[ao]s?|nest[ae]s?</token>
+            </antipattern>
+
+            <!-- Exclude coordinated relative-clause predicates -->
+            <antipattern>
+                <token>que</token>
+                <token>se</token>
+                <token regexp='yes'>encontram?</token>
+                <token regexp='yes'>n[ao]s?|nest[ae]s?</token>
                 <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                <token min='0' max='12' postag='NC.+|AQ.+|NP.+|SPS.+|SP000|D.+|Z.+|RG' postag_regexp='yes'/>
+                <token regexp='yes'>e|ou|mas|nem</token>
+                <token min='0' max='1'>que</token>
+                <token min='0' max='3' postag='RG|RN|PP.+' postag_regexp='yes'/>
+                <token postag='V.+' postag_regexp='yes'/>
+            </antipattern>
+
+            <!-- Singular -->
+            <rule>
+                <pattern>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <marker>
+                        <token postag='PR.+' postag_regexp='yes'>que</token>
+                        <token>se</token>
+                        <token postag='VMIP3S0'>encontra</token>
+                        <token regexp='yes'>n[ao]s?|nest[ae]s?</token>
+                    </marker>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\5</suggestion>
+                <suggestion>presente \5</suggestion>
+                <example correction="nesta|presente nesta">Vamos resolver o problema <marker>que se encontra nesta</marker> equação.</example>
+                <example correction="no|presente no">Analise o documento <marker>que se encontra no</marker> arquivo.</example>
+                <example>A Spondylus foi um tipo de molusco que se encontra nas águas quentes do oceano Pacífico.</example>
                 <example>O pássaro nacional de Granada é a pomba-de-granada, que se encontra na lista de espécies em perigo crítico.</example>
-            </antipattern>
-            <pattern>
-                <token postag='DD.+|SPS00:DD.+|NC.+|AQ.+|NP.+|_PUNCT' postag_regexp='yes'/>
-                <marker>
-                    <token>que</token>
-                    <token>se</token>
-                    <token regexp='yes'>encontr[ae]m?</token>
-                    <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
-                </marker>
-                <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-            </pattern>
-            <message>&simplify_msg;</message>
-            <suggestion>\5</suggestion>
-            <suggestion suppress_misspelled='yes'><match no='4' postag='VMIP3S0' postag_replace='AQ0CS0' postag_regexp='yes'>presente</match> \5</suggestion>
-            <suggestion suppress_misspelled='yes'><match no='4' postag='VMIP3P0' postag_replace='AQ0CP0' postag_regexp='yes'>presente</match> \5</suggestion>
-            <example correction="nesta|presente nesta">Vamos resolver o problema <marker>que se encontra nesta</marker> equação.</example>
-        </rule>
+                <example>Procuro um documento que se encontre nesta pasta.</example>
+                <example>Tenho a certeza que se encontra na escola.</example>
+                <example>Tenho a impressão que se encontra no escritório.</example>
+                <example>Este é o documento que se encontra na pasta.</example>
+                <example>Analise o documento que se encontra no arquivo e precisa de revisão.</example>
+                <example>Analise o documento que se encontra no arquivo e que precisa de revisão.</example>
+                <example>Analise o documento que se encontra no arquivo e ainda necessita de aprovação.</example>
+                <example>Analise o documento que se encontra no arquivo e não está atualizado.</example>
+                <example>Analise o documento que se encontra no arquivo central do departamento de recursos humanos e precisa de revisão.</example>
+            </rule>
+
+            <!-- Plural -->
+            <rule>
+                <pattern>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                    <marker>
+                        <token postag='PR.+' postag_regexp='yes'>que</token>
+                        <token>se</token>
+                        <token postag='VMIP3P0'>encontram</token>
+                        <token regexp='yes'>n[ao]s?|nest[ae]s?</token>
+                    </marker>
+                    <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+                </pattern>
+                <message>&simplify_msg;</message>
+                <suggestion>\5</suggestion>
+                <suggestion>presentes \5</suggestion>
+                <example correction="nesta|presentes nesta">Vamos corrigir os erros <marker>que se encontram nesta</marker> equação.</example>
+                <example correction="nos|presentes nos">Analise os documentos <marker>que se encontram nos</marker> arquivos.</example>
+                <example>Estes são os documentos que se encontram na pasta.</example>
+                <example>Os documentos, que se encontram na pasta, serão analisados.</example>
+                <example>Procuro documentos que se encontrem nesta pasta.</example>
+                <example>Tenho a certeza que se encontram na escola.</example>
+                <example>Tenho a impressão que se encontram no escritório.</example>
+                <example>Analise os documentos que se encontram nos arquivos e precisam de revisão.</example>
+                <example>Analise os documentos que se encontram nos arquivos e que precisam de revisão.</example>
+                <example>Analise os documentos que se encontram nos arquivos e ainda necessitam de aprovação.</example>
+                <example>Analise os documentos que se encontram nos arquivos e não estão atualizados.</example>
+                <example>Analise os documentos que se encontram nos arquivos centrais do departamento de recursos humanos e precisam de revisão.</example>
+            </rule>
+        </rulegroup>
 
 
         <rule id='VERBO_DECLARATIVO_QUE_ESTAVA_COM_INFINIT' name="✂️ Verbo declarativo + 'que estava(m) com' → infinitivo" type='style' tags='picky'>
