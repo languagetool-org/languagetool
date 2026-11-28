@@ -17783,25 +17783,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </rule>
 
 
-        <!-- QUE EM NC SER VERBO NUM ser verbo em nc num -->
-        <rule id='QUE_EM_NC_SER_VERBO_NUM' name="✂️ Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style'>
+        <rule id='QUE_EM_NC_SER_VERBO_NUM' name="✂️ que + Complemento + ser + Particípio → Particípio + Complemento" type='style'>
             <!--IDEA shorten_it-->
-            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
-            <!--
-      O Alexandre que em 2016 foi morto num ataque aéreo. → O Alexandre morto em 2016 num ataque aéreo.
-      -->
-            <pattern>
-                <token negate_pos="yes" postag='RG|SPS.+' postag_regexp='yes'/>
+            <!-- ChatGPT 6 and new disambiguator for 2026+ -->
+
+            <!-- Avoid coordinated constructions -->
+            <antipattern>
+                <token>,</token>
                 <token>que</token>
                 <token regexp='yes'>em|n[ao]s?|nest[ae]s?|com|desde|durante</token>
-                <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
-                <token inflected='yes'>ser</token>
-                <token postag='V.+' postag_regexp='yes'/>
+                <token postag='NC.+|Z0.+' postag_regexp='yes'/>
+                <token regexp='yes'>foi|foram</token>
+                <token postag='VMP.+' postag_regexp='yes' skip='-1'/>
+                <token regexp='yes'>e|ou|mas|nem</token>
+            </antipattern>
+
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token>que</token>
+                    <token regexp='yes'>em|n[ao]s?|nest[ae]s?|com|desde|durante</token>
+                    <token postag='NC.+|Z0.+' postag_regexp='yes'/>
+                    <token regexp='yes'>foi|foram</token>
+                    <token postag='VMP.+' postag_regexp='yes'/>
+                </marker>
                 <token postag='SPS.+' postag_regexp='yes'/>
             </pattern>
             <message>&simplify_msg;</message>
-            <suggestion>\1, \6 \3 \4 \7</suggestion>
-            <example correction="Alexandre, morto em 2016 num">O <marker>Alexandre que em 2016 foi morto num</marker> ataque aéreo.</example>
+            <suggestion>\6 \3 \4</suggestion>
+            <example correction="morto em 2016">O Alexandre, <marker>que em 2016 foi morto</marker> num ataque aéreo, era jornalista.</example>
+            <example correction="abandonados na infância">Os irmãos, <marker>que na infância foram abandonados</marker> pelos pais, cresceram juntos.</example>
+            <example correction="perseguido durante anos">O escritor, <marker>que durante anos foi perseguido</marker> pelo regime, deixou o país.</example>
+            <example>O jornalista que em 2016 foi morto num ataque aéreo trabalhava naquele jornal.</example>
+            <example>O jornalista, que em 2016 foi ferido num ataque e que posteriormente morreu, trabalhava naquele jornal.</example>
         </rule>
 
 
